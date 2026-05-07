@@ -1,0 +1,79 @@
+{
+  "generated_at": "2026-05-07T14:11:32-0300",
+  "project_name": "illumine-advisor",
+  "system": {
+    "os": "Darwin",
+    "architecture": "arm64",
+    "user": "fabianosilva",
+    "hostname": "MacBook-Air-de-Fabiano.local",
+    "package_manager": "Homebrew"
+  },
+  "cli_tools": {
+    "git": {
+      "installed": true,
+      "version": "2.50.1 (Apple Git-155)"
+    },
+    "gh": {
+      "installed": true,
+      "version": "2.92.0",
+      "authenticated": false,
+      "auth_note": "Token for account atendimentoliminar is invalid; run gh auth login."
+    },
+    "node": {
+      "installed": true,
+      "version": "v24.15.0"
+    },
+    "npm": {
+      "installed": true,
+      "version": "11.12.1"
+    },
+    "supabase": {
+      "installed": true,
+      "version": "2.75.0"
+    },
+    "railway": {
+      "installed": false,
+      "version": null
+    },
+    "docker": {
+      "installed": true,
+      "version": "28.5.1",
+      "running": false,
+      "note": "Docker CLI is installed; sandbox could not access the daemon socket."
+    },
+    "coderabbit": {
+      "installed": false,
+      "version": null
+    },
+    "pnpm": {
+      "installed": true,
+      "version": "9.15.9"
+    },
+    "bun": {
+      "installed": true,
+      "version": "1.3.12"
+    }
+  },
+  "repository": {
+    "initialized": true,
+    "remote_url": null,
+    "branch": "main"
+  },
+  "validation": {
+    "essential_complete": true,
+    "github_authenticated": false,
+    "recommended_complete": false,
+    "quality_gates": {
+      "lint": "pass",
+      "typecheck": "pass",
+      "test": "pass",
+      "build": "pass"
+    },
+    "ready_for_local_development": true,
+    "ready_for_github_remote": false
+  },
+  "user_profile": {
+    "selected": "advanced",
+    "global_config_path": "/Users/fabianosilva/.aiox/user-config.yaml"
+  }
+}

@@ -1,0 +1,281 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(data) {
+      return isSignedIn() && data.ownerId == request.auth.uid;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // --- Client Validation ---
+    function isValidClient(data) {
+      return data.keys().hasAll(['fantasia', 'ownerId', 'createdAt', 'updatedAt'])
+        && data.keys().size() <= 100
+        && data.fantasia is string && data.fantasia.size() <= 200
+        && (data.regime in ['Lucro Real', 'Lucro Presumido', 'Simples Nacional'])
+        && (data.regimeReal == null || data.regimeReal in ['Não Cumulativo', 'Cumulativo', 'Híbrido'])
+        && (data.folhaFgts == null || data.folhaFgts is number)
+        && (data.folhaInssPatronal == null || data.folhaInssPatronal is number)
+        && (data.folhaInssFuncionario == null || data.folhaInssFuncionario is number)
+        && (data.folhaMultaFgts == null || data.folhaMultaFgts is number)
+        && (data.folhaTabelaIRRF == null || data.folhaTabelaIRRF is list)
+        && data.ownerId == request.auth.uid
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    // --- Financial Entry Validation ---
+    function isValidFinancialEntry(data) {
+      return data.keys().hasAll(['clientId', 'type', 'category', 'value', 'competence', 'createdAt', 'updatedAt', 'createdBy'])
+        && data.keys().size() <= 20
+        && data.clientId is string && isValidId(data.clientId)
+        && data.type in ['DRE', 'BP', 'CAIXA']
+        && data.category is string && data.category.size() <= 200
+        && data.value is number
+        && data.competence is string && data.competence.size() <= 15
+        && data.createdBy == request.auth.uid
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    // --- Loan Validation ---
+    function isValidLoan(data) {
+      return data.keys().hasAll(['clientId', 'valorEmprestimo', 'taxaMensal', 'periodoMeses', 'ownerId', 'createdAt', 'updatedAt'])
+        && data.keys().size() <= 20
+        && data.clientId is string && isValidId(data.clientId)
+        && data.valorEmprestimo is number && data.valorEmprestimo > 0
+        && data.taxaMensal is number && data.taxaMensal >= 0
+        && data.periodoMeses is int && data.periodoMeses > 0
+        && data.ownerId == request.auth.uid
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    // --- Account Plan Validation ---
+    function isValidAccountPlan(data) {
+      return data.keys().hasAll(['clientId', 'code', 'name', 'type', 'level', 'createdAt', 'updatedAt', 'createdBy'])
+        && data.keys().size() <= 20
+        && data.clientId is string && isValidId(data.clientId)
+        && data.code is string && data.code.size() <= 100
+        && data.name is string && data.name.size() <= 200
+        && data.type in ['Ativo', 'Passivo', 'Patrimônio Líquido', 'Receita', 'Custo', 'Despesa', 'Performance']
+        && data.level is int && data.level >= 1 && data.level <= 15
+        && data.createdBy == request.auth.uid
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    // --- Client Assumptions Validation ---
+    function isValidClientAssumption(data) {
+      return data.keys().hasAll(['clientId', 'receitas', 'custos', 'crescimento', 'updatedAt'])
+        && data.keys().size() <= 6
+        && data.clientId is string && isValidId(data.clientId)
+        && data.receitas is list && data.receitas.size() <= 50
+        && data.custos is list && data.custos.size() <= 50
+        && data.crescimento is number
+        && data.updatedAt == request.time;
+    }
+
+    // --- Indicator Validation ---
+    function isValidIndicator(data) {
+      return data.keys().hasAll(['clientId', 'ano', 'mes', 'ind', 'val', 'createdAt', 'createdBy'])
+        && data.keys().size() <= 12
+        && data.clientId is string && isValidId(data.clientId)
+        && data.ano is int && data.mes is int
+        && data.ind is string && data.ind.size() <= 100
+        && data.val is number
+        && data.createdBy == request.auth.uid
+        && data.createdAt == request.time;
+    }
+
+    function isValidFinancialPosition(data) {
+      return data.keys().hasAll(['clientId', 'banco', 'saldoAtual', 'updatedAt'])
+        && data.keys().size() <= 10
+        && data.clientId is string && isValidId(data.clientId)
+        && data.banco is string && data.banco.size() <= 100
+        && data.saldoAtual is number
+        && data.updatedAt == request.time;
+    }
+
+    function isValidPurchaseRequest(data) {
+      return data.keys().hasAll(['clientId', 'produto', 'qtd', 'updatedAt'])
+        && data.keys().size() <= 6
+        && data.clientId is string && isValidId(data.clientId)
+        && data.produto is string && data.produto.size() <= 200
+        && data.qtd is number
+        && data.updatedAt == request.time;
+    }
+
+    function isValidEmployee(data) {
+      return data.keys().hasAll(['clientId', 'nome', 'salarioBase', 'ownerId', 'updatedAt'])
+        && data.keys().size() <= 25
+        && data.clientId is string && isValidId(data.clientId)
+        && data.nome is string && data.nome.size() <= 200
+        && data.salarioBase is number
+        && data.ownerId == request.auth.uid
+        && data.updatedAt == request.time;
+    }
+
+    // --- Collections ---
+
+    match /clients/{clientId} {
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(clientId) && isValidClient(incoming());
+      allow update: if isOwner(existing()) 
+        && incoming().ownerId == existing().ownerId 
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time;
+      allow delete: if isOwner(existing());
+    }
+
+    match /financial_entries/{entryId} {
+      allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+      allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(entryId) 
+        && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid
+        && isValidFinancialEntry(incoming());
+      allow update: if isSignedIn() 
+        && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
+        && incoming().clientId == existing().clientId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time;
+      allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+    }
+
+    match /loans/{loanId} {
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(loanId) && isValidLoan(incoming());
+      allow update: if isOwner(existing())
+        && incoming().ownerId == existing().ownerId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time;
+      allow delete: if isOwner(existing());
+    }
+
+    match /account_plans/{planId} {
+      allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+      allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(planId) 
+        && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid
+        && isValidAccountPlan(incoming());
+      allow update: if isSignedIn() 
+        && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
+        && incoming().clientId == existing().clientId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time;
+      allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+    }
+
+    match /client_assumptions/{assumptionId} {
+      allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+      allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(assumptionId) 
+        && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid
+        && isValidClientAssumption(incoming());
+      allow update: if isSignedIn() 
+        && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
+        && incoming().clientId == existing().clientId
+        && isValidClientAssumption(incoming());
+      allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+    }
+    
+    match /indicators/{indicatorId} {
+      allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+      allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(indicatorId) 
+        && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid
+        && isValidIndicator(incoming());
+      allow update: if isSignedIn() 
+        && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
+        && incoming().clientId == existing().clientId
+        && incoming().createdAt == existing().createdAt
+        && isValidIndicator(incoming());
+      allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+    }
+    
+    match /financial_positions/{posId} {
+      allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+      allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(posId) 
+        && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid
+        && isValidFinancialPosition(incoming());
+      allow update: if isSignedIn() 
+        && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
+        && incoming().clientId == existing().clientId
+        && isValidFinancialPosition(incoming());
+      allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+    }
+    
+    match /purchases/{purchaseId} {
+      allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+      allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(purchaseId) 
+        && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid
+        && isValidPurchaseRequest(incoming());
+      allow update: if isSignedIn() 
+        && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
+        && incoming().clientId == existing().clientId
+        && isValidPurchaseRequest(incoming());
+      allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+    }
+
+    match /report_notes/{noteId} {
+      allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+      allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(noteId)
+        && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid;
+      allow update: if isSignedIn()
+        && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
+        && incoming().clientId == existing().clientId;
+      allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+    }
+
+    match /diretrizes/{id} {
+      allow read, write: if isSignedIn() && (resource == null || resource.data.ownerId == request.auth.uid) && (request.resource == null || request.resource.data.ownerId == request.auth.uid);
+    }
+
+    match /diagnostico/{id} {
+      allow read, write: if isSignedIn() && (resource == null || resource.data.ownerId == request.auth.uid) && (request.resource == null || request.resource.data.ownerId == request.auth.uid);
+    }
+
+    match /okrs/{id} {
+      allow read, write: if isSignedIn() && (resource == null || resource.data.ownerId == request.auth.uid) && (request.resource == null || request.resource.data.ownerId == request.auth.uid);
+    }
+
+    match /precificacao/{id} {
+      allow read, write: if isSignedIn() && (resource == null || resource.data.ownerId == request.auth.uid) && (request.resource == null || request.resource.data.ownerId == request.auth.uid);
+    }
+
+    match /employees/{employeeId} {
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(employeeId) && isValidEmployee(incoming());
+      allow update: if isOwner(existing())
+        && incoming().ownerId == existing().ownerId
+        && isValidEmployee(incoming());
+      allow delete: if isOwner(existing());
+    }
+  }
+}

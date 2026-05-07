@@ -1,0 +1,380 @@
+{
+  "entities": {
+    "Client": {
+      "title": "Client",
+      "description": "Information about a client company",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fantasia": { "type": "string" },
+        "razao": { "type": "string" },
+        "cnpj": { "type": "string" },
+        "regime": { "type": "string" },
+        "regimeReal": { "type": "string" },
+        "rbt12": { "type": "number" },
+        "faturamentoMensal": { "type": "number" },
+        "historicoFaturamento": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "mes": { "type": "string" },
+              "ano": { "type": "string" },
+              "valor": { "type": "number" }
+            }
+          }
+        },
+        "cnae": { "type": "string" },
+        "cnaeAnexo": { "type": "string" },
+        "cnaePresuncao": { "type": "string" },
+        "cnaeRegimeReal": { "type": "string" },
+        "cnaesSecundarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "codigo": { "type": "string" },
+              "descricao": { "type": "string" },
+              "anexo": { "type": "string" },
+              "presuncao": { "type": "string" },
+              "regimeReal": { "type": "string" }
+            }
+          }
+        },
+        "contatosAdicionais": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string" },
+              "email": { "type": "string" },
+              "tel": { "type": "string" },
+              "cargo": { "type": "string" }
+            }
+          }
+        },
+        "folhaFgts": { "type": "number" },
+        "folhaInssPatronal": { "type": "number" },
+        "folhaInssFuncionario": { "type": "number" },
+        "folhaMultaFgts": { "type": "number" },
+        "folhaTabelaIRRF": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "base": { "type": "number" },
+              "aliquota": { "type": "number" },
+              "deducao": { "type": "number" }
+            }
+          }
+        },
+        "status": { "type": "string", "enum": ["Ativo", "Inativo"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "ownerId": { "type": "string" }
+      },
+      "required": ["fantasia", "ownerId"]
+    },
+    "FinancialEntry": {
+      "title": "Financial Entry",
+      "description": "DRE or BP or CashFlow entry document containing a list of entries for a period",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "clientName": { "type": "string" },
+        "type": { "type": "string", "enum": ["DRE", "BP", "CAIXA", "DRE Gerencial"] },
+        "periodType": { "type": "string", "enum": ["mensal", "anual"] },
+        "month": { "type": ["number", "null"] },
+        "year": { "type": "number" },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": { "type": "string" },
+              "value": { "type": "number" }
+            }
+          }
+        },
+        "fileName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" }
+      },
+      "required": ["clientId", "type", "year", "data"]
+    },
+    "Loan": {
+      "title": "Loan",
+      "description": "Loan or financing details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "clientId": { "type": "string" },
+        "empresa": { "type": "string" },
+        "titulo": { "type": "string" },
+        "motivo": { "type": "string" },
+        "valorEmprestimo": { "type": "number" },
+        "parcelaMensal": { "type": "number" },
+        "periodoMeses": { "type": "number" },
+        "taxaMensal": { "type": "number" },
+        "dataPrimeiroVencimento": { "type": "string", "format": "date" },
+        "pagosInicialmente": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "ownerId": { "type": "string" }
+      },
+      "required": ["clientId", "valorEmprestimo", "taxaMensal", "periodoMeses", "ownerId"]
+    },
+    "AccountPlan": {
+      "title": "Account Plan",
+      "description": "Chart of accounts entry for a specific client",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["Ativo", "Passivo", "Patrimônio Líquido", "Receita", "Custo", "Despesa"] },
+        "level": { "type": "number" },
+        "parentCode": { "type": "string" },
+        "kpiMapping": { "type": "string", "description": "System KPI name linked to this account" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" }
+      },
+      "required": ["clientId", "code", "name", "type", "level"]
+    },
+    "Indicator": {
+      "title": "Indicator",
+      "description": "Financial indicator or KPI result",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "ano": { "type": "number" },
+        "mes": { "type": "number" },
+        "comp": { "type": "string" },
+        "cat": { "type": "string" },
+        "ind": { "type": "string" },
+        "val": { "type": "number" },
+        "un": { "type": "string" },
+        "ref": { "type": "string" },
+        "sem": { "type": "string", "enum": ["Verde", "Amarelo", "Vermelho"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" }
+      },
+      "required": ["clientId", "ano", "mes", "ind", "val"]
+    },
+    "ClientAssumption": {
+      "title": "Client Assumption",
+      "description": "Strategic assumptions for cash flow and growth",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "receitas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tipo": { "type": "string" },
+              "descasamento": { "type": "number" },
+              "accountId": { "type": "string" }
+            }
+          }
+        },
+        "custos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tipo": { "type": "string" },
+              "descasamento": { "type": "number" },
+              "accountId": { "type": "string" }
+            }
+          }
+        },
+        "crescimento": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId"]
+    },
+    "FinancialPosition": {
+      "title": "Financial Position",
+      "description": "Bank account balance and history",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "banco": { "type": "string" },
+        "tipoConta": { "type": "string" },
+        "saldoInicial": { "type": "number" },
+        "saldoAtual": { "type": "number" },
+        "dataAtualizacao": { "type": "string", "format": "date" },
+        "historico": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "mes": { "type": "string" },
+              "saldo": { "type": "number" }
+            }
+          }
+        },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId", "banco", "saldoAtual"]
+    },
+    "PurchaseRequest": {
+      "title": "Purchase Request",
+      "description": "Management of quotes and purchases",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "produto": { "type": "string" },
+        "centroCusto": { "type": "string" },
+        "qtd": { "type": "number" },
+        "fornecedores": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string" },
+              "valorUnit": { "type": "number" },
+              "selecionado": { "type": "boolean" }
+            }
+          }
+        },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId", "produto", "qtd"]
+    },
+    "Diretriz": {
+      "title": "Diretriz",
+      "description": "Company Mission, Vision and Values",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "missao": { "type": "string" },
+        "visao": { "type": "string" },
+        "valores": { "type": "array", "items": { "type": "object", "properties": { "nome": { "type": "string" }, "definicao": { "type": "string" } } } },
+        "ownerId": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId", "ownerId"]
+    },
+    "DiagnosticoItem": {
+      "title": "DiagnosticoItem",
+      "description": "Business diagnostic matrix item (GUT+FIV)",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "descricao": { "type": "string" },
+        "eixo": { "type": "string" },
+        "fivScore": { "type": "number" },
+        "ownerId": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId", "descricao", "ownerId"]
+    },
+    "OKR": {
+      "title": "OKR",
+      "description": "Objectives and Key Results",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "titulo": { "type": "string" },
+        "keyResults": { "type": "array" },
+        "ownerId": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId", "titulo", "ownerId"]
+    },
+    "Precificacao": {
+      "title": "Precificacao",
+      "description": "Product pricing and margin analysis",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "nome": { "type": "string" },
+        "precoVenda": { "type": "number" },
+        "ownerId": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId", "nome", "ownerId"]
+    },
+    "Employee": {
+      "title": "Employee",
+      "description": "Information about a client's employee",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "nome": { "type": "string" },
+        "funcao": { "type": "string" },
+        "area": { "type": "string" },
+        "tipoContrato": { "type": "string", "enum": ["CLT", "PJ", "Estagiário", "Temporário"] },
+        "status": { "type": "string", "enum": ["Ativo", "Afastado", "Desligado"] },
+        "admissao": { "type": "string", "format": "date" },
+        "salarioBase": { "type": "number" },
+        "encargos": { "type": "number" },
+        "decimoTerceiroFerias": { "type": "number" },
+        "verbasIndenizatorias": { "type": "number" },
+        "custoMensal": { "type": "number" },
+        "custoAnual": { "type": "number" },
+        "custoRescisaoEstimado": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "ownerId": { "type": "string" }
+      },
+      "required": ["clientId", "nome", "salarioBase", "ownerId"]
+    }
+  },
+  "firestore": {
+    "/clients/{clientId}": {
+      "schema": "Client",
+      "description": "Collection of clients managed by the consultant"
+    },
+    "/financial_entries/{entryId}": {
+      "schema": "FinancialEntry",
+      "description": "Collection of financial data points (DRE, BP, etc)"
+    },
+    "/loans/{loanId}": {
+      "schema": "Loan",
+      "description": "Collection of loan contracts"
+    },
+    "/account_plans/{planId}": {
+      "schema": "AccountPlan",
+      "description": "Collection of chart of accounts items"
+    },
+    "/indicators/{indicatorId}": {
+      "schema": "Indicator",
+      "description": "Collection of historical indicators/KPIs"
+    },
+    "/client_assumptions/{assumptionId}": {
+      "schema": "ClientAssumption",
+      "description": "Collection of client specific strategic assumptions"
+    },
+    "/financial_positions/{posId}": {
+      "schema": "FinancialPosition",
+      "description": "Collection of bank account balances"
+    },
+    "/purchases/{purchaseId}": {
+      "schema": "PurchaseRequest",
+      "description": "Collection of purchasing quotes"
+    },
+    "/diretrizes/{id}": {
+      "schema": "Diretriz",
+      "description": "Collection of company directives"
+    },
+    "/diagnostico/{id}": {
+      "schema": "DiagnosticoItem",
+      "description": "Collection of diagnostic items"
+    },
+    "/okrs/{id}": {
+      "schema": "OKR",
+      "description": "Collection of OKRs"
+    },
+    "/precificacao/{id}": {
+      "schema": "Precificacao",
+      "description": "Collection of pricing data"
+    },
+    "/employees/{employeeId}": {
+      "schema": "Employee",
+      "description": "Collection of client employees"
+    }
+  }
+}

@@ -1,0 +1,368 @@
+
+import React, { useState, useEffect, useMemo } from 'react';
+import { 
+  TrendingDown, 
+  Search, 
+  ChevronLeft, 
+  ChevronRight, 
+  Users, 
+  ShoppingBag, 
+  TrendingUp 
+} from 'lucide-react';
+import { 
+  query, 
+  collection, 
+  where, 
+  onSnapshot 
+} from 'firebase/firestore';
+import { db } from '../../lib/firebase';
+import { PageHeader } from '../Common';
+import { SortableHeader } from '../SortableHeader';
+import { DATA } from '../../data';
+import { cn, formatCurrency } from '../../lib/utils';
+import { useDataTable } from '../../hooks/useDataTable';
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell
+} from 'recharts';
+
+function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
+  return (
+    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{label}</p>
+      <h3 className={cn(
+        "text-2xl font-black tracking-tight",
+        tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
+      )}>{value}</h3>
+      {helper && <p className="text-[10px] text-slate-400 mt-2 italic">{helper}</p>}
+    </div>
+  );
+}
+
+export function PurchasingPage({ clients, selectedClient }: { clients: any[], selectedClient: string }) {
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const {
+    searchTerm,
+    setSearchTerm,
+    filters,
+    setFilters,
+    sort,
+    toggleSort,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    filteredData: filteredItems,
+    paginatedData: paginatedItems
+  } = useDataTable(items, {
+    searchFields: ['produto', 'centroCusto'],
+    initialSort: { key: 'produto', direction: 'asc' },
+    itemsPerPage: 10
+  });
+
+  useEffect(() => {
+    if (!selectedClient) {
+      setItems((DATA as any).compras || []);
+      return;
+    }
+
+    setLoading(true);
+    const q = query(
+      collection(db, 'purchases'),
+      where('clientId', '==', selectedClient)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const dbDocs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      if (dbDocs.length > 0) {
+        setItems(dbDocs);
+      } else {
+        setItems((DATA as any).compras.filter((i: any) => i.clientId === selectedClient));
+      }
+      setLoading(false);
+    }, (error) => {
+      console.error("Error fetching purchases:", error);
+      setItems((DATA as any).compras.filter((i: any) => i.clientId === selectedClient));
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [selectedClient]);
+
+  const stats = useMemo(() => {
+    let totalRealizedSpend = 0;
+    let totalSavingsGenerated = 0;
+    let totalMarketBenchmark = 0;
+    let totalTargetSpend = 0;
+
+    items.forEach(item => {
+      const selected = item.fornecedores?.find((f: any) => f.selecionado);
+      const prices = item.fornecedores?.map((f: any) => f.valorUnit) || [];
+      const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
+      const maxPrice = prices.length > 0 ? Math.max(...prices) : 0;
+      
+      const currentPrice = selected?.valorUnit || 0;
+      const quantity = item.qtd || 0;
+
+      totalRealizedSpend += currentPrice * quantity;
+      // Precision: Savings are calculated as (Highest Market Quote - Chosen Quote) * Volume
+      totalSavingsGenerated += (maxPrice - currentPrice) * quantity;
+      totalMarketBenchmark += maxPrice * quantity;
+      totalTargetSpend += minPrice * quantity;
+    });
+
+    const efficiencyRate = totalMarketBenchmark > 0 
+      ? (totalSavingsGenerated / totalMarketBenchmark) * 100 
+      : 0;
+
+    return { 
+      totalSpend: totalRealizedSpend, 
+      totalEconomy: totalSavingsGenerated, 
+      potentialSpend: totalTargetSpend,
+      marketBenchmark: totalMarketBenchmark,
+      efficiencyRate
+    };
+  }, [items]);
+
+  const abcFornecedores = useMemo(() => {
+    const grouped: any = {};
+    items.forEach(item => {
+      const selected = item.fornecedores?.find((f: any) => f.selecionado);
+      if (selected) {
+        grouped[selected.nome] = (grouped[selected.nome] || 0) + (selected.valorUnit * item.qtd);
+      }
+    });
+    return Object.entries(grouped)
+      .map(([name, value]) => ({ name, value: value as number }))
+      .sort((a, b) => b.value - a.value);
+  }, [items]);
+
+  const abcProdutos = useMemo(() => {
+    return items.map(item => {
+      const selected = item.fornecedores?.find((f: any) => f.selecionado);
+      return {
+        name: item.produto,
+        value: (selected?.valorUnit || 0) * item.qtd
+      };
+    }).sort((a, b) => b.value - a.value);
+  }, [items]);
+
+  return (
+    <div className="space-y-8 pb-20">
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <PageHeader 
+          title="Gestão de Compras" 
+          description="Análise comparativa de fornecedores, economia gerada e curva ABC de insumos."
+        />
+        <div className="flex gap-3 mb-10">
+          <div className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-xl border border-emerald-100 flex items-center gap-2">
+            <TrendingDown size={16} />
+            <span className="text-[10px] font-black uppercase tracking-widest">Economia Acumulada: {formatCurrency(stats.totalEconomy)}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <KpiCardModeling label="Gasto Total Realizado" value={formatCurrency(stats.totalSpend)} tone="default" />
+        <KpiCardModeling label="Economia Direta" value={formatCurrency(stats.totalEconomy)} tone="success" helper="Diferença para o maior preço orçado" />
+        <KpiCardModeling label="Benchmark / Alvo" value={formatCurrency(stats.potentialSpend)} tone="default" helper="Se comprado tudo no menor preço" />
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+          <div className="flex items-center justify-between mb-8">
+             <div>
+              <h3 className="text-sm font-bold text-slate-800">ABC por Fornecedor</h3>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Concentração do Volume de Compras</p>
+             </div>
+             <div className="p-2 bg-slate-50 rounded-xl">
+               <Users size={18} className="text-secondary" />
+             </div>
+          </div>
+          <div className="h-[250px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart layout="vertical" data={abcFornecedores}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
+                <XAxis type="number" hide />
+                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
+                <Tooltip 
+                   contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                   formatter={(v: number) => formatCurrency(v)}
+                />
+                <Bar dataKey="value" fill="#0e1c2c" radius={[0, 4, 4, 0]} barSize={15} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+          <div className="flex items-center justify-between mb-8">
+             <div>
+              <h3 className="text-sm font-bold text-slate-800">Principais Itens (ABC)</h3>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Produtos com maior impacto financeiro</p>
+             </div>
+             <div className="p-2 bg-blue-50 rounded-xl">
+               <ShoppingBag size={18} className="text-blue-500" />
+             </div>
+          </div>
+          <div className="h-[250px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={abcProdutos}
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {abcProdutos.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={['#0e1c2c', '#004aad', '#ff8552', '#00bf63'][index % 4]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                   contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                   formatter={(v: number) => formatCurrency(v)}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+        <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row items-center gap-4">
+          <div className="relative flex-1 w-full">
+            <Search size={18} className="absolute left-4 top-3 text-slate-400" />
+            <input 
+              type="text" 
+              placeholder="Pesquisar produto ou unidade..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-secondary/10 outline-none transition-all"
+            />
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-slate-50/50 border-b border-slate-100">
+                <SortableHeader label="Produto / Unidade" sortKey="produto" currentSort={sort} onSort={toggleSort} />
+                <SortableHeader label="Qtd / Consumo" sortKey="qtd" currentSort={sort} onSort={toggleSort} align="center" />
+                { [1,2,3].map(i => (
+                  <th key={i} className="px-4 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Fornecedor {i}</th>
+                ))}
+                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Economia Gerada</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-50">
+              {paginatedItems.map(item => {
+                const selected = item.fornecedores?.find((f: any) => f.selecionado);
+                const prices = item.fornecedores?.map((f: any) => f.valorUnit) || [];
+                const maxPrice = prices.length > 0 ? Math.max(...prices) : 0;
+                const economy = (maxPrice - (selected?.valorUnit || 0)) * item.qtd;
+
+                return (
+                  <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
+                    <td className="px-8 py-5">
+                      <div className="flex flex-col">
+                        <span className="text-sm font-bold text-slate-700">{item.produto}</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase">{item.centroCusto}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-5 text-center">
+                      <span className="text-xs font-black text-slate-600">{item.qtd} un.</span>
+                    </td>
+                    {item.fornecedores?.map((f: any, idx: number) => (
+                      <td key={idx} className="px-4 py-5 text-center">
+                        <div className={cn(
+                          "p-2 rounded-xl border transition-all",
+                          f.selecionado ? "bg-primary/5 border-primary/20" : "bg-white border-slate-100"
+                        )}>
+                          <p className="text-[9px] font-black text-slate-400 uppercase truncate">{f.nome}</p>
+                          <p className={cn(
+                            "text-xs font-black mt-1",
+                            f.selecionado ? "text-primary" : "text-slate-600"
+                          )}>{formatCurrency(f.valorUnit)}</p>
+                          {f.selecionado && <span className="text-[8px] bg-primary text-white px-1.5 py-0.5 rounded-full uppercase mt-1 inline-block">Selecionado</span>}
+                        </div>
+                      </td>
+                    ))}
+                    <td className="px-8 py-5 text-right">
+                      <div className="flex flex-col items-end">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm font-black text-emerald-600">+{formatCurrency(economy)}</span>
+                          <div className={cn(
+                            "w-1.5 h-1.5 rounded-full",
+                            economy > 1000 ? "bg-emerald-500 animate-pulse" : "bg-emerald-300"
+                          )} />
+                        </div>
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Saving por Volume ({item.qtd} un.)</span>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="p-4 border-t border-slate-100 flex items-center justify-between">
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">
+            Página {currentPage} de {totalPages || 1}
+          </div>
+          <div className="flex gap-2">
+            <button 
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all"
+            >
+              <ChevronLeft size={18} className="text-slate-600" />
+            </button>
+            <button 
+              disabled={currentPage === totalPages || totalPages === 0}
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all"
+            >
+              <ChevronRight size={18} className="text-slate-600" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-primary p-12 rounded-[40px] text-white overflow-hidden relative shadow-2xl shadow-primary/20">
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none" />
+        <div className="flex flex-col lg:flex-row items-center gap-12 relative z-10">
+          <div className="flex-1 space-y-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full">
+              <TrendingUp size={16} />
+              <span className="text-[10px] font-black uppercase tracking-widest">Projeção de Eficiência Anual</span>
+            </div>
+            <h3 className="text-3xl font-black leading-tight">Impacto da Gestão de Compras no Resultado</h3>
+            <p className="text-white/70 text-base leading-relaxed max-w-xl font-medium">
+              A eficiência de negociação atual é de <strong>{stats.efficiencyRate.toFixed(1)}%</strong> sobre o maior preço orçado. Sua projeção anual indica uma redução de custos de <strong>{formatCurrency(stats.totalEconomy * 12)}</strong> diretamente no LAJIDA através da gestão de volume de compra.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-6 w-full lg:w-auto">
+             <div className="bg-white/10 backdrop-blur-sm p-8 rounded-3xl border border-white/10 min-w-[200px]">
+                <p className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-2">Economia Mensal</p>
+                <p className="text-3xl font-black">{formatCurrency(stats.totalEconomy)}</p>
+             </div>
+             <div className="bg-secondary p-8 rounded-3xl shadow-xl min-w-[200px]">
+                <p className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-2">Saving Projetado (12m)</p>
+                <p className="text-3xl font-black">{formatCurrency(stats.totalEconomy * 12)}</p>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
