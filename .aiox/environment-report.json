@@ -16,8 +16,8 @@
     "gh": {
       "installed": true,
       "version": "2.92.0",
-      "authenticated": false,
-      "auth_note": "Token for account atendimentoliminar is invalid; run gh auth login."
+      "authenticated": true,
+      "account": "atendimentoliminar"
     },
     "node": {
       "installed": true,
@@ -56,12 +56,12 @@
   },
   "repository": {
     "initialized": true,
-    "remote_url": null,
+    "remote_url": "https://github.com/atendimentoliminar/illumine-advisor.git",
     "branch": "main"
   },
   "validation": {
     "essential_complete": true,
-    "github_authenticated": false,
+    "github_authenticated": true,
     "recommended_complete": false,
     "quality_gates": {
       "lint": "pass",
@@ -70,7 +70,7 @@
       "build": "pass"
     },
     "ready_for_local_development": true,
-    "ready_for_github_remote": false
+    "ready_for_github_remote": true
   },
   "user_profile": {
     "selected": "advanced",
