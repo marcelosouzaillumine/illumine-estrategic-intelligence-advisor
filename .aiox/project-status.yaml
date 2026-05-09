@@ -1,19 +1,14 @@
 status:
   branch: main
-  modifiedFiles:
-    - .aiox/project-status.yaml
-    - .firebaserc
-    - docs/
-    - firebase.json
-    - firestore.indexes.json
-  modifiedFilesTotalCount: 5
+  modifiedFiles: []
+  modifiedFilesTotalCount: 0
   recentCommits:
+    - 'chore: install project dependencies in functions directory'
     - 'chore: update bootstrap report'
-    - 'chore: bootstrap illumine advisor'
   currentEpic: null
   currentStory: null
-  lastUpdate: '2026-05-09T13:23:30.053Z'
+  lastUpdate: '2026-05-09T15:07:07.797Z'
   isGitRepo: true
-timestamp: 1778333010054
+timestamp: 1778339227798
 ttl: 60
-gitFingerprint: 1778173928753.8582:1778174423732.3972
+gitFingerprint: 1778173928753.8582:1778337401758.1172
