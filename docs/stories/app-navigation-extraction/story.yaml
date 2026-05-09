@@ -1,0 +1,99 @@
+id: app-navigation-extraction
+title: Extract App navigation configuration from App.tsx
+status: Done
+workflow: story-development-cycle
+mode: yolo
+created_at: '2026-05-09'
+owner: dev
+
+problem: >
+  The current React/Vite application keeps the Page union type, sidebar groups,
+  item labels, icons, and default open submenu state inside src/App.tsx. That
+  increases coupling in the application shell and makes the first brownfield
+  extraction step harder to validate and extend.
+
+business_value: >
+  Isolating navigation metadata into a dedicated module reduces App.tsx
+  responsibilities, creates a stable source of truth for page ids and sidebar
+  structure, and lowers risk for the next extraction stories covering routes
+  and app shell decomposition.
+
+scope:
+  in:
+    - Create a dedicated src/app/navigation.ts module.
+    - Move Page type and sidebar navigation metadata out of src/App.tsx.
+    - Preserve all existing group names, page ids, labels, icons, and isNew flags.
+    - Preserve default submenu open state and current page label resolution.
+  out:
+    - Extracting page rendering routes.
+    - Changing visual layout or interactions.
+    - Reorganizing feature pages into domain folders.
+    - Adding lazy loading or new state management.
+
+acceptance_criteria:
+  - id: AC1
+    given: the application sidebar
+    when: the refactor is complete
+    then: it renders the same groups, items, labels, icons, and new badges as before.
+  - id: AC2
+    given: App.tsx after the change
+    when: the file is reviewed
+    then: Page ids and sidebar configuration are imported from src/app/navigation.ts instead of being declared inline.
+  - id: AC3
+    given: the current submenu behavior
+    when: the app loads
+    then: the same submenu groups remain open by default.
+  - id: AC4
+    given: the current project quality gates
+    when: lint, typecheck, test, and build run
+    then: all commands pass without regressions.
+
+tasks:
+  - [x] Create SDC story artifact in YOLO mode.
+  - [x] Validate story scope and acceptance criteria against the architecture baseline.
+  - [x] Add src/app/navigation.ts as the navigation source of truth.
+  - [x] Refactor src/App.tsx to consume shared navigation metadata.
+  - [x] Run project quality gates.
+  - [x] Update story file list and final status.
+
+risks:
+  - App.tsx still remains large after this story; only navigation metadata is extracted here.
+  - Future stories must preserve the exported Page type contract to avoid routing regressions.
+
+dependencies:
+  - docs/architecture.md
+  - docs/architecture/source-tree.md
+  - src/App.tsx
+
+validation:
+  po_checks:
+    - [x] Title clear and objective.
+    - [x] Problem complete.
+    - [x] Acceptance criteria testable.
+    - [x] Scope defined.
+    - [x] Dependencies mapped.
+    - [x] Complexity appropriate for one focused story.
+    - [x] Business value identified.
+    - [x] Risks documented.
+    - [x] Definition of Done clear.
+    - [x] Aligned with architecture baseline.
+
+definition_of_done:
+  - [x] Navigation config extracted to src/app/navigation.ts.
+  - [x] App.tsx imports shared navigation metadata.
+  - [x] npm run lint passes.
+  - [x] npm run typecheck passes.
+  - [x] npm test passes.
+  - [x] npm run build passes.
+  - [x] Story file list updated.
+
+quality_gate:
+  npm_lint: pass
+  npm_typecheck: pass
+  npm_test: pass
+  npm_build: pass_with_existing_bundle_size_warning
+
+file_list:
+  - docs/stories/app-navigation-extraction/story.yaml
+  - src/app/navigation.ts
+  - src/App.tsx

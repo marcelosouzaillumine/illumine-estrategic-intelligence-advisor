@@ -1,0 +1,113 @@
+id: firebase-data-contract-hardening
+title: Firebase data contract hardening for existing advisory modules
+status: Done
+workflow: story-development-cycle
+mode: yolo
+created_at: '2026-05-09'
+owner: data-engineer
+
+problem: >
+  The current Vite/React application uses Firebase Auth, Firestore, and Hosting,
+  but several Firestore collections and query patterns used by the UI are not
+  fully represented in Firebase rules and indexes. Some screens can silently
+  fall back to local mock data when remote Firestore access fails.
+
+business_value: >
+  Existing financial advisory workflows must persist and read real client data
+  from Firebase with tenant isolation, predictable query performance, and rules
+  that match the actual application data contracts.
+
+scope:
+  in:
+    - Add Firestore rules coverage for payables and receivables.
+    - Align financial_entries rules with both granular and imported batch data already supported by the app.
+    - Tighten strategic module rules for diretrizes, diagnostico, okrs, and precificacao.
+    - Add composite Firestore indexes required by current queries.
+    - Preserve current UI behavior and collection names.
+  out:
+    - Moving Gemini calls behind Cloud Functions.
+    - Adding Firebase Storage upload flows.
+    - Deploying Hosting resources.
+    - Reworking application architecture or navigation.
+
+acceptance_criteria:
+  - id: AC1
+    given: an authenticated owner of a client
+    when: they create, list, update, or delete payables for that client
+    then: Firestore rules allow the operation and preserve client ownership boundaries.
+  - id: AC2
+    given: an authenticated owner of a client
+    when: they create, list, update, or delete receivables for that client
+    then: Firestore rules allow the operation and preserve client ownership boundaries.
+  - id: AC3
+    given: the historical import flow writes financial_entries with data arrays
+    when: the payload includes the selected client, type, year, month, createdAt, and createdBy
+    then: Firestore rules allow the write for the owning user only.
+  - id: AC4
+    given: strategic modules use useModuleData
+    when: diretrizes, diagnostico, okrs, or precificacao documents are written
+    then: rules validate ownerId, clientId, updatedAt, and key field types.
+  - id: AC5
+    given: current application queries
+    when: Firestore indexes are deployed
+    then: composite indexes exist for where/orderBy query combinations used by the UI.
+  - id: AC6
+    given: the codebase after changes
+    when: quality gates run
+    then: rules validation, typecheck, tests, and build pass.
+
+tasks:
+  - [x] Inspect current Firebase MCP/CLI state and local Firebase config.
+  - [x] Create SDC story in YOLO mode.
+  - [x] Update Firestore rules for missing and weak collection contracts.
+  - [x] Add required Firestore composite indexes.
+  - [x] Align financial import payload with existing query fields.
+  - [x] Run quality gates and capture results.
+  - [x] Deploy Firestore rules and indexes to Firebase project.
+  - [x] Update File List and status.
+
+risks:
+  - Existing production data may contain older shapes that stricter rules could block on update.
+  - Some rules validate broad financial arrays because Firestore rules cannot deeply validate every array element ergonomically.
+  - Indexes must still be deployed to Firebase before remote query failures are eliminated.
+
+dependencies:
+  - firebase.json targets database ai-studio-ef086d54-5c25-444a-bc16-5c7264f7cde5.
+  - Firebase project gen-lang-client-0196971385.
+
+validation:
+  po_checks:
+    - [x] Title clear and objective.
+    - [x] Problem complete.
+    - [x] Acceptance criteria testable.
+    - [x] Scope defined.
+    - [x] Dependencies mapped.
+    - [x] Complexity appropriate.
+    - [x] Business value identified.
+    - [x] Risks documented.
+    - [x] Definition of Done clear.
+    - [x] Aligned with architecture baseline.
+
+definition_of_done:
+  - [x] firestore.rules validates through Firebase MCP.
+  - [x] npm run lint passes.
+  - [x] npm run typecheck passes.
+  - [x] npm test passes.
+  - [x] npm run build passes.
+  - [x] Story File List is updated.
+
+quality_gate:
+  firestore_rules_validation: pass
+  npm_lint: pass
+  npm_typecheck: pass
+  npm_test: pass
+  npm_build: pass_with_existing_bundle_size_warning
+  firebase_deploy_firestore: pass
+  deployed_project: gen-lang-client-0196971385
+  deployed_database: ai-studio-ef086d54-5c25-444a-bc16-5c7264f7cde5
+
+file_list:
+  - docs/stories/firebase-data-contract-hardening/story.yaml
+  - firestore.rules
+  - firestore.indexes.json
+  - src/components/pages/DadosHistoricosPage.tsx

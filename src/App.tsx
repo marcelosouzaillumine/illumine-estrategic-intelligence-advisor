@@ -6,23 +6,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Plus,
-  LayoutGrid, 
-  TrendingUp, 
   TrendingDown,
-  FileText, 
-  BookOpen, 
-  CircleDollarSign, 
-  Activity, 
-  Users,
-  Target,
-  ShieldCheck,
   Search,
   Filter,
   Calendar,
   BarChart3,
-  Settings2,
-  Scale,
-  Globe,
   PieChart as PieChartIcon,
   ChevronLeft,
   ChevronRight,
@@ -52,20 +40,11 @@ import {
   Sun,
   Sparkles,
   Link2,
-  ArrowRightLeft,
-  ArrowUpRight,
   BarChart3 as ChartBarIcon,
   Loader2,
-  Landmark,
-  List,
-  CreditCard,
-  ShoppingBag,
   Building2,
-  Lightbulb,
   MessageSquare,
   Rocket,
-  Percent,
-  DollarSign
 } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import * as pdfjsLib from 'pdfjs-dist';
@@ -86,42 +65,7 @@ import { SYSTEM_KPI_CATEGORIES, MONTH_LABELS, FULL_MONTH_LABELS } from './consta
 import { AccountModal } from './components/modals/AccountModal';
 import { ImportPlanoModal } from './components/modals/ImportPlanoModal';
 import { MappingWizard } from './components/modals/MappingWizard';
-
 import { PageHeader, Semaphore, StatusBadge, SectionHeader } from './components/Common';
-import { DashboardPage } from './components/pages/DashboardPage';
-import { IndicatorsPage } from './components/pages/IndicatorsPage';
-import { DREPage } from './components/pages/DREPage';
-import { BalanceSheetPage } from './components/pages/BalanceSheetPage';
-import { CashFlowPage } from './components/pages/CashFlowPage';
-import { DadosHistoricosPage } from './components/pages/DadosHistoricosPage';
-import { PremissasClientePage } from './components/pages/PremissasClientePage';
-import { PremissasTributariasPage } from './components/pages/PremissasTributariasPage';
-import { PremissasEconomicasPage } from './components/pages/PremissasEconomicasPage';
-import { ExecutiveCommentary } from './components/ExecutiveCommentary';
-import { TaxReformImpactPage } from './components/pages/TaxReformImpactPage';
-import { PlanoDeContasPage } from './components/pages/PlanoDeContasPage';
-import { ViabilityPage } from './components/pages/ViabilityPage';
-import { LoansPage } from './components/pages/LoansPage';
-import { ClientsPage } from './components/pages/ClientsPage';
-import { ValuationPage } from './components/pages/ValuationPage';
-import { AdvisoryInsightsPage } from './components/pages/AdvisoryInsightsPage';
-import { PlanoAcaoPage } from './components/pages/PlanoAcaoPage';
-import { AnaliseFinanceiraPage } from './components/pages/AnaliseFinanceiraPage';
-import { DLPAPage } from './components/pages/DLPAPage';
-import { DFCPage } from './components/pages/DFCPage';
-import { DreGerencialPage } from './components/pages/DreGerencialPage';
-import { FinancialModelingPage } from './components/pages/FinancialModelingPage';
-import { PayablesPage } from './components/pages/PayablesPage';
-import { FinancialPositionPage } from './components/pages/FinancialPositionPage';
-import { PurchasingPage } from './components/pages/PurchasingPage';
-import { ReceivablesPage } from './components/pages/ReceivablesPage';
-import { PortfolioPage } from './components/pages/PortfolioPage';
-import { LoanInvestmentSimPage } from './components/pages/LoanInvestmentSimPage';
-import { DiretrizesPage } from './components/pages/DiretrizesPage';
-import { DiagnosticoPage } from './components/pages/DiagnosticoPage';
-import { OKRsPage } from './components/pages/OKRsPage';
-import { PrecificacaoPage } from './components/pages/PrecificacaoPage';
-import { RelatorioExecutivoPage } from './components/pages/RelatorioExecutivoPage';
 
 import { useDataTable } from './hooks/useDataTable';
 import { SortableHeader } from './components/SortableHeader';
@@ -145,10 +89,8 @@ import {
   Pie
 } from 'recharts';
 import { motion, AnimatePresence } from 'motion/react';
-
-import PayrollDashboard from './components/PayrollDashboard';
-
-type Page = 'portfolio' | 'dashboard' | 'indicadores' | 'dre' | 'bp' | 'caixa' | 'viabilidade' | 'clientes' | 'premissas_cliente' | 'premissas_tributarias' | 'premissas_economicas' | 'emprestimos' | 'dados_historicos' | 'analise_financeira' | 'valuation' | 'modelagem' | 'dre_gerencial' | 'dlpa' | 'dfc' | 'pessoal' | 'contas_pagar' | 'contas_receber' | 'plano_contas' | 'compras' | 'posicao_financeira' | 'advisory_insights' | 'plano_acao' | 'tax_reform_impact' | 'simulador_capital' | 'diretrizes' | 'diagnostico' | 'okrs' | 'precificacao' | 'relatorio_executivo';
+import { DEFAULT_OPEN_SUBMENUS, DEFAULT_PAGE, FLAT_NAV_ITEMS, NAVIGATION_GROUPS, type Page } from './app/navigation';
+import { renderCurrentPage } from './app/routes';
 
 function Logo() {
   return (
@@ -196,18 +138,14 @@ function Logo() {
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('portfolio');
+  const [currentPage, setCurrentPage] = useState<Page>(DEFAULT_PAGE);
   const [selectedClient, setSelectedClient] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(3);
   const [selectedYear, setSelectedYear] = useState(2026);
   const [clients, setClients] = useState<any[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
-  const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({ 
-    'Gestão Financeira': true, 
-    'Banco de Dados': true,
-    'Conselho & Estratégia CFO': true 
-  });
+  const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>(DEFAULT_OPEN_SUBMENUS);
 
   const toggleSubmenu = (name: string) => {
     setOpenSubmenus(prev => ({ ...prev, [name]: !prev[name] }));
@@ -258,80 +196,7 @@ export default function App() {
     return () => unsubscribe();
   }, [user, authLoading]);
 
-  const navigation = useMemo(() => [
-    {
-      group: "Visão Consolidada",
-      items: [
-        { id: 'portfolio', label: 'Gestão de Portfólio', icon: Activity, isNew: true },
-      ]
-    },
-    {
-      group: "Dashboard",
-      items: [
-        { id: 'dashboard', label: 'Monitoramento Geral', icon: LayoutGrid },
-        { id: 'indicadores', label: 'KPIs e Métricas', icon: TrendingUp },
-      ]
-    },
-    {
-      group: "Banco de Dados",
-      items: [
-        { id: 'clientes', label: 'Gestão de Clientes', icon: Users },
-        { id: 'dados_historicos', label: 'Dados Históricos', icon: Database },
-        { id: 'plano_contas', label: 'Plano de Contas', icon: List },
-        { id: 'premissas_cliente', label: 'Premissas do Cliente', icon: Settings2 },
-        { id: 'premissas_economicas', label: 'Premissas Econômicas', icon: Globe },
-        { id: 'premissas_tributarias', label: 'Premissas Tributárias', icon: Landmark },
-      ]
-    },
-    {
-      group: "Demonstrações Contábeis",
-      items: [
-        { id: 'dre', label: 'DRE', icon: FileText },
-        { id: 'bp', label: 'Balanço Patrimonial', icon: BookOpen },
-        { id: 'dlpa', label: 'DLPA', icon: Scale },
-        { id: 'dfc', label: 'DFC (Contábil)', icon: WalletCards },
-      ]
-    },
-    {
-      group: "Estratégia & Direção",
-      items: [
-        { id: 'diretrizes', label: 'Diretrizes (MVV)', icon: Target, isNew: true },
-        { id: 'diagnostico', label: 'Diagnóstico (FIV)', icon: ShieldCheck, isNew: true },
-        { id: 'okrs', label: 'OKRs & Metas', icon: TrendingUp, isNew: true },
-      ]
-    },
-    {
-      group: "Gestão Financeira",
-      items: [
-        { id: 'precificacao', label: 'Precificação & Margem', icon: DollarSign, isNew: true },
-        { id: 'dre_gerencial', label: 'DRE Gerencial', icon: Activity },
-        { id: 'caixa', label: 'Fluxo de Caixa', icon: CircleDollarSign },
-        { id: 'posicao_financeira', label: 'Posição Financeira', icon: Landmark },
-        { id: 'contas_pagar', label: 'Contas a Pagar', icon: CreditCard },
-        { id: 'contas_receber', label: 'Contas a Receber', icon: ArrowUpRight },
-        { id: 'compras', label: 'Gestão de Compras', icon: ShoppingBag },
-        { id: 'pessoal', label: 'Custos com Pessoal', icon: Users },
-        { id: 'emprestimos', label: 'Empréstimos', icon: WalletCards },
-      ]
-    },
-    {
-      group: "Conselho & Estratégia CFO",
-      items: [
-        { id: 'advisory_insights', label: 'Dashboard de Advisory', icon: Lightbulb, isNew: true },
-        { id: 'relatorio_executivo', label: 'Relatório Executivo', icon: FileText, isNew: true },
-        { id: 'plano_acao', label: 'Roadmap Estratégico', icon: CheckSquare, isNew: true },
-        { id: 'simulador_capital', label: 'Simulador Captação/Alocação', icon: ArrowRightLeft, isNew: true },
-        { id: 'tax_reform_impact', label: 'Simualdor Reforma Tributária', icon: Percent, isNew: true },
-        { id: 'modelagem', label: 'Modelagem Financeira', icon: LayoutGrid, isNew: true },
-        { id: 'analise_financeira', label: 'Análise Estratégica CFO', icon: ShieldCheck },
-        { id: 'valuation', label: 'Valuation & M&A', icon: Zap },
-        { id: 'viabilidade', label: 'Viabilidade de Projetos', icon: BarChart3 },
-      ]
-    }
-  ], []);
-
-  const flatNavItems = useMemo(() => navigation.flatMap(g => g.items), [navigation]);
-  const currentPageLabel = useMemo(() => flatNavItems.find(i => i.id === currentPage)?.label || '', [flatNavItems, currentPage]);
+  const currentPageLabel = FLAT_NAV_ITEMS.find((item) => item.id === currentPage)?.label || '';
 
   const payrollClients = useMemo(() => clients.map(c => ({
     id: c.id,
@@ -381,11 +246,8 @@ export default function App() {
           </div>
           
           <nav className="space-y-6">
-            {navigation.map((group) => {
+            {NAVIGATION_GROUPS.map((group) => {
               const isOpen = openSubmenus[group.group] !== false; // Default to open if not specified
-              const isFinanceGroup = group.group === "Gestão Financeira";
-              const belongsToGroup = group.items.some(i => i.id === currentPage);
-
               return (
                 <div key={group.group}>
                   <button 
@@ -407,7 +269,7 @@ export default function App() {
                         {group.items.map((item) => (
                           <button
                             key={item.id}
-                            onClick={() => setCurrentPage(item.id as Page)}
+                            onClick={() => setCurrentPage(item.id)}
                             className={cn(
                               "w-full flex items-center justify-start text-left gap-3 px-3 py-2 rounded-xl font-bold text-xs transition-all group",
                               currentPage === item.id 
@@ -507,52 +369,19 @@ export default function App() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
               >
-                {currentPage === 'portfolio' && (
-                  <PortfolioPage 
-                    clients={clients} 
-                    onSelectClient={(id: string, targetPage: Page = 'dashboard') => {
-                      setSelectedClient(id);
-                      setCurrentPage(targetPage);
-                    }} 
-                  />
-                )}
-                {currentPage === 'dashboard' && <DashboardPage clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />}
-                {currentPage === 'indicadores' && <IndicatorsPage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />}
-                {currentPage === 'dre' && <DREPage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />}
-                {currentPage === 'dre_gerencial' && <DreGerencialPage selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />}
-                {currentPage === 'bp' && <BalanceSheetPage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />}
-                {currentPage === 'dlpa' && <DLPAPage clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} />}
-                {currentPage === 'caixa' && <CashFlowPage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />}
-                {currentPage === 'posicao_financeira' && <FinancialPositionPage clients={clients} selectedClient={selectedClient} />}
-                {currentPage === 'contas_pagar' && <PayablesPage clients={clients} selectedClient={selectedClient} />}
-                {currentPage === 'contas_receber' && <ReceivablesPage clients={clients} selectedClient={selectedClient} />}
-                {currentPage === 'compras' && <PurchasingPage clients={clients} selectedClient={selectedClient} />}
-                {currentPage === 'dfc' && <DFCPage clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} />}
-                {currentPage === 'advisory_insights' && <AdvisoryInsightsPage clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />}
-                {currentPage === 'diretrizes' && <DiretrizesPage clientId={selectedClient} />}
-                {currentPage === 'diagnostico' && <DiagnosticoPage clientId={selectedClient} />}
-                {currentPage === 'okrs' && <OKRsPage clientId={selectedClient} />}
-                {currentPage === 'precificacao' && <PrecificacaoPage clientId={selectedClient} />}
-                {currentPage === 'relatorio_executivo' && <RelatorioExecutivoPage clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />}
-                {currentPage === 'plano_acao' && <PlanoAcaoPage clients={clients} selectedClient={selectedClient} />}
-                {currentPage === 'tax_reform_impact' && <TaxReformImpactPage clients={clients} selectedClient={selectedClient} />}
-                {currentPage === 'simulador_capital' && <LoanInvestmentSimPage />}
-                {currentPage === 'viabilidade' && <ViabilityPage selectedClient={selectedClient} clients={clients} />}
-                {currentPage === 'emprestimos' && <LoansPage clients={clients} selectedClient={selectedClient} />}
-                {currentPage === 'analise_financeira' && <AnaliseFinanceiraPage clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />}
-                {currentPage === 'valuation' && <ValuationPage clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />}
-                {currentPage === 'modelagem' && <FinancialModelingPage clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient} />}
-                {currentPage === 'dados_historicos' && <DadosHistoricosPage clients={clients} user={user} />}
-                {currentPage === 'clientes' && <ClientsPage clients={clients} setClients={setClients} />}
-                {currentPage === 'plano_contas' && <PlanoDeContasPage clients={clients} selectedClient={selectedClient} />}
-                {currentPage === 'premissas_cliente' && <PremissasClientePage clients={clients} selectedClient={selectedClient} />}
-                {currentPage === 'premissas_tributarias' && <PremissasTributariasPage clients={clients} />}
-                {currentPage === 'premissas_economicas' && <PremissasEconomicasPage />}
-                {currentPage === 'pessoal' && (
-                  <PayrollDashboard 
-                    clientId={selectedClient} 
-                  />
-                )}
+                {renderCurrentPage({
+                  currentPage,
+                  clients,
+                  selectedClient,
+                  setSelectedClient,
+                  selectedMonth,
+                  setSelectedMonth,
+                  selectedYear,
+                  setSelectedYear,
+                  user,
+                  setCurrentPage,
+                  setClients,
+                })}
               </motion.div>
             </AnimatePresence>
           </div>

@@ -15,9 +15,17 @@ View your app in AI Studio: https://ai.studio/apps/ef086d54-5c25-444a-bc16-5c726
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
+2. Install Firebase Functions dependencies:
+   `cd functions && npm install && cd ..`
+3. Set `GEMINI_API_KEY` in your Functions runtime environment (for deployment) or local emulator env.
+4. Run the app:
    `npm run dev`
+
+## Firestore Rules Tests
+
+Run rules behavior tests using Firestore emulator:
+
+`npm run test:rules`
 
 ## AIOX
 

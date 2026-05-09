@@ -180,6 +180,8 @@ export function DadosHistoricosPage({ clients, user }: { clients: any[], user: U
         periodType,
         month: periodType === 'mensal' ? month : null,
         year,
+        mes: periodType === 'mensal' ? month : null,
+        ano: year,
         data: dataEntries,
         fileName: file.name,
         createdAt: serverTimestamp(),

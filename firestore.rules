@@ -15,6 +15,13 @@ service cloud.firestore {
       return isSignedIn() && data.ownerId == request.auth.uid;
     }
 
+    function ownsClient(clientId) {
+      return isSignedIn()
+        && clientId is string
+        && isValidId(clientId)
+        && get(/databases/$(database)/documents/clients/$(clientId)).data.ownerId == request.auth.uid;
+    }
+
     function isValidId(id) {
       return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
     }
@@ -56,6 +63,23 @@ service cloud.firestore {
         && data.createdBy == request.auth.uid
         && data.createdAt == request.time
         && data.updatedAt == request.time;
+    }
+
+    function isValidImportedFinancialEntry(data) {
+      return data.keys().hasAll(['clientId', 'type', 'year', 'month', 'data', 'fileName', 'createdAt', 'createdBy'])
+        && data.keys().size() <= 20
+        && data.clientId is string && isValidId(data.clientId)
+        && data.type in ['DRE', 'BP', 'CAIXA', 'DRE Gerencial', 'Balanço Patrimonial', 'DLPA', 'DFC', 'Contas a Pagar', 'Contas a Receber']
+        && data.year is int && data.year >= 2000 && data.year <= 2100
+        && (data.month == null || (data.month is int && data.month >= 1 && data.month <= 12))
+        && (data.ano == null || data.ano == data.year)
+        && (data.mes == null || data.mes == data.month)
+        && data.data is list && data.data.size() <= 2000
+        && data.fileName is string && data.fileName.size() <= 255
+        && (data.periodType == null || data.periodType in ['mensal', 'anual'])
+        && (data.clientName == null || (data.clientName is string && data.clientName.size() <= 200))
+        && data.createdBy == request.auth.uid
+        && data.createdAt == request.time;
     }
 
     // --- Loan Validation ---
@@ -136,6 +160,93 @@ service cloud.firestore {
         && data.updatedAt == request.time;
     }
 
+    function isValidPayable(data) {
+      return data.keys().hasAll(['clientId', 'fornecedor', 'documento', 'vencimento', 'valor', 'status', 'createdBy', 'updatedAt'])
+        && data.keys().size() <= 20
+        && data.clientId is string && isValidId(data.clientId)
+        && data.fornecedor is string && data.fornecedor.size() <= 200
+        && data.documento is string && data.documento.size() <= 100
+        && (data.emissao == null || (data.emissao is string && data.emissao.size() <= 20))
+        && data.vencimento is string && data.vencimento.size() <= 20
+        && data.valor is number && data.valor > 0
+        && data.status in ['A vencer', 'Em atraso', 'Pago', 'Pendente']
+        && data.createdBy == request.auth.uid
+        && data.updatedAt == request.time;
+    }
+
+    function isValidReceivable(data) {
+      return data.keys().hasAll(['clientId', 'cliente', 'documento', 'vencimento', 'valor', 'status', 'createdBy', 'updatedAt'])
+        && data.keys().size() <= 20
+        && data.clientId is string && isValidId(data.clientId)
+        && data.cliente is string && data.cliente.size() <= 200
+        && data.documento is string && data.documento.size() <= 100
+        && (data.emissao == null || (data.emissao is string && data.emissao.size() <= 20))
+        && data.vencimento is string && data.vencimento.size() <= 20
+        && data.valor is number && data.valor > 0
+        && data.status in ['A vencer', 'Em atraso', 'Pago', 'Pendente']
+        && data.createdBy == request.auth.uid
+        && data.updatedAt == request.time;
+    }
+
+    function isValidDiretriz(data) {
+      return data.keys().hasAll(['clientId', 'ownerId', 'updatedAt'])
+        && data.keys().size() <= 10
+        && data.clientId is string && isValidId(data.clientId)
+        && data.ownerId == request.auth.uid
+        && (data.missao == null || (data.missao is string && data.missao.size() <= 5000))
+        && (data.visao == null || (data.visao is string && data.visao.size() <= 5000))
+        && (data.valores == null || (data.valores is list && data.valores.size() <= 50))
+        && data.updatedAt == request.time;
+    }
+
+    function isValidDiagnostico(data) {
+      return data.keys().hasAll(['clientId', 'ownerId', 'descricao', 'eixo', 'swot', 'tipoRisco', 'gravidade', 'urgencia', 'tendencia', 'impactoFinanceiro', 'fivScore', 'updatedAt'])
+        && data.keys().size() <= 25
+        && data.clientId is string && isValidId(data.clientId)
+        && data.ownerId == request.auth.uid
+        && data.descricao is string && data.descricao.size() <= 2000
+        && data.eixo in ['Gestão Financeira', 'Gestão Comercial', 'Gestão Operacional', 'Gestão de Pessoas', 'Gestão Administrativa', 'Governança', 'Cultura', 'Inovação', 'Avaliação de Riscos']
+        && data.swot in ['Força', 'Fraqueza', 'Oportunidade', 'Ameaça']
+        && data.tipoRisco in ['Estratégico', 'Financeiro', 'Operacional', 'Compliance']
+        && data.gravidade is int && data.gravidade >= 1 && data.gravidade <= 5
+        && data.urgencia is int && data.urgencia >= 1 && data.urgencia <= 5
+        && data.tendencia is int && data.tendencia >= 1 && data.tendencia <= 5
+        && data.impactoFinanceiro is int && data.impactoFinanceiro >= 1 && data.impactoFinanceiro <= 5
+        && data.fivScore is number
+        && (data.efeitoFinanceiro == null || data.efeitoFinanceiro in ['Receita', 'EBITDA', 'Receita + EBITDA', 'Caixa', 'Outros'])
+        && (data.custoInvestimento == null || data.custoInvestimento in ['Baixo', 'Médio', 'Alto'])
+        && (data.retornoInvestimento == null || data.retornoInvestimento in ['Alto em 90 dias', 'Alto em 180 dias', 'Alto em 12 meses', 'Médio', 'Baixo'])
+        && data.updatedAt == request.time;
+    }
+
+    function isValidOkr(data) {
+      return data.keys().hasAll(['clientId', 'ownerId', 'titulo', 'eixo', 'responsavel', 'periodo', 'progressoGeral', 'keyResults', 'updatedAt'])
+        && data.keys().size() <= 20
+        && data.clientId is string && isValidId(data.clientId)
+        && data.ownerId == request.auth.uid
+        && data.titulo is string && data.titulo.size() <= 300
+        && data.eixo in ['Gestão Financeira', 'Gestão Comercial', 'Gestão Operacional', 'Gestão de Pessoas', 'Gestão Administrativa', 'Governança', 'Cultura', 'Inovação', 'Avaliação de Riscos']
+        && data.responsavel is string && data.responsavel.size() <= 200
+        && data.periodo is string && data.periodo.size() <= 100
+        && data.progressoGeral is number && data.progressoGeral >= 0 && data.progressoGeral <= 100
+        && data.keyResults is list && data.keyResults.size() <= 25
+        && (data.vinculoDiagnostico == null || data.vinculoDiagnostico is list)
+        && data.updatedAt == request.time;
+    }
+
+    function isValidPrecificacao(data) {
+      return data.keys().hasAll(['clientId', 'ownerId', 'nome', 'precoVenda', 'custosVariaveis', 'margemContribuicaoUnit', 'margemContribuicaoPct', 'updatedAt'])
+        && data.keys().size() <= 15
+        && data.clientId is string && isValidId(data.clientId)
+        && data.ownerId == request.auth.uid
+        && data.nome is string && data.nome.size() <= 200
+        && data.precoVenda is number && data.precoVenda >= 0
+        && data.custosVariaveis is map
+        && data.margemContribuicaoUnit is number
+        && data.margemContribuicaoPct is number
+        && data.updatedAt == request.time;
+    }
+
     // --- Collections ---
 
     match /clients/{clientId} {
@@ -154,12 +265,11 @@ service cloud.firestore {
       allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
       allow create: if isSignedIn() && isValidId(entryId) 
         && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid
-        && isValidFinancialEntry(incoming());
+        && (isValidFinancialEntry(incoming()) || isValidImportedFinancialEntry(incoming()));
       allow update: if isSignedIn() 
         && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
         && incoming().clientId == existing().clientId
-        && incoming().createdAt == existing().createdAt
-        && incoming().updatedAt == request.time;
+        && (isValidFinancialEntry(incoming()) || isValidImportedFinancialEntry(incoming()));
       allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
     }
 
@@ -241,6 +351,34 @@ service cloud.firestore {
       allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
     }
 
+    match /payables/{payableId} {
+      allow get: if ownsClient(existing().clientId);
+      allow list: if ownsClient(resource.data.clientId);
+      allow create: if isSignedIn() && isValidId(payableId)
+        && ownsClient(incoming().clientId)
+        && isValidPayable(incoming())
+        && incoming().createdAt == request.time;
+      allow update: if ownsClient(existing().clientId)
+        && incoming().clientId == existing().clientId
+        && incoming().createdAt == existing().createdAt
+        && isValidPayable(incoming());
+      allow delete: if ownsClient(existing().clientId);
+    }
+
+    match /receivables/{receivableId} {
+      allow get: if ownsClient(existing().clientId);
+      allow list: if ownsClient(resource.data.clientId);
+      allow create: if isSignedIn() && isValidId(receivableId)
+        && ownsClient(incoming().clientId)
+        && isValidReceivable(incoming())
+        && incoming().createdAt == request.time;
+      allow update: if ownsClient(existing().clientId)
+        && incoming().clientId == existing().clientId
+        && incoming().createdAt == existing().createdAt
+        && isValidReceivable(incoming());
+      allow delete: if ownsClient(existing().clientId);
+    }
+
     match /report_notes/{noteId} {
       allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
       allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
@@ -253,19 +391,35 @@ service cloud.firestore {
     }
 
     match /diretrizes/{id} {
-      allow read, write: if isSignedIn() && (resource == null || resource.data.ownerId == request.auth.uid) && (request.resource == null || request.resource.data.ownerId == request.auth.uid);
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().clientId) && isValidDiretriz(incoming());
+      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId && incoming().ownerId == existing().ownerId && isValidDiretriz(incoming());
+      allow delete: if isOwner(existing());
     }
 
     match /diagnostico/{id} {
-      allow read, write: if isSignedIn() && (resource == null || resource.data.ownerId == request.auth.uid) && (request.resource == null || request.resource.data.ownerId == request.auth.uid);
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().clientId) && isValidDiagnostico(incoming());
+      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId && incoming().ownerId == existing().ownerId && isValidDiagnostico(incoming());
+      allow delete: if isOwner(existing());
     }
 
     match /okrs/{id} {
-      allow read, write: if isSignedIn() && (resource == null || resource.data.ownerId == request.auth.uid) && (request.resource == null || request.resource.data.ownerId == request.auth.uid);
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().clientId) && isValidOkr(incoming());
+      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId && incoming().ownerId == existing().ownerId && isValidOkr(incoming());
+      allow delete: if isOwner(existing());
     }
 
     match /precificacao/{id} {
-      allow read, write: if isSignedIn() && (resource == null || resource.data.ownerId == request.auth.uid) && (request.resource == null || request.resource.data.ownerId == request.auth.uid);
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().clientId) && isValidPrecificacao(incoming());
+      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId && incoming().ownerId == existing().ownerId && isValidPrecificacao(incoming());
+      allow delete: if isOwner(existing());
     }
 
     match /employees/{employeeId} {

@@ -1,0 +1,83 @@
+id: firebase-gemini-backend-boundary
+title: Move advisory Gemini generation to Firebase Functions backend
+status: Done
+workflow: story-development-cycle
+mode: yolo
+created_at: '2026-05-09'
+owner: data-engineer
+
+problem: >
+  Advisory AI generation currently executes in the browser with direct API key
+  usage pattern, which is not acceptable for production-grade confidentiality.
+
+business_value: >
+  Keep API keys server-side and centralize AI execution with authenticated
+  requests.
+
+scope:
+  in:
+    - Add Firebase HTTP function endpoint for advisory generation.
+    - Route frontend AI calls to backend endpoint.
+    - Require Firebase Auth ID token on requests.
+    - Keep existing UI behavior and error fallback.
+  out:
+    - Prompt redesign.
+    - Multi-model routing.
+    - Hosting deploy.
+
+acceptance_criteria:
+  - id: AC1
+    given: an authenticated user
+    when: they request AI summary
+    then: frontend calls backend endpoint instead of direct SDK model call.
+  - id: AC2
+    given: an unauthenticated request
+    when: it hits the backend endpoint
+    then: request is rejected with unauthorized status.
+  - id: AC3
+    given: backend has GEMINI_API_KEY configured
+    when: endpoint is called
+    then: it returns generated advisory text.
+
+tasks:
+  - [x] Create story artifact.
+  - [x] Add Firebase Functions backend for advisory generation.
+  - [x] Switch frontend service to backend endpoint with ID token.
+  - [x] Update firebase.json rewrites/functions config.
+  - [x] Harden Function IAM intent with explicit invoker public option.
+  - [x] Run quality gates and update file list.
+
+definition_of_done:
+  - [x] npm run lint passes.
+  - [x] npm run typecheck passes.
+  - [x] npm test passes.
+  - [x] npm run build passes.
+  - [x] file list updated.
+
+quality_gate:
+  npm_lint: pass
+  npm_typecheck: pass
+  npm_test: pass
+  npm_build: pass_with_existing_bundle_size_warning
+  firebase_deploy_functions: pass_previously
+  firebase_reverify_current_session: blocked_by_firebase_cli_request_error
+  artifact_cleanup_policy: pass_7_days
+  function_url: https://generateadvisoryparecer-3ke5ym7dyq-uc.a.run.app
+
+blocker:
+  reason: Runtime secret may still need confirmation and current environment cannot revalidate deploy/functions list due Firebase CLI request errors.
+  required_commands:
+    - firebase deploy --only functions --project gen-lang-client-0196971385
+    - firebase functions:list --project gen-lang-client-0196971385
+    - firebase functions:secrets:get GEMINI_API_KEY --project gen-lang-client-0196971385
+
+file_list:
+  - docs/stories/firebase-gemini-backend-boundary/story.yaml
+  - functions/index.js
+  - functions/package.json
+  - firebase.json
+  - src/services/advisoryAiService.ts
+  - src/vite-env.d.ts
+  - vite.config.ts
+  - README.md
+  - .env.example

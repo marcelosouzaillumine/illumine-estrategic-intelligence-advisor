@@ -1,0 +1,95 @@
+id: app-routes-extraction
+title: Extract page rendering map from App.tsx to app routes module
+status: Done
+workflow: story-development-cycle
+mode: yolo
+created_at: '2026-05-09'
+owner: dev
+
+problem: >
+  App.tsx still contains a long chain of currentPage conditionals to render all
+  pages. This keeps routing composition coupled to shell layout and blocks
+  incremental extraction of providers and app shell responsibilities.
+
+business_value: >
+  Moving route rendering into a dedicated module reduces App.tsx complexity and
+  creates a stable integration point for future extraction steps with lower
+  regression risk.
+
+scope:
+  in:
+    - Create src/app/routes.tsx with a single render function for page resolution.
+    - Move page component mapping logic out of App.tsx.
+    - Keep all page ids, props wiring, and fallback behavior identical.
+  out:
+    - Introducing router libraries.
+    - Lazy loading or route-level suspense.
+    - UI redesign or component behavior changes.
+
+acceptance_criteria:
+  - id: AC1
+    given: the current page state
+    when: render is resolved
+    then: the same page component and props are used as before extraction.
+  - id: AC2
+    given: App.tsx
+    when: reviewed after refactor
+    then: the page render chain is replaced by a call to app routes module.
+  - id: AC3
+    given: existing navigation ids
+    when: selecting pages
+    then: page transitions remain functional with no id contract changes.
+  - id: AC4
+    given: project quality gates
+    when: lint/typecheck/test/build run
+    then: all commands pass.
+
+tasks:
+  - [x] Create SDC story artifact in YOLO mode.
+  - [x] Add src/app/routes.tsx route rendering module.
+  - [x] Refactor App.tsx to consume renderCurrentPage().
+  - [x] Preserve existing page props and page id behavior.
+  - [x] Run quality gates and capture result.
+  - [x] Update file list and status.
+
+risks:
+  - App.tsx is still large due to state/auth/sidebar concerns not covered in this story.
+  - Route render context currently uses broad any[] client typing inherited from existing code.
+
+dependencies:
+  - src/App.tsx
+  - src/app/navigation.ts
+  - docs/architecture.md
+
+validation:
+  po_checks:
+    - [x] Title clear and objective.
+    - [x] Problem complete.
+    - [x] Acceptance criteria testable.
+    - [x] Scope defined.
+    - [x] Dependencies mapped.
+    - [x] Complexity appropriate for one focused story.
+    - [x] Business value identified.
+    - [x] Risks documented.
+    - [x] Definition of Done clear.
+    - [x] Aligned with architecture baseline.
+
+definition_of_done:
+  - [x] Route render map extracted to src/app/routes.tsx.
+  - [x] App.tsx uses renderCurrentPage() from app routes module.
+  - [x] npm run lint passes.
+  - [x] npm run typecheck passes.
+  - [x] npm test passes.
+  - [x] npm run build passes.
+  - [x] Story file list updated.
+
+quality_gate:
+  npm_lint: pass
+  npm_typecheck: pass
+  npm_test: pass
+  npm_build: pass_with_existing_bundle_size_warning
+
+file_list:
+  - docs/stories/app-routes-extraction/story.yaml
+  - src/app/routes.tsx
+  - src/App.tsx

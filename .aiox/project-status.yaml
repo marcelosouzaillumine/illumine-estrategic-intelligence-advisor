@@ -1,11 +1,19 @@
 status:
-  branch: null
-  modifiedFiles: []
-  recentCommits: []
+  branch: main
+  modifiedFiles:
+    - .aiox/project-status.yaml
+    - .firebaserc
+    - docs/
+    - firebase.json
+    - firestore.indexes.json
+  modifiedFilesTotalCount: 5
+  recentCommits:
+    - 'chore: update bootstrap report'
+    - 'chore: bootstrap illumine advisor'
   currentEpic: null
   currentStory: null
-  lastUpdate: '2026-05-07T17:09:01.097Z'
-  isGitRepo: false
-timestamp: 1778173741098
+  lastUpdate: '2026-05-09T13:23:30.053Z'
+  isGitRepo: true
+timestamp: 1778333010054
 ttl: 60
-gitFingerprint: null
+gitFingerprint: 1778173928753.8582:1778174423732.3972

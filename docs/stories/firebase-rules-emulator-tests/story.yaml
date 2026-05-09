@@ -1,0 +1,75 @@
+id: firebase-rules-emulator-tests
+title: Add Firestore rules emulator test suite for security invariants
+status: Blocked
+workflow: story-development-cycle
+mode: yolo
+created_at: '2026-05-09'
+owner: data-engineer
+
+problem: >
+  Firestore rules are versioned and deployed, but behavior is not validated by
+  automated tests against abuse scenarios in security_spec.md.
+
+business_value: >
+  Prevent regressions in tenant isolation and write constraints with repeatable
+  CI-friendly checks.
+
+scope:
+  in:
+    - Add rules emulator test script.
+    - Cover representative invariants and abuse payloads.
+    - Integrate test command into project scripts.
+  out:
+    - Full CI workflow changes.
+    - Exhaustive matrix for every collection in one cycle.
+
+acceptance_criteria:
+  - id: AC1
+    given: local repo with firebase tools
+    when: running rules test command
+    then: emulator executes tests for allow/deny cases.
+  - id: AC2
+    given: unauthenticated access
+    when: reading protected collections
+    then: access is denied.
+  - id: AC3
+    given: cross-tenant writes
+    when: creating dependent records for foreign client
+    then: rules deny operation.
+  - id: AC4
+    given: valid owner payload
+    when: creating client and dependent data
+    then: rules allow operation.
+
+tasks:
+  - [x] Create story artifact.
+  - [x] Implement emulator rules test suite.
+  - [x] Add npm script and dependencies.
+  - [x] Run suite and capture status.
+  - [x] Update story file list.
+
+definition_of_done:
+  - [x] rules suite command exists.
+  - [x] rules suite executed locally (or blocker documented).
+  - [x] npm run lint passes.
+  - [x] npm run typecheck passes.
+  - [x] npm test passes.
+  - [x] npm run build passes.
+
+blocker:
+  reason: Firestore emulator blocked by sandbox/network port restrictions in current host.
+  failing_command: npm run test:rules
+  error_excerpt: listen EPERM on localhost ports (4400/4500/8080/9150)
+
+quality_gate:
+  npm_lint: pass
+  npm_typecheck: pass
+  npm_test: pass
+  npm_build: pass_with_existing_bundle_size_warning
+  npm_test_rules: blocked_by_localhost_port_permission
+
+file_list:
+  - docs/stories/firebase-rules-emulator-tests/story.yaml
+  - tests/firestore/rules.test.mjs
+  - package.json
+  - package-lock.json
