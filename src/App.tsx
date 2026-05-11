@@ -130,6 +130,143 @@ function Logo() {
   );
 }
 
+function LoginScreen() {
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [loginError, setLoginError] = useState('');
+
+  const handleGoogleLogin = async () => {
+    setIsSigningIn(true);
+    setLoginError('');
+    try {
+      await login();
+    } catch (error: any) {
+      console.error('Google sign-in failed:', error);
+      setLoginError(
+        error?.code === 'auth/popup-closed-by-user'
+          ? 'Login cancelado antes da confirmação.'
+          : 'Não foi possível entrar com Google. Verifique o domínio autorizado no Firebase.'
+      );
+    } finally {
+      setIsSigningIn(false);
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-[#f7f4ee] text-primary relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,133,82,0.18),transparent_28%),linear-gradient(135deg,rgba(14,28,44,0.04),rgba(186,184,108,0.12))]" />
+      <div className="relative min-h-screen grid lg:grid-cols-[1.05fr_0.95fr]">
+        <section className="flex flex-col justify-between px-6 py-8 sm:px-10 lg:px-14">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl bg-primary text-white flex items-center justify-center shadow-xl shadow-primary/10">
+              <Sparkles size={20} className="text-secondary" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-black uppercase leading-none">illumine</h1>
+              <p className="text-[10px] font-black uppercase tracking-[0.34em] text-secondary mt-1">
+                Strategic Advisory
+              </p>
+            </div>
+          </div>
+
+          <div className="max-w-2xl py-16 lg:py-0">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/70 border border-white px-3 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-slate-500 shadow-sm mb-8">
+              <Database size={14} className="text-secondary" />
+              Dados isolados por usuário Firebase
+            </div>
+            <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.92] text-primary max-w-3xl">
+              Entre para acessar sua carteira de clientes.
+            </h2>
+            <p className="mt-6 text-base sm:text-lg text-slate-600 leading-8 max-w-xl">
+              O painel carrega somente os clientes vinculados ao seu usuário Google no Firestore, usando o identificador seguro da sessão autenticada.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-3 max-w-2xl">
+            {[
+              ['Auth', 'Google Sign-In'],
+              ['Banco', 'Firestore'],
+              ['Escopo', 'ownerId do usuário'],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-2xl bg-white/65 border border-white px-4 py-3 shadow-sm">
+                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-slate-400">{label}</p>
+                <p className="mt-1 text-sm font-black text-primary">{value}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="flex items-center justify-center px-6 pb-10 lg:p-10">
+          <div className="w-full max-w-md rounded-[28px] bg-white border border-white shadow-2xl shadow-slate-900/10 overflow-hidden">
+            <div className="bg-primary text-white p-8">
+              <div className="flex items-center justify-between">
+                <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center">
+                  <Building2 size={26} className="text-secondary" />
+                </div>
+                <div className="flex items-center gap-2 rounded-full bg-emerald-400/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-emerald-200">
+                  <CheckCircle2 size={13} />
+                  Seguro
+                </div>
+              </div>
+              <h3 className="mt-8 text-3xl font-black tracking-tight text-white">Acesso consultivo</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-300">
+                Use sua conta Google para abrir o ambiente financeiro e carregar os registros associados ao seu UID.
+              </p>
+            </div>
+
+            <div className="p-8 space-y-5">
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                disabled={isSigningIn}
+                className="w-full h-14 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-70 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 text-sm font-black text-slate-900 shadow-sm"
+              >
+                {isSigningIn ? (
+                  <Loader2 size={18} className="animate-spin text-secondary" />
+                ) : (
+                  <span className="w-5 h-5 rounded-full bg-white border border-slate-200 flex items-center justify-center text-[11px] font-black text-secondary">
+                    G
+                  </span>
+                )}
+                {isSigningIn ? 'Conectando...' : 'Entrar com Google'}
+              </button>
+
+              {loginError && (
+                <div className="rounded-2xl bg-rose-50 border border-rose-100 px-4 py-3 text-xs font-bold text-rose-700 leading-5">
+                  {loginError}
+                </div>
+              )}
+
+              <div className="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+                <div className="flex items-start gap-3">
+                  <Info size={17} className="text-secondary mt-0.5 shrink-0" />
+                  <p className="text-xs leading-5 text-slate-500">
+                    Depois do login, a busca principal usa <span className="font-black text-slate-700">clients.ownerId</span> igual ao UID do Firebase.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}
+
+function AuthLoadingScreen() {
+  return (
+    <main className="min-h-screen bg-light flex items-center justify-center text-primary">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-14 h-14 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center">
+          <Loader2 size={24} className="animate-spin text-secondary" />
+        </div>
+        <p className="text-[10px] font-black uppercase tracking-[0.24em] text-slate-400">
+          Validando sessão Firebase
+        </p>
+      </div>
+    </main>
+  );
+}
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>(DEFAULT_PAGE);
   const [selectedClient, setSelectedClient] = useState('');
@@ -158,7 +295,8 @@ export default function App() {
     if (authLoading) return;
 
     if (!user) {
-      setClients(DATA.clientes);
+      setClients([]);
+      setSelectedClient('');
       return;
     }
 
@@ -184,7 +322,7 @@ export default function App() {
       }
     }, (error) => {
       console.error("Error fetching clients:", error);
-      setClients(DATA.clientes); // Fallback to sample data on error
+      setClients([]);
     });
 
     return () => unsubscribe();
@@ -229,6 +367,14 @@ export default function App() {
       }
     ] : []
   })), [clients, selectedYear]);
+
+  if (authLoading) {
+    return <AuthLoadingScreen />;
+  }
+
+  if (!user) {
+    return <LoginScreen />;
+  }
 
   return (
     <div className="flex h-screen bg-light overflow-hidden text-primary">

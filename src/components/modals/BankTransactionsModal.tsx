@@ -10,8 +10,17 @@ interface BankTransactionsModalProps {
   onClose: () => void;
 }
 
+type BankTransaction = {
+  id: string;
+  date: string;
+  description: string;
+  amount: number;
+  type: string;
+  category?: string;
+};
+
 export function BankTransactionsModal({ account, onClose }: BankTransactionsModalProps) {
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<BankTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [dateRange, setDateRange] = useState({
@@ -28,7 +37,7 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
           where('accountId', '==', account.id)
         );
         const snap = await getDocs(q);
-        const data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const data = snap.docs.map(d => ({ id: d.id, ...d.data() } as BankTransaction));
         // Sort in memory to avoid needing a composite index
         setTransactions(data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
       } catch (err) {
