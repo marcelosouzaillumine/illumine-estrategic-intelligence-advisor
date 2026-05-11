@@ -46,19 +46,11 @@ import {
   MessageSquare,
   Rocket,
 } from 'lucide-react';
-import * as XLSX from 'xlsx';
-import * as pdfjsLib from 'pdfjs-dist';
-// @ts-ignore
-import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?url';
-
-// Set worker for pdfjs
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch } from 'firebase/firestore';
 import { auth, login, logout, db, handleFirestoreError, OperationType } from './lib/firebase';
 import { DATA, modelData } from './data';
 import { cn, formatValue, formatCurrency, calculateVPL, calculateTIR, calculatePayback } from './lib/utils';
-import { parseExcel, parseTxt, parsePdf, ImportedAccount } from './services/importService';
 import { useFinancialData, useAllFinancialData } from './hooks/useFinancialData';
 import { useRealIndicatorData } from './hooks/useRealIndicatorData';
 import { SYSTEM_KPI_CATEGORIES, MONTH_LABELS, FULL_MONTH_LABELS } from './constants';
@@ -91,6 +83,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { DEFAULT_OPEN_SUBMENUS, DEFAULT_PAGE, FLAT_NAV_ITEMS, NAVIGATION_GROUPS, type Page } from './app/navigation';
 import { renderCurrentPage } from './app/routes';
+import { ClientSelector } from './components/ClientSelector';
 
 function Logo() {
   return (
@@ -140,9 +133,10 @@ function Logo() {
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>(DEFAULT_PAGE);
   const [selectedClient, setSelectedClient] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState(3);
-  const [selectedYear, setSelectedYear] = useState(2026);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [clients, setClients] = useState<any[]>([]);
+  const [expandedGroups, setExpandedGroups] = useState<string[]>(['Dados de Cadastro', 'Análise de Performance', 'Planejamento Estratégico']);
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>(DEFAULT_OPEN_SUBMENUS);
@@ -266,29 +260,81 @@ export default function App() {
                         exit={{ height: 0, opacity: 0 }}
                         className="space-y-0.5 overflow-hidden"
                       >
-                        {group.items.map((item) => (
-                          <button
-                            key={item.id}
-                            onClick={() => setCurrentPage(item.id)}
-                            className={cn(
-                              "w-full flex items-center justify-start text-left gap-3 px-3 py-2 rounded-xl font-bold text-xs transition-all group",
-                              currentPage === item.id 
-                                ? "bg-slate-900 text-white shadow-xl shadow-slate-900/10" 
-                                : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-                            )}
-                          >
-                            <item.icon size={16} className={cn(
-                              "transition-colors",
-                              currentPage === item.id ? "text-secondary" : "text-slate-400 group-hover:text-secondary"
-                            )} />
-                            <span className="tracking-tight">{item.label}</span>
-                            {(item as any).isNew && (
-                              <span className="ml-auto bg-blue-100 text-blue-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
-                                Novo
-                              </span>
-                            )}
-                          </button>
-                        ))}
+                        {group.items.map((item) => {
+                          const hasChildren = item.children && item.children.length > 0;
+                          const isChildActive = hasChildren && item.children?.some(child => child.id === currentPage);
+                          const isActive = currentPage === item.id || isChildActive;
+                          
+                          return (
+                            <div key={item.id} className="space-y-0.5">
+                              <button
+                                onClick={() => {
+                                  if (hasChildren) {
+                                    // If it has children, maybe we just toggle or navigate to parent
+                                    setCurrentPage(item.id);
+                                  } else {
+                                    setCurrentPage(item.id);
+                                  }
+                                }}
+                                className={cn(
+                                  "w-full flex items-center justify-start text-left gap-3 px-3 py-2 rounded-xl font-bold text-xs transition-all group",
+                                  currentPage === item.id 
+                                    ? "bg-slate-900 text-white shadow-xl shadow-slate-900/10" 
+                                    : isActive 
+                                      ? "text-slate-900 bg-slate-50"
+                                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                                )}
+                              >
+                                <item.icon size={16} className={cn(
+                                  "transition-colors",
+                                  currentPage === item.id ? "text-secondary" : "text-slate-400 group-hover:text-secondary"
+                                )} />
+                                <span className="tracking-tight flex-1">{item.label}</span>
+                                {hasChildren && (
+                                  <ChevronDown 
+                                    size={12} 
+                                    className={cn(
+                                      "transition-transform duration-300",
+                                      isActive ? "rotate-180 text-secondary" : "text-slate-300"
+                                    )} 
+                                  />
+                                )}
+                                {(item as any).isNew && !hasChildren && (
+                                  <span className="ml-auto bg-blue-100 text-blue-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
+                                    Novo
+                                  </span>
+                                )}
+                              </button>
+
+                              {hasChildren && isActive && (
+                                <motion.div 
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  className="pl-9 space-y-0.5"
+                                >
+                                  {item.children?.map((child) => (
+                                    <button
+                                      key={child.id}
+                                      onClick={() => setCurrentPage(child.id)}
+                                      className={cn(
+                                        "w-full flex items-center justify-start text-left gap-3 px-3 py-1.5 rounded-lg font-bold text-[11px] transition-all group",
+                                        currentPage === child.id 
+                                          ? "text-primary bg-primary/5" 
+                                          : "text-slate-400 hover:text-slate-900 hover:bg-slate-50"
+                                      )}
+                                    >
+                                      <span className={cn(
+                                        "w-1 h-1 rounded-full",
+                                        currentPage === child.id ? "bg-secondary scale-125" : "bg-slate-300 group-hover:bg-slate-400"
+                                      )} />
+                                      <span className="tracking-tight">{child.label}</span>
+                                    </button>
+                                  ))}
+                                </motion.div>
+                              )}
+                            </div>
+                          );
+                        })}
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -339,23 +385,50 @@ export default function App() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden bg-white">
         {/* Header */}
-        <header className="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-10 shrink-0">
-          <h1 className="text-2xl font-display">{currentPageLabel}</h1>
-          <div className="flex items-center gap-4">
-            <div className="relative group">
+        <header className="sticky top-0 h-20 bg-white/80 backdrop-blur-xl border-b border-slate-100 flex items-center justify-between px-10 shrink-0 z-40">
+          <div className="flex items-center gap-6">
+            <ClientSelector 
+              clients={clients} 
+              selectedClient={selectedClient} 
+              setSelectedClient={setSelectedClient} 
+              onManageClients={() => setCurrentPage('clients')}
+            />
+          </div>
+
+          <div className="flex items-center gap-8">
+            <div className="relative group hidden lg:block">
               <input 
                 type="text" 
-                placeholder="Pesquisar..." 
-                className="pl-10 pr-4 py-2.5 bg-light/50 border-transparent rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-secondary/20 transition-all outline-none w-72" 
+                placeholder="Pesquisar... (⌘K)" 
+                className="pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-100 rounded-xl text-xs font-bold focus:bg-white focus:ring-4 focus:ring-secondary/5 focus:border-secondary/20 transition-all outline-none w-72" 
               />
-              <Search size={16} className="text-slate-400 absolute left-3.5 top-3.5 group-focus-within:text-secondary transition-colors" />
+              <Search size={14} className="text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 group-focus-within:text-secondary transition-colors" />
             </div>
-            <button 
-              onClick={() => window.print()}
-              className="px-6 py-2.5 bg-secondary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:shadow-lg hover:shadow-secondary/20 transition-all"
-            >
-              Gerar Relatório
-            </button>
+            
+            <div className="flex items-center gap-4">
+              <div className="flex items-center bg-slate-50/50 border border-slate-100 p-1 rounded-xl">
+                <button 
+                  onClick={() => window.print()}
+                  className="p-2 text-slate-400 hover:text-primary hover:bg-white rounded-lg transition-all"
+                  title="Imprimir Página"
+                >
+                  <FileSpreadsheet size={18} />
+                </button>
+                <button 
+                  className="p-2 text-slate-400 hover:text-primary hover:bg-white rounded-lg transition-all"
+                  title="Exportar Dados"
+                >
+                  <UploadCloud size={18} />
+                </button>
+              </div>
+
+              <button 
+                className="px-6 py-3 bg-secondary text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:shadow-xl hover:shadow-secondary/30 transition-all active:scale-95 flex items-center gap-2"
+              >
+                <Zap size={14} />
+                Gerar Relatório
+              </button>
+            </div>
           </div>
         </header>
 

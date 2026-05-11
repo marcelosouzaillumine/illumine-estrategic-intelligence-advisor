@@ -1,38 +1,70 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { PageHeader } from '../Common';
 import { formatCurrency, cn } from '../../lib/utils';
 
-import { modelData } from '../../data';
+import { DATA } from '../../data';
+import { useAllFinancialData } from '../../hooks/useFinancialData';
+import { Loader2 } from 'lucide-react';
 
 export function DFCPage({ clients, selectedClient, selectedYear }: any) {
-  const dre = modelData.dreAnual;
-  const lucro = dre.rows.find(r => r.item === 'Lucro Líquido')?.values[0] || 0;
-  const depreciação = Math.abs(dre.rows.find(r => r.item === 'Depreciação e Amortização')?.values[0] || 0);
+  const { dbData, loading } = useAllFinancialData(selectedClient);
+
+  const { lucro, depreciação } = useMemo(() => {
+    // Busca do Firebase
+    const dbDre = dbData.filter(d => d.type === 'DRE' && d.year === selectedYear);
+    
+    let lucroReal = 0;
+    let depReal = 0;
+
+    if (dbDre.length > 0) {
+      const lucroLine = dbDre.find((d: any) => 
+        (d.conta || d.category) === 'Lucro Líquido' || 
+        (d.conta || d.category) === 'Lucro Líquido do Exercício'
+      );
+      const depLine = dbDre.find((d: any) => 
+        (d.conta || d.category) === 'Depreciação e Amortização'
+      );
+      
+      lucroReal = lucroLine?.valor || lucroLine?.value || 0;
+      depReal = Math.abs(depLine?.valor || depLine?.value || 0);
+      return { lucro: lucroReal, depreciação: depReal };
+    }
+
+    // Fallback para mock
+    const mockDre = DATA.dre.filter((d: any) => d.id === selectedClient && d.ano === selectedYear);
+    if (mockDre.length > 0) {
+      lucroReal = mockDre.find(d => d.conta === 'Lucro Líquido')?.valor || 0;
+      depReal = Math.abs(mockDre.find(d => d.conta === 'Depreciação e Amortização')?.valor || 0);
+      return { lucro: lucroReal, depreciação: depReal };
+    }
+
+    return { lucro: 0, depreciação: 0 };
+  }, [dbData, selectedClient, selectedYear]);
 
   const dfcData = [
     { category: 'Atividades Operacionais', items: [
       { item: 'Lucro Líquido do Exercício', valor: lucro },
       { item: 'Ajuste: Depreciação e Amortização', valor: depreciação },
-      { item: '(-) Aumento nas Contas a Receber', valor: -120000 },
-      { item: '(+) Aumento em Fornecedores', valor: 45000 },
-      { item: 'Caixa Líquido das Atividades Operacionais', valor: lucro + depreciação - 120000 + 45000, isSubTotal: true },
+      { item: '(-) Aumento nas Contas a Receber', valor: 0 },
+      { item: '(+) Aumento em Fornecedores', valor: 0 },
+      { item: 'Caixa Líquido das Atividades Operacionais', valor: lucro + depreciação, isSubTotal: true },
     ]},
     { category: 'Atividades de Investimento', items: [
-      { item: 'Aquisição de Imobilizado (CAPEX)', valor: -500000 },
-      { item: 'Venda de Ativos', valor: 20000 },
-      { item: 'Caixa Líquido das Atividades de Investimento', valor: -480000, isSubTotal: true },
+      { item: 'Aquisição de Imobilizado (CAPEX)', valor: 0 },
+      { item: 'Venda de Ativos', valor: 0 },
+      { item: 'Caixa Líquido das Atividades de Investimento', valor: 0, isSubTotal: true },
     ]},
     { category: 'Atividades de Financiamento', items: [
-      { item: 'Ingressos de Empréstimos Bancários', valor: 250000 },
-      { item: 'Amortização de Empréstimos / Financiamentos', valor: -180000 },
-      { item: 'Pagamento de Dividendos', valor: -150000 },
-      { item: 'Caixa Líquido das Atividades de Financiamento', valor: -80000, isSubTotal: true },
+      { item: 'Ingressos de Empréstimos Bancários', valor: 0 },
+      { item: 'Amortização de Empréstimos / Financiamentos', valor: 0 },
+      { item: 'Pagamento de Dividendos', valor: 0 },
+      { item: 'Caixa Líquido das Atividades de Financiamento', valor: 0, isSubTotal: true },
     ]},
     { category: 'Resumo do Caixa', items: [
-      { item: 'Aumento / Redução de Caixa e Equivalentes', valor: (lucro + depreciação - 120000 + 45000) - 480000 - 80000, isTotal: true },
-      { item: 'Saldo Inicial de Caixa e Equivalentes', valor: 1200000 },
-      { item: 'Saldo Final de Caixa e Equivalentes', valor: 1200000 + ((lucro + depreciação - 120000 + 45000) - 480000 - 80000), isTotal: true },
+      { item: 'Aumento / Redução de Caixa e Equivalentes', valor: lucro + depreciação, isTotal: true },
+      { item: 'Saldo Inicial de Caixa e Equivalentes', valor: 0 },
+      { item: 'Saldo Final de Caixa e Equivalentes', valor: lucro + depreciação, isTotal: true },
     ]}
   ];
 
@@ -43,6 +75,12 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
           title="DFC" 
           description="Demonstração do Fluxo de Caixa (Método Indireto)"
         />
+        {loading && (
+          <div className="flex items-center text-slate-400 text-sm font-semibold">
+            <Loader2 size={16} className="animate-spin mr-2" />
+            Carregando dados...
+          </div>
+        )}
       </div>
 
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden p-8">

@@ -1,0 +1,71 @@
+id: plano-contas-gerencial
+title: Renomear Plano de Contas e Criar Plano de Contas Gerencial
+status: Draft
+workflow: story-development-cycle
+mode: interactive
+created_at: '2026-05-11'
+owner: dev
+
+problem: >
+  A aplicação atualmente possui apenas um Plano de Contas genérico (Contábil).
+  É necessário diferenciar o Plano Contábil do Plano Gerencial, permitindo que o usuário
+  crie e gerencie ambos, importe dados de múltiplos formatos e vincule as contas gerenciais
+  às contas contábeis para uma visão integrada.
+
+business_value: >
+  Permite uma gestão financeira mais granular, possibilitando que a contabilidade (fatos)
+  seja traduzida para uma visão gerencial (decisão) customizada para cada cliente.
+
+scope:
+  in:
+    - Renomear "Plano de Contas" para "Plano de Contas Contábil" em toda a UI.
+    - Criar interface para o "Plano de Contas Gerencial".
+    - Suporte a importação de Excel, TXT, PDF e DOC (ou instrução de conversão para DOC).
+    - Exclusão individual e total de planos.
+    - Mapeamento inteligente entre Gerencial e Contábil.
+    - Persistência no Firestore com distinção de tipo de plano.
+  out:
+    - Alteração profunda nos cálculos de DRE (será tratado em story futura).
+    - Integração automática com ERPs externos.
+
+acceptance_criteria:
+  - id: AC1
+    given: a navegação lateral
+    when: o usuário visualiza o menu
+    then: deve aparecer "Plano de Contas Contábil" e "Plano de Contas Gerencial".
+  - id: AC2
+    given: a página de importação
+    when: o usuário faz upload de um arquivo
+    then: deve ser possível escolher se o destino é o plano Contábil ou Gerencial.
+  - id: AC3
+    given: o plano de contas gerencial
+    when: o usuário edita uma conta
+    then: deve ser possível selecionar uma ou mais contas contábeis para vínculo.
+  - id: AC4
+    given: a exclusão de um plano
+    when: o usuário confirma a exclusão total
+    then: apenas as contas do tipo selecionado (contábil ou gerencial) devem ser removidas para o cliente.
+
+tasks:
+  - [ ] Atualizar src/app/navigation.ts com os novos itens de menu.
+  - [ ] Modificar src/components/pages/PlanoDeContasPage.tsx para aceitar o tipo de plano.
+  - [ ] Atualizar src/components/modals/ImportPlanoModal.tsx para suportar a seleção do tipo de plano.
+  - [ ] Implementar a lógica de vínculo (accountingAccountIds) no cadastro de contas gerenciais.
+  - [ ] Adicionar suporte a arquivos .doc no importService.ts (ou fallback informativo).
+  - [ ] Validar exclusão individual e total para ambos os planos.
+
+risks:
+  - Conflito de códigos entre plano contábil e gerencial se não forem bem distinguidos no banco.
+  - Performance na listagem se o plano for muito extenso (usar paginação ou virtualização se necessário).
+
+dependencies:
+  - src/app/navigation.ts
+  - src/components/pages/PlanoDeContasPage.tsx
+  - src/components/modals/ImportPlanoModal.tsx
+  - src/services/importService.ts
+
+definition_of_done:
+  - [ ] UI refatorada e consistente.
+  - [ ] Importação funcionando para ambos os planos.
+  - [ ] Vínculo Gerencial -> Contábil persistindo corretamente.
+  - [ ] npm run lint & typecheck sem erros.

@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, X, Activity, ShieldCheck, TrendingUp, TrendingDown, Settings2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { 
   BarChart, 
   Bar, 
@@ -18,6 +18,8 @@ import {
 import { PageHeader, StatusBadge } from '../Common';
 import { DATA } from '../../data';
 import { formatCurrency, calculateVPL, calculateTIR, calculatePayback, cn } from '../../lib/utils';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 
 export function ViabilityScenario({ project }: { project: any }) {
   const [discountRate, setDiscountRate] = useState(2.0); // 2% a.m. default
@@ -231,7 +233,7 @@ export function ViabilityScenario({ project }: { project: any }) {
 }
 
 export function ViabilityPage({ selectedClient, clients }: { selectedClient: string, clients: any[] }) {
-  const [projects, setProjects] = useState(DATA.viabilidade);
+  const [projects, setProjects] = useState<any[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [newProj, setNewProj] = useState({
     cl: selectedClient || (clients[0]?.id || ''),
@@ -241,7 +243,24 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
     conclusao: 'Em Análise'
   });
 
-  const filteredProjects = projects.filter(v => v.cl === selectedClient);
+  useEffect(() => {
+    if (!selectedClient) {
+      setProjects(DATA.viabilidade);
+      return;
+    }
+    const q = query(collection(db, 'viability_projects'), where('cl', '==', selectedClient));
+    getDocs(q).then(snap => {
+      const dataProjects = DATA.viabilidade.filter((v: any) => v.cl === selectedClient);
+      if (!snap.empty) {
+        const docs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setProjects([...docs, ...dataProjects]);
+      } else {
+        setProjects(dataProjects);
+      }
+    });
+  }, [selectedClient]);
+
+  const filteredProjects = projects;
 
   const handleAddProject = () => {
     if (!newProj.nome) return;

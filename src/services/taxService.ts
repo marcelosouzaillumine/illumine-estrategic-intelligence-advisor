@@ -50,7 +50,9 @@ export const calculatePayrollBurdens = (salarioBase: number, config: {
   
   // IRRF Calculation
   const irrfBase = salarioBase - (salarioBase * (config.inssFuncionario / 100)); // Simplified: Base - INSS Func
-  const irrfFaixa = config.tabelaIRRF.find(f => irrfBase <= f.base) || config.tabelaIRRF[config.tabelaIRRF.length - 1];
+  const irrfFaixa = (config.tabelaIRRF && config.tabelaIRRF.length > 0) ? 
+    (config.tabelaIRRF.find(f => irrfBase <= f.base) || config.tabelaIRRF[config.tabelaIRRF.length - 1]) : 
+    { aliquota: 0, deducao: 0 };
   const irrfValue = (irrfBase * (irrfFaixa.aliquota / 100)) - irrfFaixa.deducao;
 
   const custoTotal = salarioBase + fgts + inssPatronal;
@@ -62,5 +64,59 @@ export const calculatePayrollBurdens = (salarioBase: number, config: {
     irrfValue: Math.max(0, irrfValue),
     provisionFerias13,
     custoTotal: custoTotal + provisionFerias13
+  };
+};
+
+export const calculateSeverance = (
+  salarioBase: number, 
+  admissao: string, 
+  config: { multaFgts: number },
+  options: { avisoIndenizado: boolean } = { avisoIndenizado: true }
+) => {
+  const dataAdmissao = new Date(admissao);
+  const dataHoje = new Date();
+  
+  // Tenure in months and years
+  const diffTime = Math.abs(dataHoje.getTime() - dataAdmissao.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const diffMonths = diffDays / 30.44;
+  const fullYears = Math.floor(diffDays / 365);
+  
+  // 1. Aviso Prévio (Indemnified)
+  // Law 12.506/2011: 30 days + 3 days per full year (max 90 days)
+  let diasAviso = 0;
+  let valorAviso = 0;
+  if (options.avisoIndenizado) {
+    diasAviso = Math.min(90, 30 + (fullYears * 3));
+    valorAviso = (salarioBase / 30) * diasAviso;
+  }
+
+  // 2. Multa FGTS (Estimated)
+  // Estimated FGTS balance = 8% of salary per month
+  const saldoFgtsEstimado = (salarioBase * 0.08) * diffMonths;
+  const valorMultaFgts = saldoFgtsEstimado * (config.multaFgts / 100);
+
+  // 3. 13º Proporcional (current year)
+  const mesesNoAno = dataHoje.getMonth() + 1;
+  const decimoTerceiroProp = (salarioBase / 12) * mesesNoAno;
+
+  // 4. Férias Proporcionais + 1/3
+  // Simplified: months since admission modulo 12
+  const mesesFerias = Math.floor(diffMonths % 12) || 12;
+  const feriasProp = (salarioBase / 12) * mesesFerias;
+  const umTercoFerias = feriasProp / 3;
+
+  const totalRescisao = valorAviso + valorMultaFgts + decimoTerceiroProp + feriasProp + umTercoFerias;
+
+  return {
+    diasAviso,
+    valorAviso,
+    valorMultaFgts,
+    decimoTerceiroProp,
+    feriasProp,
+    umTercoFerias,
+    totalRescisao,
+    tenureYears: fullYears,
+    tenureMonths: Math.floor(diffMonths)
   };
 };

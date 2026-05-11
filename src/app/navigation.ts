@@ -52,6 +52,7 @@ export type Page =
   | 'contas_pagar'
   | 'contas_receber'
   | 'plano_contas'
+  | 'plano_contas_gerencial'
   | 'compras'
   | 'posicao_financeira'
   | 'advisory_insights'
@@ -62,6 +63,9 @@ export type Page =
   | 'diagnostico'
   | 'okrs'
   | 'precificacao'
+  | 'fiscal_tributario'
+  | 'quadro_pessoal'
+  | 'custos_pessoal'
   | 'relatorio_executivo';
 
 export interface NavigationItem {
@@ -69,6 +73,7 @@ export interface NavigationItem {
   label: string;
   icon: LucideIcon;
   isNew?: boolean;
+  children?: NavigationItem[];
 }
 
 export interface NavigationGroup {
@@ -80,7 +85,7 @@ export const DEFAULT_PAGE: Page = 'portfolio';
 
 export const DEFAULT_OPEN_SUBMENUS: Record<string, boolean> = {
   'Gestão Financeira': true,
-  'Banco de Dados': true,
+  'Dados de Cadastro': true,
   'Conselho & Estratégia CFO': true,
 };
 
@@ -99,12 +104,22 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     ],
   },
   {
-    group: 'Banco de Dados',
+    group: 'Dados de Cadastro',
     items: [
-      { id: 'clientes', label: 'Gestão de Clientes', icon: Users },
-      { id: 'dados_historicos', label: 'Dados Históricos', icon: Database },
-      { id: 'plano_contas', label: 'Plano de Contas', icon: List },
-      { id: 'premissas_cliente', label: 'Premissas do Cliente', icon: Settings2 },
+      { 
+        id: 'clientes_root' as any, 
+        label: 'Empresas', 
+        icon: Users,
+        children: [
+          { id: 'clientes', label: 'Dados Cadastrais', icon: FileText },
+          { id: 'dados_historicos', label: 'Dados Históricos', icon: Database },
+          { id: 'plano_contas', label: 'Plano de Contas Contábil', icon: List },
+          { id: 'plano_contas_gerencial', label: 'Plano de Contas Gerencial', icon: List, isNew: true },
+          { id: 'premissas_cliente', label: 'Premissas', icon: Settings2 },
+          { id: 'quadro_pessoal', label: 'Quadro de Pessoal', icon: Users },
+          { id: 'fiscal_tributario', label: 'Fiscal & Tributário', icon: ShieldCheck },
+        ]
+      },
       { id: 'premissas_economicas', label: 'Premissas Econômicas', icon: Globe },
       { id: 'premissas_tributarias', label: 'Premissas Tributárias', icon: Landmark },
     ],
@@ -122,7 +137,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Estratégia & Direção',
     items: [
       { id: 'diretrizes', label: 'Diretrizes (MVV)', icon: Target, isNew: true },
-      { id: 'diagnostico', label: 'Diagnóstico (FIV)', icon: ShieldCheck, isNew: true },
+      { id: 'diagnostico', label: 'Diagnóstico (IVE)', icon: ShieldCheck, isNew: true },
       { id: 'okrs', label: 'OKRs & Metas', icon: TrendingUp, isNew: true },
     ],
   },
@@ -136,7 +151,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'contas_pagar', label: 'Contas a Pagar', icon: CreditCard },
       { id: 'contas_receber', label: 'Contas a Receber', icon: ArrowUpRight },
       { id: 'compras', label: 'Gestão de Compras', icon: ShoppingBag },
-      { id: 'pessoal', label: 'Custos com Pessoal', icon: Users },
+      { id: 'custos_pessoal', label: 'Custos com Pessoal', icon: Users },
       { id: 'emprestimos', label: 'Empréstimos', icon: WalletCards },
     ],
   },
@@ -156,4 +171,14 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
   },
 ];
 
-export const FLAT_NAV_ITEMS = NAVIGATION_GROUPS.flatMap((group) => group.items);
+const flattenItems = (items: NavigationItem[]): NavigationItem[] => {
+  return items.reduce((acc, item) => {
+    acc.push(item);
+    if (item.children) {
+      acc.push(...flattenItems(item.children));
+    }
+    return acc;
+  }, [] as NavigationItem[]);
+};
+
+export const FLAT_NAV_ITEMS = flattenItems(NAVIGATION_GROUPS.flatMap(group => group.items));

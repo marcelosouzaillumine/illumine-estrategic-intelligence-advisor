@@ -12,7 +12,7 @@ import {
   Calculator, 
   Info 
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { 
   collection, 
   query, 
@@ -57,19 +57,9 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [accounts, setAccounts] = useState<any[]>([]);
   const [assumptions, setAssumptions] = useState<any>({
-    receitas: [
-      { tipo: 'Vendas à Vista', descasamento: 0, accountId: '' },
-      { tipo: 'Cartão de Crédito', descasamento: 30, accountId: '' },
-      { tipo: 'Convênios', descasamento: 60, accountId: '' },
-      { tipo: 'SUS', descasamento: 90, accountId: '' }
-    ],
-    custos: [
-      { tipo: 'Fornecedores MP', descasamento: 30, accountId: '' },
-      { tipo: 'Insumos Médicos', descasamento: 45, accountId: '' },
-      { tipo: 'Serviços Terceiros', descasamento: 30, accountId: '' },
-      { tipo: 'Folha Pagamento', descasamento: 5, accountId: '' }
-    ],
-    crescimento: 15 // %
+    receitas: [],
+    custos: [],
+    crescimento: 0
   });
 
   useEffect(() => {
@@ -89,30 +79,27 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
           setAssumptions(data);
         } else {
           setAssumptions({
-            receitas: [
-              { tipo: 'Vendas à Vista', descasamento: 0, accountId: '' },
-              { tipo: 'Cartão de Crédito', descasamento: 30, accountId: '' },
-              { tipo: 'Convênios', descasamento: 60, accountId: '' },
-              { tipo: 'SUS', descasamento: 90, accountId: '' }
-            ],
-            custos: [
-              { tipo: 'Fornecedores MP', descasamento: 30, accountId: '' },
-              { tipo: 'Insumos Médicos', descasamento: 45, accountId: '' },
-              { tipo: 'Serviços Terceiros', descasamento: 30, accountId: '' },
-              { tipo: 'Folha Pagamento', descasamento: 5, accountId: '' }
-            ],
-            crescimento: 15
+            receitas: [],
+            custos: [],
+            crescimento: 0
           });
         }
 
-        // Fetch Accounts
+        // Fetch All Accounts for client to avoid composite index issues with planType
         const qAccounts = query(
           collection(db, 'account_plans'),
           where('clientId', '==', selectedClient),
           orderBy('code', 'asc')
         );
         const snapAccounts = await getDocs(qAccounts);
-        const accountsData = snapAccounts.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const allAccounts = snapAccounts.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
+
+        // Prioritize Managerial Plan
+        const managerial = allAccounts.filter(a => a.planType === 'managerial');
+        const accounting = allAccounts.filter(a => a.planType === 'accounting');
+        
+        let accountsData = managerial.length > 0 ? managerial : (accounting.length > 0 ? accounting : allAccounts);
+        
         setAccounts(accountsData.length > 0 ? accountsData : DATA.accountPlanPadrão);
         
       } catch (e) {
@@ -166,7 +153,13 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
   const addEntry = (category: 'receitas' | 'custos') => {
     setAssumptions({
       ...assumptions,
-      [category]: [...assumptions[category], { tipo: 'Novo Item', descasamento: 0, accountId: '' }]
+      [category]: [...assumptions[category], { 
+        tipo: 'Novo Item', 
+        descasamento: 0, 
+        accountId: '',
+        parcelas: 1,
+        intervalo: 30
+      }]
     });
   };
 
@@ -263,7 +256,9 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
               <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipo de Receita</th>
-                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Dias (Delay)</th>
+                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Delay (Dias)</th>
+                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Parcelas</th>
+                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Intervalo</th>
                   <th className="px-6 py-4 text-right"></th>
                 </tr>
               </thead>
@@ -287,9 +282,9 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         className="w-full text-sm font-bold text-slate-700 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100 outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all"
                       >
                         <option value="">Selecione uma conta de receita...</option>
-                        {accounts.filter(a => a.type === 'Receita').map(acc => (
+                        {accounts.filter(a => a.type?.toLowerCase().includes('receita')).map(acc => (
                           <option key={acc.id || acc.code} value={acc.id || acc.code}>
-                            {acc.code} - {acc.name}
+                            {"\u00A0".repeat(((acc.level || 1) - 1) * 3)}{acc.code} - {acc.name}
                           </option>
                         ))}
                       </select>
@@ -303,9 +298,30 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           type="number" 
                           value={item.descasamento}
                           onChange={(e) => updateEntry('receitas', idx, 'descasamento', parseInt(e.target.value) || 0)}
-                          className="w-16 text-center text-sm font-black text-emerald-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-emerald-500"
+                          className="w-14 text-center text-sm font-black text-emerald-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-emerald-500"
                         />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">dias</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <input 
+                        type="number" 
+                        min="1"
+                        value={item.parcelas || 1}
+                        onChange={(e) => updateEntry('receitas', idx, 'parcelas', parseInt(e.target.value) || 1)}
+                        className="w-12 text-center text-sm font-black text-slate-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-emerald-500"
+                      />
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <div className={cn("flex items-center justify-center gap-2", (item.parcelas || 1) <= 1 && "opacity-20 pointer-events-none")}>
+                        <input 
+                          type="number" 
+                          min="0"
+                          value={item.intervalo || 30}
+                          onChange={(e) => updateEntry('receitas', idx, 'intervalo', parseInt(e.target.value) || 0)}
+                          className="w-14 text-center text-sm font-black text-slate-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-emerald-500"
+                        />
+                        <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right">
@@ -350,7 +366,9 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
               <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipo de Custo/Despesa</th>
-                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Dias (Prazo)</th>
+                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Prazo (Dias)</th>
+                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Parcelas</th>
+                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Intervalo</th>
                   <th className="px-6 py-4 text-right"></th>
                 </tr>
               </thead>
@@ -374,9 +392,12 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         className="w-full text-sm font-bold text-slate-700 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100 outline-none focus:ring-2 focus:ring-rose-500/10 transition-all"
                       >
                         <option value="">Selecione uma conta de custo/despesa...</option>
-                        {accounts.filter(a => a.type === 'Custo' || a.type === 'Despesa').map(acc => (
+                        {accounts.filter(a => {
+                          const type = a.type?.toLowerCase() || '';
+                          return type.includes('despesa') || type.includes('custo');
+                        }).map(acc => (
                           <option key={acc.id || acc.code} value={acc.id || acc.code}>
-                            {acc.code} - {acc.name}
+                            {"\u00A0".repeat(((acc.level || 1) - 1) * 3)}{acc.code} - {acc.name}
                           </option>
                         ))}
                       </select>
@@ -390,9 +411,30 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           type="number" 
                           value={item.descasamento}
                           onChange={(e) => updateEntry('custos', idx, 'descasamento', parseInt(e.target.value) || 0)}
-                          className="w-16 text-center text-sm font-black text-rose-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-rose-500"
+                          className="w-14 text-center text-sm font-black text-rose-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-rose-500"
                         />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">dias</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <input 
+                        type="number" 
+                        min="1"
+                        value={item.parcelas || 1}
+                        onChange={(e) => updateEntry('custos', idx, 'parcelas', parseInt(e.target.value) || 1)}
+                        className="w-12 text-center text-sm font-black text-slate-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-rose-500"
+                      />
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <div className={cn("flex items-center justify-center gap-2", (item.parcelas || 1) <= 1 && "opacity-20 pointer-events-none")}>
+                        <input 
+                          type="number" 
+                          min="0"
+                          value={item.intervalo || 30}
+                          onChange={(e) => updateEntry('custos', idx, 'intervalo', parseInt(e.target.value) || 0)}
+                          className="w-14 text-center text-sm font-black text-slate-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-rose-500"
+                        />
+                        <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right">

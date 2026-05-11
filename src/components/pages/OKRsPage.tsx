@@ -23,8 +23,7 @@ import { cn, formatValue, formatCurrency } from '../../lib/utils';
 import { SectionHeader } from '../Common';
 
 const EIXOS: EixoGestao[] = [
-  'Gestão Financeira', 'Gestão Comercial', 'Gestão Operacional', 'Gestão de Pessoas', 
-  'Gestão Administrativa', 'Governança', 'Cultura', 'Inovação', 'Avaliação de Riscos'
+  'Governança', 'Cultura', 'Inovação', 'Comercial', 'Operacional', 'Gestão', 'Marketing'
 ];
 
 interface OKRsPageProps {
@@ -39,11 +38,13 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
 
   const [formData, setFormData] = useState<Partial<ObjetivoOKR>>({
     titulo: '',
-    eixo: 'Gestão Financeira',
+    eixo: 'Governança',
     responsavel: '',
     periodo: 'Q1 2026',
     keyResults: []
   });
+  const [trimestre, setTrimestre] = useState('Q1');
+  const [ano, setAno] = useState('2026');
 
   // Business Logic: Auto-calculate financial KRs
   const enrichedData = useMemo(() => {
@@ -102,14 +103,16 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const payload = { ...formData, periodo: `${trimestre} ${ano}` };
     if (editingId) {
-      await update(editingId, formData);
+      await update(editingId, payload);
       setEditingId(null);
     } else {
-      await add(formData);
+      await add(payload);
       setShowForm(false);
     }
-    setFormData({ titulo: '', eixo: 'Gestão Financeira', responsavel: '', periodo: 'Q1 2026', keyResults: [] });
+    setFormData({ titulo: '', eixo: 'Governança', responsavel: '', periodo: 'Q1 2026', keyResults: [] });
+    setTrimestre('Q1'); setAno('2026');
   };
 
   if (loading) return <div>Carregando...</div>;
@@ -166,11 +169,16 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                  </div>
                  <div>
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2 px-1">Período</label>
-                    <input 
-                      value={formData.periodo}
-                      onChange={e => setFormData({...formData, periodo: e.target.value})}
-                      className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-black font-display text-primary outline-none"
-                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      <select value={trimestre} onChange={e => setTrimestre(e.target.value)}
+                        className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-black font-display text-primary outline-none">
+                        {['Q1','Q2','Q3','Q4'].map(q => <option key={q} value={q}>{q}</option>)}
+                      </select>
+                      <select value={ano} onChange={e => setAno(e.target.value)}
+                        className="w-full px-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-black font-display text-primary outline-none">
+                        {['2024','2025','2026','2027','2028'].map(y => <option key={y} value={y}>{y}</option>)}
+                      </select>
+                    </div>
                  </div>
                </div>
 

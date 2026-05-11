@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { X, Save, Link2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { SYSTEM_KPI_CATEGORIES } from '../../constants';
+import { suggestMapping } from '../../services/importService';
 
 interface Account {
   id?: string;
@@ -12,6 +13,8 @@ interface Account {
   level: number;
   status: string;
   kpiMapping?: string;
+  planType?: 'accounting' | 'managerial';
+  accountingAccountIds?: string[];
 }
 
 interface AccountModalProps {
@@ -20,15 +23,27 @@ interface AccountModalProps {
   onSave: (data: any) => void;
   accountTypes: string[];
   existingAccounts: Account[];
+  planType?: 'accounting' | 'managerial';
+  accountingAccounts?: Account[];
 }
 
-export function AccountModal({ account, onClose, onSave, accountTypes, existingAccounts }: AccountModalProps) {
+export function AccountModal({ 
+  account, 
+  onClose, 
+  onSave, 
+  accountTypes, 
+  existingAccounts,
+  planType = 'accounting',
+  accountingAccounts = []
+}: AccountModalProps) {
   const [formData, setFormData] = useState<Account>(account || {
     code: '',
     name: '',
     type: 'Ativo',
     level: 1,
-    status: 'Ativa'
+    status: 'Ativa',
+    planType,
+    accountingAccountIds: []
   });
   const [touched, setTouched] = useState({
     code: false,
@@ -100,7 +115,9 @@ export function AccountModal({ account, onClose, onSave, accountTypes, existingA
         <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <div>
             <h3 className="text-xl font-bold text-slate-900">{account ? 'Editar Conta' : 'Nova Conta no Plano'}</h3>
-            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-bold">Cadastro de item do plano de contas</p>
+            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-bold">
+              {planType === 'accounting' ? 'Plano de Contas Contábil' : 'Plano de Contas Gerencial'}
+            </p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>
         </div>
@@ -108,7 +125,9 @@ export function AccountModal({ account, onClose, onSave, accountTypes, existingA
         <div className="p-8 space-y-6">
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Código Contábil</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">
+                {planType === 'accounting' ? 'Código Contábil' : 'Código Gerencial'}
+              </label>
               <input 
                 type="text" 
                 placeholder="Ex: 1.1.01"
@@ -197,6 +216,55 @@ export function AccountModal({ account, onClose, onSave, accountTypes, existingA
             </select>
             <p className="text-[9px] text-slate-400 mt-1 italic">Vincule esta conta a um indicador para que os dados importados alimentem os KPIs automaticamente.</p>
           </div>
+
+          {planType === 'managerial' && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between px-1">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conexão com Plano Contábil</label>
+                <button 
+                  onClick={() => {
+                    const suggested = suggestMapping(formData.name, accountingAccounts);
+                    if (suggested.length > 0) {
+                      setFormData({ ...formData, accountingAccountIds: [...new Set([...(formData.accountingAccountIds || []), ...suggested])] });
+                    } else {
+                      alert('Nenhuma sugestão encontrada por similaridade de nome.');
+                    }
+                  }}
+                  className="text-[9px] font-black text-secondary uppercase tracking-widest hover:underline"
+                >
+                  Sugerir Vínculos
+                </button>
+              </div>
+              <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 max-h-48 overflow-y-auto space-y-2">
+                {accountingAccounts.length === 0 ? (
+                  <p className="text-[11px] text-slate-400 italic text-center py-4">Nenhuma conta contábil cadastrada para vincular.</p>
+                ) : (
+                  accountingAccounts.map(acc => (
+                    <label key={acc.id} className="flex items-center gap-3 p-2 hover:bg-white rounded-lg transition-all cursor-pointer group">
+                      <input 
+                        type="checkbox"
+                        checked={(formData.accountingAccountIds || []).includes(acc.id!)}
+                        onChange={e => {
+                          const ids = formData.accountingAccountIds || [];
+                          if (e.target.checked) {
+                            setFormData({ ...formData, accountingAccountIds: [...ids, acc.id!] });
+                          } else {
+                            setFormData({ ...formData, accountingAccountIds: ids.filter(id => id !== acc.id) });
+                          }
+                        }}
+                        className="w-4 h-4 rounded border-slate-300 text-secondary focus:ring-secondary/20 transition-all"
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-[11px] font-black text-slate-700 group-hover:text-primary transition-colors">{acc.name}</span>
+                        <span className="text-[9px] font-mono font-bold text-slate-400">{acc.code}</span>
+                      </div>
+                    </label>
+                  ))
+                )}
+              </div>
+              <p className="text-[9px] text-slate-400 px-1 italic">Selecione as contas contábeis que compõem esta conta gerencial.</p>
+            </div>
+          )}
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">

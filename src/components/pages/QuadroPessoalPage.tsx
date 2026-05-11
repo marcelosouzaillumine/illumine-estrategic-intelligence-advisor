@@ -1,0 +1,68 @@
+import React, { useState, useEffect } from 'react';
+import { Users, Loader2, AlertCircle } from 'lucide-react';
+import { onSnapshot, doc } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
+import { PageHeader } from '../Common';
+import { EmployeeManager } from '../EmployeeManager';
+
+interface QuadroPessoalPageProps {
+  clientId: string;
+}
+
+export function QuadroPessoalPage({ clientId }: QuadroPessoalPageProps) {
+  const [loading, setLoading] = useState(true);
+  const [clientData, setClientData] = useState<any>(null);
+
+  useEffect(() => {
+    if (!clientId) return;
+    setLoading(true);
+    
+    const unsub = onSnapshot(doc(db, 'clients', clientId), (snap) => {
+      if (snap.exists()) {
+        setClientData({ id: snap.id, ...snap.data() });
+      }
+      setLoading(false);
+    }, (err) => {
+      console.error("Error fetching client for quadro pessoal:", err);
+      setLoading(false);
+    });
+
+    return () => unsub();
+  }, [clientId]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 gap-4">
+        <Loader2 className="animate-spin text-secondary" size={32} />
+        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Carregando quadro de pessoal...</p>
+      </div>
+    );
+  }
+
+  if (!clientId) {
+    return (
+      <div className="bg-slate-50 border border-slate-100 p-12 rounded-[32px] text-center space-y-4">
+        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-slate-300 mx-auto shadow-sm">
+          <Users size={32} />
+        </div>
+        <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Nenhuma Empresa Selecionada</h4>
+        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest max-w-[250px] mx-auto">
+          Selecione uma empresa no topo da página para gerenciar o quadro de pessoal.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-8 pb-32">
+      <PageHeader 
+        title="Quadro de Pessoal" 
+        description={`Gestão e cadastro de colaboradores para ${clientData?.fantasia || 'a empresa'}.`}
+      />
+
+      <div className="bg-white p-2 rounded-[32px] border border-slate-200 shadow-sm overflow-hidden">
+        <EmployeeManager clientId={clientId} clientConfig={clientData} />
+      </div>
+    </div>
+  );
+}

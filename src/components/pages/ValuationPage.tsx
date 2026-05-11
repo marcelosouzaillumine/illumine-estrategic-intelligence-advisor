@@ -32,8 +32,15 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
   // Logic: if DB has data for the reference month, use it. Otherwise use annualized mock data.
   const hasDbData = dbData.length > 0;
   
-  const currentRevenue = hasDbData ? dbData.find(d => d.category === 'Receita Líquida')?.value || 0 : (mockTotalRevenue / monthsInMock);
-  const currentEbitda = hasDbData ? dbData.find(d => d.category === 'EBITDA')?.value || 0 : (mockTotalEbitda / monthsInMock);
+  const currentRevenue = hasDbData ? 
+    (dbData.find((d: any) => d.category === 'Receita Líquida' || d.category === 'Receita Operacional Bruta')?.value || 0) : 0;
+  
+  let currentEbitda = hasDbData ? (dbData.find((d: any) => d.category === 'EBITDA')?.value || 0) : 0;
+  if (hasDbData && currentEbitda === 0) {
+    const ebit = dbData.find((d: any) => d.category === 'Lucro Operacional (EBIT)')?.value || 0;
+    const da = Math.abs(dbData.find((d: any) => d.category === 'Depreciação e Amortização')?.value || 0);
+    currentEbitda = ebit + da;
+  }
 
   const anualizedEbitda = currentEbitda * 12;
   const anualizedRevenue = currentRevenue * 12;

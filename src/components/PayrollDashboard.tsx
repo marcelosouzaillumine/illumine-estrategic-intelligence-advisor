@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { 
   BarChart, 
   Bar, 
@@ -31,7 +31,7 @@ import {
 import { cn, formatCurrency } from '../lib/utils';
 import { useDataTable } from '../hooks/useDataTable';
 import { SortableHeader } from './SortableHeader';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, doc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 const CHART_COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
@@ -64,10 +64,9 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
     setLoading(true);
     
     // Fetch Client basic info
-    const unsubClient = onSnapshot(collection(db, 'clients'), (snap) => {
-      const client = snap.docs.find(d => d.id === clientId);
-      if (client) {
-        setClientInfo(client.data());
+    const unsubClient = onSnapshot(doc(db, 'clients', clientId), (snap) => {
+      if (snap.exists()) {
+        setClientInfo(snap.data());
       }
     });
 
@@ -296,7 +295,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
           { label: 'Base Salarial', val: summary.salaryBase, icon: Briefcase },
           { label: 'Encargos (INSS/FGTS)', val: summary.charges, icon: AlertCircle },
           { label: 'Provisões (13º/Férias)', val: summary.provisions, icon: Clock },
-          { label: 'Risco Rescisório', val: summary.severance, icon: AlertCircle, variant: 'red' }
+          { label: 'Risco Rescisório Total', val: summary.severance, icon: AlertCircle, variant: 'red' }
         ].map((kpi, idx) => (
           <div key={idx} className="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 flex items-center gap-4 group">
             <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center transition-all", kpi.variant === 'red' ? 'bg-red-50 text-red-500' : 'bg-white text-slate-400 border border-slate-100 group-hover:text-secondary group-hover:border-secondary/30')}>
@@ -308,6 +307,33 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Severance Detailed Breakdown */}
+      <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-red-500">
+            <AlertCircle size={20} />
+          </div>
+          <div>
+            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">Provisão de Rescisão (Simulação)</h3>
+            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Estimativa baseada em demissão sem justa causa para todo o quadro atual</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {[
+            { label: 'Aviso Prévio Indenizado', val: employees.reduce((acc, e) => acc + (e as any).valorAviso || 0, 0), icon: Clock },
+            { label: 'Multa FGTS (Est.)', val: employees.reduce((acc, e) => acc + (e as any).valorMultaFgts || 0, 0), icon: DollarSign },
+            { label: '13º e Férias Prop.', val: employees.reduce((acc, e) => acc + ((e as any).decimoTerceiroProp || 0) + ((e as any).feriasProp || 0) + ((e as any).umTercoFerias || 0), 0), icon: TrendingUp },
+            { label: 'TOTAL RISCO ESTIMADO', val: summary.severance, icon: AlertCircle, highlight: true }
+          ].map((item, idx) => (
+            <div key={idx} className={cn("p-4 rounded-2xl border transition-all", item.highlight ? "bg-slate-900 border-slate-900 text-white" : "bg-slate-50 border-slate-100")}>
+              <p className={cn("text-[8px] font-black uppercase tracking-widest mb-1", item.highlight ? "text-slate-400" : "text-slate-400")}>{item.label}</p>
+              <p className={cn("text-xl font-display", item.highlight ? "text-white" : "text-primary")}>{formatCurrency(item.val)}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Visual Analytics */}
@@ -495,6 +521,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
                 <SortableHeader label="Vínculo" sortKey="tipoContrato" currentSort={sort} onSort={toggleSort} />
                 <SortableHeader label="Status" sortKey="status" currentSort={sort} onSort={toggleSort} />
                 <SortableHeader label="Custo Mensal" sortKey="custoMensal" currentSort={sort} onSort={toggleSort} align="right" />
+                <SortableHeader label="Provisão Rescisão" sortKey="custoRescisaoEstimado" currentSort={sort} onSort={toggleSort} align="right" />
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -527,6 +554,26 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
                   <td className="px-8 py-5 text-right">
                     <p className="text-sm font-display text-primary">{formatCurrency(emp.custoMensal)}</p>
                     <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">Anual: {formatCurrency(emp.custoAnual)}</p>
+                  </td>
+                  <td className="px-8 py-5 text-right">
+                    <p className="text-sm font-bold text-red-500">{formatCurrency(emp.custoRescisaoEstimado)}</p>
+                    <div className="hidden group-hover:block absolute right-8 bg-white border border-slate-200 p-3 rounded-xl shadow-xl z-10 text-left min-w-[180px]">
+                      <p className="text-[8px] font-black text-slate-400 uppercase mb-2 border-b border-slate-100 pb-1">Composição Estimada</p>
+                      <div className="space-y-1">
+                        <div className="flex justify-between gap-4">
+                          <span className="text-[9px] font-bold text-slate-500">Aviso Prévio:</span>
+                          <span className="text-[9px] font-bold text-slate-700">{formatCurrency((emp as any).valorAviso || 0)}</span>
+                        </div>
+                        <div className="flex justify-between gap-4">
+                          <span className="text-[9px] font-bold text-slate-500">Multa FGTS:</span>
+                          <span className="text-[9px] font-bold text-slate-700">{formatCurrency((emp as any).valorMultaFgts || 0)}</span>
+                        </div>
+                        <div className="flex justify-between gap-4">
+                          <span className="text-[9px] font-bold text-slate-500">Prop. 13º/Férias:</span>
+                          <span className="text-[9px] font-bold text-slate-700">{formatCurrency(((emp as any).decimoTerceiroProp || 0) + ((emp as any).feriasProp || 0) + ((emp as any).umTercoFerias || 0))}</span>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               )) : (

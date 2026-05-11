@@ -23,24 +23,30 @@ import {
   DollarSign,
   Landmark,
   TrendingUp,
-  AlertCircle
+  AlertCircle,
+  Sparkles,
+  Link2,
+  Image as ImageIcon,
+  Upload
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
+import { motion, AnimatePresence } from 'motion/react';
+import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, getDocs, writeBatch } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { PageHeader, StatusBadge } from '../Common';
 import { DATA } from '../../data';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
 import { EmployeeManager } from '../EmployeeManager';
+import { GenerateAICompanyModal } from '../modals/GenerateAICompanyModal';
 
-export function ClientsPage({ clients, setClients }: any) {
+export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
   const [view, setView] = useState<'list' | 'form'>('list');
   const [loading, setLoading] = useState(false);
   const [cnpjQuery, setCnpjQuery] = useState('');
   const [error, setError] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [clientToDelete, setClientToDelete] = useState<{ id: string, name: string } | null>(null);
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
   
   const clientTemplate = {
     razao: '',
@@ -70,7 +76,7 @@ export function ClientsPage({ clients, setClients }: any) {
     contatosAdicionais: [] as { nome: string; email: string; tel: string; cargo: string }[],
     dataFundacao: '',
     capitalSocial: 0,
-    socios: [] as string[],
+    socios: [] as { nome: string; participacao: number }[],
     filiais: [] as { nome: string; cidade: string; cnpj: string }[],
     unidadesNegocio: [] as string[],
     contato: {
@@ -81,8 +87,17 @@ export function ClientsPage({ clients, setClients }: any) {
     },
     status: 'Ativo',
     notasAdicionais: '',
+    website: '',
+    socialMedia: [
+      { platform: 'LinkedIn', url: '' },
+      { platform: 'Instagram', url: '' }
+    ],
+    logo: '',
+    icon: '',
     folhaFgts: 8,
     folhaInssPatronal: 20,
+    folhaInssRat: 2,
+    folhaInssTerceiros: 5.8,
     folhaInssFuncionario: 11,
     folhaMultaFgts: 40,
     folhaTabelaIRRF: [
@@ -90,7 +105,7 @@ export function ClientsPage({ clients, setClients }: any) {
       { base: 2826.65, aliquota: 7.5, deducao: 169.44 },
       { base: 3751.05, aliquota: 15, deducao: 381.44 },
       { base: 4664.68, aliquota: 22.5, deducao: 662.77 },
-      { base: 999999, aliquota: 27.5, deducao: 896.00 }
+      { base: 999999999, aliquota: 27.5, deducao: 896.00 }
     ]
   };
 
@@ -123,7 +138,8 @@ export function ClientsPage({ clients, setClients }: any) {
   };
 
   const [tempBranch, setTempBranch] = useState({ nome: '', cidade: '', cnpj: '' });
-  const [activeFormTab, setActiveFormTab] = useState<'dados' | 'estrutura' | 'fiscal' | 'contato' | 'pessoal'>('dados');
+  const [tempContact, setTempContact] = useState({ nome: '', email: '', tel: '', cargo: '' });
+  const [activeFormTab, setActiveFormTab] = useState<'dados' | 'estrutura' | 'contato' | 'relatorio_ia'>('dados');
   const [showAllBranches, setShowAllBranches] = useState(false);
 
   // Auto-fetch CNPJ when 14 digits are typed
@@ -167,7 +183,7 @@ export function ClientsPage({ clients, setClients }: any) {
     setError('');
     try {
       const cleanCnpj = cnpjQuery.replace(/\D/g, '');
-      const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cleanCnpj}`);
+      const response = await fetch(`https://brasilapi.com.br/api/cnpj/v2/${cleanCnpj}`);
       if (!response.ok) throw new Error('CNPJ não encontrado ou erro na busca.');
       const data = await response.json();
       
@@ -195,7 +211,10 @@ export function ClientsPage({ clients, setClients }: any) {
         contatosAdicionais: [],
         dataFundacao: data.data_inicio_atividade ? new Date(data.data_inicio_atividade).toLocaleDateString('pt-BR') : '',
         capitalSocial: data.capital_social || 0,
-        socios: (data.qsa || []).map((s: any) => s.nome_socio),
+        socios: (data.qsa || []).map((s: any) => ({
+          nome: s.nome_socio || s.nome,
+          participacao: s.percentual_capital || s.participacao || s.percentual || 0
+        })),
         porte: data.porte === 'DEMAIS' ? 'Médio Porte' : data.porte || 'Médio Porte'
       });
       
@@ -213,12 +232,35 @@ export function ClientsPage({ clients, setClients }: any) {
     }
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, field: 'logo' | 'icon') => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Check file size (limit to 500KB for Base64 storage)
+    if (file.size > 512 * 1024) {
+      alert('A imagem é muito grande. Por favor, escolha uma imagem com menos de 500KB para melhor performance.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64 = event.target?.result as string;
+      setFormData(prev => ({ ...prev, [field]: base64 }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSave = async () => {
+    if (!auth.currentUser) {
+      alert('Você precisa estar logado para salvar um cliente. Clique em "Entrar com Google" na barra lateral.');
+      return;
+    }
+
     setLoading(true);
     try {
       const clientData = {
         ...formData,
-        ownerId: auth.currentUser?.uid,
+        ownerId: auth.currentUser.uid,
         updatedAt: serverTimestamp(),
         status: 'Ativo'
       };
@@ -241,6 +283,7 @@ export function ClientsPage({ clients, setClients }: any) {
            return addDoc(collection(db, 'account_plans'), {
             ...acc,
             clientId: clientId,
+            planType: 'accounting',
             status: acc.status || 'Ativa',
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
@@ -266,23 +309,48 @@ export function ClientsPage({ clients, setClients }: any) {
     setLoading(true);
     try {
       const clientId = clientToDelete.id;
-      // 1. Delete the client document
-      await deleteDoc(doc(db, 'clients', clientId));
       
-      // 2. Clean up associated account plan
-      const q = query(collection(db, 'account_plans'), where('clientId', '==', clientId));
-      const snap = await getDocs(q);
-      const deletePromises = snap.docs.map(d => deleteDoc(doc(db, 'account_plans', d.id)));
-      await Promise.all(deletePromises);
+      // Collections associated with a client
+      const collectionsToClean = [
+        'account_plans',
+        'financial_entries',
+        'client_assumptions',
+        'diretrizes',
+        'employees',
+        'precificacao',
+        'diagnostico',
+        'okrs',
+        'payables',
+        'receivables'
+      ];
+
+      // Clean up all related documents first
+      for (const coll of collectionsToClean) {
+        try {
+          const q = query(collection(db, coll), where('clientId', '==', clientId));
+          const snap = await getDocs(q);
+          if (!snap.empty) {
+            const deletePromises = snap.docs.map(d => deleteDoc(doc(db, coll, d.id)));
+            await Promise.all(deletePromises);
+          }
+        } catch (e) {
+          console.warn(`Erro ao limpar coleção ${coll} (pode não existir dados ou sem permissão):`, e);
+        }
+      }
+
+      // Finally, delete the client document
+      await deleteDoc(doc(db, 'clients', clientId));
       
       setClientToDelete(null);
     } catch (error) {
       console.error("Error deleting client:", error);
-      alert("Erro ao excluir cliente.");
+      alert("Erro ao excluir cliente. Verifique o console para mais detalhes.");
     } finally {
       setLoading(false);
     }
   };
+
+  // handleGenerateModelCompany was replaced by the GenerateAICompanyModal.
 
   const {
     searchTerm,
@@ -343,11 +411,10 @@ export function ClientsPage({ clients, setClients }: any) {
           {/* Tabs Navigation */}
           <div className="flex border-b border-slate-100 bg-slate-50/50">
             {[
-              { id: 'dados', label: 'Dados Corporativos', icon: FileText },
+              { id: 'dados', label: 'Informações da Empresa', icon: FileText },
               { id: 'estrutura', label: 'Unidades & Filiais', icon: LayoutGrid },
-              { id: 'fiscal', label: 'Fiscal & Tributário', icon: ShieldCheck },
               { id: 'contato', label: 'Pessoas de Contato', icon: Users },
-              { id: 'pessoal', label: 'Quadro de Pessoal', icon: Briefcase },
+              { id: 'relatorio_ia', label: 'Relatório Estratégico', icon: Sparkles },
             ].map(tab => (
               <button
                 key={tab.id}
@@ -463,6 +530,190 @@ export function ClientsPage({ clients, setClients }: any) {
                         onChange={(e) => setFormData({...formData, endereco: e.target.value})}
                         className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500"
                       />
+                    </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-slate-100">
+                        <div>
+                          <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Website</label>
+                          <input 
+                            type="text" 
+                            placeholder="https://exemplo.com.br"
+                            value={formData.website}
+                            onChange={(e) => setFormData({...formData, website: e.target.value})}
+                            className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm outline-none focus:border-blue-500"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Logo</label>
+                              <label className="cursor-pointer text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1">
+                                <Upload size={10} /> Importar
+                                <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'logo')} />
+                              </label>
+                            </div>
+                            <div className="flex gap-2">
+                              <div className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center overflow-hidden shrink-0">
+                                {formData.logo ? (
+                                  <img src={formData.logo} alt="Logo" className="w-full h-full object-contain" />
+                                ) : (
+                                  <ImageIcon size={16} className="text-slate-300" />
+                                )}
+                              </div>
+                              <input 
+                                type="text" 
+                                placeholder="URL da Logomarca"
+                                value={formData.logo.startsWith('data:image') ? 'Imagem Importada' : formData.logo}
+                                onChange={(e) => setFormData({...formData, logo: e.target.value})}
+                                readOnly={formData.logo.startsWith('data:image')}
+                                className={cn(
+                                  "flex-1 px-3 py-1 bg-white border border-slate-200 rounded-lg text-[11px] outline-none focus:border-blue-500",
+                                  formData.logo.startsWith('data:image') && "bg-slate-50 text-slate-400 italic"
+                                )}
+                              />
+                              {formData.logo.startsWith('data:image') && (
+                                <button onClick={() => setFormData({...formData, logo: ''})} className="text-rose-500 p-1 hover:bg-rose-50 rounded">
+                                  <X size={12} />
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Ícone</label>
+                              <label className="cursor-pointer text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1">
+                                <Upload size={10} /> Importar
+                                <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'icon')} />
+                              </label>
+                            </div>
+                            <div className="flex gap-2">
+                              <div className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center overflow-hidden shrink-0">
+                                {formData.icon ? (
+                                  <img src={formData.icon} alt="Icon" className="w-full h-full object-contain" />
+                                ) : (
+                                  <ImageIcon size={16} className="text-slate-300" />
+                                )}
+                              </div>
+                              <input 
+                                type="text" 
+                                placeholder="URL do Ícone"
+                                value={formData.icon.startsWith('data:image') ? 'Imagem Importada' : formData.icon}
+                                onChange={(e) => setFormData({...formData, icon: e.target.value})}
+                                readOnly={formData.icon.startsWith('data:image')}
+                                className={cn(
+                                  "flex-1 px-3 py-1 bg-white border border-slate-200 rounded-lg text-[11px] outline-none focus:border-blue-500",
+                                  formData.icon.startsWith('data:image') && "bg-slate-50 text-slate-400 italic"
+                                )}
+                              />
+                              {formData.icon.startsWith('data:image') && (
+                                <button onClick={() => setFormData({...formData, icon: ''})} className="text-rose-500 p-1 hover:bg-rose-50 rounded">
+                                  <X size={12} />
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    <div className="pt-6 border-t border-slate-100 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sócios e Participação (%)</label>
+                        <button 
+                          onClick={() => setFormData({...formData, socios: [...formData.socios, { nome: '', participacao: 0 }]})}
+                          className="text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1"
+                        >
+                          <Plus size={12} /> Adicionar Sócio
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {formData.socios.map((s, idx) => (
+                          <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 border border-slate-100 rounded-xl relative group/socio">
+                            <div className="w-8 h-8 rounded-full bg-white border border-slate-100 flex items-center justify-center text-slate-400"><Users size={14} /></div>
+                            <div className="flex-1 space-y-1">
+                              <input 
+                                type="text"
+                                value={s.nome}
+                                onChange={(e) => {
+                                  const newSocios = [...formData.socios];
+                                  newSocios[idx].nome = e.target.value;
+                                  setFormData({...formData, socios: newSocios});
+                                }}
+                                placeholder="Nome do Sócio"
+                                className="w-full bg-transparent text-[11px] font-black text-slate-800 outline-none border-b border-transparent focus:border-slate-200"
+                              />
+                              <div className="flex items-center gap-2">
+                                <input 
+                                  type="number"
+                                  value={s.participacao}
+                                  onChange={(e) => {
+                                    const newSocios = [...formData.socios];
+                                    newSocios[idx].participacao = parseFloat(e.target.value) || 0;
+                                    setFormData({...formData, socios: newSocios});
+                                  }}
+                                  placeholder="%"
+                                  className="w-12 bg-transparent text-[10px] font-bold text-secondary outline-none"
+                                />
+                                <span className="text-[10px] text-slate-400 font-bold">% de participação</span>
+                              </div>
+                            </div>
+                            <button 
+                              onClick={() => setFormData({...formData, socios: formData.socios.filter((_, i) => i !== idx)})}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-white border border-slate-200 text-rose-500 rounded-full flex items-center justify-center opacity-0 group-hover/socio:opacity-100 transition-opacity shadow-sm"
+                            >
+                              <X size={12} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-3 pt-4">
+                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Mídias Sociais</label>
+                      {formData.socialMedia.map((sm, idx) => (
+                        <div key={idx} className="flex gap-2">
+                          <select 
+                            value={sm.platform}
+                            onChange={(e) => {
+                              const newSM = [...formData.socialMedia];
+                              newSM[idx].platform = e.target.value;
+                              setFormData({...formData, socialMedia: newSM});
+                            }}
+                            className="w-32 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold"
+                          >
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Twitter">Twitter/X</option>
+                            <option value="YouTube">YouTube</option>
+                          </select>
+                          <input 
+                            type="text" 
+                            placeholder="URL do perfil"
+                            value={sm.url}
+                            onChange={(e) => {
+                              const newSM = [...formData.socialMedia];
+                              newSM[idx].url = e.target.value;
+                              setFormData({...formData, socialMedia: newSM});
+                            }}
+                            className="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm outline-none focus:border-blue-500"
+                          />
+                          <button 
+                            onClick={() => {
+                              const newSM = formData.socialMedia.filter((_, i) => i !== idx);
+                              setFormData({...formData, socialMedia: newSM});
+                            }}
+                            className="p-2 text-rose-400 hover:bg-rose-50 rounded-lg"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      ))}
+                      <button 
+                        onClick={() => setFormData({...formData, socialMedia: [...formData.socialMedia, { platform: 'LinkedIn', url: '' }]})}
+                        className="text-[10px] font-black text-secondary uppercase tracking-widest flex items-center gap-1 hover:underline"
+                      >
+                        <Plus size={12} /> Adicionar Rede Social
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1001,6 +1252,26 @@ export function ClientsPage({ clients, setClients }: any) {
                       />
                     </div>
                     <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">RAT / FAP (%)</label>
+                      <input 
+                        type="number"
+                        step="0.01"
+                        value={formData.folhaInssRat}
+                        onChange={(e) => setFormData({...formData, folhaInssRat: parseFloat(e.target.value) || 0})}
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Terceiros / Outros (%)</label>
+                      <input 
+                        type="number"
+                        step="0.01"
+                        value={formData.folhaInssTerceiros}
+                        onChange={(e) => setFormData({...formData, folhaInssTerceiros: parseFloat(e.target.value) || 0})}
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                      />
+                    </div>
+                    <div className="space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">INSS Funcionário (Médio %)</label>
                       <input 
                         type="number"
@@ -1140,21 +1411,72 @@ export function ClientsPage({ clients, setClients }: any) {
 
                 <div className="bg-white p-6 rounded-3xl border border-slate-200 border-dashed">
                    <div className="flex items-center justify-between mb-6">
-                     <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Outros Contatos e Sócios</h4>
-                     <button className="text-[10px] font-black text-secondary uppercase tracking-widest flex items-center gap-1 hover:underline">
-                        <Plus size={14} /> Adicionar Novo Contato
-                     </button>
+                     <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Contatos Adicionais</h4>
                    </div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                     {formData.socios.map((s, i) => (
-                       <div key={i} className="flex items-center gap-3 p-3 bg-slate-50 border border-slate-100 rounded-xl">
-                         <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500"><Users size={14} /></div>
-                         <div className="flex-1">
-                           <p className="text-[11px] font-black text-slate-800">{s}</p>
-                           <p className="text-[9px] text-slate-500 uppercase font-bold">Sócio / Proprietário</p>
-                         </div>
-                       </div>
-                     ))}
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-4">
+                        <div className="grid grid-cols-2 gap-3">
+                          <input 
+                            type="text" placeholder="Nome" 
+                            value={tempContact.nome}
+                            onChange={(e) => setTempContact({...tempContact, nome: e.target.value})}
+                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-bold outline-none"
+                          />
+                          <input 
+                            type="text" placeholder="Cargo" 
+                            value={tempContact.cargo}
+                            onChange={(e) => setTempContact({...tempContact, cargo: e.target.value})}
+                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-bold outline-none"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <input 
+                            type="email" placeholder="E-mail" 
+                            value={tempContact.email}
+                            onChange={(e) => setTempContact({...tempContact, email: e.target.value})}
+                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-bold outline-none"
+                          />
+                          <div className="flex gap-2">
+                            <input 
+                              type="tel" placeholder="Telefone" 
+                              value={tempContact.tel}
+                              onChange={(e) => setTempContact({...tempContact, tel: e.target.value})}
+                              className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-bold outline-none"
+                            />
+                            <button 
+                              onClick={() => {
+                                if (tempContact.nome) {
+                                  setFormData({...formData, contatosAdicionais: [...formData.contatosAdicionais, tempContact]});
+                                  setTempContact({ nome: '', email: '', tel: '', cargo: '' });
+                                }
+                              }}
+                              className="p-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 shadow-sm"
+                            >
+                              <Plus size={16} />
+                            </button>
+                          </div>
+                        </div>
+                     </div>
+
+                     <div className="space-y-2">
+                        {formData.contatosAdicionais.map((c, i) => (
+                          <div key={i} className="flex items-center justify-between bg-slate-50/50 p-3 rounded-xl border border-slate-100 group/item">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-slate-400"><Users size={14} /></div>
+                              <div>
+                                <p className="text-[11px] font-black text-slate-800">{c.nome} <span className="text-slate-400 font-bold ml-1">({c.cargo})</span></p>
+                                <p className="text-[9px] text-slate-400">{c.email} | {c.tel}</p>
+                              </div>
+                            </div>
+                            <button 
+                              onClick={() => setFormData({...formData, contatosAdicionais: formData.contatosAdicionais.filter((_, idx) => idx !== i)})}
+                              className="p-1.5 text-rose-400 opacity-0 group-hover/item:opacity-100 transition-opacity"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        ))}
+                     </div>
                    </div>
                 </div>
               </motion.div>
@@ -1173,6 +1495,83 @@ export function ClientsPage({ clients, setClients }: any) {
                       <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest max-w-[200px] mx-auto">Para gerenciar o quadro de pessoal, você precisa primeiro concluir o cadastro básico do cliente.</p>
                    </div>
                  )}
+              </motion.div>
+            )}
+
+            {activeFormTab === 'relatorio_ia' && (
+              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
+                {(formData as any).aiAnalysis ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-8">
+                      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                          <AlertCircle size={14} className="text-rose-500" /> Principais Desafios
+                        </h4>
+                        <ul className="space-y-3">
+                          {((formData as any).aiAnalysis.challenges || []).map((c: string, i: number) => (
+                            <li key={i} className="text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                              {c}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                          <TrendingUp size={14} className="text-emerald-500" /> Oportunidades & Crescimento
+                        </h4>
+                        <ul className="space-y-3">
+                          {((formData as any).aiAnalysis.growthSuggestions || []).map((c: string, i: number) => (
+                            <li key={i} className="text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                              {c}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="space-y-8">
+                      <div className="bg-slate-900 text-white p-8 rounded-3xl shadow-sm space-y-4">
+                        <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 mb-2">
+                          Estrutura de Governança
+                        </h4>
+                        <p className="text-xs font-medium leading-relaxed opacity-90 text-slate-300">
+                          {((formData as any).aiAnalysis.governance || 'N/A')}
+                        </p>
+                      </div>
+
+                      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                          Fluxo Operacional
+                        </h4>
+                        <p className="text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                          {((formData as any).aiAnalysis.operationalFlow || 'N/A')}
+                        </p>
+                      </div>
+
+                      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                          <LayoutGrid size={14} className="text-blue-500" /> Ideias de Dashboards
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {((formData as any).aiAnalysis.dashboardIdeas || []).map((c: string, i: number) => (
+                            <span key={i} className="px-3 py-1.5 bg-blue-50 text-blue-700 text-[10px] font-black rounded-lg border border-blue-100">
+                              {c}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-slate-50 border border-slate-100 p-12 rounded-[32px] text-center space-y-4">
+                    <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-indigo-300 mx-auto shadow-sm">
+                        <Sparkles size={32} />
+                    </div>
+                    <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Sem Análise Gerencial</h4>
+                    <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest max-w-[250px] mx-auto">Este cliente não foi gerado via inteligência artificial ou não possui relatório estratégico associado.</p>
+                  </div>
+                )}
               </motion.div>
             )}
           </div>
@@ -1196,6 +1595,15 @@ export function ClientsPage({ clients, setClients }: any) {
              <button onClick={() => setFilters({...filters, status: 'Ativo'})} className={cn("px-4 py-2 text-xs font-bold rounded-lg transition-all", filters.status === 'Ativo' ? "bg-white text-emerald-600 shadow-sm" : "text-slate-500")}>Ativos</button>
              <button onClick={() => setFilters({...filters, status: 'Suspenso'})} className={cn("px-4 py-2 text-xs font-bold rounded-lg transition-all", filters.status === 'Suspenso' ? "bg-white text-rose-600 shadow-sm" : "text-slate-500")}>Suspensos</button>
            </div>
+           
+           <button 
+            onClick={() => setIsAIModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-3 bg-slate-900 text-white rounded-xl font-bold text-xs hover:bg-slate-800 transition-all shadow-lg active:scale-95 whitespace-nowrap"
+          >
+            <Sparkles size={16} />
+            GERAR EMPRESA MODELO
+          </button>
+
            <button 
             onClick={openAdd}
             className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-bold text-xs hover:bg-primary/90 transition-all shadow-lg active:scale-95 whitespace-nowrap"
@@ -1264,9 +1672,13 @@ export function ClientsPage({ clients, setClients }: any) {
                     className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-primary/30 transition-all group relative overflow-hidden"
                   >
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-                       <div className="flex items-start gap-5">
-                          <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-primary border border-slate-100 group-hover:bg-primary/5 group-hover:border-primary/20 transition-all shrink-0">
-                             <Building2 size={24} />
+                        <div className="flex items-start gap-5">
+                          <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-primary border border-slate-100 group-hover:bg-primary/5 group-hover:border-primary/20 transition-all shrink-0 overflow-hidden">
+                             {client.icon || client.logo ? (
+                               <img src={client.icon || client.logo} alt={client.fantasia} className="w-full h-full object-contain p-2" />
+                             ) : (
+                               <Building2 size={24} />
+                             )}
                           </div>
                           <div>
                              <div className="flex items-center gap-3 mb-1">
@@ -1275,6 +1687,11 @@ export function ClientsPage({ clients, setClients }: any) {
                              </div>
                              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-500">
                                 <span className="text-xs font-black uppercase tracking-widest text-slate-400">{client.segmento}</span>
+                                {client.website && (
+                                  <a href={client.website} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold text-secondary hover:underline flex items-center gap-1">
+                                     <Link2 size={10} /> {client.website.replace(/^https?:\/\//, '')}
+                                  </a>
+                                )}
                                 <span className="text-xs flex items-center gap-1"><MapPin size={12} className="text-slate-300" /> {client.cidade}</span>
                                 <span className="text-xs font-mono">{client.cnpj}</span>
                              </div>
@@ -1375,6 +1792,17 @@ export function ClientsPage({ clients, setClients }: any) {
           </div>
         )}
       </AnimatePresence>
+
+      <GenerateAICompanyModal 
+        isOpen={isAIModalOpen} 
+        onClose={() => setIsAIModalOpen(false)} 
+        onSuccess={(newClientId) => {
+          setView('list'); // Refresh the list
+          if (newClientId && setSelectedClient) {
+            setSelectedClient(newClientId);
+          }
+        }} 
+      />
     </div>
   );
 }

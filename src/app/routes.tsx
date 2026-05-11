@@ -13,6 +13,8 @@ import { PlanoDeContasPage } from '../components/pages/PlanoDeContasPage';
 import { ViabilityPage } from '../components/pages/ViabilityPage';
 import { LoansPage } from '../components/pages/LoansPage';
 import { ClientsPage } from '../components/pages/ClientsPage';
+import { FiscalTributarioPage } from '../components/pages/FiscalTributarioPage';
+import { QuadroPessoalPage } from '../components/pages/QuadroPessoalPage';
 import { ValuationPage } from '../components/pages/ValuationPage';
 import { AdvisoryInsightsPage } from '../components/pages/AdvisoryInsightsPage';
 import { PlanoAcaoPage } from '../components/pages/PlanoAcaoPage';
@@ -136,7 +138,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <TaxReformImpactPage clients={clients} selectedClient={selectedClient} />;
   }
   if (currentPage === 'simulador_capital') {
-    return <LoanInvestmentSimPage />;
+    return <LoanInvestmentSimPage clientId={selectedClient} />;
   }
   if (currentPage === 'viabilidade') {
     return <ViabilityPage selectedClient={selectedClient} clients={clients} />;
@@ -154,13 +156,16 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <FinancialModelingPage clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient} />;
   }
   if (currentPage === 'dados_historicos') {
-    return <DadosHistoricosPage clients={clients} user={user} />;
+    return <DadosHistoricosPage clients={clients} user={user} selectedClient={selectedClient} setSelectedClient={setSelectedClient} />;
   }
-  if (currentPage === 'clientes') {
-    return <ClientsPage clients={clients} setClients={setClients} />;
+  if (currentPage === 'clientes' || (currentPage as string) === 'clientes_root') {
+    return <ClientsPage clients={clients} setClients={setClients} setSelectedClient={setSelectedClient} />;
   }
   if (currentPage === 'plano_contas') {
-    return <PlanoDeContasPage clients={clients} selectedClient={selectedClient} />;
+    return <PlanoDeContasPage clients={clients} selectedClient={selectedClient} planType="accounting" />;
+  }
+  if (currentPage === 'plano_contas_gerencial') {
+    return <PlanoDeContasPage clients={clients} selectedClient={selectedClient} planType="managerial" />;
   }
   if (currentPage === 'premissas_cliente') {
     return <PremissasClientePage clients={clients} selectedClient={selectedClient} />;
@@ -171,7 +176,13 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'premissas_economicas') {
     return <PremissasEconomicasPage />;
   }
-  if (currentPage === 'pessoal') {
+  if (currentPage === 'fiscal_tributario') {
+    return <FiscalTributarioPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'quadro_pessoal') {
+    return <QuadroPessoalPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'custos_pessoal' || currentPage === 'pessoal') {
     return <PayrollDashboard clientId={selectedClient} />;
   }
 

@@ -15,7 +15,7 @@ import {
 import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../lib/firebase';
 import { formatCurrency } from '../lib/utils';
-import { calculatePayrollBurdens } from '../services/taxService';
+import { calculatePayrollBurdens, calculateSeverance } from '../services/taxService';
 
 export function EmployeeManager({ clientId, clientConfig }: { clientId: string, clientConfig: any }) {
   const [employees, setEmployees] = useState<any[]>([]);
@@ -30,26 +30,31 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
     tipoContrato: 'CLT',
     status: 'Ativo',
     admissao: new Date().toISOString().split('T')[0],
-    salarioBase: 0,
+    salarioBase: '' as any,
     encargos: 0,
     decimoTerceiroFerias: 0,
     verbasIndenizatorias: 0,
     custoMensal: 0,
     custoAnual: 0,
-    custoRescisaoEstimado: 0
+    custoRescisaoEstimado: 0,
+    avisoIndenizado: true
   };
 
   const [formData, setFormData] = useState(initialForm);
 
   useEffect(() => {
     fetchEmployees();
-  }, [clientId]);
+  }, [clientId, auth.currentUser]);
 
   const fetchEmployees = async () => {
-    if (!clientId) return;
+    if (!clientId || !auth.currentUser) return;
     setLoading(true);
     try {
-      const q = query(collection(db, 'employees'), where('clientId', '==', clientId));
+      const q = query(
+        collection(db, 'employees'), 
+        where('clientId', '==', clientId),
+        where('ownerId', '==', auth.currentUser.uid)
+      );
       const snap = await getDocs(q);
       const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setEmployees(data);
@@ -66,7 +71,8 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
     setLoading(true);
     try {
       // Calculate burdens using taxService
-      const burdens = calculatePayrollBurdens(formData.salarioBase, {
+      const baseSalario = typeof formData.salarioBase === 'string' ? parseFloat(formData.salarioBase) || 0 : formData.salarioBase;
+      const burdens = calculatePayrollBurdens(baseSalario, {
         fgts: clientConfig.folhaFgts || 8,
         inssPatronal: clientConfig.folhaInssPatronal || 20,
         inssFuncionario: clientConfig.folhaInssFuncionario || 11,
@@ -74,12 +80,20 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
         tabelaIRRF: clientConfig.folhaTabelaIRRF || []
       });
 
+      const severance = calculateSeverance(baseSalario, formData.admissao, {
+        multaFgts: clientConfig.folhaMultaFgts || 40
+      }, {
+        avisoIndenizado: formData.avisoIndenizado
+      });
+
       const payload = {
         ...formData,
+        salarioBase: baseSalario,
         encargos: burdens.fgts + burdens.inssPatronal,
         decimoTerceiroFerias: burdens.provisionFerias13,
         custoMensal: burdens.custoTotal,
         custoAnual: burdens.custoTotal * 12,
+        custoRescisaoEstimado: severance.totalRescisao,
         clientId,
         ownerId: auth.currentUser.uid,
         updatedAt: serverTimestamp()
@@ -134,7 +148,7 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
         )}
       </div>
 
-      {isAdding ? (
+      {isAdding && (
         <div className="bg-slate-50 p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-8">
            <div className="flex items-center justify-between">
               <h5 className="text-[10px] font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
@@ -216,10 +230,48 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
                 <input 
                   type="number" 
                   value={formData.salarioBase}
-                  onChange={e => setFormData({...formData, salarioBase: parseFloat(e.target.value) || 0})}
-                  className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-black outline-none focus:border-blue-500"
+                  onChange={e => setFormData({...formData, salarioBase: e.target.value})}
+                  className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-black outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
+           </div>
+
+           <div className="bg-white p-6 rounded-2xl border border-slate-100 space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-50 pb-4">
+                <div>
+                  <h6 className="text-[10px] font-black text-slate-800 uppercase tracking-widest">Premissas de Rescisão</h6>
+                  <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">Configurações para cálculo de provisão de risco</p>
+                </div>
+                <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Considerar Aviso Indenizado</span>
+                  <div className="relative">
+                    <input 
+                      type="checkbox" 
+                      checked={formData.avisoIndenizado}
+                      onChange={e => setFormData({...formData, avisoIndenizado: e.target.checked})}
+                      className="sr-only peer" 
+                    />
+                    <div className="w-8 h-4 bg-slate-200 rounded-full peer peer-checked:bg-blue-600 transition-colors"></div>
+                    <div className="absolute left-0.5 top-0.5 w-3 h-3 bg-white rounded-full transition-transform peer-checked:translate-x-4"></div>
+                  </div>
+                </label>
+              </div>
+
+              {formData.salarioBase > 0 && formData.admissao && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { label: 'Aviso Prévio', val: calculateSeverance(formData.salarioBase, formData.admissao, { multaFgts: clientConfig.folhaMultaFgts || 40 }, { avisoIndenizado: formData.avisoIndenizado }).valorAviso },
+                    { label: 'Multa FGTS (Est.)', val: calculateSeverance(formData.salarioBase, formData.admissao, { multaFgts: clientConfig.folhaMultaFgts || 40 }, { avisoIndenizado: formData.avisoIndenizado }).valorMultaFgts },
+                    { label: '13º Prop.', val: calculateSeverance(formData.salarioBase, formData.admissao, { multaFgts: clientConfig.folhaMultaFgts || 40 }, { avisoIndenizado: formData.avisoIndenizado }).decimoTerceiroProp },
+                    { label: 'Férias + 1/3 Prop.', val: calculateSeverance(formData.salarioBase, formData.admissao, { multaFgts: clientConfig.folhaMultaFgts || 40 }, { avisoIndenizado: formData.avisoIndenizado }).feriasProp + calculateSeverance(formData.salarioBase, formData.admissao, { multaFgts: clientConfig.folhaMultaFgts || 40 }, { avisoIndenizado: formData.avisoIndenizado }).umTercoFerias },
+                  ].map((item, idx) => (
+                    <div key={idx}>
+                      <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{item.label}</p>
+                      <p className="text-xs font-bold text-slate-700">{formatCurrency(item.val)}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
            </div>
 
            <div className="flex justify-end gap-3 pt-6">
@@ -239,21 +291,22 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
               </button>
            </div>
         </div>
-      ) : (
-        <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
-           <div className="overflow-x-auto">
-             <table className="w-full text-left">
-               <thead className="bg-slate-50">
-                 <tr>
-                   <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Nome / Cargo</th>
-                   <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Área</th>
-                   <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Vínculo</th>
-                   <th className="px-6 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Salário Base</th>
-                   <th className="px-6 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Ações</th>
-                 </tr>
-               </thead>
-               <tbody className="divide-y divide-slate-100">
-                 {employees.length === 0 ? (
+      )}
+
+      <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+         <div className="overflow-x-auto">
+           <table className="w-full text-left">
+             <thead className="bg-slate-50">
+               <tr>
+                 <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Nome / Cargo</th>
+                 <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Área</th>
+                 <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Vínculo</th>
+                 <th className="px-6 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Salário Base</th>
+                 <th className="px-6 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Ações</th>
+               </tr>
+             </thead>
+             <tbody className="divide-y divide-slate-100">
+               {employees.length === 0 ? (
                    <tr>
                      <td colSpan={5} className="px-6 py-12 text-center text-slate-400 italic text-sm">
                         Nenhum colaborador cadastrado para este cliente.
@@ -302,7 +355,6 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
              </table>
            </div>
         </div>
-      )}
     </div>
   );
 }

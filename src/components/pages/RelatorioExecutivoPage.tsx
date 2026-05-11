@@ -48,7 +48,7 @@ export function RelatorioExecutivoPage({ clientId, selectedYear, selectedMonth }
   const { kpis } = useRealIndicatorData(clientId, selectedMonth, selectedYear);
 
   const mvv = diretrizes[0];
-  const topDiagnostico = useMemo(() => [...diagnostico].sort((a, b) => b.fivScore - a.fivScore).slice(0, 3), [diagnostico]);
+  const topDiagnostico = useMemo(() => [...diagnostico].sort((a, b) => b.iveScore - a.iveScore).slice(0, 3), [diagnostico]);
   const topOkrs = useMemo(() => [...okrs].sort((a, b) => b.progressoGeral - a.progressoGeral).slice(0, 3), [okrs]);
 
   const generateReportSummary = async () => {
@@ -179,13 +179,13 @@ export function RelatorioExecutivoPage({ clientId, selectedYear, selectedMonth }
                   </div>
                   <div className="space-y-4">
                      <h4 className="text-xs font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-2">
-                       <ShieldAlert size={14} /> Top Prioridades (FIV)
+                       <ShieldAlert size={14} /> Top Prioridades (IVE)
                      </h4>
                      <div className="space-y-2">
                         {topDiagnostico.map(item => (
                           <div key={item.id} className="flex justify-between items-center bg-slate-50 px-4 py-2 rounded-xl text-[10px]">
                              <span className="font-bold text-slate-600 truncate mr-2">{item.descricao}</span>
-                             <span className="font-black text-rose-500 shrink-0">{item.fivScore}</span>
+                             <span className="font-black text-rose-500 shrink-0">{item.iveScore}</span>
                           </div>
                         ))}
                      </div>

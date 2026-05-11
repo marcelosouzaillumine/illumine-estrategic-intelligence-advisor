@@ -23,6 +23,10 @@
           "order": "ASCENDING"
         },
         {
+          "fieldPath": "planType",
+          "order": "ASCENDING"
+        },
+        {
           "fieldPath": "code",
           "order": "ASCENDING"
         }

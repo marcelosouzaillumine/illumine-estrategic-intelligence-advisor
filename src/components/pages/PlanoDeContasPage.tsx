@@ -12,7 +12,9 @@ import {
   Trash2,
   BookOpen,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  AlertTriangle,
+  X
 } from 'lucide-react';
 import { 
   collection, 
@@ -25,7 +27,8 @@ import {
   serverTimestamp, 
   addDoc, 
   updateDoc, 
-  deleteDoc 
+  deleteDoc,
+  getDocs
 } from 'firebase/firestore';
 import { db, auth, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { DATA } from '../../data';
@@ -35,19 +38,129 @@ import { PageHeader, StatusBadge } from '../Common';
 import { AccountModal } from '../modals/AccountModal';
 import { ImportPlanoModal } from '../modals/ImportPlanoModal';
 import { MappingWizard } from '../modals/MappingWizard';
+import { motion, AnimatePresence } from 'motion/react';
 
+// ─── Delete Entire Plan Modal ─────────────────────────────────────────────────
+function DeletePlanModal({ 
+  clientName, 
+  accountCount, 
+  onConfirm, 
+  onClose,
+  isDeleting
+}: { 
+  clientName: string; 
+  accountCount: number;
+  onConfirm: () => void; 
+  onClose: () => void;
+  isDeleting: boolean;
+}) {
+  const [confirmText, setConfirmText] = useState('');
+  const isValid = confirmText.trim().toLowerCase() === clientName.trim().toLowerCase();
 
-export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[], selectedClient: string }) {
+  return (
+    <div className="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden"
+      >
+        {/* Header */}
+        <div className="p-6 bg-rose-50 border-b border-rose-100 flex items-start gap-4">
+          <div className="w-12 h-12 bg-rose-100 rounded-2xl flex items-center justify-center text-rose-600 shrink-0">
+            <Trash2 size={22} />
+          </div>
+          <div>
+            <h3 className="text-base font-black text-rose-800 uppercase tracking-wide">Excluir Plano de Contas</h3>
+            <p className="text-xs text-rose-500 mt-0.5">Esta ação é permanente e irreversível</p>
+          </div>
+          <button onClick={onClose} className="ml-auto p-1.5 hover:bg-rose-100 rounded-lg text-rose-400 transition-colors">
+            <X size={16} />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="p-6 space-y-5">
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+            <AlertTriangle size={18} className="text-amber-500 shrink-0 mt-0.5" />
+            <p className="text-xs text-amber-700 font-medium leading-relaxed">
+              Você está prestes a excluir permanentemente <span className="font-black">{accountCount} contas</span> do plano de <span className="font-black">{clientName}</span>. Todos os vínculos de KPI e mapeamentos serão perdidos.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">
+              Para confirmar, digite o nome do cliente:
+            </label>
+            <div className="text-[11px] font-mono font-bold text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 mb-1">
+              {clientName}
+            </div>
+            <input
+              type="text"
+              value={confirmText}
+              onChange={e => setConfirmText(e.target.value)}
+              placeholder="Digite aqui..."
+              className={cn(
+                "w-full px-4 py-2.5 border rounded-xl text-sm outline-none transition-all",
+                isValid 
+                  ? "border-rose-400 bg-rose-50 focus:ring-2 focus:ring-rose-300/30" 
+                  : "border-slate-200 focus:border-slate-400"
+              )}
+              autoFocus
+            />
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3">
+          <button
+            onClick={onClose}
+            disabled={isDeleting}
+            className="flex-1 py-3 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={onConfirm}
+            disabled={!isValid || isDeleting}
+            className="flex-1 py-3 bg-rose-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-rose-200 hover:bg-rose-700 transition-all disabled:opacity-40 flex items-center justify-center gap-2"
+          >
+            {isDeleting ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
+            {isDeleting ? 'Excluindo...' : 'Excluir Permanentemente'}
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
+export function PlanoDeContasPage({ 
+  clients, 
+  selectedClient, 
+  planType = 'accounting' 
+}: { 
+  clients: any[], 
+  selectedClient: string, 
+  planType?: 'accounting' | 'managerial' 
+}) {
   const [loading, setLoading] = useState(false);
   const [accounts, setAccounts] = useState<any[]>([]);
   const [editingAccount, setEditingAccount] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isMappingWizardOpen, setIsMappingWizardOpen] = useState(false);
+  const [isDeletePlanOpen, setIsDeletePlanOpen] = useState(false);
+  const [isDeletingPlan, setIsDeletingPlan] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('Todos');
   const [isSavingAll, setIsSavingAll] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [accountingAccounts, setAccountingAccounts] = useState<any[]>([]);
+
+  const currentClient = clients.find(c => c.id === selectedClient);
+  const clientName = currentClient?.fantasia || 'selecionado';
+  const planLabel = planType === 'accounting' ? 'Contábil' : 'Gerencial';
 
   const handleSaveAll = async () => {
     if (!selectedClient) return;
@@ -63,6 +176,7 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
           batch.set(newDocRef, {
             ...accData,
             clientId: selectedClient,
+            planType,
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
             createdBy: auth.currentUser?.uid
@@ -83,7 +197,36 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
     }
   };
 
-  const accountTypes = ['Ativo', 'Passivo', 'Patrimônio Líquido', 'Receita', 'Custo', 'Despesa'];
+  const handleDeleteEntirePlan = async () => {
+    if (!selectedClient) return;
+    setIsDeletingPlan(true);
+    try {
+      const q = query(
+        collection(db, 'account_plans'), 
+        where('clientId', '==', selectedClient),
+        where('planType', '==', planType)
+      );
+      const snapshot = await getDocs(q);
+      
+      // Firestore batch allows max 500 operations — chunk if needed
+      const chunkSize = 450;
+      const docs = snapshot.docs;
+      for (let i = 0; i < docs.length; i += chunkSize) {
+        const batch = writeBatch(db);
+        docs.slice(i, i + chunkSize).forEach(d => batch.delete(d.ref));
+        await batch.commit();
+      }
+
+      setIsDeletePlanOpen(false);
+    } catch (error) {
+      console.error('Error deleting plan:', error);
+      alert('Erro ao excluir o plano de contas.');
+    } finally {
+      setIsDeletingPlan(false);
+    }
+  };
+
+  const accountTypes = ['Ativo', 'Passivo', 'Patrimônio Líquido', 'Receitas', 'Despesas', 'Resultado Apurado'];
 
   useEffect(() => {
     if (!selectedClient) {
@@ -95,15 +238,34 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
     const q = query(
       collection(db, 'account_plans'),
       where('clientId', '==', selectedClient),
+      where('planType', '==', planType),
       orderBy('code', 'asc')
     );
     
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      if (docs.length === 0) {
+    const unsubscribe = onSnapshot(q, async (snapshot) => {
+      const allDocs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
+      
+      // Migration: identify accounts without planType and update them to 'accounting'
+      const legacyDocs = allDocs.filter(d => !d.planType);
+      if (legacyDocs.length > 0) {
+        console.log(`Migrating ${legacyDocs.length} legacy accounts for client ${selectedClient}...`);
+        const batch = writeBatch(db);
+        legacyDocs.forEach(d => {
+          batch.update(doc(db, 'account_plans', d.id), { planType: 'accounting' });
+        });
+        await batch.commit();
+        // The snapshot will trigger again after update
+        return;
+      }
+
+      // Filter docs for the current view
+      const filteredDocs = allDocs.filter(d => d.planType === planType);
+      
+      if (filteredDocs.length === 0 && planType === 'accounting') {
+        // If it's accounting and empty, show default template
         setAccounts(DATA.accountPlanPadrão);
       } else {
-        setAccounts(docs);
+        setAccounts(filteredDocs);
       }
       setLoading(false);
     }, (error) => {
@@ -113,13 +275,35 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
     });
 
     return () => unsubscribe();
-  }, [selectedClient]);
+  }, [selectedClient, planType]);
+
+  // Fetch accounting accounts for mapping if in managerial mode
+  useEffect(() => {
+    if (!selectedClient || planType !== 'managerial') {
+      setAccountingAccounts([]);
+      return;
+    }
+
+    const q = query(
+      collection(db, 'account_plans'),
+      where('clientId', '==', selectedClient),
+      where('planType', '==', 'accounting'),
+      orderBy('code', 'asc')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setAccountingAccounts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    return () => unsubscribe();
+  }, [selectedClient, planType]);
 
   const handleSaveAccount = async (accountData: any) => {
     try {
       const data = {
         ...accountData,
         clientId: selectedClient,
+        planType,
         updatedAt: serverTimestamp(),
         createdBy: auth.currentUser?.uid
       };
@@ -159,14 +343,27 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
     return matchesSearch && matchesType;
   });
 
+  // Count for saved (has id) vs unsaved
+  const savedCount = accounts.filter(a => a.id).length;
+
   return (
     <div className="space-y-8 pb-20">
       <div className="flex justify-between items-end">
         <PageHeader 
-          title="Plano de Contas" 
-          description={`Estrutura de classificação contábil e gerencial do cliente ${clients.find(c => c.id === selectedClient)?.fantasia || 'selecionado'}.`}
+          title={`Plano de Contas ${planLabel}`} 
+          description={`Estrutura de classificação ${planType === 'accounting' ? 'contábil' : 'gerencial'} do cliente ${clientName}.`}
         />
-        <div className="flex gap-3 mb-8">
+        <div className="flex gap-3 mb-8 flex-wrap justify-end">
+          {/* Delete entire plan */}
+          {selectedClient && savedCount > 0 && (
+            <button 
+              onClick={() => setIsDeletePlanOpen(true)}
+              className="px-5 py-2.5 bg-white text-rose-500 border border-rose-200 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-rose-50 transition-all shadow-sm flex items-center gap-2"
+            >
+              <Trash2 size={15} /> Excluir Plano
+            </button>
+          )}
+
           <button 
             onClick={handleSaveAll}
             disabled={isSavingAll || !selectedClient}
@@ -176,7 +373,7 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
             )}
           >
             {isSavingAll ? <Loader2 size={18} className="animate-spin" /> : saveSuccess ? <CheckCircle2 size={18} /> : <Save size={18} />}
-            {saveSuccess ? 'Alterações Salvas!' : 'Salvar Alterações'}
+            {saveSuccess ? 'Salvo!' : 'Salvar Alterações'}
           </button>
           <button 
             onClick={() => setIsImportModalOpen(true)}
@@ -222,6 +419,11 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
               {accountTypes.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
+          {/* Account count chip */}
+          <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">
+            {filteredAccounts.length} contas
+            {searchTerm || filterType !== 'Todos' ? ' filtradas' : ' no total'}
+          </div>
         </div>
       </div>
 
@@ -235,6 +437,9 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
                 <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipo / Grupo</th>
                 <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Nível</th>
                 <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
+                {planType === 'managerial' && (
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Vínculo Contábil</th>
+                )}
                 <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Vínculo KPI</th>
                 <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
               </tr>
@@ -286,6 +491,24 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
                     <td className="px-8 py-4 text-center">
                       <StatusBadge status={acc.status || 'Ativa'} />
                     </td>
+                    {planType === 'managerial' && (
+                      <td className="px-8 py-4 text-center">
+                        {acc.accountingAccountIds && acc.accountingAccountIds.length > 0 ? (
+                          <div className="flex flex-wrap gap-1 justify-center max-w-[150px] mx-auto">
+                            {acc.accountingAccountIds.map((id: string) => {
+                              const target = accountingAccounts.find(a => a.id === id);
+                              return (
+                                <span key={id} className="text-[9px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200" title={target?.name}>
+                                  {target?.code || '???'}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <span className="text-[9px] font-bold text-slate-300 uppercase tracking-tighter italic">Sem vínculo</span>
+                        )}
+                      </td>
+                    )}
                     <td className="px-8 py-4 text-center">
                       {acc.kpiMapping ? (
                         <span className="text-[9px] font-black text-secondary bg-secondary/5 px-2 py-1 rounded-lg border border-secondary/10 flex items-center justify-center gap-1 mx-auto w-fit">
@@ -346,6 +569,19 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
         </div>
       </div>
 
+      {/* Modals */}
+      <AnimatePresence>
+        {isDeletePlanOpen && (
+          <DeletePlanModal
+            clientName={clientName}
+            accountCount={savedCount}
+            onConfirm={handleDeleteEntirePlan}
+            onClose={() => setIsDeletePlanOpen(false)}
+            isDeleting={isDeletingPlan}
+          />
+        )}
+      </AnimatePresence>
+
       {isModalOpen && (
         <AccountModal 
           account={editingAccount} 
@@ -353,6 +589,8 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
           onSave={handleSaveAccount} 
           accountTypes={accountTypes}
           existingAccounts={accounts}
+          planType={planType}
+          accountingAccounts={accountingAccounts}
         />
       )}
 
@@ -362,6 +600,7 @@ export function PlanoDeContasPage({ clients, selectedClient }: { clients: any[],
           selectedClient={selectedClient}
           onClose={() => setIsImportModalOpen(false)}
           onSuccess={() => setIsImportModalOpen(false)}
+          planType={planType}
         />
       )}
 

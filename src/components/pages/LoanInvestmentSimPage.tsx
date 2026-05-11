@@ -1,6 +1,7 @@
 import React, {
     useState,
-    useMemo
+    useMemo,
+    useEffect
 } from 'react';
 import {
     Calculator,
@@ -21,7 +22,7 @@ import {
 import {
     motion,
     AnimatePresence
-} from 'framer-motion';
+} from 'motion/react';
 import {
     BarChart,
     Bar,
@@ -43,6 +44,7 @@ import {
     cn,
     formatCurrency
 } from '../../lib/utils';
+import { useAllFinancialData } from '../../hooks/useFinancialData';
 
 // --- Math Helpers ---
 
@@ -79,9 +81,18 @@ function findIRR(pv: number, cashFlows: number[]) {
     return (low + high) / 2;
 }
 
-export function LoanInvestmentSimPage() {
+export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
+    const { dbData, loading } = useAllFinancialData(clientId || '');
+
     const [amount, setAmount] = useState(800000);
     const [months, setMonths] = useState(48);
+
+    useEffect(() => {
+        if (!clientId || loading) return;
+        if (dbData && dbData.length === 0) {
+            setAmount(0);
+        }
+    }, [dbData, loading, clientId]);
 
     // Loan States
     const [loanNominalRate, setLoanNominalRate] = useState(1.75); // % a.m.

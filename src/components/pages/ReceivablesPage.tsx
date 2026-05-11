@@ -12,9 +12,11 @@ import {
   X, 
   TrendingUp, 
   PieChart as PieChartIcon,
-  Save
+  Save,
+  UploadCloud
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ImportTransactionsModal } from '../modals/ImportTransactionsModal';
+import { motion } from 'motion/react';
 import { 
   collection, 
   addDoc, 
@@ -25,13 +27,15 @@ import {
   query, 
   where, 
   orderBy, 
-  onSnapshot 
+  onSnapshot,
+  getDocs,
+  writeBatch
 } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { PageHeader } from '../Common';
 import { SortableHeader } from '../SortableHeader';
 import { DATA } from '../../data';
-import { cn, formatCurrency } from '../../lib/utils';
+import { cn, formatCurrency, formatDate } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
 import { 
   BarChart, 
@@ -62,7 +66,14 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
   const [receivables, setReceivables] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [editingReceivable, setEditingReceivable] = useState<any | null>(null);
+  const [isDeletingAll, setIsDeletingAll] = useState(false);
+
+  const tableData = useMemo(() => 
+    receivables.filter(p => !p.cliente?.toLowerCase().includes('total')), 
+    [receivables]
+  );
 
   const {
     searchTerm,
@@ -76,8 +87,8 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
     totalPages,
     filteredData: filteredReceivables,
     paginatedData: paginatedReceivables
-  } = useDataTable(receivables, {
-    searchFields: ['cliente', 'documento'],
+  } = useDataTable(tableData, {
+    searchFields: ['cliente', 'documento', 'categoria', 'centroCusto'],
     initialSort: { key: 'vencimento', direction: 'asc' },
     itemsPerPage: 10
   });
@@ -91,8 +102,7 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
     setLoading(true);
     const q = query(
       collection(db, 'receivables'),
-      where('clientId', '==', selectedClient),
-      orderBy('vencimento', 'asc')
+      where('clientId', '==', selectedClient)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -153,6 +163,29 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
     }
   };
 
+  const handleDeleteAll = async () => {
+    if (!selectedClient) return;
+    if (!window.confirm(`Tem certeza que deseja excluir TODOS os ${receivables.length} títulos de Contas a Receber deste cliente? Essa ação é irreversível.`)) return;
+    
+    setIsDeletingAll(true);
+    try {
+      const q = query(collection(db, 'receivables'), where('clientId', '==', selectedClient));
+      const snap = await getDocs(q);
+      const docs = snap.docs;
+      const chunkSize = 450;
+      for (let i = 0; i < docs.length; i += chunkSize) {
+        const batch = writeBatch(db);
+        docs.slice(i, i + chunkSize).forEach(d => batch.delete(d.ref));
+        await batch.commit();
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Erro ao excluir títulos.');
+    } finally {
+      setIsDeletingAll(false);
+    }
+  };
+
   const abcData = useMemo(() => {
     const grouped = receivables.reduce((acc: any, curr) => {
       acc[curr.cliente] = (acc[curr.cliente] || 0) + curr.valor;
@@ -175,12 +208,45 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
     return Object.entries(weeks).map(([name, valor]) => ({ name, valor }));
   }, [receivables]);
 
-  const kpis = {
-    total: receivables.reduce((a, b) => a + (b.valor || 0), 0),
-    emAtraso: receivables.filter(p => p.status === 'Em atraso').reduce((a, b) => a + (b.valor || 0), 0),
-    aReceber: receivables.filter(p => p.status === 'A vencer' || p.status === 'Pendente').reduce((a, b) => a + (b.valor || 0), 0),
-    pago: receivables.filter(p => p.status === 'Pago').reduce((a, b) => a + (b.valor || 0), 0),
-  };
+  const kpis = useMemo(() => {
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+    const date30Days = new Date();
+    date30Days.setDate(today.getDate() + 30);
+    const date30DaysStr = date30Days.toISOString().split('T')[0];
+    
+    return receivables.reduce((acc, p) => {
+      const valor = Number(p.valor) || 0;
+      const valorAberto = Number(p.valorAberto ?? (p.status === 'Pago' ? 0 : valor)) || 0;
+      acc.total += valor;
+      
+      let status = p.status || '';
+      
+      // Se não for pago, validamos se está em atraso pela data
+      if (status !== 'Pago') {
+        if (p.vencimento && p.vencimento < todayStr) {
+          status = 'Em atraso';
+        } else {
+          status = 'A vencer';
+        }
+      }
+
+      if (status === 'Pago') {
+        acc.pago += valor;
+      } else if (status === 'Em atraso') {
+        acc.emAtraso += valorAberto;
+      } else {
+        // Status 'A vencer' - dividimos por data
+        if (p.vencimento && p.vencimento <= date30DaysStr) {
+          acc.aReceber30 += valorAberto;
+        } else {
+          acc.aReceberApos30 += valorAberto;
+        }
+      }
+      
+      return acc;
+    }, { total: 0, emAtraso: 0, aReceber30: 0, aReceberApos30: 0, pago: 0 });
+  }, [receivables]);
 
   const clientName = clients.find(c => c.id === selectedClient)?.fantasia || 'Cliente';
 
@@ -191,18 +257,37 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
           title="Contas a Receber" 
           description={`Gestão centralizada de recebimentos e fluxo de caixa do cliente ${clientName}.`}
         />
-        <button 
-          onClick={() => { setEditingReceivable(null); setIsModalOpen(true); }}
-          className="px-6 py-3 bg-secondary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20 flex items-center gap-2 mb-10"
-        >
-          <Plus size={18} /> Novo Título
-        </button>
+        <div className="flex flex-wrap items-center gap-3 mb-10">
+          {receivables.length > 0 && selectedClient && (
+            <button 
+              onClick={handleDeleteAll}
+              disabled={isDeletingAll}
+              className="px-5 py-2.5 bg-white text-rose-500 border border-rose-200 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-rose-50 transition-all shadow-sm flex items-center gap-2"
+            >
+              {isDeletingAll ? <Loader2 size={15} className="animate-spin" /> : <Trash2 size={15} />}
+              Excluir Tudo
+            </button>
+          )}
+          <button 
+            onClick={() => setIsImportModalOpen(true)}
+            className="px-5 py-2.5 bg-white text-slate-600 border border-slate-200 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2"
+          >
+            <UploadCloud size={15} /> Importar
+          </button>
+          <button 
+            onClick={() => { setEditingReceivable(null); setIsModalOpen(true); }}
+            className="px-6 py-2.5 bg-secondary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20 flex items-center gap-2"
+          >
+            <Plus size={18} /> Novo Título
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <KpiCardModeling label="Total a Receber" value={formatCurrency(kpis.aReceber + kpis.emAtraso)} tone="default" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <KpiCardModeling label="Total a Receber" value={formatCurrency(kpis.aReceber30 + kpis.aReceberApos30 + kpis.emAtraso)} tone="default" />
         <KpiCardModeling label="Em Atraso" value={formatCurrency(kpis.emAtraso)} tone="danger" helper="Títulos com vencimento ultrapassado" />
-        <KpiCardModeling label="A Receber (Mês)" value={formatCurrency(kpis.aReceber)} tone="default" />
+        <KpiCardModeling label="A Receber (30 dias)" value={formatCurrency(kpis.aReceber30)} tone="default" />
+        <KpiCardModeling label="Recebem após 30 dias" value={formatCurrency(kpis.aReceberApos30)} tone="default" />
         <KpiCardModeling label="Total Recebido" value={formatCurrency(kpis.pago)} tone="success" />
       </div>
 
@@ -299,6 +384,7 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100">
                 <SortableHeader label="Cliente" sortKey="cliente" currentSort={sort} onSort={toggleSort} />
+                <SortableHeader label="Categoria" sortKey="categoria" currentSort={sort} onSort={toggleSort} />
                 <SortableHeader label="Documento" sortKey="documento" currentSort={sort} onSort={toggleSort} align="center" />
                 <SortableHeader label="Emissão" sortKey="emissao" currentSort={sort} onSort={toggleSort} align="center" />
                 <SortableHeader label="Vencimento" sortKey="vencimento" currentSort={sort} onSort={toggleSort} align="center" />
@@ -325,20 +411,37 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
                 paginatedReceivables.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
                     <td className="px-8 py-4">
-                      <span className="text-sm font-bold text-slate-700">{item.cliente}</span>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-bold text-slate-700">{item.cliente}</span>
+                        {item.centroCusto && <span className="text-[9px] font-black text-emerald-400 uppercase tracking-tighter bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100/50 self-start mt-1">{item.centroCusto}</span>}
+                      </div>
+                    </td>
+                    <td className="px-8 py-4">
+                      {item.categoria ? (
+                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/50">
+                          {item.categoria}
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-slate-300 italic">Sem categoria</span>
+                      )}
                     </td>
                     <td className="px-8 py-4 text-center">
                       <span className="text-[10px] font-mono font-black text-slate-400 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200/50">{item.documento}</span>
                     </td>
-                    <td className="px-8 py-4 text-center text-xs text-slate-500 font-bold">{item.emissao}</td>
+                    <td className="px-8 py-4 text-center text-xs text-slate-500 font-bold">{formatDate(item.emissao)}</td>
                     <td className="px-8 py-4 text-center">
                       <div className="flex flex-col items-center gap-0.5">
-                        <span className="text-xs font-black text-slate-700">{item.vencimento}</span>
+                        <span className="text-xs font-black text-slate-700">{formatDate(item.vencimento)}</span>
                         {item.status === 'Em atraso' && <span className="text-[8px] text-rose-500 font-black uppercase tracking-tighter animate-pulse">Vencido</span>}
                       </div>
                     </td>
                     <td className="px-8 py-4 text-right">
-                      <span className="text-sm font-black text-primary">{formatCurrency(item.valor)}</span>
+                      <div className="flex flex-col items-end">
+                        <span className="text-sm font-black text-primary">{formatCurrency(item.valor)}</span>
+                        {item.valorAberto !== undefined && item.valorAberto !== item.valor && item.status !== 'Pago' && (
+                          <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Aberto: {formatCurrency(item.valorAberto)}</span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-8 py-4 text-center">
                       <span className={cn(
@@ -403,6 +506,14 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
           onSave={handleSave}
         />
       )}
+      {isImportModalOpen && (
+        <ImportTransactionsModal
+          collectionName="receivables"
+          selectedClient={selectedClient}
+          onClose={() => setIsImportModalOpen(false)}
+          onSuccess={() => setIsImportModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
@@ -414,7 +525,10 @@ function ReceivableModal({ receivable, onClose, onSave }: any) {
     emissao: new Date().toISOString().split('T')[0],
     vencimento: '',
     valor: 0,
-    status: 'A vencer'
+    valorAberto: 0,
+    status: 'A vencer',
+    categoria: '',
+    centroCusto: ''
   });
 
   const [touched, setTouched] = useState<any>({});
@@ -495,6 +609,42 @@ function ReceivableModal({ receivable, onClose, onSave }: any) {
                   )}
                 />
               </div>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Valor em Aberto</label>
+            <div className="relative">
+              <span className="absolute left-4 top-3.5 text-xs font-bold text-slate-400 uppercase">R$</span>
+              <input 
+                type="number" 
+                value={formData.valorAberto ?? formData.valor}
+                onChange={e => setFormData({ ...formData, valorAberto: parseFloat(e.target.value) || 0 })}
+                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Categoria / Receita</label>
+              <input 
+                type="text" 
+                placeholder="Ex: Consultas Particulares"
+                value={formData.categoria}
+                onChange={e => setFormData({ ...formData, categoria: e.target.value })}
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Centro de Custo / Unidade</label>
+              <input 
+                type="text" 
+                placeholder="Ex: Unidade Centro"
+                value={formData.centroCusto}
+                onChange={e => setFormData({ ...formData, centroCusto: e.target.value })}
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
+              />
             </div>
           </div>
 

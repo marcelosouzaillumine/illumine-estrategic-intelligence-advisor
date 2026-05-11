@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { TrendingUp, Search, Activity } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   LineChart, 
   Line, 

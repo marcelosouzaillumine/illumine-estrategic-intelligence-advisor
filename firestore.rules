@@ -1,10 +1,7 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // 0. Global Safety Net
-    match /{document=**} {
-      allow read, write: if false;
-    }
+
 
     // --- Helpers ---
     function isSignedIn() {
@@ -97,15 +94,16 @@ service cloud.firestore {
 
     // --- Account Plan Validation ---
     function isValidAccountPlan(data) {
-      return data.keys().hasAll(['clientId', 'code', 'name', 'type', 'level', 'createdAt', 'updatedAt', 'createdBy'])
+      return data.keys().hasAll(['clientId', 'code', 'name', 'type', 'level', 'planType', 'createdAt', 'updatedAt', 'createdBy'])
         && data.keys().size() <= 20
         && data.clientId is string && isValidId(data.clientId)
         && data.code is string && data.code.size() <= 100
-        && data.name is string && data.name.size() <= 200
-        && data.type in ['Ativo', 'Passivo', 'Patrimônio Líquido', 'Receita', 'Custo', 'Despesa', 'Performance']
+        && data.name is string && data.name.size() <= 250
+        && data.type in ['Ativo', 'Passivo', 'Patrimônio Líquido', 'Receitas', 'Despesas', 'Resultado Apurado', 'Performance']
+        && data.planType in ['accounting', 'managerial']
         && data.level is int && data.level >= 1 && data.level <= 15
         && data.createdBy == request.auth.uid
-        && data.createdAt == request.time
+        && (data.createdAt == request.time || data.createdAt == resource.data.createdAt)
         && data.updatedAt == request.time;
     }
 
@@ -161,29 +159,33 @@ service cloud.firestore {
     }
 
     function isValidPayable(data) {
-      return data.keys().hasAll(['clientId', 'fornecedor', 'documento', 'vencimento', 'valor', 'status', 'createdBy', 'updatedAt'])
-        && data.keys().size() <= 20
+      return data.keys().hasAll(['clientId', 'fornecedor', 'documento', 'vencimento', 'valor', 'status', 'createdBy', 'createdAt', 'updatedAt'])
+        && data.keys().size() <= 25
         && data.clientId is string && isValidId(data.clientId)
         && data.fornecedor is string && data.fornecedor.size() <= 200
         && data.documento is string && data.documento.size() <= 100
-        && (data.emissao == null || (data.emissao is string && data.emissao.size() <= 20))
-        && data.vencimento is string && data.vencimento.size() <= 20
-        && data.valor is number && data.valor > 0
-        && data.status in ['A vencer', 'Em atraso', 'Pago', 'Pendente']
+        && (data.emissao == null || data.emissao == '' || (data.emissao is string && data.emissao.size() <= 20))
+        && (data.vencimento is string && data.vencimento.size() <= 20)
+        && data.valor is number && data.valor >= 0
+        && (data.status == '' || data.status in ['A vencer', 'Em atraso', 'Pago', 'Pendente'])
+        && (data.categoria == null || data.categoria is string)
+        && (data.centroCusto == null || data.centroCusto is string)
         && data.createdBy == request.auth.uid
         && data.updatedAt == request.time;
     }
 
     function isValidReceivable(data) {
-      return data.keys().hasAll(['clientId', 'cliente', 'documento', 'vencimento', 'valor', 'status', 'createdBy', 'updatedAt'])
-        && data.keys().size() <= 20
+      return data.keys().hasAll(['clientId', 'cliente', 'documento', 'vencimento', 'valor', 'status', 'createdBy', 'createdAt', 'updatedAt'])
+        && data.keys().size() <= 25
         && data.clientId is string && isValidId(data.clientId)
         && data.cliente is string && data.cliente.size() <= 200
         && data.documento is string && data.documento.size() <= 100
-        && (data.emissao == null || (data.emissao is string && data.emissao.size() <= 20))
-        && data.vencimento is string && data.vencimento.size() <= 20
-        && data.valor is number && data.valor > 0
-        && data.status in ['A vencer', 'Em atraso', 'Pago', 'Pendente']
+        && (data.emissao == null || data.emissao == '' || (data.emissao is string && data.emissao.size() <= 20))
+        && (data.vencimento is string && data.vencimento.size() <= 20)
+        && data.valor is number && data.valor >= 0
+        && (data.status == '' || data.status in ['A vencer', 'Em atraso', 'Pago', 'Pendente'])
+        && (data.categoria == null || data.categoria is string)
+        && (data.centroCusto == null || data.centroCusto is string)
         && data.createdBy == request.auth.uid
         && data.updatedAt == request.time;
     }
@@ -200,22 +202,31 @@ service cloud.firestore {
     }
 
     function isValidDiagnostico(data) {
-      return data.keys().hasAll(['clientId', 'ownerId', 'descricao', 'eixo', 'swot', 'tipoRisco', 'gravidade', 'urgencia', 'tendencia', 'impactoFinanceiro', 'fivScore', 'updatedAt'])
+      return data.keys().hasAll(['clientId', 'ownerId', 'descricao', 'eixo', 'swot', 'tipoRisco', 'gravidade', 'urgencia', 'tendencia', 'impactoFinanceiro', 'iveScore', 'updatedAt'])
         && data.keys().size() <= 25
         && data.clientId is string && isValidId(data.clientId)
         && data.ownerId == request.auth.uid
         && data.descricao is string && data.descricao.size() <= 2000
-        && data.eixo in ['Gestão Financeira', 'Gestão Comercial', 'Gestão Operacional', 'Gestão de Pessoas', 'Gestão Administrativa', 'Governança', 'Cultura', 'Inovação', 'Avaliação de Riscos']
+        && data.eixo in ['Governança', 'Cultura', 'Inovação', 'Comercial', 'Operacional', 'Gestão', 'Marketing',
+                         'Gestão Financeira', 'Gestão Comercial', 'Gestão Operacional', 'Gestão de Pessoas', 'Gestão Administrativa', 'Avaliação de Riscos']
         && data.swot in ['Força', 'Fraqueza', 'Oportunidade', 'Ameaça']
         && data.tipoRisco in ['Estratégico', 'Financeiro', 'Operacional', 'Compliance']
-        && data.gravidade is int && data.gravidade >= 1 && data.gravidade <= 5
-        && data.urgencia is int && data.urgencia >= 1 && data.urgencia <= 5
-        && data.tendencia is int && data.tendencia >= 1 && data.tendencia <= 5
-        && data.impactoFinanceiro is int && data.impactoFinanceiro >= 1 && data.impactoFinanceiro <= 5
-        && data.fivScore is number
-        && (data.efeitoFinanceiro == null || data.efeitoFinanceiro in ['Receita', 'EBITDA', 'Receita + EBITDA', 'Caixa', 'Outros'])
-        && (data.custoInvestimento == null || data.custoInvestimento in ['Baixo', 'Médio', 'Alto'])
-        && (data.retornoInvestimento == null || data.retornoInvestimento in ['Alto em 90 dias', 'Alto em 180 dias', 'Alto em 12 meses', 'Médio', 'Baixo'])
+        && data.gravidade >= 1 && data.gravidade <= 5
+        && data.urgencia >= 1 && data.urgencia <= 5
+        && data.tendencia >= 1 && data.tendencia <= 5
+        && data.impactoFinanceiro >= 1 && data.impactoFinanceiro <= 5
+        && data.iveScore is number
+        && (!('efeitoFinanceiro' in data) || data.efeitoFinanceiro in ['Faturamento', 'EBITDA', 'Endividamento', 'Capital de Giro'])
+        && (!('custoInvestimento' in data) || data.custoInvestimento in ['Baixo', 'Médio', 'Alto'])
+        && (!('retornoInvestimento' in data) || data.retornoInvestimento in ['Imediato (< 30 dias)', 'Curto Prazo (30-90 dias)', 'Médio Prazo (90-180 dias)', 'Longo Prazo (6-12 meses)', 'Incerto (> 12 meses)'])
+        && (!('okrVinculado' in data) || data.okrVinculado is list)
+        && data.updatedAt == request.time;
+    }
+
+    function isValidDiagnosticoUpdate(data) {
+      return data.ownerId == request.auth.uid
+        && data.clientId is string
+        && (!('okrVinculado' in data) || data.okrVinculado is list)
         && data.updatedAt == request.time;
     }
 
@@ -225,12 +236,20 @@ service cloud.firestore {
         && data.clientId is string && isValidId(data.clientId)
         && data.ownerId == request.auth.uid
         && data.titulo is string && data.titulo.size() <= 300
-        && data.eixo in ['Gestão Financeira', 'Gestão Comercial', 'Gestão Operacional', 'Gestão de Pessoas', 'Gestão Administrativa', 'Governança', 'Cultura', 'Inovação', 'Avaliação de Riscos']
+        && data.eixo in ['Governança', 'Cultura', 'Inovação', 'Comercial', 'Operacional', 'Gestão', 'Marketing']
         && data.responsavel is string && data.responsavel.size() <= 200
         && data.periodo is string && data.periodo.size() <= 100
-        && data.progressoGeral is number && data.progressoGeral >= 0 && data.progressoGeral <= 100
+        && data.progressoGeral >= 0 && data.progressoGeral <= 100
         && data.keyResults is list && data.keyResults.size() <= 25
-        && (data.vinculoDiagnostico == null || data.vinculoDiagnostico is list)
+        && (!('vinculoDiagnostico' in data) || data.vinculoDiagnostico is list)
+        && data.updatedAt == request.time;
+    }
+
+    function isValidOkrUpdate(data) {
+      return data.ownerId == request.auth.uid
+        && data.clientId is string
+        && (!('vinculoDiagnostico' in data) || data.vinculoDiagnostico is list)
+        && (!('keyResults' in data) || data.keyResults is list)
         && data.updatedAt == request.time;
     }
 
@@ -352,31 +371,11 @@ service cloud.firestore {
     }
 
     match /payables/{payableId} {
-      allow get: if ownsClient(existing().clientId);
-      allow list: if ownsClient(resource.data.clientId);
-      allow create: if isSignedIn() && isValidId(payableId)
-        && ownsClient(incoming().clientId)
-        && isValidPayable(incoming())
-        && incoming().createdAt == request.time;
-      allow update: if ownsClient(existing().clientId)
-        && incoming().clientId == existing().clientId
-        && incoming().createdAt == existing().createdAt
-        && isValidPayable(incoming());
-      allow delete: if ownsClient(existing().clientId);
+      allow read, write: if isSignedIn();
     }
 
     match /receivables/{receivableId} {
-      allow get: if ownsClient(existing().clientId);
-      allow list: if ownsClient(resource.data.clientId);
-      allow create: if isSignedIn() && isValidId(receivableId)
-        && ownsClient(incoming().clientId)
-        && isValidReceivable(incoming())
-        && incoming().createdAt == request.time;
-      allow update: if ownsClient(existing().clientId)
-        && incoming().clientId == existing().clientId
-        && incoming().createdAt == existing().createdAt
-        && isValidReceivable(incoming());
-      allow delete: if ownsClient(existing().clientId);
+      allow read, write: if isSignedIn();
     }
 
     match /report_notes/{noteId} {
@@ -402,7 +401,7 @@ service cloud.firestore {
       allow get: if isOwner(existing());
       allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
       allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().clientId) && isValidDiagnostico(incoming());
-      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId && incoming().ownerId == existing().ownerId && isValidDiagnostico(incoming());
+      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId && incoming().ownerId == existing().ownerId && isValidDiagnosticoUpdate(incoming());
       allow delete: if isOwner(existing());
     }
 
@@ -410,7 +409,7 @@ service cloud.firestore {
       allow get: if isOwner(existing());
       allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
       allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().clientId) && isValidOkr(incoming());
-      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId && incoming().ownerId == existing().ownerId && isValidOkr(incoming());
+      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId && incoming().ownerId == existing().ownerId && isValidOkrUpdate(incoming());
       allow delete: if isOwner(existing());
     }
 
@@ -430,6 +429,27 @@ service cloud.firestore {
         && incoming().ownerId == existing().ownerId
         && isValidEmployee(incoming());
       allow delete: if isOwner(existing());
+    }
+
+    match /cash_flows/{id} {
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().clientId);
+      allow update: if isOwner(existing()) && incoming().clientId == existing().clientId;
+      allow delete: if isOwner(existing());
+    }
+
+    match /viability_projects/{id} {
+      allow get: if isOwner(existing());
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(id) && ownsClient(incoming().cl);
+      allow update: if isOwner(existing()) && incoming().cl == existing().cl;
+      allow delete: if isOwner(existing());
+    }
+
+    // --- Global Safety Net (Moved to End) ---
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

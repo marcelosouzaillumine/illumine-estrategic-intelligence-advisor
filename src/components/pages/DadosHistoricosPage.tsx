@@ -31,8 +31,17 @@ import { db, login, handleFirestoreError, OperationType } from '../../lib/fireba
 import { cn } from '../../lib/utils';
 import { PageHeader } from '../Common';
 
-export function DadosHistoricosPage({ clients, user }: { clients: any[], user: User | null }) {
-  const [selectedClient, setSelectedClient] = useState(clients[0]?.id || '');
+export function DadosHistoricosPage({ 
+  clients, 
+  user,
+  selectedClient,
+  setSelectedClient
+}: { 
+  clients: any[], 
+  user: User | null,
+  selectedClient: string,
+  setSelectedClient: (id: string) => void
+}) {
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
   const [docType, setDocType] = useState('DRE');
@@ -258,13 +267,10 @@ export function DadosHistoricosPage({ clients, user }: { clients: any[], user: U
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cliente</label>
-                  <select 
-                    value={selectedClient} 
-                    onChange={(e) => setSelectedClient(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all"
-                  >
-                    {clients.map(c => <option key={c.id} value={c.id}>{c.fantasia}</option>)}
-                  </select>
+                  <div className="px-4 py-3 bg-slate-100/50 border border-slate-100 rounded-xl text-sm font-black text-slate-500 italic">
+                    {clients.find(c => c.id === selectedClient)?.fantasia || 'Nenhum cliente selecionado'}
+                  </div>
+                  <p className="text-[9px] text-slate-400 mt-2">Altere o cliente no seletor global do topo.</p>
                 </div>
 
                 <div>

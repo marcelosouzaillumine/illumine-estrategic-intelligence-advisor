@@ -1,5 +1,5 @@
 
-export type EixoGestao = 'Gestão Financeira' | 'Gestão Comercial' | 'Gestão Operacional' | 'Gestão de Pessoas' | 'Gestão Administrativa' | 'Governança' | 'Cultura' | 'Inovação' | 'Avaliação de Riscos';
+export type EixoGestao = 'Governança' | 'Cultura' | 'Inovação' | 'Comercial' | 'Operacional' | 'Gestão' | 'Marketing';
 
 export interface Diretriz {
   id?: string;
@@ -28,12 +28,12 @@ export interface DiagnosticoItem {
   gravidade: Gravidade;
   urgencia: Urgencia;
   tendencia: Tendencia;
-  efeitoFinanceiro: 'Receita' | 'EBITDA' | 'Receita + EBITDA' | 'Caixa' | 'Outros';
+  efeitoFinanceiro: 'Faturamento' | 'EBITDA' | 'Endividamento' | 'Capital de Giro';
   impactoFinanceiro: ImpactoFinanceiro;
   custoInvestimento: 'Baixo' | 'Médio' | 'Alto';
-  retornoInvestimento: 'Alto em 90 dias' | 'Alto em 180 dias' | 'Alto em 12 meses' | 'Médio' | 'Baixo';
-  fivScore: number;
-  okrVinculado?: string;
+  retornoInvestimento: 'Imediato (< 30 dias)' | 'Curto Prazo (30-90 dias)' | 'Médio Prazo (90-180 dias)' | 'Longo Prazo (6-12 meses)' | 'Incerto (> 12 meses)';
+  iveScore: number;
+  okrVinculado?: string[];
   updatedAt: any;
   ownerId: string;
 }

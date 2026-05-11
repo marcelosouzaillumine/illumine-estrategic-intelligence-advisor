@@ -17,10 +17,12 @@ import {
   Coins,
   Globe
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { cn, formatCurrency } from '../../lib/utils';
-import { DATA } from '../../data';
 import { calculateIllumineScore, HealthScoreDimensions } from '../../lib/financialIntelligence';
+import { useState, useEffect } from 'react';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 
 interface ClientPortfolioData {
   id: string;
@@ -35,49 +37,104 @@ interface ClientPortfolioData {
 }
 
 export function PortfolioPage({ clients, onSelectClient }: any) {
-  // Realistic score calculation based on DATA
-  const portfolioData: ClientPortfolioData[] = useMemo(() => {
-    if (!clients || !DATA) return [];
-    return clients.map((c: any) => {
-      // Try to find real sample data for this client to derive a score
-      const clientDre = DATA.dre.filter(d => (d as any).id === c.id);
-      const clientBp = DATA.bp.filter(b => (b as any).id === c.id);
+  const [financialData, setFinancialData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchAllData() {
+      if (!clients || clients.length === 0) {
+        setLoading(false);
+        return;
+      }
       
-      let baseScore = 65; // Default middle
-      
-      if (clientDre.length > 0 && clientBp.length > 0) {
-        // Simple logic: Profitability and Liquidity impact
-        const revenue = clientDre.find(d => d.conta === 'Receita Líquida')?.valor || 1;
-        const ebitda = clientDre.find(d => d.conta === 'EBITDA')?.valor || 0;
-        const margin = (ebitda / revenue) * 100;
+      try {
+        setLoading(true);
+        // Fetch financial data for all clients concurrently
+        const promises = clients.map((c: any) => 
+          getDocs(query(collection(db, 'financial_entries'), where('clientId', '==', c.id)))
+        );
         
-        const ac = clientBp.find(b => b.conta === 'Ativo Circulante')?.val || 0;
-        const pc = clientBp.find(b => b.conta === 'Passivo Circulante')?.val || 1;
+        const snaps = await Promise.all(promises);
+        const allEntries: any[] = [];
+        
+        snaps.forEach(snap => {
+          snap.docs.forEach(doc => {
+            const docData = doc.data() as any;
+            
+            // Filter to only DRE and BP to save memory
+            if (docData.type !== 'DRE' && docData.type !== 'BP') return;
+            
+            if (Array.isArray(docData.data)) {
+              docData.data.forEach((entry: any) => {
+                allEntries.push({
+                  ...entry,
+                  clientId: docData.clientId,
+                  type: docData.type,
+                  conta: entry.category,
+                  valor: entry.value,
+                  val: entry.value
+                });
+              });
+            } else {
+              allEntries.push({
+                ...docData,
+                conta: docData.category,
+                valor: docData.value,
+                val: docData.value
+              });
+            }
+          });
+        });
+        setFinancialData(allEntries);
+      } catch (e) {
+        console.error("Error fetching portfolio data:", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchAllData();
+  }, [clients]);
+
+  const portfolioData: ClientPortfolioData[] = useMemo(() => {
+    if (!clients) return [];
+    return clients.map((c: any) => {
+      const clientData = financialData.filter(d => d.clientId === c.id);
+      const clientDre = clientData.filter(d => d.type === 'DRE');
+      const clientBp = clientData.filter(d => d.type === 'BP');
+      
+      let hasData = clientDre.length > 0;
+      let score = 0;
+      let revenue = 0;
+      let ebitda = 0;
+      let margin = 0;
+      
+      if (hasData) {
+        // Aggregate values for simplicity or use the latest month/year if we had it
+        revenue = clientDre.filter(d => d.conta === 'Receita Líquida').reduce((sum, d) => sum + d.valor, 0);
+        ebitda = clientDre.filter(d => d.conta === 'EBITDA').reduce((sum, d) => sum + d.valor, 0);
+        margin = revenue > 0 ? (ebitda / revenue) * 100 : 0;
+        
+        const ac = clientBp.filter(b => b.conta === 'Ativo Circulante').reduce((sum, b) => sum + (b.val || b.valor), 0) || 0;
+        const pc = clientBp.filter(b => b.conta === 'Passivo Circulante').reduce((sum, b) => sum + (b.val || b.valor), 0) || 1;
         const liq = ac / pc;
         
         const calculated = 40 + (margin * 2) + (liq * 5); // Rough health indicator
-        baseScore = isNaN(calculated) ? 65 : calculated;
-      } else {
-        // Random but stable seed based on ID string
-        const seed = c.id.charCodeAt(0) + c.id.charCodeAt(c.id.length - 1);
-        baseScore = 50 + (seed % 40);
+        score = isNaN(calculated) ? 65 : Math.max(30, Math.min(98, Math.round(calculated)));
       }
-      
-      const score = Math.max(30, Math.min(98, Math.round(baseScore)));
       
       return {
         id: c.id,
         name: c.fantasia || c.name,
         industry: c.segmento || 'Serviços',
         score,
-        lastMonthScore: score + (c.id === 'C001' ? -5 : 2), // Simulate trends
-        criticalAlerts: score < 50 ? 3 : score < 70 ? 1 : 0,
-        status: score < 50 ? 'critical' : 'active',
-        revenue: 1250000 + (c.id.charCodeAt(0) * 10000),
-        ebitdaMargin: 12 + (score / 10)
+        lastMonthScore: score, // Simulate stable trend if no historical data calculation
+        criticalAlerts: hasData ? (score < 50 ? 3 : score < 70 ? 1 : 0) : 0,
+        status: hasData ? (score < 50 ? 'critical' : 'active') : 'onboarding',
+        revenue,
+        ebitdaMargin: margin
       };
     });
-  }, [clients]);
+  }, [clients, financialData]);
 
   const stats = useMemo(() => {
     const totalClients = portfolioData.length;
@@ -88,6 +145,15 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
       totalClients
     };
   }, [portfolioData]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Calculando Portfólio...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 pb-20">

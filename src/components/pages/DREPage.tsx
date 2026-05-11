@@ -2,15 +2,21 @@ import React, { useMemo } from 'react';
 import { DATA } from '../../data';
 import { formatCurrency, cn } from '../../lib/utils';
 import { PageHeader } from '../Common';
+import { useAnnualFinancialData } from '../../hooks/useFinancialData';
 
 export function DREPage({ clients, selectedClient, selectedMonth, selectedYear }: any) {
+  const { dbData: dbDataCurrent } = useAnnualFinancialData(selectedClient, selectedYear, 'DRE');
+  const { dbData: dbDataPrev } = useAnnualFinancialData(selectedClient, selectedYear - 1, 'DRE');
+
   const data = useMemo(() => {
+    if (dbDataCurrent && dbDataCurrent.length > 0) return dbDataCurrent;
     return DATA.dre.filter(d => d.id === selectedClient && d.ano === selectedYear && d.mes === selectedMonth);
-  }, [selectedClient, selectedYear, selectedMonth]);
+  }, [selectedClient, selectedYear, selectedMonth, dbDataCurrent]);
 
   const prevYearData = useMemo(() => {
+    if (dbDataPrev && dbDataPrev.length > 0) return dbDataPrev;
     return DATA.dre.filter(d => d.id === selectedClient && d.ano === selectedYear - 1 && d.mes === selectedMonth);
-  }, [selectedClient, selectedYear, selectedMonth]);
+  }, [selectedClient, selectedYear, selectedMonth, dbDataPrev]);
 
   const rows = [
     'Receita Operacional Bruta',
@@ -28,7 +34,7 @@ export function DREPage({ clients, selectedClient, selectedMonth, selectedYear }
     'Lucro Líquido'
   ];
 
-  const getValue = (source: any[], name: string) => source.find(s => s.conta === name)?.valor || 0;
+  const getValue = (source: any[], name: string) => source.find(s => s.conta === name)?.val || source.find(s => s.conta === name)?.valor || 0;
 
   return (
     <div className="space-y-8 pb-20">

@@ -13,7 +13,7 @@ import {
   TrendingUp,
   ShieldCheck
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
@@ -82,9 +82,14 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
 
   const getVal = (data: any[], name: string) => data.find(d => d.category === name)?.value || 0;
 
-  const revenue = getVal(currentDre, 'Receita Líquida');
-  const ebitda = getVal(currentDre, 'EBITDA');
-  const netProfit = getVal(currentDre, 'Lucro Líquido');
+  const revenue = getVal(currentDre, 'Receita Líquida') || getVal(currentDre, 'Receita Operacional Bruta');
+  let ebitda = getVal(currentDre, 'EBITDA');
+  if (ebitda === 0) {
+    const ebit = getVal(currentDre, 'Lucro Operacional (EBIT)');
+    const da = Math.abs(getVal(currentDre, 'Depreciação e Amortização'));
+    ebitda = ebit + da;
+  }
+  const netProfit = getVal(currentDre, 'Lucro Líquido') || getVal(currentDre, 'Lucro Líquido do Exercício');
   const cashFlowOp = getVal(currentDre, 'Fluxo de Caixa Operacional') || (ebitda * 0.7); 
   const ncg = getVal(currentBp, 'Ativo Circulante Operacional') - getVal(currentBp, 'Passivo Circulante Operacional') || (revenue * 0.2);
   const debt = getVal(currentBp, 'Passivo Não Circulante') + getVal(currentBp, 'Empréstimos e Financiamentos');

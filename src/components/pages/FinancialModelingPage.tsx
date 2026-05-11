@@ -10,11 +10,12 @@ import {
   AlertTriangle,
   ShieldCheck
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, AreaChart, Area } from 'recharts';
 import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
+import { useAllFinancialData } from '../../hooks/useFinancialData';
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
@@ -181,6 +182,7 @@ function InputsModelView() {
 
 export function FinancialModelingPage({ clients, selectedClient, setSelectedClient }: { clients: any[], selectedClient: string, setSelectedClient: (id: string) => void }) {
   const [tab, setTab] = useState("dashboard");
+  const { dbData } = useAllFinancialData(selectedClient);
   
   // Base Data Selection
   const activeClient = useMemo(() => 
@@ -193,14 +195,26 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
     const growthRate = 0.12; 
     const ipca = 0.045; 
     
-    // Attempt to extract base from actual data
-    const clientDre = DATA.dre.filter(d => d.id === selectedClient);
-    const lastYearRevenue = clientDre.filter(d => d.ano === 2025).reduce((acc, curr) => acc + (curr.conta === 'Receita Líquida' ? curr.valor : 0), 0) * 12 / 3; // Estimate annual if partial
+    const hasData = dbData && dbData.length > 0;
     
-    // Fallbacks if data is missing
-    let baseRevenue = lastYearRevenue > 0 ? lastYearRevenue : 12000000;
-    let baseAssets = 5000000;
-    let baseDebt = 2000000;
+    let lastYearRevenue = 0;
+    if (hasData) {
+      lastYearRevenue = dbData
+        .filter((d: any) => d.type === 'DRE' && d.ano === 2025 && (d.conta === 'Receita Líquida' || d.category === 'Receita Líquida'))
+        .reduce((acc: number, curr: any) => acc + (curr.val || curr.valor || curr.value || 0), 0);
+    }
+    
+    if (!lastYearRevenue) {
+      const clientDre = DATA.dre.filter(d => d.id === selectedClient);
+      lastYearRevenue = clientDre.filter(d => d.ano === 2025).reduce((acc, curr) => acc + (curr.conta === 'Receita Líquida' ? curr.valor : 0), 0) * 12 / 3; 
+    }
+    
+    let baseRevenue = lastYearRevenue > 0 ? lastYearRevenue : 0;
+    let baseAssets = 0;
+    let baseDebt = 0;
+    let fixedCostsBase = hasData ? 1800000 : 0;
+    let capexBase = hasData ? 500000 : 0;
+    let capexRecurring = hasData ? 200000 : 0;
 
     // Derived Projections
     const dreGerencialRows: any[] = [
@@ -235,10 +249,10 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
     ];
 
     years.forEach((year, i) => {
-      const yearGrowth = growthRate * Math.pow(1 + ipca, i);
+      const yearGrowth = hasData ? growthRate * Math.pow(1 + ipca, i) : 0;
       const revenue = baseRevenue * Math.pow(1 + yearGrowth, i);
       const variableCosts = revenue * 0.45;
-      const fixedCosts = 1800000 * Math.pow(1 + ipca, i);
+      const fixedCosts = fixedCostsBase * Math.pow(1 + ipca, i);
       const ebitda = revenue - variableCosts - fixedCosts;
       const depr = baseAssets * 0.1;
       const ebit = ebitda - depr;
@@ -250,7 +264,7 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
       const lucroLiquido = ebit - taxes;
 
       // Cash Flow Path
-      const capex = year === 2026 ? 500000 : 200000 * Math.pow(1 + ipca, i);
+      const capex = year === 2026 ? capexBase : capexRecurring * Math.pow(1 + ipca, i);
       const deltaNcg = revenue * 0.05;
       const fcff = ebitda - capex - deltaNcg + depr;
 
@@ -291,7 +305,7 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
       fluxoCaixa: { headers: years, rows: fluxoCaixaRows },
       balanco: { headers: years, rows: balancoRows }
     };
-  }, [activeClient, selectedClient]);
+  }, [activeClient, selectedClient, dbData]);
 
   const tabs = [
     { id: 'dashboard', label: 'Monitor Board', icon: LayoutGrid },
