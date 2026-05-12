@@ -113,6 +113,16 @@ export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardP
     return SACERDOTAL_PRINCIPLES.filter(p => p.axis === axis);
   }, [axis]);
 
+  const renderMarkdown = (text: string) => {
+    if (!text) return null;
+    return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={index} className="text-amber-800 font-black">{part.slice(2, -2)}</strong>;
+      }
+      return <span key={index}>{part}</span>;
+    });
+  };
+
   // Alinhamento médio do Eixo (Mock)
   const alignmentScore = 88;
 
@@ -221,7 +231,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardP
               <div className="flex items-center gap-2 mb-4 text-amber-600 font-black uppercase tracking-widest text-[10px]">
                 <Zap size={14} /> Leitura Estratégica AI
               </div>
-              <div className="whitespace-pre-wrap relative z-10 text-xs text-amber-900/90">{aiAnalysis}</div>
+              <div className="whitespace-pre-wrap relative z-10 text-xs text-amber-900/90">{renderMarkdown(aiAnalysis)}</div>
             </div>
           )}
 
@@ -230,7 +240,8 @@ export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardP
               <SacerdotalInsightPanel 
                 key={principle.id}
                 principleId={principle.id}
-                recommendation={`${principle.businessApplication} Ação: ${principle.practicalRecommendations.join(' • ')}`}
+                recommendation={principle.businessApplication}
+                practicalRecommendations={principle.practicalRecommendations}
               />
             ))}
             {axisPrinciples.length === 0 && (

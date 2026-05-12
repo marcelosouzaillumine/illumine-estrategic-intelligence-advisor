@@ -9,6 +9,7 @@ interface SacerdotalInsightPanelProps {
   misalignment?: string;
   impact?: string;
   recommendation?: string;
+  practicalRecommendations?: string[];
   className?: string;
   compact?: boolean;
 }
@@ -18,6 +19,7 @@ export function SacerdotalInsightPanel({
   misalignment, 
   impact, 
   recommendation,
+  practicalRecommendations,
   className,
   compact = false
 }: SacerdotalInsightPanelProps) {
@@ -47,9 +49,8 @@ export function SacerdotalInsightPanel({
           <BookOpen size={24} />
         </div>
         <div>
-          <h4 className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">Princípio Aplicado</h4>
           <div className="flex items-center gap-3">
-            <h3 className="text-lg font-black text-slate-800">{principle.name}</h3>
+            <h3 className="text-lg font-black text-slate-800">Princípio de {principle.name}</h3>
             <span className="text-[10px] bg-white px-2 py-1 rounded border border-amber-200 text-amber-700 font-bold">
               {principle.reference}
             </span>
@@ -72,9 +73,29 @@ export function SacerdotalInsightPanel({
 
         <div className="flex gap-3">
           <CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />
-          <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Recomendação Prática</p>
-            <p className="text-xs font-bold text-slate-700">{recommendation || principle.practicalRecommendations[0]}</p>
+          <div className="flex-1">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Recomendação Prática</p>
+            {recommendation && <p className="text-xs font-bold text-slate-700">{recommendation}</p>}
+            
+            {practicalRecommendations && practicalRecommendations.length > 0 ? (
+              <ul className="space-y-1.5 mt-2">
+                {practicalRecommendations.map((rec, i) => (
+                  <li key={i} className="flex items-start gap-2 text-xs font-medium text-slate-600 leading-relaxed">
+                    <span className="w-1.5 h-1.5 bg-amber-400 rounded-full mt-1.5 shrink-0" />
+                    <span>{rec}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              !recommendation && (
+                <ul className="space-y-1.5 mt-2">
+                  <li className="flex items-start gap-2 text-xs font-medium text-slate-600 leading-relaxed">
+                    <span className="w-1.5 h-1.5 bg-amber-400 rounded-full mt-1.5 shrink-0" />
+                    <span>{principle.practicalRecommendations[0]}</span>
+                  </li>
+                </ul>
+              )
+            )}
           </div>
         </div>
       </div>
