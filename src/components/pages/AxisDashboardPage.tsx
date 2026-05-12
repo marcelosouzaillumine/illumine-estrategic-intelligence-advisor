@@ -8,7 +8,7 @@ import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
 import { formatCurrency, cn } from '../../lib/utils';
 import { EixoGestao } from '../../types/modules';
-import { SACERDOTAL_PRINCIPLES } from '../../lib/sacerdotalIntelligence';
+import { SACERDOTAL_PRINCIPLES, evaluateAxisRules } from '../../lib/sacerdotalIntelligence';
 import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
 import { generateSacerdotalParecer } from '../../services/sacerdotalAiService';
 
@@ -107,8 +107,16 @@ const AXIS_CONFIG: Record<EixoGestao, any> = {
 
 export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardPageProps) {
   const config = AXIS_CONFIG[axis] || AXIS_CONFIG['Governança'];
-  
-  // Pegar os princípios sacerdotais relacionados a este eixo
+  const flatMetrics = useMemo(() => {
+    return config.primaryKPIs.reduce((acc: any, kpi: any) => ({...acc, [kpi.label]: kpi.value}), {});
+  }, [config.primaryKPIs]);
+
+  // Pegar os alertas sacerdotais (regras violadas) para este eixo baseado nos KPIs
+  const triggeredRules = useMemo(() => {
+    return evaluateAxisRules(flatMetrics, axis);
+  }, [axis, flatMetrics]);
+
+  // Se precisar mandar pro Gemini, mandamos os princípios relacionados em geral
   const axisPrinciples = useMemo(() => {
     return SACERDOTAL_PRINCIPLES.filter(p => p.axis === axis);
   }, [axis]);
@@ -134,7 +142,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardP
     const result = await generateSacerdotalParecer({
       clientName: 'Sua Empresa',
       industry: 'Geral',
-      metrics: config.primaryKPIs.reduce((acc: any, kpi: any) => ({...acc, [kpi.label]: kpi.value}), {}),
+      metrics: flatMetrics,
       topPrinciples: axisPrinciples.map(p => p.name)
     });
     setAiAnalysis(result);
@@ -236,16 +244,21 @@ export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardP
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {axisPrinciples.map((principle) => (
+            {triggeredRules.map((rule) => (
               <SacerdotalInsightPanel 
-                key={principle.id}
-                principleId={principle.id}
-                recommendation={principle.businessApplication}
-                practicalRecommendations={principle.practicalRecommendations}
+                key={rule.id}
+                principleId={rule.principle.id}
+                misalignment={rule.misalignment}
+                impact={rule.impact}
+                recommendation={rule.recommendation}
               />
             ))}
-            {axisPrinciples.length === 0 && (
-              <p className="text-sm text-slate-400 italic">Nenhum princípio mapeado especificamente para este eixo ainda.</p>
+            {triggeredRules.length === 0 && (
+              <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center p-12 bg-emerald-50/50 border border-emerald-100 rounded-3xl text-emerald-700">
+                <ShieldCheck size={48} className="mb-4 opacity-50" />
+                <h4 className="text-lg font-black tracking-tight mb-1">Eixo Saudável e Alinhado</h4>
+                <p className="text-xs font-medium opacity-80 text-center max-w-md">Os indicadores atuais não disparam nenhum alerta de desalinhamento com os princípios de {axis}.</p>
+              </div>
             )}
           </div>
         </div>

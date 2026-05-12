@@ -428,6 +428,69 @@ export const SACERDOTAL_FINANCIAL_RULES: SacerdotalRule[] = [
   }
 ];
 
+export const SACERDOTAL_AXIS_RULES: SacerdotalRule[] = [
+  ...SACERDOTAL_FINANCIAL_RULES,
+  // Regras de Cultura
+  {
+    id: 'rule_cult_turnover',
+    condition: (metrics: any) => (metrics['Turnover'] !== undefined && metrics['Turnover'] > 5.0),
+    principleId: 'cult_1', // Honra
+    misalignment: 'Turnover elevado sugere falha na valorização e retenção de talentos.',
+    impact: 'Perda de conhecimento organizacional e alto custo de reposição.',
+    recommendation: 'Revisar políticas de reconhecimento e clima organizacional.',
+    orientation: 'Atenção'
+  },
+  {
+    id: 'rule_cult_enps',
+    condition: (metrics: any) => (metrics['eNPS (Clima)'] !== undefined && metrics['eNPS (Clima)'] < 50),
+    principleId: 'cult_5', // Cuidado
+    misalignment: 'Baixo eNPS aponta para insatisfação e falta de cuidado com as equipes.',
+    impact: 'Desengajamento e potencial risco trabalhista.',
+    recommendation: 'Implementar ações de bem-estar e escuta ativa (pesquisas de pulso).',
+    orientation: 'Alerta Crítico'
+  },
+  // Regras de Marketing
+  {
+    id: 'rule_mkt_cpl',
+    condition: (metrics: any) => (metrics['Custo por Lead (CPL)'] !== undefined && metrics['Custo por Lead (CPL)'] > 100),
+    principleId: 'mkt_2', // Excelência
+    misalignment: 'Custo de aquisição alto pode refletir comunicação ineficiente ou falta de foco.',
+    impact: 'Desperdício de orçamento de marketing.',
+    recommendation: 'Otimizar canais de mídia e melhorar o direcionamento de anúncios.',
+    orientation: 'Atenção'
+  },
+  // Regras de Comercial
+  {
+    id: 'rule_com_conversao',
+    condition: (metrics: any) => (metrics['Taxa de Conversão'] !== undefined && metrics['Taxa de Conversão'] < 10),
+    principleId: 'com_4', // Relacionamento
+    misalignment: 'Baixa conversão aponta para falta de conexão real com as dores do cliente.',
+    impact: 'Funil de vendas ineficiente e desperdício de leads.',
+    recommendation: 'Treinar equipe para vendas consultivas e focar no relacionamento.',
+    orientation: 'Alerta'
+  },
+  // Regras de Operacional
+  {
+    id: 'rule_op_oee',
+    condition: (metrics: any) => (metrics['OEE (Eficiência)'] !== undefined && metrics['OEE (Eficiência)'] < 75),
+    principleId: 'op_1', // Diligência
+    misalignment: 'Baixa eficiência operacional reflete gargalos e falta de diligência na produção.',
+    impact: 'Capacidade ociosa e atrasos na entrega.',
+    recommendation: 'Mapear fluxo de valor e eliminar desperdícios na linha de produção.',
+    orientation: 'Melhoria Contínua'
+  },
+  // Regras de Governança
+  {
+    id: 'rule_gov_maturidade',
+    condition: (metrics: any) => (metrics['Índice de Maturidade'] !== undefined && metrics['Índice de Maturidade'] < 60),
+    principleId: 'gov_6', // Ordem
+    misalignment: 'Baixa maturidade corporativa indica ausência de processos estruturados.',
+    impact: 'Riscos de compliance e ineficiência de gestão.',
+    recommendation: 'Documentar processos chave e instituir governança básica.',
+    orientation: 'Atenção'
+  }
+];
+
 export function getPrincipleById(id: string): SacerdotalPrinciple | undefined {
   return SACERDOTAL_PRINCIPLES.find(p => p.id === id);
 }
@@ -445,6 +508,26 @@ export function evaluateFinancialRules(metrics: any): (SacerdotalRule & { princi
     ...rule,
     principle: getPrincipleById(rule.principleId)!
   })).filter(r => r.principle !== undefined);
+}
+
+export function evaluateAxisRules(metrics: any, axis: string): (SacerdotalRule & { principle: SacerdotalPrinciple })[] {
+  const axisRules = SACERDOTAL_AXIS_RULES.filter(r => {
+    const p = getPrincipleById(r.principleId);
+    return p && p.axis === axis;
+  });
+
+  const triggeredRules = axisRules.filter(rule => {
+    try {
+      return rule.condition(metrics);
+    } catch (e) {
+      return false;
+    }
+  });
+
+  return triggeredRules.map(rule => ({
+    ...rule,
+    principle: getPrincipleById(rule.principleId)!
+  }));
 }
 
 // Cálculo do Score de Alinhamento (simplificado para demonstração)
