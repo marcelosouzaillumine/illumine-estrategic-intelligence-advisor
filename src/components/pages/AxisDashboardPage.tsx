@@ -88,7 +88,7 @@ const AXIS_CONFIG: Record<EixoGestao, any> = {
       { label: 'OEE (Eficiência)', value: 82, suffix: '%', status: 'neutral', icon: Activity },
       { label: 'Lead Time Total', value: 14, suffix: ' dias', status: 'positive', icon: Target },
       { label: 'Índice de Qualidade', value: 98.5, suffix: '%', status: 'positive', icon: ShieldCheck },
-      { label: 'Atrasos (Logística)', value: 3.2, suffix: '%', status: 'neutral', icon: AlertCircle => AlertCircle }, // mocked icon
+      { label: 'Atrasos (Logística)', value: 3.2, suffix: '%', status: 'neutral', icon: Activity }, // mocked icon
     ]
   },
   'Gestão': {

@@ -17,7 +17,9 @@ import {
   Scale,
   LayoutGrid,
   ChevronRight,
-  BookOpen
+  BookOpen,
+  Lightbulb,
+  Loader2
 } from 'lucide-react';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
@@ -31,6 +33,10 @@ import {
   Tooltip
 } from 'recharts';
 import { formatCurrency, cn } from '../../lib/utils';
+import { SACERDOTAL_PRINCIPLES, evaluateAxisRules } from '../../lib/sacerdotalIntelligence';
+import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
+import { generateSacerdotalParecer } from '../../services/sacerdotalAiService';
+import { useState } from 'react';
 
 interface GovernanceDashboardPageProps {
   clientId: string;
@@ -40,7 +46,7 @@ interface GovernanceDashboardPageProps {
 export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDashboardPageProps) {
   // Strategic KPIs
   const strategicKPIs = useMemo(() => [
-    { label: 'ROIC (Retorno s/ Cap. Investido)', value: 18.5, suffix: '%', status: 'positive', icon: Target },
+    { label: 'ROI (Retorno sobre Investimento)', value: 18.5, suffix: '%', status: 'positive', icon: Target },
     { label: 'EBITDA (Margem)', value: 24.2, suffix: '%', status: 'positive', icon: Zap },
     { label: 'Índice de Alinhamento (Princípios)', value: 85, suffix: '', status: 'positive', icon: BookOpen },
     { label: 'Grau de Maturidade de Risco', value: 85, suffix: '%', status: 'positive', icon: ShieldCheck }
@@ -48,39 +54,59 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
 
   // Radar Data for Areas
   const radarData = [
+    { area: 'Governança', score: 85, fullMark: 100 },
+    { area: 'Cultura', score: 92, fullMark: 100 },
+    { area: 'Gestão', score: 90, fullMark: 100 },
+    { area: 'Inovação', score: 88, fullMark: 100 },
+    { area: 'Operação', score: 82, fullMark: 100 },
     { area: 'Marketing', score: 85, fullMark: 100 },
-    { area: 'Vendas', score: 92, fullMark: 100 },
-    { area: 'Operações', score: 78, fullMark: 100 },
-    { area: 'RH', score: 88, fullMark: 100 },
-    { area: 'Compliance', score: 95, fullMark: 100 },
-    { area: 'Financeiro', score: 90, fullMark: 100 },
+    { area: 'Comercial', score: 92, fullMark: 100 },
   ];
 
   // Area Snapshots
   const areaSnapshots = [
     { 
-      id: 'marketing_estrategico' as Page,
-      label: 'Marketing', 
-      kpi: 'CAC', 
-      value: 450, 
-      isCur: true, 
-      status: 'positive', 
-      icon: Globe,
-      color: 'bg-blue-500'
-    },
-    { 
-      id: 'comercial_estrategico' as Page,
-      label: 'Comercial', 
-      kpi: 'Conversão', 
-      value: 24, 
+      id: 'governanca' as Page,
+      label: 'Governança', 
+      kpi: 'Maturidade', 
+      value: 85, 
       suffix: '%', 
       status: 'positive', 
-      icon: ShoppingBag,
-      color: 'bg-emerald-500'
+      icon: ShieldCheck,
+      color: 'bg-slate-800'
     },
     { 
-      id: 'producao' as Page,
-      label: 'Operacional', 
+      id: 'dashboard_cultura' as Page,
+      label: 'Cultura', 
+      kpi: 'eNPS', 
+      value: 72, 
+      status: 'positive', 
+      icon: Users,
+      color: 'bg-purple-500'
+    },
+    { 
+      id: 'dashboard_gestao' as Page,
+      label: 'Gestão', 
+      kpi: 'EBITDA', 
+      value: 24.2, 
+      suffix: '%', 
+      status: 'positive', 
+      icon: BarChart3,
+      color: 'bg-indigo-500'
+    },
+    { 
+      id: 'dashboard_inovacao' as Page,
+      label: 'Inovação', 
+      kpi: 'Índice', 
+      value: 68, 
+      suffix: '%', 
+      status: 'neutral', 
+      icon: Lightbulb,
+      color: 'bg-cyan-500'
+    },
+    { 
+      id: 'dashboard_operacional' as Page,
+      label: 'Operação', 
       kpi: 'OEE', 
       value: 82, 
       suffix: '%', 
@@ -89,35 +115,59 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
       color: 'bg-amber-500'
     },
     { 
-      id: 'desenvolvimento_humano' as Page,
-      label: 'Pessoas (DHO)', 
-      kpi: 'eNPS', 
-      value: 72, 
-      status: 'positive', 
-      icon: Users,
-      color: 'bg-purple-500'
+      id: 'dashboard_marketing' as Page,
+      label: 'Marketing', 
+      kpi: 'CPL', 
+      value: 45, 
+      isCur: true, 
+      status: 'neutral', 
+      icon: Globe,
+      color: 'bg-blue-500'
     },
     { 
-      id: 'compliance_page' as Page,
-      label: 'Compliance', 
-      kpi: 'Aderência', 
-      value: 98, 
+      id: 'dashboard_comercial' as Page,
+      label: 'Comercial', 
+      kpi: 'Conversão', 
+      value: 24, 
       suffix: '%', 
       status: 'positive', 
-      icon: ShieldCheck,
-      color: 'bg-slate-800'
-    },
-    { 
-      id: 'administrativa_indicadores' as Page,
-      label: 'Administrativa', 
-      kpi: 'Eficiência', 
-      value: 85, 
-      suffix: '%', 
-      status: 'positive', 
-      icon: FileText,
-      color: 'bg-indigo-500'
+      icon: ShoppingBag,
+      color: 'bg-emerald-500'
     }
   ];
+
+  const flatMetrics = useMemo(() => {
+    return strategicKPIs.reduce((acc: any, kpi: any) => ({...acc, [kpi.label]: kpi.value}), {});
+  }, [strategicKPIs]);
+
+  const triggeredRules = useMemo(() => {
+    return evaluateAxisRules(flatMetrics, 'Governança');
+  }, [flatMetrics]);
+
+  const [loadingAi, setLoadingAi] = useState(false);
+  const [aiAnalysis, setAiAnalysis] = useState<string>('');
+
+  const renderMarkdown = (text: string) => {
+    if (!text) return null;
+    return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={index} className="text-amber-800 font-black">{part.slice(2, -2)}</strong>;
+      }
+      return <span key={index}>{part}</span>;
+    });
+  };
+
+  const handleGenerateAnalysis = async () => {
+    setLoadingAi(true);
+    const result = await generateSacerdotalParecer({
+      clientName: 'Sua Empresa',
+      industry: 'Geral',
+      metrics: flatMetrics,
+      topPrinciples: SACERDOTAL_PRINCIPLES.filter(p => p.axis === 'Governança').map(p => p.name)
+    });
+    setAiAnalysis(result);
+    setLoadingAi(false);
+  };
 
   return (
     <div className="space-y-10 pb-32">
@@ -311,6 +361,63 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
                </div>
              </motion.div>
            ))}
+        </div>
+      </div>
+
+      {/* Perspectiva Sacerdotal Aplicada ao Eixo de Governança */}
+      <div className="bg-white rounded-[48px] border border-slate-200 p-12 overflow-hidden relative shadow-sm">
+        <div className="absolute -left-20 -top-20 w-80 h-80 bg-amber-50 rounded-full blur-3xl opacity-60" />
+        <div className="relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-slate-100 pb-8">
+            <div className="flex items-center gap-5">
+              <div className="p-4 rounded-2xl bg-amber-50 text-amber-600 border border-amber-100">
+                <BookOpen size={28} strokeWidth={2.5} />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none mb-2">Perspectiva Sacerdotal Integrada</h3>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Princípios eternos aplicados aos KPIs de Governança</p>
+              </div>
+            </div>
+            <button 
+              onClick={handleGenerateAnalysis}
+              disabled={loadingAi}
+              className="px-6 py-4 bg-amber-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-amber-700 transition-all shadow-xl shadow-amber-600/20 disabled:opacity-50 flex items-center gap-2"
+            >
+              {loadingAi ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />} 
+              {aiAnalysis ? 'Regerar Análise Integrada' : 'Gerar Análise Integrada (IA)'}
+            </button>
+          </div>
+
+          {aiAnalysis && (
+            <div className="mb-10 bg-amber-50/50 p-8 rounded-3xl border border-amber-100 text-amber-900 font-medium leading-relaxed text-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-5">
+                <BookOpen size={64} />
+              </div>
+              <div className="flex items-center gap-2 mb-4 text-amber-600 font-black uppercase tracking-widest text-[10px]">
+                <Zap size={14} /> Leitura Estratégica AI
+              </div>
+              <div className="whitespace-pre-wrap relative z-10 text-xs text-amber-900/90">{renderMarkdown(aiAnalysis)}</div>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {triggeredRules.map((rule) => (
+              <SacerdotalInsightPanel 
+                key={rule.id}
+                principleId={rule.principle.id}
+                misalignment={rule.misalignment}
+                impact={rule.impact}
+                recommendation={rule.recommendation}
+              />
+            ))}
+            {triggeredRules.length === 0 && (
+              <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center p-12 bg-emerald-50/50 border border-emerald-100 rounded-3xl text-emerald-700">
+                <ShieldCheck size={48} className="mb-4 opacity-50" />
+                <h4 className="text-lg font-black tracking-tight mb-1">Eixo Saudável e Alinhado</h4>
+                <p className="text-xs font-medium opacity-80 text-center max-w-md">Os indicadores atuais não disparam nenhum alerta de desalinhamento com os princípios de Governança.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
