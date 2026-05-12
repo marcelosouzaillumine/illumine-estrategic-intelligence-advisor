@@ -293,11 +293,11 @@ export function DashboardPage({
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <Zap size={20} className="text-secondary" />
+              <LayoutDashboard size={20} className="text-secondary" />
             </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">Financial Cockpit</h1>
+            <h1 className="text-3xl font-display font-black tracking-tight">Monitoramento Estratégico Consolidado</h1>
           </div>
-          <p className="text-slate-400 text-sm font-medium">Análise estratégica de performance e projeção de valor.</p>
+          <p className="text-slate-400 text-sm font-medium">Visão global de performance, saúde e direcionamento da empresa.</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-4 relative z-10">
@@ -348,7 +348,7 @@ export function DashboardPage({
               "text-[10px] font-black uppercase tracking-[0.2em] transition-colors",
               isYTD ? "text-secondary" : "text-slate-500"
             )}>
-              {isYTD ? 'Anual' : 'YTD'}
+              {isYTD ? 'Longo Prazo' : 'Ano Corrente'}
             </span>
           </div>
         </div>

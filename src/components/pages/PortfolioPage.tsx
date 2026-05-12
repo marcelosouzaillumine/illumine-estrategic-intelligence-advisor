@@ -293,8 +293,8 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
 
       {/* Portfolio Client List - Responsive Layout */}
       <div className="space-y-6 min-w-0 w-full">
-        {/* Mobile/Tablet View (Cards) - Visible until 'xl' */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xl:hidden">
+        {/* Mobile/Tablet View (Cards) - Visible until 'lg' */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:hidden">
           {filteredPortfolio.map((client) => (
             <div 
               key={client.id} 
@@ -331,9 +331,12 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
                 </div>
                 <div>
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Índice Sacerdotal</p>
-                  <div className="flex items-center gap-1">
-                    <BookOpen size={12} className="text-amber-500" />
-                    <p className="text-sm font-bold text-slate-900">{client.sacerdotalScore}</p>
+                  <div className="flex items-center gap-2">
+                    <BookOpen size={14} className="text-amber-500" />
+                    <p className="text-sm font-black text-slate-900">{client.sacerdotalScore}</p>
+                    <div className="w-10 h-1 bg-amber-100 rounded-full overflow-hidden ml-1">
+                      <div className="h-full bg-amber-500 rounded-full" style={{ width: `${client.sacerdotalScore}%` }} />
+                    </div>
                   </div>
                 </div>
                 <div className="col-span-2 pt-2 border-t border-slate-200">
@@ -370,8 +373,8 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
           ))}
         </div>
 
-        {/* Desktop View (Table) - Visible from 'xl' onwards */}
-        <div className="hidden xl:block bg-white rounded-[32px] border border-slate-200 shadow-xl overflow-x-auto">
+        {/* Desktop View (Table) - Visible from 'lg' onwards */}
+        <div className="hidden lg:block bg-white rounded-[32px] border border-slate-200 shadow-xl overflow-x-auto">
           <table className="w-full border-collapse min-w-[1000px]">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-200">
