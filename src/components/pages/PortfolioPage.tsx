@@ -15,11 +15,12 @@ import {
   Filter,
   ShieldAlert,
   Coins,
-  Globe
+  Globe,
+  BookOpen
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, formatCurrency } from '../../lib/utils';
-import { calculateIllumineScore, HealthScoreDimensions } from '../../lib/financialIntelligence';
+import { calculateSacerdotalAlignmentScore } from '../../lib/sacerdotalIntelligence';
 import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
@@ -29,6 +30,7 @@ interface ClientPortfolioData {
   name: string;
   industry: string;
   score: number;
+  sacerdotalScore: number;
   lastMonthScore: number;
   criticalAlerts: number;
   status: 'active' | 'onboarding' | 'critical';
@@ -39,6 +41,7 @@ interface ClientPortfolioData {
 export function PortfolioPage({ clients, onSelectClient }: any) {
   const [financialData, setFinancialData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     async function fetchAllData() {
@@ -121,13 +124,22 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         const calculated = 40 + (margin * 2) + (liq * 5); // Rough health indicator
         score = isNaN(calculated) ? 65 : Math.max(30, Math.min(98, Math.round(calculated)));
       }
+
+      const sacerdotalScore = calculateSacerdotalAlignmentScore({
+        hasMVV: true,
+        hasCompliance: score > 70,
+        liquidezCorrente: score / 100 * 2,
+        turnoverBaixo: margin > 10,
+        ebitdaMargin: margin
+      });
       
       return {
         id: c.id,
         name: c.fantasia || c.name,
         industry: c.segmento || 'Serviços',
         score,
-        lastMonthScore: score, // Simulate stable trend if no historical data calculation
+        sacerdotalScore,
+        lastMonthScore: score, // Simulate stable trend se não há dados
         criticalAlerts: hasData ? (score < 50 ? 3 : score < 70 ? 1 : 0) : 0,
         status: hasData ? (score < 50 ? 'critical' : 'active') : 'onboarding',
         revenue,
@@ -135,6 +147,15 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
       };
     });
   }, [clients, financialData]);
+
+  const filteredPortfolio = useMemo(() => {
+    let list = [...portfolioData].sort((a, b) => a.score - b.score);
+    if (searchTerm) {
+      const q = searchTerm.toLowerCase();
+      list = list.filter(c => c.name.toLowerCase().includes(q) || c.industry.toLowerCase().includes(q));
+    }
+    return list;
+  }, [portfolioData, searchTerm]);
 
   const stats = useMemo(() => {
     const totalClients = portfolioData.length;
@@ -254,6 +275,8 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
           <input 
             type="text" 
             placeholder="Buscar por cliente ou segmento..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-slate-900/5 transition-all font-bold text-sm"
           />
           <Search size={18} className="absolute left-4 top-3.5 text-slate-400" />
@@ -263,7 +286,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
             <Filter size={16} /> Filtros
           </button>
           <div className="hidden md:flex items-center gap-2 px-4 border-l border-slate-100 ml-2">
-             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{portfolioData.length} Clientes</span>
+             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{filteredPortfolio.length} Clientes</span>
           </div>
         </div>
       </div>
@@ -272,7 +295,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
       <div className="space-y-6 min-w-0 w-full">
         {/* Mobile/Tablet View (Cards) - Visible until 'xl' */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xl:hidden">
-          {portfolioData.sort((a, b) => a.score - b.score).map((client) => (
+          {filteredPortfolio.map((client) => (
             <div 
               key={client.id} 
               className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all active:scale-[0.98] cursor-pointer group"
@@ -307,11 +330,11 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
                   <p className="text-sm font-bold text-slate-700">{formatCurrency(client.revenue)}</p>
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Margem EBITDA</p>
-                  <p className={cn(
-                    "text-sm font-bold",
-                    client.ebitdaMargin > 20 ? "text-emerald-600" : "text-slate-900"
-                  )}>{client.ebitdaMargin.toFixed(1)}%</p>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Índice Sacerdotal</p>
+                  <div className="flex items-center gap-1">
+                    <BookOpen size={12} className="text-amber-500" />
+                    <p className="text-sm font-bold text-slate-900">{client.sacerdotalScore}</p>
+                  </div>
                 </div>
                 <div className="col-span-2 pt-2 border-t border-slate-200">
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Alertas Críticos</p>
@@ -354,14 +377,14 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
               <tr className="bg-slate-50/50 border-b border-slate-200">
                 <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Cliente / Setor</th>
                 <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Health Score</th>
+                <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest border-l border-r border-slate-200/60 bg-amber-50/30 text-amber-700/80">Índice Sacerdotal</th>
                 <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Alertas</th>
                 <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Fat. Mensal</th>
-                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Margem EBITDA</th>
                 <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Ação</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {portfolioData.sort((a, b) => a.score - b.score).map((client) => (
+              {filteredPortfolio.map((client) => (
                 <tr key={client.id} className="hover:bg-slate-50/50 transition-colors group cursor-pointer" onClick={() => onSelectClient(client.id)}>
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
@@ -398,6 +421,15 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
                       </div>
                     </div>
                   </td>
+                  <td className="px-8 py-6 text-center border-l border-r border-slate-100/50 bg-amber-50/10">
+                    <div className="flex items-center justify-center gap-1.5">
+                      <BookOpen size={14} className="text-amber-500" />
+                      <span className="font-black text-slate-800 text-lg">{client.sacerdotalScore}</span>
+                    </div>
+                    <div className="w-16 h-1 bg-amber-100 rounded-full mt-1.5 mx-auto overflow-hidden">
+                      <div className="h-full bg-amber-500 rounded-full" style={{ width: `${client.sacerdotalScore}%` }} />
+                    </div>
+                  </td>
                   <td className="px-8 py-6 text-center">
                     {client.criticalAlerts > 0 ? (
                       <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-rose-50 text-rose-600 rounded-lg text-[10px] font-black uppercase whitespace-nowrap">
@@ -409,12 +441,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
                   </td>
                   <td className="px-8 py-6 text-right font-bold text-sm text-slate-700 whitespace-nowrap">
                     {formatCurrency(client.revenue)}
-                  </td>
-                  <td className="px-8 py-6 text-right whitespace-nowrap">
-                    <span className={cn(
-                      "font-black text-sm",
-                      client.ebitdaMargin > 20 ? "text-emerald-600" : "text-slate-900"
-                    )}>{client.ebitdaMargin.toFixed(1)}%</span>
+                    <div className="text-[10px] text-slate-400 font-medium mt-0.5">Margem: {client.ebitdaMargin.toFixed(1)}%</div>
                   </td>
                   <td className="px-8 py-6 text-right">
                     <div className="flex justify-end gap-2 shrink-0">
