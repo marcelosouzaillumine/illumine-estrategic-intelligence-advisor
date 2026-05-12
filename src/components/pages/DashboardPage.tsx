@@ -27,7 +27,8 @@ import {
   ShieldCheck,
   Activity,
   Target,
-  LayoutDashboard
+  LayoutDashboard,
+  BookOpen
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -42,6 +43,8 @@ import {
   Legend,
   Cell 
 } from 'recharts';
+import { SACERDOTAL_AXIS_RULES, getPrincipleById } from '../../lib/sacerdotalIntelligence';
+import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
 import { DATA } from '../../data';
 import { SYSTEM_KPI_CATEGORIES, MONTH_LABELS, FULL_MONTH_LABELS } from '../../constants';
 import { formatCurrency, formatValue, cn } from '../../lib/utils';
@@ -151,6 +154,13 @@ export function DashboardPage({
   const getIndicator = (name: string) => {
     const mock = currentIndicators.find(i => i.ind === name);
     
+    // Se for Valuation, sempre buscar do projetado anual (longo prazo)
+    if (name === 'Valor de Mercado') {
+      const proj = allYearIndicators.filter((i: any) => i.cat === 'Projetado' && i.ind === 'Valor de Mercado');
+      const avg = proj.length > 0 ? proj.reduce((acc: number, curr: any) => acc + curr.val, 0) / proj.length : 0;
+      return { ind: name, val: avg, un: 'R$', sem: 'Verde', isReal: false };
+    }
+    
     const mappingId = SYSTEM_KPI_CATEGORIES.find(c => c.label === name)?.id;
     if (mappingId && realData[mappingId] !== undefined) {
       return { 
@@ -164,6 +174,27 @@ export function DashboardPage({
     }
     return mock;
   };
+
+  const sacerdotalAlerts = useMemo(() => {
+    // Mesclar dados financeiros reais com mock para os outros eixos (já que não temos input ainda)
+    const metricsForRules = {
+      'liquidezCorrente': (getIndicator('Ativo Circulante')?.val || 1) / (getIndicator('Passivo Circulante')?.val || 1), // Se real
+      'Turnover': 6.5, // Mock que aciona regra de Cultura (Honra)
+      'Custo por Lead (CPL)': 110, // Mock que aciona Marketing (Excelência)
+      'OEE (Eficiência)': 72 // Mock que aciona Operação (Diligência)
+    };
+    
+    return SACERDOTAL_AXIS_RULES.filter(rule => {
+      try {
+        return rule.condition(metricsForRules);
+      } catch (e) {
+        return false;
+      }
+    }).map(rule => ({
+      ...rule,
+      principle: getPrincipleById(rule.principleId)!
+    }));
+  }, [getIndicator]);
 
   const metrics = [
     { label: 'Receita Líquida', key: 'Receita Líquida' },
@@ -348,7 +379,7 @@ export function DashboardPage({
               "text-[10px] font-black uppercase tracking-[0.2em] transition-colors",
               isYTD ? "text-secondary" : "text-slate-500"
             )}>
-              {isYTD ? 'Longo Prazo' : 'Ano Corrente'}
+              Anual
             </span>
           </div>
         </div>
@@ -450,17 +481,17 @@ export function DashboardPage({
                     formatter={(value: number) => formatCurrency(value)}
                   />
                   <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }} />
-                  <Bar name="Fat. Bruto" dataKey="Faturamento" radius={[4, 4, 0, 0]} barSize={24}>
+                  <Bar name="Fat. Bruto" dataKey="Faturamento" fill="#ff8552" radius={[4, 4, 0, 0]} barSize={24}>
                     {evolData.map((entry, index) => (
                       <Cell key={`cell-fat-${index}`} fill={entry.type === 'Real' ? "#ff8552" : "#ff855240"} />
                     ))}
                   </Bar>
-                  <Bar name="Rec. Líquida" dataKey="Receita" radius={[4, 4, 0, 0]} barSize={24}>
+                  <Bar name="Rec. Líquida" dataKey="Receita" fill="#0e1c2c" radius={[4, 4, 0, 0]} barSize={24}>
                     {evolData.map((entry, index) => (
                       <Cell key={`cell-rec-${index}`} fill={entry.type === 'Real' ? "#0e1c2c" : "#0e1c2c40"} />
                     ))}
                   </Bar>
-                  <Bar name="EBITDA" dataKey="EBITDA" radius={[4, 4, 0, 0]} barSize={24}>
+                  <Bar name="EBITDA" dataKey="EBITDA" fill="#bab86c" radius={[4, 4, 0, 0]} barSize={24}>
                     {evolData.map((entry, index) => (
                       <Cell key={`cell-ebitda-${index}`} fill={entry.type === 'Real' ? "#bab86c" : "#bab86c40"} />
                     ))}
@@ -608,59 +639,28 @@ export function DashboardPage({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-            <Activity className="text-secondary" />
-            Saúde Organizacional
-          </h2>
-          <div className="space-y-6">
-            {[
-              { label: 'IVE (Índice de Valor)', key: 'IVE', un: '%' },
-              { label: 'Churn Rate', key: 'Churn Rate', un: '%' },
-              { label: 'LTV / CAC', key: 'LTV/CAC', un: 'x' },
-            ].map(k => {
-              const r = getIndicator(k.key);
-              return (
-                <div key={k.key} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl border border-slate-50 group hover:border-secondary/20 transition-all">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{k.label}</span>
-                  <div className="text-right">
-                    <p className="text-sm font-black text-slate-900">{r ? formatValue(r.val, k.un) : '—'}</p>
-                    {r && <Semaphore status={r.sem} />}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="md:col-span-2 bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-            <LayoutDashboard className="text-secondary" />
-            Principais OKRs Estratégicos
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 group hover:bg-white hover:shadow-md transition-all">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-[9px] font-black text-secondary uppercase tracking-[0.2em]">EXPANSÃO COMERCIAL</span>
-                <span className="text-xs font-bold text-slate-400">75%</span>
-              </div>
-              <p className="font-bold text-slate-800 text-sm">Aumentar market share em 15% nos novos canais digitais</p>
-              <div className="mt-4 h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-secondary w-3/4 rounded-full"></div>
-              </div>
+      <div className="space-y-6">
+        <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+          <BookOpen className="text-secondary" />
+          Inteligência Sacerdotal Integrada (Pontos de Atenção nos Eixos)
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {sacerdotalAlerts.map((rule) => (
+            <SacerdotalInsightPanel 
+              key={rule.id}
+              principleId={rule.principle.id}
+              misalignment={rule.misalignment}
+              impact={rule.impact}
+              recommendation={rule.recommendation}
+            />
+          ))}
+          {sacerdotalAlerts.length === 0 && (
+            <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center p-12 bg-emerald-50 border border-emerald-100 rounded-3xl text-emerald-700">
+              <ShieldCheck size={48} className="mb-4 opacity-50" />
+              <h4 className="text-lg font-black tracking-tight mb-1">Eixos Estratégicos Saudáveis</h4>
+              <p className="text-xs font-medium opacity-80 text-center max-w-md">Todos os indicadores vitais estão alinhados aos princípios sacerdotais. Nenhum alerta crítico detectado nos eixos da empresa no momento.</p>
             </div>
-            <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 group hover:bg-white hover:shadow-md transition-all">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-[9px] font-black text-emerald-500 uppercase tracking-[0.2em]">EFICIÊNCIA</span>
-                <span className="text-xs font-bold text-slate-400">50%</span>
-              </div>
-              <p className="font-bold text-slate-800 text-sm">Reduzir CAC em 20% através de automação de pré-vendas</p>
-              <div className="mt-4 h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-emerald-500 w-1/2 rounded-full"></div>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
