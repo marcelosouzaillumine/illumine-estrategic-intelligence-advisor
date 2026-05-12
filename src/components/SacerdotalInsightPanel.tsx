@@ -47,7 +47,7 @@ export function SacerdotalInsightPanel({
           <BookOpen size={24} />
         </div>
         <div>
-          <h4 className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">Princípio de {principle.axis}</h4>
+          <h4 className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">Princípio Aplicado</h4>
           <div className="flex items-center gap-3">
             <h3 className="text-lg font-black text-slate-800">{principle.name}</h3>
             <span className="text-[10px] bg-white px-2 py-1 rounded border border-amber-200 text-amber-700 font-bold">

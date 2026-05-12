@@ -43,7 +43,8 @@ ${req.topPrinciples.map(p => `- ${p}`).join('\n')}
 
 Sua tarefa:
 Gere uma "Perspectiva Sacerdotal Integrada" (cerca de 2 a 3 parágrafos curtos) conectando diretamente os resultados e dores indicados pelos KPIs com os princípios bíblicos informados.
-Seja prático, executivo e inspirador. Não faça pregações religiosas. A linguagem deve ser de alta governança corporativa, mas que carrega o peso moral, ético e de propósito dos princípios listados. Diga como a aplicação prática desse princípio pode resolver a dor ou alavancar os indicadores mostrados.
+Seja prático, executivo e inspirador. Não faça pregações religiosas. A linguagem deve ser de alta governança corporativa e você DEVE inserir insights práticos que façam total sentido e sejam aplicáveis ao setor de atuação do cliente (${req.industry}).
+Diga como a aplicação prática desse princípio pode resolver a dor ou alavancar os indicadores mostrados no contexto da indústria do cliente.
 
 Não use saudações. Vá direto para a análise.`;
 

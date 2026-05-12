@@ -230,7 +230,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardP
               <SacerdotalInsightPanel 
                 key={principle.id}
                 principleId={principle.id}
-                recommendation={`Como aplicar em ${axis}: ${principle.businessApplication}`}
+                recommendation={`${principle.businessApplication} Ação: ${principle.practicalRecommendations.join(' • ')}`}
               />
             ))}
             {axisPrinciples.length === 0 && (
