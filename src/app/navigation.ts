@@ -77,7 +77,14 @@ export type Page =
   | 'compliance_page'
   | 'governanca_estrategica'
   | 'plano_estrategico_global'
-  | 'relatorio_executivo';
+  | 'relatorio_executivo'
+  | 'inteligencia_sacerdotal'
+  | 'dashboard_marketing'
+  | 'dashboard_comercial'
+  | 'dashboard_cultura'
+  | 'dashboard_inovacao'
+  | 'dashboard_operacional'
+  | 'dashboard_gestao';
 
 export interface NavigationItem {
   id: Page;
@@ -134,6 +141,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'controladoria_estrategica', label: 'Controladoria Estratégica', icon: Scale },
       { id: 'diagnostico', label: 'Diagnóstico & IVE', icon: Activity },
       { id: 'advisory_insights', label: 'Conselho Estratégia CFO', icon: Zap },
+      { id: 'inteligencia_sacerdotal', label: 'Inteligência Sacerdotal', icon: BookOpen, isNew: true },
       { id: 'valuation', label: 'Valuation & Estratégia', icon: BarChart3 },
     ],
   },
@@ -141,6 +149,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Marketing',
     icon: Globe,
     items: [
+      { id: 'dashboard_marketing', label: 'Dashboard de Marketing', icon: LayoutGrid, isNew: true },
       { id: 'marketing_estrategico', label: 'Marketing Estratégico', icon: Globe },
       { id: 'analise_mercado', label: 'Análise de Mercado', icon: TrendingUp, isNew: true },
     ],
@@ -149,6 +158,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Comercial',
     icon: ShoppingBag,
     items: [
+      { id: 'dashboard_comercial', label: 'Dashboard Comercial', icon: LayoutGrid, isNew: true },
       { id: 'comercial_estrategico', label: 'Vendas & Mercado', icon: ShoppingBag },
       { id: 'precificacao', label: 'Precificação & Margem', icon: Percent },
     ],
@@ -157,6 +167,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Cultura',
     icon: Users,
     items: [
+      { id: 'dashboard_cultura', label: 'Dashboard de Cultura', icon: LayoutGrid, isNew: true },
       { id: 'quadro_pessoal', label: 'Gestão de Pessoas', icon: Users },
       { id: 'desenvolvimento_humano', label: 'Desenvolvimento Humano', icon: Activity },
     ],
@@ -165,6 +176,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Inovação',
     icon: Lightbulb,
     items: [
+      { id: 'dashboard_inovacao', label: 'Dashboard de Inovação', icon: LayoutGrid, isNew: true },
       { id: 'viabilidade', label: 'Projetos de Inovação', icon: Lightbulb },
       { id: 'simulador_capital', label: 'Captação & Alocação', icon: ArrowUpRight },
     ],
@@ -173,6 +185,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Operacional',
     icon: Activity,
     items: [
+      { id: 'dashboard_operacional', label: 'Dashboard Operacional', icon: LayoutGrid, isNew: true },
       { id: 'compras', label: 'Compras', icon: ShoppingBag },
       { id: 'logistica', label: 'Logística', icon: Database },
       { id: 'producao', label: 'Produção', icon: Activity },
@@ -182,6 +195,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Gestão',
     icon: Landmark,
     items: [
+      { id: 'dashboard_gestao', label: 'Dashboard de Gestão', icon: LayoutGrid, isNew: true },
       { 
         id: 'financeira_root' as any, 
         label: 'Finanças', 

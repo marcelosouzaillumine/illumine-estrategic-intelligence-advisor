@@ -10,6 +10,8 @@ import { useModuleData } from '../../hooks/useModuleData';
 import { DiagnosticoItem, ObjetivoOKR, EixoGestao, ClassificacaoSWOT, TipoRisco, Gravidade, Urgencia, Tendencia, ImpactoFinanceiro } from '../../types/modules';
 import { cn } from '../../lib/utils';
 import { SectionHeader } from '../Common';
+import { SACERDOTAL_PRINCIPLES } from '../../lib/sacerdotalIntelligence';
+import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
 
 const EIXOS: EixoGestao[] = [
   'Governança', 'Cultura', 'Inovação', 'Comercial', 'Operacional', 'Gestão', 'Marketing'
@@ -454,6 +456,14 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
                   })}
                 </div>
               )}
+
+              {/* Sacerdotal Badge */}
+              <div className="mt-4 pt-4 border-t border-slate-100">
+                <SacerdotalInsightPanel 
+                  principleId={SACERDOTAL_PRINCIPLES.find(p => p.axis === item.eixo)?.id || 'gov_1'} 
+                  compact 
+                />
+              </div>
             </div>
 
             <div className="flex items-center gap-2 pr-2 opacity-0 group-hover:opacity-100 transition-opacity">

@@ -11,7 +11,8 @@ import {
   Sparkles,
   AlertTriangle,
   TrendingUp,
-  ShieldCheck
+  ShieldCheck,
+  BookOpen
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../Common';
@@ -21,6 +22,7 @@ import { SECTOR_BENCHMARKS, BENCHMARK_SOURCES } from '../../data/benchmarks';
 import { useFinancialData } from '../../hooks/useFinancialData';
 import { detectPatterns, calculateIllumineScore, FinancialPattern } from '../../lib/financialIntelligence';
 import { generateAdvisoryParecer } from '../../services/advisoryAiService';
+import { generateSacerdotalParecer } from '../../services/sacerdotalAiService';
 
 function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
   const tones: any = {
@@ -67,6 +69,9 @@ function MatrixQuadrant({ title, list, color }: { title: string, list: string[],
 export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, selectedMonth }: any) {
   const [loadingAi, setLoadingAi] = useState(false);
   const [aiParecer, setAiParecer] = useState('');
+  const [activeTab, setActiveTab] = useState<'cfo' | 'sacerdotal'>('cfo');
+  const [sacerdotalParecer, setSacerdotalParecer] = useState('');
+  const [loadingSacerdotal, setLoadingSacerdotal] = useState(false);
 
   const month = selectedMonth || 3;
   const year = selectedYear || 2026;
@@ -164,6 +169,24 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
     });
     setAiParecer(result);
     setLoadingAi(false);
+  };
+
+  const handleGenerateSacerdotal = async () => {
+    setLoadingSacerdotal(true);
+    const client = clients.find((c: any) => c.id === selectedClient);
+    const result = await generateSacerdotalParecer({
+      clientName: client?.fantasia || 'Cliente',
+      industry: client?.segmento || 'Estratégico',
+      metrics: {
+        'Receita Líquida': revenue,
+        'EBITDA': ebitda,
+        'Lucro Líquido': netProfit,
+        'Health Score': healthScore
+      },
+      topPrinciples: []
+    });
+    setSacerdotalParecer(result);
+    setLoadingSacerdotal(false);
   };
 
   return (
@@ -270,13 +293,22 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
         </div>
 
         <div className="space-y-6">
-          <SectionHeader 
-            icon={MessageSquare} 
-            title="Parecer CFO (IA)" 
-            subtitle="Notas explicativas geradas por inteligência artificial" 
-            tone="slate"
-          />
+          <div className="flex gap-4 border-b border-slate-200">
+            <button
+              onClick={() => setActiveTab('cfo')}
+              className={cn("px-4 py-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all", activeTab === 'cfo' ? "border-blue-500 text-blue-700" : "border-transparent text-slate-400 hover:text-slate-600")}
+            >
+              Parecer CFO (IA)
+            </button>
+            <button
+              onClick={() => setActiveTab('sacerdotal')}
+              className={cn("px-4 py-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all", activeTab === 'sacerdotal' ? "border-amber-500 text-amber-700" : "border-transparent text-slate-400 hover:text-slate-600")}
+            >
+              Perspectiva Sacerdotal
+            </button>
+          </div>
           
+          {activeTab === 'cfo' ? (
           <div className="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl min-h-[500px] flex flex-col">
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <Sparkles size={120} />
@@ -312,6 +344,43 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
               {loadingAi ? 'Processando Intelligence...' : 'Gerar Parecer via IA'}
             </button>
           </div>
+          ) : (
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 text-amber-900 relative overflow-hidden shadow-sm border border-amber-100 min-h-[500px] flex flex-col">
+            <div className="absolute top-0 right-0 p-4 opacity-5 text-amber-600">
+              <BookOpen size={120} />
+            </div>
+            
+            <div className="flex-1 overflow-y-auto mb-6 bg-white/60 border border-amber-100 rounded-2xl p-6 relative z-10">
+              {loadingSacerdotal ? (
+                <div className="h-full flex flex-col items-center justify-center text-amber-600 gap-4">
+                  <Loader2 size={32} className="animate-spin" />
+                  <p className="text-[10px] font-black uppercase tracking-widest animate-pulse">Analisando alinhamento...</p>
+                </div>
+              ) : sacerdotalParecer ? (
+                <div className="text-xs leading-relaxed font-medium text-amber-900 whitespace-pre-wrap">
+                  {sacerdotalParecer}
+                </div>
+              ) : (
+                <div className="h-full flex flex-col items-center justify-center text-amber-700/50 gap-4 text-center">
+                  <BookOpen size={32} strokeWidth={1} />
+                  <p className="text-[10px] font-black uppercase tracking-widest max-w-[200px]">Clique abaixo para gerar a leitura sacerdotal via IA.</p>
+                </div>
+              )}
+            </div>
+
+            <button 
+              onClick={handleGenerateSacerdotal}
+              disabled={loadingSacerdotal}
+              className={cn(
+                "w-full py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 relative z-10",
+                loadingSacerdotal ? "bg-amber-200 text-amber-600 cursor-not-allowed" : "bg-amber-600 hover:bg-amber-700 text-white shadow-xl shadow-amber-900/20"
+              )}
+            >
+              <BookOpen size={16} />
+              {loadingSacerdotal ? 'Processando Leitura...' : 'Gerar Perspectiva Sacerdotal'}
+            </button>
+          </div>
+          )}
 
           <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Benchmarks do Setor ({sector})</h4>

@@ -44,6 +44,8 @@ import { DesenvolvimentoHumanoPage } from '../components/pages/DesenvolvimentoHu
 import { PlanoEstrategicoGlobalPage } from '../components/pages/PlanoEstrategicoGlobalPage';
 import { CompliancePage } from '../components/pages/CompliancePage';
 import { AnaliseMercadoPage } from '../components/pages/AnaliseMercadoPage';
+import { InteligenciaSacerdotalPage } from '../components/pages/InteligenciaSacerdotalPage';
+import { AxisDashboardPage } from '../components/pages/AxisDashboardPage';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -226,6 +228,27 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'analise_mercado') {
     return <AnaliseMercadoPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'inteligencia_sacerdotal') {
+    return <InteligenciaSacerdotalPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'dashboard_marketing') {
+    return <AxisDashboardPage axis="Marketing" clientId={selectedClient} onNavigate={setCurrentPage} />;
+  }
+  if (currentPage === 'dashboard_comercial') {
+    return <AxisDashboardPage axis="Comercial" clientId={selectedClient} onNavigate={setCurrentPage} />;
+  }
+  if (currentPage === 'dashboard_cultura') {
+    return <AxisDashboardPage axis="Cultura" clientId={selectedClient} onNavigate={setCurrentPage} />;
+  }
+  if (currentPage === 'dashboard_inovacao') {
+    return <AxisDashboardPage axis="Inovação" clientId={selectedClient} onNavigate={setCurrentPage} />;
+  }
+  if (currentPage === 'dashboard_operacional') {
+    return <AxisDashboardPage axis="Operacional" clientId={selectedClient} onNavigate={setCurrentPage} />;
+  }
+  if (currentPage === 'dashboard_gestao') {
+    return <AxisDashboardPage axis="Gestão" clientId={selectedClient} onNavigate={setCurrentPage} />;
   }
 
   return null;

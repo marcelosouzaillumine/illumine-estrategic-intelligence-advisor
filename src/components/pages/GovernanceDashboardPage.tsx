@@ -16,7 +16,8 @@ import {
   MessageSquare,
   Scale,
   LayoutGrid,
-  ChevronRight
+  ChevronRight,
+  BookOpen
 } from 'lucide-react';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
@@ -41,7 +42,7 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
   const strategicKPIs = useMemo(() => [
     { label: 'ROIC (Retorno s/ Cap. Investido)', value: 18.5, suffix: '%', status: 'positive', icon: Target },
     { label: 'EBITDA (Margem)', value: 24.2, suffix: '%', status: 'positive', icon: Zap },
-    { label: 'Margem Líquida', value: 12.8, suffix: '%', status: 'neutral', icon: TrendingUp },
+    { label: 'Índice de Alinhamento (Princípios)', value: 85, suffix: '', status: 'positive', icon: BookOpen },
     { label: 'Grau de Maturidade de Risco', value: 85, suffix: '%', status: 'positive', icon: ShieldCheck }
   ], []);
 

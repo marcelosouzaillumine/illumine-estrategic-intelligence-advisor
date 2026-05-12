@@ -22,6 +22,8 @@ import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { evaluateFinancialRules } from '../../lib/sacerdotalIntelligence';
+import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
 
 interface RelatorioExecutivoPageProps {
   clientId: string;
@@ -63,6 +65,8 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
   const mvv = diretrizes && diretrizes.length > 0 ? diretrizes[0] : null;
   const topDiagnostico = useMemo(() => [...(diagnostico || [])].sort((a, b) => (b.iveScore || 0) - (a.iveScore || 0)).slice(0, 3), [diagnostico]);
   const topOkrs = useMemo(() => [...(okrs || [])].sort((a, b) => (b.progressoGeral || 0) - (a.progressoGeral || 0)).slice(0, 3), [okrs]);
+  
+  const sacerdotalRules = useMemo(() => evaluateFinancialRules(kpis), [kpis]);
 
   const generateReportSummary = async () => {
     setIsAiLoading(true);
@@ -228,6 +232,26 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
                      )}
                   </div>
                </div>
+
+               {/* Section: Leitura por Princípios (Sacerdotal) */}
+               {sacerdotalRules.length > 0 && (
+                 <div className="mb-12">
+                   <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
+                     <ShieldCheck size={16} className="text-amber-500" /> Leitura por Princípios de Gestão
+                   </h4>
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     {sacerdotalRules.slice(0, 2).map((rule, idx) => (
+                       <SacerdotalInsightPanel 
+                         key={idx}
+                         principleId={rule.principleId}
+                         misalignment={rule.misalignment}
+                         impact={rule.impact}
+                         recommendation={rule.recommendation}
+                       />
+                     ))}
+                   </div>
+                 </div>
+               )}
 
                {/* Section: KPIs & OKRs */}
                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
