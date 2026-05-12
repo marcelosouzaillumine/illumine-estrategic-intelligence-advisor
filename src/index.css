@@ -36,6 +36,11 @@
     color: inherit;
   }
 
+  /* Specific handling for truncating if needed */
+  .truncate-title {
+    @apply truncate block;
+  }
+
   /* Default heading color as primary if not inherited otherwise */
   :not(.text-white) > h1, :not(.text-white) > h2, :not(.text-white) > h3, :not(.text-white) > h4 {
     @apply text-primary;
@@ -53,7 +58,7 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-elegant;
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-elegant rounded-3xl;
   }
   
   .bento-grid {
@@ -62,7 +67,7 @@
   }
   
   .interactive-card {
-    @apply transition-all duration-300 hover:shadow-elegant hover:-translate-y-1 active:scale-[0.98];
+    @apply transition-all duration-300 hover:shadow-elegant hover:-translate-y-1 active:scale-[0.98] rounded-3xl;
   }
 
   .btn-primary {
@@ -71,6 +76,11 @@
 
   .btn-secondary {
     @apply px-6 py-3 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20;
+  }
+
+  /* Prevent line breaks for card numbers and values, but allow on small screens if necessary */
+  .value-font {
+    @apply font-display whitespace-nowrap;
   }
 }
 

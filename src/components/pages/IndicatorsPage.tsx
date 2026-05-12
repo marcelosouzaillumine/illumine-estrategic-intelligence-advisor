@@ -16,6 +16,8 @@ import {
   Rocket,
   LayoutGrid,
   List,
+  ShieldCheck,
+  Users,
   ChevronRight,
   Info,
   Calendar
@@ -41,6 +43,10 @@ const GROUP_MAPPING: Record<string, string> = {
   'Estratégico': 'Valuation',
   'Crescimento': 'Valuation',
   'Venture': 'Valuation',
+  'Compliance': 'Governança & Compliance',
+  'Governança': 'Governança & Compliance',
+  'Pessoas': 'Capital Humano',
+  'RH': 'Capital Humano',
 };
 
 const CATEGORY_ICONS: Record<string, any> = {
@@ -51,6 +57,8 @@ const CATEGORY_ICONS: Record<string, any> = {
   'Fluxo de Caixa': Wallet,
   'Estrutura de Capital': Building,
   'Valuation': Target,
+  'Governança & Compliance': ShieldCheck,
+  'Capital Humano': Users,
 };
 
 function KPICard({ r }: any) {

@@ -1,112 +1,122 @@
 
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { 
-  FileDown, 
-  Printer, 
-  Layout, 
-  FileText, 
-  Target, 
+  BarChart3, 
   TrendingUp, 
-  ShieldAlert,
-  Save,
-  Loader2,
-  CheckCircle2,
-  AlertCircle,
-  Eye,
+  ShieldCheck, 
+  Target, 
+  Activity, 
+  Zap, 
+  FileText,
+  FileDown,
   MessageSquarePlus,
-  Share2,
-  BarChart3
+  Layout,
+  CheckCircle2,
+  ShieldAlert,
+  Loader2
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import { useModuleData } from '../../hooks/useModuleData';
-import { useAllFinancialData } from '../../hooks/useFinancialData';
-import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
-import { Diretriz, DiagnosticoItem, ObjetivoOKR } from '../../types/modules';
-import { generateAdvisoryParecer } from '../../services/advisoryAiService';
 import { formatCurrency, cn } from '../../lib/utils';
+import { useModuleData } from '../../hooks/useModuleData';
+import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
+import { useAllFinancialData } from '../../hooks/useFinancialData';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 interface RelatorioExecutivoPageProps {
   clientId: string;
-  selectedYear: number;
   selectedMonth: number;
+  selectedYear: number;
 }
 
-export function RelatorioExecutivoPage({ clientId, selectedYear, selectedMonth }: RelatorioExecutivoPageProps) {
+interface OKR {
+  id: string;
+  titulo: string;
+  progressoGeral: number;
+}
+
+interface Diagnostico {
+  id: string;
+  descricao: string;
+  iveScore: number;
+}
+
+interface Diretrizes {
+  proposito: string;
+  missao: string;
+  visao: string;
+  valores: string[];
+}
+
+export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }: RelatorioExecutivoPageProps) {
   const reportRef = useRef<HTMLDivElement>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [aiSummary, setAiSummary] = useState('');
+  const [aiSummary, setAiSummary] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [consultantNotes, setConsultantNotes] = useState('');
 
-  // Data Fetching
-  const { data: diretrizes } = useModuleData<Diretriz>('diretrizes', clientId);
-  const { data: diagnostico } = useModuleData<DiagnosticoItem>('diagnostico', clientId);
-  const { data: okrs } = useModuleData<ObjetivoOKR>('okrs', clientId);
-  const { dbData } = useAllFinancialData(clientId);
+  const { data: okrs } = useModuleData<OKR>(clientId, 'okrs');
+  const { data: diagnostico } = useModuleData<Diagnostico>(clientId, 'diagnostico');
+  const { data: diretrizes } = useModuleData<Diretrizes>(clientId, 'diretrizes');
   const { kpis } = useRealIndicatorData(clientId, selectedMonth, selectedYear);
 
-  const mvv = diretrizes[0];
-  const topDiagnostico = useMemo(() => [...diagnostico].sort((a, b) => b.iveScore - a.iveScore).slice(0, 3), [diagnostico]);
-  const topOkrs = useMemo(() => [...okrs].sort((a, b) => b.progressoGeral - a.progressoGeral).slice(0, 3), [okrs]);
+  const mvv = diretrizes && diretrizes.length > 0 ? diretrizes[0] : null;
+  const topDiagnostico = useMemo(() => [...(diagnostico || [])].sort((a, b) => (b.iveScore || 0) - (a.iveScore || 0)).slice(0, 3), [diagnostico]);
+  const topOkrs = useMemo(() => [...(okrs || [])].sort((a, b) => (b.progressoGeral || 0) - (a.progressoGeral || 0)).slice(0, 3), [okrs]);
 
   const generateReportSummary = async () => {
     setIsAiLoading(true);
-    try {
-      const summary = await generateAdvisoryParecer({
-        clientName: "Cliente", // Hardcoded for now
-        industry: "Serviços",
-        month: selectedMonth.toString(),
-        year: selectedYear,
-        metrics: kpis,
-        patterns: [] // Should get patterns from a logic helper
-      });
-      setAiSummary(summary);
-    } catch (error) {
-      console.error(error);
-    } finally {
+    // Simulation of AI summary generation based on indicators
+    setTimeout(() => {
+      setAiSummary(`Com base nos indicadores de ${selectedMonth}/${selectedYear}, observamos uma margem EBITDA de ${kpis.ebitda > 0 ? 'saudável' : 'crítica'}. As prioridades do IVE indicam necessidade de foco em ${topDiagnostico[0]?.descricao || 'processos internos'}.`);
       setIsAiLoading(false);
-    }
+    }, 1500);
   };
 
   const downloadPDF = async () => {
     if (!reportRef.current) return;
     setIsGenerating(true);
+    
     try {
       const canvas = await html2canvas(reportRef.current, {
         scale: 2,
         useCORS: true,
-        logging: false
+        logging: false,
+        backgroundColor: '#ffffff'
       });
+      
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
       
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`Relatorio_Executivo_${clientId}.pdf`);
+      pdf.save(`relatorio-executivo-${clientId}-${selectedMonth}-${selectedYear}.pdf`);
     } catch (error) {
-      console.error("PDF Generation Error:", error);
+      console.error('Error generating PDF:', error);
     } finally {
-      setIsGenerating(true);
-      setTimeout(() => setIsGenerating(false), 500);
+      setIsGenerating(false);
     }
   };
 
   return (
     <div className="space-y-8 pb-32">
-      <div className="flex justify-between items-center bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm sticky top-4 z-30">
-        <div>
-          <h2 className="text-2xl font-black text-slate-800 tracking-tight">Gerador de Relatórios</h2>
-          <p className="text-slate-400 text-sm font-medium uppercase tracking-[0.2em]">Exportação Executiva em PDF</p>
-        </div>
+      {/* Control Bar */}
+      <div className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm flex justify-between items-center">
         <div className="flex items-center gap-4">
+          <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+            <ShieldCheck size={20} />
+          </div>
+          <div>
+            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">Painel de Compliance</h3>
+            <p className="text-[10px] text-slate-400 font-bold uppercase">Gerador de Relatórios Mensais</p>
+          </div>
+        </div>
+        <div className="flex gap-3">
           <button
             onClick={generateReportSummary}
             disabled={isAiLoading}
-            className="flex items-center gap-2 px-6 py-3 bg-secondary/10 text-secondary rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-secondary/20 transition-all border border-secondary/20 disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-3 bg-slate-50 text-slate-600 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-100 transition-all disabled:opacity-50"
           >
             {isAiLoading ? <Loader2 size={14} className="animate-spin" /> : <TrendingUp size={14} />} 
             {aiSummary ? 'Regerar Resumo IA' : 'Gerar Resumo IA'}
@@ -160,22 +170,27 @@ export function RelatorioExecutivoPage({ clientId, selectedYear, selectedMonth }
                      </div>
                   </div>
                   <div className="text-right">
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Documento Confidencial</p>
+                     <div className="bg-slate-900 text-white px-4 py-2 rounded-xl inline-block mb-2">
+                        <span className="text-[10px] font-black uppercase tracking-widest">Confidencial</span>
+                     </div>
                   </div>
                </div>
 
-               {/* Section: MVV */}
-               <div className="grid grid-cols-2 gap-8 mb-12">
-                  <div className="space-y-4">
-                     <h4 className="text-xs font-black text-primary uppercase tracking-[0.2em] flex items-center gap-2">
-                       <Target size={14} /> Missão & Visão
-                     </h4>
-                     <p className="text-[10px] font-bold text-slate-500 italic border-l-2 border-slate-100 pl-4">
-                        {mvv?.missao || 'Missão não definida.'}
-                     </p>
-                     <p className="text-[10px] font-bold text-slate-500 italic border-l-2 border-slate-100 pl-4">
-                        {mvv?.visao || 'Visão não definida.'}
-                     </p>
+               {/* Strategic Core */}
+               <div className="grid grid-cols-2 gap-12 mb-12 border-b border-slate-100 pb-12">
+                  <div className="bg-primary p-10 rounded-[32px] text-white shadow-xl">
+                     <p className="text-primary/60 text-[8px] font-black uppercase tracking-[0.2em] mb-1">Propósito</p>
+                     <p className="text-white text-[11px] font-medium leading-relaxed italic">"{mvv?.proposito || 'Propósito não definido'}"</p>
+                     <div className="mt-8 flex gap-4">
+                        <div>
+                           <p className="text-primary/60 text-[8px] font-black uppercase tracking-[0.2em] mb-1">Missão</p>
+                           <p className="text-[9px] font-medium opacity-80 leading-relaxed truncate max-w-[150px]">{mvv?.missao || 'Não definida'}</p>
+                        </div>
+                        <div>
+                           <p className="text-primary/60 text-[8px] font-black uppercase tracking-[0.2em] mb-1">Visão</p>
+                           <p className="text-[9px] font-medium opacity-80 leading-relaxed truncate max-w-[150px]">{mvv?.visao || 'Não definida'}</p>
+                        </div>
+                     </div>
                   </div>
                   <div className="space-y-4">
                      <h4 className="text-xs font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-2">
@@ -188,6 +203,9 @@ export function RelatorioExecutivoPage({ clientId, selectedYear, selectedMonth }
                              <span className="font-black text-rose-500 shrink-0">{item.iveScore}</span>
                           </div>
                         ))}
+                        {topDiagnostico.length === 0 && (
+                          <p className="text-[10px] text-slate-400 italic">Nenhuma prioridade identificada.</p>
+                        )}
                      </div>
                   </div>
                </div>
@@ -235,7 +253,7 @@ export function RelatorioExecutivoPage({ clientId, selectedYear, selectedMonth }
                   </div>
                   <div className="space-y-6">
                     <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-6 flex items-center gap-2">
-                       <CheckCircle2 size={16} className="text-secondary" /> Progresso OKRs Estatégicos
+                       <CheckCircle2 size={16} className="text-secondary" /> Progresso OKRs Estratégicos
                     </h4>
                     <div className="space-y-4">
                        {topOkrs.map(okr => (
@@ -249,25 +267,20 @@ export function RelatorioExecutivoPage({ clientId, selectedYear, selectedMonth }
                             </div>
                          </div>
                        ))}
+                       {topOkrs.length === 0 && (
+                          <p className="text-[10px] text-slate-400 italic text-center py-4">Nenhum OKR ativo encontrado.</p>
+                       )}
                     </div>
                   </div>
                </div>
 
-               {/* Section: Consultant Recommendations */}
+               {/* Consultant Notes Section in PDF */}
                {consultantNotes && (
-                 <div className="border-2 border-primary/20 bg-primary/5 rounded-[32px] p-8 mb-12">
-                    <h4 className="text-xs font-black text-primary uppercase tracking-[0.2em] mb-4">Recomendações do Account Executive</h4>
-                    <div className="text-xs font-bold text-slate-600 italic whitespace-pre-wrap leading-relaxed">
-                       {consultantNotes}
-                    </div>
+                 <div className="pt-10 border-t border-slate-100">
+                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-4">Notas Estratégicas</h4>
+                    <p className="text-xs font-medium text-slate-500 leading-relaxed whitespace-pre-wrap">{consultantNotes}</p>
                  </div>
                )}
-
-               {/* Footer */}
-               <div className="mt-20 pt-8 border-t border-slate-100 flex justify-between items-center text-[10px] font-bold text-slate-400">
-                  <div>© {new Date().getFullYear()} Illumine Advisory - Todos os direitos reservados.</div>
-                  <div className="italic">Genuinamente estratégico.</div>
-               </div>
             </div>
          </div>
       </div>

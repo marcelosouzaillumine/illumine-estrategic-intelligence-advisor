@@ -156,7 +156,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
   }
 
   return (
-    <div className="space-y-8 pb-20">
+    <div className="space-y-8 pb-20 w-full min-w-0 max-w-full overflow-x-hidden">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-display font-black text-slate-900 tracking-tight">Visão de Portfólio</h1>
@@ -170,7 +170,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {[
           { label: 'Health Score Médio', value: stats.avgScore, icon: Target, color: 'blue' },
           { label: 'Faturamento Sob Gestão', value: `R$ ${(stats.totalRevenue / 1000000).toFixed(1)}M`, icon: Zap, color: 'emerald' },
@@ -185,22 +185,22 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
               <stat.icon size={100} />
             </div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
-            <div className="flex items-baseline gap-2">
-              <h3 className="text-2xl font-black text-slate-900">{stat.value}</h3>
-              {stat.label.includes('Score') && <span className="text-[10px] font-bold text-emerald-600">+2% vs m-1</span>}
+            <div className="flex items-baseline gap-1 sm:gap-2 min-w-0">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 truncate">{stat.value}</h3>
+              {stat.label.includes('Score') && <span className="text-[10px] font-bold text-emerald-600 whitespace-nowrap">+2%</span>}
             </div>
           </div>
         ))}
       </div>
       
       {/* Strategic Watch - Portfolio Level Intelligence */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         <div className="bg-slate-900 rounded-[40px] p-8 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-10"><ShieldAlert size={80} /></div>
           <div className="relative z-10">
             <h3 className="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-4">Market Risk Exposure</h3>
             <h4 className="text-xl font-display font-extrabold mb-4">Reforma Tributária: Impacto no Portfólio</h4>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               <div>
                 <p className="text-[8px] font-black text-slate-400 uppercase mb-1">Empresas em Risco</p>
                 <p className="text-2xl font-black text-rose-500">{(stats.totalClients * 0.7).toFixed(0)}</p>
@@ -223,14 +223,14 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         <div className="bg-white rounded-[40px] border border-slate-200 p-8 shadow-sm">
           <h3 className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-4">Capital Alpha Opportunities</h3>
           <h4 className="text-xl font-display font-extrabold text-slate-900 mb-4">Potencial de Otimização Financeira</h4>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <div className="flex gap-4">
               <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
                 <Coins size={24} />
               </div>
               <div>
                 <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Savings em Juros (Est.)</p>
-                <p className="text-xl font-black text-slate-900">{formatCurrency(stats.totalRevenue * 0.02)}/ano</p>
+                <p className="text-lg sm:text-xl font-black text-slate-900 truncate">{formatCurrency(stats.totalRevenue * 0.02)}/ano</p>
                 <p className="text-[10px] text-slate-500 font-medium">Troca de CDI+8% por Taxas do Plano.</p>
               </div>
             </div>
@@ -248,112 +248,197 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         </div>
       </div>
 
-      {/* Filter & Search */}
-      <div className="flex flex-col md:flex-row gap-4">
+      {/* Search & Filter Bar */}
+      <div className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-3xl border border-slate-200 shadow-sm min-w-0 w-full">
         <div className="relative flex-1">
           <input 
             type="text" 
             placeholder="Buscar por cliente ou segmento..." 
-            className="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-slate-900/5 transition-all font-bold text-sm"
+            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-slate-900/5 transition-all font-bold text-sm"
           />
           <Search size={18} className="absolute left-4 top-3.5 text-slate-400" />
         </div>
-        <button className="px-6 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black text-slate-700 flex items-center gap-2 hover:bg-slate-50">
-          <Filter size={16} /> Filtros Avançados
-        </button>
+        <div className="flex gap-2">
+          <button className="flex-1 md:flex-none px-6 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black text-slate-700 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
+            <Filter size={16} /> Filtros
+          </button>
+          <div className="hidden md:flex items-center gap-2 px-4 border-l border-slate-100 ml-2">
+             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{portfolioData.length} Clientes</span>
+          </div>
+        </div>
       </div>
 
-      {/* Portfolio Table */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-slate-50 border-b border-slate-200">
-              <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Cliente / Setor</th>
-              <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Health Score</th>
-              <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Alertas</th>
-              <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Fat. Mensal</th>
-              <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Margem EBITDA</th>
-              <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Ação</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {portfolioData.sort((a, b) => a.score - b.score).map((client) => (
-              <tr key={client.id} className="hover:bg-slate-50/50 transition-colors group cursor-pointer" onClick={() => onSelectClient(client.id)}>
-                <td className="px-8 py-6">
-                  <div className="flex items-center gap-4">
-                    <div className={cn(
-                      "w-12 h-12 rounded-xl flex items-center justify-center font-black text-white text-lg shadow-lg",
-                      client.score > 80 ? "bg-emerald-500 shadow-emerald-500/20" : 
-                      client.score > 60 ? "bg-blue-500 shadow-blue-500/20" : "bg-rose-500 shadow-rose-500/20"
-                    )}>
-                      {client.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
-                    </div>
-                    <div>
-                      <p className="text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors">{client.name}</p>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{client.industry}</p>
-                    </div>
+      {/* Portfolio Client List - Responsive Layout */}
+      <div className="space-y-6 min-w-0 w-full">
+        {/* Mobile/Tablet View (Cards) - Visible until 'xl' */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xl:hidden">
+          {portfolioData.sort((a, b) => a.score - b.score).map((client) => (
+            <div 
+              key={client.id} 
+              className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all active:scale-[0.98] cursor-pointer group"
+              onClick={() => onSelectClient(client.id)}
+            >
+              <div className="flex items-start justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <div className={cn(
+                    "w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white text-lg shadow-lg shrink-0",
+                    client.score > 80 ? "bg-emerald-500 shadow-emerald-500/20" : 
+                    client.score > 60 ? "bg-blue-500 shadow-blue-500/20" : "bg-rose-500 shadow-rose-500/20"
+                  )}>
+                    {client.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                   </div>
-                </td>
-                <td className="px-8 py-6">
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-2">
-                      <span className={cn(
-                        "text-lg font-black",
-                        client.score > 80 ? "text-emerald-600" : client.score > 60 ? "text-blue-600" : "text-rose-600"
-                      )}>{client.score}</span>
-                      {client.score > client.lastMonthScore ? 
-                        <ArrowUpRight size={14} className="text-emerald-500" /> : 
-                        <ArrowDownRight size={14} className="text-rose-500" />
-                      }
-                    </div>
-                    <div className="w-16 h-1 bg-slate-100 rounded-full mt-1 overflow-hidden">
-                      <div className={cn(
-                        "h-full rounded-full",
-                        client.score > 80 ? "bg-emerald-500" : client.score > 60 ? "bg-blue-500" : "bg-rose-500"
-                      )} style={{ width: `${client.score}%` }} />
-                    </div>
+                  <div className="min-w-0">
+                    <h3 className="text-base font-black text-slate-900 group-hover:text-blue-600 transition-colors truncate">{client.name}</h3>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">{client.industry}</p>
                   </div>
-                </td>
-                <td className="px-8 py-6 text-center">
-                  {client.criticalAlerts > 0 ? (
-                    <div className="inline-flex items-center gap-1 px-2 py-1 bg-rose-50 text-rose-600 rounded-lg text-[10px] font-black uppercase">
-                      <AlertCircle size={12} /> {client.criticalAlerts} Críticos
-                    </div>
-                  ) : (
-                    <CheckCircle2 size={18} className="text-emerald-500 mx-auto" />
-                  )}
-                </td>
-                <td className="px-8 py-6 text-right font-bold text-sm text-slate-700">
-                  {formatCurrency(client.revenue)}
-                </td>
-                <td className="px-8 py-6 text-right">
-                  <span className={cn(
-                    "font-black text-sm",
+                </div>
+                <div className="text-right">
+                   <div className={cn(
+                     "text-xl font-black",
+                     client.score > 80 ? "text-emerald-600" : client.score > 60 ? "text-blue-600" : "text-rose-600"
+                   )}>{client.score}</div>
+                   <div className="text-[8px] font-black text-slate-400 uppercase">Health Score</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-slate-50 rounded-2xl">
+                <div>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Fat. Mensal</p>
+                  <p className="text-sm font-bold text-slate-700">{formatCurrency(client.revenue)}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Margem EBITDA</p>
+                  <p className={cn(
+                    "text-sm font-bold",
                     client.ebitdaMargin > 20 ? "text-emerald-600" : "text-slate-900"
-                  )}>{client.ebitdaMargin.toFixed(1)}%</span>
-                </td>
-                <td className="px-8 py-6 text-right">
-                  <div className="flex justify-end gap-2 shrink-0">
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'advisory_insights'); }}
-                      className="p-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl transition-all shadow-sm border border-blue-100 flex items-center gap-2 text-[10px] font-black uppercase tracking-tight"
-                      title="Ver Advisory (IA)"
-                    >
-                      <Zap size={14} /> Advisory
-                    </button>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'dashboard'); }}
-                      className="p-2 hover:bg-slate-900 hover:text-white border-2 border-slate-100 hover:border-slate-900 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-tight"
-                      title="Ver Dashboard"
-                    >
-                      Dashboard <ChevronRight size={14} />
-                    </button>
+                  )}>{client.ebitdaMargin.toFixed(1)}%</p>
+                </div>
+                <div className="col-span-2 pt-2 border-t border-slate-200">
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Alertas Críticos</p>
+                  <div className="flex items-center gap-2">
+                    {client.criticalAlerts > 0 ? (
+                      <span className="text-[10px] font-black text-rose-600 uppercase flex items-center gap-1">
+                        <AlertCircle size={12} /> {client.criticalAlerts} Alertas
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-black text-emerald-600 uppercase flex items-center gap-1">
+                        <CheckCircle2 size={12} /> Saudável
+                      </span>
+                    )}
                   </div>
-                </td>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <button 
+                  onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'advisory_insights'); }}
+                  className="flex items-center justify-center gap-2 py-3 bg-blue-50 text-blue-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all border border-blue-100"
+                >
+                  <Zap size={14} /> Advisory
+                </button>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'dashboard'); }}
+                  className="flex items-center justify-center gap-2 py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all"
+                >
+                  Dashboard <ChevronRight size={14} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop View (Table) - Visible from 'xl' onwards */}
+        <div className="hidden xl:block bg-white rounded-[32px] border border-slate-200 shadow-xl overflow-x-auto">
+          <table className="w-full border-collapse min-w-[1000px]">
+            <thead>
+              <tr className="bg-slate-50/50 border-b border-slate-200">
+                <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Cliente / Setor</th>
+                <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Health Score</th>
+                <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Alertas</th>
+                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Fat. Mensal</th>
+                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Margem EBITDA</th>
+                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Ação</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {portfolioData.sort((a, b) => a.score - b.score).map((client) => (
+                <tr key={client.id} className="hover:bg-slate-50/50 transition-colors group cursor-pointer" onClick={() => onSelectClient(client.id)}>
+                  <td className="px-8 py-6">
+                    <div className="flex items-center gap-4">
+                      <div className={cn(
+                        "w-12 h-12 rounded-xl flex items-center justify-center font-black text-white text-lg shadow-lg shrink-0",
+                        client.score > 80 ? "bg-emerald-500 shadow-emerald-500/20" : 
+                        client.score > 60 ? "bg-blue-500 shadow-blue-500/20" : "bg-rose-500 shadow-rose-500/20"
+                      )}>
+                        {client.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors truncate">{client.name}</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">{client.industry}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-8 py-6">
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center gap-2">
+                        <span className={cn(
+                          "text-lg font-black",
+                          client.score > 80 ? "text-emerald-600" : client.score > 60 ? "text-blue-600" : "text-rose-600"
+                        )}>{client.score}</span>
+                        {client.score > client.lastMonthScore ? 
+                          <ArrowUpRight size={14} className="text-emerald-500" /> : 
+                          <ArrowDownRight size={14} className="text-rose-500" />
+                        }
+                      </div>
+                      <div className="w-16 h-1 bg-slate-100 rounded-full mt-1 overflow-hidden">
+                        <div className={cn(
+                          "h-full rounded-full",
+                          client.score > 80 ? "bg-emerald-500" : client.score > 60 ? "bg-blue-500" : "bg-rose-500"
+                        )} style={{ width: `${client.score}%` }} />
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-8 py-6 text-center">
+                    {client.criticalAlerts > 0 ? (
+                      <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-rose-50 text-rose-600 rounded-lg text-[10px] font-black uppercase whitespace-nowrap">
+                        <AlertCircle size={12} /> {client.criticalAlerts} Críticos
+                      </div>
+                    ) : (
+                      <CheckCircle2 size={18} className="text-emerald-500 mx-auto" />
+                    )}
+                  </td>
+                  <td className="px-8 py-6 text-right font-bold text-sm text-slate-700 whitespace-nowrap">
+                    {formatCurrency(client.revenue)}
+                  </td>
+                  <td className="px-8 py-6 text-right whitespace-nowrap">
+                    <span className={cn(
+                      "font-black text-sm",
+                      client.ebitdaMargin > 20 ? "text-emerald-600" : "text-slate-900"
+                    )}>{client.ebitdaMargin.toFixed(1)}%</span>
+                  </td>
+                  <td className="px-8 py-6 text-right">
+                    <div className="flex justify-end gap-2 shrink-0">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'advisory_insights'); }}
+                        className="p-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl transition-all shadow-sm border border-blue-100 flex items-center gap-2 text-[10px] font-black uppercase tracking-tight"
+                        title="Ver Advisory (IA)"
+                      >
+                        <Zap size={14} /> Advisory
+                      </button>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'dashboard'); }}
+                        className="p-2 hover:bg-slate-900 hover:text-white border-2 border-slate-100 hover:border-slate-900 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-tight"
+                        title="Ver Dashboard"
+                      >
+                        Dashboard <ChevronRight size={14} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

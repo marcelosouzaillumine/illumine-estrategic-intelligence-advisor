@@ -179,14 +179,20 @@ export function useAnnualFinancialData(
         ids.push(docSnap.id);
         const docData = docSnap.data() as any;
         if (Array.isArray(docData.data)) {
+          // Para Balanço Patrimonial, tentamos inferir o tipo se estiver faltando
+          let lastType = 'ativo';
           docData.data.forEach((entry: any) => {
+            const entryType = entry.type || entry.tipo || lastType;
+            lastType = entryType;
+
             allEntries.push({
               ...entry,
               id: `${docSnap.id}_${entry.category}`,
               docId: docSnap.id,
               conta: entry.category,
               valor: entry.value,
-              val: entry.value
+              val: entry.value,
+              type: entryType.toLowerCase()
             });
           });
         } else {
@@ -196,7 +202,8 @@ export function useAnnualFinancialData(
             docId: docSnap.id,
             conta: docData.category,
             valor: docData.value,
-            val: docData.value
+            val: docData.value,
+            type: (docData.type || docData.tipo || 'ativo').toLowerCase()
           });
         }
       });

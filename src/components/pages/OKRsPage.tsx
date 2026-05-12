@@ -48,19 +48,22 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
 
   // Business Logic: Auto-calculate financial KRs
   const enrichedData = useMemo(() => {
+    if (!data) return [];
     return data.map(obj => {
-      const enrichedKRs = obj.keyResults.map(kr => {
+      const enrichedKRs = (obj.keyResults || []).map(kr => {
         let actualValue = kr.atual;
         
         // Auto-read logic for financial KRs
-        if (kr.kpi.toLowerCase().includes('receita')) {
-          actualValue = financialEntries.filter(e => e.type === 'DRE' && e.conta.toLowerCase().includes('bruta')).reduce((acc, curr) => acc + curr.valor, 0);
-        } else if (kr.kpi.toLowerCase().includes('ebitda')) {
-          actualValue = financialEntries.filter(e => e.conta.toLowerCase() === 'ebitda').reduce((acc, curr) => acc + curr.valor, 0);
-        } else if (kr.kpi.toLowerCase().includes('margem')) {
-          const receita = financialEntries.filter(e => e.type === 'DRE' && e.conta.toLowerCase().includes('bruta')).reduce((acc, curr) => acc + curr.valor, 0);
-          const ebitda = financialEntries.filter(e => e.conta.toLowerCase() === 'ebitda').reduce((acc, curr) => acc + curr.valor, 0);
-          actualValue = receita > 0 ? (ebitda / receita) * 100 : 0;
+        if (financialEntries && Array.isArray(financialEntries)) {
+          if (kr.kpi.toLowerCase().includes('receita')) {
+            actualValue = financialEntries.filter(e => e.type === 'DRE' && e.conta.toLowerCase().includes('bruta')).reduce((acc, curr) => acc + (curr.valor || 0), 0);
+          } else if (kr.kpi.toLowerCase().includes('ebitda')) {
+            actualValue = financialEntries.filter(e => e.conta.toLowerCase() === 'ebitda').reduce((acc, curr) => acc + (curr.valor || 0), 0);
+          } else if (kr.kpi.toLowerCase().includes('margem')) {
+            const receita = financialEntries.filter(e => e.type === 'DRE' && e.conta.toLowerCase().includes('bruta')).reduce((acc, curr) => acc + (curr.valor || 0), 0);
+            const ebitda = financialEntries.filter(e => e.conta.toLowerCase() === 'ebitda').reduce((acc, curr) => acc + (curr.valor || 0), 0);
+            actualValue = receita > 0 ? (ebitda / receita) * 100 : 0;
+          }
         }
 
         const progresso = kr.meta > 0 ? Math.min(100, Math.max(0, (actualValue / kr.meta) * 100)) : 0;

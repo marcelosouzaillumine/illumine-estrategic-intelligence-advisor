@@ -45,6 +45,9 @@ import {
   Building2,
   MessageSquare,
   Rocket,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Menu as MenuIcon,
 } from 'lucide-react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch } from 'firebase/firestore';
@@ -85,48 +88,53 @@ import { DEFAULT_OPEN_SUBMENUS, DEFAULT_PAGE, FLAT_NAV_ITEMS, NAVIGATION_GROUPS,
 import { renderCurrentPage } from './app/routes';
 import { ClientSelector } from './components/ClientSelector';
 
-function Logo() {
+function Logo({ collapsed }: { collapsed?: boolean }) {
   return (
-    <div className="flex flex-col items-center gap-2 mb-12 select-none w-full px-4">
-      <div className="flex flex-col items-center text-center">
+      <div className={cn("flex items-center gap-2 transition-all duration-300", collapsed ? "justify-center mb-10" : "px-4 mb-12 justify-start")}>
         {/* Illumine stylized Icon */}
-        <svg 
-          width="80" 
-          height="80" 
-          viewBox="0 0 100 100" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-          className="mb-2"
-        >
-          {/* Rays */}
-          <line x1="30" y1="30" x2="22" y2="22" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-          <line x1="18" y1="50" x2="8" y2="50" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-          <line x1="30" y1="70" x2="22" y2="78" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-          <line x1="50" y1="82" x2="50" y2="92" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-          <line x1="70" y1="70" x2="78" y2="78" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-          
-          {/* Main Circle and Arrow */}
-          <path 
-            d="M50 22 C 34.5 22, 22 34.5, 22 50 C 22 65.5, 34.5 78, 50 78 C 65.5 78, 78 65.5, 78 50 M50 50 L75 25 M75 25 L65 25 M75 25 L75 35" 
-            stroke="#ff8552" 
-            strokeWidth="6" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-          />
-        </svg>
+        <div className="w-5 h-5 shrink-0 flex items-center justify-center">
+          <svg 
+            width={collapsed ? "32" : "36"} 
+            height={collapsed ? "32" : "36"} 
+            viewBox="0 0 100 100" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+            className="transition-all duration-300"
+          >
+            {/* Rays */}
+            <line x1="30" y1="30" x2="22" y2="22" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
+            <line x1="18" y1="50" x2="8" y2="50" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
+            <line x1="30" y1="70" x2="22" y2="78" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
+            <line x1="50" y1="82" x2="50" y2="92" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
+            <line x1="70" y1="70" x2="78" y2="78" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
+            
+            {/* Main Circle and Arrow */}
+            <path 
+              d="M50 22 C 34.5 22, 22 34.5, 22 50 C 22 65.5, 34.5 78, 50 78 C 65.5 78, 78 65.5, 78 50 M50 50 L75 25 M75 25 L65 25 M75 25 L75 35" 
+              stroke="#ff8552" 
+              strokeWidth="6" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+            />
+          </svg>
+        </div>
 
         {/* Text */}
-        <div className="flex flex-col items-center">
-          <h1 className="text-[#0e1c2c] font-display text-4xl tracking-tighter leading-none font-black uppercase">
-            illumine
-          </h1>
-          <span className="text-[#ff8552] text-[10px] font-black uppercase tracking-[0.4em] mt-2 mb-1">
-            Strategic Advisory
-          </span>
-          <div className="h-0.5 w-8 bg-[#ff8552]/30 rounded-full"></div>
-        </div>
+        {!collapsed && (
+          <motion.div 
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex flex-col items-start -space-y-1 text-left"
+          >
+            <h1 className="text-[#0e1c2c] font-display text-lg tracking-tighter font-black uppercase text-left">
+              illumine
+            </h1>
+            <span className="text-[#ff8552] text-[6.5px] font-black uppercase tracking-[0.3em] text-left">
+              Strategic Advisory
+            </span>
+          </motion.div>
+        )}
       </div>
-    </div>
   );
 }
 
@@ -311,6 +319,29 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>(DEFAULT_OPEN_SUBMENUS);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem('sidebar-collapsed');
+    return saved ? JSON.parse(saved) : window.innerWidth < 1280;
+  });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('sidebar-collapsed', JSON.stringify(isSidebarCollapsed));
+  }, [isSidebarCollapsed]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsSidebarCollapsed(true);
+      }
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const toggleSubmenu = (name: string) => {
     setOpenSubmenus(prev => ({ ...prev, [name]: !prev[name] }));
@@ -412,180 +443,253 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-light overflow-hidden text-primary">
+      {/* Sidebar Overlay for Mobile */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[60] md:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 shadow-xl z-50">
-        <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
-          <div className="mb-8">
-            <Logo />
+      <motion.aside 
+        initial={false}
+        animate={{ 
+          width: isSidebarCollapsed ? 80 : 280,
+          x: isMobileMenuOpen ? 0 : (window.innerWidth < 768 ? -280 : 0)
+        }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className={cn(
+          "bg-white border-r border-slate-200 flex flex-col shrink-0 shadow-xl z-[70] fixed md:relative h-full",
+          isSidebarCollapsed ? "items-center" : "items-start"
+        )}
+      >
+        <div className="absolute -right-3 top-10 z-50 hidden md:block">
+          <button
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className="w-6 h-6 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-400 hover:text-secondary hover:border-secondary transition-all shadow-sm"
+          >
+            {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+          </button>
+        </div>
+
+        <div className="p-4 md:p-6 overflow-y-auto flex-1 custom-scrollbar w-full">
+          <div className="flex items-center justify-between mb-8">
+            <Logo collapsed={isSidebarCollapsed} />
+            {isMobileMenuOpen && (
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 text-slate-400 hover:text-rose-500 md:hidden"
+              >
+                <X size={20} />
+              </button>
+            )}
           </div>
           
           <nav className="space-y-6">
             {NAVIGATION_GROUPS.map((group) => {
-              const isOpen = openSubmenus[group.group] !== false; // Default to open if not specified
+              const isOpen = openSubmenus[group.group] !== false; 
               return (
                 <div key={group.group}>
-                  <button 
-                    onClick={() => toggleSubmenu(group.group)}
-                    className="w-full flex items-center justify-between px-3 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.15em] mb-1 font-display hover:text-primary transition-colors group"
-                  >
-                    <span>{group.group}</span>
-                    {isOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                  </button>
+                  {!isSidebarCollapsed && (
+                    <button 
+                      onClick={() => toggleSubmenu(group.group)}
+                      className="w-full flex items-center gap-2 px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mb-0.5 font-display hover:text-primary transition-colors group text-left justify-start"
+                    >
+                      <div className="w-5 flex items-center justify-center shrink-0">
+                        <group.icon size={14} className="shrink-0" />
+                      </div>
+                      <span className="flex-1 truncate text-left">{group.group}</span>
+                      {isOpen ? <ChevronUp size={10} /> : <ChevronDown size={10} />}
+                    </button>
+                  )}
                   
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div 
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="space-y-0.5 overflow-hidden"
-                      >
-                        {group.items.map((item) => {
-                          const hasChildren = item.children && item.children.length > 0;
-                          const isChildActive = hasChildren && item.children?.some(child => child.id === currentPage);
-                          const isActive = currentPage === item.id || isChildActive;
-                          
-                          return (
-                            <div key={item.id} className="space-y-0.5">
-                              <button
-                                onClick={() => {
-                                  if (hasChildren) {
-                                    // If it has children, maybe we just toggle or navigate to parent
-                                    setCurrentPage(item.id);
-                                  } else {
-                                    setCurrentPage(item.id);
-                                  }
-                                }}
-                                className={cn(
-                                  "w-full flex items-center justify-start text-left gap-3 px-3 py-2 rounded-xl font-bold text-xs transition-all group",
-                                  currentPage === item.id 
-                                    ? "bg-slate-900 text-white shadow-xl shadow-slate-900/10" 
-                                    : isActive 
-                                      ? "text-slate-900 bg-slate-50"
-                                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-                                )}
-                              >
-                                <item.icon size={16} className={cn(
-                                  "transition-colors",
-                                  currentPage === item.id ? "text-secondary" : "text-slate-400 group-hover:text-secondary"
-                                )} />
-                                <span className="tracking-tight flex-1">{item.label}</span>
+                  <div className="space-y-0.5">
+                    {(isSidebarCollapsed ? group.items : (isOpen ? group.items : [])).map((item) => {
+                      const hasChildren = item.children && item.children.length > 0;
+                      const isChildActive = hasChildren && item.children?.some(child => child.id === currentPage);
+                      const isActive = currentPage === item.id || isChildActive;
+                      
+                      return (
+                        <div key={item.id} className="space-y-0.5">
+                          <button
+                            onClick={() => {
+                              if (isSidebarCollapsed && hasChildren) {
+                                setIsSidebarCollapsed(false);
+                                toggleSubmenu(group.group);
+                              }
+                              setCurrentPage(item.id);
+                            }}
+                            title={isSidebarCollapsed ? item.label : undefined}
+                            className={cn(
+                              "w-full flex items-center gap-2 px-4 py-1.5 rounded-xl font-bold text-[11px] transition-all group",
+                              isSidebarCollapsed ? "justify-center px-2" : "justify-start",
+                              currentPage === item.id 
+                                ? "bg-slate-900 text-white shadow-xl shadow-slate-900/10" 
+                                : isActive 
+                                  ? "text-slate-900 bg-slate-50"
+                                  : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                            )}
+                          >
+                            <div className="w-5 flex items-center justify-center shrink-0">
+                              <item.icon size={isSidebarCollapsed ? 18 : 14} className={cn(
+                                "transition-colors shrink-0",
+                                currentPage === item.id ? "text-secondary" : "text-slate-400 group-hover:text-secondary"
+                              )} />
+                            </div>
+                            {!isSidebarCollapsed && (
+                              <div className="flex-1 min-w-0 flex items-center justify-between gap-2 overflow-hidden text-left">
+                                <span className="tracking-tight truncate text-left">{item.label}</span>
                                 {hasChildren && (
                                   <ChevronDown 
-                                    size={12} 
+                                    size={10} 
                                     className={cn(
-                                      "transition-transform duration-300",
+                                      "transition-transform duration-300 shrink-0",
                                       isActive ? "rotate-180 text-secondary" : "text-slate-300"
                                     )} 
                                   />
                                 )}
                                 {(item as any).isNew && !hasChildren && (
-                                  <span className="ml-auto bg-blue-100 text-blue-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter">
+                                  <span className="ml-auto bg-blue-100 text-blue-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter shrink-0">
                                     Novo
                                   </span>
                                 )}
-                              </button>
+                              </div>
+                            )}
+                          </button>
 
-                              {hasChildren && isActive && (
-                                <motion.div 
-                                  initial={{ height: 0, opacity: 0 }}
-                                  animate={{ height: 'auto', opacity: 1 }}
-                                  className="pl-9 space-y-0.5"
+                          {hasChildren && isActive && !isSidebarCollapsed && (
+                            <motion.div 
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              className="pl-9 space-y-0.5"
+                            >
+                              {item.children?.map((child) => (
+                                <button
+                                  key={child.id}
+                                  onClick={() => setCurrentPage(child.id)}
+                                  className={cn(
+                                    "w-full flex items-center justify-start text-left gap-2 px-4 py-1.5 rounded-lg font-bold text-[10px] transition-all group",
+                                    currentPage === child.id 
+                                      ? "bg-slate-100 text-primary" 
+                                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+                                  )}
                                 >
-                                  {item.children?.map((child) => (
-                                    <button
-                                      key={child.id}
-                                      onClick={() => setCurrentPage(child.id)}
-                                      className={cn(
-                                        "w-full flex items-center justify-start text-left gap-3 px-3 py-1.5 rounded-lg font-bold text-[11px] transition-all group",
-                                        currentPage === child.id 
-                                          ? "text-primary bg-primary/5" 
-                                          : "text-slate-400 hover:text-slate-900 hover:bg-slate-50"
-                                      )}
-                                    >
-                                      <span className={cn(
-                                        "w-1 h-1 rounded-full",
-                                        currentPage === child.id ? "bg-secondary scale-125" : "bg-slate-300 group-hover:bg-slate-400"
-                                      )} />
-                                      <span className="tracking-tight">{child.label}</span>
-                                    </button>
-                                  ))}
-                                </motion.div>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                                  <div className="w-5 flex items-center justify-center shrink-0">
+                                    <span className={cn(
+                                      "w-1 h-1 rounded-full",
+                                      currentPage === child.id ? "bg-secondary scale-125" : "bg-slate-300 group-hover:bg-slate-400"
+                                    )} />
+                                  </div>
+                                  <span className="tracking-tight truncate text-left">{child.label}</span>
+                                </button>
+                              ))}
+                            </motion.div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               );
             })}
           </nav>
         </div>
 
-        <div className="mt-auto p-6 bg-slate-50 border-t border-slate-100">
+        <div className={cn(
+          "mt-auto p-6 bg-slate-50 border-t border-slate-100 transition-all",
+          isSidebarCollapsed ? "px-2" : "p-6"
+        )}>
           {authLoading ? (
             <div className="flex justify-center py-2">
               <Loader2 className="animate-spin text-secondary" size={20} />
             </div>
           ) : user ? (
             <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-3">
+              <div className={cn(
+                "flex items-center gap-2 px-4 mb-4 transition-all",
+                isSidebarCollapsed && "justify-center"
+              )}>
                 {user.photoURL ? (
-                  <img src={user.photoURL} alt={user.displayName || ''} className="w-10 h-10 rounded-full border-2 border-secondary" />
+                  <div className="w-5 h-5 shrink-0 flex items-center justify-center">
+                    <img src={user.photoURL} alt={user.displayName || ''} className="w-5 h-5 rounded-full border border-secondary shrink-0" title={isSidebarCollapsed ? user.displayName || 'Usuário' : undefined} />
+                  </div>
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">
-                    {user.displayName?.split(' ').map(n => n[0]).join('') || 'U'}
+                  <div className="w-5 h-5 shrink-0 flex items-center justify-center">
+                    <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-white font-bold text-[8px] shrink-0" title={isSidebarCollapsed ? user.displayName || 'Usuário' : undefined}>
+                      {user.displayName?.split(' ').map(n => n[0]).join('') || 'U'}
+                    </div>
                   </div>
                 )}
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold truncate">{user.displayName || 'Usuário'}</p>
-                  <p className="text-xs text-slate-500 truncate">{user.email}</p>
-                </div>
+                {!isSidebarCollapsed && (
+                  <div className="flex-1 min-w-0 text-left">
+                    <p className="text-xs font-bold truncate text-slate-900 text-left">{user.displayName || 'Usuário'}</p>
+                  </div>
+                )}
               </div>
               <button 
                 onClick={logout}
-                className="w-full flex items-center justify-center gap-2 py-2 text-xs font-black uppercase tracking-widest text-rose-600 hover:bg-rose-50 rounded-xl transition-colors border border-rose-100"
+                title={isSidebarCollapsed ? "Sair" : undefined}
+                className={cn(
+                  "flex items-center justify-center gap-2 py-2 text-xs font-black uppercase tracking-widest text-rose-600 hover:bg-rose-50 rounded-xl transition-colors border border-rose-100",
+                  isSidebarCollapsed ? "px-0 w-10 h-10 mx-auto" : "w-full"
+                )}
               >
-                <LogOut size={14} /> Sair
+                <LogOut size={14} /> {!isSidebarCollapsed && "Sair"}
               </button>
             </div>
           ) : (
             <button 
               onClick={login}
-              className="w-full flex items-center justify-center gap-2 py-3 bg-primary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+              title={isSidebarCollapsed ? "Entrar com Google" : undefined}
+              className={cn(
+                "flex items-center justify-center gap-2 bg-primary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20",
+                isSidebarCollapsed ? "w-10 h-10 mx-auto py-0" : "w-full py-3"
+              )}
             >
-              <LogIn size={16} /> Entrar com Google
+              <LogIn size={isSidebarCollapsed ? 20 : 16} /> {!isSidebarCollapsed && "Entrar"}
             </button>
           )}
         </div>
-      </aside>
+      </motion.aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden bg-white">
+      <main className="flex-1 min-w-0 flex flex-col overflow-hidden bg-white">
         {/* Header */}
-        <header className="sticky top-0 h-20 bg-white/80 backdrop-blur-xl border-b border-slate-100 flex items-center justify-between px-10 shrink-0 z-40">
-          <div className="flex items-center gap-6">
-            <ClientSelector 
-              clients={clients} 
-              selectedClient={selectedClient} 
-              setSelectedClient={setSelectedClient} 
-              onManageClients={() => setCurrentPage('clients')}
-            />
+        <header className="sticky top-0 h-20 bg-white/80 backdrop-blur-xl border-b border-slate-100 flex items-center justify-between px-4 md:px-10 shrink-0 z-40">
+          <div className="flex items-center gap-2 md:gap-6">
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="p-2 text-slate-500 hover:text-primary md:hidden"
+            >
+              <MenuIcon size={24} />
+            </button>
+            <div className="hidden sm:block">
+              <ClientSelector 
+                clients={clients} 
+                selectedClient={selectedClient} 
+                setSelectedClient={setSelectedClient} 
+                onManageClients={() => setCurrentPage('clients')}
+              />
+            </div>
           </div>
 
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4 md:gap-8">
             <div className="relative group hidden lg:block">
               <input 
                 type="text" 
                 placeholder="Pesquisar... (⌘K)" 
-                className="pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-100 rounded-xl text-xs font-bold focus:bg-white focus:ring-4 focus:ring-secondary/5 focus:border-secondary/20 transition-all outline-none w-72" 
+                className="pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-100 rounded-xl text-xs font-bold focus:bg-white focus:ring-4 focus:ring-secondary/5 focus:border-secondary/20 transition-all outline-none w-48 xl:w-72" 
               />
               <Search size={14} className="text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 group-focus-within:text-secondary transition-colors" />
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
               <div className="flex items-center bg-slate-50/50 border border-slate-100 p-1 rounded-xl">
                 <button 
                   onClick={() => window.print()}
@@ -595,7 +699,7 @@ export default function App() {
                   <FileSpreadsheet size={18} />
                 </button>
                 <button 
-                  className="p-2 text-slate-400 hover:text-primary hover:bg-white rounded-lg transition-all"
+                  className="p-2 text-slate-400 hover:text-primary hover:bg-white rounded-lg transition-all hidden sm:flex"
                   title="Exportar Dados"
                 >
                   <UploadCloud size={18} />
@@ -603,17 +707,17 @@ export default function App() {
               </div>
 
               <button 
-                className="px-6 py-3 bg-secondary text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:shadow-xl hover:shadow-secondary/30 transition-all active:scale-95 flex items-center gap-2"
+                className="px-3 md:px-6 py-3 bg-secondary text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:shadow-xl hover:shadow-secondary/30 transition-all active:scale-95 flex items-center gap-2"
               >
                 <Zap size={14} />
-                Gerar Relatório
+                <span className="hidden sm:inline">Gerar Relatório</span>
               </button>
             </div>
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-8">
-          <div className="max-w-7xl mx-auto w-full">
+        <div className="flex-1 min-w-0 overflow-y-auto p-8">
+          <div className="max-w-[1600px] mx-auto w-full">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentPage}

@@ -121,31 +121,98 @@ export const parseFinancialExcel = async (
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        if (onProgress) onProgress(40);
-        const wb = XLSX.read(e.target?.result, { type: 'binary' });
+        if (onProgress) onProgress(20);
+        const data = new Uint8Array(e.target?.result as ArrayBuffer);
+        const wb = XLSX.read(data, { type: 'array' });
         const ws = wb.Sheets[wb.SheetNames[0]];
         const rawData = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
-        if (onProgress) onProgress(80);
+        if (onProgress) onProgress(50);
 
         const results: FinancialEntry[] = [];
+        let catCol = 0;
+        let valCol = 1;
+        let codeCol = -1;
+        let headerRowIndex = -1;
+
+        // 1. Tentar encontrar o cabeçalho e as colunas certas nas primeiras 30 linhas
+        for (let i = 0; i < Math.min(rawData.length, 30); i++) {
+          const row = rawData[i];
+          if (!Array.isArray(row)) continue;
+          
+          const rowLower = row.map(c => String(c || '').toLowerCase());
+          
+          const foundCode = rowLower.findIndex(c => 
+            c && (c.includes('código') || c.includes('codigo') || c.includes('code'))
+          );
+          
+          const foundCat = rowLower.findIndex(c => 
+            c && (c.includes('conta') || c.includes('descri') || c.includes('nome') || 
+            c.includes('category') || c.includes('item') || c.includes('especificação'))
+          );
+          
+          const foundVal = rowLower.findIndex(c => 
+            c && (c.includes('valor') || c.includes('saldo') || c.includes('total') || 
+            c.includes('value') || c.includes('r$') || c.includes('montante'))
+          );
+
+          if (foundCat !== -1 && foundVal !== -1) {
+            catCol = foundCat;
+            valCol = foundVal;
+            codeCol = foundCode; // Pode ser -1 se não existir
+            headerRowIndex = i;
+            break;
+          }
+        }
+
+        // 2. Fallback se não achou cabeçalho: procurar primeira linha que tenha texto e número
+        if (headerRowIndex === -1) {
+          for (let i = 0; i < Math.min(rawData.length, 20); i++) {
+            const row = rawData[i];
+            if (row && row.length >= 2) {
+              const hasText = typeof row[0] === 'string' && row[0].length > 3;
+              const hasNum = typeof row[1] === 'number' || (typeof row[1] === 'string' && parseBrNumber(row[1]) !== null);
+              if (hasText && hasNum) {
+                headerRowIndex = i - 1; // Assume a linha anterior era o cabeçalho ou que esta já é dados
+                break;
+              }
+            }
+          }
+        }
+
+        if (onProgress) onProgress(70);
+
+        // 3. Extrair dados
         rawData.forEach((row, idx) => {
-          const cat = row[0]?.toString().trim();
-          if (!cat) return;
-          // Pula linha de cabeçalho
-          if (idx === 0 && /conta|descri|nome|category/i.test(cat)) return;
-          const rawVal = row[1];
+          if (idx <= headerRowIndex) return;
+          if (!row || row.length === 0) return;
+
+          const cat = row[catCol]?.toString().trim();
+          if (!cat || cat.length < 2) return;
+
+          const code = codeCol !== -1 ? row[codeCol]?.toString().trim() : '';
+          const fullName = (code && code !== cat) ? `${code} - ${cat}` : cat;
+          
+          // Ignora linhas que parecem ser apenas "Total" ou "Subtotal" sem ser conta
+          if (cat.toLowerCase() === 'total' || cat.toLowerCase() === 'subtotal') {
+            if (row[valCol] === undefined) return;
+          }
+
+          const rawVal = row[valCol];
           const value = rawVal !== undefined && rawVal !== null && rawVal !== ''
             ? (typeof rawVal === 'number' ? rawVal : (parseBrNumber(rawVal.toString()) ?? 0))
             : 0;
-          results.push({ category: cat, value });
+            
+          results.push({ category: fullName, value });
         });
+
+        if (onProgress) onProgress(100);
         resolve(results);
       } catch (err) {
         reject(err);
       }
     };
     reader.onerror = reject;
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
   });
 };
 
@@ -427,10 +494,10 @@ export const parseDoc = async (file: File, onProgress?: (percent: number) => voi
  * Intelligent mapping: suggests accounting accounts for a managerial account based on name similarity
  */
 export const suggestMapping = (managerialName: string, accountingAccounts: ImportedAccount[]): string[] => {
-  const mName = managerialName.toLowerCase();
+  const mName = String(managerialName || '').toLowerCase();
   return accountingAccounts
     .filter(acc => {
-      const aName = acc.name.toLowerCase();
+      const aName = String(acc?.name || '').toLowerCase();
       return aName.includes(mName) || mName.includes(aName);
     })
     .map(acc => (acc as any).id)
@@ -441,17 +508,20 @@ export const suggestMapping = (managerialName: string, accountingAccounts: Impor
  * Inferred type from code and name, with root digit mapping
  */
 export const inferType = (code: string, name: string, rootMap?: Record<string, string>): string => {
-  const cleanName = name.toLowerCase().trim();
-  const firstChar = code.charAt(0);
-  const firstGroup = code.split('.')[0];
+  const safeCode = String(code || '');
+  const safeName = String(name || '');
+  const cleanName = safeName.toLowerCase().trim();
+  const firstChar = safeCode.charAt(0);
+  const firstGroup = safeCode.split('.')[0];
 
   // 1. Explicit group names (Level 1) - Highest priority
-  if (cleanName === 'ativo') return 'Ativo';
-  if (cleanName === 'passivo') return 'Passivo';
+  if (cleanName === 'ativo' || cleanName.startsWith('ativo ')) return 'Ativo';
+  if (cleanName === 'passivo' || cleanName.startsWith('passivo ')) return 'Passivo';
   
   const isPL = cleanName.includes('patrimônio líquido') || 
                cleanName.includes('patrimonio liquido') || 
                cleanName === 'pl' || 
+               cleanName.startsWith('pl ') ||
                cleanName.includes('capital social') || 
                cleanName.includes('lucros ou prejuízos') || 
                cleanName.includes('lucros acumulados') || 
@@ -507,7 +577,11 @@ export const inferType = (code: string, name: string, rootMap?: Record<string, s
     case '4': return 'Receitas';
     case '5': return 'Despesas';
     case '6': return 'Resultado Apurado';
-    default: return 'Despesas';
+    default: 
+      // Se não tem código e não casou acima, tentamos inferir por palavras-chave comuns de BP
+      if (cleanName.includes('caixa') || cleanName.includes('banco') || cleanName.includes('estoque') || cleanName.includes('clientes') || cleanName.includes('imobilizado')) return 'Ativo';
+      if (cleanName.includes('fornecedor') || cleanName.includes('empréstimo') || cleanName.includes('salário') || cleanName.includes('tributo')) return 'Passivo';
+      return 'Despesas';
   }
 };
 

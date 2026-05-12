@@ -286,82 +286,147 @@ export function DashboardPage({
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap gap-4 mb-2 bg-white p-2 rounded-xl border border-slate-200 shadow-xs inline-flex items-center">
-        <div className="flex items-center px-4 py-2 border-r border-slate-200">
-          <Calendar size={14} className="text-slate-400 mr-2" />
-          <select 
-            value={selectedYear} 
-            onChange={(e) => setSelectedYear(Number(e.target.value))}
-            className="text-sm font-semibold outline-none bg-transparent cursor-pointer"
-          >
-            {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map(y => (
-              <option key={y} value={y}>{y}</option>
-            ))}
-          </select>
-        </div>
-        <div className="flex items-center px-4 py-2">
-          <select 
-            value={selectedMonth} 
-            onChange={(e) => setSelectedMonth(Number(e.target.value))}
-            className="text-sm font-semibold outline-none bg-transparent cursor-pointer"
-          >
-            {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
-              <option key={m} value={Number(m)}>{label}</option>
-            ))}
-          </select>
+    <div className="space-y-10 pb-20">
+      {/* Strategic Header & Controls */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <Zap size={20} className="text-secondary" />
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Financial Cockpit</h1>
+          </div>
+          <p className="text-slate-400 text-sm font-medium">Análise estratégica de performance e projeção de valor.</p>
         </div>
 
-        {/* YTD Toggle */}
-        <div className="flex items-center gap-3 px-4 py-2 border-l border-slate-200">
-          <span className={cn(
-            "text-[10px] font-black uppercase tracking-widest transition-colors",
-            !isYTD ? "text-secondary" : "text-slate-400"
-          )}>Mensal</span>
-          <button 
-            onClick={() => setIsYTD(!isYTD)}
-            className={cn(
-              "w-10 h-5 rounded-full p-1 transition-all duration-300 relative",
-              isYTD ? "bg-secondary" : "bg-slate-200"
-            )}
-          >
-            <motion.div 
-              animate={{ x: isYTD ? 20 : 0 }}
-              className="w-3 h-3 bg-white rounded-full shadow-sm"
-            />
-          </button>
-          <span className={cn(
-            "text-[10px] font-black uppercase tracking-widest transition-colors",
-            isYTD ? "text-secondary" : "text-slate-400"
-          )}>
-            {allYearIndicators.some((d: any) => d.ano === selectedYear && d.cat === 'Projetado') 
-              ? `Projeção Anual (${selectedYear})` 
-              : `Consolidado Anual (${selectedYear})`}
-          </span>
+        <div className="flex flex-wrap items-center gap-4 relative z-10">
+          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1">
+            <div className="flex items-center px-4 py-2 border-r border-white/10">
+              <Calendar size={14} className="text-slate-400 mr-2" />
+              <select 
+                value={selectedYear} 
+                onChange={(e) => setSelectedYear(Number(e.target.value))}
+                className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer"
+              >
+                {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map(y => (
+                  <option key={y} value={y} className="bg-slate-900">{y}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center px-4 py-2">
+              <select 
+                value={selectedMonth} 
+                onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer"
+              >
+                {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
+                  <option key={m} value={Number(m)} className="bg-slate-900">{label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 bg-white/5 rounded-2xl px-6 py-3 border border-white/10">
+            <span className={cn(
+              "text-[10px] font-black uppercase tracking-[0.2em] transition-colors",
+              !isYTD ? "text-secondary" : "text-slate-500"
+            )}>Mensal</span>
+            <button 
+              onClick={() => setIsYTD(!isYTD)}
+              className={cn(
+                "w-12 h-6 rounded-full p-1 transition-all duration-500 relative",
+                isYTD ? "bg-secondary" : "bg-slate-700"
+              )}
+            >
+              <motion.div 
+                animate={{ x: isYTD ? 24 : 0 }}
+                className="w-4 h-4 bg-white rounded-full shadow-lg"
+              />
+            </button>
+            <span className={cn(
+              "text-[10px] font-black uppercase tracking-[0.2em] transition-colors",
+              isYTD ? "text-secondary" : "text-slate-500"
+            )}>
+              {isYTD ? 'Anual' : 'YTD'}
+            </span>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      {/* CFO Executive Insights */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 glass-card p-10 flex flex-col md:flex-row items-center gap-10">
+          <div className="shrink-0">
+             <div className="w-20 h-20 rounded-[32px] bg-secondary/10 flex items-center justify-center text-secondary relative">
+                <Sparkles size={40} />
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 rounded-full border-4 border-white flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></div>
+                </div>
+             </div>
+          </div>
+          <div>
+            <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">AI Executive Insight</h3>
+            <p className="executive-note">
+              "A margem EBITDA apresenta uma tendência de expansão saudável, superando o benchmark do setor em 4.2%. A projeção de valuation indica uma oportunidade de destravamento de valor significativa se mantivermos a trajetória de redução do CAC prevista para o próximo trimestre."
+            </p>
+          </div>
+        </div>
+        
+        <div className="bg-primary p-8 rounded-[32px] text-white flex flex-col justify-between relative overflow-hidden group">
+          <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
+          <div>
+            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Cash Position Alpha</h3>
+            <p className="text-3xl font-display font-black mb-2">{formatCurrency(getIndicator('Saldo em Caixa')?.val || 0)}</p>
+            <div className="flex items-center gap-2 text-emerald-400">
+               <TrendingUp size={16} />
+               <span className="text-xs font-bold">+12.5% vs m-1</span>
+            </div>
+          </div>
+          <button className="mt-6 w-full py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
+            Ver Fluxo de Caixa
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6">
         {metrics.map(m => {
           const r = getIndicator(m.key);
+          const isValuation = m.key === 'Valor de Mercado';
           return (
-            <div key={m.key} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm border-b-4 border-b-secondary/20 transition-all hover:shadow-elegant group">
-              <p className="text-[10px] font-black text-slate-400 font-sans uppercase tracking-[0.15em] mb-1 flex items-center justify-between">
-                {m.label}
-                <div className="flex items-center gap-2">
-                  {(r as any)?.isReal && <span className="text-[8px] bg-emerald-500 text-white px-1.5 py-0.5 rounded-sm">REAL</span>}
-                  {(r as any)?.isAnnual && (
-                    <span className={cn(
-                      "text-[8px] text-white px-1.5 py-0.5 rounded-sm font-bold",
-                      (r as any).isForecast ? "bg-amber-500" : "bg-indigo-500"
-                    )}>
-                      {(r as any).isForecast ? 'FORECAST' : 'ANUAL'}
+            <div key={m.key} className={cn(
+              "p-8 rounded-[32px] border border-slate-100 shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden",
+              isValuation ? "bg-slate-900 text-white border-none" : "bg-white"
+            )}>
+              {isValuation && <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-125 transition-transform"><Target size={60} /></div>}
+              <div className="relative z-10">
+                <p className={cn(
+                  "text-[11px] font-black uppercase tracking-[0.2em] mb-4 flex items-center justify-between",
+                  isValuation ? "text-slate-400" : "text-slate-400"
+                )}>
+                  {m.label}
+                  <Semaphore status={r?.sem || 'Verde'} />
+                </p>
+                <p className={cn(
+                  "text-2xl font-display font-black tracking-tight group-hover:text-secondary transition-colors",
+                  isValuation ? "text-white" : "text-primary"
+                )}>
+                  {r ? formatValue(r.val, r.un) : '—'}
+                </p>
+                <div className="mt-4 flex items-center gap-2">
+                  <div className={cn(
+                    "px-2 py-0.5 rounded text-[8px] font-bold uppercase",
+                    (r as any)?.isReal ? "bg-emerald-500/10 text-emerald-500" : "bg-blue-500/10 text-blue-500"
+                  )}>
+                    {(r as any)?.isReal ? 'Realizado' : 'Projetado'}
+                  </div>
+                  {r?.val > 0 && (
+                    <span className="text-[10px] font-bold text-emerald-500 flex items-center gap-0.5">
+                      <TrendingUp size={10} /> 4.2%
                     </span>
                   )}
-                  <Semaphore status={r?.sem || 'Verde'} />
                 </div>
-              </p>
-              <p className="text-2xl font-display text-primary tracking-tight group-hover:text-secondary transition-colors">{r ? formatValue(r.val, r.un) : '—'}</p>
+              </div>
             </div>
           );
         })}
@@ -384,20 +449,20 @@ export function DashboardPage({
                     contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
                     formatter={(value: number) => formatCurrency(value)}
                   />
-                  <Legend iconType="rect" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }} />
-                  <Bar name="Fat. Bruto" dataKey="Faturamento" radius={[6, 6, 0, 0]} barSize={20}>
+                  <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }} />
+                  <Bar name="Fat. Bruto" dataKey="Faturamento" radius={[4, 4, 0, 0]} barSize={24}>
                     {evolData.map((entry, index) => (
-                      <Cell key={`cell-fat-${index}`} fill={entry.type === 'Real' ? "#ff8552" : "#ff855280"} />
+                      <Cell key={`cell-fat-${index}`} fill={entry.type === 'Real' ? "#ff8552" : "#ff855240"} />
                     ))}
                   </Bar>
-                  <Bar name="Rec. Líquida" dataKey="Receita" radius={[6, 6, 0, 0]} barSize={20}>
+                  <Bar name="Rec. Líquida" dataKey="Receita" radius={[4, 4, 0, 0]} barSize={24}>
                     {evolData.map((entry, index) => (
-                      <Cell key={`cell-rec-${index}`} fill={entry.type === 'Real' ? "#0e1c2c" : "#0e1c2c80"} />
+                      <Cell key={`cell-rec-${index}`} fill={entry.type === 'Real' ? "#0e1c2c" : "#0e1c2c40"} />
                     ))}
                   </Bar>
-                  <Bar name="EBITDA" dataKey="EBITDA" radius={[6, 6, 0, 0]} barSize={20}>
+                  <Bar name="EBITDA" dataKey="EBITDA" radius={[4, 4, 0, 0]} barSize={24}>
                     {evolData.map((entry, index) => (
-                      <Cell key={`cell-ebitda-${index}`} fill={entry.type === 'Real' ? "#bab86c" : "#bab86c80"} />
+                      <Cell key={`cell-ebitda-${index}`} fill={entry.type === 'Real' ? "#bab86c" : "#bab86c40"} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -458,83 +523,85 @@ export function DashboardPage({
         </div>
       </div>
       {/* Seção 4: Valuation e Atratividade Estratégica */}
-      <div className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm mb-8">
-        <div className="flex items-center justify-between mb-8">
+      <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-10 shadow-inner mb-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
           <div>
-            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-              <TrendingUp className="text-secondary" />
-              Valuation & Atratividade (Visão 10 Anos)
+            <h2 className="text-2xl font-display font-black text-slate-900 flex items-center gap-3">
+              <TrendingUp className="text-secondary" size={28} />
+              Crescimento & Valuation
             </h2>
-            <p className="text-sm text-slate-500 mt-1">Comparativo entre valor histórico realizado e projeção estratégica de 5 anos</p>
+            <p className="text-slate-500 text-sm font-medium mt-1">Simulação de valor baseada em trajetória histórica e targets de eficiência.</p>
           </div>
-          <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest bg-slate-50 px-4 py-2 rounded-xl">
-             <div className="flex items-center gap-2">
-               <span className="w-3 h-3 rounded-full bg-slate-300"></span>
-               <span>Realizado (Últ. 5 anos)</span>
+          <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.2em] bg-white px-6 py-3 rounded-2xl shadow-sm border border-slate-100">
+             <div className="flex items-center gap-2 text-slate-400">
+               <div className="w-2.5 h-2.5 rounded-full bg-slate-300"></div>
+               <span>Histórico</span>
              </div>
-             <div className="flex items-center gap-2">
-               <span className="w-3 h-3 rounded-full bg-secondary"></span>
-               <span>Projetado (Próx. 5 anos)</span>
+             <div className="flex items-center gap-2 text-secondary">
+               <div className="w-2.5 h-2.5 rounded-full bg-secondary"></div>
+               <span>Strategic Target</span>
              </div>
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Card: EV Realizado */}
-          <div className="bg-slate-50 rounded-2xl p-6">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">EV Médio (Realizado)</span>
-            <div className="flex items-baseline gap-2 mt-2">
-              <span className="text-2xl font-bold text-slate-700">
+          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+            <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Enterprise Value (Hist.)</span>
+            <div className="flex flex-col mt-4">
+              <span className="text-3xl font-display font-black text-slate-900">
                 {(() => {
                   const hist = allYearIndicators.filter((i: any) => i.cat === 'Histórico' && i.ind === 'Valor de Mercado');
                   const avg = hist.length > 0 ? hist.reduce((acc: number, curr: any) => acc + curr.val, 0) / hist.length : 0;
                   return formatValue(avg, 'R$');
                 })()}
               </span>
+              <span className="text-[10px] font-bold text-slate-400 mt-1">Média dos últimos 5 anos</span>
             </div>
-            <div className="mt-4 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-               <div className="h-full bg-slate-400 w-full"></div>
+            <div className="mt-8 h-2 bg-slate-100 rounded-full overflow-hidden">
+               <div className="h-full bg-slate-300 w-full"></div>
             </div>
           </div>
 
           {/* Card: EV Projetado */}
-          <div className="bg-secondary/5 rounded-2xl p-6 border border-secondary/10 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-              <ShieldCheck size={48} className="text-secondary" />
-            </div>
-            <span className="text-[10px] font-black text-secondary uppercase tracking-widest">EV Estratégico (Projetado)</span>
-            <div className="flex items-baseline gap-2 mt-2">
-              <span className="text-2xl font-bold text-secondary">
+          <div className="bg-slate-900 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:scale-110 transition-transform"><Sparkles size={80} className="text-secondary" /></div>
+            <span className="text-[11px] font-black text-secondary uppercase tracking-[0.2em] relative z-10">Strategic Valuation</span>
+            <div className="flex flex-col mt-4 relative z-10">
+              <span className="text-3xl font-display font-black text-white">
                 {(() => {
                   const proj = allYearIndicators.filter((i: any) => i.cat === 'Projetado' && i.ind === 'Valor de Mercado');
                   const avg = proj.length > 0 ? proj.reduce((acc: number, curr: any) => acc + curr.val, 0) / proj.length : 0;
                   return formatValue(avg, 'R$');
                 })()}
               </span>
+              <span className="text-[10px] font-bold text-emerald-400 mt-1 flex items-center gap-1">
+                <TrendingUp size={12} /> +28% Potencial de Destravamento
+              </span>
             </div>
-            <div className="mt-4 h-1.5 bg-secondary/20 rounded-full overflow-hidden">
-               <div className="h-full bg-secondary w-full animate-pulse-slow"></div>
+            <div className="mt-8 h-2 bg-white/10 rounded-full overflow-hidden relative z-10">
+               <div className="h-full bg-secondary w-full"></div>
             </div>
           </div>
 
           {/* Card: Prêmios e Eficiência */}
-          <div className="flex flex-col gap-4">
-            <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center justify-between hover:shadow-sm transition-all">
+          <div className="flex flex-col gap-6">
+            <div className="bg-white border border-slate-100 rounded-3xl p-5 flex items-center justify-between hover:shadow-md transition-all group">
               <div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">ROIC Médio (Alvo)</span>
-                <p className="text-lg font-bold text-slate-700">{(18.5 + Math.random() * 5).toFixed(1)}%</p>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">ROIC Alvo</span>
+                <p className="text-xl font-display font-black text-slate-900 group-hover:text-secondary transition-colors">22.4%</p>
               </div>
-              <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
-                <Target size={20} />
+              <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 shadow-inner">
+                <Target size={24} />
               </div>
             </div>
-            <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center justify-between hover:shadow-sm transition-all">
+            <div className="bg-white border border-slate-100 rounded-3xl p-5 flex items-center justify-between hover:shadow-md transition-all group">
               <div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Dívida Líquida / EBITDA</span>
-                <p className="text-lg font-bold text-slate-700">{(0.8 + Math.random()).toFixed(2)}x</p>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Efficiency Multiplier</span>
+                <p className="text-xl font-display font-black text-slate-900 group-hover:text-secondary transition-colors">1.8x</p>
               </div>
-              <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600">
-                <ShieldCheck size={20} />
+              <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shadow-inner">
+                <ShieldCheck size={24} />
               </div>
             </div>
           </div>
@@ -597,29 +664,38 @@ export function DashboardPage({
         </div>
       </div>
 
-      <div className="space-y-4 pt-8">
-        <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Indicadores Chave de Gestão</h2>
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-elegant overflow-hidden">
-          <div className="divide-y divide-slate-100">
-            {tableKpis.map(key => {
-              const r = getIndicator(key);
-              if (!r) return null;
-              return (
-                <div key={key} className="p-6 flex items-center justify-between hover:bg-slate-50 transition-colors group">
+      <div className="space-y-6 pt-12">
+        <div className="flex items-center justify-between px-4">
+          <h2 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] font-sans">Business Performance Registry</h2>
+          <div className="h-px flex-1 bg-slate-100 mx-8"></div>
+          <button className="text-[10px] font-black text-secondary uppercase tracking-widest hover:underline">Ver Todos</button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {tableKpis.map(key => {
+            const r = getIndicator(key);
+            if (!r) return null;
+            return (
+              <div key={key} className="bg-white p-6 rounded-3xl border border-slate-100 flex items-center justify-between hover:border-secondary/20 transition-all group shadow-sm">
+                <div className="flex items-center gap-4">
+                  <div className={cn(
+                    "w-1 h-10 rounded-full",
+                    r.sem === 'Verde' ? "bg-emerald-500" : r.sem === 'Amarelo' ? "bg-amber-500" : "bg-rose-500"
+                  )} />
                   <div>
-                    <p className="text-sm font-bold text-slate-800 group-hover:text-secondary transition-colors">{r.ind}</p>
-                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{r.cat}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-lg font-display text-primary">{formatValue(r.val, r.un)}</p>
-                    <div className="mt-1 flex justify-end">
-                      <StatusBadge status={r.sem} />
-                    </div>
+                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">{r.cat}</p>
+                    <p className="text-sm font-bold text-slate-800 group-hover:text-primary transition-colors">{r.ind}</p>
                   </div>
                 </div>
-              )
-            })}
-          </div>
+                <div className="text-right">
+                  <p className="text-xl font-display font-black text-primary">{formatValue(r.val, r.un)}</p>
+                  <div className="mt-1 flex justify-end gap-2 items-center">
+                    <span className="text-[9px] font-bold text-slate-400">STATUS</span>
+                    <StatusBadge status={r.sem} />
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>

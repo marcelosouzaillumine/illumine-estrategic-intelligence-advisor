@@ -35,6 +35,15 @@ import { OKRsPage } from '../components/pages/OKRsPage';
 import { PrecificacaoPage } from '../components/pages/PrecificacaoPage';
 import { RelatorioExecutivoPage } from '../components/pages/RelatorioExecutivoPage';
 import PayrollDashboard from '../components/PayrollDashboard';
+import { GovernanceDashboardPage } from '../components/pages/GovernanceDashboardPage';
+import { MarketingComercialPage } from '../components/pages/MarketingComercialPage';
+import { OperacionalPage } from '../components/pages/OperacionalPage';
+import { AdministrativaPage } from '../components/pages/AdministrativaPage';
+import { ControladoriaPage } from '../components/pages/ControladoriaPage';
+import { DesenvolvimentoHumanoPage } from '../components/pages/DesenvolvimentoHumanoPage';
+import { PlanoEstrategicoGlobalPage } from '../components/pages/PlanoEstrategicoGlobalPage';
+import { CompliancePage } from '../components/pages/CompliancePage';
+import { AnaliseMercadoPage } from '../components/pages/AnaliseMercadoPage';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -116,6 +125,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'advisory_insights') {
     return <AdvisoryInsightsPage clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
   }
+  if (currentPage === 'governanca_estrategica') {
+    return <GovernanceDashboardPage clientId={selectedClient} onNavigate={setCurrentPage} />;
+  }
   if (currentPage === 'diretrizes') {
     return <DiretrizesPage clientId={selectedClient} />;
   }
@@ -184,6 +196,36 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'custos_pessoal' || currentPage === 'pessoal') {
     return <PayrollDashboard clientId={selectedClient} />;
+  }
+  if (currentPage === 'marketing_estrategico') {
+    return <MarketingComercialPage type="marketing" clientId={selectedClient} />;
+  }
+  if (currentPage === 'comercial_estrategico') {
+    return <MarketingComercialPage type="comercial" clientId={selectedClient} />;
+  }
+  if (currentPage === 'logistica') {
+    return <OperacionalPage type="logistica" clientId={selectedClient} />;
+  }
+  if (currentPage === 'producao') {
+    return <OperacionalPage type="producao" clientId={selectedClient} />;
+  }
+  if (currentPage === 'administrativa_indicadores') {
+    return <AdministrativaPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'controladoria_estrategica') {
+    return <ControladoriaPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'desenvolvimento_humano') {
+    return <DesenvolvimentoHumanoPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'plano_estrategico_global') {
+    return <PlanoEstrategicoGlobalPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'compliance_page') {
+    return <CompliancePage clientId={selectedClient} />;
+  }
+  if (currentPage === 'analise_mercado') {
+    return <AnaliseMercadoPage clientId={selectedClient} />;
   }
 
   return null;

@@ -4,7 +4,8 @@ import { DATA } from '../../data';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useAnnualFinancialData } from '../../hooks/useFinancialData';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
-import { parseFinancialPdf, parseFinancialExcel, parseFinancialTxt } from '../../services/importService';
+import { parseFinancialPdf, parseFinancialExcel, parseFinancialTxt, inferType } from '../../services/importService';
+import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import {
   collection,
   addDoc,
@@ -24,9 +25,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   const [filterClient, setFilterClient] = useState(selectedClient);
   const [filterYear, setFilterYear] = useState(selectedYear || new Date().getFullYear());
   const [toast, setToast] = useState<ToastType>(null);
-  const [importing, setImporting] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -57,15 +58,34 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     : mockRows;
 
   // ── Indicadores de liquidez ───────────────────────────────────────────────
-  const ativo = rows.filter((r: any) => r.tipo === 'ativo' || r.type === 'ativo');
-  const passivo = rows.filter((r: any) => r.tipo === 'passivo' || r.type === 'passivo');
+  const ativo = rows.filter((r: any) => {
+    if (!r) return false;
+    const t = (r.tipo || r.type || '').toLowerCase();
+    return t === 'ativo';
+  });
+  const passivo = rows.filter((r: any) => {
+    if (!r) return false;
+    const t = (r.tipo || r.type || '').toLowerCase();
+    return t === 'passivo' || t === 'patrimônio líquido' || t === 'pl';
+  });
 
-  const ac  = rows.find((r: any) => r.conta === 'Ativo Circulante')?.val || 0;
-  const pc  = rows.find((r: any) => r.conta === 'Passivo Circulante')?.val || 0;
-  const est = rows.find((r: any) => r.conta === 'Estoques')?.val || 0;
-  const cx  = rows.find((r: any) => r.conta === 'Caixa e Equivalentes')?.val || 0;
-  const anc = rows.find((r: any) => r.conta === 'Ativo Não Circulante')?.val || 0;
-  const pnc = rows.find((r: any) => r.conta === 'Passivo Não Circulante')?.val || 0;
+  const findAccountValue = (name: string) => {
+    const search = name.toLowerCase();
+    const match = rows.find((r: any) => {
+      const conta = (r.conta || '').toLowerCase();
+      // Remove códigos iniciais como "1.01 -" se existirem
+      const cleanConta = conta.replace(/^[0-9.]+\s*[-]\s*/, '').trim();
+      return cleanConta === search || conta.includes(search);
+    });
+    return match?.val || 0;
+  };
+
+  const ac  = findAccountValue('ativo circulante');
+  const pc  = findAccountValue('passivo circulante');
+  const est = findAccountValue('estoques') || findAccountValue('estoque');
+  const cx  = findAccountValue('caixa e equivalentes') || findAccountValue('caixa') || findAccountValue('bancos');
+  const anc = findAccountValue('ativo não circulante');
+  const pnc = findAccountValue('passivo não circulante');
 
   const liqCorrente = pc > 0 ? ac / pc : 0;
   const liqSeca     = pc > 0 ? (ac - est) / pc : 0;
@@ -85,60 +105,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     setTimeout(() => setToast(null), 4000);
   };
 
-  // ── Importar ──────────────────────────────────────────────────────────────
-  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !filterClient) return;
-    if (!auth.currentUser) {
-      showToast('error', 'Você precisa estar logado para importar dados.');
-      return;
-    }
-
-    setImporting(true);
-    try {
-      const ext = file.name.split('.').pop()?.toLowerCase();
-      const dataEntries: { category: string; value: number }[] = [];
-
-      if (ext === 'xlsx' || ext === 'xls' || ext === 'csv') {
-        const parsed = await parseFinancialExcel(file);
-        parsed.forEach((e) => dataEntries.push({ category: e.category, value: e.value }));
-      } else if (ext === 'pdf') {
-        const parsed = await parseFinancialPdf(file);
-        parsed.forEach((e) => dataEntries.push({ category: e.category, value: e.value }));
-      } else if (ext === 'txt') {
-        const parsed = await parseFinancialTxt(file);
-        parsed.forEach((e) => dataEntries.push({ category: e.category, value: e.value }));
-      } else {
-        throw new Error('Formato não suportado. Use XLSX, XLS, CSV, PDF ou TXT.');
-      }
-
-      if (dataEntries.length === 0) throw new Error('Nenhum dado válido encontrado no arquivo.');
-
-      await addDoc(collection(db, 'financial_entries'), {
-        clientId:   filterClient,
-        clientName: clients.find((c: any) => c.id === filterClient)?.fantasia || 'N/A',
-        type:       'Balanço Patrimonial',
-        periodType: 'anual',
-        month:      null,
-        year:       filterYear,
-        mes:        null,
-        ano:        filterYear,
-        data:       dataEntries,
-        fileName:   file.name,
-        createdAt:  serverTimestamp(),
-        createdBy:  auth.currentUser.uid,
-      });
-
-      showToast('success', `Arquivo "${file.name}" importado com sucesso!`);
-      refetchBP();
-      refetchShort();
-    } catch (err: any) {
-      showToast('error', err.message || 'Erro ao processar arquivo.');
-    } finally {
-      setImporting(false);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }
-  };
+  // A lógica de importação foi movida para o ImportFinancialModal
 
   // ── Excluir todos os documentos deste cliente/ano ─────────────────────────
   const handleDelete = async () => {
@@ -200,37 +167,20 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         </div>
       )}
 
-      {/* ── Modal de confirmação de exclusão ─────────────────────────────── */}
-      {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center shrink-0">
-                <Trash2 size={20} className="text-rose-600" />
-              </div>
-              <div>
-                <h3 className="text-base font-black text-slate-900">Excluir Balanço Patrimonial</h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Todos os dados do BP de {filterYear} serão removidos permanentemente.
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 py-3 rounded-2xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-all"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleDelete}
-                className="flex-1 py-3 rounded-2xl text-sm font-black text-white bg-rose-600 hover:bg-rose-700 transition-all shadow-lg shadow-rose-200"
-              >
-                Excluir
-              </button>
-            </div>
-          </div>
-        </div>
+      {/* ── Modal de Importação ───────────────────────────────────────────── */}
+      {showImportModal && (
+        <ImportFinancialModal
+          type="Balanço Patrimonial"
+          clientId={filterClient}
+          year={filterYear}
+          clients={clients}
+          onClose={() => setShowImportModal(false)}
+          onSuccess={() => {
+            setShowImportModal(false);
+            refetchBP();
+            refetchShort();
+          }}
+        />
       )}
 
       {/* ── Barra de filtros ─────────────────────────────────────────────── */}
@@ -282,39 +232,30 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         </div>
 
         {/* Botão Importar */}
-        <label
-          className={cn(
-            'flex items-center gap-2 px-5 py-3 rounded-2xl text-xs font-black uppercase tracking-widest cursor-pointer transition-all shadow-sm border',
-            importing
-              ? 'bg-slate-100 text-slate-400 border-slate-200 pointer-events-none'
-              : 'bg-secondary text-white border-secondary hover:bg-secondary/90 shadow-secondary/20'
-          )}
+        <button
+          onClick={() => {
+            console.log('Abrindo modal de importação...');
+            setShowImportModal(true);
+          }}
+          className="flex items-center gap-2 px-5 py-3 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-sm shadow-secondary/20 border border-secondary"
         >
-          {importing ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
-          {importing ? 'Importando...' : 'Importar'}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".xlsx,.xls,.csv,.pdf,.txt"
-            className="hidden"
-            onChange={handleImport}
-            disabled={importing}
-          />
-        </label>
+          <Upload size={14} />
+          Importar Arquivo (Novo)
+        </button>
 
         {/* Botão Excluir */}
         <button
           onClick={() => setShowDeleteConfirm(true)}
-          disabled={deleting || dbData.length === 0}
+          disabled={dbData.length === 0}
           className={cn(
             'flex items-center gap-2 px-5 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-sm border',
-            deleting || dbData.length === 0
+            dbData.length === 0
               ? 'bg-slate-50 text-slate-300 border-slate-100 pointer-events-none'
               : 'bg-rose-50 text-rose-600 border-rose-100 hover:bg-rose-100'
           )}
         >
-          {deleting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
-          {deleting ? 'Excluindo...' : 'Excluir'}
+          <Trash2 size={14} />
+          Excluir
         </button>
       </div>
 
