@@ -1,7 +1,14 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
+    
+    // MASTER ADMIN BYPASS - Full Access
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null && (
+        request.auth.token.email.matches('(?i)marcelo\\.illuminecoaching@gmail\\.com') ||
+        request.auth.token.email.matches('(?i)marcelosouza\\.illumine@gmail\\.com')
+      );
+    }
 
     // --- Helpers ---
     function isSignedIn() {
@@ -12,11 +19,22 @@ service cloud.firestore {
       return isSignedIn() && data.ownerId == request.auth.uid;
     }
 
+    function isMasterAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email.matches('(?i)marcelo\\.illuminecoaching@gmail\\.com') ||
+        request.auth.token.email.matches('(?i)marcelosouza\\.illumine@gmail\\.com')
+      );
+    }
+
     function ownsClient(clientId) {
       return isSignedIn()
         && clientId is string
-        && isValidId(clientId)
-        && get(/databases/$(database)/documents/clients/$(clientId)).data.ownerId == request.auth.uid;
+        && (isMasterAdmin() || get(/databases/$(database)/documents/clients/$(clientId)).data.ownerId == request.auth.uid || isClientUser(clientId));
+    }
+
+    function isClientUser(clientId) {
+      return isSignedIn() 
+        && exists(/databases/$(database)/documents/client_users/$(request.auth.token.email + "_" + clientId));
     }
 
     function isValidId(id) {
@@ -269,8 +287,8 @@ service cloud.firestore {
     // --- Collections ---
 
     match /clients/{clientId} {
-      allow get: if isOwner(existing());
-      allow list: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow get: if isOwner(existing()) || isClientUser(clientId) || isMasterAdmin();
+      allow list: if isSignedIn() && (existing().ownerId == request.auth.uid || isClientUser(clientId) || isMasterAdmin());
       allow create: if isSignedIn() && isValidId(clientId) && isValidClient(incoming());
       allow update: if isOwner(existing()) 
         && incoming().ownerId == existing().ownerId 
@@ -280,16 +298,15 @@ service cloud.firestore {
     }
 
     match /financial_entries/{entryId} {
-      allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
-      allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
+      allow get: if ownsClient(existing().clientId);
+      allow list: if ownsClient(resource.data.clientId);
       allow create: if isSignedIn() && isValidId(entryId) 
-        && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid
+        && ownsClient(incoming().clientId)
         && (isValidFinancialEntry(incoming()) || isValidImportedFinancialEntry(incoming()));
-      allow update: if isSignedIn() 
-        && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
+      allow update: if ownsClient(existing().clientId)
         && incoming().clientId == existing().clientId
         && (isValidFinancialEntry(incoming()) || isValidImportedFinancialEntry(incoming()));
-      allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+      allow delete: if ownsClient(existing().clientId);
     }
 
     match /loans/{loanId} {
@@ -304,17 +321,16 @@ service cloud.firestore {
     }
 
     match /account_plans/{planId} {
-      allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
-      allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
+      allow get: if ownsClient(existing().clientId);
+      allow list: if ownsClient(resource.data.clientId);
       allow create: if isSignedIn() && isValidId(planId) 
-        && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid
+        && ownsClient(incoming().clientId)
         && isValidAccountPlan(incoming());
-      allow update: if isSignedIn() 
-        && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
+      allow update: if ownsClient(existing().clientId)
         && incoming().clientId == existing().clientId
         && incoming().createdAt == existing().createdAt
         && incoming().updatedAt == request.time;
-      allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+      allow delete: if ownsClient(existing().clientId);
     }
 
     match /client_assumptions/{assumptionId} {
@@ -331,17 +347,16 @@ service cloud.firestore {
     }
     
     match /indicators/{indicatorId} {
-      allow get: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
-      allow list: if isSignedIn() && get(/databases/$(database)/documents/clients/$(resource.data.clientId)).data.ownerId == request.auth.uid;
+      allow get: if ownsClient(existing().clientId);
+      allow list: if ownsClient(resource.data.clientId);
       allow create: if isSignedIn() && isValidId(indicatorId) 
-        && get(/databases/$(database)/documents/clients/$(incoming().clientId)).data.ownerId == request.auth.uid
+        && ownsClient(incoming().clientId)
         && isValidIndicator(incoming());
-      allow update: if isSignedIn() 
-        && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid
+      allow update: if ownsClient(existing().clientId)
         && incoming().clientId == existing().clientId
         && incoming().createdAt == existing().createdAt
         && isValidIndicator(incoming());
-      allow delete: if isSignedIn() && get(/databases/$(database)/documents/clients/$(existing().clientId)).data.ownerId == request.auth.uid;
+      allow delete: if ownsClient(existing().clientId);
     }
     
     match /financial_positions/{posId} {
@@ -371,11 +386,17 @@ service cloud.firestore {
     }
 
     match /payables/{payableId} {
-      allow read, write: if isSignedIn();
+      allow read, write: if isSignedIn() && (ownsClient(resource.data.clientId) || isClientUser(resource.data.clientId));
     }
 
     match /receivables/{receivableId} {
-      allow read, write: if isSignedIn();
+      allow read, write: if isSignedIn() && (ownsClient(resource.data.clientId) || isClientUser(resource.data.clientId));
+    }
+
+    match /client_users/{assocId} {
+      allow get: if isSignedIn() && (resource.data.email == request.auth.token.email || ownsClient(resource.data.clientId));
+      allow list: if isSignedIn() && (resource.data.email == request.auth.token.email || ownsClient(resource.data.clientId));
+      allow create, update, delete: if isSignedIn() && ownsClient(incoming().clientId);
     }
 
     match /report_notes/{noteId} {

@@ -66,7 +66,7 @@ export function TaxReformImpactPage({ clients, selectedClient }: any) {
     <div className="space-y-8 pb-20 max-w-7xl mx-auto">
       <PageHeader 
         title="Simulador de Impacto: Reforma Tributária" 
-        description="Análise estratégica da transição para o modelo de IVA (IBS/CBS) e seus impactos no EBITDA e precificação." 
+        subtitle="Análise estratégica da transição para o modelo de IVA (IBS/CBS) e seus impactos no EBITDA e precificação." 
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

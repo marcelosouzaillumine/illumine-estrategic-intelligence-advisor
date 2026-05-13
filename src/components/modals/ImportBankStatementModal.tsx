@@ -185,7 +185,7 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
                 <p className="text-sm text-slate-500">O extrato foi processado e o saldo da conta atualizado.</p>
               </div>
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 w-full max-w-xs">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Novo Saldo Consolidado</p>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Saldo Consolidado Atualizado</p>
                 <p className="text-2xl font-black text-primary">{formatCurrency(importResult.finalBalance)}</p>
                 <p className="text-[9px] text-emerald-600 font-bold mt-1 uppercase tracking-tighter">{importResult.count} transações processadas</p>
               </div>

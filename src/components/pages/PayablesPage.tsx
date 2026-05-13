@@ -51,13 +51,13 @@ import {
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{label}</p>
+    <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
+      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors">{label}</p>
       <h3 className={cn(
         "text-2xl font-black tracking-tight",
         tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
       )}>{value}</h3>
-      {helper && <p className="text-[10px] text-slate-400 mt-2 italic">{helper}</p>}
+      {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80">{helper}</p>}
     </div>
   );
 }
@@ -251,37 +251,38 @@ export function PayablesPage({ clients, selectedClient }: { clients: any[], sele
   const clientName = clients.find(c => c.id === selectedClient)?.fantasia || 'Cliente';
 
   return (
-    <div className="space-y-8 pb-20">
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-        <PageHeader 
-          title="Contas a Pagar" 
-          description={`Gestão centralizada de pagamentos e análise de fornecedores do cliente ${clientName}.`}
-        />
-        <div className="flex flex-wrap items-center gap-3 mb-10">
-          {payables.length > 0 && selectedClient && (
+    <div className="space-y-10 pb-20 animate-executive-fade">
+      <PageHeader 
+        title="Contas a Pagar" 
+        subtitle={`Gestão centralizada de pagamentos e análise estratégica de fornecedores · ${clientName}`}
+        icon={<UploadCloud size={24} />}
+        actions={
+          <div className="flex flex-wrap items-center gap-3">
+            {payables.length > 0 && selectedClient && (
+              <button 
+                onClick={handleDeleteAll}
+                disabled={isDeletingAll}
+                className="px-6 py-3 bg-white/5 hover:bg-rose-500/10 text-rose-400 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
+              >
+                {isDeletingAll ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
+                LIMPAR BASE
+              </button>
+            )}
             <button 
-              onClick={handleDeleteAll}
-              disabled={isDeletingAll}
-              className="px-5 py-2.5 bg-white text-rose-500 border border-rose-200 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-rose-50 transition-all shadow-sm flex items-center gap-2"
+              onClick={() => setIsImportModalOpen(true)}
+              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
             >
-              {isDeletingAll ? <Loader2 size={15} className="animate-spin" /> : <Trash2 size={15} />}
-              Excluir Tudo
+              <UploadCloud size={14} /> IMPORTAR
             </button>
-          )}
-          <button 
-            onClick={() => setIsImportModalOpen(true)}
-            className="px-5 py-2.5 bg-white text-slate-600 border border-slate-200 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2"
-          >
-            <UploadCloud size={15} /> Importar
-          </button>
-          <button 
-            onClick={() => { setEditingPayable(null); setIsModalOpen(true); }}
-            className="px-6 py-2.5 bg-secondary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20 flex items-center gap-2"
-          >
-            <Plus size={18} /> Novo Título
-          </button>
-        </div>
-      </div>
+            <button 
+              onClick={() => { setEditingPayable(null); setIsModalOpen(true); }}
+              className="px-8 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
+            >
+              <Plus size={16} /> LANÇAR TÍTULO
+            </button>
+          </div>
+        }
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <KpiCardModeling label="Total em Aberto" value={formatCurrency(kpis.aVencer30 + kpis.aVencerApos30 + kpis.emAtraso)} tone="default" />
@@ -538,7 +539,7 @@ function PayableModal({ payable, onClose, onSave }: any) {
       >
         <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-xl font-bold text-slate-900">{payable ? 'Editar Título' : 'Lançar Novo Título'}</h3>
+            <h3 className="text-xl font-bold text-slate-900">{payable ? 'Editar Título' : 'Lançar Título'}</h3>
             <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-bold">Registro de Contas a Pagar</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>

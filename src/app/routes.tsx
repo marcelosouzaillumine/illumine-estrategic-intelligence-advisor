@@ -4,7 +4,6 @@ import { IndicatorsPage } from '../components/pages/IndicatorsPage';
 import { DREPage } from '../components/pages/DREPage';
 import { BalanceSheetPage } from '../components/pages/BalanceSheetPage';
 import { CashFlowPage } from '../components/pages/CashFlowPage';
-import { DadosHistoricosPage } from '../components/pages/DadosHistoricosPage';
 import { PremissasClientePage } from '../components/pages/PremissasClientePage';
 import { PremissasTributariasPage } from '../components/pages/PremissasTributariasPage';
 import { PremissasEconomicasPage } from '../components/pages/PremissasEconomicasPage';
@@ -46,6 +45,13 @@ import { CompliancePage } from '../components/pages/CompliancePage';
 import { AnaliseMercadoPage } from '../components/pages/AnaliseMercadoPage';
 import { InteligenciaSacerdotalPage } from '../components/pages/InteligenciaSacerdotalPage';
 import { AxisDashboardPage } from '../components/pages/AxisDashboardPage';
+import { ProfilePage } from '../components/pages/ProfilePage';
+import { PreferencesPage } from '../components/pages/PreferencesPage';
+import { MessagesPage } from '../components/pages/MessagesPage';
+import { AcademyHomePage } from '../components/pages/academy/AcademyHomePage';
+import { CourseDetailsPage } from '../components/pages/academy/CourseDetailsPage';
+import { LessonPlayerPage } from '../components/pages/academy/LessonPlayerPage';
+import { AdminAcademyDashboard } from '../components/pages/academy/AdminAcademyDashboard';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -169,9 +175,6 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'modelagem') {
     return <FinancialModelingPage clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient} />;
   }
-  if (currentPage === 'dados_historicos') {
-    return <DadosHistoricosPage clients={clients} user={user} selectedClient={selectedClient} setSelectedClient={setSelectedClient} />;
-  }
   if (currentPage === 'clientes' || (currentPage as string) === 'clientes_root') {
     return <ClientsPage clients={clients} setClients={setClients} setSelectedClient={setSelectedClient} />;
   }
@@ -245,10 +248,57 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <AxisDashboardPage axis="Inovação" clientId={selectedClient} onNavigate={setCurrentPage} />;
   }
   if (currentPage === 'dashboard_operacional') {
-    return <AxisDashboardPage axis="Operacional" clientId={selectedClient} onNavigate={setCurrentPage} />;
+    return <AxisDashboardPage axis="Operação" clientId={selectedClient} onNavigate={setCurrentPage} />;
   }
   if (currentPage === 'dashboard_gestao') {
     return <AxisDashboardPage axis="Gestão" clientId={selectedClient} onNavigate={setCurrentPage} />;
+  }
+  if (currentPage === 'perfil_usuario') {
+    return <ProfilePage user={user} />;
+  }
+  if (currentPage === 'configuracoes_sistema') {
+    return <PreferencesPage />;
+  }
+  if (currentPage === 'mensagens') {
+    return <MessagesPage />;
+  }
+  if (currentPage === 'academy_home') {
+    return <AcademyHomePage onNavigate={(page, params) => {
+      if (params?.courseId) {
+        // Here we'd ideally set a state, but we can't do it easily from here without changing the context
+        // For now, let's assume we use a hacky way or just navigate
+        (window as any).__academy_params = params;
+      }
+      setCurrentPage(page);
+    }} />;
+  }
+  if (currentPage === 'academy_course') {
+    const params = (window as any).__academy_params;
+    return <CourseDetailsPage 
+      courseId={params?.courseId || ''} 
+      onBack={() => setCurrentPage('academy_home')}
+      onStart={(id) => {
+        (window as any).__academy_params = { courseId: id };
+        setCurrentPage('academy_player');
+      }}
+    />;
+  }
+  if (currentPage === 'academy_player') {
+    const params = (window as any).__academy_params;
+    return <LessonPlayerPage 
+      courseId={params?.courseId || ''} 
+      userId={user?.uid || ''}
+      onBack={() => setCurrentPage('academy_home')}
+    />;
+  }
+  if (currentPage === 'academy_admin') {
+    return <AdminAcademyDashboard 
+      onCreateCourse={() => setCurrentPage('academy_admin_course')}
+      onEditCourse={(id) => {
+        (window as any).__academy_params = { courseId: id };
+        setCurrentPage('academy_admin_course');
+      }}
+    />;
   }
 
   return null;

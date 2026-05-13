@@ -1,9 +1,12 @@
 
-export type EixoGestao = 'Governança' | 'Cultura' | 'Inovação' | 'Comercial' | 'Operacional' | 'Gestão' | 'Marketing';
+export type EixoGestao = 'Governança' | 'Cultura' | 'Inovação' | 'Comercial' | 'Operação' | 'Gestão' | 'Marketing';
+export type PermissaoModulo = 'Dashboard' | 'Cadastro' | 'Governança' | 'Cultura' | 'Inovação' | 'Comercial' | 'Operação' | 'Gestão' | 'Marketing' | 'Configurações';
 
 export interface Diretriz {
   id?: string;
   clientId: string;
+  proposito?: string;
+  historia?: string;
   missao: string;
   visao: string;
   valores: { nome: string; definicao: string }[];

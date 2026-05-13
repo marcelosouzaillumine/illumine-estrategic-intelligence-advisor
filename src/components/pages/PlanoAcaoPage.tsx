@@ -66,7 +66,7 @@ export function PlanoAcaoPage({ clients, selectedClient }: any) {
       <div className="flex justify-between items-center no-print">
         <PageHeader 
           title="Roadmap Estratégico (Plano de Voo)" 
-          description="Acompanhamento tático das metas e soluções propostas pela consultoria." 
+          subtitle="Acompanhamento tático das metas e soluções propostas pela consultoria." 
         />
         <button 
           onClick={() => window.print()}

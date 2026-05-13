@@ -91,7 +91,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
       <div className="flex items-center justify-between">
         <PageHeader 
           title="Fiscal & Tributário" 
-          description={`Configurações de enquadramento, alíquotas e encargos de folha para ${clientData?.fantasia || 'a empresa'}.`}
+          subtitle={`Configurações de enquadramento, alíquotas e encargos de folha para ${clientData?.fantasia || 'a empresa'}.`}
         />
         <button 
           onClick={handleSave}

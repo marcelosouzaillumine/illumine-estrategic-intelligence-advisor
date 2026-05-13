@@ -57,7 +57,7 @@ export function QuadroPessoalPage({ clientId }: QuadroPessoalPageProps) {
     <div className="space-y-8 pb-32">
       <PageHeader 
         title="Quadro de Pessoal" 
-        description={`Gestão e cadastro de colaboradores para ${clientData?.fantasia || 'a empresa'}.`}
+        subtitle={`Gestão e cadastro de colaboradores para ${clientData?.fantasia || 'a empresa'}.`}
       />
 
       <div className="bg-white p-2 rounded-[32px] border border-slate-200 shadow-sm overflow-hidden">

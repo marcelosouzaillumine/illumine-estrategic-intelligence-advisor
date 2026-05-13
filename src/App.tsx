@@ -48,6 +48,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Menu as MenuIcon,
+  ShieldCheck,
 } from 'lucide-react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch } from 'firebase/firestore';
@@ -90,51 +91,32 @@ import { ClientSelector } from './components/ClientSelector';
 
 function Logo({ collapsed }: { collapsed?: boolean }) {
   return (
-      <div className={cn("flex items-center gap-2 transition-all duration-300", collapsed ? "justify-center mb-10" : "px-4 mb-12 justify-start")}>
-        {/* Illumine stylized Icon */}
-        <div className="w-5 h-5 shrink-0 flex items-center justify-center">
-          <svg 
-            width={collapsed ? "32" : "36"} 
-            height={collapsed ? "32" : "36"} 
-            viewBox="0 0 100 100" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-            className="transition-all duration-300"
-          >
-            {/* Rays */}
-            <line x1="30" y1="30" x2="22" y2="22" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-            <line x1="18" y1="50" x2="8" y2="50" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-            <line x1="30" y1="70" x2="22" y2="78" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-            <line x1="50" y1="82" x2="50" y2="92" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-            <line x1="70" y1="70" x2="78" y2="78" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-            
-            {/* Main Circle and Arrow */}
-            <path 
-              d="M50 22 C 34.5 22, 22 34.5, 22 50 C 22 65.5, 34.5 78, 50 78 C 65.5 78, 78 65.5, 78 50 M50 50 L75 25 M75 25 L65 25 M75 25 L75 35" 
-              stroke="#ff8552" 
-              strokeWidth="6" 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-            />
-          </svg>
-        </div>
-
-        {/* Text */}
-        {!collapsed && (
-          <motion.div 
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex flex-col items-start -space-y-1 text-left"
-          >
-            <h1 className="text-[#0e1c2c] font-display text-lg tracking-tighter font-black uppercase text-left">
-              illumine
-            </h1>
-            <span className="text-[#ff8552] text-[6.5px] font-black uppercase tracking-[0.3em] text-left">
-              Strategic Advisory
-            </span>
-          </motion.div>
-        )}
+    <div className={cn("flex items-center gap-1 transition-all duration-1000 justify-center w-full", collapsed ? "" : "")}>
+      <div className={cn(
+        "flex items-center justify-center transition-all duration-700 relative group",
+        collapsed ? "w-[58px] h-[58px]" : "w-[72px] h-[72px] -translate-y-[6px]"
+      )}>
+        <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain" />
       </div>
+      {!collapsed && (
+        <div className="flex flex-col w-fit">
+          <span 
+            className="text-[51px] tracking-[-0.06em] text-text-main leading-[0.8]" 
+            style={{ fontFamily: '"Tilt Warp", sans-serif' }}
+          >
+            illumine
+          </span>
+          <div 
+            className="flex justify-between w-full text-[13px] text-secondary uppercase mt-0" 
+            style={{ fontFamily: '"Work Sans", sans-serif' }}
+          >
+            {"Business Intelligence".split('').map((char, i) => (
+              <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -309,6 +291,11 @@ function AuthLoadingScreen() {
   );
 }
 
+const MASTER_ADMINS = [
+  'marcelo.illuminecoaching@gmail.com',
+  'marcelosouza.illumine@gmail.com'
+];
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>(DEFAULT_PAGE);
   const [selectedClient, setSelectedClient] = useState('');
@@ -317,6 +304,7 @@ export default function App() {
   const [clients, setClients] = useState<any[]>([]);
   const [expandedGroups, setExpandedGroups] = useState<string[]>(['Dados de Cadastro', 'Análise de Performance', 'Planejamento Estratégico']);
   const [user, setUser] = useState<User | null>(null);
+  const [userPermissions, setUserPermissions] = useState<string[] | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>(DEFAULT_OPEN_SUBMENUS);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
@@ -355,6 +343,37 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
+  // Initialize and listen for theme changes
+  useEffect(() => {
+    const applyTheme = () => {
+      const savedTheme = (localStorage.getItem('app-theme') as 'light' | 'dark' | 'system') || 'light';
+      const root = window.document.documentElement;
+      root.classList.remove('light', 'dark');
+      
+      if (savedTheme === 'system') {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.classList.add(systemTheme);
+      } else {
+        root.classList.add(savedTheme);
+      }
+    };
+
+    applyTheme();
+
+    // Listen for storage events (changes from other tabs/pages)
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'app-theme') applyTheme();
+    });
+
+    // Custom event for immediate update in the same tab
+    window.addEventListener('theme-changed', applyTheme);
+
+    return () => {
+      window.removeEventListener('storage', applyTheme);
+      window.removeEventListener('theme-changed', applyTheme);
+    };
+  }, []);
+
   // Fetch clients from Firestore if user is authenticated
   useEffect(() => {
     if (authLoading) return;
@@ -365,32 +384,58 @@ export default function App() {
       return;
     }
 
-    const q = query(
-      collection(db, 'clients'),
-      where('ownerId', '==', user.uid)
-    );
+    const fetchClients = async () => {
+      try {
+        const userEmail = (user.email || '').toLowerCase().trim();
+        const isMaster = MASTER_ADMINS.some(email => email.toLowerCase().trim() === userEmail);
+        
+        console.log('[Auth] Master Check:', { userEmail, isMaster });
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const dbClients = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      
-      if (dbClients.length > 0) {
-        setClients(dbClients);
-        // If current selected client is not in the list, select the first one
-        if (!selectedClient || !dbClients.some(c => c.id === selectedClient)) {
-          setSelectedClient(dbClients[0].id);
+        let q;
+        if (isMaster) {
+          console.log('[Auth] Master Admin: Fetching ALL clients');
+          q = query(collection(db, 'clients'));
+          setUserPermissions(null);
+        } else {
+          const userAssocQuery = query(collection(db, 'client_users'), where('email', '==', user.email));
+          const assocSnap = await getDocs(userAssocQuery);
+          
+          if (!assocSnap.empty) {
+            const clientIds = assocSnap.docs.map(doc => doc.data().clientId);
+            const permissions = assocSnap.docs.flatMap(doc => doc.data().permissoes || []);
+            setUserPermissions(permissions);
+            q = query(collection(db, 'clients'), where('__name__', 'in', clientIds));
+          } else {
+            setUserPermissions(null);
+            q = query(collection(db, 'clients'), where('ownerId', '==', user.uid));
+          }
         }
-      } else {
+
+        return onSnapshot(q, (snapshot) => {
+          const dbClients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          console.log('[Auth] Clients found:', dbClients.length);
+          setClients(dbClients);
+          if (dbClients.length > 0) {
+            if (!selectedClient || !dbClients.some(c => c.id === selectedClient)) {
+              setSelectedClient(dbClients[0].id);
+            }
+          } else {
+            setSelectedClient('');
+          }
+        }, (error) => {
+          console.error("[Auth] Snapshot Error:", error);
+          setClients([]);
+        });
+      } catch (error) {
+        console.error("[Auth] Fetch Error:", error);
         setClients([]);
       }
-    }, (error) => {
-      console.error("Error fetching clients:", error);
-      setClients([]);
-    });
+    };
 
-    return () => unsubscribe();
+    const unsubscribePromise = fetchClients();
+    return () => {
+      unsubscribePromise.then(unsub => unsub && (unsub as any)());
+    };
   }, [user, authLoading]);
 
   const currentPageLabel = FLAT_NAV_ITEMS.find((item) => item.id === currentPage)?.label || '';
@@ -442,7 +487,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-screen bg-light overflow-hidden text-primary">
+    <div className="flex h-screen bg-bg-main overflow-hidden text-text-main transition-colors duration-500">
       {/* Sidebar Overlay for Mobile */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -451,7 +496,7 @@ export default function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[60] md:hidden"
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[60] md:hidden"
           />
         )}
       </AnimatePresence>
@@ -460,15 +505,16 @@ export default function App() {
       <motion.aside 
         initial={false}
         animate={{ 
-          width: isSidebarCollapsed ? 80 : 280,
-          x: isMobileMenuOpen ? 0 : (window.innerWidth < 768 ? -280 : 0)
+          width: isSidebarCollapsed ? 80 : 360,
+          x: isMobileMenuOpen ? 0 : (window.innerWidth < 768 ? -360 : 0)
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         className={cn(
-          "bg-white border-r border-slate-200 flex flex-col shrink-0 shadow-xl z-[70] fixed md:relative h-full",
+          "bg-bg-card/90 backdrop-blur-3xl flex flex-col shrink-0 shadow-separator z-[70] fixed md:relative h-full transition-all duration-700 overflow-hidden",
           isSidebarCollapsed ? "items-center" : "items-start"
         )}
       >
+        <div className="absolute inset-0 bg-gradient-to-b from-bg-surface/50 via-transparent to-bg-surface/30 pointer-events-none" />
         <div className="absolute -right-3 top-10 z-50 hidden md:block">
           <button
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -478,8 +524,8 @@ export default function App() {
           </button>
         </div>
 
-        <div className="p-4 md:p-6 overflow-y-auto flex-1 custom-scrollbar w-full">
-          <div className="flex items-center justify-between mb-8">
+        <div className={cn("overflow-y-auto flex-1 custom-scrollbar w-full", isSidebarCollapsed ? "p-0" : "p-4 md:p-6")}>
+          <div className={cn("flex items-center mb-8", isSidebarCollapsed ? "justify-center pt-6" : "justify-between")}>
             <Logo collapsed={isSidebarCollapsed} />
             {isMobileMenuOpen && (
               <button 
@@ -492,31 +538,45 @@ export default function App() {
           </div>
           
           <nav className="space-y-6">
-            {NAVIGATION_GROUPS.map((group) => {
+            {NAVIGATION_GROUPS.filter(group => {
+              if (!userPermissions) return true;
+              // Group is allowed if at least one of its sub-items is allowed
+              return group.items.some(item => {
+                const permissionKey = `${group.group}:${item.label}`;
+                return userPermissions.includes(permissionKey);
+              });
+            }).map((group) => {
               const isOpen = openSubmenus[group.group] !== false; 
+              
+              // Filter items within the group
+              const filteredItems = group.items.filter(item => {
+                if (!userPermissions) return true;
+                const permissionKey = `${group.group}:${item.label}`;
+                return userPermissions.includes(permissionKey);
+              });
+
+              if (filteredItems.length === 0) return null;
+
               return (
                 <div key={group.group}>
                   {!isSidebarCollapsed && (
                     <button 
                       onClick={() => toggleSubmenu(group.group)}
-                      className="w-full flex items-center gap-2 px-4 py-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] mb-0.5 font-display hover:text-primary transition-colors group text-left justify-start"
+                      className="w-full flex items-center gap-3 px-6 py-4 text-[10px] font-medium text-text-dim uppercase tracking-[0.2em] mb-1 font-sans hover:text-text-main transition-colors group text-left justify-start"
                     >
-                      <div className="w-5 flex items-center justify-center shrink-0">
-                        <group.icon size={14} className="shrink-0" />
-                      </div>
                       <span className="flex-1 truncate text-left">{group.group}</span>
-                      {isOpen ? <ChevronUp size={10} /> : <ChevronDown size={10} />}
+                      {isOpen ? <ChevronUp size={10} strokeWidth={1} /> : <ChevronDown size={10} strokeWidth={1} />}
                     </button>
                   )}
                   
-                  <div className="space-y-0.5">
-                    {(isSidebarCollapsed ? group.items : (isOpen ? group.items : [])).map((item) => {
+                  <div className={cn("space-y-1", isSidebarCollapsed ? "px-0" : "px-4")}>
+                    {(isSidebarCollapsed ? filteredItems : (isOpen ? filteredItems : [])).map((item) => {
                       const hasChildren = item.children && item.children.length > 0;
                       const isChildActive = hasChildren && item.children?.some(child => child.id === currentPage);
                       const isActive = currentPage === item.id || isChildActive;
                       
                       return (
-                        <div key={item.id} className="space-y-0.5">
+                        <div key={item.id} className="space-y-1">
                           <button
                             onClick={() => {
                               if (isSidebarCollapsed && hasChildren) {
@@ -527,37 +587,39 @@ export default function App() {
                             }}
                             title={isSidebarCollapsed ? item.label : undefined}
                             className={cn(
-                              "w-full flex items-center gap-2 px-4 py-1.5 rounded-xl font-bold text-[11px] transition-all group",
-                              isSidebarCollapsed ? "justify-center px-2" : "justify-start",
+                              "w-full flex items-center transition-all group relative",
+                              isSidebarCollapsed ? "justify-center py-4 px-0" : "justify-start gap-4 px-4 py-3",
                               currentPage === item.id 
-                                ? "bg-slate-900 text-white shadow-xl shadow-slate-900/10" 
+                                ? "text-text-main font-semibold" 
                                 : isActive 
-                                  ? "text-slate-900 bg-slate-50"
-                                  : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                                  ? "text-text-main"
+                                  : "text-text-muted hover:text-text-main"
                             )}
                           >
+                            {currentPage === item.id && (
+                              <motion.div 
+                                layoutId="active-pill"
+                                className="absolute left-0 w-1 h-4 bg-primary rounded-full"
+                              />
+                            )}
                             <div className="w-5 flex items-center justify-center shrink-0">
-                              <item.icon size={isSidebarCollapsed ? 18 : 14} className={cn(
+                              <item.icon size={isSidebarCollapsed ? 20 : 18} strokeWidth={1} className={cn(
                                 "transition-colors shrink-0",
-                                currentPage === item.id ? "text-secondary" : "text-slate-400 group-hover:text-secondary"
+                                currentPage === item.id ? "text-primary" : "text-text-dim group-hover:text-text-main"
                               )} />
                             </div>
                             {!isSidebarCollapsed && (
                               <div className="flex-1 min-w-0 flex items-center justify-between gap-2 overflow-hidden text-left">
-                                <span className="tracking-tight truncate text-left">{item.label}</span>
+                                <span className="tracking-wide text-left text-[11.5px] whitespace-nowrap">{item.label}</span>
                                 {hasChildren && (
                                   <ChevronDown 
                                     size={10} 
+                                    strokeWidth={1}
                                     className={cn(
                                       "transition-transform duration-300 shrink-0",
-                                      isActive ? "rotate-180 text-secondary" : "text-slate-300"
+                                      isActive ? "rotate-180 text-primary" : "text-text-dim"
                                     )} 
                                   />
-                                )}
-                                {(item as any).isNew && !hasChildren && (
-                                  <span className="ml-auto bg-blue-100 text-blue-600 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter shrink-0">
-                                    Novo
-                                  </span>
                                 )}
                               </div>
                             )}
@@ -576,8 +638,8 @@ export default function App() {
                                   className={cn(
                                     "w-full flex items-center justify-start text-left gap-2 px-4 py-1.5 rounded-lg font-bold text-[10px] transition-all group",
                                     currentPage === child.id 
-                                      ? "bg-slate-100 text-primary" 
-                                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+                                      ? "bg-slate-100 dark:bg-slate-800 text-primary dark:text-white" 
+                                      : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-800 dark:hover:text-white"
                                   )}
                                 >
                                   <div className="w-5 flex items-center justify-center shrink-0">
@@ -586,7 +648,7 @@ export default function App() {
                                       currentPage === child.id ? "bg-secondary scale-125" : "bg-slate-300 group-hover:bg-slate-400"
                                     )} />
                                   </div>
-                                  <span className="tracking-tight truncate text-left">{child.label}</span>
+                                  <span className="tracking-tight text-left whitespace-nowrap">{child.label}</span>
                                 </button>
                               ))}
                             </motion.div>
@@ -602,8 +664,8 @@ export default function App() {
         </div>
 
         <div className={cn(
-          "mt-auto p-6 bg-slate-50 border-t border-slate-100 transition-all",
-          isSidebarCollapsed ? "px-2" : "p-6"
+          "mt-auto bg-bg-surface shadow-premium transition-all",
+          isSidebarCollapsed ? "px-0 py-6" : "p-8"
         )}>
           {authLoading ? (
             <div className="flex justify-center py-2">
@@ -612,8 +674,8 @@ export default function App() {
           ) : user ? (
             <div className="flex flex-col gap-4">
               <div className={cn(
-                "flex items-center gap-2 px-4 mb-4 transition-all",
-                isSidebarCollapsed && "justify-center"
+                "flex items-center mb-4 transition-all",
+                isSidebarCollapsed ? "justify-center px-0" : "gap-2 px-4"
               )}>
                 {user.photoURL ? (
                   <div className="w-5 h-5 shrink-0 flex items-center justify-center">
@@ -629,6 +691,9 @@ export default function App() {
                 {!isSidebarCollapsed && (
                   <div className="flex-1 min-w-0 text-left">
                     <p className="text-xs font-bold truncate text-slate-900 text-left">{user.displayName || 'Usuário'}</p>
+                    {!userPermissions && (
+                      <span className="text-[8px] font-black uppercase text-secondary tracking-widest block">Master Admin</span>
+                    )}
                   </div>
                 )}
               </div>
@@ -659,60 +724,59 @@ export default function App() {
       </motion.aside>
 
       {/* Main Content */}
-      <main className="flex-1 min-w-0 flex flex-col overflow-hidden bg-white">
-        {/* Header */}
-        <header className="sticky top-0 h-20 bg-white/80 backdrop-blur-xl border-b border-slate-100 flex items-center justify-between px-4 md:px-10 shrink-0 z-40">
-          <div className="flex items-center gap-2 md:gap-6">
+      <main className="flex-1 flex flex-col min-w-0 relative h-full">
+        <header className="h-28 bg-bg-main/60 backdrop-blur-3xl flex items-center justify-between px-12 sticky top-0 z-50 transition-all duration-700 shadow-separator">
+          <div className="flex items-center gap-16">
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
-              className="p-2 text-slate-500 hover:text-primary md:hidden"
+              className="p-3 text-text-muted hover:text-text-main md:hidden transition-colors bg-bg-surface/50 rounded-full"
             >
-              <MenuIcon size={24} />
+              <MenuIcon size={24} strokeWidth={1} />
             </button>
-            <div className="hidden sm:block">
+            
+            <div className="hidden xl:block">
               <ClientSelector 
                 clients={clients} 
                 selectedClient={selectedClient} 
                 setSelectedClient={setSelectedClient} 
-                onManageClients={() => setCurrentPage('clients')}
+                onManageClients={() => setCurrentPage('clientes')}
               />
             </div>
-          </div>
 
-          <div className="flex items-center gap-4 md:gap-8">
             <div className="relative group hidden lg:block">
               <input 
                 type="text" 
-                placeholder="Pesquisar... (⌘K)" 
-                className="pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-100 rounded-xl text-xs font-bold focus:bg-white focus:ring-4 focus:ring-secondary/5 focus:border-secondary/20 transition-all outline-none w-48 xl:w-72" 
+                placeholder="Global Intelligence Search..." 
+                className="pl-12 pr-6 py-3.5 bg-bg-surface/40 border-b border-border-main focus:border-accent transition-all outline-none w-48 xl:w-80 text-sm font-sans text-text-main placeholder:text-text-dim focus:bg-bg-card" 
               />
-              <Search size={14} className="text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 group-focus-within:text-secondary transition-colors" />
+              <Search size={18} strokeWidth={1} className="text-text-dim absolute left-0 top-1/2 -translate-y-1/2 group-focus-within:text-accent transition-colors" />
             </div>
+          </div>
             
-            <div className="flex items-center gap-2 md:gap-4">
-              <div className="flex items-center bg-slate-50/50 border border-slate-100 p-1 rounded-xl">
-                <button 
-                  onClick={() => window.print()}
-                  className="p-2 text-slate-400 hover:text-primary hover:bg-white rounded-lg transition-all"
-                  title="Imprimir Página"
-                >
-                  <FileSpreadsheet size={18} />
-                </button>
-                <button 
-                  className="p-2 text-slate-400 hover:text-primary hover:bg-white rounded-lg transition-all hidden sm:flex"
-                  title="Exportar Dados"
-                >
-                  <UploadCloud size={18} />
-                </button>
-              </div>
-
+          <div className="flex items-center gap-12">
+            <div className="flex items-center gap-3">
               <button 
-                className="px-3 md:px-6 py-3 bg-secondary text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:shadow-xl hover:shadow-secondary/30 transition-all active:scale-95 flex items-center gap-2"
+                 onClick={() => window.print()}
+                 className="p-3 text-text-muted hover:text-text-main hover:bg-bg-surface rounded-full transition-all"
+                 title="Imprimir Página"
               >
-                <Zap size={14} />
-                <span className="hidden sm:inline">Gerar Relatório</span>
+                 <FileSpreadsheet size={20} strokeWidth={1} />
+              </button>
+              <button 
+                 className="p-3 text-text-muted hover:text-text-main hover:bg-bg-surface rounded-full transition-all hidden sm:flex"
+                 title="Exportar Dados"
+              >
+                 <UploadCloud size={20} strokeWidth={1} />
               </button>
             </div>
+
+            <button 
+              className="px-12 py-4 bg-primary text-white text-[11px] font-bold uppercase tracking-[0.3em] shadow-floating hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-4 group overflow-hidden relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+              <Zap size={18} strokeWidth={1} fill="currentColor" className="text-accent relative z-10" />
+              <span className="hidden sm:inline relative z-10">Generate Analytics</span>
+            </button>
           </div>
         </header>
 

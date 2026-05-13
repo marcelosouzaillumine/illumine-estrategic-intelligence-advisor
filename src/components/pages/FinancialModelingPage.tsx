@@ -8,7 +8,37 @@ import {
   BookOpen, 
   Settings2, 
   AlertTriangle,
-  ShieldCheck
+  ShieldCheck,
+  Upload,
+  Plus,
+  TrendingUp,
+  LayoutDashboard,
+  Presentation,
+  Scale,
+  Compass,
+  Fingerprint,
+  Target,
+  Globe,
+  ClipboardList,
+  BarChart3,
+  PieChart,
+  Zap,
+  Briefcase,
+  Calculator,
+  CreditCard,
+  ArrowUpRight,
+  CircleDollarSign,
+  List,
+  Landmark,
+  Boxes,
+  Rocket,
+  LineChart,
+  Percent,
+  ShoppingBag,
+  HardDrive,
+  Layers,
+  Bell,
+  Users,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, AreaChart, Area } from 'recharts';
@@ -16,16 +46,17 @@ import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
+import { PremissasClientePage } from './PremissasClientePage';
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{label}</p>
+    <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
+      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors">{label}</p>
       <h3 className={cn(
         "text-2xl font-black tracking-tight",
         tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
       )}>{value}</h3>
-      {helper && <p className="text-[10px] text-slate-400 mt-2 italic">{helper}</p>}
+      {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80">{helper}</p>}
     </div>
   );
 }
@@ -183,11 +214,16 @@ function InputsModelView() {
 export function FinancialModelingPage({ clients, selectedClient, setSelectedClient }: { clients: any[], selectedClient: string, setSelectedClient: (id: string) => void }) {
   const [tab, setTab] = useState("dashboard");
   const { dbData } = useAllFinancialData(selectedClient);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingModeling, setEditingModeling] = useState<any>(null);
   
   // Base Data Selection
   const activeClient = useMemo(() => 
     clients.find(c => c.id === selectedClient) || clients[0]
   , [clients, selectedClient]);
+
+  const clientName = activeClient?.fantasia || activeClient?.name || 'Cliente';
 
   // Projection Engine (5 Years)
   const projection = useMemo(() => {
@@ -314,16 +350,38 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
     { id: 'caixa', label: 'Geração de Caixa', icon: Coins },
     { id: 'balanco', label: 'Balanço Projetado', icon: BookOpen },
     { id: 'inputs', label: 'Inputs Ref.', icon: Settings2 },
+    { id: 'premissas', label: 'Premissas', icon: ShieldCheck },
   ];
 
   return (
-    <div className="space-y-8 pb-20">
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 pb-6 border-b border-slate-200">
-        <PageHeader 
-          title="Modelagem Financeira" 
-          description={`Horizonte: 5 Anos (2026-2030) · Cliente: ${activeClient?.fantasia || activeClient?.name}`}
-        />
-        <div className="flex bg-slate-100 p-1 rounded-xl w-fit overflow-x-auto max-w-full">
+    <div className="space-y-10 pb-20 animate-executive-fade">
+      <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+          <PageHeader 
+            title="Modelagem Financeira" 
+            subtitle={`Projeção estratégica de cenários, sensibilidade e viabilidade econômica · ${clientName}`}
+            icon={<TrendingUp className="text-primary" size={24} />}
+            color="primary"
+          />
+          <div className="flex flex-wrap items-center gap-3">
+            <button 
+              onClick={() => setIsImportModalOpen(true)}
+              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
+            >
+              <Upload size={14} /> IMPORTAR DADOS
+            </button>
+            <button 
+              onClick={() => { setEditingModeling(null); setIsModalOpen(true); }}
+              className="px-8 py-3 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-2"
+            >
+              <Plus size={16} /> NOVO CENÁRIO
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex bg-slate-100 p-1 rounded-xl w-fit overflow-x-auto max-w-full">
           {tabs.map((t) => (
             <button
               key={t.id}
@@ -336,11 +394,9 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
               )}
             >
               <t.icon size={13} />
-              {t.label}
             </button>
           ))}
         </div>
-      </div>
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -412,6 +468,7 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
           {tab === 'caixa' && <FinancialModelTable table={projection.fluxoCaixa} title="Geração de Caixa Livre (FCFF)" subtitle="Caminho do EBITDA para o Caixa disponível após impostos, capex e NCG." />}
           {tab === 'balanco' && <FinancialModelTable table={projection.balanco} title="Balanço Patrimonial Projetado" subtitle="Evolução de ativos, capital de giro e endividamento." />}
           {tab === 'inputs' && <InputsModelView />}
+          {tab === 'premissas' && <PremissasClientePage clients={clients} selectedClient={selectedClient} />}
         </motion.div>
       </AnimatePresence>
     </div>

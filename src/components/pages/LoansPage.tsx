@@ -192,7 +192,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
       <div className="space-y-12 pb-20">
         <PageHeader 
           title="Gestão de Empréstimos e Financiamentos" 
-          description="Controle e projeção de passivos financeiros, simulando cronogramas PRICE e SAC."
+          subtitle="Controle e projeção de passivos financeiros, simulando cronogramas PRICE e SAC."
         />
         <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200 rounded-3xl p-20 text-center">
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
@@ -206,31 +206,35 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
   }
 
   return (
-    <div className="space-y-8 pb-20">
-      <div className="flex flex-col md:flex-row md:items-end md:justify-start gap-8 pb-6 border-b border-slate-200">
-        <div>
+    <div className="space-y-10 pb-20 animate-executive-fade">
+      <div className="bg-slate-900 rounded-[40px] p-10 mb-6 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
           <PageHeader 
-            title="Gestão de Empréstimos e Financiamentos" 
-            description={`${inputs.empresa || clients.find((c: any) => c.id === selectedClient)?.fantasia} · ${inputs.titulo}`}
+            title="Captação & Alocação" 
+            subtitle={`Gestão estratégica de passivos, cronogramas de amortização e custo de capital · ${inputs.empresa || clients.find((c: any) => c.id === selectedClient)?.fantasia}`}
+            icon={<WalletCards className="text-primary" size={24} />}
+            color="primary"
           />
-        </div>
-        <div className="flex bg-slate-100 p-1 rounded-xl">
-          <button 
-            onClick={() => setActiveTab('dashboard')}
-            className={cn("px-4 py-2 text-xs font-bold rounded-lg transition-all", activeTab === 'dashboard' ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700")}
-          >Dashboard</button>
-          <button 
-            onClick={() => setActiveTab('simulador')}
-            className={cn("px-4 py-2 text-xs font-bold rounded-lg transition-all", activeTab === 'simulador' ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700")}
-          >Simulador</button>
-          <button 
-            onClick={() => setActiveTab('amortizacao')}
-            className={cn("px-4 py-2 text-xs font-bold rounded-lg transition-all", activeTab === 'amortizacao' ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700")}
-          >Amortização</button>
-          <button 
-            onClick={() => setActiveTab('pagamentos')}
-            className={cn("px-4 py-2 text-xs font-bold rounded-lg transition-all", activeTab === 'pagamentos' ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700")}
-          >Pagamentos</button>
+          <div className="flex flex-wrap items-center gap-3">
+             <div className="flex bg-white/5 p-1.5 rounded-[20px] border border-white/10 backdrop-blur-sm">
+              {[
+                { id: 'dashboard', label: 'DASHBOARD' },
+                { id: 'simulador', label: 'SIMULADOR' },
+                { id: 'amortizacao', label: 'AMORTIZAÇÃO' },
+                { id: 'pagamentos', label: 'PAGAMENTOS' }
+              ].map(tab => (
+                <button 
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={cn(
+                    "px-6 py-2.5 text-[10px] font-black rounded-xl transition-all uppercase tracking-widest whitespace-nowrap",
+                    activeTab === tab.id ? "bg-white text-slate-900 shadow-xl" : "text-slate-400 hover:text-white"
+                  )}
+                >{tab.label}</button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -245,18 +249,18 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
           >
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {[
-                { title: 'Valor do Empréstimo', value: formatCurrency(inputs.valorEmprestimo), icon: WalletCards, helper: 'Principal contratado' },
-                { title: 'Parcela Mensal PRICE', value: formatCurrency(priceSchedule[0]?.parcela || 0), icon: CalendarDays, helper: `${inputs.periodoMeses} meses` },
-                { title: 'Taxa Mensal', value: percent.format(inputs.taxaMensal), icon: Calculator, helper: `A.A. equivalente: ${percent.format(Math.pow(1 + inputs.taxaMensal, 12) - 1)}` },
-                { title: 'Saldo Atual Projetado', value: formatCurrency(saldoAbertura), icon: TrendingDown, helper: `${pagosCount} parcelas pagas` },
+                { title: 'Valor do Empréstimo', value: formatCurrency(Math.floor(inputs.valorEmprestimo)), icon: WalletCards, helper: 'Principal contratado' },
+                { title: 'Parcela Mensal PRICE', value: formatCurrency(Math.floor(priceSchedule[0]?.parcela || 0)), icon: CalendarDays, helper: `${inputs.periodoMeses} meses` },
+                { title: 'Taxa Mensal', value: percent.format(inputs.taxaMensal), icon: Calculator, helper: `A.A. equiv: ${percent.format(Math.pow(1 + inputs.taxaMensal, 12) - 1)}` },
+                { title: 'Saldo Atual Projetado', value: formatCurrency(Math.floor(saldoAbertura)), icon: TrendingDown, helper: `${pagosCount} parcelas pagas` },
               ].map((kpi, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                <div key={idx} className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
                   <div className="flex justify-between items-start mb-4">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{kpi.title}</p>
-                    <div className="p-2 bg-slate-50 rounded-lg text-slate-400"><kpi.icon size={16} /></div>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] group-hover:text-slate-500 transition-colors">{kpi.title}</p>
+                    <div className="p-2.5 bg-slate-50 rounded-xl text-slate-400 group-hover:bg-primary/10 group-hover:text-primary transition-all duration-300"><kpi.icon size={16} /></div>
                   </div>
                   <h3 className="text-2xl font-black text-slate-900 tracking-tight">{kpi.value}</h3>
-                  <p className="text-[10px] font-semibold text-slate-500 mt-2 flex items-center gap-1 opacity-60">
+                  <p className="text-[10px] font-bold text-slate-400 mt-2 flex items-center gap-1 opacity-80 italic">
                     <ArrowRight size={10} /> {kpi.helper}
                   </p>
                 </div>

@@ -23,7 +23,7 @@ import { cn, formatValue, formatCurrency } from '../../lib/utils';
 import { SectionHeader } from '../Common';
 
 const EIXOS: EixoGestao[] = [
-  'Governança', 'Cultura', 'Inovação', 'Comercial', 'Operacional', 'Gestão', 'Marketing'
+  'Governança', 'Cultura', 'Gestão', 'Inovação', 'Marketing', 'Comercial', 'Operação'
 ];
 
 interface OKRsPageProps {
@@ -136,7 +136,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
           onClick={() => { setShowForm(!showForm); if(!showForm) setEditingId(null); }}
           className="flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-3xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-primary/20 transition-all shrink-0"
         >
-          {showForm ? 'Cancelar' : <><Plus size={16} /> Novo Objetivo</>}
+          {showForm ? 'Cancelar' : <><Plus size={16} /> Adicionar Objetivo</>}
         </button>
       </div>
 

@@ -39,7 +39,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <PageHeader 
           title="DLPA" 
-          description="Demonstração dos Lucros ou Prejuízos Acumulados"
+          subtitle="Demonstração dos Lucros ou Prejuízos Acumulados"
         />
         {loading && (
           <div className="flex items-center text-slate-400 text-sm font-semibold">

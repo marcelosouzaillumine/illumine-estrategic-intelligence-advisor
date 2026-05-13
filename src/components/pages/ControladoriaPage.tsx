@@ -14,7 +14,8 @@ import {
   Landmark
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { formatCurrency, cn } from '../../lib/utils';
+import { cn, formatValue } from '../../lib/utils';
+import { PageHeader } from '../Common';
 
 interface ControladoriaPageProps {
   clientId: string;
@@ -30,22 +31,12 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
 
   return (
     <div className="space-y-8 pb-32">
-      {/* Header */}
-      <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm flex justify-between items-center">
-        <div className="flex items-center gap-6">
-          <div className="w-16 h-16 rounded-3xl bg-emerald-900 flex items-center justify-center text-white shadow-xl shadow-emerald-900/20">
-            <ShieldCheck size={32} />
-          </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">Controladoria Estratégica</h2>
-            <p className="text-slate-400 text-sm font-medium uppercase tracking-[0.2em]">Governança Financeira e Monitoramento de Resultados</p>
-          </div>
-        </div>
-        <div className="text-right">
-           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Status da Governança</span>
-           <span className="text-emerald-500 font-black uppercase text-xs">Conformidade Total</span>
-        </div>
-      </div>
+      <PageHeader 
+        title="Controladoria Estratégica"
+        subtitle="Governança financeira, auditoria de processos e monitoramento de aderência orçamentária para máxima eficiência operacional."
+        icon={ShieldCheck}
+        color="bg-emerald-900"
+      />
 
       {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -69,9 +60,9 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
                  {kpi.status === 'positive' ? 'No Alvo' : kpi.status === 'negative' ? 'Crítico' : 'Atenção'}
                </div>
             </div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{kpi.label}</p>
-            <p className="text-2xl font-black text-slate-800">
-              {kpi.isCur ? formatCurrency(kpi.value) : `${kpi.value}${kpi.suffix || ''}`}
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 whitespace-nowrap">{kpi.label}</p>
+            <p className="text-2xl font-black text-slate-800 whitespace-nowrap">
+              {formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '')}
             </p>
           </motion.div>
         ))}

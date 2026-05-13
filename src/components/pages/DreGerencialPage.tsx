@@ -12,7 +12,9 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn, formatCurrency } from '../../lib/utils';
+import { PageHeader } from '../Common';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
+
 import { useFinancialData } from '../../hooks/useFinancialData';
 import { useAccountPlan } from '../../hooks/useAccountPlan';
 import { FULL_MONTH_LABELS } from '../../constants';
@@ -147,49 +149,44 @@ export function DreGerencialPage({ selectedClient, selectedYear, selectedMonth }
   };
 
   return (
-    <div className="space-y-8 pb-20">
-      <div className="bg-[#0e1c2c] p-10 rounded-[40px] text-white overflow-hidden relative shadow-2xl">
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-4">
-             <div className="p-2 bg-blue-500/20 rounded-xl backdrop-blur-md">
-                <Activity size={20} className="text-blue-400" />
-             </div>
-             <span className="text-[12px] font-black text-blue-400 uppercase tracking-[0.3em]">Gerencial Financeiro</span>
+    <div className="space-y-10 pb-20 animate-executive-fade">
+      <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+          <PageHeader 
+            title="DRE Gerencial" 
+            subtitle="Demonstração de resultados estruturada sob a ótica de gestão e plano de contas personalizado."
+            icon={<Activity className="text-secondary" size={24} />}
+            color="secondary"
+          />
+          <div className="flex flex-wrap items-center gap-3">
+            <select 
+                value={filterYear} 
+                onChange={(e) => setFilterYear(Number(e.target.value))} 
+                className="bg-white/5 border border-white/10 text-white rounded-2xl px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] outline-none focus:bg-white/10 transition-all"
+            >
+                {years.map(y => <option key={y} value={y} className="bg-slate-900">{y}</option>)}
+            </select>
+
+            <select 
+                value={filterMonth} 
+                onChange={(e) => setFilterMonth(Number(e.target.value))} 
+                className="bg-white/5 border border-white/10 text-white rounded-2xl px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] outline-none focus:bg-white/10 transition-all"
+            >
+                {Object.entries(FULL_MONTH_LABELS).map(([num, name]) => (
+                    <option key={num} value={num} className="bg-slate-900">{name}</option>
+                ))}
+            </select>
           </div>
-          <h1 className="text-4xl font-black tracking-tighter mb-4">DRE Gerencial</h1>
-          <p className="text-white/60 text-sm max-w-2xl font-medium leading-relaxed">
-            Demonstração de resultados baseada no plano de contas personalizado do cliente. Visualize a performance operacional de forma hierárquica.
-          </p>
-        </div>
-        <div className="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
-           <ChartBarIcon size={400} className="text-white translate-x-1/4 -translate-y-1/4" />
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-        <select 
-            value={filterYear} 
-            onChange={(e) => setFilterYear(Number(e.target.value))} 
-            className="text-sm border border-slate-100 bg-slate-50 rounded-xl px-4 py-2.5 outline-none font-bold text-slate-600 focus:ring-4 focus:ring-secondary/5 transition-all"
-        >
-            {years.map(y => <option key={y} value={y}>{y}</option>)}
-        </select>
 
-        <select 
-            value={filterMonth} 
-            onChange={(e) => setFilterMonth(Number(e.target.value))} 
-            className="text-sm border border-slate-100 bg-slate-50 rounded-xl px-4 py-2.5 outline-none font-bold text-slate-600 focus:ring-4 focus:ring-secondary/5 transition-all"
-        >
-            {Object.entries(FULL_MONTH_LABELS).map(([num, name]) => (
-                <option key={num} value={num}>{name}</option>
-            ))}
-        </select>
-      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <KpiCardGerencial title="Receita Operacional" value={formatCurrency(summary.receitas)} icon={TrendingUp} tone="primary" />
-        <KpiCardGerencial title="Custos e Despesas" value={formatCurrency(summary.custos + summary.despesas)} icon={TrendingDown} tone="danger" />
-        <KpiCardGerencial title="EBITDA" value={formatCurrency(summary.ebitda)} icon={CircleDollarSign} tone={summary.ebitda >= 0 ? "success" : "danger"} />
+        <KpiCardGerencial title="Receita Operacional" value={formatCurrency(Math.floor(summary.receitas))} icon={TrendingUp} tone="primary" />
+        <KpiCardGerencial title="Custos e Despesas" value={formatCurrency(Math.floor(summary.custos + summary.despesas))} icon={TrendingDown} tone="danger" />
+        <KpiCardGerencial title="EBITDA" value={formatCurrency(Math.floor(summary.ebitda))} icon={CircleDollarSign} tone={summary.ebitda >= 0 ? "success" : "danger"} />
         <KpiCardGerencial title="Margem EBITDA" value={`${(summary.margem * 100).toFixed(1)}%`} icon={Target} tone="warning" />
       </div>
 
@@ -259,13 +256,13 @@ function KpiCardGerencial({ title, value, icon: Icon, tone = 'primary' }: any) {
   };
 
   return (
-    <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm group hover:border-blue-200 transition-all">
-       <div className="flex items-start justify-between mb-2">
-          <div className={cn("p-3 rounded-2xl transition-transform group-hover:scale-110", bgTones[tone])}>
-             <Icon size={20} />
+    <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm group hover:shadow-md transition-all">
+       <div className="flex items-center justify-between mb-4">
+          <div className={cn("p-2.5 rounded-xl transition-all group-hover:scale-110", bgTones[tone])}>
+             <Icon size={18} />
           </div>
           <div className="text-right">
-             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{title}</span>
+             <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] block group-hover:text-slate-500 transition-colors">{title}</span>
              <span className="text-2xl font-black text-slate-900 tracking-tighter block mt-1">{value}</span>
           </div>
        </div>

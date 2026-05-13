@@ -23,7 +23,7 @@ export function PremissasEconomicasPage() {
     <div className="space-y-12 pb-20">
       <PageHeader 
         title="Premissas Econômicas 2026" 
-        description="Fatores macroeconômicos e indicadores financeiros atualizados via BCB, FGV e Tesouro Direto para suporte a projeções."
+        subtitle="Fatores macroeconômicos e indicadores financeiros atualizados via BCB, FGV e Tesouro Direto para suporte a projeções."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

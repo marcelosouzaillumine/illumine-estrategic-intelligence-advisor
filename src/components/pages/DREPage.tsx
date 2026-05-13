@@ -40,7 +40,7 @@ export function DREPage({ clients, selectedClient, selectedMonth, selectedYear }
     <div className="space-y-8 pb-20">
       <PageHeader 
         title="Demonstrativo de Resultados (DRE)" 
-        description={`Análise detalhada da performance financeira do cliente ${clients.find(c => c.id === selectedClient)?.fantasia} para ${selectedMonth}/${selectedYear}.`}
+        subtitle={`Análise detalhada da performance financeira do cliente ${clients.find(c => c.id === selectedClient)?.fantasia} para ${selectedMonth}/${selectedYear}.`}
       />
 
       <div className="bg-white rounded-3xl border border-slate-200 shadow-elegant overflow-hidden">

@@ -181,97 +181,100 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
   if (Fluxo_Diario.length === 0) {
     return (
-      <div className="space-y-12 pb-20">
-        <div className="flex items-center justify-between">
-          <PageHeader 
-            title="Fluxo de Caixa" 
-            description="Monitoramento de liquidez, projeções diárias e controle de obrigações."
-          />
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={handleGenerate}
-              disabled={isGenerating || !filterClient}
-              className="px-6 py-2.5 bg-secondary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20 flex items-center gap-2 disabled:opacity-50"
-            >
-              {isGenerating ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />}
-              Gerar Fluxo
-            </button>
-            <div className="flex bg-slate-100 p-1 rounded-xl">
-              {[
-                { label: '30D', value: 30 },
-                { label: '90D', value: 90 },
-                { label: '180D', value: 180 },
-                { label: '360D', value: 360 }
-              ].map(p => (
-                <button
-                  key={p.value}
-                  onClick={() => setViewRange(p.value as any)}
-                  className={cn(
-                    "px-4 py-1.5 text-[10px] font-black rounded-lg transition-all",
-                    viewRange === p.value ? "bg-white text-secondary shadow-sm" : "text-slate-500 hover:text-slate-700"
-                  )}
-                >{p.label}</button>
-              ))}
+      <div className="space-y-10 pb-20 animate-executive-fade">
+        <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+            <PageHeader 
+              title="Fluxo de Caixa" 
+              subtitle={`Monitoramento de liquidez, projeções diárias e controle de obrigações · ${clients.find((c: any) => c.id === filterClient)?.fantasia || 'Cliente'}`}
+              icon={<Calculator className="text-secondary" size={24} />}
+              color="secondary"
+            />
+            <div className="flex flex-wrap items-center gap-3">
+              <button 
+                onClick={handleGenerate}
+                disabled={isGenerating || !filterClient}
+                className="px-6 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2 disabled:opacity-50"
+              >
+                {isGenerating ? <Loader2 size={14} className="animate-spin" /> : <Play size={14} />}
+                GERAR FLUXO
+              </button>
+              <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10 backdrop-blur-sm">
+                {[
+                  { label: '30D', value: 30 },
+                  { label: '90D', value: 90 },
+                  { label: '180D', value: 180 },
+                  { label: '360D', value: 360 }
+                ].map(p => (
+                  <button
+                    key={p.value}
+                    onClick={() => setViewRange(p.value as any)}
+                    className={cn(
+                      "px-4 py-2 text-[10px] font-black rounded-xl transition-all uppercase tracking-widest",
+                      viewRange === p.value ? "bg-white text-slate-900 shadow-xl" : "text-slate-400 hover:text-white"
+                    )}
+                  >{p.label}</button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200 rounded-3xl p-20 text-center">
+        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200/60 rounded-[40px] p-20 text-center shadow-sm">
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
             <Calculator size={48} className="text-slate-200" />
           </div>
-          <h3 className="text-xl font-display text-primary mb-2">Sem dados de fluxo detalhado</h3>
-          <p className="text-slate-500 max-w-md mb-8 font-sans">Não encontramos o arquivo de projeção de caixa para o cliente {clients.find((c: any) => c.id === filterClient)?.fantasia}.</p>
+          <h3 className="text-xl font-black text-slate-900 mb-2">Sem dados de fluxo detalhado</h3>
+          <p className="text-slate-500 max-w-md mb-8 font-medium">Não encontramos o arquivo de projeção de caixa para este cliente.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 pb-20">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pb-6 border-b border-slate-200">
-        <div className="flex items-center gap-6">
-          <PageHeader 
-            title="Fluxo de Caixa" 
-            description={clients.find((c: any) => c.id === filterClient)?.fantasia || 'Cliente'}
-          />
-          <div className="flex items-center gap-4">
+    <div className="space-y-10 pb-20 animate-executive-fade">
+      <PageHeader 
+        title="Fluxo de Caixa" 
+        subtitle={`Monitoramento estratégico de liquidez e solvência · ${clients.find((c: any) => c.id === filterClient)?.fantasia || 'Cliente'}`}
+        icon={<Calculator size={24} />}
+        actions={
+          <div className="flex flex-wrap items-center gap-3">
             <button 
               onClick={handleExportPDF}
-              className="px-6 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg flex items-center gap-2 print:hidden"
+              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 print:hidden"
             >
-              <FileText size={16} />
-              Exportar PDF
+              <FileText size={14} /> EXPORTAR PDF
             </button>
             <button 
               onClick={handleGenerate}
               disabled={isGenerating || !filterClient}
-              className="px-6 py-2.5 bg-secondary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20 flex items-center gap-2 disabled:opacity-50 print:hidden"
+              className="px-8 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2 disabled:opacity-50 print:hidden"
             >
-              {isGenerating ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />}
-              Gerar Fluxo
+              {isGenerating ? <Loader2 size={14} className="animate-spin" /> : <Play size={14} />}
+              GERAR FLUXO
             </button>
           </div>
-        </div>
-        <div className="flex bg-slate-100 p-1 rounded-xl h-fit">
+        }
+      />
+        <div className="relative z-10 mt-10 flex bg-white/5 p-1.5 rounded-[20px] border border-white/10 backdrop-blur-sm w-fit overflow-x-auto max-w-full">
           {[
-            { id: 'dashboard', label: 'Dashboard' },
-            { id: 'fluxo', label: 'Fluxo Diário' },
-            { id: 'receber', label: 'Contas a Receber' },
-            { id: 'inadimplencia', label: 'Inadimplência' },
-            { id: 'pagar', label: 'Contas a Pagar' },
-            { id: 'passivo', label: 'Passivo Vencido' }
+            { id: 'dashboard', label: 'DASHBOARD' },
+            { id: 'fluxo', label: 'FLUXO DIÁRIO' },
+            { id: 'receber', label: 'C. RECEBER' },
+            { id: 'inadimplencia', label: 'INADIMPLÊNCIA' },
+            { id: 'pagar', label: 'C. PAGAR' },
+            { id: 'passivo', label: 'P. VENCIDO' }
           ].map(tab => (
             <button 
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               className={cn(
-                "px-4 py-2 text-xs font-bold rounded-lg transition-all",
-                activeTab === tab.id ? "bg-white text-secondary shadow-sm" : "text-slate-500 hover:text-slate-700"
+                "px-6 py-2.5 text-[10px] font-black rounded-xl transition-all uppercase tracking-widest whitespace-nowrap",
+                activeTab === tab.id ? "bg-white text-slate-900 shadow-xl" : "text-slate-400 hover:text-white"
               )}
             >{tab.label}</button>
           ))}
         </div>
-      </div>
 
       <AnimatePresence mode="wait">
         {activeTab === 'dashboard' && (

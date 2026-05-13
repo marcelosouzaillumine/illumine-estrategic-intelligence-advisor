@@ -5,7 +5,7 @@ import { formatCurrency, cn } from '../../lib/utils';
 
 import { DATA } from '../../data';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
-import { Loader2 } from 'lucide-react';
+import { Loader2, WalletCards } from 'lucide-react';
 
 export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   const { dbData, loading } = useAllFinancialData(selectedClient);
@@ -69,19 +69,21 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   ];
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <PageHeader 
-          title="DFC" 
-          description="Demonstração do Fluxo de Caixa (Método Indireto)"
-        />
-        {loading && (
-          <div className="flex items-center text-slate-400 text-sm font-semibold">
-            <Loader2 size={16} className="animate-spin mr-2" />
-            Carregando dados...
-          </div>
-        )}
-      </div>
+    <div className="space-y-10 pb-32 animate-executive-fade">
+      <PageHeader 
+        title="Demonstração do Fluxo de Caixa" 
+        subtitle="Análise estruturada das movimentações financeiras operacionais, de investimento e financiamento pelo método indireto."
+        icon={WalletCards}
+        color="bg-slate-900"
+      />
+
+      {loading && (
+        <div className="flex items-center gap-3 px-6 py-3.5 bg-white border border-slate-100 rounded-2xl shadow-sm -mt-6 mb-8">
+          <Loader2 size={16} className="animate-spin text-blue-600" />
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Sincronizando Dados...</span>
+        </div>
+      )}
+
 
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden p-8">
         <div className="overflow-x-auto scrollbar-thin">

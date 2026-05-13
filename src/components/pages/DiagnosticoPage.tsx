@@ -9,12 +9,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useModuleData } from '../../hooks/useModuleData';
 import { DiagnosticoItem, ObjetivoOKR, EixoGestao, ClassificacaoSWOT, TipoRisco, Gravidade, Urgencia, Tendencia, ImpactoFinanceiro } from '../../types/modules';
 import { cn } from '../../lib/utils';
-import { SectionHeader } from '../Common';
+import { SectionHeader, PageHeader } from '../Common';
 import { SACERDOTAL_PRINCIPLES } from '../../lib/sacerdotalIntelligence';
+
 import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
 
 const EIXOS: EixoGestao[] = [
-  'Governança', 'Cultura', 'Inovação', 'Comercial', 'Operacional', 'Gestão', 'Marketing'
+  'Governança', 'Cultura', 'Gestão', 'Inovação', 'Marketing', 'Comercial', 'Operação'
 ];
 
 interface DiagnosticoPageProps {
@@ -210,21 +211,26 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
   if (loading) return <div>Carregando...</div>;
 
   return (
-    <div className="space-y-8 pb-32">
-      <div className="flex justify-between items-center bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
-        <div>
-          <h2 className="text-2xl font-black text-slate-800 tracking-tight">Diagnóstico Empresarial</h2>
-          <p className="text-slate-400 text-sm font-medium uppercase tracking-widest">Matriz GUT + IVE Score</p>
+    <div className="space-y-10 pb-32 animate-executive-fade">
+      <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+          <PageHeader 
+            title="Diagnóstico Estratégico" 
+            subtitle="Priorização inteligente baseada na Matriz GUT + IVE (Índice de Valor Estratégico)"
+            icon={<ShieldAlert className="text-primary" size={24} />}
+            color="primary"
+          />
+          <button
+            onClick={() => {
+              setShowAddForm(!showAddForm);
+              if (!showAddForm) setEditingId(null);
+            }}
+            className="flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-primary/20 transition-all"
+          >
+            {showAddForm ? 'CANCELAR' : <><Plus size={16} /> NOVO ITEM</>}
+          </button>
         </div>
-        <button
-          onClick={() => {
-            setShowAddForm(!showAddForm);
-            if (!showAddForm) setEditingId(null);
-          }}
-          className="flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-3xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-primary/20 transition-all"
-        >
-          {showAddForm ? 'Cancelar' : <><Plus size={16} /> Novo Diagnóstico</>}
-        </button>
       </div>
 
       <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-[32px] p-6 border border-primary/10">
@@ -512,7 +518,7 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
                     className={cn('py-4 px-1 mr-6 text-[10px] font-black uppercase tracking-widest border-b-2 transition-all',
                       linkTab === tab ? 'border-primary text-primary' : 'border-transparent text-slate-400')}
                   >
-                    {tab === 'vincular' ? 'Vincular Existente' : '+ Criar Novo OKR'}
+                    {tab === 'vincular' ? 'Vincular Existente' : '+ Criar Objetivo (OKR)'}
                   </button>
                 ))}
               </div>

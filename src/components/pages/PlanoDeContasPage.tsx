@@ -14,7 +14,8 @@ import {
   ChevronRight,
   Sparkles,
   AlertTriangle,
-  X
+  X,
+  List
 } from 'lucide-react';
 import { 
   collection, 
@@ -347,20 +348,24 @@ export function PlanoDeContasPage({
   const savedCount = accounts.filter(a => a.id).length;
 
   return (
-    <div className="space-y-8 pb-20">
-      <div className="flex justify-between items-end">
-        <PageHeader 
-          title={`Plano de Contas ${planLabel}`} 
-          description={`Estrutura de classificação ${planType === 'accounting' ? 'contábil' : 'gerencial'} do cliente ${clientName}.`}
-        />
-        <div className="flex gap-3 mb-8 flex-wrap justify-end">
+    <div className="space-y-10 pb-32 animate-executive-fade">
+      <div className="flex flex-col xl:flex-row xl:items-start justify-between gap-10">
+        <div className="flex-1">
+          <PageHeader 
+            title={`Plano de Contas ${planLabel}`} 
+            subtitle={`Estrutura de classificação ${planType === 'accounting' ? 'contábil' : 'gerencial'} do cliente ${clientName}, essencial para a integridade dos relatórios financeiros.`}
+            icon={List}
+            color="bg-slate-900"
+          />
+        </div>
+        <div className="flex flex-wrap items-center gap-4 pt-10 justify-end">
           {/* Delete entire plan */}
           {selectedClient && savedCount > 0 && (
             <button 
               onClick={() => setIsDeletePlanOpen(true)}
-              className="px-5 py-2.5 bg-white text-rose-500 border border-rose-200 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-rose-50 transition-all shadow-sm flex items-center gap-2"
+              className="px-6 py-4 bg-white text-rose-500 border border-rose-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 transition-all shadow-sm flex items-center gap-2"
             >
-              <Trash2 size={15} /> Excluir Plano
+              <Trash2 size={16} /> EXCLUIR PLANO
             </button>
           )}
 
@@ -368,33 +373,34 @@ export function PlanoDeContasPage({
             onClick={handleSaveAll}
             disabled={isSavingAll || !selectedClient}
             className={cn(
-              "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all shadow-lg flex items-center gap-2",
+              "px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl flex items-center gap-2",
               saveSuccess ? "bg-emerald-500 text-white" : "bg-white text-emerald-600 border border-emerald-200 hover:bg-emerald-50"
             )}
           >
             {isSavingAll ? <Loader2 size={18} className="animate-spin" /> : saveSuccess ? <CheckCircle2 size={18} /> : <Save size={18} />}
-            {saveSuccess ? 'Salvo!' : 'Salvar Alterações'}
+            {saveSuccess ? 'SALVO!' : 'SALVAR ALTERAÇÕES'}
           </button>
           <button 
             onClick={() => setIsImportModalOpen(true)}
-            className="px-6 py-2.5 bg-white text-slate-600 border border-slate-200 rounded-xl text-sm font-bold hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2"
+            className="px-8 py-4 bg-white text-slate-600 border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2"
           >
-            <UploadCloud size={18} /> Importar
+            <UploadCloud size={18} /> IMPORTAR
           </button>
           <button 
             onClick={() => setIsMappingWizardOpen(true)}
-            className="px-6 py-2.5 bg-primary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg flex items-center gap-2"
+            className="px-8 py-4 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20 flex items-center gap-2"
           >
-            <Link2 size={18} /> Mapeamento Inteligente
+            <Link2 size={18} /> MAPEAMENTO
           </button>
           <button 
             onClick={() => { setEditingAccount(null); setIsModalOpen(true); }}
-            className="px-6 py-2.5 bg-secondary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20 flex items-center gap-2"
+            className="px-8 py-4 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
           >
-            <Plus size={18} /> Nova Conta
+            <Plus size={18} /> NOVA CONTA
           </button>
         </div>
       </div>
+
 
       <div className="flex flex-col md:flex-row items-stretch md:items-center bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden mb-8">
         <div className="flex-1 p-6 flex flex-col sm:flex-row items-center gap-6">

@@ -1,4 +1,3 @@
-
 import React, { useMemo } from 'react';
 import { 
   Database, 
@@ -15,7 +14,8 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { formatCurrency, cn } from '../../lib/utils';
+import { PageHeader, StatusBadge } from '../Common';
+import { formatValue, formatCurrency, cn } from '../../lib/utils';
 
 interface OperacionalPageProps {
   type: 'logistica' | 'producao';
@@ -60,65 +60,56 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
   }, [isLogistica]);
 
   return (
-    <div className="space-y-8 pb-32">
-      {/* Header */}
-      <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm flex justify-between items-center">
-        <div className="flex items-center gap-6">
-          <div className={cn(
-            "w-16 h-16 rounded-3xl flex items-center justify-center text-white shadow-xl",
-            isLogistica ? "bg-amber-600 shadow-amber-600/20" : "bg-purple-600 shadow-purple-600/20"
-          )}>
-            {isLogistica ? <Truck size={32} /> : <Settings size={32} />}
-          </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">
-              {isLogistica ? 'Eficiência em Logística' : 'Performance de Produção'}
-            </h2>
-            <p className="text-slate-400 text-sm font-medium uppercase tracking-[0.2em]">
-              {isLogistica ? 'Gestão de Entregas e Cadeia de Suprimentos' : 'Otimização de Processos e Produtividade'}
-            </p>
-          </div>
-        </div>
-        <div className="text-right">
-           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Eficiência Operacional</span>
-           <span className="text-amber-500 font-black uppercase text-xs">Otimização Necessária</span>
-        </div>
-      </div>
+    <div className="space-y-10 pb-32 animate-executive-fade">
+      <PageHeader 
+        title={isLogistica ? 'Eficiência em Logística' : 'Performance de Produção'}
+        subtitle={isLogistica ? 'Gestão de entregas e cadeia de suprimentos estratégica.' : 'Otimização de processos, produtividade e controle de qualidade.'}
+        icon={isLogistica ? <Truck className="text-primary" size={24} /> : <Settings className="text-primary" size={24} />}
+        color={isLogistica ? "bg-blue-900" : "bg-amber-800"}
+      />
 
-      {/* KPI Grid */}
+      {/* KPI Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {indicators.map((kpi, idx) => (
           <motion.div 
             key={idx}
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: idx * 0.1 }}
-            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:border-primary/10 transition-all group"
+            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
           >
-            <div className="flex justify-between items-start mb-6">
-               <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
-                  <kpi.icon size={24} />
-               </div>
-               <div className={cn(
-                 "px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest",
-                 kpi.status === 'positive' ? "bg-emerald-50 text-emerald-600" : 
-                 kpi.status === 'negative' ? "bg-rose-50 text-rose-600" : "bg-amber-50 text-amber-600"
-               )}>
-                 {kpi.status === 'positive' ? 'No Alvo' : kpi.status === 'negative' ? 'Crítico' : 'Atenção'}
-               </div>
+            <div className="flex items-center justify-between mb-8">
+              <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary group-hover:text-white transition-all duration-500">
+                <kpi.icon size={24} />
+              </div>
+              <div className={cn(
+                "px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest",
+                kpi.status === 'positive' ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : 
+                kpi.status === 'negative' ? "bg-rose-50 text-rose-600 border border-rose-100" : 
+                "bg-amber-50 text-amber-600 border border-amber-100"
+              )}>
+                {kpi.status === 'positive' ? 'No Alvo' : kpi.status === 'negative' ? 'Crítico' : 'Atenção'}
+              </div>
             </div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{kpi.label}</p>
-            <p className="text-2xl font-black text-slate-800">
-              {kpi.value}{kpi.suffix || ''}
-            </p>
-            <div className="mt-4 flex items-center gap-2">
-               <div className="h-1 flex-1 bg-slate-50 rounded-full overflow-hidden">
+
+            <div>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors whitespace-nowrap">{kpi.label}</p>
+              <div className="flex items-baseline gap-2">
+                <p className="text-4xl font-black text-slate-900 tabular-nums tracking-tighter whitespace-nowrap">
+                  {formatValue(kpi.value, kpi.suffix || '')}
+                </p>
+              </div>
+              
+              <div className="mt-6 flex items-center gap-2">
+                <div className="h-1 flex-1 bg-slate-50 rounded-full overflow-hidden">
                   <div 
                     className={cn("h-full", kpi.status === 'positive' ? "bg-emerald-500" : kpi.status === 'negative' ? "bg-rose-500" : "bg-amber-500")}
                     style={{ width: `${Math.min(100, (kpi.value / kpi.target) * 100)}%` }}
                   />
-               </div>
-               <span className="text-[10px] font-bold text-slate-400">Meta: {kpi.target}</span>
+                </div>
+                <span className="text-[10px] font-bold text-slate-400 tabular-nums">Meta: {formatValue(kpi.target, kpi.suffix || '')}</span>
+              </div>
             </div>
           </motion.div>
         ))}

@@ -12,7 +12,8 @@ import {
   AlertTriangle,
   TrendingUp,
   ShieldCheck,
-  BookOpen
+  BookOpen,
+  Presentation
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../Common';
@@ -190,312 +191,367 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
   };
 
   return (
-    <div className="space-y-8 pb-20 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <PageHeader 
-          title="Conselho de Estratégia CFO" 
-          description="Inteligência integrada para gestão de valor e governança corporativa." 
-        />
-        <div className="bg-slate-900 p-8 rounded-3xl text-white shadow-2xl flex items-center gap-8 min-w-[320px] relative overflow-hidden">
-           <div className="absolute top-0 right-0 p-8 opacity-10"><ShieldCheck size={80} /></div>
-           <div>
-             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400 mb-2">Illumine Health Score</p>
-             <div className="flex items-baseline gap-2">
-               <h2 className="text-5xl font-black">{isNaN(healthScore) ? 0 : healthScore}</h2>
-               <span className="text-xs font-bold text-slate-400">/ 100</span>
-             </div>
-           </div>
-           <div className="flex-1">
-             <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
-               <motion.div 
-                 initial={{ width: 0 }}
-                 animate={{ width: `${healthScore}%` }}
-                 className={cn(
-                   "h-full rounded-full",
-                   healthScore > 80 ? "bg-emerald-500" : healthScore > 60 ? "bg-blue-500" : "bg-rose-500"
-                 )} 
-               />
-             </div>
-             <p className="text-[9px] font-bold text-slate-400 mt-2 uppercase tracking-widest leading-tight">
-               {healthScore > 80 ? 'Saúde Financeira de Elite' : healthScore > 60 ? 'Operação em Equilíbrio' : 'Atenção: Risco Estrutural'}
-             </p>
-           </div>
+    <div className="space-y-12 pb-32 animate-executive-fade">
+      {/* Hero Section with Integrated Score */}
+      <div className="relative overflow-hidden rounded-[48px] bg-slate-900 p-8 md:p-12 text-white shadow-2xl">
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
+        
+        <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12">
+          <div className="flex-1 space-y-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/10">
+                <Presentation size={24} className="text-blue-400" />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-400/80">Strategic Advisory Board</span>
+            </div>
+            
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-6xl font-display font-black tracking-tighter leading-tight">
+                Conselho de <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Estratégia CFO</span>
+              </h1>
+              <p className="text-slate-400 font-medium max-w-2xl leading-relaxed text-sm md:text-lg">
+                Inteligência integrada para gestão de valor, análise preditiva de performance e governança corporativa de alto nível baseada em dados reais.
+              </p>
+            </div>
+          </div>
+
+          {/* Premium Score Display */}
+          <div className="bg-white/5 backdrop-blur-xl p-8 rounded-[40px] border border-white/10 shadow-2xl min-w-[320px] flex flex-col gap-6 relative group overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            
+            <div className="flex items-center justify-between relative z-10">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400">Illumine Health Score</span>
+              <ShieldCheck size={16} className="text-blue-400" />
+            </div>
+
+            <div className="flex items-end gap-3 relative z-10">
+              <h2 className="text-7xl font-display font-black tracking-tighter leading-none">
+                {isNaN(healthScore) ? 0 : healthScore}
+              </h2>
+              <span className="text-lg font-bold text-slate-500 mb-2">/ 100</span>
+            </div>
+
+            <div className="space-y-3 relative z-10">
+              <div className="h-2 w-full bg-slate-800/50 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${healthScore}%` }}
+                  transition={{ duration: 1.5, ease: "circOut" }}
+                  className={cn(
+                    "h-full rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)]",
+                    healthScore > 80 ? "bg-emerald-400" : healthScore > 60 ? "bg-blue-400" : "bg-rose-400"
+                  )} 
+                />
+              </div>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex justify-between">
+                <span>{healthScore > 80 ? 'Status: Elite' : healthScore > 60 ? 'Status: Estável' : 'Status: Alerta'}</span>
+                <span className="text-blue-400">{healthScore}% Performance</span>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Diagnostic Panel */}
-        <div className="lg:col-span-2 space-y-6">
-          <SectionHeader 
-            icon={Activity} 
-            title="Diagnóstico de Performance" 
-            subtitle="Alertas proativos baseados em padrões de consultoria estratégica" 
-            tone="blue"
-          />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        {/* Main Content Area */}
+        <div className="lg:col-span-2 space-y-10">
+          <div className="flex items-center justify-between">
+            <SectionHeader 
+              icon={Activity} 
+              title="Diagnóstico de Performance" 
+              subtitle="Alertas proativos baseados em padrões de consultoria estratégica" 
+              tone="blue"
+            />
+            <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+               <span className="px-4 py-1.5 text-[9px] font-black text-slate-500 uppercase tracking-widest">Real-Time Audit</span>
+            </div>
+          </div>
           
-          <div className="grid grid-cols-1 gap-4">
-            <AnimatePresence>
+          <div className="grid grid-cols-1 gap-6">
+            <AnimatePresence mode="popLayout">
               {patterns.length > 0 ? (
                 patterns.map((pattern, idx) => (
                   <motion.div 
                     key={pattern.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
                     className={cn(
-                      "bg-white rounded-3xl border p-8 shadow-sm group relative overflow-hidden",
-                      pattern.severity === 'critical' ? "border-rose-200 bg-rose-50/10" : "border-amber-200 bg-amber-50/10"
+                      "bg-white rounded-[32px] border p-8 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden",
+                      pattern.severity === 'critical' ? "border-rose-100 hover:border-rose-200" : "border-amber-100 hover:border-amber-200"
                     )}
                   >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
+                    <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
+                      <AlertTriangle size={120} />
+                    </div>
+
+                    <div className="flex items-start justify-between mb-8 relative z-10">
+                      <div className="flex items-center gap-4">
                         <div className={cn(
-                          "p-2 rounded-xl",
-                          pattern.severity === 'critical' ? "bg-rose-100 text-rose-600" : "bg-amber-100 text-amber-600"
+                          "w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner",
+                          pattern.severity === 'critical' ? "bg-rose-50 text-rose-600" : "bg-amber-50 text-amber-600"
                         )}>
-                          <AlertTriangle size={20} />
+                          <AlertTriangle size={24} />
                         </div>
-                        <h4 className="text-lg font-black text-slate-900">{pattern.name}</h4>
-                      </div>
-                      <span className={cn(
-                        "text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full",
-                        pattern.severity === 'critical' ? "bg-rose-600 text-white" : "bg-amber-600 text-white"
-                      )}>
-                        {pattern.severity}
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Identificação</p>
-                        <p className="text-sm text-slate-700 font-medium leading-relaxed">{pattern.description}</p>
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Impacto Estratégico</p>
-                        <p className="text-sm text-slate-700 font-medium leading-relaxed italic">"{pattern.impact}"</p>
+                        <div>
+                          <h4 className="text-xl font-black text-slate-900 tracking-tight">{pattern.name}</h4>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className={cn(
+                              "w-1.5 h-1.5 rounded-full animate-pulse",
+                              pattern.severity === 'critical' ? "bg-rose-500" : "bg-amber-500"
+                            )} />
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{pattern.severity} severity</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="mt-6 pt-6 border-t border-slate-200">
-                      <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] mb-2 flex items-center gap-2">
-                        <Zap size={12} /> Solução Recomendada
-                      </p>
-                      <p className="text-sm font-bold text-slate-900">{pattern.recommendation}</p>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
+                      <div className="space-y-3">
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Análise de Padrão</p>
+                        <p className="text-sm text-slate-600 font-medium leading-relaxed">{pattern.description}</p>
+                      </div>
+                      <div className="space-y-3">
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Risco Estratégico</p>
+                        <p className="text-sm text-slate-900 font-black italic">"{pattern.impact}"</p>
+                      </div>
+                    </div>
+
+                    <div className={cn(
+                      "mt-8 pt-8 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10",
+                    )}>
+                      <div className="flex-1">
+                        <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] mb-2 flex items-center gap-2">
+                          <Zap size={12} className="fill-blue-600" /> Executive Action Plan
+                        </p>
+                        <p className="text-sm font-bold text-slate-900 leading-tight">{pattern.recommendation}</p>
+                      </div>
+                      <button className="px-6 py-3 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-600 transition-colors whitespace-nowrap shadow-lg shadow-slate-900/10">
+                        IMPLEMENTAR SOLUÇÃO
+                      </button>
                     </div>
                   </motion.div>
                 ))
               ) : (
-                <div className="bg-emerald-50 rounded-3xl border border-emerald-100 p-12 text-center text-emerald-900">
-                  <Sparkles size={48} className="mx-auto mb-4 opacity-40" />
-                  <p className="font-bold">Nenhum risco estrutural detectado neste período.</p>
+                <div className="bg-emerald-50/30 rounded-[40px] border border-emerald-100 p-20 text-center relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent" />
+                  <Sparkles size={64} className="mx-auto mb-6 text-emerald-500/40 group-hover:scale-110 transition-transform duration-700" />
+                  <h4 className="text-xl font-black text-emerald-900 mb-2">Equilíbrio Estrutural Detectado</h4>
+                  <p className="text-emerald-700/60 font-medium max-w-sm mx-auto">Sua operação não apresenta riscos críticos de padrão financeiro neste período.</p>
                 </div>
               )}
             </AnimatePresence>
           </div>
         </div>
 
-        <div className="space-y-6">
-          <div className="flex gap-4 border-b border-slate-200">
+        {/* Intelligence Sidebar */}
+        <div className="space-y-8">
+          <div className="bg-white/80 backdrop-blur-md p-2 rounded-[24px] border border-slate-200 shadow-sm flex items-center sticky top-8 z-30">
             <button
               onClick={() => setActiveTab('cfo')}
-              className={cn("px-4 py-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all", activeTab === 'cfo' ? "border-blue-500 text-blue-700" : "border-transparent text-slate-400 hover:text-slate-600")}
+              className={cn(
+                "flex-1 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all",
+                activeTab === 'cfo' ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-600"
+              )}
             >
-              Parecer CFO (IA)
+              Parecer CFO
             </button>
             <button
               onClick={() => setActiveTab('sacerdotal')}
-              className={cn("px-4 py-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all", activeTab === 'sacerdotal' ? "border-amber-500 text-amber-700" : "border-transparent text-slate-400 hover:text-slate-600")}
+              className={cn(
+                "flex-1 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all",
+                activeTab === 'sacerdotal' ? "bg-amber-600 text-white shadow-lg" : "text-slate-400 hover:text-slate-600"
+              )}
             >
-              Perspectiva Sacerdotal
+              Sacerdotal
             </button>
           </div>
           
-          {activeTab === 'cfo' ? (
-          <div className="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl min-h-[500px] flex flex-col">
-            <div className="absolute top-0 right-0 p-4 opacity-10">
-              <Sparkles size={120} />
-            </div>
-            
-            <div className="flex-1 overflow-y-auto mb-6 bg-slate-800/50 border border-slate-700 rounded-2xl p-6">
-              {loadingAi ? (
-                <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-4">
-                  <Loader2 size={32} className="animate-spin text-blue-400" />
-                  <p className="text-[10px] font-black uppercase tracking-widest animate-pulse">Analisando KPIs...</p>
-                </div>
-              ) : aiParecer ? (
-                <div className="text-xs leading-relaxed font-medium text-slate-200 whitespace-pre-wrap advisory-ai-content">
-                  {aiParecer}
-                </div>
-              ) : (
-                <div className="h-full flex flex-col items-center justify-center text-slate-500 gap-4 text-center">
-                  <Activity size={32} strokeWidth={1} />
-                  <p className="text-[10px] font-black uppercase tracking-widest max-w-[200px]">Clique abaixo para gerar a análise síntetica via Gemini.</p>
-                </div>
-              )}
-            </div>
-
-            <button 
-              onClick={handleGenerateAi}
-              disabled={loadingAi}
-              className={cn(
-                "w-full py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3",
-                loadingAi ? "bg-slate-800 text-slate-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-900/20"
-              )}
-            >
-              <Sparkles size={16} />
-              {loadingAi ? 'Processando Intelligence...' : 'Gerar Parecer via IA'}
-            </button>
-          </div>
-          ) : (
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 text-amber-900 relative overflow-hidden shadow-sm border border-amber-100 min-h-[500px] flex flex-col">
-            <div className="absolute top-0 right-0 p-4 opacity-5 text-amber-600">
-              <BookOpen size={120} />
-            </div>
-            
-            <div className="flex-1 overflow-y-auto mb-6 bg-white/60 border border-amber-100 rounded-2xl p-6 relative z-10">
-              {loadingSacerdotal ? (
-                <div className="h-full flex flex-col items-center justify-center text-amber-600 gap-4">
-                  <Loader2 size={32} className="animate-spin" />
-                  <p className="text-[10px] font-black uppercase tracking-widest animate-pulse">Analisando alinhamento...</p>
-                </div>
-              ) : sacerdotalParecer ? (
-                <div className="text-xs leading-relaxed font-medium text-amber-900 whitespace-pre-wrap">
-                  {sacerdotalParecer}
-                </div>
-              ) : (
-                <div className="h-full flex flex-col items-center justify-center text-amber-700/50 gap-4 text-center">
-                  <BookOpen size={32} strokeWidth={1} />
-                  <p className="text-[10px] font-black uppercase tracking-widest max-w-[200px]">Clique abaixo para gerar a leitura sacerdotal via IA.</p>
-                </div>
-              )}
-            </div>
-
-            <button 
-              onClick={handleGenerateSacerdotal}
-              disabled={loadingSacerdotal}
-              className={cn(
-                "w-full py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 relative z-10",
-                loadingSacerdotal ? "bg-amber-200 text-amber-600 cursor-not-allowed" : "bg-amber-600 hover:bg-amber-700 text-white shadow-xl shadow-amber-900/20"
-              )}
-            >
-              <BookOpen size={16} />
-              {loadingSacerdotal ? 'Processando Leitura...' : 'Gerar Perspectiva Sacerdotal'}
-            </button>
-          </div>
-          )}
-
-          <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
-             <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Benchmarks do Setor ({sector})</h4>
-             <div className="space-y-8">
-                {[
-                  { label: 'Margem EBITDA', value: clientMetrics.ebitdaMargin, benchmark: benchmarks.ebitdaMargin, inverse: false },
-                  { label: 'Liquidez Corrente', value: clientMetrics.currentLiquidity, benchmark: benchmarks.currentLiquidity, inverse: false },
-                  { label: 'Alavancagem (Dív./EBITDA)', value: clientMetrics.leverage, benchmark: benchmarks.leverage, inverse: true },
-                  { label: 'Margem Líquida', value: clientMetrics.netMargin, benchmark: benchmarks.netMargin, inverse: false },
-                ].map((item, i) => {
-                  const { min, median, top, unit } = item.benchmark;
-                  // Calculate position (0 to 100)
-                  // For a simple visualization, we use min as start (0%) and top as end (100%) or some range
-                  const range = top - min;
-                  const safeRange = range === 0 ? 1 : range;
-                  let rawPos = ((item.value - min) / safeRange) * 100;
-                  if (isNaN(rawPos)) rawPos = 50;
-                  const pos = Math.max(0, Math.min(100, rawPos));
-                  
-                  let rawMedianPos = ((median - min) / safeRange) * 100;
-                  if (isNaN(rawMedianPos)) rawMedianPos = 50;
-                  const medianPos = Math.max(0, Math.min(100, rawMedianPos));
-                  
-                  return (
-                    <div key={i} className="space-y-3">
-                      <div className="flex justify-between items-end">
-                        <p className="text-[10px] font-black text-slate-800 uppercase tracking-widest leading-none">{item.label}</p>
-                        <p className="text-xs font-black text-slate-900">{isNaN(item.value) ? '0.0' : item.value.toFixed(1)}{item.benchmark.unit}</p>
-                      </div>
-                      
-                      <div className="relative h-2 bg-slate-100 rounded-full">
-                        {/* Sector Range (Min to Top) */}
-                        <div className="absolute top-0 bottom-0 left-0 right-0 rounded-full bg-slate-200 opacity-20" />
-                        
-                        {/* Colored Regions based on Median */}
-                        <div 
-                          className={cn(
-                            "absolute top-0 bottom-0 left-0 rounded-l-full",
-                            item.inverse ? "bg-emerald-500/20" : "bg-rose-500/20"
-                          )} 
-                          style={{ width: `${medianPos}%` }} 
-                        />
-                        
-                        {/* Benchmarks Markers */}
-                        <div className="absolute top-0 bottom-0 left-0 border-r-2 border-slate-300 h-full" style={{ left: '0%' }}>
-                          <span className="absolute -top-4 -translate-x-1/2 text-[8px] font-bold text-slate-400">Min {min}</span>
-                        </div>
-                        <div className="absolute top-0 bottom-0 border-r-2 border-slate-900 h-full z-10" style={{ left: `${medianPos}%` }}>
-                          <span className="absolute -bottom-4 -translate-x-1/2 text-[8px] font-black text-slate-900">Med {median}</span>
-                        </div>
-                        <div className="absolute top-0 bottom-0 border-r-2 border-emerald-500 h-full" style={{ left: '100%' }}>
-                          <span className="absolute -top-4 -translate-x-1/2 text-[8px] font-bold text-emerald-600">Top {top}</span>
-                        </div>
-
-                        {/* Client Position */}
-                        <motion.div 
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1, left: `${pos}%` }}
-                          className={cn(
-                            "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-4 border-white shadow-xl z-20",
-                            item.inverse 
-                              ? (item.value <= median ? "bg-emerald-500" : "bg-rose-500")
-                              : (item.value >= median ? "bg-emerald-500" : "bg-rose-500")
-                          )}
-                        />
-                      </div>
+          <div className="sticky top-28 space-y-8">
+            {activeTab === 'cfo' ? (
+              <div className="bg-slate-900 rounded-[40px] p-8 text-white relative overflow-hidden shadow-2xl min-h-[580px] flex flex-col border border-white/5">
+                <div className="absolute top-0 right-0 p-8 opacity-10"><Sparkles size={160} /></div>
+                
+                <div className="flex-1 overflow-y-auto mb-8 bg-white/5 border border-white/10 rounded-[32px] p-8 custom-scrollbar">
+                  {loadingAi ? (
+                    <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-6">
+                      <div className="w-16 h-16 rounded-full border-4 border-blue-500/20 border-t-blue-500 animate-spin" />
+                      <p className="text-[10px] font-black uppercase tracking-[0.3em] animate-pulse">Consulting AI...</p>
                     </div>
-                  );
-                })}
-             </div>
-             
-             <div className="mt-10 pt-6 border-t border-slate-100">
-               <p className="text-[8px] font-black text-slate-300 uppercase tracking-[0.2em] mb-3">Fontes de Dados Consolidadas</p>
-               <div className="flex flex-wrap gap-x-4 gap-y-2">
-                 {BENCHMARK_SOURCES.map((source, idx) => (
-                   <span key={idx} className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
-                     <ShieldCheck size={10} className="text-blue-400" /> {source.name}
-                   </span>
-                 ))}
+                  ) : aiParecer ? (
+                    <div className="text-sm leading-relaxed font-medium text-slate-300 whitespace-pre-wrap advisory-ai-content italic opacity-90">
+                      {aiParecer}
+                    </div>
+                  ) : (
+                    <div className="h-full flex flex-col items-center justify-center text-slate-500 gap-6 text-center">
+                      <div className="w-16 h-16 rounded-3xl bg-white/5 flex items-center justify-center">
+                        <Activity size={32} strokeWidth={1} className="text-blue-400/50" />
+                      </div>
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] max-w-[200px] leading-loose">
+                        Solicite uma análise sintética da saúde financeira via Gemini Intelligence.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <button 
+                  onClick={handleGenerateAi}
+                  disabled={loadingAi}
+                  className={cn(
+                    "w-full py-5 rounded-[20px] text-[10px] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4 group",
+                    loadingAi ? "bg-slate-800 text-slate-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/20"
+                  )}
+                >
+                  {loadingAi ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} className="group-hover:scale-125 transition-transform" />}
+                  {loadingAi ? 'PROCESSANDO...' : 'GERAR PARECER CFO'}
+                </button>
+              </div>
+            ) : (
+              <div className="bg-gradient-to-br from-amber-600 to-orange-700 rounded-[40px] p-8 text-white relative overflow-hidden shadow-2xl min-h-[580px] flex flex-col border border-white/10">
+                <div className="absolute top-0 right-0 p-8 opacity-10 text-white"><BookOpen size={160} /></div>
+                
+                <div className="flex-1 overflow-y-auto mb-8 bg-black/10 border border-white/10 rounded-[32px] p-8 custom-scrollbar">
+                  {loadingSacerdotal ? (
+                    <div className="h-full flex flex-col items-center justify-center text-white gap-6">
+                      <div className="w-16 h-16 rounded-full border-4 border-white/20 border-t-white animate-spin" />
+                      <p className="text-[10px] font-black uppercase tracking-[0.3em] animate-pulse">Sacerdotal Vision...</p>
+                    </div>
+                  ) : sacerdotalParecer ? (
+                    <div className="text-sm leading-relaxed font-medium text-white/90 whitespace-pre-wrap italic">
+                      {sacerdotalParecer}
+                    </div>
+                  ) : (
+                    <div className="h-full flex flex-col items-center justify-center text-white/40 gap-6 text-center">
+                      <div className="w-16 h-16 rounded-3xl bg-white/10 flex items-center justify-center">
+                        <BookOpen size={32} strokeWidth={1} />
+                      </div>
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] max-w-[200px] leading-loose">
+                        Busque uma perspectiva de alinhamento com os princípios sacerdotal.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <button 
+                  onClick={handleGenerateSacerdotal}
+                  disabled={loadingSacerdotal}
+                  className={cn(
+                    "w-full py-5 rounded-[20px] text-[10px] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4 group",
+                    loadingSacerdotal ? "bg-white/10 text-white/50 cursor-not-allowed" : "bg-white text-amber-900 hover:bg-amber-50 shadow-xl"
+                  )}
+                >
+                  {loadingSacerdotal ? <Loader2 size={16} className="animate-spin" /> : <BookOpen size={16} className="group-hover:rotate-12 transition-transform" />}
+                  {loadingSacerdotal ? 'ANALISANDO...' : 'GERAR LEITURA SACERDOTAL'}
+                </button>
+              </div>
+            )}
+
+            {/* Benchmarks Section Refined */}
+            <div className="bg-white rounded-[40px] p-10 border border-slate-200 shadow-sm relative overflow-hidden group">
+               <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none group-hover:rotate-12 transition-transform duration-1000">
+                 <TrendingUp size={120} />
                </div>
-             </div>
+               
+               <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-10">Setor: {sector}</h4>
+               
+               <div className="space-y-10">
+                  {[
+                    { label: 'Margem EBITDA', value: clientMetrics.ebitdaMargin, benchmark: benchmarks.ebitdaMargin, inverse: false },
+                    { label: 'Liquidez Corrente', value: clientMetrics.currentLiquidity, benchmark: benchmarks.currentLiquidity, inverse: false },
+                    { label: 'Alavancagem', value: clientMetrics.leverage, benchmark: benchmarks.leverage, inverse: true },
+                    { label: 'Margem Líquida', value: clientMetrics.netMargin, benchmark: benchmarks.netMargin, inverse: false },
+                  ].map((item, i) => {
+                    const { min, median, top, unit } = item.benchmark;
+                    const range = top - min || 1;
+                    const pos = Math.max(0, Math.min(100, ((item.value - min) / range) * 100));
+                    const medianPos = Math.max(0, Math.min(100, ((median - min) / range) * 100));
+                    
+                    return (
+                      <div key={i} className="space-y-4">
+                        <div className="flex justify-between items-baseline">
+                          <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest">{item.label}</p>
+                          <div className="flex items-center gap-2">
+                             <span className={cn(
+                               "text-xs font-black",
+                               item.inverse 
+                                ? (item.value <= median ? "text-emerald-600" : "text-rose-600")
+                                : (item.value >= median ? "text-emerald-600" : "text-rose-600")
+                             )}>{item.value.toFixed(1)}{unit}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="relative h-1.5 bg-slate-100 rounded-full">
+                          <div className="absolute inset-0 bg-slate-200 opacity-20 rounded-full" />
+                          <div 
+                            className="absolute top-0 bottom-0 left-0 border-r border-slate-900/20 h-full z-10" 
+                            style={{ left: `${medianPos}%` }} 
+                          />
+                          <motion.div 
+                            initial={{ width: 0 }}
+                            animate={{ width: `${pos}%` }}
+                            className={cn(
+                              "absolute h-full rounded-full transition-colors duration-1000",
+                              item.inverse 
+                                ? (item.value <= median ? "bg-emerald-500" : "bg-rose-500")
+                                : (item.value >= median ? "bg-emerald-500" : "bg-rose-500")
+                            )}
+                          />
+                        </div>
+                        <div className="flex justify-between text-[8px] font-bold text-slate-400 uppercase tracking-tighter">
+                          <span>Min {min}</span>
+                          <span className="text-slate-900">Med {median}</span>
+                          <span>Top {top}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+               </div>
+               
+               <div className="mt-12 pt-6 border-t border-slate-100">
+                 <p className="text-[8px] font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Fontes de Auditoria</p>
+                 <div className="flex flex-wrap gap-x-4 gap-y-2">
+                   {BENCHMARK_SOURCES.slice(0, 3).map((source, idx) => (
+                     <span key={idx} className="text-[9px] font-bold text-slate-400 flex items-center gap-1.5 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all cursor-default">
+                       <ShieldCheck size={10} className="text-blue-500" /> {source.name}
+                     </span>
+                   ))}
+                 </div>
+               </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Strategic Matrix */}
-      <div className="bg-white rounded-[40px] border border-slate-200 p-10 overflow-hidden relative">
-        <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-50" />
-        <div className="relative">
+      {/* Strategic Board Refactored */}
+      <div className="bg-white rounded-[60px] border border-slate-200 p-12 md:p-20 overflow-hidden relative shadow-sm">
+        <div className="absolute -left-20 -bottom-20 w-96 h-96 bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="relative z-10">
           <SectionHeader 
             icon={Target} 
             title="Matriz de Priorização Estratégica" 
-            subtitle="Focos de atuação para o próximo trimestre basedo em impacto financeiro" 
+            subtitle="Focos de atuação baseados no cruzamento de dados e impacto financeiro" 
             tone="blue"
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mt-20">
             <MatrixQuadrant 
               title="Quick Wins" 
-              list={patterns.some(p => p.id === 'scissor_effect') ? ['Revisão PMP fornecedores', 'Redução taxas bank fees'] : ['Estímulo antecipação', 'Venda ativos ociosos']} 
+              list={patterns.some(p => p.id === 'scissor_effect') ? ['Revisão PMP Fornecedores', 'Taxas Bank Fees'] : ['Estímulo Antecipação', 'Venda Ativos Ociosos']} 
               color="emerald" 
             />
             <MatrixQuadrant 
               title="Must Do" 
-              list={patterns.length > 0 ? ['Ajuste Estrutura Capital', 'Corte Gastos Variantes'] : ['Expansão Comercial', 'Treinamento Vendas']} 
+              list={patterns.length > 0 ? ['Ajuste Estrutura Capital', 'Corte Gastos Variáveis'] : ['Expansão Comercial', 'Sales Optimization']} 
               color="blue" 
             />
             <MatrixQuadrant 
               title="Strategic" 
-              list={['Governança Familiar', 'Preparação para M&A']} 
+              list={['Governança Familiar', 'Preparação para M&A', 'Equity Valuation']} 
               color="indigo" 
             />
             <MatrixQuadrant 
               title="Low Priority" 
-              list={['Troca mobiliário', 'Novo site institucional']} 
+              list={['Site Institucional', 'Troca de Mobiliário', 'Branding Local']} 
               color="slate" 
             />
           </div>

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Calendar, Loader2, Upload, Trash2, AlertTriangle, CheckCircle2, X } from 'lucide-react';
+import { Calendar, Loader2, Upload, Trash2, AlertTriangle, CheckCircle2, X, BookOpen } from 'lucide-react';
 import { DATA } from '../../data';
 import { cn, formatCurrency } from '../../lib/utils';
+import { PageHeader } from '../Common';
 import { useAnnualFinancialData } from '../../hooks/useFinancialData';
+
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { parseFinancialPdf, parseFinancialExcel, parseFinancialTxt, inferType } from '../../services/importService';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
@@ -147,69 +149,30 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
   // ─── Render ────────────────────────────────────────────────────────────────
   return (
-    <div className="space-y-8 pb-20">
-
-      {/* ── Toast ─────────────────────────────────────────────────────────── */}
-      {toast && (
-        <div
-          className={cn(
-            'fixed top-6 right-6 z-50 flex items-center gap-3 px-5 py-4 rounded-2xl shadow-2xl border text-sm font-bold animate-in slide-in-from-top-2 duration-300',
-            toast.type === 'success'
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
-              : 'bg-rose-50 border-rose-200 text-rose-700'
-          )}
-        >
-          {toast.type === 'success' ? <CheckCircle2 size={16} /> : <AlertTriangle size={16} />}
-          {toast.message}
-          <button onClick={() => setToast(null)} className="ml-2 opacity-60 hover:opacity-100">
-            <X size={14} />
-          </button>
-        </div>
-      )}
-
-      {/* ── Modal de Importação ───────────────────────────────────────────── */}
-      {showImportModal && (
-        <ImportFinancialModal
-          type="Balanço Patrimonial"
-          clientId={filterClient}
-          year={filterYear}
-          clients={clients}
-          onClose={() => setShowImportModal(false)}
-          onSuccess={() => {
-            setShowImportModal(false);
-            refetchBP();
-            refetchShort();
-          }}
-        />
-      )}
-
-      {/* ── Barra de filtros ─────────────────────────────────────────────── */}
-      <div className="flex flex-wrap gap-3 mb-8 items-center">
-        {/* Filtros */}
-        <div className="flex flex-wrap gap-0 bg-white p-3 rounded-2xl border border-slate-100 shadow-sm items-center">
-          {/* Cliente */}
-          <div className="flex items-center px-4 py-2 border-r border-slate-100">
-            <label className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mr-4">
-              Cliente
-            </label>
+    <div className="space-y-10 pb-32 animate-executive-fade">
+      <PageHeader 
+        title="Balanço Patrimonial" 
+        subtitle="Visão estática da posição financeira, ativos, passivos e patrimônio líquido para análise de solvência e estrutura de capital."
+        icon={BookOpen}
+        color="bg-slate-900"
+      />
+      
+      <div className="flex flex-wrap gap-4 -mt-6 mb-8 justify-end">
+          <div className="flex bg-slate-50 p-1.5 rounded-2xl border border-slate-100 items-center">
             <select
               onChange={(e) => setFilterClient(e.target.value)}
               value={filterClient}
-              className="text-sm font-bold text-primary outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              className="bg-transparent px-4 py-2 text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer"
             >
               {clients.map((c: any) => (
                 <option key={c.id} value={c.id}>{c.fantasia}</option>
               ))}
             </select>
-          </div>
-
-          {/* Ano */}
-          <div className="flex items-center px-4 py-2 border-r border-slate-200">
-            <Calendar size={14} className="text-slate-400 mr-2" />
+            <div className="w-px bg-slate-200 mx-1 h-4" />
             <select
               onChange={(e) => setFilterYear(Number(e.target.value))}
               value={filterYear}
-              className="text-sm font-semibold outline-none bg-transparent cursor-pointer"
+              className="bg-transparent px-4 py-2 text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer"
             >
               {Array.from({ length: 21 }, (_, i) => 2010 + i).map((y) => (
                 <option key={y} value={y}>{y}</option>
@@ -217,47 +180,32 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
             </select>
           </div>
 
-          {/* Status */}
-          <div className="flex items-center px-4 py-2 min-w-[130px]">
-            {loading && <Loader2 size={12} className="animate-spin text-blue-600 mr-2" />}
-            <span
-              className={cn(
-                'text-[9px] font-black uppercase tracking-tighter',
-                dbData.length > 0 ? 'text-emerald-500' : 'text-slate-400'
-              )}
-            >
-              {loading ? 'Carregando...' : dbData.length > 0 ? 'Dados Reais' : 'Amostra'}
+          <div className="px-6 py-4 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
+            {loading && <Loader2 size={14} className="animate-spin text-blue-600" />}
+            <span className={cn('text-[10px] font-black uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-emerald-500' : 'text-slate-400')}>
+              {dbData.length > 0 ? 'Dados Reais' : 'Amostra'}
             </span>
           </div>
+
+          <button
+            onClick={() => setShowImportModal(true)}
+            className="px-8 py-4 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
+          >
+            <Upload size={16} /> IMPORTAR
+          </button>
+
+          <button
+            onClick={() => setShowDeleteConfirm(true)}
+            disabled={dbData.length === 0}
+            className={cn(
+              'px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm border flex items-center gap-2',
+              dbData.length === 0 ? 'bg-slate-50 text-slate-300 border-slate-100 pointer-events-none' : 'bg-rose-50 text-rose-600 border-rose-100 hover:bg-rose-100'
+            )}
+          >
+            <Trash2 size={16} /> EXCLUIR
+          </button>
         </div>
 
-        {/* Botão Importar */}
-        <button
-          onClick={() => {
-            console.log('Abrindo modal de importação...');
-            setShowImportModal(true);
-          }}
-          className="flex items-center gap-2 px-5 py-3 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-sm shadow-secondary/20 border border-secondary"
-        >
-          <Upload size={14} />
-          Importar Arquivo (Novo)
-        </button>
-
-        {/* Botão Excluir */}
-        <button
-          onClick={() => setShowDeleteConfirm(true)}
-          disabled={dbData.length === 0}
-          className={cn(
-            'flex items-center gap-2 px-5 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-sm border',
-            dbData.length === 0
-              ? 'bg-slate-50 text-slate-300 border-slate-100 pointer-events-none'
-              : 'bg-rose-50 text-rose-600 border-rose-100 hover:bg-rose-100'
-          )}
-        >
-          <Trash2 size={14} />
-          Excluir
-        </button>
-      </div>
 
       {/* ── Indicadores de Liquidez ──────────────────────────────────────── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">

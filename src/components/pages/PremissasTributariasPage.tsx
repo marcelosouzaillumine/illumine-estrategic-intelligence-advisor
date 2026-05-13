@@ -12,7 +12,7 @@ export function PremissasTributariasPage({ clients }: any) {
     <div className="space-y-12">
       <PageHeader 
         title="Premissas Tributárias 2026" 
-        description="Parâmetros legais e alíquotas vigentes para Simples Nacional, Lucro Presumido e Lucro Real."
+        subtitle="Parâmetros legais e alíquotas vigentes para Simples Nacional, Lucro Presumido e Lucro Real."
       />
 
       {/* Regimes Summary */}

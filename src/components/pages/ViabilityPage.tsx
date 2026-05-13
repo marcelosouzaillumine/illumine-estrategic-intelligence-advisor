@@ -296,38 +296,44 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
   };
 
   const header = (
-    <div className="flex items-center justify-between">
-      <PageHeader 
-        title="Análise de Viabilidade Econômica" 
-        description="Projeções financeiras de investimentos (CAPEX), retorno de capital e NCG. Explore cenários hipotéticos para avaliar a resiliência do projeto."
-      />
-      <button 
-        onClick={() => setShowModal(true)}
-        className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-xs hover:bg-blue-700 transition-all shadow-lg active:scale-95"
-      >
-        <Plus size={16} />
-        NOVO PROJETO
-      </button>
+    <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
+      <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+        <PageHeader 
+          title="Viabilidade Econômica" 
+          subtitle={`Análise estratégica de investimentos, retorno de capital e NCG · ${clients.find(c => c.id === selectedClient)?.fantasia || 'Cliente'}`}
+          icon={<Activity className="text-primary" size={24} />}
+          color="primary"
+        />
+        <div className="flex gap-3">
+          <button 
+            onClick={() => setShowModal(true)}
+            className="px-8 py-3 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-2"
+          >
+            <Plus size={16} /> ADICIONAR PROJETO
+          </button>
+        </div>
+      </div>
     </div>
   );
 
   if (filteredProjects.length === 0 && !showModal) {
     return (
-      <div className="space-y-12 pb-20">
+      <div className="space-y-10 pb-20 animate-executive-fade">
         {header}
-        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200 rounded-3xl p-20 text-center">
+        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200/60 rounded-[40px] p-20 text-center shadow-sm">
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
             <Activity size={48} className="text-slate-200" />
           </div>
-          <h3 className="text-xl font-bold text-slate-800 mb-2">Sem projetos vinculados</h3>
-          <p className="text-slate-500 max-w-md mb-8">Nenhum projeto de viabilidade econômica foi cadastrado para o cliente {clients.find(c => c.id === selectedClient)?.fantasia || 'selecionado'} até o momento.</p>
+          <h3 className="text-xl font-black text-slate-900 mb-2">Sem projetos vinculados</h3>
+          <p className="text-slate-500 max-w-md mb-8 font-medium">Nenhum projeto de viabilidade econômica foi cadastrado para este cliente até o momento.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-12 pb-20">
+    <div className="space-y-10 pb-20 animate-executive-fade">
       {header}
 
       {showModal && (
@@ -339,7 +345,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
           >
             <div className="p-8 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-black text-slate-900">Novo Projeto de Viabilidade</h3>
+                <h3 className="text-xl font-black text-slate-900">Lançar Projeto de Viabilidade</h3>
                 <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Configuração inicial de CAPEX e unidade.</p>
               </div>
               <button 

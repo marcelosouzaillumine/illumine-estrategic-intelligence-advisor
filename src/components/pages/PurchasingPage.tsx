@@ -36,13 +36,13 @@ import {
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{label}</p>
+    <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
+      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors">{label}</p>
       <h3 className={cn(
         "text-2xl font-black tracking-tight",
         tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
       )}>{value}</h3>
-      {helper && <p className="text-[10px] text-slate-400 mt-2 italic">{helper}</p>}
+      {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80">{helper}</p>}
     </div>
   );
 }
@@ -156,16 +156,21 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
   }, [items]);
 
   return (
-    <div className="space-y-8 pb-20">
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-        <PageHeader 
-          title="Gestão de Compras" 
-          description="Análise comparativa de fornecedores, economia gerada e curva ABC de insumos."
-        />
-        <div className="flex gap-3 mb-10">
-          <div className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-xl border border-emerald-100 flex items-center gap-2">
-            <TrendingDown size={16} />
-            <span className="text-[10px] font-black uppercase tracking-widest">Economia Acumulada: {formatCurrency(stats.totalEconomy)}</span>
+    <div className="space-y-10 pb-20 animate-executive-fade">
+      <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+          <PageHeader 
+            title="Gestão de Compras" 
+            subtitle={`Análise comparativa de fornecedores, economia gerada e curva ABC de insumos · ${clients.find(c => c.id === selectedClient)?.fantasia || 'Cliente'}`}
+            icon={<ShoppingBag className="text-secondary" size={24} />}
+            color="secondary"
+          />
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="px-6 py-3 bg-white/5 text-emerald-400 border border-white/10 rounded-2xl flex items-center gap-2">
+              <TrendingDown size={14} />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em]">ECONOMIA ACUMULADA: {formatCurrency(Math.floor(stats.totalEconomy))}</span>
+            </div>
           </div>
         </div>
       </div>

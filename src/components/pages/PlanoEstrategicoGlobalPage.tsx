@@ -25,11 +25,11 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanoEstrategicoGlobalP
   const axes = [
     { id: 'gov', title: 'Governança', icon: ShieldCheck, color: 'text-blue-500', bg: 'bg-blue-50', status: '85%', goals: 12 },
     { id: 'cul', title: 'Cultura', icon: Users, color: 'text-rose-500', bg: 'bg-rose-50', status: '72%', goals: 8 },
+    { id: 'ges', title: 'Gestão', icon: TrendingUp, color: 'text-slate-700', bg: 'bg-slate-100', status: '95%', goals: 20 },
     { id: 'ino', title: 'Inovação', icon: Lightbulb, color: 'text-amber-500', bg: 'bg-amber-50', status: '45%', goals: 15 },
     { id: 'mkt', title: 'Marketing', icon: Globe, color: 'text-indigo-500', bg: 'bg-indigo-50', status: '60%', goals: 6 },
     { id: 'com', title: 'Comercial', icon: ShoppingBag, color: 'text-emerald-500', bg: 'bg-emerald-50', status: '90%', goals: 10 },
-    { id: 'ope', title: 'Operacional', icon: Settings, color: 'text-orange-500', bg: 'bg-orange-50', status: '88%', goals: 14 },
-    { id: 'ges', title: 'Gestão', icon: TrendingUp, color: 'text-slate-700', bg: 'bg-slate-100', status: '95%', goals: 20 }
+    { id: 'ope', title: 'Operação', icon: Settings, color: 'text-orange-500', bg: 'bg-orange-50', status: '88%', goals: 14 }
   ];
 
   return (
@@ -111,7 +111,7 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanoEstrategicoGlobalP
                  { label: 'Reestruturação Financeira', axis: 'Gestão', progress: 100, status: 'Concluído' },
                  { label: 'Expansão de Mercado Norte', axis: 'Comercial', progress: 65, status: 'Em Curso' },
                  { label: 'Novo Programa de Trainee', axis: 'Cultura', progress: 30, status: 'Atrasado' },
-                 { label: 'Migração Cloud 2.0', axis: 'Operacional', progress: 85, status: 'Finalizando' }
+                 { label: 'Migração Cloud 2.0', axis: 'Operação', progress: 85, status: 'Finalizando' }
                ].map((task, i) => (
                  <div key={i} className="space-y-3">
                     <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">

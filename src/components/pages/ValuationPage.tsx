@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Calculator, Loader2, TrendingUp, Zap } from 'lucide-react';
+import { Calculator, Loader2, TrendingUp, Zap, BarChart3 } from 'lucide-react';
 import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
@@ -53,27 +53,46 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
   const enterpriseValueDCF = (freeCashFlow / (1 + (wacc/100))) + (terminalValue / (1 + (wacc/100)));
 
   return (
-    <div className="space-y-8 pb-20">
-      <div className="flex items-center justify-between mb-2">
-        <PageHeader title="Valuation Business" description="Avaliação de valor de mercado utilizando múltiplos de mercado e fluxo de caixa descontado." />
-        <div className="flex items-center gap-2">
-          <select value={year} onChange={(e) => setYear(Number(e.target.value))} className="bg-white border border-slate-200 px-3 py-2 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-blue-500/20">
-            <option value={2026}>2026</option>
-            <option value={2025}>2025</option>
-          </select>
-          <select value={month} onChange={(e) => setMonth(Number(e.target.value))} className="bg-white border border-slate-200 px-3 py-2 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-blue-500/20">
-            <option value={1}>Jan</option>
-            <option value={2}>Fev</option>
-            <option value={3}>Mar</option>
-          </select>
-          <div className="flex items-center px-4 py-2 bg-white border border-slate-200 rounded-xl">
-            {loading && <Loader2 size={12} className="animate-spin text-blue-600 mr-2" />}
-            <span className="text-[9px] font-black uppercase tracking-tighter text-slate-400">
-              Base Projeção: {hasDbData ? 'Dados Reais' : 'Amostra'}
+    <div className="space-y-10 pb-32 animate-executive-fade">
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+        <div className="flex-1">
+          <PageHeader 
+            title="Valuation Business" 
+            subtitle="Avaliação estratégica de valor de mercado utilizando múltiplos setoriais e fluxo de caixa descontado (DCF)." 
+            icon={BarChart3}
+            color="bg-slate-900"
+          />
+        </div>
+        <div className="flex items-center gap-4 pt-10">
+          <div className="flex bg-slate-50 p-1.5 rounded-2xl border border-slate-100">
+            <select 
+              value={year} 
+              onChange={(e) => setYear(Number(e.target.value))} 
+              className="bg-transparent px-4 py-2 text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer"
+            >
+              <option value={2026}>2026</option>
+              <option value={2025}>2025</option>
+            </select>
+            <div className="w-px bg-slate-200 mx-1" />
+            <select 
+              value={month} 
+              onChange={(e) => setMonth(Number(e.target.value))} 
+              className="bg-transparent px-4 py-2 text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer"
+            >
+              <option value={1}>Jan</option>
+              <option value={2}>Fev</option>
+              <option value={3}>Mar</option>
+            </select>
+          </div>
+          <div className="px-6 py-3.5 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-3">
+            {loading && <Loader2 size={14} className="animate-spin text-blue-600" />}
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+              {hasDbData ? 'Dados Reais' : 'Amostra'}
             </span>
           </div>
         </div>
       </div>
+
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1 space-y-6">
@@ -86,7 +105,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
             <div className="space-y-6">
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase">Múltiplo EBITDA</label>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase">Múltiplo de EBITDA</label>
                   <span className="text-[10px] font-black text-blue-600">{multiple}x</span>
                 </div>
                 <input type="range" min="2" max="15" step="0.5" value={multiple} onChange={(e) => setMultiple(parseFloat(e.target.value))} className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600" />
@@ -138,7 +157,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
               <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-4">
                 <TrendingUp size={24} />
               </div>
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Múltiplo de Mercado</h4>
+              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Múltiplo de EBITDA</h4>
               <p className="text-3xl font-black text-slate-900 mb-2">{formatCurrency(valuationEbitda)}</p>
               <div className="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-lg">
                 MÉTODO COMPARATIVO

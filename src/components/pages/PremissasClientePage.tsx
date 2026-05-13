@@ -215,7 +215,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
       <div className="flex items-center justify-between">
         <PageHeader 
           title="Premissas do Cliente" 
-          description="Configure os descasamentos de prazos e taxas de crescimento para projeções financeiras personalizadas."
+          subtitle="Configure os descasamentos de prazos e taxas de crescimento para projeções financeiras personalizadas."
         />
         <button 
           onClick={handleSave}
@@ -341,7 +341,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
               className="w-full py-4 bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-blue-600 transition-colors flex items-center justify-center gap-2 border-t border-slate-100"
             >
               <Plus size={14} />
-              Adicionar Novo Tipo de Receita
+              Adicionar Tipo de Receita
             </button>
           </div>
 
@@ -454,7 +454,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
               className="w-full py-4 bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-blue-600 transition-colors flex items-center justify-center gap-2 border-t border-slate-100"
             >
               <Plus size={14} />
-              Adicionar Novo Tipo de Despesa
+              Adicionar Tipo de Despesa
             </button>
           </div>
         </div>

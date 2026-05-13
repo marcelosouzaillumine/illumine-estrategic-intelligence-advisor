@@ -50,44 +50,49 @@ export function ClientSelector({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex items-center gap-3 px-4 py-2 rounded-2xl transition-all duration-300 group",
+          "flex items-center gap-4 px-6 py-3 rounded-standard transition-all duration-700 group relative overflow-hidden",
           isOpen 
-            ? "bg-slate-900 text-white shadow-xl shadow-slate-900/20" 
-            : "bg-slate-50/50 border border-slate-100 backdrop-blur-sm hover:bg-white hover:border-primary/20 hover:shadow-lg hover:shadow-slate-200/50"
+            ? "bg-primary text-white shadow-floating" 
+            : "hover:bg-bg-surface/50"
         )}
       >
         <div className={cn(
-          "w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden shrink-0 transition-all duration-500",
-          isOpen ? "bg-white/10" : "bg-slate-50 group-hover:bg-primary/5"
+          "w-8 h-8 flex items-center justify-center shrink-0 transition-all duration-700 overflow-hidden",
+          isOpen 
+            ? "bg-white shadow-sm" 
+            : "bg-white shadow-sm"
         )}>
           {currentClient?.icon || currentClient?.logo ? (
             <img 
               src={currentClient.icon || currentClient.logo} 
               alt={currentClient.fantasia} 
-              className="w-full h-full object-contain p-1.5"
+              className="w-full h-full object-contain"
             />
           ) : (
-            <Building2 size={20} className={cn(
+            <Building2 size={24} strokeWidth={1} className={cn(
               "transition-colors",
-              isOpen ? "text-white" : "text-slate-400 group-hover:text-primary"
+              isOpen ? "text-primary" : "text-text-dim group-hover:text-accent"
             )} />
           )}
         </div>
         
-        <div className="text-left hidden md:block">
+        <div className="text-left hidden md:block relative z-10">
           <p className={cn(
-            "text-[10px] font-black uppercase tracking-[0.2em] mb-0.5 opacity-60",
-            isOpen ? "text-slate-400" : "text-slate-400"
+            "text-[10px] font-bold uppercase tracking-[0.4em] mb-1.5 transition-colors duration-500",
+            isOpen ? "text-white/60" : "text-accent"
           )}>
-            Cliente Selecionado
+            Active Client
           </p>
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-bold truncate max-w-[180px] tracking-tight">
-              {currentClient?.fantasia || 'Selecionar Cliente'}
-            </h3>
-            <ChevronDown size={14} className={cn(
-              "transition-transform duration-500",
-              isOpen ? "rotate-180 text-secondary" : "text-slate-300 group-hover:text-primary"
+          <div className="flex items-center gap-3">
+            <span className={cn(
+              "text-[15px] font-bold tracking-tight transition-all duration-500 block leading-tight",
+              isOpen ? "!text-white" : "text-text-main"
+            )}>
+              {currentClient?.fantasia || 'Select Corporation'}
+            </span>
+            <ChevronDown size={14} strokeWidth={1} className={cn(
+              "transition-transform duration-500 shrink-0",
+              isOpen ? "rotate-180 !text-white" : "text-text-dim group-hover:text-accent"
             )} />
           </div>
         </div>
@@ -195,7 +200,7 @@ export function ClientSelector({
                 }}
                 className="flex-1 flex items-center justify-center gap-2 py-3 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-white rounded-xl transition-all"
               >
-                <Plus size={14} /> Novo Cliente
+                <Plus size={14} /> Cadastrar Empresa
               </button>
             </div>
           </motion.div>

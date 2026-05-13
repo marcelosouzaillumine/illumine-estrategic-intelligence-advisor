@@ -387,19 +387,24 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
         };
     }, [amount, months, loanNominalRate, loanResults, consortiumAdminFee, consortiumReserveFund, projectedInflation, investmentYield, loanGracePeriod, consortiumReducedPercentage, consortiumContemplationMonth]);
   return (
-    <div className="space-y-8 pb-20 max-w-7xl mx-auto print:p-0">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 no-print bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
-        <PageHeader 
-          title="Inteligência de Capital & Crédito" 
-          description="Simulador de decisão estratégica entre alavancagem imediata (empréstimo) vs. planejamento estruturado (consórcio)."
-        />
-        <div className="flex gap-3">
-          <button 
-            onClick={() => window.print()}
-            className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg active:scale-95"
-          >
-            <Printer size={16} /> Relatório Executivo
-          </button>
+    <div className="space-y-10 pb-20 max-w-7xl mx-auto print:p-0 animate-executive-fade">
+      <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden no-print">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+          <PageHeader 
+            title="Inteligência de Capital" 
+            subtitle="Simulador estratégico de decisão entre alavancagem imediata vs. planejamento estruturado"
+            icon={<Calculator className="text-primary" size={24} />}
+            color="primary"
+          />
+          <div className="flex gap-3">
+            <button 
+              onClick={() => window.print()}
+              className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
+            >
+              <Printer size={16} /> RELATÓRIO EXECUTIVO
+            </button>
+          </div>
         </div>
       </div>
 

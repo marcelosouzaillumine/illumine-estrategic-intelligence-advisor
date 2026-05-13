@@ -6,7 +6,8 @@ import {
 } from 'lucide-react';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
-import { formatCurrency, cn } from '../../lib/utils';
+import { PageHeader, StatusBadge } from '../Common';
+import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { EixoGestao } from '../../types/modules';
 import { SACERDOTAL_PRINCIPLES, evaluateAxisRules } from '../../lib/sacerdotalIntelligence';
 import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
@@ -18,9 +19,9 @@ interface AxisDashboardPageProps {
   onNavigate?: (page: Page) => void;
 }
 
-const AXIS_CONFIG: Record<EixoGestao, any> = {
+const AXIS_CONFIG: Record<string, any> = {
   'Governança': {
-    title: 'Dashboard de Governança',
+    title: 'Dashboard',
     subtitle: 'Monitoramento estratégico de performance e maturidade corporativa.',
     icon: ShieldCheck,
     color: 'bg-slate-900',
@@ -32,7 +33,7 @@ const AXIS_CONFIG: Record<EixoGestao, any> = {
     ]
   },
   'Cultura': {
-    title: 'Dashboard de Cultura & DHO',
+    title: 'Dashboard',
     subtitle: 'Monitoramento de clima organizacional e desenvolvimento humano.',
     icon: Users,
     color: 'bg-purple-900',
@@ -44,7 +45,7 @@ const AXIS_CONFIG: Record<EixoGestao, any> = {
     ]
   },
   'Inovação': {
-    title: 'Dashboard de Inovação',
+    title: 'Dashboard',
     subtitle: 'Gestão de portfólio de projetos, viabilidade e P&D.',
     icon: Lightbulb,
     color: 'bg-cyan-900',
@@ -56,7 +57,7 @@ const AXIS_CONFIG: Record<EixoGestao, any> = {
     ]
   },
   'Marketing': {
-    title: 'Dashboard de Marketing',
+    title: 'Dashboard',
     subtitle: 'Performance de comunicação, branding e geração de leads.',
     icon: Globe,
     color: 'bg-blue-900',
@@ -68,7 +69,7 @@ const AXIS_CONFIG: Record<EixoGestao, any> = {
     ]
   },
   'Comercial': {
-    title: 'Dashboard Comercial',
+    title: 'Dashboard',
     subtitle: 'Monitoramento de pipeline, conversão e receitas.',
     icon: ShoppingBag,
     color: 'bg-emerald-900',
@@ -79,8 +80,8 @@ const AXIS_CONFIG: Record<EixoGestao, any> = {
       { label: 'CAC', value: 450, isCur: true, status: 'neutral', icon: BarChart3 },
     ]
   },
-  'Operacional': {
-    title: 'Dashboard Operacional',
+  'Operação': {
+    title: 'Dashboard',
     subtitle: 'Métricas de eficiência, logística e qualidade de produção.',
     icon: Activity,
     color: 'bg-amber-800',
@@ -92,7 +93,7 @@ const AXIS_CONFIG: Record<EixoGestao, any> = {
     ]
   },
   'Gestão': {
-    title: 'Dashboard de Gestão Financeira',
+    title: 'Dashboard',
     subtitle: 'Indicadores financeiros vitais e estrutura de capital.',
     icon: BarChart3,
     color: 'bg-slate-800',
@@ -150,38 +151,20 @@ export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardP
   };
 
   return (
-    <div className="space-y-10 pb-32">
-      {/* Header do Eixo */}
-      <div className={cn("relative overflow-hidden p-12 rounded-[48px] text-white shadow-2xl", config.color)}>
-        <div className="absolute top-0 right-0 p-12 opacity-10">
-            <config.icon size={200} strokeWidth={1} />
-        </div>
-        <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
-                <LayoutGrid size={24} className="text-white" />
-              </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/80">{axis}</span>
-            </div>
-            <h1 className="text-4xl lg:text-5xl font-black tracking-tighter">{config.title}</h1>
-            <p className="text-white/60 font-medium max-w-xl leading-relaxed">
-              {config.subtitle}
-            </p>
+    <div className="space-y-10 pb-32 animate-executive-fade">
+      <PageHeader 
+        title={config.title === 'Dashboard' ? `Monitoramento de ${axis}` : config.title}
+        subtitle={config.subtitle}
+        icon={<config.icon className="text-primary" size={24} />}
+        actions={
+          <div className="px-6 py-3 bg-white/5 border border-white/10 rounded-2xl flex items-center gap-3">
+             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+             <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Monitoramento em Tempo Real</span>
           </div>
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[32px] text-right flex flex-col items-end gap-3">
-             <span className="text-[10px] font-black text-white/50 uppercase tracking-widest block">Índice Sacerdotal do Eixo</span>
-             <div className="flex items-center gap-3">
-                <span className="text-4xl font-black text-amber-400">{alignmentScore}</span>
-                <div className="px-2 py-1 bg-amber-500/20 text-amber-300 rounded-lg text-[10px] font-black uppercase tracking-widest border border-amber-500/30 flex items-center gap-1">
-                  <BookOpen size={12} /> Forte
-                </div>
-             </div>
-          </div>
-        </div>
-      </div>
+        }
+      />
 
-      {/* KPI Grid */}
+      {/* KPI Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {config.primaryKPIs.map((kpi: any, idx: number) => {
           const Icon = kpi.icon !== 'AlertCircle' ? kpi.icon : Activity;
@@ -189,21 +172,37 @@ export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardP
             <motion.div 
               key={idx}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group"
+              className="bg-white p-8 rounded-[32px] border border-slate-200/60 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
             >
-              <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-primary/5 group-hover:text-primary transition-all mb-6">
-                 <Icon size={24} />
+              <div className="flex items-center justify-between mb-8">
+                <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                  <Icon size={24} />
+                </div>
+                {kpi.status && (
+                  <div className={cn(
+                    "px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border",
+                    kpi.status === 'positive' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : 
+                    kpi.status === 'negative' ? "bg-rose-50 text-rose-600 border-rose-100" : 
+                    "bg-amber-50 text-amber-600 border-amber-100"
+                  )}>
+                    {kpi.status === 'positive' ? 'SAUDÁVEL' : kpi.status === 'negative' ? 'CRÍTICO' : 'ATENÇÃO'}
+                  </div>
+                )}
               </div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{kpi.label}</p>
-              <div className="flex items-end gap-3">
-                 <p className="text-3xl font-black text-slate-800 tracking-tighter">
-                   {kpi.isCur ? formatCurrency(kpi.value) : `${kpi.value}${kpi.suffix || ''}`}
-                 </p>
+
+              <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors whitespace-nowrap">{kpi.label}</p>
+                <div className="flex items-baseline gap-2">
+                  <p className="text-4xl font-black text-slate-900 tabular-nums tracking-tighter whitespace-nowrap">
+                    {formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '')}
+                  </p>
+                </div>
               </div>
             </motion.div>
-          )
+          );
         })}
       </div>
 

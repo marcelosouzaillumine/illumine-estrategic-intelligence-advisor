@@ -1,154 +1,225 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Tilt+Warp&family=Work+Sans:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  /* Signature Executive Typography */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", serif;
+  --font-logo: "Tilt Warp", display;
+  --font-subtitle: "Work Sans", sans-serif;
   
-  --color-primary: #0e1c2c;
-  --color-secondary: #ff8552;
-  --color-accent: #bab86c;
-  --color-light: #f8fafc;
+  /* Bespoke Palette - Midnight & Brass */
+  --color-primary: #0a192f;    /* Bespoke Midnight */
+  --color-secondary: #1e3a8a;  /* Corporate Navy */
+  --color-accent: #b59a6d;     /* Champagne Brass */
   
-  --color-background-primary: #f8fafc;
-  --color-background-secondary: #ffffff;
-  --color-border-tertiary: #e2e8f0;
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
+  /* Semantic Colors - Light Mode (High-Depth Pearl) */
+  --color-bg-main: #fcfcfb;
+  --color-bg-card: #ffffff;
+  --color-bg-surface: #f7f7f5;
   
-  --border-radius-lg: 1.5rem;
-  --border-radius-md: 1rem;
-  --border-radius-xl: 2.5rem;
-  --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-  --shadow-elegant: 0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03);
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-blur: blur(12px);
+  --color-text-main: #0a192f;
+  --color-text-muted: #4b5563;
+  --color-text-dim: #9ca3af;
+  
+  --color-border-main: rgba(10, 25, 47, 0.03);
+  --color-border-soft: rgba(10, 25, 47, 0.015);
+  
+  /* Signature Gradients */
+  --gradient-executive: linear-gradient(135deg, #0a192f 0%, #1e3a8a 100%);
+  --gradient-soft: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+  
+  /* Precision Depth System - Multi-layered */
+  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.04), 0 4px 6px -1px rgba(0, 0, 0, 0.01);
+  --shadow-glow: 0 0 50px rgba(181, 154, 109, 0.08);
+  --shadow-floating: 0 30px 60px -12px rgba(0, 0, 0, 0.05);
+  --shadow-separator: 0 1px 15px rgba(0, 0, 0, 0.02);
+  
+  /* Glassmorphism 5.0 - Dynamic Depth */
+  --glass-bg: rgba(252, 252, 251, 0.7);
+  --glass-border: rgba(10, 25, 47, 0.01);
+  --glass-blur: 24px;
+
+  /* Executive Radii - Refined Softness */
+  --radius-executive: 1.25rem;
+  --radius-standard: 0.75rem;
+  --radius-compact: 0.5rem;
+}
+
+.dark {
+  /* Semantic Colors - Dark Mode (Deep Obsidian) */
+  --color-bg-main: #000000;
+  --color-bg-card: #050508;
+  --color-bg-surface: #0a0a0f;
+  
+  --color-text-main: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-text-dim: #475569;
+  
+  --color-border-main: rgba(255, 255, 255, 0.05);
+  --color-border-soft: rgba(255, 255, 255, 0.02);
+  
+  --glass-bg: rgba(5, 5, 8, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  
+  --shadow-premium: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 60px rgba(181, 154, 109, 0.08);
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply font-sans text-text-primary bg-background-primary min-h-screen antialiased selection:bg-secondary/20 selection:text-secondary;
+    @apply font-sans bg-bg-main text-text-main min-h-screen antialiased transition-colors duration-500 overflow-x-hidden;
+    letter-spacing: -0.015em;
   }
   
-  h1, h2, h3, h4, .title-font {
-    @apply font-display tracking-tight font-extrabold;
-    color: inherit;
+  /* Professional Heading Hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tighter text-text-main transition-colors duration-500;
+    line-height: 1.1;
   }
 
-  /* Specific handling for truncating if needed */
-  .truncate-title {
-    @apply truncate block;
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl font-black; }
+  h2 { @apply text-3xl md:text-4xl lg:text-5xl font-extrabold; }
+  h3 { @apply text-2xl md:text-3xl font-bold; }
+  h4 { @apply text-xl md:text-2xl font-bold; }
+
+  /* Interactive Elements */
+  a, button {
+    @apply outline-none transition-all duration-300;
   }
 
-  /* Default heading color as primary if not inherited otherwise */
-  :not(.text-white) > h1, :not(.text-white) > h2, :not(.text-white) > h3, :not(.text-white) > h4 {
-    @apply text-primary;
-  }
-  
-  .text-white h1, .text-white h2, .text-white h3, .text-white h4 {
-    @apply text-white;
+  input, select, textarea {
+    @apply bg-bg-card border-border-main text-text-main focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all;
   }
 
-  /* Specific styling for executive commentary */
-  .executive-note {
-    @apply font-serif italic text-lg leading-relaxed text-slate-700 relative pl-8 border-l-4 border-secondary/30;
+  /* Executive Typography Components */
+  .text-executive {
+    @apply font-serif italic text-lg md:text-xl leading-relaxed text-text-muted border-l-4 border-secondary/40 pl-6 my-6 transition-all;
+  }
+
+  .text-label {
+    @apply text-[10px] font-black uppercase tracking-[0.2em] text-text-dim mb-1 block;
   }
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-elegant rounded-3xl;
-  }
-  
-  .bento-grid {
-    @apply grid gap-6;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  }
-  
-  .interactive-card {
-    @apply transition-all duration-300 hover:shadow-elegant hover:-translate-y-1 active:scale-[0.98] rounded-3xl;
+  /* Premium Containers */
+  .card-premium {
+    @apply bg-bg-card border border-border-main shadow-premium rounded-executive p-6 md:p-8 transition-all hover:shadow-floating hover:-translate-y-1;
   }
 
-  .btn-primary {
-    @apply px-6 py-3 bg-primary text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg shadow-primary/10;
+  .card-glass {
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    @apply shadow-premium rounded-executive transition-all;
   }
 
-  .btn-secondary {
-    @apply px-6 py-3 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20;
+  .card-interactive {
+    @apply hover:border-secondary/30 hover:bg-secondary/5 transition-all cursor-pointer;
   }
 
-  /* Prevent line breaks for card numbers and values, but allow on small screens if necessary */
-  .value-font {
-    @apply font-display whitespace-nowrap;
+  /* Responsive Grid System */
+  .layout-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8;
+  }
+
+  .bento-layout {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    @apply gap-6;
+  }
+
+  /* Button System */
+  .btn-base {
+    @apply flex items-center justify-center gap-2 px-6 py-3.5 rounded-standard font-bold text-xs uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-executive {
+    @apply btn-base bg-text-main text-bg-main shadow-lg hover:shadow-glow hover:-translate-y-0.5;
+  }
+
+  .btn-accent {
+    @apply btn-base bg-secondary text-white shadow-xl shadow-secondary/20 hover:bg-secondary/90 hover:shadow-secondary/30;
+  }
+
+  .btn-ghost {
+    @apply btn-base bg-transparent border border-border-main text-text-muted hover:bg-bg-surface hover:text-text-main;
+  }
+
+  /* Micro-interactions */
+  .hover-glow {
+    @apply hover:shadow-glow transition-shadow duration-500;
+  }
+
+  .value-display {
+    @apply font-display text-text-main font-bold tabular-nums tracking-tighter whitespace-nowrap;
   }
 }
 
-.semaforo {
-  @apply inline-block w-2.5 h-2.5 rounded-full mr-2;
-}
-
-.semaforo.verde { @apply bg-emerald-500; }
-.semaforo.amarelo { @apply bg-amber-500; }
-.semaforo.vermelho { @apply bg-rose-500; }
-
-.badge {
-  @apply text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider;
-}
-
-.badge-verde { @apply bg-emerald-100 text-emerald-700; }
-.badge-amarelo { @apply bg-amber-100 text-amber-700; }
-.badge-vermelho { @apply bg-rose-100 text-rose-700; }
-
-/* Custom scrollbar for a cleaner look */
+/* Scrollbar Customization */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  @apply bg-bg-main;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-200 rounded-full;
+  @apply bg-text-dim/20 rounded-full hover:bg-text-dim/40 transition-colors;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-300;
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 rounded-full hover:bg-amber-200 transition-colors;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-executive-fade {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Utility Overrides for Visual Clarity */
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Device Specific Fine-tuning */
+@media (max-width: 640px) {
+  :root {
+    --radius-executive: 1.5rem;
+  }
+  .card-premium {
+    @apply p-5;
+  }
 }
 
 @media print {
-  aside, 
-  header, 
-  button,
-  .print\:hidden,
-  .no-print {
-    display: none !important;
-  }
-  
-  main {
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: visible !important;
-  }
-
-  .flex-1 {
-    overflow: visible !important;
-  }
-
-  body {
-    background-color: white !important;
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
-  }
-
-  .bg-white, .bg-slate-50, .bg-rose-50, .bg-emerald-50 {
-    background-color: white !important;
-    border: 1px solid #e2e8f0 !important;
-  }
-
-  .shadow-sm, .shadow-lg, .shadow-md {
-    box-shadow: none !important;
-  }
+  aside, header, nav, button, .no-print { display: none !important; }
+  main { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+  body { background: white !important; color: black !important; }
+  .card-premium { border: 1px solid #ddd !important; box-shadow: none !important; }
 }
+

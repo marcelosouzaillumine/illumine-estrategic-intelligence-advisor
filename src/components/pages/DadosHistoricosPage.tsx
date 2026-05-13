@@ -245,7 +245,7 @@ export function DadosHistoricosPage({
     <div className="space-y-12 pb-20">
       <PageHeader 
         title="Dados Históricos" 
-        description="Importe dados financeiros de balanços, DREs e fluxos de caixa para gerar as planilhas e indicadores."
+        subtitle="Importe dados financeiros de balanços, DREs e fluxos de caixa para gerar as planilhas e indicadores."
       />
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">

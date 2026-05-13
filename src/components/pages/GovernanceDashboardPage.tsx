@@ -1,42 +1,21 @@
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { 
-  ShieldCheck, 
-  TrendingUp, 
-  Users, 
-  Activity, 
-  Globe, 
-  ShoppingBag, 
-  FileText, 
-  Zap, 
-  BarChart3, 
-  Target,
-  ArrowUpRight,
-  PieChart as PieIcon,
-  MessageSquare,
-  Scale,
-  LayoutGrid,
-  ChevronRight,
-  BookOpen,
-  Lightbulb,
-  Loader2
+  ShieldCheck, TrendingUp, Users, Activity, Globe, ShoppingBag, 
+  FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, 
+  BookOpen, Lightbulb, Loader2, PieChart as PieIcon, MessageSquare, Scale, ChevronRight
 } from 'lucide-react';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
 import { 
-  Radar, 
-  RadarChart, 
-  PolarGrid, 
-  PolarAngleAxis, 
-  PolarRadiusAxis, 
-  ResponsiveContainer,
-  Tooltip
+  Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, 
+  ResponsiveContainer, Tooltip
 } from 'recharts';
-import { formatCurrency, cn } from '../../lib/utils';
+import { PageHeader, StatusBadge } from '../Common';
+import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { SACERDOTAL_PRINCIPLES, evaluateAxisRules } from '../../lib/sacerdotalIntelligence';
 import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
 import { generateSacerdotalParecer } from '../../services/sacerdotalAiService';
-import { useState } from 'react';
 
 interface GovernanceDashboardPageProps {
   clientId: string;
@@ -58,15 +37,15 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
     { area: 'Cultura', score: 92, fullMark: 100 },
     { area: 'Gestão', score: 90, fullMark: 100 },
     { area: 'Inovação', score: 88, fullMark: 100 },
-    { area: 'Operação', score: 82, fullMark: 100 },
     { area: 'Marketing', score: 85, fullMark: 100 },
     { area: 'Comercial', score: 92, fullMark: 100 },
+    { area: 'Operação', score: 82, fullMark: 100 },
   ];
 
   // Area Snapshots
   const areaSnapshots = [
     { 
-      id: 'governanca' as Page,
+      id: 'governanca_estrategica' as Page,
       label: 'Governança', 
       kpi: 'Maturidade', 
       value: 85, 
@@ -105,16 +84,6 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
       color: 'bg-cyan-500'
     },
     { 
-      id: 'dashboard_operacional' as Page,
-      label: 'Operação', 
-      kpi: 'OEE', 
-      value: 82, 
-      suffix: '%', 
-      status: 'neutral', 
-      icon: Activity,
-      color: 'bg-amber-500'
-    },
-    { 
       id: 'dashboard_marketing' as Page,
       label: 'Marketing', 
       kpi: 'CPL', 
@@ -133,6 +102,16 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
       status: 'positive', 
       icon: ShoppingBag,
       color: 'bg-emerald-500'
+    },
+    { 
+      id: 'dashboard_operacional' as Page,
+      label: 'Operação', 
+      kpi: 'OEE', 
+      value: 82, 
+      suffix: '%', 
+      status: 'neutral', 
+      icon: Activity,
+      color: 'bg-amber-500'
     }
   ];
 
@@ -170,61 +149,51 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
   };
 
   return (
-    <div className="space-y-10 pb-32">
-      {/* Premium Header */}
-      <div className="relative overflow-hidden bg-slate-900 p-12 rounded-[48px] text-white shadow-2xl">
-        <div className="absolute top-0 right-0 p-12 opacity-10">
-            <ShieldCheck size={200} strokeWidth={1} />
-        </div>
-        <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
-                <LayoutGrid size={24} className="text-white" />
-              </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Governance & Strategy</span>
-            </div>
-            <h1 className="text-4xl lg:text-5xl font-black tracking-tighter">Dashboard de Governança</h1>
-            <p className="text-slate-400 font-medium max-w-xl leading-relaxed">
-              Monitoramento estratégico de performance multisetorial para alta gestão e conselho de administração.
-            </p>
-          </div>
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[32px] text-right">
-             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Performance Global</span>
-             <div className="flex items-center gap-3 justify-end">
-                <span className="text-3xl font-black text-emerald-400">92.4</span>
-                <div className="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded-lg text-[10px] font-black uppercase tracking-widest border border-emerald-500/20">
-                  Otimizado
-                </div>
-             </div>
-          </div>
-        </div>
-      </div>
+    <div className="space-y-10 pb-32 animate-executive-fade">
+      {/* Premium Header - Standardized */}
+      <PageHeader 
+        title="Dashboard de Governança"
+        subtitle="Monitoramento estratégico de performance multisetorial para alta gestão e conselho de administração."
+        icon={ShieldCheck}
+        color="bg-slate-900"
+      />
 
-      {/* Strategic KPIs Grid */}
+      {/* Strategic KPIs Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {strategicKPIs.map((kpi, idx) => (
           <motion.div 
             key={idx}
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: idx * 0.1 }}
-            className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group"
+            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
           >
-            <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-primary/5 group-hover:text-primary transition-all mb-6">
-               <kpi.icon size={24} />
+            <div className="flex items-center justify-between mb-8">
+              <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                <kpi.icon size={24} />
+              </div>
+              <div className={cn(
+                "px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest",
+                kpi.status === 'positive' ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-amber-50 text-amber-600 border border-amber-100"
+              )}>
+                {kpi.status === 'positive' ? 'Saudável' : 'Atenção'}
+              </div>
             </div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{kpi.label}</p>
-            <div className="flex items-end gap-3">
-               <p className="text-3xl font-black text-slate-800 tracking-tighter">
-                 {kpi.value}{kpi.suffix}
-               </p>
-               <div className={cn(
-                 "mb-1 flex items-center gap-1 text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg",
-                 kpi.status === 'positive' ? "text-emerald-600 bg-emerald-50" : "text-amber-600 bg-amber-50"
-               )}>
-                 <ArrowUpRight size={12} /> 2.4%
-               </div>
+
+            <div>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 whitespace-nowrap overflow-hidden text-ellipsis">{kpi.label}</p>
+              <div className="flex items-baseline gap-2">
+                <p className="text-4xl font-display font-black text-slate-900 tabular-nums tracking-tighter whitespace-nowrap">
+                  {formatValue(kpi.value, kpi.suffix || '')}
+                </p>
+                <div className={cn(
+                  "flex items-center gap-1 text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg tabular-nums",
+                  kpi.status === 'positive' ? "text-emerald-600" : "text-amber-600"
+                )}>
+                  <ArrowUpRight size={12} /> 2.4%
+                </div>
+              </div>
             </div>
           </motion.div>
         ))}
@@ -248,7 +217,7 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
                    <PolarGrid stroke="#f1f5f9" />
                    <PolarAngleAxis 
                      dataKey="area" 
-                     tick={{ fill: '#64748b', fontSize: 10, fontWeight: '900', textTransform: 'uppercase' }}
+                     tick={{ fill: '#64748b', fontSize: 10, fontWeight: '900' }}
                    />
                    <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
                    <Radar

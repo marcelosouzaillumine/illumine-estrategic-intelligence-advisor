@@ -27,7 +27,11 @@ import {
   Sparkles,
   Link2,
   Image as ImageIcon,
-  Upload
+  Upload,
+  Key,
+  Save,
+  Calendar,
+  Globe
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, getDocs, writeBatch } from 'firebase/firestore';
@@ -38,6 +42,10 @@ import { cn, formatCurrency } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
 import { EmployeeManager } from '../EmployeeManager';
 import { GenerateAICompanyModal } from '../modals/GenerateAICompanyModal';
+import { ClientImportHistory } from '../ClientImportHistory';
+import { ClientAccessLogs } from '../ClientAccessLogs';
+import { ClientLoginAudit } from '../ClientLoginAudit';
+import { ClientUserManager } from '../ClientUserManager';
 
 export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
   const [view, setView] = useState<'list' | 'form'>('list');
@@ -139,7 +147,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
 
   const [tempBranch, setTempBranch] = useState({ nome: '', cidade: '', cnpj: '' });
   const [tempContact, setTempContact] = useState({ nome: '', email: '', tel: '', cargo: '' });
-  const [activeFormTab, setActiveFormTab] = useState<'dados' | 'estrutura' | 'contato' | 'relatorio_ia'>('dados');
+  const [activeFormTab, setActiveFormTab] = useState<'dados' | 'estrutura' | 'fiscal' | 'contato' | 'usuarios' | 'pessoal' | 'relatorio_ia' | 'importacao' | 'acessos' | 'auditoria'>('dados');
   const [showAllBranches, setShowAllBranches] = useState(false);
 
   // Auto-fetch CNPJ when 14 digits are typed
@@ -183,7 +191,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
     setError('');
     try {
       const cleanCnpj = cnpjQuery.replace(/\D/g, '');
-      const response = await fetch(`https://brasilapi.com.br/api/cnpj/v2/${cleanCnpj}`);
+      const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cleanCnpj}`);
       if (!response.ok) throw new Error('CNPJ não encontrado ou erro na busca.');
       const data = await response.json();
       
@@ -211,9 +219,9 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
         contatosAdicionais: [],
         dataFundacao: data.data_inicio_atividade ? new Date(data.data_inicio_atividade).toLocaleDateString('pt-BR') : '',
         capitalSocial: data.capital_social || 0,
-        socios: (data.qsa || []).map((s: any) => ({
-          nome: s.nome_socio || s.nome,
-          participacao: s.percentual_capital || s.participacao || s.percentual || 0
+        socios: (data.qsa || []).map((s: any, _: number, arr: any[]) => ({
+          nome: s.nome_socio || s.nome || s.nome_socio_pessoa_fisica || 'Sócio não identificado',
+          participacao: s.percentual_capital || s.percentual_capital_social || s.participacao || s.percentual || (arr.length === 1 ? 100 : 0)
         })),
         porte: data.porte === 'DEMAIS' ? 'Médio Porte' : data.porte || 'Médio Porte'
       });
@@ -378,96 +386,124 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
   if (view === 'form') {
     return (
       <div className="space-y-8 max-w-5xl mx-auto">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
             <button 
               onClick={() => setView('list')}
-              className="text-xs font-black text-slate-400 uppercase tracking-widest hover:text-secondary flex items-center gap-1 mb-2 transition-colors"
+              className="group flex items-center gap-2 text-[10px] font-black text-text-dim uppercase tracking-[0.2em] hover:text-secondary transition-all mb-4"
             >
-              <ChevronLeft size={14} /> Voltar para lista
+              <div className="w-6 h-6 rounded-full border border-border-main flex items-center justify-center group-hover:border-secondary transition-all">
+                <ChevronLeft size={12} />
+              </div>
+              Voltar para lista
             </button>
-            <h2 className="text-3xl font-display text-primary tracking-tight">
-              {editingId ? 'Alterar Cadastro' : 'Novo Cliente'}
+            <h2 className="text-4xl font-display font-black text-text-main tracking-tight">
+              {editingId ? 'Alterar Cadastro' : 'Cadastrar Empresa'}
             </h2>
-            <p className="text-slate-500 text-sm mt-1 font-sans">Preencha as informações detalhadas da empresa e contatos.</p>
+            <p className="text-text-muted text-sm mt-3 font-sans max-w-xl leading-relaxed">
+              Configure as informações estratégicas, estrutura societária e parâmetros tributários da organização.
+            </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex items-center gap-4">
             <button 
               onClick={() => setView('list')}
-              className="px-6 py-2.5 text-slate-400 font-bold text-xs uppercase tracking-widest hover:text-slate-600 transition-colors"
+              className="btn-ghost"
             >
               Cancelar
             </button>
             <button 
               onClick={handleSave}
-              className="px-8 py-2.5 bg-primary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+              className="btn-accent px-10"
             >
+              <Save size={16} />
               {editingId ? 'Salvar Alterações' : 'Confirmar Cadastro'}
             </button>
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden min-h-[600px] flex flex-col">
-          {/* Tabs Navigation */}
-          <div className="flex border-b border-slate-100 bg-slate-50/50">
+        <div className="card-premium p-0 overflow-hidden flex flex-col border-none shadow-floating">
+          {/* Executive Tabs Navigation */}
+          <div className="flex bg-bg-surface border-b border-border-main p-2 gap-1 overflow-x-auto no-scrollbar">
             {[
-              { id: 'dados', label: 'Informações da Empresa', icon: FileText },
-              { id: 'estrutura', label: 'Unidades & Filiais', icon: LayoutGrid },
-              { id: 'contato', label: 'Pessoas de Contato', icon: Users },
-              { id: 'relatorio_ia', label: 'Relatório Estratégico', icon: Sparkles },
+              { id: 'dados', label: 'Empresa', icon: Building2 },
+              { id: 'estrutura', label: 'Estrutura', icon: LayoutGrid },
+              { id: 'fiscal', label: 'Fiscal', icon: Landmark },
+              { id: 'contato', label: 'Contatos', icon: Users },
+              { id: 'usuarios', label: 'Usuários', icon: Key },
+              { id: 'importacao', label: 'Importações', icon: History },
+              { id: 'acessos', label: 'Acessos', icon: ShieldCheck },
+              { id: 'auditoria', label: 'Auditoria', icon: Activity },
+              { id: 'relatorio_ia', label: 'Insights IA', icon: Sparkles },
             ].map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveFormTab(tab.id as any)}
                 className={cn(
-                  "flex-1 px-6 py-4 text-xs font-black uppercase tracking-widest flex items-center justify-start gap-3 border-b-2 transition-all",
+                  "relative flex items-center gap-3 px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all rounded-standard whitespace-nowrap",
                   activeFormTab === tab.id 
-                    ? "border-secondary text-secondary bg-white" 
-                    : "border-transparent text-slate-400 hover:text-slate-600 hover:bg-white/50"
+                    ? "bg-bg-card text-secondary shadow-premium border border-border-main" 
+                    : "text-text-dim hover:text-text-main hover:bg-bg-card/50"
                 )}
               >
-                <tab.icon size={16} />
+                <tab.icon size={14} strokeWidth={1.5} className={cn(activeFormTab === tab.id ? "text-secondary" : "text-text-dim")} />
                 {tab.label}
+                {activeFormTab === tab.id && (
+                  <motion.div 
+                    layoutId="active-tab-indicator"
+                    className="absolute -bottom-[9px] left-1/2 -translate-x-1/2 w-1 h-1 bg-secondary rounded-full"
+                  />
+                )}
               </button>
             ))}
           </div>
 
-          <div className="p-10 flex-1">
+          <div className="p-12 flex-1 bg-bg-card">
             {activeFormTab === 'dados' && (
               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-6">
                     <div>
-                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Busca por CNPJ</label>
-                      <div className="flex gap-2">
-                        <input 
-                          type="text" 
-                          placeholder="00.000.000/0000-00"
-                          value={cnpjQuery}
-                          onChange={(e) => {
-                            setCnpjQuery(e.target.value);
-                            validateField('cnpj', e.target.value);
-                          }}
-                          className={cn(
-                            "flex-1 px-4 py-2 bg-slate-50 border rounded-lg text-sm outline-none transition-all",
-                            validationErrors.cnpj ? "border-rose-300 focus:ring-rose-500/20" : "border-slate-200 focus:ring-blue-500/20"
-                          )}
-                        />
+                      <label className="text-label">Busca por CNPJ</label>
+                      <div className="flex gap-3">
+                        <div className="relative flex-1">
+                          <input 
+                            type="text" 
+                            placeholder="00.000.000/0000-00"
+                            value={cnpjQuery}
+                            onChange={(e) => {
+                              setCnpjQuery(e.target.value);
+                              validateField('cnpj', e.target.value);
+                            }}
+                            className={cn(
+                              "w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm outline-none transition-all focus:bg-bg-card",
+                              validationErrors.cnpj ? "border-rose-300 focus:ring-rose-500/10" : "focus:ring-secondary/10"
+                            )}
+                          />
+                        </div>
                         <button 
                           onClick={fetchCNPJ}
                           disabled={loading}
-                          className="px-4 py-2 bg-slate-800 text-white rounded-lg text-xs font-bold hover:bg-slate-900 transition-colors flex items-center gap-2"
+                          className="btn-executive py-3 px-8"
                         >
-                          {loading ? <Loader2 size={14} className="animate-spin" /> : <Search size={14} />}
-                          Carregar
+                          {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
+                          Carregar Dados
                         </button>
                       </div>
-                      {validationErrors.cnpj && <p className="text-[10px] text-rose-500 font-bold mt-1 uppercase tracking-tight">{validationErrors.cnpj}</p>}
+                      {validationErrors.cnpj && <p className="text-[10px] text-rose-500 font-black mt-2 uppercase tracking-widest">{validationErrors.cnpj}</p>}
+                      {error && (
+                        <div className="mt-4 p-4 bg-rose-50 border border-rose-100 rounded-standard flex items-start gap-3">
+                          <AlertCircle size={16} className="text-rose-500 shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-[10px] font-black text-rose-700 uppercase tracking-widest mb-1">Erro de Sincronização</p>
+                            <p className="text-xs text-rose-600/80 font-medium leading-relaxed">{error}</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <div>
-                        <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Razão Social</label>
+                        <label className="text-label">Razão Social</label>
                         <input 
                           type="text" 
                           value={formData.razao}
@@ -476,14 +512,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                             validateField('razao', e.target.value);
                           }}
                           className={cn(
-                            "w-full px-4 py-2 bg-white border rounded-lg text-sm outline-none transition-all",
-                            validationErrors.razao ? "border-rose-300 focus:border-rose-500" : "border-slate-200 focus:border-blue-500"
+                            "w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none transition-all",
+                            validationErrors.razao ? "border-rose-300 focus:border-rose-500" : "focus:border-secondary"
                           )}
                         />
-                        {validationErrors.razao && <p className="text-[9px] text-rose-500 font-bold mt-1 uppercase tracking-tight">{validationErrors.razao}</p>}
+                        {validationErrors.razao && <p className="text-[10px] text-rose-500 font-black mt-2 uppercase tracking-widest">{validationErrors.razao}</p>}
                       </div>
                       <div>
-                        <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Nome Fantasia</label>
+                        <label className="text-label">Nome Fantasia</label>
                         <input 
                           type="text" 
                           value={formData.fantasia}
@@ -492,144 +528,153 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                             validateField('fantasia', e.target.value);
                           }}
                           className={cn(
-                            "w-full px-4 py-2 bg-white border rounded-lg text-sm outline-none transition-all",
-                            validationErrors.fantasia ? "border-rose-300 focus:border-rose-500" : "border-slate-200 focus:border-blue-500"
+                            "w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none transition-all",
+                            validationErrors.fantasia ? "border-rose-300 focus:border-rose-500" : "focus:border-secondary"
                           )}
                         />
-                        {validationErrors.fantasia && <p className="text-[9px] text-rose-500 font-bold mt-1 uppercase tracking-tight">{validationErrors.fantasia}</p>}
+                        {validationErrors.fantasia && <p className="text-[10px] text-rose-500 font-black mt-2 uppercase tracking-widest">{validationErrors.fantasia}</p>}
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-6">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-6">
                       <div>
-                        <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Fundação</label>
-                        <input 
-                          type="text" 
-                          value={formData.dataFundacao}
-                          readOnly
-                          className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-500 outline-none"
-                        />
+                        <label className="text-label">Fundação</label>
+                        <div className="px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm text-text-dim font-bold flex items-center gap-3">
+                          <Calendar size={14} strokeWidth={2} />
+                          {formData.dataFundacao || '--/--/----'}
+                        </div>
                       </div>
                       <div>
-                         <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Porte</label>
-                         <input 
-                          type="text" 
-                          value={formData.porte}
-                          readOnly
-                          className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-500 outline-none"
-                        />
+                         <label className="text-label">Porte</label>
+                         <div className="px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm text-text-dim font-bold flex items-center gap-3">
+                          <Building2 size={14} strokeWidth={2} />
+                          {formData.porte}
+                        </div>
                       </div>
                     </div>
                     <div>
-                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Endereço Completo</label>
+                      <label className="text-label">Endereço Completo</label>
                       <textarea 
                         rows={3}
                         value={formData.endereco}
                         onChange={(e) => setFormData({...formData, endereco: e.target.value})}
-                        className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500"
+                        className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all leading-relaxed"
+                        placeholder="Logradouro, número, bairro, cidade - UF"
                       />
                     </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-slate-100">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8 border-t border-border-soft">
                         <div>
-                          <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Website</label>
-                          <input 
-                            type="text" 
-                            placeholder="https://exemplo.com.br"
-                            value={formData.website}
-                            onChange={(e) => setFormData({...formData, website: e.target.value})}
-                            className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm outline-none focus:border-blue-500"
-                          />
+                          <label className="text-label">Website</label>
+                          <div className="relative">
+                            <input 
+                              type="text" 
+                              placeholder="https://exemplo.com.br"
+                              value={formData.website}
+                              onChange={(e) => setFormData({...formData, website: e.target.value})}
+                              className="w-full pl-12 pr-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                            />
+                            <Globe size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+                          </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
+                        <div className="grid grid-cols-2 gap-6">
+                          <div className="space-y-3">
                             <div className="flex items-center justify-between">
-                              <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Logo</label>
-                              <label className="cursor-pointer text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1">
-                                <Upload size={10} /> Importar
+                              <label className="text-label mb-0">Logo</label>
+                              <label className="cursor-pointer text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1.5 transition-all">
+                                <Upload size={12} /> Importar
                                 <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'logo')} />
                               </label>
                             </div>
-                            <div className="flex gap-2">
-                              <div className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center overflow-hidden shrink-0">
+                            <div className="flex items-center gap-3">
+                              <div className="w-12 h-12 rounded-xl bg-bg-surface border border-border-main flex items-center justify-center overflow-hidden shrink-0 shadow-sm transition-all group-hover:border-secondary/20">
                                 {formData.logo ? (
-                                  <img src={formData.logo} alt="Logo" className="w-full h-full object-contain" />
+                                  <img src={formData.logo} alt="Logo" className="w-full h-full object-contain p-1" />
                                 ) : (
-                                  <ImageIcon size={16} className="text-slate-300" />
+                                  <ImageIcon size={20} className="text-text-dim/40" />
                                 )}
                               </div>
-                              <input 
-                                type="text" 
-                                placeholder="URL da Logomarca"
-                                value={formData.logo.startsWith('data:image') ? 'Imagem Importada' : formData.logo}
-                                onChange={(e) => setFormData({...formData, logo: e.target.value})}
-                                readOnly={formData.logo.startsWith('data:image')}
-                                className={cn(
-                                  "flex-1 px-3 py-1 bg-white border border-slate-200 rounded-lg text-[11px] outline-none focus:border-blue-500",
-                                  formData.logo.startsWith('data:image') && "bg-slate-50 text-slate-400 italic"
+                              <div className="relative flex-1">
+                                <input 
+                                  type="text" 
+                                  placeholder="URL ou Nome"
+                                  value={formData.logo.startsWith('data:image') ? 'Imagem Local' : formData.logo}
+                                  onChange={(e) => setFormData({...formData, logo: e.target.value})}
+                                  readOnly={formData.logo.startsWith('data:image')}
+                                  className={cn(
+                                    "w-full px-4 py-2.5 bg-bg-surface border border-border-main rounded-standard text-[10px] font-bold outline-none focus:border-secondary transition-all",
+                                    formData.logo.startsWith('data:image') && "text-secondary italic"
+                                  )}
+                                />
+                                {formData.logo.startsWith('data:image') && (
+                                  <button onClick={() => setFormData({...formData, logo: ''})} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500 p-1 hover:bg-rose-50 rounded-full transition-all">
+                                    <X size={12} />
+                                  </button>
                                 )}
-                              />
-                              {formData.logo.startsWith('data:image') && (
-                                <button onClick={() => setFormData({...formData, logo: ''})} className="text-rose-500 p-1 hover:bg-rose-50 rounded">
-                                  <X size={12} />
-                                </button>
-                              )}
+                              </div>
                             </div>
                           </div>
-                          <div className="space-y-2">
+                          <div className="space-y-3">
                             <div className="flex items-center justify-between">
-                              <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Ícone</label>
-                              <label className="cursor-pointer text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1">
-                                <Upload size={10} /> Importar
+                              <label className="text-label mb-0">Ícone</label>
+                              <label className="cursor-pointer text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1.5 transition-all">
+                                <Upload size={12} /> Importar
                                 <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'icon')} />
                               </label>
                             </div>
-                            <div className="flex gap-2">
-                              <div className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center overflow-hidden shrink-0">
+                            <div className="flex items-center gap-3">
+                              <div className="w-12 h-12 rounded-xl bg-bg-surface border border-border-main flex items-center justify-center overflow-hidden shrink-0 shadow-sm transition-all group-hover:border-secondary/20">
                                 {formData.icon ? (
-                                  <img src={formData.icon} alt="Icon" className="w-full h-full object-contain" />
+                                  <img src={formData.icon} alt="Icon" className="w-full h-full object-contain p-1" />
                                 ) : (
-                                  <ImageIcon size={16} className="text-slate-300" />
+                                  <ImageIcon size={20} className="text-text-dim/40" />
                                 )}
                               </div>
-                              <input 
-                                type="text" 
-                                placeholder="URL do Ícone"
-                                value={formData.icon.startsWith('data:image') ? 'Imagem Importada' : formData.icon}
-                                onChange={(e) => setFormData({...formData, icon: e.target.value})}
-                                readOnly={formData.icon.startsWith('data:image')}
-                                className={cn(
-                                  "flex-1 px-3 py-1 bg-white border border-slate-200 rounded-lg text-[11px] outline-none focus:border-blue-500",
-                                  formData.icon.startsWith('data:image') && "bg-slate-50 text-slate-400 italic"
+                              <div className="relative flex-1">
+                                <input 
+                                  type="text" 
+                                  placeholder="URL ou Nome"
+                                  value={formData.icon.startsWith('data:image') ? 'Imagem Local' : formData.icon}
+                                  onChange={(e) => setFormData({...formData, icon: e.target.value})}
+                                  readOnly={formData.icon.startsWith('data:image')}
+                                  className={cn(
+                                    "w-full px-4 py-2.5 bg-bg-surface border border-border-main rounded-standard text-[10px] font-bold outline-none focus:border-secondary transition-all",
+                                    formData.icon.startsWith('data:image') && "text-secondary italic"
+                                  )}
+                                />
+                                {formData.icon.startsWith('data:image') && (
+                                  <button onClick={() => setFormData({...formData, icon: ''})} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500 p-1 hover:bg-rose-50 rounded-full transition-all">
+                                    <X size={12} />
+                                  </button>
                                 )}
-                              />
-                              {formData.icon.startsWith('data:image') && (
-                                <button onClick={() => setFormData({...formData, icon: ''})} className="text-rose-500 p-1 hover:bg-rose-50 rounded">
-                                  <X size={12} />
-                                </button>
-                              )}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                    <div className="pt-6 border-t border-slate-100 space-y-4">
+                    <div className="pt-10 border-t border-border-soft space-y-6">
                       <div className="flex items-center justify-between">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sócios e Participação (%)</label>
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-label mb-0">Quadro Societário</label>
+                          <span className="text-[10px] text-text-dim font-medium italic">* Percentuais calculados com base no capital social integralizado.</span>
+                        </div>
                         <button 
                           onClick={() => setFormData({...formData, socios: [...formData.socios, { nome: '', participacao: 0 }]})}
-                          className="text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1"
+                          className="text-[10px] font-black text-secondary uppercase tracking-widest hover:underline flex items-center gap-2"
                         >
-                          <Plus size={12} /> Adicionar Sócio
+                          <Plus size={14} /> Adicionar Sócio
                         </button>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {formData.socios.map((s, idx) => (
-                          <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 border border-slate-100 rounded-xl relative group/socio">
-                            <div className="w-8 h-8 rounded-full bg-white border border-slate-100 flex items-center justify-center text-slate-400"><Users size={14} /></div>
-                            <div className="flex-1 space-y-1">
+                          <div key={idx} className="flex items-center gap-4 p-4 bg-bg-surface border border-border-main rounded-standard relative group/socio hover:border-secondary/20 transition-all">
+                            <div className="w-10 h-10 rounded-full bg-bg-card border border-border-main flex items-center justify-center text-text-dim group-hover/socio:text-secondary transition-all shadow-sm shrink-0">
+                              <Users size={18} strokeWidth={1.5} />
+                            </div>
+                            <div className="flex-1 min-w-0">
                               <input 
                                 type="text"
                                 value={s.nome}
@@ -639,9 +684,9 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                                   setFormData({...formData, socios: newSocios});
                                 }}
                                 placeholder="Nome do Sócio"
-                                className="w-full bg-transparent text-[11px] font-black text-slate-800 outline-none border-b border-transparent focus:border-slate-200"
+                                className="w-full bg-transparent text-sm font-black text-text-main outline-none placeholder:text-text-dim/50"
                               />
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 mt-1">
                                 <input 
                                   type="number"
                                   value={s.participacao}
@@ -650,69 +695,71 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                                     newSocios[idx].participacao = parseFloat(e.target.value) || 0;
                                     setFormData({...formData, socios: newSocios});
                                   }}
-                                  placeholder="%"
-                                  className="w-12 bg-transparent text-[10px] font-bold text-secondary outline-none"
+                                  placeholder="0.00"
+                                  className="w-16 bg-transparent text-[11px] font-black text-secondary outline-none border-b border-transparent focus:border-secondary/30"
                                 />
-                                <span className="text-[10px] text-slate-400 font-bold">% de participação</span>
+                                <span className="text-[10px] text-text-dim font-bold uppercase tracking-widest">% participação</span>
                               </div>
                             </div>
                             <button 
                               onClick={() => setFormData({...formData, socios: formData.socios.filter((_, i) => i !== idx)})}
-                              className="absolute -top-2 -right-2 w-6 h-6 bg-white border border-slate-200 text-rose-500 rounded-full flex items-center justify-center opacity-0 group-hover/socio:opacity-100 transition-opacity shadow-sm"
+                              className="absolute -top-2 -right-2 w-8 h-8 bg-bg-card border border-border-main text-rose-500 rounded-full flex items-center justify-center opacity-0 group-hover/socio:opacity-100 transition-all shadow-floating hover:bg-rose-50"
                             >
-                              <X size={12} />
+                              <X size={14} />
                             </button>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="space-y-3 pt-4">
-                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Mídias Sociais</label>
-                      {formData.socialMedia.map((sm, idx) => (
-                        <div key={idx} className="flex gap-2">
-                          <select 
-                            value={sm.platform}
-                            onChange={(e) => {
-                              const newSM = [...formData.socialMedia];
-                              newSM[idx].platform = e.target.value;
-                              setFormData({...formData, socialMedia: newSM});
-                            }}
-                            className="w-32 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold"
-                          >
-                            <option value="LinkedIn">LinkedIn</option>
-                            <option value="Instagram">Instagram</option>
-                            <option value="Facebook">Facebook</option>
-                            <option value="Twitter">Twitter/X</option>
-                            <option value="YouTube">YouTube</option>
-                          </select>
-                          <input 
-                            type="text" 
-                            placeholder="URL do perfil"
-                            value={sm.url}
-                            onChange={(e) => {
-                              const newSM = [...formData.socialMedia];
-                              newSM[idx].url = e.target.value;
-                              setFormData({...formData, socialMedia: newSM});
-                            }}
-                            className="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm outline-none focus:border-blue-500"
-                          />
-                          <button 
-                            onClick={() => {
-                              const newSM = formData.socialMedia.filter((_, i) => i !== idx);
-                              setFormData({...formData, socialMedia: newSM});
-                            }}
-                            className="p-2 text-rose-400 hover:bg-rose-50 rounded-lg"
-                          >
-                            <X size={14} />
-                          </button>
-                        </div>
-                      ))}
+                    <div className="space-y-4 pt-10 border-t border-border-soft">
+                      <label className="text-label">Ecossistema Digital</label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {formData.socialMedia.map((sm, idx) => (
+                          <div key={idx} className="flex gap-2 items-center bg-bg-surface p-2 rounded-standard border border-border-main group/sm">
+                            <select 
+                              value={sm.platform}
+                              onChange={(e) => {
+                                const newSM = [...formData.socialMedia];
+                                newSM[idx].platform = e.target.value;
+                                setFormData({...formData, socialMedia: newSM});
+                              }}
+                              className="w-28 px-3 py-2 bg-bg-card border border-border-main rounded-compact text-[10px] font-black uppercase tracking-widest outline-none focus:border-secondary transition-all"
+                            >
+                              <option value="LinkedIn">LinkedIn</option>
+                              <option value="Instagram">Instagram</option>
+                              <option value="Facebook">Facebook</option>
+                              <option value="Twitter">X / Twitter</option>
+                              <option value="YouTube">YouTube</option>
+                            </select>
+                            <input 
+                              type="text" 
+                              placeholder="URL do perfil"
+                              value={sm.url}
+                              onChange={(e) => {
+                                const newSM = [...formData.socialMedia];
+                                newSM[idx].url = e.target.value;
+                                setFormData({...formData, socialMedia: newSM});
+                              }}
+                              className="flex-1 px-4 py-2 bg-bg-card border border-border-main rounded-compact text-xs font-medium outline-none focus:border-secondary transition-all"
+                            />
+                            <button 
+                              onClick={() => {
+                                const newSM = formData.socialMedia.filter((_, i) => i !== idx);
+                                setFormData({...formData, socialMedia: newSM});
+                              }}
+                              className="p-2 text-text-dim hover:text-rose-500 hover:bg-rose-50 rounded-compact transition-all"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                       <button 
                         onClick={() => setFormData({...formData, socialMedia: [...formData.socialMedia, { platform: 'LinkedIn', url: '' }]})}
-                        className="text-[10px] font-black text-secondary uppercase tracking-widest flex items-center gap-1 hover:underline"
+                        className="text-[10px] font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-2 hover:underline pt-2"
                       >
-                        <Plus size={12} /> Adicionar Rede Social
+                        <Plus size={14} /> Adicionar Presença Digital
                       </button>
                     </div>
                   </div>
@@ -721,20 +768,20 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
             )}
 
             {activeFormTab === 'estrutura' && (
-              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-10">
+              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                    <div className="space-y-6">
-                      <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                        <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-4 flex items-center gap-2">
-                          <Activity size={14} className="text-secondary" /> Unidades de Negócio
+                      <div className="card-premium bg-bg-surface/50 border-dashed">
+                        <h4 className="text-sm font-black text-text-main uppercase tracking-widest mb-6 flex items-center gap-3">
+                          <Activity size={18} className="text-secondary" /> Unidades de Negócio
                         </h4>
-                        <div className="flex gap-2 mb-4">
+                        <div className="flex gap-3 mb-6">
                           <input 
                             type="text" 
                             placeholder="Ex: Medicina Laboratorial"
                             value={tempUnit}
                             onChange={(e) => setTempUnit(e.target.value)}
-                            className="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold outline-none focus:ring-2 focus:ring-secondary/20"
+                            className="flex-1 px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
                           />
                           <button 
                             onClick={() => {
@@ -743,42 +790,45 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                                 setTempUnit('');
                               }
                             }}
-                            className="p-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-all shadow-sm"
+                            className="btn-accent p-3"
                           >
-                            <Plus size={18} />
+                            <Plus size={20} />
                           </button>
                         </div>
                         <div className="flex flex-wrap gap-2">
                           {formData.unidadesNegocio.map((u, i) => (
-                            <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-[10px] font-black text-slate-600 flex items-center gap-2">
+                            <span key={i} className="px-4 py-2 bg-bg-card border border-border-main rounded-full text-[10px] font-black text-text-muted flex items-center gap-2 shadow-sm">
                               {u}
-                              <button onClick={() => setFormData({...formData, unidadesNegocio: formData.unidadesNegocio.filter((_, idx) => idx !== i)})} className="text-rose-400 hover:text-rose-600">
-                                <X size={12} />
+                              <button onClick={() => setFormData({...formData, unidadesNegocio: formData.unidadesNegocio.filter((_, idx) => idx !== i)})} className="text-rose-400 hover:text-rose-600 transition-colors">
+                                <X size={14} />
                               </button>
                             </span>
                           ))}
+                          {formData.unidadesNegocio.length === 0 && (
+                            <p className="text-[10px] text-text-dim italic font-medium">Nenhuma unidade cadastrada.</p>
+                          )}
                         </div>
                       </div>
                    </div>
 
                    <div className="space-y-6">
-                      <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                        <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-4 flex items-center gap-2">
-                          <Building2 size={14} className="text-primary" /> Filiais Disponíveis
+                      <div className="card-premium bg-bg-surface/50 border-dashed">
+                        <h4 className="text-sm font-black text-text-main uppercase tracking-widest mb-6 flex items-center gap-3">
+                          <Building2 size={18} className="text-secondary" /> Filiais e Filas
                         </h4>
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                           <input 
-                            type="text" placeholder="Nome da Filial"
+                            type="text" placeholder="Nome da Unidade / Filial"
                             value={tempBranch.nome}
                             onChange={(e) => setTempBranch({...tempBranch, nome: e.target.value})}
-                            className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold outline-none"
+                            className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
                           />
-                          <div className="flex gap-2">
+                          <div className="flex gap-3">
                             <input 
-                              type="text" placeholder="Cidade/UF"
+                              type="text" placeholder="Cidade / UF"
                               value={tempBranch.cidade}
                               onChange={(e) => setTempBranch({...tempBranch, cidade: e.target.value})}
-                              className="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold outline-none"
+                              className="flex-1 px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
                             />
                             <button 
                               onClick={() => {
@@ -787,23 +837,31 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                                   setTempBranch({ nome: '', cidade: '', cnpj: '' });
                                 }
                               }}
-                              className="px-4 bg-primary text-white rounded-lg text-xs font-bold"
+                              className="btn-accent px-6"
                             >Adicionar</button>
                           </div>
                         </div>
-                        <div className="mt-4 space-y-2">
+                        <div className="mt-8 space-y-3">
                           {formData.filiais.map((f, i) => (
-                            <div key={i} className="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-200">
-                              <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center text-slate-400"><MapPin size={14} /></div>
+                            <div key={i} className="flex justify-between items-center bg-bg-card p-4 rounded-standard border border-border-main shadow-sm group">
+                              <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 bg-bg-surface rounded-xl flex items-center justify-center text-text-dim group-hover:text-secondary transition-all"><MapPin size={16} /></div>
                                 <div>
-                                  <p className="text-xs font-black text-slate-900">{f.nome}</p>
-                                  <p className="text-[10px] text-slate-500">{f.cidade}</p>
+                                  <p className="text-sm font-black text-text-main">{f.nome}</p>
+                                  <p className="text-[11px] text-text-dim font-bold uppercase tracking-widest">{f.cidade}</p>
                                 </div>
                               </div>
-                              <button onClick={() => setFormData({...formData, filiais: formData.filiais.filter((_, idx) => idx !== i)})} className="text-rose-400 p-1"><Trash2 size={14} /></button>
+                              <button 
+                                onClick={() => setFormData({...formData, filiais: formData.filiais.filter((_, idx) => idx !== i)})} 
+                                className="w-8 h-8 rounded-full flex items-center justify-center text-rose-400 hover:bg-rose-50 hover:text-rose-600 transition-all"
+                              >
+                                <Trash2 size={16} />
+                              </button>
                             </div>
                           ))}
+                          {formData.filiais.length === 0 && (
+                            <p className="text-[10px] text-text-dim italic font-medium">Nenhuma filial cadastrada.</p>
+                          )}
                         </div>
                       </div>
                    </div>
@@ -811,18 +869,17 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
               </motion.div>
             )}
             {activeFormTab === 'fiscal' && (
-              <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="space-y-10">
-                {/* 1. Regime Selector Card */}
-                <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-8">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                    <div className="space-y-1">
-                      <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+              <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="space-y-12">
+                <div className="card-premium space-y-10">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-black text-text-main uppercase tracking-widest flex items-center gap-3">
                         <Landmark size={20} className="text-secondary" /> Enquadramento Tributário
                       </h4>
-                      <p className="text-[11px] text-slate-400 font-medium lowercase">Defina o regime federal principal para o cálculo automático de impostos.</p>
+                      <p className="text-[11px] text-text-dim font-medium lowercase italic">Defina o regime federal principal para automatização dos cálculos de rentabilidade.</p>
                     </div>
                     
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex bg-bg-surface p-1.5 rounded-2xl border border-border-main">
                       {['Simples Nacional', 'Lucro Presumido', 'Lucro Real'].map(regime => (
                         <button
                           key={regime}
@@ -830,8 +887,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                           className={cn(
                             "px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
                             formData.regime === regime 
-                              ? "bg-slate-900 text-white shadow-lg shadow-slate-200" 
-                              : "bg-slate-50 text-slate-400 border border-slate-100 hover:bg-slate-100"
+                              ? "bg-bg-card text-secondary shadow-premium border border-border-main" 
+                              : "text-text-dim hover:text-text-main"
                           )}
                         >
                           {regime}
@@ -840,15 +897,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-8 border-t border-slate-100">
-                    {/* Regime-specific sub-options */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-10 border-t border-border-soft">
                     {formData.regime === 'Lucro Real' && (
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Método de Apuração (LR)</label>
+                      <div className="space-y-3">
+                        <label className="text-label">Método de Apuração (LR)</label>
                         <select 
                           value={formData.regimeReal}
                           onChange={(e) => setFormData({...formData, regimeReal: e.target.value})}
-                          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                          className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-bold outline-none focus:border-secondary transition-all"
                         >
                           <option value="Cumulativo">Cumulativo (654/98)</option>
                           <option value="Não Cumulativo">Não Cumulativo (10.637/10.833)</option>
@@ -858,12 +914,12 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                     )}
 
                     {formData.regime === 'Lucro Presumido' && (
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Cálculo Padrão IRPJ/CSLL</label>
+                      <div className="space-y-3">
+                        <label className="text-label">Cálculo Padrão IRPJ/CSLL</label>
                         <select 
                           value={formData.cnaePresuncao}
                           onChange={(e) => setFormData({...formData, cnaePresuncao: e.target.value})}
-                          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                          className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-bold outline-none focus:border-secondary transition-all"
                         >
                           <option value="Venda de produtos / Mercadorias">Comércio (8% / 12%)</option>
                           <option value="Prestação de Serviços Genéricos">Serviços (32%)</option>
@@ -873,14 +929,11 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                       </div>
                     )}
 
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Porte Declarado (Faturamento)</label>
-                      <input 
-                        type="text" 
-                        value={formData.porte}
-                        readOnly
-                        className="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-2xl text-sm font-bold text-slate-500 outline-none"
-                      />
+                    <div className="space-y-3">
+                      <label className="text-label">Porte Declarado</label>
+                      <div className="px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-black text-text-dim">
+                        {formData.porte || 'Não identificado'}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -891,16 +944,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                   {/* Left Column: Revenue History (Simples only) or Detail Parameters */}
                   <div className="space-y-10">
                     {formData.regime === 'Simples Nacional' ? (
-                      <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-6 relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-secondary/60"></div>
+                      <div className="card-premium bg-bg-surface/30 space-y-8 relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-secondary/20"></div>
                         
                         <div className="flex items-center justify-between">
-                          <div className="space-y-1">
-                            <h5 className="text-[11px] font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
-                              <History size={16} className="text-secondary" /> Histórico RBT12
-                            </h5>
-                          </div>
-                          <label className="cursor-pointer px-4 py-2 bg-slate-50 hover:bg-slate-100 text-slate-500 border border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all flex items-center gap-2">
+                          <h5 className="text-[11px] font-black text-text-main uppercase tracking-widest flex items-center gap-3">
+                            <History size={18} className="text-secondary" /> Histórico RBT12
+                          </h5>
+                          <label className="cursor-pointer px-5 py-2.5 bg-bg-card hover:bg-bg-surface text-secondary border border-border-main rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm">
                             <FileText size={14} /> Importar Dados
                             <input 
                               type="file" 
@@ -933,20 +984,20 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                           </label>
                         </div>
 
-                        <div className="bg-slate-50/50 rounded-2xl border border-slate-100 overflow-hidden">
+                        <div className="bg-bg-card rounded-2xl border border-border-main overflow-hidden shadow-sm">
                           <div className="max-h-[460px] overflow-y-auto custom-scrollbar">
                             <table className="w-full text-left border-collapse">
-                              <thead className="sticky top-0 bg-slate-100/90 backdrop-blur-sm z-10">
-                                <tr className="border-b border-slate-200">
-                                  <th className="px-6 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">Referência</th>
-                                  <th className="px-6 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor Bruto</th>
+                              <thead className="sticky top-0 bg-bg-surface/95 backdrop-blur-md z-10 border-b border-border-main">
+                                <tr>
+                                  <th className="px-6 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">Referência</th>
+                                  <th className="px-6 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest text-right">Faturamento Bruto</th>
                                 </tr>
                               </thead>
-                              <tbody className="divide-y divide-slate-100">
+                              <tbody className="divide-y divide-border-soft">
                                 {(formData.historicoFaturamento || Array(12).fill({ mes: '', ano: '', valor: 0 })).map((item, idx) => (
-                                  <tr key={idx} className="hover:bg-white transition-colors group">
+                                  <tr key={idx} className="hover:bg-bg-surface/50 transition-colors group">
                                     <td className="px-6 py-4">
-                                      <div className="flex items-center gap-2">
+                                      <div className="flex items-center gap-3">
                                         <select 
                                           value={item.mes}
                                           onChange={(e) => {
@@ -954,14 +1005,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                                             newHist[idx] = { ...newHist[idx], mes: e.target.value };
                                             setFormData({ ...formData, historicoFaturamento: newHist });
                                           }}
-                                          className="bg-transparent text-[11px] font-black text-slate-700 uppercase outline-none cursor-pointer focus:text-secondary"
+                                          className="bg-transparent text-[11px] font-black text-text-main uppercase outline-none cursor-pointer focus:text-secondary"
                                         >
                                           <option value="">Mês</option>
                                           {['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'].map(m => (
                                             <option key={m} value={m}>{m}</option>
                                           ))}
                                         </select>
-                                        <span className="text-slate-300">/</span>
+                                        <span className="text-border-main font-bold">/</span>
                                         <select 
                                           value={item.ano}
                                           onChange={(e) => {
@@ -969,18 +1020,18 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                                             newHist[idx] = { ...newHist[idx], ano: e.target.value };
                                             setFormData({ ...formData, historicoFaturamento: newHist });
                                           }}
-                                          className="bg-transparent text-[11px] font-black text-slate-700 uppercase outline-none cursor-pointer focus:text-secondary"
+                                          className="bg-transparent text-[11px] font-black text-text-main uppercase outline-none cursor-pointer focus:text-secondary"
                                         >
-                                          <option value="">An</option>
-                                          {['24', '23', '25', '26'].sort().map(y => (
-                                            <option key={y} value={`20${y}`}>20{y}</option>
+                                          <option value="">Ano</option>
+                                          {['2023', '2024', '2025', '2026'].map(y => (
+                                            <option key={y} value={y}>{y}</option>
                                           ))}
                                         </select>
                                       </div>
                                     </td>
                                     <td className="px-6 py-4">
                                       <div className="flex items-center justify-end gap-2 group">
-                                        <span className="text-[10px] font-black text-slate-300 group-focus-within:text-secondary">R$</span>
+                                        <span className="text-[10px] font-black text-text-dim group-focus-within:text-secondary">R$</span>
                                         <input 
                                           type="number"
                                           value={item.valor}
@@ -990,8 +1041,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                                             const newRbt12 = newHist.reduce((acc, curr) => acc + (curr.valor || 0), 0);
                                             setFormData({ ...formData, historicoFaturamento: newHist, rbt12: newRbt12 });
                                           }}
-                                          className="w-32 bg-transparent text-xs font-black text-slate-800 text-right outline-none border-b border-transparent hover:border-slate-200 focus:border-secondary transition-all py-1"
-                                          placeholder="0,00"
+                                          className="w-32 bg-transparent text-sm font-black text-text-main text-right outline-none border-b border-transparent focus:border-secondary transition-all py-1"
+                                          placeholder="0.00"
                                         />
                                       </div>
                                     </td>
@@ -1002,55 +1053,58 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                           </div>
                         </div>
 
-                        <div className="bg-slate-900 p-6 rounded-2xl relative overflow-hidden group space-y-4">
-                           <div className="relative z-10 space-y-4 pb-4 border-b border-white/5">
-                              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block opacity-70">Faturamento do Mês Atual</label>
-                              <div className="relative">
-                                <div className="absolute left-0 top-1/2 -translate-y-1/2 text-emerald-400/50 font-black text-[10px]">R$</div>
-                                <input 
-                                  type="number"
-                                  value={formData.faturamentoMensal}
-                                  onChange={(e) => setFormData({...formData, faturamentoMensal: parseFloat(e.target.value) || 0})}
-                                  className="w-full bg-transparent pl-6 pr-2 py-1 text-xl font-black text-white outline-none border-b border-white/10 focus:border-emerald-400 transition-all"
-                                  placeholder="0,00"
-                                />
+                        <div className="bg-primary p-8 rounded-standard relative overflow-hidden shadow-floating group">
+                           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+                           <div className="relative z-10 space-y-6">
+                              <div>
+                                <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] block mb-4">Faturamento Mês Referência</label>
+                                <div className="relative flex items-center">
+                                  <span className="text-accent font-black text-sm absolute left-0">R$</span>
+                                  <input 
+                                    type="number"
+                                    value={formData.faturamentoMensal}
+                                    onChange={(e) => setFormData({...formData, faturamentoMensal: parseFloat(e.target.value) || 0})}
+                                    className="w-full bg-transparent pl-8 py-2 text-3xl font-display font-black text-white outline-none border-b border-white/10 focus:border-accent transition-all"
+                                    placeholder="0.00"
+                                  />
+                                </div>
                               </div>
-                           </div>
 
-                           <div className="relative z-10 flex items-center justify-between">
-                              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block opacity-70">Total RBT12 (Acumulado)</label>
-                              <div className="text-2xl font-black text-emerald-400 font-display tracking-tight">
-                                {formatCurrency(formData.rbt12 || 0)}
+                              <div className="pt-6 border-t border-white/5 flex items-center justify-between">
+                                <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] block">Acumulado RBT12</label>
+                                <div className="text-2xl font-display font-black text-accent tracking-tight">
+                                  {formatCurrency(formData.rbt12 || 0)}
+                                </div>
                               </div>
                            </div>
                         </div>
                       </div>
                     ) : (
-                      <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-6">
-                        <div className="space-y-4">
-                           <h5 className="text-[11px] font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
-                              <TrendingUp size={16} className="text-primary" /> Faturamento Base
-                           </h5>
-                           <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col justify-center space-y-3">
-                              <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest block px-1">
-                                Receita do Mês de Referência
-                              </label>
-                              <div className="relative">
-                                <div className="absolute left-5 top-1/2 -translate-y-1/2 flex items-center gap-3 text-slate-400 border-r border-slate-100 pr-4">
-                                  <DollarSign size={20} />
-                                  <span className="text-[10px] font-black uppercase tracking-widest">BRL</span>
-                                </div>
-                                <input 
-                                  type="number"
-                                  value={formData.faturamentoMensal}
-                                  onChange={(e) => setFormData({...formData, faturamentoMensal: parseFloat(e.target.value) || 0})}
-                                  className="w-full pl-24 pr-8 py-5 bg-white border border-slate-200 rounded-2xl text-2xl font-black text-slate-900 outline-none focus:ring-8 focus:ring-primary/5 focus:border-primary/20 transition-all shadow-sm"
-                                  placeholder="0,00"
-                                />
-                              </div>
-                           </div>
-                        </div>
-                      </div>
+                    <div className="card-premium space-y-6">
+                       <div className="space-y-4">
+                          <h5 className="text-[10px] font-black text-text-main uppercase tracking-[0.2em] flex items-center gap-2">
+                             <TrendingUp size={16} className="text-secondary" /> Volume de Faturamento
+                          </h5>
+                          <div className="bg-bg-surface p-6 rounded-standard border border-border-main flex flex-col justify-center space-y-3">
+                             <label className="text-label block px-1">
+                               Receita Bruta Mensal (Ref.)
+                             </label>
+                             <div className="relative">
+                               <div className="absolute left-5 top-1/2 -translate-y-1/2 flex items-center gap-3 text-text-dim border-r border-border-soft pr-4">
+                                 <DollarSign size={20} />
+                                 <span className="text-[9px] font-black uppercase tracking-widest">BRL</span>
+                               </div>
+                               <input 
+                                 type="number"
+                                 value={formData.faturamentoMensal}
+                                 onChange={(e) => setFormData({...formData, faturamentoMensal: parseFloat(e.target.value) || 0})}
+                                 className="w-full pl-28 pr-8 py-5 bg-bg-card border border-border-main rounded-standard text-2xl font-display font-black text-text-main outline-none focus:border-secondary transition-all shadow-inner-soft"
+                                 placeholder="0,00"
+                               />
+                             </div>
+                          </div>
+                       </div>
+                    </div>
                     )}
                   </div>
 
@@ -1141,7 +1195,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                                  }}
                                  className="text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1"
                                >
-                                  <Plus size={12} /> Adicionar
+                                  <Plus size={14} /> Cadastrar Empresa
                                </button>
                             </div>
 
@@ -1352,14 +1406,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
             )}
 
             {activeFormTab === 'contato' && (
-              <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="space-y-10">
-                <div className="bg-primary/5 p-8 rounded-3xl border border-primary/10">
-                  <h3 className="text-sm font-black text-primary uppercase tracking-widest mb-6 flex items-center gap-2">
-                    <ShieldCheck size={18} /> Contato Principal (Decisor)
+              <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="space-y-12">
+                <div className="card-premium bg-primary/5 border-primary/20">
+                  <h3 className="text-sm font-black text-primary uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
+                    <ShieldCheck size={20} className="text-primary" /> Contato Principal (Decisor)
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="space-y-1">
-                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Nome Completo</label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="space-y-3">
+                      <label className="text-label">Nome Completo</label>
                       <input 
                         type="text" 
                         value={formData.contato.nome}
@@ -1368,22 +1422,22 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                           validateField('contatoNome', e.target.value);
                         }}
                         className={cn(
-                          "w-full px-4 py-2 bg-white border rounded-lg text-sm font-bold outline-none transition-all",
-                          validationErrors.contatoNome ? "border-rose-300 focus:border-rose-500" : "border-slate-200 focus:border-primary"
+                          "w-full px-5 py-3 bg-white/50 border rounded-standard text-sm font-bold outline-none transition-all",
+                          validationErrors.contatoNome ? "border-rose-300 focus:border-rose-500" : "border-border-main focus:border-primary"
                         )}
                       />
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Cargo / Função</label>
+                    <div className="space-y-3">
+                      <label className="text-label">Cargo / Função</label>
                       <input 
                         type="text" 
                         value={formData.contato.funcao}
                         onChange={(e) => setFormData({...formData, contato: {...formData.contato, funcao: e.target.value}})}
-                        className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-primary"
+                        className="w-full px-5 py-3 bg-white/50 border border-border-main rounded-standard text-sm font-bold outline-none focus:border-primary transition-all"
                       />
                     </div>
-                     <div className="space-y-1">
-                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">E-mail Corporativo</label>
+                     <div className="space-y-3">
+                      <label className="text-label">E-mail Corporativo</label>
                       <input 
                         type="email" 
                         value={formData.contato.email}
@@ -1392,56 +1446,57 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                           validateField('email', e.target.value);
                         }}
                         className={cn(
-                          "w-full px-4 py-2 bg-white border rounded-lg text-sm font-bold outline-none transition-all",
-                          validationErrors.email ? "border-rose-300 focus:border-rose-500" : "border-slate-200 focus:border-primary"
+                          "w-full px-5 py-3 bg-bg-surface border rounded-standard text-sm font-bold outline-none transition-all",
+                          validationErrors.email ? "border-rose-300 focus:border-rose-500" : "border-border-main focus:border-secondary"
                         )}
                       />
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Telefone / WhatsApp</label>
+                    <div className="space-y-3">
+                      <label className="text-label">Telefone / WhatsApp</label>
                       <input 
                         type="tel" 
                         value={formData.contato.telefone}
                         onChange={(e) => setFormData({...formData, contato: {...formData.contato, telefone: e.target.value}})}
-                        className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-primary"
+                        className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-bold outline-none focus:border-secondary transition-all"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-3xl border border-slate-200 border-dashed">
-                   <div className="flex items-center justify-between mb-6">
-                     <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Contatos Adicionais</h4>
-                   </div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-4">
-                        <div className="grid grid-cols-2 gap-3">
+                <div className="card-premium bg-bg-surface/50 border-dashed">
+                   <h4 className="text-sm font-black text-text-dim uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
+                     <Users size={18} className="text-secondary" /> Contatos Adicionais
+                   </h4>
+                   
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                     <div className="space-y-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <input 
                             type="text" placeholder="Nome" 
                             value={tempContact.nome}
                             onChange={(e) => setTempContact({...tempContact, nome: e.target.value})}
-                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-bold outline-none"
+                            className="w-full px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs font-bold outline-none focus:border-secondary transition-all"
                           />
                           <input 
                             type="text" placeholder="Cargo" 
                             value={tempContact.cargo}
                             onChange={(e) => setTempContact({...tempContact, cargo: e.target.value})}
-                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-bold outline-none"
+                            className="w-full px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs font-bold outline-none focus:border-secondary transition-all"
                           />
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <input 
                             type="email" placeholder="E-mail" 
                             value={tempContact.email}
                             onChange={(e) => setTempContact({...tempContact, email: e.target.value})}
-                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-bold outline-none"
+                            className="w-full px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs font-bold outline-none focus:border-secondary transition-all"
                           />
                           <div className="flex gap-2">
                             <input 
                               type="tel" placeholder="Telefone" 
                               value={tempContact.tel}
                               onChange={(e) => setTempContact({...tempContact, tel: e.target.value})}
-                              className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-bold outline-none"
+                              className="flex-1 px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs font-bold outline-none focus:border-secondary transition-all"
                             />
                             <button 
                               onClick={() => {
@@ -1450,35 +1505,58 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                                   setTempContact({ nome: '', email: '', tel: '', cargo: '' });
                                 }
                               }}
-                              className="p-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 shadow-sm"
+                              className="btn-accent p-2.5"
                             >
-                              <Plus size={16} />
+                              <Plus size={18} />
                             </button>
                           </div>
                         </div>
                      </div>
 
-                     <div className="space-y-2">
+                     <div className="space-y-3">
                         {formData.contatosAdicionais.map((c, i) => (
-                          <div key={i} className="flex items-center justify-between bg-slate-50/50 p-3 rounded-xl border border-slate-100 group/item">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-slate-400"><Users size={14} /></div>
+                          <div key={i} className="flex items-center justify-between bg-bg-card p-4 rounded-standard border border-border-main shadow-sm group">
+                            <div className="flex items-center gap-4">
+                              <div className="w-10 h-10 bg-bg-surface rounded-xl flex items-center justify-center text-text-dim group-hover:text-secondary transition-all shadow-sm"><Users size={16} /></div>
                               <div>
-                                <p className="text-[11px] font-black text-slate-800">{c.nome} <span className="text-slate-400 font-bold ml-1">({c.cargo})</span></p>
-                                <p className="text-[9px] text-slate-400">{c.email} | {c.tel}</p>
+                                <p className="text-sm font-black text-text-main">{c.nome} <span className="text-text-dim font-bold text-[10px] ml-2 uppercase tracking-widest">({c.cargo})</span></p>
+                                <p className="text-[11px] text-text-muted font-medium italic">{c.email} • {c.tel}</p>
                               </div>
                             </div>
                             <button 
                               onClick={() => setFormData({...formData, contatosAdicionais: formData.contatosAdicionais.filter((_, idx) => idx !== i)})}
-                              className="p-1.5 text-rose-400 opacity-0 group-hover/item:opacity-100 transition-opacity"
+                              className="w-8 h-8 rounded-full flex items-center justify-center text-rose-400 hover:bg-rose-50 hover:text-rose-600 transition-all"
                             >
-                              <X size={14} />
+                              <X size={18} />
                             </button>
                           </div>
                         ))}
+                        {formData.contatosAdicionais.length === 0 && (
+                          <div className="h-full flex items-center justify-center border-2 border-dashed border-border-main rounded-standard p-8 text-text-dim text-[10px] font-black uppercase tracking-widest italic">
+                            Nenhum contato adicional
+                          </div>
+                        )}
                      </div>
                    </div>
                 </div>
+              </motion.div>
+            )}
+
+            {activeFormTab === 'usuarios' && (
+              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
+                {editingId ? (
+                  <ClientUserManager clientId={editingId} />
+                ) : (
+                  <div className="card-premium bg-bg-surface/50 border-dashed text-center py-24 space-y-8">
+                    <div className="w-24 h-24 bg-bg-card rounded-[2rem] flex items-center justify-center text-text-dim mx-auto shadow-premium border border-border-main">
+                        <Key size={40} className="opacity-50" />
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xl font-display font-black text-text-main uppercase tracking-widest">Aguardando Cadastro</h4>
+                      <p className="text-xs text-text-muted font-medium uppercase tracking-[0.2em] max-w-[300px] mx-auto leading-relaxed">Para gerenciar usuários e acessos, conclua primeiro o salvamento dos dados básicos da empresa.</p>
+                    </div>
+                  </div>
+                )}
               </motion.div>
             )}
 
@@ -1501,61 +1579,60 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
             {activeFormTab === 'relatorio_ia' && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
                 {(formData as any).aiAnalysis ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-8">
-                      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                        <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                          <AlertCircle size={14} className="text-rose-500" /> Principais Desafios
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div className="space-y-10">
+                      <div className="card-premium space-y-6">
+                        <h4 className="text-sm font-black text-text-main uppercase tracking-[0.2em] flex items-center gap-3">
+                          <AlertCircle size={18} className="text-rose-500" /> Desafios Estratégicos
                         </h4>
-                        <ul className="space-y-3">
+                        <div className="space-y-4">
                           {((formData as any).aiAnalysis.challenges || []).map((c: string, i: number) => (
-                            <li key={i} className="text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <div key={i} className="text-xs text-text-muted font-medium leading-relaxed bg-bg-surface p-4 rounded-standard border border-border-soft">
                               {c}
-                            </li>
+                            </div>
                           ))}
-                        </ul>
+                        </div>
                       </div>
 
-                      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                        <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                          <TrendingUp size={14} className="text-emerald-500" /> Oportunidades & Crescimento
+                      <div className="card-premium space-y-6">
+                        <h4 className="text-sm font-black text-text-main uppercase tracking-[0.2em] flex items-center gap-3">
+                          <TrendingUp size={18} className="text-emerald-500" /> Oportunidades de Crescimento
                         </h4>
-                        <ul className="space-y-3">
+                        <div className="space-y-4">
                           {((formData as any).aiAnalysis.growthSuggestions || []).map((c: string, i: number) => (
-                            <li key={i} className="text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <div key={i} className="text-xs text-text-muted font-medium leading-relaxed bg-bg-surface p-4 rounded-standard border border-border-soft">
                               {c}
-                            </li>
+                            </div>
                           ))}
-                        </ul>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="space-y-8">
-                      <div className="bg-slate-900 text-white p-8 rounded-3xl shadow-sm space-y-4">
-                        <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 mb-2">
-                          Estrutura de Governança
+                    <div className="space-y-10">
+                      <div className="bg-primary p-10 rounded-standard text-white space-y-6 shadow-floating-primary relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+                        <h4 className="text-[11px] font-black text-white/50 uppercase tracking-[0.3em] flex items-center gap-2">
+                          <ShieldCheck size={14} /> Governança & Estrutura
                         </h4>
-                        <p className="text-xs font-medium leading-relaxed opacity-90 text-slate-300">
-                          {((formData as any).aiAnalysis.governance || 'N/A')}
+                        <p className="text-sm font-medium leading-relaxed text-white/90 italic">
+                          "{((formData as any).aiAnalysis?.governance || 'N/A')}"
                         </p>
                       </div>
 
-                      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                        <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                          Fluxo Operacional
-                        </h4>
-                        <p className="text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                          {((formData as any).aiAnalysis.operationalFlow || 'N/A')}
-                        </p>
+                      <div className="card-premium space-y-6">
+                        <h4 className="text-sm font-black text-text-main uppercase tracking-[0.2em]">Fluxo Operacional</h4>
+                        <div className="text-xs text-text-muted font-medium leading-relaxed bg-bg-surface p-5 rounded-standard border border-border-soft border-dashed italic">
+                          {((formData as any).aiAnalysis?.operationalFlow || 'N/A')}
+                        </div>
                       </div>
 
-                      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                        <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                          <LayoutGrid size={14} className="text-blue-500" /> Ideias de Dashboards
+                      <div className="card-premium space-y-6">
+                        <h4 className="text-sm font-black text-text-main uppercase tracking-[0.2em] flex items-center gap-3">
+                          <LayoutGrid size={18} className="text-secondary" /> Dashboards Sugeridos
                         </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {((formData as any).aiAnalysis.dashboardIdeas || []).map((c: string, i: number) => (
-                            <span key={i} className="px-3 py-1.5 bg-blue-50 text-blue-700 text-[10px] font-black rounded-lg border border-blue-100">
+                        <div className="flex flex-wrap gap-3">
+                          {((formData as any).aiAnalysis?.dashboardIdeas || []).map((c: string, i: number) => (
+                            <span key={i} className="px-4 py-2 bg-secondary/5 text-secondary text-[10px] font-black uppercase rounded-lg border border-secondary/10">
                               {c}
                             </span>
                           ))}
@@ -1564,16 +1641,32 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-slate-50 border border-slate-100 p-12 rounded-[32px] text-center space-y-4">
-                    <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-indigo-300 mx-auto shadow-sm">
-                        <Sparkles size={32} />
+                  <div className="card-premium bg-bg-surface/50 border-dashed text-center py-24 space-y-8">
+                    <div className="w-24 h-24 bg-bg-card rounded-[2rem] flex items-center justify-center text-text-dim mx-auto shadow-premium border border-border-main">
+                        <Sparkles size={40} className="opacity-50 text-secondary" />
                     </div>
-                    <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Sem Análise Gerencial</h4>
-                    <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest max-w-[250px] mx-auto">Este cliente não foi gerado via inteligência artificial ou não possui relatório estratégico associado.</p>
+                    <div className="space-y-2">
+                      <h4 className="text-xl font-display font-black text-text-main uppercase tracking-widest">Sem Análise de IA</h4>
+                      <p className="text-xs text-text-muted font-medium uppercase tracking-[0.2em] max-w-[300px] mx-auto leading-relaxed">Este cliente não possui um relatório gerencial automatizado vinculado no momento.</p>
+                    </div>
                   </div>
                 )}
               </motion.div>
             )}
+
+            {['pessoal', 'importacao', 'acessos', 'auditoria'].map(tab => (
+              activeFormTab === tab && !editingId && (
+                <div key={tab} className="card-premium bg-bg-surface/50 border-dashed text-center py-24 space-y-8">
+                  <div className="w-24 h-24 bg-bg-card rounded-[2rem] flex items-center justify-center text-text-dim mx-auto shadow-premium border border-border-main">
+                      <AlertCircle size={40} className="opacity-50" />
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-xl font-display font-black text-text-main uppercase tracking-widest">Aguardando Cadastro</h4>
+                    <p className="text-xs text-text-muted font-medium uppercase tracking-[0.2em] max-w-[300px] mx-auto leading-relaxed">Para visualizar esta seção, você precisa primeiro concluir o cadastro básico da empresa.</p>
+                  </div>
+                </div>
+              )
+            ))}
           </div>
         </div>
       </div>
@@ -1581,178 +1674,181 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
   }
 
   return (
-    <div className="space-y-8 pb-32">
-       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-200">
-        <div>
-          <PageHeader 
-            title="Carteira de Clientes" 
-            description="Gestão centralizada de empresas, filiais e unidades de negócio sob consultoria."
-          />
-        </div>
-        <div className="flex items-center gap-4">
-           <div className="flex bg-slate-100 p-1 rounded-xl">
-             <button onClick={() => setFilters({...filters, status: ''})} className={cn("px-4 py-2 text-xs font-bold rounded-lg transition-all", !filters.status ? "bg-white text-primary shadow-sm" : "text-slate-500")}>Todos</button>
-             <button onClick={() => setFilters({...filters, status: 'Ativo'})} className={cn("px-4 py-2 text-xs font-bold rounded-lg transition-all", filters.status === 'Ativo' ? "bg-white text-emerald-600 shadow-sm" : "text-slate-500")}>Ativos</button>
-             <button onClick={() => setFilters({...filters, status: 'Suspenso'})} className={cn("px-4 py-2 text-xs font-bold rounded-lg transition-all", filters.status === 'Suspenso' ? "bg-white text-rose-600 shadow-sm" : "text-slate-500")}>Suspensos</button>
+    <div className="space-y-12 pb-32 animate-executive-fade">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-12">
+        <PageHeader 
+          title="Dados de Cadastro"
+          subtitle="Gestão centralizada de empresas, filiais e unidades de negócio sob consultoria estratégica."
+          icon={Building2}
+          color="bg-primary"
+        />
+        <div className="flex flex-wrap items-center gap-6">
+           <div className="flex bg-bg-surface p-1.5 rounded-2xl border border-border-main shadow-sm">
+             <button onClick={() => setFilters({...filters, status: ''})} className={cn("px-6 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", !filters.status ? "bg-bg-card text-text-main shadow-premium border border-border-main" : "text-text-dim hover:text-text-main")}>Todos</button>
+             <button onClick={() => setFilters({...filters, status: 'Ativo'})} className={cn("px-6 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", filters.status === 'Ativo' ? "bg-bg-card text-emerald-600 shadow-premium border border-border-main" : "text-text-dim hover:text-text-main")}>Ativos</button>
+             <button onClick={() => setFilters({...filters, status: 'Suspenso'})} className={cn("px-6 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", filters.status === 'Suspenso' ? "bg-bg-card text-rose-600 shadow-premium border border-border-main" : "text-text-dim hover:text-text-main")}>Suspensos</button>
            </div>
            
            <button 
             onClick={() => setIsAIModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-3 bg-slate-900 text-white rounded-xl font-bold text-xs hover:bg-slate-800 transition-all shadow-lg active:scale-95 whitespace-nowrap"
+            className="px-8 py-4 bg-bg-card text-text-main rounded-2xl text-[10px] font-black uppercase tracking-widest border border-border-main hover:bg-bg-surface transition-all flex items-center gap-3 shadow-premium"
           >
-            <Sparkles size={16} />
-            GERAR EMPRESA MODELO
+            <Sparkles size={18} className="text-secondary" />
+            Empresa Modelo
           </button>
 
            <button 
             onClick={openAdd}
-            className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-bold text-xs hover:bg-primary/90 transition-all shadow-lg active:scale-95 whitespace-nowrap"
+            className="btn-executive px-8 py-4 shadow-floating-primary"
           >
-            <Plus size={16} /> NOVO CLIENTE
+            <Plus size={18} /> ADICIONAR CLIENTE
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="md:col-span-1 space-y-6">
-           <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-             <div className="relative mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+        <div className="lg:col-span-1 space-y-8">
+           <div className="card-premium space-y-8">
+             <div className="relative">
                 <input 
                   type="text" 
-                  placeholder="Pesquisar..."
+                  placeholder="PESQUISAR CLIENTE..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-primary/10 transition-all"
+                  className="w-full pl-12 pr-4 py-4 bg-bg-surface border border-border-main rounded-standard text-[10px] font-black uppercase tracking-[0.2em] outline-none focus:bg-bg-card focus:border-secondary transition-all shadow-inner-soft"
                 />
-                <Search size={14} className="absolute left-3.5 top-3 text-slate-400" />
+                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
              </div>
 
-             <div className="space-y-4">
-               <div>
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2 px-1">Segmento</label>
+             <div className="space-y-8">
+               <div className="space-y-3">
+                  <label className="text-label px-1">Segmento</label>
                   <select 
                     value={filters.segmento || 'Todos'}
                     onChange={(e) => setFilters({...filters, segmento: e.target.value === 'Todos' ? '' : e.target.value})}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold text-slate-600 outline-none"
+                    className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-bold text-text-main outline-none focus:border-secondary transition-all cursor-pointer"
                   >
                     {uniqueSegments.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                </div>
                
-               <div className="pt-4 border-t border-slate-100">
-                  <div className="bg-primary/5 p-4 rounded-xl">
-                    <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-1">Total na Carteira</p>
-                    <p className="text-3xl font-display text-primary">{clients.length}</p>
+               <div className="pt-8 border-t border-border-soft">
+                  <div className="bg-bg-surface p-6 rounded-standard border border-border-main relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-secondary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+                    <p className="text-label text-text-dim mb-2 relative z-10">Total na Carteira</p>
+                    <p className="text-5xl font-display font-black text-text-main relative z-10 tracking-tighter">{clients.length}</p>
                   </div>
                </div>
              </div>
            </div>
            
-           <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200 opacity-60">
-             <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Integridade de Dados</h4>
-             <p className="text-[11px] text-slate-500 leading-relaxed font-medium">Os cadastros aqui vinculados alimentam automaticamente as páginas de DRE, Fluxo de Caixa e Viabilidade.</p>
+           <div className="p-8 bg-bg-surface/30 rounded-executive border border-border-soft border-dashed space-y-3">
+             <h4 className="text-[10px] font-black text-text-main uppercase tracking-[0.2em] flex items-center gap-2">
+               <ShieldCheck size={14} className="text-secondary" /> Integridade
+             </h4>
+             <p className="text-[11px] text-text-muted leading-relaxed font-medium">Os cadastros aqui vinculados alimentam automaticamente as páginas de DRE, Fluxo de Caixa e Viabilidade Estratégica.</p>
            </div>
         </div>
 
-        <div className="md:col-span-3 space-y-6">
+        <div className="lg:col-span-3 space-y-6">
            {paginatedClients.length === 0 ? (
-              <div className="bg-white border-2 border-dashed border-slate-200 rounded-3xl p-20 flex flex-col items-center text-center">
-                 <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-200 mb-4"><Filter size={32} /></div>
-                 <h3 className="text-lg font-bold text-slate-900 mb-1">Nenhum cliente encontrado</h3>
-                 <p className="text-sm text-slate-500 font-sans">Ajuste os filtros ou o termo de busca.</p>
+              <div className="card-premium border-2 border-dashed flex flex-col items-center justify-center text-center p-20">
+                 <div className="w-20 h-20 bg-bg-surface rounded-full flex items-center justify-center text-text-dim mb-6"><Filter size={36} /></div>
+                 <h3 className="text-xl font-bold text-text-main mb-2">Nenhum cliente encontrado</h3>
+                 <p className="text-sm text-text-muted font-sans max-w-xs">Ajuste os filtros ou o termo de busca para localizar a empresa.</p>
               </div>
            ) : (
-             <div className="space-y-4">
-                {paginatedClients.map((client: any) => (
-                  <motion.div 
-                    layout
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    key={client.id} 
-                    className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-primary/30 transition-all group relative overflow-hidden"
-                  >
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-                        <div className="flex items-start gap-5">
-                          <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-primary border border-slate-100 group-hover:bg-primary/5 group-hover:border-primary/20 transition-all shrink-0 overflow-hidden">
+              <div className="space-y-6">
+                 {paginatedClients.map((client: any) => (
+                   <motion.div 
+                     layout
+                     initial={{ opacity: 0, y: 10 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     key={client.id} 
+                     className="card-premium hover:border-secondary/40 group relative overflow-hidden"
+                   >
+                     <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8 relative z-10">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                          <div className="w-16 h-16 bg-bg-surface rounded-2xl flex items-center justify-center border border-border-main group-hover:bg-secondary/5 group-hover:border-secondary/20 transition-all shrink-0 overflow-hidden shadow-sm">
                              {client.icon || client.logo ? (
                                <img src={client.icon || client.logo} alt={client.fantasia} className="w-full h-full object-contain p-2" />
                              ) : (
-                               <Building2 size={24} />
+                               <Building2 size={28} className="text-text-muted group-hover:text-secondary transition-colors" />
                              )}
                           </div>
-                          <div>
-                             <div className="flex items-center gap-3 mb-1">
-                                <h3 className="text-xl font-bold tracking-tight text-slate-900 group-hover:text-primary transition-colors">{client.fantasia}</h3>
+                          <div className="min-w-0">
+                             <div className="flex flex-wrap items-center gap-3 mb-2">
+                                <h3 className="text-2xl font-display font-black tracking-tight text-text-main group-hover:text-secondary transition-colors truncate">{client.fantasia}</h3>
                                 <StatusBadge status={client.status} />
                              </div>
-                             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-500">
-                                <span className="text-xs font-black uppercase tracking-widest text-slate-400">{client.segmento}</span>
+                             <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary">{client.segmento}</span>
                                 {client.website && (
-                                  <a href={client.website} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold text-secondary hover:underline flex items-center gap-1">
-                                     <Link2 size={10} /> {client.website.replace(/^https?:\/\//, '')}
+                                  <a href={client.website} target="_blank" rel="noopener noreferrer" className="text-[10px] font-black uppercase tracking-widest text-text-dim hover:text-secondary transition-all flex items-center gap-1.5 border-b border-border-main hover:border-secondary pb-0.5">
+                                     <Link2 size={12} /> {client.website.replace(/^https?:\/\//, '')}
                                   </a>
                                 )}
-                                <span className="text-xs flex items-center gap-1"><MapPin size={12} className="text-slate-300" /> {client.cidade}</span>
-                                <span className="text-xs font-mono">{client.cnpj}</span>
+                                <span className="text-xs font-medium text-text-muted flex items-center gap-1.5"><MapPin size={14} className="text-text-dim" /> {client.cidade}</span>
+                                <span className="text-xs font-mono font-bold text-text-dim tracking-tight">{client.cnpj}</span>
                              </div>
                              {client.unidadesNegocio?.length > 0 && (
-                               <div className="mt-3 flex flex-wrap gap-2">
+                               <div className="mt-4 flex flex-wrap gap-2">
                                  {client.unidadesNegocio.map((u: string, idx: number) => (
-                                   <span key={idx} className="px-2 py-0.5 bg-slate-50 border border-slate-100 rounded text-[9px] font-black text-slate-500 uppercase tracking-tighter">
+                                   <span key={idx} className="px-3 py-1 bg-bg-surface border border-border-main rounded-full text-[9px] font-black text-text-muted uppercase tracking-widest">
                                      {u}
                                    </span>
                                  ))}
                                  {client.filiais?.length > 0 && (
-                                   <span className="px-2 py-0.5 bg-blue-50 border border-blue-100 rounded text-[9px] font-black text-blue-600 uppercase tracking-tighter">
+                                   <span className="px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full text-[9px] font-black text-secondary uppercase tracking-widest">
                                      +{client.filiais.length} Filia{client.filiais.length > 1 ? 'is' : 'l'}
                                    </span>
                                  )}
                                </div>
                              )}
                           </div>
-                       </div>
-                       
-                       <div className="flex items-center gap-2">
+                        </div>
+                        
+                        <div className="flex items-center justify-end gap-3 pt-6 xl:pt-0 border-t xl:border-t-0 border-border-soft">
                           <button 
                             onClick={() => openEdit(client)}
-                            className="p-2.5 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-xl transition-all"
+                            className="p-3 text-text-dim hover:text-text-main hover:bg-bg-surface rounded-standard border border-transparent hover:border-border-main transition-all"
                             title="Editar Cadastro"
                           >
                             <Edit3 size={18} />
                           </button>
                           <button 
                             onClick={() => setClientToDelete({ id: client.id, name: client.fantasia })}
-                            className="p-2.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all"
+                            className="p-3 text-text-dim hover:text-rose-500 hover:bg-rose-500/10 rounded-standard border border-transparent hover:border-rose-500/20 transition-all"
                             title="Remover Cliente"
                           >
                             <Trash2 size={18} />
                           </button>
-                          <div className="h-8 w-px bg-slate-100 mx-2" />
-                          <button className="flex items-center gap-2 pl-4 pr-6 py-2.5 bg-slate-900 text-white rounded-xl font-bold text-xs hover:bg-slate-800 transition-all active:scale-95">
+                          <div className="h-8 w-px bg-border-main mx-2" />
+                          <button className="btn-accent px-8">
                              Dashboard <ChevronRight size={14} />
                           </button>
-                       </div>
-                    </div>
-                  </motion.div>
-                ))}
-             </div>
+                        </div>
+                     </div>
+                   </motion.div>
+                 ))}
+              </div>
            )}
 
            {totalPages > 1 && (
-             <div className="flex items-center justify-between pt-6 border-t border-slate-100">
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Página {currentPage} de {totalPages}</p>
-               <div className="flex gap-2">
+             <div className="flex items-center justify-between pt-8 border-t border-border-soft">
+               <p className="text-label text-text-dim">Página {currentPage} de {totalPages}</p>
+               <div className="flex gap-3">
                  <button 
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                  className="p-2 bg-white border border-slate-200 rounded-xl text-slate-600 hover:border-primary disabled:opacity-30 transition-all shadow-sm"
+                  className="p-3 bg-bg-card border border-border-main rounded-xl text-text-dim hover:text-secondary hover:border-secondary disabled:opacity-20 transition-all shadow-premium"
                  >
                    <ChevronLeft size={20} />
                  </button>
                  <button 
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                  className="p-2 bg-white border border-slate-200 rounded-xl text-slate-600 hover:border-primary disabled:opacity-30 transition-all shadow-sm"
+                  className="p-3 bg-bg-card border border-border-main rounded-xl text-text-dim hover:text-secondary hover:border-secondary disabled:opacity-20 transition-all shadow-premium"
                  >
                    <ChevronRight size={20} />
                  </button>
@@ -1764,31 +1860,33 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
 
       <AnimatePresence>
         {clientToDelete && (
-          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-primary/20 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
              <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center"
-             >
-                <div className="w-20 h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                   <Trash2 size={36} />
-                </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-2">Excluir Cliente?</h3>
-                <p className="text-slate-500 text-sm leading-relaxed mb-8">
-                  Você está prestes a remover <strong>{clientToDelete.name}</strong> da sua carteira. Todos os dados financeiros vinculados deixarão de ser exibidos.
-                </p>
-                <div className="grid grid-cols-2 gap-4">
-                   <button 
-                    onClick={() => setClientToDelete(null)}
-                    className="py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-xs uppercase"
-                   >Cancelar</button>
-                   <button 
-                    onClick={handleDelete}
-                    className="py-3 bg-rose-500 text-white rounded-xl font-black text-xs uppercase shadow-lg shadow-rose-200"
-                   >Confirmar Exclusão</button>
-                </div>
-             </motion.div>
+               initial={{ opacity: 0, scale: 0.95, y: 20 }}
+               animate={{ opacity: 1, scale: 1, y: 0 }}
+               exit={{ opacity: 0, scale: 0.95, y: 20 }}
+               className="card-premium bg-bg-card max-w-md w-full text-center p-12 space-y-8"
+              >
+                 <div className="w-24 h-24 bg-rose-500/10 text-rose-500 rounded-[2rem] flex items-center justify-center mx-auto shadow-inner-soft border border-rose-500/20">
+                    <Trash2 size={40} />
+                 </div>
+                 <div className="space-y-3">
+                    <h3 className="text-2xl font-display font-black text-text-main uppercase tracking-tight">Remover Cliente?</h3>
+                    <p className="text-sm text-text-muted leading-relaxed font-medium">
+                      Você está prestes a remover <strong className="text-text-main">{clientToDelete.name}</strong> da sua carteira estratégica. Esta ação desvinculará todos os históricos financeiros.
+                    </p>
+                 </div>
+                 <div className="grid grid-cols-2 gap-4 pt-4">
+                    <button 
+                     onClick={() => setClientToDelete(null)}
+                     className="px-6 py-4 bg-bg-surface text-text-dim rounded-2xl text-[10px] font-black uppercase tracking-widest border border-border-main hover:bg-bg-card transition-all"
+                    >Cancelar</button>
+                    <button 
+                     onClick={handleDelete}
+                     className="px-6 py-4 bg-rose-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-floating-danger hover:bg-rose-700 transition-all"
+                    >Confirmar Exclusão</button>
+                 </div>
+              </motion.div>
           </div>
         )}
       </AnimatePresence>

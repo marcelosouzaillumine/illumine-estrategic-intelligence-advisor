@@ -198,21 +198,27 @@ const companySchema = {
   required: ["clientData", "assumptions", "historicalRevenueBase", "ebitdaMargin", "strategicReport", "diretrizes", "employees", "pricing", "payables", "receivables", "diagnostico", "okrs"]
 };
 
-export const generateAICompanyPayload = async (segment: string): Promise<AICompanyData> => {
+export const generateAICompanyPayload = async (segment: string, description: string = ''): Promise<AICompanyData> => {
   try {
     const ai = getAI();
     
-    const prompt = `Você é um CFO sênior, Consultor Estratégico e RH atuando na criação de uma Empresa Modelo no segmento: "${segment}".
-Crie uma empresa realista. Siga exatamente as diretrizes:
+    const prompt = `Você é um CFO sênior, Consultor Estratégico e RH atuando na criação de uma Empresa Modelo.
+SEGMENTO: "${segment}"
+CARACTERÍSTICAS/RELATO: "${description}"
+
+Crie uma empresa realista e SISTÊMICA. Os dados devem estar INTEGRADOS: se o relato diz que a empresa tem problemas de caixa, o faturamento e as contas a pagar/receber devem refletir isso.
+
+Siga exatamente as diretrizes:
 1. clientData.regime DEVE ser exatamente um destes: "Lucro Real", "Lucro Presumido", "Simples Nacional".
-2. Defina CNAE válido e faturamento mensal coerente.
-3. Gere 3 funcionários (employees) com salários condizentes.
+2. Defina CNAE válido e faturamento mensal coerente com o porte e segmento.
+3. Gere 3 funcionários (employees) com salários condizentes com a descrição.
 4. Gere 2 produtos principais (pricing) com margens realistas (ex: 45 para 45%).
-5. Gere 2 contas a pagar (payables) e 2 a receber (receivables) com nomes de fornecedores/clientes reais.
-6. Gere Missão, Visão e Valores.
-7. Gere 2 itens de diagnóstico empresarial. (swot DEVE ser: "Força", "Fraqueza", "Oportunidade" ou "Ameaça". eixo DEVE ser "Comercial", "Operacional", "Gestão Financeira", etc. gravidade, urgencia, tendencia, impactoFinanceiro entre 1 e 5).
-8. Gere 1 OKR (eixo DEVE ser "Comercial", "Operacional", "Inovação", etc).
-9. Gere relatório estratégico completo (desafios, oportunidades, etc).`;
+5. Gere 2 contas a pagar (payables) e 2 a receber (receivables). Se o relato menciona problemas de caixa, crie valores que justifiquem isso.
+6. Gere Missão, Visão e Valores alinhados com o relato.
+7. Gere 2 itens de diagnóstico empresarial (IVE). (swot DEVE ser: "Força", "Fraqueza", "Oportunidade" ou "Ameaça". eixo DEVE ser "Comercial", "Operacional", "Gestão Financeira", etc. gravidade, urgencia, tendencia, impactoFinanceiro entre 1 e 5). Devem refletir os desafios do relato.
+8. Gere 1 OKR estratégico (eixo DEVE ser "Comercial", "Operacional", "Inovação", etc) que ajude a resolver um dos problemas citados.
+9. Gere relatório estratégico completo (desafios, oportunidades, governança, fluxo operacional).
+10. Defina historicalRevenueBase e ebitdaMargin que façam sentido com o segmento e o momento da empresa descrito.`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.0-flash',
@@ -607,7 +613,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   // === SEQUENTIAL WRITES: Operational Modules (one at a time to isolate failures) ===
   const currentYearMonth = new Date().toISOString().substring(0, 7); // YYYY-MM
   const getValidSwot = (val: string) => ['Força', 'Fraqueza', 'Oportunidade', 'Ameaça'].includes(val) ? val : 'Força';
-  const getValidEixo = (val: string) => ['Governança', 'Cultura', 'Inovação', 'Comercial', 'Operacional', 'Gestão', 'Marketing'].includes(val) ? val : 'Comercial';
+  const getValidEixo = (val: string) => ['Governança', 'Cultura', 'Gestão', 'Inovação', 'Marketing', 'Comercial', 'Operação'].includes(val) ? val : 'Comercial';
 
   try {
     await addDoc(collection(db, 'diretrizes'), {
@@ -624,21 +630,8 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     throw new Error(`Falha em diretrizes: ${err.message}`);
   }
 
-  try {
-    for (const emp of (aiData.employees || [])) {
-      await addDoc(collection(db, 'employees'), {
-        clientId,
-        ownerId: auth.currentUser!.uid,
-        nome: emp.nome,
-        salarioBase: emp.salarioBase,
-        updatedAt: serverTimestamp()
-      });
-    }
-    console.log('employees created.');
-  } catch (err: any) {
-    console.error('FAIL employees:', err);
-    throw new Error(`Falha em employees: ${err.message}`);
-  }
+    // Já criado acima via aiData.employees se disponível, mas vamos garantir aqui se falhar
+    console.log('employees setup handled via aiData.');
 
   try {
     const fluxoDiario = [];
@@ -804,26 +797,16 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       console.error('FAIL financial_positions:', err);
     }
 
-    try {
-      const employeesData = [
-        { nome: "Diretor Comercial", salarioBase: 15000 },
-        { nome: "Gerente Operacional", salarioBase: 12000 },
-        { nome: "Analista Financeiro", salarioBase: 8000 },
-        { nome: "Analista de Marketing", salarioBase: 7500 },
-        { nome: "Assistente Administrativo", salarioBase: 5000 }
-      ];
-      for (const emp of employeesData) {
-        await addDoc(collection(db, 'employees'), {
-          clientId,
-          ownerId: auth.currentUser!.uid,
-          nome: emp.nome,
-          salarioBase: emp.salarioBase,
-          updatedAt: serverTimestamp()
-        });
-      }
-    } catch (err: any) {
-      console.error('FAIL employees:', err);
+    for (const emp of (aiData.employees || [])) {
+      await addDoc(collection(db, 'employees'), {
+        clientId,
+        ownerId: auth.currentUser!.uid,
+        nome: emp.nome,
+        salarioBase: emp.salarioBase,
+        updatedAt: serverTimestamp()
+      });
     }
+    console.log('employees created from aiData.');
 
     try {
       const purchasesData = [
@@ -844,21 +827,57 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     }
 
     try {
+      const currentYear = parseInt(currentYearMonth.split('-')[0]);
+      const currentMonth = parseInt(currentYearMonth.split('-')[1]);
+      
       const indicatorsData = [
-        { ind: "NPS (Net Promoter Score)", val: 85 },
-        { ind: "Turnover Rate (%)", val: 5 },
-        { ind: "CAC (Custo de Aquisição de Cliente)", val: monthlyRev * 0.05 },
-        { ind: "LTV (Life Time Value)", val: monthlyRev * 0.5 }
+        // Gestão Financeira
+        { ind: "Liquidez Corrente", val: 1.2 + Math.random(), un: 'x', cat: 'Gestão' },
+        { ind: "Endividamento Geral", val: 30 + Math.random() * 20, un: '%', cat: 'Gestão' },
+        { ind: "PMR (Prazo Médio Recebimento)", val: 30 + Math.round(Math.random() * 15), un: 'dias', cat: 'Gestão' },
+        
+        // Cultura
+        { ind: "Turnover Rate (%)", val: 3 + Math.random() * 5, un: '%', cat: 'Cultura' },
+        { ind: "eNPS (Clima)", val: 60 + Math.random() * 30, un: 'pts', cat: 'Cultura' },
+        { ind: "Absenteísmo", val: 1 + Math.random() * 2, un: '%', cat: 'Cultura' },
+        
+        // Marketing
+        { ind: "Custo por Lead (CPL)", val: 15 + Math.random() * 20, un: 'R$', cat: 'Marketing' },
+        { ind: "CAC (Custo de Aquisição)", val: monthlyRev * 0.05 / 10, un: 'R$', cat: 'Marketing' },
+        { ind: "ROI em Marketing", val: 3 + Math.random() * 4, un: 'x', cat: 'Marketing' },
+        
+        // Comercial
+        { ind: "Taxa de Conversão", val: 15 + Math.random() * 15, un: '%', cat: 'Comercial' },
+        { ind: "Ticket Médio", val: 500 + Math.random() * 1000, un: 'R$', cat: 'Comercial' },
+        { ind: "Churn Rate", val: 1 + Math.random() * 3, un: '%', cat: 'Comercial' },
+        
+        // Operação
+        { ind: "OEE (Eficiência Global)", val: 70 + Math.random() * 20, un: '%', cat: 'Operação' },
+        { ind: "Nível de Serviço (SLA)", val: 90 + Math.random() * 9, un: '%', cat: 'Operação' },
+        { ind: "Desperdício/Perdas", val: 1 + Math.random() * 4, un: '%', cat: 'Operação' },
+        
+        // Inovação
+        { ind: "Índice de Vitalidade", val: 10 + Math.random() * 15, un: '%', cat: 'Inovação' },
+        { ind: "Projetos em Execução", val: 2 + Math.round(Math.random() * 3), un: 'un', cat: 'Inovação' },
+        
+        // Governança
+        { ind: "Índice de Maturidade", val: 50 + Math.random() * 40, un: '%', cat: 'Governança' },
+        { ind: "Compliance Score", val: 70 + Math.random() * 25, un: '%', cat: 'Governança' }
       ];
+
       for (const ind of indicatorsData) {
         await addDoc(collection(db, 'indicators'), {
           clientId,
           createdBy: auth.currentUser!.uid,
-          ano: parseInt(currentYearMonth.split('-')[0]),
-          mes: parseInt(currentYearMonth.split('-')[1]),
+          ano: currentYear,
+          mes: currentMonth,
           ind: ind.ind,
           val: ind.val,
-          createdAt: serverTimestamp()
+          un: ind.un,
+          cat: ind.cat,
+          sem: ind.val > 0 ? 'Verde' : 'Vermelho',
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
         });
       }
     } catch (err: any) {
@@ -895,6 +914,11 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
 
   try {
     for (const diag of (aiData.diagnostico || [])) {
+      const g = Math.max(1, Math.min(5, Math.round(diag.gravidade)));
+      const u = Math.max(1, Math.min(5, Math.round(diag.urgencia)));
+      const t = Math.max(1, Math.min(5, Math.round(diag.tendencia)));
+      const i = Math.max(1, Math.min(5, Math.round(diag.impactoFinanceiro)));
+      
       await addDoc(collection(db, 'diagnostico'), {
         clientId,
         ownerId: auth.currentUser!.uid,
@@ -902,11 +926,11 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
         swot: getValidSwot(diag.swot),
         eixo: getValidEixo(diag.eixo),
         tipoRisco: 'Operacional',
-        gravidade: Math.max(1, Math.min(5, Math.round(diag.gravidade))),
-        urgencia: Math.max(1, Math.min(5, Math.round(diag.urgencia))),
-        tendencia: Math.max(1, Math.min(5, Math.round(diag.tendencia))),
-        impactoFinanceiro: Math.max(1, Math.min(5, Math.round(diag.impactoFinanceiro))),
-        iveScore: 0,
+        gravidade: g,
+        urgencia: u,
+        tendencia: t,
+        impactoFinanceiro: i,
+        iveScore: g * u * t * i,
         updatedAt: serverTimestamp()
       });
     }

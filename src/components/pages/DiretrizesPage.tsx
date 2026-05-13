@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Target, Flag, Rocket, Plus, Trash2, Edit2, Save, X, Eye, FileText } from 'lucide-react';
+import { Target, Flag, Rocket, Plus, Trash2, Edit2, Save, X, Eye, FileText, Heart, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useModuleData } from '../../hooks/useModuleData';
 import { Diretriz } from '../../types/modules';
@@ -15,6 +15,8 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
   const { data, add, update, loading } = useModuleData<Diretriz>('diretrizes', clientId);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<Partial<Diretriz>>({
+    proposito: '',
+    historia: '',
     missao: '',
     visao: '',
     valores: []
@@ -30,6 +32,8 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
 
   const handleSave = async () => {
     const payload = {
+      proposito: formData.proposito || '',
+      historia: formData.historia || '',
       missao: formData.missao || '',
       visao: formData.visao || '',
       valores: formData.valores || []
@@ -74,8 +78,8 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
     <div className="space-y-8 pb-32">
       <div className="flex justify-between items-center bg-white p-6 rounded-3xl border border-slate-100 shadow-sm mb-8">
         <div>
-          <h2 className="text-2xl font-black text-slate-800 tracking-tight">Diretrizes Corporativas</h2>
-          <p className="text-slate-400 text-sm font-medium">Missão, Visão e Valores da Empresa</p>
+          <h2 className="text-2xl font-black text-slate-800 tracking-tight">Identidade & Diretrizes</h2>
+          <p className="text-slate-400 text-sm font-medium">O DNA e o norte estratégico da empresa</p>
         </div>
         <button
           onClick={() => setIsEditing(!isEditing)}
@@ -90,7 +94,38 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* Propósito */}
+      <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 p-8 text-rose-50">
+            <Heart size={120} strokeWidth={1} />
+          </div>
+          <div className="relative z-10 space-y-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-500">
+                <Heart size={24} />
+              </div>
+              <h3 className="text-xl font-black text-slate-800">Propósito</h3>
+            </div>
+            {isEditing ? (
+              <textarea
+                value={formData.proposito || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, proposito: e.target.value }))}
+                className="w-full h-24 p-6 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-rose-500/20 transition-all font-medium text-slate-600 resize-none"
+                placeholder="Por que a empresa existe? Qual a sua causa?"
+              />
+            ) : (
+              <p className="text-slate-500 leading-relaxed font-semibold text-lg italic">
+                {currentDiretriz?.proposito ? `"${currentDiretriz.proposito}"` : 'O propósito ainda não foi definido. Ele é o "porquê" por trás de tudo.'}
+              </p>
+            )}
+          </div>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Missão */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -154,6 +189,44 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
           </div>
         </motion.div>
       </div>
+
+      {/* História */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15 }}
+        className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
+      >
+        <div className="absolute top-0 right-0 p-8 text-slate-50">
+          <BookOpen size={120} strokeWidth={1} />
+        </div>
+        <div className="relative z-10 space-y-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-600">
+              <BookOpen size={24} />
+            </div>
+            <h3 className="text-xl font-black text-slate-800">Nossa História & Origem</h3>
+          </div>
+          {isEditing ? (
+            <textarea
+              value={formData.historia || ''}
+              onChange={(e) => setFormData(prev => ({ ...prev, historia: e.target.value }))}
+              className="w-full h-48 p-6 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-slate-500/20 transition-all font-medium text-slate-600 resize-none"
+              placeholder="Conte como tudo começou, os desafios superados e a herança da marca..."
+            />
+          ) : (
+            <div className="text-slate-500 leading-relaxed font-medium space-y-4">
+              {currentDiretriz?.historia ? (
+                currentDiretriz.historia.split('\n').map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))
+              ) : (
+                <p className="italic text-slate-400">A história da empresa ainda não foi registrada. O storytelling é fundamental para criar conexão e confiança.</p>
+              )}
+            </div>
+          )}
+        </div>
+      </motion.div>
 
       {/* Valores */}
       <motion.div 

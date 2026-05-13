@@ -11,7 +11,7 @@ export function formatCurrency(value: number) {
     currency: 'BRL',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(value);
+  }).format(Math.floor(value));
 }
 
 export function formatDate(date: string | Date) {
@@ -21,11 +21,17 @@ export function formatDate(date: string | Date) {
 }
 
 export function formatValue(val: number, un: string) {
-  if (un === 'R$') return formatCurrency(val);
-  if (un === '%') return (val * 100).toFixed(1) + '%';
-  if (un === 'x') return val.toFixed(2) + 'x';
-  if (un === 'dias') return val.toFixed(1) + ' dias';
-  return val.toLocaleString('pt-BR');
+  if (un === 'R$' || un === 'BRL') return formatCurrency(val);
+  if (un === '%') {
+    // Standardize: if value is < 1 (e.g. 0.242), multiply by 100. If > 1, assume it's already a percentage.
+    const displayVal = (val > -1 && val < 1) ? val * 100 : val;
+    return displayVal.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+  }
+  if (un === 'x') return val.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + 'x';
+  if (un === 'dias') return Math.floor(val).toLocaleString('pt-BR') + ' dias';
+  
+  // Absolute numbers: No decimals
+  return Math.floor(val).toLocaleString('pt-BR');
 }
 
 export function calculateVPL(flows: number[], rate: number) {

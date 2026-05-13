@@ -143,7 +143,7 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
             onClick={() => setIsAdding(true)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20"
           >
-            <Plus size={14} /> Novo Colaborador
+            <Plus size={14} /> Adicionar Colaborador
           </button>
         )}
       </div>

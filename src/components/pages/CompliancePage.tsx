@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn } from '../../lib/utils';
+import { PageHeader } from '../Common';
+
 
 interface CompliancePageProps {
   clientId: string;
@@ -29,27 +31,15 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
   ];
 
   return (
-    <div className="space-y-8 pb-32">
-      {/* Header */}
-      <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm flex justify-between items-center">
-        <div className="flex items-center gap-6">
-          <div className="w-16 h-16 rounded-3xl bg-slate-900 flex items-center justify-center text-white shadow-xl">
-            <ShieldCheck size={32} />
-          </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">Compliance & Políticas</h2>
-            <p className="text-slate-400 text-sm font-medium uppercase tracking-[0.2em]">Gestão de Integridade e Conformidade</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-           <button className="flex items-center gap-2 px-6 py-3 bg-slate-50 text-slate-400 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-100 transition-all border border-slate-100">
-              <Download size={14} /> Baixar Manual Global
-           </button>
-           <button className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-2xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl transition-all">
-              <Lock size={14} /> Auditoria Rápida
-           </button>
-        </div>
-      </div>
+    <div className="space-y-10 pb-32 animate-executive-fade">
+      {/* Standardized Header */}
+      <PageHeader 
+        title="Compliance & Políticas"
+        subtitle="Gestão estratégica de integridade, conformidade normativa e governança de risco corporativo."
+        icon={ShieldCheck}
+        color="bg-slate-900"
+      />
+
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
          {/* Policy List */}

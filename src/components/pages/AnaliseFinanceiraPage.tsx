@@ -68,7 +68,11 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
   return (
     <div className="space-y-8 pb-20">
       <div className="flex items-center justify-between">
-        <PageHeader title="Análise Estratégica & Conselho (CFO)" description="Indicadores avançados de rentabilidade, gestão de valor e análise de risco para o conselho administrativo." />
+        <PageHeader 
+        title="Análise Financeira" 
+        subtitle="Indicadores vitais e monitoramento de performance financeira estratégica."
+        icon={TrendingUp}
+      />
         <div className="flex items-center px-4 py-2 bg-white border border-slate-200 rounded-xl">
           {(loadingDre || loadingBp) && <Loader2 size={12} className="animate-spin text-blue-600 mr-2" />}
           <span className="text-[9px] font-black uppercase tracking-tighter text-slate-400">

@@ -45,9 +45,10 @@ interface Diagnostico {
 
 interface Diretrizes {
   proposito: string;
+  historia: string;
   missao: string;
   visao: string;
-  valores: string[];
+  valores: { nome: string; definicao: string }[];
 }
 
 export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }: RelatorioExecutivoPageProps) {

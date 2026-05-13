@@ -138,7 +138,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
           onClick={() => setShowAddForm(!showAddForm)}
           className="relative z-10 flex items-center gap-2 px-8 py-4 bg-emerald-600 text-white rounded-3xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-emerald-600/20 transition-all font-display"
         >
-          {showAddForm ? 'Cancelar' : <><Plus size={16} /> Novo Produto/Serviço</>}
+          {showAddForm ? 'Cancelar' : <><Plus size={16} /> Adicionar Produto/Serviço</>}
         </button>
       </div>
 
