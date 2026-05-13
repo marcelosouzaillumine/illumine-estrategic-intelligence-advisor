@@ -7,7 +7,7 @@ export function useDataTable(data: any[], config: {
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
-  const [sort, setSort] = useState(config.initialSort || { key: '', direction: 'asc' });
+  const [sort, setSort] = useState<{ key: string; direction: 'asc' | 'desc' }>(config.initialSort || { key: '', direction: 'asc' as const });
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = config.itemsPerPage || 10;
 

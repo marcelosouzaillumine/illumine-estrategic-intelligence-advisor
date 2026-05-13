@@ -11,115 +11,343 @@ import {
   PieChart as PieIcon,
   Zap,
   MessageSquare,
-  Landmark
+  Landmark,
+  Calendar,
+  Target,
+  ArrowUpRight,
+  Activity,
+  ShieldAlert
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { cn, formatValue } from '../../lib/utils';
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer, 
+  Cell,
+  Legend
+} from 'recharts';
+import { cn, formatValue, formatCurrency } from '../../lib/utils';
 import { PageHeader } from '../Common';
 
 interface ControladoriaPageProps {
   clientId: string;
 }
 
+const getValueSizeClass = (maxLen: number) => {
+  if (maxLen > 22) return "text-[clamp(0.6rem,1vw,0.75rem)]";
+  if (maxLen > 18) return "text-[clamp(0.7rem,1.2vw,0.9rem)]";
+  if (maxLen > 15) return "text-[clamp(0.85rem,1.4vw,1.1rem)]";
+  if (maxLen > 12) return "text-[clamp(1rem,1.7vw,1.35rem)]";
+  if (maxLen > 10) return "text-[clamp(1.2rem,2vw,1.7rem)]";
+  return "text-[clamp(1.6rem,2.5vw,2.3rem)]";
+};
+
 export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
   const indicators = useMemo(() => [
-    { label: 'Aderência Orçamentária', value: 94.2, suffix: '%', status: 'neutral', target: 98.0, icon: Scale },
-    { label: 'Margem EBITDA Realizada', value: 22.5, suffix: '%', status: 'positive', target: 20.0, icon: TrendingUp },
-    { label: 'Burn Rate Mensal', value: 125000, isCur: true, status: 'positive', target: 150000, icon: WalletCards },
-    { label: 'Índice de Alavancagem', value: 1.8, suffix: 'x', status: 'positive', target: 2.5, icon: Landmark }
+    { label: 'Aderência Orçamentária', value: 94.2, suffix: '%', status: 'neutral', target: 98.0, icon: Scale, trend: '-1.2%' },
+    { label: 'Margem EBITDA Realizada', value: 22.5, suffix: '%', status: 'positive', target: 20.0, icon: TrendingUp, trend: '+4.2%' },
+    { label: 'Burn Rate Mensal', value: 125000, isCur: true, status: 'positive', target: 150000, icon: WalletCards, trend: '-8.5%' },
+    { label: 'Índice de Alavancagem', value: 1.8, suffix: 'x', status: 'positive', target: 2.5, icon: Landmark, trend: 'Estável' }
+  ], []);
+
+  const bvaData = useMemo(() => [
+    { name: 'Jan', planejado: 450000, realizado: 425000 },
+    { name: 'Fev', planejado: 450000, realizado: 468000 },
+    { name: 'Mar', planejado: 480000, realizado: 472000 },
+    { name: 'Abr', planejado: 480000, realizado: 495000 },
+    { name: 'Mai', planejado: 500000, realizado: 488000 },
+    { name: 'Jun', planejado: 500000, realizado: 512000 },
   ], []);
 
   return (
-    <div className="space-y-8 pb-32">
-      <PageHeader 
-        title="Controladoria Estratégica"
-        subtitle="Governança financeira, auditoria de processos e monitoramento de aderência orçamentária para máxima eficiência operacional."
-        icon={ShieldCheck}
-        color="bg-emerald-900"
-      />
+    <div className="space-y-10 pb-32">
+      {/* Strategic Header & Controls - Exactly matching DashboardPage */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <Scale size={20} className="text-secondary" />
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Controladoria Estratégica</h1>
+          </div>
+          <p className="text-slate-400 text-sm font-medium whitespace-nowrap">Auditoria de processos e monitoramento de aderência orçamentária para máxima eficiência operacional.</p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 relative z-10">
+          {/* Group 1: Time Filters */}
+          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1 shadow-inner">
+            <div className="flex items-center px-4 py-2 border-r border-white/5">
+              <Calendar size={14} className="text-secondary mr-2" />
+              <select className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors">
+                {[2024, 2025, 2026].map(y => (
+                  <option key={y} value={y} className="bg-slate-900">{y}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center px-4 py-2">
+              <select className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors">
+                {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'].map((label, i) => (
+                  <option key={i} value={i + 1} className="bg-slate-900">{label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Group 2: View Toggle */}
+          <div className="flex items-center gap-4 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-2.5 border border-white/10 shadow-inner h-[46px]">
+            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-secondary">Mensal</span>
+            <button className="w-10 h-5 rounded-full p-1 bg-slate-700 hover:bg-slate-600 transition-colors relative group">
+              <div className="w-3 h-3 bg-white rounded-full shadow-lg group-hover:scale-110 transition-transform" />
+            </button>
+            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Anual</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Corporate Health Mini-Header */}
+      <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
+        <div className="absolute top-0 left-0 w-1 bg-secondary h-full" />
+        <div className="flex items-center gap-8 relative z-10">
+          <div className="w-20 h-20 rounded-3xl bg-orange-50 flex items-center justify-center text-secondary shadow-inner group-hover:scale-105 transition-transform">
+            <Scale size={40} />
+          </div>
+          <div>
+            <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">Score de Aderência Orçamentária</h3>
+            <div className="flex items-center gap-4">
+              <span className="text-5xl font-display font-black text-slate-900 tracking-tighter">94.2%</span>
+              <span className="text-xs font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100">Eficiente</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex-1 max-w-lg w-full relative z-10">
+          <div className="flex justify-between text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
+            <span>Conformidade de Processos</span>
+            <span className="text-secondary">92%</span>
+          </div>
+          <div className="h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: '92%' }}
+              transition={{ duration: 1.5, ease: "circOut" }}
+              className="h-full bg-secondary shadow-[0_0_10px_rgba(255,133,82,0.3)]"
+            />
+          </div>
+        </div>
+      </div>
 
       {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {indicators.map((kpi, idx) => (
-          <motion.div 
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.1 }}
-            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:border-primary/10 transition-all group"
-          >
-            <div className="flex justify-between items-start mb-6">
-               <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
-                  <kpi.icon size={24} />
-               </div>
-               <div className={cn(
-                 "px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest",
-                 kpi.status === 'positive' ? "bg-emerald-50 text-emerald-600" : 
-                 kpi.status === 'negative' ? "bg-rose-50 text-rose-600" : "bg-amber-50 text-amber-600"
-               )}>
-                 {kpi.status === 'positive' ? 'No Alvo' : kpi.status === 'negative' ? 'Crítico' : 'Atenção'}
-               </div>
-            </div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 whitespace-nowrap">{kpi.label}</p>
-            <p className="text-2xl font-black text-slate-800 whitespace-nowrap">
-              {formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '')}
-            </p>
-          </motion.div>
-        ))}
+        {(() => {
+          const maxGroupLen = Math.max(...indicators.map(kpi => formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '').length));
+          const groupSizeClass = getValueSizeClass(maxGroupLen);
+          
+          return indicators.map((kpi, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:border-secondary/10 transition-all group relative overflow-hidden"
+            >
+              <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-slate-50 rounded-full opacity-50 group-hover:scale-125 transition-transform" />
+              
+              <div className="flex justify-between items-start mb-10 relative z-10">
+                 <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-secondary group-hover:text-white transition-all duration-500 shadow-inner group-hover:shadow-lg">
+                  {(() => {
+                    const Icon = kpi.icon;
+                    return <Icon size={24} />;
+                  })()}
+                 </div>
+                 {kpi.trend && (
+                    <div className={cn(
+                        "px-3 py-1 text-[9px] font-black uppercase tracking-widest border rounded-full backdrop-blur-sm",
+                        kpi.trend.startsWith('+') ? "text-emerald-600 border-emerald-100 bg-emerald-50/50" : kpi.trend.startsWith('-') ? "text-rose-600 border-rose-100 bg-rose-50/50" : "text-slate-400 border-slate-100 bg-slate-50/50"
+                    )}>
+                      {kpi.trend}
+                    </div>
+                 )}
+              </div>
+              
+              <div className="relative z-10">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2 line-clamp-1">{kpi.label}</p>
+                <div className="flex items-baseline gap-2 whitespace-nowrap">
+                  <p className={cn(
+                    "font-display font-black text-slate-900 tabular-nums tracking-tighter group-hover:text-secondary transition-colors",
+                    groupSizeClass
+                  )}>
+                    {formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '')}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          ));
+        })()}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-         {/* BvA Chart Placeholder */}
-         <div className="lg:col-span-2 bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
-            <div className="flex justify-between items-center mb-10">
-               <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3">
-                  <BarChart3 size={20} className="text-primary" /> Budget vs Realizado (Anual)
-               </h3>
-               <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest">
+         {/* BvA Chart */}
+         <div className="lg:col-span-2 bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm interactive-card">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+               <div>
+                 <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3">
+                    <BarChart3 size={20} className="text-secondary" /> Budget vs Realizado
+                 </h3>
+                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Análise de desvios orçamentários (YTD)</p>
+               </div>
+               <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
                   <div className="flex items-center gap-2 text-slate-400">
                      <div className="w-3 h-3 bg-slate-200 rounded-full" /> Planejado
                   </div>
-                  <div className="flex items-center gap-2 text-primary">
-                     <div className="w-3 h-3 bg-primary rounded-full" /> Realizado
+                  <div className="flex items-center gap-2 text-secondary">
+                     <div className="w-3 h-3 bg-secondary rounded-full" /> Realizado
                   </div>
                </div>
             </div>
-            <div className="h-[300px] bg-slate-50 rounded-[32px] flex items-center justify-center border-2 border-dashed border-slate-200">
-               <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Análise Orçamentária em Integração</p>
+            <div className="h-[300px] w-full">
+               <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={bvaData}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={(v) => `R$${v / 1000}k`} />
+                    <Tooltip 
+                      contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
+                      formatter={(value: number) => formatCurrency(value)}
+                    />
+                    <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }} />
+                    <Bar name="Planejado" dataKey="planejado" fill="#e2e8f0" radius={[4, 4, 0, 0]} barSize={32} />
+                    <Bar name="Realizado" dataKey="realizado" fill="#ff8552" radius={[4, 4, 0, 0]} barSize={32} />
+                  </BarChart>
+               </ResponsiveContainer>
             </div>
          </div>
 
          {/* Recommendations */}
-         <div className="bg-slate-900 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden">
-            <div className="absolute right-0 top-0 p-8 text-secondary/5">
-               <Zap size={120} strokeWidth={1} />
+         <div className="bg-slate-900 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden group">
+            <div className="absolute right-0 top-0 p-8 text-secondary/5 group-hover:text-secondary/10 transition-colors">
+               <Zap size={160} strokeWidth={1} />
             </div>
-            <div className="relative z-10 space-y-8">
-               <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
-                  <MessageSquare size={20} /> Insights de Controladoria
-               </h3>
-               <div className="space-y-6">
-                  {[
-                    "Investigar desvio de 15% nas despesas de marketing em relação ao budget do Q1.",
-                    "Antecipar revisão orçamentária do H2 considerando as novas premissas macroeconômicas.",
-                    "Auditar processos de compras acima de R$ 50k para garantir conformidade."
-                  ].map((rec, i) => (
-                    <div key={i} className="flex gap-4 group cursor-default">
-                       <div className="w-8 h-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all">
-                          {i + 1}
-                       </div>
-                       <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors">
-                          {rec}
-                       </p>
-                    </div>
-                  ))}
+            <div className="relative z-10 flex flex-col h-full justify-between gap-12">
+               <div className="space-y-8">
+                 <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
+                    <MessageSquare size={20} /> Insights de Controladoria
+                 </h3>
+                 <div className="space-y-6">
+                    {[
+                      "Investigar desvio de 15% nas despesas de marketing em relação ao budget do Q1.",
+                      "Antecipar revisão orçamentária do H2 considerando as novas premissas macroeconômicas.",
+                      "Auditar processos de compras acima de R$ 50k para garantir conformidade."
+                    ].map((rec, i) => (
+                      <div key={i} className="flex gap-5 group cursor-default">
+                         <div className="w-10 h-10 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all shadow-inner">
+                            {i + 1}
+                         </div>
+                         <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors py-2">
+                            {rec}
+                         </p>
+                      </div>
+                    ))}
+                 </div>
                </div>
-               <button className="w-full py-4 bg-secondary text-primary rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all">
-                  Gerar Relatório de Auditoria
+               <button className="w-full py-4 bg-white/10 hover:bg-secondary hover:text-primary border border-white/10 hover:border-secondary rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2">
+                  <Activity size={14} /> Gerar Relatório de Auditoria
                </button>
             </div>
          </div>
       </div>
+
+      {/* Budget Deviation Table */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between px-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-secondary shadow-inner">
+              <ShieldAlert size={24} />
+            </div>
+            <div>
+              <h2 className="text-xl font-display font-black text-slate-900">Monitoramento de Desvios Orçamentários</h2>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Relação de itens com maior variação vs. budget</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+               <div className="w-2.5 h-2.5 rounded-full bg-amber-500" /> Alerta ({'>'}90%)
+            </div>
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+               <div className="w-2.5 h-2.5 rounded-full bg-rose-500" /> Crítico ({'>'}100%)
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white border border-slate-100 rounded-[40px] overflow-hidden shadow-xl">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[800px]">
+              <thead>
+                <tr className="bg-slate-50 border-b border-slate-100">
+                  <th className="text-left py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Item de Custo</th>
+                  <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Budget Planejado</th>
+                  <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor Realizado</th>
+                  <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Índice de Uso</th>
+                  <th className="text-center py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-50">
+                {[
+                  { item: 'Marketing Digital (Ads)', planejado: 50000, realizado: 52400, indice: 104.8 },
+                  { item: 'Softwares & SaaS', planejado: 15000, realizado: 14700, indice: 98.0 },
+                  { item: 'Manutenção Predial', planejado: 8000, realizado: 8400, indice: 105.0 },
+                  { item: 'Viagens & Deslocamento', planejado: 12000, realizado: 11160, indice: 93.0 },
+                  { item: 'Serviços de Terceiros', planejado: 45000, realizado: 38250, indice: 85.0 },
+                  { item: 'Treinamento & Desenvolvimento', planejado: 5000, realizado: 4600, indice: 92.0 }
+                ].map((row, i) => (
+                  <tr key={i} className="hover:bg-slate-50/50 transition-colors group">
+                    <td className="py-6 px-10">
+                      <div className="flex items-center gap-4">
+                        <div className={cn(
+                          "w-1 h-8 rounded-full",
+                          row.indice > 100 ? "bg-rose-500" : row.indice > 90 ? "bg-amber-500" : "bg-emerald-500"
+                        )} />
+                        <span className="font-bold text-slate-800 group-hover:text-secondary transition-colors">{row.item}</span>
+                      </div>
+                    </td>
+                    <td className="py-6 px-10 text-right text-slate-500 font-medium">{formatCurrency(row.planejado)}</td>
+                    <td className="py-6 px-10 text-right font-display font-black text-slate-900">{formatCurrency(row.realizado)}</td>
+                    <td className="py-6 px-10 text-right">
+                      <div className="flex items-center justify-end gap-3">
+                         <span className={cn(
+                           "text-lg font-display font-black",
+                           row.indice > 100 ? "text-rose-600" : row.indice > 90 ? "text-amber-600" : "text-emerald-600"
+                         )}>{row.indice}%</span>
+                      </div>
+                    </td>
+                    <td className="py-6 px-10">
+                      <div className="flex justify-center">
+                        {row.indice > 100 ? (
+                          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 text-rose-600 border border-rose-100 text-[10px] font-black uppercase tracking-widest animate-pulse">
+                            <ShieldAlert size={12} /> Crítico
+                          </div>
+                        ) : row.indice > 90 ? (
+                          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 text-amber-600 border border-amber-100 text-[10px] font-black uppercase tracking-widest">
+                            <AlertCircle size={12} /> Alerta
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 text-[10px] font-black uppercase tracking-widest">
+                            <CheckCircle2 size={12} /> Saudável
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
+

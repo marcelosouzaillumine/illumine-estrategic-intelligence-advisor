@@ -73,7 +73,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
     setIsAiLoading(true);
     // Simulation of AI summary generation based on indicators
     setTimeout(() => {
-      setAiSummary(`Com base nos indicadores de ${selectedMonth}/${selectedYear}, observamos uma margem EBITDA de ${kpis.ebitda > 0 ? 'saudável' : 'crítica'}. As prioridades do IVE indicam necessidade de foco em ${topDiagnostico[0]?.descricao || 'processos internos'}.`);
+      setAiSummary(`Com base nos indicadores de ${selectedMonth}/${selectedYear}, observamos uma margem EBITDA de ${(kpis.ebitda ?? 0) > 0 ? 'saudável' : 'crítica'}. As prioridades do IVE indicam necessidade de foco em ${topDiagnostico[0]?.descricao || 'processos internos'}.`);
       setIsAiLoading(false);
     }, 1500);
   };

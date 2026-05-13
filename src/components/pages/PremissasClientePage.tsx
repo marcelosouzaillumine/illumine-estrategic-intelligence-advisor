@@ -25,7 +25,6 @@ import {
   serverTimestamp 
 } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
-import { PageHeader } from '../Common';
 import { cn } from '../../lib/utils';
 import { DATA } from '../../data';
 
@@ -213,10 +212,10 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
       )}
 
       <div className="flex items-center justify-between">
-        <PageHeader 
-          title="Premissas do Cliente" 
-          subtitle="Configure os descasamentos de prazos e taxas de crescimento para projeções financeiras personalizadas."
-        />
+        <div>
+          <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Premissas do Cliente</h2>
+          <p className="text-sm font-medium text-slate-500 mt-1">Configure os descasamentos de prazos e taxas de crescimento para projeções financeiras personalizadas.</p>
+        </div>
         <button 
           onClick={handleSave}
           disabled={saving}

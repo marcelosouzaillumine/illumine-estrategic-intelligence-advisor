@@ -397,7 +397,7 @@ export function DashboardPage({
              </div>
           </div>
           <div>
-            <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">AI Executive Insight</h3>
+            <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight Executivo de IA</h3>
             <p className="executive-note">
               "A margem EBITDA apresenta uma tendência de expansão saudável, superando o benchmark do setor em 4.2%. A projeção de valuation indica uma oportunidade de destravamento de valor significativa se mantivermos a trajetória de redução do CAC prevista para o próximo trimestre."
             </p>
@@ -407,7 +407,7 @@ export function DashboardPage({
         <div className="bg-primary p-8 rounded-[32px] text-white flex flex-col justify-between relative overflow-hidden group">
           <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
           <div>
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Cash Position Alpha</h3>
+            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Posição de Caixa Alpha</h3>
             <p className="text-3xl font-display font-black mb-2">{formatCurrency(getIndicator('Saldo em Caixa')?.val || 0)}</p>
             <div className="flex items-center gap-2 text-emerald-400">
                <TrendingUp size={16} />
@@ -597,7 +597,7 @@ export function DashboardPage({
           {/* Card: EV Projetado */}
           <div className="bg-slate-900 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:scale-110 transition-transform"><Sparkles size={80} className="text-secondary" /></div>
-            <span className="text-[11px] font-black text-secondary uppercase tracking-[0.2em] relative z-10">Strategic Valuation</span>
+            <span className="text-[11px] font-black text-secondary uppercase tracking-[0.2em] relative z-10">Valuation Estratégico</span>
             <div className="flex flex-col mt-4 relative z-10">
               <span className="text-3xl font-display font-black text-white">
                 {(() => {
@@ -628,7 +628,7 @@ export function DashboardPage({
             </div>
             <div className="bg-white border border-slate-100 rounded-3xl p-5 flex items-center justify-between hover:shadow-md transition-all group">
               <div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Efficiency Multiplier</span>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Multiplicador de Eficiência</span>
                 <p className="text-xl font-display font-black text-slate-900 group-hover:text-secondary transition-colors">1.8x</p>
               </div>
               <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shadow-inner">
@@ -666,7 +666,7 @@ export function DashboardPage({
 
       <div className="space-y-6 pt-12">
         <div className="flex items-center justify-between px-4">
-          <h2 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] font-sans">Business Performance Registry</h2>
+          <h2 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] font-sans">Registro de Performance de Negócio</h2>
           <div className="h-px flex-1 bg-slate-100 mx-8"></div>
           <button className="text-[10px] font-black text-secondary uppercase tracking-widest hover:underline">Ver Todos</button>
         </div>

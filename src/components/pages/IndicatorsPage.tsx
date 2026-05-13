@@ -35,169 +35,184 @@ import { FULL_MONTH_LABELS, EIXOS_ORDEM } from '../../constants';
 
 const GROUP_MAPPING: Record<string, string> = {
   // Por Categoria (Fallback)
-  'Performance': 'Gestão',
-  'Operacional': 'Operação',
-  'Lucratividade': 'Gestão',
-  'Liquidez': 'Gestão',
-  'Atividade': 'Operação',
-  'Eficiência': 'Operação',
-  'Caixa': 'Gestão',
-  'Financeiro': 'Gestão',
-  'Patrimonial': 'Gestão',
-  'Risco': 'Governança',
-  'Estratégico': 'Governança',
-  'Crescimento': 'Comercial',
-  'Venture': 'Inovação',
-  'Compliance': 'Governança',
-  'Governança': 'Governança',
-  'Pessoas': 'Cultura',
-  'RH': 'Cultura',
-  'Marketing': 'Marketing',
-  'Vendas': 'Comercial',
+  'Performance': 'Administração e Finanças',
+  'Operacional': 'Gestão Operacional',
+  'Lucratividade': 'Administração e Finanças',
+  'Liquidez': 'Administração e Finanças',
+  'Atividade': 'Gestão Operacional',
+  'Eficiência': 'Gestão Operacional',
+  'Caixa': 'Administração e Finanças',
+  'Financeiro': 'Administração e Finanças',
+  'Patrimonial': 'Administração e Finanças',
+  'Risco': 'Governança Corporativa',
+  'Estratégico': 'Governança Corporativa',
+  'Crescimento': 'Gestão Comercial',
+  'Venture': 'Gestão de Inovação',
+  'Compliance': 'Governança Corporativa',
+  'Governança': 'Governança Corporativa',
+  'Pessoas': 'Cultura Organizacional',
+  'RH': 'Cultura Organizacional',
+  'Marketing': 'Gestão de Marketing',
+  'Vendas': 'Gestão Comercial',
   
-  // Governança
-  'Indice de Alinhamento': 'Governança',
-  'Índice de Alinhamento': 'Governança',
-  'Heath Score': 'Governança',
-  'Health Score': 'Governança',
-  'IVE': 'Governança',
-  'OKRs': 'Governança',
-  'OKR': 'Governança',
-  'Valor de Mercado': 'Governança',
-  'Valor de mercado': 'Governança',
-  'Múltiplo': 'Governança',
-  'Multiplo': 'Governança',
-  'Múltiplo de EBITDA': 'Governança',
-  'Múltiplo EBITDA': 'Governança',
-  'Indice de Alavancagem': 'Governança',
-  'Índice de Alavancagem': 'Governança',
-  'Aderencia Orçamentaria': 'Governança',
-  'Aderência Orçamentária': 'Governança',
+  // Governança Corporativa
+  'Indice de Alinhamento': 'Governança Corporativa',
+  'Índice de Alinhamento': 'Governança Corporativa',
+  'Heath Score': 'Governança Corporativa',
+  'Health Score': 'Governança Corporativa',
+  'IVE': 'Governança Corporativa',
+  'OKRs': 'Governança Corporativa',
+  'OKR': 'Governança Corporativa',
+  'Valor de Mercado': 'Governança Corporativa',
+  'Valor de mercado': 'Governança Corporativa',
+  'Múltiplo': 'Governança Corporativa',
+  'Multiplo': 'Governança Corporativa',
+  'Múltiplo de EBITDA': 'Governança Corporativa',
+  'Múltiplo EBITDA': 'Governança Corporativa',
+  'Indice de Alavancagem': 'Governança Corporativa',
+  'Índice de Alavancagem': 'Governança Corporativa',
+  'Aderencia Orçamentaria': 'Governança Corporativa',
+  'Aderência Orçamentária': 'Governança Corporativa',
   
-  // Cultura
-  'ENPS': 'Cultura',
-  'eNPS': 'Cultura',
-  'Turnover': 'Cultura',
-  'Taxa de Retencão': 'Cultura',
-  'Taxa de Retenção': 'Cultura',
-  'Indice de Clima Organizacional': 'Cultura',
-  'Índice de Clima Organizacional': 'Cultura',
-  'Clima Organizacional': 'Cultura',
+  // Cultura Organizacional
+  'ENPS': 'Cultura Organizacional',
+  'eNPS': 'Cultura Organizacional',
+  'Turnover': 'Cultura Organizacional',
+  'Taxa de Retencão': 'Cultura Organizacional',
+  'Taxa de Retenção': 'Cultura Organizacional',
+  'Indice de Clima Organizacional': 'Cultura Organizacional',
+  'Índice de Clima Organizacional': 'Cultura Organizacional',
+  'Clima Organizacional': 'Cultura Organizacional',
   
-  // Gestão
-  'EBITDA': 'Gestão',
-  'Margem EBITDA': 'Gestão',
-  'Saldo Em Caixa': 'Gestão',
-  'Saldo em Caixa': 'Gestão',
-  'Fluxo de Caixa Operacional': 'Gestão',
-  'Lucro Líquido': 'Gestão',
-  'Liquidez Corrente': 'Gestão',
-  'Inadimplencia': 'Gestão',
-  'Inadimplência': 'Gestão',
-  'Faturamento Bruto': 'Gestão',
-  'Receita Líquida': 'Gestão',
-  'Receita liquida': 'Gestão',
-  'PMR': 'Gestão',
-  'Margem Líquida': 'Gestão',
-  'WACC': 'Gestão',
+  // Administração e Finanças
+  'EBITDA': 'Administração e Finanças',
+  'Margem EBITDA': 'Administração e Finanças',
+  'Saldo Em Caixa': 'Administração e Finanças',
+  'Saldo em Caixa': 'Administração e Finanças',
+  'Fluxo de Caixa Operacional': 'Administração e Finanças',
+  'Lucro Líquido': 'Administração e Finanças',
+  'Liquidez Corrente': 'Administração e Finanças',
+  'Inadimplencia': 'Administração e Finanças',
+  'Inadimplência': 'Administração e Finanças',
+  'Faturamento Bruto': 'Administração e Finanças',
+  'Receita Líquida': 'Administração e Finanças',
+  'Receita liquida': 'Administração e Finanças',
+  'PMR': 'Administração e Finanças',
+  'Margem Líquida': 'Administração e Finanças',
+  'WACC': 'Administração e Finanças',
   
-  // Inovação
-  'Projetos Ativos': 'Inovação',
-  'Investimento em PAD': 'Inovação',
-  'Investimento em P&D': 'Inovação',
+  // Gestão de Inovação
+  'Projetos Ativos': 'Gestão de Inovação',
+  'Investimento em PAD': 'Gestão de Inovação',
+  'Investimento em P&D': 'Gestão de Inovação',
   
-  // Marketing
-  'Roi de Marketing': 'Marketing',
-  'ROI de Marketing': 'Marketing',
-  'LTV/CAC': 'Marketing',
+  // Gestão de Marketing
+  'Roi de Marketing': 'Gestão de Marketing',
+  'ROI de Marketing': 'Gestão de Marketing',
+  'LTV/CAC': 'Gestão de Marketing',
   
-  // Comercial
-  'Churn Rate': 'Comercial',
-  'Churn': 'Comercial',
-  'Ticket Médio': 'Comercial',
-  'Ticket Medio': 'Comercial',
-  'Taxa de Conversão': 'Comercial',
-  'Taxa de Conversao': 'Comercial',
-  'NPS': 'Comercial',
+  // Gestão Comercial
+  'Churn Rate': 'Gestão Comercial',
+  'Churn': 'Gestão Comercial',
+  'Ticket Médio': 'Gestão Comercial',
+  'Ticket Medio': 'Gestão Comercial',
+  'Taxa de Conversão': 'Gestão Comercial',
+  'Taxa de Conversao': 'Gestão Comercial',
+  'NPS': 'Gestão Comercial',
   
-  // Operação
-  'OEE': 'Operação',
-  'Lead Time': 'Operação',
-  'Indice de Qualidade': 'Operação',
-  'Índice de Qualidade': 'Operação',
-  'Atrasos': 'Operação'
+  // Gestão Operacional
+  'OEE': 'Gestão Operacional',
+  'Lead Time': 'Gestão Operacional',
+  'Indice de Qualidade': 'Gestão Operacional',
+  'Índice de Qualidade': 'Gestão Operacional',
+  'Atrasos': 'Gestão Operacional'
 };
 
 const CATEGORY_CONFIG: Record<string, { icon: any; color: string; bg: string; border: string; text: string }> = {
-  'Governança': { icon: ShieldCheck, color: 'slate', bg: 'bg-slate-50 dark:bg-slate-900', border: 'border-slate-100 dark:border-slate-800', text: 'text-slate-600 dark:text-slate-400' },
-  'Cultura': { icon: Users, color: 'purple', bg: 'bg-purple-50 dark:bg-purple-900', border: 'border-purple-100 dark:border-purple-800', text: 'text-purple-600 dark:text-purple-400' },
-  'Inovação': { icon: Lightbulb, color: 'cyan', bg: 'bg-cyan-50 dark:bg-cyan-900', border: 'border-cyan-100 dark:border-cyan-800', text: 'text-cyan-600 dark:text-cyan-400' },
-  'Comercial': { icon: ShoppingBag, color: 'emerald', bg: 'bg-emerald-50 dark:bg-emerald-900', border: 'border-emerald-100 dark:border-emerald-800', text: 'text-emerald-600 dark:text-emerald-400' },
-  'Operação': { icon: Activity, color: 'amber', bg: 'bg-amber-50 dark:bg-amber-900', border: 'border-amber-100 dark:border-amber-800', text: 'text-amber-600 dark:text-amber-400' },
-  'Gestão': { icon: BarChart3, color: 'indigo', bg: 'bg-indigo-50 dark:bg-indigo-900', border: 'border-indigo-100 dark:border-indigo-800', text: 'text-indigo-600 dark:text-indigo-400' },
-  'Marketing': { icon: Globe, color: 'blue', bg: 'bg-blue-50 dark:bg-blue-900', border: 'border-blue-100 dark:border-blue-800', text: 'text-blue-600 dark:text-blue-400' },
+  'Governança Corporativa': { icon: ShieldCheck, color: 'slate', bg: 'bg-slate-50 dark:bg-slate-900', border: 'border-slate-100 dark:border-slate-800', text: 'text-slate-600 dark:text-slate-400' },
+  'Cultura Organizacional': { icon: Users, color: 'purple', bg: 'bg-purple-50 dark:bg-purple-900', border: 'border-purple-100 dark:border-purple-800', text: 'text-purple-600 dark:text-purple-400' },
+  'Gestão de Inovação': { icon: Lightbulb, color: 'cyan', bg: 'bg-cyan-50 dark:bg-cyan-900', border: 'border-cyan-100 dark:border-cyan-800', text: 'text-cyan-600 dark:text-cyan-400' },
+  'Gestão Comercial': { icon: ShoppingBag, color: 'emerald', bg: 'bg-emerald-50 dark:bg-emerald-900', border: 'border-emerald-100 dark:border-emerald-800', text: 'text-emerald-600 dark:text-emerald-400' },
+  'Gestão Operacional': { icon: Activity, color: 'amber', bg: 'bg-amber-50 dark:bg-amber-900', border: 'border-amber-100 dark:border-amber-800', text: 'text-amber-600 dark:text-amber-400' },
+  'Administração e Finanças': { icon: BarChart3, color: 'indigo', bg: 'bg-indigo-50 dark:bg-indigo-900', border: 'border-indigo-100 dark:border-indigo-800', text: 'text-indigo-600 dark:text-indigo-400' },
+  'Gestão de Marketing': { icon: Globe, color: 'blue', bg: 'bg-blue-50 dark:bg-blue-900', border: 'border-blue-100 dark:border-blue-800', text: 'text-blue-600 dark:text-blue-400' },
 };
 
-function KPICard({ r, group }: any) {
-  const config = CATEGORY_CONFIG[group] || CATEGORY_CONFIG['Gestão'];
+const getValueSizeClass = (maxLen: number) => {
+  if (maxLen > 22) return "text-[clamp(0.6rem,1vw,0.75rem)]";
+  if (maxLen > 18) return "text-[clamp(0.7rem,1.2vw,0.9rem)]";
+  if (maxLen > 15) return "text-[clamp(0.85rem,1.4vw,1.1rem)]";
+  if (maxLen > 12) return "text-[clamp(1rem,1.7vw,1.35rem)]";
+  if (maxLen > 10) return "text-[clamp(1.2rem,2vw,1.7rem)]";
+  return "text-[clamp(1.6rem,2.5vw,2.3rem)]";
+};
+
+function KPICard({ r, group, valueClassName }: any) {
+  const config = CATEGORY_CONFIG[group] || CATEGORY_CONFIG['Administração e Finanças'];
   
   return (
     <motion.div 
       whileHover={{ y: -8 }}
-      className="p-8 h-full flex flex-col gap-8 group bg-white border border-slate-100 rounded-[32px] shadow-sm hover:shadow-xl transition-all duration-500 relative overflow-hidden"
+      className="p-6 md:p-10 h-full flex flex-col gap-8 md:gap-10 group bg-white border border-slate-100 rounded-[32px] md:rounded-[40px] shadow-sm hover:shadow-2xl transition-all duration-500 relative overflow-hidden"
     >
-      <div className="flex items-start justify-between gap-4 relative z-10">
-        <div className="space-y-2 min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <div className={cn("w-1.5 h-1.5 rounded-full", r.sem === 'Verde' ? "bg-emerald-500" : r.sem === 'Amarelo' ? "bg-amber-500" : "bg-rose-500")} />
-            <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">{group}</p>
-          </div>
-          <h4 className="text-xl font-display font-black text-slate-800 leading-tight group-hover:text-secondary transition-colors">
+      {/* Decorative framing element */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[100px] -mr-10 -mt-10 pointer-events-none group-hover:bg-slate-100/50 transition-colors" />
+
+      <div className="flex items-start justify-between gap-4 md:gap-6 relative z-10">
+        <div className="space-y-1.5 min-w-0 flex-1">
+          <h4 className="text-[clamp(1rem,1.3vw,1.5rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
             {r.ind}
           </h4>
-        </div>
-        <div className="shrink-0 scale-90">
-          <StatusBadge status={r.sem} />
+          <div className="flex items-center gap-2 min-w-0">
+            <div className={cn("w-1.5 h-1.5 rounded-full shadow-sm shrink-0", r.sem === 'Verde' ? "bg-emerald-500" : r.sem === 'Amarelo' ? "bg-amber-500" : "bg-rose-500")} />
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap overflow-hidden text-ellipsis">{group}</p>
+          </div>
         </div>
       </div>
       
       <div className="flex flex-col mt-auto relative z-10">
-        <div className="flex items-baseline gap-3 mb-8">
-          <span className="font-display text-slate-900 text-5xl font-black tabular-nums tracking-tighter">
-            {formatValue(r.val, r.un)}
-          </span>
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{r.un || 'Units'}</span>
+        {/* Value framing */}
+        <div className="bg-slate-50/50 rounded-2xl md:rounded-[32px] p-4 md:p-6 mb-6 md:mb-8 group-hover:bg-white group-hover:shadow-inner transition-all border border-slate-100/50 overflow-hidden">
+          <div className="flex items-baseline gap-2 md:gap-3 whitespace-nowrap">
+            <span className={cn(
+              "font-display text-slate-900 font-black tabular-nums tracking-tighter",
+              valueClassName || "text-[clamp(1.5rem,2.5vw,2.25rem)]"
+            )}>
+              {formatValue(r.val, r.un)}
+            </span>
+          </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-widest">
-              <span className="text-slate-400">Desempenho</span>
+        <div className="space-y-6">
+          <div className="space-y-3">
+            <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest gap-4">
+              <span className="text-slate-400">Eficiência</span>
               <span className={cn(
+                "shrink-0",
                 r.sem === 'Verde' ? "text-emerald-600" : r.sem === 'Amarelo' ? "text-amber-600" : "text-rose-600"
               )}>
-                {r.sem === 'Verde' ? 'Meta Atingida' : r.sem === 'Amarelo' ? 'Em Atenção' : 'Crítico'}
+                {r.sem === 'Verde' ? 'Meta Superada' : r.sem === 'Amarelo' ? 'Atenção' : 'Alerta'}
               </span>
             </div>
-            <div className="h-1.5 w-full bg-slate-50 overflow-hidden rounded-full">
+            <div className="h-2 w-full bg-slate-100 overflow-hidden rounded-full">
               <motion.div 
                 initial={{ width: 0 }}
                 whileInView={{ width: r.sem === 'Verde' ? '100%' : r.sem === 'Amarelo' ? '65%' : '35%' }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, ease: "circOut" }}
+                transition={{ duration: 1.2, ease: "circOut" }}
                 className={cn(
-                  "h-full transition-all",
+                  "h-full transition-all shadow-sm",
                   r.sem === 'Verde' ? "bg-emerald-500" : r.sem === 'Amarelo' ? "bg-amber-500" : "bg-rose-500"
                 )}
               />
             </div>
           </div>
           
-          <div className="flex items-center justify-between pt-4 border-t border-slate-50">
-            <div className="flex items-center gap-2 text-slate-400">
-              <Calendar size={12} className="text-secondary" />
-              <span className="text-[9px] font-bold uppercase tracking-widest">
-                {r.comp}
+          <div className="flex items-center justify-between pt-6 border-t border-slate-100/50">
+            <div className="flex items-center gap-2.5 text-slate-400">
+              <Calendar size={14} className="text-secondary" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">
+                Competência: {r.comp}
               </span>
             </div>
           </div>
@@ -207,27 +222,33 @@ function KPICard({ r, group }: any) {
   );
 }
 
-function SummaryCard({ label, value, icon: Icon, colorClass, trend }: any) {
+function SummaryCard({ label, value, icon: Icon, colorClass, trend, valueClassName }: any) {
   return (
-    <div className="bg-white border border-slate-100 rounded-[32px] p-10 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
-      <div className="flex items-center justify-between mb-8">
-        <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-all duration-500">
-          <Icon size={24} />
+    <div className="bg-white border border-slate-100 rounded-[32px] md:rounded-[40px] p-6 md:p-10 shadow-sm hover:shadow-2xl transition-all duration-500 group relative overflow-hidden">
+      {/* Subtle Background pattern */}
+      <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-slate-50 rounded-full opacity-50 group-hover:scale-125 transition-transform" />
+      
+      <div className="flex items-center justify-between mb-10 relative z-10">
+        <div className="w-16 h-16 rounded-[22px] bg-slate-50 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-all duration-500 shadow-inner group-hover:shadow-lg">
+          <Icon size={28} />
         </div>
         {trend && (
             <div className={cn(
-                "px-3 py-1 text-[10px] font-black uppercase tracking-widest border rounded-full",
-                trend.startsWith('-') ? "text-rose-600 border-rose-100 bg-rose-50" : "text-emerald-600 border-emerald-100 bg-emerald-50"
+                "px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.15em] border rounded-full backdrop-blur-sm",
+                trend.startsWith('-') ? "text-rose-600 border-rose-100 bg-rose-50/50" : "text-emerald-600 border-emerald-100 bg-emerald-50/50"
             )}>
               {trend}
             </div>
         )}
       </div>
       
-      <div>
-        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{label}</p>
-        <div className="flex items-baseline gap-2">
-          <p className="text-4xl font-display font-black text-slate-900 tabular-nums tracking-tighter">
+      <div className="relative z-10">
+        <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2 line-clamp-1">{label}</p>
+        <div className="flex items-baseline gap-2 whitespace-nowrap">
+          <p className={cn(
+            "font-display font-black text-slate-900 tabular-nums tracking-tighter",
+            valueClassName || "text-[clamp(1.5rem,2.5vw,2.25rem)]"
+          )}>
               {value}
           </p>
         </div>
@@ -300,7 +321,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
     return Array.from({ length: 6 }, (_, i) => current - i);
   }, []);
 
-  const { grouped, summary, groups } = useMemo(() => {
+  const { grouped, summary, groups, globalSizeClass } = useMemo(() => {
     const listWithGroups = indicators.map(i => {
         const indName = (i.ind === 'Múltiplo' || i.ind === 'Multiplo') ? 'Múltiplo de EBITDA' : i.ind;
         return {
@@ -340,7 +361,13 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
         { label: 'Ciclo Financeiro', value: getVal('Ciclo Financeiro'), icon: Activity, colorClass: 'text-secondary', trend: '-2 dias' }
     ];
 
-    return { grouped: groupsMap, summary: stats, groups: availableGroups };
+    const globalMaxLen = Math.max(
+      ...indicators.map(i => formatValue(i.val, i.un).length),
+      ...stats.map(s => String(s.value).length)
+    );
+    const globalSizeClass = getValueSizeClass(globalMaxLen);
+
+    return { grouped: groupsMap, summary: stats, groups: availableGroups, globalSizeClass };
   }, [indicators, filterGroup]);
 
   const currentClient = clients.find((c: any) => c.id === selectedClient);
@@ -351,7 +378,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
         <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-6">
           <Loader2 className="text-secondary animate-spin" size={32} />
         </div>
-        <h3 className="text-xl font-bold text-slate-800 mb-2">Sincronizando Analytics</h3>
+        <h3 className="text-xl font-bold text-slate-800 mb-2">Sincronizando Análise</h3>
         <p className="text-slate-500 max-w-md">Consolidando indicadores vitais e eixos estratégicos...</p>
       </div>
     );
@@ -359,126 +386,123 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
 
   return (
     <div className="space-y-10 pb-20 animate-executive-fade">
-      {/* Strategic Header - Standardized with Dashboard */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <TrendingUp size={20} className="text-secondary" />
-            </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">Analytics & KPIs Vitais</h1>
-          </div>
-          <p className="text-slate-400 text-sm font-medium">Monitoramento avançado de performance por eixos de gestão.</p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-4 relative z-10">
-          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1">
-            <div className="flex items-center px-4 py-2 border-r border-white/10">
-              <Calendar size={14} className="text-slate-400 mr-2" />
-              <select 
-                value={filterYear} 
-                onChange={(e) => setFilterYear(Number(e.target.value))}
-                className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer"
-              >
-                {years.map(y => (
-                  <option key={y} value={y} className="bg-slate-900">{y}</option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-center px-4 py-2">
-              <select 
-                value={filterMonth} 
-                onChange={(e) => setFilterMonth(Number(e.target.value))}
-                className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer"
-              >
-                {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
-                  <option key={m} value={Number(m)} className="bg-slate-900">{label}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
+      <PageHeader 
+        title="Análise de KPIs"
+        subtitle="Monitoramento avançado de performance e eixos estratégicos em tempo real."
+        icon={TrendingUp}
+        actions={
+          <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 backdrop-blur-sm relative z-10">
             <button 
               onClick={() => setViewMode('grid')}
-              className={cn("p-2 px-3 rounded-xl transition-all", viewMode === 'grid' ? "bg-secondary text-white" : "text-slate-400 hover:text-white")}
+              className={cn("p-2.5 px-4 rounded-xl transition-all flex items-center gap-2", viewMode === 'grid' ? "bg-secondary text-white shadow-lg" : "text-slate-400 hover:text-white")}
             >
-              <LayoutGrid size={14} strokeWidth={2} />
+              <LayoutGrid size={16} strokeWidth={2} />
+              {viewMode === 'grid' && <span className="text-[10px] font-black uppercase tracking-widest">Grade</span>}
             </button>
             <button 
               onClick={() => setViewMode('table')}
-              className={cn("p-2 px-3 rounded-xl transition-all", viewMode === 'table' ? "bg-secondary text-white" : "text-slate-400 hover:text-white")}
+              className={cn("p-2.5 px-4 rounded-xl transition-all flex items-center gap-2", viewMode === 'table' ? "bg-secondary text-white shadow-lg" : "text-slate-400 hover:text-white")}
             >
-              <List size={14} strokeWidth={2} />
+              <List size={16} strokeWidth={2} />
+              {viewMode === 'table' && <span className="text-[10px] font-black uppercase tracking-widest">Lista</span>}
             </button>
           </div>
-        </div>
-      </div>
+        }
+      />
 
       {/* Corporate Health Mini-Header */}
-      <div className="bg-white border border-slate-100 rounded-[32px] p-8 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="flex items-center gap-6">
-          <div className="w-16 h-16 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner">
-            <ShieldCheck size={32} />
+      <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
+        <div className="absolute top-0 left-0 w-1 bg-emerald-500 h-full" />
+        <div className="flex items-center gap-8 relative z-10">
+          <div className="w-20 h-20 rounded-3xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner group-hover:scale-105 transition-transform">
+            <ShieldCheck size={40} />
           </div>
           <div>
-            <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-1">Health Score Consolidado</h3>
-            <div className="flex items-center gap-3">
-              <span className="text-4xl font-display font-black text-slate-900">94.2</span>
-              <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Otimizado</span>
+            <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">Score de Saúde Consolidado</h3>
+            <div className="flex items-center gap-4">
+              <span className="text-5xl font-display font-black text-slate-900 tracking-tighter">94.2</span>
+              <span className="text-xs font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100">Otimizado</span>
             </div>
           </div>
         </div>
-        <div className="flex-1 max-w-md w-full">
-          <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">
+        <div className="flex-1 max-w-lg w-full relative z-10">
+          <div className="flex justify-between text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
             <span>Eficiência Estratégica</span>
-            <span>94.2%</span>
+            <span className="text-emerald-600">94.2%</span>
           </div>
-          <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+          <div className="h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: '94.2%' }}
-              className="h-full bg-emerald-500"
+              transition={{ duration: 1.5, ease: "circOut" }}
+              className="h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
             />
           </div>
         </div>
       </div>
 
       {/* Summary Matrix */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
         {summary.map((stat, idx) => (
-          <SummaryCard key={idx} {...stat} />
+          <SummaryCard key={idx} {...stat} valueClassName={globalSizeClass} />
         ))}
       </div>
 
-      {/* Axis Filters */}
-      <div className="flex items-center gap-4 overflow-x-auto pb-2 no-scrollbar">
-        <button
-          onClick={() => setFilterGroup('')}
-          className={cn(
-            "px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border",
-            filterGroup === '' 
-              ? "bg-slate-900 text-white border-slate-900 shadow-lg" 
-              : "bg-white text-slate-400 border-slate-100 hover:border-secondary/30"
-          )}
-        >
-          Todos os Eixos
-        </button>
-        {groups.map((g: string) => (
+      {/* Axis & Date Filters */}
+      <div className="flex flex-col md:flex-row items-center gap-6 pb-4">
+        <div className="flex items-center gap-3 bg-white p-2 rounded-[24px] border border-slate-100 shadow-sm w-full md:w-auto">
+          <div className="flex items-center px-4 py-2 border-r border-slate-100">
+            <Calendar size={14} className="text-secondary mr-2.5" />
+            <select 
+              value={filterYear} 
+              onChange={(e) => setFilterYear(Number(e.target.value))}
+              className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+            >
+              {years.map(y => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-center px-4 py-2">
+            <select 
+              value={filterMonth} 
+              onChange={(e) => setFilterMonth(Number(e.target.value))}
+              className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+            >
+              {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
+                <option key={m} value={Number(m)}>{label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4 overflow-x-auto no-scrollbar flex-1">
           <button
-            key={g}
-            onClick={() => setFilterGroup(g)}
+            onClick={() => setFilterGroup('')}
             className={cn(
-              "px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border",
-              filterGroup === g 
-                ? "bg-slate-900 text-white border-slate-900 shadow-lg" 
-                : "bg-white text-slate-400 border-slate-100 hover:border-secondary/30"
+              "px-8 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap border shadow-sm",
+              filterGroup === '' 
+                ? "bg-slate-900 text-white border-slate-900 shadow-xl scale-105" 
+                : "bg-white text-slate-400 border-slate-100 hover:border-secondary/30 hover:text-slate-600"
             )}
           >
-            {g}
+            Todos os Eixos
           </button>
-        ))}
+          {groups.map((g: string) => (
+            <button
+              key={g}
+              onClick={() => setFilterGroup(g)}
+              className={cn(
+                "px-8 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap border shadow-sm",
+                filterGroup === g 
+                  ? "bg-slate-900 text-white border-slate-900 shadow-xl scale-105" 
+                  : "bg-white text-slate-400 border-slate-100 hover:border-secondary/30 hover:text-slate-600"
+              )}
+            >
+              {g}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Main Content Area */}
@@ -492,12 +516,16 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
             className="space-y-16"
           >
             {(Object.entries(grouped) as [string, any[]][]).map(([group, items], groupIdx) => {
-                const config = CATEGORY_CONFIG[group] || CATEGORY_CONFIG['Gestão'];
+                const config = CATEGORY_CONFIG[group] || CATEGORY_CONFIG['Administração e Finanças'];
+                
                 return (
                   <div key={group} className="space-y-8">
                     <div className="flex items-center gap-4">
                       <div className={cn("p-3 rounded-xl border", config.bg, config.border)}>
-                        <config.icon size={20} className={config.text} />
+                        {(() => {
+                          const Icon = config.icon;
+                          return <Icon size={20} className={config.text} />;
+                        })()}
                       </div>
                       <div>
                         <h3 className="text-xl font-display font-black text-slate-900">{group}</h3>
@@ -506,9 +534,9 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
                       <div className="h-px flex-1 bg-slate-100 ml-4" />
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
                       {items.map((r, i) => (
-                        <KPICard key={i} r={r} group={group} />
+                        <KPICard key={i} r={r} group={group} valueClassName={globalSizeClass} />
                       ))}
                     </div>
                   </div>
@@ -533,7 +561,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-white border border-slate-100 rounded-[32px] overflow-hidden shadow-sm"
+            className="bg-white border border-slate-100 rounded-[40px] overflow-hidden shadow-xl"
           >
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-[800px]">

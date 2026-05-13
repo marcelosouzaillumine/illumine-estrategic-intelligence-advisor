@@ -38,11 +38,11 @@ export const FULL_MONTH_LABELS: Record<number, string> = {
 };
 
 export const EIXOS_ORDEM = [
-  'Governança',
-  'Cultura',
-  'Gestão',
-  'Inovação',
-  'Marketing',
-  'Comercial',
-  'Operação'
+  'Governança Corporativa',
+  'Cultura Organizacional',
+  'Administração e Finanças',
+  'Gestão de Inovação',
+  'Gestão de Marketing',
+  'Gestão Comercial',
+  'Gestão Operacional'
 ];

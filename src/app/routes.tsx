@@ -28,6 +28,7 @@ import { PurchasingPage } from '../components/pages/PurchasingPage';
 import { ReceivablesPage } from '../components/pages/ReceivablesPage';
 import { PortfolioPage } from '../components/pages/PortfolioPage';
 import { LoanInvestmentSimPage } from '../components/pages/LoanInvestmentSimPage';
+import { AssetManagementPage } from '../components/pages/AssetManagementPage';
 import { DiretrizesPage } from '../components/pages/DiretrizesPage';
 import { DiagnosticoPage } from '../components/pages/DiagnosticoPage';
 import { OKRsPage } from '../components/pages/OKRsPage';
@@ -66,6 +67,8 @@ interface RouteRenderContext {
   user: User | null;
   setCurrentPage: (page: Page) => void;
   setClients: (clients: any[]) => void;
+  academyCourseId: string;
+  setAcademyCourseId: (id: string) => void;
 }
 
 export function renderCurrentPage(ctx: RouteRenderContext) {
@@ -81,6 +84,8 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     user,
     setCurrentPage,
     setClients,
+    academyCourseId,
+    setAcademyCourseId,
   } = ctx;
 
   if (currentPage === 'portfolio') {
@@ -118,6 +123,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'posicao_financeira') {
     return <FinancialPositionPage clients={clients} selectedClient={selectedClient} />;
   }
+  if (currentPage === 'ativos_financeiros') {
+    return <AssetManagementPage clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
+  }
   if (currentPage === 'contas_pagar') {
     return <PayablesPage clients={clients} selectedClient={selectedClient} />;
   }
@@ -134,7 +142,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <AdvisoryInsightsPage clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
   }
   if (currentPage === 'governanca_estrategica') {
-    return <GovernanceDashboardPage clientId={selectedClient} onNavigate={setCurrentPage} />;
+    return <GovernanceDashboardPage clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
   }
   if (currentPage === 'diretrizes') {
     return <DiretrizesPage clientId={selectedClient} />;
@@ -142,8 +150,8 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'diagnostico') {
     return <DiagnosticoPage clientId={selectedClient} />;
   }
-  if (currentPage === 'okrs') {
-    return <OKRsPage clientId={selectedClient} />;
+  if (currentPage === 'planejamento_estrategico') {
+    return <PlanoEstrategicoGlobalPage clientId={selectedClient} />;
   }
   if (currentPage === 'precificacao') {
     return <PrecificacaoPage clientId={selectedClient} />;
@@ -223,9 +231,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'desenvolvimento_humano') {
     return <DesenvolvimentoHumanoPage clientId={selectedClient} />;
   }
-  if (currentPage === 'plano_estrategico_global') {
-    return <PlanoEstrategicoGlobalPage clientId={selectedClient} />;
-  }
+
   if (currentPage === 'compliance_page') {
     return <CompliancePage clientId={selectedClient} />;
   }
@@ -236,22 +242,32 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <InteligenciaSacerdotalPage clientId={selectedClient} />;
   }
   if (currentPage === 'dashboard_marketing') {
-    return <AxisDashboardPage axis="Marketing" clientId={selectedClient} onNavigate={setCurrentPage} />;
+    return <AxisDashboardPage axis="Gestão de Marketing" clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
   }
   if (currentPage === 'dashboard_comercial') {
-    return <AxisDashboardPage axis="Comercial" clientId={selectedClient} onNavigate={setCurrentPage} />;
+    return <AxisDashboardPage axis="Gestão Comercial" clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
   }
   if (currentPage === 'dashboard_cultura') {
-    return <AxisDashboardPage axis="Cultura" clientId={selectedClient} onNavigate={setCurrentPage} />;
+    return <AxisDashboardPage axis="Cultura Organizacional" clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
   }
   if (currentPage === 'dashboard_inovacao') {
-    return <AxisDashboardPage axis="Inovação" clientId={selectedClient} onNavigate={setCurrentPage} />;
+    return <AxisDashboardPage axis="Gestão de Inovação" clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
   }
   if (currentPage === 'dashboard_operacional') {
-    return <AxisDashboardPage axis="Operação" clientId={selectedClient} onNavigate={setCurrentPage} />;
+    return (
+      <AxisDashboardPage 
+        axis="Gestão Operacional" 
+        clientId={selectedClient} 
+        onNavigate={setCurrentPage}
+        selectedMonth={selectedMonth}
+        setSelectedMonth={setSelectedMonth}
+        selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
+      />
+    );
   }
   if (currentPage === 'dashboard_gestao') {
-    return <AxisDashboardPage axis="Gestão" clientId={selectedClient} onNavigate={setCurrentPage} />;
+    return <AxisDashboardPage axis="Administração e Finanças" clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
   }
   if (currentPage === 'perfil_usuario') {
     return <ProfilePage user={user} />;
@@ -265,28 +281,24 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'academy_home') {
     return <AcademyHomePage onNavigate={(page, params) => {
       if (params?.courseId) {
-        // Here we'd ideally set a state, but we can't do it easily from here without changing the context
-        // For now, let's assume we use a hacky way or just navigate
-        (window as any).__academy_params = params;
+        setAcademyCourseId(params.courseId);
       }
       setCurrentPage(page);
     }} />;
   }
   if (currentPage === 'academy_course') {
-    const params = (window as any).__academy_params;
     return <CourseDetailsPage 
-      courseId={params?.courseId || ''} 
+      courseId={academyCourseId} 
       onBack={() => setCurrentPage('academy_home')}
       onStart={(id) => {
-        (window as any).__academy_params = { courseId: id };
+        setAcademyCourseId(id);
         setCurrentPage('academy_player');
       }}
     />;
   }
   if (currentPage === 'academy_player') {
-    const params = (window as any).__academy_params;
     return <LessonPlayerPage 
-      courseId={params?.courseId || ''} 
+      courseId={academyCourseId} 
       userId={user?.uid || ''}
       onBack={() => setCurrentPage('academy_home')}
     />;
@@ -295,7 +307,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <AdminAcademyDashboard 
       onCreateCourse={() => setCurrentPage('academy_admin_course')}
       onEditCourse={(id) => {
-        (window as any).__academy_params = { courseId: id };
+        setAcademyCourseId(id);
         setCurrentPage('academy_admin_course');
       }}
     />;

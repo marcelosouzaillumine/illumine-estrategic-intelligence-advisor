@@ -77,6 +77,7 @@ export type Page =
   | 'plano_contas_gerencial'
   | 'compras'
   | 'posicao_financeira'
+  | 'ativos_financeiros'
   | 'advisory_insights'
   | 'plano_acao'
   | 'tax_reform_impact'
@@ -98,7 +99,7 @@ export type Page =
   | 'analise_mercado'
   | 'compliance_page'
   | 'governanca_estrategica'
-  | 'plano_estrategico_global'
+  | 'planejamento_estrategico'
   | 'relatorio_executivo'
   | 'inteligencia_sacerdotal'
   | 'dashboard_marketing'
@@ -133,8 +134,8 @@ export interface NavigationGroup {
 export const DEFAULT_PAGE: Page = 'portfolio';
 
 export const DEFAULT_OPEN_SUBMENUS: Record<string, boolean> = {
-  'Governança': true,
-  'Gestão': true,
+  'Governança Corporativa': true,
+  'Administração e Finanças': true,
   'Finanças': true,
   'Dashboard': true,
 };
@@ -146,7 +147,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     items: [
       { id: 'portfolio', label: 'Visão Consolidada', icon: Globe },
       { id: 'dashboard', label: 'Monitoramento Estratégico', icon: LayoutDashboard },
-      { id: 'indicadores', label: 'Analytics & KPIs Vitais', icon: TrendingUp },
+      { id: 'indicadores', label: 'Análise de KPIs', icon: TrendingUp },
     ],
   },
   {
@@ -158,7 +159,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     ],
   },
   {
-    group: 'Governança',
+    group: 'Governança Corporativa',
     icon: ShieldCheck,
     items: [
       { id: 'governanca_estrategica', label: 'Dashboard de Governança', icon: LayoutDashboard },
@@ -168,14 +169,13 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'diagnostico', label: 'Diagnóstico & IVE', icon: Activity },
       { id: 'diretrizes', label: 'Identidade & Diretrizes', icon: Compass },
       { id: 'inteligencia_sacerdotal', label: 'Inteligência Sacerdotal', icon: Cpu },
-      { id: 'okrs', label: 'Planejamento Estratégico', icon: Target },
-      { id: 'plano_estrategico_global', label: 'Plano Estratégico Global', icon: Globe },
+      { id: 'planejamento_estrategico', label: 'Planejamento Estratégico', icon: Globe },
       { id: 'relatorio_executivo', label: 'Relatório Executivo', icon: ClipboardList },
-      { id: 'valuation', label: 'Valuation & Estratégia', icon: BarChart3 },
+      { id: 'valuation', label: 'Valuation Business', icon: BarChart3 },
     ],
   },
   {
-    group: 'Cultura',
+    group: 'Cultura Organizacional',
     icon: Users,
     items: [
       { id: 'dashboard_cultura', label: 'Dashboard de Cultura', icon: PieChart },
@@ -184,10 +184,9 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     ],
   },
   {
-    group: 'Gestão',
+    group: 'Administração e Finanças',
     icon: Landmark,
     items: [
-      { id: 'dashboard_gestao', label: 'Dashboard de Gestão', icon: LayoutDashboard },
       { 
         id: 'adm_root' as any,
         label: 'Administração',
@@ -202,42 +201,45 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
         icon: Calculator,
         children: [
           { id: 'bp', label: 'Balanço Patrimonial', icon: BookOpen },
-          { id: 'dfc', label: 'DFC Contabilidade', icon: WalletCards },
-          { id: 'dre', label: 'DRE Contabilidade', icon: FileText },
-          { id: 'dlpa', label: 'DLPA', icon: Scale },
+          { id: 'dfc', label: 'DFC Contábil', icon: WalletCards },
+          { id: 'dlpa', label: 'DLPA Contábil', icon: Scale },
+          { id: 'dre', label: 'DRE Contábil', icon: FileText },
           { id: 'tax_reform_impact', label: 'Impacto Reforma Tributária', icon: Percent },
           { id: 'plano_contas', label: 'Plano Contas Contabilidade', icon: List },
         ]
       },
+      { id: 'dashboard_gestao', label: 'Dashboard de Gestão', icon: LayoutDashboard },
       { 
         id: 'financeira_root' as any, 
         label: 'Finanças', 
         icon: Landmark,
         children: [
-          { id: 'contas_pagar', label: 'Fluxo de Contas a Pagar', icon: CreditCard },
-          { id: 'contas_receber', label: 'Gestão de Contas a Receber', icon: ArrowUpRight },
           { id: 'custos_pessoal', label: 'Análise de Custos de Pessoal', icon: Users },
           { id: 'dre_gerencial', label: 'DRE Gerencial Estratégica', icon: Activity },
-          { id: 'emprestimos', label: 'Gestão de Passivos & Empréstimos', icon: WalletCards },
+          { id: 'modelagem', label: 'Engenharia Financeira', icon: LayoutGrid },
           { id: 'caixa', label: 'Fluxo de Caixa Consolidado', icon: CircleDollarSign },
-          { id: 'modelagem', label: 'Engenharia Financeira & Modelagem', icon: LayoutGrid },
+          { id: 'contas_pagar', label: 'Fluxo de Contas a Pagar', icon: CreditCard },
+          { id: 'ativos_financeiros', label: 'Gestão de Ativos Financeiros', icon: WalletCards, isNew: true },
+          { id: 'contas_receber', label: 'Gestão de Contas a Receber', icon: ArrowUpRight },
+          { id: 'emprestimos', label: 'Gestão de Passivos', icon: WalletCards },
+          { id: 'analise_financeira', label: 'Inteligência de Capital', icon: Boxes },
           { id: 'plano_contas_gerencial', label: 'Plano de Contas Gerencial', icon: List },
-          { id: 'posicao_financeira', label: 'Posição Financeira & Disponibilidade', icon: Landmark },
+          { id: 'posicao_financeira', label: 'Posição Financeira', icon: Landmark },
+          { id: 'simulador_capital', label: 'Simulador de Captação', icon: Zap },
         ]
       },
     ],
   },
   {
-    group: 'Inovação',
+    group: 'Gestão de Inovação',
     icon: Lightbulb,
     items: [
       { id: 'dashboard_inovacao', label: 'Dashboard de Inovação', icon: Zap },
-      { id: 'simulador_capital', label: 'Captação & Alocação', icon: Boxes },
       { id: 'viabilidade', label: 'Projetos de Inovação', icon: Rocket },
     ],
   },
   {
-    group: 'Marketing',
+    group: 'Gestão de Marketing',
     icon: Bell,
     items: [
       { id: 'dashboard_marketing', label: 'Dashboard de Marketing', icon: LayoutDashboard },
@@ -246,7 +248,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     ],
   },
   {
-    group: 'Comercial',
+    group: 'Gestão Comercial',
     icon: ShoppingBag,
     items: [
       { id: 'dashboard_comercial', label: 'Dashboard Comercial', icon: LineChart },
@@ -255,12 +257,12 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     ],
   },
   {
-    group: 'Operação',
+    group: 'Gestão Operacional',
     icon: Activity,
     items: [
       { id: 'dashboard_operacional', label: 'Dashboard Operacional', icon: HardDrive },
-      { id: 'compras', label: 'Compras & Suprimentos', icon: ShoppingBag },
-      { id: 'logistica', label: 'Logística & Supply', icon: Layers },
+      { id: 'compras', label: 'Gestão de Compras', icon: ShoppingBag },
+      { id: 'logistica', label: 'Eficiência em Logística', icon: Layers },
       { id: 'producao', label: 'Produção & Processos', icon: Activity },
     ],
   },

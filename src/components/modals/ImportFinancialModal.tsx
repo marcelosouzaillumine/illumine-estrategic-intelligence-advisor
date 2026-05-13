@@ -15,7 +15,7 @@ import {
 import { cn, formatCurrency } from '../../lib/utils';
 
 interface ImportFinancialModalProps {
-  type: 'Balanço Patrimonial' | 'DRE' | 'BP';
+  type: 'Balanço Patrimonial' | 'DRE' | 'BP' | 'DFC' | 'DLPA';
   clientId: string;
   year: number;
   clients: any[];

@@ -28,30 +28,27 @@ export function PageHeader({
   };
 
   return (
-    <div className={cn("relative overflow-hidden p-8 md:p-12 rounded-[32px] md:rounded-[48px] text-white shadow-2xl mb-12", color)}>
+    <div className={cn("relative overflow-hidden p-8 rounded-[32px] text-white shadow-2xl mb-12", color)}>
       {/* Background Glow Effect */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
-      
-      <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
-          {renderIcon(200)}
-      </div>
+      <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
       
       <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
-        <div className="space-y-4 flex-1">
-          <div className="flex items-center gap-3 md:gap-4">
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-sm border border-white/10">
-              {renderIcon(24, "text-white")}
+        <div className="space-y-1.5 flex-1">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center backdrop-blur-md border border-white/10 shrink-0">
+              {renderIcon(20, "text-secondary")}
             </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/70">Strategic Advisory</span>
+            <h1 className="text-3xl font-display font-black tracking-tight leading-none whitespace-nowrap">{title}</h1>
           </div>
-          <h1 className="text-3xl md:text-5xl font-display font-black tracking-tighter">{title}</h1>
-          <p className="text-white/60 font-medium max-w-xl leading-relaxed text-sm md:text-base">
-            {subtitle}
-          </p>
+          {subtitle && (
+            <p className="text-slate-400 text-sm font-medium ml-[52px] whitespace-nowrap truncate">
+              {subtitle}
+            </p>
+          )}
         </div>
         
         {actions && (
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-3 relative z-10 whitespace-nowrap shrink-0">
             {actions}
           </div>
         )}
@@ -98,10 +95,10 @@ export function SectionHeader({ title, subtitle, icon: Icon, tone = 'blue' }: an
     return (
         <div className="flex flex-col gap-8 mb-20">
             <div className="flex items-center gap-6">
-              <div className="w-16 h-16 flex items-center justify-center border border-border-main group">
-                  <Icon size={24} strokeWidth={1} className="text-text-dim group-hover:text-primary transition-colors" />
+              <div className={cn("w-16 h-16 flex items-center justify-center border group transition-all", tones[tone] || tones.blue)}>
+                  <Icon size={24} strokeWidth={1} className="transition-colors" />
               </div>
-              <div className="h-[1px] flex-1 bg-border-main" />
+              <div className={cn("h-[1px] flex-1 opacity-20", tone === 'slate' ? 'bg-text-main' : 'bg-primary')} />
             </div>
             <div>
                 <p className="text-[11px] font-medium text-accent uppercase tracking-[0.5em] mb-4">{subtitle}</p>

@@ -23,7 +23,7 @@ import { cn, formatValue, formatCurrency } from '../../lib/utils';
 import { SectionHeader } from '../Common';
 
 const EIXOS: EixoGestao[] = [
-  'Governança', 'Cultura', 'Gestão', 'Inovação', 'Marketing', 'Comercial', 'Operação'
+  'Governança Corporativa', 'Cultura Organizacional', 'Administração e Finanças', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
 ];
 
 interface OKRsPageProps {
@@ -38,7 +38,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
 
   const [formData, setFormData] = useState<Partial<ObjetivoOKR>>({
     titulo: '',
-    eixo: 'Governança',
+    eixo: 'Governança Corporativa',
     responsavel: '',
     periodo: 'Q1 2026',
     keyResults: []
@@ -67,7 +67,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
         }
 
         const progresso = kr.meta > 0 ? Math.min(100, Math.max(0, (actualValue / kr.meta) * 100)) : 0;
-        const status = progresso >= 100 ? 'Completed' : progresso >= 40 ? 'In Progress' : progresso > 0 ? 'At Risk' : 'Not Started';
+        const status = (progresso >= 100 ? 'Completed' : progresso >= 40 ? 'In Progress' : progresso > 0 ? 'At Risk' : 'Not Started') as 'Completed' | 'In Progress' | 'At Risk' | 'Not Started';
 
         return { ...kr, atual: actualValue, progresso, status };
       });
@@ -114,7 +114,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
       await add(payload);
       setShowForm(false);
     }
-    setFormData({ titulo: '', eixo: 'Governança', responsavel: '', periodo: 'Q1 2026', keyResults: [] });
+    setFormData({ titulo: '', eixo: 'Governança Corporativa', responsavel: '', periodo: 'Q1 2026', keyResults: [] });
     setTrimestre('Q1'); setAno('2026');
   };
 

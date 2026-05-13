@@ -22,8 +22,8 @@ export function PremissasEconomicasPage() {
   return (
     <div className="space-y-12 pb-20">
       <PageHeader 
-        title="Premissas Econômicas 2026" 
-        subtitle="Fatores macroeconômicos e indicadores financeiros atualizados via BCB, FGV e Tesouro Direto para suporte a projeções."
+        title="Premissas do Sistema" 
+        subtitle="Configurações globais e indicadores de mercado atualizados para suporte estratégico."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -182,6 +182,18 @@ export function PremissasEconomicasPage() {
                 <div className="w-3 h-3 bg-emerald-400 rounded-full animate-ping" />
                 Sincronizado
               </span>
+            </div>
+            
+            <div className="p-4 bg-white/20 rounded-2xl backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-all cursor-pointer group/sync">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <span className="block text-[10px] font-bold text-blue-100 uppercase tracking-widest mb-1">Sincronização Diária</span>
+                  <span className="text-xs font-bold text-white">Atualizar no primeiro acesso</span>
+                </div>
+                <div className="w-10 h-5 bg-emerald-500 rounded-full relative shadow-inner">
+                  <div className="absolute right-1 top-1 w-3 h-3 bg-white rounded-full shadow-sm" />
+                </div>
+              </div>
             </div>
           </div>
         </div>

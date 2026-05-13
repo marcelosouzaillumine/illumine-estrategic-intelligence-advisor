@@ -916,6 +916,7 @@ export interface BankTransaction {
   date: string;
   description: string;
   amount: number;
+  category?: string;
 }
 
 /** Parse OFX (Open Financial Exchange) bank statements */

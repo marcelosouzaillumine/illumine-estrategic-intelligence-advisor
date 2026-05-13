@@ -164,35 +164,34 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
 
   return (
     <div className="space-y-10 pb-20 animate-executive-fade">
-      <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-          <PageHeader 
-            title="Posição Financeira" 
-            subtitle={`Detalhamento de saldos bancários, disponibilidades e evolução do patrimônio líquido líquido · ${clientName}`}
-            icon={<Landmark className="text-primary" size={24} />}
-            color="primary"
-          />
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="px-4 py-3 bg-white/5 text-slate-400 border border-white/10 rounded-2xl flex items-center gap-2">
-              <Clock size={14} />
-              <span className="text-[10px] font-black uppercase tracking-[0.15em]">Última Sincronização: {positions[0]?.dataAtualizacao || '--'}</span>
-            </div>
-            <button 
-              onClick={() => setShowImportModal(true)}
-              disabled={!selectedClient}
-              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 disabled:opacity-50"
-            >
-              <Upload size={14} /> IMPORTAR EXTRATO
-            </button>
-            <button 
-              onClick={() => setShowAccountModal(true)}
-              disabled={!selectedClient}
-              className="px-8 py-3 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-2 disabled:opacity-50"
-            >
-              <Plus size={16} /> ADICIONAR CONTA
-            </button>
+      <PageHeader 
+        title="Posição Financeira" 
+        subtitle="Monitoramento de disponibilidades, saldos bancários e evolução patrimonial"
+        icon={Landmark}
+      />
+
+      <div className="flex flex-col md:flex-row md:items-center justify-end gap-4 -mt-8 mb-12">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="px-4 py-2.5 bg-white text-slate-400 border border-slate-200 rounded-xl flex items-center gap-2 shadow-sm">
+            <Clock size={12} />
+            <span className="text-[10px] font-black uppercase tracking-widest">
+              Sinc: {positions[0]?.dataAtualizacao || '--'}
+            </span>
           </div>
+          <button 
+            onClick={() => setShowImportModal(true)}
+            disabled={!selectedClient}
+            className="px-5 py-2.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 disabled:opacity-50 shadow-sm"
+          >
+            <Upload size={12} /> IMPORTAR EXTRATO
+          </button>
+          <button 
+            onClick={() => setShowAccountModal(true)}
+            disabled={!selectedClient}
+            className="px-6 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 flex items-center gap-2 disabled:opacity-50"
+          >
+            <Plus size={14} /> ADICIONAR CONTA
+          </button>
         </div>
       </div>
 

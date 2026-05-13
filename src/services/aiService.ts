@@ -215,8 +215,8 @@ Siga exatamente as diretrizes:
 4. Gere 2 produtos principais (pricing) com margens realistas (ex: 45 para 45%).
 5. Gere 2 contas a pagar (payables) e 2 a receber (receivables). Se o relato menciona problemas de caixa, crie valores que justifiquem isso.
 6. Gere Missão, Visão e Valores alinhados com o relato.
-7. Gere 2 itens de diagnóstico empresarial (IVE). (swot DEVE ser: "Força", "Fraqueza", "Oportunidade" ou "Ameaça". eixo DEVE ser "Comercial", "Operacional", "Gestão Financeira", etc. gravidade, urgencia, tendencia, impactoFinanceiro entre 1 e 5). Devem refletir os desafios do relato.
-8. Gere 1 OKR estratégico (eixo DEVE ser "Comercial", "Operacional", "Inovação", etc) que ajude a resolver um dos problemas citados.
+218. Gere 2 itens de diagnóstico empresarial (IVE). (swot DEVE ser: "Força", "Fraqueza", "Oportunidade" ou "Ameaça". eixo DEVE ser "Gestão Comercial", "Gestão Operacional", "Administração e Finanças", "Governança Corporativa", "Cultura Organizacional", "Gestão de Marketing" ou "Gestão de Inovação". gravidade, urgencia, tendencia, impactoFinanceiro entre 1 e 5). Devem refletir os desafios do relato.
+219. Gere 1 OKR estratégico (eixo DEVE ser um dos nomes de eixos acima) que ajude a resolver um dos problemas citados.
 9. Gere relatório estratégico completo (desafios, oportunidades, governança, fluxo operacional).
 10. Defina historicalRevenueBase e ebitdaMargin que façam sentido com o segmento e o momento da empresa descrito.`;
 
@@ -289,13 +289,13 @@ const getFallbackPayload = (segment: string): AICompanyData => {
       { nome: "Solução Standard", precoVenda: 2500, margemContribuicaoPct: 35 }
     ],
     diagnostico: [
-      { descricao: "Forte posicionamento de mercado", swot: "Força", eixo: "Comercial", gravidade: 1, urgencia: 1, tendencia: 1, impactoFinanceiro: 4 },
-      { descricao: "Dependência de poucos fornecedores", swot: "Fraqueza", eixo: "Operacional", gravidade: 4, urgencia: 3, tendencia: 3, impactoFinanceiro: 3 }
+      { descricao: "Forte posicionamento de mercado", swot: "Força", eixo: "Gestão Comercial", gravidade: 1, urgencia: 1, tendencia: 1, impactoFinanceiro: 4 },
+      { descricao: "Dependência de poucos fornecedores", swot: "Fraqueza", eixo: "Gestão Operacional", gravidade: 4, urgencia: 3, tendencia: 3, impactoFinanceiro: 3 }
     ],
     okrs: [
       { 
         titulo: "Expansão de Market Share", 
-        eixo: "Comercial", 
+        eixo: "Gestão Comercial", 
         responsavel: "Diretoria", 
         keyResults: [
           { titulo: "Aumentar base de clientes em 20%", tipo: "Percentual", meta: 20 },
@@ -613,7 +613,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   // === SEQUENTIAL WRITES: Operational Modules (one at a time to isolate failures) ===
   const currentYearMonth = new Date().toISOString().substring(0, 7); // YYYY-MM
   const getValidSwot = (val: string) => ['Força', 'Fraqueza', 'Oportunidade', 'Ameaça'].includes(val) ? val : 'Força';
-  const getValidEixo = (val: string) => ['Governança', 'Cultura', 'Gestão', 'Inovação', 'Marketing', 'Comercial', 'Operação'].includes(val) ? val : 'Comercial';
+  const getValidEixo = (val: string) => ['Governança Corporativa', 'Cultura Organizacional', 'Administração e Finanças', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'].includes(val) ? val : 'Gestão Comercial';
 
   try {
     await addDoc(collection(db, 'diretrizes'), {
@@ -832,37 +832,36 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       
       const indicatorsData = [
         // Gestão Financeira
-        { ind: "Liquidez Corrente", val: 1.2 + Math.random(), un: 'x', cat: 'Gestão' },
-        { ind: "Endividamento Geral", val: 30 + Math.random() * 20, un: '%', cat: 'Gestão' },
-        { ind: "PMR (Prazo Médio Recebimento)", val: 30 + Math.round(Math.random() * 15), un: 'dias', cat: 'Gestão' },
+        { ind: "Liquidez Corrente", val: 1.2 + Math.random(), un: 'x', cat: 'Administração e Finanças' },
+        { ind: "Endividamento Geral", val: 30 + Math.random() * 20, un: '%', cat: 'Administração e Finanças' },
+        { ind: "PMR (Prazo Médio Recebimento)", val: 30 + Math.round(Math.random() * 15), un: 'dias', cat: 'Administração e Finanças' },
         
-        // Cultura
-        { ind: "Turnover Rate (%)", val: 3 + Math.random() * 5, un: '%', cat: 'Cultura' },
-        { ind: "eNPS (Clima)", val: 60 + Math.random() * 30, un: 'pts', cat: 'Cultura' },
-        { ind: "Absenteísmo", val: 1 + Math.random() * 2, un: '%', cat: 'Cultura' },
+        // Cultura Organizacional
+        { ind: "eNPS (Clima)", val: 60 + Math.random() * 30, un: 'pts', cat: 'Cultura Organizacional' },
+        { ind: "Absenteísmo", val: 1 + Math.random() * 2, un: '%', cat: 'Cultura Organizacional' },
         
-        // Marketing
-        { ind: "Custo por Lead (CPL)", val: 15 + Math.random() * 20, un: 'R$', cat: 'Marketing' },
-        { ind: "CAC (Custo de Aquisição)", val: monthlyRev * 0.05 / 10, un: 'R$', cat: 'Marketing' },
-        { ind: "ROI em Marketing", val: 3 + Math.random() * 4, un: 'x', cat: 'Marketing' },
+        // Gestão de Marketing
+        { ind: "Custo por Lead (CPL)", val: 15 + Math.random() * 20, un: 'R$', cat: 'Gestão de Marketing' },
+        { ind: "CAC (Custo de Aquisição)", val: monthlyRev * 0.05 / 10, un: 'R$', cat: 'Gestão de Marketing' },
+        { ind: "ROI em Marketing", val: 3 + Math.random() * 4, un: 'x', cat: 'Gestão de Marketing' },
         
         // Comercial
-        { ind: "Taxa de Conversão", val: 15 + Math.random() * 15, un: '%', cat: 'Comercial' },
-        { ind: "Ticket Médio", val: 500 + Math.random() * 1000, un: 'R$', cat: 'Comercial' },
-        { ind: "Churn Rate", val: 1 + Math.random() * 3, un: '%', cat: 'Comercial' },
+        { ind: "Taxa de Conversão", val: 15 + Math.random() * 15, un: '%', cat: 'Gestão Comercial' },
+        { ind: "Ticket Médio", val: 500 + Math.random() * 1000, un: 'R$', cat: 'Gestão Comercial' },
+        { ind: "Churn Rate", val: 1 + Math.random() * 3, un: '%', cat: 'Gestão Comercial' },
         
         // Operação
-        { ind: "OEE (Eficiência Global)", val: 70 + Math.random() * 20, un: '%', cat: 'Operação' },
-        { ind: "Nível de Serviço (SLA)", val: 90 + Math.random() * 9, un: '%', cat: 'Operação' },
-        { ind: "Desperdício/Perdas", val: 1 + Math.random() * 4, un: '%', cat: 'Operação' },
+        { ind: "OEE (Eficiência Global)", val: 70 + Math.random() * 20, un: '%', cat: 'Gestão Operacional' },
+        { ind: "Nível de Serviço (SLA)", val: 90 + Math.random() * 9, un: '%', cat: 'Gestão Operacional' },
+        { ind: "Desperdício/Perdas", val: 1 + Math.random() * 4, un: '%', cat: 'Gestão Operacional' },
         
         // Inovação
-        { ind: "Índice de Vitalidade", val: 10 + Math.random() * 15, un: '%', cat: 'Inovação' },
-        { ind: "Projetos em Execução", val: 2 + Math.round(Math.random() * 3), un: 'un', cat: 'Inovação' },
+        { ind: "Índice de Vitalidade", val: 10 + Math.random() * 15, un: '%', cat: 'Gestão de Inovação' },
+        { ind: "Projetos em Execução", val: 2 + Math.round(Math.random() * 3), un: 'un', cat: 'Gestão de Inovação' },
         
         // Governança
-        { ind: "Índice de Maturidade", val: 50 + Math.random() * 40, un: '%', cat: 'Governança' },
-        { ind: "Compliance Score", val: 70 + Math.random() * 25, un: '%', cat: 'Governança' }
+        { ind: "Índice de Maturidade", val: 50 + Math.random() * 40, un: '%', cat: 'Governança Corporativa' },
+        { ind: "Compliance Score", val: 70 + Math.random() * 25, un: '%', cat: 'Governança Corporativa' }
       ];
 
       for (const ind of indicatorsData) {
@@ -998,4 +997,82 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   }
 
   return clientId;
+};
+
+const sacerdotalDiagnosisSchema = {
+  type: Type.OBJECT,
+  properties: {
+    resumoExecutivo: { type: Type.STRING },
+    diagnosticoOrganizacional: { type: Type.STRING },
+    principaisRiscos: { type: Type.ARRAY, items: { type: Type.STRING } },
+    gargalosSistemicos: { type: Type.ARRAY, items: { type: Type.STRING } },
+    desalinhamentosCriticos: { type: Type.ARRAY, items: { type: Type.STRING } },
+    potenciaisOcultos: { type: Type.ARRAY, items: { type: Type.STRING } },
+    recomendacoesPrioritarias: { type: Type.ARRAY, items: { type: Type.STRING } },
+    planoAcaoSugerido: { type: Type.ARRAY, items: { type: Type.STRING } },
+    correlacaoEntreEixos: { type: Type.STRING },
+    parecerExecutivo: { type: Type.STRING }
+  },
+  required: [
+    "resumoExecutivo", 
+    "diagnosticoOrganizacional", 
+    "principaisRiscos", 
+    "gargalosSistemicos", 
+    "desalinhamentosCriticos", 
+    "potenciaisOcultos", 
+    "recomendacoesPrioritarias", 
+    "planoAcaoSugerido", 
+    "correlacaoEntreEixos", 
+    "parecerExecutivo"
+  ]
+};
+
+export const generateSacerdotalDiagnosis = async (
+  scores: Record<string, number>, 
+  indicators: any[],
+  companyName: string
+) => {
+  try {
+    const ai = getAI();
+    
+    const prompt = `Você é um Consultor Estratégico Sênior e Especialista em Inteligência Sacerdotal.
+Analise os resultados de maturidade da empresa "${companyName}" e gere um diagnóstico profundo.
+
+SCORES DE MATURIDADE POR EIXO:
+${JSON.stringify(scores, null, 2)}
+
+PRINCIPAIS INDICADORES REAIS:
+${JSON.stringify(indicators.slice(0, 15).map(i => ({ ind: i.ind, val: i.val, un: i.un })), null, 2)}
+
+DIRETRIZES:
+1. O diagnóstico deve ser profundo, executivo e premium.
+2. Identifique incoerências entre os scores (percepção) e indicadores (realidade).
+3. Gere um plano de ação prático e fundamentado em princípios bíblicos de gestão.
+4. O parecer executivo deve ser curto, impactante e direto ao ponto.`;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.0-flash',
+      contents: prompt,
+      config: {
+        responseMimeType: 'application/json',
+        responseSchema: sacerdotalDiagnosisSchema,
+      }
+    });
+
+    return JSON.parse(response.text);
+  } catch (error) {
+    console.error("AI Sacerdotal Diagnosis Error:", error);
+    return {
+      resumoExecutivo: "A organização apresenta um nível de maturidade em estruturação, com pontos de atenção em Governança.",
+      diagnosticoOrganizacional: "Equilíbrio moderado entre os eixos, mas com gargalos na operação.",
+      principaisRiscos: ["Risco de centralização decisória", "Passivo oculto por falta de compliance"],
+      gargalosSistemicos: ["Lentidão na resposta comercial"],
+      desalinhamentosCriticos: ["Diferença entre discurso ético e prática financeira"],
+      potenciaisOcultos: ["Alta capacidade de inovação subutilizada"],
+      recomendacoesPrioritarias: ["Fortalecer rituais de Accountability", "Revisar precificação"],
+      planoAcaoSugerido: ["Implantar conselho consultivo em 90 dias"],
+      correlacaoEntreEixos: "A fragilidade financeira está impactando a capacidade de inovação.",
+      parecerExecutivo: "Foco imediato na estruturação de processos de governança para sustentar o crescimento."
+    };
+  }
 };

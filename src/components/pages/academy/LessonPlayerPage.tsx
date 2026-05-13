@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   ChevronLeft, 
-  Menu, 
   CheckCircle2, 
   PlayCircle, 
   FileText, 
-  Download, 
   Link as LinkIcon,
-  ChevronRight,
   ChevronDown,
-  Lock
+  Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useAcademyData } from '../../../hooks/useAcademyData';
-import type { Lesson, Module } from '../../../types/academy';
+import { useAcademyData, useAcademyModules, useAcademyLessons, useAcademyProgress } from '../../../hooks/useAcademyData';
+import type { Lesson } from '../../../types/academy';
 import { cn } from '../../../lib/utils';
 
 interface LessonPlayerPageProps {
@@ -22,27 +19,120 @@ interface LessonPlayerPageProps {
   userId: string;
 }
 
+/** Inner component that can call useAcademyLessons per module safely */
+function ModuleLessonList({
+  moduleId,
+  moduleIdx,
+  currentLessonId,
+  completedLessonIds,
+  onSelectLesson,
+}: {
+  moduleId: string;
+  moduleIdx: number;
+  currentLessonId: string | null;
+  completedLessonIds: Set<string>;
+  onSelectLesson: (lesson: Lesson) => void;
+}) {
+  const { lessons, loading } = useAcademyLessons(moduleId);
+
+  if (loading) {
+    return (
+      <div className="px-8 py-4 flex items-center gap-2 text-text-dim">
+        <Loader2 size={14} className="animate-spin" />
+        <span className="text-xs">Carregando aulas...</span>
+      </div>
+    );
+  }
+
+  if (lessons.length === 0) {
+    return (
+      <p className="px-8 py-4 text-xs text-text-dim italic">Nenhuma aula cadastrada.</p>
+    );
+  }
+
+  return (
+    <>
+      {lessons.map((lesson, lIdx) => {
+        const isActive = currentLessonId === lesson.id;
+        const isDone = completedLessonIds.has(lesson.id);
+        return (
+          <button
+            key={lesson.id}
+            onClick={() => onSelectLesson(lesson)}
+            className={cn(
+              "w-full px-8 py-4 flex items-center gap-4 hover:bg-bg-surface transition-all text-left group",
+              isActive ? "bg-primary/5 text-primary" : "text-text-muted"
+            )}
+          >
+            <div className={cn(
+              "w-6 h-6 rounded-full flex items-center justify-center shrink-0 border",
+              isActive ? "border-primary text-primary" : "border-current opacity-40"
+            )}>
+              {isDone ? <CheckCircle2 size={14} className="text-accent" /> : <PlayCircle size={14} />}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-bold leading-tight truncate">
+                Aula {lIdx + 1}: {lesson.title}
+              </p>
+              {lesson.duration && (
+                <p className="text-[10px] font-black uppercase tracking-widest opacity-60">
+                  {lesson.duration} min
+                </p>
+              )}
+            </div>
+          </button>
+        );
+      })}
+    </>
+  );
+}
+
 export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageProps) {
-  const { courses, getModules, getLessons, getUserProgress } = useAcademyData();
-  const course = courses.find(c => c.id === courseId);
-  const modules = getModules(courseId);
-  const progress = getUserProgress(userId, courseId);
+  const { courses } = useAcademyData();
+  const { modules } = useAcademyModules(courseId);
+  const { progress } = useAcademyProgress(userId, courseId);
   
+  const course = courses.find(c => c.id === courseId);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [expandedModules, setExpandedModules] = useState<string[]>([]);
 
-  // Auto-select first lesson when modules load
+  // Auto-expand first module when loaded
   useEffect(() => {
-    if (modules.length > 0 && !currentLesson) {
-      // This is a simplified fetch, ideally getLessons should be called for each module
-      // or we fetch all lessons for the course
+    if (modules.length > 0 && expandedModules.length === 0) {
+      setExpandedModules([modules[0].id]);
     }
   }, [modules]);
+
+  const completedLessonIds = useMemo(() => {
+    return new Set(progress.filter(p => p.completed).map(p => p.lessonId));
+  }, [progress]);
+
+  const progressPct = useMemo(() => {
+    if (!course?.lessonsCount || course.lessonsCount === 0) return 0;
+    return Math.round((completedLessonIds.size / course.lessonsCount) * 100);
+  }, [completedLessonIds, course]);
 
   const toggleModule = (moduleId: string) => {
     setExpandedModules(prev => 
       prev.includes(moduleId) ? prev.filter(id => id !== moduleId) : [...prev, moduleId]
     );
+  };
+
+  // Sanitize HTML content to prevent XSS (basic implementation)
+  const sanitizeHtml = (html: string): string => {
+    const allowedTags = ['p', 'strong', 'em', 'ul', 'ol', 'li', 'h2', 'h3', 'h4', 'br', 'a', 'blockquote'];
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    // Remove script tags and event attributes
+    tempDiv.querySelectorAll('script, style, iframe, object, embed').forEach(el => el.remove());
+    tempDiv.querySelectorAll('*').forEach(el => {
+      Array.from(el.attributes).forEach(attr => {
+        if (attr.name.startsWith('on') || attr.name === 'src' && el.tagName !== 'IMG') {
+          el.removeAttribute(attr.name);
+        }
+      });
+    });
+    return tempDiv.innerHTML;
   };
 
   if (!course) return null;
@@ -60,7 +150,11 @@ export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageP
           </button>
           <div>
             <h1 className="text-lg font-black text-text-main leading-tight">{course.title}</h1>
-            <p className="text-xs text-text-dim uppercase tracking-widest font-bold">Módulo Atual: Introdução</p>
+            {currentLesson && (
+              <p className="text-xs text-text-dim uppercase tracking-widest font-bold truncate max-w-xs">
+                {currentLesson.title}
+              </p>
+            )}
           </div>
         </div>
 
@@ -69,9 +163,12 @@ export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageP
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-dim">Seu Progresso</span>
             <div className="flex items-center gap-3">
               <div className="w-32 h-1.5 bg-bg-surface rounded-full overflow-hidden">
-                <div className="h-full bg-accent w-[30%]" />
+                <div 
+                  className="h-full bg-accent transition-all duration-500" 
+                  style={{ width: `${progressPct}%` }} 
+                />
               </div>
-              <span className="text-sm font-black text-text-main">30%</span>
+              <span className="text-sm font-black text-text-main">{progressPct}%</span>
             </div>
           </div>
         </div>
@@ -80,41 +177,56 @@ export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageP
       <div className="flex-1 flex overflow-hidden">
         {/* Main Player Area */}
         <div className="flex-1 overflow-y-auto bg-black flex flex-col">
-          <div className="aspect-video w-full bg-bg-surface relative group">
+          <div className="aspect-video w-full bg-bg-surface relative">
             {currentLesson?.contentType === 'video' ? (
               <iframe 
                 src={currentLesson.videoUrl} 
                 className="w-full h-full"
                 allowFullScreen
+                title={currentLesson.title}
               />
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4 p-12 text-center">
-                 <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                    {currentLesson?.contentType === 'pdf' ? <FileText size={40} /> : <LinkIcon size={40} />}
-                 </div>
-                 <h2 className="text-3xl font-black text-white">{currentLesson?.title}</h2>
-                 <p className="text-white/60 max-w-lg">{currentLesson?.description}</p>
-                 <button className="px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-transform">
+                <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                  {currentLesson?.contentType === 'pdf' 
+                    ? <FileText size={40} /> 
+                    : currentLesson 
+                      ? <LinkIcon size={40} /> 
+                      : <PlayCircle size={40} />
+                  }
+                </div>
+                <h2 className="text-3xl font-black text-white">
+                  {currentLesson?.title || 'Selecione uma aula para começar'}
+                </h2>
+                <p className="text-white/60 max-w-lg">
+                  {currentLesson?.description || 'Explore o menu lateral para navegar entre os módulos e aulas deste curso.'}
+                </p>
+                {currentLesson && (
+                  <button className="px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-transform">
                     Acessar Conteúdo
-                 </button>
+                  </button>
+                )}
               </div>
             )}
           </div>
 
           <div className="p-12 max-w-4xl mx-auto w-full space-y-8">
-            <div className="space-y-4">
-              <h2 className="text-4xl font-black text-white font-display">
-                {currentLesson?.title || 'Selecione uma aula para começar'}
-              </h2>
-              <p className="text-xl text-white/60 leading-relaxed">
-                {currentLesson?.description || 'Explore o menu lateral para navegar entre os módulos e aulas deste curso.'}
-              </p>
-            </div>
+            {currentLesson && (
+              <div className="space-y-4">
+                <h2 className="text-4xl font-black text-white font-display">
+                  {currentLesson.title}
+                </h2>
+                <p className="text-xl text-white/60 leading-relaxed">
+                  {currentLesson.description}
+                </p>
+              </div>
+            )}
 
             {currentLesson?.textContent && (
-              <div className="prose prose-invert max-w-none pt-8 border-t border-white/10">
-                <div dangerouslySetInnerHTML={{ __html: currentLesson.textContent }} />
-              </div>
+              <div 
+                className="prose prose-invert max-w-none pt-8 border-t border-white/10"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(currentLesson.textContent) }} 
+              />
             )}
           </div>
         </div>
@@ -123,57 +235,53 @@ export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageP
         <aside className="w-96 bg-bg-card border-l border-border-main flex flex-col shrink-0 overflow-hidden">
           <div className="p-6 border-b border-border-main bg-bg-surface/30">
             <h3 className="font-black text-text-main uppercase tracking-widest text-sm">Conteúdo do Curso</h3>
+            <p className="text-xs text-text-dim mt-1">{modules.length} módulos</p>
           </div>
 
           <div className="flex-1 overflow-y-auto custom-scrollbar">
-            {modules.map((module, mIdx) => (
-              <div key={module.id} className="border-b border-border-main last:border-0">
-                <button 
-                  onClick={() => toggleModule(module.id)}
-                  className="w-full p-6 flex items-center justify-between hover:bg-bg-surface transition-colors"
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="text-xs font-black text-text-dim">{String(mIdx + 1).padStart(2, '0')}</span>
-                    <span className="font-bold text-text-main text-left">{module.title}</span>
-                  </div>
-                  <ChevronDown 
-                    size={16} 
-                    className={cn("text-text-dim transition-transform", expandedModules.includes(module.id) && "rotate-180")} 
-                  />
-                </button>
-
-                <AnimatePresence>
-                  {expandedModules.includes(module.id) && (
-                    <motion.div 
-                      initial={{ height: 0 }}
-                      animate={{ height: 'auto' }}
-                      exit={{ height: 0 }}
-                      className="overflow-hidden bg-bg-surface/20"
-                    >
-                      {/* This would be real lesson data */}
-                      {[1, 2, 3].map(lIdx => (
-                        <button 
-                          key={lIdx}
-                          className={cn(
-                            "w-full px-8 py-4 flex items-center gap-4 hover:bg-bg-surface transition-all text-left group",
-                            lIdx === 1 ? "bg-primary/5 text-primary" : "text-text-muted"
-                          )}
-                        >
-                          <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 border border-current opacity-40">
-                             <PlayCircle size={14} />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-bold leading-tight">Aula {lIdx}: Nome da Aula Exemplo</p>
-                            <p className="text-[10px] font-black uppercase tracking-widest opacity-60">12 min</p>
-                          </div>
-                          {lIdx === 1 && <CheckCircle2 size={16} className="text-accent" />}
-                        </button>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+            {modules.length === 0 ? (
+              <div className="flex flex-col items-center justify-center p-12 text-center">
+                <Loader2 size={24} className="animate-spin text-text-dim mb-4" />
+                <p className="text-text-dim text-sm">Carregando módulos...</p>
               </div>
-            ))}
+            ) : (
+              modules.map((module, mIdx) => (
+                <div key={module.id} className="border-b border-border-main last:border-0">
+                  <button 
+                    onClick={() => toggleModule(module.id)}
+                    className="w-full p-6 flex items-center justify-between hover:bg-bg-surface transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="text-xs font-black text-text-dim">{String(mIdx + 1).padStart(2, '0')}</span>
+                      <span className="font-bold text-text-main text-left">{module.title}</span>
+                    </div>
+                    <ChevronDown 
+                      size={16} 
+                      className={cn("text-text-dim transition-transform", expandedModules.includes(module.id) && "rotate-180")} 
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {expandedModules.includes(module.id) && (
+                      <motion.div 
+                        initial={{ height: 0 }}
+                        animate={{ height: 'auto' }}
+                        exit={{ height: 0 }}
+                        className="overflow-hidden bg-bg-surface/20"
+                      >
+                        <ModuleLessonList
+                          moduleId={module.id}
+                          moduleIdx={mIdx}
+                          currentLessonId={currentLesson?.id || null}
+                          completedLessonIds={completedLessonIds}
+                          onSelectLesson={setCurrentLesson}
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))
+            )}
           </div>
         </aside>
       </div>

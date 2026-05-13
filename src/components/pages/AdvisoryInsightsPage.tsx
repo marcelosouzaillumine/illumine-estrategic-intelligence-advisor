@@ -193,62 +193,17 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
   return (
     <div className="space-y-12 pb-32 animate-executive-fade">
       {/* Hero Section with Integrated Score */}
-      <div className="relative overflow-hidden rounded-[48px] bg-slate-900 p-8 md:p-12 text-white shadow-2xl">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
         
-        <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12">
-          <div className="flex-1 space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/10">
-                <Presentation size={24} className="text-blue-400" />
-              </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-400/80">Strategic Advisory Board</span>
+        <div className="relative z-10 flex-1 overflow-hidden min-w-0">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center shrink-0">
+              <Presentation size={20} className="text-secondary" />
             </div>
-            
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-6xl font-display font-black tracking-tighter leading-tight">
-                Conselho de <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Estratégia CFO</span>
-              </h1>
-              <p className="text-slate-400 font-medium max-w-2xl leading-relaxed text-sm md:text-lg">
-                Inteligência integrada para gestão de valor, análise preditiva de performance e governança corporativa de alto nível baseada em dados reais.
-              </p>
-            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight truncate">Conselho Estrategico CFO</h1>
           </div>
-
-          {/* Premium Score Display */}
-          <div className="bg-white/5 backdrop-blur-xl p-8 rounded-[40px] border border-white/10 shadow-2xl min-w-[320px] flex flex-col gap-6 relative group overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            
-            <div className="flex items-center justify-between relative z-10">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400">Illumine Health Score</span>
-              <ShieldCheck size={16} className="text-blue-400" />
-            </div>
-
-            <div className="flex items-end gap-3 relative z-10">
-              <h2 className="text-7xl font-display font-black tracking-tighter leading-none">
-                {isNaN(healthScore) ? 0 : healthScore}
-              </h2>
-              <span className="text-lg font-bold text-slate-500 mb-2">/ 100</span>
-            </div>
-
-            <div className="space-y-3 relative z-10">
-              <div className="h-2 w-full bg-slate-800/50 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${healthScore}%` }}
-                  transition={{ duration: 1.5, ease: "circOut" }}
-                  className={cn(
-                    "h-full rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)]",
-                    healthScore > 80 ? "bg-emerald-400" : healthScore > 60 ? "bg-blue-400" : "bg-rose-400"
-                  )} 
-                />
-              </div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex justify-between">
-                <span>{healthScore > 80 ? 'Status: Elite' : healthScore > 60 ? 'Status: Estável' : 'Status: Alerta'}</span>
-                <span className="text-blue-400">{healthScore}% Performance</span>
-              </p>
-            </div>
-          </div>
+          <p className="text-slate-400 text-sm font-medium truncate">Inteligência integrada para análise da geração de valor.</p>
         </div>
       </div>
 
@@ -346,6 +301,41 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
 
         {/* Intelligence Sidebar */}
         <div className="space-y-8">
+          {/* Premium Score Display - Moved from Header */}
+          <div className="bg-slate-900 p-8 rounded-[32px] text-white border border-white/5 shadow-2xl flex flex-col gap-6 relative group overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            
+            <div className="flex items-center justify-between relative z-10">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400">Illumine Health Score</span>
+              <ShieldCheck size={18} className="text-blue-400" />
+            </div>
+
+            <div className="flex items-end gap-3 relative z-10">
+              <h2 className="text-7xl font-display font-black tracking-tighter leading-none">
+                {isNaN(healthScore) ? 0 : healthScore}
+              </h2>
+              <span className="text-lg font-bold text-slate-500 mb-2">/ 100</span>
+            </div>
+
+            <div className="space-y-3 relative z-10">
+              <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${healthScore}%` }}
+                  transition={{ duration: 1.5, ease: "circOut" }}
+                  className={cn(
+                    "h-full rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)]",
+                    healthScore > 80 ? "bg-emerald-400" : healthScore > 60 ? "bg-blue-400" : "bg-rose-400"
+                  )} 
+                />
+              </div>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex justify-between">
+                <span>{healthScore > 80 ? 'Status: Elite' : healthScore > 60 ? 'Status: Estável' : 'Status: Alerta'}</span>
+                <span className="text-blue-400">{healthScore}% Performance</span>
+              </p>
+            </div>
+          </div>
+
           <div className="bg-white/80 backdrop-blur-md p-2 rounded-[24px] border border-slate-200 shadow-sm flex items-center sticky top-8 z-30">
             <button
               onClick={() => setActiveTab('cfo')}
@@ -426,7 +416,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                         <BookOpen size={32} strokeWidth={1} />
                       </div>
                       <p className="text-[10px] font-black uppercase tracking-[0.2em] max-w-[200px] leading-loose">
-                        Busque uma perspectiva de alinhamento com os princípios sacerdotal.
+                        Busque uma perspectiva de alinhamento com os princípios de uma gestão sacerdotal.
                       </p>
                     </div>
                   )}

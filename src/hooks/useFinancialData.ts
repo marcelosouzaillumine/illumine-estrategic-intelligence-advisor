@@ -3,7 +3,7 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 
-export function useFinancialData(clientId: string, year: number, month: number, type: 'DRE' | 'BP' | 'CAIXA' | 'DRE Gerencial') {
+export function useFinancialData(clientId: string, year: number, month: number, type: 'DRE' | 'BP' | 'CAIXA' | 'DRE Gerencial' | 'DFC' | 'DLPA') {
   const [dbData, setDbData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -150,7 +150,7 @@ export function useAllFinancialData(clientId: string) {
 export function useAnnualFinancialData(
   clientId: string,
   year: number,
-  type: 'DRE' | 'BP' | 'CAIXA' | 'DRE Gerencial' | 'Balanço Patrimonial'
+  type: 'DRE' | 'BP' | 'CAIXA' | 'DRE Gerencial' | 'Balanço Patrimonial' | 'DFC' | 'DLPA'
 ) {
   const [dbData, setDbData] = useState<any[]>([]);
   const [docIds, setDocIds] = useState<string[]>([]);

@@ -82,7 +82,10 @@ export function ProfilePage({ user }: ProfilePageProps) {
                       : "text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-100"
                   )}
                 >
-                  <tab.icon size={16} />
+                  {(() => {
+                    const Icon = tab.icon;
+                    return <Icon size={16} />;
+                  })()}
                   {tab.label}
                 </button>
               ))}

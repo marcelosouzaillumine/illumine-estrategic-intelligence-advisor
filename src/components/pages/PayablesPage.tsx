@@ -89,7 +89,7 @@ export function PayablesPage({ clients, selectedClient }: { clients: any[], sele
     paginatedData: paginatedPayables
   } = useDataTable(tableData, {
     searchFields: ['fornecedor', 'documento', 'categoria', 'centroCusto'],
-    initialSort: { key: 'vencimento', direction: 'asc' },
+    initialSort: { key: 'vencimento', direction: 'asc' as const },
     itemsPerPage: 10
   });
 

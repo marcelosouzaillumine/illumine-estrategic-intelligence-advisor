@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Plus, X, Activity, ShieldCheck, TrendingUp, TrendingDown, Settings2 } from 'lucide-react';
+import { Plus, X, Activity, ShieldCheck, TrendingUp, TrendingDown, Settings2, Rocket } from 'lucide-react';
 import { motion } from 'motion/react';
 import { 
   BarChart, 
@@ -296,25 +296,19 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
   };
 
   const header = (
-    <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
-      <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-        <PageHeader 
-          title="Viabilidade Econômica" 
-          subtitle={`Análise estratégica de investimentos, retorno de capital e NCG · ${clients.find(c => c.id === selectedClient)?.fantasia || 'Cliente'}`}
-          icon={<Activity className="text-primary" size={24} />}
-          color="primary"
-        />
-        <div className="flex gap-3">
-          <button 
-            onClick={() => setShowModal(true)}
-            className="px-8 py-3 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-2"
-          >
-            <Plus size={16} /> ADICIONAR PROJETO
-          </button>
-        </div>
-      </div>
-    </div>
+    <PageHeader 
+      title="Projetos de Inovação" 
+      subtitle={`Monitoramento estratégico de investimentos, inovação e retorno de capital · ${clients.find(c => c.id === selectedClient)?.fantasia || 'Cliente'}`}
+      icon={<Rocket size={20} />}
+      actions={
+        <button 
+          onClick={() => setShowModal(true)}
+          className="px-8 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
+        >
+          <Plus size={16} /> ADICIONAR PROJETO
+        </button>
+      }
+    />
   );
 
   if (filteredProjects.length === 0 && !showModal) {
@@ -326,7 +320,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
             <Activity size={48} className="text-slate-200" />
           </div>
           <h3 className="text-xl font-black text-slate-900 mb-2">Sem projetos vinculados</h3>
-          <p className="text-slate-500 max-w-md mb-8 font-medium">Nenhum projeto de viabilidade econômica foi cadastrado para este cliente até o momento.</p>
+          <p className="text-slate-500 max-w-md mb-8 font-medium">Nenhum projeto de inovação foi cadastrado para este cliente até o momento.</p>
         </div>
       </div>
     );
@@ -345,7 +339,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
           >
             <div className="p-8 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-black text-slate-900">Lançar Projeto de Viabilidade</h3>
+                <h3 className="text-xl font-black text-slate-900">Lançar Projeto de Inovação</h3>
                 <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Configuração inicial de CAPEX e unidade.</p>
               </div>
               <button 
@@ -547,8 +541,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
                           position: 'top', 
                           fill: '#10b981', 
                           fontSize: 10, 
-                          fontWeight: 700,
-                          backgroundColor: '#fff'
+                          fontWeight: 700
                         }} 
                       />
                     </ComposedChart>

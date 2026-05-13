@@ -15,7 +15,7 @@ import { SACERDOTAL_PRINCIPLES } from '../../lib/sacerdotalIntelligence';
 import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
 
 const EIXOS: EixoGestao[] = [
-  'Governança', 'Cultura', 'Gestão', 'Inovação', 'Marketing', 'Comercial', 'Operação'
+  'Governança Corporativa', 'Cultura Organizacional', 'Administração e Finanças', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
 ];
 
 interface DiagnosticoPageProps {
@@ -35,12 +35,12 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
   const [linkSaving, setLinkSaving] = useState(false);
   const [newOkrTrimestre, setNewOkrTrimestre] = useState('Q1');
   const [newOkrAno, setNewOkrAno] = useState('2026');
-  const [newOkrForm, setNewOkrForm] = useState({ titulo: '', eixo: 'Governança' as EixoGestao, responsavel: '' });
+  const [newOkrForm, setNewOkrForm] = useState({ titulo: '', eixo: 'Governança Corporativa' as EixoGestao, responsavel: '' });
   const [newKrForm, setNewKrForm] = useState({ descricao: '', kpi: '', tipo: 'Percentual' as 'Percentual' | 'Monetário' | 'Unidade', meta: 0 });
   
   const [formData, setFormData] = useState<Partial<DiagnosticoItem>>({
     descricao: '',
-    eixo: 'Governança',
+    eixo: 'Governança Corporativa',
     swot: 'Fraqueza',
     tipoRisco: 'Operacional',
     gravidade: 3,
@@ -112,7 +112,7 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
       // Reset form
       setFormData({
         descricao: '',
-        eixo: 'Governança',
+        eixo: 'Governança Corporativa',
         swot: 'Fraqueza',
         tipoRisco: 'Operacional',
         gravidade: 3,
@@ -212,23 +212,33 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
-      <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-          <PageHeader 
-            title="Diagnóstico Estratégico" 
-            subtitle="Priorização inteligente baseada na Matriz GUT + IVE (Índice de Valor Estratégico)"
-            icon={<ShieldAlert className="text-primary" size={24} />}
-            color="primary"
-          />
+      {/* Strategic Header & Controls - Standardized with Monitoring */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden mb-10">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <ShieldAlert size={20} className="text-secondary" />
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Diagnóstico Estratégico</h1>
+          </div>
+          <p className="text-slate-400 text-sm font-medium">Priorização inteligente baseada na Matriz GUT + IVE (Índice de Valor Estratégico)</p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4 relative z-10">
           <button
             onClick={() => {
               setShowAddForm(!showAddForm);
               if (!showAddForm) setEditingId(null);
             }}
-            className="flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-primary/20 transition-all"
+            className={cn(
+              "flex items-center gap-2 px-8 py-3.5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all",
+              showAddForm 
+                ? "bg-white/10 text-white border border-white/20 hover:bg-white/20" 
+                : "bg-secondary text-primary shadow-xl shadow-secondary/20 hover:scale-105"
+            )}
           >
-            {showAddForm ? 'CANCELAR' : <><Plus size={16} /> NOVO ITEM</>}
+            {showAddForm ? 'CANCELAR' : <><Plus size={16} /> NOVO ITEM DE DIAGNÓSTICO</>}
           </button>
         </div>
       </div>

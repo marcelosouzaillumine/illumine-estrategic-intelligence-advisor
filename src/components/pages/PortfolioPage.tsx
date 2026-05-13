@@ -1,5 +1,4 @@
-
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { 
   Users, 
   TrendingUp, 
@@ -21,9 +20,9 @@ import {
 import { motion } from 'motion/react';
 import { cn, formatCurrency } from '../../lib/utils';
 import { calculateSacerdotalAlignmentScore } from '../../lib/sacerdotalIntelligence';
-import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { PageHeader } from '../Common';
 
 interface ClientPortfolioData {
   id: string;
@@ -52,7 +51,6 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
       
       try {
         setLoading(true);
-        // Fetch financial data for all clients concurrently
         const promises = clients.map((c: any) => 
           getDocs(query(collection(db, 'financial_entries'), where('clientId', '==', c.id)))
         );
@@ -63,8 +61,6 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         snaps.forEach(snap => {
           snap.docs.forEach(doc => {
             const docData = doc.data() as any;
-            
-            // Filter to only DRE and BP to save memory
             if (docData.type !== 'DRE' && docData.type !== 'BP') return;
             
             if (Array.isArray(docData.data)) {
@@ -112,7 +108,6 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
       let margin = 0;
       
       if (hasData) {
-        // Aggregate values for simplicity or use the latest month/year if we had it
         revenue = clientDre.filter(d => d.conta === 'Receita Líquida').reduce((sum, d) => sum + d.valor, 0);
         ebitda = clientDre.filter(d => d.conta === 'EBITDA').reduce((sum, d) => sum + d.valor, 0);
         margin = revenue > 0 ? (ebitda / revenue) * 100 : 0;
@@ -121,17 +116,17 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         const pc = clientBp.filter(b => b.conta === 'Passivo Circulante').reduce((sum, b) => sum + (b.val || b.valor), 0) || 1;
         const liq = ac / pc;
         
-        const calculated = 40 + (margin * 2) + (liq * 5); // Rough health indicator
+        const calculated = 40 + (margin * 2) + (liq * 5);
         score = isNaN(calculated) ? 65 : Math.max(30, Math.min(98, Math.round(calculated)));
       }
 
-      const sacerdotalScore = calculateSacerdotalAlignmentScore({
-        hasMVV: true,
-        hasCompliance: score > 70,
-        liquidezCorrente: score / 100 * 2,
-        turnoverBaixo: margin > 10,
-        ebitdaMargin: margin
-      });
+      const sacerdotalScore = calculateSacerdotalAlignmentScore([
+        { ind: 'Liquidez Corrente', val: score / 100 * 2 },
+        { ind: 'Margem EBITDA', val: margin },
+        { ind: 'Turnover', val: margin > 10 ? 4 : 12 },
+        { ind: 'Inadimplência', val: score < 60 ? 8 : 2 },
+        { ind: 'Receita Líquida', val: revenue }
+      ]);
       
       return {
         id: c.id,
@@ -139,7 +134,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         industry: c.segmento || 'Serviços',
         score,
         sacerdotalScore,
-        lastMonthScore: score, // Simulate stable trend se não há dados
+        lastMonthScore: score,
         criticalAlerts: hasData ? (score < 50 ? 3 : score < 70 ? 1 : 0) : 0,
         status: hasData ? (score < 50 ? 'critical' : 'active') : 'onboarding',
         revenue,
@@ -178,19 +173,17 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
 
   return (
     <div className="space-y-8 pb-20 w-full min-w-0 max-w-full overflow-x-hidden">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <h1 className="text-3xl font-display font-black text-slate-900 tracking-tight">Visão de Portfólio</h1>
-          <p className="text-slate-500 text-sm font-medium">Gestão consolidada da saúde financeira de todos os clientes sob assessoria.</p>
-        </div>
-        <div className="flex gap-3">
-           <button className="px-6 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-xl shadow-slate-900/20 flex items-center gap-2">
-             <TrendingUp size={14} className="text-secondary" /> Exportar QBR
-           </button>
-        </div>
-      </div>
+      <PageHeader 
+        title="Visão Consolidada de Portfólio"
+        subtitle="Gestão consolidada da saúde financeira de todos os clientes sob assessoria."
+        icon={Globe}
+        actions={
+          <button className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2">
+            <TrendingUp size={14} className="text-secondary" /> Exportar QBR
+          </button>
+        }
+      />
 
-      {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {[
           { label: 'Health Score Médio', value: stats.avgScore, icon: Target, color: 'blue' },
@@ -203,7 +196,10 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
               "absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500",
               stat.color === 'blue' ? "text-blue-600" : stat.color === 'emerald' ? "text-emerald-600" : stat.color === 'rose' ? "text-rose-600" : "text-slate-600"
             )}>
-              <stat.icon size={100} />
+              {(() => {
+                const Icon = stat.icon;
+                return <Icon size={100} />;
+              })()}
             </div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
             <div className="flex items-baseline gap-1 sm:gap-2 min-w-0">
@@ -214,12 +210,11 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         ))}
       </div>
       
-      {/* Strategic Watch - Portfolio Level Intelligence */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         <div className="bg-slate-900 rounded-[40px] p-8 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-10"><ShieldAlert size={80} /></div>
           <div className="relative z-10">
-            <h3 className="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-4">Market Risk Exposure</h3>
+            <h3 className="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-4">Exposição ao Risco de Mercado</h3>
             <h4 className="text-xl font-display font-extrabold mb-4">Reforma Tributária: Impacto no Portfólio</h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               <div>
@@ -242,7 +237,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         </div>
 
         <div className="bg-white rounded-[40px] border border-slate-200 p-8 shadow-sm">
-          <h3 className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-4">Capital Alpha Opportunities</h3>
+          <h3 className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-4">Oportunidades de Capital Alpha</h3>
           <h4 className="text-xl font-display font-extrabold text-slate-900 mb-4">Potencial de Otimização Financeira</h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <div className="flex gap-4">
@@ -269,7 +264,6 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         </div>
       </div>
 
-      {/* Search & Filter Bar */}
       <div className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-3xl border border-slate-200 shadow-sm min-w-0 w-full">
         <div className="relative flex-1">
           <input 
@@ -285,101 +279,16 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
           <button className="flex-1 md:flex-none px-6 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black text-slate-700 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
             <Filter size={16} /> Filtros
           </button>
-          <div className="hidden md:flex items-center gap-2 px-4 border-l border-slate-100 ml-2">
-             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{filteredPortfolio.length} Clientes</span>
-          </div>
         </div>
       </div>
 
-      {/* Portfolio Client List - Responsive Layout */}
       <div className="space-y-6 min-w-0 w-full">
-        {/* Mobile/Tablet View (Cards) - Visible until 'lg' */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:hidden">
-          {filteredPortfolio.map((client) => (
-            <div 
-              key={client.id} 
-              className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all active:scale-[0.98] cursor-pointer group"
-              onClick={() => onSelectClient(client.id)}
-            >
-              <div className="flex items-start justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <div className={cn(
-                    "w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white text-lg shadow-lg shrink-0",
-                    client.score > 80 ? "bg-emerald-500 shadow-emerald-500/20" : 
-                    client.score > 60 ? "bg-blue-500 shadow-blue-500/20" : "bg-rose-500 shadow-rose-500/20"
-                  )}>
-                    {client.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="text-base font-black text-slate-900 group-hover:text-blue-600 transition-colors truncate">{client.name}</h3>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">{client.industry}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                   <div className={cn(
-                     "text-xl font-black",
-                     client.score > 80 ? "text-emerald-600" : client.score > 60 ? "text-blue-600" : "text-rose-600"
-                   )}>{client.score}</div>
-                   <div className="text-[8px] font-black text-slate-400 uppercase">Health Score</div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-slate-50 rounded-2xl">
-                <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Fat. Mensal</p>
-                  <p className="text-sm font-bold text-slate-700">{formatCurrency(client.revenue)}</p>
-                </div>
-                <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Índice Sacerdotal</p>
-                  <div className="flex items-center gap-2">
-                    <BookOpen size={14} className="text-amber-500" />
-                    <p className="text-sm font-black text-slate-900">{client.sacerdotalScore}</p>
-                    <div className="w-10 h-1 bg-amber-100 rounded-full overflow-hidden ml-1">
-                      <div className="h-full bg-amber-500 rounded-full" style={{ width: `${client.sacerdotalScore}%` }} />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-span-2 pt-2 border-t border-slate-200">
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Alertas Críticos</p>
-                  <div className="flex items-center gap-2">
-                    {client.criticalAlerts > 0 ? (
-                      <span className="text-[10px] font-black text-rose-600 uppercase flex items-center gap-1">
-                        <AlertCircle size={12} /> {client.criticalAlerts} Alertas
-                      </span>
-                    ) : (
-                      <span className="text-[10px] font-black text-emerald-600 uppercase flex items-center gap-1">
-                        <CheckCircle2 size={12} /> Saudável
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <button 
-                  onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'advisory_insights'); }}
-                  className="flex items-center justify-center gap-2 py-3 bg-blue-50 text-blue-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all border border-blue-100"
-                >
-                  <Zap size={14} /> Advisory
-                </button>
-                <button 
-                  onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'dashboard'); }}
-                  className="flex items-center justify-center gap-2 py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all"
-                >
-                  Dashboard <ChevronRight size={14} />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Desktop View (Table) - Visible from 'lg' onwards */}
         <div className="hidden lg:block bg-white rounded-[32px] border border-slate-200 shadow-xl overflow-x-auto">
           <table className="w-full border-collapse min-w-[1000px]">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-200">
                 <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Cliente / Setor</th>
-                <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Health Score</th>
+                <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Score de Saúde</th>
                 <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest border-l border-r border-slate-200/60 bg-amber-50/30 text-amber-700/80">Índice Sacerdotal</th>
                 <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Alertas</th>
                 <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Fat. Mensal</th>
@@ -411,16 +320,6 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
                           "text-lg font-black",
                           client.score > 80 ? "text-emerald-600" : client.score > 60 ? "text-blue-600" : "text-rose-600"
                         )}>{client.score}</span>
-                        {client.score > client.lastMonthScore ? 
-                          <ArrowUpRight size={14} className="text-emerald-500" /> : 
-                          <ArrowDownRight size={14} className="text-rose-500" />
-                        }
-                      </div>
-                      <div className="w-16 h-1 bg-slate-100 rounded-full mt-1 overflow-hidden">
-                        <div className={cn(
-                          "h-full rounded-full",
-                          client.score > 80 ? "bg-emerald-500" : client.score > 60 ? "bg-blue-500" : "bg-rose-500"
-                        )} style={{ width: `${client.score}%` }} />
                       </div>
                     </div>
                   </td>
@@ -428,9 +327,6 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
                     <div className="flex items-center justify-center gap-1.5">
                       <BookOpen size={14} className="text-amber-500" />
                       <span className="font-black text-slate-800 text-lg">{client.sacerdotalScore}</span>
-                    </div>
-                    <div className="w-16 h-1 bg-amber-100 rounded-full mt-1.5 mx-auto overflow-hidden">
-                      <div className="h-full bg-amber-500 rounded-full" style={{ width: `${client.sacerdotalScore}%` }} />
                     </div>
                   </td>
                   <td className="px-8 py-6 text-center">
@@ -444,21 +340,18 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
                   </td>
                   <td className="px-8 py-6 text-right font-bold text-sm text-slate-700 whitespace-nowrap">
                     {formatCurrency(client.revenue)}
-                    <div className="text-[10px] text-slate-400 font-medium mt-0.5">Margem: {client.ebitdaMargin.toFixed(1)}%</div>
                   </td>
                   <td className="px-8 py-6 text-right">
                     <div className="flex justify-end gap-2 shrink-0">
                       <button 
                         onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'advisory_insights'); }}
                         className="p-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl transition-all shadow-sm border border-blue-100 flex items-center gap-2 text-[10px] font-black uppercase tracking-tight"
-                        title="Ver Advisory (IA)"
                       >
                         <Zap size={14} /> Advisory
                       </button>
                       <button 
                         onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'dashboard'); }}
                         className="p-2 hover:bg-slate-900 hover:text-white border-2 border-slate-100 hover:border-slate-900 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-tight"
-                        title="Ver Dashboard"
                       >
                         Dashboard <ChevronRight size={14} />
                       </button>

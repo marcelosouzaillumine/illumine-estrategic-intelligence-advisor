@@ -81,14 +81,14 @@ export function ClientSelector({
             "text-[10px] font-bold uppercase tracking-[0.4em] mb-1.5 transition-colors duration-500",
             isOpen ? "text-white/60" : "text-accent"
           )}>
-            Active Client
+            Cliente Ativo
           </p>
           <div className="flex items-center gap-3">
             <span className={cn(
               "text-[15px] font-bold tracking-tight transition-all duration-500 block leading-tight",
               isOpen ? "!text-white" : "text-text-main"
             )}>
-              {currentClient?.fantasia || 'Select Corporation'}
+              {currentClient?.fantasia || 'Selecionar Corporação'}
             </span>
             <ChevronDown size={14} strokeWidth={1} className={cn(
               "transition-transform duration-500 shrink-0",

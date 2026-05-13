@@ -37,13 +37,28 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
   ];
 
   return (
-    <div className="space-y-8 pb-32">
-      <PageHeader 
-        title="Gestão Administrativa"
-        subtitle="Monitoramento de eficiência de back-office, gestão de despesas fixas e otimização de processos de suporte."
-        icon={FileText}
-        color="bg-slate-800"
-      />
+    <div className="space-y-10 pb-32 animate-executive-fade">
+      {/* Strategic Header & Controls */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <FileText size={20} className="text-secondary" />
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Indicadores Administrativos</h1>
+          </div>
+          <p className="text-slate-400 text-sm font-medium">Monitoramento de eficiência de back-office, gestão de despesas fixas e otimização de processos de suporte.</p>
+        </div>
+
+        <div className="relative z-10 text-right bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4">
+           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Back-office Target</span>
+           <span className="text-emerald-400 font-black uppercase text-sm flex items-center justify-end gap-2">
+             <ShieldCheck size={16} />
+             Otimizado
+           </span>
+        </div>
+      </div>
 
       {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -56,9 +71,12 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
             className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:border-primary/10 transition-all group"
           >
             <div className="flex justify-between items-start mb-6">
-               <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
-                  <kpi.icon size={24} />
-               </div>
+                <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
+                  {(() => {
+                    const Icon = kpi.icon;
+                    return <Icon size={24} />;
+                  })()}
+                </div>
                <div className={cn(
                  "px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest",
                  kpi.status === 'positive' ? "bg-emerald-50 text-emerald-600" : 

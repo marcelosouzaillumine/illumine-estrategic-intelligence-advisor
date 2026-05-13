@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { 
   ShieldCheck, TrendingUp, Users, Activity, Globe, ShoppingBag, 
   FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, 
-  BookOpen, Percent, Lightbulb, Loader2
+  BookOpen, Percent, Lightbulb, Loader2, LayoutDashboard
 } from 'lucide-react';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
@@ -17,10 +17,14 @@ interface AxisDashboardPageProps {
   axis: EixoGestao;
   clientId: string;
   onNavigate?: (page: Page) => void;
+  selectedMonth?: number;
+  setSelectedMonth?: (month: number) => void;
+  selectedYear?: number;
+  setSelectedYear?: (year: number) => void;
 }
 
 const AXIS_CONFIG: Record<string, any> = {
-  'Governança': {
+  'Governança Corporativa': {
     title: 'Dashboard',
     subtitle: 'Monitoramento estratégico de performance e maturidade corporativa.',
     icon: ShieldCheck,
@@ -32,7 +36,7 @@ const AXIS_CONFIG: Record<string, any> = {
       { label: 'Riscos Mitigados', value: 24, suffix: '', status: 'positive', icon: Target },
     ]
   },
-  'Cultura': {
+  'Cultura Organizacional': {
     title: 'Dashboard',
     subtitle: 'Monitoramento de clima organizacional e desenvolvimento humano.',
     icon: Users,
@@ -44,9 +48,9 @@ const AXIS_CONFIG: Record<string, any> = {
       { label: 'Taxa de Retenção', value: 92, suffix: '%', status: 'positive', icon: Users },
     ]
   },
-  'Inovação': {
+  'Gestão de Inovação': {
     title: 'Dashboard',
-    subtitle: 'Gestão de portfólio de projetos, viabilidade e P&D.',
+    subtitle: 'Gestão de portfólio de projetos, projetos de inovação e P&D.',
     icon: Lightbulb,
     color: 'bg-cyan-900',
     primaryKPIs: [
@@ -56,7 +60,7 @@ const AXIS_CONFIG: Record<string, any> = {
       { label: 'Tempo até MVP', value: 45, suffix: ' dias', status: 'positive', icon: Target },
     ]
   },
-  'Marketing': {
+  'Gestão de Marketing': {
     title: 'Dashboard',
     subtitle: 'Performance de comunicação, branding e geração de leads.',
     icon: Globe,
@@ -68,7 +72,7 @@ const AXIS_CONFIG: Record<string, any> = {
       { label: 'ROI de Marketing', value: 3.5, suffix: 'x', status: 'positive', icon: TrendingUp },
     ]
   },
-  'Comercial': {
+  'Gestão Comercial': {
     title: 'Dashboard',
     subtitle: 'Monitoramento de pipeline, conversão e receitas.',
     icon: ShoppingBag,
@@ -80,11 +84,11 @@ const AXIS_CONFIG: Record<string, any> = {
       { label: 'CAC', value: 450, isCur: true, status: 'neutral', icon: BarChart3 },
     ]
   },
-  'Operação': {
-    title: 'Dashboard',
+  'Gestão Operacional': {
+    title: 'Monitoramento Estratégico Operacional',
     subtitle: 'Métricas de eficiência, logística e qualidade de produção.',
-    icon: Activity,
-    color: 'bg-amber-800',
+    icon: LayoutDashboard,
+    color: 'bg-slate-900',
     primaryKPIs: [
       { label: 'OEE (Eficiência)', value: 82, suffix: '%', status: 'neutral', icon: Activity },
       { label: 'Lead Time Total', value: 14, suffix: ' dias', status: 'positive', icon: Target },
@@ -92,7 +96,7 @@ const AXIS_CONFIG: Record<string, any> = {
       { label: 'Atrasos (Logística)', value: 3.2, suffix: '%', status: 'neutral', icon: Activity }, // mocked icon
     ]
   },
-  'Gestão': {
+  'Administração e Finanças': {
     title: 'Dashboard',
     subtitle: 'Indicadores financeiros vitais e estrutura de capital.',
     icon: BarChart3,
@@ -106,8 +110,17 @@ const AXIS_CONFIG: Record<string, any> = {
   }
 };
 
-export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardPageProps) {
-  const config = AXIS_CONFIG[axis] || AXIS_CONFIG['Governança'];
+const getValueSizeClass = (maxLen: number) => {
+  if (maxLen > 22) return "text-[clamp(0.6rem,1vw,0.75rem)]";
+  if (maxLen > 18) return "text-[clamp(0.7rem,1.2vw,0.9rem)]";
+  if (maxLen > 15) return "text-[clamp(0.85rem,1.4vw,1.1rem)]";
+  if (maxLen > 12) return "text-[clamp(1rem,1.7vw,1.35rem)]";
+  if (maxLen > 10) return "text-[clamp(1.2rem,2vw,1.7rem)]";
+  return "text-[clamp(1.6rem,2.5vw,2.3rem)]";
+};
+
+export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, setSelectedMonth, selectedYear, setSelectedYear }: AxisDashboardPageProps) {
+  const config = AXIS_CONFIG[axis] || AXIS_CONFIG['Governança Corporativa'];
   const flatMetrics = useMemo(() => {
     return config.primaryKPIs.reduce((acc: any, kpi: any) => ({...acc, [kpi.label]: kpi.value}), {});
   }, [config.primaryKPIs]);
@@ -132,9 +145,6 @@ export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardP
     });
   };
 
-  // Alinhamento médio do Eixo (Mock)
-  const alignmentScore = 88;
-
   const [loadingAi, setLoadingAi] = useState(false);
   const [aiAnalysis, setAiAnalysis] = useState<string>('');
 
@@ -150,60 +160,117 @@ export function AxisDashboardPage({ axis, clientId, onNavigate }: AxisDashboardP
     setLoadingAi(false);
   };
 
+  const [isYTD, setIsYTD] = useState(false);
+
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
-      <PageHeader 
-        title={config.title === 'Dashboard' ? `Monitoramento de ${axis}` : config.title}
-        subtitle={config.subtitle}
-        icon={<config.icon className="text-primary" size={24} />}
-        actions={
-          <div className="px-6 py-3 bg-white/5 border border-white/10 rounded-2xl flex items-center gap-3">
-             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-             <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Monitoramento em Tempo Real</span>
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              {(() => {
+                const Icon = config.icon;
+                return <Icon size={20} className="text-secondary" />;
+              })()}
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">{config.title === 'Dashboard' ? `Monitoramento de ${axis}` : config.title}</h1>
           </div>
-        }
-      />
+          <p className="text-slate-400 text-sm font-medium">{config.subtitle}</p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 relative z-10">
+          {/* Group 1: Time Filters */}
+          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1 shadow-inner">
+            <div className="flex items-center px-4 py-2 border-r border-white/5">
+              <BookOpen size={14} className="text-secondary mr-2" />
+              <select 
+                value={selectedYear} 
+                onChange={(e) => setSelectedYear?.(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {[2024, 2025, 2026].map(y => (
+                  <option key={y} value={y} className="bg-slate-900">{y}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center px-4 py-2">
+              <select 
+                value={selectedMonth} 
+                onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
+                  <option key={i} value={i + 1} className="bg-slate-900">{label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Group 2: View Toggle */}
+          <div className="flex items-center gap-4 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-2.5 border border-white/10 shadow-inner h-[46px]">
+            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-slate-500")}>Mensal</span>
+            <button 
+              onClick={() => setIsYTD(!isYTD)}
+              className={cn(
+                "w-10 h-5 rounded-full p-1 transition-colors relative group",
+                isYTD ? "bg-secondary" : "bg-slate-700 hover:bg-slate-600"
+              )}
+            >
+              <motion.div 
+                animate={{ x: isYTD ? 20 : 0 }}
+                className="w-3 h-3 bg-white rounded-full shadow-lg group-hover:scale-110 transition-transform" 
+              />
+            </button>
+            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", isYTD ? "text-secondary" : "text-slate-500")}>Anual</span>
+          </div>
+        </div>
+      </div>
 
       {/* KPI Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {config.primaryKPIs.map((kpi: any, idx: number) => {
-          const Icon = kpi.icon !== 'AlertCircle' ? kpi.icon : Activity;
-          return (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-white p-8 rounded-[32px] border border-slate-200/60 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
-            >
-              <div className="flex items-center justify-between mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                  <Icon size={24} />
-                </div>
-                {kpi.status && (
-                  <div className={cn(
-                    "px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border",
-                    kpi.status === 'positive' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : 
-                    kpi.status === 'negative' ? "bg-rose-50 text-rose-600 border-rose-100" : 
-                    "bg-amber-50 text-amber-600 border-amber-100"
-                  )}>
-                    {kpi.status === 'positive' ? 'SAUDÁVEL' : kpi.status === 'negative' ? 'CRÍTICO' : 'ATENÇÃO'}
+        {(() => {
+          const maxGroupLen = Math.max(...config.primaryKPIs.map((kpi: any) => formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '').length));
+          const groupSizeClass = getValueSizeClass(maxGroupLen);
+          
+          return config.primaryKPIs.map((kpi: any, idx: number) => {
+            const Icon = kpi.icon !== 'AlertCircle' ? kpi.icon : Activity;
+            return (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="bg-white p-8 rounded-[32px] border border-slate-200/60 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
+              >
+                <div className="flex items-center justify-between mb-8">
+                  <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                    <Icon size={24} />
                   </div>
-                )}
-              </div>
-
-              <div>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors whitespace-nowrap">{kpi.label}</p>
-                <div className="flex items-baseline gap-2">
-                  <p className="text-4xl font-black text-slate-900 tabular-nums tracking-tighter whitespace-nowrap">
-                    {formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '')}
-                  </p>
                 </div>
-              </div>
-            </motion.div>
-          );
-        })}
+
+                <div>
+                  <h4 className="text-[clamp(1rem,1.3vw,1.5rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors whitespace-nowrap overflow-hidden text-ellipsis mb-1.5">
+                    {kpi.label}
+                  </h4>
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className={cn("w-1.5 h-1.5 rounded-full shadow-sm shrink-0", kpi.status === 'positive' ? "bg-emerald-500" : kpi.status === 'negative' ? "bg-rose-500" : "bg-amber-500")} />
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">{axis}</p>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <p className={cn(
+                      "font-black text-slate-900 tabular-nums tracking-tighter whitespace-nowrap",
+                      groupSizeClass
+                    )}>
+                      {formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '')}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          });
+        })()}
       </div>
 
       {/* Perspectiva Sacerdotal Aplicada ao Eixo */}

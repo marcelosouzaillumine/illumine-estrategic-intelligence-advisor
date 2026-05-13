@@ -20,9 +20,29 @@ import { generateSacerdotalParecer } from '../../services/sacerdotalAiService';
 interface GovernanceDashboardPageProps {
   clientId: string;
   onNavigate: (page: Page) => void;
+  selectedMonth?: number;
+  setSelectedMonth?: (month: number) => void;
+  selectedYear?: number;
+  setSelectedYear?: (year: number) => void;
 }
 
-export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDashboardPageProps) {
+const getValueSizeClass = (maxLen: number) => {
+  if (maxLen > 22) return "text-[clamp(0.6rem,1vw,0.75rem)]";
+  if (maxLen > 18) return "text-[clamp(0.7rem,1.2vw,0.9rem)]";
+  if (maxLen > 15) return "text-[clamp(0.85rem,1.4vw,1.1rem)]";
+  if (maxLen > 12) return "text-[clamp(1rem,1.7vw,1.35rem)]";
+  if (maxLen > 10) return "text-[clamp(1.2rem,2vw,1.7rem)]";
+  return "text-[clamp(1.6rem,2.5vw,2.3rem)]";
+};
+
+export function GovernanceDashboardPage({ 
+  clientId, 
+  onNavigate,
+  selectedMonth,
+  setSelectedMonth,
+  selectedYear,
+  setSelectedYear
+}: GovernanceDashboardPageProps) {
   // Strategic KPIs
   const strategicKPIs = useMemo(() => [
     { label: 'ROI (Retorno sobre Investimento)', value: 18.5, suffix: '%', status: 'positive', icon: Target },
@@ -33,20 +53,20 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
 
   // Radar Data for Areas
   const radarData = [
-    { area: 'Governança', score: 85, fullMark: 100 },
-    { area: 'Cultura', score: 92, fullMark: 100 },
-    { area: 'Gestão', score: 90, fullMark: 100 },
-    { area: 'Inovação', score: 88, fullMark: 100 },
-    { area: 'Marketing', score: 85, fullMark: 100 },
-    { area: 'Comercial', score: 92, fullMark: 100 },
-    { area: 'Operação', score: 82, fullMark: 100 },
+    { area: 'Governança Corporativa', score: 85, fullMark: 100 },
+    { area: 'Cultura Organizacional', score: 92, fullMark: 100 },
+    { area: 'Administração e Finanças', score: 90, fullMark: 100 },
+    { area: 'Gestão de Inovação', score: 88, fullMark: 100 },
+    { area: 'Gestão de Marketing', score: 85, fullMark: 100 },
+    { area: 'Gestão Comercial', score: 92, fullMark: 100 },
+    { area: 'Gestão Operacional', score: 82, fullMark: 100 },
   ];
 
   // Area Snapshots
   const areaSnapshots = [
     { 
       id: 'governanca_estrategica' as Page,
-      label: 'Governança', 
+      label: 'Governança Corporativa', 
       kpi: 'Maturidade', 
       value: 85, 
       suffix: '%', 
@@ -56,7 +76,7 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
     },
     { 
       id: 'dashboard_cultura' as Page,
-      label: 'Cultura', 
+      label: 'Cultura Organizacional', 
       kpi: 'eNPS', 
       value: 72, 
       status: 'positive', 
@@ -65,7 +85,7 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
     },
     { 
       id: 'dashboard_gestao' as Page,
-      label: 'Gestão', 
+      label: 'Administração e Finanças', 
       kpi: 'EBITDA', 
       value: 24.2, 
       suffix: '%', 
@@ -75,7 +95,7 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
     },
     { 
       id: 'dashboard_inovacao' as Page,
-      label: 'Inovação', 
+      label: 'Gestão de Inovação', 
       kpi: 'Índice', 
       value: 68, 
       suffix: '%', 
@@ -85,7 +105,7 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
     },
     { 
       id: 'dashboard_marketing' as Page,
-      label: 'Marketing', 
+      label: 'Gestão de Marketing', 
       kpi: 'CPL', 
       value: 45, 
       isCur: true, 
@@ -95,7 +115,7 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
     },
     { 
       id: 'dashboard_comercial' as Page,
-      label: 'Comercial', 
+      label: 'Gestão Comercial', 
       kpi: 'Conversão', 
       value: 24, 
       suffix: '%', 
@@ -105,7 +125,7 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
     },
     { 
       id: 'dashboard_operacional' as Page,
-      label: 'Operação', 
+      label: 'Gestão Operacional', 
       kpi: 'OEE', 
       value: 82, 
       suffix: '%', 
@@ -120,7 +140,7 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
   }, [strategicKPIs]);
 
   const triggeredRules = useMemo(() => {
-    return evaluateAxisRules(flatMetrics, 'Governança');
+    return evaluateAxisRules(flatMetrics, 'Governança Corporativa');
   }, [flatMetrics]);
 
   const [loadingAi, setLoadingAi] = useState(false);
@@ -142,61 +162,127 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
       clientName: 'Sua Empresa',
       industry: 'Geral',
       metrics: flatMetrics,
-      topPrinciples: SACERDOTAL_PRINCIPLES.filter(p => p.axis === 'Governança').map(p => p.name)
+      topPrinciples: SACERDOTAL_PRINCIPLES.filter(p => p.axis === 'Governança Corporativa').map(p => p.name)
     });
     setAiAnalysis(result);
     setLoadingAi(false);
   };
 
+  const [isYTD, setIsYTD] = useState(false);
+
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
-      {/* Premium Header - Standardized */}
-      <PageHeader 
-        title="Dashboard de Governança"
-        subtitle="Monitoramento estratégico de performance multisetorial para alta gestão e conselho de administração."
-        icon={ShieldCheck}
-        color="bg-slate-900"
-      />
+      {/* Strategic Header & Controls */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <ShieldCheck size={20} className="text-secondary" />
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Monitoramento Estratégico de Governança</h1>
+          </div>
+          <p className="text-slate-400 text-sm font-medium leading-relaxed">Monitoramento estratégico de performance multisetorial para alta gestão e conselho de administração.</p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 relative z-10">
+          {/* Group 1: Time Filters */}
+          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1 shadow-inner">
+            <div className="flex items-center px-4 py-2 border-r border-white/5">
+              <BookOpen size={14} className="text-secondary mr-2" />
+              <select 
+                value={selectedYear} 
+                onChange={(e) => setSelectedYear?.(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {[2024, 2025, 2026].map(y => (
+                  <option key={y} value={y} className="bg-slate-900">{y}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center px-4 py-2">
+              <select 
+                value={selectedMonth} 
+                onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
+                  <option key={i} value={i + 1} className="bg-slate-900">{label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Group 2: View Toggle */}
+          <div className="flex items-center gap-4 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-2.5 border border-white/10 shadow-inner h-[46px]">
+            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-slate-500")}>Mensal</span>
+            <button 
+              onClick={() => setIsYTD(!isYTD)}
+              className={cn(
+                "w-10 h-5 rounded-full p-1 transition-colors relative group",
+                isYTD ? "bg-secondary" : "bg-slate-700 hover:bg-slate-600"
+              )}
+            >
+              <motion.div 
+                animate={{ x: isYTD ? 20 : 0 }}
+                className="w-3 h-3 bg-white rounded-full shadow-lg group-hover:scale-110 transition-transform" 
+              />
+            </button>
+            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", isYTD ? "text-secondary" : "text-slate-500")}>Anual</span>
+          </div>
+        </div>
+      </div>
 
       {/* Strategic KPIs Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {strategicKPIs.map((kpi, idx) => (
-          <motion.div 
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: idx * 0.1 }}
-            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
-          >
-            <div className="flex items-center justify-between mb-8">
-              <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                <kpi.icon size={24} />
-              </div>
-              <div className={cn(
-                "px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest",
-                kpi.status === 'positive' ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-amber-50 text-amber-600 border border-amber-100"
-              )}>
-                {kpi.status === 'positive' ? 'Saudável' : 'Atenção'}
-              </div>
-            </div>
-
-            <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 whitespace-nowrap overflow-hidden text-ellipsis">{kpi.label}</p>
-              <div className="flex items-baseline gap-2">
-                <p className="text-4xl font-display font-black text-slate-900 tabular-nums tracking-tighter whitespace-nowrap">
-                  {formatValue(kpi.value, kpi.suffix || '')}
-                </p>
-                <div className={cn(
-                  "flex items-center gap-1 text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg tabular-nums",
-                  kpi.status === 'positive' ? "text-emerald-600" : "text-amber-600"
-                )}>
-                  <ArrowUpRight size={12} /> 2.4%
+        {(() => {
+          const maxGroupLen = Math.max(...strategicKPIs.map(kpi => formatValue(kpi.value, kpi.suffix || '').length));
+          const groupSizeClass = getValueSizeClass(maxGroupLen);
+          
+          return strategicKPIs.map((kpi, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
+            >
+              <div className="flex items-center justify-between mb-8">
+                <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                  {(() => {
+                    const Icon = kpi.icon;
+                    return <Icon size={24} />;
+                  })()}
                 </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+
+              <div>
+                <h4 className="text-[clamp(1rem,1.3vw,1.5rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors whitespace-nowrap overflow-hidden text-ellipsis mb-1.5">
+                  {kpi.label}
+                </h4>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className={cn("w-1.5 h-1.5 rounded-full shadow-sm shrink-0", kpi.status === 'positive' ? "bg-emerald-500" : "bg-amber-500")} />
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Governança</p>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <p className={cn(
+                    "font-display font-black text-slate-900 tabular-nums tracking-tighter break-all whitespace-nowrap",
+                    groupSizeClass
+                  )}>
+                    {formatValue(kpi.value, kpi.suffix || '')}
+                  </p>
+                  <div className={cn(
+                    "flex items-center gap-1 text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg tabular-nums",
+                    kpi.status === 'positive' ? "text-emerald-600" : "text-amber-600"
+                  )}>
+                    <ArrowUpRight size={12} /> 2.4%
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ));
+        })()}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -258,7 +344,10 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
                  ].map((insight, i) => (
                    <div key={i} className="flex gap-6 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-default">
                       <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors shrink-0">
-                         <insight.icon size={20} />
+                         {(() => {
+                           const Icon = insight.icon;
+                           return <Icon size={20} />;
+                         })()}
                       </div>
                       <div className="space-y-1">
                          <h4 className="text-sm font-black text-slate-800">{insight.title}</h4>
@@ -299,7 +388,10 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
                
                <div className="flex justify-between items-start mb-8">
                   <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg", area.color)}>
-                     <area.icon size={28} />
+                     {(() => {
+                       const Icon = area.icon;
+                       return <Icon size={28} />;
+                     })()}
                   </div>
                   <div className={cn(
                     "px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest",
@@ -316,7 +408,7 @@ export function GovernanceDashboardPage({ clientId, onNavigate }: GovernanceDash
 
                <div className="mt-8 flex items-baseline gap-2">
                   <span className="text-4xl font-black text-slate-900 tracking-tighter">
-                    {area.isCur ? formatCurrency(area.value) : `${area.value}${area.suffix || ''}`}
+                    {formatValue(area.value, area.isCur ? 'R$' : area.suffix || '')}
                   </span>
                   <span className="text-xs font-black text-slate-300 uppercase">Realizado</span>
                </div>

@@ -26,13 +26,13 @@ import { motion, AnimatePresence } from 'motion/react';
 const PERMISSION_GROUPS = [
   { id: 'Dashboard', subItems: ['Visão Consolidada', 'Monitoramento Geral', 'KPIs e Métricas'] },
   { id: 'Cadastro', subItems: ['Empresas', 'Premissas'] },
-  { id: 'Governança', subItems: ['MVV', 'Planejamento', 'Compliance', 'Valuation'] },
-  { id: 'Marketing', subItems: ['Marketing Estratégico', 'Análise de Mercado'] },
-  { id: 'Comercial', subItems: ['Vendas', 'Precificação'] },
-  { id: 'Cultura', subItems: ['Gestão de Pessoas', 'Desenvolvimento Humano'] },
-  { id: 'Inovação', subItems: ['Projetos', 'Captação de Recursos'] },
-  { id: 'Operação', subItems: ['Compras', 'Logística', 'Produção'] },
-  { id: 'Gestão', subItems: ['Finanças', 'Contábil', 'Administrativa'] },
+  { id: 'Governança Corporativa', subItems: ['MVV', 'Planejamento', 'Compliance', 'Valuation'] },
+  { id: 'Gestão de Marketing', subItems: ['Marketing Estratégico', 'Análise de Mercado'] },
+  { id: 'Gestão Comercial', subItems: ['Vendas', 'Precificação'] },
+  { id: 'Cultura Organizacional', subItems: ['Gestão de Pessoas', 'Desenvolvimento Humano'] },
+  { id: 'Gestão de Inovação', subItems: ['Projetos', 'Captação de Recursos'] },
+  { id: 'Gestão Operacional', subItems: ['Compras', 'Logística', 'Produção'] },
+  { id: 'Administração e Finanças', subItems: ['Finanças', 'Contábil', 'Administrativa'] },
   { id: 'Configurações', subItems: ['Meu Perfil', 'Preferências'] },
 ];
 

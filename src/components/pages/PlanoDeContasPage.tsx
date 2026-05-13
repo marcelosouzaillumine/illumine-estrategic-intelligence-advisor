@@ -35,7 +35,7 @@ import { db, auth, handleFirestoreError, OperationType } from '../../lib/firebas
 import { DATA } from '../../data';
 import { SYSTEM_KPI_CATEGORIES } from '../../constants';
 import { cn } from '../../lib/utils';
-import { PageHeader, StatusBadge } from '../Common';
+import { StatusBadge } from '../Common';
 import { AccountModal } from '../modals/AccountModal';
 import { ImportPlanoModal } from '../modals/ImportPlanoModal';
 import { MappingWizard } from '../modals/MappingWizard';
@@ -349,23 +349,26 @@ export function PlanoDeContasPage({
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
-      <div className="flex flex-col xl:flex-row xl:items-start justify-between gap-10">
-        <div className="flex-1">
-          <PageHeader 
-            title={`Plano de Contas ${planLabel}`} 
-            subtitle={`Estrutura de classificação ${planType === 'accounting' ? 'contábil' : 'gerencial'} do cliente ${clientName}, essencial para a integridade dos relatórios financeiros.`}
-            icon={List}
-            color="bg-slate-900"
-          />
+      {/* Strategic Header & Controls */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden mb-12">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <List size={20} className="text-secondary" />
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Plano de Contas {planLabel}</h1>
+          </div>
+          <p className="text-slate-400 text-sm font-medium whitespace-nowrap">Estrutura de classificação {planType === 'accounting' ? 'contábil' : 'gerencial'} do cliente {clientName}.</p>
         </div>
-        <div className="flex flex-wrap items-center gap-4 pt-10 justify-end">
-          {/* Delete entire plan */}
+
+        <div className="flex flex-wrap items-center justify-end gap-3 relative z-10">
           {selectedClient && savedCount > 0 && (
             <button 
               onClick={() => setIsDeletePlanOpen(true)}
-              className="px-6 py-4 bg-white text-rose-500 border border-rose-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 transition-all shadow-sm flex items-center gap-2"
+              className="px-5 py-3 bg-white/5 text-rose-400 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-500/20 transition-all flex items-center gap-2"
             >
-              <Trash2 size={16} /> EXCLUIR PLANO
+              <Trash2 size={14} /> EXCLUIR PLANO
             </button>
           )}
 
@@ -373,30 +376,35 @@ export function PlanoDeContasPage({
             onClick={handleSaveAll}
             disabled={isSavingAll || !selectedClient}
             className={cn(
-              "px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl flex items-center gap-2",
-              saveSuccess ? "bg-emerald-500 text-white" : "bg-white text-emerald-600 border border-emerald-200 hover:bg-emerald-50"
+              "px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl flex items-center gap-2",
+              saveSuccess ? "bg-emerald-500 text-white" : "bg-white/10 text-white border border-white/10 hover:bg-white/20"
             )}
           >
-            {isSavingAll ? <Loader2 size={18} className="animate-spin" /> : saveSuccess ? <CheckCircle2 size={18} /> : <Save size={18} />}
+            {isSavingAll ? <Loader2 size={16} className="animate-spin" /> : saveSuccess ? <CheckCircle2 size={16} /> : <Save size={16} />}
             {saveSuccess ? 'SALVO!' : 'SALVAR ALTERAÇÕES'}
           </button>
+          
+          <div className="h-8 w-px bg-white/10 mx-1 hidden xl:block" />
+
           <button 
             onClick={() => setIsImportModalOpen(true)}
-            className="px-8 py-4 bg-white text-slate-600 border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2"
+            className="px-6 py-3 bg-white/5 text-slate-300 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2"
           >
-            <UploadCloud size={18} /> IMPORTAR
+            <UploadCloud size={16} /> IMPORTAR
           </button>
+          
           <button 
             onClick={() => setIsMappingWizardOpen(true)}
-            className="px-8 py-4 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20 flex items-center gap-2"
+            className="px-6 py-3 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20 flex items-center gap-2 border border-white/10"
           >
-            <Link2 size={18} /> MAPEAMENTO
+            <Link2 size={16} /> MAPEAMENTO
           </button>
+          
           <button 
             onClick={() => { setEditingAccount(null); setIsModalOpen(true); }}
-            className="px-8 py-4 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
+            className="px-6 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2 border border-white/10"
           >
-            <Plus size={18} /> NOVA CONTA
+            <Plus size={16} /> NOVA CONTA
           </button>
         </div>
       </div>

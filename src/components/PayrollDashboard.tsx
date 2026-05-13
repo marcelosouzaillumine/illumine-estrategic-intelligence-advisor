@@ -26,11 +26,15 @@ import {
   ChevronRight,
   ChevronLeft,
   Briefcase,
-  Loader2
+  Loader2,
+  Plus,
+  Upload,
+  Trash2
 } from 'lucide-react';
 import { cn, formatCurrency } from '../lib/utils';
 import { useDataTable } from '../hooks/useDataTable';
 import { SortableHeader } from './SortableHeader';
+import { PageHeader } from './Common';
 import { collection, query, where, onSnapshot, doc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
@@ -57,6 +61,8 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
   const [clientInfo, setClientInfo] = useState<any>(null);
+  const [turnoverMensal, setTurnoverMensal] = useState<number>(1);
+  const [selectedSimEmployeeId, setSelectedSimEmployeeId] = useState<string>('todos');
 
   useEffect(() => {
     if (!clientId) return;
@@ -100,7 +106,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
     paginatedData: paginatedEmployees
   } = useDataTable(employees, {
     searchFields: ['nome', 'funcao', 'area'],
-    initialSort: { key: 'custoMensal', direction: 'desc' },
+    initialSort: { key: 'custoMensal', direction: 'desc' as const },
     itemsPerPage: 10
   });
 
@@ -122,6 +128,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
     const charges = filteredEmployees.reduce((acc, item) => acc + item.encargos, 0);
     const provisions = filteredEmployees.reduce((acc, item) => acc + item.decimoTerceiroFerias, 0);
     const severance = filteredEmployees.reduce((acc, item) => acc + item.custoRescisaoEstimado, 0);
+    const provisaoIndenizatoria = severance * (turnoverMensal / 100);
 
     return {
       total,
@@ -132,9 +139,10 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
       charges,
       provisions,
       severance,
+      provisaoIndenizatoria,
       averageCost: total > 0 ? monthlyCost / total : 0
     };
-  }, [filteredEmployees]);
+  }, [filteredEmployees, turnoverMensal]);
 
   const groupSum = (rows: any[], key: string, valueKey: string) => {
     return rows.reduce((acc, row) => {
@@ -201,28 +209,24 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
   return (
     <div className="space-y-8">
       {/* Header Info */}
-      <div className="bg-primary p-8 rounded-3xl text-white flex flex-col md:flex-row justify-between items-center gap-6 shadow-xl relative overflow-hidden">
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-secondary rounded-xl flex items-center justify-center text-white shadow-lg">
-              <Users size={20} />
-            </div>
-            <span className="text-secondary font-black uppercase text-xs tracking-widest">Gestão Financeira</span>
+      <PageHeader 
+        title="Análise de Custos de Pessoal"
+        subtitle="Análise gerencial detalhada de folha de pagamento, encargos e provisões."
+        icon={Users}
+        actions={
+          <div className="flex gap-3">
+            <button className="h-[46px] px-6 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 border border-white/10">
+              <Upload size={16} /> Importar
+            </button>
+            <button className="h-[46px] px-6 bg-secondary text-white hover:bg-secondary/90 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-secondary/20">
+              <Plus size={16} /> Inserir
+            </button>
+            <button className="h-[46px] px-6 bg-red-500/10 text-red-500 hover:bg-red-500/20 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 border border-red-500/20">
+              <Trash2 size={16} /> Excluir
+            </button>
           </div>
-          <h1 className="text-3xl font-display mb-2">Custos com Pessoal</h1>
-          <p className="text-slate-400 text-sm max-w-xl font-medium">Análise gerencial detalhada de folha de pagamento, encargos e provisões.</p>
-        </div>
-        
-        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl min-w-[240px] text-center md:text-left backdrop-blur-sm z-10">
-          <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Cliente</p>
-          <p className="text-xl font-display text-white">{clientInfo?.fantasia || clientInfo?.razao || '...'}</p>
-          <p className="text-xs font-bold text-secondary">{new Date().getFullYear()}</p>
-        </div>
-
-        {/* Abstract shapes for design */}
-        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
-        <div className="absolute -left-10 -top-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
-      </div>
+        }
+      />
 
       {/* Toolbar */}
       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-wrap items-end gap-4">
@@ -261,6 +265,19 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
           </select>
         </div>
 
+        <div className="min-w-[140px]">
+          <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Turnover Médio (%)</label>
+          <input 
+            type="number"
+            min="0"
+            max="100"
+            step="0.1"
+            value={turnoverMensal}
+            onChange={e => setTurnoverMensal(parseFloat(e.target.value) || 0)}
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-display"
+          />
+        </div>
+
         <button 
           onClick={downloadCsv}
           className="h-[46px] px-6 bg-slate-50 text-slate-400 hover:text-secondary hover:bg-secondary/5 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 border border-slate-100"
@@ -290,12 +307,13 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {[
           { label: 'Base Salarial', val: summary.salaryBase, icon: Briefcase },
           { label: 'Encargos (INSS/FGTS)', val: summary.charges, icon: AlertCircle },
           { label: 'Provisões (13º/Férias)', val: summary.provisions, icon: Clock },
-          { label: 'Risco Rescisório Total', val: summary.severance, icon: AlertCircle, variant: 'red' }
+          { label: 'Prov. Indenizatória', val: summary.provisaoIndenizatoria, icon: AlertCircle },
+          { label: 'Risco Rescisório', val: summary.severance, icon: AlertCircle, variant: 'red' }
         ].map((kpi, idx) => (
           <div key={idx} className="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 flex items-center gap-4 group">
             <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center transition-all", kpi.variant === 'red' ? 'bg-red-50 text-red-500' : 'bg-white text-slate-400 border border-slate-100 group-hover:text-secondary group-hover:border-secondary/30')}>
@@ -311,32 +329,55 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
 
       {/* Severance Detailed Breakdown */}
       <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-red-500">
-            <AlertCircle size={20} />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-red-500">
+              <AlertCircle size={20} />
+            </div>
+            <div>
+              <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">Simulação de Rescisão</h3>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Estimativa baseada em demissão sem justa causa</p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">Provisão de Rescisão (Simulação)</h3>
-            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Estimativa baseada em demissão sem justa causa para todo o quadro atual</p>
+          
+          <div className="min-w-[240px]">
+            <select 
+              value={selectedSimEmployeeId} 
+              onChange={e => setSelectedSimEmployeeId(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-display"
+            >
+              <option value="todos">Todos os Colaboradores</option>
+              {employees.map(e => (
+                <option key={e.id} value={e.id}>{e.nome} - {e.funcao}</option>
+              ))}
+            </select>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {[
-            { label: 'Aviso Prévio Indenizado', val: employees.reduce((acc, e) => acc + (e as any).valorAviso || 0, 0), icon: Clock },
-            { label: 'Multa FGTS (Est.)', val: employees.reduce((acc, e) => acc + (e as any).valorMultaFgts || 0, 0), icon: DollarSign },
-            { label: '13º e Férias Prop.', val: employees.reduce((acc, e) => acc + ((e as any).decimoTerceiroProp || 0) + ((e as any).feriasProp || 0) + ((e as any).umTercoFerias || 0), 0), icon: TrendingUp },
-            { label: 'TOTAL RISCO ESTIMADO', val: summary.severance, icon: AlertCircle, highlight: true }
-          ].map((item, idx) => (
-            <div key={idx} className={cn("p-4 rounded-2xl border transition-all", item.highlight ? "bg-slate-900 border-slate-900 text-white" : "bg-slate-50 border-slate-100")}>
-              <p className={cn("text-[8px] font-black uppercase tracking-widest mb-1", item.highlight ? "text-slate-400" : "text-slate-400")}>{item.label}</p>
-              <p className={cn("text-xl font-display", item.highlight ? "text-white" : "text-primary")}>{formatCurrency(item.val)}</p>
-            </div>
-          ))}
+          {(() => {
+            const simEmployees = selectedSimEmployeeId === 'todos' ? employees : employees.filter(e => e.id === selectedSimEmployeeId);
+            const aviso = simEmployees.reduce((acc, e) => acc + ((e as any).valorAviso || 0), 0);
+            const multa = simEmployees.reduce((acc, e) => acc + ((e as any).valorMultaFgts || 0), 0);
+            const prop = simEmployees.reduce((acc, e) => acc + ((e as any).decimoTerceiroProp || 0) + ((e as any).feriasProp || 0) + ((e as any).umTercoFerias || 0), 0);
+            const total = simEmployees.reduce((acc, e) => acc + e.custoRescisaoEstimado, 0);
+
+            return [
+              { label: 'Aviso Prévio Indenizado', val: aviso, icon: Clock },
+              { label: 'Multa FGTS (Est.)', val: multa, icon: DollarSign },
+              { label: '13º e Férias Prop.', val: prop, icon: TrendingUp },
+              { label: 'TOTAL RISCO ESTIMADO', val: total, icon: AlertCircle, highlight: true }
+            ].map((item, idx) => (
+              <div key={idx} className={cn("p-4 rounded-2xl border transition-all", item.highlight ? "bg-slate-900 border-slate-900 text-white" : "bg-slate-50 border-slate-100")}>
+                <p className={cn("text-[8px] font-black uppercase tracking-widest mb-1", item.highlight ? "text-slate-400" : "text-slate-400")}>{item.label}</p>
+                <p className={cn("text-xl font-display", item.highlight ? "text-white" : "text-primary")}>{formatCurrency(item.val)}</p>
+              </div>
+            ));
+          })()}
         </div>
       </div>
 
-      {/* Visual Analytics */}
+      {/* Análise Visual */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Bar Chart: Area Cost */}
         <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">

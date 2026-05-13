@@ -1,8 +1,6 @@
 import React from 'react';
-import { Play, ChevronLeft, Clock, GraduationCap, Star, BookOpen, Download, Link as LinkIcon, FileText } from 'lucide-react';
-import { motion } from 'motion/react';
-import { useAcademyData } from '../../../hooks/useAcademyData';
-import type { Course } from '../../../types/academy';
+import { Play, ChevronLeft, Clock, GraduationCap, BookOpen } from 'lucide-react';
+import { useAcademyData, useAcademyModules } from '../../../hooks/useAcademyData';
 
 interface CourseDetailsPageProps {
   courseId: string;
@@ -11,9 +9,9 @@ interface CourseDetailsPageProps {
 }
 
 export function CourseDetailsPage({ courseId, onBack, onStart }: CourseDetailsPageProps) {
-  const { courses, loading, getModules, getLessons } = useAcademyData();
+  const { courses, loading } = useAcademyData();
+  const { modules } = useAcademyModules(courseId);
   const course = courses.find(c => c.id === courseId);
-  const modules = getModules(courseId);
 
   if (loading || !course) {
     return (
@@ -76,22 +74,30 @@ export function CourseDetailsPage({ courseId, onBack, onStart }: CourseDetailsPa
           <div className="space-y-6">
             <h2 className="text-2xl font-black text-text-main">Conteúdo do curso</h2>
             <div className="space-y-4">
-              {modules.map((module, idx) => (
-                <div key={module.id} className="bg-bg-surface border border-border-main rounded-2xl overflow-hidden">
-                  <div className="p-6 flex items-center justify-between bg-bg-card">
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-black">
-                        {idx + 1}
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-text-main">{module.title}</h3>
-                        <p className="text-xs text-text-dim">{module.description}</p>
+              {modules.length === 0 ? (
+                <div className="bg-bg-surface border border-border-main rounded-2xl p-8 text-center text-text-dim">
+                  <BookOpen size={32} className="mx-auto mb-3 opacity-30" />
+                  <p className="text-sm font-bold uppercase tracking-widest">Módulos em preparação</p>
+                </div>
+              ) : (
+                modules.map((module, idx) => (
+                  <div key={module.id} className="bg-bg-surface border border-border-main rounded-2xl overflow-hidden">
+                    <div className="p-6 flex items-center justify-between bg-bg-card">
+                      <div className="flex items-center gap-4">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-black">
+                          {idx + 1}
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-text-main">{module.title}</h3>
+                          {module.description && (
+                            <p className="text-xs text-text-dim">{module.description}</p>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                  {/* Lessons list would go here if fetched */}
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </div>

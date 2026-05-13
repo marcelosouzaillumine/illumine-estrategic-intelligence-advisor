@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   LayoutGrid, 
   Activity, 
@@ -39,7 +39,13 @@ import {
   Layers,
   Bell,
   Users,
+  Trash2,
+  Save,
+  Loader2,
+  CheckCircle2
 } from 'lucide-react';
+import { collection, query, where, getDocs, orderBy, addDoc, updateDoc, doc, serverTimestamp, deleteDoc } from 'firebase/firestore';
+import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { motion, AnimatePresence } from 'motion/react';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, AreaChart, Area } from 'recharts';
 import { PageHeader } from '../Common';
@@ -122,7 +128,188 @@ function FinancialModelTable({ table, title, subtitle }: { table: any, title: st
   );
 }
 
-function InputsModelView() {
+function InputsDataEntryView({ selectedClient }: { selectedClient: string }) {
+  const [inputs, setInputs] = useState<any[]>([]);
+  const [accounts, setAccounts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!selectedClient) return;
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const qInputs = query(collection(db, 'modeling_inputs'), where('clientId', '==', selectedClient));
+        const snapInputs = await getDocs(qInputs);
+        setInputs(snapInputs.docs.map(doc => ({ id: doc.id, ...doc.data() as any })));
+
+        const qAccounts = query(collection(db, 'account_plans'), where('clientId', '==', selectedClient), orderBy('code', 'asc'));
+        const snapAccounts = await getDocs(qAccounts);
+        const allAccounts = snapAccounts.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
+        const managerial = allAccounts.filter(a => a.planType === 'managerial');
+        setAccounts(managerial.length > 0 ? managerial : allAccounts);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [selectedClient]);
+
+  const handleAddRow = () => {
+    setInputs([...inputs, { _isNew: true, id: Date.now().toString(), tipo: 'Capex', descricao: '', accountId: '', valorInicial: 0 }]);
+  };
+
+  const handleSave = async () => {
+    if (!selectedClient) return;
+    setSaving(true);
+    try {
+      for (const item of inputs) {
+        const payload = {
+          clientId: selectedClient,
+          tipo: item.tipo,
+          descricao: item.descricao,
+          accountId: item.accountId,
+          valorInicial: item.valorInicial,
+          updatedAt: serverTimestamp()
+        };
+        if (item._isNew) {
+          const docRef = await addDoc(collection(db, 'modeling_inputs'), payload);
+          item.id = docRef.id;
+          delete item._isNew;
+        } else {
+          await updateDoc(doc(db, 'modeling_inputs', item.id), payload);
+        }
+      }
+      setInputs([...inputs]);
+    } catch (e) {
+      handleFirestoreError(e, OperationType.WRITE, 'modeling_inputs');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async (id: string, index: number) => {
+    const item = inputs[index];
+    if (!item._isNew) {
+      await deleteDoc(doc(db, 'modeling_inputs', id));
+    }
+    const newInputs = [...inputs];
+    newInputs.splice(index, 1);
+    setInputs(newInputs);
+  };
+
+  const updateInput = (index: number, field: string, value: any) => {
+    const newInputs = [...inputs];
+    newInputs[index][field] = value;
+    setInputs(newInputs);
+  };
+
+  if (loading) return <div className="p-12 flex justify-center"><Loader2 className="animate-spin text-blue-600" size={32} /></div>;
+
+  return (
+    <div className="space-y-8">
+      <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+        <div className="p-8 border-b border-slate-100 flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-black text-slate-900">Entrada de Dados (Inputs)</h2>
+            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Lançamento de Capex, Receitas e Despesas vinculadas ao plano de contas contábil</p>
+          </div>
+          <div className="flex gap-2">
+            <button onClick={handleAddRow} className="px-6 py-2 bg-secondary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-md shadow-secondary/20 flex items-center gap-2">
+              <Plus size={14} /> NOVO LANÇAMENTO
+            </button>
+            <button onClick={handleSave} disabled={saving} className="px-6 py-2 bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/20 flex items-center gap-2 disabled:opacity-50">
+              {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />} SALVAR
+            </button>
+          </div>
+        </div>
+        
+        {inputs.length === 0 ? (
+          <div className="p-12 flex flex-col items-center justify-center text-center bg-slate-50">
+            <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4 text-slate-300">
+              <Layers size={32} />
+            </div>
+            <h3 className="text-sm font-bold text-slate-900 mb-2">Nenhum input manual cadastrado</h3>
+            <p className="text-xs text-slate-500 max-w-sm">
+              Adicione valores projetados para Capex, Receitas ou Despesas que complementarão o modelo estrutural.
+            </p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-slate-50">
+                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Tipo</th>
+                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Descrição</th>
+                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Plano de Contas</th>
+                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Valor Inicial</th>
+                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Ações</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {inputs.map((item, index) => (
+                  <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
+                    <td className="px-8 py-4">
+                      <select 
+                        value={item.tipo} 
+                        onChange={(e) => updateInput(index, 'tipo', e.target.value)}
+                        className="text-sm font-bold text-slate-700 bg-white px-3 py-2 rounded-xl border border-slate-200 outline-none w-full"
+                      >
+                        <option value="Capex">Capex</option>
+                        <option value="Receita">Receita</option>
+                        <option value="Despesa">Despesa</option>
+                      </select>
+                    </td>
+                    <td className="px-8 py-4">
+                      <input 
+                        type="text" 
+                        value={item.descricao} 
+                        onChange={(e) => updateInput(index, 'descricao', e.target.value)}
+                        placeholder="Ex: Aquisição de Máquinas"
+                        className="text-sm font-medium text-slate-700 bg-white px-3 py-2 rounded-xl border border-slate-200 outline-none w-full"
+                      />
+                    </td>
+                    <td className="px-8 py-4">
+                      <select 
+                        value={item.accountId || ''} 
+                        onChange={(e) => updateInput(index, 'accountId', e.target.value)}
+                        className="text-sm font-bold text-slate-700 bg-white px-3 py-2 rounded-xl border border-slate-200 outline-none w-full"
+                      >
+                        <option value="">Selecione uma conta...</option>
+                        {accounts.map(acc => (
+                          <option key={acc.id || acc.code} value={acc.id || acc.code}>
+                            {"\u00A0".repeat(((acc.level || 1) - 1) * 3)}{acc.code} - {acc.name}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td className="px-8 py-4 text-right">
+                      <input 
+                        type="number" 
+                        value={item.valorInicial} 
+                        onChange={(e) => updateInput(index, 'valorInicial', parseFloat(e.target.value) || 0)}
+                        className="text-sm font-black text-slate-900 bg-white px-3 py-2 rounded-xl border border-slate-200 outline-none w-32 text-right"
+                      />
+                    </td>
+                    <td className="px-8 py-4 text-right">
+                      <button onClick={() => handleDelete(item.id, index)} className="p-2 text-slate-300 hover:text-rose-500 transition-colors">
+                        <Trash2 size={16} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ConfiguracaoProjecaoEstrutural() {
   return (
     <div className="space-y-8">
       <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
@@ -212,7 +399,7 @@ function InputsModelView() {
 }
 
 export function FinancialModelingPage({ clients, selectedClient, setSelectedClient }: { clients: any[], selectedClient: string, setSelectedClient: (id: string) => void }) {
-  const [tab, setTab] = useState("dashboard");
+  const [tab, setTab] = useState("configuracao");
   const { dbData } = useAllFinancialData(selectedClient);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -344,40 +531,42 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
   }, [activeClient, selectedClient, dbData]);
 
   const tabs = [
-    { id: 'dashboard', label: 'Monitor Board', icon: LayoutGrid },
+    { id: 'configuracao', label: 'Configuração da Projeção', icon: Settings2 },
+    { id: 'premissas', label: 'Premissas do Cliente', icon: ShieldCheck },
+    { id: 'inputs', label: 'Inputs', icon: Layers },
     { id: 'dreGerencial', label: 'DRE Gerencial', icon: Activity },
+    { id: 'caixa', label: 'Fluxo de Caixa', icon: Coins },
+    { id: 'balanco', label: 'Balanço Patrimonial', icon: BookOpen },
     { id: 'dreContabil', label: 'DRE Contábil', icon: FileText },
-    { id: 'caixa', label: 'Geração de Caixa', icon: Coins },
-    { id: 'balanco', label: 'Balanço Projetado', icon: BookOpen },
-    { id: 'inputs', label: 'Inputs Ref.', icon: Settings2 },
-    { id: 'premissas', label: 'Premissas', icon: ShieldCheck },
   ];
 
   return (
     <div className="space-y-10 pb-20 animate-executive-fade">
-      <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-          <PageHeader 
-            title="Modelagem Financeira" 
-            subtitle={`Projeção estratégica de cenários, sensibilidade e viabilidade econômica · ${clientName}`}
-            icon={<TrendingUp className="text-primary" size={24} />}
-            color="primary"
-          />
-          <div className="flex flex-wrap items-center gap-3">
-            <button 
-              onClick={() => setIsImportModalOpen(true)}
-              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
-            >
-              <Upload size={14} /> IMPORTAR DADOS
-            </button>
-            <button 
-              onClick={() => { setEditingModeling(null); setIsModalOpen(true); }}
-              className="px-8 py-3 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-2"
-            >
-              <Plus size={16} /> NOVO CENÁRIO
-            </button>
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden mb-10">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <TrendingUp size={20} className="text-secondary" />
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Engenharia Financeira</h1>
           </div>
+          <p className="text-slate-400 text-sm font-medium">Projeção estratégica de cenários, sensibilidade e projetos de inovação</p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4 relative z-10">
+          <button 
+            onClick={() => setIsImportModalOpen(true)}
+            className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
+          >
+            <Upload size={14} /> IMPORTAR DADOS
+          </button>
+          <button 
+            onClick={() => { setEditingModeling(null); setIsModalOpen(true); }}
+            className="px-8 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
+          >
+            <Plus size={16} /> NOVO CENÁRIO
+          </button>
         </div>
       </div>
 
@@ -393,7 +582,10 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
                   : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
               )}
             >
-              <t.icon size={13} />
+              {(() => {
+                const Icon = t.icon;
+                return <Icon size={13} />;
+              })()}
             </button>
           ))}
         </div>
@@ -406,7 +598,7 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
         >
-          {tab === 'dashboard' && (
+          {tab === 'configuracao' && (
              <div className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   <KpiCardModeling label="EBITDA Ano 5" value={formatCurrency(projection.fluxoCaixa.rows[0].values[4])} helper="Geração operacional final" tone="success" />
@@ -460,6 +652,10 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
                     </div>
                   </div>
                 </div>
+                
+                <div className="mt-8">
+                  <ConfiguracaoProjecaoEstrutural />
+                </div>
              </div>
           )}
 
@@ -467,7 +663,7 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
           {tab === 'dreContabil' && <FinancialModelTable table={projection.dreContabil} title="DRE Contábil / Fiscal" subtitle="Foco em apuração fiscal, IRPJ/CSLL e Lucro Líquido Final." />}
           {tab === 'caixa' && <FinancialModelTable table={projection.fluxoCaixa} title="Geração de Caixa Livre (FCFF)" subtitle="Caminho do EBITDA para o Caixa disponível após impostos, capex e NCG." />}
           {tab === 'balanco' && <FinancialModelTable table={projection.balanco} title="Balanço Patrimonial Projetado" subtitle="Evolução de ativos, capital de giro e endividamento." />}
-          {tab === 'inputs' && <InputsModelView />}
+          {tab === 'inputs' && <InputsDataEntryView selectedClient={selectedClient} />}
           {tab === 'premissas' && <PremissasClientePage clients={clients} selectedClient={selectedClient} />}
         </motion.div>
       </AnimatePresence>

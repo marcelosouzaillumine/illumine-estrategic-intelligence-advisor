@@ -380,7 +380,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
 
   const uniqueSegments = useMemo(() => {
     const segments = clients.map((c: any) => c.segmento).filter(Boolean);
-    return ['Todos', ...Array.from(new Set(segments)).sort()];
+    return ['Todos', ...(Array.from(new Set(segments)) as string[]).sort()];
   }, [clients]);
 
   if (view === 'form') {
@@ -445,7 +445,10 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                     : "text-text-dim hover:text-text-main hover:bg-bg-card/50"
                 )}
               >
-                <tab.icon size={14} strokeWidth={1.5} className={cn(activeFormTab === tab.id ? "text-secondary" : "text-text-dim")} />
+                {(() => {
+                  const Icon = tab.icon;
+                  return <Icon size={14} strokeWidth={1.5} className={cn(activeFormTab === tab.id ? "text-secondary" : "text-text-dim")} />;
+                })()}
                 {tab.label}
                 {activeFormTab === tab.id && (
                   <motion.div 
@@ -1675,187 +1678,262 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
 
   return (
     <div className="space-y-12 pb-32 animate-executive-fade">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-12">
-        <PageHeader 
-          title="Dados de Cadastro"
-          subtitle="Gestão centralizada de empresas, filiais e unidades de negócio sob consultoria estratégica."
-          icon={Building2}
-          color="bg-primary"
-        />
-        <div className="flex flex-wrap items-center gap-6">
-           <div className="flex bg-bg-surface p-1.5 rounded-2xl border border-border-main shadow-sm">
-             <button onClick={() => setFilters({...filters, status: ''})} className={cn("px-6 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", !filters.status ? "bg-bg-card text-text-main shadow-premium border border-border-main" : "text-text-dim hover:text-text-main")}>Todos</button>
-             <button onClick={() => setFilters({...filters, status: 'Ativo'})} className={cn("px-6 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", filters.status === 'Ativo' ? "bg-bg-card text-emerald-600 shadow-premium border border-border-main" : "text-text-dim hover:text-text-main")}>Ativos</button>
-             <button onClick={() => setFilters({...filters, status: 'Suspenso'})} className={cn("px-6 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", filters.status === 'Suspenso' ? "bg-bg-card text-rose-600 shadow-premium border border-border-main" : "text-text-dim hover:text-text-main")}>Suspensos</button>
-           </div>
-           
-           <button 
-            onClick={() => setIsAIModalOpen(true)}
-            className="px-8 py-4 bg-bg-card text-text-main rounded-2xl text-[10px] font-black uppercase tracking-widest border border-border-main hover:bg-bg-surface transition-all flex items-center gap-3 shadow-premium"
-          >
-            <Sparkles size={18} className="text-secondary" />
-            Empresa Modelo
-          </button>
+      <PageHeader 
+        title="Gestão de empresas"
+        subtitle="Gestão estratégica da carteira de clientes, controle de acesso e parâmetros operacionais."
+        icon={Building2}
+        actions={
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setIsAIModalOpen(true)}
+              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3"
+            >
+              <Sparkles size={18} className="text-secondary" />
+              Empresa Modelo
+            </button>
 
-           <button 
-            onClick={openAdd}
-            className="btn-executive px-8 py-4 shadow-floating-primary"
+            <button 
+              onClick={openAdd}
+              className="px-6 py-3 bg-secondary hover:bg-secondary/90 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 shadow-lg shadow-secondary/20"
+            >
+              <Plus size={18} /> ADICIONAR CLIENTE
+            </button>
+          </div>
+        }
+      />
+
+      {/* Portfolio Stats Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { label: 'Total de Empresas', value: clients.length, icon: Building2, color: 'text-secondary', bg: 'bg-secondary/5' },
+          { label: 'Empresas Ativas', value: clients.filter((c: any) => c.status === 'Ativo').length, icon: ShieldCheck, color: 'text-emerald-500', bg: 'bg-emerald-500/5' },
+          { label: 'Em Implantação', value: clients.filter((c: any) => c.status === 'Implantação' || c.status === 'Viável').length, icon: Activity, color: 'text-amber-500', bg: 'bg-amber-500/5' },
+          { label: 'Segmentos Atendidos', value: Array.from(new Set(clients.map((c: any) => c.segmento))).length, icon: LayoutGrid, color: 'text-primary', bg: 'bg-primary/5' },
+        ].map((stat, i) => (
+          <div key={i} className="card-premium flex items-center gap-6 group">
+            <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center transition-all group-hover:scale-110", stat.bg, stat.color)}>
+              {(() => {
+                const Icon = stat.icon;
+                return <Icon size={28} />;
+              })()}
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-text-dim uppercase tracking-[0.2em] mb-1">{stat.label}</p>
+              <p className="text-3xl font-display font-black text-text-main">{stat.value}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col lg:flex-row items-center gap-6 bg-white p-4 rounded-3xl border border-border-main shadow-sm">
+        <div className="flex items-center gap-3 bg-bg-card p-1.5 rounded-2xl border border-border-main shadow-sm shrink-0">
+          <button 
+            onClick={() => setFilters({...filters, status: ''})} 
+            className={cn(
+              "px-6 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", 
+              !filters.status ? "bg-secondary text-white shadow-lg" : "text-text-dim hover:text-secondary hover:bg-bg-surface"
+            )}
           >
-            <Plus size={18} /> ADICIONAR CLIENTE
+            Todos
           </button>
+          <button 
+            onClick={() => setFilters({...filters, status: 'Ativo'})} 
+            className={cn(
+              "px-6 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", 
+              filters.status === 'Ativo' ? "bg-emerald-500 text-white shadow-lg" : "text-text-dim hover:text-emerald-500 hover:bg-bg-surface"
+            )}
+          >
+            Ativos
+          </button>
+          <button 
+            onClick={() => setFilters({...filters, status: 'Suspenso'})} 
+            className={cn(
+              "px-6 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", 
+              filters.status === 'Suspenso' ? "bg-rose-500 text-white shadow-lg" : "text-text-dim hover:text-rose-500 hover:bg-bg-surface"
+            )}
+          >
+            Suspensos
+          </button>
+        </div>
+
+        <div className="h-10 w-px bg-border-main hidden lg:block mx-2"></div>
+
+        <div className="relative flex-1 w-full">
+          <input 
+            type="text" 
+            placeholder="Pesquisar por razão social, CNPJ ou cidade..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-12 pr-6 py-4 bg-bg-card border border-border-main rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all shadow-inner-soft"
+          />
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+        </div>
+        
+        <div className="flex items-center gap-4 w-full lg:w-auto shrink-0">
+          <div className="flex items-center gap-3 bg-bg-card px-5 py-3 rounded-2xl border border-border-main min-w-[200px]">
+            <Filter size={16} className="text-text-dim" />
+            <select 
+              value={filters.segmento || 'Todos'}
+              onChange={(e) => setFilters({...filters, segmento: e.target.value === 'Todos' ? '' : e.target.value})}
+              className="flex-1 bg-transparent text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer"
+            >
+              <option value="Todos">Segmentos</option>
+              {uniqueSegments.filter(s => s !== 'Todos').map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
+          
+          <p className="text-[10px] font-black text-text-dim uppercase tracking-widest whitespace-nowrap">
+            <span className="text-text-main">{filteredClients.length}</span> empresas
+          </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-        <div className="lg:col-span-1 space-y-8">
-           <div className="card-premium space-y-8">
-             <div className="relative">
-                <input 
-                  type="text" 
-                  placeholder="PESQUISAR CLIENTE..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-bg-surface border border-border-main rounded-standard text-[10px] font-black uppercase tracking-[0.2em] outline-none focus:bg-bg-card focus:border-secondary transition-all shadow-inner-soft"
-                />
-                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
-             </div>
+      {/* Client Portfolio Grid */}
+      <div className="space-y-6">
+        {paginatedClients.length === 0 ? (
+          <div className="card-premium border-2 border-dashed flex flex-col items-center justify-center text-center p-32">
+            <div className="w-24 h-24 bg-bg-surface rounded-full flex items-center justify-center text-text-dim mb-8 shadow-inner">
+              <Search size={48} className="opacity-20" />
+            </div>
+            <h3 className="text-2xl font-display font-black text-text-main mb-3">Nenhum resultado para os filtros aplicados</h3>
+            <p className="text-sm text-text-muted font-sans max-w-sm mx-auto leading-relaxed">
+              Tente ajustar os termos da busca ou selecione um segmento diferente para visualizar as empresas da sua carteira.
+            </p>
+            <button 
+              onClick={() => {setSearchTerm(''); setFilters({});}}
+              className="mt-8 text-[10px] font-black text-secondary uppercase tracking-[0.2em] border-b border-secondary/20 hover:border-secondary transition-all pb-1"
+            >
+              Limpar todos os filtros
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {/* List Header */}
+            <div className="hidden lg:grid grid-cols-[80px_2fr_1.2fr_1.2fr_120px_220px] gap-6 px-10 py-4 text-[10px] font-black text-text-dim uppercase tracking-[0.25em]">
+              <div>Logo</div>
+              <div>Empresa / Segmento</div>
+              <div>CNPJ</div>
+              <div>Cidade</div>
+              <div className="text-center">Status</div>
+              <div className="text-right">Ações</div>
+            </div>
 
-             <div className="space-y-8">
-               <div className="space-y-3">
-                  <label className="text-label px-1">Segmento</label>
-                  <select 
-                    value={filters.segmento || 'Todos'}
-                    onChange={(e) => setFilters({...filters, segmento: e.target.value === 'Todos' ? '' : e.target.value})}
-                    className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-bold text-text-main outline-none focus:border-secondary transition-all cursor-pointer"
-                  >
-                    {uniqueSegments.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-               </div>
-               
-               <div className="pt-8 border-t border-border-soft">
-                  <div className="bg-bg-surface p-6 rounded-standard border border-border-main relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-secondary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
-                    <p className="text-label text-text-dim mb-2 relative z-10">Total na Carteira</p>
-                    <p className="text-5xl font-display font-black text-text-main relative z-10 tracking-tighter">{clients.length}</p>
+            {paginatedClients.map((client: any) => (
+              <motion.div 
+                layout
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                key={client.id} 
+                className="card-premium group hover:border-secondary/40 relative overflow-hidden p-0"
+              >
+                <div className="flex flex-col lg:grid lg:grid-cols-[80px_2fr_1.2fr_1.2fr_120px_220px] items-center gap-6 px-8 py-5">
+                  {/* Logo Column */}
+                  <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center border border-border-main group-hover:border-secondary/20 transition-all shrink-0 overflow-hidden shadow-sm">
+                    {client.icon || client.logo ? (
+                      <img src={client.icon || client.logo} alt={client.fantasia || client.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full bg-secondary/5 flex items-center justify-center">
+                        <Building2 size={24} className="text-secondary/40 group-hover:text-secondary transition-colors" />
+                      </div>
+                    )}
                   </div>
-               </div>
-             </div>
-           </div>
-           
-           <div className="p-8 bg-bg-surface/30 rounded-executive border border-border-soft border-dashed space-y-3">
-             <h4 className="text-[10px] font-black text-text-main uppercase tracking-[0.2em] flex items-center gap-2">
-               <ShieldCheck size={14} className="text-secondary" /> Integridade
-             </h4>
-             <p className="text-[11px] text-text-muted leading-relaxed font-medium">Os cadastros aqui vinculados alimentam automaticamente as páginas de DRE, Fluxo de Caixa e Viabilidade Estratégica.</p>
-           </div>
-        </div>
 
-        <div className="lg:col-span-3 space-y-6">
-           {paginatedClients.length === 0 ? (
-              <div className="card-premium border-2 border-dashed flex flex-col items-center justify-center text-center p-20">
-                 <div className="w-20 h-20 bg-bg-surface rounded-full flex items-center justify-center text-text-dim mb-6"><Filter size={36} /></div>
-                 <h3 className="text-xl font-bold text-text-main mb-2">Nenhum cliente encontrado</h3>
-                 <p className="text-sm text-text-muted font-sans max-w-xs">Ajuste os filtros ou o termo de busca para localizar a empresa.</p>
-              </div>
-           ) : (
-              <div className="space-y-6">
-                 {paginatedClients.map((client: any) => (
-                   <motion.div 
-                     layout
-                     initial={{ opacity: 0, y: 10 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     key={client.id} 
-                     className="card-premium hover:border-secondary/40 group relative overflow-hidden"
-                   >
-                     <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8 relative z-10">
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                          <div className="w-16 h-16 bg-bg-surface rounded-2xl flex items-center justify-center border border-border-main group-hover:bg-secondary/5 group-hover:border-secondary/20 transition-all shrink-0 overflow-hidden shadow-sm">
-                             {client.icon || client.logo ? (
-                               <img src={client.icon || client.logo} alt={client.fantasia} className="w-full h-full object-contain p-2" />
-                             ) : (
-                               <Building2 size={28} className="text-text-muted group-hover:text-secondary transition-colors" />
-                             )}
-                          </div>
-                          <div className="min-w-0">
-                             <div className="flex flex-wrap items-center gap-3 mb-2">
-                                <h3 className="text-2xl font-display font-black tracking-tight text-text-main group-hover:text-secondary transition-colors truncate">{client.fantasia}</h3>
-                                <StatusBadge status={client.status} />
-                             </div>
-                             <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary">{client.segmento}</span>
-                                {client.website && (
-                                  <a href={client.website} target="_blank" rel="noopener noreferrer" className="text-[10px] font-black uppercase tracking-widest text-text-dim hover:text-secondary transition-all flex items-center gap-1.5 border-b border-border-main hover:border-secondary pb-0.5">
-                                     <Link2 size={12} /> {client.website.replace(/^https?:\/\//, '')}
-                                  </a>
-                                )}
-                                <span className="text-xs font-medium text-text-muted flex items-center gap-1.5"><MapPin size={14} className="text-text-dim" /> {client.cidade}</span>
-                                <span className="text-xs font-mono font-bold text-text-dim tracking-tight">{client.cnpj}</span>
-                             </div>
-                             {client.unidadesNegocio?.length > 0 && (
-                               <div className="mt-4 flex flex-wrap gap-2">
-                                 {client.unidadesNegocio.map((u: string, idx: number) => (
-                                   <span key={idx} className="px-3 py-1 bg-bg-surface border border-border-main rounded-full text-[9px] font-black text-text-muted uppercase tracking-widest">
-                                     {u}
-                                   </span>
-                                 ))}
-                                 {client.filiais?.length > 0 && (
-                                   <span className="px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full text-[9px] font-black text-secondary uppercase tracking-widest">
-                                     +{client.filiais.length} Filia{client.filiais.length > 1 ? 'is' : 'l'}
-                                   </span>
-                                 )}
-                               </div>
-                             )}
-                          </div>
-                        </div>
-                        
-                        <div className="flex items-center justify-end gap-3 pt-6 xl:pt-0 border-t xl:border-t-0 border-border-soft">
-                          <button 
-                            onClick={() => openEdit(client)}
-                            className="p-3 text-text-dim hover:text-text-main hover:bg-bg-surface rounded-standard border border-transparent hover:border-border-main transition-all"
-                            title="Editar Cadastro"
-                          >
-                            <Edit3 size={18} />
-                          </button>
-                          <button 
-                            onClick={() => setClientToDelete({ id: client.id, name: client.fantasia })}
-                            className="p-3 text-text-dim hover:text-rose-500 hover:bg-rose-500/10 rounded-standard border border-transparent hover:border-rose-500/20 transition-all"
-                            title="Remover Cliente"
-                          >
-                            <Trash2 size={18} />
-                          </button>
-                          <div className="h-8 w-px bg-border-main mx-2" />
-                          <button className="btn-accent px-8">
-                             Dashboard <ChevronRight size={14} />
-                          </button>
-                        </div>
-                     </div>
-                   </motion.div>
-                 ))}
-              </div>
-           )}
+                  {/* Company Info */}
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-xl font-display font-black tracking-tight text-secondary group-hover:text-text-main transition-colors truncate">
+                      {client.fantasia || client.name || 'Empresa sem Nome'}
+                    </h3>
+                    <div className="flex items-center gap-3 mt-1.5">
+                      <p className="text-[9px] font-black text-text-dim uppercase tracking-widest bg-bg-surface px-2 py-0.5 rounded-md border border-border-soft">
+                        {client.segmento || 'Geral'}
+                      </p>
+                    </div>
+                  </div>
 
-           {totalPages > 1 && (
-             <div className="flex items-center justify-between pt-8 border-t border-border-soft">
-               <p className="text-label text-text-dim">Página {currentPage} de {totalPages}</p>
-               <div className="flex gap-3">
-                 <button 
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                  className="p-3 bg-bg-card border border-border-main rounded-xl text-text-dim hover:text-secondary hover:border-secondary disabled:opacity-20 transition-all shadow-premium"
-                 >
-                   <ChevronLeft size={20} />
-                 </button>
-                 <button 
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                  className="p-3 bg-bg-card border border-border-main rounded-xl text-text-dim hover:text-secondary hover:border-secondary disabled:opacity-20 transition-all shadow-premium"
-                 >
-                   <ChevronRight size={20} />
-                 </button>
-               </div>
-             </div>
-           )}
-        </div>
+                  {/* CNPJ */}
+                  <div className="hidden lg:block">
+                    <p className="text-xs font-mono font-bold text-text-muted">{client.cnpj || '---'}</p>
+                  </div>
+
+                  {/* City */}
+                  <div className="hidden lg:block">
+                    <div className="flex items-center gap-2 text-text-main">
+                      <MapPin size={14} className="text-text-dim shrink-0" />
+                      <span className="text-xs font-bold">{client.cidade || '---'}</span>
+                    </div>
+                  </div>
+
+                  {/* Status Badge */}
+                  <div className="flex justify-center">
+                    <StatusBadge status={client.status} />
+                  </div>
+
+                  {/* Actions Column */}
+                  <div className="flex items-center justify-end gap-2 w-full lg:w-auto">
+                    <button 
+                      onClick={() => openEdit(client)}
+                      className="w-10 h-10 rounded-xl bg-bg-surface border border-border-main flex items-center justify-center text-text-dim hover:text-secondary hover:border-secondary transition-all shadow-sm"
+                      title="Editar Empresa"
+                    >
+                      <Edit3 size={16} />
+                    </button>
+                    <button 
+                      onClick={() => setClientToDelete({ id: client.id, name: client.fantasia || client.name })}
+                      className="w-10 h-10 rounded-xl bg-bg-surface border border-border-main flex items-center justify-center text-text-dim hover:text-rose-500 hover:border-rose-200 transition-all shadow-sm"
+                      title="Excluir Empresa"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                    <button 
+                      onClick={() => {
+                        setSelectedClient(client.id);
+                      }}
+                      className="ml-2 px-6 py-2.5 bg-text-main text-bg-main rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-secondary transition-all shadow-sm whitespace-nowrap"
+                    >
+                      DASHBOARD
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-4 pt-12">
+            <button 
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              className="p-3 bg-bg-card border border-border-main rounded-xl text-text-dim hover:text-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <div className="flex items-center gap-2">
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={cn(
+                    "w-10 h-10 rounded-xl text-xs font-black transition-all",
+                    currentPage === i + 1 
+                      ? "bg-secondary text-white shadow-lg shadow-secondary/20" 
+                      : "bg-bg-card text-text-dim hover:bg-bg-surface border border-border-main"
+                  )}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+            <button 
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className="p-3 bg-bg-card border border-border-main rounded-xl text-text-dim hover:text-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        )}
       </div>
 
       <AnimatePresence>

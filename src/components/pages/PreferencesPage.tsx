@@ -83,7 +83,10 @@ export function PreferencesPage() {
                     )}
                   >
                     <div className="absolute inset-0 bg-gradient-to-tr from-accent/5 via-transparent to-accent/5" />
-                    <item.icon size={20} strokeWidth={1} className="text-accent" />
+                    {(() => {
+                      const Icon = item.icon;
+                      return <Icon size={20} strokeWidth={1} className="text-accent" />;
+                    })()}
                     <span className="text-[10px] font-bold uppercase tracking-[0.2em]">{item.label}</span>
                   </button>
                 ))}
@@ -204,7 +207,10 @@ export function PreferencesPage() {
             <div key={idx} className={cn("bg-white p-8 border border-border-main shadow-premium flex items-center gap-6 relative overflow-hidden group", item.accent)}>
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-current opacity-20" />
               <div className="w-14 h-14 flex items-center justify-center border border-border-main bg-bg-surface/30 group-hover:border-accent transition-colors">
-                <item.icon size={24} strokeWidth={1} className="text-text-dim group-hover:text-accent transition-colors" />
+                {(() => {
+                  const Icon = item.icon;
+                  return <Icon size={24} strokeWidth={1} className="text-text-dim group-hover:text-accent transition-colors" />;
+                })()}
               </div>
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-text-dim">{item.label}</p>

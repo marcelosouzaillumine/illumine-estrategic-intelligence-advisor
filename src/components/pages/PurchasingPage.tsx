@@ -36,16 +36,17 @@ import {
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
-    <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors">{label}</p>
+    <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-elegant transition-all group relative overflow-hidden">
+      <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 group-hover:text-slate-500 transition-colors">{label}</p>
       <h3 className={cn(
-        "text-2xl font-black tracking-tight",
+        "text-2xl font-display font-black tracking-tight",
         tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
       )}>{value}</h3>
-      {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80">{helper}</p>}
+      {helper && <p className="text-[10px] text-slate-400 mt-4 font-medium italic opacity-80 leading-relaxed">{helper}</p>}
     </div>
   );
 }
+
 
 export function PurchasingPage({ clients, selectedClient }: { clients: any[], selectedClient: string }) {
   const [items, setItems] = useState<any[]>([]);
@@ -64,7 +65,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
     paginatedData: paginatedItems
   } = useDataTable(items, {
     searchFields: ['produto', 'centroCusto'],
-    initialSort: { key: 'produto', direction: 'asc' },
+    initialSort: { key: 'produto', direction: 'asc' as const },
     itemsPerPage: 10
   });
 
@@ -157,23 +158,30 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
 
   return (
     <div className="space-y-10 pb-20 animate-executive-fade">
-      <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-          <PageHeader 
-            title="Gestão de Compras" 
-            subtitle={`Análise comparativa de fornecedores, economia gerada e curva ABC de insumos · ${clients.find(c => c.id === selectedClient)?.fantasia || 'Cliente'}`}
-            icon={<ShoppingBag className="text-secondary" size={24} />}
-            color="secondary"
-          />
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="px-6 py-3 bg-white/5 text-emerald-400 border border-white/10 rounded-2xl flex items-center gap-2">
-              <TrendingDown size={14} />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em]">ECONOMIA ACUMULADA: {formatCurrency(Math.floor(stats.totalEconomy))}</span>
+      {/* Strategic Header & Controls */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <ShoppingBag size={20} className="text-secondary" />
             </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Gestão de Compras</h1>
+          </div>
+          <p className="text-slate-400 text-sm font-medium leading-relaxed">Análise comparativa de fornecedores, economia gerada e curva ABC de insumos.</p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4 relative z-10">
+          <div className="relative z-10 text-right bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Economia Acumulada</span>
+            <span className="text-emerald-400 font-black uppercase text-sm flex items-center justify-end gap-2">
+              <TrendingDown size={16} />
+              {formatCurrency(Math.floor(stats.totalEconomy))}
+            </span>
           </div>
         </div>
       </div>
+
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <KpiCardModeling label="Gasto Total Realizado" value={formatCurrency(stats.totalSpend)} tone="default" />
@@ -182,7 +190,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
               <h3 className="text-sm font-bold text-slate-800">ABC por Fornecedor</h3>
@@ -208,7 +216,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
               <h3 className="text-sm font-bold text-slate-800">Principais Itens (ABC)</h3>
@@ -242,7 +250,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
         </div>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+      <div className="bg-white border border-slate-100 rounded-[40px] shadow-sm overflow-hidden">
         <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row items-center gap-4">
           <div className="relative flex-1 w-full">
             <Search size={18} className="absolute left-4 top-3 text-slate-400" />

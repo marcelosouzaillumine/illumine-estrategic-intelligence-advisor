@@ -149,7 +149,10 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
           <div key={i} className="bg-bg-card p-10 rounded-[40px] border border-border-main/50 flex flex-col items-center text-center space-y-6 hover:shadow-premium transition-all">
             <div className={cn("w-16 h-16 rounded-[24px] flex items-center justify-center", 
               stat.color === 'secondary' ? "bg-secondary/10 text-secondary" : "bg-primary/10 text-primary")}>
-              <stat.icon size={32} />
+              {(() => {
+                const Icon = stat.icon;
+                return <Icon size={32} />;
+              })()}
             </div>
             <div>
               <p className="text-4xl font-black text-text-main tracking-tight">{stat.value}</p>

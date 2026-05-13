@@ -8,7 +8,14 @@ import {
   ArrowRight, 
   ChevronLeft, 
   ChevronRight, 
-  FileSpreadsheet 
+  FileSpreadsheet,
+  Boxes,
+  Sparkles,
+  Zap,
+  TrendingUp,
+  Plus,
+  Upload,
+  Trash2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -27,6 +34,7 @@ import { PageHeader } from '../Common';
 import { DATA } from '../../data';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
+import { ContractModal } from '../modals/ContractModal';
 
 // Helpers
 const percent = new Intl.NumberFormat("pt-BR", {
@@ -103,6 +111,7 @@ function sumBy(schedule: any[], field: string) {
 export function LoansPage({ clients, selectedClient }: { clients: any[], selectedClient: string }) {
   const [selectedLoanId, setSelectedLoanId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'dashboard' | 'simulador' | 'amortizacao' | 'pagamentos'>('dashboard');
+  const [showContractModal, setShowContractModal] = useState(false);
   
   const filteredLoans = (DATA as any).emprestimos.filter((l: any) => l.cl === selectedClient);
   
@@ -191,15 +200,26 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
     return (
       <div className="space-y-12 pb-20">
         <PageHeader 
-          title="Gestão de Empréstimos e Financiamentos" 
-          subtitle="Controle e projeção de passivos financeiros, simulando cronogramas PRICE e SAC."
+          title="Gestão de Passivos" 
+          subtitle="Gestão de contratos de empréstimos e parcelamentos tributários."
         />
-        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200 rounded-3xl p-20 text-center">
+        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200 rounded-[32px] p-20 text-center">
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
             <WalletCards size={48} className="text-slate-200" />
           </div>
           <h3 className="text-xl font-bold text-slate-800 mb-2">Sem contratos registrados</h3>
           <p className="text-slate-500 max-w-md mb-8">Nenhum contrato de financiamento foi cadastrado para o cliente {clients.find((c: any) => c.id === selectedClient)?.fantasia} até o momento.</p>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setShowContractModal(true)}
+              className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/20"
+            >
+              <Plus size={16} /> Inserir Contrato
+            </button>
+            <button className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-blue-500/20">
+              <Upload size={16} /> Importar
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -207,16 +227,18 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
 
   return (
     <div className="space-y-10 pb-20 animate-executive-fade">
-      <div className="bg-slate-900 rounded-[40px] p-10 mb-6 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-          <PageHeader 
-            title="Captação & Alocação" 
-            subtitle={`Gestão estratégica de passivos, cronogramas de amortização e custo de capital · ${inputs.empresa || clients.find((c: any) => c.id === selectedClient)?.fantasia}`}
-            icon={<WalletCards className="text-primary" size={24} />}
-            color="primary"
-          />
-          <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <Boxes size={20} className="text-secondary" />
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Gestão de Passivos</h1>
+          </div>
+          <p className="text-slate-400 text-sm font-medium">Gestão de contratos de empréstimos e parcelamentos tributários · {inputs.empresa || clients.find((c: any) => c.id === selectedClient)?.fantasia}</p>
+        </div>
+          <div className="flex flex-wrap items-center gap-3 relative z-10">
              <div className="flex bg-white/5 p-1.5 rounded-[20px] border border-white/10 backdrop-blur-sm">
               {[
                 { id: 'dashboard', label: 'DASHBOARD' },
@@ -234,7 +256,28 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 >{tab.label}</button>
               ))}
             </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-6 -mt-2">
+        <div className="flex items-center gap-4">
+          <div className="px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
+             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Gerenciamento de Contratos</span>
           </div>
+        </div>
+        <div className="bg-white p-2 rounded-[24px] border border-slate-100 shadow-sm flex items-center gap-2">
+          <button 
+            onClick={() => setShowContractModal(true)}
+            className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
+          >
+            <Plus size={14} /> Inserir
+          </button>
+          <button className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm">
+            <Upload size={14} /> Importar
+          </button>
+          <button className="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm">
+            <Trash2 size={14} /> Excluir
+          </button>
         </div>
       </div>
 
@@ -247,28 +290,69 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             exit={{ opacity: 0, y: -10 }}
             className="space-y-8"
           >
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* CFO Executive Insights */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+              <div className="lg:col-span-2 glass-card p-10 flex flex-col md:flex-row items-center gap-10">
+                <div className="shrink-0">
+                   <div className="w-20 h-20 rounded-[28px] bg-secondary/10 flex items-center justify-center text-secondary relative">
+                      <Sparkles size={40} />
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 rounded-full border-4 border-white flex items-center justify-center">
+                        <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></div>
+                      </div>
+                   </div>
+                </div>
+                <div>
+                  <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight de Gestão de Passivos</h3>
+                  <p className="executive-note">
+                    "O cronograma de amortização atual apresenta uma concentração de desembolso nos próximos 6 meses. Recomendamos avaliar a migração de {percent.format(0.15)} do saldo devedor para linhas de crédito com carência estendida para preservar o capital de giro durante o ciclo de expansão previsto."
+                  </p>
+                </div>
+              </div>
+              
+              <div className="bg-primary p-8 rounded-[32px] text-white flex flex-col justify-between relative overflow-hidden group shadow-xl">
+                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
+                <div>
+                  <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Saldo Devedor Total</h3>
+                  <p className="text-3xl font-display font-black mb-2">{formatCurrency(Math.floor(priceSchedule.reduce((acc, r) => acc + r.saldoInicial, 0) / priceSchedule.length))}</p>
+                  <div className="flex items-center gap-2 text-emerald-400">
+                     <TrendingUp size={16} />
+                     <span className="text-xs font-bold">Amortização em Dia</span>
+                  </div>
+                </div>
+                <button className="mt-6 w-full py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
+                  Conciliação Bancária
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { title: 'Valor do Empréstimo', value: formatCurrency(Math.floor(inputs.valorEmprestimo)), icon: WalletCards, helper: 'Principal contratado' },
                 { title: 'Parcela Mensal PRICE', value: formatCurrency(Math.floor(priceSchedule[0]?.parcela || 0)), icon: CalendarDays, helper: `${inputs.periodoMeses} meses` },
                 { title: 'Taxa Mensal', value: percent.format(inputs.taxaMensal), icon: Calculator, helper: `A.A. equiv: ${percent.format(Math.pow(1 + inputs.taxaMensal, 12) - 1)}` },
                 { title: 'Saldo Atual Projetado', value: formatCurrency(Math.floor(saldoAbertura)), icon: TrendingDown, helper: `${pagosCount} parcelas pagas` },
               ].map((kpi, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
-                  <div className="flex justify-between items-start mb-4">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] group-hover:text-slate-500 transition-colors">{kpi.title}</p>
-                    <div className="p-2.5 bg-slate-50 rounded-xl text-slate-400 group-hover:bg-primary/10 group-hover:text-primary transition-all duration-300"><kpi.icon size={16} /></div>
+                <div key={idx} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden">
+                  <div className="flex justify-between items-start mb-6 relative z-10">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] group-hover:text-slate-500 transition-colors">{kpi.title}</p>
+                    <div className="p-3 bg-slate-50 rounded-[32px] text-slate-400 group-hover:bg-primary/10 group-hover:text-primary transition-all duration-300">
+                      {(() => {
+                        const Icon = kpi.icon;
+                        return <Icon size={20} />;
+                      })()}
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">{kpi.value}</h3>
-                  <p className="text-[10px] font-bold text-slate-400 mt-2 flex items-center gap-1 opacity-80 italic">
-                    <ArrowRight size={10} /> {kpi.helper}
+                  <h3 className="text-2xl font-display font-black text-slate-900 tracking-tight relative z-10">{kpi.value}</h3>
+                  <p className="text-[10px] font-bold text-slate-400 mt-4 flex items-center gap-2 relative z-10 opacity-80 italic">
+                    <ArrowRight size={12} className="text-secondary" /> {kpi.helper}
                   </p>
+                  <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-slate-50 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"></div>
                 </div>
               ))}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+              <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm">
                 <div className="mb-6">
                   <h3 className="text-lg font-bold text-slate-900">Comparativo PRICE x SAC</h3>
                   <p className="text-xs text-slate-500">Desembolso total vs Custo financeiro (Juros)</p>
@@ -291,7 +375,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 </div>
               </div>
 
-              <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+              <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm">
                 <div className="mb-6">
                   <h3 className="text-lg font-bold text-slate-900">Evolução do Saldo Devedor</h3>
                   <p className="text-xs text-slate-500">Curva de amortização projetada ao longo do tempo</p>
@@ -319,21 +403,21 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
               </div>
             </div>
 
-            <div className="bg-slate-900 text-white p-8 rounded-3xl border border-slate-800 shadow-xl overflow-hidden relative">
+            <div className="bg-slate-900 text-white p-8 rounded-[32px] border border-slate-800 shadow-xl overflow-hidden relative">
               <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
                 <Calculator size={120} />
               </div>
               <h3 className="text-xl font-bold mb-6">Resumo Executivo</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
+                <div className="bg-white/5 p-6 rounded-[32px] border border-white/5">
                   <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total a Pagar (PRICE)</p>
                   <p className="text-2xl font-black">{formatCurrency(totalPrice)}</p>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
+                <div className="bg-white/5 p-6 rounded-[32px] border border-white/5">
                   <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total a Pagar (SAC)</p>
                   <p className="text-2xl font-black">{formatCurrency(totalSac)}</p>
                 </div>
-                <div className="bg-primary/20 p-6 rounded-2xl border border-primary/30">
+                <div className="bg-primary/20 p-6 rounded-[32px] border border-primary/30">
                   <p className="text-primary/70 text-[10px] font-bold uppercase tracking-widest mb-1">Diferença de Custo</p>
                   <p className="text-2xl font-black text-primary/90">{formatCurrency(Math.abs(jurosPrice - jurosSac))}</p>
                   <p className="text-[10px] text-primary/80 font-medium mt-2">
@@ -350,7 +434,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             key="simulador"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm"
+            className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm"
           >
             <div className="mb-8">
               <h3 className="text-xl font-bold text-slate-900">Simulador de Cenários</h3>
@@ -415,7 +499,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             key="amortizacao"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden"
+            className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden"
           >
             <div className="p-8 border-b border-slate-100">
               <h3 className="text-xl font-bold text-slate-900">Cronograma de Amortização (PRICE)</h3>
@@ -475,7 +559,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             key="pagamentos"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden"
+            className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden"
           >
             <div className="p-8 border-b border-slate-100 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div>
@@ -566,12 +650,22 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
         )}
       </AnimatePresence>
 
-      <div className="flex items-center gap-2 p-6 bg-slate-50 border border-slate-200 rounded-2xl opacity-60">
+      <div className="flex items-center gap-2 p-6 bg-slate-50 border border-slate-200 rounded-[32px] opacity-60">
         <FileSpreadsheet size={16} className="text-slate-400" />
         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
            Análise gerada a partir de contratos bancários registrados · {inputs.titulo}
         </p>
       </div>
+
+      {showContractModal && (
+        <ContractModal
+          clientId={selectedClient}
+          onClose={() => setShowContractModal(false)}
+          onSuccess={() => {
+            setShowContractModal(false);
+          }}
+        />
+      )}
     </div>
   );
 }

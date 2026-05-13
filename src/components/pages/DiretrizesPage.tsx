@@ -76,18 +76,26 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
 
   return (
     <div className="space-y-8 pb-32">
-      <div className="flex justify-between items-center bg-white p-6 rounded-3xl border border-slate-100 shadow-sm mb-8">
-        <div>
-          <h2 className="text-2xl font-black text-slate-800 tracking-tight">Identidade & Diretrizes</h2>
+      {/* Header Estilizado - Padrão Monitoramento */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <Flag size={20} className="text-secondary" />
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Identidade & Diretrizes</h1>
+          </div>
           <p className="text-slate-400 text-sm font-medium">O DNA e o norte estratégico da empresa</p>
         </div>
+
         <button
           onClick={() => setIsEditing(!isEditing)}
           className={cn(
-            "flex items-center gap-2 px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all",
+            "relative z-10 flex items-center gap-2 px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all",
             isEditing 
-              ? "bg-slate-100 text-slate-600 hover:bg-slate-200" 
-              : "bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/20"
+              ? "bg-white/10 text-white hover:bg-white/20 border border-white/10" 
+              : "bg-secondary text-white hover:bg-secondary/90 shadow-xl shadow-secondary/20"
           )}
         >
           {isEditing ? <><X size={14} /> Cancelar</> : <><Edit2 size={14} /> Editar Diretrizes</>}
@@ -125,76 +133,11 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Missão */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
-        >
-          <div className="absolute top-0 right-0 p-8 text-slate-50">
-            <Target size={120} strokeWidth={1} />
-          </div>
-          <div className="relative z-10 space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
-                <Target size={24} />
-              </div>
-              <h3 className="text-xl font-black text-slate-800">Missão</h3>
-            </div>
-            {isEditing ? (
-              <textarea
-                value={formData.missao || ''}
-                onChange={(e) => setFormData(prev => ({ ...prev, missao: e.target.value }))}
-                className="w-full h-32 p-6 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium text-slate-600 resize-none"
-                placeholder="Qual o propósito fundamental da organização?"
-              />
-            ) : (
-              <p className="text-slate-500 leading-relaxed font-medium italic">
-                "{currentDiretriz?.missao || 'Não definida.'}"
-              </p>
-            )}
-          </div>
-        </motion.div>
-
-        {/* Visão */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
-        >
-          <div className="absolute top-0 right-0 p-8 text-slate-50">
-            <Rocket size={120} strokeWidth={1} />
-          </div>
-          <div className="relative z-10 space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
-                <Rocket size={24} />
-              </div>
-              <h3 className="text-xl font-black text-slate-800">Visão</h3>
-            </div>
-            {isEditing ? (
-              <textarea
-                value={formData.visao || ''}
-                onChange={(e) => setFormData(prev => ({ ...prev, visao: e.target.value }))}
-                className="w-full h-32 p-6 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-medium text-slate-600 resize-none"
-                placeholder="Onde a empresa deseja chegar a longo prazo?"
-              />
-            ) : (
-              <p className="text-slate-500 leading-relaxed font-medium italic">
-                "{currentDiretriz?.visao || 'Não definida.'}"
-              </p>
-            )}
-          </div>
-        </motion.div>
-      </div>
-
-      {/* História */}
+      {/* História - Movido para abaixo do Propósito */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
+        transition={{ delay: 0.1 }}
         className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-8 text-slate-50">
@@ -227,6 +170,72 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
           )}
         </div>
       </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Missão */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 p-8 text-slate-50">
+            <Target size={120} strokeWidth={1} />
+          </div>
+          <div className="relative z-10 space-y-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+                <Target size={24} />
+              </div>
+              <h3 className="text-xl font-black text-slate-800">Missão</h3>
+            </div>
+            {isEditing ? (
+              <textarea
+                value={formData.missao || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, missao: e.target.value }))}
+                className="w-full h-32 p-6 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium text-slate-600 resize-none"
+                placeholder="Qual o propósito fundamental da organização?"
+              />
+            ) : (
+              <p className="text-slate-500 leading-relaxed font-medium italic">
+                "{currentDiretriz?.missao || 'Não definida.'}"
+              </p>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Visão */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 p-8 text-slate-50">
+            <Rocket size={120} strokeWidth={1} />
+          </div>
+          <div className="relative z-10 space-y-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
+                <Rocket size={24} />
+              </div>
+              <h3 className="text-xl font-black text-slate-800">Visão</h3>
+            </div>
+            {isEditing ? (
+              <textarea
+                value={formData.visao || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, visao: e.target.value }))}
+                className="w-full h-32 p-6 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-medium text-slate-600 resize-none"
+                placeholder="Onde a empresa deseja chegar a longo prazo?"
+              />
+            ) : (
+              <p className="text-slate-500 leading-relaxed font-medium italic">
+                "{currentDiretriz?.visao || 'Não definida.'}"
+              </p>
+            )}
+          </div>
+        </motion.div>
+      </div>
 
       {/* Valores */}
       <motion.div 

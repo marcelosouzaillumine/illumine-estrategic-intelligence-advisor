@@ -48,18 +48,27 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
   const [error, setError] = useState('');
   const [progress, setProgress] = useState(0);
   const [strategy, setStrategy] = useState<ImportStrategy>('add_new');
+  const [accountPlan, setAccountPlan] = useState<any[]>([]);
   const [importResult, setImportResult] = useState<{ updated: boolean; count: number; finalBalance: number } | null>(null);
 
   useEffect(() => {
-    if (!selectedClient) return;
-    const fetchAccounts = async () => {
-      const q = query(collection(db, 'financial_positions'), where('clientId', '==', selectedClient));
-      const snap = await getDocs(q);
-      const data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      setAccounts(data);
-      if (data.length === 1) setSelectedAccountId(data[0].id);
+    const fetchData = async () => {
+      const qAcc = query(collection(db, 'financial_positions'), where('clientId', '==', selectedClient));
+      const snapAcc = await getDocs(qAcc);
+      const dataAcc = snapAcc.docs.map(d => ({ id: d.id, ...d.data() }));
+      setAccounts(dataAcc);
+      if (dataAcc.length === 1) setSelectedAccountId(dataAcc[0].id);
+
+      const qPlan = query(
+        collection(db, 'account_plans'), 
+        where('clientId', '==', selectedClient),
+        where('planType', '==', 'accounting')
+      );
+      const snapPlan = await getDocs(qPlan);
+      const planData = snapPlan.docs.map(d => ({ id: d.id, ...d.data() as any }));
+      setAccountPlan(planData.sort((a, b) => (a.code || '').localeCompare(b.code || '')));
     };
-    fetchAccounts();
+    fetchData();
   }, [selectedClient]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,30 +116,19 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
     setLoading(true);
     try {
       const totalMovement = parsedData.reduce((acc, t) => acc + t.amount, 0);
-      
-      // If replace_all, we use the initial balance + movement, 
-      // but usually replace_all means the file represents the FULL history or we start over.
-      // For bank statements, we'll assume the user wants to start the balance from the first item of the file or just sum.
-      // Let's stick to the logic: 
-      // add_new: current balance + total movement
-      // replace_all: initial balance of the account (from registration) + total movement
-      
-      let newBalance = account.saldoAtual + totalMovement;
+      let newBalance = (account.saldoAtual || 0) + totalMovement;
       if (strategy === 'replace_all') {
-        newBalance = account.saldoInicial + totalMovement;
+        newBalance = (account.saldoInicial || 0) + totalMovement;
       }
 
-      // Update account balance
       await updateDoc(doc(db, 'financial_positions', selectedAccountId), {
         saldoAtual: newBalance,
         dataAtualizacao: new Date().toLocaleDateString('pt-BR'),
         updatedAt: serverTimestamp()
       });
 
-      // Persist transactions
       const batch = writeBatch(db);
 
-      // If replace_all, delete existing transactions for this account
       if (strategy === 'replace_all') {
         const q = query(collection(db, 'bank_transactions'), where('accountId', '==', selectedAccountId));
         const oldDocs = await getDocs(q);
@@ -262,14 +260,31 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
                         <tr>
                           <th className="px-3 py-2 font-black text-slate-400">DATA</th>
                           <th className="px-3 py-2 font-black text-slate-400">DESCRIÇÃO</th>
+                          <th className="px-3 py-2 font-black text-slate-400">CATEGORIA (PLANO DE CONTAS)</th>
                           <th className="px-3 py-2 font-black text-slate-400 text-right">VALOR</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-50">
-                        {parsedData.slice(0, 50).map((t, i) => (
+                        {parsedData.map((t, i) => (
                           <tr key={i}>
                             <td className="px-3 py-2 text-slate-500 whitespace-nowrap">{new Date(t.date).toLocaleDateString('pt-BR')}</td>
-                            <td className="px-3 py-2 font-bold text-slate-700 truncate max-w-[250px]">{t.description}</td>
+                            <td className="px-3 py-2 font-bold text-slate-700 truncate max-w-[180px]">{t.description}</td>
+                            <td className="px-3 py-2">
+                              <select 
+                                value={t.category || ''}
+                                onChange={(e) => {
+                                  const newData = [...parsedData];
+                                  newData[i].category = e.target.value;
+                                  setParsedData(newData);
+                                }}
+                                className="w-full bg-white border border-slate-200 rounded px-2 py-1 text-[10px] outline-none focus:border-primary"
+                              >
+                                <option value="">Classificar...</option>
+                                {accountPlan.map(acc => (
+                                  <option key={acc.id} value={acc.name}>{acc.code} - {acc.name}</option>
+                                ))}
+                              </select>
+                            </td>
                             <td className={cn("px-3 py-2 text-right font-bold", t.amount >= 0 ? "text-emerald-600" : "text-rose-600")}>
                               {formatCurrency(t.amount)}
                             </td>

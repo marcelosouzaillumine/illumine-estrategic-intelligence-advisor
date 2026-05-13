@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { X, Loader2, FileText, TrendingUp, TrendingDown, Landmark, Search } from 'lucide-react';
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { X, Loader2, FileText, TrendingUp, TrendingDown, Landmark, Search, ShieldCheck } from 'lucide-react';
+import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { formatCurrency, formatDate, cn } from '../../lib/utils';
 
@@ -27,27 +27,64 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
     start: '',
     end: ''
   });
+  const [accountPlan, setAccountPlan] = useState<any[]>([]);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchTransactions = async () => {
+    const fetchData = async () => {
       setLoading(true);
       try {
+        // Fetch Account Plan for categorization
+        const qPlan = query(
+          collection(db, 'account_plans'),
+          where('clientId', '==', account.clientId || ''),
+          where('planType', '==', 'accounting')
+        );
+        const snapPlan = await getDocs(qPlan);
+        setAccountPlan(snapPlan.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => (a as any).code.localeCompare((b as any).code)));
+
+        // Fetch Transactions
         const q = query(
           collection(db, 'bank_transactions'),
           where('accountId', '==', account.id)
         );
         const snap = await getDocs(q);
         const data = snap.docs.map(d => ({ id: d.id, ...d.data() } as BankTransaction));
-        // Sort in memory to avoid needing a composite index
-        setTransactions(data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        
+        if (data.length > 0) {
+          setTransactions(data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        } else if (account.id.startsWith('mock')) {
+          // Fallback for mock accounts if no real data
+          const mockTransactions: BankTransaction[] = [
+            { id: 'm1', date: '2026-05-12', description: 'Pagamento Fornecedor A', amount: -1500, type: 'Débito' },
+            { id: 'm2', date: '2026-05-10', description: 'Recebimento Cliente B', amount: 4500, type: 'Crédito' },
+            { id: 'm3', date: '2026-05-08', description: 'Tarifa Bancária', amount: -45, type: 'Débito' },
+          ];
+          setTransactions(mockTransactions);
+        } else {
+          setTransactions([]);
+        }
       } catch (err) {
         console.error("Error fetching transactions:", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchTransactions();
-  }, [account.id]);
+    fetchData();
+  }, [account.id, account.clientId]);
+
+  const handleUpdateCategory = async (transactionId: string, category: string) => {
+    if (transactionId.startsWith('m')) return; // Ignore mock
+    setUpdatingId(transactionId);
+    try {
+      await updateDoc(doc(db, 'bank_transactions', transactionId), { category });
+      setTransactions(prev => prev.map(t => t.id === transactionId ? { ...t, category } : t));
+    } catch (err) {
+      console.error("Error updating category:", err);
+    } finally {
+      setUpdatingId(null);
+    }
+  };
 
   const filtered = transactions.filter(t => {
     const matchesSearch = t.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -65,8 +102,8 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
       >
         <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
-              <Landmark size={24} className="text-primary" />
+            <div className="w-12 h-12 bg-indigo-600/10 rounded-2xl flex items-center justify-center">
+              <Landmark size={24} className="text-indigo-600" />
             </div>
             <div>
               <h3 className="text-xl font-black text-slate-900">Extrato: {account.banco}</h3>
@@ -90,7 +127,7 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
                   placeholder="Buscar descrição..."
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all"
+                  className="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500/10 transition-all"
                 />
               </div>
               <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 p-1.5 rounded-xl">
@@ -131,20 +168,21 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
                 <tr className="border-b border-slate-100">
                   <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Data</th>
                   <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição</th>
+                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Classificação (Plano)</th>
                   <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {loading ? (
                   <tr>
-                    <td colSpan={3} className="px-8 py-20 text-center">
-                      <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-                      <p className="text-slate-500 font-bold">Carregando lançamentos...</p>
+                    <td colSpan={4} className="px-8 py-20 text-center">
+                      <Loader2 size={32} className="animate-spin text-indigo-600 mx-auto mb-4" />
+                      <p className="text-slate-500 font-bold text-xs uppercase tracking-widest">Carregando lançamentos...</p>
                     </td>
                   </tr>
                 ) : filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={3} className="px-8 py-20 text-center text-slate-400 italic">Nenhum lançamento encontrado.</td>
+                    <td colSpan={4} className="px-8 py-20 text-center text-slate-400 italic">Nenhum lançamento encontrado.</td>
                   </tr>
                 ) : (
                   filtered.map(t => (
@@ -152,8 +190,31 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
                       <td className="px-8 py-5 text-xs font-bold text-slate-500">{formatDate(t.date)}</td>
                       <td className="px-8 py-5">
                         <div className="flex flex-col">
-                          <span className="text-sm font-bold text-slate-700 group-hover:text-primary transition-colors">{t.description}</span>
+                          <span className="text-sm font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">{t.description}</span>
                           <span className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">Ref: {t.id.slice(-8)}</span>
+                        </div>
+                      </td>
+                      <td className="px-8 py-5">
+                        <div className="relative">
+                          {updatingId === t.id ? (
+                            <div className="flex items-center gap-2 text-[10px] text-slate-400 italic">
+                              <Loader2 size={12} className="animate-spin" /> Atualizando...
+                            </div>
+                          ) : (
+                            <select 
+                              value={t.category || ''}
+                              onChange={(e) => handleUpdateCategory(t.id, e.target.value)}
+                              className={cn(
+                                "bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-[10px] font-bold outline-none focus:ring-2 focus:ring-indigo-500/10 transition-all w-full max-w-[200px]",
+                                !t.category && "text-rose-500 border-rose-100 bg-rose-50/50"
+                              )}
+                            >
+                              <option value="">NÃO CLASSIFICADO</option>
+                              {accountPlan.map(acc => (
+                                <option key={acc.id} value={acc.name}>{acc.code} - {acc.name}</option>
+                              ))}
+                            </select>
+                          )}
                         </div>
                       </td>
                       <td className={cn(

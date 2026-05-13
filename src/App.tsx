@@ -154,7 +154,7 @@ function LoginBrand() {
       <div>
         <p className="text-3xl font-black uppercase leading-none tracking-tight text-primary">Illumine</p>
         <p className="mt-2 text-[11px] font-black uppercase tracking-[0.42em] text-secondary">
-          Strategic Advisory
+          Assessoria Estratégica
         </p>
       </div>
     </div>
@@ -298,6 +298,7 @@ const MASTER_ADMINS = [
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>(DEFAULT_PAGE);
+  const [academyCourseId, setAcademyCourseId] = useState<string>('');
   const [selectedClient, setSelectedClient] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -525,7 +526,7 @@ export default function App() {
         </div>
 
         <div className={cn("overflow-y-auto flex-1 custom-scrollbar w-full", isSidebarCollapsed ? "p-0" : "p-4 md:p-6")}>
-          <div className={cn("flex items-center mb-8", isSidebarCollapsed ? "justify-center pt-6" : "justify-between")}>
+          <div className={cn("flex items-center mb-4", isSidebarCollapsed ? "justify-center pt-6" : "justify-between")}>
             <Logo collapsed={isSidebarCollapsed} />
             {isMobileMenuOpen && (
               <button 
@@ -537,7 +538,7 @@ export default function App() {
             )}
           </div>
           
-          <nav className="space-y-6">
+          <nav className="space-y-3">
             {NAVIGATION_GROUPS.filter(group => {
               if (!userPermissions) return true;
               // Group is allowed if at least one of its sub-items is allowed
@@ -562,14 +563,14 @@ export default function App() {
                   {!isSidebarCollapsed && (
                     <button 
                       onClick={() => toggleSubmenu(group.group)}
-                      className="w-full flex items-center gap-3 px-6 py-4 text-[10px] font-medium text-text-dim uppercase tracking-[0.2em] mb-1 font-sans hover:text-text-main transition-colors group text-left justify-start"
+                      className="w-full flex items-center gap-3 px-6 py-2 text-[10px] font-medium text-text-dim uppercase tracking-[0.2em] mb-0 font-sans hover:text-text-main transition-colors group text-left justify-start"
                     >
                       <span className="flex-1 truncate text-left">{group.group}</span>
                       {isOpen ? <ChevronUp size={10} strokeWidth={1} /> : <ChevronDown size={10} strokeWidth={1} />}
                     </button>
                   )}
                   
-                  <div className={cn("space-y-1", isSidebarCollapsed ? "px-0" : "px-4")}>
+                  <div className={cn("space-y-0", isSidebarCollapsed ? "px-0" : "px-4")}>
                     {(isSidebarCollapsed ? filteredItems : (isOpen ? filteredItems : [])).map((item) => {
                       const hasChildren = item.children && item.children.length > 0;
                       const isChildActive = hasChildren && item.children?.some(child => child.id === currentPage);
@@ -588,7 +589,7 @@ export default function App() {
                             title={isSidebarCollapsed ? item.label : undefined}
                             className={cn(
                               "w-full flex items-center transition-all group relative",
-                              isSidebarCollapsed ? "justify-center py-4 px-0" : "justify-start gap-4 px-4 py-3",
+                              isSidebarCollapsed ? "justify-center py-2 px-0" : "justify-start gap-4 px-4 py-1.5",
                               currentPage === item.id 
                                 ? "text-text-main font-semibold" 
                                 : isActive 
@@ -636,7 +637,7 @@ export default function App() {
                                   key={child.id}
                                   onClick={() => setCurrentPage(child.id)}
                                   className={cn(
-                                    "w-full flex items-center justify-start text-left gap-2 px-4 py-1.5 rounded-lg font-bold text-[10px] transition-all group",
+                                    "w-full flex items-center justify-start text-left gap-2 px-4 py-1 rounded-lg font-bold text-[10px] transition-all group",
                                     currentPage === child.id 
                                       ? "bg-slate-100 dark:bg-slate-800 text-primary dark:text-white" 
                                       : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-800 dark:hover:text-white"
@@ -746,7 +747,7 @@ export default function App() {
             <div className="relative group hidden lg:block">
               <input 
                 type="text" 
-                placeholder="Global Intelligence Search..." 
+                placeholder="Busca Global de Inteligência..." 
                 className="pl-12 pr-6 py-3.5 bg-bg-surface/40 border-b border-border-main focus:border-accent transition-all outline-none w-48 xl:w-80 text-sm font-sans text-text-main placeholder:text-text-dim focus:bg-bg-card" 
               />
               <Search size={18} strokeWidth={1} className="text-text-dim absolute left-0 top-1/2 -translate-y-1/2 group-focus-within:text-accent transition-colors" />
@@ -775,7 +776,7 @@ export default function App() {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               <Zap size={18} strokeWidth={1} fill="currentColor" className="text-accent relative z-10" />
-              <span className="hidden sm:inline relative z-10">Generate Analytics</span>
+              <span className="hidden sm:inline relative z-10">Gerar Análise</span>
             </button>
           </div>
         </header>
@@ -802,6 +803,8 @@ export default function App() {
                   user,
                   setCurrentPage,
                   setClients,
+                  academyCourseId,
+                  setAcademyCourseId,
                 })}
               </motion.div>
             </AnimatePresence>
