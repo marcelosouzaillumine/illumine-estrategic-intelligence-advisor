@@ -515,7 +515,6 @@ export default function App() {
           isSidebarCollapsed ? "items-center" : "items-start"
         )}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-bg-surface/50 via-transparent to-bg-surface/30 pointer-events-none" />
         <div className="absolute -right-3 top-10 z-50 hidden md:block">
           <button
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -537,6 +536,20 @@ export default function App() {
               </button>
             )}
           </div>
+
+          {!isSidebarCollapsed && (
+            <div className="mb-8 md:hidden px-4">
+              <ClientSelector 
+                clients={clients} 
+                selectedClient={selectedClient} 
+                setSelectedClient={setSelectedClient} 
+                onManageClients={() => {
+                  setCurrentPage('clientes');
+                  setIsMobileMenuOpen(false);
+                }}
+              />
+            </div>
+          )}
           
           <nav className="space-y-3">
             {NAVIGATION_GROUPS.filter(group => {
@@ -735,7 +748,7 @@ export default function App() {
               <MenuIcon size={24} strokeWidth={1} />
             </button>
             
-            <div className="hidden xl:block">
+            <div className="hidden md:block">
               <ClientSelector 
                 clients={clients} 
                 selectedClient={selectedClient} 
