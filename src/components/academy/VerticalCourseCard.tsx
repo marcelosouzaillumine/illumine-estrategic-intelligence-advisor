@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import type { Course } from '../../types/academy';
 
 interface VerticalCourseCardProps {
+  key?: React.Key;
   course: Course;
   onSelect: (course: Course) => void;
   onPlay: (course: Course) => void;

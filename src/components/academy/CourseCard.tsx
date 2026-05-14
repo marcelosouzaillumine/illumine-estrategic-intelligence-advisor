@@ -5,6 +5,7 @@ import type { Course } from '../../types/academy';
 import { cn } from '../../lib/utils';
 
 interface CourseCardProps {
+  key?: React.Key;
   course: Course;
   onSelect: (course: Course) => void;
   onPlay: (course: Course) => void;

@@ -141,15 +141,15 @@
   }
 
   .btn-executive {
-    @apply btn-base bg-text-main text-bg-main shadow-lg hover:shadow-glow hover:-translate-y-0.5;
+    @apply flex items-center justify-center gap-2 px-6 py-3.5 rounded-standard font-bold text-xs uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed bg-text-main text-bg-main shadow-lg hover:shadow-glow hover:-translate-y-0.5;
   }
 
   .btn-accent {
-    @apply btn-base bg-secondary text-white shadow-xl shadow-secondary/20 hover:bg-secondary/90 hover:shadow-secondary/30;
+    @apply flex items-center justify-center gap-2 px-6 py-3.5 rounded-standard font-bold text-xs uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed bg-secondary text-white shadow-xl shadow-secondary/20 hover:bg-secondary/90 hover:shadow-secondary/30;
   }
 
   .btn-ghost {
-    @apply btn-base bg-transparent border border-border-main text-text-muted hover:bg-bg-surface hover:text-text-main;
+    @apply flex items-center justify-center gap-2 px-6 py-3.5 rounded-standard font-bold text-xs uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border border-border-main text-text-muted hover:bg-bg-surface hover:text-text-main;
   }
 
   /* Micro-interactions */
@@ -222,4 +222,3 @@
   body { background: white !important; color: black !important; }
   .card-premium { border: 1px solid #ddd !important; box-shadow: none !important; }
 }
-

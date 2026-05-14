@@ -4,6 +4,7 @@ import { CourseCard } from './CourseCard';
 import type { Course } from '../../types/academy';
 
 interface CourseCarouselProps {
+  key?: React.Key;
   title: string;
   courses: Course[];
   onSelect: (course: Course) => void;
