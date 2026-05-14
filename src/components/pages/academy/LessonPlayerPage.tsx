@@ -9,7 +9,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useAcademyData, useAcademyModules, useAcademyLessons, useAcademyProgress } from '../../../hooks/useAcademyData';
+import { useAcademyData, useAcademyModules, useAcademyLessons, useAcademyProgress, toggleLessonProgress } from '../../../hooks/useAcademyData';
 import type { Lesson } from '../../../types/academy';
 import { cn } from '../../../lib/utils';
 
@@ -17,6 +17,7 @@ interface LessonPlayerPageProps {
   courseId: string;
   onBack: () => void;
   userId: string;
+  clientId: string;
 }
 
 /** Inner component that can call useAcademyLessons per module safely */
@@ -26,12 +27,14 @@ function ModuleLessonList({
   currentLessonId,
   completedLessonIds,
   onSelectLesson,
+  onToggleProgress,
 }: {
   moduleId: string;
   moduleIdx: number;
   currentLessonId: string | null;
   completedLessonIds: Set<string>;
   onSelectLesson: (lesson: Lesson) => void;
+  onToggleProgress: (lesson: Lesson, completed: boolean) => void;
 }) {
   const { lessons, loading } = useAcademyLessons(moduleId);
 
@@ -56,22 +59,34 @@ function ModuleLessonList({
         const isActive = currentLessonId === lesson.id;
         const isDone = completedLessonIds.has(lesson.id);
         return (
-          <button
+          <div
             key={lesson.id}
-            onClick={() => onSelectLesson(lesson)}
             className={cn(
-              "w-full px-8 py-4 flex items-center gap-4 hover:bg-bg-surface transition-all text-left group",
-              isActive ? "bg-primary/5 text-primary" : "text-text-muted"
+              "w-full px-8 py-4 flex items-center gap-4 hover:bg-bg-surface transition-all group border-b border-border-main/5 last:border-0",
+              isActive ? "bg-primary/5" : ""
             )}
           >
-            <div className={cn(
-              "w-6 h-6 rounded-full flex items-center justify-center shrink-0 border",
-              isActive ? "border-primary text-primary" : "border-current opacity-40"
-            )}>
-              {isDone ? <CheckCircle2 size={14} className="text-accent" /> : <PlayCircle size={14} />}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold leading-tight truncate">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleProgress(lesson, !isDone);
+              }}
+              className={cn(
+                "w-6 h-6 rounded-full flex items-center justify-center shrink-0 border transition-all",
+                isDone ? "bg-accent border-accent text-white" : (isActive ? "border-primary text-primary" : "border-current opacity-40 hover:opacity-100")
+              )}
+            >
+              {isDone ? <CheckCircle2 size={14} /> : <PlayCircle size={14} />}
+            </button>
+            
+            <button
+              onClick={() => onSelectLesson(lesson)}
+              className="flex-1 min-w-0 text-left"
+            >
+              <p className={cn(
+                "text-sm font-bold leading-tight truncate transition-colors",
+                isActive ? "text-primary" : (isDone ? "text-text-main/70" : "text-text-muted group-hover:text-text-main")
+              )}>
                 Aula {lIdx + 1}: {lesson.title}
               </p>
               {lesson.duration && (
@@ -79,18 +94,18 @@ function ModuleLessonList({
                   {lesson.duration} min
                 </p>
               )}
-            </div>
-          </button>
+            </button>
+          </div>
         );
       })}
     </>
   );
 }
 
-export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageProps) {
+export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonPlayerPageProps) {
   const { courses } = useAcademyData();
   const { modules } = useAcademyModules(courseId);
-  const { progress } = useAcademyProgress(userId, courseId);
+  const { progress } = useAcademyProgress(userId, clientId, courseId);
   
   const course = courses.find(c => c.id === courseId);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
@@ -108,14 +123,30 @@ export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageP
   }, [progress]);
 
   const progressPct = useMemo(() => {
-    if (!course?.lessonsCount || course.lessonsCount === 0) return 0;
-    return Math.round((completedLessonIds.size / course.lessonsCount) * 100);
+    const totalLessons = course?.lessonsCount || 0;
+    if (totalLessons === 0) return 0;
+    return Math.round((completedLessonIds.size / totalLessons) * 100);
   }, [completedLessonIds, course]);
 
   const toggleModule = (moduleId: string) => {
     setExpandedModules(prev => 
       prev.includes(moduleId) ? prev.filter(id => id !== moduleId) : [...prev, moduleId]
     );
+  };
+
+  const handleToggleProgress = async (lesson: Lesson, completed: boolean) => {
+    try {
+      await toggleLessonProgress({
+        userId,
+        clientId,
+        courseId,
+        moduleId: lesson.moduleId,
+        lessonId: lesson.id,
+        completed
+      });
+    } catch (error) {
+      console.error("Error updating progress:", error);
+    }
   };
 
   // Sanitize HTML content to prevent XSS (basic implementation)
@@ -160,7 +191,7 @@ export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageP
 
         <div className="flex items-center gap-6">
           <div className="hidden md:flex flex-col items-end">
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-dim">Seu Progresso</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-dim">Progresso no Cliente Ativo</span>
             <div className="flex items-center gap-3">
               <div className="w-32 h-1.5 bg-bg-surface rounded-full overflow-hidden">
                 <div 
@@ -201,10 +232,15 @@ export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageP
                 <p className="text-white/60 max-w-lg">
                   {currentLesson?.description || 'Explore o menu lateral para navegar entre os módulos e aulas deste curso.'}
                 </p>
-                {currentLesson && (
-                  <button className="px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-transform">
-                    Acessar Conteúdo
-                  </button>
+                {currentLesson?.externalLink && (
+                  <a 
+                    href={currentLesson.externalLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-transform"
+                  >
+                    Acessar Conteúdo Externo
+                  </a>
                 )}
               </div>
             )}
@@ -213,9 +249,23 @@ export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageP
           <div className="p-12 max-w-4xl mx-auto w-full space-y-8">
             {currentLesson && (
               <div className="space-y-4">
-                <h2 className="text-4xl font-black text-white font-display">
-                  {currentLesson.title}
-                </h2>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-4xl font-black text-white font-display">
+                    {currentLesson.title}
+                  </h2>
+                  <button
+                    onClick={() => handleToggleProgress(currentLesson, !completedLessonIds.has(currentLesson.id))}
+                    className={cn(
+                      "px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3",
+                      completedLessonIds.has(currentLesson.id)
+                        ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20"
+                        : "bg-white/10 text-white hover:bg-white/20"
+                    )}
+                  >
+                    {completedLessonIds.has(currentLesson.id) ? <CheckCircle2 size={16} /> : <PlayCircle size={16} />}
+                    {completedLessonIds.has(currentLesson.id) ? 'Concluída' : 'Marcar como Concluída'}
+                  </button>
+                </div>
                 <p className="text-xl text-white/60 leading-relaxed">
                   {currentLesson.description}
                 </p>
@@ -275,6 +325,7 @@ export function LessonPlayerPage({ courseId, onBack, userId }: LessonPlayerPageP
                           currentLessonId={currentLesson?.id || null}
                           completedLessonIds={completedLessonIds}
                           onSelectLesson={setCurrentLesson}
+                          onToggleProgress={handleToggleProgress}
                         />
                       </motion.div>
                     )}

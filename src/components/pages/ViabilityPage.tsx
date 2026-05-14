@@ -16,7 +16,6 @@ import {
   ComposedChart
 } from 'recharts';
 import { PageHeader, StatusBadge } from '../Common';
-import { DATA } from '../../data';
 import { formatCurrency, calculateVPL, calculateTIR, calculatePayback, cn } from '../../lib/utils';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
@@ -245,17 +244,16 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
 
   useEffect(() => {
     if (!selectedClient) {
-      setProjects(DATA.viabilidade);
+      setProjects([]);
       return;
     }
     const q = query(collection(db, 'viability_projects'), where('cl', '==', selectedClient));
     getDocs(q).then(snap => {
-      const dataProjects = DATA.viabilidade.filter((v: any) => v.cl === selectedClient);
       if (!snap.empty) {
         const docs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setProjects([...docs, ...dataProjects]);
+        setProjects(docs);
       } else {
-        setProjects(dataProjects);
+        setProjects([]);
       }
     });
   }, [selectedClient]);

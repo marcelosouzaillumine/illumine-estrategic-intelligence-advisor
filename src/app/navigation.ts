@@ -101,7 +101,7 @@ export type Page =
   | 'governanca_estrategica'
   | 'planejamento_estrategico'
   | 'relatorio_executivo'
-  | 'inteligencia_sacerdotal'
+  | 'inteligencia_governanca'
   | 'dashboard_marketing'
   | 'dashboard_comercial'
   | 'dashboard_cultura'
@@ -115,13 +115,20 @@ export type Page =
   | 'academy_course'
   | 'academy_player'
   | 'academy_admin'
-  | 'academy_admin_course';
+  | 'academy_admin_course'
+  | 'maintenance'
+  | 'adm_root'
+  | 'contabil_root'
+  | 'financeira_root'
+  | 'inteligencia_sistemica'
+  | 'estrutura_governanca';
 
 export interface NavigationItem {
   id: Page;
   label: string;
   icon: LucideIcon;
   isNew?: boolean;
+  masterOnly?: boolean;
   children?: NavigationItem[];
 }
 
@@ -140,12 +147,34 @@ export const DEFAULT_OPEN_SUBMENUS: Record<string, boolean> = {
   'Dashboard': true,
 };
 
-export const NAVIGATION_GROUPS: NavigationGroup[] = [
+const sortNavItems = (items: NavigationItem[]): NavigationItem[] => {
+  return [...items]
+    .map(item => ({
+      ...item,
+      children: item.children ? sortNavItems(item.children) : undefined
+    }))
+    .sort((a, b) => {
+      // "Visão Consolidada" (portfolio) always first if it exists in the group
+      if (a.id === 'portfolio') return -1;
+      if (b.id === 'portfolio') return 1;
+
+      const isADashboard = a.label.toLowerCase().includes('dashboard');
+      const isBDashboard = b.label.toLowerCase().includes('dashboard');
+
+      if (isADashboard && !isBDashboard) return -1;
+      if (!isADashboard && isBDashboard) return 1;
+
+      return a.label.localeCompare(b.label, 'pt-BR');
+    });
+};
+
+const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
   {
     group: 'Dashboard',
     icon: LayoutGrid,
     items: [
-      { id: 'portfolio', label: 'Visão Consolidada', icon: Globe },
+      { id: 'portfolio', label: 'Visão Consolidada', icon: Globe, masterOnly: true },
+      { id: 'inteligencia_sistemica', label: 'Inteligência Sistêmica', icon: Cpu, isNew: true },
       { id: 'dashboard', label: 'Monitoramento Estratégico', icon: LayoutDashboard },
       { id: 'indicadores', label: 'Análise de KPIs', icon: TrendingUp },
     ],
@@ -167,8 +196,9 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'advisory_insights', label: 'Conselho Estratégia CFO', icon: Presentation },
       { id: 'controladoria_estrategica', label: 'Controladoria Estratégica', icon: Scale },
       { id: 'diagnostico', label: 'Diagnóstico & IVE', icon: Activity },
+      { id: 'estrutura_governanca', label: 'Estrutura de Governança', icon: Users },
       { id: 'diretrizes', label: 'Identidade & Diretrizes', icon: Compass },
-      { id: 'inteligencia_sacerdotal', label: 'Inteligência Sacerdotal', icon: Cpu },
+      { id: 'inteligencia_governanca', label: 'Inteligência de Governança', icon: Cpu },
       { id: 'planejamento_estrategico', label: 'Planejamento Estratégico', icon: Globe },
       { id: 'relatorio_executivo', label: 'Relatório Executivo', icon: ClipboardList },
       { id: 'valuation', label: 'Valuation Business', icon: BarChart3 },
@@ -187,6 +217,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Administração e Finanças',
     icon: Landmark,
     items: [
+      { id: 'dashboard_gestao', label: 'Dashboard de Gestão', icon: LayoutDashboard },
       { 
         id: 'adm_root' as any,
         label: 'Administração',
@@ -204,11 +235,9 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
           { id: 'dfc', label: 'DFC Contábil', icon: WalletCards },
           { id: 'dlpa', label: 'DLPA Contábil', icon: Scale },
           { id: 'dre', label: 'DRE Contábil', icon: FileText },
-          { id: 'tax_reform_impact', label: 'Impacto Reforma Tributária', icon: Percent },
           { id: 'plano_contas', label: 'Plano Contas Contabilidade', icon: List },
         ]
       },
-      { id: 'dashboard_gestao', label: 'Dashboard de Gestão', icon: LayoutDashboard },
       { 
         id: 'financeira_root' as any, 
         label: 'Finanças', 
@@ -219,6 +248,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
           { id: 'modelagem', label: 'Engenharia Financeira', icon: LayoutGrid },
           { id: 'caixa', label: 'Fluxo de Caixa Consolidado', icon: CircleDollarSign },
           { id: 'contas_pagar', label: 'Fluxo de Contas a Pagar', icon: CreditCard },
+          { id: 'tax_reform_impact', label: 'Simulador de Impacto Tributário', icon: Percent },
           { id: 'ativos_financeiros', label: 'Gestão de Ativos Financeiros', icon: WalletCards, isNew: true },
           { id: 'contas_receber', label: 'Gestão de Contas a Receber', icon: ArrowUpRight },
           { id: 'emprestimos', label: 'Gestão de Passivos', icon: WalletCards },
@@ -267,23 +297,29 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     ],
   },
   {
-    group: 'Educação',
+    group: 'Academia da Illumine',
     icon: BookOpen,
     items: [
-      { id: 'academy_home', label: 'Academia da Illumine', icon: Presentation },
-      { id: 'academy_admin', label: 'Gestão da Academia', icon: Settings2 },
+      { id: 'academy_home', label: 'Trilha do Conhecimento', icon: Presentation },
+      { id: 'academy_admin', label: 'Gestão da Academia', icon: Settings2, masterOnly: true },
     ],
   },
   {
     group: 'Configurações',
     icon: Settings,
     items: [
+      { id: 'mensagens', label: 'Mensagens e Comunicados', icon: Bell },
       { id: 'perfil_usuario', label: 'Gestão de Perfil', icon: Users },
+      { id: 'maintenance', label: 'Manutenção de Dados', icon: HardDrive },
       { id: 'configuracoes_sistema', label: 'Preferências do Sistema', icon: Settings },
-      { id: 'mensagens', label: 'Central de Mensagens & Novidades', icon: Bell },
     ],
   },
 ];
+
+export const NAVIGATION_GROUPS: NavigationGroup[] = RAW_NAVIGATION_GROUPS.map(group => ({
+  ...group,
+  items: sortNavItems(group.items)
+}));
 
 const flattenItems = (items: NavigationItem[]): NavigationItem[] => {
   return items.reduce((acc, item) => {

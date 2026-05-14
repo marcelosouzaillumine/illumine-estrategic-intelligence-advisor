@@ -157,7 +157,7 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                  <Activity size={32} />
                </div>
                <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Integração de Dados em Tempo Real</p>
-               <p className="text-slate-300 text-[9px] font-bold uppercase tracking-widest">Sincronizado via Sacerdotal Intelligence</p>
+               <p className="text-slate-300 text-[9px] font-bold uppercase tracking-widest">Sincronizado via Governança Intelligence</p>
             </div>
          </div>
 
@@ -174,11 +174,7 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                </div>
 
                <div className="space-y-10 flex-1">
-                  {[
-                    { title: "Transformação Digital Setorial", desc: "Adoção acelerada de serviços digitais no segmento premium abre espaço para novo modelo de assinatura recorrente.", icon: Zap },
-                    { title: "Dinâmica de Concorrência", desc: "Redução de investimentos em logística por grandes players nacionais cria gap para expansão regional agressiva.", icon: Target },
-                    { title: "Compliance & ESG", desc: "Novas diretrizes de sustentabilidade entrarão em vigor no próximo ciclo; antecipação gera diferencial de marca.", icon: Layers }
-                  ].map((insight, i) => (
+                  {[].map((insight: any, i: number) => (
                     <div key={i} className="group cursor-default flex gap-6">
                        <div className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-primary transition-all duration-500 shadow-lg shrink-0">
                           {(() => {

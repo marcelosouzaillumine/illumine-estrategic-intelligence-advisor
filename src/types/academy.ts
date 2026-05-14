@@ -48,6 +48,7 @@ export interface Course {
 export interface UserProgress {
   id: string;
   userId: string;
+  clientId: string;
   courseId: string;
   moduleId: string;
   lessonId: string;
@@ -60,6 +61,7 @@ export interface UserProgress {
 export interface Enrollment {
   id: string;
   userId: string;
+  clientId: string;
   courseId: string;
   enrolledAt: any;
   status: 'active' | 'completed' | 'inactive';

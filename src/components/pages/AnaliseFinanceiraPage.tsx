@@ -58,11 +58,8 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
   const { dbData: dbDre, loading: loadingDre } = useFinancialData(filterClient, year, month, 'DRE');
   const { dbData: dbBp, loading: loadingBp } = useFinancialData(filterClient, year, month, 'BP');
 
-  const mockDre = DATA.dre.filter(d => (d as any).id === filterClient && (d as any).mes === month && (d as any).ano === year);
-  const mockBp = DATA.bp.filter(b => (b as any).id === filterClient && (b as any).mes === month && (b as any).ano === year);
-
-  const currentDre = dbDre.length > 0 ? dbDre : mockDre.map(d => ({ category: d.conta, value: d.valor }));
-  const currentBp = dbBp.length > 0 ? dbBp : mockBp.map(b => ({ category: b.conta, value: b.val }));
+  const currentDre = dbDre.length > 0 ? dbDre : [];
+  const currentBp = dbBp.length > 0 ? dbBp : [];
 
   const getVal = (data: any[], name: string) => data.find(d => d.category === name)?.value || 0;
 
@@ -85,16 +82,16 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
   
   const costOfEquity = 0.15;
   const costOfDebt = 0.12;
-  const wacc = investedCapital > 0 ? ((pl / investedCapital) * costOfEquity + (pnc / investedCapital) * costOfDebt) * 100 : 13.5;
-  const eva = (investedCapital * (roic - wacc) / 100);
-  const dscr = (pnc > 0) ? (ebitda / (pnc / 12)) : 5;
+  const wacc = investedCapital > 0 ? ((pl / investedCapital) * costOfEquity + (pnc / investedCapital) * costOfDebt) * 100 : 0;
+  const eva = investedCapital > 0 ? (investedCapital * (roic - wacc) / 100) : 0;
+  const dscr = (pnc > 0) ? (ebitda / (pnc / 12)) : 0;
 
   const totalThirdParty = pc + pnc;
   const ct = totalThirdParty > 0 ? (pc / totalThirdParty) * 100 : 0;
   const ce = totalThirdParty > 0 ? (pnc / totalThirdParty) * 100 : 0;
   const impl = pl > 0 ? (totalThirdParty / pl) * 100 : 0;
   const irpc = totalThirdParty > 0 ? (pc / totalThirdParty) * 100 : 0;
-  const gaf = (pl > 0 && lucro > 0) ? ((ebitda) / (lucro)) : 1;
+  const gaf = (pl > 0 && lucro > 0) ? ((ebitda) / (lucro)) : 0;
 
   const metrics = [
     { label: 'Criação de Valor (EVA)', value: formatCurrency(eva), sem: eva > 0 ? 'Verde' : 'Vermelho', sub: eva > 0 ? '+ Cap. Gerado' : '- Cap. Destruído' },
@@ -179,7 +176,11 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
           <div>
             <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight de Capital</h3>
             <p className="executive-note">
-              "A estrutura de capital atual apresenta um spread de ROIC/WACC de {(roic - wacc).toFixed(1)}%. Com a criação de valor (EVA) em {formatCurrency(eva)}, a empresa está gerando riqueza real para os acionistas. Recomendamos avaliar a otimização do perfil da dívida para reduzir o custo médio ponderado e ampliar a margem de segurança financeira."
+              {eva !== 0 ? (
+                `"A estrutura de capital atual apresenta um spread de ROIC/WACC de ${(roic - wacc).toFixed(1)}%. Com a criação de valor (EVA) em ${formatCurrency(eva)}, a empresa está gerando riqueza real para os acionistas. Recomendamos avaliar a otimização do perfil da dívida para reduzir o custo médio ponderado e ampliar a margem de segurança financeira."`
+              ) : (
+                "Aguardando dados financeiros consolidados para análise de spread ROIC/WACC e geração de valor econômico (EVA). A análise estratégica será habilitada após a primeira importação de balanço e DRE."
+              )}
             </p>
           </div>
         </div>
@@ -315,8 +316,8 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
           {[
             { name: 'Giro do Ativo', val: (receita / ativoTotal).toFixed(2), unit: 'x', icon: ArrowRightLeft, desc: 'Eficiência de Uso' },
             { name: 'Giro Estoque', val: (receita * 0.4 / (est || 1)).toFixed(1), unit: 'dias', icon: LayoutDashboard, desc: 'Renovação Média' },
-            { name: 'Ciclo Operacional', val: '72', unit: 'dias', icon: Zap, desc: 'Tempo Total' },
-            { name: 'Ciclo Financeiro', val: '45', unit: 'dias', icon: Target, desc: 'Nec. Capital' }
+            { name: 'Ciclo Operacional', val: currentDre.length > 0 ? '72' : '—', unit: 'dias', icon: Zap, desc: 'Tempo Total' },
+            { name: 'Ciclo Financeiro', val: currentDre.length > 0 ? '45' : '—', unit: 'dias', icon: Target, desc: 'Nec. Capital' }
           ].map((item, idx) => (
             <div key={idx} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex flex-col items-center text-center group hover:border-secondary/20 transition-all">
               <div className="p-3 bg-slate-50 rounded-2xl text-slate-400 group-hover:bg-secondary/10 group-hover:text-secondary transition-all mb-4">

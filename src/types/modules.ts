@@ -1,6 +1,6 @@
 
-export type EixoGestao = 'Governança Corporativa' | 'Cultura Organizacional' | 'Administração e Finanças' | 'Gestão de Inovação' | 'Gestão de Marketing' | 'Gestão Comercial' | 'Gestão Operacional';
-export type PermissaoModulo = 'Dashboard' | 'Cadastro' | 'Governança Corporativa' | 'Cultura Organizacional' | 'Gestão de Inovação' | 'Gestão Comercial' | 'Gestão Operacional' | 'Administração e Finanças' | 'Gestão de Marketing' | 'Configurações';
+export type EixoGestao = 'Governança Corporativa' | 'Cultura Organizacional' | 'Gestão Administrativa e Financeira' | 'Gestão de Inovação' | 'Gestão de Marketing' | 'Gestão Comercial' | 'Gestão Operacional';
+export type PermissaoModulo = 'Dashboard' | 'Dados de Cadastro' | 'Governança Corporativa' | 'Cultura Organizacional' | 'Administração e Finanças' | 'Gestão de Inovação' | 'Gestão de Marketing' | 'Gestão Comercial' | 'Gestão Operacional' | 'Academia da Illumine' | 'Configurações';
 
 export interface Diretriz {
   id?: string;

@@ -10,12 +10,11 @@ import { useModuleData } from '../../hooks/useModuleData';
 import { DiagnosticoItem, ObjetivoOKR, EixoGestao, ClassificacaoSWOT, TipoRisco, Gravidade, Urgencia, Tendencia, ImpactoFinanceiro } from '../../types/modules';
 import { cn } from '../../lib/utils';
 import { SectionHeader, PageHeader } from '../Common';
-import { SACERDOTAL_PRINCIPLES } from '../../lib/sacerdotalIntelligence';
-
-import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
+import { GOVERNANCE_PRINCIPLES } from '../../lib/governanceIntelligence';
+import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
 
 const EIXOS: EixoGestao[] = [
-  'Governança Corporativa', 'Cultura Organizacional', 'Administração e Finanças', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
+  'Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
 ];
 
 interface DiagnosticoPageProps {
@@ -473,10 +472,10 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
                 </div>
               )}
 
-              {/* Sacerdotal Badge */}
+              {/* Governance Badge */}
               <div className="mt-4 pt-4 border-t border-slate-100">
-                <SacerdotalInsightPanel 
-                  principleId={SACERDOTAL_PRINCIPLES.find(p => p.axis === item.eixo)?.id || 'gov_1'} 
+                <GovernanceInsightPanel 
+                  principleId={GOVERNANCE_PRINCIPLES.find(p => p.axis === item.eixo)?.id || 'gov_1'} 
                   compact 
                 />
               </div>

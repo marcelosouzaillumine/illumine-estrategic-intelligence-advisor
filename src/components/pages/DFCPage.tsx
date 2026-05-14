@@ -15,7 +15,6 @@ import {
   PieChart,
   Pie
 } from 'recharts';
-import { DATA } from '../../data';
 import { cn, formatCurrency } from '../../lib/utils';
 import { PageHeader } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -57,36 +56,9 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   const dbData = dbDataDFC;
   const docIds = docIdsDFC;
 
-  // ── Processamento de Dados ────────────────────────────────────────────────
   const rows = useMemo(() => {
-    if (dbData.length > 0) {
-      // Agrega dados se houver múltiplos lançamentos
-      const aggregated: any = {};
-      dbData.forEach((d: any) => {
-        const key = d.conta || d.category;
-        if (!aggregated[key]) {
-          aggregated[key] = { ...d, val: 0 };
-        }
-        aggregated[key].val += (d.val || d.valor || 0);
-      });
-      return Object.values(aggregated);
-    }
-    
-    // Fallback para mock
-    // DFC é derivado da DRE no mock simplificado
-    const mockDre = DATA.dre.filter((d: any) => d.id === selectedClient && d.ano === filterYear);
-    const lucro = mockDre.find(d => d.conta === 'Lucro Líquido')?.valor || 0;
-    const dep   = Math.abs(mockDre.find(d => d.conta === 'Depreciação e Amortização')?.valor || 0);
-
-    return [
-      { conta: 'Lucro Líquido do Exercício', val: lucro, type: 'Operacional' },
-      { conta: 'Ajuste: Depreciação e Amortização', val: dep, type: 'Operacional' },
-      { conta: 'Caixa Líquido das Atividades Operacionais', val: lucro + dep, type: 'Operacional', isSubTotal: true },
-      { conta: 'Caixa Líquido das Atividades de Investimento', val: 0, type: 'Investimento', isSubTotal: true },
-      { conta: 'Caixa Líquido das Atividades de Financiamento', val: 0, type: 'Financiamento', isSubTotal: true },
-      { conta: 'Aumento / Redução de Caixa', val: lucro + dep, type: 'Resumo', isTotal: true },
-    ];
-  }, [dbData, selectedClient, filterYear]);
+    return dbData;
+  }, [dbData]);
 
   const getValue = (source: any[], name: string) => {
     const search = name.toLowerCase();
@@ -118,10 +90,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
         i = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('investimento')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
         f = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('financiamento')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
       } else {
-        const mockDre = DATA.dre.filter((d: any) => d.id === selectedClient && d.ano === y);
-        const l = mockDre.find(d => d.conta === 'Lucro Líquido')?.valor || 0;
-        const d = Math.abs(mockDre.find(d => d.conta === 'Depreciação e Amortização')?.valor || 0);
-        o = l + d;
+        o = 0; i = 0; f = 0;
       }
 
       return {

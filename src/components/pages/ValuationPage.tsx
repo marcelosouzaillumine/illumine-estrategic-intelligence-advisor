@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Calculator, Loader2, TrendingUp, Zap, BarChart3, Calendar } from 'lucide-react';
 import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
-import { DATA } from '../../data';
 import { useFinancialData } from '../../hooks/useFinancialData';
 
 export function ValuationPage({ clients, selectedClient, selectedYear, selectedMonth }: any) {
@@ -18,12 +17,6 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
   }, [selectedYear, selectedMonth]);
 
   const { dbData, loading } = useFinancialData(selectedClient, year, month, 'DRE');
-  
-  const mockDre = DATA.dre.filter(d => (d as any).id === selectedClient && (d as any).ano === year);
-  const monthsInMock = new Set(mockDre.map(d => (d as any).mes)).size || 1;
-  
-  const mockTotalRevenue = mockDre.filter(d => d.conta === 'Receita Líquida').reduce((acc, curr) => acc + curr.valor, 0);
-  const mockTotalEbitda = mockDre.filter(d => d.conta === 'EBITDA').reduce((acc, curr) => acc + curr.valor, 0);
   
   const hasDbData = dbData.length > 0;
   
@@ -90,7 +83,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
             <div className="px-6 py-3.5 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm flex items-center gap-3">
               {loading && <Loader2 size={14} className="animate-spin text-secondary" />}
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-                {hasDbData ? 'Dados Reais' : 'Amostra'}
+                {hasDbData ? 'Dados Reais' : 'Sem Dados'}
               </span>
             </div>
           </div>

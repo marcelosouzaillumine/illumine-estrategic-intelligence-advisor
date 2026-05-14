@@ -44,7 +44,7 @@ import { DesenvolvimentoHumanoPage } from '../components/pages/DesenvolvimentoHu
 import { PlanoEstrategicoGlobalPage } from '../components/pages/PlanoEstrategicoGlobalPage';
 import { CompliancePage } from '../components/pages/CompliancePage';
 import { AnaliseMercadoPage } from '../components/pages/AnaliseMercadoPage';
-import { InteligenciaSacerdotalPage } from '../components/pages/InteligenciaSacerdotalPage';
+import { InteligenciaGovernancaPage } from '../components/pages/InteligenciaGovernancaPage';
 import { AxisDashboardPage } from '../components/pages/AxisDashboardPage';
 import { ProfilePage } from '../components/pages/ProfilePage';
 import { PreferencesPage } from '../components/pages/PreferencesPage';
@@ -53,6 +53,10 @@ import { AcademyHomePage } from '../components/pages/academy/AcademyHomePage';
 import { CourseDetailsPage } from '../components/pages/academy/CourseDetailsPage';
 import { LessonPlayerPage } from '../components/pages/academy/LessonPlayerPage';
 import { AdminAcademyDashboard } from '../components/pages/academy/AdminAcademyDashboard';
+import { AcademyAdminCoursePage } from '../components/pages/academy/AcademyAdminCoursePage';
+import { EstruturaGovernancaPage } from '../components/pages/EstruturaGovernancaPage';
+import { MaintenancePage } from '../components/pages/MaintenancePage';
+import { SystemicIntelligencePage } from '../components/pages/SystemicIntelligencePage';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -124,7 +128,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <FinancialPositionPage clients={clients} selectedClient={selectedClient} />;
   }
   if (currentPage === 'ativos_financeiros') {
-    return <AssetManagementPage clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
+    return <AssetManagementPage clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
   }
   if (currentPage === 'contas_pagar') {
     return <PayablesPage clients={clients} selectedClient={selectedClient} />;
@@ -159,11 +163,14 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'relatorio_executivo') {
     return <RelatorioExecutivoPage clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
   }
+  if (currentPage === 'estrutura_governanca') {
+    return <EstruturaGovernancaPage clientId={selectedClient} />;
+  }
   if (currentPage === 'plano_acao') {
     return <PlanoAcaoPage clients={clients} selectedClient={selectedClient} />;
   }
   if (currentPage === 'tax_reform_impact') {
-    return <TaxReformImpactPage clients={clients} selectedClient={selectedClient} />;
+    return <TaxReformImpactPage clientId={selectedClient} selectedYear={selectedYear} />;
   }
   if (currentPage === 'simulador_capital') {
     return <LoanInvestmentSimPage clientId={selectedClient} />;
@@ -238,8 +245,11 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'analise_mercado') {
     return <AnaliseMercadoPage clientId={selectedClient} />;
   }
-  if (currentPage === 'inteligencia_sacerdotal') {
-    return <InteligenciaSacerdotalPage clientId={selectedClient} />;
+  if (currentPage === 'inteligencia_governanca') {
+    return <InteligenciaGovernancaPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'inteligencia_sistemica') {
+    return <SystemicIntelligencePage clientId={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
   }
   if (currentPage === 'dashboard_marketing') {
     return <AxisDashboardPage axis="Gestão de Marketing" clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
@@ -267,7 +277,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     );
   }
   if (currentPage === 'dashboard_gestao') {
-    return <AxisDashboardPage axis="Administração e Finanças" clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
+    return <AxisDashboardPage axis="Gestão Administrativa e Financeira" clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
   }
   if (currentPage === 'perfil_usuario') {
     return <ProfilePage user={user} />;
@@ -300,17 +310,30 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <LessonPlayerPage 
       courseId={academyCourseId} 
       userId={user?.uid || ''}
+      clientId={selectedClient}
       onBack={() => setCurrentPage('academy_home')}
     />;
   }
   if (currentPage === 'academy_admin') {
     return <AdminAcademyDashboard 
-      onCreateCourse={() => setCurrentPage('academy_admin_course')}
+      onCreateCourse={() => {
+        setAcademyCourseId('');
+        setCurrentPage('academy_admin_course');
+      }}
       onEditCourse={(id) => {
         setAcademyCourseId(id);
         setCurrentPage('academy_admin_course');
       }}
     />;
+  }
+  if (currentPage === 'academy_admin_course') {
+    return <AcademyAdminCoursePage 
+      courseId={academyCourseId} 
+      onBack={() => setCurrentPage('academy_admin')}
+    />;
+  }
+  if (currentPage === 'maintenance') {
+    return <MaintenancePage clients={clients} />;
   }
 
   return null;

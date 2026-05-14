@@ -30,31 +30,29 @@ interface PlanejamentoEstrategicoPageProps {
 
 export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategicoPageProps) {
   const { data: okrs, loading } = useModuleData<ObjetivoOKR>('okrs', clientId);
+  const hasData = okrs && okrs.length > 0;
 
   const axes = [
-    { id: 'gov', title: 'Governança Corporativa', icon: ShieldCheck, color: 'text-blue-500', bg: 'bg-blue-50/50', status: 85, goals: 12 },
-    { id: 'cul', title: 'Cultura Organizacional', icon: Users, color: 'text-rose-500', bg: 'bg-rose-50/50', status: 72, goals: 8 },
-    { id: 'ges', title: 'Administração e Finanças', icon: TrendingUp, color: 'text-slate-700', bg: 'bg-slate-100/50', status: 95, goals: 20 },
-    { id: 'ino', title: 'Gestão de Inovação', icon: Lightbulb, color: 'text-amber-500', bg: 'bg-amber-50/50', status: 45, goals: 15 },
-    { id: 'mkt', title: 'Gestão de Marketing', icon: Globe, color: 'text-indigo-500', bg: 'bg-indigo-50/50', status: 60, goals: 6 },
-    { id: 'com', title: 'Gestão Comercial', icon: ShoppingBag, color: 'text-emerald-500', bg: 'bg-emerald-50/50', status: 90, goals: 10 },
-    { id: 'ope', title: 'Gestão Operacional', icon: Settings, color: 'text-orange-500', bg: 'bg-orange-50/50', status: 88, goals: 14 }
+    { id: 'gov', title: 'Governança Corporativa', icon: ShieldCheck, color: 'text-blue-500', bg: 'bg-blue-50/50', status: hasData ? 85 : 0, goals: okrs?.filter(o => o.eixo === 'Governança Corporativa').length || 0 },
+    { id: 'cul', title: 'Cultura Organizacional', icon: Users, color: 'text-rose-500', bg: 'bg-rose-50/50', status: hasData ? 72 : 0, goals: okrs?.filter(o => o.eixo === 'Cultura Organizacional').length || 0 },
+    { id: 'ges', title: 'Administração e Finanças', icon: TrendingUp, color: 'text-slate-700', bg: 'bg-slate-100/50', status: hasData ? 95 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão Administrativa e Financeira').length || 0 },
+    { id: 'ino', title: 'Gestão de Inovação', icon: Lightbulb, color: 'text-amber-500', bg: 'bg-amber-50/50', status: hasData ? 45 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão de Inovação').length || 0 },
+    { id: 'mkt', title: 'Gestão de Marketing', icon: Globe, color: 'text-indigo-500', bg: 'bg-indigo-50/50', status: hasData ? 60 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão de Marketing').length || 0 },
+    { id: 'com', title: 'Gestão Comercial', icon: ShoppingBag, color: 'text-emerald-500', bg: 'bg-emerald-50/50', status: hasData ? 90 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão Comercial').length || 0 },
+    { id: 'ope', title: 'Gestão Operacional', icon: Settings, color: 'text-orange-500', bg: 'bg-orange-50/50', status: hasData ? 88 : 0, goals: okrs?.filter(o => o.eixo === 'Gestão Operacional').length || 0 }
   ];
 
-  // Logic to calculate progress from OKRs or fallback
+  // Logic to calculate progress from OKRs
   const strategicData = useMemo(() => {
-    if (!okrs || okrs.length === 0) {
+    const hasData = okrs && okrs.length > 0;
+    
+    if (!hasData) {
       return {
-        overallProgress: 78,
-        plannedProgress: 85,
-        gapsCount: 4,
-        criticalCount: 2,
-        objectives: [
-          { label: 'Reestruturação Financeira', axis: 'Administração e Finanças', planned: 100, executed: 100, status: 'Concluído', gap: 'Nenhum' },
-          { label: 'Expansão de Mercado Norte', axis: 'Gestão Comercial', planned: 80, executed: 65, status: 'Em Curso', gap: 'Logística de distribuição lenta' },
-          { label: 'Novo Programa de Trainee', axis: 'Cultura Organizacional', planned: 60, executed: 30, status: 'Atrasado', gap: 'Retenção de talentos baixa' },
-          { label: 'Migração Cloud 2.0', axis: 'Gestão Operacional', planned: 90, executed: 85, status: 'Finalizando', gap: 'Latência em servidores legados' }
-        ]
+        overallProgress: 0,
+        plannedProgress: 0,
+        gapsCount: 0,
+        criticalCount: 0,
+        objectives: []
       };
     }
 
@@ -63,16 +61,16 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
 
     return {
       overallProgress: Math.round(totalProgress),
-      plannedProgress: 85, // Target usually fixed for the quarter
+      plannedProgress: 100, // Target usually 100% for execution
       gapsCount: gaps,
       criticalCount: okrs.filter(o => (o.progressoGeral || 0) < 30).length,
       objectives: okrs.map(o => ({
         label: o.titulo,
         axis: o.eixo,
-        planned: 100, // In OKR context, the goal is always 100% of the target
+        planned: 100,
         executed: Math.round(o.progressoGeral || 0),
         status: (o.progressoGeral || 0) >= 100 ? 'Concluído' : (o.progressoGeral || 0) >= 50 ? 'Em Curso' : 'Atrasado',
-        gap: (o.progressoGeral || 0) < 50 ? 'Desvio detectado na execução' : 'Nenhum'
+        gap: (o.progressoGeral || 0) < 50 ? 'Desvio detectado' : 'Nenhum'
       }))
     };
   }, [okrs]);
@@ -209,107 +207,109 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
         ))}
       </div>
 
-      {/* Planned vs Executed Detailed Analysis */}
-      <div className="bg-slate-900 rounded-[40px] p-12 text-white shadow-2xl relative overflow-hidden">
-         <div className="absolute right-0 top-0 p-12 text-secondary/5 opacity-10">
-            <BarChart3 size={320} strokeWidth={1} />
-         </div>
-         
-         <div className="relative z-10 space-y-12">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
-               <div className="max-w-2xl">
-                  <h4 className="text-sm font-black text-secondary uppercase tracking-[0.3em] mb-4">Análise de Execução & Gaps Estratégicos</h4>
-                  <p className="text-slate-400 text-sm font-medium leading-relaxed">
-                    Visualização detalhada do desvio entre o planejamento teórico e a realidade operacional. 
-                    Foco na identificação de gargalos que impedem a tração das iniciativas.
-                  </p>
-               </div>
-               <div className="flex gap-6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded bg-white/20" />
-                    <span className="text-[10px] font-black uppercase text-slate-400">Planejado</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded bg-blue-400" />
-                    <span className="text-[10px] font-black uppercase text-slate-400">Executado</span>
-                  </div>
-               </div>
-            </div>
-
-            <div className="space-y-10">
-               {strategicData.objectives.map((task, i) => (
-                 <div key={i} className="group relative">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-                       <div className="space-y-1">
-                          <div className="flex items-center gap-3">
-                             <span className="text-secondary text-[10px] font-black uppercase tracking-widest">{task.axis}</span>
-                             <span className="w-1 h-1 rounded-full bg-white/20" />
-                             <span className="text-white font-black text-sm">{task.label}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                             <span className="text-[10px] font-bold text-slate-500 uppercase">Gap Analysis:</span>
-                             <span className={cn(
-                               "text-[10px] font-black uppercase",
-                               task.gap === 'Nenhum' ? "text-emerald-400" : "text-rose-400"
-                             )}>{task.gap}</span>
-                          </div>
-                       </div>
-                       <div className="flex items-center gap-6">
-                          <div className="text-right">
-                             <span className="text-[9px] font-black text-slate-500 uppercase block">Status</span>
-                             <span className={cn(
-                               "text-[10px] font-black uppercase tracking-widest",
-                               task.status === 'Concluído' ? "text-emerald-400" :
-                               task.status === 'Atrasado' ? "text-rose-400" : "text-amber-400"
-                             )}>{task.status}</span>
-                          </div>
-                          <div className="text-right">
-                             <span className="text-[9px] font-black text-slate-500 uppercase block">Execução</span>
-                             <span className="text-lg font-black text-white">{task.executed}%</span>
-                          </div>
-                       </div>
+      {/* Planned vs Executed Detailed Analysis - Hidden if no data */}
+      {hasData && (
+        <div className="bg-slate-900 rounded-[40px] p-12 text-white shadow-2xl relative overflow-hidden">
+           <div className="absolute right-0 top-0 p-12 text-secondary/5 opacity-10">
+              <BarChart3 size={320} strokeWidth={1} />
+           </div>
+           
+           <div className="relative z-10 space-y-12">
+              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+                 <div className="max-w-2xl">
+                    <h4 className="text-sm font-black text-secondary uppercase tracking-[0.3em] mb-4">Análise de Execução & Gaps Estratégicos</h4>
+                    <p className="text-slate-400 text-sm font-medium leading-relaxed">
+                      Visualização detalhada do desvio entre o planejamento teórico e a realidade operacional. 
+                      Foco na identificação de gargalos que impedem a tração das iniciativas.
+                    </p>
+                 </div>
+                 <div className="flex gap-6">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded bg-white/20" />
+                      <span className="text-[10px] font-black uppercase text-slate-400">Planejado</span>
                     </div>
-                    
-                    <div className="relative h-3 bg-white/5 rounded-full overflow-hidden">
-                       {/* Planned Track (Background ghost) */}
-                       <div 
-                         className="absolute inset-0 bg-white/10 opacity-30 transition-all duration-1000"
-                         style={{ width: `${task.planned}%` }}
-                       />
-                       {/* Executed Track */}
-                       <motion.div 
-                         initial={{ width: 0 }}
-                         animate={{ width: `${task.executed}%` }}
-                         className={cn(
-                           "absolute inset-0 h-full rounded-full transition-all duration-1000 shadow-[0_0_20px_rgba(56,189,248,0.3)]",
-                           task.status === 'Concluído' ? "bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]" :
-                           task.status === 'Atrasado' ? "bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.3)]" : "bg-blue-400"
-                         )}
-                       />
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded bg-blue-400" />
+                      <span className="text-[10px] font-black uppercase text-slate-400">Executado</span>
                     </div>
                  </div>
-               ))}
-            </div>
-            
-            {/* Action Items Recommendation */}
-            <div className="mt-12 p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-xl">
-               <div className="flex items-center gap-3 mb-6">
-                  <Lightbulb className="text-secondary" size={20} />
-                  <h5 className="text-xs font-black uppercase tracking-widest">Recomendações do Advisor AI</h5>
-               </div>
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-2">
-                     <p className="text-[10px] font-black text-slate-500 uppercase">Foco de Atenção</p>
-                     <p className="text-sm text-slate-300">O eixo de <span className="text-rose-400 font-bold">Gestão de Inovação</span> apresenta o maior desvio (45% vs 85% planejado). Recomenda-se revisão imediata do cronograma de P&D.</p>
-                  </div>
-                  <div className="space-y-2">
-                     <p className="text-[10px] font-black text-slate-500 uppercase">Oportunidade</p>
-                     <p className="text-sm text-slate-300">A <span className="text-emerald-400 font-bold">Administração e Finanças</span> está operando acima da meta, liberando margem intelectual para suporte aos demais eixos.</p>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
+              </div>
+
+              <div className="space-y-10">
+                 {strategicData.objectives.map((task, i) => (
+                   <div key={i} className="group relative">
+                      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                         <div className="space-y-1">
+                            <div className="flex items-center gap-3">
+                               <span className="text-secondary text-[10px] font-black uppercase tracking-widest">{task.axis}</span>
+                               <span className="w-1 h-1 rounded-full bg-white/20" />
+                               <span className="text-white font-black text-sm">{task.label}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                               <span className="text-[10px] font-bold text-slate-500 uppercase">Gap Analysis:</span>
+                               <span className={cn(
+                                 "text-[10px] font-black uppercase",
+                                 task.gap === 'Nenhum' ? "text-emerald-400" : "text-rose-400"
+                               )}>{task.gap}</span>
+                            </div>
+                         </div>
+                         <div className="flex items-center gap-6">
+                            <div className="text-right">
+                               <span className="text-[9px] font-black text-slate-500 uppercase block">Status</span>
+                               <span className={cn(
+                                 "text-[10px] font-black uppercase tracking-widest",
+                                 task.status === 'Concluído' ? "text-emerald-400" :
+                                 task.status === 'Atrasado' ? "text-rose-400" : "text-amber-400"
+                               )}>{task.status}</span>
+                            </div>
+                            <div className="text-right">
+                               <span className="text-[9px] font-black text-slate-500 uppercase block">Execução</span>
+                               <span className="text-lg font-black text-white">{task.executed}%</span>
+                            </div>
+                         </div>
+                      </div>
+                      
+                      <div className="relative h-3 bg-white/5 rounded-full overflow-hidden">
+                         {/* Planned Track (Background ghost) */}
+                         <div 
+                           className="absolute inset-0 bg-white/10 opacity-30 transition-all duration-1000"
+                           style={{ width: `${task.planned}%` }}
+                         />
+                         {/* Executed Track */}
+                         <motion.div 
+                           initial={{ width: 0 }}
+                           animate={{ width: `${task.executed}%` }}
+                           className={cn(
+                             "absolute inset-0 h-full rounded-full transition-all duration-1000 shadow-[0_0_20px_rgba(56,189,248,0.3)]",
+                             task.status === 'Concluído' ? "bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]" :
+                             task.status === 'Atrasado' ? "bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.3)]" : "bg-blue-400"
+                           )}
+                         />
+                      </div>
+                   </div>
+                 ))}
+              </div>
+              
+              {/* Action Items Recommendation */}
+              <div className="mt-12 p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-xl">
+                 <div className="flex items-center gap-3 mb-6">
+                    <Lightbulb className="text-secondary" size={20} />
+                    <h5 className="text-xs font-black uppercase tracking-widest">Recomendações do Advisor AI</h5>
+                 </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                       <p className="text-[10px] font-black text-slate-500 uppercase">Foco de Atenção</p>
+                       <p className="text-sm text-slate-300">Análise de desvios em tempo real. Os eixos com menor progresso demandam revisão imediata de recursos.</p>
+                    </div>
+                    <div className="space-y-2">
+                       <p className="text-[10px] font-black text-slate-500 uppercase">Oportunidade</p>
+                       <p className="text-sm text-slate-300">Eixos com alta performance indicam maturidade operacional e podem servir de benchmark interno.</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -98,39 +98,60 @@ export function ExecutiveCommentary({ reportType, clientId, year, month }: Execu
   };
 
   return (
-    <div className="mt-12 bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
-      <div className="bg-slate-900 px-8 py-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-blue-500/20 rounded-lg">
-            <MessageSquare size={18} className="text-blue-400" />
+    <div className="mt-12 bg-white rounded-[40px] border border-slate-200 overflow-hidden shadow-sm">
+      <div className="bg-slate-900 px-10 py-8 flex items-center justify-between">
+        <div className="flex items-center gap-5">
+          <div className="p-3 bg-blue-500/20 rounded-2xl">
+            <MessageSquare size={22} className="text-blue-400" />
           </div>
           <div>
-            <h4 className="text-sm font-black text-white uppercase tracking-widest">Notas Explicativas & Advisory</h4>
-            <p className="text-[10px] text-slate-400 font-medium uppercase tracking-[0.1em]">Visão técnica do auditor/consultor estratégico</p>
+            <h4 className="text-lg font-display font-black text-white uppercase tracking-widest">Notas Explicativas & Advisory</h4>
+            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-[0.2em]">Parecer técnico do consultor estratégico para o Board</p>
           </div>
         </div>
-        <button 
-          onClick={handleSave}
-          disabled={loading}
-          className={cn(
-            "px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2",
-            saveSuccess ? "bg-emerald-50 text-white" : "bg-blue-600 hover:bg-blue-700 text-white"
-          )}
-        >
-          {loading ? <Loader2 size={14} className="animate-spin" /> : saveSuccess ? <CheckCircle2 size={14} /> : <Save size={14} />}
-          {saveSuccess ? 'Nota Salva' : 'Salvar Parecer'}
-        </button>
       </div>
-      <div className="p-8">
-        <textarea 
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          placeholder="Insira aqui as observações críticas, variações relevantes e o parecer estratégico sobre esta demonstração..."
-          className="w-full h-48 bg-slate-50/50 border border-slate-200 rounded-3xl p-8 text-lg font-serif italic leading-relaxed text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-200 transition-all resize-none shadow-inner"
-        />
-        <div className="mt-6 flex items-center gap-3 bg-blue-50/50 p-4 rounded-2xl border border-blue-100/50">
-          <Info size={16} className="text-blue-500" />
-          <p className="text-xs text-blue-600/70 font-bold uppercase tracking-tight italic">Estas notas serão visíveis para o cliente no dashboard executivo como insights de alta performance.</p>
+      <div className="p-10 space-y-8">
+        <div className="relative group">
+          <textarea 
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Insira aqui as observações críticas, variações relevantes e o parecer estratégico sobre esta demonstração..."
+            className="w-full h-72 bg-slate-50/50 border border-slate-200 rounded-[40px] p-10 text-xl font-serif italic leading-relaxed text-slate-700 outline-none focus:ring-8 focus:ring-blue-500/5 focus:bg-white focus:border-blue-200 transition-all resize-none shadow-inner"
+          />
+          <div className="absolute top-6 right-8 text-slate-200 pointer-events-none group-focus-within:text-blue-100 transition-colors">
+            <MessageSquare size={48} strokeWidth={1} />
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-6">
+          <div className="flex-1 flex items-center gap-4 bg-blue-50/50 p-6 rounded-3xl border border-blue-100/50">
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-500 shadow-sm shrink-0">
+              <Info size={20} />
+            </div>
+            <p className="text-[10px] text-blue-600/80 font-bold uppercase tracking-wide leading-relaxed italic">
+              Este parecer será consolidado nos relatórios executivos e no dashboard estratégico do cliente, servindo como base para decisões do Board.
+            </p>
+          </div>
+
+          <button 
+            onClick={handleSave}
+            disabled={loading}
+            className={cn(
+              "h-16 px-10 rounded-[28px] text-xs font-black uppercase tracking-widest transition-all inline-flex items-center gap-4 shadow-xl active:scale-95 shrink-0",
+              saveSuccess 
+                ? "bg-emerald-500 text-white shadow-emerald-500/30" 
+                : "bg-slate-900 hover:bg-primary text-white shadow-slate-900/20"
+            )}
+          >
+            {loading ? (
+              <Loader2 size={20} className="animate-spin" />
+            ) : saveSuccess ? (
+              <CheckCircle2 size={20} />
+            ) : (
+              <Save size={20} />
+            )}
+            <span>{saveSuccess ? 'Parecer Salvo' : 'Salvar Parecer Estratégico'}</span>
+          </button>
         </div>
       </div>
     </div>

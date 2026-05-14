@@ -11,6 +11,11 @@ export const googleProvider = new GoogleAuthProvider();
 export const login = () => signInWithPopup(auth, googleProvider);
 export const logout = () => signOut(auth);
 
+export const MASTER_ADMINS = [
+  'marcelo.illuminecoaching@gmail.com',
+  'marcelosouza.illumine@gmail.com'
+];
+
 export enum OperationType {
   CREATE = 'create',
   UPDATE = 'update',

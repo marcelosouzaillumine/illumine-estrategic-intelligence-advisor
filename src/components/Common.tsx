@@ -107,3 +107,25 @@ export function SectionHeader({ title, subtitle, icon: Icon, tone = 'blue' }: an
         </div>
     );
 }
+
+export function MarkdownText({ text, className }: { text?: string; className?: string }) {
+  if (!text) return null;
+  
+  // Split by bold pattern **text**
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  
+  return (
+    <span className={className}>
+      {parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return (
+            <strong key={index} className="font-black text-secondary">
+              {part.slice(2, -2)}
+            </strong>
+          );
+        }
+        return <span key={index}>{part}</span>;
+      })}
+    </span>
+  );
+}

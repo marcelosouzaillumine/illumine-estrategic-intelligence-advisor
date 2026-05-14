@@ -113,7 +113,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
   const [activeTab, setActiveTab] = useState<'dashboard' | 'simulador' | 'amortizacao' | 'pagamentos'>('dashboard');
   const [showContractModal, setShowContractModal] = useState(false);
   
-  const filteredLoans = (DATA as any).emprestimos.filter((l: any) => l.cl === selectedClient);
+  const filteredLoans: any[] = [];
   
   // Set default loan if none selected
   useEffect(() => {

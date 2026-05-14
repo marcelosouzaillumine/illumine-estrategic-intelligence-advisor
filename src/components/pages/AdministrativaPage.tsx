@@ -1,5 +1,7 @@
 
 import React, { useMemo } from 'react';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { 
   FileText, 
   Users, 
@@ -22,19 +24,47 @@ interface AdministrativaPageProps {
 }
 
 export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
+  const [dbIndicators, setDbIndicators] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(false);
+  const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
+
+  React.useEffect(() => {
+    if (!clientId) return;
+    setLoading(true);
+    const q = query(
+      collection(db, 'indicators'),
+      where('clientId', '==', clientId),
+      where('ano', '==', selectedYear),
+      where('mes', '==', selectedMonth)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, [clientId, selectedYear, selectedMonth]);
+
+  const getIndicatorValue = (name: string, fallback: number = 0) => {
+    const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
+    return ind ? ind.val : fallback;
+  };
+
+  const hasData = dbIndicators.length > 0;
+
   const indicators = useMemo(() => [
-    { label: 'Overhead Administrativo', value: 12.5, suffix: '%', status: 'neutral', target: 10.0, icon: Layout },
-    { label: 'Custo G&A por Colaborador', value: 1250, isCur: true, status: 'positive', target: 1500, icon: Users },
-    { label: 'Eficiência de Processos', value: 85, suffix: '%', status: 'positive', target: 80, icon: ShieldCheck },
-    { label: 'Budget vs Realizado (Adm)', value: 98, suffix: '%', status: 'positive', target: 100, icon: PieIcon }
-  ], []);
+    { label: 'Overhead Administrativo', value: getIndicatorValue('Overhead', 0), suffix: '%', status: 'neutral', target: 10.0, icon: Layout },
+    { label: 'Custo G&A por Colaborador', value: getIndicatorValue('Custo G&A', 0), isCur: true, status: 'positive', target: 1500, icon: Users },
+    { label: 'Eficiência de Processos', value: getIndicatorValue('Eficiência Proc', 0), suffix: '%', status: 'positive', target: 80, icon: ShieldCheck },
+    { label: 'Budget vs Realizado', value: getIndicatorValue('Budget Realizado', 0), suffix: '%', status: 'positive', target: 100, icon: PieIcon }
+  ], [dbIndicators]);
 
   const departmentBreakdown = [
-    { name: 'Financeiro', value: 45000, color: '#3b82f6' },
-    { name: 'RH', value: 28000, color: '#10b981' },
-    { name: 'Jurídico', value: 15000, color: '#f59e0b' },
-    { name: 'Facilities', value: 32000, color: '#ef4444' }
-  ];
+    { name: 'Financeiro', value: getIndicatorValue('Gasto Fin', 0), color: '#3b82f6' },
+    { name: 'RH', value: getIndicatorValue('Gasto RH', 0), color: '#10b981' },
+    { name: 'Jurídico', value: getIndicatorValue('Gasto Jur', 0), color: '#f59e0b' },
+    { name: 'Facilities', value: getIndicatorValue('Gasto Fac', 0), color: '#ef4444' }
+  ].filter(d => d.value > 0);
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
@@ -93,67 +123,72 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-         {/* Department Breakdown */}
-         <div className="lg:col-span-2 bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-8 flex items-center gap-3">
-               <PieIcon size={20} className="text-primary" /> Distribuição de Gastos Administrativos
-            </h3>
-            <div className="space-y-6">
-               {departmentBreakdown.map((dept, i) => {
-                 const total = departmentBreakdown.reduce((acc, d) => acc + d.value, 0);
-                 const percent = (dept.value / total) * 100;
-                 return (
-                   <div key={i} className="group">
-                      <div className="flex justify-between items-center text-xs font-bold mb-2">
-                         <span className="text-slate-600">{dept.name}</span>
-                         <div className="flex gap-4">
-                            <span className="text-slate-400 font-medium">{percent.toFixed(1)}%</span>
-                            <span className="text-primary font-black">{formatCurrency(dept.value)}</span>
-                         </div>
-                      </div>
-                      <div className="h-3 bg-slate-50 rounded-full overflow-hidden">
-                         <motion.div 
-                           initial={{ width: 0 }}
-                           animate={{ width: `${percent}%` }}
-                           className="h-full rounded-full"
-                           style={{ backgroundColor: dept.color }}
-                         />
-                      </div>
-                   </div>
-                 );
-               })}
-            </div>
-         </div>
+      {hasData && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+           {/* Department Breakdown */}
+           <div className="lg:col-span-2 bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
+              <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-8 flex items-center gap-3">
+                 <PieIcon size={20} className="text-primary" /> Distribuição de Gastos Administrativos
+              </h3>
+              <div className="space-y-6">
+                 {departmentBreakdown.map((dept, i) => {
+                   const total = departmentBreakdown.reduce((acc, d) => acc + d.value, 0);
+                   const percent = (dept.value / total) * 100;
+                   return (
+                     <div key={i} className="group">
+                        <div className="flex justify-between items-center text-xs font-bold mb-2">
+                           <span className="text-slate-600">{dept.name}</span>
+                           <div className="flex gap-4">
+                              <span className="text-slate-400 font-medium">{percent.toFixed(1)}%</span>
+                              <span className="text-primary font-black">{formatCurrency(dept.value)}</span>
+                           </div>
+                        </div>
+                        <div className="h-3 bg-slate-50 rounded-full overflow-hidden">
+                           <motion.div 
+                             initial={{ width: 0 }}
+                             animate={{ width: `${percent}%` }}
+                             className="h-full rounded-full"
+                             style={{ backgroundColor: dept.color }}
+                           />
+                        </div>
+                     </div>
+                   );
+                 })}
+                 {departmentBreakdown.length === 0 && (
+                   <p className="text-center text-slate-400 py-10 font-medium italic">Dados de distribuição não disponíveis</p>
+                 )}
+              </div>
+           </div>
 
-         {/* Admin Insights */}
-         <div className="bg-slate-900 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden">
-            <div className="absolute right-0 top-0 p-8 text-secondary/5">
-               <Zap size={120} strokeWidth={1} />
-            </div>
-            <div className="relative z-10 space-y-8">
-               <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
-                  <MessageSquare size={20} /> Otimização Administrativa
-               </h3>
-               <div className="space-y-6">
-                  {[
-                    "Digitalizar processos de aprovação de despesas para reduzir lead time em 40%.",
-                    "Consolidar fornecedores de facilities para ganho de escala e redução de 15% nos custos.",
-                    "Revisar política de viagens e reembolsos para maior controle orçamentário."
-                  ].map((rec, i) => (
-                    <div key={i} className="flex gap-4 group cursor-default">
-                       <div className="w-8 h-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all">
-                          {i + 1}
-                       </div>
-                       <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors">
-                          {rec}
-                       </p>
-                    </div>
-                  ))}
-               </div>
-            </div>
-         </div>
-      </div>
+           {/* Admin Insights */}
+           <div className="bg-slate-900 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden">
+              <div className="absolute right-0 top-0 p-8 text-secondary/5">
+                 <Zap size={120} strokeWidth={1} />
+              </div>
+              <div className="relative z-10 space-y-8">
+                 <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
+                    <MessageSquare size={20} /> Otimização Administrativa
+                 </h3>
+                 <div className="space-y-6">
+                    {[
+                      "Digitalizar processos de aprovação de despesas para reduzir lead time em 40%.",
+                      "Consolidar fornecedores de facilities para ganho de escala e redução de 15% nos custos.",
+                      "Revisar política de viagens e reembolsos para maior controle orçamentário."
+                    ].map((rec, i) => (
+                      <div key={i} className="flex gap-4 group cursor-default">
+                         <div className="w-8 h-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all">
+                            {i + 1}
+                         </div>
+                         <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors">
+                            {rec}
+                         </p>
+                      </div>
+                    ))}
+                 </div>
+              </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 }

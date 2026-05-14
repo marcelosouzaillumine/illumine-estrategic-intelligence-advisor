@@ -51,7 +51,7 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
                <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary">
                   <GraduationCap size={28} />
                </div>
-               <h1 className="text-4xl font-display font-black tracking-tight">Academia da Illumine</h1>
+               <h1 className="text-4xl font-display font-black tracking-tight">Trilha do Conhecimento</h1>
             </div>
             <p className="text-slate-400 text-lg font-medium">Educação corporativa, mentoria e formação continuada para excelência na gestão.</p>
           </div>

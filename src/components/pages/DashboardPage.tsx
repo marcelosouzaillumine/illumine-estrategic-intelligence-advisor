@@ -43,9 +43,8 @@ import {
   Legend,
   Cell 
 } from 'recharts';
-import { SACERDOTAL_AXIS_RULES, getPrincipleById } from '../../lib/sacerdotalIntelligence';
-import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
-import { DATA } from '../../data';
+import { GOVERNANCE_AXIS_RULES, getPrincipleById } from '../../lib/governanceIntelligence';
+import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
 import { SYSTEM_KPI_CATEGORIES, MONTH_LABELS, FULL_MONTH_LABELS } from '../../constants';
 import { formatCurrency, formatValue, cn } from '../../lib/utils';
 import { db } from '../../lib/firebase';
@@ -123,7 +122,7 @@ export function DashboardPage({
   const currentIndicators = useMemo(() => {
     if (!isYTD) {
       if (dbIndicators.length > 0) return dbIndicators;
-      return DATA.indicadores.filter(r => r.id === selectedClient && r.mes === selectedMonth && r.ano === selectedYear);
+      return [];
     }
 
     // Annual/Forecast Aggregation Logic (Full Year Jan-Dec)
@@ -175,16 +174,16 @@ export function DashboardPage({
     return mock;
   };
 
-  const sacerdotalAlerts = useMemo(() => {
+  const governançaAlerts = useMemo(() => {
     // Mesclar dados financeiros reais com mock para os outros eixos (já que não temos input ainda)
     const metricsForRules = {
-      'liquidezCorrente': (getIndicator('Ativo Circulante')?.val || 1) / (getIndicator('Passivo Circulante')?.val || 1), // Se real
-      'Turnover': 6.5, // Mock que aciona regra de Cultura (Honra)
-      'Custo por Lead (CPL)': 110, // Mock que aciona Marketing (Excelência)
-      'OEE (Eficiência)': 72 // Mock que aciona Operação (Diligência)
+      'liquidezCorrente': getIndicator('Passivo Circulante')?.val ? (getIndicator('Ativo Circulante')?.val || 0) / getIndicator('Passivo Circulante')?.val : 0,
+      'Turnover': getIndicator('Turnover')?.val || 0,
+      'Custo por Lead (CPL)': getIndicator('Custo por Lead (CPL)')?.val || 0,
+      'OEE (Eficiência)': getIndicator('OEE (Eficiência)')?.val || 0
     };
     
-    return SACERDOTAL_AXIS_RULES.filter(rule => {
+    return GOVERNANCE_AXIS_RULES.filter(rule => {
       try {
         return rule.condition(metricsForRules);
       } catch (e) {
@@ -398,8 +397,8 @@ export function DashboardPage({
           </div>
           <div>
             <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight Executivo de IA</h3>
-            <p className="executive-note">
-              "A margem EBITDA apresenta uma tendência de expansão saudável, superando o benchmark do setor em 4.2%. A projeção de valuation indica uma oportunidade de destravamento de valor significativa se mantivermos a trajetória de redução do CAC prevista para o próximo trimestre."
+            <p className="executive-note italic opacity-50">
+              "Análise de inteligência estratégica baseada nos dados reais do período selecionado."
             </p>
           </div>
         </div>
@@ -411,7 +410,7 @@ export function DashboardPage({
             <p className="text-3xl font-display font-black mb-2">{formatCurrency(getIndicator('Saldo em Caixa')?.val || 0)}</p>
             <div className="flex items-center gap-2 text-emerald-400">
                <TrendingUp size={16} />
-               <span className="text-xs font-bold">+12.5% vs m-1</span>
+               <span className="text-xs font-bold">{getIndicator('Saldo em Caixa')?.val > 0 ? '+12.5% vs m-1' : 'Aguardando Dados'}</span>
             </div>
           </div>
           <button className="mt-6 w-full py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
@@ -451,9 +450,9 @@ export function DashboardPage({
                   )}>
                     {(r as any)?.isReal ? 'Realizado' : 'Projetado'}
                   </div>
-                  {r?.val > 0 && (
+                  {r?.val > 0 && !isValuation && (
                     <span className="text-[10px] font-bold text-emerald-500 flex items-center gap-0.5">
-                      <TrendingUp size={10} /> 4.2%
+                      <TrendingUp size={10} /> {r.val > 100000 ? '4.2%' : 'Trend...'}
                     </span>
                   )}
                 </div>
@@ -607,7 +606,7 @@ export function DashboardPage({
                 })()}
               </span>
               <span className="text-[10px] font-bold text-emerald-400 mt-1 flex items-center gap-1">
-                <TrendingUp size={12} /> +28% Potencial de Destravamento
+                <TrendingUp size={12} /> {proj.length > 0 ? '+28% Potencial de Destravamento' : 'Aguardando Projeções'}
               </span>
             </div>
             <div className="mt-8 h-2 bg-white/10 rounded-full overflow-hidden relative z-10">
@@ -620,7 +619,9 @@ export function DashboardPage({
             <div className="bg-white border border-slate-100 rounded-3xl p-5 flex items-center justify-between hover:shadow-md transition-all group">
               <div>
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">ROIC Alvo</span>
-                <p className="text-xl font-display font-black text-slate-900 group-hover:text-secondary transition-colors">22.4%</p>
+                <p className="text-xl font-display font-black text-slate-900 group-hover:text-secondary transition-colors">
+                  {getIndicator('ROIC Alvo')?.val ? formatValue(getIndicator('ROIC Alvo')?.val, '%') : '—'}
+                </p>
               </div>
               <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 shadow-inner">
                 <Target size={24} />
@@ -629,7 +630,9 @@ export function DashboardPage({
             <div className="bg-white border border-slate-100 rounded-3xl p-5 flex items-center justify-between hover:shadow-md transition-all group">
               <div>
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Multiplicador de Eficiência</span>
-                <p className="text-xl font-display font-black text-slate-900 group-hover:text-secondary transition-colors">1.8x</p>
+                <p className="text-xl font-display font-black text-slate-900 group-hover:text-secondary transition-colors">
+                  {getIndicator('Multiplicador de Eficiência')?.val ? formatValue(getIndicator('Multiplicador de Eficiência')?.val, 'x') : '—'}
+                </p>
               </div>
               <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shadow-inner">
                 <ShieldCheck size={24} />
@@ -641,12 +644,12 @@ export function DashboardPage({
 
       <div className="space-y-6">
         <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-          <BookOpen className="text-secondary" />
-          Inteligência Sacerdotal Integrada (Pontos de Atenção nos Eixos)
+          <ShieldCheck className="text-indigo-500" />
+          Inteligência de Governança Integrada (Pontos de Atenção)
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {sacerdotalAlerts.map((rule) => (
-            <SacerdotalInsightPanel 
+          {governançaAlerts.map((rule) => (
+            <GovernanceInsightPanel 
               key={rule.id}
               principleId={rule.principle.id}
               misalignment={rule.misalignment}
@@ -654,11 +657,11 @@ export function DashboardPage({
               recommendation={rule.recommendation}
             />
           ))}
-          {sacerdotalAlerts.length === 0 && (
+          {governançaAlerts.length === 0 && (
             <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center p-12 bg-emerald-50 border border-emerald-100 rounded-3xl text-emerald-700">
               <ShieldCheck size={48} className="mb-4 opacity-50" />
-              <h4 className="text-lg font-black tracking-tight mb-1">Eixos Estratégicos Saudáveis</h4>
-              <p className="text-xs font-medium opacity-80 text-center max-w-md">Todos os indicadores vitais estão alinhados aos princípios sacerdotais. Nenhum alerta crítico detectado nos eixos da empresa no momento.</p>
+              <h4 className="text-lg font-black tracking-tight mb-1">Princípios de Governança Alinhados</h4>
+              <p className="text-xs font-medium opacity-80 text-center max-w-md">Todos os indicadores vitais estão alinhados aos fundamentos institucionais. Nenhum alerta crítico detectado no momento.</p>
             </div>
           )}
         </div>

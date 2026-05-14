@@ -12,7 +12,8 @@ import {
   Activity,
   Download,
   Share2,
-  Loader2
+  Loader2,
+  Star
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -23,23 +24,23 @@ import {
   PolarRadiusAxis, 
   ResponsiveContainer
 } from 'recharts';
-import { PageHeader } from '../Common';
+import { PageHeader, MarkdownText } from '../Common';
 import { cn } from '../../lib/utils';
 import { 
-  SACERDOTAL_PRINCIPLES, 
-  calculateSacerdotalMaturityScore, 
+  GOVERNANCE_PRINCIPLES, 
+  calculateGovernanceMaturityScore, 
   calculateAxisMaturity,
   getMaturityClassification,
-  SACERDOTAL_ALIGNMENT_ASSESSMENT, 
+  GOVERNANCE_ALIGNMENT_ASSESSMENT, 
   getPrincipleById,
   crossValidateWithIndicators,
-  calculateSacerdotalAlignmentScore
-} from '../../lib/sacerdotalIntelligence';
+  calculateGovernanceAlignmentScore
+} from '../../lib/governanceIntelligence';
 import { db } from '../../lib/firebase';
 import { query, collection, where, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore';
-import { generateSacerdotalDiagnosis } from '../../services/aiService';
+import { generateGovernanceDiagnosis } from '../../services/aiService';
 
-export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
+export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
   const [activeTab, setActiveTab] = useState<'principios' | 'score'>('score');
   const [selectedAxis, setSelectedAxis] = useState<string>('Todos');
   const [responses, setResponses] = useState<Record<string, number>>({});
@@ -49,10 +50,11 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
   const [loadingDiagnosis, setLoadingDiagnosis] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const eixos = ['Todos', 'Governança Corporativa', 'Cultura Organizacional', 'Administração e Finanças', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'];
+  const eixos = ['Todos', 'Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'];
 
   // Fetch real indicators
   useEffect(() => {
+    if (!clientId) return;
     const today = new Date();
     const q = query(
       collection(db, 'indicators'),
@@ -69,9 +71,31 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
     return () => unsubscribe();
   }, [clientId]);
 
+  // Load latest diagnosis
+  useEffect(() => {
+    if (!clientId) return;
+    const q = query(
+      collection(db, 'governance_diagnostics'),
+      where('clientId', '==', clientId),
+      orderBy('date', 'desc'),
+      limit(1)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      if (!snapshot.empty) {
+        const latest = snapshot.docs[0].data();
+        setResponses(latest.responses || {});
+        setAiDiagnosis(latest.diagnosis);
+        setShowResults(true);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [clientId]);
+
   const filteredPrinciples = selectedAxis === 'Todos' 
-    ? SACERDOTAL_PRINCIPLES 
-    : SACERDOTAL_PRINCIPLES.filter(p => p.axis === selectedAxis);
+    ? GOVERNANCE_PRINCIPLES 
+    : GOVERNANCE_PRINCIPLES.filter(p => p.axis === selectedAxis);
 
   const handleScoreChange = (principleId: string, value: number) => {
     setResponses(prev => ({ ...prev, [principleId]: value }));
@@ -83,8 +107,8 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
     return crossValidateWithIndicators(responses, indicators);
   }, [responses, indicators]);
 
-  const maturityScore = calculateSacerdotalMaturityScore(finalResponses);
-  const alignmentScore = calculateSacerdotalAlignmentScore(indicators);
+  const maturityScore = calculateGovernanceMaturityScore(finalResponses);
+  const alignmentScore = calculateGovernanceAlignmentScore(indicators);
   const classification = getMaturityClassification(maturityScore);
 
   const radarData = eixos.filter(e => e !== 'Todos').map(e => ({
@@ -102,7 +126,7 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
       axisScores[e] = calculateAxisMaturity(finalResponses, e as any);
     });
 
-    const diagnosis = await generateSacerdotalDiagnosis(axisScores, indicators, "Empresa");
+    const diagnosis = await generateGovernanceDiagnosis(axisScores, indicators, "Empresa");
     setAiDiagnosis(diagnosis);
     setLoadingDiagnosis(false);
   };
@@ -111,7 +135,7 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
     if (!aiDiagnosis) return;
     setSaving(true);
     try {
-      await addDoc(collection(db, 'sacerdotal_diagnostics'), {
+      await addDoc(collection(db, 'governance_diagnostics'), {
         clientId,
         date: serverTimestamp(),
         maturityScore,
@@ -136,46 +160,47 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
-        title="Inteligência Sacerdotal" 
-        subtitle="O motor de maturidade organizacional baseado em princípios eternos e dados reais." 
+        title="Inteligência de Governança" 
+        subtitle="O motor de maturidade organizacional baseado em princípios de gestão e dados reais." 
         icon={Brain}
         color="bg-slate-900"
-        actions={
-          <div className="bg-white/5 backdrop-blur-md p-6 rounded-[32px] border border-white/10 shadow-xl flex items-center gap-8">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-amber-500/20 rounded-2xl flex items-center justify-center text-amber-500 border border-amber-500/20">
-                <Target size={24} />
-              </div>
-              <div>
-                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-amber-500/70 mb-0.5">Maturidade</p>
-                <div className="flex items-baseline gap-2">
-                  <h2 className="text-3xl font-black text-white">{maturityScore}</h2>
-                  <span className="text-[10px] font-bold text-amber-500/50">/100</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="w-px h-10 bg-white/10" />
+      />
 
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-indigo-400 border border-indigo-500/20">
-                <Activity size={24} />
-              </div>
-              <div>
-                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-400/70 mb-0.5">Alinhamento Real</p>
-                <div className="flex items-baseline gap-2">
-                  <h2 className="text-3xl font-black text-white">{alignmentScore}</h2>
-                  <span className="text-[10px] font-bold text-indigo-400/50">/100</span>
-                </div>
-              </div>
-            </div>
-
-            <div className={cn("px-4 py-2 rounded-xl border font-black text-[10px] uppercase tracking-widest ml-4", classification.bg, classification.color, classification.border)}>
-              {classification.label}
+      {/* Indicadores de Status - Reposicionados */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm flex items-center gap-6 group hover:shadow-xl transition-all">
+          <div className="w-16 h-16 bg-amber-500/10 rounded-[22px] flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
+            <Target size={32} />
+          </div>
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Maturidade Sistêmica</p>
+            <div className="flex items-baseline gap-2">
+              <h2 className="text-4xl font-black text-slate-900">{maturityScore}</h2>
+              <span className="text-[10px] font-bold text-slate-400">/100</span>
             </div>
           </div>
-        }
-      />
+        </div>
+
+        <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm flex items-center gap-6 group hover:shadow-xl transition-all">
+          <div className="w-16 h-16 bg-indigo-500/10 rounded-[22px] flex items-center justify-center text-indigo-500 group-hover:scale-110 transition-transform">
+            <Activity size={32} />
+          </div>
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Alinhamento Operacional</p>
+            <div className="flex items-baseline gap-2">
+              <h2 className="text-4xl font-black text-slate-900">{alignmentScore}</h2>
+              <span className="text-[10px] font-bold text-slate-400">/100</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={cn("p-8 rounded-[32px] border shadow-sm flex flex-col justify-center items-center text-center space-y-2", classification.bg, classification.border)}>
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">Status Organizacional</p>
+          <h3 className={cn("text-xl font-black uppercase tracking-widest", classification.color)}>
+            {classification.label}
+          </h3>
+        </div>
+      </div>
 
       {/* Navigation Tabs */}
       <div className="flex gap-1 p-1 bg-slate-100 rounded-2xl w-fit">
@@ -249,8 +274,18 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
                   <div className="mt-auto space-y-6 pt-6 border-t border-slate-100">
                     <div className="grid grid-cols-2 gap-6">
                       <div className="space-y-1">
-                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Peso</p>
-                        <p className="text-xs font-bold text-slate-700">Importância {principle.weight}/5</p>
+                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Impacto Estratégico</p>
+                        <div className="flex gap-0.5">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star 
+                              key={star} 
+                              size={10} 
+                              className={cn(
+                                star <= principle.strategicImpact ? "fill-amber-500 text-amber-500" : "fill-slate-100 text-slate-200"
+                              )} 
+                            />
+                          ))}
+                        </div>
                       </div>
                       <div className="space-y-1">
                         <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Cross-Impact</p>
@@ -258,11 +293,20 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
                       </div>
                     </div>
 
-                    <div className="space-y-2">
-                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Recomendação Executiva</p>
-                       <p className="text-[11px] font-medium text-slate-600 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                          {principle.executiveSuggestions[0]}
-                       </p>
+                    <div className="space-y-3">
+                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Plano de Ação Executivo (12 Etapas)</p>
+                       <div className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                          {principle.executiveRecommendations.map((rec, i) => (
+                            <div key={i} className="flex gap-3 items-start group/item">
+                              <div className="w-5 h-5 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center shrink-0 text-[9px] font-black group-hover/item:bg-amber-500 group-hover/item:text-white transition-colors">
+                                {i + 1}
+                              </div>
+                              <p className="text-[11px] font-semibold text-slate-600 leading-snug pt-0.5">
+                                 {rec}
+                              </p>
+                            </div>
+                          ))}
+                       </div>
                     </div>
                   </div>
                 </motion.div>
@@ -317,7 +361,7 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
 
               {/* Questionnaire */}
               <div className="space-y-12">
-                {SACERDOTAL_ALIGNMENT_ASSESSMENT.map((axisGroup) => (
+                {GOVERNANCE_ALIGNMENT_ASSESSMENT.map((axisGroup) => (
                   <div key={axisGroup.axis} className="space-y-8">
                     <div className="flex items-center gap-6">
                        <h3 className="text-sm font-black text-slate-400 uppercase tracking-[0.4em] whitespace-nowrap">{axisGroup.axis}</h3>
@@ -326,7 +370,7 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {axisGroup.questions.map((q) => {
-                        const principle = getPrincipleById(q.principleId);
+                        const principle = q;
                         if (!principle) return null;
                         
                         return (
@@ -342,8 +386,19 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
                                 <span className="text-[10px] font-black text-amber-500 uppercase tracking-[0.2em]">{principle.name}</span>
                                 <h4 className="text-lg font-bold text-slate-800 leading-snug max-w-md">{principle.maturityQuestion}</h4>
                               </div>
-                              <div className="bg-slate-100 px-4 py-2 rounded-2xl border border-slate-200 text-[10px] font-black text-slate-400 group-hover:bg-amber-100 group-hover:text-amber-600 group-hover:border-amber-200 transition-colors">
-                                PESO {principle.weight}
+                              <div className="bg-slate-100 px-4 py-2 rounded-2xl border border-slate-200 text-[10px] font-black text-slate-400 group-hover:bg-amber-100 group-hover:text-amber-600 group-hover:border-amber-200 transition-colors flex items-center gap-2">
+                                <span className="uppercase">Impacto</span>
+                                <div className="flex gap-0.5">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star 
+                                      key={star} 
+                                      size={8} 
+                                      className={cn(
+                                        star <= principle.strategicImpact ? "fill-amber-500 text-amber-500" : "fill-slate-300 text-slate-300"
+                                      )} 
+                                    />
+                                  ))}
+                                </div>
                               </div>
                             </div>
 
@@ -409,7 +464,7 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
                   <div className="space-y-4">
                     <h3 className="text-4xl font-black tracking-tight">Finalizar Diagnóstico Sistêmico</h3>
                     <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-                      O motor de IA consolidará {Object.keys(responses).length} respostas com os indicadores reais da empresa para gerar o Índice de Maturidade Sacerdotal Organizacional.
+                      O motor de IA consolidará {Object.keys(responses).length} respostas com os indicadores reais da empresa para gerar o Índice de Maturidade Governança Organizacional.
                     </p>
                   </div>
                   <button 
@@ -502,9 +557,9 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
                         <div className="text-6xl font-black text-slate-900 tracking-tighter">
                           {maturityScore}<span className="text-2xl text-slate-300">%</span>
                         </div>
-                        <p className="text-sm font-medium text-slate-500 leading-relaxed px-4">
-                           Sua organização está no nível **"{classification.label}"**, indicando {maturityScore > 60 ? 'uma base sólida mas com oportunidades de refino.' : 'necessidade urgente de estruturação básica.'}
-                        </p>
+                        <div className="text-xs font-bold text-slate-400 mt-2 italic leading-relaxed">
+                          <MarkdownText text={`Sua organização está no nível **"${classification.label}"**, indicando ${maturityScore > 60 ? 'uma base sólida mas com oportunidades de refino.' : 'necessidade urgente de estruturação básica.'}`} />
+                        </div>
                     </div>
 
                     <div className="bg-slate-900 p-10 rounded-[56px] text-white space-y-8">
@@ -526,19 +581,22 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
                              <div className="p-6 bg-white/5 rounded-3xl border border-white/10 space-y-3">
                                <p className="text-amber-400 text-xs font-black uppercase tracking-widest">Resumo Estratégico</p>
                                <p className="text-sm text-slate-300 leading-relaxed">
-                                 {aiDiagnosis?.resumoExecutivo || "O diagnóstico aponta para um crescimento acelerado que está pressionando a estrutura de governança, gerando riscos de integridade operacional."}
+                                 {aiDiagnosis?.resumoExecutivo || "Aguardando geração do diagnóstico para exibir o resumo estratégico..."}
                                </p>
                              </div>
 
                              <div className="space-y-4">
                                 <p className="text-white font-black text-xs uppercase tracking-widest">Ações Prioritárias</p>
                                 <ul className="space-y-4">
-                                  {(aiDiagnosis?.recomendacoesPrioritarias || ["Fortalecer rituais de Accountability", "Revisar precificação estratégica"]).map((item: string, i: number) => (
+                                  {(aiDiagnosis?.recomendacoesPrioritarias || []).map((item: string, i: number) => (
                                     <li key={i} className="flex gap-4 items-start">
                                       <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0 text-[10px] font-black">{i+1}</div>
                                       <p className="text-xs text-slate-400 font-bold leading-snug">{item}</p>
                                     </li>
                                   ))}
+                                  {!aiDiagnosis?.recomendacoesPrioritarias && (
+                                    <p className="text-[10px] text-slate-500 italic">Gere o diagnóstico para visualizar as ações prioritárias.</p>
+                                  )}
                                 </ul>
                              </div>
                            </>
@@ -627,7 +685,7 @@ export function InteligenciaSacerdotalPage({ clientId }: { clientId: string }) {
                   </div>
 
                   <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
-                    {SACERDOTAL_PRINCIPLES.map(p => {
+                    {GOVERNANCE_PRINCIPLES.map(p => {
                       const score = finalResponses[p.id] ?? 0;
                       const isAdjusted = responses[p.id] !== undefined && finalResponses[p.id] < responses[p.id];
                       

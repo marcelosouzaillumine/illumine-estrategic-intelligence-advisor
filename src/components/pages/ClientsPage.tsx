@@ -36,7 +36,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, getDocs, writeBatch } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
-import { PageHeader, StatusBadge } from '../Common';
+import { PageHeader, StatusBadge, MarkdownText } from '../Common';
 import { DATA } from '../../data';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
@@ -1591,7 +1591,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                         <div className="space-y-4">
                           {((formData as any).aiAnalysis.challenges || []).map((c: string, i: number) => (
                             <div key={i} className="text-xs text-text-muted font-medium leading-relaxed bg-bg-surface p-4 rounded-standard border border-border-soft">
-                              {c}
+                              <MarkdownText text={c} />
                             </div>
                           ))}
                         </div>
@@ -1604,7 +1604,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                         <div className="space-y-4">
                           {((formData as any).aiAnalysis.growthSuggestions || []).map((c: string, i: number) => (
                             <div key={i} className="text-xs text-text-muted font-medium leading-relaxed bg-bg-surface p-4 rounded-standard border border-border-soft">
-                              {c}
+                              <MarkdownText text={c} />
                             </div>
                           ))}
                         </div>
@@ -1617,15 +1617,15 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                         <h4 className="text-[11px] font-black text-white/50 uppercase tracking-[0.3em] flex items-center gap-2">
                           <ShieldCheck size={14} /> Governança & Estrutura
                         </h4>
-                        <p className="text-sm font-medium leading-relaxed text-white/90 italic">
-                          "{((formData as any).aiAnalysis?.governance || 'N/A')}"
-                        </p>
+                        <div className="text-sm font-medium leading-relaxed text-white/90 italic">
+                          "<MarkdownText text={((formData as any).aiAnalysis?.governance || 'N/A')} />"
+                        </div>
                       </div>
 
                       <div className="card-premium space-y-6">
                         <h4 className="text-sm font-black text-text-main uppercase tracking-[0.2em]">Fluxo Operacional</h4>
                         <div className="text-xs text-text-muted font-medium leading-relaxed bg-bg-surface p-5 rounded-standard border border-border-soft border-dashed italic">
-                          {((formData as any).aiAnalysis?.operationalFlow || 'N/A')}
+                          <MarkdownText text={((formData as any).aiAnalysis?.operationalFlow || 'N/A')} />
                         </div>
                       </div>
 
@@ -1636,7 +1636,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                         <div className="flex flex-wrap gap-3">
                           {((formData as any).aiAnalysis?.dashboardIdeas || []).map((c: string, i: number) => (
                             <span key={i} className="px-4 py-2 bg-secondary/5 text-secondary text-[10px] font-black uppercase rounded-lg border border-secondary/10">
-                              {c}
+                              <MarkdownText text={c} />
                             </span>
                           ))}
                         </div>

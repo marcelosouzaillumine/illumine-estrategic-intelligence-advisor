@@ -488,21 +488,21 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
                    <div>
                       <div className="flex justify-between items-end mb-2">
                          <span className="text-xs font-bold text-slate-400">Progresso do Período</span>
-                         <span className="text-lg font-black text-secondary">78.5%</span>
+                         <span className="text-lg font-black text-secondary">0.0%</span>
                       </div>
                       <div className="h-3 w-full bg-white/10 rounded-full overflow-hidden">
-                         <div className="h-full bg-secondary w-[78.5%] shadow-[0_0_20px_rgba(255,133,82,0.4)]" />
+                         <div className="h-full bg-secondary w-0 shadow-[0_0_20px_rgba(255,133,82,0.4)]" />
                       </div>
                    </div>
                    
                    <div className="grid grid-cols-2 gap-4">
                       <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
                          <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Margem Alvo</p>
-                         <p className="text-xl font-black text-white">22.0%</p>
+                         <p className="text-xl font-black text-white">0.0%</p>
                       </div>
                       <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
                          <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Gap de Resultado</p>
-                         <p className="text-xl font-black text-rose-400">R$ 142k</p>
+                         <p className="text-xl font-black text-white">R$ 0</p>
                       </div>
                    </div>
                 </div>

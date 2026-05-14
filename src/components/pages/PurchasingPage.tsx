@@ -71,7 +71,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
 
   useEffect(() => {
     if (!selectedClient) {
-      setItems((DATA as any).compras || []);
+      setItems([]);
       return;
     }
 
@@ -83,15 +83,11 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const dbDocs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      if (dbDocs.length > 0) {
-        setItems(dbDocs);
-      } else {
-        setItems((DATA as any).compras.filter((i: any) => i.clientId === selectedClient));
-      }
+      setItems(dbDocs);
       setLoading(false);
     }, (error) => {
       console.error("Error fetching purchases:", error);
-      setItems((DATA as any).compras.filter((i: any) => i.clientId === selectedClient));
+      setItems([]);
       setLoading(false);
     });
 

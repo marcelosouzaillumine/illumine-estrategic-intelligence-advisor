@@ -15,7 +15,6 @@ import {
   PieChart,
   Pie
 } from 'recharts';
-import { DATA } from '../../data';
 import { cn, formatCurrency } from '../../lib/utils';
 import { PageHeader } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -62,13 +61,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   const dbData = dbDataBP.length > 0 ? dbDataBP : dbDataShort;
   const docIds = dbDataBP.length > 0 ? docIdsBP : docIdsShort;
 
-  // ── Mock fallback ─────────────────────────────────────────────────────────
-  const mockRows = DATA.bp.filter(
-    (r: any) => r.id === selectedClient && r.ano === filterYear
-  );
   const rows = dbData.length > 0
     ? dbData.map((d: any) => ({ ...d, val: d.val ?? d.valor ?? 0 }))
-    : mockRows;
+    : [];
 
   // ── Processamento Histórico ────────────────────────────────────────────────
   const historyByYear = useMemo(() => {
@@ -81,9 +76,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       if (yearEntries.length > 0) {
         data[y] = yearEntries;
       } else {
-        // Fallback para mock
-        const mockYear = DATA.bp.filter((r: any) => r.id === selectedClient && r.ano === y);
-        if (mockYear.length > 0) data[y] = mockYear.map(m => ({ ...m, category: m.conta, value: m.val }));
+        data[y] = [];
       }
     });
     return data;

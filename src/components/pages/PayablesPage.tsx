@@ -95,7 +95,7 @@ export function PayablesPage({ clients, selectedClient }: { clients: any[], sele
 
   useEffect(() => {
     if (!selectedClient) {
-      setPayables(DATA.contasPagar || []);
+      setPayables([]);
       return;
     }
 
@@ -107,11 +107,11 @@ export function PayablesPage({ clients, selectedClient }: { clients: any[], sele
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setPayables(docs.length > 0 ? docs : DATA.contasPagar.filter((p: any) => p.clientId === selectedClient));
+      setPayables(docs);
       setLoading(false);
     }, (error) => {
       console.error("Error fetching payables:", error);
-      setPayables(DATA.contasPagar.filter((p: any) => p.clientId === selectedClient));
+      setPayables([]);
       setLoading(false);
     });
 

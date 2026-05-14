@@ -19,6 +19,8 @@ import {
   ShieldAlert
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { 
   BarChart, 
   Bar, 
@@ -47,26 +49,65 @@ const getValueSizeClass = (maxLen: number) => {
 };
 
 export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
-  const indicators = useMemo(() => [
-    { label: 'Aderência Orçamentária', value: 94.2, suffix: '%', status: 'neutral', target: 98.0, icon: Scale, trend: '-1.2%' },
-    { label: 'Margem EBITDA Realizada', value: 22.5, suffix: '%', status: 'positive', target: 20.0, icon: TrendingUp, trend: '+4.2%' },
-    { label: 'Burn Rate Mensal', value: 125000, isCur: true, status: 'positive', target: 150000, icon: WalletCards, trend: '-8.5%' },
-    { label: 'Índice de Alavancagem', value: 1.8, suffix: 'x', status: 'positive', target: 2.5, icon: Landmark, trend: 'Estável' }
-  ], []);
+  const [dbIndicators, setDbIndicators] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(false);
+  const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
 
-  const bvaData = useMemo(() => [
-    { name: 'Jan', planejado: 450000, realizado: 425000 },
-    { name: 'Fev', planejado: 450000, realizado: 468000 },
-    { name: 'Mar', planejado: 480000, realizado: 472000 },
-    { name: 'Abr', planejado: 480000, realizado: 495000 },
-    { name: 'Mai', planejado: 500000, realizado: 488000 },
-    { name: 'Jun', planejado: 500000, realizado: 512000 },
-  ], []);
+  React.useEffect(() => {
+    if (!clientId) return;
+    setLoading(true);
+    const q = query(
+      collection(db, 'indicators'),
+      where('clientId', '==', clientId),
+      where('ano', '==', selectedYear),
+      where('mes', '==', selectedMonth)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, [clientId, selectedYear, selectedMonth]);
+
+  const getIndicatorValue = (name: string, fallback: number = 0) => {
+    const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
+    return ind ? ind.val : fallback;
+  };
+
+  const hasData = dbIndicators.length > 0;
+
+  const bvaData = useMemo(() => {
+    if (!hasData) return [];
+    return [
+      { name: 'Jan', planejado: getIndicatorValue('Budget Jan', 0), realizado: getIndicatorValue('Real Jan', 0) },
+      { name: 'Fev', planejado: getIndicatorValue('Budget Fev', 0), realizado: getIndicatorValue('Real Fev', 0) },
+      { name: 'Mar', planejado: getIndicatorValue('Budget Mar', 0), realizado: getIndicatorValue('Real Mar', 0) },
+      { name: 'Abr', planejado: getIndicatorValue('Budget Abr', 0), realizado: getIndicatorValue('Real Abr', 0) },
+      { name: 'Mai', planejado: getIndicatorValue('Budget Mai', 0), realizado: getIndicatorValue('Real Mai', 0) },
+      { name: 'Jun', planejado: getIndicatorValue('Budget Jun', 0), realizado: getIndicatorValue('Real Jun', 0) },
+    ];
+  }, [dbIndicators, hasData]);
+
+  const adherenceScore = getIndicatorValue('Aderência Orçamentária', 0);
+  const complianceScore = getIndicatorValue('Conformidade', 0);
+
+  const deviationRows = useMemo(() => {
+    if (!hasData) return [];
+    return [];
+  }, [hasData]);
+
+  const indicators = useMemo(() => [
+    { label: 'Aderência Orçamentária', value: adherenceScore, suffix: '%', status: 'neutral', target: 98.0, icon: Scale, trend: 'Calculado' },
+    { label: 'Margem EBITDA Realizada', value: getIndicatorValue('Margem EBITDA', 0), suffix: '%', status: 'positive', target: 20.0, icon: TrendingUp, trend: 'Real' },
+    { label: 'Burn Rate Mensal', value: getIndicatorValue('Burn Rate', 0), isCur: true, status: 'positive', target: 150000, icon: WalletCards, trend: 'Mensal' },
+    { label: 'Índice de Alavancagem', value: getIndicatorValue('Alavancagem', 0), suffix: 'x', status: 'positive', target: 2.5, icon: Landmark, trend: 'Estável' }
+  ], [dbIndicators, adherenceScore]);
 
   return (
     <div className="space-y-10 pb-32">
       {/* Strategic Header & Controls - Exactly matching DashboardPage */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-primary p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
@@ -79,66 +120,71 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3 relative z-10">
-          {/* Group 1: Time Filters */}
           <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1 shadow-inner">
             <div className="flex items-center px-4 py-2 border-r border-white/5">
               <Calendar size={14} className="text-secondary mr-2" />
-              <select className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors">
+              <select 
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
                 {[2024, 2025, 2026].map(y => (
-                  <option key={y} value={y} className="bg-slate-900">{y}</option>
+                  <option key={y} value={y} className="bg-primary">{y}</option>
                 ))}
               </select>
             </div>
             <div className="flex items-center px-4 py-2">
-              <select className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors">
-                {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'].map((label, i) => (
-                  <option key={i} value={i + 1} className="bg-slate-900">{label}</option>
+              <select 
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
+                  <option key={i} value={i + 1} className="bg-primary">{label}</option>
                 ))}
               </select>
             </div>
           </div>
-
-          {/* Group 2: View Toggle */}
-          <div className="flex items-center gap-4 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-2.5 border border-white/10 shadow-inner h-[46px]">
-            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-secondary">Mensal</span>
-            <button className="w-10 h-5 rounded-full p-1 bg-slate-700 hover:bg-slate-600 transition-colors relative group">
-              <div className="w-3 h-3 bg-white rounded-full shadow-lg group-hover:scale-110 transition-transform" />
-            </button>
-            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Anual</span>
-          </div>
         </div>
       </div>
 
-      {/* Corporate Health Mini-Header */}
-      <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
-        <div className="absolute top-0 left-0 w-1 bg-secondary h-full" />
-        <div className="flex items-center gap-8 relative z-10">
-          <div className="w-20 h-20 rounded-3xl bg-orange-50 flex items-center justify-center text-secondary shadow-inner group-hover:scale-105 transition-transform">
-            <Scale size={40} />
+      {/* Corporate Health Mini-Header - Hidden if no data */}
+      {hasData && (
+        <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 bg-secondary h-full" />
+          <div className="flex items-center gap-8 relative z-10">
+            <div className="w-20 h-20 rounded-3xl bg-orange-50 flex items-center justify-center text-secondary shadow-inner group-hover:scale-105 transition-transform">
+              <Scale size={40} />
+            </div>
+            <div>
+              <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">Score de Aderência Orçamentária</h3>
+              <div className="flex items-center gap-4">
+                <span className="text-5xl font-display font-black text-slate-900 tracking-tighter">{adherenceScore}%</span>
+                <span className={cn(
+                  "text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border",
+                  adherenceScore >= 90 ? "text-emerald-600 bg-emerald-50 border-emerald-100" : "text-amber-600 bg-amber-50 border-amber-100"
+                )}>
+                  {adherenceScore >= 90 ? 'Eficiente' : 'Atenção'}
+                </span>
+              </div>
+            </div>
           </div>
-          <div>
-            <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">Score de Aderência Orçamentária</h3>
-            <div className="flex items-center gap-4">
-              <span className="text-5xl font-display font-black text-slate-900 tracking-tighter">94.2%</span>
-              <span className="text-xs font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100">Eficiente</span>
+          <div className="flex-1 max-w-lg w-full relative z-10">
+            <div className="flex justify-between text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
+              <span>Conformidade de Processos</span>
+              <span className="text-secondary">{complianceScore}%</span>
+            </div>
+            <div className="h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${complianceScore}%` }}
+                transition={{ duration: 1.5, ease: "circOut" }}
+                className="h-full bg-secondary shadow-[0_0_10px_rgba(255,133,82,0.3)]"
+              />
             </div>
           </div>
         </div>
-        <div className="flex-1 max-w-lg w-full relative z-10">
-          <div className="flex justify-between text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
-            <span>Conformidade de Processos</span>
-            <span className="text-secondary">92%</span>
-          </div>
-          <div className="h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: '92%' }}
-              transition={{ duration: 1.5, ease: "circOut" }}
-              className="h-full bg-secondary shadow-[0_0_10px_rgba(255,133,82,0.3)]"
-            />
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -226,127 +272,124 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
             </div>
          </div>
 
-         {/* Recommendations */}
-         <div className="bg-slate-900 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden group">
-            <div className="absolute right-0 top-0 p-8 text-secondary/5 group-hover:text-secondary/10 transition-colors">
-               <Zap size={160} strokeWidth={1} />
-            </div>
-            <div className="relative z-10 flex flex-col h-full justify-between gap-12">
-               <div className="space-y-8">
-                 <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
-                    <MessageSquare size={20} /> Insights de Controladoria
-                 </h3>
-                 <div className="space-y-6">
-                    {[
-                      "Investigar desvio de 15% nas despesas de marketing em relação ao budget do Q1.",
-                      "Antecipar revisão orçamentária do H2 considerando as novas premissas macroeconômicas.",
-                      "Auditar processos de compras acima de R$ 50k para garantir conformidade."
-                    ].map((rec, i) => (
-                      <div key={i} className="flex gap-5 group cursor-default">
-                         <div className="w-10 h-10 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all shadow-inner">
-                            {i + 1}
-                         </div>
-                         <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors py-2">
-                            {rec}
-                         </p>
-                      </div>
-                    ))}
+         {/* Recommendations - Hidden if no data */}
+         {hasData && (
+           <div className="bg-primary p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden group">
+              <div className="absolute right-0 top-0 p-8 text-secondary/5 group-hover:text-secondary/10 transition-colors">
+                 <Zap size={160} strokeWidth={1} />
+              </div>
+              <div className="relative z-10 flex flex-col h-full justify-between gap-12">
+                 <div className="space-y-8">
+                   <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
+                      <MessageSquare size={20} /> Insights de Controladoria
+                   </h3>
+                   <div className="space-y-6">
+                      {[
+                        "Investigar desvios orçamentários significativos em relação ao budget planejado.",
+                        "Antecipar revisão orçamentária do semestre considerando as novas premissas.",
+                        "Auditar processos de compras críticos para garantir conformidade de processos."
+                      ].map((rec, i) => (
+                        <div key={i} className="flex gap-5 group cursor-default">
+                           <div className="w-10 h-10 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all shadow-inner">
+                              {i + 1}
+                           </div>
+                           <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors py-2">
+                              {rec}
+                           </p>
+                        </div>
+                      ))}
+                   </div>
                  </div>
-               </div>
-               <button className="w-full py-4 bg-white/10 hover:bg-secondary hover:text-primary border border-white/10 hover:border-secondary rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2">
-                  <Activity size={14} /> Gerar Relatório de Auditoria
-               </button>
-            </div>
-         </div>
+                 <button className="w-full py-4 bg-white/10 hover:bg-secondary hover:text-primary border border-white/10 hover:border-secondary rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2">
+                    <Activity size={14} /> Gerar Relatório de Auditoria
+                 </button>
+              </div>
+           </div>
+         )}
       </div>
 
-      {/* Budget Deviation Table */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between px-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-secondary shadow-inner">
-              <ShieldAlert size={24} />
+      {/* Budget Deviation Table - Hidden if no data */}
+      {hasData && deviationRows.length > 0 && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between px-4">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-secondary shadow-inner">
+                <ShieldAlert size={24} />
+              </div>
+              <div>
+                <h2 className="text-xl font-display font-black text-slate-900">Monitoramento de Desvios Orçamentários</h2>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Relação de itens com maior variação vs. budget</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-xl font-display font-black text-slate-900">Monitoramento de Desvios Orçamentários</h2>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Relação de itens com maior variação vs. budget</p>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                 <div className="w-2.5 h-2.5 rounded-full bg-amber-500" /> Alerta ({'>'}90%)
+              </div>
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                 <div className="w-2.5 h-2.5 rounded-full bg-rose-500" /> Crítico ({'>'}100%)
+              </div>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-               <div className="w-2.5 h-2.5 rounded-full bg-amber-500" /> Alerta ({'>'}90%)
-            </div>
-            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-               <div className="w-2.5 h-2.5 rounded-full bg-rose-500" /> Crítico ({'>'}100%)
-            </div>
-          </div>
-        </div>
 
-        <div className="bg-white border border-slate-100 rounded-[40px] overflow-hidden shadow-xl">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm min-w-[800px]">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
-                  <th className="text-left py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Item de Custo</th>
-                  <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Budget Planejado</th>
-                  <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor Realizado</th>
-                  <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Índice de Uso</th>
-                  <th className="text-center py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-50">
-                {[
-                  { item: 'Marketing Digital (Ads)', planejado: 50000, realizado: 52400, indice: 104.8 },
-                  { item: 'Softwares & SaaS', planejado: 15000, realizado: 14700, indice: 98.0 },
-                  { item: 'Manutenção Predial', planejado: 8000, realizado: 8400, indice: 105.0 },
-                  { item: 'Viagens & Deslocamento', planejado: 12000, realizado: 11160, indice: 93.0 },
-                  { item: 'Serviços de Terceiros', planejado: 45000, realizado: 38250, indice: 85.0 },
-                  { item: 'Treinamento & Desenvolvimento', planejado: 5000, realizado: 4600, indice: 92.0 }
-                ].map((row, i) => (
-                  <tr key={i} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="py-6 px-10">
-                      <div className="flex items-center gap-4">
-                        <div className={cn(
-                          "w-1 h-8 rounded-full",
-                          row.indice > 100 ? "bg-rose-500" : row.indice > 90 ? "bg-amber-500" : "bg-emerald-500"
-                        )} />
-                        <span className="font-bold text-slate-800 group-hover:text-secondary transition-colors">{row.item}</span>
-                      </div>
-                    </td>
-                    <td className="py-6 px-10 text-right text-slate-500 font-medium">{formatCurrency(row.planejado)}</td>
-                    <td className="py-6 px-10 text-right font-display font-black text-slate-900">{formatCurrency(row.realizado)}</td>
-                    <td className="py-6 px-10 text-right">
-                      <div className="flex items-center justify-end gap-3">
-                         <span className={cn(
-                           "text-lg font-display font-black",
-                           row.indice > 100 ? "text-rose-600" : row.indice > 90 ? "text-amber-600" : "text-emerald-600"
-                         )}>{row.indice}%</span>
-                      </div>
-                    </td>
-                    <td className="py-6 px-10">
-                      <div className="flex justify-center">
-                        {row.indice > 100 ? (
-                          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 text-rose-600 border border-rose-100 text-[10px] font-black uppercase tracking-widest animate-pulse">
-                            <ShieldAlert size={12} /> Crítico
-                          </div>
-                        ) : row.indice > 90 ? (
-                          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 text-amber-600 border border-amber-100 text-[10px] font-black uppercase tracking-widest">
-                            <AlertCircle size={12} /> Alerta
-                          </div>
-                        ) : (
-                          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 text-[10px] font-black uppercase tracking-widest">
-                            <CheckCircle2 size={12} /> Saudável
-                          </div>
-                        )}
-                      </div>
-                    </td>
+          <div className="bg-white border border-slate-100 rounded-[40px] overflow-hidden shadow-xl">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm min-w-[800px]">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-100">
+                    <th className="text-left py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Item de Custo</th>
+                    <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Budget Planejado</th>
+                    <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor Realizado</th>
+                    <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Índice de Uso</th>
+                    <th className="text-center py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {deviationRows.map((row: any, i: number) => (
+                    <tr key={i} className="hover:bg-slate-50/50 transition-colors group">
+                      <td className="py-6 px-10">
+                        <div className="flex items-center gap-4">
+                          <div className={cn(
+                            "w-1 h-8 rounded-full",
+                            row.indice > 100 ? "bg-rose-500" : row.indice > 90 ? "bg-amber-500" : "bg-emerald-500"
+                          )} />
+                          <span className="font-bold text-slate-800 group-hover:text-secondary transition-colors">{row.item}</span>
+                        </div>
+                      </td>
+                      <td className="py-6 px-10 text-right text-slate-500 font-medium">{formatCurrency(row.planejado)}</td>
+                      <td className="py-6 px-10 text-right font-display font-black text-slate-900">{formatCurrency(row.realizado)}</td>
+                      <td className="py-6 px-10 text-right">
+                        <div className="flex items-center justify-end gap-3">
+                           <span className={cn(
+                             "text-lg font-display font-black",
+                             row.indice > 100 ? "text-rose-600" : row.indice > 90 ? "text-amber-600" : "text-emerald-600"
+                           )}>{row.indice}%</span>
+                        </div>
+                      </td>
+                      <td className="py-6 px-10">
+                        <div className="flex justify-center">
+                          {row.indice > 100 ? (
+                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 text-rose-600 border border-rose-100 text-[10px] font-black uppercase tracking-widest animate-pulse">
+                              <ShieldAlert size={12} /> Crítico
+                            </div>
+                          ) : row.indice > 90 ? (
+                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 text-amber-600 border border-amber-100 text-[10px] font-black uppercase tracking-widest">
+                              <AlertCircle size={12} /> Alerta
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 text-[10px] font-black uppercase tracking-widest">
+                              <CheckCircle2 size={12} /> Saudável
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

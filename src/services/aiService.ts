@@ -1,7 +1,8 @@
 import { GoogleGenAI, Type } from '@google/genai';
 import { db, auth } from '../lib/firebase';
-import { collection, doc, writeBatch, serverTimestamp, setDoc, addDoc } from 'firebase/firestore';
+import { collection, doc, writeBatch, serverTimestamp, setDoc, addDoc, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { DATA } from '../data';
+import { GOVERNANCE_PRINCIPLES } from '../lib/governanceIntelligence';
 
 // Initialize the SDK with the Vite env variable
 // The user will need to define VITE_GEMINI_API_KEY in .env.local
@@ -859,9 +860,15 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
         { ind: "Índice de Vitalidade", val: 10 + Math.random() * 15, un: '%', cat: 'Gestão de Inovação' },
         { ind: "Projetos em Execução", val: 2 + Math.round(Math.random() * 3), un: 'un', cat: 'Gestão de Inovação' },
         
-        // Governança
+        // Governança e Compliance
         { ind: "Índice de Maturidade", val: 50 + Math.random() * 40, un: '%', cat: 'Governança Corporativa' },
-        { ind: "Compliance Score", val: 70 + Math.random() * 25, un: '%', cat: 'Governança Corporativa' }
+        { ind: "Compliance Score", val: 70 + Math.random() * 25, un: '%', cat: 'Governança Corporativa' },
+        { ind: "Tone at the Top", val: 60 + Math.random() * 30, un: '%', cat: 'Compliance', setor: 'Compliance' },
+        { ind: "Gestão de Riscos", val: 40 + Math.random() * 40, un: '%', cat: 'Compliance', setor: 'Compliance' },
+        { ind: "Comunicação", val: 30 + Math.random() * 50, un: '%', cat: 'Compliance', setor: 'Compliance' },
+        { ind: "Canais de Denúncia", val: 50 + Math.random() * 40, un: '%', cat: 'Compliance', setor: 'Compliance' },
+        { ind: "Diligência Terceiros", val: 20 + Math.random() * 60, un: '%', cat: 'Compliance', setor: 'Compliance' },
+        { ind: "Privacidade/LGPD", val: 60 + Math.random() * 30, un: '%', cat: 'Compliance', setor: 'Compliance' }
       ];
 
       for (const ind of indicatorsData) {
@@ -874,6 +881,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
           val: ind.val,
           un: ind.un,
           cat: ind.cat,
+          setor: (ind as any).setor || '',
           sem: ind.val > 0 ? 'Verde' : 'Vermelho',
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp()
@@ -898,6 +906,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
         clientId,
         ownerId: auth.currentUser!.uid,
         nome: prod.nome,
+        ncm: "8517.12.31", // NCM Simulado para impacto tributário
         precoVenda: Math.abs(prod.precoVenda) || 1,
         custosVariaveis: {},
         margemContribuicaoUnit: Math.abs(prod.precoVenda) * (Math.min(Math.abs(prod.margemContribuicaoPct), 99) / 100),
@@ -996,10 +1005,64 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     console.warn('Receivables não criados (sem bloqueio):', err);
   }
 
+  // === NEW SEEDING: Governance Diagnostics ===
+  try {
+    const mockResponses: Record<string, number> = {};
+    GOVERNANCE_PRINCIPLES.forEach(p => {
+      mockResponses[p.id] = 3 + Math.floor(Math.random() * 3); // 3-5 range
+    });
+
+    const axisScores: Record<string, number> = {};
+    const axes = ['Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'];
+    axes.forEach(e => {
+      axisScores[e] = 70 + Math.random() * 25;
+    });
+
+    const govDiagnosis = await generateGovernanceDiagnosis(axisScores, [], aiData.clientData.fantasia);
+    
+    await addDoc(collection(db, 'governance_diagnostics'), {
+      clientId,
+      date: serverTimestamp(),
+      maturityScore: 75 + Math.random() * 15,
+      alignmentScore: 80 + Math.random() * 10,
+      classification: 'Consolidada',
+      responses: mockResponses,
+      diagnosis: govDiagnosis,
+      axisScores: axisScores,
+      createdAt: serverTimestamp()
+    });
+    console.log('governance_diagnostics created.');
+  } catch (err) {
+    console.warn('FAIL governance_diagnostics:', err);
+  }
+
+  // === NEW SEEDING: Asset Portfolio ===
+  try {
+    const assetsData = [
+      { name: "CDB Liquidez Diária", category: "Renda Fixa", value: monthlyRev * 5, profit: monthlyRev * 0.05, status: "Stable", change: 0.88 },
+      { name: "Fundo Ações ESG", category: "Ações", value: monthlyRev * 3, profit: monthlyRev * 0.15, status: "Bullish", change: 2.45 },
+      { name: "Tesouro IPCA+ 2035", category: "Tesouro", value: monthlyRev * 4, profit: monthlyRev * 0.08, status: "Stable", change: 1.12 },
+      { name: "COE Internacional S&P500", category: "Internacional", value: monthlyRev * 2, profit: -monthlyRev * 0.02, status: "Correction", change: -1.20 }
+    ];
+
+    for (const asset of assetsData) {
+      await addDoc(collection(db, 'assets'), {
+        clientId,
+        ...asset,
+        ownerId: auth.currentUser!.uid,
+        updatedAt: serverTimestamp(),
+        createdAt: serverTimestamp()
+      });
+    }
+    console.log('assets created.');
+  } catch (err) {
+    console.warn('FAIL assets:', err);
+  }
+
   return clientId;
 };
 
-const sacerdotalDiagnosisSchema = {
+const governanceDiagnosisSchema = {
   type: Type.OBJECT,
   properties: {
     resumoExecutivo: { type: Type.STRING },
@@ -1027,7 +1090,7 @@ const sacerdotalDiagnosisSchema = {
   ]
 };
 
-export const generateSacerdotalDiagnosis = async (
+export const generateGovernanceDiagnosis = async (
   scores: Record<string, number>, 
   indicators: any[],
   companyName: string
@@ -1035,33 +1098,34 @@ export const generateSacerdotalDiagnosis = async (
   try {
     const ai = getAI();
     
-    const prompt = `Você é um Consultor Estratégico Sênior e Especialista em Inteligência Sacerdotal.
-Analise os resultados de maturidade da empresa "${companyName}" e gere um diagnóstico profundo.
+    const prompt = `Você é um Consultor Estratégico Sênior e Especialista em Inteligência de Governança e Maturidade Organizacional.
+Analise os resultados de maturidade da empresa "${companyName}" e gere um diagnóstico profundo e institucional.
 
-SCORES DE MATURIDADE POR EIXO:
+SCORES DE MATURIDADE POR EIXO (0-100):
 ${JSON.stringify(scores, null, 2)}
 
-PRINCIPAIS INDICADORES REAIS:
+PRINCIPAIS INDICADORES REAIS DO NEGÓCIO:
 ${JSON.stringify(indicators.slice(0, 15).map(i => ({ ind: i.ind, val: i.val, un: i.un })), null, 2)}
 
-DIRETRIZES:
-1. O diagnóstico deve ser profundo, executivo e premium.
-2. Identifique incoerências entre os scores (percepção) e indicadores (realidade).
-3. Gere um plano de ação prático e fundamentado em princípios bíblicos de gestão.
-4. O parecer executivo deve ser curto, impactante e direto ao ponto.`;
+DIRETRIZES OBRIGATÓRIAS:
+1. O diagnóstico deve ser profundo, executivo, institucional e premium.
+2. Identifique incoerências entre os scores de maturidade (percepção) e os indicadores reais (realidade financeira/operacional).
+3. Gere um plano de ação prático e fundamentado em princípios universais de governança e ética corporativa.
+4. O parecer executivo deve ser curto, impactante, de nível C-Level e direto ao ponto.
+5. Utilize linguagem sofisticada, evitando termos devocionais ou religiosos, focando em "Princípios Organizacionais" e "Fundamentos de Governança".`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.0-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
-        responseSchema: sacerdotalDiagnosisSchema,
+        responseSchema: governanceDiagnosisSchema,
       }
     });
 
     return JSON.parse(response.text);
   } catch (error) {
-    console.error("AI Sacerdotal Diagnosis Error:", error);
+    console.error("AI Governance Diagnosis Error:", error);
     return {
       resumoExecutivo: "A organização apresenta um nível de maturidade em estruturação, com pontos de atenção em Governança.",
       diagnosticoOrganizacional: "Equilíbrio moderado entre os eixos, mas com gargalos na operação.",

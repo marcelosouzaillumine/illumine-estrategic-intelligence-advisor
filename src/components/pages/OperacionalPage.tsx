@@ -16,6 +16,8 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { StatusBadge, PageHeader } from '../Common';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 
@@ -34,25 +36,51 @@ const getValueSizeClass = (maxLen: number) => {
 };
 
 export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
+  const [dbIndicators, setDbIndicators] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(false);
+  const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
+
+  React.useEffect(() => {
+    if (!clientId) return;
+    setLoading(true);
+    const q = query(
+      collection(db, 'indicators'),
+      where('clientId', '==', clientId),
+      where('ano', '==', selectedYear),
+      where('mes', '==', selectedMonth)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, [clientId, selectedYear, selectedMonth]);
+
+  const getIndicatorValue = (name: string, fallback: number = 0) => {
+    const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
+    return ind ? ind.val : fallback;
+  };
+
   const isLogistica = type === 'logistica';
 
   const indicators = useMemo(() => {
     if (isLogistica) {
       return [
-        { label: 'OTIF (Entrega no Prazo)', value: 92, suffix: '%', status: 'positive', target: 95, icon: Truck },
-        { label: 'Giro de Estoque', value: 4.8, suffix: 'x', status: 'neutral', target: 6.0, icon: Box },
-        { label: 'Custo Frete / Receita', value: 8.5, suffix: '%', status: 'negative', target: 6.0, icon: TrendingUp },
-        { label: 'Tempo Médio Entrega', value: 3.2, suffix: ' dias', status: 'positive', target: 4.0, icon: Clock }
+        { label: 'OTIF (Entrega no Prazo)', value: getIndicatorValue('OTIF', 0), suffix: '%', status: 'positive', target: 95, icon: Truck },
+        { label: 'Giro de Estoque', value: getIndicatorValue('Giro de Estoque', 0), suffix: 'x', status: 'neutral', target: 6.0, icon: Box },
+        { label: 'Custo Frete / Receita', value: getIndicatorValue('Custo Frete', 0), suffix: '%', status: 'negative', target: 6.0, icon: TrendingUp },
+        { label: 'Tempo Médio Entrega', value: getIndicatorValue('Lead Time Entrega', 0), suffix: ' dias', status: 'positive', target: 4.0, icon: Clock }
       ];
     } else {
       return [
-        { label: 'OEE (Eficiência Equip.)', value: 78, suffix: '%', status: 'positive', target: 85, icon: Settings },
-        { label: 'Nível de Refugo', value: 2.4, suffix: '%', status: 'negative', target: 1.5, icon: AlertCircle },
-        { label: 'Lead Time Produção', value: 12, suffix: ' dias', status: 'neutral', target: 10, icon: Clock },
-        { label: 'Produtividade Hora', value: 145, suffix: ' und/h', status: 'positive', target: 140, icon: Activity }
+        { label: 'OEE (Eficiência Equip.)', value: getIndicatorValue('OEE', 0), suffix: '%', status: 'positive', target: 85, icon: Settings },
+        { label: 'Nível de Refugo', value: getIndicatorValue('Nível de Refugo', 0), suffix: '%', status: 'negative', target: 1.5, icon: AlertCircle },
+        { label: 'Lead Time Produção', value: getIndicatorValue('Lead Time Produção', 0), suffix: ' dias', status: 'neutral', target: 10, icon: Clock },
+        { label: 'Produtividade Hora', value: getIndicatorValue('Produtividade Hora', 0), suffix: ' und/h', status: 'positive', target: 140, icon: Activity }
       ];
     }
-  }, [isLogistica]);
+  }, [isLogistica, dbIndicators]);
 
   const recommendations = useMemo(() => {
     if (isLogistica) {
@@ -73,7 +101,7 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
       {/* Strategic Header & Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-primary p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
@@ -171,7 +199,7 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
          </div>
 
          {/* Recommendations */}
-         <div className="bg-slate-900 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden">
+         <div className="bg-primary p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden">
             <div className="absolute right-0 top-0 p-8 text-secondary/5">
                <Zap size={120} strokeWidth={1} />
             </div>

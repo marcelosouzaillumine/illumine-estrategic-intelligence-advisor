@@ -23,7 +23,7 @@ import { cn, formatValue, formatCurrency } from '../../lib/utils';
 import { SectionHeader } from '../Common';
 
 const EIXOS: EixoGestao[] = [
-  'Governança Corporativa', 'Cultura Organizacional', 'Administração e Finanças', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
+  'Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
 ];
 
 interface OKRsPageProps {

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   WalletCards, 
   TrendingUp, 
@@ -22,7 +22,8 @@ import {
   Coins,
   Percent,
   TrendingDown,
-  Info
+  Info,
+  Loader2
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { 
@@ -38,47 +39,17 @@ import {
   Cell,
   Legend
 } from 'recharts';
+import { db } from '../../lib/firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
 import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
 import { FULL_MONTH_LABELS } from '../../constants';
 
-// --- Mock Data ---
-const PERFORMANCE_HISTORY = [
-  { month: 'Jan', value: 1250000 },
-  { month: 'Fev', value: 1280000 },
-  { month: 'Mar', value: 1275000 },
-  { month: 'Abr', value: 1310000 },
-  { month: 'Mai', value: 1350000 },
-  { month: 'Jun', value: 1342000 },
-  { month: 'Jul', value: 1390000 },
-  { month: 'Ago', value: 1420000 },
-  { month: 'Set', value: 1450000 },
-  { month: 'Out', value: 1480000 },
-  { month: 'Nov', value: 1520000 },
-  { month: 'Dez', value: 1580000 },
-];
-
-const ALLOCATION_DATA = [
-  { name: 'Renda Fixa', value: 450000, color: '#3b82f6' },
-  { name: 'Ações', value: 380000, color: '#10b981' },
-  { name: 'Fundos Imobiliários', value: 250000, color: '#f59e0b' },
-  { name: 'Multimercado', value: 200000, color: '#8b5cf6' },
-  { name: 'Exterior', value: 150000, color: '#ec4899' },
-  { name: 'Criptoativos', value: 50000, color: '#6366f1' },
-];
-
-const ASSETS = [
-  { id: 1, name: 'Tesouro Selic 2029', category: 'Renda Fixa', value: 250000, change: 0.85, profit: 12500, status: 'Stable' },
-  { id: 2, name: 'CDB Banco Master 120% CDI', category: 'Renda Fixa', value: 200000, change: 1.02, profit: 8400, status: 'Stable' },
-  { id: 3, name: 'ETF IVVB11 (S&P 500)', category: 'Exterior', value: 150000, change: 2.45, profit: 18200, status: 'Bullish' },
-  { id: 4, name: 'Fundo Verde AM', category: 'Multimercado', value: 200000, change: -0.42, profit: -1200, status: 'Correction' },
-  { id: 5, name: 'HGLG11 - Logística', category: 'Fundos Imobiliários', value: 125000, change: 0.62, profit: 4500, status: 'Stable' },
-  { id: 6, name: 'KNIP11 - Recebíveis Imob.', category: 'Fundos Imobiliários', value: 125000, change: 0.35, profit: 3200, status: 'Stable' },
-  { id: 7, name: 'WEGE3 - WEG S.A.', category: 'Ações', value: 180000, change: 1.25, profit: 22000, status: 'Bullish' },
-  { id: 8, name: 'VALE3 - Vale S.A.', category: 'Ações', value: 200000, change: -1.15, profit: -8500, status: 'Bearish' },
-  { id: 9, name: 'Bitcoin (BTC)', category: 'Criptoativos', value: 50000, change: 5.12, profit: 15400, status: 'Volatile' },
-];
+// --- Data Arrays ---
+const PERFORMANCE_HISTORY: any[] = [];
+const ALLOCATION_DATA: any[] = [];
+const ASSETS: any[] = [];
 
 // --- Components ---
 
@@ -93,26 +64,78 @@ function Semaphore({ status }: { status: string }) {
   return <div className={cn("w-2 h-2 rounded-full", colorMap[status] || 'bg-slate-500')} />;
 }
 
-export function AssetManagementPage({ clients, selectedClient, selectedYear, selectedMonth }: any) {
-  const [filterClient, setFilterClient] = useState(selectedClient || (clients && clients[0]?.id));
-  const [month, setMonth] = useState(selectedMonth || 5);
+export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: any) {
+  const [assets, setAssets] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [year, setYear] = useState(selectedYear || 2026);
+  const [month, setMonth] = useState(selectedMonth || 5);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    if (selectedClient) setFilterClient(selectedClient);
+    if (!clientId) return;
+    setLoading(true);
+    const q = query(
+      collection(db, 'assets'),
+      where('clientId', '==', clientId)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setAssets(docs);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [clientId]);
+
+  useEffect(() => {
     if (selectedYear) setYear(selectedYear);
     if (selectedMonth) setMonth(selectedMonth);
-  }, [selectedClient, selectedYear, selectedMonth]);
+  }, [selectedYear, selectedMonth]);
 
-  const totalValue = ASSETS.reduce((acc, curr) => acc + curr.value, 0);
-  const totalProfit = ASSETS.reduce((acc, curr) => acc + curr.profit, 0);
-  const avgChange = totalProfit / (totalValue - totalProfit) * 100;
+  const totalValue = assets.reduce((acc, curr) => acc + (curr.value || 0), 0);
+  const totalProfit = assets.reduce((acc, curr) => acc + (curr.profit || 0), 0);
+  const avgChange = totalValue > 0 ? (totalProfit / (totalValue - totalProfit)) * 100 : 0;
 
-  const filteredAssets = ASSETS.filter(asset => 
-    asset.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    asset.category.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredAssets = assets.filter(asset => 
+    (asset.name || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+    (asset.category || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Simulated Performance History based on current assets
+  const performanceHistory = useMemo(() => {
+    const history = [];
+    const baseValue = totalValue * 0.8;
+    for (let i = 0; i < 6; i++) {
+      history.push({
+        month: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'][i],
+        value: baseValue + (totalValue - baseValue) * (i / 5) * (0.9 + Math.random() * 0.2)
+      });
+    }
+    return history;
+  }, [totalValue]);
+
+  // Allocation Data
+  const allocationData = useMemo(() => {
+    const categories: Record<string, number> = {};
+    const colors: Record<string, string> = {
+      'Renda Fixa': '#3b82f6',
+      'Ações': '#f59e0b',
+      'Tesouro': '#10b981',
+      'Internacional': '#8b5cf6',
+      'Outros': '#94a3b8'
+    };
+
+    assets.forEach(a => {
+      categories[a.category] = (categories[a.category] || 0) + a.value;
+    });
+
+    return Object.entries(categories).map(([name, value]) => ({
+      name,
+      value,
+      color: colors[name] || colors['Outros']
+    }));
+  }, [assets]);
 
   const metrics = [
     { label: 'Patrimônio Total', value: formatCurrency(totalValue), icon: WalletCards, sub: 'Valor de Mercado' },
@@ -134,6 +157,40 @@ export function AssetManagementPage({ clients, selectedClient, selectedYear, sel
     { name: 'Poupança', value: 0.50, color: 'text-amber-500' },
     { name: 'Ibovespa', value: 1.20, color: 'text-emerald-500' }
   ];
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Loader2 className="animate-spin text-secondary mb-4" size={32} />
+        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Carregando carteira de ativos...</p>
+      </div>
+    );
+  }
+
+  if (assets.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade">
+         <div className="w-32 h-32 rounded-[48px] bg-slate-900 flex items-center justify-center text-secondary shadow-2xl relative">
+            <div className="absolute inset-0 bg-secondary blur-3xl opacity-20 animate-pulse" />
+            <Briefcase size={64} className="relative z-10" />
+         </div>
+         <div className="text-center space-y-4">
+            <h2 className="text-3xl font-display font-black text-slate-900 tracking-tight">Gestão de Ativos Indisponível</h2>
+            <p className="text-slate-500 max-w-md mx-auto font-medium leading-relaxed">
+              Não foram encontrados ativos financeiros registrados para este cliente no período selecionado. Importe seus ativos ou adicione-os manualmente para iniciar o monitoramento.
+            </p>
+         </div>
+         <div className="flex gap-4">
+            <button className="px-8 py-4 bg-secondary text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-secondary/20 hover:scale-105 transition-all">
+              <Plus size={16} className="inline mr-2" /> Adicionar Primeiro Ativo
+            </button>
+            <button className="px-8 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-200 transition-all">
+              <Download size={16} className="inline mr-2" /> Importar Dados
+            </button>
+         </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-10 pb-20 animate-executive-fade">
@@ -267,7 +324,7 @@ export function AssetManagementPage({ clients, selectedClient, selectedYear, sel
           <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Evolução do Patrimônio</h2>
           <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm h-[400px]">
              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={PERFORMANCE_HISTORY}>
+                <AreaChart data={performanceHistory}>
                   <defs>
                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
@@ -317,7 +374,7 @@ export function AssetManagementPage({ clients, selectedClient, selectedYear, sel
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
-                  data={ALLOCATION_DATA}
+                  data={allocationData}
                   cx="50%"
                   cy="50%"
                   innerRadius={60}
@@ -336,7 +393,7 @@ export function AssetManagementPage({ clients, selectedClient, selectedYear, sel
               </PieChart>
             </ResponsiveContainer>
             <div className="grid grid-cols-2 gap-x-8 gap-y-2 mt-4 w-full">
-               {ALLOCATION_DATA.map((item) => (
+               {allocationData.map((item) => (
                  <div key={item.name} className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
                     <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter truncate">{item.name}</span>

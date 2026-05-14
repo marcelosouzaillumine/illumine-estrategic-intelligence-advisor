@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageHeader } from '../Common';
 import { 
   User, 
@@ -13,12 +13,18 @@ import {
   AlertCircle,
   ExternalLink,
   ChevronRight,
-  LogOut
+  LogOut,
+  Activity,
+  Save,
+  X,
+  Loader2,
+  RefreshCw
 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../../lib/utils';
 import type { User as FirebaseUser } from 'firebase/auth';
-import { logout } from '../../lib/firebase';
+import { updateProfile, sendPasswordResetEmail } from 'firebase/auth';
+import { logout, MASTER_ADMINS, auth } from '../../lib/firebase';
 
 interface ProfilePageProps {
   user: FirebaseUser | null;
@@ -26,6 +32,70 @@ interface ProfilePageProps {
 
 export function ProfilePage({ user }: ProfilePageProps) {
   const [activeTab, setActiveTab] = useState<'info' | 'security' | 'sessions'>('info');
+  const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  
+  // Form States
+  const [displayName, setDisplayName] = useState(user?.displayName || '');
+  const [photoURL, setPhotoURL] = useState(user?.photoURL || '');
+  const [resetEmail, setResetEmail] = useState('');
+
+  const isMaster = user?.email && MASTER_ADMINS.includes(user.email);
+
+  useEffect(() => {
+    if (user) {
+      setDisplayName(user.displayName || '');
+      setPhotoURL(user.photoURL || '');
+    }
+  }, [user]);
+
+  const handleUpdateProfile = async () => {
+    if (!user) return;
+    setIsLoading(true);
+    setMessage(null);
+    try {
+      await updateProfile(user, {
+        displayName: displayName,
+        photoURL: photoURL
+      });
+      setMessage({ type: 'success', text: 'Perfil atualizado com sucesso!' });
+      setIsEditing(false);
+    } catch (error: any) {
+      console.error('Error updating profile:', error);
+      setMessage({ type: 'error', text: 'Erro ao atualizar perfil. Tente novamente.' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (email: string) => {
+    if (!email) return;
+    setIsLoading(true);
+    setMessage(null);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setMessage({ type: 'success', text: `E-mail de redefinição enviado para ${email}` });
+      setResetEmail('');
+    } catch (error: any) {
+      console.error('Error sending reset email:', error);
+      setMessage({ type: 'error', text: 'Erro ao enviar e-mail. Verifique o endereço informado.' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePhotoClick = () => {
+    const url = prompt('Insira a URL da nova foto de perfil:', photoURL);
+    if (url !== null) {
+      setPhotoURL(url);
+      if (!isEditing) {
+        // Auto save if not in full edit mode? 
+        // Better to just enter edit mode or ask to save.
+        setIsEditing(true);
+      }
+    }
+  };
 
   const tabs = [
     { id: 'info', label: 'Informações Pessoais', icon: User },
@@ -38,54 +108,73 @@ export function ProfilePage({ user }: ProfilePageProps) {
       <PageHeader 
         title="Meu Perfil" 
         subtitle="Gerencie suas informações pessoais, configurações de segurança e preferências de acesso à plataforma." 
+        icon={User}
       />
+
+      {message && (
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={cn(
+            "p-4 rounded-2xl flex items-center gap-3 font-bold text-sm",
+            message.type === 'success' ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "bg-rose-50 text-rose-700 border border-rose-100"
+          )}
+        >
+          {message.type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
+          {message.text}
+          <button onClick={() => setMessage(null)} className="ml-auto hover:opacity-70">
+            <X size={16} />
+          </button>
+        </motion.div>
+      )}
 
       <div className="grid lg:grid-cols-[320px_1fr] gap-8">
         {/* Sidebar */}
         <aside className="space-y-6">
-          <div className="glass-card p-8 text-center relative overflow-hidden dark:bg-slate-900/50 dark:border-slate-800">
-            <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-br from-primary to-slate-800" />
-            <div className="relative mt-8">
-              <div className="relative inline-block">
-                {user?.photoURL ? (
+          <div className="bg-slate-900 p-8 rounded-[32px] text-center relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-white/5 to-transparent" />
+            <div className="relative z-10">
+              <div className="relative inline-block group">
+                <div className="absolute inset-0 bg-secondary/20 blur-2xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-500" />
+                {photoURL ? (
                   <img 
-                    src={user.photoURL} 
-                    alt={user.displayName || ''} 
-                    className="w-24 h-24 rounded-[32px] border-4 border-white dark:border-slate-900 shadow-xl mx-auto object-cover" 
+                    src={photoURL} 
+                    alt={user?.displayName || ''} 
+                    className="w-28 h-28 rounded-[40px] border-4 border-white/10 shadow-2xl mx-auto object-cover relative z-10 group-hover:scale-105 transition-transform" 
                   />
                 ) : (
-                  <div className="w-24 h-24 rounded-[32px] bg-slate-100 dark:bg-slate-800 border-4 border-white dark:border-slate-900 shadow-xl mx-auto flex items-center justify-center text-primary dark:text-slate-100 text-3xl font-black">
-                    {user?.displayName?.split(' ').map(n => n[0]).join('') || 'U'}
+                  <div className="w-28 h-28 rounded-[40px] bg-white/5 border-4 border-white/10 shadow-2xl mx-auto flex items-center justify-center text-secondary text-4xl font-black relative z-10 group-hover:scale-105 transition-transform">
+                    {displayName?.split(' ').map(n => n[0]).join('') || 'U'}
                   </div>
                 )}
-                <button className="absolute bottom-0 right-0 p-2 bg-secondary text-white rounded-xl shadow-lg hover:bg-secondary/90 transition-all active:scale-90">
-                  <Camera size={14} />
+                <button 
+                  onClick={handlePhotoClick}
+                  className="absolute -bottom-2 -right-2 p-3 bg-secondary text-white rounded-2xl shadow-xl hover:bg-secondary/90 transition-all active:scale-90 z-20"
+                >
+                  <Camera size={16} />
                 </button>
               </div>
-              <h3 className="mt-4 text-xl font-black text-slate-900 font-display">
-                {user?.displayName || 'Usuário Illumine'}
+              <h3 className="mt-6 text-2xl font-black text-white font-display tracking-tight">
+                {displayName || 'Usuário Illumine'}
               </h3>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">
-                Consultor Estratégico
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-2">
+                {isMaster ? 'Master Admin' : 'Consultor Estratégico'}
               </p>
             </div>
 
-            <div className="mt-8 pt-8 border-t border-slate-100 flex flex-col gap-2">
+            <div className="mt-10 pt-10 border-t border-white/10 flex flex-col gap-2 relative z-10">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
                   className={cn(
-                    "flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all",
+                    "flex items-center gap-4 px-5 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all",
                     activeTab === tab.id 
-                      ? "bg-primary text-white shadow-xl shadow-primary/20" 
-                      : "text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-100"
+                      ? "bg-secondary text-white shadow-xl shadow-secondary/20" 
+                      : "text-slate-400 hover:bg-white/5 hover:text-white"
                   )}
                 >
-                  {(() => {
-                    const Icon = tab.icon;
-                    return <Icon size={16} />;
-                  })()}
+                  <tab.icon size={18} />
                   {tab.label}
                 </button>
               ))}
@@ -93,24 +182,27 @@ export function ProfilePage({ user }: ProfilePageProps) {
 
             <button 
               onClick={logout}
-              className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-xs font-black uppercase tracking-widest text-rose-500 border border-rose-100 dark:border-rose-900/50 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-all"
+              className="mt-8 w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-rose-400 border border-white/5 hover:bg-rose-500/10 hover:border-rose-500/20 transition-all relative z-10"
             >
               <LogOut size={16} />
               Encerrar Sessão
             </button>
           </div>
 
-          <div className="glass-card p-6 bg-emerald-50/50 border-emerald-100">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                <Shield size={20} />
+          <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-[32px] p-8 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform text-emerald-500">
+              <Shield size={64} />
+            </div>
+            <div className="flex items-center gap-4 mb-4 relative z-10">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                <Shield size={24} />
               </div>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Status da Conta</p>
-                <p className="text-sm font-black text-slate-900">Verificada</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-500/70">Status da Conta</p>
+                <p className="text-base font-black text-slate-900">Verificada</p>
               </div>
             </div>
-            <p className="text-[11px] text-emerald-800 leading-relaxed font-medium">
+            <p className="text-xs text-slate-600 leading-relaxed font-medium relative z-10">
               Sua conta possui autenticação via Google habilitada e está em conformidade com as políticas de segurança.
             </p>
           </div>
@@ -122,54 +214,122 @@ export function ProfilePage({ user }: ProfilePageProps) {
             key={activeTab}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-card p-10 dark:bg-slate-900/50 dark:border-slate-800"
+            className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm"
           >
             {activeTab === 'info' && (
-              <div className="space-y-8">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 font-display">Dados Cadastrais</h3>
-                  <button className="px-5 py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 dark:hover:bg-white transition-all">
-                    Editar Dados
-                  </button>
+              <div className="space-y-10">
+                <div className="flex items-center justify-between pb-6 border-b border-slate-100">
+                  <div>
+                    <h3 className="text-2xl font-black text-slate-900 font-display tracking-tight">Dados Cadastrais</h3>
+                    <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Informações de Identidade</p>
+                  </div>
+                  <div className="flex gap-3">
+                    {isEditing ? (
+                      <>
+                        <button 
+                          onClick={() => setIsEditing(false)}
+                          className="px-6 py-3 bg-slate-100 text-slate-600 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-200 transition-all"
+                        >
+                          Cancelar
+                        </button>
+                        <button 
+                          onClick={handleUpdateProfile}
+                          disabled={isLoading}
+                          className="px-6 py-3 bg-emerald-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-600 transition-all shadow-xl shadow-emerald-500/20 flex items-center gap-2"
+                        >
+                          {isLoading ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+                          Salvar Alterações
+                        </button>
+                      </>
+                    ) : (
+                      <button 
+                        onClick={() => setIsEditing(true)}
+                        className="px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary transition-all shadow-xl shadow-slate-900/10 flex items-center gap-2"
+                      >
+                        Editar Dados
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="space-y-1.5">
+                <div className="grid sm:grid-cols-2 gap-8">
+                  <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Nome Completo</label>
-                    <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-2xl text-sm font-bold text-slate-900 dark:text-slate-100">
-                      <User size={16} className="text-slate-400" />
-                      {user?.displayName}
-                    </div>
+                    {isEditing ? (
+                      <input 
+                        type="text"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        className="w-full flex items-center gap-4 px-5 py-4 bg-white border border-slate-200 rounded-[20px] text-sm font-bold text-slate-900 outline-none focus:border-secondary transition-all"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-4 px-5 py-4 bg-slate-50 border border-slate-100 rounded-[20px] text-sm font-bold text-slate-900">
+                        <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-slate-400 shadow-sm">
+                          <User size={14} />
+                        </div>
+                        {displayName}
+                      </div>
+                    )}
                   </div>
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">E-mail Principal</label>
-                    <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-2xl text-sm font-bold text-slate-900 dark:text-slate-100">
-                      <Mail size={16} className="text-slate-400" />
+                    <div className={cn(
+                      "flex items-center gap-4 px-5 py-4 border rounded-[20px] text-sm font-bold transition-all",
+                      isMaster && isEditing 
+                        ? "bg-white border-slate-200 text-slate-900 focus-within:border-secondary" 
+                        : "bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed"
+                    )}>
+                      <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm">
+                        <Mail size={14} />
+                      </div>
                       {user?.email}
+                      {!isMaster && <Shield size={12} className="ml-auto opacity-50" title="Somente Master Admin pode alterar" />}
                     </div>
                   </div>
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Empresa / Unidade</label>
-                    <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-2xl text-sm font-bold text-slate-900 dark:text-slate-100">
-                      <Building size={16} className="text-slate-400" />
-                      Illumine Strategic Advisory
-                    </div>
+                    {isEditing && isMaster ? (
+                      <input 
+                        type="text"
+                        defaultValue="Illumine Strategic Advisory"
+                        className="w-full flex items-center gap-4 px-5 py-4 bg-white border border-slate-200 rounded-[20px] text-sm font-bold text-slate-900 outline-none focus:border-secondary transition-all"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-4 px-5 py-4 bg-slate-100 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-400 cursor-not-allowed">
+                        <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm">
+                          <Building size={14} />
+                        </div>
+                        Illumine Strategic Advisory
+                        {!isMaster && <Shield size={12} className="ml-auto opacity-50" title="Somente Master Admin pode alterar" />}
+                      </div>
+                    )}
                   </div>
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Cargo / Função</label>
-                    <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-2xl text-sm font-bold text-slate-900 dark:text-slate-100">
-                      <Shield size={16} className="text-slate-400" />
-                      Master Admin
-                    </div>
+                    {isEditing && isMaster ? (
+                      <input 
+                        type="text"
+                        defaultValue={isMaster ? 'Master Admin' : 'Consultor Estratégico'}
+                        className="w-full flex items-center gap-4 px-5 py-4 bg-white border border-slate-200 rounded-[20px] text-sm font-bold text-slate-900 outline-none focus:border-secondary transition-all"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-4 px-5 py-4 bg-slate-100 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-400 cursor-not-allowed">
+                        <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-slate-300 shadow-sm">
+                          <Shield size={14} />
+                        </div>
+                        {isMaster ? 'Master Admin' : 'Consultor Estratégico'}
+                        {!isMaster && <Shield size={12} className="ml-auto opacity-50" title="Somente Master Admin pode alterar" />}
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                <div className="pt-8 border-t border-slate-100 dark:border-slate-800">
-                  <h4 className="text-lg font-black text-slate-900 dark:text-slate-100 mb-6">Contas Conectadas</h4>
-                  <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-2xl">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
-                        <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <div className="pt-10 border-t border-slate-100">
+                  <h4 className="text-lg font-black text-slate-900 mb-6 font-display">Contas Conectadas</h4>
+                  <div className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-[32px] group hover:border-secondary/20 transition-all">
+                    <div className="flex items-center gap-5">
+                      <div className="w-14 h-14 rounded-2xl bg-white border border-slate-200 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+                        <svg className="w-6 h-6" viewBox="0 0 24 24">
                           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                           <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
                           <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
@@ -177,11 +337,11 @@ export function ProfilePage({ user }: ProfilePageProps) {
                         </svg>
                       </div>
                       <div>
-                        <p className="text-sm font-black text-slate-900 dark:text-slate-100">Google Account</p>
-                        <p className="text-xs font-medium text-slate-400">Vinculado para login e sincronização</p>
+                        <p className="text-base font-black text-slate-900">Google Account</p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sincronização Ativa</p>
                       </div>
                     </div>
-                    <span className="flex items-center gap-2 text-[10px] font-black uppercase text-emerald-500 tracking-widest">
+                    <span className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-[10px] font-black uppercase tracking-widest">
                       <CheckCircle2 size={14} /> Conectado
                     </span>
                   </div>
@@ -190,57 +350,113 @@ export function ProfilePage({ user }: ProfilePageProps) {
             )}
 
             {activeTab === 'security' && (
-              <div className="space-y-8">
-                <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 font-display">Segurança & Acesso</h3>
+              <div className="space-y-10">
+                <div className="pb-6 border-b border-slate-100">
+                  <h3 className="text-2xl font-black text-slate-900 font-display tracking-tight">Segurança & Acesso</h3>
+                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Proteção de Dados e Autenticação</p>
+                </div>
                 
-                <div className="grid gap-4">
-                  <div className="p-6 border border-slate-100 dark:border-slate-800 rounded-2xl hover:border-secondary/20 transition-all group">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 flex items-center justify-center group-hover:bg-secondary group-hover:text-white transition-all">
-                          <Shield size={24} />
+                <div className="grid gap-6">
+                  {/* Master Admin Section: Password Reset for Others */}
+                  {isMaster && (
+                    <div className="p-8 border-2 border-primary/10 bg-primary/5 rounded-[32px] relative overflow-hidden group">
+                      <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform">
+                        <RefreshCw size={64} className="text-primary" />
+                      </div>
+                      <div className="relative z-10">
+                        <div className="flex items-center gap-5 mb-6">
+                          <div className="w-14 h-14 rounded-2xl bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/20">
+                            <Key size={28} />
+                          </div>
+                          <div>
+                            <h4 className="text-lg font-black text-slate-900">Resetar Senha de Usuário</h4>
+                            <p className="text-sm font-medium text-slate-500 mt-1">O usuário receberá um e-mail para definir uma nova senha</p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="text-base font-black text-slate-900 dark:text-slate-100">Autenticação de Dois Fatores</h4>
-                          <p className="text-xs font-medium text-slate-400">Adicione uma camada extra de proteção</p>
+                        <div className="flex gap-4">
+                          <input 
+                            type="email"
+                            placeholder="E-mail do usuário para reset..."
+                            value={resetEmail}
+                            onChange={(e) => setResetEmail(e.target.value)}
+                            className="flex-1 px-5 py-4 bg-white border border-slate-200 rounded-[20px] text-sm font-bold text-slate-900 outline-none focus:border-primary transition-all"
+                          />
+                          <button 
+                            onClick={() => handleResetPassword(resetEmail)}
+                            disabled={isLoading || !resetEmail}
+                            className="px-8 py-4 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition-all shadow-xl shadow-primary/20 flex items-center gap-2 disabled:opacity-50"
+                          >
+                            {isLoading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
+                            Enviar Reset
+                          </button>
                         </div>
                       </div>
-                      <button className="px-4 py-2 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
+                    </div>
+                  )}
+
+                  <div className="p-8 border border-slate-100 rounded-[32px] hover:border-secondary/20 transition-all group relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform">
+                      <Shield size={64} className="text-secondary" />
+                    </div>
+                    <div className="flex items-center justify-between mb-2 relative z-10">
+                      <div className="flex items-center gap-5">
+                        <div className="w-14 h-14 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center group-hover:bg-secondary group-hover:text-white transition-all duration-500">
+                          <Shield size={28} />
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-black text-slate-900">Autenticação de Dois Fatores</h4>
+                          <p className="text-sm font-medium text-slate-500 mt-1">Camada extra de proteção via app ou SMS</p>
+                        </div>
+                      </div>
+                      <button 
+                        onClick={() => setMessage({ type: 'error', text: 'Funcionalidade em desenvolvimento.' })}
+                        className="px-6 py-3 bg-slate-50 hover:bg-slate-100 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all"
+                      >
                         Configurar
                       </button>
                     </div>
                   </div>
 
-                  <div className="p-6 border border-slate-100 dark:border-slate-800 rounded-2xl hover:border-secondary/20 transition-all group">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
-                          <Key size={24} />
+                  <div className="p-8 border border-slate-100 rounded-[32px] hover:border-blue-500/20 transition-all group relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform">
+                      <Key size={64} className="text-blue-500" />
+                    </div>
+                    <div className="flex items-center justify-between mb-2 relative z-10">
+                      <div className="flex items-center gap-5">
+                        <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                          <Key size={28} />
                         </div>
                         <div>
-                          <h4 className="text-base font-black text-slate-900 dark:text-slate-100">Alterar Senha</h4>
-                          <p className="text-xs font-medium text-slate-400">Recomendado trocar a cada 90 dias</p>
+                          <h4 className="text-lg font-black text-slate-900">Alterar Minha Senha</h4>
+                          <p className="text-sm font-medium text-slate-500 mt-1">Troque sua senha periodicamente</p>
                         </div>
                       </div>
-                      <button className="px-4 py-2 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
-                        Alterar
+                      <button 
+                        onClick={() => handleResetPassword(user?.email || '')}
+                        disabled={isLoading}
+                        className="px-6 py-3 bg-slate-50 hover:bg-slate-100 text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all"
+                      >
+                        Solicitar Reset
                       </button>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-6 bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800 rounded-2xl">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
-                      <AlertCircle size={20} />
+                <div className="p-8 bg-rose-50 border border-rose-100 rounded-[32px] relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform text-rose-500">
+                    <AlertCircle size={64} />
+                  </div>
+                  <div className="flex items-start gap-6 relative z-10">
+                    <div className="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+                      <AlertCircle size={28} />
                     </div>
                     <div>
-                      <h4 className="text-sm font-black text-rose-900 dark:text-rose-100">Zona de Perigo</h4>
-                      <p className="text-xs font-medium text-rose-700 dark:text-rose-300 mt-1 mb-4">
-                        Ao excluir sua conta, todos os seus dados pessoais e preferências serão removidos permanentemente. Esta ação não pode ser desfeita.
+                      <h4 className="text-lg font-black text-rose-900">Zona de Perigo</h4>
+                      <p className="text-sm font-medium text-rose-700/80 mt-2 mb-6 leading-relaxed">
+                        Ao excluir sua conta, todos os seus dados pessoais e preferências serão removidos permanentemente de nossos sistemas. Esta ação é irreversível.
                       </p>
-                      <button className="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-400 hover:underline">
-                        Solicitar Exclusão de Conta
+                      <button className="px-6 py-3 bg-rose-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-rose-700 transition-all shadow-xl shadow-rose-600/20">
+                        Solicitar Exclusão
                       </button>
                     </div>
                   </div>
@@ -249,48 +465,54 @@ export function ProfilePage({ user }: ProfilePageProps) {
             )}
 
             {activeTab === 'sessions' && (
-              <div className="space-y-8">
-                <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 font-display">Sessões Ativas</h3>
+              <div className="space-y-10">
+                <div className="pb-6 border-b border-slate-100">
+                  <h3 className="text-2xl font-black text-slate-900 font-display tracking-tight">Sessões Ativas</h3>
+                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Controle de Acessos em Tempo Real</p>
+                </div>
                 
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-6 border-2 border-secondary/20 bg-secondary/5 dark:bg-secondary/10 rounded-3xl relative overflow-hidden">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-800 border border-secondary/20 flex items-center justify-center text-secondary">
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between p-8 border-2 border-secondary/20 bg-secondary/5 rounded-[32px] relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform text-secondary">
+                      <Activity size={64} />
+                    </div>
+                    <div className="flex items-center gap-5 relative z-10">
+                      <div className="w-14 h-14 rounded-2xl bg-white border border-secondary/20 flex items-center justify-center text-secondary shadow-sm">
                         <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2 }}>
-                          <Shield size={24} />
+                          <Shield size={28} />
                         </motion.div>
                       </div>
                       <div>
-                        <div className="flex items-center gap-2">
-                          <h4 className="text-base font-black text-slate-900 dark:text-slate-100">MacBook Pro - Chrome</h4>
-                          <span className="px-2 py-0.5 bg-secondary text-white text-[8px] font-black uppercase tracking-widest rounded-full">Sessão Atual</span>
+                        <div className="flex items-center gap-3">
+                          <h4 className="text-lg font-black text-slate-900">MacBook Pro - Chrome</h4>
+                          <span className="px-3 py-1 bg-secondary text-white text-[9px] font-black uppercase tracking-widest rounded-lg shadow-lg shadow-secondary/20">Sessão Atual</span>
                         </div>
-                        <p className="text-xs font-medium text-slate-500">São Paulo, Brasil • IP: 189.122.XX.XX</p>
+                        <p className="text-sm font-medium text-slate-500 mt-1">São Paulo, Brasil • IP: 189.122.XX.XX</p>
                       </div>
                     </div>
-                    <button className="p-2 text-slate-300 cursor-not-allowed">
-                      <ChevronRight size={20} />
+                    <button className="p-3 text-slate-300 cursor-not-allowed">
+                      <ChevronRight size={24} />
                     </button>
                   </div>
 
-                  <div className="flex items-center justify-between p-6 border border-slate-100 dark:border-slate-800 rounded-3xl">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-slate-400">
-                        <Shield size={24} />
+                  <div className="flex items-center justify-between p-8 border border-slate-100 rounded-[32px] group hover:border-slate-200 transition-all">
+                    <div className="flex items-center gap-5">
+                      <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors duration-500">
+                        <Shield size={28} />
                       </div>
                       <div>
-                        <h4 className="text-base font-black text-slate-900 dark:text-slate-100">iPhone 15 - App</h4>
-                        <p className="text-xs font-medium text-slate-500">Curitiba, Brasil • Há 2 horas</p>
+                        <h4 className="text-lg font-black text-slate-900">iPhone 15 - App</h4>
+                        <p className="text-sm font-medium text-slate-500 mt-1">Curitiba, Brasil • Há 2 horas</p>
                       </div>
                     </div>
-                    <button className="px-4 py-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
+                    <button className="px-6 py-3 text-rose-500 hover:bg-rose-50 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border border-transparent hover:border-rose-100">
                       Encerrar
                     </button>
                   </div>
                 </div>
 
-                <div className="flex justify-center pt-4">
-                  <button className="text-xs font-black uppercase tracking-widest text-slate-400 hover:text-rose-500 transition-colors">
+                <div className="flex justify-center pt-6">
+                  <button className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-rose-500 transition-colors">
                     Encerrar todas as outras sessões
                   </button>
                 </div>

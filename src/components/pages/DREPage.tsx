@@ -15,7 +15,6 @@ import {
   PieChart,
   Pie
 } from 'recharts';
-import { DATA } from '../../data';
 import { cn, formatCurrency } from '../../lib/utils';
 import { PageHeader } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -57,10 +56,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const dbData = dbDataDRE;
   const docIds = docIdsDRE;
 
-  // ── Mock fallback ─────────────────────────────────────────────────────────
-  const mockRows = DATA.dre.filter(
-    (r: any) => r.id === selectedClient && r.ano === filterYear
-  );
+
   
   // Agrega dados se houver múltiplos meses no banco para o mesmo ano
   const rows = useMemo(() => {
@@ -75,15 +71,15 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       });
       return Object.values(aggregated);
     }
-    return mockRows;
-  }, [dbData, mockRows]);
+    return [];
+  }, [dbData]);
 
   const getValue = (source: any[], name: string) => {
     const search = name.toLowerCase();
     return source.find(s => (s.conta || s.category || '').toLowerCase() === search)?.val || source.find(s => (s.conta || s.category || '').toLowerCase() === search)?.valor || 0;
   };
 
-  const recLiquida = getValue(rows, 'Receita Líquida') || getValue(rows, 'Receita Operacional Líquida') || 1;
+  const recLiquida = getValue(rows, 'Receita Líquida') || getValue(rows, 'Receita Operacional Líquida') || 0;
   const lucroBruto = getValue(rows, 'Lucro Bruto');
   const ebitda     = getValue(rows, 'EBITDA');
   const lucroLiq   = getValue(rows, 'Lucro Líquido') || getValue(rows, 'Lucro Líquido do Exercício');

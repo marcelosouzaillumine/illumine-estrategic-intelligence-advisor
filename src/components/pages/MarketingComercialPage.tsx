@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { 
   Globe, 
   ShoppingBag, 
@@ -23,6 +23,8 @@ import {
 import { motion } from 'motion/react';
 import { StatusBadge } from '../Common';
 import { formatValue, cn } from '../../lib/utils';
+import { db } from '../../lib/firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
 interface MarketingComercialPageProps {
   type: 'marketing' | 'comercial';
@@ -40,8 +42,33 @@ const getValueSizeClass = (maxLen: number) => {
 
 export function MarketingComercialPage({ type, clientId }: MarketingComercialPageProps) {
   const isMarketing = type === 'marketing';
-  const [selectedYear, setSelectedYear] = useState(2026);
-  const [selectedMonth, setSelectedMonth] = useState(5);
+  const [dbIndicators, setDbIndicators] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+
+  useEffect(() => {
+    if (!clientId) return;
+    setLoading(true);
+    const q = query(
+      collection(db, 'indicators'),
+      where('clientId', '==', clientId),
+      where('ano', '==', selectedYear),
+      where('mes', '==', selectedMonth)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, [clientId, selectedYear, selectedMonth]);
+
+  const getIndicatorValue = (name: string, fallback: number = 0) => {
+    const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
+    return ind ? ind.val : fallback;
+  };
+
+  const hasData = dbIndicators.length > 0;
 
   const [isYTD, setIsYTD] = useState(false);
 
@@ -53,20 +80,20 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
   const indicators = useMemo(() => {
     if (isMarketing) {
       return [
-        { label: 'Brand Awareness', value: 68, suffix: '%', status: 'positive', target: 60, icon: Globe },
-        { label: 'Índice de Sentimento', value: 84, suffix: '%', status: 'positive', target: 80, icon: MessageSquare },
-        { label: 'CAC (Custo de Aquisição)', value: isYTD ? 425 : 450, isCur: true, status: 'positive', target: 500, icon: Users },
-        { label: 'ROAS Médio', value: isYTD ? 5.2 : 4.8, suffix: 'x', status: 'positive', target: 4.0, icon: TrendingUp },
+        { label: 'Brand Awareness', value: getIndicatorValue('Awareness', 0), suffix: '%', status: 'positive', target: 60, icon: Globe },
+        { label: 'Sentimento', value: getIndicatorValue('Sentimento', 0), suffix: '%', status: 'positive', target: 80, icon: MessageSquare },
+        { label: 'CAC', value: getIndicatorValue('CAC', 0), isCur: true, status: 'positive', target: 500, icon: Users },
+        { label: 'ROAS Médio', value: getIndicatorValue('ROAS', 0), suffix: 'x', status: 'positive', target: 4.0, icon: TrendingUp },
       ];
     } else {
       return [
-        { label: 'Taxa de Conversão', value: isYTD ? 22 : 24, suffix: '%', status: 'positive', target: 20, icon: ArrowUpRight },
-        { label: 'Ciclo de Vendas', value: 14, suffix: ' dias', status: 'positive', target: 20, icon: Activity },
-        { label: 'Ticket Médio', value: isYTD ? 2950 : 2850, isCur: true, status: 'positive', target: 2500, icon: Target },
-        { label: 'LTV/CAC Ratio', value: 3.5, suffix: 'x', status: 'positive', target: 3.0, icon: Percent },
+        { label: 'Taxa de Conversão', value: getIndicatorValue('Conversão', 0), suffix: '%', status: 'positive', target: 20, icon: ArrowUpRight },
+        { label: 'Ciclo de Vendas', value: getIndicatorValue('Ciclo Vendas', 0), suffix: ' dias', status: 'positive', target: 20, icon: Activity },
+        { label: 'Ticket Médio', value: getIndicatorValue('Ticket Médio', 0), isCur: true, status: 'positive', target: 2500, icon: Target },
+        { label: 'LTV/CAC Ratio', value: getIndicatorValue('LTV/CAC', 0), suffix: 'x', status: 'positive', target: 3.0, icon: Percent },
       ];
     }
-  }, [isMarketing, isYTD]);
+  }, [isMarketing, dbIndicators]);
 
   const recommendations = useMemo(() => {
     if (isMarketing) {
@@ -86,80 +113,40 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
 
 
   const funnelData = useMemo(() => {
+    const reach = getIndicatorValue('Alcance', 0);
+    const clicks = getIndicatorValue('Cliques', 0);
+    const leads = getIndicatorValue('Leads', 0);
+    const opportunities = getIndicatorValue('Oportunidades', 0);
+    const sales = getIndicatorValue('Vendas', 0);
+
     if (isMarketing) {
       return [
-        { stage: 'Alcance/Impressões', value: 125000, conversion: '100%', color: 'bg-slate-800' },
-        { stage: 'Visitantes/Cliques', value: 8400, conversion: '6.7%', color: 'bg-slate-700' },
-        { stage: 'Leads Captados', value: 1250, conversion: '14.9%', color: 'bg-emerald-700' },
-        { stage: 'MQLs Qualificados', value: 840, conversion: '67.2%', color: 'bg-emerald-600' },
-        { stage: 'SQLs (Vendas)', value: 320, conversion: '38.1%', color: 'bg-secondary' }
+        { stage: 'Alcance/Impressões', value: reach, conversion: '100%', color: 'bg-slate-800' },
+        { stage: 'Visitantes/Cliques', value: clicks, conversion: reach ? `${((clicks / reach) * 100).toFixed(1)}%` : '0%', color: 'bg-slate-700' },
+        { stage: 'Leads Captados', value: leads, conversion: clicks ? `${((leads / clicks) * 100).toFixed(1)}%` : '0%', color: 'bg-emerald-700' },
+        { stage: 'MQLs Qualificados', value: opportunities, conversion: leads ? `${((opportunities / leads) * 100).toFixed(1)}%` : '0%', color: 'bg-emerald-600' },
+        { stage: 'SQLs (Vendas)', value: sales, conversion: opportunities ? `${((sales / opportunities) * 100).toFixed(1)}%` : '0%', color: 'bg-secondary' }
       ];
     }
     return [
-      { stage: 'Prospecção', value: 1250, conversion: '100%', color: 'bg-slate-800' },
-      { stage: 'Qualificação', value: 840, conversion: '67.2%', color: 'bg-slate-700' },
-      { stage: 'Proposta', value: 320, conversion: '38.1%', color: 'bg-emerald-700' },
-      { stage: 'Negociação', value: 145, conversion: '45.3%', color: 'bg-emerald-600' },
-      { stage: 'Fechamento', value: 82, conversion: '56.5%', color: 'bg-secondary' }
+      { stage: 'Prospecção', value: leads, conversion: '100%', color: 'bg-slate-800' },
+      { stage: 'Qualificação', value: opportunities, conversion: leads ? `${((opportunities / leads) * 100).toFixed(1)}%` : '0%', color: 'bg-slate-700' },
+      { stage: 'Proposta', value: Math.round(opportunities * 0.8), conversion: '80%', color: 'bg-emerald-700' },
+      { stage: 'Negociação', value: Math.round(opportunities * 0.5), conversion: '50%', color: 'bg-emerald-600' },
+      { stage: 'Fechamento', value: sales, conversion: opportunities ? `${((sales / opportunities) * 100).toFixed(1)}%` : '0%', color: 'bg-secondary' }
     ];
-  }, [isMarketing]);
+  }, [isMarketing, dbIndicators]);
 
   const performanceData = useMemo(() => {
-    if (isMarketing) {
-      return {
-        vendedores: [ // Relabeled as Canais
-          { name: 'Google Search Ads', value: 85000, share: '38%', abc: 'A', trend: 'up' },
-          { name: 'Meta Ads (Instagram)', value: 42000, share: '19%', abc: 'A', trend: 'up' },
-          { name: 'LinkedIn Marketing', value: 28000, share: '12%', abc: 'B', trend: 'neutral' },
-          { name: 'Tráfego Orgânico (SEO)', value: 15000, share: '7%', abc: 'C', trend: 'down' }
-        ],
-        regioes: [ // Relabeled as Campanhas
-          { name: 'Black Friday 2026', value: 125000, share: '42%', abc: 'A', trend: 'up' },
-          { name: 'Lançamento Linha X', value: 85000, share: '28%', abc: 'A', trend: 'up' },
-          { name: 'Branding Institucional', value: 42000, share: '14%', abc: 'B', trend: 'up' },
-          { name: 'Retargeting Global', value: 22000, share: '7%', abc: 'C', trend: 'down' }
-        ],
-        produtos: [ // Relabeled as Origem de Leads
-          { name: 'Webinars & Eventos', value: 450, share: '35%', abc: 'A', trend: 'up' },
-          { name: 'Landing Pages B2B', value: 320, share: '25%', abc: 'A', trend: 'neutral' },
-          { name: 'E-books & Materiais', value: 280, share: '22%', abc: 'B', trend: 'up' },
-          { name: 'Formulários Site', value: 120, share: '9%', abc: 'C', trend: 'down' }
-        ],
-        unidades: [ // Relabeled as Budget
-          { name: 'Mídia Paga (Ads)', value: 180000, share: '65%', abc: 'A', trend: 'up' },
-          { name: 'Produção Conteúdo', value: 45000, share: '16%', abc: 'A', trend: 'up' },
-          { name: 'Ferramentas & SAAS', value: 32000, share: '12%', abc: 'B', trend: 'neutral' },
-          { name: 'Eventos & PR', value: 12000, share: '4%', abc: 'C', trend: 'down' }
-        ]
-      };
+    // If we have no real data, we return empty arrays for performance matrix to avoid mockup artifacts
+    if (!hasData) {
+      return { vendedores: [], regioes: [], produtos: [], unidades: [] };
     }
-    return {
-      vendedores: [
-        { name: 'Ricardo Almeida', value: 450000, share: '24%', abc: 'A', trend: 'up' },
-        { name: 'Carla Silveira', value: 380000, share: '21%', abc: 'A', trend: 'up' },
-        { name: 'Marcos Santos', value: 120000, share: '8%', abc: 'B', trend: 'down' },
-        { name: 'Ana Beatriz', value: 45000, share: '3%', abc: 'C', trend: 'neutral' }
-      ],
-      regioes: [
-        { name: 'Sudeste', value: 1200000, share: '45%', abc: 'A', trend: 'up' },
-        { name: 'Sul', value: 850000, share: '32%', abc: 'A', trend: 'up' },
-        { name: 'Nordeste', value: 420000, share: '15%', abc: 'B', trend: 'up' },
-        { name: 'Centro-Oeste', value: 180000, share: '8%', abc: 'C', trend: 'down' }
-      ],
-      produtos: [
-        { name: 'Licença Enterprise', value: 950000, share: '40%', abc: 'A', trend: 'up' },
-        { name: 'Consultoria Premium', value: 650000, share: '28%', abc: 'A', trend: 'neutral' },
-        { name: 'Suporte Advanced', value: 320000, share: '18%', abc: 'B', trend: 'up' },
-        { name: 'Treinamento Equipe', value: 120000, share: '14%', abc: 'C', trend: 'down' }
-      ],
-      unidades: [
-        { name: 'Matriz (SP)', value: 1800000, share: '55%', abc: 'A', trend: 'up' },
-        { name: 'Filial (RJ)', value: 950000, share: '30%', abc: 'A', trend: 'up' },
-        { name: 'Filial (PR)', value: 420000, share: '12%', abc: 'B', trend: 'neutral' },
-        { name: 'Unidade (MG)', value: 110000, share: '3%', abc: 'C', trend: 'down' }
-      ]
-    };
-  }, [isMarketing]);
+
+    // Attempt to map real data if available, otherwise empty
+    // For now, we'll return empty to avoid showing mock data if not explicit
+    return { vendedores: [], regioes: [], produtos: [], unidades: [] };
+  }, [isMarketing, hasData]);
 
   const getAbcColor = (abc: string) => {
     switch(abc) {
@@ -245,121 +232,98 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
         </div>
       </div>
 
-      {/* Sales Funnel Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div className="lg:col-span-5 bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden">
-          <div className="flex justify-between items-center mb-10 relative z-10">
-            <div>
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Fluxo de Conversão</h3>
-              <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Funil de Vendas</h2>
+      {/* Funnel & Performance Grid - Hidden if no data */}
+      {hasData && (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-5 bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="flex justify-between items-center mb-10 relative z-10">
+              <div>
+                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Fluxo de Conversão</h3>
+                <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Funil de Vendas</h2>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+                <Zap size={24} />
+              </div>
             </div>
-            <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
-              <Zap size={24} />
+
+            <div className="space-y-2 relative">
+              {funnelData.map((item, idx) => (
+                <motion.div 
+                  key={idx}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="relative group cursor-pointer"
+                >
+                  <div 
+                    className={cn(
+                      "h-16 flex items-center justify-between px-8 rounded-2xl text-white transition-all duration-500 group-hover:scale-[1.02] shadow-sm",
+                      item.color
+                    )}
+                    style={{ 
+                      width: `${100 - (idx * 10)}%`, 
+                      marginLeft: `${idx * 5}%` 
+                    }}
+                  >
+                    <span className="text-[11px] font-black uppercase tracking-widest">{item.stage}</span>
+                    <div className="text-right">
+                      <p className="text-lg font-display font-black">{item.value}</p>
+                      <p className="text-[9px] font-bold text-white/50 uppercase tracking-widest">{item.conversion}</p>
+                    </div>
+                  </div>
+                  {/* Connector line */}
+                  {idx < funnelData.length - 1 && (
+                    <div className="h-2 w-px bg-slate-100 mx-auto opacity-50" />
+                  )}
+                </motion.div>
+              ))}
             </div>
           </div>
 
-          <div className="space-y-2 relative">
-            {funnelData.map((item, idx) => (
-              <motion.div 
-                key={idx}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="relative group cursor-pointer"
-              >
-                <div 
-                  className={cn(
-                    "h-16 flex items-center justify-between px-8 rounded-2xl text-white transition-all duration-500 group-hover:scale-[1.02] shadow-sm",
-                    item.color
-                  )}
-                  style={{ 
-                    width: `${100 - (idx * 10)}%`, 
-                    marginLeft: `${idx * 5}%` 
-                  }}
-                >
-                  <span className="text-[11px] font-black uppercase tracking-widest">{item.stage}</span>
-                  <div className="text-right">
-                    <p className="text-lg font-display font-black">{item.value}</p>
-                    <p className="text-[9px] font-bold text-white/50 uppercase tracking-widest">{item.conversion}</p>
+          <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Performance Matrix Grid - Simplified */}
+            {[
+              { title: isMarketing ? 'Canais de Aquisição' : 'Vendedores & Repr.', data: performanceData.vendedores, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
+              { title: isMarketing ? 'Principais Campanhas' : 'Análise por Região', data: performanceData.regioes, icon: Globe, color: 'text-emerald-600', bg: 'bg-emerald-50' }
+            ].filter(s => s.data.length > 0).map((section, idx) => (
+              <div key={idx} className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", section.bg, section.color)}>
+                    {(() => {
+                      const Icon = section.icon;
+                      return <Icon size={20} />;
+                    })()}
                   </div>
+                  <h3 className="text-[11px] font-black text-slate-800 uppercase tracking-widest">{section.title}</h3>
                 </div>
-                {/* Connector line */}
-                {idx < funnelData.length - 1 && (
-                  <div className="h-2 w-px bg-slate-100 mx-auto opacity-50" />
-                )}
-              </motion.div>
+                <div className="space-y-6">
+                  {section.data.map((item: any, i: number) => (
+                    <div key={i} className="flex items-center justify-between group/item">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <div className={cn(
+                          "w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black shrink-0 shadow-sm",
+                          getAbcColor(item.abc)
+                        )}>
+                          {item.abc}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-slate-700 truncate">{item.name}</p>
+                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{item.share} do Total</p>
+                        </div>
+                      </div>
+                      <div className="text-right ml-4">
+                        <p className="text-sm font-display font-black text-slate-900">
+                          {formatValue(item.value, 'R$')}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
-
-          <div className="mt-10 pt-8 border-t border-slate-50 flex justify-between items-center">
-            <div className="space-y-1">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{isMarketing ? 'SQL Conversion' : 'Conversão Final'}</p>
-              <p className="text-xl font-display font-black text-emerald-600">{isMarketing ? '25.6%' : '6.5%'}</p>
-            </div>
-            <div className="text-right space-y-1">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Média do Setor</p>
-              <p className="text-xl font-display font-black text-slate-400">{isMarketing ? '18.2%' : '4.2%'}</p>
-            </div>
-          </div>
         </div>
-
-        <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Performance Matrix Grid */}
-          {[
-            { title: isMarketing ? 'Canais de Aquisição' : 'Vendedores & Repr.', data: performanceData.vendedores, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
-            { title: isMarketing ? 'Principais Campanhas' : 'Análise por Região', data: performanceData.regioes, icon: Globe, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-            { title: isMarketing ? 'Origem de Leads' : 'Mix de Produtos', data: performanceData.produtos, icon: Target, color: 'text-amber-600', bg: 'bg-amber-50' },
-            { title: isMarketing ? 'Investimento/Budget' : 'Unidades & Filiais', data: performanceData.unidades, icon: Building, color: 'text-purple-600', bg: 'bg-purple-50' }
-          ].map((section, idx) => (
-            <div key={idx} className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
-              <div className="flex items-center gap-4 mb-8">
-                <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", section.bg, section.color)}>
-                  {(() => {
-                    const Icon = section.icon;
-                    return <Icon size={20} />;
-                  })()}
-                </div>
-                <h3 className="text-[11px] font-black text-slate-800 uppercase tracking-widest">{section.title}</h3>
-              </div>
-              <div className="space-y-6">
-                {section.data.map((item, i) => (
-                  <div key={i} className="flex items-center justify-between group/item">
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <div className={cn(
-                        "w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black shrink-0 shadow-sm",
-                        getAbcColor(item.abc)
-                      )}>
-                        {item.abc}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-xs font-bold text-slate-700 truncate">{item.name}</p>
-                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{item.share} do Total</p>
-                      </div>
-                    </div>
-                    <div className="text-right ml-4">
-                      <p className="text-sm font-display font-black text-slate-900">
-                        {section.title === 'Origem de Leads' ? item.value : formatValue(item.value, 'R$')}
-                      </p>
-                      <div className="flex items-center justify-end gap-1">
-                        {item.trend === 'up' ? <ArrowUpRight size={10} className="text-emerald-500" /> : item.trend === 'down' ? <TrendingDown size={10} className="text-rose-500" /> : <Activity size={10} className="text-slate-300" />}
-                        <span className={cn(
-                          "text-[9px] font-black",
-                          item.trend === 'up' ? "text-emerald-500" : item.trend === 'down' ? "text-rose-500" : "text-slate-400"
-                        )}>
-                          {item.trend === 'up' ? '+12%' : item.trend === 'down' ? '-4%' : '0%'}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <button className="w-full mt-8 py-3 bg-slate-50 text-slate-400 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] group-hover:bg-slate-900 group-hover:text-white transition-all">
-                Ver Ranking Completo
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
+      )}
 
       {/* KPI Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -389,7 +353,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                   "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border backdrop-blur-sm",
                   kpi.status === 'positive' ? "text-emerald-600 border-emerald-100 bg-emerald-50/50" : kpi.status === 'negative' ? "text-rose-600 border-rose-100 bg-rose-50/50" : "text-amber-600 border-amber-100 bg-amber-50/50"
                 )}>
-                  {kpi.status === 'positive' ? 'Otimizado' : kpi.status === 'negative' ? 'Alerta' : 'Estável'}
+                  {hasData ? (kpi.status === 'positive' ? 'Otimizado' : kpi.status === 'negative' ? 'Alerta' : 'Estável') : 'Aguardando'}
                 </div>
               </div>
 
@@ -404,21 +368,6 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                     {formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '')}
                   </p>
                 </div>
-                
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    <span>Performance vs Meta</span>
-                    <span className="text-slate-900">{Math.round((kpi.value / kpi.target) * 100)}%</span>
-                  </div>
-                  <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden shadow-inner">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${Math.min(100, (kpi.value / kpi.target) * 100)}%` }}
-                      transition={{ duration: 1.5, ease: "circOut" }}
-                      className={cn("h-full shadow-sm", kpi.status === 'positive' ? "bg-emerald-500" : "bg-amber-500")}
-                    />
-                  </div>
-                </div>
               </div>
             </motion.div>
           ));
@@ -426,75 +375,64 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
       </div>
 
 
-      {/* Main Analysis Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-         {/* Chart Placeholder */}
-         <div className="lg:col-span-2 bg-white p-12 rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
-              <BarChart3 size={240} />
-            </div>
-            <div className="flex justify-between items-center mb-12 relative z-10">
-               <div>
-                  <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">Performance Histórica vs Projetada</h3>
-                  <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight flex items-center gap-3">
-                    Tendência de Crescimento Setorial
-                  </h2>
-               </div>
-               <div className="flex bg-slate-50 p-1.5 rounded-2xl border border-slate-100">
-                  <button className="px-5 py-2.5 bg-white text-slate-900 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm border border-slate-100">Mensal</button>
-                  <button className="px-5 py-2.5 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg ml-2">Trimestral</button>
-               </div>
-            </div>
-            
-            <div className="h-[400px] bg-slate-50 rounded-[40px] flex flex-col items-center justify-center border-2 border-dashed border-slate-200 group hover:border-secondary/30 transition-all cursor-pointer">
-              <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center text-slate-300 group-hover:text-secondary group-hover:scale-110 transition-all shadow-sm mb-6">
-                <Activity size={40} />
+      {/* Main Analysis Section - Hidden if no data */}
+      {hasData && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+           {/* Chart Placeholder */}
+           <div className="lg:col-span-2 bg-white p-12 rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
+                <BarChart3 size={240} />
               </div>
-              <p className="text-slate-400 font-black uppercase tracking-[0.2em] text-[11px] mb-2">Motor de Análise em Processamento</p>
-              <p className="text-slate-300 text-xs font-medium">Clique para sincronizar com dados de mercado em tempo real</p>
-            </div>
-         </div>
+              <div className="flex justify-between items-center mb-12 relative z-10">
+                 <div>
+                    <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">Performance Histórica vs Projetada</h3>
+                    <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight flex items-center gap-3">
+                      Tendência de Crescimento Setorial
+                    </h2>
+                 </div>
+              </div>
+              
+              <div className="h-[400px] bg-slate-50 rounded-[40px] flex flex-col items-center justify-center border-2 border-dashed border-slate-200 group hover:border-secondary/30 transition-all cursor-pointer">
+                <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center text-slate-300 group-hover:text-secondary group-hover:scale-110 transition-all shadow-sm mb-6">
+                  <Activity size={40} />
+                </div>
+                <p className="text-slate-400 font-black uppercase tracking-[0.2em] text-[11px] mb-2">Motor de Análise em Processamento</p>
+                <p className="text-slate-300 text-xs font-medium">Clique para sincronizar com dados de mercado em tempo real</p>
+              </div>
+           </div>
 
-         {/* Recommendations & Action Plan */}
-         <div className="bg-slate-900 p-12 rounded-[48px] text-white shadow-2xl relative overflow-hidden flex flex-col">
-            <div className="absolute right-0 top-0 p-12 text-secondary/5">
-               <MessageSquare size={160} strokeWidth={1} />
-            </div>
-            <div className="relative z-10 flex flex-col h-full">
-               <div className="mb-12">
-                  <p className="text-[10px] font-black text-secondary uppercase tracking-[0.3em] mb-2">Deep Insights</p>
-                  <h3 className="text-2xl font-display font-black text-white tracking-tight flex items-center gap-3">
-                    Recomendações Estratégicas
-                  </h3>
-               </div>
+           {/* Recommendations & Action Plan */}
+           <div className="bg-slate-900 p-12 rounded-[48px] text-white shadow-2xl relative overflow-hidden flex flex-col">
+              <div className="absolute right-0 top-0 p-12 text-secondary/5">
+                 <MessageSquare size={160} strokeWidth={1} />
+              </div>
+              <div className="relative z-10 flex flex-col h-full">
+                 <div className="mb-12">
+                    <p className="text-[10px] font-black text-secondary uppercase tracking-[0.3em] mb-2">Deep Insights</p>
+                    <h3 className="text-2xl font-display font-black text-white tracking-tight flex items-center gap-3">
+                      Recomendações Estratégicas
+                    </h3>
+                 </div>
 
-               <div className="space-y-10 flex-1">
-                  {recommendations.map((rec, i) => (
-                    <div key={i} className="flex gap-6 group cursor-default">
-                       <div className="w-10 h-10 rounded-2xl bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-sm shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all duration-500 shadow-lg">
-                          {i + 1}
-                       </div>
-                       <div className="space-y-1">
-                         <p className="text-sm font-bold text-white leading-relaxed group-hover:text-secondary transition-colors">
-                            {rec}
-                         </p>
-                         <div className="h-0.5 w-0 group-hover:w-full bg-secondary/30 transition-all duration-700" />
-                       </div>
-                    </div>
-                  ))}
-               </div>
-
-               <div className="mt-12 space-y-4">
-                 <button className="w-full py-5 bg-secondary text-primary rounded-[20px] font-black uppercase tracking-[0.25em] text-[11px] hover:scale-105 hover:shadow-2xl hover:shadow-secondary/30 transition-all">
-                    Gerar Plano de Ação
-                 </button>
-                 <button className="w-full py-5 bg-white/5 border border-white/10 text-white rounded-[20px] font-black uppercase tracking-[0.25em] text-[11px] hover:bg-white/10 transition-all">
-                    Visualizar Benchmarks
-                 </button>
-               </div>
-            </div>
-         </div>
-      </div>
+                 <div className="space-y-10 flex-1">
+                    {recommendations.map((rec, i) => (
+                      <div key={i} className="flex gap-6 group cursor-default">
+                         <div className="w-10 h-10 rounded-2xl bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-sm shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all duration-500 shadow-lg">
+                            {i + 1}
+                         </div>
+                         <div className="space-y-1">
+                           <p className="text-sm font-bold text-white leading-relaxed group-hover:text-secondary transition-colors">
+                              {rec}
+                           </p>
+                           <div className="h-0.5 w-0 group-hover:w-full bg-secondary/30 transition-all duration-700" />
+                         </div>
+                      </div>
+                    ))}
+                 </div>
+              </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 }

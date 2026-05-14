@@ -4,52 +4,15 @@ import {
   query, 
   where, 
   orderBy, 
-  onSnapshot 
+  onSnapshot,
+  doc,
+  setDoc,
+  serverTimestamp
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import type { Course, Module, Lesson, UserProgress } from '../types/academy';
 
-const MOCK_COURSES: Course[] = [
-  {
-    id: 'c1',
-    title: 'Gestão Financeira para Executivos',
-    description: 'Aprenda a dominar os principais indicadores financeiros e como utilizá-los para tomar decisões estratégicas de alto impacto no seu negócio.',
-    category: 'Finanças',
-    level: 'Avançado',
-    coverImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop',
-    instructor: 'Marcelo Souza',
-    duration: '12h 30min',
-    status: 'published',
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'c2',
-    title: 'Liderança e Cultura Organizacional',
-    description: 'Como construir times de alta performance e manter uma cultura de excelência em ambientes de rápido crescimento.',
-    category: 'Liderança',
-    level: 'Intermediário',
-    coverImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2340&auto=format&fit=crop',
-    instructor: 'Renata Almeida',
-    duration: '8h 15min',
-    status: 'published',
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'c3',
-    title: 'Estratégias de Marketing Digital B2B',
-    description: 'O guia definitivo para posicionamento de marca e geração de demanda no mercado corporativo.',
-    category: 'Marketing',
-    level: 'Master',
-    coverImage: 'https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2340&auto=format&fit=crop',
-    instructor: 'Daniel Ramos',
-    duration: '15h 45min',
-    status: 'published',
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }
-];
+const MOCK_COURSES: Course[] = [];
 
 /** Hook principal para listar cursos da academia */
 export function useAcademyData() {
@@ -151,13 +114,13 @@ export function useAcademyLessons(moduleId: string) {
   return { lessons, loading };
 }
 
-/** Hook dedicado para buscar o progresso de um usuário em um curso */
-export function useAcademyProgress(userId: string, courseId: string) {
+/** Hook dedicado para buscar o progresso de um usuário em um curso para um cliente específico */
+export function useAcademyProgress(userId: string, clientId: string, courseId: string) {
   const [progress, setProgress] = useState<UserProgress[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!userId || !courseId) {
+    if (!userId || !clientId || !courseId) {
       setProgress([]);
       setLoading(false);
       return;
@@ -166,6 +129,7 @@ export function useAcademyProgress(userId: string, courseId: string) {
     const q = query(
       collection(db, 'academy_progress'), 
       where('userId', '==', userId),
+      where('clientId', '==', clientId),
       where('courseId', '==', courseId)
     );
     
@@ -182,7 +146,33 @@ export function useAcademyProgress(userId: string, courseId: string) {
     });
 
     return () => unsubscribe();
-  }, [userId, courseId]);
+  }, [userId, clientId, courseId]);
 
   return { progress, loading };
+}
+
+/** Função utilitária para salvar o progresso de uma lição */
+export async function toggleLessonProgress(params: {
+  userId: string;
+  clientId: string;
+  courseId: string;
+  moduleId: string;
+  lessonId: string;
+  completed: boolean;
+}) {
+  const { userId, clientId, courseId, moduleId, lessonId, completed } = params;
+  const progressId = `${userId}_${clientId}_${lessonId}`;
+  
+  const progressRef = doc(db, 'academy_progress', progressId);
+  
+  await setDoc(progressRef, {
+    userId,
+    clientId,
+    courseId,
+    moduleId,
+    lessonId,
+    completed,
+    completedAt: completed ? serverTimestamp() : null,
+    lastAccessAt: serverTimestamp()
+  }, { merge: true });
 }

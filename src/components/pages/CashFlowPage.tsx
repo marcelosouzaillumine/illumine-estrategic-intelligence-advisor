@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../Common';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
-import { DATA } from '../../data';
 import { cn, formatCurrency, formatDate } from '../../lib/utils';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { generateCashFlow } from '../../services/cashFlowService';
@@ -72,7 +71,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
     window.print();
   };
 
-  const detalhado = dbFluxo || (DATA as any).fluxoCaixaDetalhado[filterClient] || {
+  const detalhado = dbFluxo || {
     Fluxo_Diario: [],
     Contas_Receber: [],
     Contas_Pagar: [],

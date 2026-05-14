@@ -53,14 +53,6 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
         
         if (data.length > 0) {
           setTransactions(data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
-        } else if (account.id.startsWith('mock')) {
-          // Fallback for mock accounts if no real data
-          const mockTransactions: BankTransaction[] = [
-            { id: 'm1', date: '2026-05-12', description: 'Pagamento Fornecedor A', amount: -1500, type: 'Débito' },
-            { id: 'm2', date: '2026-05-10', description: 'Recebimento Cliente B', amount: 4500, type: 'Crédito' },
-            { id: 'm3', date: '2026-05-08', description: 'Tarifa Bancária', amount: -45, type: 'Débito' },
-          ];
-          setTransactions(mockTransactions);
         } else {
           setTransactions([]);
         }

@@ -95,7 +95,7 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
 
   useEffect(() => {
     if (!selectedClient) {
-      setReceivables(DATA.contasReceber || []);
+      setReceivables([]);
       return;
     }
 
@@ -107,11 +107,11 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setReceivables(docs.length > 0 ? docs : (DATA as any).contasReceber.filter((p: any) => p.clientId === selectedClient));
+      setReceivables(docs);
       setLoading(false);
     }, (error) => {
       console.error("Error fetching receivables:", error);
-      setReceivables((DATA as any).contasReceber.filter((p: any) => p.clientId === selectedClient));
+      setReceivables([]);
       setLoading(false);
     });
 

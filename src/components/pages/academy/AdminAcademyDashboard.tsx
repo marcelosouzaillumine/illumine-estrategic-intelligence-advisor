@@ -19,36 +19,45 @@ export function AdminAcademyDashboard({ onEditCourse, onCreateCourse }: AdminAca
   );
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <PageHeader 
-          title="Gestão da Academia" 
-          subtitle="Administre cursos, módulos, aulas e acompanhe o engajamento dos alunos" 
-        />
-        
-        <button 
-          onClick={onCreateCourse}
-          className="px-6 py-3 bg-primary text-white rounded-2xl font-black uppercase tracking-widest flex items-center gap-2 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
-        >
-          <Plus size={20} />
-          Novo Curso
-        </button>
+    <div className="space-y-10 pb-20">
+      {/* Strategic Header */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <Layout size={20} className="text-secondary" />
+            </div>
+            <h1 className="text-3xl font-display font-black tracking-tight">Gestão da Academia</h1>
+          </div>
+          <p className="text-slate-400 text-sm font-medium">Administre cursos, módulos, aulas e acompanhe o engajamento dos alunos.</p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4 relative z-10">
+          <button 
+            onClick={onCreateCourse}
+            className="px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest flex items-center gap-3 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:-translate-y-1 active:scale-95"
+          >
+            <Plus size={20} strokeWidth={3} />
+            Novo Curso
+          </button>
+        </div>
       </div>
 
-      <div className="flex items-center gap-4 bg-bg-card p-4 rounded-[24px] border border-border-main/50">
-        <div className="relative flex-1 group">
+      <div className="flex flex-col md:flex-row items-center gap-4 bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm">
+        <div className="relative flex-1 w-full group">
           <input 
             type="text" 
-            placeholder="Pesquisar cursos ou instrutores..." 
+            placeholder="Pesquisar cursos, instrutores ou categorias..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-6 py-3 bg-bg-surface border border-border-main rounded-xl focus:border-accent transition-all outline-none text-sm" 
+            className="w-full pl-12 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:border-secondary focus:bg-white transition-all outline-none text-sm font-medium" 
           />
-          <Search size={18} className="text-text-dim absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-accent transition-colors" />
+          <Search size={18} className="text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-secondary transition-colors" />
         </div>
-        <button className="px-6 py-3 bg-bg-surface text-text-main rounded-xl border border-border-main flex items-center gap-2 font-bold text-sm">
+        <button className="w-full md:w-auto px-8 py-4 bg-white text-slate-600 rounded-2xl border border-slate-200 flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95">
           <Filter size={18} />
-          Filtros
+          Filtros Avançados
         </button>
       </div>
 

@@ -28,7 +28,7 @@ export function CourseDetailsPage({ courseId, onBack, onStart }: CourseDetailsPa
         className="flex items-center gap-2 text-text-dim hover:text-text-main transition-colors group"
       >
         <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-        <span className="text-sm font-black uppercase tracking-widest">Voltar para Academia</span>
+        <span className="text-sm font-black uppercase tracking-widest">Voltar para Trilha do Conhecimento</span>
       </button>
 
       <div className="grid lg:grid-cols-[1fr_400px] gap-12">

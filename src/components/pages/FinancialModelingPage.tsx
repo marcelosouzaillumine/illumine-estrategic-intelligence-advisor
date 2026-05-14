@@ -50,7 +50,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, AreaChart, Area } from 'recharts';
 import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
-import { DATA } from '../../data';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
 import { PremissasClientePage } from './PremissasClientePage';
 
@@ -427,10 +426,7 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
         .reduce((acc: number, curr: any) => acc + (curr.val || curr.valor || curr.value || 0), 0);
     }
     
-    if (!lastYearRevenue) {
-      const clientDre = DATA.dre.filter(d => d.id === selectedClient);
-      lastYearRevenue = clientDre.filter(d => d.ano === 2025).reduce((acc, curr) => acc + (curr.conta === 'Receita Líquida' ? curr.valor : 0), 0) * 12 / 3; 
-    }
+    // REMOVED: Mockup fallback to DATA.dre
     
     let baseRevenue = lastYearRevenue > 0 ? lastYearRevenue : 0;
     let baseAssets = 0;

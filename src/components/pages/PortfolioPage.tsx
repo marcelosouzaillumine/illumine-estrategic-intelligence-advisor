@@ -12,14 +12,14 @@ import {
   Activity,
   Search,
   Filter,
-  ShieldAlert,
-  Coins,
   Globe,
-  BookOpen
+  ShieldCheck,
+  ShieldAlert,
+  Coins
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, formatCurrency } from '../../lib/utils';
-import { calculateSacerdotalAlignmentScore } from '../../lib/sacerdotalIntelligence';
+import { calculateGovernanceAlignmentScore } from '../../lib/governanceIntelligence';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { PageHeader } from '../Common';
@@ -29,7 +29,7 @@ interface ClientPortfolioData {
   name: string;
   industry: string;
   score: number;
-  sacerdotalScore: number;
+  governanceScore: number;
   lastMonthScore: number;
   criticalAlerts: number;
   status: 'active' | 'onboarding' | 'critical';
@@ -41,6 +41,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
   const [financialData, setFinancialData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [viewMode, setViewMode] = useState<'list' | 'strategic'>('list');
 
   useEffect(() => {
     async function fetchAllData() {
@@ -71,7 +72,8 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
                   type: docData.type,
                   conta: entry.category,
                   valor: entry.value,
-                  val: entry.value
+                  val: entry.value,
+                  periodo: entry.period || docData.periodo || docData.period
                 });
               });
             } else {
@@ -106,6 +108,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
       let revenue = 0;
       let ebitda = 0;
       let margin = 0;
+      let liq = 1;
       
       if (hasData) {
         revenue = clientDre.filter(d => d.conta === 'Receita Líquida').reduce((sum, d) => sum + d.valor, 0);
@@ -114,14 +117,17 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         
         const ac = clientBp.filter(b => b.conta === 'Ativo Circulante').reduce((sum, b) => sum + (b.val || b.valor), 0) || 0;
         const pc = clientBp.filter(b => b.conta === 'Passivo Circulante').reduce((sum, b) => sum + (b.val || b.valor), 0) || 1;
-        const liq = ac / pc;
+        liq = ac / pc;
         
         const calculated = 40 + (margin * 2) + (liq * 5);
         score = isNaN(calculated) ? 65 : Math.max(30, Math.min(98, Math.round(calculated)));
+      } else {
+        // Fallback for onboarding clients
+        score = 0;
       }
 
-      const sacerdotalScore = calculateSacerdotalAlignmentScore([
-        { ind: 'Liquidez Corrente', val: score / 100 * 2 },
+      const governanceScore = calculateGovernanceAlignmentScore([
+        { ind: 'Liquidez Corrente', val: liq },
         { ind: 'Margem EBITDA', val: margin },
         { ind: 'Turnover', val: margin > 10 ? 4 : 12 },
         { ind: 'Inadimplência', val: score < 60 ? 8 : 2 },
@@ -133,7 +139,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
         name: c.fantasia || c.name,
         industry: c.segmento || 'Serviços',
         score,
-        sacerdotalScore,
+        governanceScore,
         lastMonthScore: score,
         criticalAlerts: hasData ? (score < 50 ? 3 : score < 70 ? 1 : 0) : 0,
         status: hasData ? (score < 50 ? 'critical' : 'active') : 'onboarding',
@@ -154,19 +160,30 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
 
   const stats = useMemo(() => {
     const totalClients = portfolioData.length;
+    const activeClients = portfolioData.filter(c => c.status !== 'onboarding');
+    const avgScore = activeClients.length > 0 ? Math.round(activeClients.reduce((acc, c) => acc + c.score, 0) / activeClients.length) : 0;
+    
+    // Strategic Concentration
+    const industryConcentration: Record<string, number> = {};
+    portfolioData.forEach(c => {
+      industryConcentration[c.industry] = (industryConcentration[c.industry] || 0) + c.revenue;
+    });
+
     return {
-      avgScore: totalClients > 0 ? Math.round(portfolioData.reduce((acc, c) => acc + c.score, 0) / totalClients) : 0,
+      avgScore,
       totalRevenue: portfolioData.reduce((acc, c) => acc + c.revenue, 0),
       activeAlerts: portfolioData.reduce((acc, c) => acc + c.criticalAlerts, 0),
-      totalClients
+      totalClients,
+      onboarding: portfolioData.filter(c => c.status === 'onboarding').length,
+      industryConcentration
     };
   }, [portfolioData]);
 
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
-        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Calculando Portfólio...</p>
+        <div className="w-12 h-12 border-4 border-slate-900 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-sm font-black text-slate-500 uppercase tracking-widest animate-pulse">Consolidando Portfólio...</p>
       </div>
     );
   }
@@ -174,195 +191,323 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
   return (
     <div className="space-y-8 pb-20 w-full min-w-0 max-w-full overflow-x-hidden">
       <PageHeader 
-        title="Visão Consolidada de Portfólio"
-        subtitle="Gestão consolidada da saúde financeira de todos os clientes sob assessoria."
+        title="Visão Consolidada"
+        subtitle="Inteligência estratégica e monitoramento de saúde do portfólio de clientes."
         icon={Globe}
         actions={
-          <button className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2">
-            <TrendingUp size={14} className="text-secondary" /> Exportar QBR
-          </button>
+          <div className="flex gap-3">
+            <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200">
+              <button 
+                onClick={() => setViewMode('list')}
+                className={cn(
+                  "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
+                  viewMode === 'list' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                )}
+              >
+                Listagem
+              </button>
+              <button 
+                onClick={() => setViewMode('strategic')}
+                className={cn(
+                  "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
+                  viewMode === 'strategic' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                )}
+              >
+                Estratégico
+              </button>
+            </div>
+            <button className="px-6 py-3 bg-slate-900 text-white hover:bg-slate-800 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-slate-900/10">
+              <TrendingUp size={14} className="text-secondary" /> Exportar QBR Consolidado
+            </button>
+          </div>
         }
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {[
-          { label: 'Health Score Médio', value: stats.avgScore, icon: Target, color: 'blue' },
-          { label: 'Faturamento Sob Gestão', value: `R$ ${(stats.totalRevenue / 1000000).toFixed(1)}M`, icon: Zap, color: 'emerald' },
-          { label: 'Alertas Críticos', value: stats.activeAlerts, icon: AlertCircle, color: 'rose' },
-          { label: 'Clientes Ativos', value: stats.totalClients, icon: Users, color: 'slate' },
+          { label: 'Health Score Médio', value: stats.avgScore, icon: Activity, color: 'blue', desc: 'Base Clientes Ativos' },
+          { label: 'Fat. Mensal Consolidado', value: formatCurrency(stats.totalRevenue), icon: Coins, color: 'emerald', desc: 'Volume sob assessoria' },
+          { label: 'Alertas Críticos', value: stats.activeAlerts, icon: AlertCircle, color: 'rose', desc: 'Urgência imediata' },
+          { label: 'Total de Clientes', value: stats.totalClients, icon: Users, color: 'slate', desc: `${stats.onboarding} em onboarding` },
         ].map((stat, i) => (
-          <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group">
+          <div key={i} className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-slate-300 transition-all">
             <div className={cn(
               "absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500",
               stat.color === 'blue' ? "text-blue-600" : stat.color === 'emerald' ? "text-emerald-600" : stat.color === 'rose' ? "text-rose-600" : "text-slate-600"
             )}>
               {(() => {
                 const Icon = stat.icon;
-                return <Icon size={100} />;
+                return <Icon size={120} strokeWidth={1} />;
               })()}
             </div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
             <div className="flex items-baseline gap-1 sm:gap-2 min-w-0">
-              <h3 className="text-xl sm:text-2xl font-black text-slate-900 truncate">{stat.value}</h3>
-              {stat.label.includes('Score') && <span className="text-[10px] font-bold text-emerald-600 whitespace-nowrap">+2%</span>}
+              <h3 className="text-xl sm:text-3xl font-black text-slate-900 truncate">{stat.value}</h3>
+              {stat.label.includes('Score') && <span className="text-[10px] font-bold text-emerald-600 whitespace-nowrap">+2.4%</span>}
             </div>
+            <p className="text-[10px] font-medium text-slate-400 mt-2">{stat.desc}</p>
           </div>
         ))}
       </div>
-      
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        <div className="bg-slate-900 rounded-[40px] p-8 text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-10"><ShieldAlert size={80} /></div>
-          <div className="relative z-10">
-            <h3 className="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-4">Exposição ao Risco de Mercado</h3>
-            <h4 className="text-xl font-display font-extrabold mb-4">Reforma Tributária: Impacto no Portfólio</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-              <div>
-                <p className="text-[8px] font-black text-slate-400 uppercase mb-1">Empresas em Risco</p>
-                <p className="text-2xl font-black text-rose-500">{(stats.totalClients * 0.7).toFixed(0)}</p>
-                <p className="text-[8px] text-slate-500 leading-tight">Serviços com baixo crédito fiscal.</p>
+
+      {viewMode === 'strategic' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-slate-900 rounded-[40px] p-10 text-white relative overflow-hidden min-h-[300px] flex flex-col justify-center">
+              <div className="absolute top-0 right-0 p-12 opacity-10 rotate-12"><ShieldAlert size={160} /></div>
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-rose-500/20 border border-rose-500/30 rounded-full mb-6">
+                  <span className="w-2 h-2 bg-rose-500 rounded-full animate-pulse"></span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-rose-400">Alerta de Risco Sistêmico</span>
+                </div>
+                <h4 className="text-3xl font-display font-black mb-6 max-w-2xl leading-tight">Exposição do Portfólio à Transição da Reforma Tributária</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+                  <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                    <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Empresas Impactadas</p>
+                    <p className="text-3xl font-black text-rose-500">72%</p>
+                    <p className="text-[10px] text-slate-400 mt-2">Principalmente setor de Serviços e Tech.</p>
+                  </div>
+                  <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                    <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Déficit de Crédito IVA</p>
+                    <p className="text-3xl font-black text-white">R$ 4.2M</p>
+                    <p className="text-[10px] text-slate-400 mt-2">Estimativa de custo tributário líquido.</p>
+                  </div>
+                  <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                    <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Prioridade de Saneamento</p>
+                    <p className="text-3xl font-black text-amber-500">Urgente</p>
+                    <p className="text-[10px] text-slate-400 mt-2">85% dos NCMs precisam de revisão.</p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="text-[8px] font-black text-slate-400 uppercase mb-1">Aumento Médio IVA</p>
-                <p className="text-2xl font-black text-white">+8.2%</p>
-                <p className="text-[8px] text-slate-500 leading-tight">Projeção de carga líquida incremental.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm">
+                <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                  <Target size={14} className="text-blue-600" /> Concentração por Segmento (Fat.)
+                </h5>
+                <div className="space-y-4">
+                  {Object.entries(stats.industryConcentration)
+                    .sort(([, a], [, b]) => b - a)
+                    .map(([industry, revenue], i) => (
+                      <div key={i} className="space-y-1">
+                        <div className="flex justify-between text-[10px] font-black uppercase tracking-tighter">
+                          <span>{industry}</span>
+                          <span className="text-slate-400">{((revenue / stats.totalRevenue) * 100).toFixed(1)}%</span>
+                        </div>
+                        <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                          <motion.div 
+                            initial={{ width: 0 }}
+                            animate={{ width: `${(revenue / stats.totalRevenue) * 100}%` }}
+                            className={cn(
+                              "h-full rounded-full",
+                              i === 0 ? "bg-slate-900" : i === 1 ? "bg-blue-600" : "bg-slate-400"
+                            )}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                </div>
               </div>
-              <div>
-                <p className="text-[8px] font-black text-slate-400 uppercase mb-1">Urgência Cadastro</p>
-                <p className="text-2xl font-black text-amber-500">Alta</p>
-                <p className="text-[8px] text-slate-500 leading-tight">Necessidade de saneamento de NCM.</p>
+
+              <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div>
+                  <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                    <Zap size={14} className="text-secondary" /> Oportunidades de Alavancagem Alpha
+                  </h5>
+                  <p className="text-sm font-bold text-slate-900 mb-4">Savings Identificados em Captação</p>
+                  <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100 mb-4">
+                    <p className="text-2xl font-black text-emerald-600">R$ 1.85M/ano</p>
+                    <p className="text-[10px] font-bold text-emerald-800 uppercase mt-1">Potencial de redução de juros</p>
+                  </div>
+                </div>
+                <button className="w-full py-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all">
+                  Ver Detalhes por Cliente
+                </button>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="bg-white rounded-[40px] border border-slate-200 p-8 shadow-sm">
-          <h3 className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-4">Oportunidades de Capital Alpha</h3>
-          <h4 className="text-xl font-display font-extrabold text-slate-900 mb-4">Potencial de Otimização Financeira</h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-            <div className="flex gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
-                <Coins size={24} />
+          <div className="space-y-8">
+            <div className="bg-white rounded-[40px] border-2 border-slate-900 p-8 shadow-xl relative">
+              <div className="absolute -top-3 left-8 px-4 py-1 bg-slate-900 text-white rounded-full text-[8px] font-black uppercase tracking-widest">
+                Master Insight
               </div>
-              <div>
-                <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Savings em Juros (Est.)</p>
-                <p className="text-lg sm:text-xl font-black text-slate-900 truncate">{formatCurrency(stats.totalRevenue * 0.02)}/ano</p>
-                <p className="text-[10px] text-slate-500 font-medium">Troca de CDI+8% por Taxas do Plano.</p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
-                <Globe size={24} />
-              </div>
-              <div>
-                <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Eficiência de Caixa</p>
-                <p className="text-xl font-black text-slate-900">+14%</p>
-                <p className="text-[10px] text-slate-500 font-medium">Melhora média no Liquidez Corrente.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-3xl border border-slate-200 shadow-sm min-w-0 w-full">
-        <div className="relative flex-1">
-          <input 
-            type="text" 
-            placeholder="Buscar por cliente ou segmento..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-slate-900/5 transition-all font-bold text-sm"
-          />
-          <Search size={18} className="absolute left-4 top-3.5 text-slate-400" />
-        </div>
-        <div className="flex gap-2">
-          <button className="flex-1 md:flex-none px-6 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black text-slate-700 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
-            <Filter size={16} /> Filtros
-          </button>
-        </div>
-      </div>
-
-      <div className="space-y-6 min-w-0 w-full">
-        <div className="hidden lg:block bg-white rounded-[32px] border border-slate-200 shadow-xl overflow-x-auto">
-          <table className="w-full border-collapse min-w-[1000px]">
-            <thead>
-              <tr className="bg-slate-50/50 border-b border-slate-200">
-                <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Cliente / Setor</th>
-                <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Score de Saúde</th>
-                <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest border-l border-r border-slate-200/60 bg-amber-50/30 text-amber-700/80">Índice Sacerdotal</th>
-                <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Alertas</th>
-                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Fat. Mensal</th>
-                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Ação</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {filteredPortfolio.map((client) => (
-                <tr key={client.id} className="hover:bg-slate-50/50 transition-colors group cursor-pointer" onClick={() => onSelectClient(client.id)}>
-                  <td className="px-8 py-6">
-                    <div className="flex items-center gap-4">
+              <h5 className="text-lg font-display font-black text-slate-900 mb-6">Agenda Prioritária Master</h5>
+              <div className="space-y-6">
+                {portfolioData
+                  .filter(c => c.status === 'critical' || c.criticalAlerts > 0)
+                  .sort((a, b) => b.criticalAlerts - a.criticalAlerts)
+                  .slice(0, 4)
+                  .map((client, i) => (
+                    <div key={i} className="flex gap-4 group cursor-pointer" onClick={() => onSelectClient(client.id)}>
                       <div className={cn(
-                        "w-12 h-12 rounded-xl flex items-center justify-center font-black text-white text-lg shadow-lg shrink-0",
-                        client.score > 80 ? "bg-emerald-500 shadow-emerald-500/20" : 
-                        client.score > 60 ? "bg-blue-500 shadow-blue-500/20" : "bg-rose-500 shadow-rose-500/20"
+                        "w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
+                        client.score < 50 ? "bg-rose-50 text-rose-600" : "bg-amber-50 text-amber-600"
                       )}>
-                        {client.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                        <AlertCircle size={18} />
                       </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors truncate">{client.name}</p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">{client.industry}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-8 py-6">
-                    <div className="flex flex-col items-center">
-                      <div className="flex items-center gap-2">
-                        <span className={cn(
-                          "text-lg font-black",
-                          client.score > 80 ? "text-emerald-600" : client.score > 60 ? "text-blue-600" : "text-rose-600"
-                        )}>{client.score}</span>
+                      <div>
+                        <p className="text-xs font-black text-slate-900 group-hover:text-blue-600 transition-colors">
+                          {client.score < 50 ? 'Intervenção Estratégica Urgente' : 'Revisão de Performance'}
+                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-[9px] font-bold text-slate-400 uppercase">{client.name}</span>
+                          <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+                          <span className="text-[9px] font-bold text-slate-400 uppercase">Score: {client.score}</span>
+                        </div>
                       </div>
                     </div>
-                  </td>
-                  <td className="px-8 py-6 text-center border-l border-r border-slate-100/50 bg-amber-50/10">
-                    <div className="flex items-center justify-center gap-1.5">
-                      <BookOpen size={14} className="text-amber-500" />
-                      <span className="font-black text-slate-800 text-lg">{client.sacerdotalScore}</span>
-                    </div>
-                  </td>
-                  <td className="px-8 py-6 text-center">
-                    {client.criticalAlerts > 0 ? (
-                      <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-rose-50 text-rose-600 rounded-lg text-[10px] font-black uppercase whitespace-nowrap">
-                        <AlertCircle size={12} /> {client.criticalAlerts} Críticos
-                      </div>
-                    ) : (
-                      <CheckCircle2 size={18} className="text-emerald-500 mx-auto" />
-                    )}
-                  </td>
-                  <td className="px-8 py-6 text-right font-bold text-sm text-slate-700 whitespace-nowrap">
-                    {formatCurrency(client.revenue)}
-                  </td>
-                  <td className="px-8 py-6 text-right">
-                    <div className="flex justify-end gap-2 shrink-0">
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'advisory_insights'); }}
-                        className="p-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl transition-all shadow-sm border border-blue-100 flex items-center gap-2 text-[10px] font-black uppercase tracking-tight"
-                      >
-                        <Zap size={14} /> Advisory
-                      </button>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'dashboard'); }}
-                        className="p-2 hover:bg-slate-900 hover:text-white border-2 border-slate-100 hover:border-slate-900 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-tight"
-                      >
-                        Dashboard <ChevronRight size={14} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  ))}
+                {portfolioData.filter(c => c.status === 'critical' || c.criticalAlerts > 0).length === 0 && (
+                  <p className="text-[10px] font-bold text-slate-400 italic text-center py-4">Nenhum cliente crítico no radar.</p>
+                )}
+              </div>
+              <button className="w-full mt-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all">
+                Abrir Central de Consultoria
+              </button>
+            </div>
+
+            <div className="bg-indigo-600 rounded-[40px] p-8 text-white">
+              <h5 className="text-[10px] font-black text-indigo-200 uppercase tracking-widest mb-4">Maturidade do Portfólio</h5>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-bold">Resonância Estratégica</span>
+                <span className="text-2xl font-black">84%</span>
+              </div>
+              <div className="h-2 bg-indigo-400/30 rounded-full overflow-hidden">
+                <div className="h-full bg-white rounded-full w-[84%]" />
+              </div>
+              <p className="text-[10px] text-indigo-100 mt-4 leading-relaxed font-medium">
+                O portfólio apresenta alta aderência aos princípios de Governança Corporativa da Illumine, com 84% dos clientes ativos acima do score 60.
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-3xl border border-slate-200 shadow-sm min-w-0 w-full">
+            <div className="relative flex-1">
+              <input 
+                type="text" 
+                placeholder="Buscar por cliente ou segmento..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-slate-900/5 transition-all font-bold text-sm"
+              />
+              <Search size={18} className="absolute left-4 top-3.5 text-slate-400" />
+            </div>
+            <div className="flex gap-2">
+              <button className="flex-1 md:flex-none px-6 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black text-slate-700 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
+                <Filter size={16} /> Filtros Avançados
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-6 min-w-0 w-full">
+            <div className="bg-white rounded-[32px] border border-slate-200 shadow-xl overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse min-w-[1100px]">
+                  <thead>
+                    <tr className="bg-slate-50/50 border-b border-slate-200">
+                      <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Cliente / Setor</th>
+                      <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Health Score</th>
+                      <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest border-x border-slate-200/60 bg-indigo-50/30 text-indigo-700">Índice Gov.</th>
+                      <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Alertas</th>
+                      <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Margem EBITDA</th>
+                      <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Fat. Mensal</th>
+                      <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Ações Estratégicas</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {filteredPortfolio.map((client) => (
+                      <tr key={client.id} className="hover:bg-slate-50/50 transition-colors group cursor-pointer" onClick={() => onSelectClient(client.id)}>
+                        <td className="px-8 py-6">
+                          <div className="flex items-center gap-4">
+                            <div className={cn(
+                              "w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white text-lg shadow-lg shrink-0 transition-transform group-hover:scale-105",
+                              client.status === 'onboarding' ? "bg-slate-200 text-slate-400 shadow-none" :
+                              client.score > 80 ? "bg-emerald-500 shadow-emerald-500/20" : 
+                              client.score > 60 ? "bg-blue-500 shadow-blue-500/20" : "bg-rose-500 shadow-rose-500/20"
+                            )}>
+                              {client.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors truncate">{client.name}</p>
+                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">{client.industry}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-8 py-6">
+                          <div className="flex flex-col items-center">
+                            <div className="flex items-center gap-2">
+                              <span className={cn(
+                                "text-lg font-black",
+                                client.status === 'onboarding' ? "text-slate-300" :
+                                client.score > 80 ? "text-emerald-600" : client.score > 60 ? "text-blue-600" : "text-rose-600"
+                              )}>{client.status === 'onboarding' ? '--' : client.score}</span>
+                              {client.status !== 'onboarding' && <ArrowUpRight size={14} className="text-emerald-500" />}
+                            </div>
+                            {client.status === 'onboarding' && <span className="text-[8px] font-black uppercase text-slate-400">Pendente</span>}
+                          </div>
+                        </td>
+                        <td className="px-8 py-6 text-center border-x border-slate-100/50 bg-indigo-50/10">
+                          <div className="flex items-center justify-center gap-1.5">
+                            <ShieldCheck size={14} className={client.status === 'onboarding' ? "text-slate-300" : "text-indigo-500"} />
+                            <span className={cn("font-black text-lg", client.status === 'onboarding' ? "text-slate-300" : "text-slate-800")}>
+                              {client.status === 'onboarding' ? '--' : client.governanceScore}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-8 py-6 text-center">
+                          {client.criticalAlerts > 0 ? (
+                            <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-rose-50 text-rose-600 rounded-lg text-[10px] font-black uppercase whitespace-nowrap">
+                              <AlertCircle size={12} /> {client.criticalAlerts} Críticos
+                            </div>
+                          ) : client.status === 'onboarding' ? (
+                            <span className="text-[10px] font-bold text-slate-300 uppercase italic">Dados em carga</span>
+                          ) : (
+                            <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase whitespace-nowrap">
+                              <CheckCircle2 size={12} /> Saudável
+                            </div>
+                          )}
+                        </td>
+                        <td className="px-8 py-6 text-right">
+                           <span className={cn(
+                             "text-sm font-black",
+                             client.ebitdaMargin > 20 ? "text-emerald-600" : client.ebitdaMargin > 10 ? "text-blue-600" : "text-rose-600"
+                           )}>
+                             {client.status === 'onboarding' ? '--' : `${client.ebitdaMargin.toFixed(1)}%`}
+                           </span>
+                        </td>
+                        <td className="px-8 py-6 text-right font-black text-sm text-slate-700 whitespace-nowrap">
+                          {client.revenue > 0 ? formatCurrency(client.revenue) : '--'}
+                        </td>
+                        <td className="px-8 py-6 text-right">
+                          <div className="flex justify-end gap-2 shrink-0">
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'advisory_insights'); }}
+                              className="px-4 py-2 bg-slate-900 text-white hover:bg-slate-800 rounded-xl transition-all shadow-md flex items-center gap-2 text-[10px] font-black uppercase tracking-tight"
+                            >
+                              <Zap size={14} className="text-secondary" /> Advisory
+                            </button>
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'dashboard'); }}
+                              className="p-2 hover:bg-slate-100 border border-slate-200 rounded-xl transition-all flex items-center justify-center text-slate-600"
+                              title="Ver Dashboard"
+                            >
+                              <ChevronRight size={18} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

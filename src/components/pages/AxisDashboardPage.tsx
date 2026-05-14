@@ -2,16 +2,18 @@ import React, { useMemo, useState } from 'react';
 import { 
   ShieldCheck, TrendingUp, Users, Activity, Globe, ShoppingBag, 
   FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, 
-  BookOpen, Percent, Lightbulb, Loader2, LayoutDashboard
+  BookOpen, Percent, Lightbulb, Loader2, LayoutDashboard, ShieldAlert
 } from 'lucide-react';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
-import { PageHeader, StatusBadge } from '../Common';
+import { PageHeader, StatusBadge, MarkdownText } from '../Common';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { EixoGestao } from '../../types/modules';
-import { SACERDOTAL_PRINCIPLES, evaluateAxisRules } from '../../lib/sacerdotalIntelligence';
-import { SacerdotalInsightPanel } from '../SacerdotalInsightPanel';
-import { generateSacerdotalParecer } from '../../services/sacerdotalAiService';
+import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
+import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
+import { generateGovernanceParecer } from '../../services/governanceAiService';
 
 interface AxisDashboardPageProps {
   axis: EixoGestao;
@@ -23,17 +25,17 @@ interface AxisDashboardPageProps {
   setSelectedYear?: (year: number) => void;
 }
 
-const AXIS_CONFIG: Record<string, any> = {
+const AXIS_CONFIG_METADATA: Record<string, any> = {
   'Governança Corporativa': {
     title: 'Dashboard',
     subtitle: 'Monitoramento estratégico de performance e maturidade corporativa.',
     icon: ShieldCheck,
     color: 'bg-slate-900',
-    primaryKPIs: [
-      { label: 'Índice de Maturidade', value: 85, suffix: '%', status: 'positive', icon: ShieldCheck },
-      { label: 'Reuniões de Conselho', value: 12, suffix: '', status: 'positive', icon: Users },
-      { label: 'Compliance Index', value: 98, suffix: '%', status: 'positive', icon: FileText },
-      { label: 'Riscos Mitigados', value: 24, suffix: '', status: 'positive', icon: Target },
+    kpiDefinitions: [
+      { label: 'Índice de Maturidade', ind: 'Maturidade de Governança', suffix: '%', icon: ShieldCheck },
+      { label: 'Reuniões de Conselho', ind: 'Reuniões de Conselho', suffix: '', icon: Users },
+      { label: 'Compliance Index', ind: 'Compliance Index', suffix: '%', icon: FileText },
+      { label: 'Riscos Mitigados', ind: 'Riscos Mitigados', suffix: '', icon: Target },
     ]
   },
   'Cultura Organizacional': {
@@ -41,11 +43,11 @@ const AXIS_CONFIG: Record<string, any> = {
     subtitle: 'Monitoramento de clima organizacional e desenvolvimento humano.',
     icon: Users,
     color: 'bg-purple-900',
-    primaryKPIs: [
-      { label: 'eNPS (Clima)', value: 72, suffix: '', status: 'positive', icon: TrendingUp },
-      { label: 'Turnover', value: 2.4, suffix: '%', status: 'positive', icon: Activity },
-      { label: 'Horas de Treinamento', value: 1240, suffix: 'h', status: 'positive', icon: BookOpen },
-      { label: 'Taxa de Retenção', value: 92, suffix: '%', status: 'positive', icon: Users },
+    kpiDefinitions: [
+      { label: 'eNPS (Clima)', ind: 'eNPS', suffix: '', icon: TrendingUp },
+      { label: 'Turnover', ind: 'Turnover', suffix: '%', icon: Activity },
+      { label: 'Horas de Treinamento', ind: 'Horas de Treinamento', suffix: 'h', icon: BookOpen },
+      { label: 'Taxa de Retenção', ind: 'Taxa de Retenção', suffix: '%', icon: Users },
     ]
   },
   'Gestão de Inovação': {
@@ -53,11 +55,11 @@ const AXIS_CONFIG: Record<string, any> = {
     subtitle: 'Gestão de portfólio de projetos, projetos de inovação e P&D.',
     icon: Lightbulb,
     color: 'bg-cyan-900',
-    primaryKPIs: [
-      { label: 'Índice de Inovação', value: 68, suffix: '%', status: 'neutral', icon: Lightbulb },
-      { label: 'Projetos P&D Ativos', value: 6, suffix: '', status: 'positive', icon: Activity },
-      { label: 'Investimento em P&D', value: 250000, isCur: true, status: 'positive', icon: Zap },
-      { label: 'Tempo até MVP', value: 45, suffix: ' dias', status: 'positive', icon: Target },
+    kpiDefinitions: [
+      { label: 'Índice de Inovação', ind: 'Índice de Inovação', suffix: '%', icon: Lightbulb },
+      { label: 'Projetos P&D Ativos', ind: 'Projetos P&D Ativos', suffix: '', icon: Activity },
+      { label: 'Investimento em P&D', ind: 'Investimento em P&D', isCur: true, icon: Zap },
+      { label: 'Tempo até MVP', ind: 'Tempo até MVP', suffix: ' dias', icon: Target },
     ]
   },
   'Gestão de Marketing': {
@@ -65,11 +67,11 @@ const AXIS_CONFIG: Record<string, any> = {
     subtitle: 'Performance de comunicação, branding e geração de leads.',
     icon: Globe,
     color: 'bg-blue-900',
-    primaryKPIs: [
-      { label: 'Brand Awareness', value: 65, suffix: '%', status: 'positive', icon: Globe },
-      { label: 'Custo por Lead (CPL)', value: 45, isCur: true, status: 'neutral', icon: Users },
-      { label: 'Leads Gerados (MQL)', value: 1250, suffix: '', status: 'positive', icon: Activity },
-      { label: 'ROI de Marketing', value: 3.5, suffix: 'x', status: 'positive', icon: TrendingUp },
+    kpiDefinitions: [
+      { label: 'Brand Awareness', ind: 'Brand Awareness', suffix: '%', icon: Globe },
+      { label: 'Custo por Lead (CPL)', ind: 'CPL', isCur: true, icon: Users },
+      { label: 'Leads Gerados (MQL)', ind: 'Leads Gerados', suffix: '', icon: Activity },
+      { label: 'ROI de Marketing', ind: 'ROI de Marketing', suffix: 'x', icon: TrendingUp },
     ]
   },
   'Gestão Comercial': {
@@ -77,11 +79,11 @@ const AXIS_CONFIG: Record<string, any> = {
     subtitle: 'Monitoramento de pipeline, conversão e receitas.',
     icon: ShoppingBag,
     color: 'bg-emerald-900',
-    primaryKPIs: [
-      { label: 'Receita Recorrente (MRR)', value: 185000, isCur: true, status: 'positive', icon: Target },
-      { label: 'Taxa de Conversão', value: 24, suffix: '%', status: 'positive', icon: Percent },
-      { label: 'Ticket Médio', value: 2850, isCur: true, status: 'positive', icon: ShoppingBag },
-      { label: 'CAC', value: 450, isCur: true, status: 'neutral', icon: BarChart3 },
+    kpiDefinitions: [
+      { label: 'Receita Recorrente (MRR)', ind: 'MRR', isCur: true, icon: Target },
+      { label: 'Taxa de Conversão', ind: 'Taxa de Conversão', suffix: '%', icon: Percent },
+      { label: 'Ticket Médio', ind: 'Ticket Médio', isCur: true, icon: ShoppingBag },
+      { label: 'CAC', ind: 'CAC', isCur: true, icon: BarChart3 },
     ]
   },
   'Gestão Operacional': {
@@ -89,11 +91,11 @@ const AXIS_CONFIG: Record<string, any> = {
     subtitle: 'Métricas de eficiência, logística e qualidade de produção.',
     icon: LayoutDashboard,
     color: 'bg-slate-900',
-    primaryKPIs: [
-      { label: 'OEE (Eficiência)', value: 82, suffix: '%', status: 'neutral', icon: Activity },
-      { label: 'Lead Time Total', value: 14, suffix: ' dias', status: 'positive', icon: Target },
-      { label: 'Índice de Qualidade', value: 98.5, suffix: '%', status: 'positive', icon: ShieldCheck },
-      { label: 'Atrasos (Logística)', value: 3.2, suffix: '%', status: 'neutral', icon: Activity }, // mocked icon
+    kpiDefinitions: [
+      { label: 'OEE (Eficiência)', ind: 'OEE', suffix: '%', icon: Activity },
+      { label: 'Lead Time Total', ind: 'Lead Time', suffix: ' dias', icon: Target },
+      { label: 'Índice de Qualidade', ind: 'Índice de Qualidade', suffix: '%', icon: ShieldCheck },
+      { label: 'Atrasos (Logística)', ind: 'Atrasos', suffix: '%', icon: Activity },
     ]
   },
   'Administração e Finanças': {
@@ -101,11 +103,11 @@ const AXIS_CONFIG: Record<string, any> = {
     subtitle: 'Indicadores financeiros vitais e estrutura de capital.',
     icon: BarChart3,
     color: 'bg-slate-800',
-    primaryKPIs: [
-      { label: 'Margem EBITDA', value: 24.2, suffix: '%', status: 'positive', icon: Zap },
-      { label: 'Liquidez Corrente', value: 1.8, suffix: '', status: 'positive', icon: Activity },
-      { label: 'ROIC', value: 18.5, suffix: '%', status: 'positive', icon: Target },
-      { label: 'Alavancagem', value: 1.2, suffix: 'x', status: 'positive', icon: TrendingUp },
+    kpiDefinitions: [
+      { label: 'Margem EBITDA', ind: 'Margem EBITDA', suffix: '%', icon: Zap },
+      { label: 'Liquidez Corrente', ind: 'Liquidez Corrente', suffix: '', icon: Activity },
+      { label: 'ROIC', ind: 'ROIC', suffix: '%', icon: Target },
+      { label: 'Alavancagem', ind: 'Alavancagem', suffix: 'x', icon: TrendingUp },
     ]
   }
 };
@@ -120,10 +122,42 @@ const getValueSizeClass = (maxLen: number) => {
 };
 
 export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, setSelectedMonth, selectedYear, setSelectedYear }: AxisDashboardPageProps) {
-  const config = AXIS_CONFIG[axis] || AXIS_CONFIG['Governança Corporativa'];
+  const [dbIndicators, setDbIndicators] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  React.useEffect(() => {
+    if (!clientId) return;
+    setLoading(true);
+    const q = query(
+      collection(db, 'indicators'),
+      where('clientId', '==', clientId),
+      where('ano', '==', selectedYear),
+      where('mes', '==', selectedMonth)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, [clientId, selectedYear, selectedMonth]);
+
+  const config = AXIS_CONFIG_METADATA[axis] || AXIS_CONFIG_METADATA['Governança Corporativa'];
+  
+  const primaryKPIs = useMemo(() => {
+    return (config.kpiDefinitions || []).map((def: any) => {
+      const ind = dbIndicators.find(i => i.ind === def.ind || i.ind?.toLowerCase() === def.ind.toLowerCase());
+      const value = ind ? ind.val : 0;
+      return {
+        ...def,
+        value,
+        status: value > 0 ? 'positive' : 'neutral'
+      };
+    });
+  }, [config.kpiDefinitions, dbIndicators]);
+
   const flatMetrics = useMemo(() => {
-    return config.primaryKPIs.reduce((acc: any, kpi: any) => ({...acc, [kpi.label]: kpi.value}), {});
-  }, [config.primaryKPIs]);
+    return primaryKPIs.reduce((acc: any, kpi: any) => ({...acc, [kpi.label]: kpi.value}), {});
+  }, [primaryKPIs]);
 
   // Pegar os alertas sacerdotais (regras violadas) para este eixo baseado nos KPIs
   const triggeredRules = useMemo(() => {
@@ -132,35 +166,78 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
 
   // Se precisar mandar pro Gemini, mandamos os princípios relacionados em geral
   const axisPrinciples = useMemo(() => {
-    return SACERDOTAL_PRINCIPLES.filter(p => p.axis === axis);
+    return GOVERNANCE_PRINCIPLES.filter(p => p.axis === axis);
   }, [axis]);
 
-  const renderMarkdown = (text: string) => {
-    if (!text) return null;
-    return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={index} className="text-amber-800 font-black">{part.slice(2, -2)}</strong>;
-      }
-      return <span key={index}>{part}</span>;
-    });
-  };
 
   const [loadingAi, setLoadingAi] = useState(false);
   const [aiAnalysis, setAiAnalysis] = useState<string>('');
 
   const handleGenerateAnalysis = async () => {
     setLoadingAi(true);
-    const result = await generateSacerdotalParecer({
+    const result = await generateGovernanceParecer({
       clientName: 'Sua Empresa',
       industry: 'Geral',
       metrics: flatMetrics,
-      topPrinciples: axisPrinciples.map(p => p.name)
+      topPrinciples: axisPrinciples.map(p => p.name),
+      scenarios: axisPrinciples.map(p => p.situationalScenario).filter(Boolean) as string[]
     });
     setAiAnalysis(result);
     setLoadingAi(false);
   };
 
   const [isYTD, setIsYTD] = useState(false);
+  const hasData = dbIndicators.length > 0;
+
+  if (!loading && !hasData) {
+    const Icon = config.icon;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-10 animate-executive-fade">
+         <div className="relative">
+            <div className="absolute inset-0 bg-primary blur-3xl opacity-10 animate-pulse" />
+            <div className={cn("w-40 h-40 rounded-[48px] flex items-center justify-center text-secondary shadow-2xl relative z-10 border border-white/5", config.color)}>
+              <Icon size={80} strokeWidth={1} />
+            </div>
+         </div>
+         
+         <div className="text-center space-y-4 max-w-xl mx-auto px-6">
+            <h2 className="text-4xl font-display font-black text-slate-900 tracking-tight leading-tight">Dashboard de {axis} Indisponível</h2>
+            <p className="text-slate-500 font-medium leading-relaxed">
+              Não identificamos indicadores financeiros ou estratégicos para o eixo de <strong>{axis}</strong> no período selecionado. 
+              Por favor, realize a importação dos dados históricos para visualizar a performance.
+            </p>
+         </div>
+
+         <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
+            <div className="flex items-center bg-white/10 backdrop-blur-md border border-slate-200 rounded-2xl p-1 shadow-sm">
+              <div className="flex items-center px-4 py-2 border-r border-slate-100">
+                <ShieldAlert size={14} className="text-secondary mr-2" />
+                <select 
+                  value={selectedYear} 
+                  onChange={(e) => setSelectedYear?.(Number(e.target.value))}
+                  className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                >
+                  {[2024, 2025, 2026].map(y => (
+                    <option key={y} value={y} className="bg-white">{y}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-center px-4 py-2">
+                <select 
+                  value={selectedMonth} 
+                  onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
+                  className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                >
+                  {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
+                    <option key={i} value={i + 1} className="bg-white">{label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+         </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
@@ -183,7 +260,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
           {/* Group 1: Time Filters */}
           <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1 shadow-inner">
             <div className="flex items-center px-4 py-2 border-r border-white/5">
-              <BookOpen size={14} className="text-secondary mr-2" />
+              <ShieldAlert size={14} className="text-secondary mr-2" />
               <select 
                 value={selectedYear} 
                 onChange={(e) => setSelectedYear?.(Number(e.target.value))}
@@ -230,10 +307,10 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
       {/* KPI Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {(() => {
-          const maxGroupLen = Math.max(...config.primaryKPIs.map((kpi: any) => formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '').length));
+          const maxGroupLen = Math.max(...primaryKPIs.map((kpi: any) => formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '').length));
           const groupSizeClass = getValueSizeClass(maxGroupLen);
           
-          return config.primaryKPIs.map((kpi: any, idx: number) => {
+          return primaryKPIs.map((kpi: any, idx: number) => {
             const Icon = kpi.icon !== 'AlertCircle' ? kpi.icon : Activity;
             return (
               <motion.div 
@@ -273,18 +350,18 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
         })()}
       </div>
 
-      {/* Perspectiva Sacerdotal Aplicada ao Eixo */}
+      {/* Perspectiva Governança Aplicada ao Eixo */}
       <div className="bg-white rounded-[48px] border border-slate-200 p-12 overflow-hidden relative shadow-sm">
-        <div className="absolute -left-20 -top-20 w-80 h-80 bg-amber-50 rounded-full blur-3xl opacity-60" />
+        <div className="absolute -left-20 -top-20 w-80 h-80 bg-indigo-50 rounded-full blur-3xl opacity-60" />
         <div className="relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-slate-100 pb-8">
             <div className="flex items-center gap-5">
-              <div className="p-4 rounded-2xl bg-amber-50 text-amber-600 border border-amber-100">
-                <BookOpen size={28} strokeWidth={2.5} />
+              <div className="p-4 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100">
+                <ShieldCheck size={28} strokeWidth={2.5} />
               </div>
               <div>
-                <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none mb-2">Perspectiva Sacerdotal Integrada</h3>
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Princípios eternos aplicados aos KPIs de {axis}</p>
+                <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none mb-2">Perspectiva de Governança Integrada</h3>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Fundamentos institucionais aplicados aos KPIs de {axis}</p>
               </div>
             </div>
             <button 
@@ -298,20 +375,22 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
           </div>
 
           {aiAnalysis && (
-            <div className="mb-10 bg-amber-50/50 p-8 rounded-3xl border border-amber-100 text-amber-900 font-medium leading-relaxed text-sm relative overflow-hidden">
+            <div className="mb-10 bg-indigo-50/50 p-8 rounded-3xl border border-indigo-100 text-indigo-900 font-medium leading-relaxed text-sm relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-5">
-                <BookOpen size={64} />
+                <ShieldCheck size={64} />
               </div>
-              <div className="flex items-center gap-2 mb-4 text-amber-600 font-black uppercase tracking-widest text-[10px]">
+              <div className="flex items-center gap-2 mb-4 text-indigo-600 font-black uppercase tracking-widest text-[10px]">
                 <Zap size={14} /> Leitura Estratégica AI
               </div>
-              <div className="whitespace-pre-wrap relative z-10 text-xs text-amber-900/90">{renderMarkdown(aiAnalysis)}</div>
+              <div className="whitespace-pre-wrap relative z-10 text-xs text-indigo-900/90">
+                <MarkdownText text={aiAnalysis} />
+              </div>
             </div>
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {triggeredRules.map((rule) => (
-              <SacerdotalInsightPanel 
+              <GovernanceInsightPanel 
                 key={rule.id}
                 principleId={rule.principle.id}
                 misalignment={rule.misalignment}

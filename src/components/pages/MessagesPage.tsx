@@ -90,37 +90,37 @@ export function MessagesPage() {
 
   return (
     <div className="space-y-8 pb-20">
-      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12 mb-16">
         <PageHeader 
-          title="Executive Messages" 
-          subtitle="Institutional communications, technical updates, and strategic announcements from the Illumine Advisor board." 
+          title="Monitoramento Estratégico: Mensagens e Comunicados" 
+          subtitle="Gestão centralizada de comunicações institucionais, avisos aos usuários e registros de atualizações do ecossistema Illumine." 
+          icon={Bell}
+          actions={
+            <div className="flex bg-white/5 backdrop-blur-md p-1 rounded-2xl border border-white/10 shadow-inner">
+              <button 
+                onClick={() => setActiveTab('messages')}
+                className={cn(
+                  "px-6 py-2.5 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest",
+                  activeTab === 'messages' 
+                    ? "bg-secondary text-primary shadow-lg" 
+                    : "text-slate-400 hover:text-white"
+                )}
+              >
+                <Bell size={14} strokeWidth={2.5} /> Mensagens
+              </button>
+              <button 
+                onClick={() => setActiveTab('changelog')}
+                className={cn(
+                  "px-6 py-2.5 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest",
+                  activeTab === 'changelog' 
+                    ? "bg-secondary text-primary shadow-lg" 
+                    : "text-slate-400 hover:text-white"
+                )}
+              >
+                <Zap size={14} strokeWidth={2.5} /> Comunicados de Atualização
+              </button>
+            </div>
+          }
         />
-        
-        <div className="flex bg-bg-surface/50 backdrop-blur-md p-1.5 rounded-standard border border-border-main mb-12 shadow-sm">
-          <button 
-            onClick={() => setActiveTab('messages')}
-            className={cn(
-              "px-8 py-3 rounded-standard transition-all flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest",
-              activeTab === 'messages' 
-                ? "bg-white text-primary shadow-floating border border-border-main" 
-                : "text-text-dim hover:text-text-main"
-            )}
-          >
-            <Bell size={14} strokeWidth={1.5} /> Announcements
-          </button>
-          <button 
-            onClick={() => setActiveTab('changelog')}
-            className={cn(
-              "px-8 py-3 rounded-standard transition-all flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest",
-              activeTab === 'changelog' 
-                ? "bg-white text-primary shadow-floating border border-border-main" 
-                : "text-text-dim hover:text-text-main"
-            )}
-          >
-            <Zap size={14} strokeWidth={1.5} /> Update Logs
-          </button>
-        </div>
-      </div>
 
       <AnimatePresence mode="wait">
         {activeTab === 'messages' ? (
@@ -159,7 +159,7 @@ export function MessagesPage() {
                     {msg.content}
                   </p>
                   <button className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-accent group/btn hover:text-primary transition-colors">
-                    Report Details <ArrowRight size={14} className="group-hover/btn:translate-x-2 transition-transform" />
+                    Detalhes do Comunicado <ArrowRight size={14} className="group-hover/btn:translate-x-2 transition-transform" />
                   </button>
                 </div>
               </div>

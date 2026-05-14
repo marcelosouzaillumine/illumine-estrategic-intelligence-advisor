@@ -52,7 +52,7 @@ import {
 } from 'lucide-react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch } from 'firebase/firestore';
-import { auth, login, logout, db, handleFirestoreError, OperationType } from './lib/firebase';
+import { auth, login, logout, db, handleFirestoreError, OperationType, MASTER_ADMINS } from './lib/firebase';
 import { DATA, modelData } from './data';
 import { cn, formatValue, formatCurrency, calculateVPL, calculateTIR, calculatePayback } from './lib/utils';
 import { useFinancialData, useAllFinancialData } from './hooks/useFinancialData';
@@ -291,10 +291,6 @@ function AuthLoadingScreen() {
   );
 }
 
-const MASTER_ADMINS = [
-  'marcelo.illuminecoaching@gmail.com',
-  'marcelosouza.illumine@gmail.com'
-];
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>(DEFAULT_PAGE);
@@ -445,38 +441,7 @@ export default function App() {
     id: c.id,
     name: c.fantasia || c.name || 'Cliente',
     period: selectedYear.toString(),
-    employees: c.id === 'C001' ? [
-      {
-        nome: "Colaborador Exemplo 1",
-        funcao: "Técnico(a) de Enfermagem",
-        area: "Posto de Enfermagem",
-        tipoContrato: "CLT",
-        status: "Ativo",
-        admissao: "2025-02-18",
-        custoAnual: 50962.48,
-        custoMensal: 4246.87,
-        salarioBase: 2500,
-        encargos: 900,
-        decimoTerceiroFerias: 410,
-        verbasIndenizatorias: 436,
-        custoRescisaoEstimado: 12000
-      },
-      {
-        nome: "Colaborador Exemplo 2",
-        funcao: "Encarregado(a) de Farmácia",
-        area: "Farmácia",
-        tipoContrato: "CLT",
-        status: "Ativo",
-        admissao: "1996-06-01",
-        custoAnual: 64839.95,
-        custoMensal: 5403.33,
-        salarioBase: 3500,
-        encargos: 1260,
-        decimoTerceiroFerias: 580,
-        verbasIndenizatorias: 63,
-        custoRescisaoEstimado: 65000
-      }
-    ] : []
+    employees: []
   })), [clients, selectedYear]);
 
   if (authLoading) {
@@ -554,8 +519,9 @@ export default function App() {
           <nav className="space-y-3">
             {NAVIGATION_GROUPS.filter(group => {
               if (!userPermissions) return true;
-              // Group is allowed if at least one of its sub-items is allowed
+              // Group is allowed if at least one of its sub-items is allowed and NOT master-only
               return group.items.some(item => {
+                if (item.masterOnly) return false;
                 const permissionKey = `${group.group}:${item.label}`;
                 return userPermissions.includes(permissionKey);
               });
@@ -564,6 +530,9 @@ export default function App() {
               
               // Filter items within the group
               const filteredItems = group.items.filter(item => {
+                // If item is master-only and user is NOT a master admin (userPermissions is not null), hide it
+                if (item.masterOnly && userPermissions !== null) return false;
+                
                 if (!userPermissions) return true;
                 const permissionKey = `${group.group}:${item.label}`;
                 return userPermissions.includes(permissionKey);

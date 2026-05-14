@@ -70,7 +70,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
 
   useEffect(() => {
     if (!selectedClient) {
-      setPositions((DATA as any).posicaoFinanceira || []);
+      setPositions([]);
       return;
     }
 
@@ -82,15 +82,11 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const dbDocs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      if (dbDocs.length > 0) {
-        setPositions(dbDocs);
-      } else {
-        setPositions((DATA as any).posicaoFinanceira.filter((p: any) => p.clientId === selectedClient));
-      }
+      setPositions(dbDocs);
       setLoading(false);
     }, (error) => {
       console.error("Error fetching positions:", error);
-      setPositions((DATA as any).posicaoFinanceira.filter((p: any) => p.clientId === selectedClient));
+      setPositions([]);
       setLoading(false);
     });
 

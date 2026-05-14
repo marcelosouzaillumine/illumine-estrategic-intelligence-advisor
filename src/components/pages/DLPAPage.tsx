@@ -15,7 +15,6 @@ import {
   PieChart,
   Pie
 } from 'recharts';
-import { DATA } from '../../data';
 import { cn, formatCurrency } from '../../lib/utils';
 import { PageHeader } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
@@ -57,32 +56,9 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   const dbData = dbDataDLPA;
   const docIds = docIdsDLPA;
 
-  // ── Processamento de Dados ────────────────────────────────────────────────
   const rows = useMemo(() => {
-    if (dbData.length > 0) {
-      const aggregated: any = {};
-      dbData.forEach((d: any) => {
-        const key = d.conta || d.category;
-        if (!aggregated[key]) {
-          aggregated[key] = { ...d, val: 0 };
-        }
-        aggregated[key].val += (d.val || d.valor || 0);
-      });
-      return Object.values(aggregated);
-    }
-    
-    // Fallback para mock
-    const mockDre = DATA.dre.filter((d: any) => d.id === selectedClient && d.ano === filterYear);
-    const ll = mockDre.find(d => d.conta === 'Lucro Líquido')?.valor || 0;
-
-    return [
-      { conta: 'Saldo Inicial de Lucros Acumulados', val: 0 },
-      { conta: 'Lucro Líquido do Exercício', val: ll },
-      { conta: 'Transferência para Reservas', val: -(ll * 0.05) },
-      { conta: 'Dividendos Propostos', val: -(ll * 0.25) },
-      { conta: 'Saldo Final de Lucros Acumulados', val: ll * 0.7, isTotal: true },
-    ];
-  }, [dbData, selectedClient, filterYear]);
+    return dbData;
+  }, [dbData]);
 
   const getValue = (source: any[], name: string) => {
     const search = name.toLowerCase();
@@ -113,9 +89,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
         lucro = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('lucro líquido')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
         dividendos = Math.abs(yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('dividendos')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0));
       } else {
-        const mockDre = DATA.dre.filter((d: any) => d.id === selectedClient && d.ano === y);
-        lucro = mockDre.find(d => d.conta === 'Lucro Líquido')?.valor || 0;
-        dividendos = lucro * 0.25;
+        lucro = 0; dividendos = 0;
       }
 
       return {

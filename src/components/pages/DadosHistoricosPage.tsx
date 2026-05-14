@@ -29,7 +29,7 @@ import {
 } from 'firebase/firestore';
 import { db, login, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { cn } from '../../lib/utils';
-import { PageHeader } from '../Common';
+import { PageHeader, MarkdownText } from '../Common';
 
 export function DadosHistoricosPage({ 
   clients, 
@@ -350,9 +350,9 @@ export function DadosHistoricosPage({
                   <h4 className="text-xl font-display text-primary mb-2">
                     {loading ? 'Processando Documento...' : 'Arraste seu arquivo aqui'}
                   </h4>
-                  <p className="text-xs text-slate-400 font-medium max-w-xs mx-auto">
-                    Ou clique para selecionar de seu computador. <br/> Suportamos formatos **.XLSX, .XLS, .CSV e .PDF**
-                  </p>
+                  <div className="text-xs text-slate-400 font-medium max-w-xs mx-auto">
+                    Ou clique para selecionar de seu computador. <br/> <MarkdownText text="Suportamos formatos **.XLSX, .XLS, .CSV e .PDF**" />
+                  </div>
                 </div>
               </div>
 

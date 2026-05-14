@@ -1,5 +1,7 @@
 
 import React, { useMemo } from 'react';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { 
   Users, 
   TrendingUp, 
@@ -20,12 +22,40 @@ interface DesenvolvimentoHumanoPageProps {
 }
 
 export function DesenvolvimentoHumanoPage({ clientId }: DesenvolvimentoHumanoPageProps) {
+  const [dbIndicators, setDbIndicators] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(false);
+  const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
+
+  React.useEffect(() => {
+    if (!clientId) return;
+    setLoading(true);
+    const q = query(
+      collection(db, 'indicators'),
+      where('clientId', '==', clientId),
+      where('ano', '==', selectedYear),
+      where('mes', '==', selectedMonth)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, [clientId, selectedYear, selectedMonth]);
+
+  const getIndicatorValue = (name: string, fallback: number = 0) => {
+    const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
+    return ind ? ind.val : fallback;
+  };
+
+  const hasData = dbIndicators.length > 0;
+
   const cultureIndicators = useMemo(() => [
-    { label: 'Índice de Clima', value: 8.4, suffix: '/10', status: 'positive', target: 8.0, icon: Heart },
-    { label: 'Turnover Mensal', value: 1.2, suffix: '%', status: 'positive', target: 2.0, icon: TrendingUp },
-    { label: 'Investimento Treinamento', value: 45000, isCur: true, status: 'neutral', target: 60000, icon: Award },
-    { label: 'eNPS', value: 72, suffix: '', status: 'positive', target: 60, icon: Users }
-  ], []);
+    { label: 'Índice de Clima', value: getIndicatorValue('Clima', 0), suffix: '/10', status: 'positive', target: 8.0, icon: Heart },
+    { label: 'Turnover Mensal', value: getIndicatorValue('Turnover', 0), suffix: '%', status: 'positive', target: 2.0, icon: TrendingUp },
+    { label: 'Inv. Treinamento', value: getIndicatorValue('Treinamento', 0), isCur: true, status: 'neutral', target: 60000, icon: Award },
+    { label: 'eNPS', value: getIndicatorValue('eNPS', 0), suffix: '', status: 'positive', target: 60, icon: Users }
+  ], [dbIndicators]);
 
   return (
     <div className="space-y-12 pb-32">
@@ -87,44 +117,46 @@ export function DesenvolvimentoHumanoPage({ clientId }: DesenvolvimentoHumanoPag
         </div>
       </div>
 
-      {/* Recommendations & Strategy */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-         <div className="lg:col-span-2 bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-8 flex items-center gap-3">
-               <Target size={20} className="text-primary" /> Foco em Retenção e Propósito
-            </h3>
-            <div className="h-[200px] bg-slate-50 rounded-[32px] flex items-center justify-center border-2 border-dashed border-slate-200">
-               <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Mapa de Talentos e Sucessão (Em Desenvolvimento)</p>
-            </div>
-         </div>
+      {/* Recommendations & Strategy - Hidden if no data */}
+      {hasData && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+           <div className="lg:col-span-2 bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
+              <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-8 flex items-center gap-3">
+                 <Target size={20} className="text-primary" /> Foco em Retenção e Propósito
+              </h3>
+              <div className="h-[200px] bg-slate-50 rounded-[32px] flex items-center justify-center border-2 border-dashed border-slate-200">
+                 <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Mapa de Talentos e Sucessão (Em Desenvolvimento)</p>
+              </div>
+           </div>
 
-         <div className="bg-slate-900 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden">
-            <div className="absolute right-0 top-0 p-8 text-secondary/5">
-               <Zap size={120} strokeWidth={1} />
-            </div>
-            <div className="relative z-10 space-y-8">
-               <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
-                  <MessageSquare size={20} /> Insights de Gente & Gestão
-               </h3>
-               <div className="space-y-6">
-                  {[
-                    "Implementar programa de feedback 360º para nível de liderança.",
-                    "Aumentar o budget de treinamento técnico para a área de Operações.",
-                    "Revisar o pacote de benefícios para aumentar a competitividade no eNPS."
-                  ].map((rec, i) => (
-                    <div key={i} className="flex gap-4 group cursor-default">
-                       <div className="w-8 h-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all">
-                          {i + 1}
-                       </div>
-                       <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors">
-                          {rec}
-                       </p>
-                    </div>
-                  ))}
-               </div>
-            </div>
-         </div>
-      </div>
+           <div className="bg-slate-900 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden">
+              <div className="absolute right-0 top-0 p-8 text-secondary/5">
+                 <Zap size={120} strokeWidth={1} />
+              </div>
+              <div className="relative z-10 space-y-8">
+                 <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
+                    <MessageSquare size={20} /> Insights de Gente & Gestão
+                 </h3>
+                 <div className="space-y-6">
+                    {[
+                      "Implementar programa de feedback 360º para nível de liderança.",
+                      "Aumentar o budget de treinamento técnico para a área de Operações.",
+                      "Revisar o pacote de benefícios para aumentar a competitividade no eNPS."
+                    ].map((rec, i) => (
+                      <div key={i} className="flex gap-4 group cursor-default">
+                         <div className="w-8 h-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all">
+                            {i + 1}
+                         </div>
+                         <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors">
+                            {rec}
+                         </p>
+                      </div>
+                    ))}
+                 </div>
+              </div>
+           </div>
+        </div>
+      )}
 
       {/* Detailed Payroll Analysis (Existing Feature) */}
       <div className="pt-8 border-t border-slate-100">

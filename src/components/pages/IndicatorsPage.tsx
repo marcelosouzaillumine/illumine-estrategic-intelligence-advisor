@@ -28,7 +28,6 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from '../../lib/firebase';
-import { DATA } from '../../data';
 import { formatValue, cn, formatCurrency } from '../../lib/utils';
 import { SectionHeader, StatusBadge, PageHeader } from '../Common';
 import { FULL_MONTH_LABELS, EIXOS_ORDEM } from '../../constants';
@@ -263,7 +262,7 @@ function useIndicators(clientId: string, year: number, month: number) {
 
   useEffect(() => {
     if (!clientId) {
-      setIndicators(DATA.indicadores.filter(i => i.ano === year && i.mes === month));
+      setIndicators([]);
       return;
     }
 
@@ -288,12 +287,12 @@ function useIndicators(clientId: string, year: number, month: number) {
           un: doc.un || ''
         })));
       } else {
-        setIndicators(DATA.indicadores.filter(i => i.id === clientId && i.ano === year && i.mes === month));
+        setIndicators([]);
       }
       setLoading(false);
     }, (error) => {
       console.error("Error fetching indicators:", error);
-      setIndicators(DATA.indicadores.filter(i => i.id === clientId && i.ano === year && i.mes === month));
+      setIndicators([]);
       setLoading(false);
     });
 
@@ -412,30 +411,50 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
 
       {/* Corporate Health Mini-Header */}
       <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
-        <div className="absolute top-0 left-0 w-1 bg-emerald-500 h-full" />
+        <div className={cn(
+          "absolute top-0 left-0 w-1 h-full",
+          indicators.length > 0 ? "bg-emerald-500" : "bg-slate-300"
+        )} />
         <div className="flex items-center gap-8 relative z-10">
-          <div className="w-20 h-20 rounded-3xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner group-hover:scale-105 transition-transform">
+          <div className={cn(
+            "w-20 h-20 rounded-3xl flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform",
+            indicators.length > 0 ? "bg-emerald-50 text-emerald-600" : "bg-slate-50 text-slate-300"
+          )}>
             <ShieldCheck size={40} />
           </div>
           <div>
             <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">Score de Saúde Consolidado</h3>
             <div className="flex items-center gap-4">
-              <span className="text-5xl font-display font-black text-slate-900 tracking-tighter">94.2</span>
-              <span className="text-xs font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100">Otimizado</span>
+              <span className="text-5xl font-display font-black text-slate-900 tracking-tighter">
+                {indicators.length > 0 ? '94.2' : '0.0'}
+              </span>
+              <span className={cn(
+                "text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border",
+                indicators.length > 0 
+                  ? "text-emerald-600 bg-emerald-50 border-emerald-100" 
+                  : "text-slate-400 bg-slate-50 border-slate-100"
+              )}>
+                {indicators.length > 0 ? 'Otimizado' : 'Aguardando Dados'}
+              </span>
             </div>
           </div>
         </div>
         <div className="flex-1 max-w-lg w-full relative z-10">
           <div className="flex justify-between text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
             <span>Eficiência Estratégica</span>
-            <span className="text-emerald-600">94.2%</span>
+            <span className={indicators.length > 0 ? "text-emerald-600" : "text-slate-400"}>
+              {indicators.length > 0 ? '94.2%' : '0.0%'}
+            </span>
           </div>
           <div className="h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
             <motion.div 
               initial={{ width: 0 }}
-              animate={{ width: '94.2%' }}
+              animate={{ width: indicators.length > 0 ? '94.2%' : '0%' }}
               transition={{ duration: 1.5, ease: "circOut" }}
-              className="h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
+              className={cn(
+                "h-full shadow-[0_0_10px_rgba(16,185,129,0.3)]",
+                indicators.length > 0 ? "bg-emerald-500" : "bg-slate-200"
+              )}
             />
           </div>
         </div>
