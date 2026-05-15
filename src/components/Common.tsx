@@ -67,11 +67,12 @@ export function Semaphore({ status }: { status: 'Verde' | 'Amarelo' | 'Vermelho'
   return <div className={cn("w-2 h-2 rounded-full", colors[status])} />;
 }
 
-export function StatusBadge({ status }: { status: string }) {
+export function StatusBadge({ status, label }: { status: string; label?: string }) {
   const classMap: Record<string, string> = {
     'Verde': 'text-emerald-600 border-emerald-200 bg-emerald-50/30',
     'Amarelo': 'text-amber-600 border-amber-200 bg-amber-50/30',
     'Vermelho': 'text-rose-600 border-rose-200 bg-rose-50/30',
+    'Azul': 'text-indigo-600 border-indigo-200 bg-indigo-50/30',
   };
   
   return (
@@ -79,7 +80,7 @@ export function StatusBadge({ status }: { status: string }) {
       "px-5 py-1.5 rounded-none text-[10px] font-medium uppercase tracking-[0.3em] border transition-all italic",
       classMap[status] || 'text-text-dim border-border-main bg-bg-surface/30'
     )}>
-      {status}
+      {label || status}
     </span>
   );
 }

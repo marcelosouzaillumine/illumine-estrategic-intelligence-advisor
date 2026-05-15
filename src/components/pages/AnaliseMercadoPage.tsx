@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { 
   Globe, 
   TrendingUp, 
@@ -21,6 +21,9 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, SectionHeader } from '../Common';
+import { db } from '../../lib/firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { DATA } from '../../data';
 
 interface AnaliseMercadoPageProps {
   clientId: string;
@@ -30,8 +33,32 @@ type Scope = 'Local' | 'Nacional' | 'Global';
 
 export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
   const [selectedScope, setSelectedScope] = useState<Scope>('Nacional');
+  const [econData, setEconData] = useState<any[]>(DATA.premissas.economicas);
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'system', 'economic_premises'), (snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        if (data.econData) setEconData(data.econData);
+      }
+    });
+    return () => unsub();
+  }, []);
 
   const scopeIndicators = useMemo(() => {
+    // Buscar valores das premissas
+    const findPremissa = (term: string) => {
+      for (const cat of econData) {
+        const found = cat.indicadores?.find((i: any) => i.nome.toLowerCase().includes(term.toLowerCase()));
+        if (found) return found;
+      }
+      return null;
+    };
+
+    const selic = findPremissa('Selic');
+    const ipca = findPremissa('IPCA');
+    const dolar = findPremissa('Dólar');
+
     const data: Record<Scope, any[]> = {
       Local: [
         { label: 'PIB Regional (Projetado)', value: '+2.1%', trend: 'Estável', status: 'neutral', icon: TrendingUp, obs: 'Dados SEADE/Regionais' },
@@ -40,10 +67,38 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
         { label: 'Desemprego Regional', value: '7.8%', trend: 'down', status: 'positive', icon: Layers, obs: 'Caged / Dados Municipais' }
       ],
       Nacional: [
-        { label: 'PIB Brasil 2026', value: '1.8%', trend: 'Moderado', status: 'neutral', icon: TrendingUp, obs: 'Relatório Focus / Banco Central' },
-        { label: 'Selic (Projeção)', value: '11.25%', trend: 'down', status: 'positive', icon: Target, obs: 'Meta COPOM' },
-        { label: 'Inflação (IPCA)', value: '4.5%', trend: 'up', status: 'warning', icon: Activity, obs: 'Acumulado 12 meses IBGE' },
-        { label: 'Dólar (Ptax Médio)', value: 'R$ 5,05', trend: 'neutral', status: 'neutral', icon: Globe, obs: 'Fechamento Comercial' }
+        { 
+          label: 'PIB Brasil 2026', 
+          value: findPremissa('PIB')?.valor || '1.8%', 
+          trend: 'Moderado', 
+          status: 'neutral', 
+          icon: TrendingUp, 
+          obs: findPremissa('PIB')?.obs || 'Relatório Focus / Banco Central' 
+        },
+        { 
+          label: 'Selic (Projeção)', 
+          value: selic?.valor || '11.25%', 
+          trend: selic?.status?.toLowerCase()?.includes('redução') ? 'down' : 'Estável', 
+          status: 'positive', 
+          icon: Target, 
+          obs: selic?.obs || 'Meta COPOM' 
+        },
+        { 
+          label: 'Inflação (IPCA)', 
+          value: ipca?.valor || '4.5%', 
+          trend: 'up', 
+          status: 'warning', 
+          icon: Activity, 
+          obs: ipca?.obs || 'Acumulado 12 meses IBGE' 
+        },
+        { 
+          label: 'Dólar (Ptax Médio)', 
+          value: dolar?.valor || 'R$ 5,05', 
+          trend: 'neutral', 
+          status: 'neutral', 
+          icon: Globe, 
+          obs: dolar?.obs || 'Fechamento Comercial' 
+        }
       ],
       Global: [
         { label: 'PIB Mundial (FMI)', value: '3.1%', trend: 'Estável', status: 'positive', icon: Globe, obs: 'World Economic Outlook' },
@@ -53,7 +108,7 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
       ]
     };
     return data[selectedScope];
-  }, [selectedScope]);
+  }, [selectedScope, econData]);
 
   return (
     <div className="space-y-12 pb-32 animate-executive-fade">
@@ -157,7 +212,7 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                  <Activity size={32} />
                </div>
                <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Integração de Dados em Tempo Real</p>
-               <p className="text-slate-300 text-[9px] font-bold uppercase tracking-widest">Sincronizado via Governança Intelligence</p>
+               <p className="text-slate-300 text-[9px] font-bold uppercase tracking-widest">Sincronizado via Premissas do Sistema</p>
             </div>
          </div>
 

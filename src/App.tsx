@@ -365,9 +365,15 @@ export default function App() {
     // Custom event for immediate update in the same tab
     window.addEventListener('theme-changed', applyTheme);
 
+    const handleNavigate = (e: any) => {
+      setCurrentPage(e.detail);
+    };
+    window.addEventListener('navigate-to', handleNavigate);
+
     return () => {
       window.removeEventListener('storage', applyTheme);
       window.removeEventListener('theme-changed', applyTheme);
+      window.removeEventListener('navigate-to', handleNavigate);
     };
   }, []);
 

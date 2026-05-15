@@ -312,7 +312,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
 
             <div className="flex items-end gap-3 relative z-10">
               <h2 className="text-7xl font-display font-black tracking-tighter leading-none">
-                {isNaN(healthScore) ? 0 : healthScore}
+                {hasData ? (isNaN(healthScore) ? 0 : healthScore) : '---'}
               </h2>
               <span className="text-lg font-bold text-slate-500 mb-2">/ 100</span>
             </div>
@@ -321,17 +321,19 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
               <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
                 <motion.div 
                   initial={{ width: 0 }}
-                  animate={{ width: `${healthScore}%` }}
+                  animate={{ width: `${hasData ? healthScore : 0}%` }}
                   transition={{ duration: 1.5, ease: "circOut" }}
                   className={cn(
                     "h-full rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)]",
-                    healthScore > 80 ? "bg-emerald-400" : healthScore > 60 ? "bg-blue-400" : "bg-rose-400"
+                    hasData 
+                      ? (healthScore > 80 ? "bg-emerald-400" : healthScore > 60 ? "bg-blue-400" : "bg-rose-400")
+                      : "bg-slate-700"
                   )} 
                 />
               </div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex justify-between">
-                <span>{healthScore > 80 ? 'Status: Elite' : healthScore > 60 ? 'Status: Estável' : 'Status: Alerta'}</span>
-                <span className="text-blue-400">{healthScore}% Performance</span>
+                <span>{hasData ? (healthScore > 80 ? 'Status: Elite' : healthScore > 60 ? 'Status: Estável' : 'Status: Alerta') : 'Status: N/A'}</span>
+                <span className="text-blue-400">{hasData ? `${healthScore}% Performance` : 'Aguardando Dados'}</span>
               </p>
             </div>
           </div>
@@ -531,22 +533,30 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mt-20">
               <MatrixQuadrant 
                 title="Quick Wins" 
-                list={hasData ? ['Estímulo Antecipação', 'Venda Ativos Ociosos'] : ['Aguardando Dados']} 
+                list={hasData 
+                  ? (patterns.filter(p => p.severity === 'warning').map(p => p.name).length > 0 
+                    ? patterns.filter(p => p.severity === 'warning').map(p => p.name) 
+                    : ['Revisão de Prazos', 'Otimização de Estoque']) 
+                  : ['Aguardando Dados']} 
                 color="emerald" 
               />
               <MatrixQuadrant 
                 title="Must Do" 
-                list={hasData ? ['Expansão Comercial', 'Sales Optimization'] : ['Aguardando Dados']} 
+                list={hasData 
+                  ? (patterns.filter(p => p.severity === 'critical').map(p => p.name).length > 0 
+                    ? patterns.filter(p => p.severity === 'critical').map(p => p.name) 
+                    : ['Equilíbrio de Caixa', 'Gestão de Passivos']) 
+                  : ['Aguardando Dados']} 
                 color="blue" 
               />
               <MatrixQuadrant 
                 title="Strategic" 
-                list={hasData ? ['Governança Familiar', 'Preparação para M&A', 'Equity Valuation'] : ['Aguardando Dados']} 
+                list={hasData ? ['Governança Corporativa', 'Plano de Sucessão', 'Expansão de Margem'] : ['Aguardando Dados']} 
                 color="indigo" 
               />
               <MatrixQuadrant 
                 title="Low Priority" 
-                list={hasData ? ['Site Institucional', 'Troca de Mobiliário', 'Branding Local'] : ['Aguardando Dados']} 
+                list={hasData ? ['Digitalização de Documentos', 'Ajuste de Processos Menores'] : ['Aguardando Dados']} 
                 color="slate" 
               />
             </div>

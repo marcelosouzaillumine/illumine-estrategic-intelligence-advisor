@@ -28,7 +28,8 @@ import {
   orderBy, 
   limit 
 } from 'firebase/firestore';
-import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage, auth, handleFirestoreError, OperationType } from '../lib/firebase';
 import { cn } from '../lib/utils';
 
 export function ClientImportHistory({ clientId, clientName }: { clientId: string, clientName: string }) {
@@ -172,6 +173,16 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
         throw new Error('Nenhum dado válido encontrado no arquivo.');
       }
 
+      // 1. Upload File to Firebase Storage for Audit Integrity
+      let fileUrl = '';
+      try {
+        const storageRef = ref(storage, `imports/${clientId}/${Date.now()}_${file.name}`);
+        const uploadResult = await uploadBytes(storageRef, file);
+        fileUrl = await getDownloadURL(uploadResult.ref);
+      } catch (storageErr) {
+        console.warn("Failed to upload original file to storage, proceeding with data only.", storageErr);
+      }
+
       const payload = {
         clientId,
         clientName: clientName || 'N/A',
@@ -183,7 +194,10 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
         ano: year,
         data: dataEntries,
         fileName: file.name,
+        fileUrl, // Store reference to original document
         createdAt: serverTimestamp(),
+        createdBy: auth.currentUser?.uid,
+        creatorEmail: auth.currentUser?.email,
       };
 
       await addDoc(collection(db, 'financial_entries'), payload);
@@ -350,7 +364,19 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
                     </span>
                   </div>
                   <p className="text-[11px] font-bold text-primary truncate mb-1">{h.fileName}</p>
-                  <p className="text-[9px] text-slate-400">Em: {h.createdAt?.toDate() ? h.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recent'}</p>
+                  <div className="flex justify-between items-center mt-1">
+                    <p className="text-[9px] text-slate-400">Em: {h.createdAt?.toDate() ? h.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recent'}</p>
+                    {h.fileUrl && (
+                      <a 
+                        href={h.fileUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-[9px] font-black text-secondary uppercase hover:underline"
+                      >
+                        Ver Original
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

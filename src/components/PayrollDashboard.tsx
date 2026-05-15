@@ -61,7 +61,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
   const [clientInfo, setClientInfo] = useState<any>(null);
-  const [turnoverMensal, setTurnoverMensal] = useState<number>(1);
+  const [turnoverMensal, setTurnoverMensal] = useState<number>(0);
   const [selectedSimEmployeeId, setSelectedSimEmployeeId] = useState<string>('todos');
 
   useEffect(() => {

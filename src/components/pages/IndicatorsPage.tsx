@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { query, collection, where, onSnapshot } from 'firebase/firestore';
+import { query, collection, where, onSnapshot, getDocs, limit, startAfter, orderBy } from 'firebase/firestore';
+import { usePaginatedData } from '../../hooks/usePaginatedData';
 import { 
   TrendingUp, 
   BarChart3, 
@@ -124,7 +125,21 @@ const GROUP_MAPPING: Record<string, string> = {
   'Lead Time': 'Gestão Operacional',
   'Indice de Qualidade': 'Gestão Operacional',
   'Índice de Qualidade': 'Gestão Operacional',
-  'Atrasos': 'Gestão Operacional'
+  'Atrasos': 'Gestão Operacional',
+  'Produtividade Colaborador': 'Gestão Operacional',
+  'Manutenção Preditiva': 'Gestão Operacional',
+  
+  // New Strategic indicators mapping
+  'Índice de Transparência': 'Governança Corporativa',
+  'Eficácia Decisória': 'Governança Corporativa',
+  'Absenteísmo': 'Cultura Organizacional',
+  'Taxa de Promoção Interna': 'Cultura Organizacional',
+  'Receita Novos Produtos': 'Gestão de Inovação',
+  'Time-to-Market': 'Gestão de Inovação',
+  'LTV CAC Marketing': 'Gestão de Marketing',
+  'Share of Voice': 'Gestão de Marketing',
+  'Win Rate': 'Gestão Comercial',
+  'Cash Runaway': 'Administração e Finanças'
 };
 
 const CATEGORY_CONFIG: Record<string, { icon: any; color: string; bg: string; border: string; text: string }> = {
@@ -146,7 +161,7 @@ const getValueSizeClass = (maxLen: number) => {
   return "text-[clamp(1.6rem,2.5vw,2.3rem)]";
 };
 
-function KPICard({ r, group, valueClassName }: any) {
+function KPICard({ r, group, valueClassName, onAction }: any) {
   const config = CATEGORY_CONFIG[group] || CATEGORY_CONFIG['Administração e Finanças'];
   
   return (
@@ -214,6 +229,16 @@ function KPICard({ r, group, valueClassName }: any) {
                 Competência: {r.comp}
               </span>
             </div>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onAction && onAction(r);
+              }}
+              title="Transformar em Plano de Ação"
+              className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-secondary transition-all shadow-lg shadow-slate-900/10 group/btn"
+            >
+               <Zap size={16} className="group-hover/btn:scale-125 transition-transform" />
+            </button>
           </div>
         </div>
       </div>
@@ -256,51 +281,6 @@ function SummaryCard({ label, value, icon: Icon, colorClass, trend, valueClassNa
   );
 }
 
-function useIndicators(clientId: string, year: number, month: number) {
-  const [indicators, setIndicators] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!clientId) {
-      setIndicators([]);
-      return;
-    }
-
-    setLoading(true);
-    const q = query(
-      collection(db, 'indicators'),
-      where('clientId', '==', clientId),
-      where('ano', '==', year),
-      where('mes', '==', month)
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const dbDocs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as any[];
-      
-      if (dbDocs.length > 0) {
-        setIndicators(dbDocs.map(doc => ({
-          ...doc,
-          cl: doc.clientId,
-          comp: `${String(doc.mes).padStart(2, '0')}/${doc.ano}`,
-          cat: doc.cat || 'Operacional',
-          sem: doc.sem || 'Ativo',
-          un: doc.un || ''
-        })));
-      } else {
-        setIndicators([]);
-      }
-      setLoading(false);
-    }, (error) => {
-      console.error("Error fetching indicators:", error);
-      setIndicators([]);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [clientId, year, month]);
-
-  return { indicators, loading };
-}
 
 export function IndicatorsPage({ clients, selectedClient, selectedMonth, selectedYear }: any) {
   const [filterMonth, setFilterMonth] = useState(selectedMonth);
@@ -308,19 +288,41 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
   const [filterGroup, setFilterGroup] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
+  const filters = useMemo(() => [
+    { field: 'clientId', operator: '==', value: selectedClient },
+    { field: 'ano', operator: '==', value: filterYear },
+    { field: 'mes', operator: '==', value: filterMonth }
+  ], [selectedClient, filterYear, filterMonth]);
+
+  const { 
+    data: indicators, 
+    loading, 
+    hasMore, 
+    fetchNextPage, 
+    reset 
+  } = usePaginatedData({
+    collectionName: 'indicators',
+    filters,
+    orderByField: 'ind',
+    orderDirection: 'asc',
+    pageSize: 12
+  });
+
+  useEffect(() => {
+    reset();
+  }, [selectedClient, filterYear, filterMonth]);
+
   useEffect(() => {
     setFilterYear(selectedYear);
     setFilterMonth(selectedMonth);
   }, [selectedYear, selectedMonth]);
-
-  const { indicators, loading } = useIndicators(selectedClient, filterYear, filterMonth);
 
   const years = useMemo(() => {
     const current = new Date().getFullYear();
     return Array.from({ length: 6 }, (_, i) => current - i);
   }, []);
 
-  const { grouped, summary, groups, globalSizeClass } = useMemo(() => {
+  const { grouped, summary, groups, globalSizeClass, healthScore } = useMemo(() => {
     const listWithGroups = indicators.map(i => {
         const indName = (i.ind === 'Múltiplo' || i.ind === 'Multiplo') ? 'Múltiplo de EBITDA' : i.ind;
         return {
@@ -354,11 +356,19 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
     };
 
     const stats = [
-        { label: 'Faturamento', value: getVal('Faturamento Bruto'), icon: BarChart3, colorClass: 'text-secondary', trend: '12.4%' },
-        { label: 'EBITDA', value: getVal('EBITDA'), icon: Zap, colorClass: 'text-secondary', trend: '8.2%' },
-        { label: 'Lucro Líquido', value: getVal('Lucro Líquido'), icon: TrendingUp, colorClass: 'text-secondary', trend: '15.1%' },
-        { label: 'Ciclo Financeiro', value: getVal('Ciclo Financeiro'), icon: Activity, colorClass: 'text-secondary', trend: '-2 dias' }
+        { label: 'Faturamento', value: getVal('Faturamento Bruto'), icon: BarChart3, colorClass: 'text-secondary', trend: '' },
+        { label: 'EBITDA', value: getVal('EBITDA'), icon: Zap, colorClass: 'text-secondary', trend: '' },
+        { label: 'Lucro Líquido', value: getVal('Lucro Líquido'), icon: TrendingUp, colorClass: 'text-secondary', trend: '' },
+        { label: 'Ciclo Financeiro', value: getVal('Ciclo Financeiro'), icon: Activity, colorClass: 'text-secondary', trend: '' }
     ];
+
+    const healthScore = indicators.length > 0 ? Math.round(
+      indicators.reduce((acc, curr) => {
+        // Simple heuristic for score based on semaforo if no real formula is available for generic indicators
+        const val = curr.sem === 'Verde' ? 100 : curr.sem === 'Amarelo' ? 60 : 30;
+        return acc + val;
+      }, 0) / indicators.length
+    ) : 0;
 
     const globalMaxLen = Math.max(
       ...indicators.map(i => formatValue(i.val, i.un).length),
@@ -366,7 +376,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
     );
     const globalSizeClass = getValueSizeClass(globalMaxLen);
 
-    return { grouped: groupsMap, summary: stats, groups: availableGroups, globalSizeClass };
+    return { grouped: groupsMap, summary: stats, groups: availableGroups, globalSizeClass, healthScore };
   }, [indicators, filterGroup]);
 
   const currentClient = clients.find((c: any) => c.id === selectedClient);
@@ -426,15 +436,19 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
             <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">Score de Saúde Consolidado</h3>
             <div className="flex items-center gap-4">
               <span className="text-5xl font-display font-black text-slate-900 tracking-tighter">
-                {indicators.length > 0 ? '94.2' : '0.0'}
+                {indicators.length > 0 ? healthScore.toFixed(1) : '---'}
               </span>
               <span className={cn(
                 "text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border",
                 indicators.length > 0 
-                  ? "text-emerald-600 bg-emerald-50 border-emerald-100" 
+                  ? (healthScore > 80 
+                    ? "text-emerald-600 bg-emerald-50 border-emerald-100" 
+                    : healthScore > 60
+                    ? "text-amber-600 bg-amber-50 border-amber-100"
+                    : "text-rose-600 bg-rose-50 border-rose-100")
                   : "text-slate-400 bg-slate-50 border-slate-100"
               )}>
-                {indicators.length > 0 ? 'Otimizado' : 'Aguardando Dados'}
+                {indicators.length > 0 ? (healthScore > 80 ? 'Otimizado' : healthScore > 60 ? 'Em Observação' : 'Crítico') : 'Pendente'}
               </span>
             </div>
           </div>
@@ -443,17 +457,17 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
           <div className="flex justify-between text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
             <span>Eficiência Estratégica</span>
             <span className={indicators.length > 0 ? "text-emerald-600" : "text-slate-400"}>
-              {indicators.length > 0 ? '94.2%' : '0.0%'}
+              {indicators.length > 0 ? `${healthScore}%` : '---'}
             </span>
           </div>
           <div className="h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
             <motion.div 
               initial={{ width: 0 }}
-              animate={{ width: indicators.length > 0 ? '94.2%' : '0%' }}
+              animate={{ width: `${healthScore}%` }}
               transition={{ duration: 1.5, ease: "circOut" }}
               className={cn(
                 "h-full shadow-[0_0_10px_rgba(16,185,129,0.3)]",
-                indicators.length > 0 ? "bg-emerald-500" : "bg-slate-200"
+                healthScore > 80 ? "bg-emerald-500" : healthScore > 60 ? "bg-amber-500" : "bg-rose-500"
               )}
             />
           </div>
@@ -555,7 +569,22 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
                       {items.map((r, i) => (
-                        <KPICard key={i} r={r} group={group} valueClassName={globalSizeClass} />
+                        <KPICard 
+                          key={i} 
+                          r={r} 
+                          group={group} 
+                          valueClassName={globalSizeClass} 
+                          onAction={(ind: any) => {
+                            sessionStorage.setItem('pending_action', JSON.stringify({
+                              title: `Ação para: ${ind.ind}`,
+                              origin: 'Indicadores',
+                              description: `Melhorar o indicador ${ind.ind} (Valor atual: ${ind.val})`
+                            }));
+                            // Assuming setCurrentPage is available via props, but it's not here.
+                            // I'll use a custom event or check how to navigate.
+                            window.dispatchEvent(new CustomEvent('navigate-to', { detail: 'plano_acao' }));
+                          }}
+                        />
                       ))}
                     </div>
                   </div>
@@ -618,6 +647,16 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
               </table>
             </div>
           </motion.div>
+        )}
+        {hasMore && !loading && (
+          <div className="flex justify-center pt-10">
+            <button
+              onClick={() => fetchNextPage()}
+              className="px-10 py-4 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-secondary hover:border-secondary/30 transition-all shadow-sm"
+            >
+              Carregar Mais Indicadores
+            </button>
+          </div>
         )}
       </AnimatePresence>
     </div>

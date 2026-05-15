@@ -70,14 +70,16 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
         { label: 'OTIF (Entrega no Prazo)', value: getIndicatorValue('OTIF', 0), suffix: '%', status: 'positive', target: 95, icon: Truck },
         { label: 'Giro de Estoque', value: getIndicatorValue('Giro de Estoque', 0), suffix: 'x', status: 'neutral', target: 6.0, icon: Box },
         { label: 'Custo Frete / Receita', value: getIndicatorValue('Custo Frete', 0), suffix: '%', status: 'negative', target: 6.0, icon: TrendingUp },
-        { label: 'Tempo Médio Entrega', value: getIndicatorValue('Lead Time Entrega', 0), suffix: ' dias', status: 'positive', target: 4.0, icon: Clock }
+        { label: 'Lead Time Entrega', value: getIndicatorValue('Lead Time Entrega', 0), suffix: ' dias', status: 'positive', target: 4.0, icon: Clock },
+        { label: 'Ocupação de Frota', value: getIndicatorValue('Ocupação de Frota', 0), suffix: '%', status: 'positive', target: 85, icon: Activity },
       ];
     } else {
       return [
         { label: 'OEE (Eficiência Equip.)', value: getIndicatorValue('OEE', 0), suffix: '%', status: 'positive', target: 85, icon: Settings },
+        { label: 'Índice de Qualidade', value: getIndicatorValue('Índice de Qualidade', 0), suffix: '%', status: 'positive', target: 98, icon: ShieldCheck },
+        { label: 'Produtividade Colaborador', value: getIndicatorValue('Produtividade Colaborador', 0), suffix: ' und/h', status: 'positive', target: 150, icon: Activity },
+        { label: 'Manutenção Preditiva', value: getIndicatorValue('Manutenção Preditiva', 0), suffix: '%', status: 'positive', target: 90, icon: Zap },
         { label: 'Nível de Refugo', value: getIndicatorValue('Nível de Refugo', 0), suffix: '%', status: 'negative', target: 1.5, icon: AlertCircle },
-        { label: 'Lead Time Produção', value: getIndicatorValue('Lead Time Produção', 0), suffix: ' dias', status: 'neutral', target: 10, icon: Clock },
-        { label: 'Produtividade Hora', value: getIndicatorValue('Produtividade Hora', 0), suffix: ' und/h', status: 'positive', target: 140, icon: Activity }
       ];
     }
   }, [isLogistica, dbIndicators]);

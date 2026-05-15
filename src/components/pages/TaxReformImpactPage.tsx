@@ -9,6 +9,8 @@ import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { useAnnualFinancialData } from '../../hooks/useFinancialData';
+import { db } from '../../lib/firebase';
+import { query, collection, where, onSnapshot } from 'firebase/firestore';
 import { 
   TaxReformDiagnosis, 
   ProductInfo,
@@ -121,10 +123,10 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
     percentualInterestadual: 0,
     creditosAtuais: 0,
     beneficiosFiscais: false,
-    aliquotaEfetivaAtual: 0.15, 
-    cargaTributariaEfetiva: 0.15,
+    aliquotaEfetivaAtual: 0, 
+    cargaTributariaEfetiva: 0,
     dependenciaCreditoFiscal: 'Média',
-    setorEconomico: 'Serviços de Tecnologia',
+    setorEconomico: '',
     produtos: []
   });
 
@@ -135,8 +137,11 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
     tipo: 'Produto'
   });
 
-  // Fetch real data to populate diagnosis
   const { dbData: dreData, loading: loadingDRE } = useAnnualFinancialData(clientId, selectedYear || new Date().getFullYear(), 'DRE');
+
+  const hasData = useMemo(() => {
+    return (diagnosis.faturamentoAnual > 0) || (diagnosis.produtos && diagnosis.produtos.length > 0);
+  }, [diagnosis.faturamentoAnual, diagnosis.produtos]);
 
   // Fetch products from precificacao
   useEffect(() => {
@@ -390,7 +395,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
               </div>
 
               {/* NCM Insights Section */}
-              {ncmInsights.length > 0 && (
+              {hasData && ncmInsights.length > 0 && (
                 <div className="bg-amber-50 rounded-[40px] border border-amber-100 p-10 shadow-sm">
                   <div className="flex items-center gap-4 mb-8">
                     <div className="w-12 h-12 bg-white text-amber-600 rounded-2xl flex items-center justify-center shadow-sm">
@@ -428,113 +433,133 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
 
             {activeTab === 'simulation' && (
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-              {/* Scenario Selector */}
-              <div className="bg-white rounded-[40px] border border-slate-200 p-8 shadow-sm">
-                <div className="flex items-center justify-between mb-8">
-                  <h3 className="text-lg font-display font-extrabold text-slate-900">Laboratório de Cenários</h3>
-                  <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black uppercase">
-                    <Clock size={14} />
-                    Linha do Tempo Oficial
+              {!hasData ? (
+                <div className="bg-white rounded-[40px] border border-slate-200 p-20 shadow-sm text-center">
+                  <div className="w-20 h-20 bg-slate-50 text-slate-300 rounded-[32px] flex items-center justify-center mx-auto mb-6">
+                    <BarChart3 size={32} />
                   </div>
+                  <h3 className="text-xl font-display font-extrabold text-slate-900 mb-2">Simulação Indisponível</h3>
+                  <p className="text-sm text-slate-500 font-medium max-w-sm mx-auto">
+                    Insira o faturamento ou cadastre produtos no primeiro passo para desbloquear o Laboratório de Cenários.
+                  </p>
+                  <button 
+                    onClick={() => setActiveTab('diagnosis')}
+                    className="mt-8 px-8 py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all"
+                  >
+                    Configurar Diagnóstico
+                  </button>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                  {scenarios.map(s => (
-                    <ScenarioButton 
-                      key={s.year} 
-                      scenario={s} 
-                      active={selectedScenario.year === s.year}
-                      onClick={() => setSelectedScenario(s)}
+              ) : (
+                <>
+                  {/* Scenario Selector */}
+                  <div className="bg-white rounded-[40px] border border-slate-200 p-8 shadow-sm">
+                    <div className="flex items-center justify-between mb-8">
+                      <h3 className="text-lg font-display font-extrabold text-slate-900">Laboratório de Cenários</h3>
+                      <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black uppercase">
+                        <Clock size={14} />
+                        Linha do Tempo Oficial
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                      {scenarios.map(s => (
+                        <ScenarioButton 
+                          key={s.year} 
+                          scenario={s} 
+                          active={selectedScenario.year === s.year}
+                          onClick={() => setSelectedScenario(s)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Simulation Results */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <MetricCard 
+                      title="Carga Tributária Total"
+                      value={formatCurrency(metrics.futureTaxTotal)}
+                      subtitle={`Vs. ${formatCurrency(metrics.currentTaxTotal)} atual`}
+                      icon={Percent}
+                      colorClass="bg-blue-50 text-blue-600"
+                      trend={metrics.deltaPercentage}
                     />
-                  ))}
-                </div>
-              </div>
+                    <MetricCard 
+                      title="Impacto no EBITDA"
+                      value={formatCurrency(metrics.impactOnEBITDA)}
+                      subtitle="Redução direta na margem"
+                      icon={BarChart3}
+                      colorClass="bg-rose-50 text-rose-600"
+                    />
+                    <MetricCard 
+                      title="Necessidade de Capital"
+                      value={formatCurrency(metrics.splitPaymentImpact)}
+                      subtitle="Efeito Split Payment no caixa"
+                      icon={ArrowRight}
+                      colorClass="bg-amber-50 text-amber-600"
+                    />
+                  </div>
 
-              {/* Simulation Results */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <MetricCard 
-                  title="Carga Tributária Total"
-                  value={formatCurrency(metrics.futureTaxTotal)}
-                  subtitle={`Vs. ${formatCurrency(metrics.currentTaxTotal)} atual`}
-                  icon={Percent}
-                  colorClass="bg-blue-50 text-blue-600"
-                  trend={metrics.deltaPercentage}
-                />
-                <MetricCard 
-                  title="Impacto no EBITDA"
-                  value={formatCurrency(metrics.impactOnEBITDA)}
-                  subtitle="Redução direta na margem"
-                  icon={BarChart3}
-                  colorClass="bg-rose-50 text-rose-600"
-                />
-                <MetricCard 
-                  title="Necessidade de Capital"
-                  value={formatCurrency(metrics.splitPaymentImpact)}
-                  subtitle="Efeito Split Payment no caixa"
-                  icon={ArrowRight}
-                  colorClass="bg-amber-50 text-amber-600"
-                />
-              </div>
-
-              {/* Comparison Chart Mockup */}
-              <div className="bg-slate-900 rounded-[40px] p-10 text-white overflow-hidden relative">
-                <div className="absolute top-0 right-0 p-10 opacity-10">
-                  <Globe size={200} />
-                </div>
-                <div className="relative z-10">
-                  <h4 className="text-xl font-display font-extrabold mb-8 flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
-                      <TrendingUp size={20} className="text-secondary" />
+                  {/* Comparison Chart Mockup */}
+                  <div className="bg-slate-900 rounded-[40px] p-10 text-white overflow-hidden relative">
+                    <div className="absolute top-0 right-0 p-10 opacity-10">
+                      <Globe size={200} />
                     </div>
-                    Projeção de Fluxo de Caixa Tributário
-                  </h4>
-                  
-                  <div className="h-64 flex items-end gap-4 mb-6">
-                    {scenarios.map((s, i) => {
-                      const scenarioMetrics = calculateTaxImpact(diagnosis, s);
-                      // Calculate relative height based on total tax vs current
-                      // We'll use 100% for the highest value in the transition
-                      const maxImpact = Math.max(...scenarios.map(sc => calculateTaxImpact(diagnosis, sc).futureTaxTotal));
-                      const height = maxImpact > 0 ? (scenarioMetrics.futureTaxTotal / maxImpact) * 100 : 0;
-                      
-                      return (
-                        <div key={i} className="flex-1 flex flex-col items-center gap-4">
-                          <div className="w-full relative group">
-                            <div 
-                              className={cn(
-                                "w-full rounded-t-xl transition-all duration-1000",
-                                s.year === selectedScenario.year ? "bg-secondary shadow-[0_0_30px_rgba(255,133,82,0.4)]" : "bg-white/20"
-                              )} 
-                              style={{ height: `${height}%` }}
-                            >
-                              <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all bg-white text-slate-900 text-[10px] font-black px-2 py-1 rounded shadow-xl">
-                                {formatCurrency(scenarioMetrics.futureTaxTotal)}
-                              </div>
-                            </div>
-                          </div>
-                          <span className="text-[10px] font-black text-slate-500">{s.year}</span>
+                    <div className="relative z-10">
+                      <h4 className="text-xl font-display font-extrabold mb-8 flex items-center gap-3">
+                        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
+                          <TrendingUp size={20} className="text-secondary" />
                         </div>
-                      );
-                    })}
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10 border-t border-white/10 pt-8">
-                    <div>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Ganhos de Eficiência (Créditos)</p>
-                      <div className="flex items-center gap-4">
-                        <div className="text-3xl font-black text-emerald-400">+{formatCurrency(metrics.creditGain)}</div>
-                        <div className="text-[10px] text-slate-400 leading-tight">Potencial de aproveitamento de créditos em toda a cadeia operacional.</div>
+                        Projeção de Fluxo de Caixa Tributário
+                      </h4>
+                      
+                      <div className="h-64 flex items-end gap-4 mb-6">
+                        {scenarios.map((s, i) => {
+                          const scenarioMetrics = calculateTaxImpact(diagnosis, s);
+                          // Calculate relative height based on total tax vs current
+                          // We'll use 100% for the highest value in the transition
+                          const maxImpact = Math.max(...scenarios.map(sc => calculateTaxImpact(diagnosis, sc).futureTaxTotal));
+                          const height = maxImpact > 0 ? (scenarioMetrics.futureTaxTotal / maxImpact) * 100 : 0;
+                          
+                          return (
+                            <div key={i} className="flex-1 flex flex-col items-center gap-4">
+                              <div className="w-full relative group">
+                                <div 
+                                  className={cn(
+                                    "w-full rounded-t-xl transition-all duration-1000",
+                                    s.year === selectedScenario.year ? "bg-secondary shadow-[0_0_30px_rgba(255,133,82,0.4)]" : "bg-white/20"
+                                  )} 
+                                  style={{ height: `${height}%` }}
+                                >
+                                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all bg-white text-slate-900 text-[10px] font-black px-2 py-1 rounded shadow-xl">
+                                    {formatCurrency(scenarioMetrics.futureTaxTotal)}
+                                  </div>
+                                </div>
+                              </div>
+                              <span className="text-[10px] font-black text-slate-500">{s.year}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 border-t border-white/10 pt-8">
+                        <div>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Ganhos de Eficiência (Créditos)</p>
+                          <div className="flex items-center gap-4">
+                            <div className="text-3xl font-black text-emerald-400">+{formatCurrency(metrics.creditGain)}</div>
+                            <div className="text-[10px] text-slate-400 leading-tight">Potencial de aproveitamento de créditos em toda a cadeia operacional.</div>
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Exposição ao Imposto Seletivo</p>
+                          <div className="flex items-center gap-4">
+                            <div className="text-3xl font-black text-rose-400">{selectedScenario.isRate > 0 ? "ALTA" : "BAIXA"}</div>
+                            <div className="text-[10px] text-slate-400 leading-tight">Risco de incidência sobre insumos específicos (extração, açúcar, etc).</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Exposição ao Imposto Seletivo</p>
-                      <div className="flex items-center gap-4">
-                        <div className="text-3xl font-black text-rose-400">{selectedScenario.isRate > 0 ? "ALTA" : "BAIXA"}</div>
-                        <div className="text-[10px] text-slate-400 leading-tight">Risco de incidência sobre insumos específicos (extração, açúcar, etc).</div>
-                      </div>
-                    </div>
                   </div>
-                </div>
-              </div>
+                </>
+              )}
             </div>
           )}
 
@@ -600,7 +625,10 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-                  <button className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl hover:border-primary transition-all group">
+                  <button 
+                    disabled={!hasData}
+                    className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl hover:border-primary transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <div className="flex items-center gap-4 text-left">
                       <div className="p-3 bg-white rounded-2xl shadow-sm">
                         <BarChart3 size={20} className="text-blue-600" />
@@ -612,7 +640,10 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                     </div>
                     <Download size={20} className="text-slate-300 group-hover:text-primary transition-all" />
                   </button>
-                  <button className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl hover:border-primary transition-all group">
+                  <button 
+                    disabled={!hasData}
+                    className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl hover:border-primary transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <div className="flex items-center gap-4 text-left">
                       <div className="p-3 bg-white rounded-2xl shadow-sm">
                         <Database size={20} className="text-purple-600" />
@@ -653,33 +684,39 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
             </h4>
             
             <div className="space-y-6 mb-8 mt-4">
-              {recommendations.map((rec, idx) => (
-                <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                  <div className="flex justify-between items-start mb-1">
-                    <h5 className="text-[11px] font-black text-slate-900 uppercase">{rec.title}</h5>
-                    <span className={cn(
-                      "text-[8px] font-black px-2 py-0.5 rounded-full",
-                      rec.urgency === 'Crítica' ? "bg-rose-500 text-white" : "bg-primary text-white"
-                    )}>{rec.urgency}</span>
+              {hasData ? (
+                recommendations.map((rec, idx) => (
+                  <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div className="flex justify-between items-start mb-1">
+                      <h5 className="text-[11px] font-black text-slate-900 uppercase">{rec.title}</h5>
+                      <span className={cn(
+                        "text-[8px] font-black px-2 py-0.5 rounded-full",
+                        rec.urgency === 'Crítica' ? "bg-rose-500 text-white" : "bg-primary text-white"
+                      )}>{rec.urgency}</span>
+                    </div>
+                    <p className="text-[10px] text-slate-500 font-medium leading-relaxed">{rec.desc}</p>
                   </div>
-                  <p className="text-[10px] text-slate-500 font-medium leading-relaxed">{rec.desc}</p>
+                ))
+              ) : (
+                <div className="p-8 text-center text-slate-400 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                   <p className="text-[9px] font-black uppercase tracking-widest">Aguardando dados para análise estratégica</p>
                 </div>
-              ))}
-              {recommendations.length === 0 && (
+              )}
+              {hasData && recommendations.length === 0 && (
                 <p className="text-[10px] text-slate-400 italic">Nenhuma recomendação crítica para este cenário.</p>
               )}
             </div>
 
             <div className="space-y-6 pt-6 border-t border-slate-100">
-              <ScoreGauge label="Score de Impacto" score={scores.impact} color="bg-rose-500" />
-              <ScoreGauge label="Vulnerabilidade Setorial" score={scores.vulnerability} color="bg-amber-500" />
-              <ScoreGauge label="Maturidade Fiscal" score={scores.maturity} color="bg-emerald-500" />
+              <ScoreGauge label="Score de Impacto" score={hasData ? scores.impact : 0} color="bg-rose-500" />
+              <ScoreGauge label="Vulnerabilidade Setorial" score={hasData ? scores.vulnerability : 0} color="bg-amber-500" />
+              <ScoreGauge label="Maturidade Fiscal" score={hasData ? scores.maturity : 0} color="bg-emerald-500" />
             </div>
           </div>
 
           <ExecutiveCommentary 
             reportType="TAX_REFORM"
-            clientId={selectedClient}
+            clientId={clientId}
             year={2026}
             month={3}
           />

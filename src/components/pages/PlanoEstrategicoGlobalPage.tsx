@@ -105,8 +105,8 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
           </div>
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Progresso Realizado</p>
           <div className="flex items-end gap-2">
-            <h3 className="text-4xl font-black text-slate-800 tracking-tighter">{strategicData.overallProgress}%</h3>
-            <span className="text-xs font-bold text-emerald-500 mb-2">+4.2% este mês</span>
+            <h3 className="text-4xl font-black text-slate-800 tracking-tighter">{hasData ? `${strategicData.overallProgress}%` : '---'}</h3>
+            {hasData && <span className="text-xs font-bold text-emerald-500 mb-2">+4.2% este mês</span>}
           </div>
           <div className="mt-6 h-2 bg-slate-50 rounded-full overflow-hidden">
             <motion.div 
@@ -153,10 +153,10 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
           </div>
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Health Score Global</p>
           <div className="flex items-end gap-2">
-            <h3 className="text-4xl font-black text-indigo-600 tracking-tighter">A-</h3>
-            <span className="text-xs font-bold text-indigo-400 mb-2">Estável</span>
+            <h3 className="text-4xl font-black text-indigo-600 tracking-tighter">{hasData ? 'A-' : '---'}</h3>
+            <span className="text-xs font-bold text-indigo-400 mb-2">{hasData ? 'Estável' : 'Pendente'}</span>
           </div>
-          <p className="mt-6 text-[10px] font-bold text-slate-400 uppercase italic">Risco de execução: Baixo</p>
+          <p className="mt-6 text-[10px] font-bold text-slate-400 uppercase italic">{hasData ? 'Risco de execução: Baixo' : 'Aguardando Planejamento'}</p>
         </div>
       </div>
 
@@ -188,8 +188,8 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Status</span>
                   <span className={cn(
                     "text-lg font-black",
-                    axis.status >= 80 ? "text-emerald-500" : axis.status >= 50 ? "text-amber-500" : "text-rose-500"
-                  )}>{axis.status}%</span>
+                    !hasData ? "text-slate-300" : (axis.status >= 80 ? "text-emerald-500" : axis.status >= 50 ? "text-amber-500" : "text-rose-500")
+                  )}>{hasData ? `${axis.status}%` : '---'}</span>
                </div>
             </div>
             <h3 className="text-lg font-black text-slate-800 mb-1">{axis.title}</h3>

@@ -225,7 +225,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {[
-          { label: 'Health Score Médio', value: stats.avgScore, icon: Activity, color: 'blue', desc: 'Base Clientes Ativos' },
+          { label: 'Health Score Médio', value: stats.avgScore > 0 ? stats.avgScore : '---', icon: Activity, color: 'blue', desc: 'Base Clientes Ativos' },
           { label: 'Fat. Mensal Consolidado', value: formatCurrency(stats.totalRevenue), icon: Coins, color: 'emerald', desc: 'Volume sob assessoria' },
           { label: 'Alertas Críticos', value: stats.activeAlerts, icon: AlertCircle, color: 'rose', desc: 'Urgência imediata' },
           { label: 'Total de Clientes', value: stats.totalClients, icon: Users, color: 'slate', desc: `${stats.onboarding} em onboarding` },
@@ -243,7 +243,7 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
             <div className="flex items-baseline gap-1 sm:gap-2 min-w-0">
               <h3 className="text-xl sm:text-3xl font-black text-slate-900 truncate">{stat.value}</h3>
-              {stat.label.includes('Score') && <span className="text-[10px] font-bold text-emerald-600 whitespace-nowrap">+2.4%</span>}
+              {stat.label.includes('Score') && stats.avgScore > 0 && <span className="text-[10px] font-bold text-emerald-600 whitespace-nowrap">+2.4%</span>}
             </div>
             <p className="text-[10px] font-medium text-slate-400 mt-2">{stat.desc}</p>
           </div>
@@ -366,6 +366,26 @@ export function PortfolioPage({ clients, onSelectClient }: any) {
               <button className="w-full mt-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all">
                 Abrir Central de Consultoria
               </button>
+            </div>
+
+            <div className="bg-slate-50 rounded-[40px] p-8 border border-slate-200">
+               <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Radar de Conformidade IVA</h5>
+               <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center"><ShieldCheck size={16} /></div>
+                      <span className="text-[10px] font-black uppercase text-slate-600 tracking-tight">Setor Industrial</span>
+                    </div>
+                    <span className="text-xs font-black text-emerald-600">Alta</span>
+                  </div>
+                  <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center"><AlertCircle size={16} /></div>
+                      <span className="text-[10px] font-black uppercase text-slate-600 tracking-tight">Serviços / Tech</span>
+                    </div>
+                    <span className="text-xs font-black text-rose-600">Risco IVA-S</span>
+                  </div>
+               </div>
             </div>
 
             <div className="bg-indigo-600 rounded-[40px] p-8 text-white">

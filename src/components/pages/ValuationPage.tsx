@@ -34,9 +34,22 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
   const anualizedRevenue = currentRevenue * 12;
   const valuationEbitda = anualizedEbitda * multiple;
   
-  const freeCashFlow = anualizedEbitda * 0.7;
-  const terminalValue = (freeCashFlow * (1 + (growth/100))) / ((wacc/100) - (growth/100));
-  const enterpriseValueDCF = (freeCashFlow / (1 + (wacc/100))) + (terminalValue / (1 + (wacc/100)));
+  // FCF Proxy: EBITDA * (1 - TaxRate) - Capex/WC Proxy
+  // Estimativa conservadora de 65% de conversão de EBITDA em Caixa Livre
+  const freeCashFlow = anualizedEbitda * 0.65;
+  
+  // Gordon Growth Model Refined
+  // r = WACC, g = Growth
+  // TV = FCF * (1 + g) / (r - g)
+  const r = wacc / 100;
+  const g = growth / 100;
+  
+  // Guard against g >= r
+  const effectiveSpread = Math.max(0.02, r - g); 
+  const terminalValue = (freeCashFlow * (1 + g)) / effectiveSpread;
+  
+  // Enterprise Value = Terminal Value (Single Stage Perpetuity)
+  const enterpriseValueDCF = terminalValue;
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">

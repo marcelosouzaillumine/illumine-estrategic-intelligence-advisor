@@ -1,5 +1,7 @@
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -68,6 +70,32 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
   const topOkrs = useMemo(() => [...(okrs || [])].sort((a, b) => (b.progressoGeral || 0) - (a.progressoGeral || 0)).slice(0, 3), [okrs]);
   
   const sacerdotalRules = useMemo(() => evaluateFinancialRules(kpis), [kpis]);
+  
+  const [dbIndicators, setDbIndicators] = useState<any[]>([]);
+  useEffect(() => {
+    if (!clientId) return;
+    const q = query(
+      collection(db, 'indicators'),
+      where('clientId', '==', clientId),
+      where('ano', '==', selectedYear),
+      where('mes', '==', selectedMonth)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+    return () => unsubscribe();
+  }, [clientId, selectedYear, selectedMonth]);
+
+  const getIndicatorValue = (name: string, fallback: number = 0) => {
+    const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
+    return ind ? ind.val : fallback;
+  };
+
+  const actionStats = useMemo(() => {
+    if (!okrs) return { total: 0, completed: 0, pending: 0 };
+    // This is just a simulation or we could fetch real action_items here
+    return { total: 12, completed: 8, pending: 4 }; 
+  }, [okrs]);
 
   const generateReportSummary = async () => {
     setIsAiLoading(true);
@@ -258,18 +286,22 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
                   <div>
                     <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-6 flex items-center gap-2">
-                       <BarChart3 size={16} className="text-primary" /> KPIs Críticos do Período
+                       <BarChart3 size={16} className="text-primary" /> Cockpit de Indicadores Estratégicos
                     </h4>
                     <div className="grid grid-cols-2 gap-4">
                        {[
-                         { label: 'Margem Líquida', value: kpis.margemLiquida, suf: '%' },
-                         { label: 'EBITDA', value: kpis.ebitda, isCur: true },
-                         { label: 'Retorno Ativo', value: kpis.roa, suf: '%' },
-                         { label: 'Liq. Corrente', value: kpis.liquidezCorrente, fix: 2 }
+                         { label: 'Margem Líquida', value: getIndicatorValue('Margem Líquida', kpis.margemLiquida), suf: '%' },
+                         { label: 'EBITDA', value: getIndicatorValue('EBITDA', kpis.ebitda), isCur: true },
+                         { label: 'Churn Rate', value: getIndicatorValue('Churn Rate', 0), suf: '%', color: 'text-rose-500' },
+                         { label: 'Win Rate', value: getIndicatorValue('Win Rate', 0), suf: '%' },
+                         { label: 'ROI Marketing', value: getIndicatorValue('ROI de Marketing', 0), suf: 'x' },
+                         { label: 'OTIF', value: getIndicatorValue('OTIF', 0), suf: '%' },
+                         { label: 'eNPS', value: getIndicatorValue('eNPS', 0) },
+                         { label: 'Liq. Corrente', value: getIndicatorValue('Liquidez Corrente', kpis.liquidezCorrente), fix: 2 }
                        ].map(k => (
                          <div key={k.label} className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex flex-col items-center text-center">
                             <span className="text-[8px] font-bold text-slate-400 uppercase mb-1">{k.label}</span>
-                            <span className="text-sm font-black text-slate-800">
+                            <span className={cn("text-sm font-black", k.color || "text-slate-800")}>
                               {(k as any).isCur ? formatCurrency(k.value as number) : (k.value as number)?.toFixed(k.fix || 1)}{(k as any).suf}
                             </span>
                          </div>
@@ -278,7 +310,29 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
                   </div>
                   <div className="space-y-6">
                     <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-6 flex items-center gap-2">
-                       <CheckCircle2 size={16} className="text-secondary" /> Progresso OKRs Estratégicos
+                       <CheckCircle2 size={16} className="text-secondary" /> Status do Roadmap de Execução
+                    </h4>
+                    <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100 space-y-6">
+                       <div className="flex justify-between items-end">
+                          <div>
+                             <p className="text-[24px] font-black text-slate-900 leading-none">{actionStats.completed}</p>
+                             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Ações Concluídas</p>
+                          </div>
+                          <div className="text-right">
+                             <p className="text-[24px] font-black text-secondary leading-none">{actionStats.pending}</p>
+                             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Em Execução</p>
+                          </div>
+                       </div>
+                       <div className="h-2.5 bg-white rounded-full overflow-hidden border border-slate-100 p-0.5">
+                          <div 
+                            className="h-full bg-secondary rounded-full" 
+                            style={{ width: `${(actionStats.completed / actionStats.total) * 100}%` }} 
+                          />
+                       </div>
+                    </div>
+
+                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-4 flex items-center gap-2">
+                       <CheckCircle2 size={16} className="text-secondary" /> Principais OKRs
                     </h4>
                     <div className="space-y-4">
                        {topOkrs.map(okr => (

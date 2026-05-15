@@ -80,17 +80,21 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
   const indicators = useMemo(() => {
     if (isMarketing) {
       return [
-        { label: 'Brand Awareness', value: getIndicatorValue('Awareness', 0), suffix: '%', status: 'positive', target: 60, icon: Globe },
+        { label: 'Brand Awareness', value: getIndicatorValue('Brand Awareness', 0), suffix: '%', status: 'positive', target: 60, icon: Globe },
+        { label: 'Custo por Lead (CPL)', value: getIndicatorValue('CPL', 0), isCur: true, status: 'positive', target: 50, icon: Users },
+        { label: 'ROI de Marketing', value: getIndicatorValue('ROI de Marketing', 0), suffix: 'x', status: 'positive', target: 4.0, icon: TrendingUp },
+        { label: 'LTV / CAC Marketing', value: getIndicatorValue('LTV CAC Marketing', 0), suffix: 'x', status: 'positive', target: 3.0, icon: BarChart3 },
+        { label: 'Share of Voice', value: getIndicatorValue('Share of Voice', 0), suffix: '%', status: 'positive', target: 25, icon: Globe },
         { label: 'Sentimento', value: getIndicatorValue('Sentimento', 0), suffix: '%', status: 'positive', target: 80, icon: MessageSquare },
-        { label: 'CAC', value: getIndicatorValue('CAC', 0), isCur: true, status: 'positive', target: 500, icon: Users },
-        { label: 'ROAS Médio', value: getIndicatorValue('ROAS', 0), suffix: 'x', status: 'positive', target: 4.0, icon: TrendingUp },
       ];
     } else {
       return [
-        { label: 'Taxa de Conversão', value: getIndicatorValue('Conversão', 0), suffix: '%', status: 'positive', target: 20, icon: ArrowUpRight },
-        { label: 'Ciclo de Vendas', value: getIndicatorValue('Ciclo Vendas', 0), suffix: ' dias', status: 'positive', target: 20, icon: Activity },
-        { label: 'Ticket Médio', value: getIndicatorValue('Ticket Médio', 0), isCur: true, status: 'positive', target: 2500, icon: Target },
-        { label: 'LTV/CAC Ratio', value: getIndicatorValue('LTV/CAC', 0), suffix: 'x', status: 'positive', target: 3.0, icon: Percent },
+        { label: 'Receita Recorrente (MRR)', value: getIndicatorValue('MRR', 0), isCur: true, status: 'positive', target: 100000, icon: Target },
+        { label: 'Taxa de Conversão', value: getIndicatorValue('Taxa de Conversão', 0), suffix: '%', status: 'positive', target: 20, icon: ArrowUpRight },
+        { label: 'Ticket Médio', value: getIndicatorValue('Ticket Médio', 0), isCur: true, status: 'positive', target: 2500, icon: ShoppingBag },
+        { label: 'Churn Rate', value: getIndicatorValue('Churn Rate', 0), suffix: '%', status: 'negative', target: 3.0, icon: ShieldCheck },
+        { label: 'Win Rate', value: getIndicatorValue('Win Rate', 0), suffix: '%', status: 'positive', target: 30, icon: Target },
+        { label: 'CAC Comercial', value: getIndicatorValue('CAC', 0), isCur: true, status: 'positive', target: 500, icon: Users },
       ];
     }
   }, [isMarketing, dbIndicators]);

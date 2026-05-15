@@ -36,6 +36,8 @@ const AXIS_CONFIG_METADATA: Record<string, any> = {
       { label: 'Reuniões de Conselho', ind: 'Reuniões de Conselho', suffix: '', icon: Users },
       { label: 'Compliance Index', ind: 'Compliance Index', suffix: '%', icon: FileText },
       { label: 'Riscos Mitigados', ind: 'Riscos Mitigados', suffix: '', icon: Target },
+      { label: 'Transparência Corporativa', ind: 'Índice de Transparência', suffix: '%', icon: Globe },
+      { label: 'Eficácia Decisória', ind: 'Eficácia Decisória', suffix: '%', icon: Zap },
     ]
   },
   'Cultura Organizacional': {
@@ -48,6 +50,8 @@ const AXIS_CONFIG_METADATA: Record<string, any> = {
       { label: 'Turnover', ind: 'Turnover', suffix: '%', icon: Activity },
       { label: 'Horas de Treinamento', ind: 'Horas de Treinamento', suffix: 'h', icon: BookOpen },
       { label: 'Taxa de Retenção', ind: 'Taxa de Retenção', suffix: '%', icon: Users },
+      { label: 'Absenteísmo', ind: 'Absenteísmo', suffix: '%', icon: ShieldAlert },
+      { label: 'Promoção Interna', ind: 'Taxa de Promoção Interna', suffix: '%', icon: Target },
     ]
   },
   'Gestão de Inovação': {
@@ -60,6 +64,8 @@ const AXIS_CONFIG_METADATA: Record<string, any> = {
       { label: 'Projetos P&D Ativos', ind: 'Projetos P&D Ativos', suffix: '', icon: Activity },
       { label: 'Investimento em P&D', ind: 'Investimento em P&D', isCur: true, icon: Zap },
       { label: 'Tempo até MVP', ind: 'Tempo até MVP', suffix: ' dias', icon: Target },
+      { label: 'Receita de Novos Prod.', ind: 'Receita Novos Produtos', suffix: '%', icon: TrendingUp },
+      { label: 'Time-to-Market', ind: 'Time-to-Market', suffix: ' dias', icon: Activity },
     ]
   },
   'Gestão de Marketing': {
@@ -72,6 +78,8 @@ const AXIS_CONFIG_METADATA: Record<string, any> = {
       { label: 'Custo por Lead (CPL)', ind: 'CPL', isCur: true, icon: Users },
       { label: 'Leads Gerados (MQL)', ind: 'Leads Gerados', suffix: '', icon: Activity },
       { label: 'ROI de Marketing', ind: 'ROI de Marketing', suffix: 'x', icon: TrendingUp },
+      { label: 'LTV / CAC Marketing', ind: 'LTV CAC Marketing', suffix: 'x', icon: BarChart3 },
+      { label: 'Share of Voice', ind: 'Share of Voice', suffix: '%', icon: Globe },
     ]
   },
   'Gestão Comercial': {
@@ -83,7 +91,9 @@ const AXIS_CONFIG_METADATA: Record<string, any> = {
       { label: 'Receita Recorrente (MRR)', ind: 'MRR', isCur: true, icon: Target },
       { label: 'Taxa de Conversão', ind: 'Taxa de Conversão', suffix: '%', icon: Percent },
       { label: 'Ticket Médio', ind: 'Ticket Médio', isCur: true, icon: ShoppingBag },
-      { label: 'CAC', ind: 'CAC', isCur: true, icon: BarChart3 },
+      { label: 'CAC Comercial', ind: 'CAC', isCur: true, icon: BarChart3 },
+      { label: 'Churn Rate', ind: 'Churn Rate', suffix: '%', icon: ShieldAlert },
+      { label: 'Win Rate', ind: 'Win Rate', suffix: '%', icon: Target },
     ]
   },
   'Gestão Operacional': {
@@ -96,6 +106,8 @@ const AXIS_CONFIG_METADATA: Record<string, any> = {
       { label: 'Lead Time Total', ind: 'Lead Time', suffix: ' dias', icon: Target },
       { label: 'Índice de Qualidade', ind: 'Índice de Qualidade', suffix: '%', icon: ShieldCheck },
       { label: 'Atrasos (Logística)', ind: 'Atrasos', suffix: '%', icon: Activity },
+      { label: 'Produtividade p/ Colab.', ind: 'Produtividade Colaborador', suffix: '', icon: Users },
+      { label: 'Manutenção Preditiva', ind: 'Manutenção Preditiva', suffix: '%', icon: Zap },
     ]
   },
   'Administração e Finanças': {
@@ -108,6 +120,8 @@ const AXIS_CONFIG_METADATA: Record<string, any> = {
       { label: 'Liquidez Corrente', ind: 'Liquidez Corrente', suffix: '', icon: Activity },
       { label: 'ROIC', ind: 'ROIC', suffix: '%', icon: Target },
       { label: 'Alavancagem', ind: 'Alavancagem', suffix: 'x', icon: TrendingUp },
+      { label: 'Margem Líquida', ind: 'Margem Líquida', suffix: '%', icon: Percent },
+      { label: 'Cash Runaway', ind: 'Cash Runaway', suffix: ' meses', icon: Activity },
     ]
   }
 };
@@ -325,6 +339,21 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                   <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
                     <Icon size={24} />
                   </div>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      sessionStorage.setItem('pending_action', JSON.stringify({
+                        title: `Ação para: ${kpi.label}`,
+                        origin: axis,
+                        description: `Focar na melhoria do indicador ${kpi.label} do eixo ${axis}.`
+                      }));
+                      window.dispatchEvent(new CustomEvent('navigate-to', { detail: 'plano_acao' }));
+                    }}
+                    title="Criar Ação Estratégica"
+                    className="w-10 h-10 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center hover:bg-secondary hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                  >
+                    <Zap size={16} />
+                  </button>
                 </div>
 
                 <div>

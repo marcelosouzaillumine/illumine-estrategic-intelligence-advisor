@@ -25,8 +25,9 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../../lib/utils';
 import { PageHeader } from '../Common';
-import { db } from '../../lib/firebase';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { db, storage, auth } from '../../lib/firebase';
+import { collection, query, where, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { 
   Radar, 
   RadarChart, 
@@ -58,6 +59,7 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState('');
   const [analysisResults, setAnalysisResults] = useState<any[] | null>(null);
+  const [policies, setPolicies] = useState<any[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -86,8 +88,20 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
     return () => unsubscribe();
   }, [clientId]);
 
+  // Fetch policies
+  useEffect(() => {
+    if (!clientId) return;
+    const q = query(
+      collection(db, 'compliance_policies'),
+      where('clientId', '==', clientId)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setPolicies(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+    return () => unsubscribe();
+  }, [clientId]);
+
   const hasData = dbIndicators.length > 0 || Object.keys(answers).length > 0;
-  const policies: any[] = [];
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -97,9 +111,25 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
     setUploadedFileName(file.name);
     
     try {
+      // 1. Upload to Storage
+      const storageRef = ref(storage, `policies/${clientId}/${Date.now()}_${file.name}`);
+      const uploadResult = await uploadBytes(storageRef, file);
+      const fileUrl = await getDownloadURL(uploadResult.ref);
+
+      // 2. Parse PDF
       const text = await extractTextFromPDF(file);
       const results = analyzePolicyText(text);
       setAnalysisResults(results);
+
+      // 3. Save to Firestore
+      await addDoc(collection(db, 'compliance_policies'), {
+        clientId,
+        title: file.name,
+        fileUrl,
+        results,
+        createdAt: serverTimestamp(),
+        createdBy: auth.currentUser?.uid
+      });
     } catch (error) {
       console.error('Error parsing PDF:', error);
     } finally {
@@ -164,12 +194,12 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
                    <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3 mb-2">
                       <BarChart3 size={20} className="text-primary" /> Estruturação do Sistema de Compliance
                    </h3>
-                   <p className="text-[10px] text-slate-400 font-bold uppercase">Nível de maturidade: <span className="text-primary">{currentLevel.level}</span></p>
+                   <p className="text-[10px] text-slate-400 font-bold uppercase">Nível de maturidade: <span className="text-primary">{hasData ? currentLevel.level : 'N/A'}</span></p>
                 </div>
                 <div className="flex gap-4">
                   <div className="bg-primary/5 px-4 py-2 rounded-xl text-center">
                      <span className="text-[10px] font-black text-primary uppercase block">Média Geral</span>
-                     <span className="text-lg font-black text-primary">{overallAverage}%</span>
+                     <span className="text-lg font-black text-primary">{hasData ? `${overallAverage}%` : '---'}</span>
                   </div>
                   <button 
                     onClick={() => setIsDiagnosing(true)}
@@ -343,7 +373,9 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
                               </div>
                               <span className="text-[10px] font-bold text-slate-700 uppercase">{policy.title}</span>
                            </div>
-                           <Download size={14} className="text-slate-300 cursor-pointer hover:text-primary transition-colors" />
+                           <a href={policy.fileUrl} target="_blank" rel="noopener noreferrer">
+                              <Download size={14} className="text-slate-300 cursor-pointer hover:text-primary transition-colors" />
+                           </a>
                         </div>
                       ))}
                    </div>
@@ -416,7 +448,7 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
                      <Zap size={20} /> Diagnóstico Consolidado
                   </h3>
                   <div className="bg-emerald-500/20 px-3 py-1 rounded-md inline-block">
-                    <span className="text-[8px] font-black text-emerald-400 uppercase tracking-widest">{currentLevel.level}</span>
+                    <span className="text-[8px] font-black text-emerald-400 uppercase tracking-widest">{hasData ? currentLevel.level : 'Aguardando Diagnóstico'}</span>
                   </div>
                 </div>
 
@@ -424,14 +456,14 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
                    <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
                       <p className="text-[11px] text-slate-300 font-black uppercase mb-2 tracking-tighter">Status do Ecossistema</p>
                       <p className="text-[10px] text-slate-400 font-medium leading-relaxed italic">
-                         {currentLevel.description}
+                         {hasData ? currentLevel.description : 'Realize o diagnóstico técnico para desbloquear a inteligência de governança e compliance da organização.'}
                       </p>
                    </div>
                    
                    {[
-                     { label: 'Exposição Regulatória', val: 'Baixa', color: 'text-emerald-400' },
-                     { label: 'Maturidade de Processos', val: 'Média', color: 'text-amber-400' },
-                     { label: 'Cultura de Ética', val: 'Alta', color: 'text-emerald-400' }
+                     { label: 'Exposição Regulatória', val: hasData ? 'Baixa' : 'Pendente', color: hasData ? 'text-emerald-400' : 'text-slate-500' },
+                     { label: 'Maturidade de Processos', val: hasData ? 'Média' : 'Pendente', color: hasData ? 'text-amber-400' : 'text-slate-500' },
+                     { label: 'Cultura de Ética', val: hasData ? 'Alta' : 'Pendente', color: hasData ? 'text-emerald-400' : 'text-slate-500' }
                    ].map((risk, i) => (
                      <div key={i} className="flex justify-between items-center border-b border-white/5 pb-4">
                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{risk.label}</span>

@@ -34,6 +34,7 @@ import { DiagnosticoPage } from '../components/pages/DiagnosticoPage';
 import { OKRsPage } from '../components/pages/OKRsPage';
 import { PrecificacaoPage } from '../components/pages/PrecificacaoPage';
 import { RelatorioExecutivoPage } from '../components/pages/RelatorioExecutivoPage';
+import { StrategicSimulatorPage } from '../components/pages/StrategicSimulatorPage';
 import PayrollDashboard from '../components/PayrollDashboard';
 import { GovernanceDashboardPage } from '../components/pages/GovernanceDashboardPage';
 import { MarketingComercialPage } from '../components/pages/MarketingComercialPage';
@@ -55,8 +56,13 @@ import { LessonPlayerPage } from '../components/pages/academy/LessonPlayerPage';
 import { AdminAcademyDashboard } from '../components/pages/academy/AdminAcademyDashboard';
 import { AcademyAdminCoursePage } from '../components/pages/academy/AcademyAdminCoursePage';
 import { EstruturaGovernancaPage } from '../components/pages/EstruturaGovernancaPage';
+import { LeadershipProfilePage } from '../components/pages/LeadershipProfilePage';
 import { MaintenancePage } from '../components/pages/MaintenancePage';
 import { SystemicIntelligencePage } from '../components/pages/SystemicIntelligencePage';
+import { MeetingMinutesPage } from '../components/pages/MeetingMinutesPage';
+import { AvaliacaoOrganogramaPage } from '../components/pages/AvaliacaoOrganogramaPage';
+import { CulturaFeedbackPage } from '../components/pages/CulturaFeedbackPage';
+import { OrcamentoPage } from '../components/pages/OrcamentoPage';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -167,7 +173,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <EstruturaGovernancaPage clientId={selectedClient} />;
   }
   if (currentPage === 'plano_acao') {
-    return <PlanoAcaoPage clients={clients} selectedClient={selectedClient} />;
+    return <PlanoAcaoPage clientId={selectedClient} />;
   }
   if (currentPage === 'tax_reform_impact') {
     return <TaxReformImpactPage clientId={selectedClient} selectedYear={selectedYear} />;
@@ -175,11 +181,17 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'simulador_capital') {
     return <LoanInvestmentSimPage clientId={selectedClient} />;
   }
+  if (currentPage === 'simulador_estrategico') {
+    return <StrategicSimulatorPage clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
+  }
   if (currentPage === 'viabilidade') {
     return <ViabilityPage selectedClient={selectedClient} clients={clients} />;
   }
   if (currentPage === 'emprestimos') {
     return <LoansPage clients={clients} selectedClient={selectedClient} />;
+  }
+  if (currentPage === 'orcamento') {
+    return <OrcamentoPage selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
   }
   if (currentPage === 'analise_financeira') {
     return <AnaliseFinanceiraPage clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
@@ -238,6 +250,15 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'desenvolvimento_humano') {
     return <DesenvolvimentoHumanoPage clientId={selectedClient} />;
   }
+  if (currentPage === 'perfil_lideranca') {
+    return <LeadershipProfilePage clientId={selectedClient} />;
+  }
+  if (currentPage === 'avaliacao_organograma') {
+    return <AvaliacaoOrganogramaPage clientId={selectedClient} />;
+  }
+  if (currentPage === 'cultura_feedback') {
+    return <CulturaFeedbackPage clientId={selectedClient} />;
+  }
 
   if (currentPage === 'compliance_page') {
     return <CompliancePage clientId={selectedClient} />;
@@ -250,6 +271,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'inteligencia_sistemica') {
     return <SystemicIntelligencePage clientId={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
+  }
+  if (currentPage === 'atas_reuniao') {
+    return <MeetingMinutesPage clientId={selectedClient} />;
   }
   if (currentPage === 'dashboard_marketing') {
     return <AxisDashboardPage axis="Gestão de Marketing" clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;

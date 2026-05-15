@@ -11,11 +11,11 @@ import {
   ShieldCheck,
   Target,
   MessageSquare,
-  Award
+  Award,
+  Activity
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { formatCurrency, cn } from '../../lib/utils';
-import PayrollDashboard from '../PayrollDashboard';
 
 interface DesenvolvimentoHumanoPageProps {
   clientId: string;
@@ -51,10 +51,12 @@ export function DesenvolvimentoHumanoPage({ clientId }: DesenvolvimentoHumanoPag
   const hasData = dbIndicators.length > 0;
 
   const cultureIndicators = useMemo(() => [
-    { label: 'Índice de Clima', value: getIndicatorValue('Clima', 0), suffix: '/10', status: 'positive', target: 8.0, icon: Heart },
+    { label: 'eNPS (Clima)', value: getIndicatorValue('eNPS', 0), suffix: '', status: 'positive', target: 60, icon: Users },
+    { label: 'Índice de Clima', value: getIndicatorValue('Índice de Clima Organizacional', 0), suffix: '/100', status: 'positive', target: 80, icon: Heart },
     { label: 'Turnover Mensal', value: getIndicatorValue('Turnover', 0), suffix: '%', status: 'positive', target: 2.0, icon: TrendingUp },
-    { label: 'Inv. Treinamento', value: getIndicatorValue('Treinamento', 0), isCur: true, status: 'neutral', target: 60000, icon: Award },
-    { label: 'eNPS', value: getIndicatorValue('eNPS', 0), suffix: '', status: 'positive', target: 60, icon: Users }
+    { label: 'Absenteísmo', value: getIndicatorValue('Absenteísmo', 0), suffix: '%', status: 'negative', target: 1.5, icon: Activity },
+    { label: 'Taxa de Promoção', value: getIndicatorValue('Taxa de Promoção Interna', 0), suffix: '%', status: 'positive', target: 10, icon: Award },
+    { label: 'Inv. Treinamento', value: getIndicatorValue('Investimento em P&D', 0), isCur: true, status: 'neutral', target: 60000, icon: Zap }
   ], [dbIndicators]);
 
   return (
@@ -158,14 +160,6 @@ export function DesenvolvimentoHumanoPage({ clientId }: DesenvolvimentoHumanoPag
         </div>
       )}
 
-      {/* Detailed Payroll Analysis (Existing Feature) */}
-      <div className="pt-8 border-t border-slate-100">
-        <div className="mb-8">
-          <h3 className="text-xl font-black text-slate-800 tracking-tight">Análise Gerencial de Folha</h3>
-          <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Detalhamento financeiro do quadro de pessoal</p>
-        </div>
-        <PayrollDashboard clientId={clientId} />
-      </div>
     </div>
   );
 }

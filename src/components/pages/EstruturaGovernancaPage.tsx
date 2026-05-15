@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Users, 
   Target, 
@@ -21,6 +21,9 @@ import {
   Search
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { collection, addDoc, serverTimestamp, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { db, auth } from '../../lib/firebase';
+import { GOVERNANCE_PRINCIPLES } from '../../lib/governanceIntelligence';
 import { PageHeader, SectionHeader, StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';
 
@@ -125,6 +128,70 @@ const GOVERNANCE_ROLES: Role[] = [
       disc: { D: 35, I: 25, S: 20, C: 20 },
       enneagram: [8, 1, 9]
     }
+  },
+  {
+    id: 'diretor_comercial',
+    title: 'Diretor Comercial (CCO)',
+    category: 'Direção',
+    description: 'Lidera a estratégia de vendas, expansão de mercado e relacionamento com grandes contas, garantindo o crescimento da receita sustentável.',
+    essentialSoftSkills: [
+      { name: 'Negociação Estratégica', description: 'Habilidade em fechar acordos complexos de alto valor.', idealLevel: 5 },
+      { name: 'Liderança de Vendas', description: 'Capacidade de engajar e extrair performance de times comerciais.', idealLevel: 5 },
+      { name: 'Visão de Mercado', description: 'Leitura de oportunidades e movimentos da concorrência.', idealLevel: 5 },
+      { name: 'Foco em Resultados', description: 'Orientação obstinada para o batimento de metas e ROI.', idealLevel: 5 },
+    ],
+    idealProfile: {
+      disc: { D: 40, I: 40, S: 10, C: 10 },
+      enneagram: [3, 7, 8]
+    }
+  },
+  {
+    id: 'diretor_operacoes',
+    title: 'Diretor de Operações (COO)',
+    category: 'Direção',
+    description: 'Garante a eficiência operacional, escalabilidade dos processos e a entrega da promessa de valor ao cliente.',
+    essentialSoftSkills: [
+      { name: 'Excelência Operacional', description: 'Domínio de metodologias de otimização de processos e qualidade.', idealLevel: 5 },
+      { name: 'Gestão de Crises', description: 'Capacidade de resolver problemas complexos na cadeia produtiva.', idealLevel: 5 },
+      { name: 'Prudência Financeira', description: 'Zelo pela eficiência no uso dos recursos operacionais.', idealLevel: 4 },
+      { name: 'Liderança Servidora', description: 'Foco em remover obstáculos para as equipes de execução.', idealLevel: 5 },
+    ],
+    idealProfile: {
+      disc: { D: 35, I: 15, S: 20, C: 30 },
+      enneagram: [1, 6, 8]
+    }
+  },
+  {
+    id: 'diretor_tecnologia',
+    title: 'Diretor de Tecnologia (CTO)',
+    category: 'Direção',
+    description: 'Orquestra a infraestrutura tecnológica, inovação digital e segurança da informação como alavancas de negócio.',
+    essentialSoftSkills: [
+      { name: 'Visão Tecnológica', description: 'Capacidade de antecipar tendências e aplicar tecnologia ao negócio.', idealLevel: 5 },
+      { name: 'Agilidade Decisória', description: 'Tomada de decisão rápida em ambientes de alta incerteza técnica.', idealLevel: 5 },
+      { name: 'Gestão de Talentos Tech', description: 'Habilidade em atrair e reter perfis técnicos altamente qualificados.', idealLevel: 4 },
+      { name: 'Segurança e Compliance', description: 'Zelo absoluto pela integridade e proteção dos dados.', idealLevel: 5 },
+    ],
+    idealProfile: {
+      disc: { D: 25, I: 15, S: 20, C: 40 },
+      enneagram: [5, 6, 1]
+    }
+  },
+  {
+    id: 'board_member_owner',
+    title: 'Membro do Conselho (Quadro Societário)',
+    category: 'Conselho',
+    description: 'Representa os interesses dos acionistas, focando na perenidade do negócio, proteção do patrimônio e legado.',
+    essentialSoftSkills: [
+      { name: 'Visão de Dono', description: 'Zelo extremo pelo capital investido e pela reputação da marca.', idealLevel: 5 },
+      { name: 'Discernimento Estratégico', description: 'Capacidade de analisar cenários de longo prazo e riscos sistêmicos.', idealLevel: 5 },
+      { name: 'Mediação Societária', description: 'Habilidade em alinhar interesses divergentes entre sócios.', idealLevel: 5 },
+      { name: 'Ética e Honra', description: 'Compromisso inegociável com os valores e a cultura da organização.', idealLevel: 5 },
+    ],
+    idealProfile: {
+      disc: { D: 30, I: 20, S: 25, C: 25 },
+      enneagram: [1, 8, 9]
+    }
   }
 ];
 
@@ -155,74 +222,15 @@ const ENNEAGRAM_QUESTIONS = [
   { id: 'e9', text: 'Eu evito conflitos e busco a paz e a harmonia no ambiente.', type: 9 },
 ];
 
-const ETHICAL_DILEMMAS = [
-  {
-    id: 'd1',
-    title: 'Integridade Inabalável (Provérbios 11:3)',
-    principleId: 'gov_1',
-    scenario: 'A empresa pode bater a meta trimestral se antecipar o faturamento de um contrato que ainda não foi totalmente executado. O que você faz?',
-    options: [
-      { text: 'Antecipa o faturamento para garantir o bônus da equipe.', score: -2 },
-      { text: 'Não antecipa, priorizando a integridade contábil.', score: 2 },
-      { text: 'Consulta o jurídico para ver se há uma brecha legal.', score: 0 }
-    ]
-  },
-  {
-    id: 'd2',
-    title: 'Accountability Radical (Romanos 14:12)',
-    principleId: 'gov_3',
-    scenario: 'Você cometeu um erro de projeção que resultará em um prejuízo moderado. Ninguém percebeu ainda e você pode tentar diluir esse valor nos próximos meses.',
-    options: [
-      { text: 'Assume o erro imediatamente para o conselho.', score: 2 },
-      { text: 'Tenta diluir o valor para evitar exposição negativa.', score: -2 },
-      { text: 'Avisa apenas seu superior direto de forma informal.', score: 0 }
-    ]
-  },
-  {
-    id: 'd3',
-    title: 'Equidade e Justiça (Miquéias 6:8)',
-    principleId: 'gov_4',
-    scenario: 'Um colaborador de alta performance teve um comportamento que viola levemente o código de ética. Demiti-lo afetaria o resultado do ano drasticamente.',
-    options: [
-      { text: 'Aplica a sanção prevista, mantendo a equidade da regra.', score: 2 },
-      { text: 'Aplica apenas uma advertência verbal para não perder o talento.', score: -1 },
-      { text: 'Ignora o fato, priorizando a continuidade do resultado.', score: -2 }
-    ]
-  },
-  {
-    id: 'd4',
-    title: 'Conselho Plural e Sábio (Provérbios 11:14)',
-    principleId: 'gov_2',
-    scenario: 'O CEO propõe um investimento de alto risco que você discorda tecnicamente. Todos os outros membros do conselho parecem empolgados e tendem a aprovar rapidamente.',
-    options: [
-      { text: 'Manifesta sua discordância técnica e solicita registro em ata.', score: 2 },
-      { text: 'Vota a favor para não gerar conflito ou parecer "do contra".', score: -2 },
-      { text: 'Abstém-se do voto, mas não expõe os riscos abertamente.', score: 0 }
-    ]
-  },
-  {
-    id: 'd5',
-    title: 'Mordomia Financeira (Lucas 16:10)',
-    principleId: 'fin_1',
-    scenario: 'Você identifica que um benefício concedido à diretoria é legal, mas moralmente questionável diante do momento de corte de custos que a base da empresa enfrenta.',
-    options: [
-      { text: 'Propõe a suspensão do benefício em solidariedade à equipe.', score: 2 },
-      { text: 'Mantém o benefício, pois é um direito legal adquirido.', score: -1 },
-      { text: 'Usa o benefício mas tenta mantê-lo em sigilo.', score: -2 }
-    ]
-  },
-  {
-    id: 'd6',
-    title: 'Sucessão e Legado (Salmos 34:11)',
-    principleId: 'gov_8',
-    scenario: 'Seu sucessor natural é muito competente tecnicamente, mas não demonstra aderência aos valores éticos da empresa. O conselho pressiona pela nomeação dele.',
-    options: [
-      { text: 'Veta a nomeação e propõe um plano de desenvolvimento de valores ou busca externa.', score: 2 },
-      { text: 'Aprova a nomeação, confiando que ele mudará com o tempo.', score: -2 },
-      { text: 'Aprova com a condição de que ele tenha um monitor de compliance.', score: 0 }
-    ]
-  }
-];
+const ETHICAL_DILEMMAS = GOVERNANCE_PRINCIPLES
+  .filter(p => p.managerDilemma)
+  .map(p => ({
+    id: p.id,
+    title: p.name,
+    principleId: p.id,
+    scenario: p.managerDilemma!.scenario,
+    options: p.managerDilemma!.options
+  }));
 
 export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
   const [activeTab, setActiveTab] = useState<'roles' | 'assessment' | 'analysis' | 'dilemmas'>('roles');
@@ -232,7 +240,61 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [enneagramAnswers, setEnneagramAnswers] = useState<Record<string, number>>({});
   const [dilemmaAnswers, setDilemmaAnswers] = useState<Record<string, number>>({});
+  const [dilemmaStep, setDilemmaStep] = useState(0);
   const [showResults, setShowResults] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [teamAssessments, setTeamAssessments] = useState<any[]>([]);
+  const [hasConfirmedRole, setHasConfirmedRole] = useState(false);
+
+  useEffect(() => {
+    const fetchTeamData = async () => {
+      try {
+        const q = query(
+          collection(db, 'leadership_profiles'),
+          where('clientId', '==', clientId),
+          where('type', '==', 'governance_assessment'),
+          orderBy('createdAt', 'desc')
+        );
+        const snapshot = await getDocs(q);
+        setTeamAssessments(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      } catch (error) {
+        console.error("Error fetching team data:", error);
+      }
+    };
+    fetchTeamData();
+  }, [clientId]);
+
+  const handleSaveResults = async () => {
+    if (!auth.currentUser) {
+      alert('Você precisa estar autenticado para salvar os resultados.');
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const resultsData = {
+        clientId,
+        userId: auth.currentUser.uid,
+        userName: auth.currentUser.displayName,
+        roleId: selectedRole?.id || 'none',
+        roleTitle: selectedRole?.title || 'Personalizado',
+        disc: calculateUserDISC(),
+        enneagram: calculateUserEnneagram(),
+        adherenceScore: adherenceScore,
+        governançaAlignment: governançaAlignment.score,
+        createdAt: serverTimestamp(),
+        type: 'governance_assessment'
+      };
+
+      await addDoc(collection(db, 'leadership_profiles'), resultsData);
+      alert('Perfil de governança salvo com sucesso!');
+    } catch (error) {
+      console.error('Error saving governance profile:', error);
+      alert('Erro ao salvar resultados.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const handleAnswer = (questionId: string, value: number) => {
     setAnswers(prev => ({ ...prev, [questionId]: value }));
@@ -317,17 +379,68 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
   }, [selectedRole, userProfile]);
 
   const governançaAlignment = useMemo(() => {
-    const totalPossible = ETHICAL_DILEMMAS.length * 2;
-    let actualScore = 0;
-    Object.values(dilemmaAnswers).forEach(score => actualScore += score);
+    const answeredCount = Object.keys(dilemmaAnswers).length;
+    if (answeredCount === 0) return { score: 0, status: 'Não Iniciado' };
     
-    const percentage = Math.max(0, Math.min(100, (actualScore / totalPossible) * 100));
+    let totalScore = 0;
+    Object.values(dilemmaAnswers).forEach(score => {
+      // Normalize -2 to 2 into 0 to 100
+      const normalized = ((score + 2) / 4) * 100;
+      totalScore += normalized;
+    });
+    
+    const percentage = totalScore / answeredCount;
     
     return {
       score: Math.round(percentage),
       status: percentage > 80 ? 'Alta Convergência' : percentage > 50 ? 'Alinhamento em Construção' : 'Risco de Desalinhamento'
     };
   }, [dilemmaAnswers]);
+
+  const teamMetrics = useMemo(() => {
+    if (teamAssessments.length === 0) return null;
+
+    const avgDisc = { D: 0, I: 0, S: 0, C: 0 };
+    const idealAvgDisc = { D: 0, I: 0, S: 0, C: 0 };
+    let totalAdherence = 0;
+    let totalGov = 0;
+
+    teamAssessments.forEach(ass => {
+      avgDisc.D += ass.disc.D;
+      avgDisc.I += ass.disc.I;
+      avgDisc.S += ass.disc.S;
+      avgDisc.C += ass.disc.C;
+      totalAdherence += ass.adherenceScore;
+      totalGov += (ass.governançaAlignment || 0);
+
+      const role = GOVERNANCE_ROLES.find(r => r.id === ass.roleId);
+      if (role) {
+        idealAvgDisc.D += role.idealProfile.disc.D;
+        idealAvgDisc.I += role.idealProfile.disc.I;
+        idealAvgDisc.S += role.idealProfile.disc.S;
+        idealAvgDisc.C += role.idealProfile.disc.C;
+      }
+    });
+
+    const count = teamAssessments.length;
+    return {
+      actual: {
+        D: Math.round(avgDisc.D / count),
+        I: Math.round(avgDisc.I / count),
+        S: Math.round(avgDisc.S / count),
+        C: Math.round(avgDisc.C / count),
+      },
+      ideal: {
+        D: Math.round(idealAvgDisc.D / count),
+        I: Math.round(idealAvgDisc.I / count),
+        S: Math.round(idealAvgDisc.S / count),
+        C: Math.round(idealAvgDisc.C / count),
+      },
+      avgAdherence: Math.round(totalAdherence / count),
+      avgGov: Math.round(totalGov / count),
+      totalParticipants: count
+    };
+  }, [teamAssessments]);
 
   const getDevelopmentTrail = (gaps: any[]) => {
     const trails = [];
@@ -372,10 +485,27 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
         actions={
           <div className="flex gap-4">
             <button 
-              onClick={() => setActiveTab('assessment')}
-              className="px-6 py-2.5 bg-secondary text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-secondary/20 hover:scale-[1.02] transition-all"
+              disabled={isSaving}
+              onClick={handleSaveResults}
+              className="px-6 py-2.5 bg-emerald-500 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-all flex items-center gap-2 disabled:opacity-50"
             >
-              Iniciar Autoavaliação
+              <Zap size={14} fill="currentColor" />
+              {isSaving ? 'Salvando...' : 'Salvar no Histórico'}
+            </button>
+            <button 
+              onClick={() => {
+                setAnswers({});
+                setEnneagramAnswers({});
+                setDilemmaAnswers({});
+                setHasConfirmedRole(false);
+                setShowResults(false);
+                setAssessmentStep(0);
+                setDilemmaStep(0);
+                setActiveTab('roles');
+              }}
+              className="px-6 py-2.5 bg-white border border-slate-200 text-slate-400 rounded-xl text-xs font-black uppercase tracking-widest hover:text-primary hover:border-primary transition-all"
+            >
+              Refazer Tudo
             </button>
           </div>
         }
@@ -385,8 +515,9 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
       <div className="flex gap-2 p-1.5 bg-bg-surface/50 backdrop-blur-xl border border-white/20 rounded-2xl w-fit">
         {[
           { id: 'roles', label: 'Papéis e Skills', icon: Users },
-          { id: 'assessment', label: 'Questionário DISC', icon: Brain },
-          { id: 'dilemmas', label: 'Dilemas Éticos', icon: ShieldCheck },
+          { id: 'assessment', label: 'DNA Comportamental', icon: Brain },
+          { id: 'dilemmas', label: 'Prudência Decisória', icon: ShieldCheck },
+          { id: 'team', label: 'Análise do Time', icon: PieChart },
           { id: 'analysis', label: 'Gaps e Desenvolvimento', icon: TrendingUp },
         ].map((tab) => (
           <button
@@ -573,46 +704,109 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
             exit={{ opacity: 0, scale: 0.98 }}
             className="max-w-4xl mx-auto space-y-8"
           >
-            <SectionHeader title="Simulador de Dilemas Éticos" subtitle="Avalie sua tomada de decisão em situações críticas de governança." icon={ShieldCheck} />
-            
-            <div className="grid gap-6">
-              {ETHICAL_DILEMMAS.map((d) => (
-                <div key={d.id} className="bg-white rounded-[32px] border border-slate-100 p-8 shadow-premium space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-primary">
-                      <AlertCircle size={24} />
-                    </div>
-                    <h4 className="text-xl font-bold text-primary">{d.title}</h4>
-                  </div>
-                  <p className="text-slate-600 bg-slate-50 p-6 rounded-2xl italic">"{d.scenario}"</p>
-                  <div className="grid gap-3">
-                    {d.options.map((opt, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setDilemmaAnswers(prev => ({ ...prev, [d.id]: opt.score }))}
-                        className={cn(
-                          "w-full p-5 rounded-2xl border-2 text-left transition-all text-sm font-bold",
-                          dilemmaAnswers[d.id] === opt.score
-                            ? "bg-primary border-primary text-white shadow-lg"
-                            : "bg-white border-slate-100 hover:border-primary/20 text-slate-600"
-                        )}
-                      >
-                        {opt.text}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
+            <div className="flex justify-between items-end">
+              <SectionHeader title="Prudência Decisória" subtitle="Avaliação de tomada de decisão para Diretores e Conselheiros." icon={ShieldCheck} />
+              <div className="text-right pb-2">
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Progresso do Diagnóstico</p>
+                <p className="text-xl font-black text-primary">{dilemmaStep + 1} <span className="text-slate-300">/ {ETHICAL_DILEMMAS.length}</span></p>
+              </div>
             </div>
 
-            <div className="flex justify-center">
-              <button
-                onClick={() => setActiveTab('analysis')}
-                className="px-12 py-4 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-secondary/20 hover:scale-105 transition-all"
-              >
-                Ver Resultado Consolidado
-              </button>
+            <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${((dilemmaStep + 1) / ETHICAL_DILEMMAS.length) * 100}%` }}
+                className="h-full bg-secondary"
+              />
             </div>
+            
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={ETHICAL_DILEMMAS[dilemmaStep].id}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="bg-white rounded-[40px] border border-slate-100 p-10 lg:p-16 shadow-premium space-y-10"
+              >
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary shrink-0">
+                      <AlertCircle size={28} />
+                    </div>
+                    <div>
+                      <p className="text-xs font-black text-secondary uppercase tracking-widest mb-1">
+                        {GOVERNANCE_PRINCIPLES.find(p => p.id === ETHICAL_DILEMMAS[dilemmaStep].principleId)?.axis}
+                      </p>
+                      <h4 className="text-2xl font-display font-black text-primary">{ETHICAL_DILEMMAS[dilemmaStep].title}</h4>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <div className="absolute -left-4 top-0 bottom-0 w-1 bg-secondary/20 rounded-full" />
+                    <p className="text-lg text-slate-600 leading-relaxed italic pl-6">
+                      "{ETHICAL_DILEMMAS[dilemmaStep].scenario}"
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid gap-4">
+                  {ETHICAL_DILEMMAS[dilemmaStep].options.map((opt, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setDilemmaAnswers(prev => ({ ...prev, [ETHICAL_DILEMMAS[dilemmaStep].id]: opt.score }));
+                        if (dilemmaStep < ETHICAL_DILEMMAS.length - 1) {
+                          setTimeout(() => setDilemmaStep(s => s + 1), 300);
+                        }
+                      }}
+                      className={cn(
+                        "w-full p-6 rounded-3xl border-2 text-left transition-all text-base font-bold group",
+                        dilemmaAnswers[ETHICAL_DILEMMAS[dilemmaStep].id] === opt.score
+                          ? "bg-primary border-primary text-white shadow-xl shadow-primary/20"
+                          : "bg-white border-slate-100 hover:border-secondary/30 text-slate-600 hover:text-primary"
+                      )}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span>{opt.text}</span>
+                        <ChevronRight size={18} className={cn(
+                          "transition-all",
+                          dilemmaAnswers[ETHICAL_DILEMMAS[dilemmaStep].id] === opt.score ? "translate-x-1 opacity-100" : "opacity-0 group-hover:opacity-100 group-hover:translate-x-1"
+                        )} />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex justify-between items-center pt-10 border-t border-slate-100">
+                  <button
+                    disabled={dilemmaStep === 0}
+                    onClick={() => setDilemmaStep(s => s - 1)}
+                    className="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors disabled:opacity-20"
+                  >
+                    Anterior
+                  </button>
+
+                  {dilemmaStep === ETHICAL_DILEMMAS.length - 1 ? (
+                    <button
+                      onClick={() => {
+                        setShowResults(true);
+                        setActiveTab('analysis');
+                      }}
+                      className="px-10 py-4 bg-emerald-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
+                    >
+                      Finalizar Simulação
+                      <Zap size={16} fill="currentColor" />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setDilemmaStep(s => s + 1)}
+                      className="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors"
+                    >
+                      Pular
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
         )}
         {activeTab === 'assessment' && (
@@ -629,15 +823,14 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   <Brain size={120} strokeWidth={1} />
                 </div>
                 <div className="relative z-10 space-y-2">
+                  <div className="flex items-center gap-3 mb-4 py-2 px-4 bg-white/10 rounded-full w-fit">
+                    <Users size={14} className="text-secondary" />
+                    <span className="text-[10px] font-bold tracking-widest uppercase">Avaliador: {auth.currentUser?.displayName || 'Convidado'}</span>
+                  </div>
                   <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Deep Profile Analysis</p>
                   <h2 className="text-4xl font-display font-black">
-                    {assessmentType === 'disc' ? 'Autoavaliação DISC' : 'Autoavaliação Eneagrama'}
+                    {!hasConfirmedRole ? 'Confirme seu Cargo' : assessmentType === 'disc' ? 'DNA Comportamental' : 'Arquétipo de Eneagrama'}
                   </h2>
-                  <p className="text-white/60 max-w-xl">
-                    {assessmentType === 'disc' 
-                      ? 'Mapeie seu estilo comportamental de liderança.' 
-                      : 'Identifique suas motivações profundas e medos dominantes.'}
-                  </p>
                 </div>
 
                 <div className="mt-10 flex gap-2">
@@ -656,7 +849,51 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
               </div>
 
               <div className="p-10 lg:p-16 space-y-12">
-                <div className="grid gap-12">
+                {!hasConfirmedRole ? (
+                  <div className="space-y-10">
+                    <div className="p-8 bg-slate-50 rounded-[32px] border border-slate-100 space-y-6">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center text-white">
+                          <Users size={24} />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-primary">Confirme sua posição de Governança</h3>
+                          <p className="text-sm text-slate-500">Isso garante que sua análise seja comparada ao perfil ideal correto do cargo.</p>
+                        </div>
+                      </div>
+                      
+                      <div className="grid sm:grid-cols-2 gap-3">
+                        {GOVERNANCE_ROLES.map(role => (
+                          <button
+                            key={role.id}
+                            onClick={() => setSelectedRole(role)}
+                            className={cn(
+                              "p-4 rounded-2xl border-2 text-left transition-all",
+                              selectedRole?.id === role.id 
+                                ? "bg-white border-primary shadow-lg ring-4 ring-primary/5" 
+                                : "bg-white border-slate-100 hover:border-slate-200"
+                            )}
+                          >
+                            <p className="text-sm font-black text-primary">{role.title}</p>
+                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{role.category}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex justify-center">
+                      <button
+                        disabled={!selectedRole}
+                        onClick={() => setHasConfirmedRole(true)}
+                        className="px-12 py-4 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-secondary/20 hover:scale-105 transition-all disabled:opacity-30 disabled:hover:scale-100"
+                      >
+                        Confirmar e Iniciar Avaliação
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-12">
+                    <div className="grid gap-12">
                   {(assessmentType === 'disc' ? DISC_QUESTIONS : ENNEAGRAM_QUESTIONS).slice(assessmentStep * 2, (assessmentStep * 2) + 2).map((q) => (
                     <div key={q.id} className="space-y-8">
                       <div className="space-y-4">
@@ -746,7 +983,9 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                       <Zap size={16} fill="currentColor" />
                     </button>
                   )}
-                </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>
@@ -1006,6 +1245,143 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                 </button>
               </div>
             )}
+          </motion.div>
+        )}
+        {activeTab === 'team' && (
+          <motion.div 
+            key="team"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="space-y-10"
+          >
+            <div className="grid lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-1 space-y-6">
+                <SectionHeader title="Visão Consolidada" subtitle="Sobreposição do perfil real do time vs. estrutura ideal de cargos." icon={Users} />
+                
+                {teamMetrics ? (
+                  <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-premium space-y-8">
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Aderência Média do Time</p>
+                        <div className="flex items-end gap-3">
+                          <span className="text-5xl font-display font-black text-primary">{teamMetrics.avgAdherence}%</span>
+                          <StatusBadge status={teamMetrics.avgAdherence > 80 ? 'Verde' : teamMetrics.avgAdherence > 60 ? 'Amarelo' : 'Vermelho'} />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Maturidade de Governança</p>
+                        <div className="flex items-end gap-3">
+                          <span className="text-3xl font-display font-black text-secondary">{teamMetrics.avgGov}%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-6 pt-6 border-t border-slate-100">
+                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                        <Users size={14} />
+                        Participantes ({teamMetrics.totalParticipants})
+                      </p>
+                      <div className="space-y-3">
+                        {teamAssessments.map(ass => (
+                          <div key={ass.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <div>
+                              <p className="text-xs font-black text-primary">{ass.userName}</p>
+                              <p className="text-[10px] text-slate-500 font-bold">{ass.roleTitle}</p>
+                            </div>
+                            <span className="text-xs font-black text-secondary">{ass.adherenceScore}%</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-8 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 text-center">
+                    <p className="text-sm text-slate-500">Nenhum dado de time disponível ainda.</p>
+                  </div>
+                )}
+              </div>
+
+              <div className="lg:col-span-2 space-y-8">
+                {teamMetrics && (
+                  <div className="bg-primary rounded-[40px] p-10 text-white space-y-12 shadow-xl shadow-primary/20">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-2xl font-display font-black">Sinergia de Governança do Time</h3>
+                        <p className="text-white/60 text-sm">Comparativo entre a média real da equipe e o perfil ideal dos cargos ocupados.</p>
+                      </div>
+                      <div className="flex gap-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-white/20" />
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">Ideal</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-secondary" />
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">Real</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-4 gap-8">
+                      {['D', 'I', 'S', 'C'].map(trait => (
+                        <div key={trait} className="space-y-6">
+                          <div className="relative h-64 w-full bg-white/5 rounded-full flex flex-col justify-end overflow-hidden">
+                            {/* Ideal Bar */}
+                            <motion.div 
+                              initial={{ height: 0 }}
+                              animate={{ height: `${teamMetrics.ideal[trait as keyof typeof teamMetrics.ideal]}%` }}
+                              className="absolute inset-x-0 bottom-0 bg-white/10 border-t border-white/20"
+                            />
+                            {/* Actual Bar */}
+                            <motion.div 
+                              initial={{ height: 0 }}
+                              animate={{ height: `${teamMetrics.actual[trait as keyof typeof teamMetrics.actual]}%` }}
+                              className="relative w-full bg-secondary shadow-[0_0_20px_rgba(var(--secondary-rgb),0.5)] z-10"
+                            >
+                              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full pb-2">
+                                <span className="text-xs font-black">{teamMetrics.actual[trait as keyof typeof teamMetrics.actual]}%</span>
+                              </div>
+                            </motion.div>
+                          </div>
+                          <div className="text-center space-y-1">
+                            <p className="text-lg font-black">{trait}</p>
+                            <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest">
+                              Ideal: {teamMetrics.ideal[trait as keyof typeof teamMetrics.ideal]}%
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="pt-8 border-t border-white/10 grid md:grid-cols-2 gap-8">
+                      <div className="p-6 bg-white/5 rounded-3xl space-y-3">
+                        <div className="flex items-center gap-2 text-secondary">
+                          <Zap size={16} />
+                          <span className="text-xs font-black uppercase tracking-widest">Análise de Grupo</span>
+                        </div>
+                        <p className="text-sm leading-relaxed text-white/80">
+                          {teamMetrics.avgGov > 70 ? 
+                            "O time de governança demonstra alta maturidade e alinhamento com os 49 princípios." : 
+                            "Existem gaps de governança que precisam ser endereçados para garantir a perenidade do negócio."}
+                        </p>
+                      </div>
+                      <div className="p-6 bg-white/5 rounded-3xl space-y-3">
+                        <div className="flex items-center gap-2 text-amber-400">
+                          <AlertCircle size={16} />
+                          <span className="text-xs font-black uppercase tracking-widest">Sinergia de Cargos</span>
+                        </div>
+                        <p className="text-sm leading-relaxed text-white/80">
+                          {teamMetrics.avgAdherence > 80 ? 
+                            "A sobreposição entre os perfis reais e os cargos ideais está em alto nível de excelência." : 
+                            "Há necessidade de ajustes finos nas atribuições ou treinamentos para alinhar o time aos cargos."}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -102,6 +102,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
     ],
     logo: '',
     icon: '',
+    segmentoAtuacao: '',
+    centroCustosContabil: '',
     folhaFgts: 8,
     folhaInssPatronal: 20,
     folhaInssRat: 2,
@@ -570,6 +572,19 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8 border-t border-border-soft">
                         <div>
+                          <label className="text-label">Segmento de Atuação</label>
+                          <div className="relative">
+                            <input 
+                              type="text" 
+                              placeholder="Ex: Agronegócio, Tecnologia, Saúde..."
+                              value={formData.segmentoAtuacao || ''}
+                              onChange={(e) => setFormData({...formData, segmentoAtuacao: e.target.value})}
+                              className="w-full pl-12 pr-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                            />
+                            <Activity size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+                          </div>
+                        </div>
+                        <div>
                           <label className="text-label">Website</label>
                           <div className="relative">
                             <input 
@@ -582,77 +597,79 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                             <Globe size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-6">
-                          <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                              <label className="text-label mb-0">Logo</label>
-                              <label className="cursor-pointer text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1.5 transition-all">
-                                <Upload size={12} /> Importar
-                                <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'logo')} />
-                              </label>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+                        <div className="space-y-4 bg-bg-surface/30 p-6 rounded-2xl border border-border-main">
+                          <div className="flex items-center justify-between">
+                            <label className="text-label mb-0">Logo da Empresa</label>
+                            <label className="cursor-pointer text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1.5 transition-all">
+                              <Upload size={12} /> Importar Logo
+                              <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'logo')} />
+                            </label>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <div className="w-16 h-16 rounded-2xl bg-white border border-border-main flex items-center justify-center overflow-hidden shrink-0 shadow-sm transition-all group-hover:border-secondary/20">
+                              {formData.logo ? (
+                                <img src={formData.logo} alt="Logo" className="w-full h-full object-contain p-2" />
+                              ) : (
+                                <ImageIcon size={24} className="text-text-dim/40" />
+                              )}
                             </div>
-                            <div className="flex items-center gap-3">
-                              <div className="w-12 h-12 rounded-xl bg-bg-surface border border-border-main flex items-center justify-center overflow-hidden shrink-0 shadow-sm transition-all group-hover:border-secondary/20">
-                                {formData.logo ? (
-                                  <img src={formData.logo} alt="Logo" className="w-full h-full object-contain p-1" />
-                                ) : (
-                                  <ImageIcon size={20} className="text-text-dim/40" />
+                            <div className="relative flex-1">
+                              <input 
+                                type="text" 
+                                placeholder="URL da Logo ou Base64"
+                                value={formData.logo.startsWith('data:image') ? 'Imagem Carregada Localmente' : formData.logo}
+                                onChange={(e) => setFormData({...formData, logo: e.target.value})}
+                                readOnly={formData.logo.startsWith('data:image')}
+                                className={cn(
+                                  "w-full px-4 py-3 bg-bg-card border border-border-main rounded-standard text-[11px] font-bold outline-none focus:border-secondary transition-all",
+                                  formData.logo.startsWith('data:image') && "text-secondary italic"
                                 )}
-                              </div>
-                              <div className="relative flex-1">
-                                <input 
-                                  type="text" 
-                                  placeholder="URL ou Nome"
-                                  value={formData.logo.startsWith('data:image') ? 'Imagem Local' : formData.logo}
-                                  onChange={(e) => setFormData({...formData, logo: e.target.value})}
-                                  readOnly={formData.logo.startsWith('data:image')}
-                                  className={cn(
-                                    "w-full px-4 py-2.5 bg-bg-surface border border-border-main rounded-standard text-[10px] font-bold outline-none focus:border-secondary transition-all",
-                                    formData.logo.startsWith('data:image') && "text-secondary italic"
-                                  )}
-                                />
-                                {formData.logo.startsWith('data:image') && (
-                                  <button onClick={() => setFormData({...formData, logo: ''})} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500 p-1 hover:bg-rose-50 rounded-full transition-all">
-                                    <X size={12} />
-                                  </button>
-                                )}
-                              </div>
+                              />
+                              {formData.logo.startsWith('data:image') && (
+                                <button onClick={() => setFormData({...formData, logo: ''})} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500 p-1 hover:bg-rose-50 rounded-full transition-all">
+                                  <X size={12} />
+                                </button>
+                              )}
                             </div>
                           </div>
-                          <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                              <label className="text-label mb-0">Ícone</label>
-                              <label className="cursor-pointer text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1.5 transition-all">
-                                <Upload size={12} /> Importar
-                                <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'icon')} />
-                              </label>
+                        </div>
+
+                        <div className="space-y-4 bg-bg-surface/30 p-6 rounded-2xl border border-border-main">
+                          <div className="flex items-center justify-between">
+                            <label className="text-label mb-0">Ícone / Avatar</label>
+                            <label className="cursor-pointer text-[9px] font-black text-secondary uppercase hover:underline flex items-center gap-1.5 transition-all">
+                              <Upload size={12} /> Importar Ícone
+                              <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'icon')} />
+                            </label>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <div className="w-16 h-16 rounded-2xl bg-white border border-border-main flex items-center justify-center overflow-hidden shrink-0 shadow-sm transition-all group-hover:border-secondary/20">
+                              {formData.icon ? (
+                                <img src={formData.icon} alt="Icon" className="w-full h-full object-contain p-2" />
+                              ) : (
+                                <ImageIcon size={24} className="text-text-dim/40" />
+                              )}
                             </div>
-                            <div className="flex items-center gap-3">
-                              <div className="w-12 h-12 rounded-xl bg-bg-surface border border-border-main flex items-center justify-center overflow-hidden shrink-0 shadow-sm transition-all group-hover:border-secondary/20">
-                                {formData.icon ? (
-                                  <img src={formData.icon} alt="Icon" className="w-full h-full object-contain p-1" />
-                                ) : (
-                                  <ImageIcon size={20} className="text-text-dim/40" />
+                            <div className="relative flex-1">
+                              <input 
+                                type="text" 
+                                placeholder="URL do Ícone ou Base64"
+                                value={formData.icon.startsWith('data:image') ? 'Imagem Carregada Localmente' : formData.icon}
+                                onChange={(e) => setFormData({...formData, icon: e.target.value})}
+                                readOnly={formData.icon.startsWith('data:image')}
+                                className={cn(
+                                  "w-full px-4 py-3 bg-bg-card border border-border-main rounded-standard text-[11px] font-bold outline-none focus:border-secondary transition-all",
+                                  formData.icon.startsWith('data:image') && "text-secondary italic"
                                 )}
-                              </div>
-                              <div className="relative flex-1">
-                                <input 
-                                  type="text" 
-                                  placeholder="URL ou Nome"
-                                  value={formData.icon.startsWith('data:image') ? 'Imagem Local' : formData.icon}
-                                  onChange={(e) => setFormData({...formData, icon: e.target.value})}
-                                  readOnly={formData.icon.startsWith('data:image')}
-                                  className={cn(
-                                    "w-full px-4 py-2.5 bg-bg-surface border border-border-main rounded-standard text-[10px] font-bold outline-none focus:border-secondary transition-all",
-                                    formData.icon.startsWith('data:image') && "text-secondary italic"
-                                  )}
-                                />
-                                {formData.icon.startsWith('data:image') && (
-                                  <button onClick={() => setFormData({...formData, icon: ''})} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500 p-1 hover:bg-rose-50 rounded-full transition-all">
-                                    <X size={12} />
-                                  </button>
-                                )}
-                              </div>
+                              />
+                              {formData.icon.startsWith('data:image') && (
+                                <button onClick={() => setFormData({...formData, icon: ''})} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500 p-1 hover:bg-rose-50 rounded-full transition-all">
+                                  <X size={12} />
+                                </button>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -773,7 +790,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
             {activeFormTab === 'estrutura' && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                   <div className="space-y-6">
+                    <div className="space-y-6">
                       <div className="card-premium bg-bg-surface/50 border-dashed">
                         <h4 className="text-sm font-black text-text-main uppercase tracking-widest mb-6 flex items-center gap-3">
                           <Activity size={18} className="text-secondary" /> Unidades de Negócio
@@ -807,12 +824,25 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                               </button>
                             </span>
                           ))}
-                          {formData.unidadesNegocio.length === 0 && (
-                            <p className="text-[10px] text-text-dim italic font-medium">Nenhuma unidade cadastrada.</p>
-                          )}
                         </div>
                       </div>
-                   </div>
+
+                      <div className="card-premium bg-bg-surface/50 border-dashed">
+                        <h4 className="text-sm font-black text-text-main uppercase tracking-widest mb-6 flex items-center gap-3">
+                          <Landmark size={18} className="text-secondary" /> Centro de Custos Contábil
+                        </h4>
+                        <div className="space-y-4">
+                          <label className="text-[10px] font-black text-text-dim uppercase tracking-widest block px-1">Código / Nome do Centro de Custo</label>
+                          <input 
+                            type="text" 
+                            placeholder="Ex: 01.01 - Administração Central"
+                            value={formData.centroCustosContabil || ''}
+                            onChange={(e) => setFormData({...formData, centroCustosContabil: e.target.value})}
+                            className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                          />
+                        </div>
+                      </div>
+                    </div>
 
                    <div className="space-y-6">
                       <div className="card-premium bg-bg-surface/50 border-dashed">

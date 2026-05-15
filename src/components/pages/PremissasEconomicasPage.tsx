@@ -16,53 +16,70 @@ import { cn } from '../../lib/utils';
 import { DATA } from '../../data';
 
 
+import { db, auth, MASTER_ADMINS } from '../../lib/firebase';
+import { doc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore';
+
 export function PremissasEconomicasPage() {
   const [econData, setEconData] = useState(DATA.premissas.economicas);
   const [activeHistory, setActiveHistory] = useState<string | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
-  const [lastSync, setLastSync] = useState<string | null>(localStorage.getItem('last_economic_sync'));
+  const [lastSync, setLastSync] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Escutar premissas globais do Firestore
+    const unsub = onSnapshot(doc(db, 'system', 'economic_premises'), (snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        if (data.econData) setEconData(data.econData);
+        if (data.lastSync) setLastSync(data.lastSync);
+      }
+    });
+    return () => unsub();
+  }, []);
 
   const handleSync = useCallback(async () => {
     if (isSyncing) return;
     
+    // Apenas Master Admins podem disparar a sincronização manual para evitar custos de API excessivos
+    const isMaster = auth.currentUser?.email && MASTER_ADMINS.includes(auth.currentUser.email);
+    if (!isMaster) {
+      alert("Apenas administradores master podem forçar a sincronização de mercado.");
+      return;
+    }
+
     setIsSyncing(true);
     
     try {
-      // Processamento de conexão segura
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
       const now = new Date();
       const formattedDate = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
       const formattedMonthYear = now.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 
-      // Valores iniciais baseados no estado atual (para persistência em caso de falha)
-      let currentSelic = 14.65;
-      let currentDollar = 4.983; 
+      let currentSelic = 14.50;
+      let currentDollar = 4.9809; 
       let currentEuro = 5.772;
-      let currentIpca = 3.85;
+      let currentIpca = 4.39;
 
       try {
-        // AwesomeAPI: Especializada em cotações em tempo real para o mercado brasileiro
-        // BCB API: Para Selic (SGS 11)
-        const [currencyRes, selicRes] = await Promise.all([
+        const [currencyRes, selicRes, ipcaRes, ptaxRes] = await Promise.all([
           fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL').then(r => r.json()).catch(() => null),
-          fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json').then(r => r.json()).catch(() => null)
+          fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json').then(r => r.json()).catch(() => null),
+          fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json').then(r => r.json()).catch(() => null),
+          fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados/ultimos/1?formato=json').then(r => r.json()).catch(() => null)
         ]);
 
-        if (currencyRes) {
-          if (currencyRes.USDBRL) {
-            currentDollar = parseFloat(currencyRes.USDBRL.bid);
-          }
-          if (currencyRes.EURBRL) {
-            currentEuro = parseFloat(currencyRes.EURBRL.bid);
-          }
+        if (ptaxRes?.[0]?.valor) {
+          currentDollar = parseFloat(ptaxRes[0].valor);
+        } else if (currencyRes?.USDBRL) {
+          currentDollar = parseFloat(currencyRes.USDBRL.bid);
         }
 
-        if (selicRes?.[0]?.valor) {
-          currentSelic = parseFloat(selicRes[0].valor);
-        }
+        if (currencyRes?.EURBRL) currentEuro = parseFloat(currencyRes.EURBRL.bid);
+        if (selicRes?.[0]?.valor) currentSelic = parseFloat(selicRes[0].valor);
+        if (ipcaRes?.[0]?.valor) currentIpca = parseFloat(ipcaRes[0].valor);
       } catch (e) {
-        console.warn("Falha na sincronização em tempo real. Utilizando última base estável.");
+        console.warn("Falha na sincronização em tempo real.");
       }
 
       const updatedData = econData.map(secao => {
@@ -81,7 +98,7 @@ export function PremissasEconomicasPage() {
             if (isSelic && nome.includes('selic')) {
               val = `${currentSelic.toFixed(2)}% a.a.`;
             } else if (isCambio && nome.includes('dólar')) {
-              val = `R$ ${currentDollar.toFixed(3).replace('.', ',')}`;
+              val = `R$ ${currentDollar.toFixed(4).replace('.', ',')}`;
             } else if (isCambio && nome.includes('euro')) {
               val = `R$ ${currentEuro.toFixed(3).replace('.', ',')}`;
             } else if (isInflacao && nome.includes('ipca')) {
@@ -102,10 +119,15 @@ export function PremissasEconomicasPage() {
         };
       });
 
-      setEconData(updatedData);
-      localStorage.setItem('last_economic_sync', formattedDate);
-      localStorage.setItem('last_economic_sync_full', formattedMonthYear);
-      setLastSync(formattedDate);
+      // Gravar no Firestore para todos os usuários
+      await setDoc(doc(db, 'system', 'economic_premises'), {
+        econData: updatedData,
+        lastSync: formattedDate,
+        lastSyncFull: formattedMonthYear,
+        updatedAt: serverTimestamp(),
+        updatedBy: auth.currentUser?.email
+      });
+
     } catch (error) {
       console.error("Erro na sincronização de mercado:", error);
     } finally {
@@ -113,14 +135,30 @@ export function PremissasEconomicasPage() {
     }
   }, [econData, isSyncing]);
 
+  const [lastSyncFull, setLastSyncFull] = useState<string | null>(null);
+
   useEffect(() => {
+    // Escutar premissas globais do Firestore
+    const unsub = onSnapshot(doc(db, 'system', 'economic_premises'), (snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        if (data.econData) setEconData(data.econData);
+        if (data.lastSync) setLastSync(data.lastSync);
+        if (data.lastSyncFull) setLastSyncFull(data.lastSyncFull);
+      }
+    });
+    return () => unsub();
+  }, []);
+
+  useEffect(() => {
+    const isMaster = auth.currentUser?.email && MASTER_ADMINS.includes(auth.currentUser.email);
     const today = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    if (lastSync !== today) {
+    if (isMaster && lastSync && lastSync !== today) {
       handleSync();
     }
   }, [lastSync, handleSync]);
 
-  const lastSyncDisplay = localStorage.getItem('last_economic_sync_full') || "Maio de 2026";
+  const lastSyncDisplay = lastSyncFull || "Aguardando sincronização...";
 
   return (
     <div className="space-y-12 pb-20">

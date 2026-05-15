@@ -48,6 +48,8 @@ import {
   Rocket,
   Megaphone,
   Calculator,
+  Star,
+  MessageSquare,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -121,7 +123,13 @@ export type Page =
   | 'contabil_root'
   | 'financeira_root'
   | 'inteligencia_sistemica'
-  | 'estrutura_governanca';
+  | 'perfil_lideranca'
+  | 'estrutura_governanca'
+  | 'avaliacao_organograma'
+  | 'cultura_feedback'
+  | 'atas_reuniao'
+  | 'simulador_estrategico'
+  | 'orcamento';
 
 export interface NavigationItem {
   id: Page;
@@ -144,7 +152,7 @@ export const DEFAULT_OPEN_SUBMENUS: Record<string, boolean> = {
   'Governança Corporativa': true,
   'Administração e Finanças': true,
   'Finanças': true,
-  'Dashboard': true,
+  'Cockpit de Gestão': true,
 };
 
 const sortNavItems = (items: NavigationItem[]): NavigationItem[] => {
@@ -170,13 +178,14 @@ const sortNavItems = (items: NavigationItem[]): NavigationItem[] => {
 
 const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
   {
-    group: 'Dashboard',
+    group: 'Cockpit de Gestão',
     icon: LayoutGrid,
     items: [
       { id: 'portfolio', label: 'Visão Consolidada', icon: Globe, masterOnly: true },
       { id: 'inteligencia_sistemica', label: 'Inteligência Sistêmica', icon: Cpu, isNew: true },
       { id: 'dashboard', label: 'Monitoramento Estratégico', icon: LayoutDashboard },
       { id: 'indicadores', label: 'Análise de KPIs', icon: TrendingUp },
+      { id: 'plano_acao', label: 'Roadmap de Execução', icon: Rocket, isNew: true },
     ],
   },
   {
@@ -202,6 +211,8 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'planejamento_estrategico', label: 'Planejamento Estratégico', icon: Globe },
       { id: 'relatorio_executivo', label: 'Relatório Executivo', icon: ClipboardList },
       { id: 'valuation', label: 'Valuation Business', icon: BarChart3 },
+      { id: 'simulador_estrategico', label: 'Simulador de Valor', icon: Zap, isNew: true },
+      { id: 'atas_reuniao', label: 'Atas de Reunião', icon: FileText, isNew: true },
     ],
   },
   {
@@ -210,7 +221,10 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     items: [
       { id: 'dashboard_cultura', label: 'Dashboard de Cultura', icon: PieChart },
       { id: 'desenvolvimento_humano', label: 'Desenvolvimento Humano', icon: Zap },
+      { id: 'perfil_lideranca', label: 'Perfil de Liderança', icon: Star, isNew: true },
       { id: 'quadro_pessoal', label: 'Gestão de Pessoas', icon: Users },
+      { id: 'avaliacao_organograma', label: 'Avaliação de Organograma', icon: Boxes, isNew: true },
+      { id: 'cultura_feedback', label: 'Cultura de Feedback', icon: MessageSquare, isNew: true },
     ],
   },
   {
@@ -256,6 +270,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
           { id: 'plano_contas_gerencial', label: 'Plano de Contas Gerencial', icon: List },
           { id: 'posicao_financeira', label: 'Posição Financeira', icon: Landmark },
           { id: 'simulador_capital', label: 'Simulador de Captação', icon: Zap },
+          { id: 'orcamento', label: 'Orçamento & Budget', icon: Calculator, isNew: true },
         ]
       },
     ],

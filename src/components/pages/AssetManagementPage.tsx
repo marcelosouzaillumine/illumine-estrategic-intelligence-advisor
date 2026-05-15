@@ -140,8 +140,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
   const metrics = [
     { label: 'Patrimônio Total', value: formatCurrency(totalValue), icon: WalletCards, sub: 'Valor de Mercado' },
     { label: 'Rentabilidade (Mtd)', value: `${avgChange.toFixed(2)}%`, icon: TrendingUp, sub: formatCurrency(totalProfit), trend: avgChange >= 0 ? 'up' : 'down' },
-    { label: 'Yield Real (vs IPCA)', value: `${(avgChange - 0.45).toFixed(2)}%`, icon: Coins, sub: 'Descontada Inflação', trend: 'up' },
-    { label: 'Dividendos (Mês)', value: formatCurrency(8450.20), icon: Activity, sub: 'Yield Médio 0.58%' },
+    { label: 'Yield Real (Est.)', value: `${(avgChange > 0 ? avgChange * 0.9 : 0).toFixed(2)}%`, icon: Coins, sub: 'Descontada Inflação (Est.)', trend: avgChange >= 0 ? 'up' : 'down' },
+    { label: 'Ativos Monitorados', value: assets.length, icon: Activity, sub: 'Diversificação de Carteira' },
   ];
 
   const taxSimulation = {
@@ -268,21 +268,21 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
           <div>
             <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight da Carteira</h3>
             <p className="executive-note">
-              "Sua carteira apresentou uma performance de {(avgChange).toFixed(2)}% no mês atual, superando o CDI em 0.45 p.p. A exposição em Renda Variável está próxima do limite tático definido na política de investimentos. Recomendamos um rebalanceamento parcial, migrando lucros de 'Ações' para 'Renda Fixa' a fim de manter o perfil de risco moderado."
+              "Sua carteira apresentou uma performance de {(avgChange).toFixed(2)}% no mês atual. {avgChange > 0 ? 'O desempenho positivo reflete a alocação estratégica nos ativos selecionados.' : 'A performance reflete as variações de mercado no período.'} Recomendamos revisar periodicamente o rebalanceamento tático para manter o perfil de risco alinhado aos objetivos de longo prazo."
             </p>
           </div>
         </div>
         
         <div className="bg-primary p-8 rounded-[32px] text-white flex flex-col justify-between relative overflow-hidden group shadow-xl">
           <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
-          <div>
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Meta de Retorno Anual</h3>
-            <p className="text-3xl font-display font-black mb-2">CDI + 2.5%</p>
-            <div className="flex items-center gap-2 text-emerald-400">
-               <Target size={16} />
-               <span className="text-xs font-bold">No Alvo (102% da Meta)</span>
+            <div>
+              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Benchmark de Referência</h3>
+              <p className="text-3xl font-display font-black mb-2">CDI + Alpha</p>
+              <div className="flex items-center gap-2 text-emerald-400">
+                 <Target size={16} />
+                 <span className="text-xs font-bold">{avgChange > 0.8 ? 'Performance Superior' : 'Acompanhando Mercado'}</span>
+              </div>
             </div>
-          </div>
           <button className="mt-6 w-full py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
             Relatório de Performance
           </button>

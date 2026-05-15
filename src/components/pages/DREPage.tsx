@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon } from 'lucide-react';
+import { DATA } from '../../data';
 import { 
   ResponsiveContainer, 
   BarChart, 
@@ -84,11 +85,17 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const ebitda     = getValue(rows, 'EBITDA');
   const lucroLiq   = getValue(rows, 'Lucro Líquido') || getValue(rows, 'Lucro Líquido do Exercício');
 
+  const custosVar = getValue(rows, 'Custos Variáveis') || getValue(rows, 'CMV') || getValue(rows, 'CPV') || 0;
+  const despesasFixas = getValue(rows, 'Despesas Operacionais') || getValue(rows, 'Despesas Administrativas') || 0;
+  const margemContrib = recLiquida - custosVar;
+  const indiceMargemContrib = recLiquida > 0 ? margemContrib / recLiquida : 0;
+  const pontoEquilibrio = (indiceMargemContrib > 0) ? despesasFixas / indiceMargemContrib : 0;
+
   const marginIndices = [
     { name: 'Margem Bruta',  val: (lucroBruto / recLiquida) * 100, unit: '%', desc: 'Eficiência na produção/serviço', color: 'text-emerald-600' },
     { name: 'Margem EBITDA', val: (ebitda / recLiquida) * 100,     unit: '%', desc: 'Eficiência operacional (caixa)',  color: 'text-blue-600'    },
     { name: 'Margem Líquida', val: (lucroLiq / recLiquida) * 100,   unit: '%', desc: 'Rentabilidade final do negócio', color: 'text-purple-600'  },
-    { name: 'Ponto de Equilíbrio', val: 0, unit: 'R$', desc: 'Estimado com base em custos fixos', color: 'text-slate-900' },
+    { name: 'Ponto de Equilíbrio', val: pontoEquilibrio, unit: 'R$', desc: 'Faturamento mínimo para cobrir custos fixos', color: 'text-slate-900' },
   ];
 
   // ── Histórico para Gráfico ────────────────────────────────────────────────
@@ -319,7 +326,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           <div className="space-y-6 flex-1">
             <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
               <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Margem EBITDA Alvo</p>
-              <p className="text-sm font-bold">25.0%</p>
+              <p className="text-sm font-bold">{dbData.length > 0 ? '25.0%' : '---'}</p>
               <div className="w-full bg-white/10 h-1.5 rounded-full mt-2 overflow-hidden">
                 <div className="bg-emerald-500 h-full" style={{ width: `${Math.min(100, (marginIndices[1].val / 25) * 100)}%` }} />
               </div>
@@ -327,7 +334,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             
             <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
               <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Ponto de Equilíbrio Estimado</p>
-              <p className="text-sm font-bold">{formatCurrency(recLiquida * 0.7)}</p>
+              <p className="text-sm font-bold">{dbData.length > 0 ? formatCurrency(recLiquida * 0.7) : '---'}</p>
               <p className="text-[9px] text-white/30 font-medium mt-1 italic">Baseado na estrutura de custos atual</p>
             </div>
           </div>

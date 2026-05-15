@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { 
   ShieldCheck, TrendingUp, Users, Activity, Globe, ShoppingBag, 
   FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, 
-  BookOpen, Lightbulb, Loader2, PieChart as PieIcon, MessageSquare, Scale, ChevronRight
+  BookOpen, Lightbulb, Loader2, PieChart as PieIcon, MessageSquare, Scale, ChevronRight, ShieldAlert
 } from 'lucide-react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
@@ -71,21 +71,21 @@ export function GovernanceDashboardPage({
   };
 
   const strategicKPIs = useMemo(() => [
-    { label: 'ROI (Retorno sobre Investimento)', value: getIndicatorValue('ROI'), suffix: '%', status: getIndicatorValue('ROI') > 15 ? 'positive' : 'neutral', icon: Target },
+    { label: 'Lucratividade Líquida', value: getIndicatorValue('Margem Líquida'), suffix: '%', status: getIndicatorValue('Margem Líquida') > 10 ? 'positive' : 'neutral', icon: BarChart3 },
     { label: 'EBITDA (Margem)', value: getIndicatorValue('Margem EBITDA'), suffix: '%', status: getIndicatorValue('Margem EBITDA') > 20 ? 'positive' : 'neutral', icon: Zap },
-    { label: 'Índice de Alinhamento (Princípios)', value: getIndicatorValue('Índice de Alinhamento', 0), suffix: '', status: 'positive', icon: BookOpen },
-    { label: 'Grau de Maturidade de Risco', value: getIndicatorValue('Maturidade de Risco', 0), suffix: '%', status: 'positive', icon: ShieldCheck }
+    { label: 'Índice de Transparência', value: getIndicatorValue('Índice de Transparência', 0), suffix: '%', status: getIndicatorValue('Índice de Transparência') > 80 ? 'positive' : 'neutral', icon: Globe },
+    { label: 'Churn Rate (Fidelidade)', value: getIndicatorValue('Churn Rate', 0), suffix: '%', status: getIndicatorValue('Churn Rate') < 5 ? 'positive' : 'negative', icon: ShieldAlert }
   ], [dbIndicators]);
 
   // Radar Data for Areas - Dynamic
   const radarData = useMemo(() => [
-    { area: 'Governança Corporativa', score: getIndicatorValue('Maturidade de Governança', 0), fullMark: 100 },
-    { area: 'Cultura Organizacional', score: getIndicatorValue('Taxa de Retenção', 0), fullMark: 100 },
-    { area: 'Administração e Finanças', score: getIndicatorValue('Margem EBITDA', 0), fullMark: 100 },
-    { area: 'Gestão de Inovação', score: getIndicatorValue('Índice de Inovação', 0), fullMark: 100 },
-    { area: 'Gestão de Marketing', score: getIndicatorValue('ROI de Marketing', 0), fullMark: 100 },
-    { area: 'Gestão Comercial', score: getIndicatorValue('Taxa de Conversão', 0), fullMark: 100 },
-    { area: 'Gestão Operacional', score: getIndicatorValue('OEE', 0), fullMark: 100 },
+    { area: 'Governança', score: getIndicatorValue('Maturidade de Governança', 0), fullMark: 100 },
+    { area: 'Cultura', score: getIndicatorValue('eNPS', 0), fullMark: 100 },
+    { area: 'Finanças', score: getIndicatorValue('Margem EBITDA', 0), fullMark: 100 },
+    { area: 'Inovação', score: getIndicatorValue('Índice de Inovação', 0), fullMark: 100 },
+    { area: 'Marketing', score: getIndicatorValue('ROI de Marketing', 0) * 10, fullMark: 100 },
+    { area: 'Comercial', score: getIndicatorValue('Win Rate', 0), fullMark: 100 },
+    { area: 'Operacional', score: getIndicatorValue('Índice de Qualidade', 0), fullMark: 100 },
   ], [dbIndicators]);
 
   // Area Snapshots - Dynamic
@@ -236,7 +236,7 @@ export function GovernanceDashboardPage({
             </div>
             
             <button 
-              onClick={() => onNavigate('dados_historicos')}
+              onClick={() => onNavigate('maintenance')}
               className="px-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary transition-all shadow-xl shadow-slate-900/10"
             >
               IR PARA IMPORTAÇÃO DE DADOS

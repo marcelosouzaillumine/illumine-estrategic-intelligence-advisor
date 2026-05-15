@@ -27,7 +27,8 @@ import {
   orderBy, 
   limit 
 } from 'firebase/firestore';
-import { db, login, handleFirestoreError, OperationType } from '../../lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage, login, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { cn } from '../../lib/utils';
 import { PageHeader, MarkdownText } from '../Common';
 
@@ -182,6 +183,16 @@ export function DadosHistoricosPage({
         throw new Error('Nenhum dado válido encontrado no arquivo.');
       }
 
+      // 1. Upload File to Firebase Storage for Audit Integrity
+      let fileUrl = '';
+      try {
+        const storageRef = ref(storage, `imports/${selectedClient}/${Date.now()}_${file.name}`);
+        const uploadResult = await uploadBytes(storageRef, file);
+        fileUrl = await getDownloadURL(uploadResult.ref);
+      } catch (storageErr) {
+        console.warn("Failed to upload original file to storage, proceeding with data only.", storageErr);
+      }
+
       const payload = {
         clientId: selectedClient,
         clientName: clients.find(c => c.id === selectedClient)?.fantasia || 'N/A',
@@ -193,8 +204,10 @@ export function DadosHistoricosPage({
         ano: year,
         data: dataEntries,
         fileName: file.name,
+        fileUrl, // Store reference to original document
         createdAt: serverTimestamp(),
-        createdBy: user.uid
+        createdBy: user.uid,
+        creatorEmail: user.email,
       };
 
       await addDoc(collection(db, 'financial_entries'), payload);
@@ -397,7 +410,19 @@ export function DadosHistoricosPage({
                       </span>
                     </div>
                     <p className="text-sm font-bold text-primary truncate mb-1">{h.fileName}</p>
-                    <p className="text-[10px] text-slate-400 font-medium">Importado em: {h.createdAt?.toDate().toLocaleDateString('pt-BR')}</p>
+                    <div className="flex justify-between items-center mt-1">
+                      <p className="text-[10px] text-slate-400 font-medium">Importado em: {h.createdAt?.toDate().toLocaleDateString('pt-BR')}</p>
+                      {h.fileUrl && (
+                        <a 
+                          href={h.fileUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-[9px] font-black text-secondary uppercase hover:underline"
+                        >
+                          Original
+                        </a>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>

@@ -308,7 +308,7 @@ function InputsDataEntryView({ selectedClient }: { selectedClient: string }) {
   );
 }
 
-function ConfiguracaoProjecaoEstrutural() {
+function ConfiguracaoProjecaoEstrutural({ hasData }: { hasData: boolean }) {
   return (
     <div className="space-y-8">
       <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
@@ -339,15 +339,15 @@ function ConfiguracaoProjecaoEstrutural() {
             <div className="space-y-4">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-semibold text-slate-600">Growth Target (Market)</span>
-                <span className="font-black text-emerald-600">12.00%</span>
+                <span className="font-black text-emerald-600">{hasData ? "12.00%" : "---"}</span>
               </div>
               <div className="flex justify-between items-center text-xs">
                 <span className="font-semibold text-slate-600">Escalabilidade Custos</span>
-                <span className="font-black text-emerald-600">45% da Receita</span>
+                <span className="font-black text-emerald-600">{hasData ? "45% da Receita" : "---"}</span>
               </div>
               <div className="flex justify-between items-center text-xs">
                 <span className="font-semibold text-slate-600">Depreciação Média</span>
-                <span className="font-black text-emerald-600">10.00% a.a.</span>
+                <span className="font-black text-emerald-600">{hasData ? "10.00% a.a." : "---"}</span>
               </div>
             </div>
           </div>
@@ -400,6 +400,7 @@ function ConfiguracaoProjecaoEstrutural() {
 export function FinancialModelingPage({ clients, selectedClient, setSelectedClient }: { clients: any[], selectedClient: string, setSelectedClient: (id: string) => void }) {
   const [tab, setTab] = useState("configuracao");
   const { dbData } = useAllFinancialData(selectedClient);
+  const hasData = dbData && dbData.length > 0;
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingModeling, setEditingModeling] = useState<any>(null);
@@ -597,10 +598,10 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
           {tab === 'configuracao' && (
              <div className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <KpiCardModeling label="EBITDA Ano 5" value={formatCurrency(projection.fluxoCaixa.rows[0].values[4])} helper="Geração operacional final" tone="success" />
-                  <KpiCardModeling label="Geração de Caixa (Acum.)" value={formatCurrency(projection.fluxoCaixa.rows[4].values.reduce((a: any, b: any) => a + b, 0))} helper="FCF Total Projected" tone="success" />
-                  <KpiCardModeling label="Tax Efficiency" value={activeClient?.regime} helper={`Baseado em ${activeClient?.regime}`} />
-                  <KpiCardModeling label="Proj. Debt Score" value="0.4x" helper="EBITDA / Dívida Ano 5" tone="success" />
+                   <KpiCardModeling label="EBITDA Ano 5" value={hasData ? formatCurrency(projection.fluxoCaixa.rows[0].values[4]) : '---'} helper="Geração operacional final" tone="success" />
+                  <KpiCardModeling label="Geração de Caixa (Acum.)" value={hasData ? formatCurrency(projection.fluxoCaixa.rows[4].values.reduce((a: any, b: any) => a + b, 0)) : '---'} helper="FCF Total Projected" tone="success" />
+                  <KpiCardModeling label="Tax Efficiency" value={hasData ? activeClient?.regime : '---'} helper={hasData ? `Baseado em ${activeClient?.regime}` : 'Aguardando Dados'} />
+                  <KpiCardModeling label="Proj. Debt Score" value={hasData ? "0.4x" : "---"} helper="EBITDA / Dívida Ano 5" tone="success" />
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -650,7 +651,7 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
                 </div>
                 
                 <div className="mt-8">
-                  <ConfiguracaoProjecaoEstrutural />
+                  <ConfiguracaoProjecaoEstrutural hasData={hasData} />
                 </div>
              </div>
           )}

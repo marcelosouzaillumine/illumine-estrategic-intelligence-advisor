@@ -80,6 +80,145 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
+const IndicatorCard = React.memo(({ label, r, isValuation }: any) => (
+  <div className={cn(
+    "p-8 rounded-[32px] border border-slate-100 shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden",
+    isValuation ? "bg-slate-900 text-white border-none" : "bg-white"
+  )}>
+    {isValuation && <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-125 transition-transform"><Target size={60} /></div>}
+    <div className="relative z-10">
+      <p className={cn(
+        "text-[11px] font-black uppercase tracking-[0.2em] mb-4 flex items-center justify-between",
+        isValuation ? "text-slate-400" : "text-slate-400"
+      )}>
+        {label}
+        <Semaphore status={r?.sem || 'Verde'} />
+      </p>
+      <p className={cn(
+        "text-2xl font-display font-black tracking-tight group-hover:text-secondary transition-colors",
+        isValuation ? "text-white" : "text-primary"
+      )}>
+        {r ? formatValue(r.val, r.un) : '—'}
+      </p>
+      <div className="mt-4 flex items-center gap-2">
+        <div className={cn(
+          "px-2 py-0.5 rounded text-[8px] font-bold uppercase",
+          r?.isReal ? "bg-emerald-500/10 text-emerald-500" : "bg-blue-500/10 text-blue-500"
+        )}>
+          {r?.isReal ? 'Realizado' : 'Projetado'}
+        </div>
+        {r?.trend && (
+          <span className={cn(
+            "text-[10px] font-bold flex items-center gap-0.5",
+            r.trend.startsWith('+') ? "text-emerald-500" : "text-rose-500"
+          )}>
+            {r.trend.startsWith('+') ? <TrendingUp size={10} /> : <AlertTriangle size={10} />} {r.trend}
+          </span>
+        )}
+      </div>
+    </div>
+  </div>
+));
+
+const EvolutionChart = React.memo(({ data, isYTD }: any) => (
+  <div className="h-[300px] w-full">
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart data={data}>
+        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
+        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={(v) => `R$${v / 1000}k`} />
+        <Tooltip 
+          contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
+          formatter={(value: number) => formatCurrency(value)}
+        />
+        <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }} />
+        <Bar name="Fat. Bruto" dataKey="Faturamento" fill="#ff8552" radius={[4, 4, 0, 0]} barSize={24}>
+          {data.map((entry: any, index: number) => (
+            <Cell key={`cell-fat-${index}`} fill={entry.type === 'Real' ? "#ff8552" : "#ff855240"} />
+          ))}
+        </Bar>
+        <Bar name="Rec. Líquida" dataKey="Receita" fill="#0e1c2c" radius={[4, 4, 0, 0]} barSize={24}>
+          {data.map((entry: any, index: number) => (
+            <Cell key={`cell-rec-${index}`} fill={entry.type === 'Real' ? "#0e1c2c" : "#0e1c2c40"} />
+          ))}
+        </Bar>
+        <Bar name="EBITDA" dataKey="EBITDA" fill="#bab86c" radius={[4, 4, 0, 0]} barSize={24}>
+          {data.map((entry: any, index: number) => (
+            <Cell key={`cell-ebitda-${index}`} fill={entry.type === 'Real' ? "#bab86c" : "#bab86c40"} />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
+));
+
+const TrendChart = React.memo(({ data, isYTD }: any) => (
+  <div className="h-[300px] w-full">
+    <ResponsiveContainer width="100%" height="100%">
+      <LineChart data={data}>
+        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
+        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={(v) => `R$${v / 1000}k`} />
+        <Tooltip 
+          contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
+          formatter={(value: number) => formatCurrency(value)}
+        />
+        <Legend iconType="rect" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }} />
+        <Line 
+          name="Receita Líquida"
+          type="monotone" 
+          dataKey="Receita" 
+          stroke="#0e1c2c" 
+          strokeWidth={4} 
+          dot={(props: any) => {
+            const { cx, cy, payload } = props;
+            if (payload.type === 'Proj') return <circle cx={cx} cy={cy} r={4} fill="#fff" stroke="#0e1c2c" strokeWidth={2} />;
+            return <circle cx={cx} cy={cy} r={5} fill="#0e1c2c" stroke="#fff" strokeWidth={2} />;
+          }}
+          strokeDasharray={isYTD ? "5 5" : "0"}
+          activeDot={{ r: 7 }}
+        />
+        <Line 
+          name="Lucro Líquido"
+          type="monotone" 
+          dataKey="Lucro" 
+          stroke="#ff8552" 
+          strokeWidth={4} 
+          dot={(props: any) => {
+            const { cx, cy, payload } = props;
+            if (payload.type === 'Proj') return <circle cx={cx} cy={cy} r={4} fill="#fff" stroke="#ff8552" strokeWidth={2} />;
+            return <circle cx={cx} cy={cy} r={5} fill="#ff8552" stroke="#fff" strokeWidth={2} />;
+          }}
+          strokeDasharray={isYTD ? "5 5" : "0"}
+          activeDot={{ r: 7 }}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  </div>
+));
+
+const IndicatorRow = React.memo(({ r }: any) => (
+  <div className="bg-white p-6 rounded-3xl border border-slate-100 flex items-center justify-between hover:border-secondary/20 transition-all group shadow-sm">
+    <div className="flex items-center gap-4">
+      <div className={cn(
+        "w-1 h-10 rounded-full",
+        r.sem === 'Verde' ? "bg-emerald-500" : r.sem === 'Amarelo' ? "bg-amber-500" : "bg-rose-500"
+      )} />
+      <div>
+        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">{r.cat}</p>
+        <p className="text-sm font-bold text-slate-800 group-hover:text-primary transition-colors">{r.ind}</p>
+      </div>
+    </div>
+    <div className="text-right">
+      <p className="text-xl font-display font-black text-primary">{formatValue(r.val, r.un)}</p>
+      <div className="mt-1 flex justify-end gap-2 items-center">
+        <span className="text-[9px] font-bold text-slate-400">STATUS</span>
+        <StatusBadge status={r.sem} />
+      </div>
+    </div>
+  </div>
+));
+
 export function DashboardPage({ 
   clients, 
   selectedClient, 
@@ -150,10 +289,9 @@ export function DashboardPage({
     });
   }, [dbIndicators, allYearIndicators, isYTD, selectedClient, selectedMonth, selectedYear]);
   
-  const getIndicator = (name: string) => {
-    const mock = currentIndicators.find(i => i.ind === name);
+  const getIndicator = React.useCallback((name: string) => {
+    const mock = currentIndicators.find((i: any) => i.ind === name);
     
-    // Se for Valuation, sempre buscar do projetado anual (longo prazo)
     if (name === 'Valor de Mercado') {
       const proj = allYearIndicators.filter((i: any) => i.cat === 'Projetado' && i.ind === 'Valor de Mercado');
       const avg = proj.length > 0 ? proj.reduce((acc: number, curr: any) => acc + curr.val, 0) / proj.length : 0;
@@ -172,7 +310,7 @@ export function DashboardPage({
       };
     }
     return mock;
-  };
+  }, [currentIndicators, allYearIndicators, realData]);
 
   const governançaAlerts = useMemo(() => {
     // Mesclar dados financeiros reais com mock para os outros eixos (já que não temos input ainda)
@@ -409,8 +547,14 @@ export function DashboardPage({
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Posição de Caixa Alpha</h3>
             <p className="text-3xl font-display font-black mb-2">{formatCurrency(getIndicator('Saldo em Caixa')?.val || 0)}</p>
             <div className="flex items-center gap-2 text-emerald-400">
-               <TrendingUp size={16} />
-               <span className="text-xs font-bold">{getIndicator('Saldo em Caixa')?.val > 0 ? '+12.5% vs m-1' : 'Aguardando Dados'}</span>
+               {getIndicator('Saldo em Caixa')?.trend ? (
+                 <>
+                   <TrendingUp size={16} />
+                   <span className="text-xs font-bold">{getIndicator('Saldo em Caixa')?.trend} vs m-1</span>
+                 </>
+               ) : (
+                 <span className="text-xs font-bold text-slate-500 italic uppercase tracking-tighter">Real-time status</span>
+               )}
             </div>
           </div>
           <button className="mt-6 w-full py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
@@ -420,46 +564,14 @@ export function DashboardPage({
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6">
-        {metrics.map(m => {
-          const r = getIndicator(m.key);
-          const isValuation = m.key === 'Valor de Mercado';
-          return (
-            <div key={m.key} className={cn(
-              "p-8 rounded-[32px] border border-slate-100 shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden",
-              isValuation ? "bg-slate-900 text-white border-none" : "bg-white"
-            )}>
-              {isValuation && <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-125 transition-transform"><Target size={60} /></div>}
-              <div className="relative z-10">
-                <p className={cn(
-                  "text-[11px] font-black uppercase tracking-[0.2em] mb-4 flex items-center justify-between",
-                  isValuation ? "text-slate-400" : "text-slate-400"
-                )}>
-                  {m.label}
-                  <Semaphore status={r?.sem || 'Verde'} />
-                </p>
-                <p className={cn(
-                  "text-2xl font-display font-black tracking-tight group-hover:text-secondary transition-colors",
-                  isValuation ? "text-white" : "text-primary"
-                )}>
-                  {r ? formatValue(r.val, r.un) : '—'}
-                </p>
-                <div className="mt-4 flex items-center gap-2">
-                  <div className={cn(
-                    "px-2 py-0.5 rounded text-[8px] font-bold uppercase",
-                    (r as any)?.isReal ? "bg-emerald-500/10 text-emerald-500" : "bg-blue-500/10 text-blue-500"
-                  )}>
-                    {(r as any)?.isReal ? 'Realizado' : 'Projetado'}
-                  </div>
-                  {r?.val > 0 && !isValuation && (
-                    <span className="text-[10px] font-bold text-emerald-500 flex items-center gap-0.5">
-                      <TrendingUp size={10} /> {r.val > 100000 ? '4.2%' : 'Trend...'}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        {metrics.map(m => (
+          <IndicatorCard 
+            key={m.key} 
+            label={m.label} 
+            r={getIndicator(m.key)} 
+            isValuation={m.key === 'Valor de Mercado'} 
+          />
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -469,35 +581,7 @@ export function DashboardPage({
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
               <BarChartIcon size={14} className="text-secondary" /> {isYTD ? 'Trajetória 10 Anos (Histórico + Projeção)' : 'Visão Consolidada (Mensal)'}
             </h3>
-            <div className="h-[300px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={evolData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={(v) => `R$${v / 1000}k`} />
-                  <Tooltip 
-                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
-                    formatter={(value: number) => formatCurrency(value)}
-                  />
-                  <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }} />
-                  <Bar name="Fat. Bruto" dataKey="Faturamento" fill="#ff8552" radius={[4, 4, 0, 0]} barSize={24}>
-                    {evolData.map((entry, index) => (
-                      <Cell key={`cell-fat-${index}`} fill={entry.type === 'Real' ? "#ff8552" : "#ff855240"} />
-                    ))}
-                  </Bar>
-                  <Bar name="Rec. Líquida" dataKey="Receita" fill="#0e1c2c" radius={[4, 4, 0, 0]} barSize={24}>
-                    {evolData.map((entry, index) => (
-                      <Cell key={`cell-rec-${index}`} fill={entry.type === 'Real' ? "#0e1c2c" : "#0e1c2c40"} />
-                    ))}
-                  </Bar>
-                  <Bar name="EBITDA" dataKey="EBITDA" fill="#bab86c" radius={[4, 4, 0, 0]} barSize={24}>
-                    {evolData.map((entry, index) => (
-                      <Cell key={`cell-ebitda-${index}`} fill={entry.type === 'Real' ? "#bab86c" : "#bab86c40"} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+            <EvolutionChart data={evolData} isYTD={isYTD} />
           </div>
         </div>
 
@@ -507,48 +591,7 @@ export function DashboardPage({
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
               <TrendingUp size={14} className="text-emerald-500" /> {isYTD ? 'Tendência Estratégica (Longo Prazo)' : 'Lucratividade Mensal'}
             </h3>
-            <div className="h-[300px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={trendData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={(v) => `R$${v / 1000}k`} />
-                  <Tooltip 
-                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
-                    formatter={(value: number) => formatCurrency(value)}
-                  />
-                  <Legend iconType="rect" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }} />
-                  <Line 
-                    name="Receita Líquida"
-                    type="monotone" 
-                    dataKey="Receita" 
-                    stroke="#0e1c2c" 
-                    strokeWidth={4} 
-                    dot={(props: any) => {
-                      const { cx, cy, payload } = props;
-                      if (payload.type === 'Proj') return <circle cx={cx} cy={cy} r={4} fill="#fff" stroke="#0e1c2c" strokeWidth={2} />;
-                      return <circle cx={cx} cy={cy} r={5} fill="#0e1c2c" stroke="#fff" strokeWidth={2} />;
-                    }}
-                    strokeDasharray={isYTD ? "5 5" : "0"}
-                    activeDot={{ r: 7 }}
-                  />
-                  <Line 
-                    name="Lucro Líquido"
-                    type="monotone" 
-                    dataKey="Lucro" 
-                    stroke="#ff8552" 
-                    strokeWidth={4} 
-                    dot={(props: any) => {
-                      const { cx, cy, payload } = props;
-                      if (payload.type === 'Proj') return <circle cx={cx} cy={cy} r={4} fill="#fff" stroke="#ff8552" strokeWidth={2} />;
-                      return <circle cx={cx} cy={cy} r={5} fill="#ff8552" stroke="#fff" strokeWidth={2} />;
-                    }}
-                    strokeDasharray={isYTD ? "5 5" : "0"}
-                    activeDot={{ r: 7 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+            <TrendChart data={trendData} isYTD={isYTD} />
           </div>
         </div>
       </div>
@@ -606,7 +649,14 @@ export function DashboardPage({
                 })()}
               </span>
               <span className="text-[10px] font-bold text-emerald-400 mt-1 flex items-center gap-1">
-                <TrendingUp size={12} /> {proj.length > 0 ? '+28% Potencial de Destravamento' : 'Aguardando Projeções'}
+                {allYearIndicators.some((i: any) => i.cat === 'Projetado' && i.ind === 'Valor de Mercado') 
+                  ? (
+                    <>
+                      <TrendingUp size={12} /> 
+                      Potencial de Destravamento Identificado
+                    </>
+                  )
+                  : 'Aguardando Projeções'}
               </span>
             </div>
             <div className="mt-8 h-2 bg-white/10 rounded-full overflow-hidden relative z-10">
@@ -677,27 +727,7 @@ export function DashboardPage({
           {tableKpis.map(key => {
             const r = getIndicator(key);
             if (!r) return null;
-            return (
-              <div key={key} className="bg-white p-6 rounded-3xl border border-slate-100 flex items-center justify-between hover:border-secondary/20 transition-all group shadow-sm">
-                <div className="flex items-center gap-4">
-                  <div className={cn(
-                    "w-1 h-10 rounded-full",
-                    r.sem === 'Verde' ? "bg-emerald-500" : r.sem === 'Amarelo' ? "bg-amber-500" : "bg-rose-500"
-                  )} />
-                  <div>
-                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">{r.cat}</p>
-                    <p className="text-sm font-bold text-slate-800 group-hover:text-primary transition-colors">{r.ind}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-xl font-display font-black text-primary">{formatValue(r.val, r.un)}</p>
-                  <div className="mt-1 flex justify-end gap-2 items-center">
-                    <span className="text-[9px] font-bold text-slate-400">STATUS</span>
-                    <StatusBadge status={r.sem} />
-                  </div>
-                </div>
-              </div>
-            )
+            return <IndicatorRow key={key} r={r} />;
           })}
         </div>
       </div>

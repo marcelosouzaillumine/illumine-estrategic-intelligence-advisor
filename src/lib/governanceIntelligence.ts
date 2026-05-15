@@ -1,5 +1,15 @@
 import { EixoGestao } from '../types/modules';
 
+export interface DilemmaOption {
+  text: string;
+  score: number;
+}
+
+export interface ManagerDilemma {
+  scenario: string;
+  options: [DilemmaOption, DilemmaOption, DilemmaOption];
+}
+
 export interface GovernancePrinciple {
   id: string;
   name: string;
@@ -13,6 +23,7 @@ export interface GovernancePrinciple {
   systemicIntegration: string;
   executiveRecommendations: string[]; // exactly 12
   situationalScenario?: string;
+  managerDilemma?: ManagerDilemma;
   maturityQuestion: string;
   weight: number;
   expectedEvidences: string[];
@@ -33,8 +44,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Governança Corporativa',
     executiveDefinition: 'A integridade institucional assegura que a organização opere sob um código de ética inegociável, protegendo sua reputação e perenidade.',
     philosophicalFoundation: {
-      text: 'O que anda em integridade anda seguro.',
-      reference: 'Provérbios 10:9'
+      text: 'A reputação leva 20 anos para ser construída e 5 minutos para ser arruinada.',
+      reference: 'Warren Buffett'
     },
     strategicImpact: 5,
     systemicIntegration: 'Base fundamental para a confiança na cultura e a credibilidade no marketing.',
@@ -60,7 +71,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Monitorar indicadores de desvios de conduta',
       'Garantir proteção total ao denunciante de boa-fé',
       'Comunicar os valores éticos em todos os canais'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'A empresa pode bater a meta trimestral se antecipar o faturamento de um contrato que ainda não foi totalmente executado. O que você faz?',
+      options: [
+        { text: 'Não antecipa, priorizando a integridade contábil.', score: 2 },
+        { text: 'Antecipa o faturamento para garantir o bônus da equipe.', score: -2 },
+        { text: 'Consulta o jurídico para ver se há uma brecha legal.', score: 0 }
+      ]
+    }
   },
   {
     id: 'gov_2',
@@ -68,8 +87,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Governança Corporativa',
     executiveDefinition: 'O discernimento estratégico permite a análise crítica de cenários, mitigando riscos e identificando oportunidades de alto impacto.',
     philosophicalFoundation: {
-      text: 'Se algum de vós tem falta de sabedoria, peça-a a Deus, que a todos dá liberalmente.',
-      reference: 'Tiago 1:5'
+      text: 'No meio da dificuldade encontra-se a oportunidade.',
+      reference: 'Albert Einstein'
     },
     strategicImpact: 5,
     systemicIntegration: 'Essencial para a estratégia de inovação, gestão de riscos e alocação de capital.',
@@ -95,7 +114,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Estruturar processo de validação de premissas',
       'Adotar ferramentas de inteligência competitiva',
       'Estabelecer critérios de decisão baseados em dados'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um consultor externo sugere que seu modelo de negócio será obsoleto em 3 anos. Seus sócios acham que ele está exagerando para vender consultoria. O que você faz?',
+      options: [
+        { text: 'Cria um grupo de trabalho para validar as premissas do consultor com dados isentos.', score: 2 },
+        { text: 'Ignora o consultor e foca na execução do plano atual que está dando lucro.', score: -2 },
+        { text: 'Aguarda mais sinais do mercado antes de tomar qualquer atitude.', score: 0 }
+      ]
+    }
   },
   {
     id: 'gov_3',
@@ -103,8 +130,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Governança Corporativa',
     executiveDefinition: 'O Accountability (Prestação de Contas) garante que cada nível da organização seja responsável por seus resultados e atos perante os stakeholders.',
     philosophicalFoundation: {
-      text: 'Cada um de nós dará conta de si mesmo a Deus.',
-      reference: 'Romanos 14:12'
+      text: 'O que não pode ser medido, não pode ser gerenciado.',
+      reference: 'Peter Drucker'
     },
     strategicImpact: 5,
     systemicIntegration: 'Essencial para o planejamento financeiro e a eficiência operacional.',
@@ -130,7 +157,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Realizar feedbacks estruturados baseados em dados',
       'Garantir que a liderança preste contas ao Board',
       'Documentar atas de reuniões de performance'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Você cometeu um erro de projeção que resultará em um prejuízo moderado. Ninguém percebeu ainda e você pode tentar diluir esse valor nos próximos meses. O que você faz?',
+      options: [
+        { text: 'Assume o erro imediatamente para o conselho ou sócios.', score: 2 },
+        { text: 'Tenta diluir o valor para evitar exposição negativa.', score: -2 },
+        { text: 'Avisa apenas seu superior direto de forma informal.', score: 0 }
+      ]
+    }
   },
   {
     id: 'gov_4',
@@ -138,8 +173,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Governança Corporativa',
     executiveDefinition: 'A justiça na governança manifesta-se através da meritocracia clara e do tratamento equânime de todos os sócios e colaboradores.',
     philosophicalFoundation: {
-      text: 'Vós, senhores, fazei o que é de justiça e equidade aos vossos servos.',
-      reference: 'Colossenses 4:1'
+      text: 'A justiça é a primeira virtude das instituições sociais.',
+      reference: 'John Rawls'
     },
     strategicImpact: 4,
     systemicIntegration: 'Pilar da retenção de talentos e da paz na sucessão societária.',
@@ -165,7 +200,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Monitorar o clima organizacional via eNPS',
       'Instituir rituais de celebração de conquistas',
       'Zelar pela transparência em todas as concessões'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um colaborador de alta performance teve um comportamento que viola o código de ética. Demiti-lo afetaria o resultado do ano drasticamente. O que você faz?',
+      options: [
+        { text: 'Aplica a sanção prevista, mantendo a equidade da regra.', score: 2 },
+        { text: 'Ignora o fato, priorizando a continuidade do resultado.', score: -2 },
+        { text: 'Aplica apenas uma advertência verbal para não perder o talento.', score: -1 }
+      ]
+    }
   },
   {
     id: 'gov_5',
@@ -173,8 +216,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Governança Corporativa',
     executiveDefinition: 'A ordem na governança manifesta-se através de alçadas decisórias claras, segregação de funções e processos mapeados.',
     philosophicalFoundation: {
-      text: 'Mas tudo deve ser feito com decência e ordem.',
-      reference: '1 Coríntios 14:40'
+      text: 'A simplicidade é o último grau da sofisticação e da ordem.',
+      reference: 'Leonardo da Vinci'
     },
     strategicImpact: 4,
     systemicIntegration: 'Essencial para a padronização operacional e para a segurança jurídica da empresa.',
@@ -200,7 +243,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Eliminar a sobreposição de responsabilidades',
       'Treinar lideranças no fluxo de aprovação correto',
       'Zelar pela disciplina operacional e conformidade'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um sócio majoritário solicita um pagamento urgente para um fornecedor sem passar pelo fluxo de aprovação padrão. O que você faz?',
+      options: [
+        { text: 'Nega o pagamento fora do fluxo e solicita a documentação padrão.', score: 2 },
+        { text: 'Aprova o pagamento por ser uma ordem do sócio majoritário.', score: -2 },
+        { text: 'Aprova mas pede que a documentação seja enviada depois.', score: -1 }
+      ]
+    }
   },
   {
     id: 'gov_6',
@@ -208,8 +259,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Governança Corporativa',
     executiveDefinition: 'A sucessão estratégica planeja a continuidade da liderança, protegendo o legado e a visão de longo prazo da organização.',
     philosophicalFoundation: {
-      text: 'O que de mim ouviste, confia-o a homens fiéis que sejam idôneos para ensinar outros.',
-      reference: '2 Timóteo 2:2'
+      text: 'Líderes não criam seguidores, eles criam mais líderes.',
+      reference: 'Tom Peters'
     },
     strategicImpact: 5,
     systemicIntegration: 'Garante a perenidade da cultura organizacional e a estabilidade estratégica.',
@@ -235,7 +286,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Implementar conselho de família (se aplicável)',
       'Realizar workshops de alinhamento geracional',
       'Garantir a autonomia do sucessor no tempo certo'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Seu sucessor natural é competente tecnicamente, mas não demonstra aderência aos valores éticos da empresa. O conselho pressiona pela nomeação. O que você faz?',
+      options: [
+        { text: 'Veta a nomeação e propõe busca externa ou plano de valores.', score: 2 },
+        { text: 'Aprova a nomeação, confiando que ele mudará com o tempo.', score: -2 },
+        { text: 'Aprova com a condição de que ele tenha um monitor de compliance.', score: 0 }
+      ]
+    }
   },
   {
     id: 'gov_7',
@@ -243,8 +302,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Governança Corporativa',
     executiveDefinition: 'A governança via conselho busca a sabedoria coletiva e o aconselhamento plural para decisões estratégicas de alto impacto.',
     philosophicalFoundation: {
-      text: 'Onde não há conselho os projetos saem vãos, mas na multidão de conselheiros se confirmam.',
-      reference: 'Provérbios 15:22'
+      text: 'Nenhum de nós é tão inteligente quanto todos nós juntos.',
+      reference: 'Warren Bennis'
     },
     strategicImpact: 5,
     systemicIntegration: 'Norteia a gestão de inovação, finanças e a conformidade global da empresa.',
@@ -270,7 +329,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Documentar atas deliberativas formalmente',
       'Capacitar conselheiros em tendências de mercado',
       'Garantir a independência do conselho consultivo'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'O CEO propõe um investimento de alto risco. Todos os outros membros do conselho parecem empolgados. Você discorda tecnicamente. O que você faz?',
+      options: [
+        { text: 'Manifesta sua discordância técnica e solicita registro em ata.', score: 2 },
+        { text: 'Vota a favor para não gerar conflito com o CEO dominante.', score: -2 },
+        { text: 'Abstém-se do voto, mas não expõe os riscos abertamente.', score: 0 }
+      ]
+    }
   },
 
   // ====================================================================
@@ -282,8 +349,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Cultura Organizacional',
     executiveDefinition: 'A cultura de honra valoriza e reconhece o capital humano como o ativo mais precioso, gerando lealdade e alta performance.',
     philosophicalFoundation: {
-      text: 'Dai a cada um o que lhe é devido... a quem honra, honra.',
-      reference: 'Romanos 13:7'
+      text: 'Trate os funcionários como gostaria que eles tratassem os clientes.',
+      reference: 'Stephen Covey'
     },
     strategicImpact: 5,
     systemicIntegration: 'Impacta diretamente a retenção de talentos (Sucessão) e a qualidade da entrega operacional.',
@@ -309,7 +376,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Fomentar a gratidão mútua entre os departamentos',
       'Implementar mural de conquistas (físico ou digital)',
       'Capacitar gestores em inteligência emocional e honra'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um colaborador entrega um projeto excepcional que salva uma conta estratégica. Você teme que um elogio público gere inveja na equipe. O que você faz?',
+      options: [
+        { text: 'Realiza o reconhecimento público e detalha os méritos técnicos da entrega.', score: 2 },
+        { text: 'Elogia apenas em particular para evitar conflitos internos.', score: -1 },
+        { text: 'Ignora o elogio para não parecer que tem "favoritos".', score: -2 }
+      ]
+    }
   },
   {
     id: 'cult_2',
@@ -317,8 +392,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Cultura Organizacional',
     executiveDefinition: 'A unidade organizacional elimina silos departamentais, promovendo a sinergia e o alinhamento em torno de um objetivo comum.',
     philosophicalFoundation: {
-      text: 'Todo reino dividido contra si mesmo é devastado.',
-      reference: 'Mateus 12:25'
+      text: 'Talento ganha jogos, mas trabalho em equipe e inteligência ganham campeonatos.',
+      reference: 'Michael Jordan'
     },
     strategicImpact: 5,
     systemicIntegration: 'Crucial para a eficiência operacional e para a agilidade na inovação.',
@@ -344,7 +419,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Implementar sistema de incentivos coletivos',
       'Realizar eventos de teambuilding focados em sinergia',
       'Garantir que a visão estratégica seja única e clara'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Vendas e Operações estão em conflito. Vendas quer prazos curtos para bater meta e Operações exige prazos longos para garantir qualidade. O que você faz?',
+      options: [
+        { text: 'Unifica as metas de ambos em um OKR de "Sucesso do Cliente" com margem garantida.', score: 2 },
+        { text: 'Dá razão a Vendas, pois sem faturamento a empresa quebra.', score: -1 },
+        { text: 'Dá razão a Operações para evitar reclamações de clientes.', score: -1 }
+      ]
+    }
   },
   {
     id: 'cult_3',
@@ -352,8 +435,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Cultura Organizacional',
     executiveDefinition: 'A liderança servidora inverte a pirâmide tradicional, focando em remover obstáculos para que a equipe atinja a excelência.',
     philosophicalFoundation: {
-      text: 'O maior entre vós será vosso servo.',
-      reference: 'Mateus 23:11'
+      text: 'O exemplo não é a principal coisa para influenciar os outros. É a única coisa.',
+      reference: 'Albert Schweitzer'
     },
     strategicImpact: 4,
     systemicIntegration: 'Fortalece a diligência operacional e a agilidade na tomada de decisão.',
@@ -379,7 +462,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Instituir política de "portas abertas" real na liderança',
       'Capacitar gestores em escuta ativa e suporte empático',
       'Celebrar publicamente o crescimento dos liderados'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um projeto crítico está atrasado por uma barreira burocrática em outro setor. Sua equipe está frustrada. O que você faz?',
+      options: [
+        { text: 'Intervém pessoalmente para remover o obstáculo e agilizar o fluxo para o time.', score: 2 },
+        { text: 'Cobra a equipe por não ter previsto o atraso e exige hora extra.', score: -2 },
+        { text: 'Avisa que o problema não é seu e que o time deve resolver sozinho.', score: -2 }
+      ]
+    }
   },
   {
     id: 'cult_4',
@@ -387,8 +478,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Cultura Organizacional',
     executiveDefinition: 'A transparência radical gera confiança e segurança psicológica, permitindo que falhas sejam corrigidas com agilidade e ética.',
     philosophicalFoundation: {
-      text: 'E conhecereis a verdade, e a verdade vos libertará.',
-      reference: 'João 8:32'
+      text: 'A transparência gera confiança e a confiança é o lubrificante da execução.',
+      reference: 'Joel Peterson'
     },
     strategicImpact: 5,
     systemicIntegration: 'Essencial para a governança corporativa e para a gestão de riscos reputacionais no marketing.',
@@ -414,7 +505,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Fomentar o feedback radical e construtivo',
       'Documentar a lógica de decisões estratégicas',
       'Criar fórum de perguntas e respostas abertas'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Os resultados financeiros do trimestre foram ruins. Você teme que comunicar isso gere pânico e debandada de talentos. O que você faz?',
+      options: [
+        { text: 'Expõe os números reais, explica as causas e apresenta o plano de correção.', score: 2 },
+        { text: 'Maquia os resultados para manter o clima positivo.', score: -2 },
+        { text: 'Diz apenas que "os desafios continuam" sem abrir dados reais.', score: -1 }
+      ]
+    }
   },
   {
     id: 'cult_5',
@@ -422,8 +521,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Cultura Organizacional',
     executiveDefinition: 'O cuidado humano foca no bem-estar integral do colaborador, reconhecendo que pessoas saudáveis geram resultados extraordinários.',
     philosophicalFoundation: {
-      text: 'Amarás o teu próximo como a ti mesmo.',
-      reference: 'Mateus 22:39'
+      text: 'Se você cuidar das pessoas, elas cuidarão do seu negócio.',
+      reference: 'Richard Branson'
     },
     strategicImpact: 4,
     systemicIntegration: 'Impacta a produtividade (Diligência) e reduz o custo com absenteísmo e turnover.',
@@ -449,7 +548,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Realizar check-ins individuais focados no humano',
       'Implementar ouvidoria interna acolhedora',
       'Celebrar marcos pessoais (aniversários, casamentos)'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um colaborador de confiança está com queda de performance por problemas pessoais graves (doença na família). O que você faz?',
+      options: [
+        { text: 'Oferece suporte, flexibilidade de jornada e acolhimento humano.', score: 2 },
+        { text: 'Cobra as metas normalmente, alegando que "negócios são negócios".', score: -2 },
+        { text: 'Dá um ultimato para que ele resolva seus problemas e volte a produzir.', score: -2 }
+      ]
+    }
   },
   {
     id: 'cult_6',
@@ -457,8 +564,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Cultura Organizacional',
     executiveDefinition: 'O propósito organizacional conecta o trabalho diário a um significado maior, inspirando a equipe e atraindo clientes fiéis.',
     philosophicalFoundation: {
-      text: 'Onde não há visão, o povo se corrompe.',
-      reference: 'Provérbios 29:18'
+      text: 'Uma visão sem ação não passa de um sonho.',
+      reference: 'Joel Barker'
     },
     strategicImpact: 5,
     systemicIntegration: 'Norteia o posicionamento de marketing e a narrativa institucional.',
@@ -484,7 +591,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Selecionar talentos baseando-se no fit cultural',
       'Publicar o manifesto de cultura e propósito',
       'Celebrar conquistas que reforçam a missão'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Surge uma oportunidade de lucro rápido que fere levemente o propósito central e os valores declarados da empresa. O que você faz?',
+      options: [
+        { text: 'Recusa a oportunidade, mantendo a coerência com o propósito.', score: 2 },
+        { text: 'Aceita, pois o lucro justifica o desvio temporário.', score: -2 },
+        { text: 'Aceita mas tenta esconder o fato da base da empresa.', score: -2 }
+      ]
+    }
   },
   {
     id: 'cult_7',
@@ -492,8 +607,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Cultura Organizacional',
     executiveDefinition: 'A confiança sistêmica é o lubrificante que acelera processos decisórios e reduz o custo da burocracia excessiva.',
     philosophicalFoundation: {
-      text: 'Pela misericórdia e pela verdade se purifica a iniquidade.',
-      reference: 'Provérbios 16:6'
+      text: 'Confiança se ganha em gotas e se perde em litros.',
+      reference: 'Jean-Paul Sartre'
     },
     strategicImpact: 5,
     systemicIntegration: 'Base para a inovação colaborativa e para a descentralização da gestão operacional.',
@@ -518,7 +633,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Estabelecer marcos de resultados, não métodos',
       'Monitorar a percepção de autonomia e confiança',
       'Premiar a tomada de decisão responsável'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um colaborador de confiança comete um erro grave por ter tido autonomia total. Você sofre pressão para centralizar as decisões. O que você faz?',
+      options: [
+        { text: 'Mantém a confiança e a autonomia, tratando o erro como lição aprendida.', score: 2 },
+        { text: 'Centraliza tudo imediatamente para evitar novos prejuízos.', score: -2 },
+        { text: 'Mantém a autonomia, mas impõe um monitoramento excessivo.', score: -1 }
+      ]
+    }
   },
 
   // ====================================================================
@@ -530,8 +653,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Administrativa e Financeira',
     executiveDefinition: 'A prudência financeira garante a manutenção de reservas de liquidez e a gestão conservadora de riscos para a perenidade do negócio.',
     philosophicalFoundation: {
-      text: 'O homem prudente percebe o perigo e busca refúgio.',
-      reference: 'Provérbios 22:3'
+      text: 'Risco vem de não saber o que você está fazendo.',
+      reference: 'Warren Buffett'
     },
     strategicImpact: 5,
     systemicIntegration: 'Protege a governança corporativa e garante recursos para investimentos em inovação.',
@@ -557,7 +680,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Monitorar índices de liquidez corrente e seca',
       'Implementar seguros patrimoniais e D&O',
       'Zelar pela saúde financeira dos sócios'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Você identifica que um benefício concedido à diretoria é legal, mas moralmente questionável diante de um momento de corte de custos na base. O que você faz?',
+      options: [
+        { text: 'Propõe a suspensão do benefício em solidariedade à equipe.', score: 2 },
+        { text: 'Mantém o benefício, alegando direito legal adquirido.', score: -1 },
+        { text: 'Usa o benefício mas tenta mantê-lo em sigilo absoluta.', score: -2 }
+      ]
+    }
   },
   {
     id: 'fin_2',
@@ -565,8 +696,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Administrativa e Financeira',
     executiveDefinition: 'A sustentabilidade financeira foca no crescimento orgânico, lucratividade real e geração de caixa livre recorrente para perenidade.',
     philosophicalFoundation: {
-      text: 'A riqueza ajuntada aos poucos terá prosperidade.',
-      reference: 'Provérbios 13:11'
+      text: 'O lucro é o oxigênio, mas não é a razão de viver de uma empresa.',
+      reference: 'Jim Collins'
     },
     strategicImpact: 5,
     systemicIntegration: 'Impacta diretamente o valor de mercado (Valuation) e a capacidade de investimento comercial.',
@@ -592,7 +723,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Monitorar o CAC vs LTV mensalmente',
       'Reduzir o ciclo financeiro para otimizar caixa',
       'Estabelecer metas de lucro líquido por unidade'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um grande cliente solicita um volume altíssimo de pedidos, mas exige um desconto que deixa a margem líquida negativa. O que você faz?',
+      options: [
+        { text: 'Recusa a venda, priorizando a sustentabilidade financeira do negócio.', score: 2 },
+        { text: 'Aceita para garantir o faturamento e o market share.', score: -2 },
+        { text: 'Aceita na esperança de renegociar o preço no futuro.', score: -1 }
+      ]
+    }
   },
   {
     id: 'fin_3',
@@ -600,8 +739,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Administrativa e Financeira',
     executiveDefinition: 'O planejamento financeiro rigoroso (Budget) evita o improviso e alinha recursos às prioridades estratégicas de longo prazo.',
     philosophicalFoundation: {
-      text: 'Os planos do diligente levam à fartura.',
-      reference: 'Provérbios 21:5'
+      text: 'Planejamento não é sobre decisões futuras, mas sobre o futuro das decisões presentes.',
+      reference: 'Peter Drucker'
     },
     strategicImpact: 5,
     systemicIntegration: 'Orienta a execução operacional e as campanhas de marketing de alto investimento via alocação de recursos.',
@@ -627,7 +766,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Estruturar plano de Capex para modernização de ativos',
       'Documentar a lógica de alocação de recursos estratégicos',
       'Realizar workshops de planejamento com toda a liderança'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'O setor de marketing solicita um investimento extra não planejado no Budget para uma oportunidade "única". O que você faz?',
+      options: [
+        { text: 'Exige uma revisão do Budget e corte em outra área para acomodar o gasto.', score: 2 },
+        { text: 'Libera o dinheiro sem questionar, pois "oportunidades não esperam".', score: -2 },
+        { text: 'Usa a reserva de emergência para cobrir o gasto de marketing.', score: -1 }
+      ]
+    }
   },
   {
     id: 'fin_4',
@@ -635,8 +782,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Administrativa e Financeira',
     executiveDefinition: 'A multiplicação foca na otimização do uso do capital para gerar novos ativos, escalar a operação e criar fontes de receita diversificadas.',
     philosophicalFoundation: {
-      text: 'Muito bem, servo bom e fiel; foste fiel no pouco, sobre o muito te colocarei.',
-      reference: 'Mateus 25:21'
+      text: 'O melhor investimento que você pode fazer é em você mesmo.',
+      reference: 'Warren Buffett'
     },
     strategicImpact: 4,
     systemicIntegration: 'Alimenta o eixo de inovação e fortalece a expansão comercial via novos investimentos.',
@@ -662,7 +809,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Otimizar processos operacionais para reduzir o custo unitário',
       'Investir em treinamento técnico que multiplique o output',
       'Monitorar rigorosamente a produtividade do capital investido'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'A empresa obteve um lucro recorde no semestre. Os sócios querem distribuir 100% dos dividendos. O que você faz?',
+      options: [
+        { text: 'Propõe reter 50% para investimento em tecnologia e expansão.', score: 2 },
+        { text: 'Aprova a distribuição total para manter a harmonia societária.', score: -2 },
+        { text: 'Propõe distribuir tudo mas pegar um empréstimo para os investimentos.', score: -2 }
+      ]
+    }
   },
   {
     id: 'fin_5',
@@ -670,8 +825,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Administrativa e Financeira',
     executiveDefinition: 'A responsabilidade financeira exige integridade absoluta nos registros, conformidade fiscal e separação patrimonial rígida.',
     philosophicalFoundation: {
-      text: 'Procuramos o que é honesto diante do Senhor e dos homens.',
-      reference: '2 Coríntios 8:21'
+      text: 'Ser honesto pode não te dar muitos amigos, mas sempre te dará os amigos certos.',
+      reference: 'John Lennon'
     },
     strategicImpact: 5,
     systemicIntegration: 'Pilar fundamental da governança corporativa e da transparência institucional perante terceiros.',
@@ -697,7 +852,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Treinar equipe administrativa em ética e compliance fiscal',
       'Utilizar ERP integrado para evitar erros e manipulações manuais',
       'Publicar balanços gerenciais periódicos para os stakeholders'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Você precisa realizar um gasto pessoal urgente e seu cartão pessoal está bloqueado. Você pensa em usar o cartão da empresa e repor depois. O que você faz?',
+      options: [
+        { text: 'Não utiliza o cartão da empresa, mantendo a separação patrimonial rígida.', score: 2 },
+        { text: 'Usa o cartão da empresa e solicita o desconto no próximo pro-labore.', score: 0 },
+        { text: 'Usa o cartão e pede ao financeiro para classificar como "despesa de viagem".', score: -2 }
+      ]
+    }
   },
   {
     id: 'fin_6',
@@ -705,8 +868,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Administrativa e Financeira',
     executiveDefinition: 'A generosidade estratégica destina parte dos lucros para impacto social, reforçando o propósito institucional e o valor da marca.',
     philosophicalFoundation: {
-      text: 'Trazei todos os dízimos à casa do tesouro... e provai-me nisto.',
-      reference: 'Malaquias 3:10'
+      text: 'Nós ganhamos a vida pelo que recebemos, mas fazemos a vida pelo que damos.',
+      reference: 'Winston Churchill'
     },
     strategicImpact: 3,
     systemicIntegration: 'Fortalece imensamente a cultura organizacional e o marketing institucional (ESG).',
@@ -732,7 +895,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Instituir programa de voluntariado corporativo',
       'Priorizar fornecedores locais e pequenos negócios',
       'Zelar pela ética em todas as parcerias sociais'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'A empresa atingiu as metas. Há uma pressão para aumentar o bônus dos sócios, mas você sugeriu destinar uma parte para uma causa social da comunidade. O que você faz?',
+      options: [
+        { text: 'Mantém a proposta social, vinculando-a aos valores de legado da empresa.', score: 2 },
+        { text: 'Cede à pressão e converte tudo em bônus para os sócios.', score: -1 },
+        { text: 'Reduz a doação para um valor simbólico para não "incomodar" ninguém.', score: 0 }
+      ]
+    }
   },
   {
     id: 'fin_7',
@@ -740,8 +911,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Administrativa e Financeira',
     executiveDefinition: 'A eficiência administrativa foca na otimização de fluxos e redução de burocracias para suportar o crescimento.',
     philosophicalFoundation: {
-      text: 'Quem é fiel no pouco, também é fiel no muito.',
-      reference: 'Lucas 16:10'
+      text: 'Eficiência é fazer certo as coisas; eficácia é fazer as coisas certas.',
+      reference: 'Peter Drucker'
     },
     strategicImpact: 4,
     systemicIntegration: 'Otimiza a gestão operacional e libera recursos para inovação e marketing.',
@@ -766,16 +937,28 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Revisar contratos de terceiros anualmente',
       'Instituir metas de produtividade administrativa',
       'Implementar rituais de melhoria de processos'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'O setor administrativo insiste em manter processos manuais lentos por medo de que a automação gere demissões. O que você faz?',
+      options: [
+        { text: 'Implementa a automação e requalifica a equipe para funções de maior valor.', score: 2 },
+        { text: 'Mantém o processo manual para evitar conflitos com a equipe.', score: -2 },
+        { text: 'Automatiza e demite todos os que faziam a tarefa manual imediatamente.', score: -1 }
+      ]
+    }
   },
+
+  // ====================================================================
+  // 4. GESTÃO DE INOVAÇÃO
+  // ====================================================================
   {
     id: 'inov_1',
     name: 'Criatividade',
     axis: 'Gestão de Inovação',
     executiveDefinition: 'A criatividade institucional é a capacidade de gerar soluções originais e valiosas que antecipam as necessidades do mercado.',
     philosophicalFoundation: {
-      text: 'No princípio criou Deus os céus e a terra.',
-      reference: 'Gênesis 1:1'
+      text: 'A criatividade é a inteligência se divertindo.',
+      reference: 'Albert Einstein'
     },
     strategicImpact: 4,
     systemicIntegration: 'Motor do posicionamento de marketing e da diferenciação competitiva no eixo comercial.',
@@ -801,7 +984,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Instituir o dia da inovação (Innovation Day) trimestral',
       'Capacitar gestores em facilitação de processos criativos',
       'Documentar e proteger a propriedade intelectual gerada'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um concorrente lança um produto similar ao seu com 30% de desconto. Sua equipe comercial pressiona para baixar o preço. O que você faz?',
+      options: [
+        { text: 'Lança uma nova versão com diferenciais criativos que justificam o preço atual.', score: 2 },
+        { text: 'Baixa o preço imediatamente para não perder o volume de vendas.', score: -2 },
+        { text: 'Mantém o preço e gasta mais em anúncios de performance.', score: -1 }
+      ]
+    }
   },
   {
     id: 'inov_2',
@@ -809,8 +1000,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Inovação',
     executiveDefinition: 'O aprendizado contínuo transforma o erro em ativo intelectual, garantindo que a organização evolua com cada ciclo de execução.',
     philosophicalFoundation: {
-      text: 'Ensina-nos a contar os nossos dias, para que alcancemos coração sábio.',
-      reference: 'Salmos 90:12'
+      text: 'O aprendizado é o único investimento que nunca se esgota.',
+      reference: 'Peter Drucker'
     },
     strategicImpact: 5,
     systemicIntegration: 'Essencial para a melhoria operacional e para a sucessão de lideranças.',
@@ -836,7 +1027,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Garantir que a liderança dedique tempo ao ensino técnico',
       'Realizar benchmarks externos sistemáticos com o mercado',
       'Manter biblioteca corporativa (física ou digital) atualizada'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um projeto de inovação piloto falhou, gerando um prejuízo de R$ 50k. O que você faz?',
+      options: [
+        { text: 'Realiza um Post-mortem detalhado para extrair aprendizados e documentar na Wiki.', score: 2 },
+        { text: 'Demite o responsável pelo projeto para dar um exemplo à equipe.', score: -2 },
+        { text: 'Abafa o caso para que os sócios não descubram o prejuízo.', score: -2 }
+      ]
+    }
   },
   {
     id: 'inov_3',
@@ -844,8 +1043,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Inovação',
     executiveDefinition: 'A adaptabilidade permite que a organização responda com agilidade a mudanças bruscas no mercado ou na tecnologia.',
     philosophicalFoundation: {
-      text: 'Fiz-me tudo para todos, para por todos os meios chegar a salvar alguns.',
-      reference: '1 Coríntios 9:22'
+      text: 'Não é o mais forte que sobrevive, nem o mais inteligente, mas o que melhor se adapta às mudanças.',
+      reference: 'Charles Darwin'
     },
     strategicImpact: 5,
     systemicIntegration: 'Garante a sobrevivência financeira em crises e a relevância comercial contínua.',
@@ -871,7 +1070,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Garantir que os contratos permitam flexibilidade de escopo',
       'Fomentar a resiliência emocional do time perante mudanças',
       'Documentar os aprendizados de cada pivotação realizada'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Uma nova tecnologia ameaça seu serviço principal. A equipe está paralisada pelo medo. O que você faz?',
+      options: [
+        { text: 'Cria uma célula ágil para prototipar o uso dessa nova tecnologia no negócio.', score: 2 },
+        { text: 'Ignora a tecnologia, confiando que seus clientes são leais ao modelo antigo.', score: -2 },
+        { text: 'Proíbe o uso da nova tecnologia na empresa para não "contaminar" o time.', score: -2 }
+      ]
+    }
   },
   {
     id: 'inov_4',
@@ -879,8 +1086,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Inovação',
     executiveDefinition: 'A coragem executiva é necessária para tomar riscos calculados e desbravar novos territórios e mercados.',
     philosophicalFoundation: {
-      text: 'Não to mandei eu? Sê forte e corajoso.',
-      reference: 'Josué 1:9'
+      text: 'A coragem é a resistência ao medo, o domínio do medo, e não a ausência do medo.',
+      reference: 'Mark Twain'
     },
     strategicImpact: 4,
     systemicIntegration: 'Motor da expansão comercial e da diferenciação no posicionamento de marketing.',
@@ -906,7 +1113,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Ousar em modelos de precificação inovadores',
       'Implementar "moonshots" (metas impossíveis)',
       'Realizar investimentos estratégicos em crises'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um novo mercado geográfico promissor exige um investimento que reduzirá sua reserva de emergência pela metade. O que você faz?',
+      options: [
+        { text: 'Realiza o investimento após uma análise rigorosa de risco/retorno e tese de futuro.', score: 2 },
+        { text: 'Recua, preferindo a segurança absoluta do caixa atual.', score: -1 },
+        { text: 'Investe sem analisar, confiando apenas no "feeling".', score: -2 }
+      ]
+    }
   },
   {
     id: 'inov_5',
@@ -914,8 +1129,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Inovação',
     executiveDefinition: 'A visão estratégica projeta o futuro da organização, orientando os investimentos em inovação de longo prazo.',
     philosophicalFoundation: {
-      text: 'Escreve a visão e torna-a bem legível sobre tábuas.',
-      reference: 'Habacuque 2:2'
+      text: 'A melhor maneira de prever o futuro é criá-lo.',
+      reference: 'Peter Drucker'
     },
     strategicImpact: 5,
     systemicIntegration: 'Norteia o planejamento financeiro e o alinhamento da cultura organizacional.',
@@ -940,7 +1155,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Inspirar a equipe com o impacto futuro esperado',
       'Vincular o sucesso individual à visão coletiva',
       'Identificar megatendências globais de longo prazo'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'O mercado está focado em resultados de curtíssimo prazo, mas você vê uma tendência para 10 anos que exige investimento agora. O que você faz?',
+      options: [
+        { text: 'Mantém o roadmap de longo prazo, equilibrando com ganhos rápidos de sustentação.', score: 2 },
+        { text: 'Abandona o longo prazo para maximizar o lucro do próximo mês.', score: -2 },
+        { text: 'Investe 100% no futuro e deixa a operação atual desassistida.', score: -2 }
+      ]
+    }
   },
   {
     id: 'inov_6',
@@ -948,8 +1171,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Inovação',
     executiveDefinition: 'A experimentação sistemática utiliza protótipos e testes para validar hipóteses antes de grandes aportes de capital.',
     philosophicalFoundation: {
-      text: 'Assenta primeiro a fazer as contas dos gastos.',
-      reference: 'Lucas 14:28'
+      text: 'Não falhei. Apenas encontrei 10.000 maneiras que não funcionam.',
+      reference: 'Thomas Edison'
     },
     strategicImpact: 4,
     systemicIntegration: 'Protege a saúde financeira e otimiza a gestão de marketing.',
@@ -974,7 +1197,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Incentivar o erro controlado e produtivo',
       'Medir a velocidade de experimentação (Velo)',
       'Escalar apenas o que foi validado com dados'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Você quer testar uma inovação radical, mas a diretoria só quer investir em algo com retorno garantido. O que você faz?',
+      options: [
+        { text: 'Propõe um experimento de baixo custo e baixo risco para validar a hipótese.', score: 2 },
+        { text: 'Desiste da inovação e foca apenas no que é garantido.', score: -1 },
+        { text: 'Faz o experimento escondido sem avisar a diretoria.', score: -2 }
+      ]
+    }
   },
   {
     id: 'inov_7',
@@ -982,8 +1213,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Inovação',
     executiveDefinition: 'A simplicidade na inovação foca em reduzir a complexidade de produtos e processos para aumentar a agilidade e o valor percebido.',
     philosophicalFoundation: {
-      text: 'Mas receio que, assim como a serpente enganou Eva, suas mentes sejam corrompidas e se desviem da simplicidade.',
-      reference: '2 Coríntios 11:3'
+      text: 'A simplicidade é o auge da sofisticação.',
+      reference: 'Steve Jobs'
     },
     strategicImpact: 4,
     systemicIntegration: 'Essencial para a eficiência operacional e para a clareza na comunicação de marketing.',
@@ -1009,7 +1240,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Simplificar a estrutura de cargos e funções',
       'Investir em UX para reduzir o esforço do cliente',
       'Manter a visão focada no que é essencial'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um produto está ficando pesado e confuso devido ao excesso de funcionalidades pedidas pelos clientes. O que você faz?',
+      options: [
+        { text: 'Realiza um "limpa", focando nas funcionalidades que resolvem 80% do problema.', score: 2 },
+        { text: 'Continua adicionando tudo o que pedem para não desagradar ninguém.', score: -2 },
+        { text: 'Cria um segundo produto ainda mais complexo para os clientes avançados.', score: -1 }
+      ]
+    }
   },
 
   // ====================================================================
@@ -1021,8 +1260,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Marketing',
     executiveDefinition: 'A reputação institucional é o ativo intangível mais valioso, construída sobre integridade e valor real entregue ao mercado.',
     philosophicalFoundation: {
-      text: 'Mais digno de ser escolhido é o bom nome do que as muitas riquezas.',
-      reference: 'Provérbios 22:1'
+      text: 'Sua marca é o que as pessoas dizem sobre você quando você não está na sala.',
+      reference: 'Jeff Bezos'
     },
     strategicImpact: 5,
     systemicIntegration: 'Pilar central da governança e motor primário da atração comercial de alto nível.',
@@ -1048,7 +1287,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Instituir comitê de proteção à marca institucional',
       'Garantir transparência em caso de erros públicos',
       'Promover o legado institucional acima do lucro'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Surge um boato negativo (e falso) sobre sua marca nas redes sociais. O que você faz?',
+      options: [
+        { text: 'Comunica a verdade de forma transparente e rápida, com provas.', score: 2 },
+        { text: 'Ignora, esperando que o assunto "morra" sozinho.', score: -1 },
+        { text: 'Ataca quem espalhou o boato de forma agressiva.', score: -2 }
+      ]
+    }
   },
   {
     id: 'mkt_2',
@@ -1056,8 +1303,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Marketing',
     executiveDefinition: 'A comunicação estratégica assegura que a mensagem da marca seja clara, verdadeira e impactante em todos os pontos de contato.',
     philosophicalFoundation: {
-      text: 'A resposta branda desvia o furor, mas a palavra dura suscita a ira.',
-      reference: 'Provérbios 15:1'
+      text: 'A comunicação eficaz é 20% o que você sabe e 80% como você se sente sobre o que sabe.',
+      reference: 'Jim Rohn'
     },
     strategicImpact: 4,
     systemicIntegration: 'Vetor da cultura interna e pilar da conversão no eixo comercial.',
@@ -1083,7 +1330,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Implementar estratégia de conteúdo educativo de alto valor',
       'Auditar periodicamente o site e redes sociais da marca',
       'Fomentar a comunicação empática e assertiva no time'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Seu marketing está usando um tom de voz agressivo que gera leads, mas não condiz com seus valores reais. O que você faz?',
+      options: [
+        { text: 'Alinha o tom de voz aos valores, mesmo que a conversão caia temporariamente.', score: 2 },
+        { text: 'Mantém a agressividade, pois o importante é o resultado em vendas.', score: -2 },
+        { text: 'Diz para o marketing mudar, mas não monitora a execução.', score: 0 }
+      ]
+    }
   },
   {
     id: 'mkt_3',
@@ -1091,8 +1346,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Marketing',
     executiveDefinition: 'A influência estratégica utiliza o testemunho e a autoridade para inspirar e educar o mercado de forma ética e sustentável.',
     philosophicalFoundation: {
-      text: 'Assim brilhe a vossa luz diante dos homens, para que vejam as vossas boas obras.',
-      reference: 'Mateus 5:16'
+      text: 'Liderança é influência, nada mais, nada menos.',
+      reference: 'John Maxwell'
     },
     strategicImpact: 4,
     systemicIntegration: 'Apoia a expansão comercial e a atração de talentos de alto nível via autoridade percebida.',
@@ -1118,7 +1373,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Monitorar o índice de autoridade no nicho de atuação',
       'Fomentar a indicação orgânica entre líderes do setor',
       'Ser uma referência ética para toda a concorrência'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Você tem a chance de contratar um influenciador famoso, mas que não tem fit com seus valores éticos. O que você faz?',
+      options: [
+        { text: 'Recusa a parceria e foca em influenciadores menores com alinhamento real.', score: 2 },
+        { text: 'Contrata pelo alcance massivo, ignorando o comportamento dele.', score: -2 },
+        { text: 'Contrata mas pede para ele não postar nada polêmico por 1 mês.', score: -1 }
+      ]
+    }
   },
   {
     id: 'mkt_4',
@@ -1126,8 +1389,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Marketing',
     executiveDefinition: 'O posicionamento estratégico define o lugar único que a marca ocupa na mente do cliente, diferenciando-a pela proposta de valor.',
     philosophicalFoundation: {
-      text: 'Uma cidade edificada sobre um monte não se pode esconder.',
-      reference: 'Mateus 5:14'
+      text: 'Diferencie-se ou morra.',
+      reference: 'Jack Trout'
     },
     strategicImpact: 5,
     systemicIntegration: 'Base da estratégia comercial e da precificação (Justiça) de alto valor.',
@@ -1153,7 +1416,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Garantir que a experiência do cliente reforce o posicionamento',
       'Revisar o posicionamento perante novos entrantes no mercado',
       'Fomentar a cultura da exclusividade e valor superior'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Seu mercado está virando um "oceano vermelho" de briga por preço. O que você faz?',
+      options: [
+        { text: 'Eleva seu posicionamento para Premium, focando em nichos que valorizam qualidade.', score: 2 },
+        { text: 'Entra na briga de preço e tenta reduzir custos demitindo pessoas.', score: -2 },
+        { text: 'Mantém o meio termo e vê as margens serem esmagadas.', score: -1 }
+      ]
+    }
   },
   {
     id: 'mkt_5',
@@ -1161,8 +1432,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Marketing',
     executiveDefinition: 'A credibilidade é a confiança depositada pelo mercado na marca, fruto da coerência histórica e das evidências de sucesso.',
     philosophicalFoundation: {
-      text: 'A testemunha fiel não mentirá.',
-      reference: 'Provérbios 14:5'
+      text: 'Sem dados, você é apenas mais uma pessoa com uma opinião.',
+      reference: 'W. Edwards Deming'
     },
     strategicImpact: 5,
     systemicIntegration: 'Fundamental para a conversão comercial em vendas complexas e para a integridade da governança.',
@@ -1188,7 +1459,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Garantir que o marketing não exagere os benefícios reais',
       'Realizar visitas técnicas de referência para prospects',
       'Fomentar a cultura da verdade técnica acima do hype'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Você precisa de um depoimento de cliente, mas os atuais ainda não têm resultados expressivos. O marketing sugere "exagerar" um pouco os dados. O que você faz?',
+      options: [
+        { text: 'Publica apenas o que é real e auditável, mesmo que pareça menos impactante.', score: 2 },
+        { text: 'Aceita o exagero para não perder a venda do próximo lead.', score: -2 },
+        { text: 'Inventa um case fictício baseado em "potencial futuro".', score: -2 }
+      ]
+    }
   },
   {
     id: 'mkt_6',
@@ -1196,8 +1475,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Marketing',
     executiveDefinition: 'O valor de marca (Equity) é a percepção de benefício superior que permite precificações premium e fidelização extrema.',
     philosophicalFoundation: {
-      text: 'O reino dos céus é semelhante a um tesouro escondido.',
-      reference: 'Mateus 13:44'
+      text: 'As marcas de valor são construídas com consistência e alma.',
+      reference: 'Howard Schultz'
     },
     strategicImpact: 5,
     systemicIntegration: 'Aumenta o valor de mercado (Valuation) e a saúde das finanças corporativas.',
@@ -1223,7 +1502,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Utilizar embalagens, linguagem e rituais que comuniquem valor',
       'Evitar promoções que depreciem a percepção de marca',
       'Investir em parcerias que agreguem prestígio institucional'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Uma grande marca propõe uma parceria, mas ela tem uma reputação duvidosa com o meio ambiente. O que você faz?',
+      options: [
+        { text: 'Recusa a parceria, protegendo a integridade e o Equity da sua marca.', score: 2 },
+        { text: 'Aceita para ganhar visibilidade, esperando que o mercado não note.', score: -2 },
+        { text: 'Aceita, mas cria uma nota de rodapé sobre o compromisso ambiental da sua marca.', score: -1 }
+      ]
+    }
   },
   {
     id: 'mkt_7',
@@ -1231,8 +1518,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão de Marketing',
     executiveDefinition: 'A narrativa (Storytelling) comunica a missão e os valores da empresa de forma inspiradora, conectando emocionalmente a marca ao cliente.',
     philosophicalFoundation: {
-      text: 'E sem parábolas nada lhes falava.',
-      reference: 'Mateus 13:34'
+      text: 'Storytelling é a ferramenta de marketing mais poderosa.',
+      reference: 'Seth Godin'
     },
     strategicImpact: 4,
     systemicIntegration: 'Motor da cultura organizacional e da diferenciação no eixo comercial.',
@@ -1255,10 +1542,18 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Implementar rituais de contação de histórias internos',
       'Garantir que a liderança seja a guardiã da narrativa',
       'Eliminar discursos puramente frios e técnicos no marketing',
-      'Conectar a história da empresa com valores bíblicos/éticos',
+      'Conectar a história da empresa com valores éticos inegociáveis',
       'Monitorar a memorabilidade da marca no mercado',
       'Celebrar os marcos da história da empresa com o público'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Sua narrativa de marketing foca em "vencer a qualquer custo", mas sua cultura interna é de serviço e cuidado. O que você faz?',
+      options: [
+        { text: 'Unifica a narrativa, focando na transformação ética e humana que a marca gera.', score: 2 },
+        { text: 'Mantém a dualidade, pois cada discurso serve a um público diferente.', score: -2 },
+        { text: 'Muda a cultura interna para "agressiva" para bater com o marketing.', score: -2 }
+      ]
+    }
   },
 
   // ====================================================================
@@ -1270,8 +1565,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Comercial',
     executiveDefinition: 'A fidelidade comercial foca na retenção e no aumento do valor de vida do cliente (LTV) através da satisfação extrema.',
     philosophicalFoundation: {
-      text: 'O que o Senhor pede de ti: que prides a fidelidade.',
-      reference: 'Miquéias 6:8'
+      text: 'Mantenha seus clientes por perto, mas mantenha seus melhores clientes mais perto ainda.',
+      reference: 'Philip Kotler'
     },
     strategicImpact: 5,
     systemicIntegration: 'Garante a sustentabilidade financeira e reduz o custo de aquisição (CAC) via indicações.',
@@ -1297,7 +1592,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Monitorar o Life Time Value (LTV) por segmento',
       'Realizar eventos de agradecimento e networking para base',
       'Implementar política de recuperação de clientes inativos'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um cliente muito antigo e fiel solicita um desconto que fere sua política de margem mínima. O que você faz?',
+      options: [
+        { text: 'Concede um benefício em serviço ou valor agregado em vez de desconto no preço.', score: 2 },
+        { text: 'Dá o desconto para não perder o cliente, ignorando a margem.', score: -2 },
+        { text: 'Nega o desconto friamente, arriscando a perda do cliente.', score: 0 }
+      ]
+    }
   },
   {
     id: 'com_2',
@@ -1305,8 +1608,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Comercial',
     executiveDefinition: 'O relacionamento consultivo foca em parcerias de longo prazo, transformando clientes em parceiros estratégicos através da confiança.',
     philosophicalFoundation: {
-      text: 'Como o ferro com o ferro se afia, assim o homem ao seu amigo.',
-      reference: 'Provérbios 27:17'
+      text: 'As pessoas não compram o que você faz, elas compram o porquê de você fazer.',
+      reference: 'Simon Sinek'
     },
     strategicImpact: 4,
     systemicIntegration: 'Aumenta o Lifetime Value (LTV) e atrai indicações orgânicas de alto nível.',
@@ -1332,7 +1635,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Criar canais de feedback direto com o cliente',
       'Instituir bônus por retenção e relacionamento',
       'Celebrar o sucesso e marcos do negócio do cliente'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um vendedor sugere focar apenas em "vendas frias" transacionais para bater a meta rápida, deixando de lado o relacionamento de longo prazo. O que você faz?',
+      options: [
+        { text: 'Mantém o foco no relacionamento consultivo, priorizando o LTV sobre a venda única.', score: 2 },
+        { text: 'Autoriza o foco transacional para garantir o caixa imediato.', score: -2 },
+        { text: 'Diz para fazer os dois, mas não dá ferramentas para relacionamento.', score: 0 }
+      ]
+    }
   },
   {
     id: 'com_3',
@@ -1340,8 +1651,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Comercial',
     executiveDefinition: 'A justiça comercial reflete-se em precificações éticas e negociações baseadas em transparência, equidade e valor real.',
     philosophicalFoundation: {
-      text: 'O peso justo é o prazer do Senhor.',
-      reference: 'Provérbios 11:1'
+      text: 'O preço é o que você paga. O valor é o que você recebe.',
+      reference: 'Warren Buffett'
     },
     strategicImpact: 5,
     systemicIntegration: 'Protege a integridade da governança e garante a saúde financeira mútua (empresa/cliente).',
@@ -1367,7 +1678,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Implementar contratos de fácil entendimento e boa fé',
       'Zelar pela equidade entre clientes de mesmo perfil',
       'Evitar a "balança enganosa" entre o prometido e o entregue'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Você percebe que pode cobrar o dobro de um cliente que está desesperado por uma solução urgente, mesmo que o custo seja o mesmo. O que você faz?',
+      options: [
+        { text: 'Mantém o preço justo da tabela, cobrando apenas um adicional de urgência ético.', score: 2 },
+        { text: 'Cobra o dobro, aproveitando a oportunidade de lucro máximo.', score: -2 },
+        { text: 'Cobra o dobro mas oferece um "desconto" para parecer bonzinho.', score: -2 }
+      ]
+    }
   },
   {
     id: 'com_4',
@@ -1375,8 +1694,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Comercial',
     executiveDefinition: 'A negociação ética busca o equilíbrio de interesses (ganha-ganha), garantindo a longevidade das parcerias comerciais.',
     philosophicalFoundation: {
-      text: 'Não useis de balança enganosa.',
-      reference: 'Levítico 19:35'
+      text: 'Nas negociações, o equilíbrio é a chave para a longevidade.',
+      reference: 'Chris Voss'
     },
     strategicImpact: 4,
     systemicIntegration: 'Protege a reputação de marketing e garante a rentabilidade financeira sustentável.',
@@ -1402,7 +1721,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Corrigir expectativas erradas do prospecto proativamente',
       'Respeitar o "não" do cliente quando a solução não serve',
       'Fomentar a cultura do respeito mútuo na mesa de negociação'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Para fechar um contrato vital para a empresa, você nota que o cliente acredita que seu produto tem uma função que na verdade ele não tem. O que você faz?',
+      options: [
+        { text: 'Esclarece a limitação imediatamente, priorizando a verdade e a confiança.', score: 2 },
+        { text: 'Deixa ele acreditar e fecha o contrato, pensando em "resolver depois".', score: -2 },
+        { text: 'Fecha o contrato e reza para que ele nunca use essa função.', score: -2 }
+      ]
+    }
   },
   {
     id: 'com_5',
@@ -1410,8 +1737,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Comercial',
     executiveDefinition: 'O compromisso comercial é a palavra empenhada que se cumpre rigorosamente, transformando promessas de venda em entregas reais.',
     philosophicalFoundation: {
-      text: 'Seja o vosso falar: Sim, sim; Não, não.',
-      reference: 'Mateus 5:37'
+      text: 'Sua palavra é seu contrato mais valioso.',
+      reference: 'Harvey Mackay'
     },
     strategicImpact: 5,
     systemicIntegration: 'Impacta a credibilidade de marketing e a eficiência da entrega operacional.',
@@ -1437,7 +1764,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Utilizar automação para garantir visibilidade de prazos',
       'Realizar auditorias de conformidade comercial trimestrais',
       'Zelar pela integridade da "palavra do vendedor" no mercado'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Faltam 2 dias para o fim do mês e você precisa de uma venda para bater a meta. Um cliente exige um prazo de entrega que a operação diz ser impossível. O que você faz?',
+      options: [
+        { text: 'Diz a verdade ao cliente sobre o prazo real, mesmo perdendo a meta.', score: 2 },
+        { text: 'Promete o prazo impossível para garantir a venda e depois dá uma desculpa.', score: -2 },
+        { text: 'Promete e pressiona a operação a fazer hora extra forçada.', score: -1 }
+      ]
+    }
   },
   {
     id: 'com_6',
@@ -1445,8 +1780,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Comercial',
     executiveDefinition: 'A centralidade no sucesso do cliente garante que a venda seja uma ferramenta de serviço e transformação real para o comprador.',
     philosophicalFoundation: {
-      text: 'Não atente cada um para o que é propriamente seu, mas cada qual também para o que é dos outros.',
-      reference: 'Filipenses 2:4'
+      text: 'Não é sobre você, é sobre o impacto que você gera no outro.',
+      reference: 'Simon Sinek'
     },
     strategicImpact: 5,
     systemicIntegration: 'Motor do crescimento sustentável e da fidelização máxima (LTV).',
@@ -1472,7 +1807,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Premiar a equipe pelo sucesso real do cliente',
       'Garantir suporte técnica de alta resolutividade',
       'Fomentar a cultura de "servir ao próximo" via venda'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um prospect quer comprar seu produto mais caro, mas você sabe que a versão mais barata (ou até de um concorrente) atenderia melhor a necessidade dele. O que você faz?',
+      options: [
+        { text: 'Indica a solução mais adequada ao interesse dele, ganhando confiança eterna.', score: 2 },
+        { text: 'Empurra o produto mais caro para maximizar o ticket médio da venda.', score: -2 },
+        { text: 'Vende o mais caro mas dá um brinde inútil para compensar.', score: -1 }
+      ]
+    }
   },
   {
     id: 'com_7',
@@ -1480,8 +1823,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Comercial',
     executiveDefinition: 'A credibilidade comercial atrai clientes de alto valor que buscam segurança, ética e previsibilidade na entrega.',
     philosophicalFoundation: {
-      text: 'O que o Senhor pede de ti: que prides a fidelidade.',
-      reference: 'Miquéias 6:8'
+      text: 'A credibilidade se constrói com consistência técnica e ética.',
+      reference: 'Tom Peters'
     },
     strategicImpact: 5,
     systemicIntegration: 'Fortalece o posicionamento de marketing e reduz o CAC.',
@@ -1506,7 +1849,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Manter consistência de valores ao longo dos anos',
       'Atrair clientes por alinhamento de princípios',
       'Ser um farol de integridade no mercado'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um concorrente está usando táticas de "marketing sujo" para roubar seus leads. Sua equipe quer revidar no mesmo tom. O que você faz?',
+      options: [
+        { text: 'Mantém a elegância e a integridade, focando em provar seu valor com dados.', score: 2 },
+        { text: 'Autoriza o "contra-ataque" agressivo para não parecer fraco.', score: -2 },
+        { text: 'Fica em silêncio e deixa a marca ser manchada sem reagir.', score: -1 }
+      ]
+    }
   },
 
   // ====================================================================
@@ -1518,8 +1869,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Operacional',
     executiveDefinition: 'A diligência operacional foca na execução incansável, no monitoramento diário da produtividade e na eliminação de gargalos.',
     philosophicalFoundation: {
-      text: 'Viste um homem diligente na sua obra? Perante reis será posto.',
-      reference: 'Provérbios 22:29'
+      text: 'A diligência é a mãe da boa sorte.',
+      reference: 'Benjamin Franklin'
     },
     strategicImpact: 5,
     systemicIntegration: 'Motor da entrega de valor ao cliente e pilar da sustentabilidade financeira.',
@@ -1545,7 +1896,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Otimizar o fluxo de trabalho (Workflow) mensalmente',
       'Zelar pelo cumprimento rigoroso de horários e prazos',
       'Fomentar a cultura do "feito é melhor que perfeito" com qualidade'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Uma falha operacional crítica ocorre no final do expediente de uma sexta-feira. Resolver agora exige hora extra e cansaço da equipe, mas garante o prazo do cliente. O que você faz?',
+      options: [
+        { text: 'Lidera a resolução imediata, garantindo a entrega e a satisfação do cliente.', score: 2 },
+        { text: 'Deixa para resolver na segunda-feira, priorizando o descanso da equipe.', score: -1 },
+        { text: 'Tenta uma solução paliativa "rápida" que pode falhar depois.', score: -2 }
+      ]
+    }
   },
   {
     id: 'op_2',
@@ -1553,8 +1912,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Operacional',
     executiveDefinition: 'A padronização garante a repetibilidade da qualidade e a escalabilidade do negócio através de processos documentados.',
     philosophicalFoundation: {
-      text: 'Faça-se tudo com decência e ordem.',
-      reference: '1 Coríntios 14:40'
+      text: 'Sem padrão não há melhoria.',
+      reference: 'Taiichi Ohno'
     },
     strategicImpact: 4,
     systemicIntegration: 'Base para a sucessão na governança e para a segurança operacional.',
@@ -1580,7 +1939,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Promover a cultura da "ordem absoluta" no digital/físico',
       'Garantir que os padrões sejam co-criados com o time',
       'Revisar padrões anualmente para melhoria contínua'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um colaborador "estrela" recusa-se a seguir um novo padrão operacional, alegando que seu jeito é mais rápido, embora menos seguro/auditável. O que você faz?',
+      options: [
+        { text: 'Exige a adesão ao padrão, priorizando a escalabilidade e segurança do negócio.', score: 2 },
+        { text: 'Permite que ele siga seu próprio jeito para não desmotivá-lo.', score: -2 },
+        { text: 'Tenta adaptar o padrão apenas para ele, criando uma exceção.', score: -1 }
+      ]
+    }
   },
   {
     id: 'op_3',
@@ -1588,8 +1955,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Operacional',
     executiveDefinition: 'A manutenção preventiva e o cuidado com os ativos asseguram a continuidade operacional e protegem o capital investido.',
     philosophicalFoundation: {
-      text: 'O que é negligente na sua obra é também irmão do desperdiçador.',
-      reference: 'Provérbios 18:9'
+      text: 'Cuidar das ferramentas é o primeiro passo para a excelência na obra.',
+      reference: 'Miyamoto Musashi'
     },
     strategicImpact: 4,
     systemicIntegration: 'Protege a saúde financeira (evitando gastos emergenciais) e garante a eficiência operacional.',
@@ -1615,7 +1982,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Zelar pela conservação de móveis, utensílios e sede',
       'Reduzir o desperdício de insumos operacionais mensalmente',
       'Fomentar a cultura do "zelo pelo patrimônio comum"'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Você nota que a equipe está desperdiçando insumos caros por pura falta de cuidado e organização. O que você faz?',
+      options: [
+        { text: 'Implementa controle de estoque rígido e treina sobre o custo do zelo.', score: 2 },
+        { text: 'Ignora, achando que o custo do controle é maior que o desperdício.', score: -1 },
+        { text: 'Grita com a equipe mas não muda o processo de entrega de insumos.', score: -2 }
+      ]
+    }
   },
   {
     id: 'op_4',
@@ -1623,8 +1998,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Operacional',
     executiveDefinition: 'A qualidade excepcional é a entrega superior que supera as expectativas do cliente e elimina o retrabalho.',
     philosophicalFoundation: {
-      text: 'Viu Deus tudo quanto tinha feito, e eis que era muito bom.',
-      reference: 'Gênesis 1:31'
+      text: 'A qualidade não é um ato, é um hábito.',
+      reference: 'Aristóteles'
     },
     strategicImpact: 5,
     systemicIntegration: 'Base para a credibilidade de marketing e para a fidelidade comercial.',
@@ -1649,8 +2024,16 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Reduzir a variabilidade de entrega via padronização',
       'Zelar pela acabamento e detalhes finais do produto/serviço',
       'Eliminar as causas raízes de erros recorrentes em 48h',
-      'Fomentar a cultura da "obras bem feitas" em todo o time'
-    ]
+      'Fomentar a cultura da excelência em todo o time',
+    ],
+    managerDilemma: {
+      scenario: 'Um lote de produtos apresenta uma falha estética mínima que quase ninguém notará. Liberar agora garante o bônus de prazo. O que você faz?',
+      options: [
+        { text: 'Retém o lote, corrige a falha e prioriza o padrão de excelência.', score: 2 },
+        { text: 'Libera o lote, pois "o cliente nem vai ver" e a meta é sagrada.', score: -2 },
+        { text: 'Dá um desconto para o cliente aceitar o produto com defeito.', score: 0 }
+      ]
+    }
   },
   {
     id: 'op_5',
@@ -1658,8 +2041,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Operacional',
     executiveDefinition: 'A agilidade operacional é a velocidade de resposta às demandas sem perda de qualidade, otimizando o Lead Time.',
     philosophicalFoundation: {
-      text: 'O que fizeres, faze-o depressa.',
-      reference: 'João 13:27'
+      text: 'Velocidade é a forma definitiva de vantagem competitiva.',
+      reference: 'Jack Welch'
     },
     strategicImpact: 4,
     systemicIntegration: 'Vantagem competitiva comercial e pilar da eficiência financeira (Giro).',
@@ -1685,7 +2068,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Zelar pela fluidez da informação entre departamentos',
       'Implementar canais de urgência com alçadas rápidas',
       'Fomentar a mentalidade de "velocidade com direção"'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Um pedido urgente chega do seu maior cliente. O processo padrão levaria 5 dias, mas ele precisa para amanhã. O que você faz?',
+      options: [
+        { text: 'Cria uma "via expressa" excepcional, mobiliza o time e entrega com qualidade.', score: 2 },
+        { text: 'Nega o pedido, dizendo que "processo é processo" e não pode ser quebrado.', score: -1 },
+        { text: 'Aceita mas entrega depois de amanhã sem avisar nada.', score: -2 }
+      ]
+    }
   },
   {
     id: 'op_6',
@@ -1693,8 +2084,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Operacional',
     executiveDefinition: 'A organização do ambiente físico e digital elimina o desperdício de tempo e foca a energia na fluidez da execução.',
     philosophicalFoundation: {
-      text: 'Prepare o seu trabalho de fora, e tudo o que tiver que fazer no campo.',
-      reference: 'Provérbios 24:27'
+      text: 'Uma hora de planejamento economiza três horas de execução.',
+      reference: 'Peter Drucker'
     },
     strategicImpact: 3,
     systemicIntegration: 'Aumenta a produtividade (Diligência) e reduz o estresse na cultura organizacional.',
@@ -1720,7 +2111,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Realizar auditorias periódicas de organização (5S)',
       'Treinar equipe em gestão de tempo e priorização',
       'Zelar pela estética e ordem das áreas comuns'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Seu estoque está uma bagunça e ninguém encontra nada rápido. A equipe diz que não tem tempo de organizar porque tem muito pedido. O que você faz?',
+      options: [
+        { text: 'Para a operação por meio período para organizar e instituir o 5S.', score: 2 },
+        { text: 'Contrata um estagiário apenas para organizar enquanto o time continua vendendo.', score: 0 },
+        { text: 'Deixa como está até que a demanda baixe naturalmente.', score: -2 }
+      ]
+    }
   },
   {
     id: 'op_7',
@@ -1728,8 +2127,8 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     axis: 'Gestão Operacional',
     executiveDefinition: 'A segurança operacional protege os ativos, os dados e a integridade física das pessoas, garantindo a continuidade do negócio.',
     philosophicalFoundation: {
-      text: 'Aquele que habita no esconderijo do Altíssimo... dirá ao Senhor: Ele é o meu refúgio.',
-      reference: 'Salmos 91:1'
+      text: 'A segurança não acontece por acidente.',
+      reference: 'Anônimo'
     },
     strategicImpact: 4,
     systemicIntegration: 'Pilar da governança (Gestão de Riscos) e da segurança jurídica corporativa.',
@@ -1755,7 +2154,15 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
       'Manter rituais de proteção de dados sensíveis da empresa',
       'Contratar consultoria especializada em cibersegurança',
       'Fomentar a cultura da "prevenção é melhor que correção"'
-    ]
+    ],
+    managerDilemma: {
+      scenario: 'Você precisa terminar uma obra/entrega urgente e nota que um colaborador está sem o equipamento de segurança (EPI) necessário. O que você faz?',
+      options: [
+        { text: 'Para a obra imediatamente até que ele coloque o EPI, priorizando a vida.', score: 2 },
+        { text: 'Deixa ele continuar só dessa vez para não atrasar a entrega.', score: -2 },
+        { text: 'Grita com ele mas deixa ele terminar o que está fazendo sem o EPI.', score: -2 }
+      ]
+    }
   }
 ];
 
@@ -1858,6 +2265,42 @@ export const GOVERNANCE_AXIS_RULES: GovernanceRule[] = [
     impact: 'Desengajamento e potencial risco de talentos saindo.',
     recommendation: 'Implementar ações de bem-estar e escuta ativa.',
     orientation: 'Alerta Crítico'
+  },
+  {
+    id: 'rule_com_churn',
+    condition: (metrics: any) => (metrics['Churn Rate'] !== undefined && metrics['Churn Rate'] > 5.0),
+    principleId: 'com_2', // Fidelidade
+    misalignment: 'Taxa de Churn acima do limite tolerável para retenção saudável.',
+    impact: 'Erosão da base de clientes e necessidade constante de novos leads caros.',
+    recommendation: 'Implementar rituais de CS (Customer Success) e pesquisa de satisfação.',
+    orientation: 'Atenção Estratégica'
+  },
+  {
+    id: 'rule_mkt_roi',
+    condition: (metrics: any) => (metrics['ROI de Marketing'] !== undefined && metrics['ROI de Marketing'] < 3.0),
+    principleId: 'mkt_1', // Posicionamento
+    misalignment: 'Baixo retorno sobre investimento em marketing indica ineficiência na comunicação.',
+    impact: 'Queima de caixa sem tração correspondente no mercado.',
+    recommendation: 'Revisar canais de aquisição e narrativa de marca.',
+    orientation: 'Otimização Necessária'
+  },
+  {
+    id: 'rule_op_qualidade',
+    condition: (metrics: any) => (metrics['Índice de Qualidade'] !== undefined && metrics['Índice de Qualidade'] < 95.0),
+    principleId: 'op_4', // Excelência
+    misalignment: 'Índice de qualidade abaixo do padrão de excelência institucional.',
+    impact: 'Aumento de retrabalho e risco de danos à reputação da marca.',
+    recommendation: 'Reforçar rituais de double-check e treinamento operacional.',
+    orientation: 'Foco em Qualidade'
+  },
+  {
+    id: 'rule_gov_transparencia',
+    condition: (metrics: any) => (metrics['Índice de Transparência'] !== undefined && metrics['Índice de Transparência'] < 80.0),
+    principleId: 'gov_3', // Prestação de Contas
+    misalignment: 'Baixa transparência corporativa dificulta o accountability.',
+    impact: 'Insegurança dos stakeholders e falta de clareza nos resultados.',
+    recommendation: 'Instituir rituais de reporte mensal abertos e dashboards compartilhados.',
+    orientation: 'Maturidade de Governança'
   }
 ];
 
@@ -1914,35 +2357,50 @@ export function calculateGovernanceAlignmentScore(indicators: any[]): number {
   if (!indicators || indicators.length === 0) return 0;
 
   let score = 0;
-  const weightPerMetric = 20;
+  const metricsCount = 7;
+  const weightPerMetric = 100 / metricsCount;
 
-  const getMetric = (name: string) => indicators.find(i => i.ind.toLowerCase().includes(name.toLowerCase()))?.val || 0;
+  const getMetric = (name: string) => indicators.find(i => i.ind.toLowerCase().trim() === name.toLowerCase().trim())?.val || 0;
 
   // 1. Liquidez (Prudência)
   const liq = getMetric('Liquidez Corrente');
-  if (liq > 1.5) score += weightPerMetric;
-  else if (liq > 1.0) score += weightPerMetric / 2;
+  if (liq >= 1.5) score += weightPerMetric;
+  else if (liq >= 1.0) score += weightPerMetric * 0.6;
+  else if (liq >= 0.8) score += weightPerMetric * 0.3;
 
   // 2. Margem EBITDA (Eficiência)
   const ebitda = getMetric('Margem EBITDA');
-  if (ebitda > 20) score += weightPerMetric;
-  else if (ebitda > 10) score += weightPerMetric / 2;
+  if (ebitda >= 25) score += weightPerMetric;
+  else if (ebitda >= 15) score += weightPerMetric * 0.7;
+  else if (ebitda >= 8) score += weightPerMetric * 0.4;
 
-  // 3. Turnover (Honra)
+  // 3. Turnover (Honra/Cultura)
   const turnover = getMetric('Turnover');
-  if (turnover > 0 && turnover < 5) score += weightPerMetric;
-  else if (turnover < 10) score += weightPerMetric / 2;
+  if (turnover > 0 && turnover <= 3) score += weightPerMetric;
+  else if (turnover <= 7) score += weightPerMetric * 0.6;
+  else if (turnover <= 12) score += weightPerMetric * 0.2;
 
-  // 4. Inadimplência (Justiça)
-  const inad = getMetric('Inadimplência');
-  if (inad > 0 && inad < 3) score += weightPerMetric;
-  else if (inad < 7) score += weightPerMetric / 2;
+  // 4. ROI de Marketing (Posicionamento)
+  const mktRoi = getMetric('ROI de Marketing');
+  if (mktRoi >= 5) score += weightPerMetric;
+  else if (mktRoi >= 3) score += weightPerMetric * 0.6;
 
-  // 5. Receita (Multiplicação)
-  const growth = getMetric('Receita Líquida');
-  if (growth > 0) score += weightPerMetric;
+  // 5. Churn Rate (Fidelidade Comercial)
+  const churn = getMetric('Churn Rate');
+  if (churn > 0 && churn <= 2) score += weightPerMetric;
+  else if (churn <= 5) score += weightPerMetric * 0.5;
 
-  return Math.min(100, Math.max(0, score));
+  // 6. Índice de Qualidade (Excelência Operacional)
+  const qualidade = getMetric('Índice de Qualidade');
+  if (qualidade >= 98) score += weightPerMetric;
+  else if (qualidade >= 95) score += weightPerMetric * 0.5;
+
+  // 7. Transparência (Accountability)
+  const transp = getMetric('Índice de Transparência');
+  if (transp >= 90) score += weightPerMetric;
+  else if (transp >= 70) score += weightPerMetric * 0.5;
+
+  return Math.min(100, Math.max(0, Math.round(score)));
 }
 
 export function crossValidateWithIndicators(responses: Record<string, number>, indicators: any[]): Record<string, number> {

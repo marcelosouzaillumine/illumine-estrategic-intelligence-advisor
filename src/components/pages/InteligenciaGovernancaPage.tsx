@@ -37,7 +37,7 @@ import {
   calculateGovernanceAlignmentScore
 } from '../../lib/governanceIntelligence';
 import { db } from '../../lib/firebase';
-import { query, collection, where, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore';
+import { query, collection, where, onSnapshot, addDoc, serverTimestamp, orderBy, limit } from 'firebase/firestore';
 import { generateGovernanceDiagnosis } from '../../services/aiService';
 
 export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
@@ -110,6 +110,7 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
   const maturityScore = calculateGovernanceMaturityScore(finalResponses);
   const alignmentScore = calculateGovernanceAlignmentScore(indicators);
   const classification = getMaturityClassification(maturityScore);
+  const hasData = indicators.length > 0 || Object.keys(responses).length > 0;
 
   const radarData = eixos.filter(e => e !== 'Todos').map(e => ({
     subject: e.replace('Gestão ', ''),
@@ -175,7 +176,7 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Maturidade Sistêmica</p>
             <div className="flex items-baseline gap-2">
-              <h2 className="text-4xl font-black text-slate-900">{maturityScore}</h2>
+              <h2 className="text-4xl font-black text-slate-900">{hasData ? maturityScore : '---'}</h2>
               <span className="text-[10px] font-bold text-slate-400">/100</span>
             </div>
           </div>
@@ -188,16 +189,20 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Alinhamento Operacional</p>
             <div className="flex items-baseline gap-2">
-              <h2 className="text-4xl font-black text-slate-900">{alignmentScore}</h2>
+              <h2 className="text-4xl font-black text-slate-900">{hasData ? alignmentScore : '---'}</h2>
               <span className="text-[10px] font-bold text-slate-400">/100</span>
             </div>
           </div>
         </div>
 
-        <div className={cn("p-8 rounded-[32px] border shadow-sm flex flex-col justify-center items-center text-center space-y-2", classification.bg, classification.border)}>
+        <div className={cn(
+          "p-8 rounded-[32px] border shadow-sm flex flex-col justify-center items-center text-center space-y-2", 
+          hasData ? classification.bg : "bg-slate-50", 
+          hasData ? classification.border : "border-slate-200"
+        )}>
           <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">Status Organizacional</p>
-          <h3 className={cn("text-xl font-black uppercase tracking-widest", classification.color)}>
-            {classification.label}
+          <h3 className={cn("text-xl font-black uppercase tracking-widest", hasData ? classification.color : "text-slate-400")}>
+            {hasData ? classification.label : 'Pendente'}
           </h3>
         </div>
       </div>

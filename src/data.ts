@@ -1,11 +1,11 @@
-export const DATA = {
-  clientes: [],
-  dre: [],
-  indicadores: [],
-  bp: [],
-  caixa: [],
-  fluxoCaixaDetalhado: {},
-  accountPlanPadrão: [],
+export const DATA: any = {
+  clientes: [] as any[],
+  dre: [] as any[],
+  indicadores: [] as any[],
+  bp: [] as any[],
+  caixa: [] as any[],
+  fluxoCaixaDetalhado: {} as any,
+  accountPlanPadrão: [] as any[],
   premissas: {
     tributarias: {
       simplesNacional: [
@@ -135,9 +135,9 @@ export const DATA = {
           { data: 'Mai/26', valor: 14.65 }
         ],
         indicadores: [
-          { nome: 'Taxa Selic Vigente', valor: '14.65% a.a.', status: 'Estável', obs: 'Referência: Maio/2026' },
-          { nome: 'Meta Selic (Próximo Período)', valor: '14.50% a.a.', status: 'Expectativa de Redução', obs: 'Expectativa Copom Focus' },
-          { nome: 'CDI Over', valor: '14.55% a.a.', status: 'Sincronizado', obs: 'Média de mercado' }
+          { nome: 'Taxa Selic Vigente', valor: '14.50% a.a.', status: 'Estável', obs: 'Referência: Maio/2026' },
+          { nome: 'Meta Selic (Próximo Período)', valor: '14.50% a.a.', status: 'Expectativa de Manutenção', obs: 'Expectativa Copom Focus' },
+          { nome: 'CDI Over', valor: '14.40% a.a.', status: 'Sincronizado', obs: 'Média de mercado' }
         ]
       },
       { 
@@ -157,7 +157,7 @@ export const DATA = {
         indicadores: [
           { nome: 'Meta de Inflação 2026', valor: '3.00%', status: 'Vigente', obs: 'CMN' },
           { nome: 'Intervalo de Tolerância', valor: '+/- 1.50%', status: 'Vigente', obs: 'Limite Superior: 4.5%' },
-          { nome: 'IPCA Esperado (Focus)', valor: '3.85%', status: 'Alinhado', obs: 'Expectativa do Mercado 2026' }
+          { nome: 'IPCA Esperado (Focus)', valor: '4.39%', status: 'Alinhado', obs: 'Acumulado 12 meses' }
         ]
       },
       { 
@@ -187,11 +187,11 @@ export const DATA = {
           { data: 'Mai/25', valor: 5.25, label: 'Dólar' },
           { data: 'Nov/25', valor: 5.18, label: 'Dólar' },
           { data: 'Mar/26', valor: 5.32, label: 'Dólar' },
-          { data: 'Mai/26', valor: 4.8999, label: 'Dólar' }
+          { data: 'Mai/26', valor: 4.9809, label: 'Dólar' }
         ],
         indicadores: [
-          { nome: 'Dólar Comercial (Fechamento)', valor: 'R$ 4,90', status: 'Estável', obs: 'Cotação Real: 08/05/2026' },
-          { nome: 'Euro Comercial (Fechamento)', valor: 'R$ 5,77', status: 'Estável', obs: 'Cotação Real: 08/05/2026' },
+          { nome: 'Dólar Comercial (Fechamento)', valor: 'R$ 4,9809', status: 'Estável', obs: 'Cotação Real: 14/05/2026' },
+          { nome: 'Euro Comercial (Fechamento)', valor: 'R$ 5,772', status: 'Estável', obs: 'Cotação Real: 14/05/2026' },
           { nome: 'Variação Cambial Mensal', valor: '-0.45%', status: 'Alinhado', obs: 'Cenário base' }
         ]
       }

@@ -283,7 +283,11 @@ export function ProfilePage({ user }: ProfilePageProps) {
                         <Mail size={14} />
                       </div>
                       {user?.email}
-                      {!isMaster && <Shield size={12} className="ml-auto opacity-50" title="Somente Master Admin pode alterar" />}
+                      {!isMaster && (
+                        <span title="Somente Master Admin pode alterar" className="ml-auto opacity-50">
+                          <Shield size={12} />
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -300,7 +304,11 @@ export function ProfilePage({ user }: ProfilePageProps) {
                           <Building size={14} />
                         </div>
                         Illumine Strategic Advisory
-                        {!isMaster && <Shield size={12} className="ml-auto opacity-50" title="Somente Master Admin pode alterar" />}
+                        {!isMaster && (
+                          <span title="Somente Master Admin pode alterar" className="ml-auto opacity-50">
+                            <Shield size={12} />
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>
@@ -318,7 +326,11 @@ export function ProfilePage({ user }: ProfilePageProps) {
                           <Shield size={14} />
                         </div>
                         {isMaster ? 'Master Admin' : 'Consultor Estratégico'}
-                        {!isMaster && <Shield size={12} className="ml-auto opacity-50" title="Somente Master Admin pode alterar" />}
+                        {!isMaster && (
+                          <span title="Somente Master Admin pode alterar" className="ml-auto opacity-50">
+                            <Shield size={12} />
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>

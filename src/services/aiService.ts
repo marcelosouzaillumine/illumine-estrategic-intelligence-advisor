@@ -393,6 +393,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   const years = Array.from({ length: 5 }, (_, i) => currentYearBase - 4 + i);
   let baseRevenue = aiData.historicalRevenueBase;
   const ebitdaMargin = aiData.ebitdaMargin;
+  const monthlyRev = baseRevenue / 12;
   
   for (const year of years) {
     const growthRate = 1 + (0.15 + (Math.random() * 0.15));
@@ -639,7 +640,6 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     const contasPagar = [];
     const contasReceber = [];
     
-    const monthlyRev = baseRevenue / 12;
     let saldo = monthlyRev * 0.5;
     
     for (let i = 0; i < 30; i++) {
