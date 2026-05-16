@@ -1,0 +1,489 @@
+version: "2.2"
+name: "Illumine Consultoria | Gestão, Propósito e Alta Performance"
+description: "Sistema visual para interfaces da Illumine Consultoria, com foco em governança, mentoria empresarial, análise integrada, propósito e alta performance."
+defaultMode: "light"
+supportsDark: true
+archetype: "shadcn-neutral"
+
+chips:
+  - "Primary CTA #0E1C2C"
+  - "Accent #FF8552"
+  - "Support #BAB86C"
+  - "Radius 24px"
+  - "Professional and purposeful voice"
+
+consumer_contract:
+  standalone: true
+  goal: "Generate Illumine-style interfaces from this file alone."
+  priority_order:
+    - "Use semantic tokens first: colors, dark, typography, spacing, rounded, shadows, motion."
+    - "Apply component recipes exactly before inventing variants."
+    - "Use prose sections for judgment when a token is ambiguous."
+    - "Respect Do's and Don'ts over generic framework defaults."
+  mode_rule: "Light mode is the default surface; dark mode is opt-in via .dark or [data-theme=dark]. Primary CTAs (#0E1C2C) hold across modes unless dark slot overrides them."
+  font_rule: "Use graphikMedium / graphikRegular when available; otherwise apply the declared CSS fallbacks without blocking implementation."
+  asset_rule: "Do not require logos, photography, or proprietary assets. Use typography, color, spacing, and component behavior to express the system."
+  accessibility_rule: "Ship WCAG AA contrast, visible focus rings, keyboard-operable controls, and no body text below 16px."
+
+colors:
+  primary: "#0E1C2C"
+  primary-foreground: "#FFFFFF"
+
+  secondary: "#FF8552"
+  secondary-foreground: "#0E1C2C"
+
+  tertiary: "#BAB86C"
+  tertiary-foreground: "#0E1C2C"
+
+  neutral: "#6B7280"
+
+  background: "#FFFFFF"
+  foreground: "#0E1C2C"
+
+  surface: "#FFFFFF"
+  surface-foreground: "#0E1C2C"
+
+  card: "#FFFFFF"
+  card-foreground: "#0E1C2C"
+
+  popover: "#FFFFFF"
+  popover-foreground: "#0E1C2C"
+
+  muted: "#E5E5E5"
+  muted-foreground: "#6B7280"
+
+  accent: "#FF8552"
+  accent-foreground: "#0E1C2C"
+
+  destructive: "#D01D1C"
+  destructive-foreground: "#FFFFFF"
+
+  border: "#E5E5E5"
+  input: "#FFFFFF"
+  ring: "#FF8552"
+
+  success: "#0C7A3A"
+  warning: "#BAB86C"
+  info: "#0E1C2C"
+
+  chart-1: "#0E1C2C"
+  chart-2: "#FF8552"
+  chart-3: "#BAB86C"
+  chart-4: "#E5E5E5"
+  chart-5: "#6B7280"
+
+  surface-container-low: "#FFFFFF"
+  surface-container: "#F8F8F8"
+  surface-container-high: "#E5E5E5"
+  surface-container-highest: "#D9D9D9"
+  surface-bright: "#FFFFFF"
+  surface-dim: "#E5E5E5"
+  surface-inverse: "#0E1C2C"
+  surface-inverse-foreground: "#FFFFFF"
+
+  primary-deep: "#07111C"
+  primary-soft: "#1B3148"
+  paper: "#FFFFFF"
+  paper-deep: "#E5E5E5"
+  ink: "#0E1C2C"
+  ink-soft: "#1B3148"
+  ink-muted: "#6B7280"
+
+  illumine-blue: "#0E1C2C"
+  illumine-orange: "#FF8552"
+  illumine-olive: "#BAB86C"
+  illumine-gray: "#E5E5E5"
+  illumine-white: "#FFFFFF"
+
+dark:
+  background: "#0E1C2C"
+  foreground: "#FFFFFF"
+  primary: "#FF8552"
+  primary-foreground: "#0E1C2C"
+  secondary: "#BAB86C"
+  secondary-foreground: "#0E1C2C"
+  card: "#111F30"
+  card-foreground: "#FFFFFF"
+  muted: "#1B3148"
+  muted-foreground: "#E5E5E5"
+  border: "#ffffff1a"
+  ring: "#FF8552"
+
+fonts:
+  display: "'graphikMedium', Arial, sans-serif"
+  body: "'graphikRegular', Arial, sans-serif"
+  eyebrow: "'graphikMedium', Arial, sans-serif"
+  mono: "'graphikRegular', Arial, Helvetica, sans-serif"
+  sans: "'graphikRegular', Arial, sans-serif"
+  serif: null
+
+typography:
+  h1:
+    fontFamily: "'graphikMedium', Arial, Helvetica, sans-serif"
+    fontSize: 56px
+    fontWeight: 500
+    lineHeight: 1.1
+    letterSpacing: "-0.02em"
+  h2:
+    fontFamily: "'graphikMedium', Arial, Helvetica, sans-serif"
+    fontSize: 40px
+    fontWeight: 500
+    lineHeight: 1.15
+    letterSpacing: "-0.01em"
+  h3:
+    fontFamily: "'graphikMedium', Arial, Helvetica, sans-serif"
+    fontSize: 32px
+    fontWeight: 500
+    lineHeight: 1.2
+    letterSpacing: "-0.01em"
+  h4:
+    fontFamily: "'graphikMedium', Arial, Helvetica, sans-serif"
+    fontSize: 24px
+    fontWeight: 500
+    lineHeight: 1.25
+    letterSpacing: "0em"
+  body-lg:
+    fontFamily: "'graphikRegular', Arial, Helvetica, sans-serif"
+    fontSize: 18px
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: "0em"
+  body-md:
+    fontFamily: "'graphikRegular', Arial, Helvetica, sans-serif"
+    fontSize: 16px
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: "0em"
+  body-sm:
+    fontFamily: "'graphikRegular', Arial, Helvetica, sans-serif"
+    fontSize: 14px
+    fontWeight: 400
+    lineHeight: 1.45
+    letterSpacing: "0em"
+  label:
+    fontFamily: "'graphikMedium', Arial, Helvetica, sans-serif"
+    fontSize: 14px
+    fontWeight: 500
+    lineHeight: 1.4
+    letterSpacing: "0em"
+
+spacing:
+  "2": "0.5rem"
+  "3": "0.75em"
+  "4": "1em"
+  xs: "0.35em"
+  sm: "0.5rem"
+  md: "0.625em"
+  lg: "0.75em"
+  xl: "1em"
+  "2.5": "0.625em"
+
+rounded:
+  none: "0px"
+  sm: "12px"
+  md: "24px"
+  lg: "32px"
+  xl: "48px"
+  full: "9999px"
+  button: "12px"
+  card: "32px"
+  input: "24px"
+
+shadows:
+  xs: "0 1px 2px rgba(14, 28, 44, 0.08)"
+  sm: "0 4px 12px rgba(14, 28, 44, 0.08)"
+  md: "0 8px 24px rgba(14, 28, 44, 0.12)"
+  lg: "0 16px 40px rgba(14, 28, 44, 0.16)"
+
+motion:
+  duration-faster: "150ms"
+  duration-gentle: "350ms"
+  duration-slow: "650ms"
+  ease-out: "cubic-bezier(0, 0, 0.2, 1)"
+  ease-decelerate-mid: "cubic-bezier(0.21,0,0.25,0.99)"
+
+elevation:
+  flat: "none"
+  raised: "0 4px 12px rgba(14, 28, 44, 0.08)"
+  floating: "0 8px 24px rgba(14, 28, 44, 0.12)"
+  overlay: "0 16px 40px rgba(14, 28, 44, 0.16)"
+  modal: "0 24px 64px rgba(14, 28, 44, 0.24)"
+
+components:
+  button-primary:
+    backgroundColor: "#0E1C2C"
+    textColor: "#FFFFFF"
+    borderColor: "#0E1C2C"
+    typography: "graphikMedium 14px/1.4 500"
+    rounded: "12px"
+    padding: "0.5rem 1em"
+    shadow: "0 4px 12px rgba(14, 28, 44, 0.08)"
+
+  button-primary-hover:
+    backgroundColor: "#07111C"
+    textColor: "#FFFFFF"
+    borderColor: "#07111C"
+    shadow: "0 8px 24px rgba(14, 28, 44, 0.12)"
+
+  button-secondary:
+    backgroundColor: "#FF8552"
+    textColor: "#0E1C2C"
+    borderColor: "#FF8552"
+    typography: "graphikMedium 14px/1.4 500"
+    rounded: "24px"
+    padding: "0.5rem 1em"
+
+  button-secondary-hover:
+    backgroundColor: "#E96F3D"
+    textColor: "#0E1C2C"
+    borderColor: "#E96F3D"
+
+  button-tertiary:
+    backgroundColor: "#BAB86C"
+    textColor: "#0E1C2C"
+    borderColor: "#BAB86C"
+    typography: "graphikMedium 14px/1.4 500"
+    rounded: "24px"
+    padding: "0.5rem 1em"
+
+  button-ghost:
+    backgroundColor: "transparent"
+    textColor: "#0E1C2C"
+    borderColor: "transparent"
+    typography: "graphikMedium 14px/1.4 500"
+    rounded: "24px"
+    padding: "0"
+
+  card:
+    backgroundColor: "#FFFFFF"
+    textColor: "#0E1C2C"
+    borderColor: "#E5E5E5"
+    rounded: "32px"
+    padding: "0.75em"
+    shadow: "0 4px 12px rgba(14, 28, 44, 0.08)"
+
+  card-hover:
+    backgroundColor: "#FFFFFF"
+    textColor: "#0E1C2C"
+    rounded: "32px"
+    shadow: "0 8px 24px rgba(14, 28, 44, 0.12)"
+
+  input-text:
+    backgroundColor: "#FFFFFF"
+    textColor: "#0E1C2C"
+    borderColor: "#E5E5E5"
+    typography: "graphikRegular 16px/1.5 400"
+    rounded: "24px"
+    padding: "0.5rem 1em"
+    focusBorderColor: "#FF8552"
+    focusRing: "#FF8552"
+
+  badge-default:
+    backgroundColor: "#BAB86C"
+    textColor: "#0E1C2C"
+    borderColor: "#BAB86C"
+    typography: "graphikMedium 14px/1.4 500"
+    rounded: "9999px"
+    padding: "0.5rem"
+
+  nav-header:
+    backgroundColor: "#FFFFFF"
+    textColor: "#0E1C2C"
+    borderColor: "#E5E5E5"
+    typography: "graphikMedium 14px/1.4 500"
+
+  inverse-section:
+    backgroundColor: "#0E1C2C"
+    textColor: "#FFFFFF"
+    rounded: "0px"
+    padding: "1em"
+
+  editorial-hero:
+    backgroundColor: "#FFFFFF"
+    textColor: "#0E1C2C"
+    typography: "graphikMedium 56px/1.1 500"
+    rounded: "0px"
+    padding: "1em"
+
+preview_tokens:
+  button_primary_bg: "#0E1C2C"
+  button_primary_text: "#FFFFFF"
+  button_primary_border: "#0E1C2C"
+
+  button_secondary_bg: "#FF8552"
+  button_secondary_text: "#0E1C2C"
+  button_secondary_border: "#FF8552"
+
+  button_tertiary_bg: "#BAB86C"
+  button_tertiary_text: "#0E1C2C"
+  button_tertiary_border: "#BAB86C"
+
+  surface_bg: "#FFFFFF"
+  card_bg: "#FFFFFF"
+  text: "#0E1C2C"
+  text_muted: "#6B7280"
+  border: "#E5E5E5"
+  accent: "#FF8552"
+
+  button_radius: "12px"
+  card_radius: "24px"
+  input_radius: "24px"
+
+brand_primitives:
+  case-eyebrow: "none"
+  case-btn: "none"
+  case-marquee: "none"
+  case-nav-brand: "none"
+  case-section-heading: "none"
+
+  motion-press: "scale(0.98)"
+  motion-hover-opacity: "0.92"
+
+  btn-padx: "1em"
+  btn-pady: "0.5rem"
+  btn-shadow: "0 4px 12px rgba(14, 28, 44, 0.08)"
+  btn-shadow-hover: "0 8px 24px rgba(14, 28, 44, 0.12)"
+  btn-active-bg: "#07111C"
+  btn-border-width: "1px"
+  btn-secondary-border-width: "1px"
+
+  nav-cta-padx: "1em"
+
+  card-pad: "0.75em"
+  card-pad-sm: "0.75em"
+  card-shadow: "0 4px 12px rgba(14, 28, 44, 0.08)"
+  card-shadow-hover: "0 8px 24px rgba(14, 28, 44, 0.12)"
+
+  hairline-width: "1px"
+  hairline-style: "solid"
+  hairline-color: "#E5E5E5"
+  hairline-card: "#E5E5E5"
+  hairline-input: "#E5E5E5"
+  hairline-table: "#E5E5E5"
+
+  nav-padx: "0.75em"
+  section-padx: "0.75em"
+  section-pady: "1em"
+  surface-pad: "0.75em"
+  container-max: "1076px"
+  spacing: "0.35em"
+
+aliases:
+  "--block-1": "--surface-bright"
+  "--block-2": "--surface-container-low"
+  "--block-3": "--surface-container"
+  "--block-4": "--surface-container-high"
+  "--block-5": "--surface-container-highest"
+  "--block-6": "--surface-dim"
+  "--block-7": "--surface-inverse"
+  "--block-7-foreground": "--surface-inverse-foreground"
+
+  "--text-h1": "--text-heading"
+  "--text-h2": "--text-title"
+  "--text-h3": "--text-subtitle"
+  "--text-card-title": "--text-title"
+  "--text-lead": "--text-body"
+  "--text-nav": "--text-label"
+  "--text-btn": "--text-label"
+  "--text-btn-sm": "--text-caption"
+  "--text-eyebrow": "--text-caption"
+  "--text-meta": "--text-caption"
+
+  "--shadow-1": "--elevation-flat"
+  "--shadow-2": "--elevation-raised"
+  "--shadow-3": "--elevation-floating"
+  "--shadow-4": "--elevation-overlay"
+
+  "--duration-base": "--duration-gentle"
+  "--radius-pill": "--radius-full"
+
+  "--font-weight-display": "500"
+  "--font-weight-heading": "500"
+  "--font-weight-body": "400"
+  "--font-weight-lead": "400"
+  "--font-weight-nav": "500"
+  "--font-weight-brand": "500"
+  "--font-weight-btn": "500"
+  "--font-weight-emphasis": "500"
+  "--font-weight-eyebrow": "500"
+
+  "--tracking-display": "-0.02em"
+  "--tracking-h1": "-0.02em"
+  "--tracking-h2": "-0.01em"
+  "--tracking-h3": "-0.01em"
+  "--tracking-lead": "0em"
+  "--tracking-body": "0em"
+  "--tracking-btn": "0em"
+  "--tracking-eyebrow": "0em"
+  "--tracking-marquee": "0em"
+
+  "--leading-display": "1.1"
+  "--leading-heading": "1.1"
+  "--leading-body": "1.5"
+  "--leading-lead": "1.5"
+  "--leading-tight": "1.15"
+
+showcase:
+  kicker: "Consultoria empresarial com propósito"
+  headline: "Gestão integrada para empresas que desejam crescer com clareza, governança e valores."
+  lead: "A Illumine combina estratégia, finanças, cultura organizacional e propósito para apoiar decisões empresariais mais conscientes e sustentáveis."
+  primary_cta: "Iniciar diagnóstico"
+  secondary_cta: "Conhecer a metodologia"
+  tertiary_cta: "Ver soluções"
+
+assets:
+  logo:
+    kind: "optional"
+    mime: null
+    size_bytes: null
+  favicon:
+    url: null
+    mime: null
+    size_bytes: null
+  og_image: null
+  twitter_image: null
+  twitter_card: "summary_large_image"
+  canonical_url: "https://www.illumineconsultoria.com.br/"
+
+prose:
+  visual_theme: >
+    A identidade visual da Illumine deve comunicar sobriedade, confiança, inteligência estratégica,
+    profundidade ética e clareza executiva. O azul escuro é a cor principal e representa governança,
+    estabilidade, responsabilidade e visão de longo prazo. O laranja funciona como cor de ação,
+    energia e movimento. O bege/oliva atua como cor institucional de apoio, trazendo equilíbrio,
+    maturidade e conexão humana.
+
+  color_rules: >
+    Use #0E1C2C como cor dominante para CTAs principais, seções institucionais, cabeçalhos fortes
+    e elementos de autoridade. Use #FF8552 para ações secundárias, destaques, links relevantes,
+    estados de foco e elementos que exigem atenção. Use #BAB86C com moderação para badges,
+    indicadores de apoio, selos, cards especiais e elementos de sofisticação institucional.
+
+  typography_rules: >
+    A tipografia deve transmitir clareza executiva. Títulos devem ser fortes, objetivos e com boa
+    hierarquia visual. Textos corridos devem manter legibilidade, com corpo mínimo de 16px.
+    Evite excesso de pesos tipográficos e preserve uma linguagem limpa, moderna e institucional.
+
+  component_rules: >
+    Botões principais devem usar azul escuro com texto branco. Botões secundários podem usar laranja
+    com texto azul escuro. Cards devem ter fundo branco, bordas suaves, sombra discreta e cantos
+    arredondados. Inputs devem priorizar clareza, com foco em laranja para reforçar a identidade.
+
+  do_and_dont:
+    do:
+      - "Use o azul escuro como base de autoridade e confiança."
+      - "Use o laranja para ação, movimento e destaque."
+      - "Use espaços generosos e layouts limpos."
+      - "Mantenha contraste adequado para leitura."
+      - "Use cards para organizar diagnósticos, indicadores e recomendações."
+    dont:
+      - "Não usar roxo ou cores associadas ao Nubank."
+      - "Não usar laranja como cor dominante de fundo em grandes áreas."
+      - "Não criar excesso de sombras ou gradientes."
+      - "Não reduzir corpo de texto abaixo de 16px."
+      - "Não misturar muitas cores fora da paleta institucional."
+
+  implementation: >
+    Stack sugerida: Next.js + Tailwind + shadcn/ui. Mapear os tokens de cores para variáveis CSS
+    em :root e utilizar as classes semânticas da interface, como primary, secondary, accent,
+    background, foreground, card, border e ring.

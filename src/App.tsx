@@ -45,11 +45,11 @@ import {
   Building2,
   MessageSquare,
   Rocket,
-  PanelLeftClose,
-  PanelLeftOpen,
   Menu as MenuIcon,
   ShieldCheck,
 } from 'lucide-react';
+import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
+import { AppSidebar } from './components/AppSidebar';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch, or } from 'firebase/firestore';
 import { auth, login, logout, db, handleFirestoreError, OperationType, MASTER_ADMINS } from './lib/firebase';
@@ -726,7 +726,7 @@ function AppContent({
         cliente_ativo_id: id,
         acao: 'seleção de cliente ativo',
         detalhes: {
-          fantasia: client.fantasia,
+        fantasia: client.fantasia,
           cnpj: client.cnpj
         }
       });
@@ -734,290 +734,39 @@ function AppContent({
   };
 
   return (
-    <div className="flex h-screen bg-bg-main overflow-hidden text-text-main transition-colors duration-500">
+    <SidebarProvider defaultOpen={!isSidebarCollapsed}>
+    <div className="flex h-screen bg-bg-main overflow-hidden text-text-main transition-colors duration-500 w-full">
       <WelcomeMessage 
         isOpen={showWelcome} 
         onClose={() => setShowWelcome(false)} 
         message={welcomeText}
         userName={user?.displayName || ''}
       />
-      {/* Sidebar Overlay for Mobile */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[60] md:hidden"
-          />
-        )}
-      </AnimatePresence>
 
-      {/* Sidebar */}
-      <motion.aside 
-        initial={false}
-        animate={{ 
-          width: isSidebarCollapsed ? 80 : 360,
-          x: isMobileMenuOpen ? 0 : (window.innerWidth < 768 ? -360 : 0)
-        }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className={cn(
-          "bg-bg-card/90 backdrop-blur-3xl flex flex-col shrink-0 shadow-separator z-[70] fixed md:relative h-full transition-all duration-700 overflow-hidden",
-          isSidebarCollapsed ? "items-center" : "items-start"
-        )}
-      >
-        <div className="absolute -right-3 top-10 z-50 hidden md:block">
-          <button
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="w-6 h-6 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-400 hover:text-secondary hover:border-secondary transition-all shadow-sm"
-          >
-            {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-          </button>
-        </div>
-
-        <div className={cn("overflow-y-auto flex-1 custom-scrollbar w-full", isSidebarCollapsed ? "p-0" : "p-4 md:p-6")}>
-          <div className={cn("flex items-center mb-4", isSidebarCollapsed ? "justify-center pt-6" : "justify-between")}>
-            <Logo collapsed={isSidebarCollapsed} />
-            {isMobileMenuOpen && (
-              <button 
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 text-slate-400 hover:text-rose-500 md:hidden"
-              >
-                <X size={20} />
-              </button>
-            )}
-          </div>
-
-          {!isSidebarCollapsed && (
-            <div className="mb-8 md:hidden px-4">
-              <ClientSelector 
-                clients={clients} 
-                selectedClient={selectedClient} 
-                setSelectedClient={handleSelectClient} 
-                onManageClients={() => {
-                  setCurrentPage('clientes');
-                  setIsMobileMenuOpen(false);
-                }}
-              />
-            </div>
-          )}
-          
-          <nav className="space-y-3">
-            {NAVIGATION_GROUPS.filter(group => {
-              if (isMaster) return true;
-              if (!userPermissions) return true;
-              
-              // Group is allowed if at least one of its sub-items is allowed and NOT master-only
-              return group.items.some(item => {
-                if (item.masterOnly) return false;
-                const permissionKey = `${group.group}:${item.label}`;
-                return userPermissions.includes(permissionKey);
-              });
-            }).map((group) => {
-              const isOpen = openSubmenus[group.group] !== false; 
-              
-              // Filter items within the group
-              const filteredItems = group.items.filter(item => {
-                // If item is master-only and user is NOT a master admin, hide it
-                if (item.masterOnly && !isMaster) return false;
-                
-                // Special case: Portfolio is always allowed for partners
-                if (isPartner && item.id === 'portfolio') return true;
-
-                if (!userPermissions || isMaster) return true;
-                const permissionKey = `${group.group}:${item.label}`;
-                return userPermissions.includes(permissionKey);
-              });
-
-              if (filteredItems.length === 0) return null;
-
-              return (
-                <div key={group.group}>
-                  {!isSidebarCollapsed && (
-                    <button 
-                      onClick={() => toggleSubmenu(group.group)}
-                      className="w-full flex items-center gap-3 px-6 py-2 text-[10px] font-medium text-text-dim uppercase tracking-[0.2em] mb-0 font-sans hover:text-text-main transition-colors group text-left justify-start"
-                    >
-                      <span className="flex-1 truncate text-left">{group.group}</span>
-                      {isOpen ? <ChevronUp size={10} strokeWidth={1} /> : <ChevronDown size={10} strokeWidth={1} />}
-                    </button>
-                  )}
-                  
-                  <div className={cn("space-y-0", isSidebarCollapsed ? "px-0" : "px-4")}>
-                    {(isSidebarCollapsed ? filteredItems : (isOpen ? filteredItems : [])).map((item) => {
-                      const hasChildren = item.children && item.children.length > 0;
-                      const isChildActive = hasChildren && item.children?.some(child => child.id === currentPage);
-                      const isActive = currentPage === item.id || isChildActive;
-                      
-                      return (
-                        <div key={item.id} className="space-y-1">
-                          <button
-                            onClick={() => {
-                              if (isSidebarCollapsed && hasChildren) {
-                                setIsSidebarCollapsed(false);
-                                toggleSubmenu(group.group);
-                              }
-                              setCurrentPage(item.id);
-                            }}
-                            title={isSidebarCollapsed ? item.label : undefined}
-                            className={cn(
-                              "w-full flex items-center transition-all group relative",
-                              isSidebarCollapsed ? "justify-center py-2 px-0" : "justify-start gap-4 px-4 py-1.5",
-                              currentPage === item.id 
-                                ? "text-text-main font-semibold" 
-                                : isActive 
-                                  ? "text-text-main"
-                                  : "text-text-muted hover:text-text-main"
-                            )}
-                          >
-                            {currentPage === item.id && (
-                              <motion.div 
-                                layoutId="active-pill"
-                                className="absolute left-0 w-1 h-4 bg-primary rounded-full"
-                              />
-                            )}
-                            <div className="w-5 flex items-center justify-center shrink-0">
-                              <item.icon size={isSidebarCollapsed ? 20 : 18} strokeWidth={1} className={cn(
-                                "transition-colors shrink-0",
-                                currentPage === item.id ? "text-primary" : "text-text-dim group-hover:text-text-main"
-                              )} />
-                            </div>
-                            {!isSidebarCollapsed && (
-                              <div className="flex-1 min-w-0 flex items-center justify-between gap-2 overflow-hidden text-left">
-                                <div className="flex items-center gap-2">
-                                  <span className="tracking-wide text-left text-[11.5px] whitespace-nowrap">{item.label}</span>
-                                  {item.id === 'aprovacoes' && totalPending > 0 && (
-                                    <span className="flex h-4 min-w-[16px] px-1 items-center justify-center bg-rose-500 text-white text-[9px] font-black rounded-full animate-pulse">
-                                      {totalPending}
-                                    </span>
-                                  )}
-                                </div>
-                                {hasChildren && (
-                                  <ChevronDown 
-                                    size={10} 
-                                    strokeWidth={1}
-                                    className={cn(
-                                      "transition-transform duration-300 shrink-0",
-                                      isActive ? "rotate-180 text-primary" : "text-text-dim"
-                                    )} 
-                                  />
-                                )}
-                              </div>
-                            )}
-                            {isSidebarCollapsed && item.id === 'aprovacoes' && totalPending > 0 && (
-                              <div className="absolute top-1 right-2 w-2 h-2 bg-rose-500 rounded-full animate-pulse" />
-                            )}
-                          </button>
-
-                          {hasChildren && isActive && !isSidebarCollapsed && (
-                            <motion.div 
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              className="pl-9 space-y-0.5"
-                            >
-                              {item.children?.map((child) => (
-                                <button
-                                  key={child.id}
-                                  onClick={() => setCurrentPage(child.id)}
-                                  className={cn(
-                                    "w-full flex items-center justify-start text-left gap-2 px-4 py-1 rounded-lg font-bold text-[10px] transition-all group",
-                                    currentPage === child.id 
-                                      ? "bg-slate-100 dark:bg-slate-800 text-primary dark:text-white" 
-                                      : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-800 dark:hover:text-white"
-                                  )}
-                                >
-                                  <div className="w-5 flex items-center justify-center shrink-0">
-                                    <span className={cn(
-                                      "w-1 h-1 rounded-full",
-                                      currentPage === child.id ? "bg-secondary scale-125" : "bg-slate-300 group-hover:bg-slate-400"
-                                    )} />
-                                  </div>
-                                  <span className="tracking-tight text-left whitespace-nowrap">{child.label}</span>
-                                </button>
-                              ))}
-                            </motion.div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </nav>
-        </div>
-
-        <div className={cn(
-          "mt-auto bg-bg-surface shadow-premium transition-all",
-          isSidebarCollapsed ? "px-0 py-6" : "p-8"
-        )}>
-          {authLoading ? (
-            <div className="flex justify-center py-2">
-              <Loader2 className="animate-spin text-secondary" size={20} />
-            </div>
-          ) : user ? (
-            <div className="flex flex-col gap-4">
-              <div className={cn(
-                "flex items-center mb-4 transition-all",
-                isSidebarCollapsed ? "justify-center px-0" : "gap-2 px-4"
-              )}>
-                {user.photoURL ? (
-                  <div className="w-5 h-5 shrink-0 flex items-center justify-center">
-                    <img src={user.photoURL} alt={user.displayName || ''} className="w-5 h-5 rounded-full border border-secondary shrink-0" title={isSidebarCollapsed ? user.displayName || 'Usuário' : undefined} />
-                  </div>
-                ) : (
-                  <div className="w-5 h-5 shrink-0 flex items-center justify-center">
-                    <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-white font-bold text-[8px] shrink-0" title={isSidebarCollapsed ? user.displayName || 'Usuário' : undefined}>
-                      {user.displayName?.split(' ').map(n => n[0]).join('') || 'U'}
-                    </div>
-                  </div>
-                )}
-                {!isSidebarCollapsed && (
-                  <div className="flex-1 min-w-0 text-left">
-                    <p className="text-xs font-bold truncate text-slate-900 text-left">{user.displayName || 'Usuário'}</p>
-                    {!userPermissions && (
-                      <span className="text-[8px] font-black uppercase text-secondary tracking-widest block">Master Admin</span>
-                    )}
-                  </div>
-                )}
-              </div>
-              <button 
-                onClick={logout}
-                title={isSidebarCollapsed ? "Sair" : undefined}
-                className={cn(
-                  "flex items-center justify-center gap-2 py-2 text-xs font-black uppercase tracking-widest text-rose-600 hover:bg-rose-50 rounded-xl transition-colors border border-rose-100",
-                  isSidebarCollapsed ? "px-0 w-10 h-10 mx-auto" : "w-full"
-                )}
-              >
-                <LogOut size={14} /> {!isSidebarCollapsed && "Sair"}
-              </button>
-            </div>
-          ) : (
-            <button 
-              onClick={login}
-              title={isSidebarCollapsed ? "Entrar com Google" : undefined}
-              className={cn(
-                "flex items-center justify-center gap-2 bg-primary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20",
-                isSidebarCollapsed ? "w-10 h-10 mx-auto py-0" : "w-full py-3"
-              )}
-            >
-              <LogIn size={isSidebarCollapsed ? 20 : 16} /> {!isSidebarCollapsed && "Entrar"}
-            </button>
-          )}
-        </div>
-      </motion.aside>
+      {/* Shadcn AppSidebar */}
+      <AppSidebar
+        user={user}
+        authLoading={authLoading}
+        clients={clients}
+        selectedClient={selectedClient}
+        handleSelectClient={handleSelectClient}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        openSubmenus={openSubmenus}
+        toggleSubmenu={toggleSubmenu}
+        userPermissions={userPermissions}
+        isPartner={isPartner}
+        isMaster={isMaster}
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+        totalPending={totalPending}
+      />
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0 relative h-full">
-        <header className="h-28 bg-bg-main/60 backdrop-blur-3xl flex items-center justify-between px-12 sticky top-0 z-50 transition-all duration-700 shadow-separator">
-          <div className="flex items-center gap-16">
-            <button 
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="p-3 text-text-muted hover:text-text-main md:hidden transition-colors bg-bg-surface/50 rounded-full"
-            >
-              <MenuIcon size={24} strokeWidth={1} />
-            </button>
+      <main className="flex-1 flex flex-col min-w-0 relative h-full overflow-hidden">
+        <header className="h-28 bg-bg-main/60 backdrop-blur-3xl flex items-center justify-between px-8 md:px-12 sticky top-0 z-50 transition-all duration-700 shadow-separator">
+          <div className="flex items-center gap-4 md:gap-16">
+            <SidebarTrigger className="text-text-muted hover:text-text-main hover:bg-bg-surface transition-colors rounded-lg p-2" />
             
             <div className="hidden md:block">
               <ClientSelector 
@@ -1138,5 +887,6 @@ function AppContent({
         />
       </main>
     </div>
+    </SidebarProvider>
   );
 }
