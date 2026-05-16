@@ -15,7 +15,9 @@ export const logout = () => signOut(auth);
 
 export const MASTER_ADMINS = [
   'marcelo.illuminecoaching@gmail.com',
-  'marcelosouza.illumine@gmail.com'
+  'marcelosouza.illumine@gmail.com',
+  'atendimentoliminar@gmail.com',
+  'avivacolonia@gmail.com'
 ];
 
 export enum OperationType {
@@ -70,7 +72,7 @@ async function testConnection() {
     await getDocFromServer(doc(db, 'test', 'connection'));
     console.log("Firestore connection verified.");
   } catch (error) {
-    if(error instanceof Error && error.message.includes('the client is offline')) {
+    if (error instanceof Error && error.message.includes('the client is offline')) {
       console.error("Please check your Firebase configuration or internet connection.");
     }
   }
