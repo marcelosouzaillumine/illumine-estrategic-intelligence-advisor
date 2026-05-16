@@ -278,25 +278,26 @@ CONTEXTO POR EIXO DE GESTÃO:
 - Gestão Operacional: ${axisDescriptions.operacional}
 ` : '';
 
-    const prompt = `Você é um CFO sênior, Consultor Estratégico e RH atuando na criação de uma Empresa Modelo.
+    const prompt = `Você é o ARQUITETO DE EVOLUÇÃO E DISCERNIMENTO ORGANIZACIONAL da Illumine.
+Sua missão é criar uma Empresa Modelo que personifique a excelência em Gestão Sistêmica e Governança Representativa.
+
 SEGMENTO: "${segment}"
 CARACTERÍSTICAS/RELATO GERAL: "${description}"
 ${axisContext}
 
-Crie uma empresa realista e SISTÊMICA. Os dados devem estar INTEGRADOS: se o relato diz que a empresa tem problemas de caixa, o faturamento e as contas a pagar/receber devem refletir isso.
-Utilize as descrições de cada eixo acima para fundamentar os KPIs, OKRs e Diagnósticos gerados.
+PRINCÍPIOS DE CRIAÇÃO:
+1. DO TODO PARA A PARTE: A empresa não é apenas financeira. Ela é um sistema humano, cultural, econômico e institucional. Integre o DNA (Missão/Visão/Valores) com a operação real.
+2. COERÊNCIA SISTÊMICA: Os dados devem ser INTEGRADOS. Se há lucro mas o relato aponta problemas de cultura, as dívidas ou o turnover devem refletir esse risco invisível.
+3. OS 7 EIXOS: Utilize as descrições de cada eixo acima para fundamentar KPIs, OKRs e Diagnósticos de forma harmônica.
+4. DISCERNIMENTO FINANCEIRO: Diferencie e integre Regime de Caixa e Regime de Competência. O caixa demonstra liquidez, a competência demonstra viabilidade econômica.
 
-Siga exatamente as diretrizes:
-1. clientData.regime DEVE ser exatamente um destes: "Lucro Real", "Lucro Presumido", "Simples Nacional".
-2. Defina CNAE válido e faturamento mensal coerente com o porte e segmento.
-3. Gere 3 funcionários (employees) com salários condizentes com a descrição.
-4. Gere 2 produtos principais (pricing) com margens realistas (ex: 45 para 45%).
-5. Gere 2 contas a pagar (payables) e 2 a receber (receivables). Se o relato menciona problemas de caixa, crie valores que justifiquem isso.
-6. Gere Missão, Visão e Valores alinhados com o relato.
-218. Gere 2 itens de diagnóstico empresarial (IVE). (swot DEVE ser: "Força", "Fraqueza", "Oportunidade" ou "Ameaça". eixo DEVE ser "Gestão Comercial", "Gestão Operacional", "Administração e Finanças", "Governança Corporativa", "Cultura Organizacional", "Gestão de Marketing" ou "Gestão de Inovação". gravidade, urgencia, tendencia, impactoFinanceiro entre 1 e 5). Devem refletir os desafios do relato.
-219. Gere 1 OKR estratégico (eixo DEVE ser um dos nomes de eixos acima) que ajude a resolver um dos problemas citados.
-9. Gere relatório estratégico completo (desafios, oportunidades, governança, fluxo operacional).
-10. Defina historicalRevenueBase e ebitdaMargin que façam sentido com o segmento e o momento da empresa descrito.`;
+DIRETRIZES TÉCNICAS:
+1. clientData.regime: DEVE ser exatamente "Lucro Real", "Lucro Presumido" ou "Simples Nacional".
+2. Faturamento e Custos: Devem ser coerentes com o porte e o estágio de maturidade descrito.
+3. Diagnósticos (IVE): Gere 2 itens (swot: "Força", "Fraqueza", "Oportunidade", "Ameaça"; eixo: nomes oficiais dos 7 eixos; gravidade/urgencia/tendencia/impacto: 1 a 5).
+4. OKR: Gere 1 OKR estratégico que resolva uma incoerência detectada entre os eixos.
+5. Relatório Estratégico: Deve ser profundo, abordando desafios de governança, sustentabilidade e legado.
+6. Pessoas e Cultura: Reflita o impacto humano nos salários e na estrutura de funcionários.`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.0-flash',
@@ -1219,21 +1220,31 @@ export const generateGovernanceDiagnosis = async (
   try {
     const ai = getAI();
     
-    const prompt = `Você é um Consultor Estratégico Sênior e Especialista em Inteligência de Governança e Maturidade Organizacional.
-Analise os resultados de maturidade da empresa "${companyName}" e gere um diagnóstico profundo e institucional.
+    const prompt = `Você é o ARQUITETO DE EVOLUÇÃO E DISCERNIMENTO ORGANIZACIONAL da Illumine.
+Sua missão é gerar um Diagnóstico Sistêmico Profundo que transcenda a simples análise de números.
 
-SCORES DE MATURIDADE POR EIXO (0-100):
-${JSON.stringify(scores, null, 2)}
+Siga o princípio: "DO TODO PARA A PARTE".
+Considere a empresa como um organismo vivo onde Governança, Cultura, Estratégia e Operação estão intrinsecamente ligadas.
 
-PRINCIPAIS INDICADORES REAIS DO NEGÓCIO:
-${JSON.stringify(indicators.slice(0, 15).map(i => ({ ind: i.ind, val: i.val, un: i.un })), null, 2)}
+DADOS PARA ANÁLISE:
+- Empresa: "${companyName}"
+- MATURIDADE POR EIXO (Percepção): ${JSON.stringify(scores, null, 2)}
+- INDICADORES REAIS (Realidade): ${JSON.stringify(indicators.slice(0, 15).map(i => ({ ind: i.ind, val: i.val, un: i.un })), null, 2)}
 
-DIRETRIZES OBRIGATÓRIAS:
-1. O diagnóstico deve ser profundo, executivo, institucional e premium.
-2. Identifique incoerências entre os scores de maturidade (percepção) e os indicadores reais (realidade financeira/operacional).
-3. Gere um plano de ação prático e fundamentado em princípios universais de governança e ética corporativa.
-4. O parecer executivo deve ser curto, impactante, de nível C-Level e direto ao ponto.
-5. Utilize linguagem sofisticada, evitando termos devocionais ou religiosos, focando em "Princípios Organizacionais" e "Fundamentos de Governança".`;
+SUA TAREFA:
+Gere um diagnóstico institucional de alto nível (C-Level) aplicando os 5 FILTROS DE COERÊNCIA:
+1. SUSTENTABILIDADE ECONÔMICA: Os resultados financeiros sustentam o crescimento?
+2. ALINHAMENTO AO DNA: A cultura e a estratégia refletem a identidade da empresa?
+3. INTEGRIDADE DE GOVERNANÇA: Há transparência e responsabilidade institucional?
+4. IMPACTO HUMANO/CULTURAL: Como a operação afeta as pessoas e o clima?
+5. SUSTENTABILIDADE DE LONGO PRAZO: A estrutura atual garante a perenidade?
+
+DIRETRIZES DE ESTILO E CONTEÚDO:
+- Identifique INCOERÊNCIAS: Por exemplo, um alto score de maturidade em Cultura com indicadores de turnover elevados.
+- Analise a CORRELAÇÃO ENTRE EIXOS: Como a fragilidade na Governança impacta a Eficiência Operacional.
+- Use linguagem SOFISTICADA, profunda e estratégica.
+- Foco em DISCERNIMENTO, LEGADO e RESPONSABILIDADE.
+- Evite termos motivacionais, genéricos ou superficiais.`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.0-flash',

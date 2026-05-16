@@ -49,7 +49,7 @@ export function GovernanceInsightPanel({
           <div className="flex items-center gap-4">
             <h3 className="text-xl font-black text-slate-900 tracking-tight">{principle.name}</h3>
             <span className="text-[9px] bg-white px-3 py-1 rounded-full border border-indigo-200 text-indigo-600 font-black uppercase tracking-widest">
-              Fundamento Institucional
+              Princípio de Discernimento
             </span>
           </div>
           <p className="text-sm font-bold text-slate-500 mt-2 italic leading-relaxed">"{principle.philosophicalFoundation.text}"</p>
@@ -78,7 +78,7 @@ export function GovernanceInsightPanel({
           <div className="flex gap-4 p-4 bg-amber-50/50 rounded-2xl border border-amber-100/50">
             <HelpCircle size={20} className="text-amber-500 shrink-0 mt-1" />
             <div>
-              <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Desafio Prático (Cenário)</p>
+              <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Cenário de Maturidade Organizacional</p>
               <p className="text-sm font-medium text-amber-900/80 italic leading-snug">"{principle.situationalScenario}"</p>
             </div>
           </div>

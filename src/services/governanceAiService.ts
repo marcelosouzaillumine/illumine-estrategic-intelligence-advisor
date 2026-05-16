@@ -19,55 +19,75 @@ export async function generateGovernanceParecer(req: GovernanceParecerRequest): 
   const ai = getAI();
 
   if (!ai) {
-    // Fallback se a API key do Gemini não estiver configurada
+    // Fallback inteligente se a API key do Gemini não estiver configurada
     return new Promise(resolve => {
       setTimeout(() => {
-        const kpiKeys = Object.keys(req.metrics);
-        const kpiText = kpiKeys.length > 0 ? `Com os números atuais apontando para ${kpiKeys[0]} de ${req.metrics[kpiKeys[0]]}, ` : '';
-        const principlesText = req.topPrinciples.length > 0 ? req.topPrinciples.slice(0, 2).join(' e ') : 'Integridade e Prudência';
+        const metrics = req.metrics;
+        const netProfit = typeof metrics['Lucro Líquido'] === 'number' ? metrics['Lucro Líquido'] : 0;
+        const cashBalance = typeof metrics['Saldo de Caixa Real'] === 'number' ? metrics['Saldo de Caixa Real'] : 
+                            typeof metrics['Saldo de Caixa'] === 'number' ? metrics['Saldo de Caixa'] : 0;
+        
+        let insight = `Com base nos resultados atuais da ${req.clientName}, observamos uma oportunidade clara de fortalecer os fundamentos de ${req.topPrinciples.slice(0, 2).join(' e ')}. `;
+        
+        if (netProfit > 0 && cashBalance < netProfit) {
+          insight += `Detectamos uma divergência entre o lucro econômico e a disponibilidade financeira efetiva. Isso sugere que a lucratividade pode estar retida em ativos não líquidos, exigindo cautela na expansão e foco em eficiência de recebimento. `;
+        } else if (netProfit > 0) {
+          insight += `A saúde econômica está preservada, permitindo que a organização foque em investimentos estruturais e no fortalecimento da cultura de governança. `;
+        }
 
-        resolve(`Com base nos resultados atuais da ${req.clientName}, observamos uma oportunidade clara de fortalecer os fundamentos de ${principlesText}. ${kpiText}a situação exige atenção aos detalhes operacionais para garantir a sustentabilidade estrutural do eixo. Sugerimos focar em processos que resguardem a qualidade da entrega enquanto promovem uma cultura de responsabilidade entre as lideranças.`);
-      }, 1500);
+        insight += `A situação exige atenção aos fundamentos de sustentabilidade para garantir a perenidade institucional. Sugerimos focar em processos que resguardem a integridade operacional enquanto promovem uma cultura de responsabilidade e legado.`;
+
+        resolve(insight);
+      }, 1000);
     });
   }
 
   try {
-    const prompt = `Você é o Motor de Inteligência de Governança (Illumine Advisor), um consultor empresarial sênior especializado em aplicar fundamentos institucionais e princípios universais de gestão à governança corporativa moderna.
+    const prompt = `Você é o MOTOR DE INTELIGÊNCIA ORGANIZACIONAL SISTÊMICA da Illumine.
+Sua função não é apenas interpretar indicadores, mas gerar DISCERNIMENTO EMPRESARIAL profundo e estratégico.
 
-Sua abordagem é sistêmica: você entende que os princípios de governança formam uma UNIDADE integrada, onde cada fundamento complementa o outro para criar uma estrutura organizacional sólida e perene.
+Sua análise deve seguir obrigatoriamente o princípio: "DO TODO PARA A PARTE".
+Nenhum indicador deve ser lido isoladamente. Cada dado é uma dimensão parcial de um organismo vivo.
 
-Você está analisando a empresa: ${req.clientName} (Setor: ${req.industry}).
+CONTEXTO DA ANÁLISE:
+- Empresa: ${req.clientName}
+- Setor: ${req.industry}
+- Eixo em Foco: Governança Representativa e Integridade
 
-Os indicadores atuais (KPIs) do segmento analisado são:
+DADOS DO MOMENTO (KPIs):
 ${Object.entries(req.metrics).map(([key, value]) => `- ${key}: ${value}`).join('\n')}
 
-Os Princípios de Governança (que atuam de forma integrada e complementar) são:
+FILTROS DE PRINCÍPIOS (Integrados e Complementares):
 ${req.topPrinciples.map(p => `- ${p}`).join('\n')}
-${req.scenarios && req.scenarios.length > 0 ? `\nConsidere também estas Situações Reais/Simulações de Decisão relacionadas:\n${req.scenarios.map(s => `- ${s}`).join('\n')}` : ''}
+${req.scenarios && req.scenarios.length > 0 ? `\nDILEMAS E CENÁRIOS SITUACIONAIS:\n${req.scenarios.map(s => `- ${s}`).join('\n')}` : ''}
 
-Sua tarefa:
-Gere uma "Perspectiva de Governança Integrada" (cerca de 2 a 3 parágrafos curtos) conectando diretamente os resultados e dores indicados pelos KPIs com a UNIDADE dos princípios de gestão informados. Demonstre como a integração desses fundamentos resolve gargalos e gera sustentabilidade.
+SUA TAREFA:
+Gere um "PARECER DE DISCERNIMENTO SISTÊMICO" (2 a 3 parágrafos sofisticados) que:
 
-DIRETRIZES DE ESTILO:
-1. Seja prático, executivo, institucional e propositivo.
-2. Aborde os princípios como um sistema vivo e complementar, não como itens isolados.
-3. A linguagem deve ser de alta governança corporativa (C-Level).
-4. Insira insights práticos que sejam aplicáveis ao setor de atuação do cliente (${req.industry}).
-5. Demonstre como a aplicação sistêmica desses princípios alavanca os indicadores de performance e a maturidade institucional.
+1. AVALIE A COERÊNCIA ORGANIZACIONAL: Cruze os KPIs com os Princípios. Se o financeiro está positivo mas a governança está frouxa, identifique o risco invisível.
+2. APLIQUE OS 5 FILTROS: Sua análise deve considerar (mesmo que implicitamente) a Sustentabilidade Econômica, Alinhamento ao DNA, Integridade de Governança, Impacto Humano/Cultural e Sustentabilidade de Longo Prazo.
+3. INTERPRETE RELAÇÕES DE CAUSA E EFEITO: Como a maturidade neste eixo afeta a perenidade institucional?
+4. DETECTE INCOERÊNCIAS: Identifique sinais de fadiga, centralização excessiva ou desalinhamento entre resultados e propósito.
 
-Não use saudações. Vá direto para a análise executiva.`;
+ESTILO E TOM:
+- Linguagem executiva, sofisticada, técnica e profunda.
+- Evite jargões motivacionais ou superficiais.
+- Tom humanizado, mas rigorosamente institucional.
+- Foco em legado, responsabilidade e maturidade organizacional.
+
+Não use saudações. Vá direto ao discernimento estratégico.`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.0-flash',
       contents: prompt,
       config: {
-        temperature: 0.7,
+        temperature: 0.6, // Reduzido ligeiramente para maior consistência estratégica
       }
     });
 
-    return response.text || "Análise de Governança indisponível no momento.";
+    return response.text || "Análise de Discernimento indisponível no momento.";
   } catch (error) {
     console.error("AI Governance Service Error:", error);
-    return "Não foi possível gerar um parecer automático no momento. Por favor, revise manualmente o alinhamento com os princípios de governança.";
+    return `O Motor de Inteligência encontrou uma oscilação técnica. Contudo, os indicadores de ${req.topPrinciples.slice(0, 1)} sugerem a necessidade de uma revisão estratégica dos processos de governança para assegurar o alinhamento institucional.`;
   }
 }

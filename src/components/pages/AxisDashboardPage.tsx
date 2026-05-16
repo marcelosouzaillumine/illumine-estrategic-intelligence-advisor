@@ -378,6 +378,86 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
         </div>
       </div>
 
+      {/* Section specific for Culture: Anthropological Intelligence */}
+      {axis === 'Cultura Organizacional' && (() => {
+        const turnover = flatMetrics['Turnover'] || 0;
+        const enps = flatMetrics['eNPS (Clima)'] || 0;
+        const absent = flatMetrics['Absenteísmo'] || 0;
+        const training = flatMetrics['Horas de Treinamento'] || 0;
+
+        const isCentralized = turnover > 15 && enps > 50;
+        const isFatigued = absent > 5 || (training < 2 && training > 0);
+        const isSilent = turnover < 5 && enps < 30 && enps !== 0;
+
+        return (
+          <div className="bg-white p-10 md:p-14 rounded-[56px] border border-slate-200 shadow-sm relative overflow-hidden mb-10">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="p-4 rounded-2xl bg-purple-50 text-purple-600 border border-purple-100">
+                  <Users size={32} />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">Inteligência Antropológica & Clima</h3>
+                  <p className="text-xs text-slate-500 font-medium">Detectando sinais invisíveis de fadiga, centralização e saúde cultural.</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Centralization Signal */}
+                <div className="p-8 rounded-[40px] bg-slate-50 border border-slate-100 space-y-6">
+                  <div className="flex items-center justify-between">
+                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinal de Centralização</p>
+                     <div className={cn("w-2 h-2 rounded-full", isCentralized ? "bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]" : "bg-emerald-500")} />
+                  </div>
+                  <div className="space-y-2">
+                     <h4 className="text-lg font-black text-slate-900">{isCentralized ? "Risco Identificado" : "Liderança Distribuída"}</h4>
+                     <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                       {isCentralized 
+                         ? "Correlação entre Turnover em posições chave e score de eNPS indica possíveis gargalos decisórios no topo." 
+                         : "O fluxo de talentos e a satisfação indicam uma estrutura de comando equilibrada e participativa."}
+                     </p>
+                  </div>
+                </div>
+
+                {/* Fatigue Signal */}
+                <div className="p-8 rounded-[40px] bg-slate-50 border border-slate-100 space-y-6">
+                  <div className="flex items-center justify-between">
+                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fadiga Organizacional</p>
+                     <div className={cn("w-2 h-2 rounded-full", isFatigued ? "bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]" : "bg-emerald-500")} />
+                  </div>
+                  <div className="space-y-2">
+                     <h4 className="text-lg font-black text-slate-900">{isFatigued ? "Alerta de Estresse" : "Ritmo Sustentável"}</h4>
+                     <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                       {isFatigued 
+                         ? "Índices de absenteísmo ou falta de desenvolvimento sugerem sobrecarga física ou mental nas equipes." 
+                         : "Os indicadores de presença e investimento em pessoas sugerem um ritmo operacional saudável e resiliente."}
+                     </p>
+                  </div>
+                </div>
+
+                {/* Silent Climate Signal */}
+                <div className={cn("p-8 rounded-[40px] space-y-6 shadow-xl transition-colors duration-500", isSilent ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-900")}>
+                  <div className="flex items-center justify-between">
+                     <p className="text-[10px] font-black opacity-50 uppercase tracking-widest">Clima Silencioso</p>
+                     <div className={cn("w-2 h-2 rounded-full", isSilent ? "bg-purple-500 animate-pulse" : "bg-emerald-500")} />
+                  </div>
+                  <div className="space-y-2">
+                     <h4 className="text-lg font-black">{isSilent ? "Risco de Conformidade" : "Transparência Plena"}</h4>
+                     <p className="text-xs opacity-70 leading-relaxed font-medium">
+                       {isSilent 
+                         ? "Baixo turnover com baixo eNPS sugerem um ambiente onde os problemas não são vocalizados por medo ou apatia." 
+                         : "A relação entre engajamento e retenção aponta para um ambiente de diálogo aberto e segurança psicológica."}
+                     </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
       {/* KPI Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {(() => {

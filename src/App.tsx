@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   Plus,
   TrendingDown,
@@ -62,7 +62,7 @@ import { useNotifications } from './hooks/useNotifications';
 import { AccountModal } from './components/modals/AccountModal';
 import { ImportPlanoModal } from './components/modals/ImportPlanoModal';
 import { MappingWizard } from './components/modals/MappingWizard';
-import { PageHeader, Semaphore, StatusBadge, SectionHeader } from './components/Common';
+import { PageHeader, Semaphore, StatusBadge, SectionHeader, WelcomeMessage, getRandomWelcomeMessage } from './components/Common';
 
 import { useDataTable } from './hooks/useDataTable';
 import { SortableHeader } from './components/SortableHeader';
@@ -327,6 +327,10 @@ export default function App() {
   const [isPartner, setIsPartner] = useState(false);
   const [isMaster, setIsMaster] = useState(false);
   const [userPartnerIds, setUserPartnerIds] = useState<string[]>([]);
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [welcomeText, setWelcomeText] = useState('');
+  const initialRedirectDone = useRef(false);
+  const [rolesLoaded, setRolesLoaded] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('sidebar-collapsed', JSON.stringify(isSidebarCollapsed));
@@ -518,20 +522,17 @@ export default function App() {
           const dbClients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
           console.log('[Auth] Clients found:', dbClients.length);
           setClients(dbClients);
-          if (dbClients.length > 0) {
-            if (!selectedClient || !dbClients.some(c => c.id === selectedClient)) {
-              setSelectedClient(dbClients[0].id);
-            }
-          } else {
-            setSelectedClient('');
-          }
+          setRolesLoaded(true);
+          // Removed automatic selection here to handle it in the initial logic useEffect
         }, (error) => {
           console.error("[Auth] Snapshot Error:", error);
           setClients([]);
+          setRolesLoaded(true);
         });
       } catch (error) {
         console.error("[Auth] Fetch Error:", error);
         setClients([]);
+        setRolesLoaded(true);
       }
     };
 
@@ -540,6 +541,53 @@ export default function App() {
       unsubscribePromise.then(unsub => unsub && (unsub as any)());
     };
   }, [user, authLoading]);
+
+  // Initial redirection and welcome message logic
+  useEffect(() => {
+    if (!authLoading && user && rolesLoaded && !initialRedirectDone.current) {
+      console.log('[Redirect] Checking initial redirection', { isMaster, isPartner });
+      
+      // Role-based redirection: Master/Partner -> portfolio, Company User -> dashboard
+      if (isMaster || isPartner) {
+        setCurrentPage('portfolio');
+      } else {
+        setCurrentPage('dashboard');
+      }
+
+      // First access of the day check
+      const today = new Date().toISOString().split('T')[0];
+      const lastAccessKey = `last_access_${user.uid}`;
+      const lastAccess = localStorage.getItem(lastAccessKey);
+      const isFirstAccessOfDay = lastAccess !== today;
+      
+      if (isFirstAccessOfDay) {
+        setWelcomeText(getRandomWelcomeMessage());
+        setShowWelcome(true);
+        localStorage.setItem(lastAccessKey, today);
+      }
+
+      // Client Selection Logic: 
+      // If Admin/Partner and first access of the day -> Empty
+      // If Admin/Partner and subsequent access -> Last viewed
+      // If Regular User -> First available client
+      if (isMaster || isPartner) {
+        if (isFirstAccessOfDay) {
+          setSelectedClient('');
+        } else {
+          const lastClient = localStorage.getItem(`last_client_${user.uid}`);
+          if (lastClient && clients.some((c: any) => c.id === lastClient)) {
+            setSelectedClient(lastClient);
+          } else {
+            setSelectedClient('');
+          }
+        }
+      } else if (clients.length > 0) {
+        setSelectedClient(clients[0].id);
+      }
+
+      initialRedirectDone.current = true;
+    }
+  }, [authLoading, user, rolesLoaded, isMaster, isPartner, clients]);
 
   const currentPageLabel = FLAT_NAV_ITEMS.find((item) => item.id === currentPage)?.label || '';
 
@@ -585,6 +633,9 @@ export default function App() {
         isPartner={isPartner}
         isMaster={isMaster}
         userPartnerIds={userPartnerIds}
+        showWelcome={showWelcome}
+        setShowWelcome={setShowWelcome}
+        welcomeText={welcomeText}
       />
     </GovernanceProvider>
   );
@@ -614,7 +665,10 @@ function AppContent({
   userPermissions,
   isPartner,
   isMaster,
-  userPartnerIds
+  userPartnerIds,
+  showWelcome,
+  setShowWelcome,
+  welcomeText
 }: any) {
   const { isAccepted, setAccepted, role, loading: governanceLoading } = useGovernance();
   const [showUniversalImport, setShowUniversalImport] = useState(false);
@@ -655,6 +709,9 @@ function AppContent({
 
   const handleSelectClient = async (id: string) => {
     setSelectedClient(id);
+    if (user) {
+      localStorage.setItem(`last_client_${user.uid}`, id);
+    }
     const client = clients.find((c: any) => c.id === id);
     if (client) {
       if (client.currency) {
@@ -675,8 +732,15 @@ function AppContent({
       });
     }
   };
+
   return (
     <div className="flex h-screen bg-bg-main overflow-hidden text-text-main transition-colors duration-500">
+      <WelcomeMessage 
+        isOpen={showWelcome} 
+        onClose={() => setShowWelcome(false)} 
+        message={welcomeText}
+        userName={user?.displayName || ''}
+      />
       {/* Sidebar Overlay for Mobile */}
       <AnimatePresence>
         {isMobileMenuOpen && (

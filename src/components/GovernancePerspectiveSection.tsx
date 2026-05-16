@@ -36,8 +36,8 @@ export function GovernancePerspectiveSection({
               <ShieldCheck size={28} strokeWidth={2.5} />
             </div>
             <div>
-              <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none mb-2">Perspectiva de Governança Integrada</h3>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Unidade de princípios que se integram e complementam: {axis}</p>
+              <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none mb-2">Perspectiva de Discernimento Organizacional</h3>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Ecossistema Interpretativo Integrado: {axis}</p>
             </div>
           </div>
           
@@ -62,7 +62,7 @@ export function GovernancePerspectiveSection({
             
             <div className="flex items-center gap-3 mb-6 text-indigo-400 font-black uppercase tracking-[0.3em] text-[10px]">
               <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-              Parecer Executivo Sistêmico (AIOX Intelligence)
+              Parecer de Discernimento Sistêmico (Illumine Intelligence Engine)
             </div>
             
             <div className="prose prose-invert max-w-none">
@@ -79,7 +79,7 @@ export function GovernancePerspectiveSection({
                     </div>
                   ))}
                </div>
-               <span>Análise Validada pelo Motor Illumine Advisor</span>
+               <span>Discernimento Validado pelo Motor Illumine</span>
             </div>
           </motion.div>
         )}

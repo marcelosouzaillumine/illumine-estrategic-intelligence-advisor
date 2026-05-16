@@ -365,129 +365,115 @@ export function FinancialAdminDashboard({
         ))}
       </div>
 
-      {/* 2. ALM & Cash Flow 30D */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Gestão de Ativos e Passivos (ALM) */}
-        <div className="bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden">
-          <div className="flex items-center justify-between mb-8">
+      {/* 2. Centro de Discernimento Financeiro: Caixa vs. Competência */}
+      <div className="bg-gradient-to-br from-slate-900 to-indigo-950 p-10 md:p-14 rounded-[56px] text-white shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
+        
+        <div className="relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
             <div>
-              <h3 className="text-xl font-black text-slate-900 tracking-tight mb-1">Asset & Liability Management (ALM)</h3>
-              <p className="text-xs text-slate-500 font-medium">Equilíbrio entre recursos disponíveis e obrigações.</p>
-            </div>
-            <ShieldCheck className="text-indigo-600" size={24} />
-          </div>
-
-          <div className="space-y-8">
-            <div className="grid grid-cols-2 gap-6">
-              <div className="p-6 rounded-3xl bg-emerald-50 border border-emerald-100">
-                <p className="text-[10px] font-black text-emerald-700 uppercase tracking-widest mb-2">Total de Ativos</p>
-                <h4 className="text-2xl font-black text-emerald-900">{formatCurrency(calculatedKPIs.totalAssets)}</h4>
-                <div className="mt-4 space-y-2">
-                   <div className="flex justify-between text-[9px] font-bold text-emerald-600 uppercase">
-                      <span>Liquidez Imediata</span>
-                      <span>{formatCurrency(calculatedKPIs.saldoCaixa)}</span>
-                   </div>
-                   <div className="h-1 bg-white rounded-full">
-                      <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${(calculatedKPIs.saldoCaixa / (calculatedKPIs.totalAssets || 1)) * 100}%` }} />
-                   </div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 rounded-2xl bg-white/10 text-indigo-400 border border-white/5">
+                  <Calculator size={24} />
                 </div>
+                <h3 className="text-2xl md:text-3xl font-black tracking-tight">Centro de Discernimento Financeiro</h3>
               </div>
-
-              <div className="p-6 rounded-3xl bg-rose-50 border border-rose-100">
-                <p className="text-[10px] font-black text-rose-700 uppercase tracking-widest mb-2">Total de Passivos</p>
-                <h4 className="text-2xl font-black text-rose-900">{formatCurrency(calculatedKPIs.totalLiabilities)}</h4>
-                <div className="mt-4 space-y-2">
-                   <div className="flex justify-between text-[9px] font-bold text-rose-600 uppercase">
-                      <span>Exigível Imediato</span>
-                      <span>{formatCurrency(calculatedKPIs.totalLiabilities)}</span>
-                   </div>
-                   <div className="h-1 bg-white rounded-full">
-                      <div className="h-full bg-rose-500 rounded-full" style={{ width: '100%' }} />
-                   </div>
-                </div>
-              </div>
+              <p className="text-slate-400 font-medium max-w-2xl leading-relaxed">
+                Análise integrada dos regimes de <span className="text-white">Caixa</span> e <span className="text-white">Competência</span>. 
+                O lucro demonstra viabilidade econômica; o caixa demonstra fôlego vital. A harmonia entre ambos define a perenidade.
+              </p>
             </div>
-
-            <div className="p-6 rounded-3xl bg-slate-900 text-white flex items-center justify-between">
-               <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Índice de Solvência (ALM)</p>
-                  <h4 className="text-2xl font-black">{((calculatedKPIs.totalAssets / (calculatedKPIs.totalLiabilities || 1))).toFixed(2)}x</h4>
-               </div>
-               <div className="text-right">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status de Cobertura</p>
-                  <span className={cn(
-                    "px-3 py-1 rounded-full text-[10px] font-black uppercase",
-                    (calculatedKPIs.totalAssets / (calculatedKPIs.totalLiabilities || 1)) > 1 ? "bg-emerald-500/20 text-emerald-400" : "bg-rose-500/20 text-rose-400"
-                  )}>
-                    {(calculatedKPIs.totalAssets / (calculatedKPIs.totalLiabilities || 1)) > 1 ? 'Seguro' : 'Risco de Liquidez'}
+            
+            <div className="flex items-center gap-4 bg-white/5 p-4 rounded-3xl border border-white/10 backdrop-blur-md">
+              <div className="text-center px-4 border-r border-white/10">
+                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Status de Liquidez</p>
+                <div className="flex items-center gap-2">
+                  <div className={cn("w-2 h-2 rounded-full animate-pulse", calculatedKPIs.liquidezCorrente > 1.5 ? "bg-emerald-500" : calculatedKPIs.liquidezCorrente >= 1.0 ? "bg-amber-500" : "bg-rose-500")} />
+                  <span className="text-sm font-black uppercase">
+                    {calculatedKPIs.liquidezCorrente > 1.5 ? "Excelente" : calculatedKPIs.liquidezCorrente >= 1.0 ? "Preservada" : "Crítica"}
                   </span>
+                </div>
+              </div>
+              <div className="text-center px-4">
+                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Maturidade ALM</p>
+                <span className="text-sm font-black uppercase">
+                   {(calculatedKPIs.totalAssets / (calculatedKPIs.totalLiabilities || 1)) > 1.2 ? "Consolidada" : "Em Estruturação"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            {/* Competência Column */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 mb-2">
+                <TrendingUp size={18} className="text-indigo-400" />
+                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Regime de Competência (DRE)</h4>
+              </div>
+              <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] space-y-6 hover:bg-white/[0.08] transition-all">
+                <div>
+                  <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Lucro Líquido Econômico</p>
+                  <h5 className="text-3xl font-black text-white">{formatCurrency(calculatedKPIs.netProfit)}</h5>
+                  <p className="text-[10px] text-slate-400 mt-2">Eficiência econômica da operação</p>
+                </div>
+                <div className="pt-6 border-t border-white/5">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-[10px] font-bold text-slate-400">Margem Líquida</span>
+                    <span className="text-sm font-black text-indigo-400">{calculatedKPIs.margemLiquida.toFixed(1)}%</span>
+                  </div>
+                  <div className="h-1 bg-white/10 rounded-full">
+                    <div className="h-full bg-indigo-500 rounded-full" style={{ width: `${Math.min(calculatedKPIs.margemLiquida * 2, 100)}%` }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Contrast / Insight Column */}
+            <div className="flex flex-col items-center justify-center py-6">
+               <div className="w-full h-full bg-white/5 border border-dashed border-white/20 rounded-[40px] p-8 flex flex-col items-center justify-center text-center space-y-6">
+                  <div className="w-16 h-16 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 animate-pulse">
+                    <Activity size={32} />
+                  </div>
+                  <div>
+                    <h5 className="text-lg font-black text-white mb-2">Fator de Conversão de Caixa</h5>
+                    <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">Efficiency Gap</p>
+                  </div>
+                  <div className="text-3xl font-black text-white">
+                    {calculatedKPIs.netProfit > 0 ? ((calculatedKPIs.saldoCaixa / calculatedKPIs.netProfit) * 100).toFixed(0) : '0'}%
+                  </div>
+                  <p className="text-xs text-slate-400 font-medium leading-relaxed italic">
+                    {calculatedKPIs.saldoCaixa < calculatedKPIs.netProfit 
+                      ? "Atenção: A lucratividade está retida em ativos não líquidos. Risco de 'Crise de Crescimento'." 
+                      : "Excelente: A geração de caixa supera o lucro contábil, indicando alta liquidez operacional."}
+                  </p>
                </div>
             </div>
-          </div>
-        </div>
 
-        {/* Fluxo de Caixa 30 Dias */}
-        <div className="bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h3 className="text-xl font-black text-slate-900 tracking-tight mb-1">Fluxo de Caixa (Próximos 30 Dias)</h3>
-              <p className="text-xs text-slate-500 font-medium">Projeção diária de entradas e saídas esperadas.</p>
-            </div>
-            <Activity className="text-secondary" size={24} />
-          </div>
-
-          <div className="h-[200px] w-full mb-8">
-            {fluxo30Dias.length > 0 ? (
-               <ResponsiveContainer width="100%" height="100%">
-                 <AreaChart data={fluxo30Dias}>
-                    <defs>
-                      <linearGradient id="colorSaldo30" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#ff8552" stopOpacity={0.1}/>
-                        <stop offset="95%" stopColor="#ff8552" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                    <XAxis 
-                      dataKey="Data" 
-                      hide
-                    />
-                    <YAxis hide />
-                    <Tooltip 
-                      contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                      formatter={(val: number) => [formatCurrency(val), 'Saldo Projetado']}
-                    />
-                    <Area type="monotone" dataKey="Saldo Final" stroke="#ff8552" fill="url(#colorSaldo30)" fillOpacity={1} strokeWidth={3} />
-                 </AreaChart>
-               </ResponsiveContainer>
-            ) : (
-              <div className="h-full flex flex-col items-center justify-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-                <Calculator size={32} className="text-slate-300 mb-2" />
-                <p className="text-[10px] font-black text-slate-400 uppercase">Sem projeção gerada</p>
+            {/* Caixa Column */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 mb-2">
+                <WalletCards size={18} className="text-emerald-400" />
+                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Regime de Caixa (Disponibilidade)</h4>
               </div>
-            )}
+              <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] space-y-6 hover:bg-white/[0.08] transition-all">
+                <div>
+                  <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Liquidez Imediata (ALM)</p>
+                  <h5 className="text-3xl font-black text-emerald-400">{formatCurrency(calculatedKPIs.saldoCaixa)}</h5>
+                  <p className="text-[10px] text-slate-400 mt-2">Poder de fogo para investimentos e segurança</p>
+                </div>
+                <div className="pt-6 border-t border-white/5">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-[10px] font-bold text-slate-400">Cobertura de Curto Prazo</span>
+                    <span className="text-sm font-black text-emerald-400">{calculatedKPIs.liquidezCorrente.toFixed(2)}x</span>
+                  </div>
+                  <div className="h-1 bg-white/10 rounded-full">
+                    <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${Math.min(calculatedKPIs.liquidezCorrente * 40, 100)}%` }} />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div className="grid grid-cols-2 gap-4">
-             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                <p className="text-[9px] font-black text-slate-400 uppercase mb-1">Média de Entradas (30d)</p>
-                <p className="text-sm font-black text-emerald-600">
-                   {fluxo30Dias.length > 0 ? formatCurrency(fluxo30Dias.reduce((acc: number, r: any) => acc + (Number(r.Entradas) || 0), 0) / 30) : 'R$ 0,00'}
-                </p>
-             </div>
-             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                <p className="text-[9px] font-black text-slate-400 uppercase mb-1">Média de Saídas (30d)</p>
-                <p className="text-sm font-black text-rose-600">
-                   {fluxo30Dias.length > 0 ? formatCurrency(fluxo30Dias.reduce((acc: number, r: any) => acc + (Number(r["Saídas"]) || 0), 0) / 30) : 'R$ 0,00'}
-                </p>
-             </div>
-          </div>
-          
-          <button 
-            onClick={() => onNavigate?.('caixa')}
-            className="w-full mt-6 py-4 bg-slate-50 text-slate-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-secondary hover:text-white transition-all flex items-center justify-center gap-2"
-          >
-            Gerenciar Fluxo Detalhado <ChevronRight size={14} />
-          </button>
         </div>
       </div>
 
