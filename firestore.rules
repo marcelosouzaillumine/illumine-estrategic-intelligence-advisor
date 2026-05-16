@@ -468,6 +468,18 @@ service cloud.firestore {
       allow delete: if isOwner(existing());
     }
 
+    match /user_acceptances/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /governance_configs/{document=**} {
+      allow read: if isSignedIn();
+    }
+
     // --- Global Safety Net (Moved to End) ---
     match /{document=**} {
       allow read, write: if false;
