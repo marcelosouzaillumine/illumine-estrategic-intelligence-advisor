@@ -119,18 +119,37 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
   const aggHistory = useMemo(() => {
     if (positions.length === 0) return [];
     
-    // Get all unique months from all positions history
-    const allMonths = Array.from(new Set(positions.flatMap(p => p.historico?.map((h: any) => h.mes) || []))) as string[];
-    
-    // Order of months (portuguese)
     const monthOrder = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    const normalizeMonth = (m: string) => {
+      if (!m) return '';
+      // Remove dots and take first 3 chars, capitalized
+      const clean = m.replace(/\./g, '').trim();
+      return clean.charAt(0).toUpperCase() + clean.slice(1, 3).toLowerCase();
+    };
+
+    // Get all unique months from all positions history
+    let allMonths = Array.from(new Set(positions.flatMap(p => p.historico?.map((h: any) => normalizeMonth(h.mes)) || []))) as string[];
+    allMonths = allMonths.filter(m => m && monthOrder.includes(m));
+
+    // If no history exists but we have positions, use current month as fallback
+    if (allMonths.length === 0 && positions.length > 0) {
+      const currentMonth = normalizeMonth(new Date().toLocaleString('pt-BR', { month: 'short' }));
+      allMonths = [currentMonth];
+    }
+
     const sortedMonths = allMonths.sort((a: string, b: string) => monthOrder.indexOf(a) - monthOrder.indexOf(b));
 
     return sortedMonths.map(m => {
       const total = positions.reduce((acc, p) => {
-        const hist = p.historico?.find((h: any) => h.mes === m);
+        const hist = p.historico?.find((h: any) => normalizeMonth(h.mes) === m);
         const rate = exchangeRates[p.moeda as keyof typeof exchangeRates] || 1;
-        return acc + ((hist?.saldo || 0) * rate);
+        
+        // If no history for this month, use the current balance if it's the current month, 
+        // or 0 if it's a past month (not ideal but consistent with previous logic)
+        const currentMonth = normalizeMonth(new Date().toLocaleString('pt-BR', { month: 'short' }));
+        const balance = hist ? hist.saldo : (m === currentMonth ? p.saldoAtual : 0);
+        
+        return acc + (balance * rate);
       }, 0);
       return { mes: m, saldo: total };
     });
@@ -166,14 +185,17 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
         icon={Landmark}
       />
 
-      <div className="flex flex-col md:flex-row md:items-center justify-end gap-4 -mt-8 mb-12">
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6">
+        <div className="flex items-center gap-3">
           <div className="px-4 py-2.5 bg-white text-slate-400 border border-slate-200 rounded-xl flex items-center gap-2 shadow-sm">
             <Clock size={12} />
             <span className="text-[10px] font-black uppercase tracking-widest">
               Sinc: {positions[0]?.dataAtualizacao || '--'}
             </span>
           </div>
+        </div>
+
+        <div className="flex items-center gap-3">
           <button 
             onClick={() => setShowImportModal(true)}
             disabled={!selectedClient}
@@ -191,6 +213,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
         </div>
       </div>
 
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <KpiCardModeling 
           label="Saldo Total Atual" 
@@ -201,7 +224,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
           label="Saldos no Início do Mês" 
           value={formatCurrency(kpis.totalInitial)} 
           tone="default" 
-          helper="Soma dos saldos em 01/05/2026"
+          helper={`Soma dos saldos em 01/${(new Date().getMonth() + 1).toString().padStart(2, '0')}/${new Date().getFullYear()}`}
         />
         <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Evolução no Mês</p>
@@ -359,7 +382,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
                           </span>
                           {p.moeda !== 'BRL' && (
                             <span className="text-[10px] font-bold text-slate-400 italic">
-                              {p.moeda} {p.saldoAtual.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                              {p.moeda} {p.saldoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </span>
                           )}
                         </div>

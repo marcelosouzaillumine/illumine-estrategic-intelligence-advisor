@@ -41,6 +41,7 @@ import { MarketingComercialPage } from '../components/pages/MarketingComercialPa
 import { OperacionalPage } from '../components/pages/OperacionalPage';
 import { AdministrativaPage } from '../components/pages/AdministrativaPage';
 import { ControladoriaPage } from '../components/pages/ControladoriaPage';
+import { FinancialAdminDashboard } from '../components/pages/FinancialAdminDashboard';
 import { DesenvolvimentoHumanoPage } from '../components/pages/DesenvolvimentoHumanoPage';
 import { PlanoEstrategicoGlobalPage } from '../components/pages/PlanoEstrategicoGlobalPage';
 import { CompliancePage } from '../components/pages/CompliancePage';
@@ -62,7 +63,11 @@ import { SystemicIntelligencePage } from '../components/pages/SystemicIntelligen
 import { MeetingMinutesPage } from '../components/pages/MeetingMinutesPage';
 import { AvaliacaoOrganogramaPage } from '../components/pages/AvaliacaoOrganogramaPage';
 import { CulturaFeedbackPage } from '../components/pages/CulturaFeedbackPage';
+import { PartnersPage } from '../components/pages/PartnersPage';
 import { OrcamentoPage } from '../components/pages/OrcamentoPage';
+import { DadosHistoricosPage } from '../components/pages/DadosHistoricosPage';
+import { SupportPage } from '../components/pages/SupportPage';
+import { CleanupTool } from '../components/pages/CleanupTool';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -79,6 +84,9 @@ interface RouteRenderContext {
   setClients: (clients: any[]) => void;
   academyCourseId: string;
   setAcademyCourseId: (id: string) => void;
+  isPartner?: boolean;
+  isMaster?: boolean;
+  userPartnerIds?: string[];
 }
 
 export function renderCurrentPage(ctx: RouteRenderContext) {
@@ -96,12 +104,17 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     setClients,
     academyCourseId,
     setAcademyCourseId,
+    isPartner,
+    isMaster,
+    userPartnerIds,
   } = ctx;
 
   if (currentPage === 'portfolio') {
     return (
       <PortfolioPage
         clients={clients}
+        isPartner={isPartner}
+        userPartnerIds={userPartnerIds}
         onSelectClient={(id: string, targetPage: Page = 'dashboard') => {
           setSelectedClient(id);
           setCurrentPage(targetPage);
@@ -110,10 +123,41 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     );
   }
   if (currentPage === 'dashboard') {
-    return <DashboardPage clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
+    return (
+      <DashboardPage 
+        selectedClient={selectedClient} 
+        setSelectedClient={setSelectedClient} 
+        selectedMonth={selectedMonth} 
+        setSelectedMonth={setSelectedMonth} 
+        selectedYear={selectedYear} 
+        setSelectedYear={setSelectedYear}
+        onNavigate={setCurrentPage}
+      />
+    );
   }
   if (currentPage === 'indicadores') {
     return <IndicatorsPage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
+  }
+  if (currentPage === 'dados_historicos') {
+    return (
+      <DadosHistoricosPage 
+        clients={clients} 
+        user={user} 
+        selectedClient={selectedClient} 
+        setSelectedClient={setSelectedClient} 
+      />
+    );
+  }
+  if (currentPage === 'aprovacoes') {
+    return (
+      <DadosHistoricosPage 
+        clients={clients} 
+        user={user} 
+        selectedClient={selectedClient} 
+        setSelectedClient={setSelectedClient}
+        isApprovalMode={true}
+      />
+    );
   }
   if (currentPage === 'dre') {
     return <DREPage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
@@ -137,10 +181,10 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <AssetManagementPage clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
   }
   if (currentPage === 'contas_pagar') {
-    return <PayablesPage clients={clients} selectedClient={selectedClient} />;
+    return <PayablesPage clients={clients} selectedClient={selectedClient} isMaster={isMaster} />;
   }
   if (currentPage === 'contas_receber') {
-    return <ReceivablesPage clients={clients} selectedClient={selectedClient} />;
+    return <ReceivablesPage clients={clients} selectedClient={selectedClient} isMaster={isMaster} />;
   }
   if (currentPage === 'compras') {
     return <PurchasingPage clients={clients} selectedClient={selectedClient} />;
@@ -203,7 +247,26 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <FinancialModelingPage clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient} />;
   }
   if (currentPage === 'clientes' || (currentPage as string) === 'clientes_root') {
-    return <ClientsPage clients={clients} setClients={setClients} setSelectedClient={setSelectedClient} />;
+    return (
+      <ClientsPage 
+        clients={clients} 
+        setClients={setClients} 
+        setSelectedClient={setSelectedClient} 
+        isMaster={isMaster} 
+        isPartner={isPartner}
+        userPartnerIds={userPartnerIds}
+      />
+    );
+  }
+  if (currentPage === 'parceiros') {
+    return (
+      <PartnersPage 
+        clients={clients} 
+        setClients={setClients} 
+        setSelectedClient={setSelectedClient}
+        isMaster={isMaster}
+      />
+    );
   }
   if (currentPage === 'plano_contas') {
     return <PlanoDeContasPage clients={clients} selectedClient={selectedClient} planType="accounting" />;
@@ -301,7 +364,16 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     );
   }
   if (currentPage === 'dashboard_gestao') {
-    return <AxisDashboardPage axis="Gestão Administrativa e Financeira" clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
+    return (
+      <FinancialAdminDashboard 
+        clientId={selectedClient} 
+        onNavigate={setCurrentPage} 
+        selectedMonth={selectedMonth} 
+        setSelectedMonth={setSelectedMonth} 
+        selectedYear={selectedYear} 
+        setSelectedYear={setSelectedYear} 
+      />
+    );
   }
   if (currentPage === 'perfil_usuario') {
     return <ProfilePage user={user} />;
@@ -311,6 +383,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'mensagens') {
     return <MessagesPage />;
+  }
+  if (currentPage === 'suporte') {
+    return <SupportPage selectedClient={selectedClient} />;
   }
   if (currentPage === 'academy_home') {
     return <AcademyHomePage onNavigate={(page, params) => {
@@ -358,6 +433,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'maintenance') {
     return <MaintenancePage clients={clients} />;
+  }
+  if (currentPage === 'cleanup') {
+    return <CleanupTool />;
   }
 
   return null;

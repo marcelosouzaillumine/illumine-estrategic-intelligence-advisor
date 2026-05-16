@@ -235,26 +235,34 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
       <PageHeader 
         title="Fluxo de Caixa" 
         subtitle={`Monitoramento estratégico de liquidez e solvência · ${clients.find((c: any) => c.id === filterClient)?.fantasia || 'Cliente'}`}
-        icon={<Calculator size={24} />}
-        actions={
-          <div className="flex flex-wrap items-center gap-3">
+        icon={Calculator}
+      />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="bg-white border border-slate-200 p-1 rounded-xl shadow-sm flex items-center gap-1">
             <button 
               onClick={handleExportPDF}
-              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 print:hidden"
+              className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-slate-400 hover:text-slate-600 hover:bg-slate-50 flex items-center gap-2 print:hidden"
             >
               <FileText size={14} /> EXPORTAR PDF
             </button>
-            <button 
-              onClick={handleGenerate}
-              disabled={isGenerating || !filterClient}
-              className="px-8 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2 disabled:opacity-50 print:hidden"
-            >
-              {isGenerating ? <Loader2 size={14} className="animate-spin" /> : <Play size={14} />}
-              GERAR FLUXO
-            </button>
           </div>
-        }
-      />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={handleGenerate}
+            disabled={isGenerating || !filterClient}
+            className="px-8 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2 disabled:opacity-50 print:hidden"
+          >
+            {isGenerating ? <Loader2 size={14} className="animate-spin" /> : <Play size={14} />}
+            GERAR FLUXO
+          </button>
+        </div>
+      </div>
+
+
         <div className="relative z-10 mt-10 flex bg-white/5 p-1.5 rounded-[20px] border border-white/10 backdrop-blur-sm w-fit overflow-x-auto max-w-full">
           {[
             { id: 'dashboard', label: 'DASHBOARD' },

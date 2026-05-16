@@ -45,6 +45,9 @@ import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
 import { FULL_MONTH_LABELS } from '../../constants';
+import { PageHeader, Semaphore } from '../Common';
+import { AssetModal } from '../modals/AssetModal';
+import { fetchBenchmarks, MarketBenchmark } from '../../services/marketService';
 
 // --- Data Arrays ---
 const PERFORMANCE_HISTORY: any[] = [];
@@ -53,16 +56,7 @@ const ASSETS: any[] = [];
 
 // --- Components ---
 
-function Semaphore({ status }: { status: string }) {
-  const colorMap: Record<string, string> = {
-    'Bullish': 'bg-emerald-500',
-    'Stable': 'bg-blue-500',
-    'Correction': 'bg-amber-500',
-    'Bearish': 'bg-rose-500',
-    'Volatile': 'bg-purple-500'
-  };
-  return <div className={cn("w-2 h-2 rounded-full", colorMap[status] || 'bg-slate-500')} />;
-}
+
 
 export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: any) {
   const [assets, setAssets] = useState<any[]>([]);
@@ -70,6 +64,14 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
   const [year, setYear] = useState(selectedYear || 2026);
   const [month, setMonth] = useState(selectedMonth || 5);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingAsset, setEditingAsset] = useState<any>(null);
+  const [benchmarks, setBenchmarks] = useState<MarketBenchmark[]>([
+    { name: 'CDI', value: 0.88, color: 'text-blue-500' },
+    { name: 'IPCA', value: 0.45, color: 'text-rose-500' },
+    { name: 'Poupança', value: 0.50, color: 'text-amber-500' },
+    { name: 'Ibovespa', value: 1.20, color: 'text-emerald-500' }
+  ]);
 
   useEffect(() => {
     if (!clientId) return;
@@ -93,9 +95,42 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
     if (selectedMonth) setMonth(selectedMonth);
   }, [selectedYear, selectedMonth]);
 
+  useEffect(() => {
+    const loadBenchmarks = async () => {
+      const data = await fetchBenchmarks();
+      setBenchmarks(data);
+    };
+    loadBenchmarks();
+  }, []);
+
   const totalValue = assets.reduce((acc, curr) => acc + (curr.value || 0), 0);
   const totalProfit = assets.reduce((acc, curr) => acc + (curr.profit || 0), 0);
-  const avgChange = totalValue > 0 ? (totalProfit / (totalValue - totalProfit)) * 100 : 0;
+  
+  // Rentabilidade Mensal Ponderada (Monthly Yield) - Base para comparação com benchmarks
+  const monthlyYield = totalValue > 0 
+    ? assets.reduce((acc, curr) => {
+        let mChange = curr.change || 0;
+        
+        // FALLBACK: Se a rentabilidade do mês está zerada, calculamos a média mensal 
+        // baseada no lucro total e no tempo de aplicação.
+        if (mChange === 0 && curr.initialValue > 0 && curr.applicationDate) {
+          const today = new Date();
+          const appDate = new Date(curr.applicationDate + 'T12:00:00');
+          const days = Math.max(1, Math.floor((today.getTime() - appDate.getTime()) / (1000 * 60 * 60 * 24)));
+          
+          const totalReturnFraction = (curr.value - curr.initialValue) / curr.initialValue;
+          // Rentabilidade mensal equivalente (pro-rata 30 dias)
+          mChange = (totalReturnFraction / days) * 30 * 100;
+        }
+        
+        return acc + (mChange * (curr.value || 0));
+      }, 0) / totalValue 
+    : 0;
+
+  // Rentabilidade Total Acumulada (Cumulative)
+  const cumulativeYield = (totalValue > 0 && (totalValue - totalProfit) > 0)
+    ? (totalProfit / (totalValue - totalProfit)) * 100 
+    : 0;
 
   const filteredAssets = assets.filter(asset => 
     (asset.name || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -139,24 +174,59 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
 
   const metrics = [
     { label: 'Patrimônio Total', value: formatCurrency(totalValue), icon: WalletCards, sub: 'Valor de Mercado' },
-    { label: 'Rentabilidade (Mtd)', value: `${avgChange.toFixed(2)}%`, icon: TrendingUp, sub: formatCurrency(totalProfit), trend: avgChange >= 0 ? 'up' : 'down' },
-    { label: 'Yield Real (Est.)', value: `${(avgChange > 0 ? avgChange * 0.9 : 0).toFixed(2)}%`, icon: Coins, sub: 'Descontada Inflação (Est.)', trend: avgChange >= 0 ? 'up' : 'down' },
-    { label: 'Ativos Monitorados', value: assets.length, icon: Activity, sub: 'Diversificação de Carteira' },
+    { label: 'Rentabilidade (Mês)', value: `${monthlyYield.toFixed(2)}%`, icon: TrendingUp, sub: formatCurrency(totalProfit), trend: monthlyYield >= 0 ? 'up' : 'down' },
+    { label: 'Acumulado Total', value: `${cumulativeYield.toFixed(2)}%`, icon: Activity, sub: 'Desde o Início', trend: cumulativeYield >= 0 ? 'up' : 'down' },
+    { label: 'Yield Real (Est.)', value: `${(monthlyYield - (benchmarks.find(b => b.name === 'IPCA')?.value || 0.45)).toFixed(2)}%`, icon: Coins, sub: 'Acima da Inflação (Mês)', trend: (monthlyYield - (benchmarks.find(b => b.name === 'IPCA')?.value || 0.45)) >= 0 ? 'up' : 'down' },
   ];
 
-  const taxSimulation = {
-    grossProfit: totalProfit,
-    iof: totalProfit * 0.05, // Simulated IOF for early withdrawal
-    irf: (totalProfit * 0.95) * 0.15, // 15% IRF on net of IOF
-    netProfit: totalProfit * 0.95 * 0.85
-  };
+  const taxSimulation = useMemo(() => {
+    let totalIOF = 0;
+    let totalIR = 0;
+    const today = new Date();
 
-  const benchmarks = [
-    { name: 'CDI', value: 0.88, color: 'text-blue-500' },
-    { name: 'IPCA', value: 0.45, color: 'text-rose-500' },
-    { name: 'Poupança', value: 0.50, color: 'text-amber-500' },
-    { name: 'Ibovespa', value: 1.20, color: 'text-emerald-500' }
-  ];
+    assets.forEach(asset => {
+      const profit = asset.profit || 0;
+      if (profit <= 0) return;
+
+      const appDate = asset.applicationDate ? new Date(asset.applicationDate + 'T12:00:00') : new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+      const days = Math.floor((today.getTime() - appDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      // IOF Calculation (Fixed Income regressive table for 30 days)
+      let iofRate = 0;
+      if (days < 30) {
+        // Approximate IOF regressive table
+        const iofTable = [96, 93, 90, 86, 83, 80, 76, 73, 70, 66, 63, 60, 56, 53, 50, 46, 43, 40, 36, 33, 30, 26, 23, 20, 16, 13, 10, 6, 3, 0];
+        iofRate = (iofTable[days] || 0) / 100;
+      }
+      
+      const iofAmount = profit * iofRate;
+      const profitAfterIOF = profit - iofAmount;
+
+      // IR Calculation
+      let irRate = 0.15; // Default for Stocks or > 720 days
+      if (asset.category === 'Ações') {
+        irRate = 0.15;
+      } else {
+        if (days <= 180) irRate = 0.225;
+        else if (days <= 360) irRate = 0.20;
+        else if (days <= 720) irRate = 0.175;
+        else irRate = 0.15;
+      }
+
+      const irAmount = profitAfterIOF * irRate;
+      
+      totalIOF += iofAmount;
+      totalIR += irAmount;
+    });
+
+    return {
+      grossProfit: totalProfit,
+      iof: totalIOF,
+      irf: totalIR,
+      netProfit: totalProfit - totalIOF - totalIR
+    };
+  }, [assets, totalProfit]);
+
 
   if (loading) {
     return (
@@ -181,78 +251,88 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
             </p>
          </div>
          <div className="flex gap-4">
-            <button className="px-8 py-4 bg-secondary text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-secondary/20 hover:scale-105 transition-all">
-              <Plus size={16} className="inline mr-2" /> Adicionar Primeiro Ativo
-            </button>
+            <button 
+               onClick={() => {
+                 setEditingAsset(null);
+                 setIsModalOpen(true);
+               }}
+               className="px-8 py-4 bg-secondary text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-secondary/20 hover:scale-105 transition-all"
+             >
+               <Plus size={16} className="inline mr-2" /> Adicionar Primeiro Ativo
+             </button>
             <button className="px-8 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-200 transition-all">
               <Download size={16} className="inline mr-2" /> Importar Dados
             </button>
          </div>
+       
+       {isModalOpen && (
+         <AssetModal 
+           clientId={clientId}
+           asset={editingAsset}
+           onClose={() => setIsModalOpen(false)}
+         />
+       )}
       </div>
     );
   }
 
   return (
     <div className="space-y-10 pb-20 animate-executive-fade">
-      {/* Strategic Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <Briefcase size={20} className="text-secondary" />
-            </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">Gestão de Ativos Financeiros</h1>
-          </div>
-          <p className="text-slate-400 text-sm font-medium">Monitoramento de portfólio, alocação estratégica e análise de performance.</p>
-        </div>
+      <PageHeader 
+        title="Gestão de Ativos Financeiros" 
+        subtitle="Monitoramento de portfólio, alocação estratégica e análise de performance."
+        icon={Briefcase}
+        color="bg-slate-900"
+      />
 
-        <div className="flex flex-wrap items-center gap-4 relative z-10">
-          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1">
-            <div className="flex items-center px-4 py-2 border-r border-white/10">
-              <Calendar size={14} className="text-slate-400 mr-2" />
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
+            <div className="flex items-center px-4 py-2 border-r border-slate-100">
+              <Calendar size={14} className="text-secondary mr-2" />
               <select 
                 value={year} 
                 onChange={(e) => setYear(Number(e.target.value))}
-                className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer"
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors appearance-none pr-1"
               >
-                <option value={2026} className="bg-slate-900">2026</option>
-                <option value={2025} className="bg-slate-900">2025</option>
+                {[2024, 2025, 2026].map(y => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
               </select>
             </div>
             <div className="flex items-center px-4 py-2">
               <select 
                 value={month} 
                 onChange={(e) => setMonth(Number(e.target.value))}
-                className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer"
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors appearance-none pr-1"
               >
                 {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
-                  <option key={m} value={Number(m)} className="bg-slate-900">{label}</option>
+                  <option key={m} value={Number(m)}>{label}</option>
                 ))}
               </select>
             </div>
           </div>
+
+          <div className="h-8 w-px bg-slate-200 mx-2" />
+
+          <button className="px-6 py-3 bg-white border border-slate-200 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm">
+            <Download size={14} /> IMPORTAR ATIVOS
+          </button>
+        </div>
+
+        <div className="flex items-center gap-3">
+           <button 
+             onClick={() => {
+               setEditingAsset(null);
+               setIsModalOpen(true);
+             }}
+             className="px-8 py-3.5 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
+           >
+             <Plus size={16} /> NOVO ATIVO
+           </button>
         </div>
       </div>
 
-      {/* Action Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-100 rounded-2xl text-slate-600 hover:text-secondary hover:border-secondary/20 transition-all font-black text-[10px] uppercase tracking-widest shadow-sm">
-            <Download size={16} />
-            Importar Ativos
-          </button>
-          <button className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-100 rounded-2xl text-rose-500 hover:bg-rose-50 hover:border-rose-200 transition-all font-black text-[10px] uppercase tracking-widest shadow-sm">
-            <Trash2 size={16} />
-            Excluir Seleção
-          </button>
-        </div>
-        
-        <button className="flex items-center gap-2 px-6 py-3 bg-secondary hover:bg-secondary/90 text-slate-900 rounded-2xl transition-all font-black text-[10px] uppercase tracking-widest shadow-lg shadow-secondary/20">
-          <Plus size={16} />
-          Adicionar Ativo Manualmente
-        </button>
-      </div>
 
       {/* CFO Executive Insights */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -268,7 +348,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
           <div>
             <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight da Carteira</h3>
             <p className="executive-note">
-              "Sua carteira apresentou uma performance de {(avgChange).toFixed(2)}% no mês atual. {avgChange > 0 ? 'O desempenho positivo reflete a alocação estratégica nos ativos selecionados.' : 'A performance reflete as variações de mercado no período.'} Recomendamos revisar periodicamente o rebalanceamento tático para manter o perfil de risco alinhado aos objetivos de longo prazo."
+              "Sua carteira apresentou uma rentabilidade ponderada de {(monthlyYield).toFixed(2)}% no mês atual. {monthlyYield > (benchmarks.find(b => b.name === 'CDI')?.value || 0.8) ? 'O desempenho positivo superou o benchmark CDI.' : 'A performance reflete as variações de mercado no período.'} Recomendamos revisar periodicamente o rebalanceamento tático para manter o perfil de risco alinhado aos objetivos de longo prazo."
             </p>
           </div>
         </div>
@@ -280,7 +360,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
               <p className="text-3xl font-display font-black mb-2">CDI + Alpha</p>
               <div className="flex items-center gap-2 text-emerald-400">
                  <Target size={16} />
-                 <span className="text-xs font-bold">{avgChange > 0.8 ? 'Performance Superior' : 'Acompanhando Mercado'}</span>
+                 <span className="text-xs font-bold">{monthlyYield > (benchmarks.find(b => b.name === 'CDI')?.value || 0.8) ? 'Performance Superior' : 'Acompanhando Mercado'}</span>
               </div>
             </div>
           <button className="mt-6 w-full py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
@@ -343,7 +423,11 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                     axisLine={false} 
                     tickLine={false} 
                     tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }}
-                    tickFormatter={(val) => `R$ ${(val/1000000).toFixed(1)}M`}
+                    tickFormatter={(val) => {
+                      if (val >= 1000000) return `R$ ${(val/1000000).toFixed(1)}M`;
+                      if (val >= 1000) return `R$ ${(val/1000).toFixed(0)}K`;
+                      return `R$ ${val}`;
+                    }}
                   />
                   <Tooltip 
                     contentStyle={{ 
@@ -382,7 +466,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                   paddingAngle={5}
                   dataKey="value"
                 >
-                  {ALLOCATION_DATA.map((entry, index) => (
+                  {allocationData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
@@ -436,7 +520,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                     />
                   </div>
                   <p className="text-[9px] text-slate-400 font-medium">
-                    {avgChange > b.value ? 'Alpha Positivo' : 'Abaixo do Benchmark'}
+                    {monthlyYield > b.value ? 'Alpha Positivo' : 'Abaixo do Benchmark'}
                   </p>
                 </div>
               ))}
@@ -466,7 +550,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                   </div>
                   <div className="text-right">
                     <p className="text-lg font-display font-black text-secondary">{sim.yield}% <span className="text-[10px] text-slate-400 uppercase">Est.</span></p>
-                    <p className="text-[9px] text-emerald-400 font-bold">+{ (sim.yield - avgChange).toFixed(2) }% vs Atual</p>
+                    <p className="text-[9px] text-emerald-400 font-bold">+{ (sim.yield - monthlyYield).toFixed(2) }% vs Atual</p>
                   </div>
                 </div>
               ))}
@@ -556,7 +640,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
               <thead>
                 <tr className="bg-slate-50/50">
                   <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Ativo</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Classe</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Classe / Rend.</th>
                   <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor Atual</th>
                   <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Rent. (Mês)</th>
                   <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Lucro/Prejuízo</th>
@@ -570,14 +654,21 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                     <td className="px-8 py-5">
                       <div className="flex flex-col">
                         <span className="text-xs font-black text-primary group-hover:text-secondary transition-colors">{asset.name}</span>
-                        <span className="text-[10px] text-slate-400 font-medium mt-0.5">Custódia Principal</span>
+                        <span className="text-[10px] text-slate-400 font-medium mt-0.5">
+                          {asset.applicationDate ? `Aplicado em ${new Date(asset.applicationDate + 'T12:00:00').toLocaleDateString('pt-BR')}` : 'Custódia Principal'}
+                        </span>
                       </div>
                     </td>
                     <td className="px-6 py-5 text-center">
-                      <span className="px-3 py-1 bg-slate-100 rounded-full text-[9px] font-black text-slate-500 uppercase tracking-tighter">
-                        {asset.category}
-                      </span>
-                    </td>
+                       <div className="flex flex-col items-center gap-1">
+                        <span className="px-3 py-1 bg-slate-100 rounded-full text-[9px] font-black text-slate-500 uppercase tracking-tighter">
+                          {asset.category}
+                        </span>
+                        {asset.yieldType && (
+                          <span className="text-[9px] font-bold text-secondary uppercase tracking-widest">{asset.yieldType}</span>
+                        )}
+                       </div>
+                     </td>
                     <td className="px-6 py-5 text-right">
                       <span className="text-xs font-black text-primary">{formatCurrency(asset.value)}</span>
                     </td>
@@ -601,9 +692,15 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                       </div>
                     </td>
                     <td className="px-8 py-5 text-right">
-                      <button className="p-2 text-slate-400 hover:text-secondary transition-all">
-                        <ChevronRight size={18} />
-                      </button>
+                       <button 
+                         onClick={() => {
+                           setEditingAsset(asset);
+                           setIsModalOpen(true);
+                         }}
+                         className="p-2 text-slate-400 hover:text-secondary transition-all"
+                       >
+                         <ChevronRight size={18} />
+                       </button>
                     </td>
                   </tr>
                 ))}
@@ -612,6 +709,14 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
           </div>
         </div>
       </div>
+      
+      {isModalOpen && (
+        <AssetModal 
+          clientId={clientId}
+          asset={editingAsset}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

@@ -9,17 +9,87 @@ import {
   HardDrive,
   RefreshCw,
   ShieldAlert,
-  ChevronRight
+  ChevronRight,
+  FileText,
+  ImageIcon
 } from 'lucide-react';
-import { collection, query, getDocs, where, deleteDoc, doc, writeBatch } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { collection, query, getDocs, where, deleteDoc, doc, writeBatch, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { db, auth } from '../../lib/firebase';
 import { PageHeader } from '../Common';
-import { cn } from '../../lib/utils';
+import { cn, formatCurrency } from '../../lib/utils';
+import { useGovernance } from '../../lib/governanceContext';
+import { notificationService } from '../../services/notificationService';
 
 export function MaintenancePage({ clients }: { clients: any[] }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [status, setStatus] = useState<Record<string, 'idle' | 'loading' | 'success' | 'error'>>({});
   const [logs, setLogs] = useState<string[]>([]);
+  const [pendingDocs, setPendingDocs] = useState<any[]>([]);
+  const [loadingDocs, setLoadingDocs] = useState(false);
+  const { role } = useGovernance();
+
+  React.useEffect(() => {
+    if (role !== 'master' && role !== 'admin') return;
+    
+    setLoadingDocs(true);
+    const q = query(
+      collection(db, 'financial_entries'),
+      where('status', '==', 'pending')
+    );
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setPendingDocs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setLoadingDocs(false);
+    });
+    
+    return () => unsubscribe();
+  }, [role]);
+
+  const handleApprove = async (docId: string, entry: any) => {
+    try {
+      await updateDoc(doc(db, 'financial_entries', docId), {
+        status: 'approved',
+        approvedAt: serverTimestamp(),
+        approvedBy: auth.currentUser?.uid
+      });
+      
+      // Notify User
+      await notificationService.createNotification({
+        userId: entry.createdBy,
+        title: 'Documento Aprovado',
+        message: `Seu documento "${entry.fileName}" foi aprovado e já está disponível nos indicadores.`,
+        type: 'success',
+        link: 'dashboard'
+      });
+      
+      addLog(`Documento ${entry.fileName} aprovado.`);
+    } catch (e: any) {
+      addLog(`Erro ao aprovar: ${e.message}`);
+    }
+  };
+
+  const handleReject = async (docId: string, entry: any) => {
+    try {
+      await updateDoc(doc(db, 'financial_entries', docId), {
+        status: 'rejected',
+        rejectedAt: serverTimestamp(),
+        rejectedBy: auth.currentUser?.uid
+      });
+
+      // Notify User
+      await notificationService.createNotification({
+        userId: entry.createdBy,
+        title: 'Documento Rejeitado',
+        message: `Seu documento "${entry.fileName}" não pôde ser aprovado. Verifique os dados e tente novamente.`,
+        type: 'error',
+        link: 'dados-historicos'
+      });
+
+      addLog(`Documento ${entry.fileName} rejeitado.`);
+    } catch (e: any) {
+      addLog(`Erro ao rejeitar: ${e.message}`);
+    }
+  };
 
   const addLog = (msg: string) => {
     setLogs(prev => [`[${new Date().toLocaleTimeString()}] ${msg}`, ...prev].slice(0, 50));
@@ -103,7 +173,80 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
           </div>
         </div>
       </div>
-      <div className="grid lg:grid-cols-[1fr_400px] gap-8">
+      <div className="space-y-12">
+        {/* Pending Approvals Section */}
+        {(role === 'master' || role === 'admin') && (
+          <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-1 bg-amber-500 h-full" />
+            <div className="mb-10">
+              <h3 className="text-2xl font-black text-slate-900 font-display tracking-tight">Curadoria & Aprovações</h3>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] mt-2">Documentos aguardando validação técnica</p>
+            </div>
+
+            {loadingDocs ? (
+              <div className="flex justify-center py-20">
+                <Loader2 className="animate-spin text-secondary" size={32} />
+              </div>
+            ) : pendingDocs.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {pendingDocs.map((doc) => (
+                  <div key={doc.id} className="p-8 bg-slate-50 border border-slate-100 rounded-[32px] group hover:border-amber-200 transition-all">
+                    <div className="flex flex-col h-full justify-between gap-6">
+                      <div className="flex items-start gap-6">
+                        <div className="w-14 h-14 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-amber-500 shadow-sm shrink-0">
+                          <FileText size={28} />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-3 mb-1">
+                            <h4 className="text-lg font-black text-slate-900 font-display tracking-tight truncate">{doc.fileName}</h4>
+                            <span className="px-2 py-0.5 bg-amber-100 text-amber-600 text-[8px] font-black uppercase rounded-full shrink-0">Pendente</span>
+                          </div>
+                          <p className="text-xs font-bold text-slate-500 mb-2 truncate">Cliente: {doc.clientName}</p>
+                          <div className="flex flex-wrap gap-4 text-[10px] font-black uppercase text-slate-400">
+                            <span>Tipo: {doc.type}</span>
+                            <span>Período: {doc.periodType === 'anual' ? doc.year : `${doc.month}/${doc.year}`}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        {doc.fileUrl && (
+                          <a 
+                            href={doc.fileUrl} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex-1 px-4 py-3 bg-white border border-slate-200 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all text-center"
+                          >
+                            Original
+                          </a>
+                        )}
+                        <button 
+                          onClick={() => handleReject(doc.id, doc)}
+                          className="flex-1 px-4 py-3 bg-rose-50 text-rose-600 border border-rose-100 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-rose-100 transition-all"
+                        >
+                          Rejeitar
+                        </button>
+                        <button 
+                          onClick={() => handleApprove(doc.id, doc)}
+                          className="flex-1 px-4 py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-secondary transition-all shadow-lg shadow-primary/20"
+                        >
+                          Aprovar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20 bg-slate-50 rounded-[32px] border-2 border-dashed border-slate-200">
+                <CheckCircle2 size={40} className="mx-auto text-slate-200 mb-4" />
+                <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Nenhuma aprovação pendente</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="grid lg:grid-cols-[1fr_400px] gap-8">
         <div className="space-y-6">
           <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm relative overflow-hidden">
             <div className="absolute top-0 left-0 w-1 bg-secondary h-full" />
@@ -228,5 +371,6 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
         </aside>
       </div>
     </div>
-  );
+  </div>
+);
 }

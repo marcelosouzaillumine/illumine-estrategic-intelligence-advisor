@@ -22,12 +22,13 @@ export interface FinancialPattern {
 }
 
 export const calculateIllumineScore = (dimensions: HealthScoreDimensions): number => {
+  const safeNum = (val: number | undefined | null) => isNaN(Number(val)) ? 0 : Number(val);
   const score = (
-    (dimensions.liquidity * 0.20) +
-    (dimensions.profitability * 0.25) +
-    (dimensions.capitalStructure * 0.20) +
-    (dimensions.efficiency * 0.20) +
-    (dimensions.valueCreation * 0.15)
+    (safeNum(dimensions.liquidity) * 0.20) +
+    (safeNum(dimensions.profitability) * 0.25) +
+    (safeNum(dimensions.capitalStructure) * 0.20) +
+    (safeNum(dimensions.efficiency) * 0.20) +
+    (safeNum(dimensions.valueCreation) * 0.15)
   );
   return Math.min(100, Math.max(0, score));
 };

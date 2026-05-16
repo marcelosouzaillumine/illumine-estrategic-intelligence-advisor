@@ -9,6 +9,7 @@ import {
   query, where, serverTimestamp, writeBatch, doc 
 } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
+import { notificationService } from '../../services/notificationService';
 import { parseExcel, parseTxt, parsePdf, parseDoc, ImportedAccount } from '../../services/importService';
 import { cn } from '../../lib/utils';
 
@@ -234,14 +235,32 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
             updatedAt: serverTimestamp(),
             createdBy: auth.currentUser!.uid,
           };
-
           if (strategy === 'replace_all' || acc._status === 'new') {
             // Always create
             await addDoc(collection(db, 'account_plans'), {
               ...baseData,
-              status: 'Ativa',
+              status: 'pending',
+              requiresApproval: true,
+              sourceCollection: 'account_plans',
               createdAt: serverTimestamp(),
+              creatorEmail: auth.currentUser!.email,
             });
+
+            if (i === 0 && acc === chunk[0]) {
+               await notificationService.createNotification({
+                userId: 'admin_group',
+                title: `Novo Plano de Contas: ${targetPlanType === 'accounting' ? 'Contábil' : 'Gerencial'}`,
+                message: `${auth.currentUser!.email} importou um novo plano de contas (${totalAccounts} itens) para ${clients.find(c => c.id === targetClient)?.fantasia || 'Cliente'}.`,
+                type: 'approval_request',
+                link: 'maintenance',
+                metadata: {
+                  type: 'AccountPlan',
+                  clientId: targetClient,
+                  planType: targetPlanType
+                }
+              });
+            }
+
             created++;
           } else if (strategy === 'replace_duplicates' && (acc._status === 'duplicate' || acc._status === 'conflict')) {
             // Update existing (preserve kpiMapping etc.)
@@ -249,8 +268,29 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
               name: acc.name,
               type: acc.type,
               level: baseData.level,
+              status: 'pending',
+              requiresApproval: true,
+              sourceCollection: 'account_plans',
               updatedAt: serverTimestamp(),
+              updatedBy: auth.currentUser!.uid,
+              updaterEmail: auth.currentUser!.email,
             });
+
+            if (i === 0 && acc === chunk[0]) {
+               await notificationService.createNotification({
+                userId: 'admin_group',
+                title: `Atualização de Plano de Contas: ${targetPlanType === 'accounting' ? 'Contábil' : 'Gerencial'}`,
+                message: `${auth.currentUser!.email} atualizou itens do plano de contas para ${clients.find(c => c.id === targetClient)?.fantasia || 'Cliente'}.`,
+                type: 'approval_request',
+                link: 'maintenance',
+                metadata: {
+                  type: 'AccountPlan',
+                  clientId: targetClient,
+                  planType: targetPlanType
+                }
+              });
+            }
+
             updated++;
           } else {
             // add_new strategy: skip duplicates/conflicts

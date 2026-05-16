@@ -8,11 +8,13 @@ import {
   collection, addDoc, query, where, getDocs, deleteDoc, doc, serverTimestamp 
 } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
+import { notificationService } from '../../services/notificationService';
 import { 
   parseFinancialExcel, parseFinancialPdf, parseFinancialTxt, 
   FinancialEntry, inferType 
 } from '../../services/importService';
 import { cn, formatCurrency } from '../../lib/utils';
+import { DOCUMENT_TYPES } from '../../constants/documents';
 
 interface ImportFinancialModalProps {
   type: 'Balanço Patrimonial' | 'DRE' | 'BP' | 'DFC' | 'DLPA';
@@ -24,6 +26,7 @@ interface ImportFinancialModalProps {
 }
 
 export function ImportFinancialModal({ type, clientId, year, clients, onClose, onSuccess }: ImportFinancialModalProps) {
+  const [selectedType, setSelectedType] = useState<string>(type);
   const [file, setFile] = useState<File | null>(null);
   const [parsedData, setParsedData] = useState<FinancialEntry[]>([]);
   const [loading, setLoading] = useState(false);
@@ -118,20 +121,35 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         };
       });
 
-      await addDoc(collection(db, 'financial_entries'), {
+      const payload = {
         clientId,
         clientName,
-        type: type === 'BP' ? 'Balanço Patrimonial' : type,
-        periodType: 'anual',
-        month: null,
+        type: selectedType,
         year,
-        mes: null,
-        ano: year,
         data: classified,
-        fileName: file?.name || 'importado.xlsx',
+        fileName: file!.name,
         createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        createdBy: auth.currentUser.uid,
+        createdBy: auth.currentUser!.uid,
+        creatorEmail: auth.currentUser!.email,
+        sourceCollection: 'financial_entries',
+        status: 'pending',
+        requiresApproval: true
+      };
+
+      await addDoc(collection(db, 'financial_entries'), payload);
+
+      // Notify Admins
+      await notificationService.createNotification({
+        userId: 'admin_group',
+        title: 'Novo Documento para Aprovação',
+        message: `O cliente ${clientName} enviou um documento (${selectedType}) que requer sua revisão.`,
+        type: 'approval_request',
+        link: 'maintenance',
+        metadata: {
+          clientId,
+          docType: selectedType,
+          fileName: file.name
+        }
       });
 
       setImportResult(classified.length);
@@ -155,7 +173,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         {/* Header */}
         <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-lg font-black text-slate-900">Importar {type}</h3>
+            <h3 className="text-lg font-black text-slate-900">Importar {selectedType}</h3>
             <p className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-widest font-bold">
               {clientName} · {year}
             </p>
@@ -166,7 +184,20 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto flex-1 space-y-6">
+        <div className="p-8 space-y-6 overflow-y-auto flex-1">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tipo de Documento</label>
+            <select 
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all"
+            >
+              {DOCUMENT_TYPES.map(t => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+          </div>
+
           {loading && (
             <div className="space-y-3">
               <div className="flex justify-between items-end">

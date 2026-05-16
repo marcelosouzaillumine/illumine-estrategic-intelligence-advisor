@@ -54,6 +54,7 @@ import {
 } from 'lucide-react';
 
 export type Page =
+  | 'cleanup'
   | 'portfolio'
   | 'dashboard'
   | 'indicadores'
@@ -129,7 +130,11 @@ export type Page =
   | 'cultura_feedback'
   | 'atas_reuniao'
   | 'simulador_estrategico'
-  | 'orcamento';
+  | 'parceiros'
+  | 'orcamento'
+  | 'aprovacoes'
+  | 'suporte'
+  | 'dados_historicos';
 
 export interface NavigationItem {
   id: Page;
@@ -181,10 +186,12 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Cockpit de Gestão',
     icon: LayoutGrid,
     items: [
-      { id: 'portfolio', label: 'Visão Consolidada', icon: Globe, masterOnly: true },
+      { id: 'portfolio', label: 'Visão Consolidada', icon: Globe },
       { id: 'inteligencia_sistemica', label: 'Inteligência Sistêmica', icon: Cpu, isNew: true },
       { id: 'dashboard', label: 'Monitoramento Estratégico', icon: LayoutDashboard },
       { id: 'indicadores', label: 'Análise de KPIs', icon: TrendingUp },
+      { id: 'dados_historicos', label: 'Acompanhamento e Envio', icon: Database, isNew: true },
+      { id: 'aprovacoes', label: 'Aprovações de Documentos', icon: CheckSquare, masterOnly: true },
       { id: 'plano_acao', label: 'Roadmap de Execução', icon: Rocket, isNew: true },
     ],
   },
@@ -193,6 +200,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     icon: Database,
     items: [
       { id: 'clientes', label: 'Empresas', icon: Building2 },
+      { id: 'parceiros', label: 'Parceiros Estratégicos', icon: Users, masterOnly: true },
       { id: 'premissas_economicas', label: 'Premissas do Sistema', icon: Settings },
     ],
   },
@@ -231,7 +239,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Administração e Finanças',
     icon: Landmark,
     items: [
-      { id: 'dashboard_gestao', label: 'Dashboard de Gestão', icon: LayoutDashboard },
+      { id: 'dashboard_gestao', label: 'Dashboard Adm Fin', icon: LayoutDashboard },
       { 
         id: 'adm_root' as any,
         label: 'Administração',
@@ -323,6 +331,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Configurações',
     icon: Settings,
     items: [
+      { id: 'suporte', label: 'Suporte', icon: MessageSquare, isNew: true },
       { id: 'mensagens', label: 'Mensagens e Comunicados', icon: Bell },
       { id: 'perfil_usuario', label: 'Gestão de Perfil', icon: Users },
       { id: 'maintenance', label: 'Manutenção de Dados', icon: HardDrive },

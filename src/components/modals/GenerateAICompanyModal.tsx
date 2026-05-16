@@ -1,14 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Sparkles, Building2, Loader2, AlertCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { generateAICompanyPayload, createAICompanyInFirestore } from '../../services/aiService';
 
-export function GenerateAICompanyModal({ isOpen, onClose, onSuccess }: { isOpen: boolean, onClose: () => void, onSuccess: (clientId?: string) => void }) {
-  const [segment, setSegment] = useState('');
-  const [description, setDescription] = useState('');
+export function GenerateAICompanyModal({ 
+  isOpen, 
+  onClose, 
+  onSuccess,
+  initialData
+}: { 
+  isOpen: boolean, 
+  onClose: () => void, 
+  onSuccess: (clientId?: string) => void,
+  initialData?: {
+    segment?: string;
+    description?: string;
+    axisDescriptions?: {
+      governanca: string;
+      cultura: string;
+      financeiro: string;
+      inovacao: string;
+      marketing: string;
+      comercial: string;
+      operacional: string;
+    }
+  }
+}) {
+  const [segment, setSegment] = useState(initialData?.segment || '');
+  const [description, setDescription] = useState(initialData?.description || '');
+  const [axisDescriptions, setAxisDescriptions] = useState(initialData?.axisDescriptions || {
+    governanca: '',
+    cultura: '',
+    financeiro: '',
+    inovacao: '',
+    marketing: '',
+    comercial: '',
+    operacional: ''
+  });
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState('');
   const [error, setError] = useState('');
+
+  // Update state if initialData changes
+  useEffect(() => {
+    if (initialData) {
+      if (initialData.segment) setSegment(initialData.segment);
+      if (initialData.description) setDescription(initialData.description);
+      if (initialData.axisDescriptions) setAxisDescriptions(initialData.axisDescriptions);
+    }
+  }, [initialData]);
 
   if (!isOpen) return null;
 
@@ -23,7 +63,7 @@ export function GenerateAICompanyModal({ isOpen, onClose, onSuccess }: { isOpen:
     
     try {
       setStep('Consultando a IA do Gemini para estruturar a empresa...');
-      const payload = await generateAICompanyPayload(segment, description);
+      const payload = await generateAICompanyPayload(segment, description, axisDescriptions);
       
       setStep(`Injetando dados históricos (${new Date().getFullYear() - 4}-${new Date().getFullYear()}) e DRE...`);
       const newClientId = await createAICompanyInFirestore(payload);
@@ -33,6 +73,15 @@ export function GenerateAICompanyModal({ isOpen, onClose, onSuccess }: { isOpen:
         setLoading(false);
         setSegment('');
         setDescription('');
+        setAxisDescriptions({
+          governanca: '',
+          cultura: '',
+          financeiro: '',
+          inovacao: '',
+          marketing: '',
+          comercial: '',
+          operacional: ''
+        });
         onSuccess(newClientId);
         onClose();
       }, 1000);
@@ -101,15 +150,42 @@ export function GenerateAICompanyModal({ isOpen, onClose, onSuccess }: { isOpen:
 
           <div className="space-y-3">
             <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest block">Características & Referências (Opcional)</label>
-            <p className="text-xs text-slate-500 font-medium">Descreva detalhes como: desafios atuais, número de funcionários, perfil de clientes ou qualquer particularidade para que a IA gere dados integrados e realistas.</p>
+            <p className="text-xs text-slate-500 font-medium">Descreva detalhes gerais como desafios atuais, número de funcionários ou perfil de clientes.</p>
             <textarea 
-              placeholder="Ex: Empresa familiar em transição, enfrenta dificuldades no fluxo de caixa, possui 15 funcionários e busca expansão para o Nordeste..."
+              placeholder="Ex: Empresa familiar em transição, enfrenta dificuldades no fluxo de caixa, possui 15 funcionários..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               disabled={loading}
-              rows={4}
-              className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all placeholder:font-medium placeholder:text-slate-400 resize-none"
+              rows={2}
+              className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all placeholder:font-medium placeholder:text-slate-400 resize-none"
             />
+          </div>
+
+          <div className="pt-4 border-t border-slate-100">
+            <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest block mb-4">Detalhamento por Eixo (Base para IA)</label>
+            <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+              {[
+                { id: 'governanca', label: 'Governança Corporativa', placeholder: 'Ex: Conselho em formação, foco em sucessão...' },
+                { id: 'cultura', label: 'Cultura Organizacional', placeholder: 'Ex: Cultura de alta performance, foco em inovação...' },
+                { id: 'financeiro', label: 'Gestão Financeira', placeholder: 'Ex: Foco em redução de custos e aumento de margem...' },
+                { id: 'inovacao', label: 'Gestão de Inovação', placeholder: 'Ex: Desenvolvimento de novos produtos digitais...' },
+                { id: 'marketing', label: 'Gestão de Marketing', placeholder: 'Ex: Foco em branding e presença digital...' },
+                { id: 'comercial', label: 'Gestão Comercial', placeholder: 'Ex: Expansão de canais de venda e CRM...' },
+                { id: 'operacional', label: 'Gestão Operacional', placeholder: 'Ex: Otimização de processos e logística...' },
+              ].map(axis => (
+                <div key={axis.id} className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{axis.label}</label>
+                  <textarea 
+                    placeholder={axis.placeholder}
+                    value={(axisDescriptions as any)[axis.id]}
+                    onChange={(e) => setAxisDescriptions(prev => ({ ...prev, [axis.id]: e.target.value }))}
+                    disabled={loading}
+                    rows={2}
+                    className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500 transition-all placeholder:font-medium placeholder:text-slate-400 resize-none"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
           {loading && (

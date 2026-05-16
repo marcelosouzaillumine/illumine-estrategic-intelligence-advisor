@@ -1,4 +1,10 @@
-// Shared helpers are moved into functions to allow dynamic imports
+import { parseFinancialStatementWithAI, AIFinancialDocument } from './aiService';
+import * as pdfjsLib from 'pdfjs-dist';
+
+// Configuração do worker robusta
+if (typeof window !== 'undefined' && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+}
 
 // ─── Shared helpers ────────────────────────────────────────────────────────────
 
@@ -105,6 +111,71 @@ export const parseFinancialPdf = async (
   }
 
   return results;
+};
+
+/**
+ * Intelligent PDF/Text parser using AI.
+ * Handles segregation of BP/DRE and multiple years.
+ * Now accepts custom instructions for "learning" client patterns.
+ */
+export const parseFinancialDocumentIntelligent = async (
+  file: File, 
+  onProgress?: (progress: number) => void,
+  customInstructions?: string
+): Promise<AIFinancialDocument[]> => {
+  try {
+    const ext = file.name.split('.').pop()?.toLowerCase();
+    let fullText = '';
+    
+    if (onProgress) onProgress(5);
+
+    const arrayBuffer = await file.arrayBuffer();
+    
+    if (ext === 'pdf') {
+      console.log(`[Import] Loading PDF document...`);
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      console.log(`[Import] PDF loaded with ${pdf.numPages} pages`);
+      
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const textContent = await page.getTextContent();
+        
+        // Group by Y coordinate with tolerance (±3px) to preserve lines
+        const lineGroups: Record<number, { x: number, str: string }[]> = {};
+        textContent.items.forEach((item: any) => {
+          const yRaw = item.transform[5];
+          const x = item.transform[4];
+          let yFound = Object.keys(lineGroups).map(Number).find(y => Math.abs(y - yRaw) < 3);
+          const y = yFound !== undefined ? yFound : yRaw;
+          
+          if (!lineGroups[y]) lineGroups[y] = [];
+          lineGroups[y].push({ x, str: item.str });
+        });
+        
+        const sortedYs = Object.keys(lineGroups).map(Number).sort((a, b) => b - a);
+        fullText += sortedYs.map(y => {
+          return lineGroups[y].sort((a, b) => a.x - b.x).map(i => i.str).join(' ');
+        }).join('\n') + '\n';
+        
+        if (onProgress) onProgress(10 + Math.round((pageNum / pdf.numPages) * 50));
+      }
+    } else {
+      fullText = await file.text();
+      if (onProgress) onProgress(50);
+    }
+
+    if (!fullText.trim()) {
+      throw new Error("Não foi possível extrair texto legível do documento.");
+    }
+
+    console.log(`[Import] Sending text to AI...`);
+    const results = await parseFinancialStatementWithAI(fullText, customInstructions);
+    if (onProgress) onProgress(100);
+    return results;
+  } catch (error) {
+    console.error("AI Import Error:", error);
+    throw error;
+  }
 };
 
 // ─── Financial Excel/CSV parser ───────────────────────────────────────────────

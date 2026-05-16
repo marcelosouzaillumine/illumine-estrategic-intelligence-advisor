@@ -1,19 +1,21 @@
 import React from 'react';
 import { LayoutGrid } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 
 export function PageHeader({ 
   title, 
   subtitle, 
   icon: Icon, 
   color = 'bg-slate-900',
-  actions
+  actions,
+  badge
 }: { 
   title: string; 
-  subtitle: string; 
+  subtitle?: string; 
   icon?: any; 
   color?: string;
   actions?: React.ReactNode;
+  badge?: string;
 }) {
   const renderIcon = (size: number, className?: string) => {
     if (!Icon) return <LayoutGrid size={size} className={className} />;
@@ -39,6 +41,11 @@ export function PageHeader({
               {renderIcon(20, "text-secondary")}
             </div>
             <h1 className="text-3xl font-display font-black tracking-tight leading-none whitespace-nowrap">{title}</h1>
+            {badge && (
+              <span className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-secondary">
+                {badge}
+              </span>
+            )}
           </div>
           {subtitle && (
             <p className="text-slate-400 text-sm font-medium ml-[52px] whitespace-nowrap truncate">
@@ -57,14 +64,18 @@ export function PageHeader({
   );
 }
 
-export function Semaphore({ status }: { status: 'Verde' | 'Amarelo' | 'Vermelho' }) {
-  const colors = {
+export function Semaphore({ status }: { status: string }) {
+  const colors: Record<string, string> = {
     Verde: 'bg-emerald-500',
     Amarelo: 'bg-amber-500',
-    Vermelho: 'bg-rose-500'
+    Vermelho: 'bg-rose-500',
+    'Stable': 'bg-blue-400',
+    'Bullish': 'bg-emerald-400',
+    'Bearish': 'bg-rose-400',
+    'Correction': 'bg-amber-400'
   };
   
-  return <div className={cn("w-2 h-2 rounded-full", colors[status])} />;
+  return <div className={cn("w-2 h-2 rounded-full", colors[status] || 'bg-slate-300')} />;
 }
 
 export function StatusBadge({ status, label }: { status: string; label?: string }) {
@@ -73,6 +84,10 @@ export function StatusBadge({ status, label }: { status: string; label?: string 
     'Amarelo': 'text-amber-600 border-amber-200 bg-amber-50/30',
     'Vermelho': 'text-rose-600 border-rose-200 bg-rose-50/30',
     'Azul': 'text-indigo-600 border-indigo-200 bg-indigo-50/30',
+    'Pendente': 'text-amber-600 border-amber-400 bg-amber-50 shadow-sm font-black',
+    'Ativo': 'text-emerald-700 border-emerald-300 bg-emerald-50 font-black',
+    'Inativo': 'text-rose-600 border-rose-200 bg-rose-50/50 font-black',
+    'Em Implantação': 'text-amber-700 border-amber-300 bg-amber-50 font-black',
   };
   
   return (

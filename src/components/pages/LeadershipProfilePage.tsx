@@ -267,7 +267,7 @@ const ETHICAL_DILEMMAS = GOVERNANCE_PRINCIPLES
   }));
 
 export function LeadershipProfilePage({ clientId }: { clientId: string }) {
-  const [activeTab, setActiveTab] = useState<'roles' | 'assessment' | 'analysis' | 'dilemmas'>('roles');
+  const [activeTab, setActiveTab] = useState<'roles' | 'assessment' | 'analysis' | 'dilemmas' | 'team'>('roles');
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [assessmentStep, setAssessmentStep] = useState(0);
   const [assessmentType, setAssessmentType] = useState<'disc' | 'enneagram'>('disc');
@@ -450,20 +450,33 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
 
   return (
     <div className="space-y-10 pb-20">
-      <PageHeader
-        title="Perfil de Liderança: Gestão & Coordenação"
+      <PageHeader 
+        title="Liderança: Gestão & Coordenação" 
         subtitle="Mapeamento de competências e alinhamento de perfil para lideranças táticas e operacionais."
-        actions={
-          <div className="flex gap-4">
-            <button 
-              onClick={() => setActiveTab('assessment')}
-              className="px-6 py-2.5 bg-secondary text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-secondary/20 hover:scale-[1.02] transition-all"
-            >
-              Iniciar Autoavaliação
-            </button>
-          </div>
-        }
+        icon={Users}
+        color="bg-slate-900"
       />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Brain size={14} className="text-secondary" />
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">DNA de Gestão Ativo</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setActiveTab('assessment')}
+            className="flex items-center gap-2 px-8 py-3.5 bg-secondary text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-secondary/20 hover:scale-105 transition-all"
+          >
+            <Zap size={14} /> INICIAR AUTOAVALIAÇÃO
+          </button>
+        </div>
+      </div>
+
 
       <div className="flex gap-2 p-1.5 bg-bg-surface/50 backdrop-blur-xl border border-white/20 rounded-2xl w-fit">
         {[

@@ -84,18 +84,26 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
         subtitle="Monitoramento executivo de metas, execução e análise de desvios sistêmicos."
         icon={Target}
         color="bg-slate-900"
-        actions={
-          <div className="flex gap-4">
-             <div className="px-6 py-3 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Status Global</span>
-                <div className="flex items-center gap-2">
-                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                   <span className="text-xl font-black text-white">EM EXECUÇÃO</span>
-                </div>
-             </div>
-          </div>
-        }
       />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Status: Em Execução Ativa</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center gap-2">
+            <Zap size={14} className="text-secondary" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Visão Global de Desvios</span>
+          </div>
+        </div>
+      </div>
+
 
       {/* Executive Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

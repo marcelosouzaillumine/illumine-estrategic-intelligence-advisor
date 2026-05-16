@@ -68,25 +68,48 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
-      {/* Strategic Header & Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <FileText size={20} className="text-secondary" />
+      <PageHeader 
+        title="Indicadores Administrativos"
+        subtitle="Monitoramento de eficiência de back-office, gestão de despesas fixas e otimização de processos de suporte."
+        icon={FileText}
+        color="bg-slate-900"
+      />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={14} className="text-emerald-500" />
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Back-office Target: <span className="text-emerald-600">Otimizado</span></span>
             </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">Indicadores Administrativos</h1>
           </div>
-          <p className="text-slate-400 text-sm font-medium">Monitoramento de eficiência de back-office, gestão de despesas fixas e otimização de processos de suporte.</p>
         </div>
 
-        <div className="relative z-10 text-right bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4">
-           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Back-office Target</span>
-           <span className="text-emerald-400 font-black uppercase text-sm flex items-center justify-end gap-2">
-             <ShieldCheck size={16} />
-             Otimizado
-           </span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
+            <div className="flex items-center px-4 py-2 border-r border-slate-100">
+              <select 
+                value={selectedYear} 
+                onChange={(e) => setSelectedYear(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {[2024, 2025, 2026].map(y => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center px-4 py-2">
+              <select 
+                value={selectedMonth} 
+                onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
+                  <option key={i} value={i + 1}>{label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
       </div>
 

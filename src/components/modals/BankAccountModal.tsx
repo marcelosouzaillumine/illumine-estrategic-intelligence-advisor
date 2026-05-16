@@ -64,7 +64,8 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
 
       const dateNow = new Date();
       const monthStr = dateNow.toLocaleString('pt-BR', { month: 'short' });
-      const formattedMonth = monthStr.charAt(0).toUpperCase() + monthStr.slice(1);
+      // Normalize month: capitalize first letter, remove dot, take 3 chars
+      const formattedMonth = (monthStr.charAt(0).toUpperCase() + monthStr.slice(1)).replace(/\./g, '').substring(0, 3);
 
       const dataToSave: any = {
         banco: formData.banco,
@@ -79,8 +80,21 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
       };
 
       if (account?.id) {
-        // For updates, only send fields that can change. 
-        // Avoid sending clientId or createdBy if they are already set to prevent permission issues.
+        // Update history as well
+        let updatedHistorico = [...(account.historico || [])];
+        const monthIdx = updatedHistorico.findIndex(h => {
+          const m = (h.mes || '').replace(/\./g, '').trim();
+          const normalizedH = m.charAt(0).toUpperCase() + m.slice(1, 3).toLowerCase();
+          return normalizedH === formattedMonth;
+        });
+
+        if (monthIdx >= 0) {
+          updatedHistorico[monthIdx].saldo = currentValue;
+        } else {
+          updatedHistorico.push({ mes: formattedMonth, saldo: currentValue });
+        }
+        dataToSave.historico = updatedHistorico;
+
         await updateDoc(doc(db, 'financial_positions', account.id), dataToSave);
       } else {
         const newData = {
@@ -89,7 +103,7 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
           createdBy: auth.currentUser?.uid,
           createdAt: serverTimestamp(),
           historico: [
-            { mes: formattedMonth, saldo: initialValue }
+            { mes: formattedMonth, saldo: currentValue }
           ],
         };
         await addDoc(collection(db, 'financial_positions'), newData);

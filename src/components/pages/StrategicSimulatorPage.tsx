@@ -118,12 +118,23 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
         subtitle="Analise como mudanças em indicadores críticos impactam o Valuation e o Fluxo de Caixa."
         icon={Zap}
         color="bg-slate-900"
-        actions={
-          <button onClick={resetSim} className="flex items-center gap-2 px-6 py-3 bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-white/20 transition-all">
-            <RefreshCw size={14} /> Resetar Simulação
-          </button>
-        }
       />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 shrink-0">
+            <button 
+              onClick={resetSim}
+              className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-slate-400 hover:text-slate-600 hover:bg-white flex items-center gap-2"
+            >
+              <RefreshCw size={14} />
+              Resetar Simulação
+            </button>
+          </div>
+        </div>
+      </div>
+
+
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Sliders Area */}

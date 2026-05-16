@@ -177,7 +177,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
         color="bg-slate-900"
       />
       
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-6 -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-4">
           <div className="px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
             {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-blue-600" />}
@@ -188,10 +188,11 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
           </div>
         </div>
 
-        <div className="bg-white p-2 rounded-[24px] border border-slate-100 shadow-sm">
+        <div className="flex items-center gap-3">
           {actionButtons}
         </div>
       </div>
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {dlpaIndices.map((idx, i) => (

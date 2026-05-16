@@ -21,10 +21,11 @@ import {
   Building
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { StatusBadge } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { formatValue, cn } from '../../lib/utils';
 import { db } from '../../lib/firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { SalesPipelineManager } from '../SalesPipelineManager';
 
 interface MarketingComercialPageProps {
   type: 'marketing' | 'comercial';
@@ -46,6 +47,20 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
   const [loading, setLoading] = useState(false);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [view, setView] = useState<'dashboard' | 'pipeline'>('dashboard');
+  const [pipelineEntries, setPipelineEntries] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!clientId || isMarketing) return;
+    const q = query(
+      collection(db, 'sales_pipeline'),
+      where('clientId', '==', clientId)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setPipelineEntries(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+    return () => unsubscribe();
+  }, [clientId, isMarketing]);
 
   useEffect(() => {
     if (!clientId) return;
@@ -132,6 +147,29 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
         { stage: 'SQLs (Vendas)', value: sales, conversion: opportunities ? `${((sales / opportunities) * 100).toFixed(1)}%` : '0%', color: 'bg-secondary' }
       ];
     }
+
+    // Commercial Funnel from Pipeline Entries if available
+    if (pipelineEntries.length > 0) {
+      const stages = ['Prospecção', 'Qualificação', 'Proposta', 'Negociação', 'Fechamento'];
+      const cumulativeData = stages.map((stage, i) => {
+        const stageEntries = pipelineEntries.filter(e => e.etapa === stage);
+        const count = stageEntries.length;
+        const value = stageEntries.reduce((acc, curr) => acc + curr.valor, 0);
+        
+        // For pipeline funnel, we often show current stage count or cumulative
+        // Let's show the count and the value
+        return { stage, count, value };
+      });
+
+      return cumulativeData.map((data, idx) => ({
+        stage: data.stage,
+        value: data.count,
+        labelValue: formatValue(data.value, 'R$'),
+        conversion: idx === 0 ? '100%' : cumulativeData[idx-1].count ? `${((data.count / cumulativeData[idx-1].count) * 100).toFixed(0)}%` : '0%',
+        color: idx === 0 ? 'bg-slate-800' : idx === 1 ? 'bg-slate-700' : idx === 2 ? 'bg-emerald-700' : idx === 3 ? 'bg-emerald-600' : 'bg-secondary'
+      }));
+    }
+
     return [
       { stage: 'Prospecção', value: leads, conversion: '100%', color: 'bg-slate-800' },
       { stage: 'Qualificação', value: opportunities, conversion: leads ? `${((opportunities / leads) * 100).toFixed(1)}%` : '0%', color: 'bg-slate-700' },
@@ -139,7 +177,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
       { stage: 'Negociação', value: Math.round(opportunities * 0.5), conversion: '50%', color: 'bg-emerald-600' },
       { stage: 'Fechamento', value: sales, conversion: opportunities ? `${((sales / opportunities) * 100).toFixed(1)}%` : '0%', color: 'bg-secondary' }
     ];
-  }, [isMarketing, dbIndicators]);
+  }, [isMarketing, dbIndicators, pipelineEntries]);
 
   const performanceData = useMemo(() => {
     // If we have no real data, we return empty arrays for performance matrix to avoid mockup artifacts
@@ -163,34 +201,19 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
-      {/* Premium Header Standardized to Monitoring Pattern */}
-      <div className={cn(
-        "flex flex-col lg:flex-row lg:items-center justify-between gap-6 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden transition-all duration-700 bg-slate-900"
-      )}>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-[120px] -mr-48 -mt-48 pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-[80px] pointer-events-none" />
-        
-        <div className="relative z-10 flex-1">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-14 h-14 rounded-2xl bg-secondary/20 flex items-center justify-center backdrop-blur-md border border-white/10 shadow-lg">
-              {isMarketing ? <Globe className="text-secondary" size={28} /> : <ShoppingBag className="text-secondary" size={28} />}
-            </div>
-            <div>
-              <h1 className="text-3xl font-display font-black tracking-tight leading-none mb-2">
-                {isMarketing ? 'Marketing de Posicionamento' : 'Vendas & Mercado'}
-              </h1>
-              <p className="text-slate-400 text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">
-                {isMarketing 
-                  ? 'Gestão de comunicação, branding e geração de leads sob a ótica de monitoramento estratégico.' 
-                  : 'Monitoramento de performance comercial, inteligência de mercado e taxas de conversão.'}
-              </p>
-            </div>
-          </div>
-        </div>
+      <PageHeader 
+        title={isMarketing ? 'Marketing de Posicionamento' : 'Vendas & Mercado'} 
+        subtitle={isMarketing 
+          ? 'Gestão de comunicação, branding e geração de leads sob a ótica de monitoramento estratégico.' 
+          : 'Monitoramento de performance comercial, inteligência de mercado e taxas de conversão.'}
+        icon={isMarketing ? Globe : ShoppingBag}
+        color="bg-slate-900"
+      />
 
-        <div className="flex flex-wrap items-center gap-3 relative z-10">
-          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1 shadow-inner">
-            <div className="flex items-center px-4 py-2 border-r border-white/5">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
+            <div className="flex items-center px-4 py-2 border-r border-slate-100">
               <Calendar size={14} className="text-secondary mr-2" />
               <select 
                 value={selectedYear} 
@@ -198,7 +221,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                 className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors appearance-none pr-1"
               >
                 {years.map(y => (
-                  <option key={y} value={y} className="bg-slate-900">{y}</option>
+                  <option key={y} value={y}>{y}</option>
                 ))}
               </select>
             </div>
@@ -209,20 +232,19 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                 className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors appearance-none pr-1"
               >
                 {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
-                  <option key={i} value={i + 1} className="bg-slate-900">{label}</option>
+                  <option key={i} value={i + 1}>{label}</option>
                 ))}
               </select>
             </div>
           </div>
-          
-          {/* Group 2: View Toggle */}
-          <div className="flex items-center gap-4 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-2.5 border border-white/10 shadow-inner h-[46px]">
+
+          <div className="flex items-center gap-4 bg-white rounded-2xl px-5 py-2.5 border border-slate-200 shadow-sm h-[46px]">
             <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-slate-500")}>Mensal</span>
             <button 
               onClick={() => setIsYTD(!isYTD)}
               className={cn(
                 "w-10 h-5 rounded-full p-1 transition-colors relative group",
-                isYTD ? "bg-secondary" : "bg-slate-700 hover:bg-slate-600"
+                isYTD ? "bg-secondary" : "bg-slate-200 hover:bg-slate-300"
               )}
             >
               <motion.div 
@@ -232,9 +254,39 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
             </button>
             <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", isYTD ? "text-secondary" : "text-slate-500")}>Anual</span>
           </div>
- 
+        </div>
+
+        <div className="flex items-center gap-3">
+          {!isMarketing && (
+            <div className="flex bg-white border border-slate-200 rounded-2xl p-1 shadow-sm h-[46px]">
+              <button 
+                onClick={() => setView('dashboard')}
+                className={cn(
+                  "px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all",
+                  view === 'dashboard' ? "bg-secondary text-primary shadow-lg" : "text-slate-400 hover:text-secondary"
+                )}
+              >
+                Dashboard
+              </button>
+              <button 
+                onClick={() => setView('pipeline')}
+                className={cn(
+                  "px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all",
+                  view === 'pipeline' ? "bg-secondary text-primary shadow-lg" : "text-slate-400 hover:text-secondary"
+                )}
+              >
+                Gestão de Pipeline
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+
+      {view === 'pipeline' ? (
+        <SalesPipelineManager clientId={clientId} />
+      ) : (
+        <>
 
       {/* Funnel & Performance Grid - Hidden if no data */}
       {hasData && (
@@ -271,7 +323,9 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
                   >
                     <span className="text-[11px] font-black uppercase tracking-widest">{item.stage}</span>
                     <div className="text-right">
-                      <p className="text-lg font-display font-black">{item.value}</p>
+                      <p className="text-lg font-display font-black">
+                        {item.value} {item.labelValue && <span className="text-[10px] opacity-60 ml-2">{item.labelValue}</span>}
+                      </p>
                       <p className="text-[9px] font-bold text-white/50 uppercase tracking-widest">{item.conversion}</p>
                     </div>
                   </div>
@@ -436,6 +490,8 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
               </div>
            </div>
         </div>
+      )}
+      </>
       )}
     </div>
   );

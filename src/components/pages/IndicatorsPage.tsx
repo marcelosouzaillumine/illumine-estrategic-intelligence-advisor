@@ -32,6 +32,7 @@ import { db } from '../../lib/firebase';
 import { formatValue, cn, formatCurrency } from '../../lib/utils';
 import { SectionHeader, StatusBadge, PageHeader } from '../Common';
 import { FULL_MONTH_LABELS, EIXOS_ORDEM } from '../../constants';
+import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 
 const GROUP_MAPPING: Record<string, string> = {
   // Por Categoria (Fallback)
@@ -97,6 +98,9 @@ const GROUP_MAPPING: Record<string, string> = {
   'Faturamento Bruto': 'Administração e Finanças',
   'Receita Líquida': 'Administração e Finanças',
   'Receita liquida': 'Administração e Finanças',
+  'Gestão de Ativos': 'Administração e Finanças',
+  'Gestão de Passivos': 'Administração e Finanças',
+  'Posição de Caixa Alpha': 'Administração e Finanças',
   'PMR': 'Administração e Finanças',
   'Margem Líquida': 'Administração e Finanças',
   'WACC': 'Administração e Finanças',
@@ -308,6 +312,8 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
     pageSize: 12
   });
 
+  const { kpis: calculatedKPIs } = useRealIndicatorData(selectedClient, filterMonth, filterYear);
+
   useEffect(() => {
     reset();
   }, [selectedClient, filterYear, filterMonth]);
@@ -323,6 +329,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
   }, []);
 
   const { grouped, summary, groups, globalSizeClass, healthScore } = useMemo(() => {
+    // 1. Start with database indicators
     const listWithGroups = indicators.map(i => {
         const indName = (i.ind === 'Múltiplo' || i.ind === 'Multiplo') ? 'Múltiplo de EBITDA' : i.ind;
         return {
@@ -332,10 +339,38 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
         };
     });
 
-    let filteredList = listWithGroups;
+    // 2. Add fallbacks if specific indicators are missing from DB
+    const missingKPIs = [];
+    
+    const checkAndAdd = (name: string, value: number, unit: string) => {
+      const isMandatory = name === 'Gestão de Ativos' || name === 'Gestão de Passivos' || name === 'Saldo em Caixa';
+      if (!listWithGroups.some(i => i.ind === name) && (value !== 0 || isMandatory)) {
+        missingKPIs.push({
+          ind: name,
+          val: value,
+          un: unit,
+          comp: `${FULL_MONTH_LABELS[filterMonth as keyof typeof FULL_MONTH_LABELS]} / ${filterYear}`,
+          sem: value > 0 ? 'Verde' : 'Amarelo',
+          analysisGroup: GROUP_MAPPING[name] || 'Administração e Finanças'
+        });
+      }
+    };
+
+    checkAndAdd('Margem EBITDA', calculatedKPIs.ebitdaMargin, '%');
+    checkAndAdd('Liquidez Corrente', calculatedKPIs.liquidezCorrente, '');
+    checkAndAdd('Margem Líquida', calculatedKPIs.margemLiquida, '%');
+    checkAndAdd('EBITDA', calculatedKPIs.ebitda, 'R$');
+    checkAndAdd('Faturamento', calculatedKPIs.revenue, 'R$');
+    checkAndAdd('Saldo em Caixa', calculatedKPIs.saldoCaixa, 'R$');
+    checkAndAdd('Gestão de Ativos', calculatedKPIs.totalAssets, 'R$');
+    checkAndAdd('Gestão de Passivos', calculatedKPIs.totalLiabilities, 'R$');
+
+    const finalFullList = [...listWithGroups, ...missingKPIs];
+
+    let filteredList = finalFullList;
     if (filterGroup) filteredList = filteredList.filter(f => f.analysisGroup === filterGroup);
     
-    const availableGroups = Array.from(new Set(listWithGroups.map(i => i.analysisGroup)))
+    const availableGroups = Array.from(new Set(finalFullList.map(i => i.analysisGroup)))
       .sort((a: string, b: string) => {
         const indexA = EIXOS_ORDEM.indexOf(a);
         const indexB = EIXOS_ORDEM.indexOf(b);
@@ -351,15 +386,22 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
     });
 
     const getVal = (label: string) => {
-        const found = indicators.find(i => i.ind.toLowerCase().includes(label.toLowerCase()));
+        // First try to find in real-time calculated KPIs
+        if (label === 'Faturamento' && calculatedKPIs.revenue > 0) return formatCurrency(calculatedKPIs.revenue);
+        if (label === 'EBITDA' && calculatedKPIs.ebitda > 0) return formatCurrency(calculatedKPIs.ebitda);
+        if (label === 'Ativos' && calculatedKPIs.totalAssets > 0) return formatCurrency(calculatedKPIs.totalAssets);
+        if (label === 'Passivos' && calculatedKPIs.totalLiabilities > 0) return formatCurrency(calculatedKPIs.totalLiabilities);
+        if (label === 'Saldo em Caixa' && calculatedKPIs.saldoCaixa > 0) return formatCurrency(calculatedKPIs.saldoCaixa);
+        
+        const found = finalFullList.find(i => i.ind.toLowerCase().includes(label.toLowerCase()));
         return found ? formatValue(found.val, found.un) : '---';
     };
 
     const stats = [
-        { label: 'Faturamento', value: getVal('Faturamento Bruto'), icon: BarChart3, colorClass: 'text-secondary', trend: '' },
+        { label: 'Faturamento', value: getVal('Faturamento'), icon: BarChart3, colorClass: 'text-secondary', trend: '' },
         { label: 'EBITDA', value: getVal('EBITDA'), icon: Zap, colorClass: 'text-secondary', trend: '' },
-        { label: 'Lucro Líquido', value: getVal('Lucro Líquido'), icon: TrendingUp, colorClass: 'text-secondary', trend: '' },
-        { label: 'Ciclo Financeiro', value: getVal('Ciclo Financeiro'), icon: Activity, colorClass: 'text-secondary', trend: '' }
+        { label: 'Ativos Totais', value: getVal('Ativos'), icon: TrendingUp, colorClass: 'text-emerald-500', trend: '' },
+        { label: 'Passivos Totais', value: getVal('Passivos'), icon: ShieldAlert, colorClass: 'text-rose-500', trend: '' }
     ];
 
     const healthScore = indicators.length > 0 ? Math.round(
@@ -371,13 +413,13 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
     ) : 0;
 
     const globalMaxLen = Math.max(
-      ...indicators.map(i => formatValue(i.val, i.un).length),
+      ...finalFullList.map(i => formatValue(i.val, i.un).length),
       ...stats.map(s => String(s.value).length)
     );
     const globalSizeClass = getValueSizeClass(globalMaxLen);
 
     return { grouped: groupsMap, summary: stats, groups: availableGroups, globalSizeClass, healthScore };
-  }, [indicators, filterGroup]);
+  }, [indicators, filterGroup, filterMonth, filterYear, calculatedKPIs]);
 
   const currentClient = clients.find((c: any) => c.id === selectedClient);
 
@@ -399,25 +441,64 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
         title="Análise de KPIs"
         subtitle="Monitoramento avançado de performance e eixos estratégicos em tempo real."
         icon={TrendingUp}
-        actions={
-          <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 backdrop-blur-sm relative z-10">
+      />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 shrink-0">
             <button 
               onClick={() => setViewMode('grid')}
-              className={cn("p-2.5 px-4 rounded-xl transition-all flex items-center gap-2", viewMode === 'grid' ? "bg-secondary text-white shadow-lg" : "text-slate-400 hover:text-white")}
+              className={cn(
+                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
+                viewMode === 'grid' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+              )}
             >
-              <LayoutGrid size={16} strokeWidth={2} />
-              {viewMode === 'grid' && <span className="text-[10px] font-black uppercase tracking-widest">Grade</span>}
+              <LayoutGrid size={14} className="inline mr-2" />
+              Grade
             </button>
             <button 
               onClick={() => setViewMode('table')}
-              className={cn("p-2.5 px-4 rounded-xl transition-all flex items-center gap-2", viewMode === 'table' ? "bg-secondary text-white shadow-lg" : "text-slate-400 hover:text-white")}
+              className={cn(
+                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
+                viewMode === 'table' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+              )}
             >
-              <List size={16} strokeWidth={2} />
-              {viewMode === 'table' && <span className="text-[10px] font-black uppercase tracking-widest">Lista</span>}
+              <List size={14} className="inline mr-2" />
+              Lista
             </button>
           </div>
-        }
-      />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 bg-white p-1 rounded-xl border border-slate-100 shadow-sm">
+            <div className="flex items-center px-4 py-2 border-r border-slate-100">
+              <Calendar size={14} className="text-secondary mr-2.5" />
+              <select 
+                value={filterYear} 
+                onChange={(e) => setFilterYear(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {years.map(y => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center px-4 py-2">
+              <select 
+                value={filterMonth} 
+                onChange={(e) => setFilterMonth(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
+                  <option key={m} value={Number(m)}>{label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 
       {/* Corporate Health Mini-Header */}
       <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
@@ -481,62 +562,35 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
         ))}
       </div>
 
-      {/* Axis & Date Filters */}
-      <div className="flex flex-col md:flex-row items-center gap-6 pb-4">
-        <div className="flex items-center gap-3 bg-white p-2 rounded-[24px] border border-slate-100 shadow-sm w-full md:w-auto">
-          <div className="flex items-center px-4 py-2 border-r border-slate-100">
-            <Calendar size={14} className="text-secondary mr-2.5" />
-            <select 
-              value={filterYear} 
-              onChange={(e) => setFilterYear(Number(e.target.value))}
-              className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-            >
-              {years.map(y => (
-                <option key={y} value={y}>{y}</option>
-              ))}
-            </select>
-          </div>
-          <div className="flex items-center px-4 py-2">
-            <select 
-              value={filterMonth} 
-              onChange={(e) => setFilterMonth(Number(e.target.value))}
-              className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-            >
-              {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
-                <option key={m} value={Number(m)}>{label}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4 overflow-x-auto no-scrollbar flex-1">
+      {/* Axis Filters only */}
+      <div className="flex items-center gap-4 overflow-x-auto no-scrollbar pb-4">
+        <button
+          onClick={() => setFilterGroup('')}
+          className={cn(
+            "px-8 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap border shadow-sm",
+            filterGroup === '' 
+              ? "bg-slate-900 text-white border-slate-900 shadow-xl scale-105" 
+              : "bg-white text-slate-400 border-slate-100 hover:border-secondary/30 hover:text-slate-600"
+          )}
+        >
+          Todos os Eixos
+        </button>
+        {groups.map((g: string) => (
           <button
-            onClick={() => setFilterGroup('')}
+            key={g}
+            onClick={() => setFilterGroup(g)}
             className={cn(
               "px-8 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap border shadow-sm",
-              filterGroup === '' 
+              filterGroup === g 
                 ? "bg-slate-900 text-white border-slate-900 shadow-xl scale-105" 
                 : "bg-white text-slate-400 border-slate-100 hover:border-secondary/30 hover:text-slate-600"
             )}
           >
-            Todos os Eixos
+            {g}
           </button>
-          {groups.map((g: string) => (
-            <button
-              key={g}
-              onClick={() => setFilterGroup(g)}
-              className={cn(
-                "px-8 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap border shadow-sm",
-                filterGroup === g 
-                  ? "bg-slate-900 text-white border-slate-900 shadow-xl scale-105" 
-                  : "bg-white text-slate-400 border-slate-100 hover:border-secondary/30 hover:text-slate-600"
-              )}
-            >
-              {g}
-            </button>
-          ))}
-        </div>
+        ))}
       </div>
+
 
       {/* Main Content Area */}
       <AnimatePresence mode="wait">

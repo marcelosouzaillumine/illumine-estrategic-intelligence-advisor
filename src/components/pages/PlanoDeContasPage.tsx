@@ -15,7 +15,8 @@ import {
   Sparkles,
   AlertTriangle,
   X,
-  List
+  List,
+  LayoutGrid
 } from 'lucide-react';
 import { 
   collection, 
@@ -35,7 +36,7 @@ import { db, auth, handleFirestoreError, OperationType } from '../../lib/firebas
 import { DATA } from '../../data';
 import { SYSTEM_KPI_CATEGORIES } from '../../constants';
 import { cn } from '../../lib/utils';
-import { StatusBadge } from '../Common';
+import { PageHeader, StatusBadge } from '../Common';
 import { AccountModal } from '../modals/AccountModal';
 import { ImportPlanoModal } from '../modals/ImportPlanoModal';
 import { MappingWizard } from '../modals/MappingWizard';
@@ -167,11 +168,15 @@ export function PlanoDeContasPage({
     if (!selectedClient) return;
     setIsSavingAll(true);
     try {
-      const batch = writeBatch(db);
       let count = 0;
+      const chunkSize = 450;
+      const unassignedAccounts = accounts.filter(acc => !acc.id);
       
-      for (const acc of accounts) {
-        if (!acc.id) {
+      for (let i = 0; i < unassignedAccounts.length; i += chunkSize) {
+        const batch = writeBatch(db);
+        const chunk = unassignedAccounts.slice(i, i + chunkSize);
+        
+        for (const acc of chunk) {
           const newDocRef = doc(collection(db, 'account_plans'));
           const { id, ...accData } = acc;
           batch.set(newDocRef, {
@@ -184,13 +189,14 @@ export function PlanoDeContasPage({
           });
           count++;
         }
+        
+        await batch.commit();
       }
       
       if (count > 0) {
-        await batch.commit();
+        setSaveSuccess(true);
+        setTimeout(() => setSaveSuccess(false), 3000);
       }
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
     } catch (error) {
       handleFirestoreError(error, OperationType.WRITE, 'account_plans');
     } finally {
@@ -259,8 +265,12 @@ export function PlanoDeContasPage({
         return;
       }
 
-      // Filter docs for the current view
-      const filteredDocs = allDocs.filter(d => d.planType === planType);
+      // Filter docs for the current view and approval status
+      const filteredDocs = allDocs.filter(d => 
+        d.planType === planType && 
+        d.status !== 'pending' && 
+        d.status !== 'rejected'
+      );
       
       if (filteredDocs.length === 0 && planType === 'accounting') {
         // If it's accounting and empty, show default template
@@ -349,24 +359,19 @@ export function PlanoDeContasPage({
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
-      {/* Strategic Header & Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden mb-12">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <List size={20} className="text-secondary" />
-            </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">Plano de Contas {planLabel}</h1>
-          </div>
-          <p className="text-slate-400 text-sm font-medium whitespace-nowrap">Estrutura de classificação {planType === 'accounting' ? 'contábil' : 'gerencial'} do cliente {clientName}.</p>
-        </div>
+      <PageHeader 
+        title={`Plano de Contas ${planLabel}`} 
+        subtitle={`Estrutura de classificação ${planType === 'accounting' ? 'contábil' : 'gerencial'} do cliente ${clientName}.`}
+        icon={List}
+        color="bg-slate-900"
+      />
 
-        <div className="flex flex-wrap items-center justify-end gap-3 relative z-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
           {selectedClient && savedCount > 0 && (
             <button 
               onClick={() => setIsDeletePlanOpen(true)}
-              className="px-5 py-3 bg-white/5 text-rose-400 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-500/20 transition-all flex items-center gap-2"
+              className="px-5 py-3 bg-white border border-slate-200 text-rose-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 transition-all flex items-center gap-2 shadow-sm"
             >
               <Trash2 size={14} /> EXCLUIR PLANO
             </button>
@@ -376,38 +381,43 @@ export function PlanoDeContasPage({
             onClick={handleSaveAll}
             disabled={isSavingAll || !selectedClient}
             className={cn(
-              "px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl flex items-center gap-2",
-              saveSuccess ? "bg-emerald-500 text-white" : "bg-white/10 text-white border border-white/10 hover:bg-white/20"
+              "px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm flex items-center gap-2 border",
+              saveSuccess 
+                ? "bg-emerald-500 text-white border-emerald-400" 
+                : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
             )}
           >
-            {isSavingAll ? <Loader2 size={16} className="animate-spin" /> : saveSuccess ? <CheckCircle2 size={16} /> : <Save size={16} />}
-            {saveSuccess ? 'SALVO!' : 'SALVAR ALTERAÇÕES'}
+            {isSavingAll ? <Loader2 size={14} className="animate-spin" /> : saveSuccess ? <CheckCircle2 size={14} /> : <Save size={14} />}
+            {saveSuccess ? 'SINCRONIZADO!' : 'SINCRONIZAR ALTERAÇÕES'}
           </button>
           
-          <div className="h-8 w-px bg-white/10 mx-1 hidden xl:block" />
+          <div className="h-8 w-px bg-slate-200 mx-1 hidden xl:block" />
 
           <button 
             onClick={() => setIsImportModalOpen(true)}
-            className="px-6 py-3 bg-white/5 text-slate-300 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2"
+            className="px-6 py-3 bg-white border border-slate-200 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm"
           >
-            <UploadCloud size={16} /> IMPORTAR
+            <UploadCloud size={14} /> IMPORTAR
           </button>
           
           <button 
             onClick={() => setIsMappingWizardOpen(true)}
-            className="px-6 py-3 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20 flex items-center gap-2 border border-white/10"
+            className="px-6 py-3 bg-white border border-slate-200 text-primary rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm"
           >
-            <Link2 size={16} /> MAPEAMENTO
+            <Link2 size={14} /> MAPEAMENTO
           </button>
-          
+        </div>
+
+        <div className="flex items-center gap-3">
           <button 
             onClick={() => { setEditingAccount(null); setIsModalOpen(true); }}
-            className="px-6 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2 border border-white/10"
+            className="px-8 py-3.5 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
           >
             <Plus size={16} /> NOVA CONTA
           </button>
         </div>
       </div>
+
 
 
       <div className="flex flex-col md:flex-row items-stretch md:items-center bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden mb-8">

@@ -41,6 +41,7 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
   const initialForm = {
     nome: '',
     email: '',
+    cpf: '',
     cargo: '',
     nivelAcesso: 'Visualizador' as 'Admin' | 'Gerente' | 'Visualizador',
     permissoes: [] as string[],
@@ -72,7 +73,10 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
   };
 
   const handleSave = async () => {
-    if (!formData.nome || !formData.email) return;
+    if (!formData.nome || !formData.email || !formData.cpf) {
+      alert('Por favor, preencha todos os campos obrigatórios (Nome, E-mail e CPF).');
+      return;
+    }
     
     setLoading(true);
     try {
@@ -180,6 +184,20 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
              </div>
 
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="space-y-3">
+                  <label className="text-label px-1">CPF (Obrigatório)</label>
+                  <input 
+                    type="text" 
+                    value={formData.cpf}
+                    onChange={e => {
+                      const val = e.target.value.replace(/\D/g, '').substring(0, 11);
+                      const masked = val.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+                      setFormData({...formData, cpf: val.length === 11 ? masked : val});
+                    }}
+                    placeholder="000.000.000-00"
+                    className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-bold outline-none focus:border-secondary transition-all"
+                  />
+                </div>
                 <div className="space-y-3">
                   <label className="text-label px-1">Nome Completo</label>
                   <input 
@@ -345,7 +363,7 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                 </button>
                 <button 
                   onClick={handleSave}
-                  disabled={loading || !formData.nome || !formData.email}
+                  disabled={loading || !formData.nome || !formData.email || !formData.cpf}
                   className="btn-executive px-12 py-3 shadow-floating-primary"
                 >
                   {loading ? <Loader2 size={16} className="animate-spin" /> : editingId ? <Save size={16} /> : <CheckCircle2 size={16} />}
@@ -393,7 +411,7 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                              </div>
                              <div>
                                <p className="text-sm font-black text-text-main group-hover:text-secondary transition-colors">{u.nome}</p>
-                               <p className="text-[11px] text-text-dim font-medium italic mt-0.5">{u.email}</p>
+                               <p className="text-[11px] text-text-dim font-medium italic mt-0.5">{u.email} • {u.cpf || 'Sem CPF'}</p>
                                <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest mt-1 opacity-60">{u.cargo}</p>
                              </div>
                            </div>

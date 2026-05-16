@@ -8,6 +8,7 @@ import {
   collection, addDoc, getDocs, query, where, serverTimestamp, writeBatch, doc 
 } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
+import { notificationService } from '../../services/notificationService';
 import { parseTransactionsExcel, parseTransactionsPdf, ImportedTransaction } from '../../services/importService';
 import { cn, formatDate } from '../../lib/utils';
 
@@ -16,8 +17,10 @@ type ImportStrategy = 'add_new' | 'replace_all';
 interface ImportTransactionsModalProps {
   collectionName: 'payables' | 'receivables';
   selectedClient?: string;
+  clients: any[];
   onClose: () => void;
   onSuccess: () => void;
+  isMaster?: boolean;
 }
 
 const STRATEGY_CONFIG: Record<ImportStrategy, { label: string; desc: string; icon: React.ReactNode; danger?: boolean }> = {
@@ -34,7 +37,7 @@ const STRATEGY_CONFIG: Record<ImportStrategy, { label: string; desc: string; ico
   },
 };
 
-export function ImportTransactionsModal({ collectionName, selectedClient, onClose, onSuccess }: ImportTransactionsModalProps) {
+export function ImportTransactionsModal({ collectionName, selectedClient, clients, onClose, onSuccess, isMaster }: ImportTransactionsModalProps) {
   const [file, setFile] = useState<File | null>(null);
   const [parsedData, setParsedData] = useState<ImportedTransaction[]>([]);
   const [existingCount, setExistingCount] = useState<number>(0);
@@ -107,6 +110,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, onClos
     setProgress(0);
     setProcessingStatus('Iniciando importação...');
 
+    const batchId = `batch_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
     let created = 0, deleted = 0;
 
     try {
@@ -138,7 +142,8 @@ export function ImportTransactionsModal({ collectionName, selectedClient, onClos
         setProcessingStatus(`Salvando títulos: ${Math.min(i + batchSize, totalItems)} de ${totalItems}...`);
 
         const batch = writeBatch(db);
-        chunk.forEach(tx => {
+        const clientFantasia = clients.find(c => c.id === selectedClient)?.fantasia || 'N/A';
+        for (const tx of chunk) {
           const docRef = doc(collection(db, collectionName));
           const payload = {
             [collectionName === 'payables' ? 'fornecedor' : 'cliente']: tx.entidade,
@@ -147,17 +152,42 @@ export function ImportTransactionsModal({ collectionName, selectedClient, onClos
             vencimento: tx.vencimento,
             valor: tx.valor,
             valorAberto: tx.valorAberto ?? tx.valor,
-            status: tx.status,
+            status: isMaster ? 'approved' : 'pending',
+            requiresApproval: !isMaster,
+            sourceCollection: collectionName,
+            clientName: clientFantasia,
+            fileName: file.name,
             categoria: tx.categoria || '',
             centroCusto: tx.centroCusto || '',
             clientId: selectedClient,
+            batchId,
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
+            approvedAt: isMaster ? serverTimestamp() : null,
+            approvedBy: isMaster ? auth.currentUser!.uid : null,
             createdBy: auth.currentUser!.uid,
+            creatorEmail: auth.currentUser!.email,
           };
+
+          // Notify Admins (only once per batch start)
+          if (i === 0 && tx === chunk[0]) {
+             await notificationService.createNotification({
+              userId: 'admin_group',
+              title: `Novas Importações: ${title}`,
+              message: `${auth.currentUser!.email} importou ${totalItems} títulos para ${selectedClient}.`,
+              type: 'approval_request',
+              link: 'aprovacoes',
+              metadata: {
+                collection: collectionName,
+                clientId: selectedClient,
+                batchId,
+                count: totalItems
+              }
+            });
+          }
           batch.set(docRef, payload);
           created++;
-        });
+        }
         await batch.commit();
       }
 

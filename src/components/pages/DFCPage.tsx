@@ -132,68 +132,64 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
     }
   };
 
-  const actionButtons = (
-    <div className="flex items-center gap-3">
-      <div className="flex bg-slate-50 p-1 rounded-xl border border-slate-200 items-center mr-2">
-        <Calendar size={12} className="ml-2 text-slate-400" />
-        <select
-          onChange={(e) => setFilterYear(Number(e.target.value))}
-          value={filterYear}
-          className="bg-transparent px-3 py-1 text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer text-slate-700"
-        >
-          {Array.from({ length: 21 }, (_, i) => 2010 + i).map((y) => (
-            <option key={y} value={y}>{y}</option>
-          ))}
-        </select>
-      </div>
 
-      <button
-        onClick={() => setShowManualModal(true)}
-        className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-      >
-        <Plus size={14} /> Lançar Dados
-      </button>
-
-      <button
-        onClick={() => setShowImportModal(true)}
-        className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-      >
-        <Upload size={14} /> Importar
-      </button>
-
-      <button
-        onClick={() => setShowDeleteConfirm(true)}
-        className="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-      >
-        <Trash2 size={14} /> Excluir
-      </button>
-    </div>
-  );
 
   return (
     <div className="p-8">
       <PageHeader 
-        title="Demonstração do Fluxo de Caixa Contábil (DFC)" 
-        subtitle="Análise de geração e consumo de caixa pelo método indireto."
+        title="Fluxo de Caixa (DFC)" 
+        subtitle="Análise detalhada de geração e consumo de caixa pelo método indireto."
         icon={WalletCards}
         color="bg-slate-900"
       />
-      
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-6 -mt-6 mb-10">
-        <div className="flex items-center gap-4">
-          <div className="px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="bg-white border border-slate-200 rounded-xl px-4 py-2 flex items-center gap-3 shadow-sm">
             {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-blue-600" />}
             <Database size={14} className={dbData.length > 0 ? 'text-emerald-500' : 'text-slate-300'} />
             <span className={cn('text-[10px] font-black uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-emerald-500' : 'text-slate-400')}>
               {dbData.length > 0 ? 'Dados Reais' : 'Amostra'}
             </span>
           </div>
+
+          <div className="flex bg-white border border-slate-200 p-1 rounded-xl shadow-sm items-center">
+            <Calendar size={12} className="ml-2 text-slate-400" />
+            <select
+              onChange={(e) => setFilterYear(Number(e.target.value))}
+              value={filterYear}
+              className="bg-transparent px-3 py-1.5 text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer text-slate-700"
+            >
+              {Array.from({ length: 21 }, (_, i) => 2010 + i).map((y) => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className="bg-white p-2 rounded-[24px] border border-slate-100 shadow-sm">
-          {actionButtons}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowManualModal(true)}
+            className="px-4 py-3 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+          >
+            <Plus size={14} /> Lançar Dados
+          </button>
+          <button
+            onClick={() => setShowImportModal(true)}
+            className="px-4 py-3 bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-600 border border-blue-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+          >
+            <Upload size={14} /> Importar
+          </button>
+          <button
+            onClick={() => setShowDeleteConfirm(true)}
+            className="px-4 py-3 bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 border border-rose-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+          >
+            <Trash2 size={14} /> Excluir
+          </button>
         </div>
       </div>
+
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {cashIndices.map((idx, i) => (

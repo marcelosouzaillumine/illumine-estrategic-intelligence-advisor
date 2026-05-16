@@ -121,9 +121,27 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
         newBalance = (account.saldoInicial || 0) + totalMovement;
       }
 
+      const dateNow = new Date();
+      const monthStr = dateNow.toLocaleString('pt-BR', { month: 'short' });
+      const formattedMonth = (monthStr.charAt(0).toUpperCase() + monthStr.slice(1)).replace(/\./g, '').substring(0, 3);
+
+      let updatedHistorico = [...(account.historico || [])];
+      const monthIdx = updatedHistorico.findIndex(h => {
+        const m = (h.mes || '').replace(/\./g, '').trim();
+        const normalizedH = m.charAt(0).toUpperCase() + m.slice(1, 3).toLowerCase();
+        return normalizedH === formattedMonth;
+      });
+
+      if (monthIdx >= 0) {
+        updatedHistorico[monthIdx].saldo = newBalance;
+      } else {
+        updatedHistorico.push({ mes: formattedMonth, saldo: newBalance });
+      }
+
       await updateDoc(doc(db, 'financial_positions', selectedAccountId), {
         saldoAtual: newBalance,
-        dataAtualizacao: new Date().toLocaleDateString('pt-BR'),
+        historico: updatedHistorico,
+        dataAtualizacao: dateNow.toLocaleDateString('pt-BR'),
         updatedAt: serverTimestamp()
       });
 

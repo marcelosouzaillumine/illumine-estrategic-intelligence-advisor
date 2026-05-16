@@ -2243,6 +2243,24 @@ export const GOVERNANCE_FINANCIAL_RULES: GovernanceRule[] = [
     impact: 'Incapacidade de sustentar a operação e gerar valor a longo prazo.',
     recommendation: 'Revisar estrutura de custos e política de precificação.',
     orientation: 'Sobrevivência → Sustentabilidade'
+  },
+  {
+    id: 'rule_fin_alm_solvency',
+    condition: (metrics: any) => (metrics['Solvência ALM'] !== undefined && metrics['Solvência ALM'] < 1.1),
+    principleId: 'fin_3', // Planejamento
+    misalignment: 'A relação Ativo/Passivo (ALM) está abaixo da margem de segurança recomendada.',
+    impact: 'Risco iminente de insolvência financeira se houver atrasos em recebíveis.',
+    recommendation: 'Priorizar o recebimento de contas atrasadas e renegociar prazos com fornecedores.',
+    orientation: 'Segurança Financeira'
+  },
+  {
+    id: 'rule_fin_risco_caixa',
+    condition: (metrics: any) => (metrics['Exposição de Risco'] !== undefined && metrics['Exposição de Risco'] > 80),
+    principleId: 'fin_1', // Prudência
+    misalignment: 'Os passivos imediatos consomem mais de 80% do saldo de caixa disponível.',
+    impact: 'Asfixia financeira imediata e impossibilidade de honrar compromissos sem novos aportes.',
+    recommendation: 'Reduzir custos fixos e buscar antecipação de recebíveis saudáveis.',
+    orientation: 'Gestão de Liquidez'
   }
 ];
 

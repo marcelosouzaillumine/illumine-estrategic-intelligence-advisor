@@ -34,11 +34,11 @@ import {
   Globe
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, getDocs, writeBatch } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, where, getDocs, writeBatch, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { PageHeader, StatusBadge, MarkdownText } from '../Common';
 import { DATA } from '../../data';
-import { cn, formatCurrency } from '../../lib/utils';
+import { cn, formatCurrency, validateCNPJ, formatDoc } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
 import { EmployeeManager } from '../EmployeeManager';
 import { GenerateAICompanyModal } from '../modals/GenerateAICompanyModal';
@@ -47,7 +47,7 @@ import { ClientAccessLogs } from '../ClientAccessLogs';
 import { ClientLoginAudit } from '../ClientLoginAudit';
 import { ClientUserManager } from '../ClientUserManager';
 
-export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
+export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, isPartner, userPartnerIds }: any) {
   const [view, setView] = useState<'list' | 'form'>('list');
   const [loading, setLoading] = useState(false);
   const [cnpjQuery, setCnpjQuery] = useState('');
@@ -55,6 +55,16 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [clientToDelete, setClientToDelete] = useState<{ id: string, name: string } | null>(null);
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [showSegmentSuggestions, setShowSegmentSuggestions] = useState(false);
+  
+  const allSegments = useMemo(() => {
+    const segments = new Set<string>();
+    clients.forEach((c: any) => {
+      if (c.segmentoAtuacao) segments.add(c.segmentoAtuacao);
+      if (c.segmento) segments.add(c.segmento);
+    });
+    return Array.from(segments).sort();
+  }, [clients]);
   
   const clientTemplate = {
     razao: '',
@@ -93,7 +103,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
       telefone: '',
       email: ''
     },
-    status: 'Ativo',
+    status: 'Em Implantação',
     notasAdicionais: '',
     website: '',
     socialMedia: [
@@ -116,7 +126,23 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
       { base: 3751.05, aliquota: 15, deducao: 381.44 },
       { base: 4664.68, aliquota: 22.5, deducao: 662.77 },
       { base: 999999999, aliquota: 27.5, deducao: 896.00 }
-    ]
+    ],
+    isModel: false,
+    modelAxisDescriptions: {
+      governanca: '',
+      cultura: '',
+      financeiro: '',
+      inovacao: '',
+      marketing: '',
+      comercial: '',
+      operacional: ''
+    },
+    partnerId: '',
+    approvalStatus: 'Approved',
+    type: 'for-profit', // 'for-profit' | 'third-sector'
+    origin: 'nacional', // 'nacional' | 'internacional'
+    currency: 'BRL',    // 'BRL' | 'USD' | 'EUR' | 'GBP'
+    projectBased: false
   };
 
   const [formData, setFormData] = useState(clientTemplate);
@@ -125,11 +151,13 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
 
   const validateField = (name: string, value: string) => {
     let error = '';
-    if (name === 'cnpj') {
+    if (name === 'cnpj' && formData.origin === 'nacional') {
       const clean = value.replace(/\D/g, '');
-      if (value && clean.length !== 14) {
-        error = 'CNPJ inválido (deve conter 14 dígitos)';
+      if (clean && !validateCNPJ(clean)) {
+        error = 'CNPJ inválido. Verifique os dígitos verificadores.';
       }
+    } else if (name === 'cnpj' && formData.origin === 'internacional') {
+      if (!value.trim()) error = 'ID Fiscal / Registration Number é obrigatório';
     } else if (name === 'razao') {
       if (!value.trim()) error = 'Razão Social é obrigatória';
     } else if (name === 'fantasia') {
@@ -151,6 +179,16 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
   const [tempContact, setTempContact] = useState({ nome: '', email: '', tel: '', cargo: '' });
   const [activeFormTab, setActiveFormTab] = useState<'dados' | 'estrutura' | 'fiscal' | 'contato' | 'usuarios' | 'pessoal' | 'relatorio_ia' | 'importacao' | 'acessos' | 'auditoria'>('dados');
   const [showAllBranches, setShowAllBranches] = useState(false);
+  const [partners, setPartners] = useState<any[]>([]);
+
+  // Fetch partners
+  useEffect(() => {
+    const q = query(collection(db, 'partners'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setPartners(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Auto-fetch CNPJ when 14 digits are typed
   useEffect(() => {
@@ -225,7 +263,10 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
           nome: s.nome_socio || s.nome || s.nome_socio_pessoa_fisica || 'Sócio não identificado',
           participacao: s.percentual_capital || s.percentual_capital_social || s.participacao || s.percentual || (arr.length === 1 ? 100 : 0)
         })),
-        porte: data.porte === 'DEMAIS' ? 'Médio Porte' : data.porte || 'Médio Porte'
+        porte: data.porte === 'DEMAIS' ? 'Médio Porte' : data.porte || 'Médio Porte',
+        segmento: data.cnae_fiscal_descricao || 'Serviços',
+        // Garantir que novos cadastros via CNPJ sempre iniciem em Implantação
+        status: editingId ? formData.status : 'Em Implantação',
       });
       
       // Clear validation errors for auto-populated fields
@@ -271,8 +312,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
       const clientData = {
         ...formData,
         ownerId: auth.currentUser.uid,
-        updatedAt: serverTimestamp(),
-        status: 'Ativo'
+        updatedAt: serverTimestamp()
       };
 
       let clientId = editingId;
@@ -281,10 +321,15 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
         await updateDoc(doc(db, 'clients', editingId), clientData);
       } else {
         // Create new client in Firestore
-        const docRef = await addDoc(collection(db, 'clients'), {
+        const clientFinalData = {
           ...clientData,
+          approvalStatus: isMaster ? 'Approved' : 'Pending',
+          // Force partnerId if user is a partner
+          partnerId: (!isMaster && isPartner && userPartnerIds?.length > 0) ? userPartnerIds[0] : clientData.partnerId,
           createdAt: serverTimestamp()
-        });
+        };
+
+        const docRef = await addDoc(collection(db, 'clients'), clientFinalData);
         clientId = docRef.id;
         
         // Automate Account Plan creation for the new client from standard plan
@@ -377,7 +422,16 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
   } = useDataTable(clients, {
     searchFields: ['razao', 'fantasia', 'cnpj', 'segmento', 'cidade'],
     initialSort: { key: 'fantasia', direction: 'asc' },
-    itemsPerPage: 5
+    itemsPerPage: 5,
+    customFilter: (item: any, currentFilters: any) => {
+      if (currentFilters.partnerId === 'direto') {
+        return !item.partnerId;
+      }
+      if (currentFilters.partnerId && item.partnerId !== currentFilters.partnerId) {
+        return false;
+      }
+      return true;
+    }
   });
 
   const uniqueSegments = useMemo(() => {
@@ -464,37 +518,153 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
 
           <div className="p-12 flex-1 bg-bg-card">
             {activeFormTab === 'dados' && (
-              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                  <div className="space-y-6">
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-10">
+                {/* 1. Perfil Estratégico Section */}
+                <div className="bg-white/50 p-8 rounded-[32px] border border-border-main space-y-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+                      <Sparkles size={16} />
+                    </div>
                     <div>
-                      <label className="text-label">Busca por CNPJ</label>
-                      <div className="flex gap-3">
-                        <div className="relative flex-1">
-                          <input 
-                            type="text" 
-                            placeholder="00.000.000/0000-00"
-                            value={cnpjQuery}
-                            onChange={(e) => {
-                              setCnpjQuery(e.target.value);
-                              validateField('cnpj', e.target.value);
-                            }}
-                            className={cn(
-                              "w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm outline-none transition-all focus:bg-bg-card",
-                              validationErrors.cnpj ? "border-rose-300 focus:ring-rose-500/10" : "focus:ring-secondary/10"
-                            )}
-                          />
+                      <h3 className="text-[11px] font-black text-text-main uppercase tracking-[0.2em]">Perfil Estratégico</h3>
+                      <p className="text-[9px] text-text-dim font-bold uppercase tracking-widest">Defina a natureza e os parâmetros de gestão</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div>
+                      <label className="text-label">Tipo de Organização</label>
+                      <select 
+                        value={formData.type}
+                        onChange={(e) => setFormData({...formData, type: e.target.value as any})}
+                        className="w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all shadow-inner-soft"
+                      >
+                        <option value="for-profit">Com Fins Lucrativos</option>
+                        <option value="third-sector">Terceiro Setor (ONG/OSC)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-label">Origem da Organização</label>
+                      <select 
+                        value={formData.origin}
+                        onChange={(e) => setFormData({...formData, origin: e.target.value as any})}
+                        className="w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all shadow-inner-soft"
+                      >
+                        <option value="nacional">Nacional (Brasil)</option>
+                        <option value="internacional">Internacional</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-label">Moeda de Gestão</label>
+                      <select 
+                        value={formData.currency}
+                        onChange={(e) => setFormData({...formData, currency: e.target.value as any})}
+                        className="w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all shadow-inner-soft"
+                      >
+                        <option value="BRL">Real (BRL)</option>
+                        <option value="USD">Dólar (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">Libra (GBP)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-label">Status da Empresa</label>
+                      <select 
+                        value={formData.status || 'Em Implantação'}
+                        onChange={(e) => setFormData({...formData, status: e.target.value})}
+                        disabled={!isMaster}
+                        className={cn(
+                          "w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none transition-all shadow-inner-soft",
+                          isMaster ? "focus:border-secondary" : "opacity-70 bg-slate-50 cursor-not-allowed"
+                        )}
+                      >
+                        <option value="Em Implantação">Em Implantação</option>
+                        <option value="Ativo">Ativo</option>
+                        <option value="Inativo">Inativo</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {formData.type === 'third-sector' && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="p-6 bg-emerald-50/50 border border-emerald-100 rounded-[24px] flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600">
+                          <LayoutGrid size={20} />
                         </div>
-                        <button 
-                          onClick={fetchCNPJ}
-                          disabled={loading}
-                          className="btn-executive py-3 px-8"
-                        >
-                          {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
-                          Carregar Dados
-                        </button>
+                        <div>
+                          <p className="text-xs font-black text-emerald-900 uppercase tracking-tight">Gestão por Projetos</p>
+                          <p className="text-[9px] font-bold text-emerald-600/70 uppercase tracking-widest mt-0.5">Segregação automática de registros por projeto</p>
+                        </div>
                       </div>
-                      {validationErrors.cnpj && <p className="text-[10px] text-rose-500 font-black mt-2 uppercase tracking-widest">{validationErrors.cnpj}</p>}
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="sr-only peer"
+                          checked={formData.projectBased}
+                          onChange={(e) => setFormData({...formData, projectBased: e.target.checked})}
+                        />
+                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                      </label>
+                    </motion.div>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 gap-10">
+                  {/* 2. Identificação Section */}
+                  <div className="bg-white/50 p-8 rounded-[32px] border border-border-main space-y-8">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                        <Building2 size={16} />
+                      </div>
+                      <div>
+                        <h3 className="text-[11px] font-black text-text-main uppercase tracking-[0.2em]">Identificação Jurídica</h3>
+                        <p className="text-[9px] text-text-dim font-bold uppercase tracking-widest">Dados oficiais e vínculos de gestão</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-6">
+                      <div>
+                        <label className="text-label">{formData.origin === 'nacional' ? 'Número do CNPJ' : 'Tax ID / Registration Number'}</label>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                          <div className="relative flex-1">
+                            <input 
+                              type="text" 
+                              value={formData.origin === 'nacional' ? cnpjQuery : formData.cnpj}
+                              onChange={(e) => {
+                                if (formData.origin === 'nacional') {
+                                  const masked = formatDoc(e.target.value);
+                                  setCnpjQuery(masked);
+                                  validateField('cnpj', masked);
+                                } else {
+                                  setFormData({...formData, cnpj: e.target.value});
+                                  validateField('cnpj', e.target.value);
+                                }
+                              }}
+                              placeholder={formData.origin === 'nacional' ? "00.000.000/0000-00" : "Registration ID"}
+                              className={cn(
+                                "w-full pl-12 pr-6 py-4 bg-bg-surface border rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all shadow-inner-soft",
+                                validationErrors.cnpj ? "border-rose-500" : "border-border-main"
+                              )}
+                            />
+                            <ShieldCheck size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+                          </div>
+                          {formData.origin === 'nacional' && (
+                            <button 
+                              onClick={fetchCNPJ}
+                              disabled={loading || cnpjQuery.replace(/\D/g, '').length !== 14 || !!validationErrors.cnpj}
+                              className="btn-executive py-4 px-8 whitespace-nowrap bg-primary text-white"
+                            >
+                              {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
+                              SINCRONIZAR
+                            </button>
+                          )}
+                        </div>
+                        {validationErrors.cnpj && <p className="text-[10px] text-rose-500 font-black mt-2 uppercase tracking-widest">{validationErrors.cnpj}</p>}
+                      </div>
                       {error && (
                         <div className="mt-4 p-4 bg-rose-50 border border-rose-100 rounded-standard flex items-start gap-3">
                           <AlertCircle size={16} className="text-rose-500 shrink-0 mt-0.5" />
@@ -506,7 +676,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                       )}
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="text-label">Razão Social</label>
                         <input 
@@ -517,11 +687,10 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                             validateField('razao', e.target.value);
                           }}
                           className={cn(
-                            "w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none transition-all",
-                            validationErrors.razao ? "border-rose-300 focus:border-rose-500" : "focus:border-secondary"
+                            "w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none transition-all",
+                            validationErrors.razao ? "border-rose-300" : "focus:border-secondary"
                           )}
                         />
-                        {validationErrors.razao && <p className="text-[10px] text-rose-500 font-black mt-2 uppercase tracking-widest">{validationErrors.razao}</p>}
                       </div>
                       <div>
                         <label className="text-label">Nome Fantasia</label>
@@ -533,27 +702,178 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                             validateField('fantasia', e.target.value);
                           }}
                           className={cn(
-                            "w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none transition-all",
-                            validationErrors.fantasia ? "border-rose-300 focus:border-rose-500" : "focus:border-secondary"
+                            "w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none transition-all",
+                            validationErrors.fantasia ? "border-rose-300" : "focus:border-secondary"
                           )}
                         />
-                        {validationErrors.fantasia && <p className="text-[10px] text-rose-500 font-black mt-2 uppercase tracking-widest">{validationErrors.fantasia}</p>}
+                      </div>
+                    </div>
+
+                    <div className="pt-6 border-t border-border-soft flex flex-col md:flex-row md:items-center justify-between gap-6">
+                      <div className="flex-1">
+                        <label className="text-label">Parceiro Estratégico Responsável</label>
+                        <select 
+                          value={formData.partnerId || ''}
+                          onChange={(e) => setFormData({...formData, partnerId: e.target.value})}
+                          disabled={!isMaster}
+                          className={cn(
+                            "w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all",
+                            !isMaster && "opacity-70 bg-slate-50 cursor-not-allowed"
+                          )}
+                        >
+                          {isMaster && <option value="">Atendimento Direto (Sem Parceiro)</option>}
+                          {!isMaster && isPartner && <option value={userPartnerIds[0]}>Sua Unidade de Negócio</option>}
+                          {partners.map(p => (
+                            <option key={p.id} value={p.id}>{p.fantasia || p.razao}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex items-center gap-3 bg-bg-surface p-4 rounded-2xl border border-border-main shrink-0">
+                        <label className="relative inline-flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="sr-only peer"
+                            checked={formData.isModel}
+                            onChange={(e) => setFormData({...formData, isModel: e.target.checked})}
+                          />
+                          <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+                          <span className="ml-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Empresa Modelo</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <AnimatePresence>
+                      {formData.isModel && (
+                        <motion.div 
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="p-6 bg-indigo-50/40 rounded-[24px] border border-indigo-100/50 space-y-6">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="text-[10px] font-black text-indigo-900 uppercase tracking-tight flex items-center gap-2">
+                                  <Sparkles size={14} className="text-indigo-600" /> Parâmetros de Geração IA
+                                </h4>
+                              </div>
+                              <button 
+                                onClick={() => setIsAIModalOpen(true)}
+                                className="py-2 px-4 bg-indigo-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center gap-2"
+                              >
+                                <Sparkles size={12} /> GERAR DADOS
+                              </button>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              {[
+                                { id: 'governanca', label: 'Governança' },
+                                { id: 'financeiro', label: 'Financeiro' },
+                                { id: 'comercial', label: 'Comercial' },
+                                { id: 'operacional', label: 'Operacional' },
+                              ].map(axis => (
+                                <div key={axis.id} className="space-y-1.5">
+                                  <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{axis.label}</label>
+                                  <textarea 
+                                    value={(formData.modelAxisDescriptions as any)?.[axis.id] || ''}
+                                    onChange={(e) => setFormData({
+                                      ...formData, 
+                                      modelAxisDescriptions: {
+                                        ...(formData.modelAxisDescriptions || {}),
+                                        [axis.id]: e.target.value
+                                      } as any
+                                    })}
+                                    rows={1}
+                                    className="w-full px-4 py-2.5 bg-white border border-border-main rounded-xl text-[11px] font-bold text-slate-700 outline-none focus:border-indigo-500 transition-all resize-none"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    <div className="pt-10 border-t border-border-soft space-y-6">
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-label mb-0">Quadro Societário</label>
+                          <span className="text-[10px] text-text-dim font-medium italic">* Percentuais calculados com base no capital social integralizado.</span>
+                        </div>
+                        <button 
+                          onClick={() => setFormData({...formData, socios: [...formData.socios, { nome: '', participacao: 0 }]})}
+                          className="text-[10px] font-black text-secondary uppercase tracking-widest hover:underline flex items-center gap-2"
+                        >
+                          <Plus size={14} /> Adicionar Sócio
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        {formData.socios.map((s, idx) => (
+                          <div key={idx} className="flex items-center gap-4 p-4 bg-bg-surface border border-border-main rounded-standard relative group/socio hover:border-secondary/20 transition-all">
+                            <div className="w-10 h-10 rounded-full bg-bg-card border border-border-main flex items-center justify-center text-text-dim group-hover/socio:text-secondary transition-all shadow-sm shrink-0">
+                              <Users size={18} strokeWidth={1.5} />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <input 
+                                type="text"
+                                value={s.nome}
+                                onChange={(e) => {
+                                  const newSocios = [...formData.socios];
+                                  newSocios[idx].nome = e.target.value;
+                                  setFormData({...formData, socios: newSocios});
+                                }}
+                                placeholder="Nome do Sócio"
+                                className="w-full bg-transparent text-sm font-black text-text-main outline-none placeholder:text-text-dim/50"
+                              />
+                              <div className="flex items-center gap-2 mt-1">
+                                <input 
+                                  type="number"
+                                  value={s.participacao}
+                                  onChange={(e) => {
+                                    const newSocios = [...formData.socios];
+                                    newSocios[idx].participacao = parseFloat(e.target.value) || 0;
+                                    setFormData({...formData, socios: newSocios});
+                                  }}
+                                  placeholder="0.00"
+                                  className="w-16 bg-transparent text-[11px] font-black text-secondary outline-none border-b border-transparent focus:border-secondary/30"
+                                />
+                                <span className="text-[10px] text-text-dim font-bold uppercase tracking-widest">% participação</span>
+                              </div>
+                            </div>
+                            <button 
+                              onClick={() => setFormData({...formData, socios: formData.socios.filter((_, i) => i !== idx)})}
+                              className="absolute -top-2 -right-2 w-8 h-8 bg-bg-card border border-border-main text-rose-500 rounded-full flex items-center justify-center opacity-0 group-hover/socio:opacity-100 transition-all shadow-floating hover:bg-rose-50"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
 
-                  <div className="space-y-6">
-                    <div className="grid grid-cols-2 gap-6">
+                {/* 3. Localização Section */}
+                <div className="bg-white/50 p-8 rounded-[32px] border border-border-main space-y-8">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+                      <MapPin size={16} />
+                    </div>
+                    <div>
+                      <h3 className="text-[11px] font-black text-text-main uppercase tracking-[0.2em]">Presença e Localização</h3>
+                      <p className="text-[9px] text-text-dim font-bold uppercase tracking-widest">Endereço e canais digitais</p>
+                    </div>
+                  </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                       <div>
                         <label className="text-label">Fundação</label>
-                        <div className="px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm text-text-dim font-bold flex items-center gap-3">
+                        <div className="px-6 py-4 bg-bg-surface border border-border-main rounded-standard text-sm text-text-dim font-bold flex items-center gap-3 shadow-inner-soft">
                           <Calendar size={14} strokeWidth={2} />
                           {formData.dataFundacao || '--/--/----'}
                         </div>
                       </div>
                       <div>
                          <label className="text-label">Porte</label>
-                         <div className="px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm text-text-dim font-bold flex items-center gap-3">
+                         <div className="px-6 py-4 bg-bg-surface border border-border-main rounded-standard text-sm text-text-dim font-bold flex items-center gap-3 shadow-inner-soft">
                           <Building2 size={14} strokeWidth={2} />
                           {formData.porte}
                         </div>
@@ -565,7 +885,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                         rows={3}
                         value={formData.endereco}
                         onChange={(e) => setFormData({...formData, endereco: e.target.value})}
-                        className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all leading-relaxed"
+                        className="w-full px-6 py-4 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all leading-relaxed"
                         placeholder="Logradouro, número, bairro, cidade - UF"
                       />
                     </div>
@@ -578,10 +898,50 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                               type="text" 
                               placeholder="Ex: Agronegócio, Tecnologia, Saúde..."
                               value={formData.segmentoAtuacao || ''}
-                              onChange={(e) => setFormData({...formData, segmentoAtuacao: e.target.value})}
+                              onChange={(e) => {
+                                setFormData({...formData, segmentoAtuacao: e.target.value});
+                                setShowSegmentSuggestions(true);
+                              }}
+                              onFocus={() => setShowSegmentSuggestions(true)}
+                              onBlur={() => setTimeout(() => setShowSegmentSuggestions(false), 200)}
                               className="w-full pl-12 pr-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
                             />
                             <Activity size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+                            
+                            <AnimatePresence>
+                              {showSegmentSuggestions && (
+                                <motion.div 
+                                  initial={{ opacity: 0, y: -10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: -10 }}
+                                  className="absolute z-50 left-0 right-0 top-full mt-2 bg-white border border-border-main rounded-xl shadow-xl max-h-48 overflow-y-auto overflow-x-hidden no-scrollbar"
+                                >
+                                  {allSegments
+                                    .filter(s => s.toLowerCase().includes((formData.segmentoAtuacao || '').toLowerCase()))
+                                    .map((seg, idx) => (
+                                      <button
+                                        key={idx}
+                                        onClick={() => {
+                                          setFormData({...formData, segmentoAtuacao: seg});
+                                          setShowSegmentSuggestions(false);
+                                        }}
+                                        className="w-full text-left px-5 py-3 text-xs font-bold text-text-main hover:bg-secondary/5 hover:text-secondary transition-all border-b border-border-soft last:border-0"
+                                      >
+                                        {seg}
+                                      </button>
+                                    ))
+                                  }
+                                  {formData.segmentoAtuacao && !allSegments.some(s => s.toLowerCase() === formData.segmentoAtuacao.toLowerCase()) && (
+                                    <button
+                                      onClick={() => setShowSegmentSuggestions(false)}
+                                      className="w-full text-left px-5 py-3 text-xs font-black text-secondary bg-secondary/5 flex items-center gap-2"
+                                    >
+                                      <Plus size={14} /> Sugerir Novo: "{formData.segmentoAtuacao}"
+                                    </button>
+                                  )}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
                           </div>
                         </div>
                         <div>
@@ -674,63 +1034,6 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                           </div>
                         </div>
                       </div>
-
-                    <div className="pt-10 border-t border-border-soft space-y-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex flex-col gap-1.5">
-                          <label className="text-label mb-0">Quadro Societário</label>
-                          <span className="text-[10px] text-text-dim font-medium italic">* Percentuais calculados com base no capital social integralizado.</span>
-                        </div>
-                        <button 
-                          onClick={() => setFormData({...formData, socios: [...formData.socios, { nome: '', participacao: 0 }]})}
-                          className="text-[10px] font-black text-secondary uppercase tracking-widest hover:underline flex items-center gap-2"
-                        >
-                          <Plus size={14} /> Adicionar Sócio
-                        </button>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {formData.socios.map((s, idx) => (
-                          <div key={idx} className="flex items-center gap-4 p-4 bg-bg-surface border border-border-main rounded-standard relative group/socio hover:border-secondary/20 transition-all">
-                            <div className="w-10 h-10 rounded-full bg-bg-card border border-border-main flex items-center justify-center text-text-dim group-hover/socio:text-secondary transition-all shadow-sm shrink-0">
-                              <Users size={18} strokeWidth={1.5} />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <input 
-                                type="text"
-                                value={s.nome}
-                                onChange={(e) => {
-                                  const newSocios = [...formData.socios];
-                                  newSocios[idx].nome = e.target.value;
-                                  setFormData({...formData, socios: newSocios});
-                                }}
-                                placeholder="Nome do Sócio"
-                                className="w-full bg-transparent text-sm font-black text-text-main outline-none placeholder:text-text-dim/50"
-                              />
-                              <div className="flex items-center gap-2 mt-1">
-                                <input 
-                                  type="number"
-                                  value={s.participacao}
-                                  onChange={(e) => {
-                                    const newSocios = [...formData.socios];
-                                    newSocios[idx].participacao = parseFloat(e.target.value) || 0;
-                                    setFormData({...formData, socios: newSocios});
-                                  }}
-                                  placeholder="0.00"
-                                  className="w-16 bg-transparent text-[11px] font-black text-secondary outline-none border-b border-transparent focus:border-secondary/30"
-                                />
-                                <span className="text-[10px] text-text-dim font-bold uppercase tracking-widest">% participação</span>
-                              </div>
-                            </div>
-                            <button 
-                              onClick={() => setFormData({...formData, socios: formData.socios.filter((_, i) => i !== idx)})}
-                              className="absolute -top-2 -right-2 w-8 h-8 bg-bg-card border border-border-main text-rose-500 rounded-full flex items-center justify-center opacity-0 group-hover/socio:opacity-100 transition-all shadow-floating hover:bg-rose-50"
-                            >
-                              <X size={14} />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
 
                     <div className="space-y-4 pt-10 border-t border-border-soft">
                       <label className="text-label">Ecossistema Digital</label>
@@ -1709,36 +2012,81 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
   return (
     <div className="space-y-12 pb-32 animate-executive-fade">
       <PageHeader 
-        title="Gestão de empresas"
+        title="Gestão de Empresas"
         subtitle="Gestão estratégica da carteira de clientes, controle de acesso e parâmetros operacionais."
         icon={Building2}
-        actions={
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={() => setIsAIModalOpen(true)}
-              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3"
-            >
-              <Sparkles size={18} className="text-secondary" />
-              Empresa Modelo
-            </button>
+      />
 
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 shrink-0">
             <button 
-              onClick={openAdd}
-              className="px-6 py-3 bg-secondary hover:bg-secondary/90 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 shadow-lg shadow-secondary/20"
+              onClick={() => setFilters({...filters, status: ''})} 
+              className={cn(
+                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
+                !filters.status ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+              )}
             >
-              <Plus size={18} /> ADICIONAR CLIENTE
+              Todos
+            </button>
+            <button 
+              onClick={() => setFilters({...filters, status: 'Ativo'})} 
+              className={cn(
+                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
+                filters.status === 'Ativo' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+              )}
+            >
+              Ativos
+            </button>
+            <button 
+              onClick={() => setFilters({...filters, status: 'Em Implantação'})} 
+              className={cn(
+                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
+                filters.status === 'Em Implantação' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+              )}
+            >
+              Implantação
             </button>
           </div>
-        }
-      />
+
+          <div className="relative w-64">
+            <input 
+              type="text" 
+              placeholder="Pesquisar empresas..." 
+              value={searchTerm} 
+              onChange={(e) => setSearchTerm(e.target.value)} 
+              className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm" 
+            />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setIsAIModalOpen(true)}
+            className="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-secondary transition-colors"
+          >
+            <Sparkles size={16} className="inline mr-2" />
+            Empresa Modelo
+          </button>
+          <button 
+            onClick={openAdd}
+            className="px-6 py-3 bg-secondary hover:bg-secondary/90 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 shadow-lg shadow-secondary/20"
+          >
+            <Plus size={18} /> ADICIONAR CLIENTE
+          </button>
+        </div>
+      </div>
+
+
 
       {/* Portfolio Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
           { label: 'Total de Empresas', value: clients.length, icon: Building2, color: 'text-secondary', bg: 'bg-secondary/5' },
           { label: 'Empresas Ativas', value: clients.filter((c: any) => c.status === 'Ativo').length, icon: ShieldCheck, color: 'text-emerald-500', bg: 'bg-emerald-500/5' },
-          { label: 'Em Implantação', value: clients.filter((c: any) => c.status === 'Implantação' || c.status === 'Viável').length, icon: Activity, color: 'text-amber-500', bg: 'bg-amber-500/5' },
-          { label: 'Segmentos Atendidos', value: Array.from(new Set(clients.map((c: any) => c.segmento))).length, icon: LayoutGrid, color: 'text-primary', bg: 'bg-primary/5' },
+          { label: 'Em Implantação', value: clients.filter((c: any) => c.status === 'Em Implantação').length, icon: Activity, color: 'text-amber-500', bg: 'bg-amber-500/5' },
+          { label: 'Segmentos Atendidos', value: Array.from(new Set(clients.map((c: any) => c.segmentoAtuacao || c.segmento))).filter(s => !!s).length, icon: LayoutGrid, color: 'text-primary', bg: 'bg-primary/5' },
         ].map((stat, i) => (
           <div key={i} className="card-premium flex items-center gap-6 group">
             <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center transition-all group-hover:scale-110", stat.bg, stat.color)}>
@@ -1755,68 +2103,45 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
         ))}
       </div>
 
-      <div className="flex flex-col lg:flex-row items-center gap-6 bg-white p-4 rounded-3xl border border-border-main shadow-sm">
-        <div className="flex items-center gap-3 bg-bg-card p-1.5 rounded-2xl border border-border-main shadow-sm shrink-0">
-          <button 
-            onClick={() => setFilters({...filters, status: ''})} 
-            className={cn(
-              "px-6 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", 
-              !filters.status ? "bg-secondary text-white shadow-lg" : "text-text-dim hover:text-secondary hover:bg-bg-surface"
-            )}
-          >
-            Todos
-          </button>
-          <button 
-            onClick={() => setFilters({...filters, status: 'Ativo'})} 
-            className={cn(
-              "px-6 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", 
-              filters.status === 'Ativo' ? "bg-emerald-500 text-white shadow-lg" : "text-text-dim hover:text-emerald-500 hover:bg-bg-surface"
-            )}
-          >
-            Ativos
-          </button>
-          <button 
-            onClick={() => setFilters({...filters, status: 'Suspenso'})} 
-            className={cn(
-              "px-6 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all", 
-              filters.status === 'Suspenso' ? "bg-rose-500 text-white shadow-lg" : "text-text-dim hover:text-rose-500 hover:bg-bg-surface"
-            )}
-          >
-            Suspensos
-          </button>
+
+      <div className="flex flex-col lg:flex-row items-center gap-6 bg-white/40 backdrop-blur-md p-4 rounded-[28px] border border-slate-100 shadow-sm mb-8">
+        <div className="flex items-center gap-3 shrink-0">
+          <Filter size={14} className="text-slate-400 ml-2" />
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-2">Filtrar por:</span>
         </div>
 
-        <div className="h-10 w-px bg-border-main hidden lg:block mx-2"></div>
+        <div className="flex items-center gap-4 overflow-x-auto no-scrollbar flex-1">
+          <select 
+            value={filters.segmento || ''} 
+            onChange={(e) => setFilters({...filters, segmento: e.target.value})}
+            className="px-6 py-2.5 bg-white border border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm"
+          >
+            <option value="">Todos os Segmentos</option>
+            {uniqueSegments.filter(s => s !== 'Todos').map(s => (
+              <option key={s} value={s}>{s}</option>
+            ))}
+          </select>
 
-        <div className="relative flex-1 w-full">
-          <input 
-            type="text" 
-            placeholder="Pesquisar por razão social, CNPJ ou cidade..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-6 py-4 bg-bg-card border border-border-main rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all shadow-inner-soft"
-          />
-          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
-        </div>
-        
-        <div className="flex items-center gap-4 w-full lg:w-auto shrink-0">
-          <div className="flex items-center gap-3 bg-bg-card px-5 py-3 rounded-2xl border border-border-main min-w-[200px]">
-            <Filter size={16} className="text-text-dim" />
+          {isMaster && (
             <select 
-              value={filters.segmento || 'Todos'}
-              onChange={(e) => setFilters({...filters, segmento: e.target.value === 'Todos' ? '' : e.target.value})}
-              className="flex-1 bg-transparent text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer"
+              value={filters.partnerId || ''} 
+              onChange={(e) => setFilters({...filters, partnerId: e.target.value})}
+              className="px-6 py-2.5 bg-white border border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm"
             >
-              <option value="Todos">Segmentos</option>
-              {uniqueSegments.filter(s => s !== 'Todos').map(s => <option key={s} value={s}>{s}</option>)}
+              <option value="">Todos os Parceiros</option>
+              <option value="direto">Atendimento Direto</option>
+              {partners.map(p => (
+                <option key={p.id} value={p.id}>{p.fantasia || p.razao}</option>
+              ))}
             </select>
-          </div>
-          
-          <p className="text-[10px] font-black text-text-dim uppercase tracking-widest whitespace-nowrap">
-            <span className="text-text-main">{filteredClients.length}</span> empresas
-          </p>
+          )}
         </div>
+
+        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 border-l border-slate-100 hidden lg:block">
+          <span className="text-primary">{filteredClients.length}</span> Empresas
+        </p>
       </div>
+
 
       {/* Client Portfolio Grid */}
       <div className="space-y-6">
@@ -1870,19 +2195,25 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
 
                   {/* Company Info */}
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-xl font-display font-black tracking-tight text-secondary group-hover:text-text-main transition-colors truncate">
-                      {client.fantasia || client.name || 'Empresa sem Nome'}
-                    </h3>
+                    <div className="flex items-center gap-3">
+                      <h3 className="text-xl font-display font-black tracking-tight text-secondary group-hover:text-text-main transition-colors truncate">
+                        {client.fantasia || client.name || 'Empresa sem Nome'}
+                      </h3>
+                      {client.isModel && (
+                        <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-[8px] font-black uppercase rounded-md border border-amber-200 shadow-sm animate-pulse">
+                          Modelo
+                        </span>
+                      )}
+                    </div>
                     <div className="flex items-center gap-3 mt-1.5">
                       <p className="text-[9px] font-black text-text-dim uppercase tracking-widest bg-bg-surface px-2 py-0.5 rounded-md border border-border-soft">
-                        {client.segmento || 'Geral'}
+                        {client.segmentoAtuacao || client.segmento || 'Geral'}
                       </p>
                     </div>
                   </div>
 
-                  {/* CNPJ */}
                   <div className="hidden lg:block">
-                    <p className="text-xs font-mono font-bold text-text-muted">{client.cnpj || '---'}</p>
+                    <p className="text-xs font-mono font-bold text-text-muted">{formatDoc(client.cnpj) || '---'}</p>
                   </div>
 
                   {/* City */}
@@ -1893,13 +2224,24 @@ export function ClientsPage({ clients, setClients, setSelectedClient }: any) {
                     </div>
                   </div>
 
-                  {/* Status Badge */}
                   <div className="flex justify-center">
-                    <StatusBadge status={client.status} />
+                    <StatusBadge status={client.approvalStatus === 'Pending' ? 'Pendente' : (client.status || 'Em Implantação')} />
                   </div>
 
                   {/* Actions Column */}
                   <div className="flex items-center justify-end gap-2 w-full lg:w-auto">
+                    {isMaster && client.approvalStatus === 'Pending' && (
+                      <button 
+                        onClick={async () => {
+                          if (confirm('Aprovar este novo cliente?')) {
+                            await updateDoc(doc(db, 'clients', client.id), { approvalStatus: 'Approved' });
+                          }
+                        }}
+                        className="p-3 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest"
+                      >
+                        <ShieldCheck size={14} /> Aprovar
+                      </button>
+                    )}
                     <button 
                       onClick={() => openEdit(client)}
                       className="w-10 h-10 rounded-xl bg-bg-surface border border-border-main flex items-center justify-center text-text-dim hover:text-secondary hover:border-secondary transition-all shadow-sm"

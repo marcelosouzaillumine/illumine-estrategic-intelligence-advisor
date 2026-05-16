@@ -46,6 +46,15 @@ export interface AICompanyData {
     dashboardIdeas: string[];
     growthSuggestions: string[];
   };
+  axisDescriptions: {
+    governanca: string;
+    cultura: string;
+    financeiro: string;
+    inovacao: string;
+    marketing: string;
+    comercial: string;
+    operacional: string;
+  };
   diretrizes: {
     missao: string;
     visao: string;
@@ -117,6 +126,19 @@ const companySchema = {
         growthSuggestions: { type: Type.ARRAY, items: { type: Type.STRING } }
       },
       required: ["challenges", "opportunities", "governance", "operationalFlow", "dashboardIdeas", "growthSuggestions"]
+    },
+    axisDescriptions: {
+      type: Type.OBJECT,
+      properties: {
+        governanca: { type: Type.STRING },
+        cultura: { type: Type.STRING },
+        financeiro: { type: Type.STRING },
+        inovacao: { type: Type.STRING },
+        marketing: { type: Type.STRING },
+        comercial: { type: Type.STRING },
+        operacional: { type: Type.STRING }
+      },
+      required: ["governanca", "cultura", "financeiro", "inovacao", "marketing", "comercial", "operacional"]
     },
     diretrizes: {
       type: Type.OBJECT,
@@ -196,18 +218,73 @@ const companySchema = {
       }
     }
   },
-  required: ["clientData", "assumptions", "historicalRevenueBase", "ebitdaMargin", "strategicReport", "diretrizes", "employees", "pricing", "payables", "receivables", "diagnostico", "okrs"]
+  required: ["clientData", "assumptions", "historicalRevenueBase", "ebitdaMargin", "strategicReport", "axisDescriptions", "diretrizes", "employees", "pricing", "payables", "receivables", "diagnostico", "okrs"]
 };
 
-export const generateAICompanyPayload = async (segment: string, description: string = ''): Promise<AICompanyData> => {
+const financialStatementSchema = {
+  type: Type.OBJECT,
+  properties: {
+    documents: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          type: { type: Type.STRING }, // "Balanço Patrimonial", "DRE", "DFC", "DLPA"
+          year: { type: Type.NUMBER },
+          month: { type: Type.NUMBER }, // 12 for annual, 1-12 for monthly
+          entries: {
+            type: Type.ARRAY,
+            items: {
+              type: Type.OBJECT,
+              properties: {
+                category: { type: Type.STRING },
+                value: { type: Type.NUMBER }
+              },
+              required: ["category", "value"]
+            }
+          }
+        },
+        required: ["type", "year", "month", "entries"]
+      }
+    }
+  },
+  required: ["documents"]
+};
+
+export const generateAICompanyPayload = async (
+  segment: string, 
+  description: string = '',
+  axisDescriptions?: {
+    governanca: string;
+    cultura: string;
+    financeiro: string;
+    inovacao: string;
+    marketing: string;
+    comercial: string;
+    operacional: string;
+  }
+): Promise<AICompanyData> => {
   try {
     const ai = getAI();
     
+    const axisContext = axisDescriptions ? `
+CONTEXTO POR EIXO DE GESTÃO:
+- Governança Corporativa: ${axisDescriptions.governanca}
+- Cultura Organizacional: ${axisDescriptions.cultura}
+- Gestão Administrativa e Financeira: ${axisDescriptions.financeiro}
+- Gestão de Inovação: ${axisDescriptions.inovacao}
+- Gestão de Marketing: ${axisDescriptions.marketing}
+- Gestão Comercial: ${axisDescriptions.comercial}
+- Gestão Operacional: ${axisDescriptions.operacional}
+` : '';
+
     const prompt = `Você é um CFO sênior, Consultor Estratégico e RH atuando na criação de uma Empresa Modelo.
 SEGMENTO: "${segment}"
-CARACTERÍSTICAS/RELATO: "${description}"
+CARACTERÍSTICAS/RELATO GERAL: "${description}"
+${axisContext}
 
 Crie uma empresa realista e SISTÊMICA. Os dados devem estar INTEGRADOS: se o relato diz que a empresa tem problemas de caixa, o faturamento e as contas a pagar/receber devem refletir isso.
+Utilize as descrições de cada eixo acima para fundamentar os KPIs, OKRs e Diagnósticos gerados.
 
 Siga exatamente as diretrizes:
 1. clientData.regime DEVE ser exatamente um destes: "Lucro Real", "Lucro Presumido", "Simples Nacional".
@@ -226,15 +303,16 @@ Siga exatamente as diretrizes:
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
-        responseSchema: companySchema,
+        responseSchema: companySchema as any,
       }
     });
 
-    if (!response.text) {
+    const text = response.text;
+    if (!text) {
       throw new Error("Erro ao gerar conteúdo com a IA.");
     }
 
-    return JSON.parse(response.text) as AICompanyData;
+    return JSON.parse(text) as AICompanyData;
   } catch (error) {
     console.warn("Gemini API Error or Rate Limit. Using local fallback template.", error);
     return getFallbackPayload(segment);
@@ -274,6 +352,15 @@ const getFallbackPayload = (segment: string): AICompanyData => {
       operationalFlow: "Fluxo padrão otimizado",
       dashboardIdeas: ["Margem por Produto", "Liquidez Imediata"],
       growthSuggestions: ["Aumento de ticket médio", "Redução de churn"]
+    },
+    axisDescriptions: {
+      governanca: "Processos em estruturação",
+      cultura: "Cultura de resultados",
+      financeiro: "Gestão conservadora",
+      inovacao: "Foco em melhoria incremental",
+      marketing: "Marketing digital ativo",
+      comercial: "Vendas diretas",
+      operacional: "Operação padronizada"
     },
     diretrizes: {
       missao: `Ser referência em excelência no segmento de ${segment}.`,
@@ -322,6 +409,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   try {
     await setDoc(doc(db, 'clients', clientId), {
       ...aiData.clientData,
+      isModel: true,
       regime: finalRegime,
       regimeReal: 'Não Cumulativo',
       cnae: aiData.clientData.cnae || '00.000-0/00',
@@ -1005,6 +1093,39 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     console.warn('Receivables não criados (sem bloqueio):', err);
   }
 
+  // === NEW SEEDING: Budgets ===
+  try {
+    const budgetYears = [new Date().getFullYear(), new Date().getFullYear() + 1];
+    for (const year of budgetYears) {
+      for (let month = 1; month <= 12; month++) {
+        // Create 2-3 budget items per month
+        const accounts = DATA.accountPlanPadrão.slice(0, 3);
+        for (const acc of accounts) {
+          await addDoc(collection(db, 'budgets'), {
+            clientId,
+            year,
+            month,
+            accountId: '', // Will be matched by code/name in the UI usually, or we can just seed with generic data
+            accountCode: acc.code,
+            accountName: acc.name,
+            unidade: 'Geral',
+            filial: 'Matriz',
+            centroCusto: 'Administrativo',
+            valor: (aiData.historicalRevenueBase / 12) * 0.1 * (0.9 + Math.random() * 0.2),
+            type: 'Budget',
+            status: 'Approved',
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+            createdBy: auth.currentUser!.uid
+          });
+        }
+      }
+    }
+    console.log('budgets created.');
+  } catch (err) {
+    console.warn('FAIL budgets:', err);
+  }
+
   // === NEW SEEDING: Governance Diagnostics ===
   try {
     const mockResponses: Record<string, number> = {};
@@ -1119,7 +1240,7 @@ DIRETRIZES OBRIGATÓRIAS:
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
-        responseSchema: governanceDiagnosisSchema,
+        responseSchema: governanceDiagnosisSchema as any,
       }
     });
 
@@ -1138,5 +1259,83 @@ DIRETRIZES OBRIGATÓRIAS:
       correlacaoEntreEixos: "A fragilidade financeira está impactando a capacidade de inovação.",
       parecerExecutivo: "Foco imediato na estruturação de processos de governança para sustentar o crescimento."
     };
+  }
+};
+
+export interface AIFinancialDocument {
+  type: string;
+  year: number;
+  month: number;
+  entries: { category: string; value: number }[];
+}
+
+export const parseFinancialStatementWithAI = async (text: string, customInstructions?: string): Promise<AIFinancialDocument[]> => {
+  try {
+    console.log(`[AI] Processing text of length: ${text.length}. Preview: ${text.substring(0, 500)}...`);
+    if (text.length < 50) {
+      console.warn("[AI] Text is too short, document might be an image/scanned PDF without OCR.");
+    }
+
+    const ai = getAI();
+    
+    const customPromptSection = customInstructions?.trim() ? `
+INSTRUÇÕES ESPECÍFICAS DESTE CLIENTE (TREINAMENTO DE LEITURA):
+"""
+${customInstructions}
+"""
+Atenção máxima a estas instruções! Elas descrevem o padrão exato de como este cliente formata seus relatórios. Use-as para mapear colunas, encontrar contas ou ignorar lixos do PDF.
+` : '';
+
+    const prompt = `Você é um CFO Especialista em Auditoria e Contabilidade. 
+Sua tarefa é ler o texto extraído de um documento contábil e estruturá-lo em dados financeiros.
+
+REGRAS DE OURO PARA ESTE DOCUMENTO:
+1. LAYOUT MULTI-COLUNA E MULTI-ANO: O texto frequentemente contém duas colunas de valores (ex: 2024 e 2025). Você DEVE criar um objeto de documento DISTINTO para CADA ANO.
+2. DOCUMENTOS MISTOS (BP + DRE): É extremamente comum que o mesmo PDF contenha o Balanço Patrimonial nas primeiras páginas e a DRE nas páginas seguintes. Você DEVE separar isso! Se encontrar contas de Ativo/Passivo e também contas de Receita/Despesa, gere objetos separados.
+   Exemplo esperado para um PDF com BP e DRE de 2024 e 2025:
+   - Objeto 1: type="Balanço Patrimonial", year=2024
+   - Objeto 2: type="Balanço Patrimonial", year=2025
+   - Objeto 3: type="DRE", year=2024
+   - Objeto 4: type="DRE", year=2025
+3. TIPOS VÁLIDOS: O campo "type" DEVE ser estritamente "Balanço Patrimonial" ou "DRE" ou "DFC". Não invente outros tipos.
+4. IDENTIFICAÇÃO DE VALORES: Se uma linha tem "Categoria Valor1 Valor2", o Valor1 pertence ao ano anterior e o Valor2 ao ano mais recente.
+5. SINAIS NEGATIVOS: Fique atento a sinais de menos "-" soltos entre o nome da conta e o valor, ou nomes de conta que começam com "(-)". Esses valores DEVEM ser retornados como números NEGATIVOS.
+6. FORMATO NUMÉRICO: Converta o padrão brasileiro (1.234,56) para o padrão computacional (1234.56).
+7. MÊS: Use 12 para balanços e DREs de encerramento de exercício, a menos que o texto indique outro mês.
+${customPromptSection}
+TEXTO EXTRAÍDO:
+"""
+${text}
+"""
+
+Retorne os dados seguindo estritamente o schema JSON definido.`;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.0-flash',
+      contents: prompt,
+      config: {
+        responseMimeType: 'application/json',
+        responseSchema: financialStatementSchema as any,
+      }
+    });
+
+    const aiText = response.text;
+    console.log(`[AI] Raw Response:`, aiText);
+    
+    if (!aiText) {
+      throw new Error("A Inteligência Artificial retornou uma resposta vazia.");
+    }
+
+    const data = JSON.parse(aiText);
+    const docs = data.documents || [];
+    
+    if (docs.length === 0) {
+      throw new Error(`A IA não encontrou dados válidos no texto extraído. (Caracteres lidos do PDF: ${text.length}). Se o número de caracteres for muito baixo (ex: < 100), significa que o PDF é uma "foto" ou imagem digitalizada e não contém texto selecionável (necessita OCR).`);
+    }
+
+    return docs as AIFinancialDocument[];
+  } catch (error) {
+    console.error("AI Financial Parsing Error:", error);
+    throw error;
   }
 };

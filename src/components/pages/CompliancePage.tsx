@@ -183,6 +183,34 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
         color="bg-slate-900"
       />
 
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
+            <ShieldCheck size={14} className="text-secondary" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+              {policies.length} Políticas Ativas
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={triggerUpload}
+            disabled={isUploading}
+            className="flex items-center gap-2 px-6 py-3 bg-white text-slate-700 border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all disabled:opacity-50 shadow-sm"
+          >
+            {isUploading ? <Loader2 className="animate-spin" size={14} /> : <Upload size={14} />}
+            {isUploading ? 'Analisando...' : 'Importar Política (PDF)'}
+          </button>
+          <button 
+            onClick={() => setIsDiagnosing(true)}
+            className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg"
+          >
+            <ClipboardCheck size={14} /> Iniciar Diagnóstico
+          </button>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Maturity & Recommendations */}
         <div className="lg:col-span-8 space-y-8">
@@ -201,13 +229,8 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
                      <span className="text-[10px] font-black text-primary uppercase block">Média Geral</span>
                      <span className="text-lg font-black text-primary">{hasData ? `${overallAverage}%` : '---'}</span>
                   </div>
-                  <button 
-                    onClick={() => setIsDiagnosing(true)}
-                    className="flex items-center gap-2 px-6 py-2 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg"
-                  >
-                    <ClipboardCheck size={14} /> Iniciar Diagnóstico
-                  </button>
                 </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                 <div className="h-[300px]">
                    {hasData ? (
@@ -343,14 +366,7 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
                    </h3>
                    <p className="text-[10px] text-slate-400 font-bold uppercase mt-1">Upload e auditoria automática de documentos normativos</p>
                 </div>
-                <button 
-                  onClick={triggerUpload}
-                  disabled={isUploading}
-                  className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all disabled:opacity-50"
-                >
-                   {isUploading ? <Loader2 className="animate-spin" size={14} /> : <Upload size={14} />}
-                   {isUploading ? 'Analisando...' : 'Importar Política (PDF)'}
-                </button>
+
                 <input 
                    type="file" 
                    ref={fileInputRef} 

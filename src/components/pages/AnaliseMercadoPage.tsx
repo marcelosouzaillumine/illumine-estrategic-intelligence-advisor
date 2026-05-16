@@ -114,26 +114,37 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
     <div className="space-y-12 pb-32 animate-executive-fade">
       <PageHeader
         title="Inteligência Competitiva"
-        subtitle="Monitoramento de indicadores setoriais reais e validados nos âmbitos Local, Nacional e Global."
+        subtitle="Monitoramento estratégico de indicadores setoriais reais e validados nos âmbitos Local, Nacional e Global."
         icon={Globe}
         color="bg-slate-900"
-        actions={
-          <div className="flex bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-1 shadow-2xl">
+      />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="flex bg-white border border-slate-200 p-1 rounded-2xl shadow-sm">
             {(['Local', 'Nacional', 'Global'] as Scope[]).map(scope => (
               <button 
                 key={scope}
                 onClick={() => setSelectedScope(scope)}
                 className={cn(
                   "px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all",
-                  selectedScope === scope ? "bg-secondary text-primary shadow-lg" : "text-slate-400 hover:text-white"
+                  selectedScope === scope ? "bg-secondary text-primary shadow-lg" : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
                 )}
               >
                 {scope}
               </button>
             ))}
           </div>
-        }
-      />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center gap-2">
+            <RefreshCw size={14} className="text-secondary" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Dados em Tempo Real</span>
+          </div>
+        </div>
+      </div>
+
 
       {/* Scope Indicators Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

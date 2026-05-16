@@ -3,7 +3,8 @@ import { useState, useMemo, useEffect } from 'react';
 export function useDataTable(data: any[], config: { 
   searchFields: string[], 
   initialSort?: { key: string, direction: 'asc' | 'desc' },
-  itemsPerPage?: number
+  itemsPerPage?: number;
+  customFilter?: (item: any, currentFilters: Record<string, string>) => boolean;
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
@@ -25,7 +26,7 @@ export function useDataTable(data: any[], config: {
       );
     }
 
-    // Filters
+    // Standard Filters
     Object.entries(filters).forEach(([field, value]) => {
       if (value && value !== 'Todos') {
         result = result.filter(item => {
@@ -34,6 +35,11 @@ export function useDataTable(data: any[], config: {
         });
       }
     });
+
+    // Custom Filter
+    if (config.customFilter) {
+      result = result.filter(item => config.customFilter!(item, filters));
+    }
 
     // Sort
     if (sort.key) {

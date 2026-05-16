@@ -3,6 +3,8 @@ import { motion } from 'motion/react';
 import { X, Plus, Trash2, Save, Loader2, AlertCircle, Database } from 'lucide-react';
 import { collection, addDoc, query, where, getDocs, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
+import { notificationService } from '../../services/notificationService';
+import { DOCUMENT_TYPES } from '../../constants/documents';
 
 interface ManualFinancialModalProps {
   type: 'Balanço Patrimonial' | 'DRE' | 'BP' | 'DFC' | 'DLPA';
@@ -20,6 +22,7 @@ interface Row {
 }
 
 export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess }: ManualFinancialModalProps) {
+  const [selectedType, setSelectedType] = useState<string>(type);
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -91,22 +94,28 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
       await Promise.all(snap.docs.map(d => deleteDoc(doc(db, 'financial_entries', d.id))));
 
       // 2. Add new
-      const dataToSave = rows.map(r => ({
-        category: r.category,
-        value: Number(r.value),
-        type: r.type
-      }));
-
-      await addDoc(collection(db, 'financial_entries'), {
+      const payload = {
         clientId,
-        type: t,
+        type: selectedType,
         year,
-        data: dataToSave,
-        periodType: 'anual',
+        data: rows.map(r => ({ category: r.category, value: r.value, type: r.type })),
         createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        createdBy: auth.currentUser.uid,
-        isManual: true
+        createdBy: auth.currentUser!.uid,
+        creatorEmail: auth.currentUser!.email,
+        status: 'pending',
+        requiresApproval: true
+      };
+
+      await addDoc(collection(db, 'financial_entries'), payload);
+
+      // Notify Admins
+      await notificationService.createNotification({
+        userId: 'admin_group',
+        title: 'Novo Lançamento Manual para Aprovação',
+        message: `Dados manuais de ${selectedType} (${year}) foram enviados para aprovação.`,
+        type: 'approval_request',
+        link: 'maintenance',
+        metadata: { clientId, docType: selectedType }
       });
 
       onSuccess();
@@ -124,26 +133,40 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
       >
+        {/* Header */}
         <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-lg font-black text-slate-900">Inserção Manual - {type}</h3>
+            <h3 className="text-lg font-black text-slate-900">Lançamento Manual: {selectedType}</h3>
             <p className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-widest font-bold">
-              Ano {year}
+              {year} · Cliente ID: {clientId.substring(0, 8)}...
             </p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
-            <X size={20} />
-          </button>
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>
         </div>
 
-        <div className="p-6 overflow-y-auto flex-1">
+        {/* Content */}
+        <div className="p-8 space-y-6 overflow-y-auto flex-1">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tipo de Documento</label>
+            <select 
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all"
+            >
+              {DOCUMENT_TYPES.map(t => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex justify-between items-center">
           {loading ? (
              <div className="flex flex-col items-center justify-center py-20 gap-4">
                 <Loader2 size={32} className="animate-spin text-primary" />
                 <p className="text-sm font-bold text-slate-400">Carregando dados existentes...</p>
              </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-4 w-full">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50/50 border-b border-slate-100">
                   <tr>
@@ -219,6 +242,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
             </div>
           )}
         </div>
+      </div>
 
         <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3">
           <button 

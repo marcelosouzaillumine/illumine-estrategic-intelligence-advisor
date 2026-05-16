@@ -42,8 +42,13 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
   const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
 
   React.useEffect(() => {
-    if (!clientId) return;
+    if (!clientId) {
+      setDbIndicators([]);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
+    setDbIndicators([]); // Reset para evitar exibir dados do cliente anterior
     const q = query(
       collection(db, 'indicators'),
       where('clientId', '==', clientId),
@@ -63,6 +68,7 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
   };
 
   const isLogistica = type === 'logistica';
+  const hasData = dbIndicators.length > 0;
 
   const indicators = useMemo(() => {
     if (isLogistica) {
@@ -85,6 +91,7 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
   }, [isLogistica, dbIndicators]);
 
   const recommendations = useMemo(() => {
+    if (!hasData) return [];
     if (isLogistica) {
       return [
         "Negociar tabelas de frete com transportadoras alternativas para rotas críticas.",
@@ -98,33 +105,37 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
         "Revisar fluxo de processos na linha 3 para eliminar gargalos identificados."
       ];
     }
-  }, [isLogistica]);
+  }, [isLogistica, hasData]);
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
-      {/* Strategic Header & Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-primary p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              {isLogistica ? <Truck size={20} className="text-secondary" /> : <Activity size={20} className="text-secondary" />}
+      <PageHeader 
+        title={isLogistica ? 'Eficiência em Logística' : 'Produção & Processos'} 
+        subtitle={isLogistica ? 'Monitoramento estratégico de entregas, fretes e cadeia de suprimentos.' : 'Otimização de processos, produtividade e controle de qualidade.'}
+        icon={isLogistica ? Truck : Activity}
+        color="bg-slate-900"
+      />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={14} className="text-secondary" />
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                {loading ? 'Sincronizando...' : !hasData ? 'Aguardando Sincronização' : 'Eficiência Monitorada'}
+              </span>
             </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">{isLogistica ? 'Eficiência em Logística' : 'Produção & Processos'}</h1>
           </div>
-          <p className="text-slate-400 text-sm font-medium leading-relaxed">{isLogistica ? 'Monitoramento estratégico de entregas, fretes e cadeia de suprimentos.' : 'Otimização de processos, produtividade e controle de qualidade.'}</p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 relative z-10">
-          <div className="relative z-10 text-right bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4">
-             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Eficiência Operacional</span>
-             <span className="text-emerald-400 font-black uppercase text-sm flex items-center justify-end gap-2">
-               <ShieldCheck size={16} />
-               {isLogistica ? 'Estável' : 'Alta Performance'}
-             </span>
+        <div className="flex items-center gap-3">
+          <div className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center gap-2">
+            <Layers size={14} className="text-secondary" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Visão de Cadeia de Valor</span>
           </div>
         </div>
       </div>
+
 
 
       {/* KPI Grid - Standardized */}
@@ -210,7 +221,7 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
                   <MessageSquare size={20} /> Insights do Eixo Operacional
                </h3>
                <div className="space-y-6">
-                  {recommendations.map((rec, i) => (
+                  {hasData ? recommendations.map((rec, i) => (
                     <div key={i} className="flex gap-4 group cursor-default">
                        <div className="w-8 h-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all">
                           {i + 1}
@@ -219,7 +230,11 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
                           {rec}
                        </p>
                     </div>
-                  ))}
+                  )) : (
+                    <p className="text-xs font-medium text-slate-400 leading-relaxed">
+                       Aguardando inserção de dados operacionais para gerar insights e recomendações de eficiência.
+                    </p>
+                  )}
                </div>
                <button className="w-full py-4 bg-secondary text-primary rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all">
                   Otimizar Processos

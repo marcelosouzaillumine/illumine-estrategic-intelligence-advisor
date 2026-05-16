@@ -227,45 +227,35 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
 
   return (
     <div className="space-y-10 pb-20 animate-executive-fade">
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <Boxes size={20} className="text-secondary" />
-            </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">Gestão de Passivos</h1>
-          </div>
-          <p className="text-slate-400 text-sm font-medium">Gestão de contratos de empréstimos e parcelamentos tributários · {inputs.empresa || clients.find((c: any) => c.id === selectedClient)?.fantasia}</p>
-        </div>
-          <div className="flex flex-wrap items-center gap-3 relative z-10">
-             <div className="flex bg-white/5 p-1.5 rounded-[20px] border border-white/10 backdrop-blur-sm">
-              {[
-                { id: 'dashboard', label: 'DASHBOARD' },
-                { id: 'simulador', label: 'SIMULADOR' },
-                { id: 'amortizacao', label: 'AMORTIZAÇÃO' },
-                { id: 'pagamentos', label: 'PAGAMENTOS' }
-              ].map(tab => (
-                <button 
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
-                  className={cn(
-                    "px-6 py-2.5 text-[10px] font-black rounded-xl transition-all uppercase tracking-widest whitespace-nowrap",
-                    activeTab === tab.id ? "bg-white text-slate-900 shadow-xl" : "text-slate-400 hover:text-white"
-                  )}
-                >{tab.label}</button>
-              ))}
-            </div>
-        </div>
-      </div>
+      <PageHeader 
+        title="Gestão de Passivos" 
+        subtitle={`Gestão de contratos de empréstimos e parcelamentos tributários · ${inputs.empresa || clients.find((c: any) => c.id === selectedClient)?.fantasia}`}
+        icon={<Boxes className="text-secondary" size={24} />}
+        color="bg-slate-900"
+      />
 
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-6 -mt-2">
-        <div className="flex items-center gap-4">
-          <div className="px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
-             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Gerenciamento de Contratos</span>
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 overflow-x-auto max-w-md">
+            {[
+              { id: 'dashboard', label: 'DASHBOARD' },
+              { id: 'simulador', label: 'SIMULADOR' },
+              { id: 'amortizacao', label: 'AMORTIZAÇÃO' },
+              { id: 'pagamentos', label: 'PAGAMENTOS' }
+            ].map(tab => (
+              <button 
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={cn(
+                  "px-4 py-2 text-[10px] font-black rounded-lg transition-all uppercase tracking-widest whitespace-nowrap",
+                  activeTab === tab.id ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                )}
+              >{tab.label}</button>
+            ))}
           </div>
         </div>
-        <div className="bg-white p-2 rounded-[24px] border border-slate-100 shadow-sm flex items-center gap-2">
+
+        <div className="flex items-center gap-2">
           <button 
             onClick={() => setShowContractModal(true)}
             className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
@@ -280,6 +270,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
           </button>
         </div>
       </div>
+
 
       <AnimatePresence mode="wait">
         {activeTab === 'dashboard' && (

@@ -88,20 +88,39 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
 
   return (
     <div className="space-y-8 pb-32">
-      <div className="flex items-center justify-between">
-        <PageHeader 
-          title="Fiscal & Tributário" 
-          subtitle={`Configurações de enquadramento, alíquotas e encargos de folha para ${clientData?.fantasia || 'a empresa'}.`}
-        />
-        <button 
-          onClick={handleSave}
-          disabled={saving}
-          className="flex items-center gap-2 px-8 py-3 bg-primary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 disabled:opacity-50"
-        >
-          {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={16} />}
-          Salvar Configurações
-        </button>
+      <PageHeader 
+        title="Fiscal & Tributário" 
+        subtitle={`Configurações de enquadramento, alíquotas e encargos de folha para ${clientData?.fantasia || 'a empresa'}.`}
+        icon={Landmark}
+        color="bg-slate-900"
+      />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={14} className="text-secondary" />
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Conformidade Tributária Ativa</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className={cn(
+              "flex items-center gap-2 px-8 py-3.5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all",
+              saving 
+                ? "bg-slate-100 text-slate-400 cursor-not-allowed" 
+                : "bg-primary text-white shadow-xl shadow-primary/20 hover:scale-105"
+            )}
+          >
+            {saving ? <Loader2 size={16} className="animate-spin" /> : <><Save size={16} /> SALVAR CONFIGURAÇÕES</>}
+          </button>
+        </div>
       </div>
+
 
       <div className="space-y-10">
         {/* 1. Regime Selector Card */}

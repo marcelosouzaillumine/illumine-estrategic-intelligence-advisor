@@ -233,7 +233,7 @@ const ETHICAL_DILEMMAS = GOVERNANCE_PRINCIPLES
   }));
 
 export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
-  const [activeTab, setActiveTab] = useState<'roles' | 'assessment' | 'analysis' | 'dilemmas'>('roles');
+  const [activeTab, setActiveTab] = useState<'roles' | 'assessment' | 'analysis' | 'dilemmas' | 'team'>('roles');
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [assessmentStep, setAssessmentStep] = useState(0);
   const [assessmentType, setAssessmentType] = useState<'disc' | 'enneagram'>('disc');
@@ -479,37 +479,51 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
 
   return (
     <div className="space-y-10 pb-20">
-      <PageHeader
-        title="Estrutura de Governança"
+      <PageHeader 
+        title="Estrutura de Governança" 
         subtitle="Mapeamento de papéis, responsabilidades e alinhamento de perfil comportamental para alta performance."
-        actions={
-          <div className="flex gap-4">
-            <button 
-              disabled={isSaving}
-              onClick={handleSaveResults}
-              className="px-6 py-2.5 bg-emerald-500 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-all flex items-center gap-2 disabled:opacity-50"
-            >
-              <Zap size={14} fill="currentColor" />
-              {isSaving ? 'Salvando...' : 'Salvar no Histórico'}
-            </button>
-            <button 
-              onClick={() => {
-                setAnswers({});
-                setEnneagramAnswers({});
-                setDilemmaAnswers({});
-                setHasConfirmedRole(false);
-                setShowResults(false);
-                setAssessmentStep(0);
-                setDilemmaStep(0);
-                setActiveTab('roles');
-              }}
-              className="px-6 py-2.5 bg-white border border-slate-200 text-slate-400 rounded-xl text-xs font-black uppercase tracking-widest hover:text-primary hover:border-primary transition-all"
-            >
-              Refazer Tudo
-            </button>
-          </div>
-        }
+        icon={ShieldCheck}
+        color="bg-slate-900"
       />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Award size={14} className="text-secondary" />
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Protocolo de Alta Direção</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => {
+              setAnswers({});
+              setEnneagramAnswers({});
+              setDilemmaAnswers({});
+              setHasConfirmedRole(false);
+              setShowResults(false);
+              setAssessmentStep(0);
+              setDilemmaStep(0);
+              setActiveTab('roles');
+            }}
+            className="px-6 py-3.5 bg-white border border-slate-200 text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:text-primary hover:border-primary transition-all"
+          >
+            Refazer Tudo
+          </button>
+          
+          <button 
+            disabled={isSaving}
+            onClick={handleSaveResults}
+            className="flex items-center gap-2 px-8 py-3.5 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-emerald-500/20 hover:scale-105 transition-all disabled:opacity-50"
+          >
+            <Zap size={14} fill="currentColor" />
+            {isSaving ? 'SALVANDO...' : 'SALVAR NO HISTÓRICO'}
+          </button>
+        </div>
+      </div>
+
 
       {/* Navigation Tabs */}
       <div className="flex gap-2 p-1.5 bg-bg-surface/50 backdrop-blur-xl border border-white/20 rounded-2xl w-fit">

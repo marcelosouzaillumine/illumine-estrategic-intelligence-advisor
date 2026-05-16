@@ -248,31 +248,25 @@ export function GovernanceDashboardPage({
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
-      {/* Strategic Header & Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <ShieldCheck size={20} className="text-secondary" />
-            </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">Monitoramento Estratégico de Governança</h1>
-          </div>
-          <p className="text-slate-400 text-sm font-medium leading-relaxed">Monitoramento estratégico de performance multisetorial para alta gestão e conselho de administração.</p>
-        </div>
+      <PageHeader 
+        title="Monitoramento Estratégico de Governança"
+        subtitle="Monitoramento estratégico de performance multisetorial para alta gestão e conselho de administração."
+        icon={ShieldCheck}
+        color="bg-slate-900"
+      />
 
-        <div className="flex flex-wrap items-center gap-3 relative z-10">
-          {/* Group 1: Time Filters */}
-          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1 shadow-inner">
-            <div className="flex items-center px-4 py-2 border-r border-white/5">
-              <BookOpen size={14} className="text-secondary mr-2" />
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
+            <div className="flex items-center px-4 py-2 border-r border-slate-100">
+              <BookOpen size={14} className="text-secondary mr-2.5" />
               <select 
                 value={selectedYear} 
                 onChange={(e) => setSelectedYear?.(Number(e.target.value))}
                 className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {[2024, 2025, 2026].map(y => (
-                  <option key={y} value={y} className="bg-slate-900">{y}</option>
+                  <option key={y} value={y}>{y}</option>
                 ))}
               </select>
             </div>
@@ -283,31 +277,41 @@ export function GovernanceDashboardPage({
                 className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
-                  <option key={i} value={i + 1} className="bg-slate-900">{label}</option>
+                  <option key={i} value={i + 1}>{label}</option>
                 ))}
               </select>
             </div>
           </div>
+        </div>
 
-          {/* Group 2: View Toggle */}
-          <div className="flex items-center gap-4 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-2.5 border border-white/10 shadow-inner h-[46px]">
-            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-slate-500")}>Mensal</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4 bg-white rounded-2xl px-6 py-2.5 border border-slate-200 shadow-sm">
+            <span className={cn(
+              "text-[10px] font-black uppercase tracking-[0.2em] transition-colors",
+              !isYTD ? "text-secondary" : "text-slate-400"
+            )}>Mensal</span>
             <button 
               onClick={() => setIsYTD(!isYTD)}
               className={cn(
-                "w-10 h-5 rounded-full p-1 transition-colors relative group",
-                isYTD ? "bg-secondary" : "bg-slate-700 hover:bg-slate-600"
+                "w-10 h-5 rounded-full p-1 transition-all duration-500 relative",
+                isYTD ? "bg-secondary" : "bg-slate-200"
               )}
             >
               <motion.div 
                 animate={{ x: isYTD ? 20 : 0 }}
-                className="w-3 h-3 bg-white rounded-full shadow-lg group-hover:scale-110 transition-transform" 
+                className="w-3 h-3 bg-white rounded-full shadow-md"
               />
             </button>
-            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", isYTD ? "text-secondary" : "text-slate-500")}>Anual</span>
+            <span className={cn(
+              "text-[10px] font-black uppercase tracking-[0.2em] transition-colors",
+              isYTD ? "text-secondary" : "text-slate-400"
+            )}>
+              Anual
+            </span>
           </div>
         </div>
       </div>
+
 
       {/* Strategic KPIs Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

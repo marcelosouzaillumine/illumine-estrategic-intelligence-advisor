@@ -12,10 +12,14 @@ import {
   Info,
   ShieldCheck,
   Megaphone,
-  ArrowRight
+  ArrowRight,
+  AlertTriangle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../../lib/utils';
+import { useNotifications } from '../../hooks/useNotifications';
+import { useGovernance } from '../../lib/governanceContext';
+import { auth } from '../../lib/firebase';
 
 interface Message {
   id: string;
@@ -87,6 +91,28 @@ const CHANGELOG_DATA: ChangelogEntry[] = [
 
 export function MessagesPage() {
   const [activeTab, setActiveTab] = useState<'messages' | 'changelog'>('messages');
+  const { notifications, markAsRead } = useNotifications(auth.currentUser?.uid || 'admin_group');
+  const { role } = useGovernance();
+
+  const getNotificationIcon = (type: string) => {
+    switch (type) {
+      case 'approval_request': return <ShieldCheck size={24} strokeWidth={1} />;
+      case 'alert': return <Info size={24} strokeWidth={1} />;
+      case 'success': return <CheckCircle2 size={24} strokeWidth={1} />;
+      case 'error': return <AlertTriangle size={24} strokeWidth={1} />;
+      default: return <Bell size={24} strokeWidth={1} />;
+    }
+  };
+
+  const getNotificationColor = (type: string) => {
+    switch (type) {
+      case 'approval_request': return 'text-secondary';
+      case 'alert': return 'text-amber-600';
+      case 'success': return 'text-emerald-600';
+      case 'error': return 'text-rose-600';
+      default: return 'text-primary';
+    }
+  };
 
   return (
     <div className="space-y-8 pb-20">
@@ -131,39 +157,88 @@ export function MessagesPage() {
             exit={{ opacity: 0, y: -10 }}
             className="space-y-4 max-w-4xl"
           >
-            {MESSAGES_DATA.map((msg) => (
-              <div key={msg.id} className="bg-white p-10 flex flex-col md:flex-row gap-10 items-start border border-border-main rounded-executive shadow-premium hover:shadow-floating transition-all duration-700 relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-bg-surface/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className={cn(
-                  "w-16 h-16 flex items-center justify-center shrink-0 border border-border-main bg-white transition-all duration-500 group-hover:border-accent group-hover:scale-110 shadow-sm relative z-10",
-                  msg.type === 'announcement' ? "text-primary" : 
-                  msg.type === 'alert' ? "text-amber-600" : 
-                  "text-emerald-600"
-                )}>
-                  {msg.type === 'announcement' ? <Bell size={24} strokeWidth={1} /> : 
-                   msg.type === 'alert' ? <Info size={24} strokeWidth={1} /> : 
-                   <Settings size={24} strokeWidth={1} />}
-                </div>
-                
-                <div className="flex-1 min-w-0 relative z-10">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-                    <div className="flex items-center gap-4">
-                      <h3 className="text-2xl font-display text-text-main leading-none italic">{msg.title}</h3>
-                      {!msg.read && (
-                        <span className="w-2 h-2 rounded-full bg-accent shadow-glow animate-pulse" />
-                      )}
-                    </div>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-text-dim">{msg.date}</span>
+            {notifications.length > 0 ? (
+              notifications.map((msg) => (
+                <div 
+                  key={msg.id} 
+                  onClick={() => markAsRead(msg.id!)}
+                  className={cn(
+                    "bg-white p-10 flex flex-col md:flex-row gap-10 items-start border border-border-main rounded-executive shadow-premium hover:shadow-floating transition-all duration-700 relative overflow-hidden group cursor-pointer",
+                    !msg.read && "border-l-4 border-l-secondary"
+                  )}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-bg-surface/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className={cn(
+                    "w-16 h-16 flex items-center justify-center shrink-0 border border-border-main bg-white transition-all duration-500 group-hover:border-accent group-hover:scale-110 shadow-sm relative z-10",
+                    getNotificationColor(msg.type)
+                  )}>
+                    {getNotificationIcon(msg.type)}
                   </div>
-                  <p className="text-text-muted text-lg leading-relaxed mb-8 font-light max-w-3xl">
-                    {msg.content}
-                  </p>
-                  <button className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-accent group/btn hover:text-primary transition-colors">
-                    Detalhes do Comunicado <ArrowRight size={14} className="group-hover/btn:translate-x-2 transition-transform" />
-                  </button>
+                  
+                  <div className="flex-1 min-w-0 relative z-10">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                      <div className="flex items-center gap-4">
+                        <h3 className="text-2xl font-display text-text-main leading-none italic">{msg.title}</h3>
+                        {!msg.read && (
+                          <span className="w-2 h-2 rounded-full bg-accent shadow-glow animate-pulse" />
+                        )}
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-text-dim">
+                        {msg.createdAt?.toDate ? msg.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recent'}
+                      </span>
+                    </div>
+                    <p className="text-text-muted text-lg leading-relaxed mb-8 font-light max-w-3xl">
+                      {msg.message}
+                    </p>
+                    {msg.link && (
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.dispatchEvent(new CustomEvent('navigate-to', { detail: msg.link }));
+                        }}
+                        className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-accent group/btn hover:text-primary transition-colors"
+                      >
+                        Acessar Área <ArrowRight size={14} className="group-hover/btn:translate-x-2 transition-transform" />
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              MESSAGES_DATA.map((msg) => (
+                <div key={msg.id} className="bg-white p-10 flex flex-col md:flex-row gap-10 items-start border border-border-main rounded-executive shadow-premium hover:shadow-floating transition-all duration-700 relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-bg-surface/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className={cn(
+                    "w-16 h-16 flex items-center justify-center shrink-0 border border-border-main bg-white transition-all duration-500 group-hover:border-accent group-hover:scale-110 shadow-sm relative z-10",
+                    msg.type === 'announcement' ? "text-primary" : 
+                    msg.type === 'alert' ? "text-amber-600" : 
+                    "text-emerald-600"
+                  )}>
+                    {msg.type === 'announcement' ? <Bell size={24} strokeWidth={1} /> : 
+                     msg.type === 'alert' ? <Info size={24} strokeWidth={1} /> : 
+                     <Settings size={24} strokeWidth={1} />}
+                  </div>
+                  
+                  <div className="flex-1 min-w-0 relative z-10">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                      <div className="flex items-center gap-4">
+                        <h3 className="text-2xl font-display text-text-main leading-none italic">{msg.title}</h3>
+                        {!msg.read && (
+                          <span className="w-2 h-2 rounded-full bg-accent shadow-glow animate-pulse" />
+                        )}
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-text-dim">{msg.date}</span>
+                    </div>
+                    <p className="text-text-muted text-lg leading-relaxed mb-8 font-light max-w-3xl">
+                      {msg.content}
+                    </p>
+                    <button className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-accent group/btn hover:text-primary transition-colors">
+                      Detalhes do Comunicado <ArrowRight size={14} className="group-hover/btn:translate-x-2 transition-transform" />
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </motion.div>
         ) : (
           <motion.div 

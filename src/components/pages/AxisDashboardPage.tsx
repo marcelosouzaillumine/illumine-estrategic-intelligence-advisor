@@ -4,8 +4,8 @@ import {
   FileText, Zap, BarChart3, Target, ArrowUpRight, LayoutGrid, 
   BookOpen, Percent, Lightbulb, Loader2, LayoutDashboard, ShieldAlert
 } from 'lucide-react';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { collection, query, where, onSnapshot, getDocs, limit } from 'firebase/firestore';
+import { db, auth } from '../../lib/firebase';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
 import { PageHeader, StatusBadge, MarkdownText } from '../Common';
@@ -13,7 +13,9 @@ import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { EixoGestao } from '../../types/modules';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
 import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
+import { GovernancePerspectiveSection } from '../GovernancePerspectiveSection';
 import { generateGovernanceParecer } from '../../services/governanceAiService';
+import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 
 interface AxisDashboardPageProps {
   axis: EixoGestao;
@@ -122,6 +124,8 @@ const AXIS_CONFIG_METADATA: Record<string, any> = {
       { label: 'Alavancagem', ind: 'Alavancagem', suffix: 'x', icon: TrendingUp },
       { label: 'Margem Líquida', ind: 'Margem Líquida', suffix: '%', icon: Percent },
       { label: 'Cash Runaway', ind: 'Cash Runaway', suffix: ' meses', icon: Activity },
+      { label: 'Valor de Mercado', ind: 'Valor de Mercado', isCur: true, icon: TrendingUp },
+      { label: 'Taxa WACC', ind: 'WACC', suffix: '%', icon: Percent },
     ]
   }
 };
@@ -138,9 +142,41 @@ const getValueSizeClass = (maxLen: number) => {
 export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, setSelectedMonth, selectedYear, setSelectedYear }: AxisDashboardPageProps) {
   const [dbIndicators, setDbIndicators] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [hasOperationalData, setHasOperationalData] = useState(false);
+  const [cashRunawayFallback, setCashRunawayFallback] = useState<number | null>(null);
+
+  // Hook for fallback data calculation from financial_entries
+  const { kpis: calculatedKPIs } = useRealIndicatorData(clientId, selectedMonth || 1, selectedYear || 2024);
 
   React.useEffect(() => {
     if (!clientId) return;
+    
+    // Check for operational data to avoid "Unavailable" screen
+    const checkOperationalData = async () => {
+      try {
+        const collectionsToCheck = ['payables', 'receivables', 'cash_flows', 'financial_entries', 'assets', 'financial_positions'];
+        const results = await Promise.all(collectionsToCheck.map(col => 
+          getDocs(query(collection(db, col), where('clientId', '==', clientId), limit(1)))
+        ));
+        const hasAny = results.some(snap => !snap.empty);
+        setHasOperationalData(hasAny);
+
+        // Fetch Cash Runaway fallback if needed
+        const cfSnap = await getDocs(query(collection(db, 'cash_flows'), where('clientId', '==', clientId), limit(1)));
+        if (!cfSnap.empty) {
+          const cfData = cfSnap.docs[0].data();
+          const runwayKpi = cfData.KPIs?.find((k: any) => k.Indicador === "Dias de caixa (Runway)");
+          if (runwayKpi) {
+            setCashRunawayFallback(Math.round(Number(runwayKpi["Fórmula / Valor"]) / 30)); // Convert to months
+          }
+        }
+      } catch (err) {
+        console.warn('Error checking operational data:', err);
+      }
+    };
+
+    checkOperationalData();
+
     setLoading(true);
     const q = query(
       collection(db, 'indicators'),
@@ -158,16 +194,47 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
   const config = AXIS_CONFIG_METADATA[axis] || AXIS_CONFIG_METADATA['Governança Corporativa'];
   
   const primaryKPIs = useMemo(() => {
-    return (config.kpiDefinitions || []).map((def: any) => {
+    const baseKPIs = (config.kpiDefinitions || []).map((def: any) => {
       const ind = dbIndicators.find(i => i.ind === def.ind || i.ind?.toLowerCase() === def.ind.toLowerCase());
-      const value = ind ? ind.val : 0;
+      
+      // Try fallback from calculatedKPIs if indicator is missing from DB
+      let value = ind ? ind.val : 0;
+      if (!ind) {
+        if (def.ind === 'Margem EBITDA') value = calculatedKPIs.ebitdaMargin || 0;
+        if (def.ind === 'Liquidez Corrente') value = calculatedKPIs.liquidezCorrente || 0;
+        if (def.ind === 'Margem Líquida') value = calculatedKPIs.margemLiquida || 0;
+        if (def.ind === 'EBITDA') value = calculatedKPIs.ebitda || 0;
+        if (def.ind === 'Cash Runaway') value = cashRunawayFallback || 0;
+        
+        // Strategic Fallbacks
+        if (def.ind === 'Valor de Mercado' && calculatedKPIs.ebitda > 0) {
+          // Valuation based on 6.5x Multiple (Standard)
+          value = calculatedKPIs.ebitda * 12 * 6.5;
+        }
+        if (def.ind === 'WACC') value = 12.5; // Default assumption
+      }
+
       return {
         ...def,
         value,
         status: value > 0 ? 'positive' : 'neutral'
       };
     });
-  }, [config.kpiDefinitions, dbIndicators]);
+
+    // Add extra indicators found in DB that were not in the hardcoded list
+    const extraKPIs = dbIndicators
+      .filter(ind => !baseKPIs.some(k => k.ind === ind.ind))
+      .map(ind => ({
+        label: ind.ind,
+        ind: ind.ind,
+        value: ind.val,
+        suffix: ind.un || '',
+        icon: Activity,
+        status: ind.sem === 'Verde' ? 'positive' : ind.sem === 'Vermelho' ? 'negative' : 'neutral'
+      }));
+
+    return [...baseKPIs, ...extraKPIs];
+  }, [config.kpiDefinitions, dbIndicators, calculatedKPIs, cashRunawayFallback]);
 
   const flatMetrics = useMemo(() => {
     return primaryKPIs.reduce((acc: any, kpi: any) => ({...acc, [kpi.label]: kpi.value}), {});
@@ -201,7 +268,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
   };
 
   const [isYTD, setIsYTD] = useState(false);
-  const hasData = dbIndicators.length > 0;
+  const hasData = dbIndicators.length > 0 || hasOperationalData;
 
   if (!loading && !hasData) {
     const Icon = config.icon;
@@ -255,25 +322,17 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              {(() => {
-                const Icon = config.icon;
-                return <Icon size={20} className="text-secondary" />;
-              })()}
-            </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">{config.title === 'Dashboard' ? `Monitoramento de ${axis}` : config.title}</h1>
-          </div>
-          <p className="text-slate-400 text-sm font-medium">{config.subtitle}</p>
-        </div>
+      <PageHeader 
+        title={config.title === 'Dashboard' ? `Monitoramento de ${axis}` : config.title}
+        subtitle={config.subtitle}
+        icon={config.icon}
+        color={config.color}
+      />
 
-        <div className="flex flex-wrap items-center gap-3 relative z-10">
-          {/* Group 1: Time Filters */}
-          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1 shadow-inner">
-            <div className="flex items-center px-4 py-2 border-r border-white/5">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
+            <div className="flex items-center px-4 py-2 border-r border-slate-100">
               <ShieldAlert size={14} className="text-secondary mr-2" />
               <select 
                 value={selectedYear} 
@@ -281,7 +340,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {[2024, 2025, 2026].map(y => (
-                  <option key={y} value={y} className="bg-slate-900">{y}</option>
+                  <option key={y} value={y} className="bg-white">{y}</option>
                 ))}
               </select>
             </div>
@@ -292,20 +351,21 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
-                  <option key={i} value={i + 1} className="bg-slate-900">{label}</option>
+                  <option key={i} value={i + 1} className="bg-white">{label}</option>
                 ))}
               </select>
             </div>
           </div>
+        </div>
 
-          {/* Group 2: View Toggle */}
-          <div className="flex items-center gap-4 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-2.5 border border-white/10 shadow-inner h-[46px]">
-            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-slate-500")}>Mensal</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4 bg-white p-1 rounded-2xl border border-slate-200 shadow-sm px-5 py-2">
+            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-slate-400")}>Mensal</span>
             <button 
               onClick={() => setIsYTD(!isYTD)}
               className={cn(
                 "w-10 h-5 rounded-full p-1 transition-colors relative group",
-                isYTD ? "bg-secondary" : "bg-slate-700 hover:bg-slate-600"
+                isYTD ? "bg-secondary" : "bg-slate-200 hover:bg-slate-300"
               )}
             >
               <motion.div 
@@ -313,7 +373,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 className="w-3 h-3 bg-white rounded-full shadow-lg group-hover:scale-110 transition-transform" 
               />
             </button>
-            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", isYTD ? "text-secondary" : "text-slate-500")}>Anual</span>
+            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", isYTD ? "text-secondary" : "text-slate-400")}>Anual</span>
           </div>
         </div>
       </div>
@@ -379,64 +439,16 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
         })()}
       </div>
 
-      {/* Perspectiva Governança Aplicada ao Eixo */}
-      <div className="bg-white rounded-[48px] border border-slate-200 p-12 overflow-hidden relative shadow-sm">
-        <div className="absolute -left-20 -top-20 w-80 h-80 bg-indigo-50 rounded-full blur-3xl opacity-60" />
-        <div className="relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-slate-100 pb-8">
-            <div className="flex items-center gap-5">
-              <div className="p-4 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100">
-                <ShieldCheck size={28} strokeWidth={2.5} />
-              </div>
-              <div>
-                <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none mb-2">Perspectiva de Governança Integrada</h3>
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Fundamentos institucionais aplicados aos KPIs de {axis}</p>
-              </div>
-            </div>
-            <button 
-              onClick={handleGenerateAnalysis}
-              disabled={loadingAi}
-              className="px-6 py-4 bg-amber-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-amber-700 transition-all shadow-xl shadow-amber-600/20 disabled:opacity-50 flex items-center gap-2"
-            >
-              {loadingAi ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />} 
-              {aiAnalysis ? 'Regerar Análise Integrada' : 'Gerar Análise Integrada (IA)'}
-            </button>
-          </div>
-
-          {aiAnalysis && (
-            <div className="mb-10 bg-indigo-50/50 p-8 rounded-3xl border border-indigo-100 text-indigo-900 font-medium leading-relaxed text-sm relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-5">
-                <ShieldCheck size={64} />
-              </div>
-              <div className="flex items-center gap-2 mb-4 text-indigo-600 font-black uppercase tracking-widest text-[10px]">
-                <Zap size={14} /> Leitura Estratégica AI
-              </div>
-              <div className="whitespace-pre-wrap relative z-10 text-xs text-indigo-900/90">
-                <MarkdownText text={aiAnalysis} />
-              </div>
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {triggeredRules.map((rule) => (
-              <GovernanceInsightPanel 
-                key={rule.id}
-                principleId={rule.principle.id}
-                misalignment={rule.misalignment}
-                impact={rule.impact}
-                recommendation={rule.recommendation}
-              />
-            ))}
-            {triggeredRules.length === 0 && (
-              <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center p-12 bg-emerald-50/50 border border-emerald-100 rounded-3xl text-emerald-700">
-                <ShieldCheck size={48} className="mb-4 opacity-50" />
-                <h4 className="text-lg font-black tracking-tight mb-1">Eixo Saudável e Alinhado</h4>
-                <p className="text-xs font-medium opacity-80 text-center max-w-md">Os indicadores atuais não disparam nenhum alerta de desalinhamento com os princípios de {axis}.</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <GovernancePerspectiveSection 
+        axis={axis}
+        metrics={flatMetrics}
+        triggeredRules={triggeredRules}
+        principles={axisPrinciples}
+        aiAnalysis={aiAnalysis}
+        isGeneratingAi={loadingAi}
+        onGenerateAi={handleGenerateAnalysis}
+        className="mt-12"
+      />
     </div>
   );
 }

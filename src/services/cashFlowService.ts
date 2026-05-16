@@ -9,6 +9,7 @@ import {
   addDoc
 } from 'firebase/firestore';
 import { db, auth } from '../lib/firebase';
+import { DATA } from '../data';
 
 export async function generateCashFlow(clientId: string) {
   if (!clientId) throw new Error('Client ID is required');
@@ -34,8 +35,22 @@ export async function generateCashFlow(clientId: string) {
     throw new Error('Nenhum dado financeiro (Contas a Pagar/Receber ou Posição) encontrado para este cliente. Insira dados antes de gerar o fluxo.');
   }
 
-  // 2. Initial Balance (Sum of current balances in financial positions)
-  const saldoInicialTotal = positions.reduce((acc: number, p: any) => acc + (Number(p.saldoAtual) || 0), 0);
+  // Get exchange rates from DATA
+  const exchangeSecao = (DATA as any).premissas?.economicas?.find((s: any) => s.categoria.includes('Câmbio'));
+  const usdRate = parseFloat(exchangeSecao?.indicadores?.find((i: any) => i.nome.includes('Dólar'))?.valor.replace('R$ ', '').replace(',', '.') || '4.9809');
+  const eurRate = parseFloat(exchangeSecao?.indicadores?.find((i: any) => i.nome.includes('Euro'))?.valor.replace('R$ ', '').replace(',', '.') || '5.772');
+  
+  const exchangeRates: Record<string, number> = {
+    'BRL': 1,
+    'USD': usdRate,
+    'EUR': eurRate
+  };
+
+  // 2. Initial Balance (Sum of current balances in financial positions converted to BRL)
+  const saldoInicialTotal = positions.reduce((acc: number, p: any) => {
+    const rate = exchangeRates[p.moeda as keyof typeof exchangeRates] || 1;
+    return acc + ((Number(p.saldoAtual) || 0) * rate);
+  }, 0);
 
   // 3. Prepare Daily Projections (120 days)
   const today = new Date();

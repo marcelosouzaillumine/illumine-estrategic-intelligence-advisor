@@ -162,50 +162,54 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
     <div className="space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
         title="Inteligência de Governança" 
-        subtitle="O motor de maturidade organizacional baseado em princípios de gestão e dados reais." 
+        subtitle="O motor de maturidade organizacional baseado em princípios de gestão e cruzamento semântico de dados reais." 
         icon={Brain}
         color="bg-slate-900"
       />
 
-      {/* Indicadores de Status - Reposicionados */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm flex items-center gap-6 group hover:shadow-xl transition-all">
-          <div className="w-16 h-16 bg-amber-500/10 rounded-[22px] flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
-            <Target size={32} />
-          </div>
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Maturidade Sistêmica</p>
-            <div className="flex items-baseline gap-2">
-              <h2 className="text-4xl font-black text-slate-900">{hasData ? maturityScore : '---'}</h2>
-              <span className="text-[10px] font-bold text-slate-400">/100</span>
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="bg-white px-4 py-2 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-6">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-500">
+                <Target size={18} />
+              </div>
+              <div>
+                <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Maturidade</p>
+                <p className="text-sm font-black text-slate-900">{hasData ? maturityScore : '---'}<span className="text-[10px] text-slate-400">/100</span></p>
+              </div>
+            </div>
+
+            <div className="w-px h-8 bg-slate-100" />
+
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-500">
+                <Activity size={18} />
+              </div>
+              <div>
+                <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Alinhamento</p>
+                <p className="text-sm font-black text-slate-900">{hasData ? alignmentScore : '---'}<span className="text-[10px] text-slate-400">/100</span></p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm flex items-center gap-6 group hover:shadow-xl transition-all">
-          <div className="w-16 h-16 bg-indigo-500/10 rounded-[22px] flex items-center justify-center text-indigo-500 group-hover:scale-110 transition-transform">
-            <Activity size={32} />
+        <div className="flex items-center gap-3">
+          <div className={cn(
+            "px-6 py-2.5 rounded-2xl border shadow-sm flex items-center gap-3", 
+            hasData ? classification.bg : "bg-slate-50", 
+            hasData ? classification.border : "border-slate-200"
+          )}>
+            <div className={cn("w-2 h-2 rounded-full animate-pulse", hasData ? classification.color.replace('text', 'bg') : "bg-slate-300")} />
+            <span className={cn("text-[10px] font-black uppercase tracking-widest", hasData ? classification.color : "text-slate-400")}>
+              {hasData ? classification.label : 'Pendente'}
+            </span>
           </div>
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Alinhamento Operacional</p>
-            <div className="flex items-baseline gap-2">
-              <h2 className="text-4xl font-black text-slate-900">{hasData ? alignmentScore : '---'}</h2>
-              <span className="text-[10px] font-bold text-slate-400">/100</span>
-            </div>
-          </div>
-        </div>
-
-        <div className={cn(
-          "p-8 rounded-[32px] border shadow-sm flex flex-col justify-center items-center text-center space-y-2", 
-          hasData ? classification.bg : "bg-slate-50", 
-          hasData ? classification.border : "border-slate-200"
-        )}>
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">Status Organizacional</p>
-          <h3 className={cn("text-xl font-black uppercase tracking-widest", hasData ? classification.color : "text-slate-400")}>
-            {hasData ? classification.label : 'Pendente'}
-          </h3>
         </div>
       </div>
+
+
+
 
       {/* Navigation Tabs */}
       <div className="flex gap-1 p-1 bg-slate-100 rounded-2xl w-fit">

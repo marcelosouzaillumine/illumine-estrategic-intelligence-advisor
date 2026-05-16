@@ -51,13 +51,14 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch, or } from 'firebase/firestore';
 import { auth, login, logout, db, handleFirestoreError, OperationType, MASTER_ADMINS } from './lib/firebase';
 import { DATA, modelData } from './data';
-import { cn, formatValue, formatCurrency, calculateVPL, calculateTIR, calculatePayback } from './lib/utils';
+import { cn, formatValue, formatCurrency, calculateVPL, calculateTIR, calculatePayback, setActiveCurrency } from './lib/utils';
 import { useFinancialData, useAllFinancialData } from './hooks/useFinancialData';
 import { useRealIndicatorData } from './hooks/useRealIndicatorData';
 import { SYSTEM_KPI_CATEGORIES, MONTH_LABELS, FULL_MONTH_LABELS } from './constants';
+import { useNotifications } from './hooks/useNotifications';
 import { AccountModal } from './components/modals/AccountModal';
 import { ImportPlanoModal } from './components/modals/ImportPlanoModal';
 import { MappingWizard } from './components/modals/MappingWizard';
@@ -88,6 +89,11 @@ import { motion, AnimatePresence } from 'motion/react';
 import { DEFAULT_OPEN_SUBMENUS, DEFAULT_PAGE, FLAT_NAV_ITEMS, NAVIGATION_GROUPS, type Page } from './app/navigation';
 import { renderCurrentPage } from './app/routes';
 import { ClientSelector } from './components/ClientSelector';
+import { GovernanceProvider, useGovernance } from './lib/governanceContext';
+import { LGPDModal } from './components/modals/GovernanceModals';
+import { governanceService } from './services/governanceService';
+import { DadosHistoricosPage } from './components/pages/DadosHistoricosPage';
+
 
 function Logo({ collapsed }: { collapsed?: boolean }) {
   return (
@@ -164,6 +170,15 @@ function LoginBrand() {
 function LoginScreen() {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [loginError, setLoginError] = useState('');
+
+  useEffect(() => {
+    const handleGlobalError = (e: any) => {
+      setLoginError(e.detail);
+      setIsSigningIn(false);
+    };
+    window.addEventListener('login-error', handleGlobalError);
+    return () => window.removeEventListener('login-error', handleGlobalError);
+  }, []);
 
   const handleGoogleLogin = async () => {
     setIsSigningIn(true);
@@ -294,7 +309,7 @@ function AuthLoadingScreen() {
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>(DEFAULT_PAGE);
-  const [academyCourseId, setAcademyCourseId] = useState<string>('');
+  const [academyCourseId, setAcademyCourseId] = useState<string | null>(null);
   const [selectedClient, setSelectedClient] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -309,6 +324,9 @@ export default function App() {
     return saved ? JSON.parse(saved) : window.innerWidth < 1280;
   });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isPartner, setIsPartner] = useState(false);
+  const [isMaster, setIsMaster] = useState(false);
+  const [userPartnerIds, setUserPartnerIds] = useState<string[]>([]);
 
   useEffect(() => {
     localStorage.setItem('sidebar-collapsed', JSON.stringify(isSidebarCollapsed));
@@ -333,9 +351,61 @@ export default function App() {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (u) => {
-      setUser(u);
-      setAuthLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, async (u) => {
+      if (u) {
+        setAuthLoading(true);
+        try {
+          const userEmail = (u.email || '').toLowerCase().trim();
+          const masterCheck = MASTER_ADMINS.some(email => email.toLowerCase().trim() === userEmail);
+          
+          let hasAccess = masterCheck;
+          
+          if (!hasAccess) {
+            const userAssocQuery = query(collection(db, 'client_users'), where('email', '==', u.email));
+            const assocSnap = await getDocs(userAssocQuery);
+            if (!assocSnap.empty) {
+              const activeUsers = assocSnap.docs.filter(doc => doc.data().status !== 'Inativo');
+              if (activeUsers.length > 0) {
+                hasAccess = true;
+              }
+            }
+            
+            if (!hasAccess) {
+              const ownerQuery = query(collection(db, 'clients'), where('ownerId', '==', u.uid));
+              const ownerSnap = await getDocs(ownerQuery);
+              if (!ownerSnap.empty) {
+                hasAccess = true;
+              }
+            }
+
+            if (!hasAccess) {
+              const partnerQuery = query(collection(db, 'partners'), where('ownerId', '==', u.uid));
+              const partnerSnap = await getDocs(partnerQuery);
+              if (!partnerSnap.empty) {
+                hasAccess = true;
+              }
+            }
+          }
+          
+          if (hasAccess) {
+            setUser(u);
+          } else {
+            await logout();
+            setUser(null);
+            window.dispatchEvent(new CustomEvent('login-error', { detail: 'Acesso negado. Usuário não cadastrado na plataforma.' }));
+          }
+        } catch (error) {
+          console.error("Auth verification error:", error);
+          await logout();
+          setUser(null);
+          window.dispatchEvent(new CustomEvent('login-error', { detail: 'Erro ao verificar credenciais de acesso.' }));
+        } finally {
+          setAuthLoading(false);
+        }
+      } else {
+        setUser(null);
+        setAuthLoading(false);
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -390,12 +460,13 @@ export default function App() {
     const fetchClients = async () => {
       try {
         const userEmail = (user.email || '').toLowerCase().trim();
-        const isMaster = MASTER_ADMINS.some(email => email.toLowerCase().trim() === userEmail);
+        const masterCheck = MASTER_ADMINS.some(email => email.toLowerCase().trim() === userEmail);
+        setIsMaster(masterCheck);
         
-        console.log('[Auth] Master Check:', { userEmail, isMaster });
+        console.log('[Auth] Master Check:', { userEmail, isMaster: masterCheck });
 
         let q;
-        if (isMaster) {
+        if (masterCheck) {
           console.log('[Auth] Master Admin: Fetching ALL clients');
           q = query(collection(db, 'clients'));
           setUserPermissions(null);
@@ -404,12 +475,41 @@ export default function App() {
           const assocSnap = await getDocs(userAssocQuery);
           
           if (!assocSnap.empty) {
-            const clientIds = assocSnap.docs.map(doc => doc.data().clientId);
-            const permissions = assocSnap.docs.flatMap(doc => doc.data().permissoes || []);
+            const assocData = assocSnap.docs.map(doc => doc.data());
+            const assocIds = assocData.map(d => d.clientId);
+            const permissions = assocData.flatMap(d => d.permissoes || []);
             setUserPermissions(permissions);
-            q = query(collection(db, 'clients'), where('__name__', 'in', clientIds));
+
+            // Check if any assocId is a partnerId
+            const partnersSnap = await getDocs(query(collection(db, 'partners'), where('__name__', 'in', assocIds)));
+            const partnerIds = partnersSnap.docs.map(d => d.id);
+
+            if (partnerIds.length > 0) {
+              console.log('[Auth] Partner detected:', partnerIds);
+              setIsPartner(true);
+              setUserPartnerIds(partnerIds);
+              // For partners, fetch clients where partnerId matches OR isModel is true
+              q = query(collection(db, 'clients'), 
+                or(
+                  where('partnerId', 'in', partnerIds),
+                  where('isModel', '==', true)
+                )
+              );
+            } else {
+              setIsPartner(false);
+              setUserPartnerIds([]);
+              // For regular users, fetch linked clients OR model companies
+              q = query(collection(db, 'clients'), 
+                or(
+                  where('__name__', 'in', assocIds),
+                  where('isModel', '==', true)
+                )
+              );
+            }
           } else {
             setUserPermissions(null);
+            setIsPartner(false);
+            setUserPartnerIds([]);
             q = query(collection(db, 'clients'), where('ownerId', '==', user.uid));
           }
         }
@@ -458,6 +558,123 @@ export default function App() {
     return <LoginScreen />;
   }
 
+  return (
+    <GovernanceProvider user={user}>
+      <AppContent 
+        user={user}
+        authLoading={authLoading}
+        clients={clients}
+        selectedClient={selectedClient}
+        setSelectedClient={setSelectedClient}
+        selectedMonth={selectedMonth}
+        setSelectedMonth={setSelectedMonth}
+        selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
+        setCurrentPage={setCurrentPage}
+        setClients={setClients}
+        currentPage={currentPage}
+        academyCourseId={academyCourseId}
+        setAcademyCourseId={setAcademyCourseId}
+        isSidebarCollapsed={isSidebarCollapsed}
+        setIsSidebarCollapsed={setIsSidebarCollapsed}
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+        openSubmenus={openSubmenus}
+        toggleSubmenu={toggleSubmenu}
+        userPermissions={userPermissions}
+        isPartner={isPartner}
+        isMaster={isMaster}
+        userPartnerIds={userPartnerIds}
+      />
+    </GovernanceProvider>
+  );
+}
+
+function AppContent({ 
+  user, 
+  authLoading, 
+  clients, 
+  selectedClient, 
+  setSelectedClient,
+  selectedMonth,
+  setSelectedMonth,
+  selectedYear,
+  setSelectedYear,
+  setCurrentPage,
+  setClients,
+  currentPage,
+  academyCourseId,
+  setAcademyCourseId,
+  isSidebarCollapsed,
+  setIsSidebarCollapsed,
+  isMobileMenuOpen,
+  setIsMobileMenuOpen,
+  openSubmenus,
+  toggleSubmenu,
+  userPermissions,
+  isPartner,
+  isMaster,
+  userPartnerIds
+}: any) {
+  const { isAccepted, setAccepted, role, loading: governanceLoading } = useGovernance();
+  const [showUniversalImport, setShowUniversalImport] = useState(false);
+  const [pendingCounts, setPendingCounts] = useState<Record<string, number>>({});
+  const totalPending = Object.values(pendingCounts).reduce((acc, curr) => acc + curr, 0);
+
+  useEffect(() => {
+    if (!isMaster) {
+      setPendingCounts({});
+      return;
+    }
+
+    const collectionsToMonitor = ['financial_entries', 'payables', 'receivables', 'budgets', 'account_plans', 'document_uploads'];
+    const unsubscribes = collectionsToMonitor.map(colName => {
+      const q = query(
+        collection(db, colName),
+        where('status', '==', 'pending')
+      );
+      return onSnapshot(q, (snapshot) => {
+        setPendingCounts(prev => ({ ...prev, [colName]: snapshot.size }));
+      });
+    });
+
+    return () => unsubscribes.forEach(unsub => unsub());
+  }, [isMaster]);
+  // We'll use totalPending instead of pendingApprovalsCount in the UI
+
+  useEffect(() => {
+    if (selectedClient && clients.length > 0) {
+      const client = clients.find(c => c.id === selectedClient);
+      if (client?.currency) {
+        setActiveCurrency(client.currency);
+      } else {
+        setActiveCurrency('BRL');
+      }
+    }
+  }, [selectedClient, clients]);
+
+  const handleSelectClient = async (id: string) => {
+    setSelectedClient(id);
+    const client = clients.find((c: any) => c.id === id);
+    if (client) {
+      if (client.currency) {
+        setActiveCurrency(client.currency);
+      } else {
+        setActiveCurrency('BRL');
+      }
+      await governanceService.logAction({
+        user_id: user?.uid || '',
+        role: role,
+        empresa_id: isPartner ? userPartnerIds[0] : '', // Use first partner ID if partner
+        cliente_ativo_id: id,
+        acao: 'seleção de cliente ativo',
+        detalhes: {
+          fantasia: client.fantasia,
+          cnpj: client.cnpj
+        }
+      });
+    }
+  };
   return (
     <div className="flex h-screen bg-bg-main overflow-hidden text-text-main transition-colors duration-500">
       {/* Sidebar Overlay for Mobile */}
@@ -513,7 +730,7 @@ export default function App() {
               <ClientSelector 
                 clients={clients} 
                 selectedClient={selectedClient} 
-                setSelectedClient={setSelectedClient} 
+                setSelectedClient={handleSelectClient} 
                 onManageClients={() => {
                   setCurrentPage('clientes');
                   setIsMobileMenuOpen(false);
@@ -524,7 +741,9 @@ export default function App() {
           
           <nav className="space-y-3">
             {NAVIGATION_GROUPS.filter(group => {
+              if (isMaster) return true;
               if (!userPermissions) return true;
+              
               // Group is allowed if at least one of its sub-items is allowed and NOT master-only
               return group.items.some(item => {
                 if (item.masterOnly) return false;
@@ -536,10 +755,13 @@ export default function App() {
               
               // Filter items within the group
               const filteredItems = group.items.filter(item => {
-                // If item is master-only and user is NOT a master admin (userPermissions is not null), hide it
-                if (item.masterOnly && userPermissions !== null) return false;
+                // If item is master-only and user is NOT a master admin, hide it
+                if (item.masterOnly && !isMaster) return false;
                 
-                if (!userPermissions) return true;
+                // Special case: Portfolio is always allowed for partners
+                if (isPartner && item.id === 'portfolio') return true;
+
+                if (!userPermissions || isMaster) return true;
                 const permissionKey = `${group.group}:${item.label}`;
                 return userPermissions.includes(permissionKey);
               });
@@ -599,7 +821,14 @@ export default function App() {
                             </div>
                             {!isSidebarCollapsed && (
                               <div className="flex-1 min-w-0 flex items-center justify-between gap-2 overflow-hidden text-left">
-                                <span className="tracking-wide text-left text-[11.5px] whitespace-nowrap">{item.label}</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="tracking-wide text-left text-[11.5px] whitespace-nowrap">{item.label}</span>
+                                  {item.id === 'aprovacoes' && totalPending > 0 && (
+                                    <span className="flex h-4 min-w-[16px] px-1 items-center justify-center bg-rose-500 text-white text-[9px] font-black rounded-full animate-pulse">
+                                      {totalPending}
+                                    </span>
+                                  )}
+                                </div>
                                 {hasChildren && (
                                   <ChevronDown 
                                     size={10} 
@@ -611,6 +840,9 @@ export default function App() {
                                   />
                                 )}
                               </div>
+                            )}
+                            {isSidebarCollapsed && item.id === 'aprovacoes' && totalPending > 0 && (
+                              <div className="absolute top-1 right-2 w-2 h-2 bg-rose-500 rounded-full animate-pulse" />
                             )}
                           </button>
 
@@ -727,7 +959,7 @@ export default function App() {
               <ClientSelector 
                 clients={clients} 
                 selectedClient={selectedClient} 
-                setSelectedClient={setSelectedClient} 
+                setSelectedClient={handleSelectClient} 
                 onManageClients={() => setCurrentPage('clientes')}
               />
             </div>
@@ -752,10 +984,14 @@ export default function App() {
                  <FileSpreadsheet size={20} strokeWidth={1} />
               </button>
               <button 
-                 className="p-3 text-text-muted hover:text-text-main hover:bg-bg-surface rounded-full transition-all hidden sm:flex"
-                 title="Exportar Dados"
+                 onClick={() => setShowUniversalImport(true)}
+                 className="p-3 text-text-muted hover:text-accent hover:bg-bg-surface rounded-full transition-all hidden sm:flex group relative"
+                 title="Importar Documentos"
               >
                  <UploadCloud size={20} strokeWidth={1} />
+                 {totalPending > 0 && isMaster && (
+                   <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full animate-pulse" />
+                 )}
               </button>
             </div>
 
@@ -783,7 +1019,7 @@ export default function App() {
                   currentPage,
                   clients,
                   selectedClient,
-                  setSelectedClient,
+                  setSelectedClient: handleSelectClient,
                   selectedMonth,
                   setSelectedMonth,
                   selectedYear,
@@ -793,11 +1029,49 @@ export default function App() {
                   setClients,
                   academyCourseId,
                   setAcademyCourseId,
+                  isPartner,
+                  isMaster,
+                  userPartnerIds
                 })}
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
+
+        {showUniversalImport && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+            <div className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-3xl shadow-2xl bg-white flex flex-col">
+              <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
+                <div>
+                  <h3 className="text-lg font-black text-slate-900">Importação Universal de Inteligência</h3>
+                  <p className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-widest font-bold">
+                    Central de Governança e Auditabilidade
+                  </p>
+                </div>
+                <button 
+                  onClick={() => setShowUniversalImport(false)}
+                  className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4">
+                <DadosHistoricosPage 
+                  clients={clients}
+                  user={user}
+                  selectedClient={selectedClient}
+                  setSelectedClient={handleSelectClient}
+                  hideHeader={true}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        <LGPDModal 
+          isOpen={!governanceLoading && !isAccepted} 
+          onAccept={() => setAccepted(true)} 
+        />
       </main>
     </div>
   );

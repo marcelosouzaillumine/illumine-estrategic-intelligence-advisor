@@ -62,7 +62,7 @@ function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   );
 }
 
-export function ReceivablesPage({ clients, selectedClient }: { clients: any[], selectedClient: string }) {
+export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients: any[], selectedClient: string, isMaster?: boolean }) {
   const [receivables, setReceivables] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -106,7 +106,9 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const docs = snapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() as any }))
+        .filter(d => d.status !== 'pending' && d.status !== 'rejected');
       setReceivables(docs);
       setLoading(false);
     }, (error) => {
@@ -256,33 +258,38 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
         title="Contas a Receber" 
         subtitle={`Gestão centralizada de recebimentos e fluxo de disponibilidade · ${clientName}`}
         icon={<UploadCloud size={24} />}
-        actions={
-          <div className="flex flex-wrap items-center gap-3">
-            {receivables.length > 0 && selectedClient && (
-              <button 
-                onClick={handleDeleteAll}
-                disabled={isDeletingAll}
-                className="px-6 py-3 bg-white/5 hover:bg-rose-500/10 text-rose-400 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
-              >
-                {isDeletingAll ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
-                LIMPAR BASE
-              </button>
-            )}
-            <button 
-              onClick={() => setIsImportModalOpen(true)}
-              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
-            >
-              <UploadCloud size={14} /> IMPORTAR
-            </button>
-            <button 
-              onClick={() => { setEditingReceivable(null); setIsModalOpen(true); }}
-              className="px-8 py-3 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-900/20 flex items-center gap-2"
-            >
-              <Plus size={16} /> LANÇAR TÍTULO
-            </button>
-          </div>
-        }
       />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6">
+        <div className="flex items-center gap-3">
+          {receivables.length > 0 && selectedClient && (
+            <button 
+              onClick={handleDeleteAll}
+              disabled={isDeletingAll}
+              className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-rose-400 hover:text-rose-600 hover:bg-white flex items-center gap-2"
+            >
+              {isDeletingAll ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
+              LIMPAR BASE
+            </button>
+          )}
+          <button 
+            onClick={() => setIsImportModalOpen(true)}
+            className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-slate-400 hover:text-slate-600 hover:bg-white flex items-center gap-2"
+          >
+            <UploadCloud size={14} /> IMPORTAR
+          </button>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => { setEditingReceivable(null); setIsModalOpen(true); }}
+            className="px-8 py-3 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-900/20 flex items-center gap-2"
+          >
+            <Plus size={16} /> LANÇAR TÍTULO
+          </button>
+        </div>
+      </div>
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <KpiCardModeling label="Total a Receber" value={formatCurrency(kpis.aReceber30 + kpis.aReceberApos30 + kpis.emAtraso)} tone="default" />
@@ -511,6 +518,8 @@ export function ReceivablesPage({ clients, selectedClient }: { clients: any[], s
         <ImportTransactionsModal
           collectionName="receivables"
           selectedClient={selectedClient}
+          clients={clients}
+          isMaster={isMaster}
           onClose={() => setIsImportModalOpen(false)}
           onSuccess={() => setIsImportModalOpen(false)}
         />

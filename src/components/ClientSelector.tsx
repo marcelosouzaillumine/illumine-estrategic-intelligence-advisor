@@ -9,7 +9,7 @@ import {
   ExternalLink,
   Plus
 } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { cn, formatDoc } from '../lib/utils';
 
 interface ClientSelectorProps {
   clients: any[];
@@ -90,6 +90,16 @@ export function ClientSelector({
             )}>
               {currentClient?.fantasia || 'Selecionar Corporação'}
             </span>
+            <div className="flex flex-col">
+              {currentClient?.cnpj && (
+                <span className={cn(
+                  "text-[9px] font-bold opacity-60 tracking-wider",
+                  isOpen ? "text-white" : "text-text-dim"
+                )}>
+                  {formatDoc(currentClient.cnpj)}
+                </span>
+              )}
+            </div>
             <ChevronDown size={14} strokeWidth={1} className={cn(
               "transition-transform duration-500 shrink-0",
               isOpen ? "rotate-180 !text-white" : "text-text-dim group-hover:text-accent"
@@ -161,8 +171,17 @@ export function ClientSelector({
                           "text-[9px] font-bold uppercase tracking-widest opacity-60",
                           selectedClient === client.id ? "text-slate-400" : "text-slate-400"
                         )}>
-                          {client.segmento}
+                          {client.segmento} {client.cnpj ? `• ${formatDoc(client.cnpj)}` : ''}
                         </p>
+                        {client.status && (
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <div className={cn(
+                              "w-1.5 h-1.5 rounded-full",
+                              client.status === 'Ativo' ? "bg-emerald-500" : "bg-rose-500"
+                            )} />
+                            <span className="text-[8px] font-bold uppercase tracking-widest opacity-50">{client.status}</span>
+                          </div>
+                        )}
                       </div>
                       {selectedClient === client.id && (
                         <div className="w-6 h-6 bg-secondary text-white rounded-full flex items-center justify-center">

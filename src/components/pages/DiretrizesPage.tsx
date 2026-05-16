@@ -4,7 +4,7 @@ import { Target, Flag, Rocket, Plus, Trash2, Edit2, Save, X, Eye, FileText, Hear
 import { motion, AnimatePresence } from 'motion/react';
 import { useModuleData } from '../../hooks/useModuleData';
 import { Diretriz } from '../../types/modules';
-import { SectionHeader } from '../Common';
+import { PageHeader, SectionHeader } from '../Common';
 import { cn } from '../../lib/utils';
 
 interface DiretrizesPageProps {
@@ -76,31 +76,38 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
 
   return (
     <div className="space-y-8 pb-32">
-      {/* Header Estilizado - Padrão Monitoramento */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <Flag size={20} className="text-secondary" />
+      <PageHeader 
+        title="Identidade & Diretrizes" 
+        subtitle="O DNA e o norte estratégico da organização — Propósito, Missão, Visão e Valores."
+        icon={Flag}
+        color="bg-slate-900"
+      />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Rocket size={14} className="text-secondary" />
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">DNA Corporativo Ativo</span>
             </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">Identidade & Diretrizes</h1>
           </div>
-          <p className="text-slate-400 text-sm font-medium">O DNA e o norte estratégico da empresa</p>
         </div>
 
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className={cn(
-            "relative z-10 flex items-center gap-2 px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all",
-            isEditing 
-              ? "bg-white/10 text-white hover:bg-white/20 border border-white/10" 
-              : "bg-secondary text-white hover:bg-secondary/90 shadow-xl shadow-secondary/20"
-          )}
-        >
-          {isEditing ? <><X size={14} /> Cancelar</> : <><Edit2 size={14} /> Editar Diretrizes</>}
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsEditing(!isEditing)}
+            className={cn(
+              "flex items-center gap-2 px-8 py-3.5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all",
+              isEditing 
+                ? "bg-slate-100 text-slate-600 border border-slate-200" 
+                : "bg-secondary text-white shadow-xl shadow-secondary/20 hover:scale-105"
+            )}
+          >
+            {isEditing ? <><X size={14} /> CANCELAR</> : <><Edit2 size={14} /> EDITAR DIRETRIZES</>}
+          </button>
+        </div>
       </div>
+
 
       {/* Propósito */}
       <motion.div 

@@ -58,50 +58,55 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
         subtitle="Avaliação estratégica de valor de mercado utilizando múltiplos setoriais e fluxo de caixa descontado (DCF)."
         icon={BarChart3}
         color="bg-slate-900"
-        actions={
-          <div className="flex items-center gap-4">
-            <div className="flex bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1">
-              <div className="flex items-center px-4 py-2 border-r border-white/10">
-                <Calendar size={14} className="text-slate-400 mr-2" />
-                <select 
-                  value={year} 
-                  onChange={(e) => setYear(Number(e.target.value))}
-                  className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer text-white"
-                >
-                  <option value={2026} className="bg-slate-900">2026</option>
-                  <option value={2025} className="bg-slate-900">2025</option>
-                </select>
-              </div>
-              <div className="flex items-center px-4 py-2">
-                <select 
-                  value={month} 
-                  onChange={(e) => setMonth(Number(e.target.value))}
-                  className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer text-white"
-                >
-                  <option value={1} className="bg-slate-900">Jan</option>
-                  <option value={2} className="bg-slate-900">Fev</option>
-                  <option value={3} className="bg-slate-900">Mar</option>
-                  <option value={4} className="bg-slate-900">Abr</option>
-                  <option value={5} className="bg-slate-900">Mai</option>
-                  <option value={6} className="bg-slate-900">Jun</option>
-                  <option value={7} className="bg-slate-900">Jul</option>
-                  <option value={8} className="bg-slate-900">Ago</option>
-                  <option value={9} className="bg-slate-900">Set</option>
-                  <option value={10} className="bg-slate-900">Out</option>
-                  <option value={11} className="bg-slate-900">Nov</option>
-                  <option value={12} className="bg-slate-900">Dez</option>
-                </select>
-              </div>
+      />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 shrink-0">
+            <div className="flex items-center px-4 py-2 border-r border-slate-200">
+              <Calendar size={14} className="text-slate-400 mr-2" />
+              <select 
+                value={year} 
+                onChange={(e) => setYear(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer text-slate-700"
+              >
+                <option value={2026}>2026</option>
+                <option value={2025}>2025</option>
+              </select>
             </div>
-            <div className="px-6 py-3.5 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm flex items-center gap-3">
-              {loading && <Loader2 size={14} className="animate-spin text-secondary" />}
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-                {hasDbData ? 'Dados Reais' : 'Sem Dados'}
-              </span>
+            <div className="flex items-center px-4 py-2">
+              <select 
+                value={month} 
+                onChange={(e) => setMonth(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer text-slate-700"
+              >
+                <option value={1}>Jan</option>
+                <option value={2}>Fev</option>
+                <option value={3}>Mar</option>
+                <option value={4}>Abr</option>
+                <option value={5}>Mai</option>
+                <option value={6}>Jun</option>
+                <option value={7}>Jul</option>
+                <option value={8}>Ago</option>
+                <option value={9}>Set</option>
+                <option value={10}>Out</option>
+                <option value={11}>Nov</option>
+                <option value={12}>Dez</option>
+              </select>
             </div>
           </div>
-        }
-      />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
+            {loading && <Loader2 size={14} className="animate-spin text-secondary" />}
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+              {hasDbData ? 'Dados Reais' : 'Sem Dados'}
+            </span>
+          </div>
+        </div>
+      </div>
+
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1 space-y-6">

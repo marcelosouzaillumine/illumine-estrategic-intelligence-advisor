@@ -259,48 +259,60 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
 
   return (
     <div className="space-y-10 pb-20">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <PageHeader 
-          title="Roadmap de Execução" 
-          subtitle="Acompanhamento tático de metas e soluções consultivas."
-        />
-        <div className="flex items-center gap-4">
-           <div className="flex bg-bg-surface p-1 rounded-xl border border-border-main">
-              <button 
-                onClick={() => setView('list')}
-                title="Lista"
-                className={cn("p-2 rounded-lg transition-all", view === 'list' ? "bg-white text-secondary shadow-sm" : "text-text-dim hover:text-text-main")}
-              >
-                <List size={18} />
-              </button>
-              <button 
-                onClick={() => setView('board')}
-                title="Quadro Kanban"
-                className={cn("p-2 rounded-lg transition-all", view === 'board' ? "bg-white text-secondary shadow-sm" : "text-text-dim hover:text-text-main")}
-              >
-                <LayoutGrid size={18} />
-              </button>
-              <button 
-                onClick={() => setView('dashboard')}
-                title="Gráficos & Insights"
-                className={cn("p-2 rounded-lg transition-all", view === 'dashboard' ? "bg-white text-secondary shadow-sm" : "text-text-dim hover:text-text-main")}
-              >
-                <BarChart2 size={18} />
-              </button>
-           </div>
-           
-           <button 
-             onClick={() => setShowAutomations(!showAutomations)}
-             className={cn("btn-ghost px-4 gap-2", showAutomations && "bg-secondary/10 text-secondary border-secondary/20")}
-           >
-             <Zap size={18} className={showAutomations ? "fill-current" : ""} />
-             <span className="hidden sm:inline">Automações</span>
-           </button>
+      <PageHeader 
+        title="Roadmap de Execução" 
+        subtitle="Acompanhamento tático de metas e soluções consultivas."
+        icon={<Target className="text-secondary" size={24} />}
+        color="bg-slate-900"
+      />
 
-           <button onClick={openAdd} className="btn-accent px-8">
-             <Plus size={18} />
-             Nova Tarefa
-           </button>
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200">
+            <button 
+              onClick={() => setView('list')}
+              title="Lista"
+              className={cn("p-2 rounded-lg transition-all", view === 'list' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600")}
+            >
+              <List size={18} />
+            </button>
+            <button 
+              onClick={() => setView('board')}
+              title="Quadro Kanban"
+              className={cn("p-2 rounded-lg transition-all", view === 'board' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600")}
+            >
+              <LayoutGrid size={18} />
+            </button>
+            <button 
+              onClick={() => setView('dashboard')}
+              title="Gráficos & Insights"
+              className={cn("p-2 rounded-lg transition-all", view === 'dashboard' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600")}
+            >
+              <BarChart2 size={18} />
+            </button>
+          </div>
+          
+          <button 
+            onClick={() => setShowAutomations(!showAutomations)}
+            className={cn(
+              "px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 border shadow-sm",
+              showAutomations 
+                ? "bg-secondary/10 text-secondary border-secondary/20" 
+                : "bg-white text-slate-400 border-slate-200 hover:text-slate-600"
+            )}
+          >
+            <Zap size={14} className={showAutomations ? "fill-current" : ""} />
+            <span className="hidden sm:inline">Automações</span>
+          </button>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={openAdd}
+            className="px-6 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 flex items-center gap-2"
+          >
+            <Plus size={16} /> NOVA TAREFA
+          </button>
         </div>
       </div>
 
@@ -783,9 +795,9 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-bg-card rounded-[2.5rem] shadow-2xl overflow-hidden border border-border-main"
+              className="relative w-full max-w-2xl bg-bg-card rounded-[2.5rem] shadow-2xl overflow-hidden border border-border-main max-h-[90vh] flex flex-col"
             >
-              <div className="px-10 py-8 bg-bg-surface border-b border-border-main flex items-center justify-between">
+              <div className="px-10 py-8 bg-bg-surface border-b border-border-main flex items-center justify-between shrink-0">
                 <div>
                   <h3 className="text-xl font-display font-black text-text-main uppercase tracking-widest">
                     {editingId ? 'Editar Prioridade' : 'Nova Ação Tática'}
@@ -797,7 +809,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                 </button>
               </div>
 
-              <div className="p-10 space-y-8">
+              <div className="p-10 space-y-8 overflow-y-auto">
                 <div className="space-y-4">
                   <label className="text-label">Título da Tarefa</label>
                   <input 

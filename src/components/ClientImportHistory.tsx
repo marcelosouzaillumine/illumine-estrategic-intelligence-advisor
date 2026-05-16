@@ -31,6 +31,8 @@ import {
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage, auth, handleFirestoreError, OperationType } from '../lib/firebase';
 import { cn } from '../lib/utils';
+import { DOCUMENT_TYPES } from '../constants/documents';
+import { notificationService } from '../services/notificationService';
 
 export function ClientImportHistory({ clientId, clientName }: { clientId: string, clientName: string }) {
   const [month, setMonth] = useState(new Date().getMonth() + 1);
@@ -49,15 +51,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
     }
   }, []);
 
-  const docTypes = [
-    'Balanço Patrimonial',
-    'DRE',
-    'DRE Gerencial',
-    'DLPA',
-    'DFC',
-    'Contas a Pagar',
-    'Contas a Receber'
-  ];
+  const docTypes = DOCUMENT_TYPES;
 
   const fetchHistory = async () => {
     if (!clientId) return;
@@ -195,12 +189,28 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
         data: dataEntries,
         fileName: file.name,
         fileUrl, // Store reference to original document
+        status: 'pending',
+        requiresApproval: true,
         createdAt: serverTimestamp(),
         createdBy: auth.currentUser?.uid,
         creatorEmail: auth.currentUser?.email,
       };
 
-      await addDoc(collection(db, 'financial_entries'), payload);
+      const docRef = await addDoc(collection(db, 'financial_entries'), payload);
+
+      // Notify Admins
+      await notificationService.createNotification({
+        userId: 'admin_group',
+        title: 'Nova Importação para Aprovação',
+        message: `${auth.currentUser?.email} enviou "${file.name}" (${docType}) para ${clientName || 'Cliente'}.`,
+        type: 'approval_request',
+        link: 'maintenance',
+        metadata: {
+          docId: docRef.id,
+          type: docType,
+          clientId
+        }
+      });
       setUploadStatus({ type: 'success', message: `Arquivo "${file.name}" importado com sucesso!` });
       fetchHistory();
     } catch (err: any) {

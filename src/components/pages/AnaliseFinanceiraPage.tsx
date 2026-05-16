@@ -33,15 +33,9 @@ import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
 import { FULL_MONTH_LABELS } from '../../constants';
 import { useFinancialData } from '../../hooks/useFinancialData';
+import { PageHeader, Semaphore } from '../Common';
 
-function Semaphore({ status }: { status: string }) {
-  const colorMap: Record<string, string> = {
-    'Verde': 'bg-emerald-500',
-    'Amarelo': 'bg-amber-500',
-    'Vermelho': 'bg-rose-500'
-  };
-  return <div className={cn("w-2 h-2 rounded-full", colorMap[status] || 'bg-emerald-500')} />;
-}
+
 
 export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, selectedMonth }: any) {
   const [filterClient, setFilterClient] = useState(selectedClient);
@@ -99,68 +93,66 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
     { label: 'Solvência (DSCR)', value: `${dscr.toFixed(2)}x`, sem: dscr > 1.2 ? 'Verde' : 'Vermelho', sub: dscr > 1.2 ? 'Cobertura Segura' : 'Risco de Liquidez' },
     { label: 'ROE Anualizado', value: `${roe.toFixed(1)}%`, sem: roe > 10 ? 'Verde' : 'Amarelo', sub: 'Retorno Acionista' },
     { label: 'Alavancagem (GAF)', value: `${gaf.toFixed(2)}x`, sem: gaf > 1 ? 'Verde' : 'Amarelo', sub: gaf > 1 ? 'Favorável' : 'Risco' },
-  ];
+  ] as const;
 
   return (
     <div className="space-y-10 pb-20 animate-executive-fade">
-      {/* Strategic Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <TrendingUp size={20} className="text-secondary" />
-            </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">Inteligência de Capital</h1>
-          </div>
-          <p className="text-slate-400 text-sm font-medium">Análise de eficiência financeira, criação de valor e estrutura de capital.</p>
-        </div>
+      <PageHeader 
+        title="Inteligência de Capital" 
+        subtitle="Análise de eficiência financeira, criação de valor e estrutura de capital estratégica."
+        icon={TrendingUp}
+        color="bg-slate-900"
+      />
 
-        <div className="flex flex-wrap items-center gap-4 relative z-10">
-          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-1">
-            <div className="flex items-center px-4 py-2 border-r border-white/10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
+            <div className="flex items-center px-4 py-2 border-r border-slate-100">
               <select 
                 value={filterClient} 
                 onChange={(e) => setFilterClient(e.target.value)}
-                className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer max-w-[150px]"
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors max-w-[150px]"
               >
                 {clients.map((c: any) => (
-                  <option key={c.id} value={c.id} className="bg-slate-900">{c.fantasia}</option>
+                  <option key={c.id} value={c.id}>{c.fantasia}</option>
                 ))}
               </select>
             </div>
-            <div className="flex items-center px-4 py-2 border-r border-white/10">
-              <Calendar size={14} className="text-slate-400 mr-2" />
+            <div className="flex items-center px-4 py-2 border-r border-slate-100">
+              <Calendar size={14} className="text-slate-400 mr-2.5" />
               <select 
                 value={year} 
                 onChange={(e) => setYear(Number(e.target.value))}
-                className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer"
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
-                <option value={2026} className="bg-slate-900">2026</option>
-                <option value={2025} className="bg-slate-900">2025</option>
+                <option value={2026}>2026</option>
+                <option value={2025}>2025</option>
               </select>
             </div>
             <div className="flex items-center px-4 py-2">
               <select 
                 value={month} 
                 onChange={(e) => setMonth(Number(e.target.value))}
-                className="text-xs font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer"
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
-                  <option key={m} value={Number(m)} className="bg-slate-900">{label}</option>
+                  <option key={m} value={Number(m)}>{label}</option>
                 ))}
               </select>
             </div>
           </div>
-          
+        </div>
+
+        <div className="flex items-center gap-3">
           {(loadingDre || loadingBp) && (
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl animate-pulse">
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm animate-pulse">
               <Loader2 size={14} className="animate-spin text-secondary" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Sync...</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Sincronizando...</span>
             </div>
           )}
         </div>
       </div>
+
 
       {/* CFO Executive Insights */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -208,7 +200,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
                 <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">{m.label}</p>
-                <Semaphore status={m.sem} />
+                <Semaphore status={m.sem as 'Verde' | 'Amarelo' | 'Vermelho'} />
               </div>
               <p className="text-2xl font-display font-black tracking-tight text-primary group-hover:text-secondary transition-colors">
                 {m.value}

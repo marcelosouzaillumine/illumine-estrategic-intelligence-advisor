@@ -27,6 +27,10 @@ export function useFinancialData(clientId: string, year: number, month: number, 
       const allEntries: any[] = [];
       snap.docs.forEach(doc => {
         const docData = doc.data() as any;
+        
+        // Only show approved or legacy (without status) data in dashboards
+        if (docData.status === 'pending' || docData.status === 'rejected') return;
+
         if (Array.isArray(docData.data)) {
           docData.data.forEach((entry: any) => {
             allEntries.push({
@@ -92,6 +96,10 @@ export function useAllFinancialData(clientId: string) {
       const allEntries: any[] = [];
       snap.docs.forEach(doc => {
         const docData = doc.data() as any;
+
+        // Only show approved or legacy (without status) data in dashboards
+        if (docData.status === 'pending' || docData.status === 'rejected') return;
+
         if (Array.isArray(docData.data)) {
           docData.data.forEach((entry: any) => {
             allEntries.push({
@@ -176,8 +184,12 @@ export function useAnnualFinancialData(
       const ids: string[] = [];
 
       snap.docs.forEach(docSnap => {
-        ids.push(docSnap.id);
         const docData = docSnap.data() as any;
+
+        // Only show approved or legacy (without status) data in dashboards
+        if (docData.status === 'pending' || docData.status === 'rejected') return;
+
+        ids.push(docSnap.id);
         if (Array.isArray(docData.data)) {
           // Para Balanço Patrimonial, tentamos inferir o tipo se estiver faltando
           let lastType = 'ativo';

@@ -5,13 +5,26 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatCurrency(value: number) {
-  return new Intl.NumberFormat('pt-BR', {
+let activeCurrency = 'BRL';
+
+export function setActiveCurrency(code: string) {
+  activeCurrency = code;
+}
+
+export function formatCurrency(value: number, currencyCode: string = activeCurrency) {
+  const locales: Record<string, string> = {
+    'BRL': 'pt-BR',
+    'USD': 'en-US',
+    'EUR': 'de-DE',
+    'GBP': 'en-GB'
+  };
+
+  return new Intl.NumberFormat(locales[currencyCode] || 'pt-BR', {
     style: 'currency',
-    currency: 'BRL',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(Math.floor(value));
+    currency: currencyCode,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
 }
 
 export function formatDate(date: string | Date) {
@@ -20,8 +33,10 @@ export function formatDate(date: string | Date) {
   return d.toLocaleDateString('pt-BR');
 }
 
-export function formatValue(val: number, un: string) {
-  if (un === 'R$' || un === 'BRL') return formatCurrency(val);
+export function formatValue(val: number, un: string, currencyCode: string = activeCurrency) {
+  if (un === 'R$' || un === 'BRL' || un === 'USD' || un === 'EUR' || un === 'GBP' || un === 'currency') {
+    return formatCurrency(val, currencyCode);
+  }
   if (un === '%') {
     // Standardize: if value is < 1 (e.g. 0.242), multiply by 100. If > 1, assume it's already a percentage.
     const displayVal = (val > -1 && val < 1) ? val * 100 : val;
@@ -70,4 +85,58 @@ export function calculatePayback(flows: number[]) {
     }
   }
   return null;
+}
+
+export function validateCNPJ(cnpj: string) {
+  cnpj = cnpj.replace(/[^\d]+/g, '');
+  if (cnpj.length !== 14 || !!cnpj.match(/(\d)\1{13}/)) return false;
+  let length = cnpj.length - 2;
+  let numbers = cnpj.substring(0, length);
+  const digits = cnpj.substring(length);
+  let sum = 0;
+  let pos = length - 7;
+  for (let i = length; i >= 1; i--) {
+    sum += parseInt(numbers.charAt(length - i)) * pos--;
+    if (pos < 2) pos = 9;
+  }
+  let result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
+  if (result !== parseInt(digits.charAt(0))) return false;
+  length = length + 1;
+  numbers = cnpj.substring(0, length);
+  sum = 0;
+  pos = length - 7;
+  for (let i = length; i >= 1; i--) {
+    sum += parseInt(numbers.charAt(length - i)) * pos--;
+    if (pos < 2) pos = 9;
+  }
+  result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
+  if (result !== parseInt(digits.charAt(1))) return false;
+  return true;
+}
+
+export function validateCPF(cpf: string) {
+  cpf = cpf.replace(/[^\d]+/g, '');
+  if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) return false;
+  let s = 0;
+  for (let i = 0; i < 9; i++) s += parseInt(cpf.charAt(i)) * (10 - i);
+  let r = 11 - (s % 11);
+  if (r === 10 || r === 11) r = 0;
+  if (r !== parseInt(cpf.charAt(9))) return false;
+  s = 0;
+  for (let i = 0; i < 10; i++) s += parseInt(cpf.charAt(i)) * (11 - i);
+  r = 11 - (s % 11);
+  if (r === 10 || r === 11) r = 0;
+  if (r !== parseInt(cpf.charAt(10))) return false;
+  return true;
+}
+
+export function formatDoc(doc: string) {
+  const clean = doc.replace(/\D/g, '');
+  if (clean.length === 11) {
+    return clean.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  }
+  if (clean.length === 14) {
+    return clean.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+  }
+  return doc;
 }

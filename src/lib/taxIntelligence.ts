@@ -141,7 +141,8 @@ export const calculateTaxImpact = (diagnosis: TaxReformDiagnosis, scenario: TaxR
   const isValue = futureBase * scenarioIS;
   
   // Credits (Non-cumulativity)
-  const operatingCosts = diagnosis.faturamentoMensal * (1 - (diagnosis.margemEBITDA || 0.2));
+  const safeEbitdaMargin = isNaN(Number(diagnosis.margemEBITDA)) ? 0.2 : Number(diagnosis.margemEBITDA);
+  const operatingCosts = diagnosis.faturamentoMensal * (1 - safeEbitdaMargin);
   const creditBasis = operatingCosts * 0.7; // Estimated credit-eligible costs
   const newCredits = creditBasis * (scenario.cbsRate + scenario.ibsRate);
   

@@ -104,40 +104,45 @@ export function CulturaFeedbackPage({ clientId }: { clientId: string }) {
       <PageHeader
         title="Análise da Cultura de Feedback"
         subtitle="Avalie a maturidade da comunicação e o impacto do programa de feedback no desenvolvimento da equipe."
-        actions={
+      />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 overflow-x-auto max-w-md">
+            {[
+              { id: 'overview', label: 'PANORAMA', icon: BarChart },
+              { id: 'assessment', label: 'AVALIAÇÃO', icon: ShieldCheck },
+              { id: 'recommendations', label: 'EVOLUÇÃO', icon: Zap },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-black transition-all uppercase tracking-widest whitespace-nowrap",
+                  activeTab === tab.id 
+                    ? "bg-white text-primary shadow-sm" 
+                    : "text-slate-400 hover:text-slate-600"
+                )}
+              >
+                <tab.icon size={14} />
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
           <button 
             onClick={handleSave}
             disabled={isSaving || loading}
-            className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-all disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-all disabled:opacity-50"
           >
             <Zap size={16} fill="currentColor" />
             {isSaving ? 'Salvando...' : 'Salvar Diagnóstico'}
           </button>
-        }
-      />
-
-      {/* Navigation Tabs */}
-      <div className="flex gap-2 p-1.5 bg-bg-surface/50 backdrop-blur-xl border border-white/20 rounded-2xl w-fit">
-        {[
-          { id: 'overview', label: 'Panorama Geral', icon: BarChart },
-          { id: 'assessment', label: 'Avaliação do Programa', icon: ShieldCheck },
-          { id: 'recommendations', label: 'Plano de Evolução', icon: Zap },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
-            className={cn(
-              "flex items-center gap-3 px-6 py-3 rounded-xl text-xs font-bold transition-all",
-              activeTab === tab.id 
-                ? "bg-white text-primary shadow-premium" 
-                : "text-text-dim hover:text-text-main"
-            )}
-          >
-            <tab.icon size={16} />
-            {tab.label}
-          </button>
-        ))}
+        </div>
       </div>
+
 
       <AnimatePresence mode="wait">
         {activeTab === 'overview' && (

@@ -20,7 +20,7 @@ import { useModuleData } from '../../hooks/useModuleData';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
 import { ObjetivoOKR, KR, EixoGestao } from '../../types/modules';
 import { cn, formatValue, formatCurrency } from '../../lib/utils';
-import { SectionHeader } from '../Common';
+import { PageHeader, SectionHeader } from '../Common';
 
 const EIXOS: EixoGestao[] = [
   'Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
@@ -122,23 +122,38 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
 
   return (
     <div className="space-y-8 pb-32">
-      <div className="flex justify-between items-center bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
-        <div className="flex items-center gap-6">
-          <div className="w-16 h-16 rounded-3xl bg-primary flex items-center justify-center text-white shadow-xl shadow-primary/20">
-             <Target size={32} />
-          </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">OKRs e Metas</h2>
-            <p className="text-slate-400 text-sm font-medium uppercase tracking-[0.2em]">Planejamento Estratégico por Resultados</p>
+      <PageHeader 
+        title="OKRs e Metas" 
+        subtitle="Planejamento estratégico de alto impacto focado em resultados mensuráveis."
+        icon={Target}
+        color="bg-slate-900"
+      />
+
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <TrendingUp size={14} className="text-secondary" />
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Monitoramento de Performance Ativo</span>
+            </div>
           </div>
         </div>
-        <button
-          onClick={() => { setShowForm(!showForm); if(!showForm) setEditingId(null); }}
-          className="flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-3xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-primary/20 transition-all shrink-0"
-        >
-          {showForm ? 'Cancelar' : <><Plus size={16} /> Adicionar Objetivo</>}
-        </button>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => { setShowForm(!showForm); if(!showForm) setEditingId(null); }}
+            className={cn(
+              "flex items-center gap-2 px-8 py-3.5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all",
+              showForm 
+                ? "bg-slate-100 text-slate-600 border border-slate-200" 
+                : "bg-primary text-white shadow-xl shadow-primary/20 hover:scale-105"
+            )}
+          >
+            {showForm ? 'CANCELAR' : <><Plus size={16} /> ADICIONAR OBJETIVO</>}
+          </button>
+        </div>
       </div>
+
 
       <AnimatePresence>
         {showForm && (

@@ -192,20 +192,15 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
 
   return (
     <div className="space-y-12 pb-32 animate-executive-fade">
-      {/* Hero Section with Integrated Score */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        
-        <div className="relative z-10 flex-1 overflow-hidden min-w-0">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center shrink-0">
-              <Presentation size={20} className="text-secondary" />
-            </div>
-            <h1 className="text-3xl font-display font-black tracking-tight truncate">Conselho Estrategico CFO</h1>
-          </div>
-          <p className="text-slate-400 text-sm font-medium truncate">Inteligência integrada para análise da geração de valor.</p>
-        </div>
-      </div>
+      <PageHeader 
+        title="Conselho Estratégico CFO"
+        subtitle="Inteligência integrada para análise da geração de valor e saúde financeira proativa."
+        icon={Presentation}
+        color="bg-slate-900"
+      />
+
+      <div className="mb-10 -mt-6"></div>
+
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Main Content Area */}
