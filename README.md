@@ -34,4 +34,4 @@ Run rules behavior tests using Firestore emulator:
 - Documentation: `docs/`
 - Stories: `docs/stories/`
 
-- 
+- .
