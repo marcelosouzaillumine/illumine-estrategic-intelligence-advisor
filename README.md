@@ -33,3 +33,5 @@ Run rules behavior tests using Firestore emulator:
 - Current workflow phase: environment bootstrap
 - Documentation: `docs/`
 - Stories: `docs/stories/`
+
+- .
