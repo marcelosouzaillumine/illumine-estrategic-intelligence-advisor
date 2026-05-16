@@ -6,7 +6,8 @@ service cloud.firestore {
     match /{allPaths=**} {
       allow read, write: if request.auth != null && (
         request.auth.token.email.matches('(?i)marcelo\\.illuminecoaching@gmail\\.com') ||
-        request.auth.token.email.matches('(?i)marcelosouza\\.illumine@gmail\\.com')
+        request.auth.token.email.matches('(?i)marcelosouza\\.illumine@gmail\\.com') ||
+        request.auth.token.email.matches('(?i)avivacolonia@gmail\\.com')
       );
     }
 
@@ -22,7 +23,8 @@ service cloud.firestore {
     function isMasterAdmin() {
       return isSignedIn() && (
         request.auth.token.email.matches('(?i)marcelo\\.illuminecoaching@gmail\\.com') ||
-        request.auth.token.email.matches('(?i)marcelosouza\\.illumine@gmail\\.com')
+        request.auth.token.email.matches('(?i)marcelosouza\\.illumine@gmail\\.com') ||
+        request.auth.token.email.matches('(?i)avivacolonia@gmail\\.com')
       );
     }
 
