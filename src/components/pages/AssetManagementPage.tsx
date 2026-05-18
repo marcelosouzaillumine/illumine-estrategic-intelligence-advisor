@@ -42,10 +42,10 @@ import {
 import { db } from '../../lib/firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
-import { cn, formatCurrency } from '../../lib/utils';
+import { cn, formatCurrency, getThemeColors } from '../../lib/utils';
 import { DATA } from '../../data';
 import { FULL_MONTH_LABELS } from '../../constants';
-import { PageHeader, Semaphore } from '../Common';
+import { PageHeader, Semaphore, ControlBar } from '../Common';
 import { AssetModal } from '../modals/AssetModal';
 import { fetchBenchmarks, MarketBenchmark } from '../../services/marketService';
 
@@ -61,6 +61,15 @@ const ASSETS: any[] = [];
 export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: any) {
   const [assets, setAssets] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [, setThemeTrigger] = useState(0);
+  useEffect(() => {
+    const handleThemeChange = () => setThemeTrigger(prev => prev + 1);
+    window.addEventListener('theme-changed', handleThemeChange);
+    return () => window.removeEventListener('theme-changed', handleThemeChange);
+  }, []);
+
+  const colors = getThemeColors();
   const [year, setYear] = useState(selectedYear || 2026);
   const [month, setMonth] = useState(selectedMonth || 5);
   const [searchTerm, setSearchTerm] = useState('');
@@ -152,15 +161,15 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
 
   // Allocation Data
   const allocationData = useMemo(() => {
-    const categories: Record<string, number> = {};
     const colors: Record<string, string> = {
-      'Renda Fixa': '#3b82f6',
-      'Ações': '#f59e0b',
-      'Tesouro': '#10b981',
-      'Internacional': '#8b5cf6',
-      'Outros': '#94a3b8'
+      'Renda Fixa': 'var(--color-primary)',
+      'Ações': 'var(--color-secondary)',
+      'Tesouro': 'var(--color-success)',
+      'Internacional': 'var(--color-tertiary)',
+      'Outros': 'var(--color-muted-foreground)'
     };
 
+    const categories: Record<string, number> = {};
     assets.forEach(a => {
       categories[a.category] = (categories[a.category] || 0) + a.value;
     });
@@ -228,6 +237,23 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
   }, [assets, totalProfit]);
 
 
+  if (!clientId) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade text-center p-20 bg-white border border-slate-200 rounded-[32px] w-full">
+         <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center text-secondary shadow-xl relative">
+            <div className="absolute inset-0 bg-secondary blur-3xl opacity-20 animate-pulse" />
+            <Briefcase size={48} className="relative z-10 animate-pulse" />
+         </div>
+         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
+            <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Selecione uma Empresa</h2>
+            <p className="text-slate-500 w-full max-w-2xl mx-auto font-medium leading-relaxed">
+              Por favor, selecione uma empresa no seletor de cliente ativo no topo da tela para visualizar o painel de ativos.
+            </p>
+         </div>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
@@ -244,9 +270,9 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
             <div className="absolute inset-0 bg-secondary blur-3xl opacity-20 animate-pulse" />
             <Briefcase size={64} className="relative z-10" />
          </div>
-         <div className="text-center space-y-4">
+         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
             <h2 className="text-3xl font-display font-black text-slate-900 tracking-tight">Gestão de Ativos Indisponível</h2>
-            <p className="text-slate-500 max-w-md mx-auto font-medium leading-relaxed">
+            <p className="text-slate-500 w-full max-w-2xl mx-auto font-medium leading-relaxed">
               Não foram encontrados ativos financeiros registrados para este cliente no período selecionado. Importe seus ativos ou adicione-os manualmente para iniciar o monitoramento.
             </p>
          </div>
@@ -260,7 +286,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
              >
                <Plus size={16} className="inline mr-2" /> Adicionar Primeiro Ativo
              </button>
-            <button className="px-8 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-200 transition-all">
+            <button className="px-5 md:px-8 py-2.5 md:py-4 bg-slate-100 text-slate-600 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-200 transition-all">
               <Download size={16} className="inline mr-2" /> Importar Dados
             </button>
          </div>
@@ -285,53 +311,30 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
         color="bg-slate-900"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-slate-100">
-              <Calendar size={14} className="text-secondary mr-2" />
-              <select 
-                value={year} 
-                onChange={(e) => setYear(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors appearance-none pr-1"
-              >
-                {[2024, 2025, 2026].map(y => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-center px-4 py-2">
-              <select 
-                value={month} 
-                onChange={(e) => setMonth(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors appearance-none pr-1"
-              >
-                {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
-                  <option key={m} value={Number(m)}>{label}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="h-8 w-px bg-slate-200 mx-2" />
-
-          <button className="px-6 py-3 bg-white border border-slate-200 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm">
-            <Download size={14} /> IMPORTAR ATIVOS
+      {/* Control Bar */}
+      <ControlBar 
+        selectedYear={year}
+        setSelectedYear={setYear}
+        selectedMonth={month}
+        setSelectedMonth={setMonth}
+        actions={
+          <button 
+            onClick={() => {
+              setEditingAsset(null);
+              setIsModalOpen(true);
+            }}
+            className="px-8 py-3.5 bg-secondary text-primary hover:bg-white hover:scale-[1.02] rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-xl shadow-secondary/10 cursor-pointer"
+          >
+            <Plus size={16} /> NOVO ATIVO
           </button>
-        </div>
+        }
+      >
+        <div className="h-8 w-px bg-border mx-2" />
 
-        <div className="flex items-center gap-3">
-           <button 
-             onClick={() => {
-               setEditingAsset(null);
-               setIsModalOpen(true);
-             }}
-             className="px-8 py-3.5 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
-           >
-             <Plus size={16} /> NOVO ATIVO
-           </button>
-        </div>
-      </div>
+        <button className="px-4 md:px-6 py-2 md:py-3 bg-surface-container hover:bg-primary hover:text-white text-foreground border border-border rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-sm cursor-pointer">
+          <Download size={14} /> IMPORTAR ATIVOS
+        </button>
+      </ControlBar>
 
 
       {/* CFO Executive Insights */}
@@ -407,22 +410,22 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                 <AreaChart data={performanceHistory}>
                   <defs>
                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                      <stop offset="5%" stopColor={colors.primary} stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor={colors.primary} stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
                   <XAxis 
                     dataKey="month" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }}
+                    tick={{ fill: colors.mutedForeground, fontSize: 10, fontWeight: 700 }}
                     dy={10}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }}
+                    tick={{ fill: colors.mutedForeground, fontSize: 10, fontWeight: 700 }}
                     tickFormatter={(val) => {
                       if (val >= 1000000) return `R$ ${(val/1000000).toFixed(1)}M`;
                       if (val >= 1000) return `R$ ${(val/1000).toFixed(0)}K`;
@@ -432,8 +435,10 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                   <Tooltip 
                     contentStyle={{ 
                       borderRadius: '16px', 
-                      border: 'none', 
-                      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
+                      border: `1px solid ${colors.border}`, 
+                      backgroundColor: colors.cardBg,
+                      color: colors.cardFg,
+                      boxShadow: 'var(--shadow-md)',
                       fontSize: '12px'
                     }} 
                     formatter={(val: number) => [formatCurrency(val), 'Valor Total']}
@@ -441,7 +446,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                   <Area 
                     type="monotone" 
                     dataKey="value" 
-                    stroke="#3b82f6" 
+                    stroke={colors.primary} 
                     strokeWidth={3}
                     fillOpacity={1} 
                     fill="url(#colorValue)" 
@@ -454,33 +459,35 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
         {/* Asset Allocation */}
         <div className="space-y-4">
           <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Alocação por Classe</h2>
-          <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm h-[400px] flex flex-col items-center justify-center">
-            <ResponsiveContainer width="100%" height={250}>
-              <PieChart>
-                <Pie
-                  data={allocationData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {allocationData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  formatter={(val: number) => formatCurrency(val)}
-                  contentStyle={{ borderRadius: '16px', border: 'none' }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+          <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm h-[400px] flex flex-col items-center justify-between">
+            <div className="w-full h-[250px] relative z-10">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={allocationData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={80}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {allocationData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    formatter={(val: number) => formatCurrency(val)}
+                    contentStyle={{ borderRadius: '16px', border: 'none' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
             <div className="grid grid-cols-2 gap-x-8 gap-y-2 mt-4 w-full">
                {allocationData.map((item) => (
                  <div key={item.name} className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter truncate">{item.name}</span>
+                    <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter">{item.name}</span>
                     <span className="text-[9px] font-black text-slate-900 ml-auto">{(item.value / totalValue * 100).toFixed(0)}%</span>
                  </div>
                ))}

@@ -446,17 +446,17 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
           <div>
             <button 
               onClick={() => setView('list')}
-              className="group flex items-center gap-2 text-[10px] font-black text-text-dim uppercase tracking-[0.2em] hover:text-secondary transition-all mb-4"
+              className="group flex items-center gap-2 text-body-sm font-medium text-muted-foreground uppercase tracking-widest hover:text-secondary transition-all mb-4"
             >
-              <div className="w-6 h-6 rounded-full border border-border-main flex items-center justify-center group-hover:border-secondary transition-all">
+              <div className="w-6 h-6 rounded-full border border-border flex items-center justify-center group-hover:border-secondary transition-all">
                 <ChevronLeft size={12} />
               </div>
               Voltar para lista
             </button>
-            <h2 className="text-4xl font-display font-black text-text-main tracking-tight">
+            <h2 className="text-h1 font-medium text-foreground tracking-tight">
               {editingId ? 'Alterar Cadastro' : 'Cadastrar Empresa'}
             </h2>
-            <p className="text-text-muted text-sm mt-3 font-sans max-w-xl leading-relaxed">
+            <p className="text-muted-foreground text-body-md mt-3 font-sans max-w-xl leading-relaxed">
               Configure as informações estratégicas, estrutura societária e parâmetros tributários da organização.
             </p>
           </div>
@@ -479,7 +479,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
 
         <div className="card-premium p-0 overflow-hidden flex flex-col border-none shadow-floating">
           {/* Executive Tabs Navigation */}
-          <div className="flex bg-bg-surface border-b border-border-main p-2 gap-1 overflow-x-auto no-scrollbar">
+          <div className="flex bg-surface-container border-b border-border p-2 gap-1 overflow-x-auto no-scrollbar">
             {[
               { id: 'dados', label: 'Empresa', icon: Building2 },
               { id: 'estrutura', label: 'Estrutura', icon: LayoutGrid },
@@ -495,15 +495,15 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                 key={tab.id}
                 onClick={() => setActiveFormTab(tab.id as any)}
                 className={cn(
-                  "relative flex items-center gap-3 px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all rounded-standard whitespace-nowrap",
+                  "relative flex items-center gap-3 px-6 py-4 text-body-sm font-medium uppercase tracking-widest transition-all rounded-button whitespace-nowrap",
                   activeFormTab === tab.id 
-                    ? "bg-bg-card text-secondary shadow-premium border border-border-main" 
-                    : "text-text-dim hover:text-text-main hover:bg-bg-card/50"
+                    ? "bg-card text-secondary shadow-md border border-border" 
+                    : "text-muted-foreground hover:text-foreground hover:bg-surface-container-high"
                 )}
               >
                 {(() => {
                   const Icon = tab.icon;
-                  return <Icon size={14} strokeWidth={1.5} className={cn(activeFormTab === tab.id ? "text-secondary" : "text-text-dim")} />;
+                  return <Icon size={14} strokeWidth={1.5} className={cn(activeFormTab === tab.id ? "text-secondary" : "text-muted-foreground")} />;
                 })()}
                 {tab.label}
                 {activeFormTab === tab.id && (
@@ -516,18 +516,18 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
             ))}
           </div>
 
-          <div className="p-12 flex-1 bg-bg-card">
+          <div className="p-12 flex-1 bg-card">
             {activeFormTab === 'dados' && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-10">
                 {/* 1. Perfil Estratégico Section */}
-                <div className="bg-white/50 p-8 rounded-[32px] border border-border-main space-y-6">
+                <div className="bg-surface-container/50 p-8 rounded-md border border-border space-y-6">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+                    <div className="w-8 h-8 rounded-button bg-secondary/10 flex items-center justify-center text-secondary">
                       <Sparkles size={16} />
                     </div>
                     <div>
-                      <h3 className="text-[11px] font-black text-text-main uppercase tracking-[0.2em]">Perfil Estratégico</h3>
-                      <p className="text-[9px] text-text-dim font-bold uppercase tracking-widest">Defina a natureza e os parâmetros de gestão</p>
+                      <h3 className="text-body-sm font-medium text-foreground uppercase tracking-widest">Perfil Estratégico</h3>
+                      <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Defina a natureza e os parâmetros de gestão</p>
                     </div>
                   </div>
 
@@ -537,7 +537,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                       <select 
                         value={formData.type}
                         onChange={(e) => setFormData({...formData, type: e.target.value as any})}
-                        className="w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all shadow-inner-soft"
+                        className="w-full px-5 py-3.5 bg-background border border-border rounded-md text-body-sm font-medium outline-none focus:border-secondary transition-all shadow-sm"
                       >
                         <option value="for-profit">Com Fins Lucrativos</option>
                         <option value="third-sector">Terceiro Setor (ONG/OSC)</option>
@@ -548,7 +548,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                       <select 
                         value={formData.origin}
                         onChange={(e) => setFormData({...formData, origin: e.target.value as any})}
-                        className="w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all shadow-inner-soft"
+                        className="w-full px-5 py-3.5 bg-background border border-border rounded-md text-body-sm font-medium outline-none focus:border-secondary transition-all shadow-sm"
                       >
                         <option value="nacional">Nacional (Brasil)</option>
                         <option value="internacional">Internacional</option>
@@ -559,7 +559,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                       <select 
                         value={formData.currency}
                         onChange={(e) => setFormData({...formData, currency: e.target.value as any})}
-                        className="w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all shadow-inner-soft"
+                        className="w-full px-5 py-3.5 bg-background border border-border rounded-md text-body-sm font-medium outline-none focus:border-secondary transition-all shadow-sm"
                       >
                         <option value="BRL">Real (BRL)</option>
                         <option value="USD">Dólar (USD)</option>
@@ -574,8 +574,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                         onChange={(e) => setFormData({...formData, status: e.target.value})}
                         disabled={!isMaster}
                         className={cn(
-                          "w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none transition-all shadow-inner-soft",
-                          isMaster ? "focus:border-secondary" : "opacity-70 bg-slate-50 cursor-not-allowed"
+                          "w-full px-5 py-3.5 bg-background border border-border rounded-md text-body-sm font-medium outline-none transition-all shadow-sm",
+                          isMaster ? "focus:border-secondary" : "opacity-70 bg-surface-container cursor-not-allowed"
                         )}
                       >
                         <option value="Em Implantação">Em Implantação</option>
@@ -589,15 +589,15 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                     <motion.div 
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
-                      className="p-6 bg-emerald-50/50 border border-emerald-100 rounded-[24px] flex items-center justify-between"
+                      className="p-6 bg-success/10 border border-success/20 rounded-md flex items-center justify-between"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600">
+                        <div className="w-10 h-10 rounded-button bg-success/10 flex items-center justify-center text-success">
                           <LayoutGrid size={20} />
                         </div>
                         <div>
-                          <p className="text-xs font-black text-emerald-900 uppercase tracking-tight">Gestão por Projetos</p>
-                          <p className="text-[9px] font-bold text-emerald-600/70 uppercase tracking-widest mt-0.5">Segregação automática de registros por projeto</p>
+                          <p className="text-body-sm font-medium text-success uppercase tracking-tight">Gestão por Projetos</p>
+                          <p className="text-[9px] font-medium text-success/70 uppercase tracking-widest mt-0.5">Segregação automática de registros por projeto</p>
                         </div>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
@@ -615,14 +615,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
 
                 <div className="grid grid-cols-1 gap-10">
                   {/* 2. Identificação Section */}
-                  <div className="bg-white/50 p-8 rounded-[32px] border border-border-main space-y-8">
+                  <div className="bg-surface-container/50 p-8 rounded-md border border-border space-y-8">
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                      <div className="w-8 h-8 rounded-button bg-primary/10 flex items-center justify-center text-primary">
                         <Building2 size={16} />
                       </div>
                       <div>
-                        <h3 className="text-[11px] font-black text-text-main uppercase tracking-[0.2em]">Identificação Jurídica</h3>
-                        <p className="text-[9px] text-text-dim font-bold uppercase tracking-widest">Dados oficiais e vínculos de gestão</p>
+                        <h3 className="text-body-sm font-medium text-foreground uppercase tracking-widest">Identificação Jurídica</h3>
+                        <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Dados oficiais e vínculos de gestão</p>
                       </div>
                     </div>
 
@@ -646,31 +646,31 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                               }}
                               placeholder={formData.origin === 'nacional' ? "00.000.000/0000-00" : "Registration ID"}
                               className={cn(
-                                "w-full pl-12 pr-6 py-4 bg-bg-surface border rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all shadow-inner-soft",
-                                validationErrors.cnpj ? "border-rose-500" : "border-border-main"
+                                "w-full pl-12 pr-6 py-4 bg-background border rounded-md text-body-sm font-medium outline-none focus:border-secondary transition-all shadow-sm",
+                                validationErrors.cnpj ? "border-destructive" : "border-border"
                               )}
                             />
-                            <ShieldCheck size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+                            <ShieldCheck size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
                           </div>
                           {formData.origin === 'nacional' && (
                             <button 
                               onClick={fetchCNPJ}
                               disabled={loading || cnpjQuery.replace(/\D/g, '').length !== 14 || !!validationErrors.cnpj}
-                              className="btn-executive py-4 px-8 whitespace-nowrap bg-primary text-white"
+                              className="btn-executive whitespace-nowrap bg-primary"
                             >
                               {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
                               SINCRONIZAR
                             </button>
                           )}
                         </div>
-                        {validationErrors.cnpj && <p className="text-[10px] text-rose-500 font-black mt-2 uppercase tracking-widest">{validationErrors.cnpj}</p>}
+                        {validationErrors.cnpj && <p className="text-[10px] text-destructive font-medium mt-2 uppercase tracking-widest">{validationErrors.cnpj}</p>}
                       </div>
                       {error && (
-                        <div className="mt-4 p-4 bg-rose-50 border border-rose-100 rounded-standard flex items-start gap-3">
-                          <AlertCircle size={16} className="text-rose-500 shrink-0 mt-0.5" />
+                        <div className="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-md flex items-start gap-3">
+                          <AlertCircle size={16} className="text-destructive shrink-0 mt-0.5" />
                           <div>
-                            <p className="text-[10px] font-black text-rose-700 uppercase tracking-widest mb-1">Erro de Sincronização</p>
-                            <p className="text-xs text-rose-600/80 font-medium leading-relaxed">{error}</p>
+                            <p className="text-body-sm font-medium text-destructive uppercase tracking-widest mb-1">Erro de Sincronização</p>
+                            <p className="text-body-sm text-destructive/80 font-medium leading-relaxed">{error}</p>
                           </div>
                         </div>
                       )}
@@ -687,8 +687,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                             validateField('razao', e.target.value);
                           }}
                           className={cn(
-                            "w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none transition-all",
-                            validationErrors.razao ? "border-rose-300" : "focus:border-secondary"
+                            "w-full px-5 py-3.5 bg-background border border-border rounded-md text-body-sm font-medium outline-none transition-all",
+                            validationErrors.razao ? "border-destructive/50" : "focus:border-secondary"
                           )}
                         />
                       </div>
@@ -702,14 +702,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                             validateField('fantasia', e.target.value);
                           }}
                           className={cn(
-                            "w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none transition-all",
-                            validationErrors.fantasia ? "border-rose-300" : "focus:border-secondary"
+                            "w-full px-5 py-3.5 bg-background border border-border rounded-md text-body-sm font-medium outline-none transition-all",
+                            validationErrors.fantasia ? "border-destructive/50" : "focus:border-secondary"
                           )}
                         />
                       </div>
                     </div>
 
-                    <div className="pt-6 border-t border-border-soft flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div className="pt-6 border-t border-border flex flex-col md:flex-row md:items-center justify-between gap-6">
                       <div className="flex-1">
                         <label className="text-label">Parceiro Estratégico Responsável</label>
                         <select 
@@ -717,8 +717,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                           onChange={(e) => setFormData({...formData, partnerId: e.target.value})}
                           disabled={!isMaster}
                           className={cn(
-                            "w-full px-5 py-3.5 bg-bg-surface border border-border-main rounded-2xl text-xs font-bold outline-none focus:border-secondary transition-all",
-                            !isMaster && "opacity-70 bg-slate-50 cursor-not-allowed"
+                            "w-full px-5 py-3.5 bg-background border border-border rounded-sm text-body-sm font-medium outline-none focus:border-secondary transition-all shadow-inner",
+                            !isMaster && "opacity-70 bg-surface-container cursor-not-allowed"
                           )}
                         >
                           {isMaster && <option value="">Atendimento Direto (Sem Parceiro)</option>}
@@ -728,7 +728,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                           ))}
                         </select>
                       </div>
-                      <div className="flex items-center gap-3 bg-bg-surface p-4 rounded-2xl border border-border-main shrink-0">
+                      <div className="flex items-center gap-3 bg-background p-4 rounded-sm border border-border shrink-0 shadow-inner">
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input 
                             type="checkbox" 
@@ -736,8 +736,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                             checked={formData.isModel}
                             onChange={(e) => setFormData({...formData, isModel: e.target.checked})}
                           />
-                          <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
-                          <span className="ml-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Empresa Modelo</span>
+                          <div className="w-11 h-6 bg-surface-container rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+                          <span className="ml-3 text-[10px] font-medium text-muted-foreground uppercase tracking-widest italic">Empresa Modelo</span>
                         </label>
                       </div>
                     </div>
@@ -750,16 +750,16 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                           exit={{ opacity: 0, height: 0 }}
                           className="overflow-hidden"
                         >
-                          <div className="p-6 bg-indigo-50/40 rounded-[24px] border border-indigo-100/50 space-y-6">
+                          <div className="p-8 bg-secondary/5 rounded-sm border border-secondary/10 space-y-6 shadow-inner">
                             <div className="flex items-center justify-between">
                               <div>
-                                <h4 className="text-[10px] font-black text-indigo-900 uppercase tracking-tight flex items-center gap-2">
-                                  <Sparkles size={14} className="text-indigo-600" /> Parâmetros de Geração IA
+                                <h4 className="text-[10px] font-medium text-secondary uppercase tracking-widest flex items-center gap-2">
+                                  <Sparkles size={14} /> Parâmetros de Geração IA
                                 </h4>
                               </div>
                               <button 
                                 onClick={() => setIsAIModalOpen(true)}
-                                className="py-2 px-4 bg-indigo-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center gap-2"
+                                className="btn-executive bg-secondary shadow-xl shadow-secondary/20"
                               >
                                 <Sparkles size={12} /> GERAR DADOS
                               </button>
@@ -773,7 +773,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                                 { id: 'operacional', label: 'Operacional' },
                               ].map(axis => (
                                 <div key={axis.id} className="space-y-1.5">
-                                  <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{axis.label}</label>
+                                  <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">{axis.label}</label>
                                   <textarea 
                                     value={(formData.modelAxisDescriptions as any)?.[axis.id] || ''}
                                     onChange={(e) => setFormData({
@@ -784,7 +784,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                                       } as any
                                     })}
                                     rows={1}
-                                    className="w-full px-4 py-2.5 bg-white border border-border-main rounded-xl text-[11px] font-bold text-slate-700 outline-none focus:border-indigo-500 transition-all resize-none"
+                                    className="w-full px-4 py-2.5 bg-card border border-border rounded-sm text-[11px] font-medium text-foreground outline-none focus:ring-1 focus:ring-secondary/20 transition-all resize-none shadow-sm italic"
                                   />
                                 </div>
                               ))}
@@ -794,23 +794,23 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                       )}
                     </AnimatePresence>
 
-                    <div className="pt-10 border-t border-border-soft space-y-6">
+                    <div className="pt-10 border-t border-border space-y-6">
                       <div className="flex items-center justify-between">
                         <div className="flex flex-col gap-1.5">
                           <label className="text-label mb-0">Quadro Societário</label>
-                          <span className="text-[10px] text-text-dim font-medium italic">* Percentuais calculados com base no capital social integralizado.</span>
+                          <span className="text-[10px] text-muted-foreground font-medium italic">* Percentuais calculados com base no capital social integralizado.</span>
                         </div>
                         <button 
                           onClick={() => setFormData({...formData, socios: [...formData.socios, { nome: '', participacao: 0 }]})}
-                          className="text-[10px] font-black text-secondary uppercase tracking-widest hover:underline flex items-center gap-2"
+                          className="text-body-sm font-medium text-secondary uppercase tracking-widest hover:underline flex items-center gap-2"
                         >
                           <Plus size={14} /> Adicionar Sócio
                         </button>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                         {formData.socios.map((s, idx) => (
-                          <div key={idx} className="flex items-center gap-4 p-4 bg-bg-surface border border-border-main rounded-standard relative group/socio hover:border-secondary/20 transition-all">
-                            <div className="w-10 h-10 rounded-full bg-bg-card border border-border-main flex items-center justify-center text-text-dim group-hover/socio:text-secondary transition-all shadow-sm shrink-0">
+                          <div key={idx} className="flex items-center gap-4 p-4 bg-surface-container border border-border rounded-md relative group/socio hover:border-secondary/20 transition-all">
+                            <div className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground group-hover/socio:text-secondary transition-all shadow-sm shrink-0">
                               <Users size={18} strokeWidth={1.5} />
                             </div>
                             <div className="flex-1 min-w-0">
@@ -823,7 +823,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                                   setFormData({...formData, socios: newSocios});
                                 }}
                                 placeholder="Nome do Sócio"
-                                className="w-full bg-transparent text-sm font-black text-text-main outline-none placeholder:text-text-dim/50"
+                                className="w-full bg-transparent text-body-sm font-medium text-foreground outline-none placeholder:text-muted-foreground/50"
                               />
                               <div className="flex items-center gap-2 mt-1">
                                 <input 
@@ -835,14 +835,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                                     setFormData({...formData, socios: newSocios});
                                   }}
                                   placeholder="0.00"
-                                  className="w-16 bg-transparent text-[11px] font-black text-secondary outline-none border-b border-transparent focus:border-secondary/30"
+                                  className="w-16 bg-transparent text-[11px] font-medium text-secondary outline-none border-b border-transparent focus:border-secondary/30"
                                 />
-                                <span className="text-[10px] text-text-dim font-bold uppercase tracking-widest">% participação</span>
+                                <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">% participação</span>
                               </div>
                             </div>
                             <button 
                               onClick={() => setFormData({...formData, socios: formData.socios.filter((_, i) => i !== idx)})}
-                              className="absolute -top-2 -right-2 w-8 h-8 bg-bg-card border border-border-main text-rose-500 rounded-full flex items-center justify-center opacity-0 group-hover/socio:opacity-100 transition-all shadow-floating hover:bg-rose-50"
+                              className="absolute -top-2 -right-2 w-8 h-8 bg-card border border-border text-destructive rounded-full flex items-center justify-center opacity-0 group-hover/socio:opacity-100 transition-all shadow-md hover:bg-destructive/5"
                             >
                               <X size={14} />
                             </button>
@@ -1094,8 +1094,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div className="space-y-6">
-                      <div className="card-premium bg-bg-surface/50 border-dashed">
-                        <h4 className="text-sm font-black text-text-main uppercase tracking-widest mb-6 flex items-center gap-3">
+                      <div className="card-premium bg-surface-container/50 border-dashed">
+                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest mb-6 flex items-center gap-3">
                           <Activity size={18} className="text-secondary" /> Unidades de Negócio
                         </h4>
                         <div className="flex gap-3 mb-6">
@@ -1104,7 +1104,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                             placeholder="Ex: Medicina Laboratorial"
                             value={tempUnit}
                             onChange={(e) => setTempUnit(e.target.value)}
-                            className="flex-1 px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                            className="flex-1 px-5 py-3 bg-card border border-border rounded-md text-body-sm outline-none focus:border-secondary transition-all"
                           />
                           <button 
                             onClick={() => {
@@ -1120,9 +1120,9 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                         </div>
                         <div className="flex flex-wrap gap-2">
                           {formData.unidadesNegocio.map((u, i) => (
-                            <span key={i} className="px-4 py-2 bg-bg-card border border-border-main rounded-full text-[10px] font-black text-text-muted flex items-center gap-2 shadow-sm">
+                            <span key={i} className="px-4 py-2 bg-card border border-border rounded-full text-[10px] font-medium text-muted-foreground flex items-center gap-2 shadow-sm">
                               {u}
-                              <button onClick={() => setFormData({...formData, unidadesNegocio: formData.unidadesNegocio.filter((_, idx) => idx !== i)})} className="text-rose-400 hover:text-rose-600 transition-colors">
+                              <button onClick={() => setFormData({...formData, unidadesNegocio: formData.unidadesNegocio.filter((_, idx) => idx !== i)})} className="text-destructive hover:text-destructive/80 transition-colors">
                                 <X size={14} />
                               </button>
                             </span>
@@ -1130,26 +1130,26 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                         </div>
                       </div>
 
-                      <div className="card-premium bg-bg-surface/50 border-dashed">
-                        <h4 className="text-sm font-black text-text-main uppercase tracking-widest mb-6 flex items-center gap-3">
+                      <div className="card-premium bg-surface-container/50 border-dashed">
+                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest mb-6 flex items-center gap-3">
                           <Landmark size={18} className="text-secondary" /> Centro de Custos Contábil
                         </h4>
                         <div className="space-y-4">
-                          <label className="text-[10px] font-black text-text-dim uppercase tracking-widest block px-1">Código / Nome do Centro de Custo</label>
+                          <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest block px-1">Código / Nome do Centro de Custo</label>
                           <input 
                             type="text" 
                             placeholder="Ex: 01.01 - Administração Central"
                             value={formData.centroCustosContabil || ''}
                             onChange={(e) => setFormData({...formData, centroCustosContabil: e.target.value})}
-                            className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                            className="w-full px-5 py-3 bg-card border border-border rounded-md text-body-sm outline-none focus:border-secondary transition-all"
                           />
                         </div>
                       </div>
                     </div>
 
                    <div className="space-y-6">
-                      <div className="card-premium bg-bg-surface/50 border-dashed">
-                        <h4 className="text-sm font-black text-text-main uppercase tracking-widest mb-6 flex items-center gap-3">
+                      <div className="card-premium bg-surface-container/50 border-dashed">
+                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest mb-6 flex items-center gap-3">
                           <Building2 size={18} className="text-secondary" /> Filiais e Filas
                         </h4>
                         <div className="space-y-4">
@@ -1157,14 +1157,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                             type="text" placeholder="Nome da Unidade / Filial"
                             value={tempBranch.nome}
                             onChange={(e) => setTempBranch({...tempBranch, nome: e.target.value})}
-                            className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                            className="w-full px-5 py-3 bg-card border border-border rounded-md text-body-sm outline-none focus:border-secondary transition-all"
                           />
                           <div className="flex gap-3">
                             <input 
                               type="text" placeholder="Cidade / UF"
                               value={tempBranch.cidade}
                               onChange={(e) => setTempBranch({...tempBranch, cidade: e.target.value})}
-                              className="flex-1 px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                              className="flex-1 px-5 py-3 bg-card border border-border rounded-md text-body-sm outline-none focus:border-secondary transition-all"
                             />
                             <button 
                               onClick={() => {
@@ -1179,17 +1179,17 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                         </div>
                         <div className="mt-8 space-y-3">
                           {formData.filiais.map((f, i) => (
-                            <div key={i} className="flex justify-between items-center bg-bg-card p-4 rounded-standard border border-border-main shadow-sm group">
+                            <div key={i} className="flex justify-between items-center bg-card p-4 rounded-md border border-border shadow-sm group">
                               <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 bg-bg-surface rounded-xl flex items-center justify-center text-text-dim group-hover:text-secondary transition-all"><MapPin size={16} /></div>
+                                <div className="w-10 h-10 bg-surface-container rounded-md flex items-center justify-center text-muted-foreground group-hover:text-secondary transition-all"><MapPin size={16} /></div>
                                 <div>
-                                  <p className="text-sm font-black text-text-main">{f.nome}</p>
-                                  <p className="text-[11px] text-text-dim font-bold uppercase tracking-widest">{f.cidade}</p>
+                                  <p className="text-body-sm font-medium text-foreground">{f.nome}</p>
+                                  <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest">{f.cidade}</p>
                                 </div>
                               </div>
                               <button 
                                 onClick={() => setFormData({...formData, filiais: formData.filiais.filter((_, idx) => idx !== i)})} 
-                                className="w-8 h-8 rounded-full flex items-center justify-center text-rose-400 hover:bg-rose-50 hover:text-rose-600 transition-all"
+                                className="w-8 h-8 rounded-full flex items-center justify-center text-destructive hover:bg-destructive/5 hover:text-destructive transition-all"
                               >
                                 <Trash2 size={16} />
                               </button>
@@ -1209,22 +1209,22 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                 <div className="card-premium space-y-10">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
                     <div className="space-y-2">
-                      <h4 className="text-sm font-black text-text-main uppercase tracking-widest flex items-center gap-3">
+                      <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
                         <Landmark size={20} className="text-secondary" /> Enquadramento Tributário
                       </h4>
-                      <p className="text-[11px] text-text-dim font-medium lowercase italic">Defina o regime federal principal para automatização dos cálculos de rentabilidade.</p>
+                      <p className="text-[11px] text-muted-foreground font-medium lowercase italic">Defina o regime federal principal para automatização dos cálculos de rentabilidade.</p>
                     </div>
                     
-                    <div className="flex bg-bg-surface p-1.5 rounded-2xl border border-border-main">
+                    <div className="flex bg-surface-container p-1.5 rounded-md border border-border">
                       {['Simples Nacional', 'Lucro Presumido', 'Lucro Real'].map(regime => (
                         <button
                           key={regime}
                           onClick={() => setFormData({...formData, regime})}
                           className={cn(
-                            "px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                            "px-6 py-2.5 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all",
                             formData.regime === regime 
-                              ? "bg-bg-card text-secondary shadow-premium border border-border-main" 
-                              : "text-text-dim hover:text-text-main"
+                              ? "bg-card text-secondary shadow-md border border-border" 
+                              : "text-muted-foreground hover:text-foreground"
                           )}
                         >
                           {regime}
@@ -1233,14 +1233,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-10 border-t border-border-soft">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-10 border-t border-border">
                     {formData.regime === 'Lucro Real' && (
                       <div className="space-y-3">
                         <label className="text-label">Método de Apuração (LR)</label>
                         <select 
                           value={formData.regimeReal}
                           onChange={(e) => setFormData({...formData, regimeReal: e.target.value})}
-                          className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-bold outline-none focus:border-secondary transition-all"
+                          className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-body-sm font-medium outline-none focus:border-secondary transition-all"
                         >
                           <option value="Cumulativo">Cumulativo (654/98)</option>
                           <option value="Não Cumulativo">Não Cumulativo (10.637/10.833)</option>
@@ -1255,7 +1255,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                         <select 
                           value={formData.cnaePresuncao}
                           onChange={(e) => setFormData({...formData, cnaePresuncao: e.target.value})}
-                          className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-bold outline-none focus:border-secondary transition-all"
+                          className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-body-sm font-medium outline-none focus:border-secondary transition-all"
                         >
                           <option value="Venda de produtos / Mercadorias">Comércio (8% / 12%)</option>
                           <option value="Prestação de Serviços Genéricos">Serviços (32%)</option>
@@ -1267,7 +1267,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
 
                     <div className="space-y-3">
                       <label className="text-label">Porte Declarado</label>
-                      <div className="px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-black text-text-dim">
+                      <div className="px-5 py-3 bg-surface-container border border-border rounded-md text-body-sm font-medium text-muted-foreground">
                         {formData.porte || 'Não identificado'}
                       </div>
                     </div>
@@ -1465,7 +1465,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                                </div>
                                <div className="space-y-1 min-w-0 flex-1">
                                   <label className="text-[10px] font-black text-primary uppercase tracking-[0.2em] block">Atividade Principal</label>
-                                  <p className="text-[11px] font-bold text-slate-600 truncate">{formData.cnae}</p>
+                                  <p className="text-[11px] font-bold text-slate-600">{formData.cnae}</p>
                                </div>
                             </div>
 
@@ -1799,8 +1799,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                   </div>
                 </div>
 
-                <div className="card-premium bg-bg-surface/50 border-dashed">
-                   <h4 className="text-sm font-black text-text-dim uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
+                <div className="card-premium bg-surface-container/50 border-dashed">
+                   <h4 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-10 flex items-center gap-3">
                      <Users size={18} className="text-secondary" /> Contatos Adicionais
                    </h4>
                    
@@ -1811,13 +1811,13 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                             type="text" placeholder="Nome" 
                             value={tempContact.nome}
                             onChange={(e) => setTempContact({...tempContact, nome: e.target.value})}
-                            className="w-full px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs font-bold outline-none focus:border-secondary transition-all"
+                            className="w-full px-4 py-2.5 bg-card border border-border rounded-md text-body-sm font-medium outline-none focus:border-secondary transition-all"
                           />
                           <input 
                             type="text" placeholder="Cargo" 
                             value={tempContact.cargo}
                             onChange={(e) => setTempContact({...tempContact, cargo: e.target.value})}
-                            className="w-full px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs font-bold outline-none focus:border-secondary transition-all"
+                            className="w-full px-4 py-2.5 bg-card border border-border rounded-md text-body-sm font-medium outline-none focus:border-secondary transition-all"
                           />
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1825,14 +1825,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                             type="email" placeholder="E-mail" 
                             value={tempContact.email}
                             onChange={(e) => setTempContact({...tempContact, email: e.target.value})}
-                            className="w-full px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs font-bold outline-none focus:border-secondary transition-all"
+                            className="w-full px-4 py-2.5 bg-card border border-border rounded-md text-body-sm font-medium outline-none focus:border-secondary transition-all"
                           />
                           <div className="flex gap-2">
                             <input 
                               type="tel" placeholder="Telefone" 
                               value={tempContact.tel}
                               onChange={(e) => setTempContact({...tempContact, tel: e.target.value})}
-                              className="flex-1 px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs font-bold outline-none focus:border-secondary transition-all"
+                              className="flex-1 px-4 py-2.5 bg-card border border-border rounded-md text-body-sm font-medium outline-none focus:border-secondary transition-all"
                             />
                             <button 
                               onClick={() => {
@@ -1851,24 +1851,24 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
 
                      <div className="space-y-3">
                         {formData.contatosAdicionais.map((c, i) => (
-                          <div key={i} className="flex items-center justify-between bg-bg-card p-4 rounded-standard border border-border-main shadow-sm group">
+                          <div key={i} className="flex items-center justify-between bg-card p-4 rounded-md border border-border shadow-sm group">
                             <div className="flex items-center gap-4">
-                              <div className="w-10 h-10 bg-bg-surface rounded-xl flex items-center justify-center text-text-dim group-hover:text-secondary transition-all shadow-sm"><Users size={16} /></div>
+                              <div className="w-10 h-10 bg-surface-container rounded-md flex items-center justify-center text-muted-foreground group-hover:text-secondary transition-all shadow-sm"><Users size={16} /></div>
                               <div>
-                                <p className="text-sm font-black text-text-main">{c.nome} <span className="text-text-dim font-bold text-[10px] ml-2 uppercase tracking-widest">({c.cargo})</span></p>
-                                <p className="text-[11px] text-text-muted font-medium italic">{c.email} • {c.tel}</p>
+                                <p className="text-body-sm font-medium text-foreground">{c.nome} <span className="text-muted-foreground font-medium text-[10px] ml-2 uppercase tracking-widest">({c.cargo})</span></p>
+                                <p className="text-[11px] text-muted-foreground font-medium italic">{c.email} • {c.tel}</p>
                               </div>
                             </div>
                             <button 
                               onClick={() => setFormData({...formData, contatosAdicionais: formData.contatosAdicionais.filter((_, idx) => idx !== i)})}
-                              className="w-8 h-8 rounded-full flex items-center justify-center text-rose-400 hover:bg-rose-50 hover:text-rose-600 transition-all"
+                              className="w-8 h-8 rounded-full flex items-center justify-center text-destructive hover:bg-destructive/5 hover:text-destructive transition-all"
                             >
                               <X size={18} />
                             </button>
                           </div>
                         ))}
                         {formData.contatosAdicionais.length === 0 && (
-                          <div className="h-full flex items-center justify-center border-2 border-dashed border-border-main rounded-standard p-8 text-text-dim text-[10px] font-black uppercase tracking-widest italic">
+                          <div className="h-full flex items-center justify-center border-2 border-dashed border-border rounded-md p-8 text-muted-foreground text-[10px] font-medium uppercase tracking-widest italic">
                             Nenhum contato adicional
                           </div>
                         )}
@@ -1883,13 +1883,13 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                 {editingId ? (
                   <ClientUserManager clientId={editingId} />
                 ) : (
-                  <div className="card-premium bg-bg-surface/50 border-dashed text-center py-24 space-y-8">
-                    <div className="w-24 h-24 bg-bg-card rounded-[2rem] flex items-center justify-center text-text-dim mx-auto shadow-premium border border-border-main">
+                  <div className="card-premium bg-surface-container/50 border-dashed text-center py-24 space-y-8">
+                    <div className="w-24 h-24 bg-card rounded-md flex items-center justify-center text-muted-foreground mx-auto shadow-md border border-border">
                         <Key size={40} className="opacity-50" />
                     </div>
                     <div className="space-y-2">
-                      <h4 className="text-xl font-display font-black text-text-main uppercase tracking-widest">Aguardando Cadastro</h4>
-                      <p className="text-xs text-text-muted font-medium uppercase tracking-[0.2em] max-w-[300px] mx-auto leading-relaxed">Para gerenciar usuários e acessos, conclua primeiro o salvamento dos dados básicos da empresa.</p>
+                      <h4 className="text-h4 font-medium text-foreground uppercase tracking-widest">Aguardando Cadastro</h4>
+                      <p className="text-body-sm text-muted-foreground font-medium uppercase tracking-widest max-w-[300px] mx-auto leading-relaxed">Para gerenciar usuários e acessos, conclua primeiro o salvamento dos dados básicos da empresa.</p>
                     </div>
                   </div>
                 )}
@@ -1918,12 +1918,12 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                     <div className="space-y-10">
                       <div className="card-premium space-y-6">
-                        <h4 className="text-sm font-black text-text-main uppercase tracking-[0.2em] flex items-center gap-3">
-                          <AlertCircle size={18} className="text-rose-500" /> Desafios Estratégicos
+                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
+                          <AlertCircle size={18} className="text-destructive" /> Desafios Estratégicos
                         </h4>
                         <div className="space-y-4">
                           {((formData as any).aiAnalysis.challenges || []).map((c: string, i: number) => (
-                            <div key={i} className="text-xs text-text-muted font-medium leading-relaxed bg-bg-surface p-4 rounded-standard border border-border-soft">
+                            <div key={i} className="text-body-sm text-muted-foreground font-medium leading-relaxed bg-surface-container p-4 rounded-md border border-border">
                               <MarkdownText text={c} />
                             </div>
                           ))}
@@ -1931,12 +1931,12 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                       </div>
 
                       <div className="card-premium space-y-6">
-                        <h4 className="text-sm font-black text-text-main uppercase tracking-[0.2em] flex items-center gap-3">
-                          <TrendingUp size={18} className="text-emerald-500" /> Oportunidades de Crescimento
+                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
+                          <TrendingUp size={18} className="text-success" /> Oportunidades de Crescimento
                         </h4>
                         <div className="space-y-4">
                           {((formData as any).aiAnalysis.growthSuggestions || []).map((c: string, i: number) => (
-                            <div key={i} className="text-xs text-text-muted font-medium leading-relaxed bg-bg-surface p-4 rounded-standard border border-border-soft">
+                            <div key={i} className="text-body-sm text-muted-foreground font-medium leading-relaxed bg-surface-container p-4 rounded-md border border-border">
                               <MarkdownText text={c} />
                             </div>
                           ))}
@@ -1945,30 +1945,30 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                     </div>
 
                     <div className="space-y-10">
-                      <div className="bg-primary p-10 rounded-standard text-white space-y-6 shadow-floating-primary relative overflow-hidden">
+                      <div className="bg-primary p-10 rounded-md text-primary-foreground space-y-6 shadow-md relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
-                        <h4 className="text-[11px] font-black text-white/50 uppercase tracking-[0.3em] flex items-center gap-2">
+                        <h4 className="text-body-sm font-medium text-primary-foreground/50 uppercase tracking-widest flex items-center gap-2">
                           <ShieldCheck size={14} /> Governança & Estrutura
                         </h4>
-                        <div className="text-sm font-medium leading-relaxed text-white/90 italic">
+                        <div className="text-body-sm font-medium leading-relaxed text-primary-foreground/90 italic">
                           "<MarkdownText text={((formData as any).aiAnalysis?.governance || 'N/A')} />"
                         </div>
                       </div>
 
                       <div className="card-premium space-y-6">
-                        <h4 className="text-sm font-black text-text-main uppercase tracking-[0.2em]">Fluxo Operacional</h4>
-                        <div className="text-xs text-text-muted font-medium leading-relaxed bg-bg-surface p-5 rounded-standard border border-border-soft border-dashed italic">
+                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest">Fluxo Operacional</h4>
+                        <div className="text-body-sm text-muted-foreground font-medium leading-relaxed bg-surface-container p-5 rounded-md border border-border border-dashed italic">
                           <MarkdownText text={((formData as any).aiAnalysis?.operationalFlow || 'N/A')} />
                         </div>
                       </div>
 
                       <div className="card-premium space-y-6">
-                        <h4 className="text-sm font-black text-text-main uppercase tracking-[0.2em] flex items-center gap-3">
+                        <h4 className="text-body-sm font-medium text-foreground uppercase tracking-widest flex items-center gap-3">
                           <LayoutGrid size={18} className="text-secondary" /> Dashboards Sugeridos
                         </h4>
                         <div className="flex flex-wrap gap-3">
                           {((formData as any).aiAnalysis?.dashboardIdeas || []).map((c: string, i: number) => (
-                            <span key={i} className="px-4 py-2 bg-secondary/5 text-secondary text-[10px] font-black uppercase rounded-lg border border-secondary/10">
+                            <span key={i} className="px-4 py-2 bg-secondary/10 text-secondary text-[10px] font-medium uppercase rounded-full border border-secondary/20">
                               <MarkdownText text={c} />
                             </span>
                           ))}
@@ -1977,13 +1977,13 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                     </div>
                   </div>
                 ) : (
-                  <div className="card-premium bg-bg-surface/50 border-dashed text-center py-24 space-y-8">
-                    <div className="w-24 h-24 bg-bg-card rounded-[2rem] flex items-center justify-center text-text-dim mx-auto shadow-premium border border-border-main">
+                  <div className="card-premium bg-surface-container/50 border-dashed text-center py-24 space-y-8">
+                    <div className="w-24 h-24 bg-card rounded-md flex items-center justify-center text-muted-foreground mx-auto shadow-md border border-border">
                         <Sparkles size={40} className="opacity-50 text-secondary" />
                     </div>
                     <div className="space-y-2">
-                      <h4 className="text-xl font-display font-black text-text-main uppercase tracking-widest">Sem Análise de IA</h4>
-                      <p className="text-xs text-text-muted font-medium uppercase tracking-[0.2em] max-w-[300px] mx-auto leading-relaxed">Este cliente não possui um relatório gerencial automatizado vinculado no momento.</p>
+                      <h4 className="text-h4 font-medium text-foreground uppercase tracking-widest">Sem Análise de IA</h4>
+                      <p className="text-body-sm text-muted-foreground font-medium uppercase tracking-widest max-w-[300px] mx-auto leading-relaxed">Este cliente não possui um relatório gerencial automatizado vinculado no momento.</p>
                     </div>
                   </div>
                 )}
@@ -1992,13 +1992,13 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
 
             {['pessoal', 'importacao', 'acessos', 'auditoria'].map(tab => (
               activeFormTab === tab && !editingId && (
-                <div key={tab} className="card-premium bg-bg-surface/50 border-dashed text-center py-24 space-y-8">
-                  <div className="w-24 h-24 bg-bg-card rounded-[2rem] flex items-center justify-center text-text-dim mx-auto shadow-premium border border-border-main">
+                <div key={tab} className="card-premium bg-surface-container/50 border-dashed text-center py-24 space-y-8">
+                  <div className="w-24 h-24 bg-card rounded-md flex items-center justify-center text-muted-foreground mx-auto shadow-md border border-border">
                       <AlertCircle size={40} className="opacity-50" />
                   </div>
                   <div className="space-y-2">
-                    <h4 className="text-xl font-display font-black text-text-main uppercase tracking-widest">Aguardando Cadastro</h4>
-                    <p className="text-xs text-text-muted font-medium uppercase tracking-[0.2em] max-w-[300px] mx-auto leading-relaxed">Para visualizar esta seção, você precisa primeiro concluir o cadastro básico da empresa.</p>
+                    <h4 className="text-h4 font-medium text-foreground uppercase tracking-widest">Aguardando Cadastro</h4>
+                    <p className="text-body-sm text-muted-foreground font-medium uppercase tracking-widest max-w-[300px] mx-auto leading-relaxed">Para visualizar esta seção, você precisa primeiro concluir o cadastro básico da empresa.</p>
                   </div>
                 </div>
               )
@@ -2017,14 +2017,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
         icon={Building2}
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 shrink-0">
+          <div className="bg-surface-container p-1 rounded-md flex gap-1 border border-border shrink-0">
             <button 
               onClick={() => setFilters({...filters, status: ''})} 
               className={cn(
-                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-                !filters.status ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all",
+                !filters.status ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
               )}
             >
               Todos
@@ -2032,8 +2032,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
             <button 
               onClick={() => setFilters({...filters, status: 'Ativo'})} 
               className={cn(
-                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-                filters.status === 'Ativo' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all",
+                filters.status === 'Ativo' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
               )}
             >
               Ativos
@@ -2041,8 +2041,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
             <button 
               onClick={() => setFilters({...filters, status: 'Em Implantação'})} 
               className={cn(
-                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-                filters.status === 'Em Implantação' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all",
+                filters.status === 'Em Implantação' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
               )}
             >
               Implantação
@@ -2055,23 +2055,23 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
               placeholder="Pesquisar empresas..." 
               value={searchTerm} 
               onChange={(e) => setSearchTerm(e.target.value)} 
-              className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm" 
+              className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-md text-body-sm font-medium uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm" 
             />
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <button 
             onClick={() => setIsAIModalOpen(true)}
-            className="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-secondary transition-colors"
+            className="px-4 py-3 text-body-sm font-medium uppercase tracking-widest text-muted-foreground hover:text-secondary transition-colors"
           >
             <Sparkles size={16} className="inline mr-2" />
             Empresa Modelo
           </button>
           <button 
             onClick={openAdd}
-            className="px-6 py-3 bg-secondary hover:bg-secondary/90 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 shadow-lg shadow-secondary/20"
+            className="btn-accent px-4 md:px-6 py-2 md:py-3"
           >
             <Plus size={18} /> ADICIONAR CLIENTE
           </button>
@@ -2083,38 +2083,38 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
       {/* Portfolio Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: 'Total de Empresas', value: clients.length, icon: Building2, color: 'text-secondary', bg: 'bg-secondary/5' },
-          { label: 'Empresas Ativas', value: clients.filter((c: any) => c.status === 'Ativo').length, icon: ShieldCheck, color: 'text-emerald-500', bg: 'bg-emerald-500/5' },
-          { label: 'Em Implantação', value: clients.filter((c: any) => c.status === 'Em Implantação').length, icon: Activity, color: 'text-amber-500', bg: 'bg-amber-500/5' },
-          { label: 'Segmentos Atendidos', value: Array.from(new Set(clients.map((c: any) => c.segmentoAtuacao || c.segmento))).filter(s => !!s).length, icon: LayoutGrid, color: 'text-primary', bg: 'bg-primary/5' },
+          { label: 'Total de Empresas', value: clients.length, icon: Building2, color: 'text-secondary', bg: 'bg-secondary/10' },
+          { label: 'Empresas Ativas', value: clients.filter((c: any) => c.status === 'Ativo').length, icon: ShieldCheck, color: 'text-success', bg: 'bg-success/10' },
+          { label: 'Em Implantação', value: clients.filter((c: any) => c.status === 'Em Implantação').length, icon: Activity, color: 'text-warning', bg: 'bg-warning/10' },
+          { label: 'Segmentos Atendidos', value: Array.from(new Set(clients.map((c: any) => c.segmentoAtuacao || c.segmento))).filter(s => !!s).length, icon: LayoutGrid, color: 'text-primary', bg: 'bg-primary/10' },
         ].map((stat, i) => (
           <div key={i} className="card-premium flex items-center gap-6 group">
-            <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center transition-all group-hover:scale-110", stat.bg, stat.color)}>
+            <div className={cn("w-14 h-14 rounded-md flex items-center justify-center transition-all group-hover:scale-110", stat.bg, stat.color)}>
               {(() => {
                 const Icon = stat.icon;
                 return <Icon size={28} />;
               })()}
             </div>
             <div>
-              <p className="text-[10px] font-black text-text-dim uppercase tracking-[0.2em] mb-1">{stat.label}</p>
-              <p className="text-3xl font-display font-black text-text-main">{stat.value}</p>
+              <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">{stat.label}</p>
+              <p className="text-h3 font-medium text-foreground">{stat.value}</p>
             </div>
           </div>
         ))}
       </div>
 
 
-      <div className="flex flex-col lg:flex-row items-center gap-6 bg-white/40 backdrop-blur-md p-4 rounded-[28px] border border-slate-100 shadow-sm mb-8">
+      <div className="flex flex-col lg:flex-row items-center gap-6 bg-surface-container/40 backdrop-blur-md p-4 rounded-md border border-border shadow-sm mb-8">
         <div className="flex items-center gap-3 shrink-0">
-          <Filter size={14} className="text-slate-400 ml-2" />
-          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-2">Filtrar por:</span>
+          <Filter size={14} className="text-muted-foreground ml-2" />
+          <span className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mr-2">Filtrar por:</span>
         </div>
 
         <div className="flex items-center gap-4 overflow-x-auto no-scrollbar flex-1">
           <select 
             value={filters.segmento || ''} 
             onChange={(e) => setFilters({...filters, segmento: e.target.value})}
-            className="px-6 py-2.5 bg-white border border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm"
+            className="px-6 py-2.5 bg-background border border-border rounded-md text-body-sm font-medium uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm"
           >
             <option value="">Todos os Segmentos</option>
             {uniqueSegments.filter(s => s !== 'Todos').map(s => (
@@ -2126,7 +2126,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
             <select 
               value={filters.partnerId || ''} 
               onChange={(e) => setFilters({...filters, partnerId: e.target.value})}
-              className="px-6 py-2.5 bg-white border border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm"
+              className="px-6 py-2.5 bg-background border border-border rounded-md text-body-sm font-medium uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm"
             >
               <option value="">Todos os Parceiros</option>
               <option value="direto">Atendimento Direto</option>
@@ -2137,7 +2137,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
           )}
         </div>
 
-        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 border-l border-slate-100 hidden lg:block">
+        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest px-4 border-l border-border hidden lg:block">
           <span className="text-primary">{filteredClients.length}</span> Empresas
         </p>
       </div>
@@ -2147,16 +2147,16 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
       <div className="space-y-6">
         {paginatedClients.length === 0 ? (
           <div className="card-premium border-2 border-dashed flex flex-col items-center justify-center text-center p-32">
-            <div className="w-24 h-24 bg-bg-surface rounded-full flex items-center justify-center text-text-dim mb-8 shadow-inner">
+            <div className="w-24 h-24 bg-surface-container rounded-full flex items-center justify-center text-muted-foreground mb-8 shadow-inner">
               <Search size={48} className="opacity-20" />
             </div>
-            <h3 className="text-2xl font-display font-black text-text-main mb-3">Nenhum resultado para os filtros aplicados</h3>
-            <p className="text-sm text-text-muted font-sans max-w-sm mx-auto leading-relaxed">
+            <h3 className="text-h3 font-medium text-foreground mb-3">Nenhum resultado para os filtros aplicados</h3>
+            <p className="text-body-sm text-muted-foreground font-sans max-w-2xl mx-auto leading-relaxed">
               Tente ajustar os termos da busca ou selecione um segmento diferente para visualizar as empresas da sua carteira.
             </p>
             <button 
               onClick={() => {setSearchTerm(''); setFilters({});}}
-              className="mt-8 text-[10px] font-black text-secondary uppercase tracking-[0.2em] border-b border-secondary/20 hover:border-secondary transition-all pb-1"
+              className="mt-8 text-body-sm font-medium text-secondary uppercase tracking-widest border-b border-secondary/20 hover:border-secondary transition-all pb-1"
             >
               Limpar todos os filtros
             </button>
@@ -2164,7 +2164,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
         ) : (
           <div className="space-y-4">
             {/* List Header */}
-            <div className="hidden lg:grid grid-cols-[80px_2fr_1.2fr_1.2fr_120px_220px] gap-6 px-10 py-4 text-[10px] font-black text-text-dim uppercase tracking-[0.25em]">
+            <div className="hidden lg:grid grid-cols-[80px_2fr_1.2fr_1.2fr_120px_220px] gap-6 px-10 py-4 text-body-sm font-medium text-muted-foreground uppercase tracking-widest">
               <div>Logo</div>
               <div>Empresa / Segmento</div>
               <div>CNPJ</div>
@@ -2183,7 +2183,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
               >
                 <div className="flex flex-col lg:grid lg:grid-cols-[80px_2fr_1.2fr_1.2fr_120px_220px] items-center gap-6 px-8 py-5">
                   {/* Logo Column */}
-                  <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center border border-border-main group-hover:border-secondary/20 transition-all shrink-0 overflow-hidden shadow-sm">
+                  <div className="w-16 h-16 bg-background rounded-md flex items-center justify-center border border-border group-hover:border-secondary/20 transition-all shrink-0 overflow-hidden shadow-sm">
                     {client.icon || client.logo ? (
                       <img src={client.icon || client.logo} alt={client.fantasia || client.name} className="w-full h-full object-cover" />
                     ) : (
@@ -2196,31 +2196,31 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                   {/* Company Info */}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-3">
-                      <h3 className="text-xl font-display font-black tracking-tight text-secondary group-hover:text-text-main transition-colors truncate">
+                      <h3 className="text-h4 font-medium text-secondary group-hover:text-foreground transition-colors">
                         {client.fantasia || client.name || 'Empresa sem Nome'}
                       </h3>
                       {client.isModel && (
-                        <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-[8px] font-black uppercase rounded-md border border-amber-200 shadow-sm animate-pulse">
+                        <span className="px-2 py-0.5 bg-warning/10 text-warning text-[8px] font-medium uppercase rounded-md border border-warning/20 shadow-sm animate-pulse">
                           Modelo
                         </span>
                       )}
                     </div>
                     <div className="flex items-center gap-3 mt-1.5">
-                      <p className="text-[9px] font-black text-text-dim uppercase tracking-widest bg-bg-surface px-2 py-0.5 rounded-md border border-border-soft">
+                      <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest bg-surface-container px-2 py-0.5 rounded-md border border-border">
                         {client.segmentoAtuacao || client.segmento || 'Geral'}
                       </p>
                     </div>
                   </div>
 
                   <div className="hidden lg:block">
-                    <p className="text-xs font-mono font-bold text-text-muted">{formatDoc(client.cnpj) || '---'}</p>
+                    <p className="text-body-sm font-mono font-medium text-muted-foreground">{formatDoc(client.cnpj) || '---'}</p>
                   </div>
 
                   {/* City */}
                   <div className="hidden lg:block">
-                    <div className="flex items-center gap-2 text-text-main">
-                      <MapPin size={14} className="text-text-dim shrink-0" />
-                      <span className="text-xs font-bold">{client.cidade || '---'}</span>
+                    <div className="flex items-center gap-2 text-foreground">
+                      <MapPin size={14} className="text-muted-foreground shrink-0" />
+                      <span className="text-body-sm font-medium">{client.cidade || '---'}</span>
                     </div>
                   </div>
 
@@ -2237,21 +2237,21 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                             await updateDoc(doc(db, 'clients', client.id), { approvalStatus: 'Approved' });
                           }
                         }}
-                        className="p-3 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest"
+                        className="btn-executive"
                       >
                         <ShieldCheck size={14} /> Aprovar
                       </button>
                     )}
                     <button 
                       onClick={() => openEdit(client)}
-                      className="w-10 h-10 rounded-xl bg-bg-surface border border-border-main flex items-center justify-center text-text-dim hover:text-secondary hover:border-secondary transition-all shadow-sm"
+                      className="w-10 h-10 rounded-md bg-surface-container border border-border flex items-center justify-center text-muted-foreground hover:text-secondary hover:border-secondary transition-all shadow-sm"
                       title="Editar Empresa"
                     >
                       <Edit3 size={16} />
                     </button>
                     <button 
                       onClick={() => setClientToDelete({ id: client.id, name: client.fantasia || client.name })}
-                      className="w-10 h-10 rounded-xl bg-bg-surface border border-border-main flex items-center justify-center text-text-dim hover:text-rose-500 hover:border-rose-200 transition-all shadow-sm"
+                      className="w-10 h-10 rounded-md bg-surface-container border border-border flex items-center justify-center text-muted-foreground hover:text-destructive hover:border-destructive transition-all shadow-sm"
                       title="Excluir Empresa"
                     >
                       <Trash2 size={16} />
@@ -2260,7 +2260,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                       onClick={() => {
                         setSelectedClient(client.id);
                       }}
-                      className="ml-2 px-6 py-2.5 bg-text-main text-bg-main rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-secondary transition-all shadow-sm whitespace-nowrap"
+                      className="ml-2 btn-executive whitespace-nowrap"
                     >
                       DASHBOARD
                     </button>
@@ -2277,7 +2277,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
             <button 
               disabled={currentPage === 1}
               onClick={() => setCurrentPage(currentPage - 1)}
-              className="p-3 bg-bg-card border border-border-main rounded-xl text-text-dim hover:text-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+              className="p-3 bg-card border border-border rounded-md text-muted-foreground hover:text-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
             >
               <ChevronLeft size={20} />
             </button>
@@ -2287,10 +2287,10 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                   key={i + 1}
                   onClick={() => setCurrentPage(i + 1)}
                   className={cn(
-                    "w-10 h-10 rounded-xl text-xs font-black transition-all",
+                    "w-10 h-10 rounded-md text-body-sm font-medium transition-all",
                     currentPage === i + 1 
-                      ? "bg-secondary text-white shadow-lg shadow-secondary/20" 
-                      : "bg-bg-card text-text-dim hover:bg-bg-surface border border-border-main"
+                      ? "bg-secondary text-secondary-foreground shadow-md" 
+                      : "bg-card text-muted-foreground hover:bg-surface-container border border-border"
                   )}
                 >
                   {i + 1}
@@ -2300,7 +2300,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
             <button 
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage(currentPage + 1)}
-              className="p-3 bg-bg-card border border-border-main rounded-xl text-text-dim hover:text-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+              className="p-3 bg-card border border-border rounded-md text-muted-foreground hover:text-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
             >
               <ChevronRight size={20} />
             </button>
@@ -2315,25 +2315,25 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                initial={{ opacity: 0, scale: 0.95, y: 20 }}
                animate={{ opacity: 1, scale: 1, y: 0 }}
                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-               className="card-premium bg-bg-card max-w-md w-full text-center p-12 space-y-8"
+               className="card-premium bg-card max-w-md w-full text-center p-12 space-y-8"
               >
-                 <div className="w-24 h-24 bg-rose-500/10 text-rose-500 rounded-[2rem] flex items-center justify-center mx-auto shadow-inner-soft border border-rose-500/20">
+                 <div className="w-24 h-24 bg-destructive/10 text-destructive rounded-md flex items-center justify-center mx-auto shadow-inner border border-destructive/20">
                     <Trash2 size={40} />
                  </div>
                  <div className="space-y-3">
-                    <h3 className="text-2xl font-display font-black text-text-main uppercase tracking-tight">Remover Cliente?</h3>
-                    <p className="text-sm text-text-muted leading-relaxed font-medium">
-                      Você está prestes a remover <strong className="text-text-main">{clientToDelete.name}</strong> da sua carteira estratégica. Esta ação desvinculará todos os históricos financeiros.
+                    <h3 className="text-h3 font-medium text-foreground uppercase tracking-tight">Remover Cliente?</h3>
+                    <p className="text-body-sm text-muted-foreground leading-relaxed font-medium">
+                      Você está prestes a remover <strong className="text-foreground">{clientToDelete.name}</strong> da sua carteira estratégica. Esta ação desvinculará todos os históricos financeiros.
                     </p>
                  </div>
                  <div className="grid grid-cols-2 gap-4 pt-4">
                     <button 
                      onClick={() => setClientToDelete(null)}
-                     className="px-6 py-4 bg-bg-surface text-text-dim rounded-2xl text-[10px] font-black uppercase tracking-widest border border-border-main hover:bg-bg-card transition-all"
+                     className="btn-ghost"
                     >Cancelar</button>
                     <button 
                      onClick={handleDelete}
-                     className="px-6 py-4 bg-rose-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-floating-danger hover:bg-rose-700 transition-all"
+                     className="px-4 md:px-6 py-2.5 md:py-4 bg-destructive text-destructive-foreground rounded-md text-body-sm font-medium uppercase tracking-widest shadow-md hover:bg-destructive/90 transition-all"
                     >Confirmar Exclusão</button>
                  </div>
               </motion.div>

@@ -12,19 +12,20 @@ export function setActiveCurrency(code: string) {
 }
 
 export function formatCurrency(value: number, currencyCode: string = activeCurrency) {
-  const locales: Record<string, string> = {
-    'BRL': 'pt-BR',
-    'USD': 'en-US',
-    'EUR': 'de-DE',
-    'GBP': 'en-GB'
+  const symbols: Record<string, string> = {
+    'BRL': 'R$',
+    'USD': '$',
+    'EUR': '€',
+    'GBP': '£'
   };
+  const symbol = symbols[currencyCode] || currencyCode;
 
-  return new Intl.NumberFormat(locales[currencyCode] || 'pt-BR', {
-    style: 'currency',
-    currency: currencyCode,
+  const formattedNumber = new Intl.NumberFormat('pt-BR', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value);
+
+  return `${symbol}\u00A0${formattedNumber}`;
 }
 
 export function formatDate(date: string | Date) {
@@ -43,7 +44,7 @@ export function formatValue(val: number, un: string, currencyCode: string = acti
     return displayVal.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
   }
   if (un === 'x') return val.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + 'x';
-  if (un === 'dias') return Math.floor(val).toLocaleString('pt-BR') + ' dias';
+  if (un === 'dias') return Math.floor(val).toLocaleString('pt-BR') + '\u00A0dias';
   
   // Absolute numbers: No decimals
   return Math.floor(val).toLocaleString('pt-BR');
@@ -139,4 +140,36 @@ export function formatDoc(doc: string) {
     return clean.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
   }
   return doc;
+}
+
+export function getThemeColors() {
+  const isDark = typeof document !== 'undefined' && (
+    document.documentElement.classList.contains('dark') || 
+    document.body.classList.contains('dark')
+  );
+
+  if (isDark) {
+    return {
+      primary: '#FF8552',
+      secondary: '#BAB86C',
+      tertiary: '#BAB86C',
+      success: '#10b981', // high contrast green
+      border: 'rgba(255, 255, 255, 0.1)',
+      mutedForeground: '#E5E5E5',
+      cardBg: '#111F30',
+      cardFg: '#FFFFFF'
+    };
+  }
+
+  // Light Mode (default)
+  return {
+    primary: '#0E1C2C',
+    secondary: '#FF8552',
+    tertiary: '#BAB86C',
+    success: '#0C7A3A',
+    border: '#E2E8F0', // slate-200 for clean premium division lines
+    mutedForeground: '#64748B', // slate-500 for excellent contrast (meets WCAG AA)
+    cardBg: '#FFFFFF',
+    cardFg: '#0E1C2C'
+  };
 }

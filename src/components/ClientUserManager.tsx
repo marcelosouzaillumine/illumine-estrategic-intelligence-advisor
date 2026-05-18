@@ -80,13 +80,15 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
     
     setLoading(true);
     try {
+      const emailLower = formData.email.toLowerCase().trim();
       const payload = {
         ...formData,
+        email: emailLower,
         clientId,
         updatedAt: serverTimestamp(),
       };
 
-      const docId = `${formData.email}_${clientId}`;
+      const docId = `${emailLower}_${clientId}`;
       await setDoc(doc(db, 'client_users', docId), payload);
       
       setIsAdding(false);
@@ -158,7 +160,7 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
         {!isAdding && (
           <button 
             onClick={() => setIsAdding(true)}
-            className="btn-executive px-6 py-3 shadow-floating-primary"
+            className="btn-executive shadow-floating-primary"
           >
             <Plus size={16} /> Adicionar Usuário
           </button>
@@ -213,7 +215,7 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                   <input 
                     type="email" 
                     value={formData.email}
-                    onChange={e => setFormData({...formData, email: e.target.value})}
+                    onChange={e => setFormData({...formData, email: e.target.value.toLowerCase().trim()})}
                     placeholder="usuario@empresa.com.br"
                     className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-standard text-sm font-bold outline-none focus:border-secondary transition-all"
                   />
@@ -364,7 +366,7 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                 <button 
                   onClick={handleSave}
                   disabled={loading || !formData.nome || !formData.email || !formData.cpf}
-                  className="btn-executive px-12 py-3 shadow-floating-primary"
+                  className="btn-executive shadow-floating-primary"
                 >
                   {loading ? <Loader2 size={16} className="animate-spin" /> : editingId ? <Save size={16} /> : <CheckCircle2 size={16} />}
                   {editingId ? 'Confirmar Alterações' : 'Liberar Acesso'}

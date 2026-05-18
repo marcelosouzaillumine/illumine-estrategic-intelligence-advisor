@@ -13,7 +13,7 @@ import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, 
   ResponsiveContainer, Tooltip
 } from 'recharts';
-import { PageHeader, StatusBadge, MarkdownText } from '../Common';
+import { PageHeader, StatusBadge, MarkdownText, KpiCard } from '../Common';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
 import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
@@ -54,12 +54,12 @@ export function GovernanceDashboardPage({
     setLoading(true);
     const q = query(
       collection(db, 'indicators'),
-      where('clientId', '==', clientId),
-      where('ano', '==', selectedYear),
-      where('mes', '==', selectedMonth)
+      where('clientId', '==', clientId)
     );
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      const allData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const current = allData.filter((i: any) => i.ano === selectedYear && i.mes === selectedMonth);
+      setDbIndicators(current);
       setLoading(false);
     });
     return () => unsubscribe();
@@ -79,13 +79,13 @@ export function GovernanceDashboardPage({
 
   // Radar Data for Areas - Dynamic
   const radarData = useMemo(() => [
-    { area: 'Governança', score: getIndicatorValue('Maturidade de Governança', 0), fullMark: 100 },
-    { area: 'Cultura', score: getIndicatorValue('eNPS', 0), fullMark: 100 },
-    { area: 'Finanças', score: getIndicatorValue('Margem EBITDA', 0), fullMark: 100 },
-    { area: 'Inovação', score: getIndicatorValue('Índice de Inovação', 0), fullMark: 100 },
-    { area: 'Marketing', score: getIndicatorValue('ROI de Marketing', 0) * 10, fullMark: 100 },
-    { area: 'Comercial', score: getIndicatorValue('Win Rate', 0), fullMark: 100 },
-    { area: 'Operacional', score: getIndicatorValue('Índice de Qualidade', 0), fullMark: 100 },
+    { area: 'Governança', score: getIndicatorValue('Maturidade de Governança', 0), target: 85, fullMark: 100 },
+    { area: 'Cultura', score: getIndicatorValue('eNPS', 0), target: 80, fullMark: 100 },
+    { area: 'Finanças', score: getIndicatorValue('Margem EBITDA', 0), target: 75, fullMark: 100 },
+    { area: 'Inovação', score: getIndicatorValue('Índice de Inovação', 0), target: 80, fullMark: 100 },
+    { area: 'Marketing', score: getIndicatorValue('ROI de Marketing', 0) * 10, target: 85, fullMark: 100 },
+    { area: 'Comercial', score: getIndicatorValue('Win Rate', 0), target: 75, fullMark: 100 },
+    { area: 'Operacional', score: getIndicatorValue('Índice de Qualidade', 0), target: 85, fullMark: 100 },
   ], [dbIndicators]);
 
   // Area Snapshots - Dynamic
@@ -200,9 +200,9 @@ export function GovernanceDashboardPage({
             </div>
          </div>
          
-         <div className="text-center space-y-4 max-w-xl mx-auto px-6">
+         <div className="text-center space-y-4 w-full max-w-2xl mx-auto px-6">
             <h2 className="text-4xl font-display font-black text-slate-900 tracking-tight leading-tight">Painel de Governança Silencioso</h2>
-            <p className="text-slate-500 font-medium leading-relaxed">
+            <p className="text-slate-500 w-full max-w-2xl mx-auto font-medium leading-relaxed">
               Não identificamos indicadores financeiros ou estratégicos para o período de <strong>{['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][(selectedMonth || 1) - 1]} de {selectedYear}</strong>. 
               Importe os dados históricos do cliente para ativar o monitoramento de performance.
             </p>
@@ -247,23 +247,23 @@ export function GovernanceDashboardPage({
   }
 
   return (
-    <div className="space-y-10 pb-32 animate-executive-fade">
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-16 pb-32 animate-executive-fade">
       <PageHeader 
         title="Monitoramento Estratégico de Governança"
         subtitle="Monitoramento estratégico de performance multisetorial para alta gestão e conselho de administração."
         icon={ShieldCheck}
-        color="bg-slate-900"
+        transparent
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-slate-100">
+          <div className="flex items-center bg-card border border-border rounded-md p-1 shadow-sm">
+            <div className="flex items-center px-4 py-2 border-r border-border">
               <BookOpen size={14} className="text-secondary mr-2.5" />
               <select 
                 value={selectedYear} 
                 onChange={(e) => setSelectedYear?.(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                className="text-[10px] font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {[2024, 2025, 2026].map(y => (
                   <option key={y} value={y}>{y}</option>
@@ -274,7 +274,7 @@ export function GovernanceDashboardPage({
               <select 
                 value={selectedMonth} 
                 onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                className="text-[10px] font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
                   <option key={i} value={i + 1}>{label}</option>
@@ -285,16 +285,16 @@ export function GovernanceDashboardPage({
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-4 bg-white rounded-2xl px-6 py-2.5 border border-slate-200 shadow-sm">
+          <div className="flex items-center gap-4 bg-card rounded-md px-6 py-2.5 border border-border shadow-sm">
             <span className={cn(
-              "text-[10px] font-black uppercase tracking-[0.2em] transition-colors",
-              !isYTD ? "text-secondary" : "text-slate-400"
+              "text-[10px] font-medium uppercase tracking-widest transition-colors",
+              !isYTD ? "text-secondary" : "text-muted-foreground"
             )}>Mensal</span>
             <button 
               onClick={() => setIsYTD(!isYTD)}
               className={cn(
                 "w-10 h-5 rounded-full p-1 transition-all duration-500 relative",
-                isYTD ? "bg-secondary" : "bg-slate-200"
+                isYTD ? "bg-secondary" : "bg-muted"
               )}
             >
               <motion.div 
@@ -303,8 +303,8 @@ export function GovernanceDashboardPage({
               />
             </button>
             <span className={cn(
-              "text-[10px] font-black uppercase tracking-[0.2em] transition-colors",
-              isYTD ? "text-secondary" : "text-slate-400"
+              "text-[10px] font-medium uppercase tracking-widest transition-colors",
+              isYTD ? "text-secondary" : "text-muted-foreground"
             )}>
               Anual
             </span>
@@ -314,89 +314,86 @@ export function GovernanceDashboardPage({
 
 
       {/* Strategic KPIs Grid - Standardized */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {(() => {
-          const maxGroupLen = Math.max(...strategicKPIs.map(kpi => formatValue(kpi.value, kpi.suffix || '').length));
-          const groupSizeClass = getValueSizeClass(maxGroupLen);
-          
-          return strategicKPIs.map((kpi, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
-            >
-              <div className="flex items-center justify-between mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                  {(() => {
-                    const Icon = kpi.icon;
-                    return <Icon size={24} />;
-                  })()}
-                </div>
-              </div>
-
-              <div>
-                <h4 className="text-[clamp(1rem,1.3vw,1.5rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors whitespace-nowrap overflow-hidden text-ellipsis mb-1.5">
-                  {kpi.label}
-                </h4>
-                <div className="flex items-center gap-2 mb-4">
-                  <div className={cn("w-1.5 h-1.5 rounded-full shadow-sm shrink-0", kpi.status === 'positive' ? "bg-emerald-500" : "bg-amber-500")} />
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Governança</p>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <p className={cn(
-                    "font-display font-black text-slate-900 tabular-nums tracking-tighter break-all whitespace-nowrap",
-                    groupSizeClass
-                  )}>
-                    {formatValue(kpi.value, kpi.suffix || '')}
-                  </p>
-                  <div className={cn(
-                    "flex items-center gap-1 text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg tabular-nums",
-                    kpi.status === 'positive' ? "text-emerald-600" : "text-amber-600"
-                  )}>
-                    <ArrowUpRight size={12} /> 2.4%
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ));
-        })()}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        {strategicKPIs.map((kpi, idx) => (
+          <KpiCard 
+            key={idx}
+            title={kpi.label}
+            value={formatValue(kpi.value, '')}
+            suffix={kpi.suffix || ''}
+            icon={kpi.icon}
+            status={kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo'}
+            trend="Bullish"
+          />
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* Radar Analysis */}
-        <div className="bg-white p-12 rounded-[48px] border border-slate-100 shadow-sm flex flex-col">
+        <div className="card-premium p-12 flex flex-col">
           <div className="flex justify-between items-center mb-10">
             <div>
-              <h3 className="text-xl font-black text-slate-800 tracking-tight">Performance Multidimensional</h3>
-              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Comparativo entre Eixos de Gestão</p>
+              <h3 className="text-h3 font-medium text-foreground tracking-tight">Performance Multidimensional</h3>
+              <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">Comparativo entre Pilares de Gestão</p>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
+            <div className="w-10 h-10 rounded-md bg-surface-container flex items-center justify-center text-muted-foreground">
                <PieIcon size={20} />
             </div>
           </div>
-          <div className="flex-1 min-h-[400px]">
-             <ResponsiveContainer width="100%" height="100%">
+          <div className="w-full h-[400px] overflow-visible flex items-center justify-center">
+             <ResponsiveContainer width="100%" height={380}>
                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                   <PolarGrid stroke="#f1f5f9" />
+                   <defs>
+                      {/* Premium colorful radial & linear gradients */}
+                      <linearGradient id="radarScoreGrad" x1="0" y1="0" x2="1" y2="1">
+                         <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.65} />
+                         <stop offset="50%" stopColor="#8b5cf6" stopOpacity={0.45} />
+                         <stop offset="100%" stopColor="#E07A5F" stopOpacity={0.2} />
+                      </linearGradient>
+                      <linearGradient id="radarTargetGrad" x1="0" y1="0" x2="1" y2="1">
+                         <stop offset="0%" stopColor="#10b981" stopOpacity={0.15} />
+                         <stop offset="100%" stopColor="#34d399" stopOpacity={0.02} />
+                      </linearGradient>
+                   </defs>
+                   
+                   <PolarGrid stroke="var(--color-border)" opacity={0.6} />
                    <PolarAngleAxis 
                      dataKey="area" 
-                     tick={{ fill: '#64748b', fontSize: 10, fontWeight: '900' }}
+                     tick={{ fill: 'var(--color-muted-foreground)', fontSize: 10, fontWeight: '900', letterSpacing: '0.05em' }}
                    />
                    <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                   
+                   {/* Meta de Gestão - Secondary colorful indicator */}
                    <Radar
-                     name="Score"
-                     dataKey="score"
-                     stroke="#3b82f6"
-                     fill="#3b82f6"
-                     fillOpacity={0.1}
-                     strokeWidth={3}
+                     name="Meta de Gestão"
+                     dataKey="target"
+                     stroke="#10b981"
+                     fill="url(#radarTargetGrad)"
+                     fillOpacity={0.2}
+                     strokeWidth={1.5}
+                     strokeDasharray="4 4"
+                     dot={{ r: 3.5, stroke: '#10b981', strokeWidth: 1, fill: '#fff' }}
                    />
+                   
+                   {/* Score Real - Highly vibrant multi-colored score */}
+                   <Radar
+                     name="Score Real"
+                     dataKey="score"
+                     stroke="#8b5cf6"
+                     fill="url(#radarScoreGrad)"
+                     fillOpacity={0.55}
+                     strokeWidth={2.5}
+                     dot={{ r: 4.5, stroke: '#8b5cf6', strokeWidth: 1.5, fill: '#fff' }}
+                   />
+                   
                    <Tooltip 
-                     contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)' }}
-                     itemStyle={{ color: '#0f172a', fontWeight: '900', fontSize: '12px' }}
+                     contentStyle={{ 
+                       borderRadius: '12px', 
+                       border: '1px solid var(--color-border)', 
+                       backgroundColor: 'var(--color-card)', 
+                       boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.15)' 
+                     }}
+                     itemStyle={{ color: 'var(--color-foreground)', fontWeight: '700', fontSize: '11px' }}
                    />
                 </RadarChart>
              </ResponsiveContainer>
@@ -404,15 +401,15 @@ export function GovernanceDashboardPage({
         </div>
 
         {/* Strategic Insights */}
-        <div className="bg-slate-50 p-12 rounded-[48px] border border-slate-200/60 shadow-inner flex flex-col justify-between">
+        <div className="bg-surface-container p-12 rounded-md border border-border shadow-inner flex flex-col justify-between">
            <div className="space-y-10">
               <div className="flex items-center gap-4">
-                 <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-xl shadow-slate-900/20">
+                 <div className="w-12 h-12 rounded-md bg-executive flex items-center justify-center text-white shadow-premium">
                     <MessageSquare size={24} />
                  </div>
                  <div>
-                    <h3 className="text-xl font-black text-slate-800 tracking-tight">Insights Estratégicos</h3>
-                    <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Recomendações de Alta Gestão</p>
+                    <h3 className="text-h3 font-medium text-foreground tracking-tight">Insights Estratégicos</h3>
+                    <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">Recomendações de Alta Gestão</p>
                  </div>
               </div>
 
@@ -422,23 +419,23 @@ export function GovernanceDashboardPage({
                    { title: "Eficiência Operacional", text: "O eixo de Operações apresenta o maior gap de performance. Focar na automação do lead time de produção.", icon: Zap },
                    { title: "Retenção de Talentos", text: "O eNPS de 72 está acima da média setorial, fortalecendo a marca empregadora para atração de key players.", icon: Users }
                  ].map((insight, i) => (
-                   <div key={i} className="flex gap-6 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all group cursor-default">
-                      <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors shrink-0">
+                   <div key={i} className="flex gap-6 p-6 bg-card rounded-md border border-border shadow-sm hover:shadow-md transition-all group cursor-default">
+                      <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-muted-foreground group-hover:text-primary transition-colors shrink-0">
                          {(() => {
                            const Icon = insight.icon;
                            return <Icon size={20} />;
                          })()}
                       </div>
                       <div className="space-y-1">
-                         <h4 className="text-sm font-black text-slate-800">{insight.title}</h4>
-                         <p className="text-xs text-slate-500 leading-relaxed font-medium">{insight.text}</p>
+                         <h4 className="text-[10px] font-medium text-foreground uppercase tracking-widest">{insight.title}</h4>
+                         <p className="text-body-sm text-muted-foreground leading-relaxed font-medium italic">{insight.text}</p>
                       </div>
                    </div>
                  ))}
               </div>
            </div>
 
-           <button className="w-full mt-10 py-5 bg-slate-900 text-white rounded-3xl font-black uppercase tracking-[0.2em] text-[10px] hover:bg-primary transition-all shadow-xl shadow-slate-900/10">
+           <button className="btn-executive w-full mt-10">
               Exportar Relatório Mensal de Governança
            </button>
         </div>
@@ -448,81 +445,49 @@ export function GovernanceDashboardPage({
       <div className="space-y-8">
         <div className="flex justify-between items-end">
            <div>
-              <h3 className="text-2xl font-black text-slate-800 tracking-tight">Health Check das Áreas</h3>
-              <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mt-1">Visão 360º da Operação</p>
+              <h3 className="text-h2 font-medium text-foreground tracking-tight">Health Check das Áreas</h3>
+              <p className="text-muted-foreground text-body-sm font-medium uppercase tracking-widest mt-1">Visão 360º da Operação</p>
            </div>
-           <button className="text-[10px] font-black text-primary uppercase tracking-[0.2em] flex items-center gap-2 hover:gap-3 transition-all">
+           <button className="btn-ghost text-[10px] py-2 px-4 flex items-center gap-2">
               Ver Todos os Indicadores <ChevronRight size={14} />
            </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
            {areaSnapshots.map((area, idx) => (
-             <motion.div 
+             <KpiCard
                key={idx}
-               whileHover={{ y: -8 }}
+               title={area.label}
+               value={formatValue(area.value, '')}
+               suffix={area.suffix || (area.isCur ? 'R$' : '')}
+               icon={area.icon}
+               status={area.status === 'positive' ? 'Verde' : 'Amarelo'}
+               trend={area.status === 'positive' ? 'Saudável' : 'Atenção'}
                onClick={() => onNavigate(area.id)}
-               className="bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm hover:shadow-2xl transition-all group relative overflow-hidden cursor-pointer"
-             >
-               <div className={cn("absolute top-0 right-0 w-24 h-24 blur-3xl opacity-5 transition-opacity group-hover:opacity-10", area.color)} />
-               
-               <div className="flex justify-between items-start mb-8">
-                  <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg", area.color)}>
-                     {(() => {
-                       const Icon = area.icon;
-                       return <Icon size={28} />;
-                     })()}
-                  </div>
-                  <div className={cn(
-                    "px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest",
-                    area.status === 'positive' ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"
-                  )}>
-                    {area.status === 'positive' ? 'Saudável' : 'Atenção'}
-                  </div>
-               </div>
-
-               <div className="space-y-1">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{area.label}</p>
-                  <h4 className="text-xl font-black text-slate-800 tracking-tight group-hover:text-primary transition-colors">{area.kpi}</h4>
-               </div>
-
-               <div className="mt-8 flex items-baseline gap-2">
-                  <span className="text-4xl font-black text-slate-900 tracking-tighter">
-                    {formatValue(area.value, area.isCur ? 'R$' : area.suffix || '')}
-                  </span>
-                  <span className="text-xs font-black text-slate-300 uppercase">Realizado</span>
-               </div>
-
-               <div className="mt-10 h-1.5 bg-slate-50 rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: area.status === 'positive' ? '85%' : '60%' }}
-                    className={cn("h-full rounded-full", area.color)}
-                  />
-               </div>
-             </motion.div>
+               className="group"
+             />
            ))}
         </div>
       </div>
 
       {/* Perspectiva Governança Aplicada ao Eixo de Governança */}
-      <div className="bg-white rounded-[48px] border border-slate-200 p-12 overflow-hidden relative shadow-sm">
-        <div className="absolute -left-20 -top-20 w-80 h-80 bg-indigo-50 rounded-full blur-3xl opacity-60" />
+      <div className="card-premium p-12 overflow-hidden relative shadow-sm">
+        <div className="absolute -left-20 -top-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
         <div className="relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-slate-100 pb-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-border pb-8">
             <div className="flex items-center gap-5">
-              <div className="p-4 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100">
+              <div className="p-4 rounded-md bg-surface-container text-primary border border-border">
                 <ShieldCheck size={28} strokeWidth={2.5} />
               </div>
               <div>
-                <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none mb-2">Perspectiva de Governança Integrada</h3>
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Fundamentos institucionais aplicados aos KPIs</p>
+                <h3 className="text-h2 font-medium text-foreground tracking-tight leading-none mb-2">Perspectiva de Governança Integrada</h3>
+                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Fundamentos institucionais aplicados aos KPIs</p>
               </div>
             </div>
             <button 
               onClick={handleGenerateAnalysis}
               disabled={loadingAi}
-              className="px-6 py-4 bg-amber-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-amber-700 transition-all shadow-xl shadow-amber-600/20 disabled:opacity-50 flex items-center gap-2"
+              className="btn-executive flex items-center gap-2"
             >
               {loadingAi ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />} 
               {aiAnalysis ? 'Regerar Análise Integrada' : 'Gerar Análise Integrada (IA)'}
@@ -530,14 +495,14 @@ export function GovernanceDashboardPage({
           </div>
 
           {aiAnalysis && (
-            <div className="mb-10 bg-indigo-50/50 p-8 rounded-3xl border border-indigo-100 text-indigo-900 font-medium leading-relaxed text-sm relative overflow-hidden">
+            <div className="mb-10 bg-surface-container p-8 rounded-md border border-border text-foreground font-medium leading-relaxed text-sm relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-5">
                 <ShieldCheck size={64} />
               </div>
-              <div className="flex items-center gap-2 mb-4 text-indigo-600 font-black uppercase tracking-widest text-[10px]">
+              <div className="flex items-center gap-2 mb-4 text-primary font-medium uppercase tracking-widest text-[10px]">
                 <Zap size={14} /> Leitura Estratégica AI
               </div>
-              <div className="whitespace-pre-wrap relative z-10 text-xs text-indigo-900/90">
+              <div className="whitespace-pre-wrap relative z-10 text-xs text-muted-foreground font-medium italic">
                 <MarkdownText text={aiAnalysis} />
               </div>
             </div>
@@ -554,10 +519,10 @@ export function GovernanceDashboardPage({
               />
             ))}
             {triggeredRules.length === 0 && (
-              <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center p-12 bg-emerald-50/50 border border-emerald-100 rounded-3xl text-emerald-700">
+              <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center p-12 bg-success/5 border border-success/20 rounded-md text-success">
                 <ShieldCheck size={48} className="mb-4 opacity-50" />
-                <h4 className="text-lg font-black tracking-tight mb-1">Eixo Saudável e Alinhado</h4>
-                <p className="text-xs font-medium opacity-80 text-center max-w-md">Os indicadores atuais não disparam nenhum alerta de desalinhamento com os princípios de Governança.</p>
+                <h4 className="text-body-md font-medium tracking-tight mb-1 uppercase">Eixo Saudável e Alinhado</h4>
+                <p className="text-[10px] font-medium opacity-80 text-center w-full max-w-2xl uppercase tracking-widest">Os indicadores atuais não disparam nenhum alerta de desalinhamento com os princípios de Governança.</p>
               </div>
             )}
           </div>

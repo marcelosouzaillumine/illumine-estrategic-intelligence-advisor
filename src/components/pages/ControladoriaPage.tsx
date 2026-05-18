@@ -1,4 +1,3 @@
-
 import React, { useMemo } from 'react';
 import { 
   ShieldCheck, 
@@ -32,8 +31,8 @@ import {
   Cell,
   Legend
 } from 'recharts';
-import { cn, formatValue, formatCurrency } from '../../lib/utils';
-import { PageHeader } from '../Common';
+import { cn, formatValue, formatCurrency, getThemeColors } from '../../lib/utils';
+import { PageHeader, KpiCard, KpiValue, ControlBar } from '../Common';
 
 interface ControladoriaPageProps {
   clientId: string;
@@ -55,6 +54,15 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
   const [loading, setLoading] = React.useState(false);
   const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth() + 1);
+
+  const [, setThemeTrigger] = React.useState(0);
+  React.useEffect(() => {
+    const handleThemeChange = () => setThemeTrigger(prev => prev + 1);
+    window.addEventListener('theme-changed', handleThemeChange);
+    return () => window.removeEventListener('theme-changed', handleThemeChange);
+  }, []);
+
+  const colors = getThemeColors();
 
   React.useEffect(() => {
     if (!clientId) return;
@@ -159,67 +167,40 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
   ], [dbIndicators, adherenceScore]);
 
   return (
-    <div className="space-y-10 pb-32">
+    <div className="max-w-[1440px] mx-auto space-y-10 pb-32">
       <PageHeader 
         title="Controladoria Estratégica" 
         subtitle="Auditoria de processos e monitoramento de aderência orçamentária para máxima eficiência operacional."
         icon={Scale}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-slate-100">
-              <Calendar size={14} className="text-secondary mr-2" />
-              <select 
-                value={selectedYear} 
-                onChange={(e) => setSelectedYear(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors appearance-none pr-1"
-              >
-                {[2024, 2025, 2026].map(y => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-center px-4 py-2">
-              <select 
-                value={selectedMonth} 
-                onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors appearance-none pr-1"
-              >
-                {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
-                  <option key={i} value={i + 1}>{label}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center gap-2">
-            <ShieldCheck size={14} className="text-secondary" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Auditoria & Compliance Ativo</span>
-          </div>
-        </div>
-      </div>
+      {/* Control Bar */}
+      <ControlBar 
+        selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
+        selectedMonth={selectedMonth}
+        setSelectedMonth={setSelectedMonth}
+        showStatusBadge={true}
+        statusBadgeLabel="Auditoria & Compliance Ativo"
+      />
 
 
       {/* Corporate Health Mini-Header - Hidden if no data */}
       {hasData && (
-        <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-1 bg-secondary h-full" />
+        <div className="card-premium p-10 flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 bg-secondary h-full shadow-sm" />
           <div className="flex items-center gap-8 relative z-10">
-            <div className="w-20 h-20 rounded-3xl bg-orange-50 flex items-center justify-center text-secondary shadow-inner group-hover:scale-105 transition-transform">
+            <div className="w-20 h-20 rounded-md bg-secondary/5 flex items-center justify-center text-secondary shadow-inner group-hover:scale-105 transition-transform">
               <Scale size={40} />
             </div>
             <div>
-              <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">Score de Aderência Orçamentária</h3>
-              <div className="flex items-center gap-4">
-                <span className="text-5xl font-display font-black text-slate-900 tracking-tighter">{adherenceScore}%</span>
+              <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-2">Score de Aderência Orçamentária</h3>
+              <div className="flex items-center gap-4 whitespace-nowrap overflow-visible">
+                <span className="text-5xl font-medium text-foreground tracking-tighter tabular-nums">{adherenceScore}%</span>
                 <span className={cn(
-                  "text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border",
-                  adherenceScore >= 90 ? "text-emerald-600 bg-emerald-50 border-emerald-100" : "text-amber-600 bg-amber-50 border-amber-100"
+                  "text-[9px] font-medium uppercase tracking-widest px-4 py-1.5 rounded-sm border shadow-sm",
+                  adherenceScore >= 90 ? "text-success bg-success/10 border-success/20" : "text-warning bg-warning/10 border-warning/20"
                 )}>
                   {adherenceScore >= 90 ? 'Eficiente' : 'Atenção'}
                 </span>
@@ -227,103 +208,69 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
             </div>
           </div>
           <div className="flex-1 max-w-lg w-full relative z-10">
-            <div className="flex justify-between text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
+            <div className="flex justify-between text-[9px] font-medium uppercase tracking-[0.2em] text-muted-foreground mb-3">
               <span>Conformidade de Processos</span>
               <span className="text-secondary">{complianceScore}%</span>
             </div>
-            <div className="h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+            <div className="h-3 bg-surface-container rounded-sm overflow-hidden shadow-inner border border-border">
               <motion.div 
                 initial={{ width: 0 }}
                 animate={{ width: `${complianceScore}%` }}
                 transition={{ duration: 1.5, ease: "circOut" }}
-                className="h-full bg-secondary shadow-[0_0_10px_rgba(255,133,82,0.3)]"
+                className="h-full bg-secondary shadow-premium"
               />
             </div>
           </div>
         </div>
       )}
 
-      {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {(() => {
-          const maxGroupLen = Math.max(...indicators.map(kpi => formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '').length));
-          const groupSizeClass = getValueSizeClass(maxGroupLen);
-          
-          return indicators.map((kpi, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:border-secondary/10 transition-all group relative overflow-hidden"
-            >
-              <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-slate-50 rounded-full opacity-50 group-hover:scale-125 transition-transform" />
-              
-              <div className="flex justify-between items-start mb-10 relative z-10">
-                 <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-secondary group-hover:text-white transition-all duration-500 shadow-inner group-hover:shadow-lg">
-                  {(() => {
-                    const Icon = kpi.icon;
-                    return <Icon size={24} />;
-                  })()}
-                 </div>
-                 {kpi.trend && (
-                    <div className={cn(
-                        "px-3 py-1 text-[9px] font-black uppercase tracking-widest border rounded-full backdrop-blur-sm",
-                        kpi.trend.startsWith('+') ? "text-emerald-600 border-emerald-100 bg-emerald-50/50" : kpi.trend.startsWith('-') ? "text-rose-600 border-rose-100 bg-rose-50/50" : "text-slate-400 border-slate-100 bg-slate-50/50"
-                    )}>
-                      {kpi.trend}
-                    </div>
-                 )}
-              </div>
-              
-              <div className="relative z-10">
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2 line-clamp-1">{kpi.label}</p>
-                <div className="flex items-baseline gap-2 whitespace-nowrap">
-                  <p className={cn(
-                    "font-display font-black text-slate-900 tabular-nums tracking-tighter group-hover:text-secondary transition-colors",
-                    groupSizeClass
-                  )}>
-                    {formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '')}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          ));
-        })()}
+        {indicators.map((kpi, idx) => (
+          <KpiCard 
+            key={idx}
+            title={kpi.label}
+            value={formatValue(kpi.value, '')}
+            suffix={kpi.isCur ? 'R$' : kpi.suffix || ''}
+            icon={kpi.icon}
+            status={kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo'}
+            trend={kpi.trend}
+          />
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
          {/* BvA Chart */}
-         <div className="lg:col-span-2 bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm interactive-card">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+         <div className="lg:col-span-2 card-premium p-10 relative overflow-hidden">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6 relative z-10">
                <div>
-                 <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3">
+                 <h3 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-3">
                     <BarChart3 size={20} className="text-secondary" /> Budget vs Realizado
                  </h3>
-                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Análise de desvios orçamentários (YTD)</p>
+                 <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest mt-1 italic">Análise de desvios orçamentários (YTD)</p>
                </div>
-               <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
-                  <div className="flex items-center gap-2 text-slate-400">
-                     <div className="w-3 h-3 bg-slate-200 rounded-full" /> Planejado
+               <div className="flex items-center gap-6 text-[9px] font-medium uppercase tracking-widest">
+                  <div className="flex items-center gap-2 text-muted-foreground/40">
+                     <div className="w-2.5 h-2.5 bg-surface-container rounded-sm border border-border shadow-inner" /> Planejado
                   </div>
                   <div className="flex items-center gap-2 text-secondary">
-                     <div className="w-3 h-3 bg-secondary rounded-full" /> Realizado
+                     <div className="w-2.5 h-2.5 bg-secondary rounded-sm shadow-premium" /> Realizado
                   </div>
                </div>
             </div>
-            <div className="h-[300px] w-full">
+            <div className="h-[300px] w-full relative z-10">
                <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={bvaData}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={(v) => `R$${v / 1000}k`} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} opacity={0.3} />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 9, fill: colors.mutedForeground, fontWeight: 500, letterSpacing: '0.1em' }} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 9, fill: colors.mutedForeground, fontWeight: 500 }} tickFormatter={(v) => `R$${v / 1000}k`} />
                     <Tooltip 
-                      contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
+                      contentStyle={{ backgroundColor: colors.cardBg, borderRadius: '4px', border: `1px solid ${colors.border}`, color: colors.cardFg, boxShadow: 'var(--shadow-premium)', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.1em' }}
+                      itemStyle={{ fontWeight: 600 }}
                       formatter={(value: number) => formatCurrency(value)}
                     />
-                    <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }} />
-                    <Bar name="Planejado" dataKey="planejado" fill="#e2e8f0" radius={[4, 4, 0, 0]} barSize={32} />
-                    <Bar name="Realizado" dataKey="realizado" fill="#ff8552" radius={[4, 4, 0, 0]} barSize={32} />
+                    <Legend iconType="rect" wrapperStyle={{ paddingTop: '20px', fontSize: '9px', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.1em', opacity: 0.6 }} />
+                    <Bar name="Planejado" dataKey="planejado" fill={colors.primary} radius={[2, 2, 0, 0]} barSize={32} opacity={0.65} />
+                    <Bar name="Realizado" dataKey="realizado" fill={colors.secondary} radius={[2, 2, 0, 0]} barSize={32} />
                   </BarChart>
                </ResponsiveContainer>
             </div>
@@ -331,37 +278,37 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
 
          {/* Recommendations - Hidden if no data */}
          {hasData && (
-           <div className="bg-primary p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden group">
-              <div className="absolute right-0 top-0 p-8 text-secondary/5 group-hover:text-secondary/10 transition-colors">
-                 <Zap size={160} strokeWidth={1} />
-              </div>
-              <div className="relative z-10 flex flex-col h-full justify-between gap-12">
-                 <div className="space-y-8">
-                   <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
-                      <MessageSquare size={20} /> Insights de Controladoria
-                   </h3>
-                   <div className="space-y-6">
-                      {[
-                        "Investigar desvios orçamentários significativos em relação ao budget planejado.",
-                        "Antecipar revisão orçamentária do semestre considerando as novas premissas.",
-                        "Auditar processos de compras críticos para garantir conformidade de processos."
-                      ].map((rec, i) => (
-                        <div key={i} className="flex gap-5 group cursor-default">
-                           <div className="w-10 h-10 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all shadow-inner">
-                              {i + 1}
-                           </div>
-                           <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors py-2">
-                              {rec}
-                           </p>
-                        </div>
-                      ))}
-                   </div>
-                 </div>
-                 <button className="w-full py-4 bg-white/10 hover:bg-secondary hover:text-primary border border-white/10 hover:border-secondary rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2">
-                    <Activity size={14} /> Gerar Relatório de Auditoria
-                 </button>
-              </div>
-           </div>
+            <div className="bg-executive p-10 rounded-md text-white shadow-premium relative overflow-hidden group border border-white/5">
+               <div className="absolute right-0 top-0 p-8 text-secondary/5 group-hover:text-secondary/10 transition-colors opacity-10 shadow-inner">
+                  <Zap size={160} strokeWidth={1} />
+               </div>
+               <div className="relative z-10 flex flex-col h-full justify-between gap-12">
+                  <div className="space-y-8">
+                     <h3 className="text-[10px] font-medium text-secondary uppercase tracking-[0.2em] flex items-center gap-3 shadow-sm">
+                        <MessageSquare size={20} /> Insights de Controladoria
+                     </h3>
+                     <div className="space-y-6">
+                        {[
+                          "Investigar desvios orçamentários significativos em relação ao budget planejado.",
+                          "Antecipar revisão orçamentária do semestre considerando as novas premissas.",
+                          "Auditar processos de compras críticos para garantir conformidade de processos."
+                        ].map((rec, i) => (
+                          <div key={i} className="flex gap-5 group cursor-default">
+                             <div className="w-10 h-10 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center text-secondary font-medium text-[10px] shrink-0 group-hover:bg-secondary group-hover:text-white transition-all shadow-inner">
+                                {i + 1}
+                             </div>
+                             <p className="text-[11px] font-medium text-white/60 uppercase tracking-widest italic leading-relaxed group-hover:text-white transition-colors py-2">
+                                {rec}
+                             </p>
+                          </div>
+                        ))}
+                     </div>
+                  </div>
+                  <button className="btn-executive w-full bg-white/5 hover:bg-white/10 border border-white/10 uppercase shadow-sm">
+                     <Activity size={14} /> Gerar Relatório de Auditoria
+                  </button>
+               </div>
+            </div>
          )}
       </div>
 
@@ -370,70 +317,70 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
         <div className="space-y-6">
           <div className="flex items-center justify-between px-4">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-secondary shadow-inner">
+              <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-secondary shadow-inner border border-border">
                 <ShieldAlert size={24} />
               </div>
               <div>
-                <h2 className="text-xl font-display font-black text-slate-900">Monitoramento de Desvios Orçamentários</h2>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Relação de itens com maior variação vs. budget</p>
+                <h2 className="text-xl font-medium text-foreground tracking-tight uppercase">Monitoramento de Desvios Orçamentários</h2>
+                <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic mt-1">Relação de itens com maior variação vs. budget</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                 <div className="w-2.5 h-2.5 rounded-full bg-amber-500" /> Alerta ({'>'}90%)
+              <div className="flex items-center gap-2 text-[8px] font-medium uppercase tracking-widest text-muted-foreground/60 shadow-sm">
+                 <div className="w-2.5 h-2.5 rounded-sm bg-warning" /> Alerta ({'>'}90%)
               </div>
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                 <div className="w-2.5 h-2.5 rounded-full bg-rose-500" /> Crítico ({'>'}100%)
+              <div className="flex items-center gap-2 text-[8px] font-medium uppercase tracking-widest text-muted-foreground/60 shadow-sm">
+                 <div className="w-2.5 h-2.5 rounded-sm bg-destructive" /> Crítico ({'>'}100%)
               </div>
             </div>
           </div>
 
-          <div className="bg-white border border-slate-100 rounded-[40px] overflow-hidden shadow-xl">
+          <div className="card-premium overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-[800px]">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-100">
-                    <th className="text-left py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Item de Custo</th>
-                    <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Budget Planejado</th>
-                    <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor Realizado</th>
-                    <th className="text-right py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Índice de Uso</th>
-                    <th className="text-center py-6 px-10 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                  <tr className="bg-surface-container/50 border-b border-border">
+                    <th className="text-left py-6 px-10 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Item de Custo</th>
+                    <th className="text-right py-6 px-10 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Budget Planejado</th>
+                    <th className="text-right py-6 px-10 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Valor Realizado</th>
+                    <th className="text-right py-6 px-10 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Índice de Uso</th>
+                    <th className="text-center py-6 px-10 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
+                <tbody className="divide-y divide-border">
                   {deviationRows.map((row: any, i: number) => (
-                    <tr key={i} className="hover:bg-slate-50/50 transition-colors group">
+                    <tr key={i} className="hover:bg-surface-container/30 transition-colors group">
                       <td className="py-6 px-10">
                         <div className="flex items-center gap-4">
                           <div className={cn(
-                            "w-1 h-8 rounded-full",
-                            row.indice > 100 ? "bg-rose-500" : row.indice > 90 ? "bg-amber-500" : "bg-emerald-500"
+                            "w-1 h-8 rounded-sm shadow-sm",
+                            row.indice > 100 ? "bg-destructive" : row.indice > 90 ? "bg-warning" : "bg-success"
                           )} />
-                          <span className="font-bold text-slate-800 group-hover:text-secondary transition-colors">{row.item}</span>
+                          <span className="font-medium text-foreground group-hover:text-secondary transition-colors uppercase tracking-tighter">{row.item}</span>
                         </div>
                       </td>
-                      <td className="py-6 px-10 text-right text-slate-500 font-medium">{formatCurrency(row.planejado)}</td>
-                      <td className="py-6 px-10 text-right font-display font-black text-slate-900">{formatCurrency(row.realizado)}</td>
+                      <td className="py-6 px-10 text-right text-muted-foreground/60 font-medium tabular-nums">{formatCurrency(row.planejado)}</td>
+                      <td className="py-6 px-10 text-right font-medium text-foreground tabular-nums tracking-tighter">{formatCurrency(row.realizado)}</td>
                       <td className="py-6 px-10 text-right">
                         <div className="flex items-center justify-end gap-3">
                            <span className={cn(
-                             "text-lg font-display font-black",
-                             row.indice > 100 ? "text-rose-600" : row.indice > 90 ? "text-amber-600" : "text-emerald-600"
+                             "text-lg font-medium tabular-nums tracking-tighter",
+                             row.indice > 100 ? "text-destructive" : row.indice > 90 ? "text-warning" : "text-success"
                            )}>{row.indice}%</span>
                         </div>
                       </td>
                       <td className="py-6 px-10">
                         <div className="flex justify-center">
                           {row.indice > 100 ? (
-                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 text-rose-600 border border-rose-100 text-[10px] font-black uppercase tracking-widest animate-pulse">
+                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-destructive/10 text-destructive border border-destructive/20 text-[8px] font-medium uppercase tracking-widest animate-pulse shadow-sm">
                               <ShieldAlert size={12} /> Crítico
                             </div>
                           ) : row.indice > 90 ? (
-                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 text-amber-600 border border-amber-100 text-[10px] font-black uppercase tracking-widest">
+                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-warning/10 text-warning border border-warning/20 text-[8px] font-medium uppercase tracking-widest shadow-sm">
                               <AlertCircle size={12} /> Alerta
                             </div>
                           ) : (
-                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 text-[10px] font-black uppercase tracking-widest">
+                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-success/10 text-success border border-success/20 text-[8px] font-medium uppercase tracking-widest shadow-sm">
                               <CheckCircle2 size={12} /> Saudável
                             </div>
                           )}
@@ -450,4 +397,3 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
     </div>
   );
 }
-

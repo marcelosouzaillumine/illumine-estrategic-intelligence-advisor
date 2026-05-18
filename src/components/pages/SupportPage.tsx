@@ -17,6 +17,7 @@ import { useGovernance } from '../../lib/governanceContext';
 import { auth } from '../../lib/firebase';
 import { supportService } from '../../services/supportService';
 import { SupportTicket, TicketType, TicketPriority } from '../../types/support';
+import { PageHeader } from '../Common';
 
 interface SupportPageProps {
   selectedClient?: string;
@@ -132,50 +133,52 @@ export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient }) => {
   });
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
+    <div className="space-y-10 pb-20 animate-executive-fade">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Suporte</h1>
-          <p className="text-slate-500 mt-1">Canal direto para reporte de erros, dúvidas técnicas e inconsistências de dados.</p>
-        </div>
-        <button
-          onClick={() => setShowForm(!showForm)}
-          className="flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow-lg shadow-indigo-200 transition-all active:scale-95"
-        >
-          {showForm ? 'Fechar Formulário' : (
-            <>
-              <Plus className="w-5 h-5" />
-              Abrir Novo Chamado
-            </>
-          )}
-        </button>
-      </div>
+      <PageHeader 
+        title="Suporte & Inconsistências"
+        subtitle="Canal direto para reporte de erros, dúvidas técnicas e inconsistências de dados."
+        icon={MessageSquare}
+        color="executive"
+        actions={
+          <button
+            onClick={() => setShowForm(!showForm)}
+            className="btn-executive bg-primary shadow-xl shadow-primary/20 cursor-pointer"
+          >
+            {showForm ? 'Fechar Formulário' : (
+              <>
+                <Plus className="w-5 h-5" />
+                Abrir Novo Chamado
+              </>
+            )}
+          </button>
+        }
+      />
 
       {/* Success Notification */}
       {successMessage && (
-        <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-start gap-4 animate-in slide-in-from-top-4 duration-300">
-          <div className="p-2 bg-emerald-100 rounded-lg">
-            <CheckCircle2 className="w-6 h-6 text-emerald-600" />
+        <div className="bg-success/5 border border-success/10 p-6 rounded-md flex items-start gap-5 animate-executive-fade shadow-premium">
+          <div className="p-3 bg-success/10 rounded-sm border border-success/20 shadow-inner">
+            <CheckCircle2 className="w-6 h-6 text-success" />
           </div>
-          <div className="flex-1">
-            <h3 className="font-bold text-emerald-900">Chamado aberto com sucesso!</h3>
-            <p className="text-emerald-700 text-sm">
-              Seu protocolo principal é <span className="font-mono font-bold">{successMessage.protocol}</span>.
+          <div className="flex-1 space-y-1">
+            <h3 className="text-[10px] font-medium text-success uppercase tracking-[0.2em]">Chamado aberto com sucesso!</h3>
+            <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest italic">
+              Seu protocolo principal é <span className="font-mono text-foreground font-medium">{successMessage.protocol}</span>.
             </p>
             {successMessage.followUp && (
-              <div className="mt-2 p-3 bg-white/50 border border-emerald-100 rounded-xl">
-                <p className="text-emerald-800 text-sm font-medium flex items-center gap-2">
-                  <ShieldAlert className="w-4 h-4 text-emerald-600" />
-                  Protocolo de Acompanhamento Master Gerado: <span className="font-mono font-bold">{successMessage.followUp}</span>
+              <div className="mt-4 p-4 bg-card/50 border border-success/10 rounded-sm shadow-inner">
+                <p className="text-[10px] text-success font-medium flex items-center gap-2 uppercase tracking-widest">
+                  <ShieldAlert className="w-4 h-4" />
+                  Protocolo Master: <span className="font-mono font-medium">{successMessage.followUp}</span>
                 </p>
-                <p className="text-xs text-emerald-600 mt-1">
+                <p className="text-[9px] text-muted-foreground/60 mt-1 uppercase tracking-widest italic">
                   Este chamado atingiu nossa marca de controle e será acompanhado prioritariamente pela diretoria master.
                 </p>
               </div>
             )}
           </div>
-          <button onClick={() => setSuccessMessage(null)} className="text-emerald-400 hover:text-emerald-600">
+          <button onClick={() => setSuccessMessage(null)} className="text-muted-foreground/30 hover:text-success transition-colors">
             <Clock className="w-5 h-5" />
           </button>
         </div>
@@ -183,19 +186,19 @@ export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient }) => {
 
       {/* Form Section */}
       {showForm && (
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden animate-in zoom-in-95 duration-300">
-          <div className="p-6 border-b border-slate-100 bg-slate-50/50">
-            <h2 className="text-xl font-bold text-slate-800">Novo Reporte</h2>
-            <p className="text-sm text-slate-500">Forneça detalhes precisos para agilizar a resolução.</p>
+        <div className="card-premium overflow-hidden animate-executive-fade">
+          <div className="p-8 border-b border-border bg-surface-container/50">
+            <h2 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em]">Novo Reporte</h2>
+            <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest mt-1 italic">Forneça detalhes precisos para agilizar a resolução.</p>
           </div>
-          <form onSubmit={handleSubmit} className="p-8 space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">Tipo de Ocorrência</label>
+          <form onSubmit={handleSubmit} className="p-10 space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Tipo de Ocorrência</label>
                 <select
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value as TicketType })}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
+                  className="w-full px-5 py-3.5 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner"
                   required
                 >
                   <option value="error">Erro de Sistema / Bug</option>
@@ -204,12 +207,12 @@ export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient }) => {
                   <option value="other">Outros Assuntos</option>
                 </select>
               </div>
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">Prioridade</label>
+              <div className="space-y-3">
+                <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Prioridade</label>
                 <select
                   value={formData.priority}
                   onChange={(e) => setFormData({ ...formData, priority: e.target.value as TicketPriority })}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
+                  className="w-full px-5 py-3.5 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner"
                   required
                 >
                   <option value="low">Baixa - Pequenos ajustes</option>
@@ -220,42 +223,42 @@ export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient }) => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-slate-700">Assunto</label>
+            <div className="space-y-3">
+              <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Assunto</label>
               <input
                 type="text"
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 placeholder="Ex: Divergência no DRE de Março/2024"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-5 py-3.5 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner italic"
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-slate-700">Descrição Detalhada</label>
+            <div className="space-y-3">
+              <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Descrição Detalhada</label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={4}
                 placeholder="Descreva o que aconteceu, passos para reproduzir o erro ou os dados que estão incorretos..."
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all resize-none"
+                className="w-full px-5 py-3.5 bg-surface-container border border-border rounded-sm text-[11px] font-medium outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner resize-none italic leading-relaxed"
                 required
               />
             </div>
 
-            <div className="flex justify-end gap-3 pt-4">
+            <div className="flex justify-end gap-6 pt-4 border-t border-border/50">
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="px-6 py-3 text-slate-600 font-semibold hover:bg-slate-100 rounded-xl transition-all"
+                className="px-8 py-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={submitting}
-                className="flex items-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-executive flex items-center gap-3 bg-primary shadow-xl shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {submitting ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -270,27 +273,27 @@ export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient }) => {
       )}
 
       {/* Tickets List Section */}
-      <div className="space-y-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <h2 className="text-xl font-bold text-slate-800">Seus Chamados e Reportes</h2>
+      <div className="space-y-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <h2 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em]">Seus Chamados e Reportes</h2>
           
-          <div className="flex items-center gap-3 w-full md:w-auto">
-            <div className="relative flex-1 md:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="relative flex-1 md:w-80">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/30" />
               <input
                 type="text"
                 placeholder="Buscar por protocolo..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                className="w-full pl-12 pr-6 py-2.5 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner italic"
               />
             </div>
             <div className="relative">
-              <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/30" />
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value as any)}
-                className="pl-10 pr-8 py-2 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 appearance-none transition-all"
+                className="pl-12 pr-10 py-2.5 bg-surface-container border border-border rounded-sm text-[10px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 appearance-none transition-all shadow-inner"
               >
                 <option value="all">Todos</option>
                 <option value="error">Erros</option>
@@ -303,51 +306,61 @@ export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient }) => {
         </div>
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <Loader2 className="w-10 h-10 text-indigo-600 animate-spin" />
-            <p className="text-slate-500 font-medium">Carregando seus chamados...</p>
+          <div className="flex flex-col items-center justify-center py-32 gap-5 bg-card/50 rounded-md border border-border shadow-inner">
+            <Loader2 className="w-10 h-10 text-secondary animate-spin" />
+            <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Carregando seus chamados...</p>
           </div>
         ) : filteredTickets.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-6">
             {filteredTickets.map((ticket) => (
               <div 
                 key={ticket.id}
-                className="group bg-white rounded-2xl border border-slate-200 p-5 hover:border-indigo-300 hover:shadow-md transition-all cursor-default"
+                className="card-premium p-6 group relative overflow-hidden transition-all"
               >
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-3">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border ${getStatusColor(ticket.status)}`}>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                  <div className="space-y-3 flex-1">
+                    <div className="flex items-center gap-4 flex-wrap">
+                      <span className={`px-4 py-1.5 rounded-sm text-[9px] font-medium uppercase tracking-[0.2em] shadow-premium border ${
+                        ticket.status === 'resolved' ? 'bg-success text-white border-white/10' :
+                        ticket.status === 'pending' ? 'bg-warning text-white border-white/10' :
+                        ticket.status === 'in_progress' ? 'bg-blue-500 text-white border-white/10' :
+                        'bg-muted-foreground text-white border-white/10'
+                      }`}>
                         {ticket.status === 'pending' ? 'Pendente' : 
                          ticket.status === 'in_progress' ? 'Em Análise' : 
                          ticket.status === 'resolved' ? 'Resolvido' : 'Fechado'}
                       </span>
-                      <span className="text-xs font-mono font-bold text-slate-400">{ticket.protocolo}</span>
+                      <span className="text-[10px] font-medium text-muted-foreground/40 font-mono tracking-widest italic">{ticket.protocolo}</span>
                       {ticket.hasFollowUpProtocol && (
-                        <div className="flex items-center gap-1.5 px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full border border-indigo-100">
-                          <ShieldAlert className="w-3 h-3" />
-                          <span className="text-[10px] font-bold uppercase">Acompanhamento Master</span>
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-executive text-secondary rounded-sm border border-white/5 shadow-premium">
+                          <ShieldAlert className="w-3.5 h-3.5" />
+                          <span className="text-[9px] font-medium uppercase tracking-widest">Acompanhamento Master</span>
                         </div>
                       )}
                     </div>
-                    <h3 className="text-lg font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">{ticket.subject}</h3>
-                    <div className="flex items-center gap-4 text-sm text-slate-500">
-                      <div className="flex items-center gap-1">
-                        <AlertCircle className={`w-4 h-4 ${getPriorityColor(ticket.priority)}`} />
-                        <span className="capitalize">{ticket.priority}</span>
+                    <h3 className="text-[14px] font-medium text-foreground uppercase tracking-widest group-hover:text-secondary transition-colors line-clamp-1">{ticket.subject}</h3>
+                    <div className="flex items-center gap-6 text-[10px] font-medium text-muted-foreground/60 uppercase tracking-widest italic">
+                      <div className="flex items-center gap-2">
+                        <AlertCircle className={`w-4 h-4 ${
+                          ticket.priority === 'critical' ? 'text-destructive' :
+                          ticket.priority === 'high' ? 'text-warning' :
+                          ticket.priority === 'medium' ? 'text-blue-500' :
+                          'text-success'
+                        }`} />
+                        <span>{ticket.priority}</span>
                       </div>
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4" />
                         <span>{new Date(ticket.createdAt?.toDate?.() || ticket.createdAt).toLocaleDateString('pt-BR')}</span>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="hidden md:block text-right">
-                      <p className="text-xs text-slate-400 font-medium">Última Atualização</p>
-                      <p className="text-sm text-slate-600 font-semibold">Há 2 horas</p>
+                  <div className="flex items-center gap-8">
+                    <div className="hidden lg:block text-right">
+                      <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic opacity-40">Status Recente</p>
+                      <p className="text-[11px] font-medium text-foreground uppercase tracking-tighter">Análise em curso</p>
                     </div>
-                    <button className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 group-hover:text-indigo-600 transition-all">
+                    <button className="w-12 h-12 rounded-sm bg-surface-container border border-border flex items-center justify-center text-muted-foreground/30 group-hover:bg-secondary group-hover:text-white transition-all shadow-inner">
                       <ArrowRight className="w-5 h-5" />
                     </button>
                   </div>
@@ -356,17 +369,18 @@ export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient }) => {
             ))}
           </div>
         ) : (
-          <div className="bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 p-20 flex flex-col items-center justify-center text-center space-y-4">
-            <div className="p-4 bg-white rounded-2xl shadow-sm border border-slate-100">
-              <MessageSquare className="w-10 h-10 text-slate-300" />
+          <div className="card-premium py-32 flex flex-col items-center justify-center text-center space-y-8 relative overflow-hidden">
+            <div className="absolute inset-0 bg-surface-container/20 shadow-inner" />
+            <div className="p-8 bg-card rounded-md shadow-premium border border-border relative z-10">
+              <MessageSquare className="w-12 h-12 text-muted-foreground/20" />
             </div>
-            <div>
-              <h3 className="text-xl font-bold text-slate-800">Nenhum chamado encontrado</h3>
-              <p className="text-slate-500 max-w-sm mx-auto">Você ainda não abriu nenhum chamado de suporte ou reporte de inconsistência.</p>
+            <div className="relative z-10 space-y-2">
+              <h3 className="text-xl font-medium text-foreground uppercase tracking-widest">Nenhum chamado encontrado</h3>
+              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-[0.2em] max-w-2xl mx-auto leading-relaxed italic">Você ainda não abriu nenhum chamado de suporte ou reporte de inconsistência.</p>
             </div>
             <button
               onClick={() => setShowForm(true)}
-              className="px-6 py-2 bg-white border border-slate-200 rounded-xl font-semibold text-slate-600 hover:bg-slate-100 transition-all"
+              className="btn-executive bg-primary shadow-xl shadow-primary/20 relative z-10"
             >
               Criar meu primeiro chamado
             </button>
@@ -375,27 +389,27 @@ export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient }) => {
       </div>
 
       {/* Info Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="p-6 bg-indigo-50 rounded-3xl border border-indigo-100 space-y-3">
-          <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center">
-            <Clock className="w-6 h-6 text-indigo-600" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="card-premium p-8 space-y-4 relative overflow-hidden bg-secondary/5 border-secondary/10 group hover:bg-secondary/10 transition-all">
+          <div className="w-12 h-12 bg-secondary/20 rounded-sm flex items-center justify-center shadow-inner group-hover:bg-secondary group-hover:text-white transition-all">
+            <Clock className="w-6 h-6 text-secondary" />
           </div>
-          <h4 className="font-bold text-indigo-900">SLA de Atendimento</h4>
-          <p className="text-sm text-indigo-700/80">Nosso time técnico analisa todos os reportes em até 24 horas úteis para garantir a fluidez da sua operação.</p>
+          <h4 className="text-[11px] font-medium text-secondary uppercase tracking-[0.2em]">SLA de Atendimento</h4>
+          <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest leading-relaxed italic opacity-80">Nosso time técnico analisa todos os reportes em até 24 horas úteis para garantir a fluidez da sua operação.</p>
         </div>
-        <div className="p-6 bg-emerald-50 rounded-3xl border border-emerald-100 space-y-3">
-          <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
-            <ShieldAlert className="w-6 h-6 text-emerald-600" />
+        <div className="card-premium p-8 space-y-4 relative overflow-hidden bg-success/5 border-success/10 group hover:bg-success/10 transition-all">
+          <div className="w-12 h-12 bg-success/20 rounded-sm flex items-center justify-center shadow-inner group-hover:bg-success group-hover:text-white transition-all">
+            <ShieldAlert className="w-6 h-6 text-success" />
           </div>
-          <h4 className="font-bold text-emerald-900">Segurança de Dados</h4>
-          <p className="text-sm text-emerald-700/80">Toda inconsistência reportada é tratada sob protocolos rígidos de sigilo e auditoria por nossos curadores.</p>
+          <h4 className="text-[11px] font-medium text-success uppercase tracking-[0.2em]">Segurança de Dados</h4>
+          <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest leading-relaxed italic opacity-80">Toda inconsistência reportada é tratada sob protocolos rígidos de sigilo e auditoria por nossos curadores.</p>
         </div>
-        <div className="p-6 bg-amber-50 rounded-3xl border border-amber-100 space-y-3">
-          <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
-            <AlertCircle className="w-6 h-6 text-amber-600" />
+        <div className="card-premium p-8 space-y-4 relative overflow-hidden bg-warning/5 border-warning/10 group hover:bg-warning/10 transition-all">
+          <div className="w-12 h-12 bg-warning/20 rounded-sm flex items-center justify-center shadow-inner group-hover:bg-warning group-hover:text-white transition-all">
+            <AlertCircle className="w-6 h-6 text-warning" />
           </div>
-          <h4 className="font-bold text-amber-900">Casos Críticos</h4>
-          <p className="text-sm text-amber-700/80">Em situações de indisponibilidade total, o sistema aciona automaticamente a célula de contingência master.</p>
+          <h4 className="text-[11px] font-medium text-warning uppercase tracking-[0.2em]">Casos Críticos</h4>
+          <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest leading-relaxed italic opacity-80">Em situações de indisponibilidade total, o sistema aciona automaticamente a célula de contingência master.</p>
         </div>
       </div>
     </div>

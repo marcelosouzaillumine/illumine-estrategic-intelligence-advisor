@@ -25,8 +25,8 @@ import {
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { motion } from 'motion/react';
-import { PageHeader, Semaphore, StatusBadge, MarkdownText } from '../Common';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
+import { PageHeader, Semaphore, StatusBadge, MarkdownText, KpiCard } from '../Common';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
 import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
@@ -284,29 +284,29 @@ export function FinancialAdminDashboard({
     return (
       <div className="flex flex-col items-center justify-center min-h-[600px] animate-pulse">
         <Loader2 size={48} className="text-primary animate-spin mb-4" />
-        <p className="text-slate-500 font-black uppercase tracking-widest text-[10px]">Reconstruindo Inteligência Financeira...</p>
+        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Reconstruindo Inteligência Financeira...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-10 pb-32 animate-executive-fade">
+    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
         title="Dashboard Adm Fin"
         subtitle="Monitoramento integrado de performance econômica, saúde financeira e eficiência administrativa."
         icon={BarChart3}
-        color="bg-slate-900"
+        color="executive"
       />
 
       {/* Control Bar */}
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-slate-100">
+          <div className="flex items-center bg-background border border-border rounded-md p-1 shadow-sm">
+            <div className="flex items-center px-4 py-2 border-r border-border">
               <select 
                 value={selectedYear} 
                 onChange={(e) => setSelectedYear(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                className="text-body-sm font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {[2024, 2025, 2026].map(y => (
                   <option key={y} value={y}>{y}</option>
@@ -317,7 +317,7 @@ export function FinancialAdminDashboard({
               <select 
                 value={selectedMonth} 
                 onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                className="text-body-sm font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
                   <option key={m} value={Number(m)}>{label}</option>
@@ -328,9 +328,9 @@ export function FinancialAdminDashboard({
         </div>
 
         <div className="flex items-center gap-4">
-           <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-100">
+           <div className="flex items-center gap-2 px-4 py-2 bg-success/10 text-success rounded-full border border-success/20">
               <CheckCircle2 size={14} />
-              <span className="text-[10px] font-black uppercase tracking-widest">Sincronização Ativa</span>
+              <span className="text-[10px] font-medium uppercase tracking-widest">Sincronização Ativa</span>
            </div>
         </div>
       </div>
@@ -338,66 +338,50 @@ export function FinancialAdminDashboard({
       {/* 1. Executive Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {summaryMetrics.map((metric, idx) => (
-          <motion.div 
+          <KpiCard 
             key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.1 }}
-            className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 group-hover:scale-110 transition-all">
-              <metric.icon size={80} />
-            </div>
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-6">
-                <div className={cn("w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center transition-colors group-hover:bg-primary/10", metric.color)}>
-                  <metric.icon size={22} />
-                </div>
-                <StatusBadge status="Verde" />
-              </div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{metric.label}</p>
-              <h3 className="text-2xl font-black text-slate-900 tracking-tight mb-2">
-                {formatValue(metric.value, metric.isCur ? 'R$' : metric.suffix || '')}
-              </h3>
-              <p className="text-[9px] font-medium text-slate-400 uppercase tracking-tight">{metric.description}</p>
-            </div>
-          </motion.div>
+            title={metric.label}
+            value={formatValue(metric.value, '')}
+            suffix={metric.isCur ? 'R$' : metric.suffix || ''}
+            icon={metric.icon}
+            status="Verde"
+          />
         ))}
       </div>
 
       {/* 2. Centro de Discernimento Financeiro: Caixa vs. Competência */}
-      <div className="bg-gradient-to-br from-slate-900 to-indigo-950 p-10 md:p-14 rounded-[56px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
+      <div className="bg-executive p-10 md:p-14 rounded-md text-white shadow-premium relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-success/5 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
         
         <div className="relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 rounded-2xl bg-white/10 text-indigo-400 border border-white/5">
+                <div className="p-3 rounded-md bg-white/10 text-secondary border border-white/5">
                   <Calculator size={24} />
                 </div>
-                <h3 className="text-2xl md:text-3xl font-black tracking-tight">Centro de Discernimento Financeiro</h3>
+                <h3 className="text-h2 font-medium tracking-tight">Centro de Discernimento Financeiro</h3>
               </div>
-              <p className="text-slate-400 font-medium max-w-2xl leading-relaxed">
+              <p className="text-white/60 font-medium max-w-2xl leading-relaxed">
                 Análise integrada dos regimes de <span className="text-white">Caixa</span> e <span className="text-white">Competência</span>. 
                 O lucro demonstra viabilidade econômica; o caixa demonstra fôlego vital. A harmonia entre ambos define a perenidade.
               </p>
             </div>
             
-            <div className="flex items-center gap-4 bg-white/5 p-4 rounded-3xl border border-white/10 backdrop-blur-md">
+            <div className="flex items-center gap-4 bg-white/5 p-4 rounded-md border border-white/10 backdrop-blur-md">
               <div className="text-center px-4 border-r border-white/10">
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Status de Liquidez</p>
+                <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest mb-1">Status de Liquidez</p>
                 <div className="flex items-center gap-2">
-                  <div className={cn("w-2 h-2 rounded-full animate-pulse", calculatedKPIs.liquidezCorrente > 1.5 ? "bg-emerald-500" : calculatedKPIs.liquidezCorrente >= 1.0 ? "bg-amber-500" : "bg-rose-500")} />
-                  <span className="text-sm font-black uppercase">
+                  <div className={cn("w-2 h-2 rounded-full animate-pulse", calculatedKPIs.liquidezCorrente > 1.5 ? "bg-success" : calculatedKPIs.liquidezCorrente >= 1.0 ? "bg-warning" : "bg-destructive")} />
+                  <span className="text-body-sm font-medium uppercase">
                     {calculatedKPIs.liquidezCorrente > 1.5 ? "Excelente" : calculatedKPIs.liquidezCorrente >= 1.0 ? "Preservada" : "Crítica"}
                   </span>
                 </div>
               </div>
               <div className="text-center px-4">
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Maturidade ALM</p>
-                <span className="text-sm font-black uppercase">
+                <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest mb-1">Maturidade ALM</p>
+                <span className="text-body-sm font-medium uppercase">
                    {(calculatedKPIs.totalAssets / (calculatedKPIs.totalLiabilities || 1)) > 1.2 ? "Consolidada" : "Em Estruturação"}
                 </span>
               </div>
@@ -408,22 +392,22 @@ export function FinancialAdminDashboard({
             {/* Competência Column */}
             <div className="space-y-6">
               <div className="flex items-center gap-3 mb-2">
-                <TrendingUp size={18} className="text-indigo-400" />
-                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Regime de Competência (DRE)</h4>
+                <TrendingUp size={18} className="text-secondary" />
+                <h4 className="text-[10px] font-medium text-white/60 uppercase tracking-widest">Regime de Competência (DRE)</h4>
               </div>
-              <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] space-y-6 hover:bg-white/[0.08] transition-all">
+              <div className="bg-white/5 border border-white/10 p-8 rounded-md space-y-6 hover:bg-white/[0.08] transition-all">
                 <div>
-                  <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Lucro Líquido Econômico</p>
-                  <h5 className="text-3xl font-black text-white">{formatCurrency(calculatedKPIs.netProfit)}</h5>
-                  <p className="text-[10px] text-slate-400 mt-2">Eficiência econômica da operação</p>
+                  <p className="text-[9px] font-medium text-white/50 uppercase tracking-widest mb-1">Lucro Líquido Econômico</p>
+                  <h5 className="text-h2 font-medium text-white">{formatCurrency(calculatedKPIs.netProfit)}</h5>
+                  <p className="text-[10px] text-white/40 mt-2 font-medium">Eficiência econômica da operação</p>
                 </div>
                 <div className="pt-6 border-t border-white/5">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] font-bold text-slate-400">Margem Líquida</span>
-                    <span className="text-sm font-black text-indigo-400">{calculatedKPIs.margemLiquida.toFixed(1)}%</span>
+                    <span className="text-[10px] font-medium text-white/60">Margem Líquida</span>
+                    <span className="text-body-sm font-medium text-secondary">{calculatedKPIs.margemLiquida.toFixed(1)}%</span>
                   </div>
                   <div className="h-1 bg-white/10 rounded-full">
-                    <div className="h-full bg-indigo-500 rounded-full" style={{ width: `${Math.min(calculatedKPIs.margemLiquida * 2, 100)}%` }} />
+                    <div className="h-full bg-secondary rounded-full" style={{ width: `${Math.min(calculatedKPIs.margemLiquida * 2, 100)}%` }} />
                   </div>
                 </div>
               </div>
@@ -431,18 +415,18 @@ export function FinancialAdminDashboard({
 
             {/* Contrast / Insight Column */}
             <div className="flex flex-col items-center justify-center py-6">
-               <div className="w-full h-full bg-white/5 border border-dashed border-white/20 rounded-[40px] p-8 flex flex-col items-center justify-center text-center space-y-6">
-                  <div className="w-16 h-16 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 animate-pulse">
+               <div className="w-full h-full bg-white/5 border border-dashed border-white/20 rounded-md p-8 flex flex-col items-center justify-center text-center space-y-6">
+                  <div className="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center text-secondary animate-pulse">
                     <Activity size={32} />
                   </div>
                   <div>
-                    <h5 className="text-lg font-black text-white mb-2">Fator de Conversão de Caixa</h5>
-                    <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">Efficiency Gap</p>
+                    <h5 className="text-body-md font-medium text-white mb-2">Fator de Conversão de Caixa</h5>
+                    <p className="text-[10px] font-medium text-secondary uppercase tracking-widest">Efficiency Gap</p>
                   </div>
-                  <div className="text-3xl font-black text-white">
+                  <div className="text-h2 font-medium text-white">
                     {calculatedKPIs.netProfit > 0 ? ((calculatedKPIs.saldoCaixa / calculatedKPIs.netProfit) * 100).toFixed(0) : '0'}%
                   </div>
-                  <p className="text-xs text-slate-400 font-medium leading-relaxed italic">
+                  <p className="text-body-sm text-white/60 font-medium leading-relaxed italic">
                     {calculatedKPIs.saldoCaixa < calculatedKPIs.netProfit 
                       ? "Atenção: A lucratividade está retida em ativos não líquidos. Risco de 'Crise de Crescimento'." 
                       : "Excelente: A geração de caixa supera o lucro contábil, indicando alta liquidez operacional."}
@@ -453,22 +437,22 @@ export function FinancialAdminDashboard({
             {/* Caixa Column */}
             <div className="space-y-6">
               <div className="flex items-center gap-3 mb-2">
-                <WalletCards size={18} className="text-emerald-400" />
-                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Regime de Caixa (Disponibilidade)</h4>
+                <WalletCards size={18} className="text-success" />
+                <h4 className="text-[10px] font-medium text-white/60 uppercase tracking-widest">Regime de Caixa (Disponibilidade)</h4>
               </div>
-              <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] space-y-6 hover:bg-white/[0.08] transition-all">
+              <div className="bg-white/5 border border-white/10 p-8 rounded-md space-y-6 hover:bg-white/[0.08] transition-all">
                 <div>
-                  <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Liquidez Imediata (ALM)</p>
-                  <h5 className="text-3xl font-black text-emerald-400">{formatCurrency(calculatedKPIs.saldoCaixa)}</h5>
-                  <p className="text-[10px] text-slate-400 mt-2">Poder de fogo para investimentos e segurança</p>
+                  <p className="text-[9px] font-medium text-white/50 uppercase tracking-widest mb-1">Liquidez Imediata (ALM)</p>
+                  <h5 className="text-h2 font-medium text-success">{formatCurrency(calculatedKPIs.saldoCaixa)}</h5>
+                  <p className="text-[10px] text-white/40 mt-2 font-medium">Poder de fogo para investimentos e segurança</p>
                 </div>
                 <div className="pt-6 border-t border-white/5">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] font-bold text-slate-400">Cobertura de Curto Prazo</span>
-                    <span className="text-sm font-black text-emerald-400">{calculatedKPIs.liquidezCorrente.toFixed(2)}x</span>
+                    <span className="text-[10px] font-medium text-white/60">Cobertura de Curto Prazo</span>
+                    <span className="text-body-sm font-medium text-success">{calculatedKPIs.liquidezCorrente.toFixed(2)}x</span>
                   </div>
                   <div className="h-1 bg-white/10 rounded-full">
-                    <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${Math.min(calculatedKPIs.liquidezCorrente * 40, 100)}%` }} />
+                    <div className="h-full bg-success rounded-full" style={{ width: `${Math.min(calculatedKPIs.liquidezCorrente * 40, 100)}%` }} />
                   </div>
                 </div>
               </div>
@@ -480,14 +464,14 @@ export function FinancialAdminDashboard({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* 2. Financial Pillars - Left Column */}
         <div className="lg:col-span-2 space-y-8">
-          <div className="bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden">
+          <div className="card-premium relative overflow-hidden">
             <div className="flex items-center justify-between mb-10">
               <div>
-                <h3 className="text-xl font-black text-slate-900 tracking-tight mb-1">Pilares de Performance Financeira</h3>
-                <p className="text-xs text-slate-500 font-medium">Indicadores calculados em tempo real com base no plano de contas.</p>
+                <h3 className="text-h3 font-medium text-foreground tracking-tight mb-1">Pilares de Performance Financeira</h3>
+                <p className="text-body-sm text-muted-foreground font-medium">Indicadores calculados em tempo real com base no plano de contas.</p>
               </div>
               <div className="flex gap-2">
-                 <button className="p-2 rounded-xl bg-slate-50 text-slate-400 hover:text-primary transition-colors">
+                 <button className="p-2 rounded-md bg-surface-container text-muted-foreground hover:text-primary transition-colors">
                     <TrendingUp size={20} />
                  </button>
               </div>
@@ -495,31 +479,31 @@ export function FinancialAdminDashboard({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {financialPillars.map((pillar, i) => (
-                <div key={i} className="space-y-4 p-6 rounded-3xl bg-slate-50/50 border border-slate-100 group hover:bg-white hover:shadow-lg transition-all">
+                <div key={i} className="space-y-4 p-6 rounded-md bg-surface-container/50 border border-border group hover:bg-background hover:shadow-md transition-all">
                   <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{pillar.label}</span>
+                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">{pillar.label}</span>
                     <span className={cn(
-                      "text-[10px] font-black px-2 py-0.5 rounded-full",
-                      pillar.value >= pillar.target ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
+                      "text-[10px] font-medium px-2 py-0.5 rounded-full",
+                      pillar.value >= pillar.target ? "bg-success/10 text-success" : "bg-warning/10 text-warning"
                     )}>
                       {pillar.value >= pillar.target ? 'Acima da Meta' : 'Abaixo da Meta'}
                     </span>
                   </div>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-black text-slate-900">
+                    <span className="text-h2 font-medium text-foreground">
                       {formatValue(pillar.value, pillar.isCur ? 'R$' : pillar.suffix || '')}
                     </span>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">
                       Meta: {formatValue(pillar.target, pillar.isCur ? 'R$' : pillar.suffix || '')}
                     </span>
                   </div>
-                  <div className="h-2 bg-white rounded-full overflow-hidden border border-slate-100">
+                  <div className="h-2 bg-background rounded-full overflow-hidden border border-border">
                     <motion.div 
                       initial={{ width: 0 }}
                       animate={{ width: `${Math.min((pillar.value / (pillar.target || 1)) * 100, 100)}%` }}
                       className={cn(
                         "h-full rounded-full transition-all duration-1000",
-                        pillar.value >= pillar.target ? "bg-emerald-500" : "bg-amber-500"
+                        pillar.value >= pillar.target ? "bg-success" : "bg-warning"
                       )}
                     />
                   </div>
@@ -529,17 +513,17 @@ export function FinancialAdminDashboard({
           </div>
 
           {/* Revenue vs Expenses Chart */}
-          <div className="bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm">
+          <div className="card-premium">
             <div className="flex items-center justify-between mb-10">
-              <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-3">
-                <Activity className="text-indigo-600" /> Fluxo de Performance Mensal
+              <h3 className="text-h3 font-medium text-foreground tracking-tight flex items-center gap-3">
+                <Activity className="text-secondary" /> Fluxo de Performance Mensal
               </h3>
-              <div className="flex items-center gap-6 text-[9px] font-black uppercase tracking-widest text-slate-400">
+              <div className="flex items-center gap-6 text-[9px] font-medium uppercase tracking-widest text-muted-foreground">
                 <div className="flex items-center gap-2">
-                   <div className="w-2.5 h-2.5 rounded-full bg-slate-900" /> Receita
+                   <div className="w-2.5 h-2.5 rounded-full bg-foreground" /> Receita
                 </div>
                 <div className="flex items-center gap-2">
-                   <div className="w-2.5 h-2.5 rounded-full bg-indigo-500" /> EBITDA
+                   <div className="w-2.5 h-2.5 rounded-full bg-secondary" /> EBITDA
                 </div>
               </div>
             </div>
@@ -549,23 +533,23 @@ export function FinancialAdminDashboard({
                  <AreaChart data={evolData}>
                     <defs>
                       <linearGradient id="colorRec" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#0f172a" stopOpacity={0.1}/>
-                        <stop offset="95%" stopColor="#0f172a" stopOpacity={0}/>
+                        <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.1}/>
+                        <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0}/>
                       </linearGradient>
                       <linearGradient id="colorEbitda" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.1}/>
-                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                        <stop offset="5%" stopColor="var(--color-secondary)" stopOpacity={0.1}/>
+                        <stop offset="95%" stopColor="var(--color-secondary)" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={(v) => `R$${v / 1000}k`} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-muted-foreground)', fontWeight: 500 }} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-muted-foreground)', fontWeight: 500 }} tickFormatter={(v) => `R$${v / 1000}k`} />
                     <Tooltip 
-                      contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
+                      contentStyle={{ borderRadius: '12px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-card)', color: 'var(--color-card-foreground)', boxShadow: 'var(--shadow-floating)', fontSize: '12px' }}
                       formatter={(value: number) => formatCurrency(value)}
                     />
-                    <Area type="monotone" dataKey="Receita" stroke="#0f172a" fill="url(#colorRec)" fillOpacity={1} strokeWidth={4} />
-                    <Area type="monotone" dataKey="EBITDA" stroke="#6366f1" fill="url(#colorEbitda)" fillOpacity={1} strokeWidth={4} />
+                    <Area type="monotone" dataKey="Receita" stroke="var(--color-primary)" fill="url(#colorRec)" fillOpacity={1} strokeWidth={3} />
+                    <Area type="monotone" dataKey="EBITDA" stroke="var(--color-secondary)" fill="url(#colorEbitda)" fillOpacity={1} strokeWidth={3} />
                  </AreaChart>
                </ResponsiveContainer>
             </div>
@@ -575,17 +559,17 @@ export function FinancialAdminDashboard({
         {/* 3. Administrative & Accounting - Right Column */}
         <div className="space-y-8">
           {/* Administrative Efficiency */}
-          <div className="bg-slate-900 rounded-[48px] p-10 text-white shadow-2xl relative overflow-hidden">
-            <div className="absolute -right-20 -top-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl" />
+          <div className="bg-executive rounded-md p-10 text-white shadow-premium relative overflow-hidden">
+            <div className="absolute -right-20 -top-20 w-80 h-80 bg-secondary/10 rounded-full blur-3xl" />
             
             <div className="relative z-10 space-y-8">
               <div className="flex items-center gap-4 mb-2">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-white">
+                <div className="w-12 h-12 rounded-md bg-white/10 flex items-center justify-center text-white">
                   <Building2 size={24} />
                 </div>
                 <div>
-                   <h3 className="text-lg font-black tracking-tight leading-none mb-1">Eficiência Administrativa</h3>
-                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Back-office & Suporte</p>
+                   <h3 className="text-body-md font-medium tracking-tight leading-none mb-1">Eficiência Administrativa</h3>
+                   <p className="text-[10px] font-medium text-white/60 uppercase tracking-widest">Back-office & Suporte</p>
                 </div>
               </div>
 
@@ -593,13 +577,13 @@ export function FinancialAdminDashboard({
                 {adminMetrics.map((metric, i) => (
                   <div key={i} className="flex items-center justify-between group">
                     <div className="space-y-0.5">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-white transition-colors">{metric.label}</p>
-                      <p className="text-xl font-black">{formatValue(metric.value, metric.isCur ? 'R$' : metric.suffix || '')}</p>
+                      <p className="text-[10px] font-medium text-white/60 uppercase tracking-widest group-hover:text-white transition-colors">{metric.label}</p>
+                      <p className="text-h3 font-medium">{formatValue(metric.value, metric.isCur ? 'R$' : metric.suffix || '')}</p>
                     </div>
                     <div className={cn(
                       "w-2 h-10 rounded-full",
-                      metric.status === 'positive' ? "bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]" : 
-                      metric.status === 'negative' ? "bg-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.3)]" : "bg-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.3)]"
+                      metric.status === 'positive' ? "bg-success shadow-md" : 
+                      metric.status === 'negative' ? "bg-destructive shadow-md" : "bg-warning shadow-md"
                     )} />
                   </div>
                 ))}
@@ -607,7 +591,7 @@ export function FinancialAdminDashboard({
 
               <button 
                 onClick={() => onNavigate?.('administrativa_indicadores')}
-                className="w-full py-4 bg-white/10 border border-white/20 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-white/10 border border-white/20 rounded-md text-[10px] font-medium uppercase tracking-widest hover:bg-white hover:text-executive transition-all flex items-center justify-center gap-2"
               >
                 Detalhar Operação Administrativa <ChevronRight size={14} />
               </button>
@@ -615,42 +599,42 @@ export function FinancialAdminDashboard({
           </div>
 
           {/* Accounting Accuracy */}
-          <div className="bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm">
+          <div className="card-premium">
              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-primary">
                   <Calculator size={24} />
                 </div>
                 <div>
-                   <h3 className="text-lg font-black text-slate-900 tracking-tight leading-none mb-1">Conformidade Contábil</h3>
-                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Integridade de Dados</p>
+                   <h3 className="text-body-md font-medium text-foreground tracking-tight leading-none mb-1">Conformidade Contábil</h3>
+                   <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Integridade de Dados</p>
                 </div>
              </div>
 
              <div className="space-y-6 mb-8">
-                <div className="p-5 rounded-3xl bg-slate-50 border border-slate-100">
+                <div className="p-5 rounded-md bg-surface-container border border-border">
                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Saldo Conciliado</span>
-                      <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">98.5%</span>
+                      <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Saldo Conciliado</span>
+                      <span className="text-[10px] font-medium text-success uppercase tracking-widest">98.5%</span>
                    </div>
-                   <div className="h-1.5 bg-white rounded-full overflow-hidden">
+                   <div className="h-1.5 bg-background rounded-full overflow-hidden">
                       <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: '98.5%' }}
-                        className="h-full bg-emerald-500"
+                        className="h-full bg-success"
                       />
                    </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                   <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 shrink-0">
+                   <div className="w-10 h-10 rounded-md bg-warning/10 flex items-center justify-center text-warning shrink-0">
                       <AlertTriangle size={20} />
                    </div>
                    <div>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Alertas Contábeis</p>
-                      <p className="text-xs font-bold text-slate-700 leading-relaxed">Existem {mappingGaps} categorias no plano de contas sem mapeamento de KPIs.</p>
+                      <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-1">Alertas Contábeis</p>
+                      <p className="text-body-sm font-medium text-foreground leading-relaxed">Existem {mappingGaps} contas sem classificação no plano de contas.</p>
                       <button 
                         onClick={() => onNavigate?.('plano_contas')}
-                        className="text-[9px] font-black text-indigo-600 uppercase tracking-widest mt-2 hover:underline"
+                        className="text-[9px] font-medium text-secondary uppercase tracking-widest mt-2 hover:underline"
                       >
                         Corrigir Mapeamento
                       </button>
@@ -661,17 +645,17 @@ export function FinancialAdminDashboard({
              <div className="grid grid-cols-2 gap-3">
                 <button 
                   onClick={() => onNavigate?.('dre')}
-                  className="flex flex-col items-center gap-2 p-4 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-200 transition-all group"
+                  className="flex flex-col items-center gap-2 p-4 rounded-md bg-surface-container border border-border hover:border-secondary/20 transition-all group"
                 >
-                   <FileText size={20} className="text-slate-400 group-hover:text-indigo-600" />
-                   <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">DRE Contábil</span>
+                   <FileText size={20} className="text-muted-foreground group-hover:text-secondary" />
+                   <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">DRE Contábil</span>
                 </button>
                 <button 
                   onClick={() => onNavigate?.('bp')}
-                  className="flex flex-col items-center gap-2 p-4 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-200 transition-all group"
+                  className="flex flex-col items-center gap-2 p-4 rounded-md bg-surface-container border border-border hover:border-secondary/20 transition-all group"
                 >
-                   <Building2 size={20} className="text-slate-400 group-hover:text-indigo-600" />
-                   <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Balanço</span>
+                   <Building2 size={20} className="text-muted-foreground group-hover:text-secondary" />
+                   <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Balanço</span>
                 </button>
              </div>
           </div>

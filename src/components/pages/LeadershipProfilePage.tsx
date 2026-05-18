@@ -454,15 +454,15 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
         title="Liderança: Gestão & Coordenação" 
         subtitle="Mapeamento de competências e alinhamento de perfil para lideranças táticas e operacionais."
         icon={Users}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Brain size={14} className="text-secondary" />
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">DNA de Gestão Ativo</span>
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">DNA de Gestão Ativo</span>
             </div>
           </div>
         </div>
@@ -470,7 +470,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setActiveTab('assessment')}
-            className="flex items-center gap-2 px-8 py-3.5 bg-secondary text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-secondary/20 hover:scale-105 transition-all"
+            className="btn-executive bg-secondary shadow-xl shadow-secondary/20"
           >
             <Zap size={14} /> INICIAR AUTOAVALIAÇÃO
           </button>
@@ -478,7 +478,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
       </div>
 
 
-      <div className="flex gap-2 p-1.5 bg-bg-surface/50 backdrop-blur-xl border border-white/20 rounded-2xl w-fit">
+      <div className="flex gap-2 p-1 bg-surface-container/60 backdrop-blur-sm border border-border rounded-md w-fit -mt-6">
         {[
           { id: 'roles', label: 'Cargos e Perfil', icon: Users },
           { id: 'assessment', label: 'DNA de Gestão', icon: Brain },
@@ -490,13 +490,13 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
             className={cn(
-              "flex items-center gap-3 px-6 py-3 rounded-xl text-xs font-bold transition-all",
+              "flex items-center gap-3 px-6 py-2.5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all",
               activeTab === tab.id 
-                ? "bg-white text-primary shadow-premium" 
-                : "text-text-dim hover:text-text-main"
+                ? "bg-card text-foreground shadow-premium border border-border" 
+                : "text-muted-foreground hover:text-foreground"
             )}
           >
-            <tab.icon size={16} />
+            <tab.icon size={14} />
             {tab.label}
           </button>
         ))}
@@ -521,32 +521,32 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
               <div className="space-y-4">
                 {['Gerência', 'Coordenação'].map(cat => (
                   <div key={cat} className="space-y-2">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{cat}</p>
+                    <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest ml-2">{cat}</p>
                     <div className="space-y-2">
                       {LEADERSHIP_ROLES.filter(r => r.category === cat).map(role => (
                         <button
                           key={role.id}
                           onClick={() => setSelectedRole(role)}
                           className={cn(
-                            "w-full flex items-center justify-between p-4 rounded-2xl border transition-all text-left group",
+                            "w-full flex items-center justify-between p-4 rounded-md border transition-all text-left group",
                             selectedRole?.id === role.id 
-                              ? "bg-primary border-primary text-white shadow-xl shadow-primary/20" 
-                              : "bg-white border-slate-100 hover:border-primary/30"
+                              ? "bg-executive border-executive text-white shadow-xl shadow-executive/20" 
+                              : "bg-card border-border hover:border-secondary/30"
                           )}
                         >
                           <div className="flex items-center gap-4">
                             <div className={cn(
-                              "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
-                              selectedRole?.id === role.id ? "bg-white/10" : "bg-slate-50"
+                              "w-10 h-10 rounded-md flex items-center justify-center transition-colors shadow-inner",
+                              selectedRole?.id === role.id ? "bg-white/10" : "bg-surface-container"
                             )}>
                               <Star size={18} className={selectedRole?.id === role.id ? "text-white" : "text-secondary"} />
                             </div>
                             <div>
-                              <p className="text-sm font-black">{role.title}</p>
-                              <p className={cn("text-[10px] font-medium", selectedRole?.id === role.id ? "text-white/60" : "text-slate-400")}>Ver perfil ideal</p>
+                              <p className="text-xs font-medium uppercase tracking-widest">{role.title}</p>
+                              <p className={cn("text-[10px] font-medium uppercase tracking-widest mt-0.5", selectedRole?.id === role.id ? "text-white/60" : "text-muted-foreground")}>Ver perfil ideal</p>
                             </div>
                           </div>
-                          <ChevronRight size={16} className={cn("transition-transform", selectedRole?.id === role.id ? "translate-x-1" : "group-hover:translate-x-1 text-slate-300")} />
+                          <ChevronRight size={16} className={cn("transition-transform", selectedRole?.id === role.id ? "translate-x-1" : "group-hover:translate-x-1 text-muted-foreground/30")} />
                         </button>
                       ))}
                     </div>
@@ -557,79 +557,79 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
 
             <div className="lg:col-span-2">
               {selectedRole ? (
-                <div className="bg-white rounded-[32px] border border-slate-100 p-8 shadow-premium space-y-10 sticky top-32">
+                <div className="card-premium p-8 space-y-10 sticky top-32">
                   <div className="flex justify-between items-start">
                     <div className="space-y-2">
                       <div className="flex items-center gap-3">
                         <StatusBadge status="Verde" />
-                        <h2 className="text-3xl font-display font-black text-primary">{selectedRole.title}</h2>
+                        <h2 className="text-3xl font-medium text-foreground tracking-tighter uppercase">{selectedRole.title}</h2>
                       </div>
-                      <p className="text-slate-500 max-w-2xl">{selectedRole.description}</p>
+                      <p className="text-[11px] text-muted-foreground max-w-2xl uppercase tracking-widest italic">{selectedRole.description}</p>
                     </div>
-                    <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-primary border border-slate-100">
+                    <div className="w-16 h-16 bg-surface-container rounded-md flex items-center justify-center text-primary border border-border shadow-inner">
                       <Zap size={32} strokeWidth={1.5} className="text-secondary" />
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-6">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                      <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-2">
                         <Target size={14} className="text-secondary" />
                         Competências Chave
                       </h3>
                       <div className="space-y-4">
                         {selectedRole.essentialSoftSkills.map(skill => (
-                          <div key={skill.name} className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 group hover:bg-white hover:shadow-lg hover:shadow-slate-200/50 transition-all">
+                          <div key={skill.name} className="p-4 bg-surface-container/30 rounded-md border border-border group hover:bg-card hover:shadow-premium transition-all">
                             <div className="flex justify-between items-center mb-2">
-                              <p className="text-sm font-black text-primary">{skill.name}</p>
+                              <p className="text-[11px] font-medium text-foreground uppercase tracking-widest">{skill.name}</p>
                               <div className="flex gap-1">
                                 {[1, 2, 3, 4, 5].map(i => (
                                   <div 
                                     key={i} 
                                     className={cn(
-                                      "w-1.5 h-3 rounded-full transition-all",
-                                      i <= skill.idealLevel ? "bg-secondary" : "bg-slate-200"
+                                      "w-1.5 h-3 rounded-full transition-all shadow-sm",
+                                      i <= skill.idealLevel ? "bg-secondary" : "bg-border"
                                     )} 
                                   />
                                 ))}
                               </div>
                             </div>
-                            <p className="text-[11px] leading-relaxed text-slate-500">{skill.description}</p>
+                            <p className="text-[10px] leading-relaxed text-muted-foreground italic uppercase tracking-widest">{skill.description}</p>
                           </div>
                         ))}
                       </div>
                     </div>
 
                     <div className="space-y-6">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                      <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-2">
                         <PieChart size={14} className="text-primary" />
                         Perfil DISC Esperado
                       </h3>
-                      <div className="p-6 bg-primary rounded-3xl text-white space-y-6 shadow-xl shadow-primary/10">
+                      <div className="p-6 bg-executive rounded-md text-white space-y-6 shadow-premium border border-white/5">
                         <div className="grid grid-cols-4 gap-2">
                           {Object.entries(selectedRole.idealProfile.disc).map(([trait, val]) => (
                             <div key={trait} className="flex flex-col items-center gap-2">
-                              <div className="w-full bg-white/10 rounded-full h-24 relative overflow-hidden flex flex-col justify-end">
+                              <div className="w-full bg-white/10 rounded-md h-24 relative overflow-hidden flex flex-col justify-end shadow-inner border border-white/5">
                                 <motion.div 
                                   initial={{ height: 0 }}
                                   animate={{ height: `${val}%` }}
-                                  className="w-full bg-white/30 backdrop-blur-md"
+                                  className="w-full bg-secondary shadow-premium"
                                 />
                               </div>
-                              <span className="text-[10px] font-black opacity-60">{trait}</span>
-                              <span className="text-xs font-bold">{val}%</span>
+                              <span className="text-[10px] font-medium uppercase tracking-widest opacity-40">{trait}</span>
+                              <span className="text-[10px] font-medium uppercase tracking-widest">{val}%</span>
                             </div>
                           ))}
                         </div>
                       </div>
 
-                      <div className="p-6 bg-secondary/5 rounded-3xl border border-secondary/10 flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0">
+                      <div className="p-6 bg-secondary/5 rounded-md border border-secondary/10 flex items-start gap-4 shadow-inner">
+                        <div className="w-10 h-10 rounded-md bg-secondary/10 flex items-center justify-center shrink-0 shadow-inner">
                           <Lightbulb size={20} className="text-secondary" />
                         </div>
                         <div>
-                          <p className="text-xs font-black text-secondary uppercase tracking-widest mb-1">Dica de Gestão</p>
-                          <p className="text-[11px] text-slate-600 leading-relaxed italic">
+                          <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">Dica de Gestão</p>
+                          <p className="text-[10px] text-muted-foreground leading-relaxed italic uppercase tracking-widest">
                             "Para {selectedRole.category.toLowerCase()}s, a aderência ao perfil DISC garante que a liderança seja exercida de forma fluida, reduzindo o turnover e aumentando o engajamento da base."
                           </p>
                         </div>
@@ -638,12 +638,12 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   </div>
                 </div>
               ) : (
-                <div className="h-full min-h-[600px] flex flex-col items-center justify-center bg-slate-50/50 rounded-[32px] border-2 border-dashed border-slate-200 text-center p-10">
-                  <div className="w-20 h-20 bg-white rounded-3xl shadow-lg flex items-center justify-center text-slate-300 mb-6">
+                <div className="h-full min-h-[600px] flex flex-col items-center justify-center bg-surface-container/30 rounded-md border-2 border-dashed border-border text-center p-10">
+                  <div className="w-20 h-20 bg-card rounded-md shadow-premium flex items-center justify-center text-muted-foreground/30 mb-6 border border-border">
                     <Users size={40} strokeWidth={1} />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900">Escolha um cargo de liderança</h3>
-                  <p className="mt-2 text-slate-500 max-w-sm">Mapeie as competências ideais para gerentes e coordenadores da sua organização.</p>
+                  <h3 className="text-h2 font-medium text-foreground tracking-tight uppercase">Escolha um cargo de liderança</h3>
+                  <p className="mt-2 text-[11px] text-muted-foreground max-w-2xl uppercase tracking-widest font-medium italic">Mapeie as competências ideais para gerentes e coordenadores da sua organização.</p>
                 </div>
               )}
             </div>
@@ -658,18 +658,18 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
             exit={{ opacity: 0, scale: 0.98 }}
             className="max-w-4xl mx-auto"
           >
-            <div className="bg-white rounded-[40px] border border-slate-100 shadow-2xl shadow-slate-900/5 overflow-hidden">
-              <div className="bg-primary p-10 text-white relative">
+            <div className="card-premium overflow-hidden border-none shadow-2xl">
+              <div className="bg-executive p-10 text-white relative">
                 <div className="absolute top-0 right-0 p-10 opacity-10">
                   <Brain size={120} strokeWidth={1} />
                 </div>
                 <div className="relative z-10 space-y-2">
-                  <div className="flex items-center gap-3 mb-4 py-2 px-4 bg-white/10 rounded-full w-fit">
+                  <div className="flex items-center gap-3 mb-4 py-2 px-4 bg-white/10 rounded-md w-fit border border-white/10 shadow-inner">
                     <Users size={14} className="text-secondary" />
-                    <span className="text-[10px] font-bold tracking-widest uppercase">Avaliador: {auth.currentUser?.displayName || 'Convidado'}</span>
+                    <span className="text-[10px] font-medium tracking-widest uppercase">Avaliador: {auth.currentUser?.displayName || 'Convidado'}</span>
                   </div>
-                  <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Leadership DNA</p>
-                  <h2 className="text-4xl font-display font-black">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] opacity-40">Leadership DNA</p>
+                  <h2 className="text-4xl font-medium tracking-tighter uppercase">
                     {!hasConfirmedRole ? 'Confirme seu Cargo' : assessmentType === 'disc' ? 'DNA de Gestão' : 'Eneagrama Tático'}
                   </h2>
                 </div>
@@ -680,7 +680,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                         <div 
                           key={i} 
                           className={cn(
-                            "h-1.5 flex-1 rounded-full transition-all duration-500",
+                            "h-1.5 flex-1 rounded-full transition-all duration-500 shadow-sm",
                             i < assessmentStep ? "bg-secondary" : i === assessmentStep ? "bg-white" : "bg-white/20"
                           )} 
                         />
@@ -693,14 +693,14 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
               <div className="p-10 lg:p-16 space-y-12">
                 {!hasConfirmedRole ? (
                   <div className="space-y-10">
-                    <div className="p-8 bg-slate-50 rounded-[32px] border border-slate-100 space-y-6">
+                    <div className="p-8 bg-surface-container/30 rounded-md border border-border space-y-6 shadow-inner">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center text-white">
+                        <div className="w-12 h-12 rounded-md bg-executive flex items-center justify-center text-white shadow-premium">
                           <Users size={24} />
                         </div>
                         <div>
-                          <h3 className="text-lg font-bold text-primary">Para qual cargo você está respondendo?</h3>
-                          <p className="text-sm text-slate-500">Isso garante que sua análise seja comparada ao perfil ideal correto.</p>
+                          <h3 className="text-lg font-medium text-foreground uppercase tracking-widest">Para qual cargo você está respondendo?</h3>
+                          <p className="text-[11px] text-muted-foreground uppercase tracking-widest italic font-medium">Isso garante que sua análise seja comparada ao perfil ideal correto.</p>
                         </div>
                       </div>
                       
@@ -710,14 +710,14 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                             key={role.id}
                             onClick={() => setSelectedRole(role)}
                             className={cn(
-                              "p-4 rounded-2xl border-2 text-left transition-all",
+                              "p-4 rounded-md border text-left transition-all",
                               selectedRole?.id === role.id 
-                                ? "bg-white border-primary shadow-lg ring-4 ring-primary/5" 
-                                : "bg-white border-slate-100 hover:border-slate-200"
+                                ? "bg-card border-secondary shadow-premium ring-1 ring-secondary/5" 
+                                : "bg-card border-border hover:border-muted-foreground/30"
                             )}
                           >
-                            <p className="text-sm font-black text-primary">{role.title}</p>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{role.category}</p>
+                            <p className="text-[11px] font-medium text-foreground uppercase tracking-widest">{role.title}</p>
+                            <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest mt-0.5">{role.category}</p>
                           </button>
                         ))}
                       </div>
@@ -727,7 +727,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                       <button
                         disabled={!selectedRole}
                         onClick={() => setHasConfirmedRole(true)}
-                        className="px-12 py-4 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-secondary/20 hover:scale-105 transition-all disabled:opacity-30 disabled:hover:scale-100"
+                        className="btn-executive bg-secondary shadow-xl shadow-secondary/20"
                       >
                         Confirmar e Iniciar Avaliação
                       </button>
@@ -739,7 +739,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                       {(assessmentType === 'disc' ? DISC_QUESTIONS : ENNEAGRAM_QUESTIONS).slice(assessmentStep * 2, (assessmentStep * 2) + 2).map((q) => (
                         <div key={q.id} className="space-y-8">
                           <div className="space-y-4">
-                            <h4 className="text-xl font-bold text-primary leading-tight">{q.text}</h4>
+                            <h4 className="text-xl font-medium text-foreground tracking-tight uppercase">{q.text}</h4>
                           </div>
                           
                           <div className="flex gap-4">
@@ -754,10 +754,10 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                                   }
                                 }}
                                 className={cn(
-                                  "flex-1 h-16 rounded-2xl border-2 font-black text-lg transition-all active:scale-95",
+                                  "flex-1 h-16 rounded-md border font-medium text-lg transition-all active:scale-95 shadow-sm uppercase tracking-widest",
                                   (assessmentType === 'disc' ? answers[q.id] : enneagramAnswers[q.id]) === val 
                                     ? "bg-secondary border-secondary text-white shadow-xl shadow-secondary/20" 
-                                    : "bg-white border-slate-100 text-slate-400 hover:border-secondary/30 hover:text-secondary"
+                                    : "bg-card border-border text-muted-foreground hover:border-secondary/30 hover:text-secondary"
                                 )}
                               >
                                 {val}
@@ -768,7 +768,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                       ))}
                     </div>
 
-                    <div className="flex justify-between pt-8 border-t border-slate-100">
+                    <div className="flex justify-between pt-8 border-t border-border">
                       <button
                         disabled={assessmentStep === 0 && assessmentType === 'disc'}
                         onClick={() => {
@@ -779,7 +779,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                             setAssessmentStep(Math.ceil(DISC_QUESTIONS.length / 2) - 1);
                           }
                         }}
-                        className="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors disabled:opacity-30"
+                        className="px-8 py-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors disabled:opacity-30"
                       >
                         Voltar
                       </button>
@@ -787,7 +787,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                       {assessmentStep < Math.ceil((assessmentType === 'disc' ? DISC_QUESTIONS : ENNEAGRAM_QUESTIONS).length / 2) - 1 ? (
                         <button
                           onClick={() => setAssessmentStep(s => s + 1)}
-                          className="px-10 py-4 bg-primary text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-primary/20 transition-all active:scale-95"
+                          className="btn-executive bg-executive shadow-xl shadow-executive/20"
                         >
                           Próximo
                           <ArrowRight size={16} />
@@ -994,7 +994,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   <button
                     onClick={handleSaveResults}
                     disabled={isSaving}
-                    className="px-12 py-4 bg-primary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 transition-all flex items-center gap-3 disabled:opacity-50"
+                    className="px-6 md:px-12 py-3 md:py-4 bg-primary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 transition-all flex items-center gap-3 disabled:opacity-50"
                   >
                     {isSaving ? (
                       <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />

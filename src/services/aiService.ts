@@ -288,14 +288,14 @@ ${axisContext}
 PRINCÍPIOS DE CRIAÇÃO:
 1. DO TODO PARA A PARTE: A empresa não é apenas financeira. Ela é um sistema humano, cultural, econômico e institucional. Integre o DNA (Missão/Visão/Valores) com a operação real.
 2. COERÊNCIA SISTÊMICA: Os dados devem ser INTEGRADOS. Se há lucro mas o relato aponta problemas de cultura, as dívidas ou o turnover devem refletir esse risco invisível.
-3. OS 7 EIXOS: Utilize as descrições de cada eixo acima para fundamentar KPIs, OKRs e Diagnósticos de forma harmônica.
+3. PILARES DE GESTÃO: Utilize as descrições de cada pilar de gestão acima para fundamentar KPIs, OKRs e Diagnósticos de forma harmônica.
 4. DISCERNIMENTO FINANCEIRO: Diferencie e integre Regime de Caixa e Regime de Competência. O caixa demonstra liquidez, a competência demonstra viabilidade econômica.
 
 DIRETRIZES TÉCNICAS:
 1. clientData.regime: DEVE ser exatamente "Lucro Real", "Lucro Presumido" ou "Simples Nacional".
 2. Faturamento e Custos: Devem ser coerentes com o porte e o estágio de maturidade descrito.
-3. Diagnósticos (IVE): Gere 2 itens (swot: "Força", "Fraqueza", "Oportunidade", "Ameaça"; eixo: nomes oficiais dos 7 eixos; gravidade/urgencia/tendencia/impacto: 1 a 5).
-4. OKR: Gere 1 OKR estratégico que resolva uma incoerência detectada entre os eixos.
+3. Diagnósticos (IVE): Gere 2 itens (swot: "Força", "Fraqueza", "Oportunidade", "Ameaça"; eixo: nomes oficiais dos pilares de gestão; gravidade/urgencia/tendencia/impacto: 1 a 5).
+4. OKR: Gere 1 OKR estratégico que resolva uma incoerência detectada entre os pilares de gestão.
 5. Relatório Estratégico: Deve ser profundo, abordando desafios de governança, sustentabilidade e legado.
 6. Pessoas e Cultura: Reflita o impacto humano nos salários e na estrutura de funcionários.`;
 

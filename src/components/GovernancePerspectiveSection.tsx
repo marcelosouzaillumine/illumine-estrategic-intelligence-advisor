@@ -44,7 +44,7 @@ export function GovernancePerspectiveSection({
           <button 
             onClick={onGenerateAi}
             disabled={isGeneratingAi}
-            className="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-indigo-600/20 flex items-center gap-3 disabled:opacity-50 group"
+            className="px-5 md:px-8 py-2.5 md:py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-indigo-600/20 flex items-center gap-3 disabled:opacity-50 group"
           >
             {isGeneratingAi ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} className="group-hover:animate-pulse" />}
             {aiAnalysis ? 'ATUALIZAR PARECER SISTÊMICO' : 'GERAR PARECER DA INTELIGÊNCIA'}
@@ -108,7 +108,7 @@ export function GovernancePerspectiveSection({
                <div className="p-12 rounded-[32px] bg-emerald-50 border border-emerald-100 text-center flex flex-col items-center justify-center min-h-[300px]">
                   <CheckCircle2 className="text-emerald-500 mb-6" size={56} strokeWidth={1} />
                   <h4 className="text-xl font-black text-emerald-900 tracking-tight">Sistema em Equilíbrio</h4>
-                  <p className="text-sm font-medium text-emerald-700/70 mt-2 max-w-xs mx-auto">
+                  <p className="text-sm font-medium text-emerald-700/70 mt-2 max-w-2xl mx-auto">
                     A unidade dos princípios está preservada. Os indicadores operacionais refletem uma gestão alinhada aos fundamentos institucionais.
                   </p>
                </div>

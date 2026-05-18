@@ -47,12 +47,16 @@ import {
   Rocket,
   Menu as MenuIcon,
   ShieldCheck,
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
 import { AppSidebar } from './components/AppSidebar';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import { onAuthStateChanged, User, deleteUser } from 'firebase/auth';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch, or } from 'firebase/firestore';
-import { auth, login, logout, db, handleFirestoreError, OperationType, MASTER_ADMINS } from './lib/firebase';
+import { auth, login, loginWithEmail, registerWithEmail, logout, db, handleFirestoreError, OperationType, MASTER_ADMINS } from './lib/firebase';
 import { DATA, modelData } from './data';
 import { cn, formatValue, formatCurrency, calculateVPL, calculateTIR, calculatePayback, setActiveCurrency } from './lib/utils';
 import { useFinancialData, useAllFinancialData } from './hooks/useFinancialData';
@@ -107,7 +111,7 @@ function Logo({ collapsed }: { collapsed?: boolean }) {
       {!collapsed && (
         <div className="flex flex-col w-fit">
           <span 
-            className="text-[51px] tracking-[-0.06em] text-text-main leading-[0.8]" 
+            className="text-[51px] tracking-[-0.06em] text-foreground leading-[0.8]" 
             style={{ fontFamily: '"Tilt Warp", sans-serif' }}
           >
             illumine
@@ -154,14 +158,24 @@ function IllumineMark({ className = "w-16 h-16" }: { className?: string }) {
 function LoginBrand() {
   return (
     <div className="flex items-center gap-4">
-      <div className="w-16 h-16 rounded-[22px] bg-primary shadow-2xl shadow-primary/20 flex items-center justify-center">
+      <div className="w-16 h-16 rounded-button bg-primary shadow-lg flex items-center justify-center border border-white/10">
         <IllumineMark className="w-11 h-11" />
       </div>
-      <div>
-        <p className="text-3xl font-black uppercase leading-none tracking-tight text-primary">Illumine</p>
-        <p className="mt-2 text-[11px] font-black uppercase tracking-[0.42em] text-secondary">
-          Assessoria Estratégica
-        </p>
+      <div className="flex flex-col select-none">
+        <h1 
+          className="text-4xl font-normal lowercase leading-none text-primary"
+          style={{ fontFamily: "'Tilt Warp', sans-serif" }}
+        >
+          illumine
+        </h1>
+        <div 
+          className="w-full flex justify-between uppercase font-bold text-secondary text-[8px] leading-none mt-1.5"
+          style={{ fontFamily: "'Work Sans', sans-serif" }}
+        >
+          {"Business Intelligence".split("").map((char, idx) => (
+            <span key={idx}>{char === " " ? "\u00A0" : char}</span>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -170,11 +184,19 @@ function LoginBrand() {
 function LoginScreen() {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [loginError, setLoginError] = useState('');
+  
+  // Email/password form states
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const authMode = 'login';
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const handleGlobalError = (e: any) => {
       setLoginError(e.detail);
       setIsSigningIn(false);
+      setIsSubmitting(false);
     };
     window.addEventListener('login-error', handleGlobalError);
     return () => window.removeEventListener('login-error', handleGlobalError);
@@ -197,90 +219,250 @@ function LoginScreen() {
     }
   };
 
+  const handleEmailAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmitting || isSigningIn) return;
+
+    setLoginError('');
+
+    if (!email || !password) {
+      setLoginError('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await loginWithEmail(email.trim(), password);
+    } catch (error: any) {
+      console.error('Email authentication error:', error);
+      let errorMsg = 'Ocorreu um erro ao autenticar. Verifique seus dados.';
+      
+      switch (error?.code) {
+        case 'auth/invalid-email':
+          errorMsg = 'Endereço de e-mail inválido.';
+          break;
+        case 'auth/user-disabled':
+          errorMsg = 'Este usuário foi desabilitado.';
+          break;
+        case 'auth/user-not-found':
+          errorMsg = 'E-mail não cadastrado. Verifique se digitou corretamente ou utilize o login com Google.';
+          break;
+        case 'auth/wrong-password':
+          errorMsg = 'Senha incorreta.';
+          break;
+        case 'auth/invalid-credential':
+          errorMsg = 'Credenciais inválidas. Verifique seu e-mail e senha.';
+          break;
+      }
+      setLoginError(errorMsg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-[#f4efe7] text-primary relative overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,133,82,0.18)_0%,rgba(255,255,255,0.58)_42%,rgba(186,184,108,0.16)_100%)]" />
+    <main className="min-h-screen bg-background text-foreground relative overflow-hidden">
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[120px] pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-1 bg-primary" />
       <div className="relative min-h-screen grid lg:grid-cols-[1.08fr_0.92fr]">
-        <section className="flex flex-col justify-between px-6 py-8 sm:px-10 lg:px-16 xl:px-20">
+        <section className="flex flex-col justify-between px-6 py-8 sm:px-10 lg:px-16 xl:px-20 overflow-y-auto max-h-screen no-scrollbar gap-8">
           <LoginBrand />
 
-          <div className="max-w-3xl py-14 lg:py-0">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/75 border border-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-slate-500 shadow-sm mb-8">
-              <Sparkles size={14} className="text-secondary" />
-              Inteligência financeira para decisões de alto impacto
-            </div>
-            <h2 className="font-display text-5xl sm:text-6xl xl:text-7xl font-black tracking-tight leading-[0.94] text-primary max-w-3xl">
-              Sua central de advisory começa aqui.
+          <div className="max-w-3xl py-8 space-y-8">
+            <h2 className="font-display text-h1 font-medium tracking-tight leading-[0.96] text-primary max-w-3xl">
+              Inteligência estratégica para empresas que desejam crescer com direção, clareza e propósito
             </h2>
-            <p className="mt-7 text-base sm:text-lg text-slate-600 leading-8 max-w-2xl">
-              Acesse clientes, indicadores e relatórios executivos em um ambiente privado, organizado para análise estratégica e gestão financeira recorrente.
-            </p>
+            
+            <div className="space-y-6 text-body-md text-muted-foreground leading-relaxed font-sans font-medium">
+              <p>
+                A Illumine Business Intelligence foi desenvolvida para transformar dados em discernimento strategic, fortalecendo decisões empresariais com profundidade analítica, governança e visão de longo prazo.
+              </p>
+              <p>
+                Mais do que uma plataforma de indicadores, este ambiente integra inteligência financeira, gestão estratégica, acompanhamento de performance e princípios estruturantes de liderança e organização empresarial.
+              </p>
+              <div className="border-l-2 border-secondary/40 pl-4 py-1 my-6 italic text-foreground/90 bg-secondary/5 rounded-r-md">
+                Aqui, números não são apenas registros operacionais. Eles revelam cultura, sustentabilidade, eficiência, riscos, oportunidades e a maturidade da gestão.
+              </div>
+              <p>
+                Em um ambiente privado, seguro e organizado, você poderá acompanhar indicadores, acessar relatórios executivos, visualizar diagnósticos estratégicos e conduzir análises recorrentes com maior clareza, precisão e consistência.
+              </p>
+              <p>
+                A plataforma foi arquitetada para apoiar empresas, consultores e líderes na construção de negócios mais saudáveis, sustentáveis e alinhados com princípios sólidos de governança, responsabilidade e geração de valor.
+              </p>
+            </div>
+
+            <div className="h-px bg-border my-8" />
+
+            <div className="space-y-6">
+              <h3 className="text-body-sm font-semibold uppercase tracking-widest text-primary flex items-center gap-2">
+                O que você encontra neste ambiente
+              </h3>
+              <ul className="grid sm:grid-cols-2 gap-4">
+                {[
+                  { icon: '📊', text: 'Indicadores financeiros e operacionais integrados' },
+                  { icon: '🧠', text: 'Diagnósticos estratégicos e análises executivas' },
+                  { icon: '📈', text: 'Monitoramento contínuo de performance empresarial' },
+                  { icon: '🏛️', text: 'Estrutura orientada à governança corporativa' },
+                  { icon: '🔐', text: 'Ambiente privado e seguro para gestão recorrente' },
+                  { icon: '🤝', text: 'Ferramentas de acompanhamento consultivo e advisory' },
+                  { icon: '📚', text: 'Biblioteca estratégica de princípios e recomendações práticas' },
+                  { icon: '⚙️', text: 'Estrutura pensada para evolução contínua da gestão' },
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 p-3 rounded-md bg-surface-container/50 border border-border shadow-sm">
+                    <span className="text-xl shrink-0 mt-0.5">{item.icon}</span>
+                    <span className="text-body-sm font-medium text-muted-foreground leading-normal">{item.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="h-px bg-border my-8" />
+
+            <div className="rounded-card bg-surface-container border border-border p-6 space-y-3">
+              <h3 className="text-body-sm font-semibold uppercase tracking-widest text-primary">
+                Nossa visão
+              </h3>
+              <p className="text-body-md text-muted-foreground leading-relaxed font-sans font-medium">
+                Acreditamos que empresas saudáveis são construídas quando tecnologia, inteligência, valores e gestão caminham em unidade.
+              </p>
+              <p className="text-body-md text-muted-foreground leading-relaxed font-sans font-medium">
+                Por isso, a Illumine Business Intelligence não foi criada apenas para organizar informações, mas para ajudar líderes a enxergar com maior profundidade, decidir com maior consciência e conduzir organizações com direção estratégica, estabilidade e propósito.
+              </p>
+            </div>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-3 max-w-3xl">
-            {[
-              ['Visão', 'Portfólio consultivo'],
-              ['Ritmo', 'Indicadores mensais'],
-              ['Entrega', 'Relatórios executivos'],
-            ].map(([label, value]) => (
-              <div key={label} className="rounded-[18px] bg-white/72 border border-white px-5 py-4 shadow-sm">
-                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">{label}</p>
-                <p className="mt-1 text-sm font-black text-primary">{value}</p>
-              </div>
-            ))}
+          <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest py-4 border-t border-border/40">
+            Illumine Business Intelligence © {new Date().getFullYear()}
           </div>
         </section>
 
         <section className="flex items-center justify-center px-6 pb-10 lg:p-10 xl:p-16">
-          <div className="w-full max-w-[480px] rounded-[30px] bg-white border border-white shadow-2xl shadow-slate-900/12 overflow-hidden">
-            <div className="bg-primary text-white p-8 sm:p-10">
+          <div className="w-full max-w-[480px] rounded-card backdrop-blur-xl bg-card/65 border border-border/80 shadow-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-primary/5">
+            <div className="bg-gradient-to-b from-primary/10 to-transparent p-8 sm:p-10 border-b border-border/40">
               <div className="flex items-center justify-between">
-                <div className="w-16 h-16 rounded-[22px] bg-white/10 flex items-center justify-center">
-                  <IllumineMark className="w-11 h-11" />
+                <div className="w-12 h-12 rounded-button bg-primary/10 border border-primary/20 flex items-center justify-center shadow-inner">
+                  <IllumineMark className="w-8 h-8" />
                 </div>
-                <div className="flex items-center gap-2 rounded-full bg-emerald-400/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-emerald-200">
-                  <CheckCircle2 size={13} />
+                <div className="flex items-center gap-2 rounded-full bg-success/10 border border-success/20 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest text-success">
+                  <CheckCircle2 size={11} className="animate-pulse" />
                   Acesso protegido
                 </div>
               </div>
-              <h3 className="mt-9 text-3xl sm:text-4xl font-black tracking-tight text-white">
+              <h3 className="mt-7 text-h2 font-medium tracking-tight text-foreground">
                 Entrar no painel
               </h3>
-              <p className="mt-4 text-sm leading-6 text-slate-300">
-                Continue com sua conta Google para acessar seu ambiente de trabalho Illumine.
+              <p className="mt-3 text-body-sm leading-relaxed text-muted-foreground font-medium font-sans">
+                Continue com seu e-mail e senha ou conta Google para acessar seu ambiente de trabalho Illumine.
               </p>
             </div>
 
-            <div className="p-8 sm:p-10 space-y-5">
+            <div className="p-8 sm:p-10 space-y-6">
+              <form onSubmit={handleEmailAuth} className="space-y-5">
+                {/* Email Input */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block px-1">
+                    E-mail
+                  </label>
+                  <div className="relative group">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
+                      <Mail size={16} strokeWidth={1.5} />
+                    </span>
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="seu.nome@empresa.com.br"
+                      className="w-full pl-10 pr-4 py-3 bg-surface-container/30 border border-border rounded-button focus:border-primary focus:bg-background/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all text-body-sm font-sans text-foreground"
+                    />
+                  </div>
+                </div>
+
+                {/* Password Input */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block px-1">
+                    Senha
+                  </label>
+                  <div className="relative group">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
+                      <Lock size={16} strokeWidth={1.5} />
+                    </span>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Sua senha"
+                      className="w-full pl-10 pr-10 py-3 bg-surface-container/30 border border-border rounded-button focus:border-primary focus:bg-background/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all text-body-sm font-sans text-foreground"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {showPassword ? <EyeOff size={16} strokeWidth={1.5} /> : <Eye size={16} strokeWidth={1.5} />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting || isSigningIn}
+                  className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/95 hover:shadow-lg hover:shadow-primary/10 active:scale-[0.98] transition-all rounded-button font-bold text-body-sm uppercase tracking-widest flex items-center justify-center gap-2 shadow-sm disabled:opacity-75 disabled:cursor-not-allowed"
+                >
+                  {(isSubmitting || isSigningIn) ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <LogIn size={16} />
+                  )}
+                  Entrar
+                </button>
+              </form>
+
+              {/* Separator */}
+              <div className="relative flex items-center justify-center my-4">
+                <div className="absolute inset-x-0 h-px bg-border" />
+                <span className="relative px-3 bg-background text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                  ou continue com
+                </span>
+              </div>
+
+              {/* Google login button */}
               <button
                 type="button"
                 onClick={handleGoogleLogin}
-                disabled={isSigningIn}
-                className="w-full h-14 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-70 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 text-sm font-black text-slate-900 shadow-sm hover:shadow-md active:scale-[0.99]"
+                disabled={isSigningIn || isSubmitting}
+                className="w-full h-12 rounded-button border border-border bg-background/50 hover:bg-surface-container disabled:opacity-70 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 text-body-sm font-medium text-foreground shadow-sm hover:shadow-md hover:border-muted-foreground/30 active:scale-[0.98]"
               >
                 {isSigningIn ? (
                   <Loader2 size={18} className="animate-spin text-secondary" />
                 ) : (
-                  <span className="w-5 h-5 rounded-full bg-white border border-slate-200 flex items-center justify-center text-[11px] font-black text-secondary">
-                    G
-                  </span>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+                  </svg>
                 )}
                 {isSigningIn ? 'Conectando...' : 'Entrar com Google'}
               </button>
 
               {loginError && (
-                <div className="rounded-2xl bg-rose-50 border border-rose-100 px-4 py-3 text-xs font-bold text-rose-700 leading-5">
+                <div className="rounded-button bg-destructive/10 border border-destructive/20 px-4 py-3 text-body-sm font-medium text-destructive leading-5">
                   {loginError}
                 </div>
               )}
 
-              <div className="rounded-2xl bg-slate-50 border border-slate-100 p-5">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-                  Ambiente privado
+              <div className="rounded-button bg-surface-container/30 border border-border/60 p-5 backdrop-blur-sm">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                  <ShieldCheck size={12} className="text-secondary" />
+                  Ambiente privado e seguro
                 </p>
-                <p className="mt-2 text-xs leading-5 text-slate-500">
-                  Suas informações ficam associadas à sua conta e são apresentadas somente após a autenticação.
+                <p className="mt-2 text-body-sm leading-relaxed text-muted-foreground/75 font-medium font-sans">
+                  Suas informações ficam associadas à sua conta corporativa e são acessíveis somente mediante autenticação devidamente autorizada.
                 </p>
               </div>
             </div>
@@ -293,12 +475,12 @@ function LoginScreen() {
 
 function AuthLoadingScreen() {
   return (
-    <main className="min-h-screen bg-light flex items-center justify-center text-primary">
+    <main className="min-h-screen bg-background flex items-center justify-center text-foreground">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-14 h-14 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center">
+        <div className="w-14 h-14 rounded-button bg-background border border-border shadow-sm flex items-center justify-center">
           <Loader2 size={24} className="animate-spin text-secondary" />
         </div>
-        <p className="text-[10px] font-black uppercase tracking-[0.24em] text-slate-400">
+        <p className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground">
           Validando acesso
         </p>
       </div>
@@ -365,7 +547,13 @@ export default function App() {
           let hasAccess = masterCheck;
           
           if (!hasAccess) {
-            const userAssocQuery = query(collection(db, 'client_users'), where('email', '==', u.email));
+            const userAssocQuery = query(
+              collection(db, 'client_users'),
+              or(
+                where('email', '==', userEmail),
+                where('email', '==', u.email || '')
+              )
+            );
             const assocSnap = await getDocs(userAssocQuery);
             if (!assocSnap.empty) {
               const activeUsers = assocSnap.docs.filter(doc => doc.data().status !== 'Inativo');
@@ -394,6 +582,12 @@ export default function App() {
           if (hasAccess) {
             setUser(u);
           } else {
+            console.warn(`Access denied for non-registered user ${userEmail}. Deleting from Firebase Auth.`);
+            try {
+              await deleteUser(u);
+            } catch (err) {
+              console.error("Error deleting unauthorized user account:", err);
+            }
             await logout();
             setUser(null);
             window.dispatchEvent(new CustomEvent('login-error', { detail: 'Acesso negado. Usuário não cadastrado na plataforma.' }));
@@ -735,7 +929,7 @@ function AppContent({
 
   return (
     <SidebarProvider defaultOpen={!isSidebarCollapsed}>
-    <div className="flex h-screen bg-bg-main overflow-hidden text-text-main transition-colors duration-500 w-full">
+    <div className="flex h-screen bg-background overflow-hidden text-foreground transition-colors duration-500 w-full">
       <WelcomeMessage 
         isOpen={showWelcome} 
         onClose={() => setShowWelcome(false)} 
@@ -764,9 +958,9 @@ function AppContent({
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0 relative h-full overflow-hidden">
-        <header className="h-28 bg-bg-main/60 backdrop-blur-3xl flex items-center justify-between px-8 md:px-12 sticky top-0 z-50 transition-all duration-700 shadow-separator">
-          <div className="flex items-center gap-4 md:gap-16">
-            <SidebarTrigger className="text-text-muted hover:text-text-main hover:bg-bg-surface transition-colors rounded-lg p-2" />
+        <header className="h-16 bg-background/60 backdrop-blur-3xl flex items-center justify-between px-4 sm:px-6 md:px-8 sticky top-0 z-50 transition-all duration-700 border-b border-border shadow-sm">
+          <div className="flex items-center gap-4 md:gap-8">
+            <SidebarTrigger className="text-muted-foreground hover:text-foreground hover:bg-surface-container transition-colors rounded-button p-2" />
             
             <div className="hidden md:block">
               <ClientSelector 
@@ -776,22 +970,22 @@ function AppContent({
                 onManageClients={() => setCurrentPage('clientes')}
               />
             </div>
-
+ 
             <div className="relative group hidden lg:block">
               <input 
                 type="text" 
                 placeholder="Busca Global de Inteligência..." 
-                className="pl-12 pr-6 py-3.5 bg-bg-surface/40 border-b border-border-main focus:border-accent transition-all outline-none w-48 xl:w-80 text-sm font-sans text-text-main placeholder:text-text-dim focus:bg-bg-card" 
+                className="pl-8 pr-4 py-2 bg-surface-container/40 border-b border-border focus:border-secondary transition-all outline-none w-44 xl:w-72 text-xs font-sans text-foreground placeholder:text-neutral focus:bg-background" 
               />
-              <Search size={18} strokeWidth={1} className="text-text-dim absolute left-0 top-1/2 -translate-y-1/2 group-focus-within:text-accent transition-colors" />
+              <Search size={14} strokeWidth={1.25} className="text-neutral absolute left-2 top-1/2 -translate-y-1/2 group-focus-within:text-secondary transition-colors" />
             </div>
           </div>
             
-          <div className="flex items-center gap-12">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-6 md:gap-12">
+            <div className="flex items-center gap-1.5 sm:gap-3">
               <button 
                  onClick={() => window.print()}
-                 className="p-3 text-text-muted hover:text-text-main hover:bg-bg-surface rounded-full transition-all"
+                 className="p-3 text-muted-foreground hover:text-foreground hover:bg-surface-container rounded-full transition-all"
                  title="Imprimir Página"
               >
                  <FileSpreadsheet size={20} strokeWidth={1} />
@@ -809,7 +1003,7 @@ function AppContent({
             </div>
 
             <button 
-              className="px-12 py-4 bg-primary text-white text-[11px] font-bold uppercase tracking-[0.3em] shadow-floating hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-4 group overflow-hidden relative"
+              className="px-4 sm:px-8 md:px-12 py-4 bg-primary text-white text-[11px] font-bold uppercase tracking-[0.3em] shadow-floating hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-2 sm:gap-4 group overflow-hidden relative whitespace-nowrap shrink-0"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               <Zap size={18} strokeWidth={1} fill="currentColor" className="text-accent relative z-10" />

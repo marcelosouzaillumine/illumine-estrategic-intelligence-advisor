@@ -30,9 +30,9 @@ import {
   AreaChart, 
   Area 
 } from 'recharts';
-import { PageHeader } from '../Common';
+import { PageHeader, ControlBar } from '../Common';
 import { DATA } from '../../data';
-import { cn, formatCurrency } from '../../lib/utils';
+import { cn, formatCurrency, getThemeColors } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
 import { ContractModal } from '../modals/ContractModal';
 
@@ -112,6 +112,15 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
   const [selectedLoanId, setSelectedLoanId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'dashboard' | 'simulador' | 'amortizacao' | 'pagamentos'>('dashboard');
   const [showContractModal, setShowContractModal] = useState(false);
+
+  const [, setThemeTrigger] = useState(0);
+  useEffect(() => {
+    const handleThemeChange = () => setThemeTrigger(prev => prev + 1);
+    window.addEventListener('theme-changed', handleThemeChange);
+    return () => window.removeEventListener('theme-changed', handleThemeChange);
+  }, []);
+
+  const colors = getThemeColors();
   
   const filteredLoans: any[] = [];
   
@@ -196,6 +205,23 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
     setPaymentStatus((prev) => prev.map((item) => (item.periodo === periodo ? { ...item, [field]: value } : item)));
   };
 
+  if (!selectedClient) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade text-center p-20 bg-white border border-slate-200 rounded-[32px] w-full">
+         <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center text-secondary shadow-xl relative">
+            <div className="absolute inset-0 bg-secondary blur-3xl opacity-20 animate-pulse" />
+            <Boxes size={48} className="relative z-10 animate-pulse" />
+         </div>
+         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
+            <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Selecione uma Empresa</h2>
+            <p className="text-slate-500 w-full max-w-2xl mx-auto font-medium leading-relaxed">
+              Por favor, selecione uma empresa no seletor de cliente ativo no topo da tela para visualizar o painel de passivos.
+            </p>
+         </div>
+      </div>
+    );
+  }
+
   if (!loanData && filteredLoans.length === 0) {
     return (
       <div className="space-y-12 pb-20">
@@ -208,7 +234,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             <WalletCards size={48} className="text-slate-200" />
           </div>
           <h3 className="text-xl font-bold text-slate-800 mb-2">Sem contratos registrados</h3>
-          <p className="text-slate-500 max-w-md mb-8">Nenhum contrato de financiamento foi cadastrado para o cliente {clients.find((c: any) => c.id === selectedClient)?.fantasia} até o momento.</p>
+          <p className="text-slate-500 max-w-md mb-8">Nenhum contrato de financiamento foi cadastrado para o cliente {(clients || []).find((c: any) => c.id === selectedClient)?.fantasia || 'Selecionado'} até o momento.</p>
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setShowContractModal(true)}
@@ -216,7 +242,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             >
               <Plus size={16} /> Inserir Contrato
             </button>
-            <button className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-blue-500/20">
+            <button className="px-4 md:px-6 py-2 md:py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-blue-500/20">
               <Upload size={16} /> Importar
             </button>
           </div>
@@ -229,47 +255,38 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
     <div className="space-y-10 pb-20 animate-executive-fade">
       <PageHeader 
         title="Gestão de Passivos" 
-        subtitle={`Gestão de contratos de empréstimos e parcelamentos tributários · ${inputs.empresa || clients.find((c: any) => c.id === selectedClient)?.fantasia}`}
+        subtitle={`Gestão de contratos de empréstimos e parcelamentos tributários · ${inputs.empresa || (clients || []).find((c: any) => c.id === selectedClient)?.fantasia || 'Selecionado'}`}
         icon={<Boxes className="text-secondary" size={24} />}
         color="bg-slate-900"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 overflow-x-auto max-w-md">
-            {[
-              { id: 'dashboard', label: 'DASHBOARD' },
-              { id: 'simulador', label: 'SIMULADOR' },
-              { id: 'amortizacao', label: 'AMORTIZAÇÃO' },
-              { id: 'pagamentos', label: 'PAGAMENTOS' }
-            ].map(tab => (
-              <button 
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={cn(
-                  "px-4 py-2 text-[10px] font-black rounded-lg transition-all uppercase tracking-widest whitespace-nowrap",
-                  activeTab === tab.id ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
-                )}
-              >{tab.label}</button>
-            ))}
+      {/* Control Bar */}
+      <ControlBar 
+        tabs={[
+          { id: 'dashboard', label: 'DASHBOARD' },
+          { id: 'simulador', label: 'SIMULADOR' },
+          { id: 'amortizacao', label: 'AMORTIZAÇÃO' },
+          { id: 'pagamentos', label: 'PAGAMENTOS' }
+        ]}
+        activeTab={activeTab}
+        setActiveTab={(tab) => setActiveTab(tab)}
+        actions={
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setShowContractModal(true)}
+              className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-sm cursor-pointer"
+            >
+              <Plus size={14} /> Inserir
+            </button>
+            <button className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-100 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-sm cursor-pointer">
+              <Upload size={14} /> Importar
+            </button>
+            <button className="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-sm cursor-pointer">
+              <Trash2 size={14} /> Excluir
+            </button>
           </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={() => setShowContractModal(true)}
-            className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
-          >
-            <Plus size={14} /> Inserir
-          </button>
-          <button className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm">
-            <Upload size={14} /> Importar
-          </button>
-          <button className="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm">
-            <Trash2 size={14} /> Excluir
-          </button>
-        </div>
-      </div>
+        }
+      />
 
 
       <AnimatePresence mode="wait">
@@ -333,7 +350,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                       })()}
                     </div>
                   </div>
-                  <h3 className="text-2xl font-display font-black text-slate-900 tracking-tight relative z-10">{kpi.value}</h3>
+                  <h3 className="text-2xl font-display font-black text-slate-900 tracking-tight relative z-10 whitespace-nowrap">{kpi.value}</h3>
                   <p className="text-[10px] font-bold text-slate-400 mt-4 flex items-center gap-2 relative z-10 opacity-80 italic">
                     <ArrowRight size={12} className="text-secondary" /> {kpi.helper}
                   </p>
@@ -351,16 +368,16 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 <div className="h-[300px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
-                      <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={(v) => `R$${Math.round(v / 1000)}k`} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
+                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: colors.mutedForeground, fontWeight: 600 }} />
+                      <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: colors.mutedForeground, fontWeight: 600 }} tickFormatter={(v) => `R$${Math.round(v / 1000)}k`} />
                       <Tooltip 
-                        contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
+                        contentStyle={{ borderRadius: '12px', border: `1px solid ${colors.border}`, backgroundColor: colors.cardBg, color: colors.cardFg, boxShadow: 'var(--shadow-floating)', fontSize: '12px' }}
                         formatter={(value: number) => formatCurrency(value)}
                       />
                       <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }} />
-                      <Bar dataKey="total" name="Total a Pagar" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={40} />
-                      <Bar dataKey="juros" name="Custo de Juros" fill="#94a3b8" radius={[4, 4, 0, 0]} barSize={40} />
+                      <Bar dataKey="total" name="Total a Pagar" fill={colors.primary} radius={[4, 4, 0, 0]} barSize={40} />
+                      <Bar dataKey="juros" name="Custo de Juros" fill={colors.secondary} radius={[4, 4, 0, 0]} barSize={40} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -376,18 +393,18 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                     <AreaChart data={saldoData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorSaldo" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.1}/>
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                          <stop offset="5%" stopColor={colors.primary} stopOpacity={0.1}/>
+                          <stop offset="95%" stopColor={colors.primary} stopOpacity={0}/>
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                      <XAxis dataKey="periodo" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
-                      <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={(v) => `R$${Math.round(v / 1000)}k`} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
+                      <XAxis dataKey="periodo" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: colors.mutedForeground, fontWeight: 600 }} />
+                      <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: colors.mutedForeground, fontWeight: 600 }} tickFormatter={(v) => `R$${Math.round(v / 1000)}k`} />
                       <Tooltip 
-                        contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
+                        contentStyle={{ borderRadius: '12px', border: `1px solid ${colors.border}`, backgroundColor: colors.cardBg, color: colors.cardFg, boxShadow: 'var(--shadow-floating)', fontSize: '12px' }}
                         formatter={(value: number) => formatCurrency(value)}
                       />
-                      <Area type="monotone" dataKey="saldo" name="Saldo Devedor" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorSaldo)" />
+                      <Area type="monotone" dataKey="saldo" name="Saldo Devedor" stroke={colors.primary} strokeWidth={3} fillOpacity={1} fill="url(#colorSaldo)" />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>

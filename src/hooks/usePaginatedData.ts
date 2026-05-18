@@ -16,7 +16,7 @@ import { db } from '../lib/firebase';
 interface UsePaginatedDataOptions {
   collectionName: string;
   filters: { field: string; operator: any; value: any }[];
-  orderByField: string;
+  orderByField?: string;
   orderDirection?: 'asc' | 'desc';
   pageSize?: number;
 }
@@ -44,9 +44,12 @@ export function usePaginatedData<T = any>({
       const baseQuery = collection(db, collectionName);
       const queryConstraints: QueryConstraint[] = [
         ...filters.map(f => where(f.field, f.operator, f.value)),
-        orderBy(orderByField, orderDirection),
         limit(pageSize)
       ];
+
+      if (orderByField) {
+        queryConstraints.push(orderBy(orderByField, orderDirection));
+      }
 
       if (!isReset && lastDoc) {
         queryConstraints.push(startAfter(lastDoc));

@@ -313,15 +313,15 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart layout="vertical" data={abcData} margin={{ left: 40, right: 40 }}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--color-border)" />
                 <XAxis type="number" hide />
-                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
+                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-muted-foreground)', fontWeight: 600 }} />
                 <Tooltip 
-                  cursor={{ fill: '#f8fafc' }}
-                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                  cursor={{ fill: 'var(--color-surface-container)' }}
+                  contentStyle={{ borderRadius: '16px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-card)', color: 'var(--color-card-foreground)', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                   formatter={(v: number) => formatCurrency(v)}
                 />
-                <Bar dataKey="value" fill="#0e1c2c" radius={[0, 4, 4, 0]} barSize={20} />
+                <Bar dataKey="value" fill="var(--color-primary)" radius={[0, 4, 4, 0]} barSize={20} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -342,18 +342,18 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
               <AreaChart data={weeklyFlow}>
                 <defs>
                   <linearGradient id="colorValPay2" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#ff8552" stopOpacity={0.1}/>
-                    <stop offset="95%" stopColor="#ff8552" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="var(--color-secondary)" stopOpacity={0.1}/>
+                    <stop offset="95%" stopColor="var(--color-secondary)" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={v => `R$${v/1000}k`} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-muted-foreground)', fontWeight: 600 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--color-muted-foreground)', fontWeight: 600 }} tickFormatter={v => `R$${v/1000}k`} />
                 <Tooltip 
-                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                  contentStyle={{ borderRadius: '16px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-card)', color: 'var(--color-card-foreground)', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                   formatter={(v: number) => formatCurrency(v)}
                 />
-                <Area type="monotone" dataKey="valor" stroke="#ff8552" strokeWidth={3} fillOpacity={1} fill="url(#colorValPay2)" />
+                <Area type="monotone" dataKey="valor" stroke="var(--color-secondary)" strokeWidth={3} fillOpacity={1} fill="url(#colorValPay2)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

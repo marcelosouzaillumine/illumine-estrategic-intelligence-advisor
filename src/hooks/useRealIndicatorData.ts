@@ -4,6 +4,7 @@ import { db } from '../lib/firebase';
 
 export interface RealKPIs {
   margemLiquida: number;
+  netProfit: number;
   ebitda: number;
   roa: number;
   liquidezCorrente: number;
@@ -18,6 +19,7 @@ export interface RealKPIs {
 export function useRealIndicatorData(clientId: string, month: number, year: number) {
   const [kpis, setKpis] = useState<RealKPIs>({
     margemLiquida: 0,
+    netProfit: 0,
     ebitda: 0,
     roa: 0,
     liquidezCorrente: 0,
@@ -35,7 +37,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
     const standardMappings: Record<string, string[]> = {
       revenue: ['Receita Líquida', 'Receita Operacional Bruta', 'Faturamento', 'Receita de Vendas'],
       ebitda: ['EBITDA', 'LAJIDA'],
-      margemLiquida: ['Lucro Líquido', 'Resultado Líquido'],
+      netProfit: ['Lucro Líquido', 'Resultado Líquido'],
       liquidezCorrente: ['Liquidez Corrente'],
       saldoCaixa: ['Saldo em Caixa', 'Caixa e Equivalentes', 'Disponibilidades', 'Bancos', 'Conta Corrente'],
     };
@@ -62,7 +64,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
 
     const calculateAll = () => {
       const calculated: RealKPIs = {
-        margemLiquida: 0, ebitda: 0, roa: 0, liquidezCorrente: 0, revenue: 0, ebitdaMargin: 0, saldoCaixa: 0, totalAssets: 0, totalLiabilities: 0
+        margemLiquida: 0, netProfit: 0, ebitda: 0, roa: 0, liquidezCorrente: 0, revenue: 0, ebitdaMargin: 0, saldoCaixa: 0, totalAssets: 0, totalLiabilities: 0
       };
 
       // A. Process via manual mappings
@@ -74,6 +76,13 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
         if (!calculated[acc.kpiMapping]) calculated[acc.kpiMapping] = 0;
         calculated[acc.kpiMapping] += sum;
       });
+
+      // Align manual mappings to internal keys
+      if (calculated.receita_liquida) calculated.revenue = calculated.receita_liquida;
+      if (calculated.lucro_liquido) calculated.netProfit = calculated.lucro_liquido;
+      if (calculated.disponibilidades) calculated.saldoCaixa = calculated.disponibilidades;
+      if (calculated.ativo_circulante) calculated.totalAssets = calculated.ativo_circulante;
+      if (calculated.passivo_circulante) calculated.totalLiabilities = calculated.passivo_circulante;
 
       // B. Process via standard names heuristic
       Object.entries(standardMappings).forEach(([kpi, names]) => {
@@ -121,7 +130,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
 
       // D. Derived Metrics
       if (calculated.revenue > 0) {
-        calculated.margemLiquida = (calculated.margemLiquida / calculated.revenue) * 100;
+        calculated.margemLiquida = (calculated.netProfit / calculated.revenue) * 100;
         calculated.ebitdaMargin = (calculated.ebitda / calculated.revenue) * 100;
       }
 

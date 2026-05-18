@@ -312,7 +312,7 @@ export function ContractModal({ clientId, onClose, onSuccess, contractToEdit }: 
           <button
             type="button"
             onClick={onClose}
-            className="px-6 py-3 font-bold text-slate-500 hover:text-slate-700 transition-all"
+            className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 hover:text-slate-700 transition-all"
           >
             Cancelar
           </button>
@@ -320,7 +320,7 @@ export function ContractModal({ clientId, onClose, onSuccess, contractToEdit }: 
             type="submit"
             form="contract-form"
             disabled={loading}
-            className="px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-slate-900/20 disabled:opacity-50"
+            className="px-5 md:px-8 py-2 md:py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-slate-900/20 disabled:opacity-50"
           >
             {loading ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
             {loading ? 'Salvando...' : 'Salvar Contrato'}

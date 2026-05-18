@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn, formatValue, formatCurrency } from '../../lib/utils';
-import { PageHeader } from '../Common';
+import { PageHeader, KpiCard } from '../Common';
 
 interface AdministrativaPageProps {
   clientId: string;
@@ -67,31 +67,31 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
   ].filter(d => d.value > 0);
 
   return (
-    <div className="space-y-10 pb-32 animate-executive-fade">
+    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
         title="Indicadores Administrativos"
         subtitle="Monitoramento de eficiência de back-office, gestão de despesas fixas e otimização de processos de suporte."
         icon={FileText}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <ShieldCheck size={14} className="text-emerald-500" />
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Back-office Target: <span className="text-emerald-600">Otimizado</span></span>
+              <ShieldCheck size={14} className="text-success" />
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Back-office Target: <span className="text-success">Otimizado</span></span>
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-3 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-slate-100">
+          <div className="flex items-center gap-3 bg-card p-1 rounded-md border border-border shadow-sm">
+            <div className="flex items-center px-4 py-2 border-r border-border">
               <select 
                 value={selectedYear} 
                 onChange={(e) => setSelectedYear(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                className="text-[10px] font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {[2024, 2025, 2026].map(y => (
                   <option key={y} value={y}>{y}</option>
@@ -102,7 +102,7 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
               <select 
                 value={selectedMonth} 
                 onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                className="text-[10px] font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
                   <option key={i} value={i + 1}>{label}</option>
@@ -113,83 +113,63 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
         </div>
       </div>
 
-      {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {indicators.map((kpi, idx) => (
-          <motion.div 
+          <KpiCard 
             key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.1 }}
-            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:border-primary/10 transition-all group"
-          >
-            <div className="flex justify-between items-start mb-6">
-                <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
-                  {(() => {
-                    const Icon = kpi.icon;
-                    return <Icon size={24} />;
-                  })()}
-                </div>
-               <div className={cn(
-                 "px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest",
-                 kpi.status === 'positive' ? "bg-emerald-50 text-emerald-600" : 
-                 kpi.status === 'negative' ? "bg-rose-50 text-rose-600" : "bg-amber-50 text-amber-600"
-               )}>
-                 {kpi.status === 'positive' ? 'No Alvo' : kpi.status === 'negative' ? 'Crítico' : 'Atenção'}
-               </div>
-            </div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{kpi.label}</p>
-            <p className="text-2xl font-black text-slate-800 whitespace-nowrap">
-              {formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '')}
-            </p>
-          </motion.div>
+            title={kpi.label}
+            value={formatValue(kpi.value, '')}
+            suffix={kpi.isCur ? 'R$' : kpi.suffix || ''}
+            icon={kpi.icon}
+            status={kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo'}
+          />
         ))}
       </div>
 
       {hasData && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
            {/* Department Breakdown */}
-           <div className="lg:col-span-2 bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
-              <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-8 flex items-center gap-3">
-                 <PieIcon size={20} className="text-primary" /> Distribuição de Gastos Administrativos
+           <div className="lg:col-span-2 card-premium p-10 relative overflow-hidden">
+              <h3 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
+                 <PieIcon size={20} className="text-secondary" /> Distribuição de Gastos Administrativos
               </h3>
               <div className="space-y-6">
                  {departmentBreakdown.map((dept, i) => {
-                   const total = departmentBreakdown.reduce((acc, d) => acc + d.value, 0);
-                   const percent = (dept.value / total) * 100;
-                   return (
-                     <div key={i} className="group">
-                        <div className="flex justify-between items-center text-xs font-bold mb-2">
-                           <span className="text-slate-600">{dept.name}</span>
-                           <div className="flex gap-4">
-                              <span className="text-slate-400 font-medium">{percent.toFixed(1)}%</span>
-                              <span className="text-primary font-black">{formatCurrency(dept.value)}</span>
-                           </div>
-                        </div>
-                        <div className="h-3 bg-slate-50 rounded-full overflow-hidden">
-                           <motion.div 
-                             initial={{ width: 0 }}
-                             animate={{ width: `${percent}%` }}
-                             className="h-full rounded-full"
-                             style={{ backgroundColor: dept.color }}
-                           />
-                        </div>
-                     </div>
-                   );
+                    const total = departmentBreakdown.reduce((acc, d) => acc + d.value, 0);
+                    const percent = (dept.value / total) * 100;
+                    return (
+                      <div key={i} className="group">
+                         <div className="flex justify-between items-center text-[10px] font-medium uppercase tracking-widest mb-2">
+                            <span className="text-muted-foreground">{dept.name}</span>
+                            <div className="flex gap-4">
+                               <span className="text-muted-foreground/40 italic">{percent.toFixed(1)}%</span>
+                               <span className="text-foreground tracking-tighter">{formatCurrency(dept.value)}</span>
+                            </div>
+                         </div>
+                         <div className="h-2.5 bg-surface-container rounded-sm overflow-hidden shadow-inner border border-border">
+                            <motion.div 
+                              initial={{ width: 0 }}
+                              animate={{ width: `${percent}%` }}
+                              className="h-full rounded-sm shadow-premium"
+                              style={{ backgroundColor: dept.color }}
+                            />
+                         </div>
+                      </div>
+                    );
                  })}
                  {departmentBreakdown.length === 0 && (
-                   <p className="text-center text-slate-400 py-10 font-medium italic">Dados de distribuição não disponíveis</p>
+                   <p className="text-center text-muted-foreground/40 py-10 font-medium italic uppercase tracking-widest text-[10px]">Dados de distribuição não disponíveis</p>
                  )}
               </div>
            </div>
 
            {/* Admin Insights */}
-           <div className="bg-slate-900 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden">
-              <div className="absolute right-0 top-0 p-8 text-secondary/5">
+           <div className="bg-executive p-10 rounded-md text-white shadow-premium relative overflow-hidden border border-white/5">
+              <div className="absolute right-0 top-0 p-8 text-secondary/5 opacity-10 shadow-inner">
                  <Zap size={120} strokeWidth={1} />
               </div>
               <div className="relative z-10 space-y-8">
-                 <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
+                 <h3 className="text-[10px] font-medium text-secondary uppercase tracking-[0.2em] flex items-center gap-3 shadow-sm">
                     <MessageSquare size={20} /> Otimização Administrativa
                  </h3>
                  <div className="space-y-6">
@@ -199,10 +179,10 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
                       "Revisar política de viagens e reembolsos para maior controle orçamentário."
                     ].map((rec, i) => (
                       <div key={i} className="flex gap-4 group cursor-default">
-                         <div className="w-8 h-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all">
+                         <div className="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center text-secondary font-medium text-[10px] shrink-0 group-hover:bg-secondary group-hover:text-white transition-all shadow-inner">
                             {i + 1}
                          </div>
-                         <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors">
+                         <p className="text-[11px] font-medium text-white/60 uppercase tracking-widest italic leading-relaxed group-hover:text-white transition-colors">
                             {rec}
                          </p>
                       </div>

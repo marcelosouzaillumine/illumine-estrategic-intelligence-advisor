@@ -530,7 +530,7 @@ export function OrcamentoPage({
                       <td colSpan={5} className="px-8 py-20 text-center">
                         <FileSpreadsheet size={48} className="text-slate-200 mx-auto mb-4" />
                         <h4 className="text-xl font-display text-primary">Nenhum lançamento encontrado</h4>
-                        <p className="text-slate-500 max-w-xs mx-auto mt-2">Clique em "Novo Lançamento" ou importe um arquivo CSV para começar.</p>
+                        <p className="text-slate-500 max-w-2xl mx-auto mt-2">Clique em "Novo Lançamento" ou importe um arquivo CSV para começar.</p>
                       </td>
                     </tr>
                   ) : (

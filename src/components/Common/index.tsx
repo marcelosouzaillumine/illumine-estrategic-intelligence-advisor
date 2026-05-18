@@ -1,4 +1,5 @@
 export { CurrencySelector, SUPPORTED_CURRENCIES } from './CurrencySelector';
 export type { SupportedCurrency } from './CurrencySelector';
-export { PageHeader, Semaphore, StatusBadge, SectionHeader, MarkdownText } from './Base';
+export { PageHeader, Semaphore, StatusBadge, SectionHeader, MarkdownText, KpiCard, KpiValue, ControlBar } from './Base';
+export type { ControlBarProps } from './Base';
 export { WelcomeMessage, getRandomWelcomeMessage } from './WelcomeMessage';

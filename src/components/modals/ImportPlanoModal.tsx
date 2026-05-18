@@ -381,7 +381,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
               
               <button 
                 onClick={onSuccess}
-                className="px-8 py-3 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg hover:bg-slate-800 transition-all mt-4"
+                className="px-5 md:px-8 py-2 md:py-3 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg hover:bg-slate-800 transition-all mt-4"
               >
                 Concluir e Voltar
               </button>
@@ -517,10 +517,10 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                                   </span>
                                 </td>
                                 <td className="px-3 py-2 font-mono font-bold text-slate-500">{acc.code}</td>
-                                <td className="px-3 py-2 font-bold text-slate-700 max-w-[180px] truncate">
+                                <td className="px-3 py-2 font-bold text-slate-700">
                                   {acc.name}
                                   {acc._status === 'conflict' && (
-                                    <span className="block text-[9px] text-orange-400 font-medium truncate">
+                                    <span className="block text-[9px] text-orange-400 font-medium">
                                       atual: {acc._existingName}
                                     </span>
                                   )}

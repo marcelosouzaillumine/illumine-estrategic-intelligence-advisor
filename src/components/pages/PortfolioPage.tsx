@@ -323,8 +323,8 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
-        <div className="w-12 h-12 border-4 border-slate-900 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-sm font-black text-slate-500 uppercase tracking-widest animate-pulse">Consolidando Portfólio...</p>
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest animate-pulse">Consolidando Portfólio...</p>
       </div>
     );
   }
@@ -338,13 +338,13 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
       />
 
       {/* ── Barra de Ferramentas (Fora do Título) ── */}
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm">
-        <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 shrink-0">
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm w-full">
+        <div className="bg-surface-container-high p-1 rounded-button flex flex-row overflow-x-auto whitespace-nowrap gap-1 border border-border w-full lg:w-auto scrollbar-none shrink-0">
           <button 
             onClick={() => setViewMode('list')}
             className={cn(
-              "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-              viewMode === 'list' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+              "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all shrink-0",
+              viewMode === 'list' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             )}
           >
             Listagem
@@ -352,8 +352,8 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
           <button 
             onClick={() => setViewMode('strategic')}
             className={cn(
-              "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-              viewMode === 'strategic' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+              "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all shrink-0",
+              viewMode === 'strategic' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             )}
           >
             Estratégico
@@ -361,8 +361,8 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
           <button 
             onClick={() => setViewMode('partner')}
             className={cn(
-              "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-              viewMode === 'partner' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+              "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all shrink-0",
+              viewMode === 'partner' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             )}
           >
             Por Parceiro
@@ -370,29 +370,31 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
           <button 
             onClick={() => setViewMode('model')}
             className={cn(
-              "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-              viewMode === 'model' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+              "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all shrink-0",
+              viewMode === 'model' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             )}
           >
             Modelos (Demo)
           </button>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
           {/* ── Seletor de Moeda ── */}
-          <CurrencySelector
-            selected={selectedCurrency}
-            onChange={setSelectedCurrency}
-            loading={ratesLoading}
-            error={ratesError}
-            lastUpdated={lastUpdated}
-            rates={rates.toBRL}
-          />
+          <div className="flex-1 sm:flex-none">
+            <CurrencySelector
+              selected={selectedCurrency}
+              onChange={setSelectedCurrency}
+              loading={ratesLoading}
+              error={ratesError}
+              lastUpdated={lastUpdated}
+              rates={rates.toBRL}
+            />
+          </div>
 
           <button 
             onClick={downloadPDF}
             disabled={isExporting}
-            className="px-6 py-3 bg-slate-900 text-white hover:bg-slate-800 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-slate-900/10 disabled:opacity-50"
+            className="w-full sm:w-auto justify-center px-4 md:px-6 py-2 md:py-3 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-body-sm font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm disabled:opacity-50"
           >
             {isExporting ? <span className="animate-spin mr-2">◌</span> : <TrendingUp size={14} className="text-secondary" />} 
             {isExporting ? 'Gerando...' : 'Exportar QBR Consolidado'}
@@ -407,21 +409,21 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
           { label: 'Alertas Críticos', value: stats.activeAlerts, icon: AlertCircle, color: 'rose', desc: 'Urgência imediata' },
           { label: 'Total de Clientes', value: stats.totalClients, icon: Users, color: 'slate', desc: `${stats.onboarding} em onboarding` },
         ].map((stat, i) => (
-          <div key={i} className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-slate-300 transition-all">
+          <div key={i} className="bg-background p-6 rounded-md border border-border shadow-sm relative overflow-hidden group hover:border-primary/20 transition-all">
             <div className={cn(
               "absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500",
-              stat.color === 'blue' ? "text-blue-600" : stat.color === 'emerald' ? "text-emerald-600" : stat.color === 'rose' ? "text-rose-600" : "text-slate-600"
+              stat.color === 'blue' ? "text-blue-600" : stat.color === 'emerald' ? "text-emerald-600" : stat.color === 'rose' ? "text-rose-600" : "text-foreground"
             )}>
               {(() => {
                 const Icon = stat.icon;
                 return <Icon size={120} strokeWidth={1} />;
               })()}
             </div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
+            <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">{stat.label}</p>
             <div className="flex items-baseline gap-1 sm:gap-2 min-w-0">
-              <h3 className="text-xl sm:text-3xl font-black text-slate-900 truncate">{stat.value}</h3>
+              <h3 className="text-h2 font-medium text-foreground">{stat.value}</h3>
             </div>
-            <p className="text-[10px] font-medium text-slate-400 mt-2">{stat.desc}</p>
+            <p className="text-body-sm font-medium text-muted-foreground mt-2">{stat.desc}</p>
           </div>
         ))}
       </div>
@@ -429,37 +431,37 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
       {viewMode === 'strategic' ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-slate-900 rounded-[40px] p-10 text-white relative overflow-hidden min-h-[300px] flex flex-col justify-center">
+            <div className="bg-primary rounded-card p-10 text-primary-foreground relative overflow-hidden min-h-[300px] flex flex-col justify-center border border-border/10">
               <div className="absolute top-0 right-0 p-12 opacity-10 rotate-12"><ShieldAlert size={160} /></div>
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-rose-500/20 border border-rose-500/30 rounded-full mb-6">
-                  <span className="w-2 h-2 bg-rose-500 rounded-full animate-pulse"></span>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-rose-400">Alerta de Risco Sistêmico</span>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-destructive/20 border border-destructive/30 rounded-full mb-6">
+                  <span className="w-2 h-2 bg-destructive rounded-full animate-pulse"></span>
+                  <span className="text-body-sm font-medium uppercase tracking-widest text-destructive">Alerta de Risco Sistêmico</span>
                 </div>
-                <h4 className="text-3xl font-display font-black mb-6 max-w-2xl leading-tight">Exposição do Portfólio à Transição da Reforma Tributária</h4>
+                <h4 className="text-h1 font-medium mb-6 max-w-2xl leading-tight">Exposição do Portfólio à Transição da Reforma Tributária</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                  <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Empresas Impactadas</p>
-                    <p className="text-3xl font-black text-rose-500">{stats.impactPercentage}%</p>
-                    <p className="text-[10px] text-slate-400 mt-2">Setores de Serviços e Tecnologia na base.</p>
+                  <div className="p-4 bg-white/5 rounded-md border border-white/10">
+                    <p className="text-body-sm font-medium text-muted-foreground uppercase mb-2">Empresas Impactadas</p>
+                    <p className="text-h2 font-medium text-destructive">{stats.impactPercentage}%</p>
+                    <p className="text-body-sm text-muted-foreground mt-2">Setores de Serviços e Tecnologia na base.</p>
                   </div>
-                  <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Volume sob Risco</p>
-                    <p className="text-3xl font-black text-white">{fmtCurrency(stats.impactedRevenue, selectedCurrency)}</p>
-                    <p className="text-[10px] text-slate-400 mt-2">Receita total dos clientes expostos.</p>
+                  <div className="p-4 bg-white/5 rounded-md border border-white/10">
+                    <p className="text-body-sm font-medium text-muted-foreground uppercase mb-2">Volume sob Risco</p>
+                    <p className="text-h2 font-medium text-primary-foreground">{fmtCurrency(stats.impactedRevenue, selectedCurrency)}</p>
+                    <p className="text-body-sm text-muted-foreground mt-2">Receita total dos clientes expostos.</p>
                   </div>
-                  <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Prioridade de Saneamento</p>
-                    <p className="text-3xl font-black text-amber-500">{stats.impactPercentage > 50 ? 'Alta' : 'Média'}</p>
-                    <p className="text-[10px] text-slate-400 mt-2">Necessidade de revisão de NCM/CST.</p>
+                  <div className="p-4 bg-white/5 rounded-md border border-white/10">
+                    <p className="text-body-sm font-medium text-muted-foreground uppercase mb-2">Prioridade de Saneamento</p>
+                    <p className="text-h2 font-medium text-amber-500">{stats.impactPercentage > 50 ? 'Alta' : 'Média'}</p>
+                    <p className="text-body-sm text-muted-foreground mt-2">Necessidade de revisão de NCM/CST.</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm">
-                <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+              <div className="bg-background rounded-md p-8 border border-border shadow-sm">
+                <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
                   <Target size={14} className="text-blue-600" /> Concentração por Segmento (Fat.)
                 </h5>
                 <div className="space-y-4">
@@ -467,17 +469,17 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                     .sort(([, a], [, b]) => b - a)
                     .map(([industry, revenue], i) => (
                       <div key={i} className="space-y-1">
-                        <div className="flex justify-between text-[10px] font-black uppercase tracking-tighter">
+                        <div className="flex justify-between text-body-sm font-medium uppercase tracking-tighter">
                           <span>{industry}</span>
-                          <span className="text-slate-400">{((revenue / stats.totalRevenue) * 100).toFixed(1)}%</span>
+                          <span className="text-muted-foreground">{((revenue / stats.totalRevenue) * 100).toFixed(1)}%</span>
                         </div>
-                        <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-2 bg-surface-container rounded-full overflow-hidden">
                           <motion.div 
                             initial={{ width: 0 }}
                             animate={{ width: `${(revenue / stats.totalRevenue) * 100}%` }}
                             className={cn(
                               "h-full rounded-full",
-                              i === 0 ? "bg-slate-900" : i === 1 ? "bg-blue-600" : "bg-slate-400"
+                              i === 0 ? "bg-primary" : i === 1 ? "bg-blue-600" : "bg-neutral"
                             )}
                           />
                         </div>
@@ -486,9 +488,9 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                 </div>
               </div>
 
-                  <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col justify-between">
+                  <div className="bg-background rounded-md p-8 border border-border shadow-sm flex flex-col justify-between">
                 <div>
-                  <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                  <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
                     <Users size={14} className="text-secondary" /> Volume por Parceiro Estratégico
                   </h5>
                   <div className="h-[200px] w-full">
@@ -499,12 +501,12 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                           dataKey="name" 
                           axisLine={false} 
                           tickLine={false} 
-                          tick={{ fontSize: 9, fill: '#94a3b8', fontWeight: 600 }} 
+                          tick={{ fontSize: 9, fill: 'var(--color-muted-foreground)', fontWeight: 600 }} 
                           hide={false}
                         />
-                        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 9, fill: '#94a3b8', fontWeight: 600 }} />
+                        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 9, fill: 'var(--color-muted-foreground)', fontWeight: 600 }} />
                         <Tooltip 
-                          contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '10px' }}
+                          contentStyle={{ borderRadius: '12px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-card)', color: 'var(--color-card-foreground)', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '10px' }}
                         />
                         <Bar dataKey="value" fill="#ff8552" radius={[4, 4, 0, 0]} barSize={20} />
                       </BarChart>
@@ -513,7 +515,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                 </div>
                 <button 
                   onClick={() => setViewMode('partner')}
-                  className="w-full mt-4 py-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all"
+                  className="w-full mt-4 py-4 bg-surface-container hover:bg-surface-container-high border border-border rounded-md text-body-sm font-medium uppercase tracking-widest transition-all"
                 >
                   Análise por Parceiro
                 </button>
@@ -522,11 +524,11 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
           </div>
 
           <div className="space-y-8">
-            <div className="bg-white rounded-[40px] border-2 border-slate-900 p-8 shadow-xl relative">
-              <div className="absolute -top-3 left-8 px-4 py-1 bg-slate-900 text-white rounded-full text-[8px] font-black uppercase tracking-widest">
+            <div className="bg-background rounded-card border-2 border-primary p-8 shadow-lg relative">
+              <div className="absolute -top-3 left-8 px-4 py-1 bg-primary text-primary-foreground rounded-full text-[8px] font-medium uppercase tracking-widest">
                 Master Insight
               </div>
-              <h5 className="text-lg font-display font-black text-slate-900 mb-6">Agenda Prioritária Master</h5>
+              <h5 className="text-h3 font-medium text-foreground mb-6">Agenda Prioritária Master</h5>
               <div className="space-y-6">
                 {portfolioData
                   .filter(c => !c.isModel && (c.status === 'critical' || c.criticalAlerts > 0))
@@ -535,9 +537,9 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                   .map((client, i) => (
                     <div key={i} className="flex gap-4 group cursor-pointer" onClick={() => onSelectClient(client.id)}>
                       <div className={cn(
-                        "w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white text-sm shrink-0 overflow-hidden",
-                        (client.logo || client.icon) ? "bg-white border border-slate-100" :
-                        client.score > 60 ? "bg-blue-500" : "bg-rose-500"
+                        "w-12 h-12 rounded-md flex items-center justify-center font-medium text-white text-body-md shrink-0 overflow-hidden",
+                        (client.logo || client.icon) ? "bg-background border border-border" :
+                        client.score > 60 ? "bg-primary" : "bg-destructive"
                       )}>
                         {client.icon || client.logo ? (
                           <img src={client.icon || client.logo} alt={client.name} className="w-full h-full object-cover" />
@@ -546,63 +548,63 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                         )}
                       </div>
                       <div>
-                        <p className="text-xs font-black text-slate-900 group-hover:text-blue-600 transition-colors">
+                        <p className="text-body-sm font-medium text-foreground group-hover:text-primary transition-colors">
                           {client.score < 50 ? 'Intervenção Estratégica Urgente' : 'Revisão de Performance'}
                         </p>
                         <div className="flex items-center gap-2 mt-1">
-                          <span className="text-[9px] font-bold text-slate-400 uppercase">{client.name}</span>
-                          <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
-                          <span className="text-[9px] font-bold text-slate-400 uppercase">Score: {client.score}</span>
+                          <span className="text-[9px] font-medium text-muted-foreground uppercase">{client.name}</span>
+                          <span className="w-1 h-1 bg-border rounded-full"></span>
+                          <span className="text-[9px] font-medium text-muted-foreground uppercase">Score: {client.score}</span>
                         </div>
                       </div>
                     </div>
                   ))}
                 {portfolioData.filter(c => c.status === 'critical' || c.criticalAlerts > 0).length === 0 && (
-                  <p className="text-[10px] font-bold text-slate-400 italic text-center py-4">Nenhum cliente crítico no radar.</p>
+                  <p className="text-body-sm font-medium text-muted-foreground italic text-center py-4">Nenhum cliente crítico no radar.</p>
                 )}
               </div>
-              <button className="w-full mt-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all">
+              <button className="w-full mt-8 py-4 bg-primary text-primary-foreground rounded-md text-body-sm font-medium uppercase tracking-widest hover:bg-primary/90 transition-all">
                 Abrir Central de Consultoria
               </button>
             </div>
 
-            <div className="bg-slate-50 rounded-[40px] p-8 border border-slate-200">
-               <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Radar de Conformidade IVA</h5>
+            <div className="bg-surface-container rounded-card p-8 border border-border">
+               <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-6">Radar de Conformidade IVA</h5>
                <div className="space-y-4">
                   {portfolioData.some(c => !c.isModel && (c.industry.toLowerCase().includes('indúst') || c.industry.toLowerCase().includes('fabr'))) && (
-                    <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                    <div className="flex items-center justify-between p-4 bg-background rounded-md border border-border shadow-sm">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center"><ShieldCheck size={16} /></div>
-                        <span className="text-[10px] font-black uppercase text-slate-600 tracking-tight">Setor Industrial</span>
+                        <div className="w-8 h-8 rounded-button bg-success/10 text-success flex items-center justify-center"><ShieldCheck size={16} /></div>
+                        <span className="text-body-sm font-medium uppercase text-muted-foreground tracking-tight">Setor Industrial</span>
                       </div>
-                      <span className="text-xs font-black text-emerald-600">Complexidade Alta</span>
+                      <span className="text-body-sm font-medium text-success">Complexidade Alta</span>
                     </div>
                   )}
                   {stats.impactPercentage > 0 && (
-                    <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                    <div className="flex items-center justify-between p-4 bg-background rounded-md border border-border shadow-sm">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center"><AlertCircle size={16} /></div>
-                        <span className="text-[10px] font-black uppercase text-slate-600 tracking-tight">Serviços / Tech</span>
+                        <div className="w-8 h-8 rounded-button bg-destructive/10 text-destructive flex items-center justify-center"><AlertCircle size={16} /></div>
+                        <span className="text-body-sm font-medium uppercase text-muted-foreground tracking-tight">Serviços / Tech</span>
                       </div>
-                      <span className="text-xs font-black text-rose-600">Impacto Direto IVA-S</span>
+                      <span className="text-body-sm font-medium text-destructive">Impacto Direto IVA-S</span>
                     </div>
                   )}
                   {stats.impactPercentage === 0 && !portfolioData.some(c => !c.isModel && c.industry.toLowerCase().includes('indúst')) && (
-                    <p className="text-[10px] font-bold text-slate-400 italic text-center py-4">Nenhum risco setorial imediato detectado.</p>
+                    <p className="text-body-sm font-medium text-muted-foreground italic text-center py-4">Nenhum risco setorial imediato detectado.</p>
                   )}
                </div>
             </div>
 
-            <div className="bg-indigo-600 rounded-[40px] p-8 text-white">
-              <h5 className="text-[10px] font-black text-indigo-200 uppercase tracking-widest mb-4">Maturidade do Portfólio</h5>
+            <div className="bg-secondary rounded-card p-8 text-secondary-foreground">
+              <h5 className="text-body-sm font-medium text-secondary-foreground/60 uppercase tracking-widest mb-4">Maturidade do Portfólio</h5>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold">Resonância Estratégica</span>
-                <span className="text-2xl font-black">{stats.maturityScore}%</span>
+                <span className="text-body-md font-medium">Resonância Estratégica</span>
+                <span className="text-h2 font-medium">{stats.maturityScore}%</span>
               </div>
-              <div className="h-2 bg-indigo-400/30 rounded-full overflow-hidden">
-                <div className="h-full bg-white rounded-full transition-all duration-1000" style={{ width: `${stats.maturityScore}%` }} />
+              <div className="h-2 bg-secondary-foreground/20 rounded-full overflow-hidden">
+                <div className="h-full bg-background rounded-full transition-all duration-1000" style={{ width: `${stats.maturityScore}%` }} />
               </div>
-              <p className="text-[10px] text-indigo-100 mt-4 leading-relaxed font-medium">
+              <p className="text-body-sm text-secondary-foreground/80 mt-4 leading-relaxed font-medium">
                 {stats.maturityScore > 70 
                   ? `O portfólio apresenta alta aderência aos princípios da Illumine, com ${stats.maturityScore}% dos clientes ativos acima do score 60.`
                   : `Aderência em evolução: ${stats.maturityScore}% dos clientes ativos estão com score acima de 60.`}
@@ -614,57 +616,57 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
         <div className="space-y-8 animate-executive-fade">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {partnerGroups.map((group, i) => (
-              <div key={group.id} className="bg-white rounded-[40px] border border-slate-200 p-8 shadow-sm hover:shadow-xl transition-all group overflow-hidden relative">
-                <div className="absolute -right-10 -top-10 w-32 h-32 bg-slate-50 rounded-full group-hover:bg-secondary/5 transition-colors" />
+              <div key={group.id} className="bg-background rounded-card border border-border p-8 shadow-sm hover:shadow-lg transition-all group overflow-hidden relative">
+                <div className="absolute -right-10 -top-10 w-32 h-32 bg-surface-container rounded-full group-hover:bg-secondary/5 transition-colors" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center text-secondary shadow-lg">
+                    <div className="w-14 h-14 rounded-md bg-primary flex items-center justify-center text-primary-foreground shadow-lg">
                       <LayoutDashboard size={24} />
                     </div>
                     <div>
-                      <h4 className="text-xl font-display font-black text-slate-900 group-hover:text-secondary transition-colors">{group.fantasia || group.razao}</h4>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{group.clientCount} Clientes Vinculados</p>
+                      <h4 className="text-h3 font-medium text-foreground group-hover:text-secondary transition-colors">{group.fantasia || group.razao}</h4>
+                      <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest">{group.clientCount} Clientes Vinculados</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 mb-8">
-                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Fat. ({selectedCurrency})</p>
-                      <p className="text-sm font-black text-slate-900">{fmtCurrency(group.totalRevenue, selectedCurrency)}</p>
+                    <div className="p-4 bg-surface-container rounded-md border border-border">
+                      <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Fat. ({selectedCurrency})</p>
+                      <p className="text-body-md font-medium text-foreground">{fmtCurrency(group.totalRevenue, selectedCurrency)}</p>
                     </div>
-                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Health Score Médio</p>
-                      <p className="text-sm font-black text-slate-900">{group.avgScore.toFixed(1)}%</p>
+                    <div className="p-4 bg-surface-container rounded-md border border-border">
+                      <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Health Score Médio</p>
+                    <p className="text-body-md font-medium text-foreground">{group.avgScore.toFixed(1)}%</p>
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Empresas do Portfólio</h5>
-                    {group.clients.slice(0, 3).map((client: any) => (
+                    <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-4">Empresas do Portfólio</h5>
+                    {group.clients.slice(0, 3).map((client) => (
                       <div 
                         key={client.id} 
                         onClick={() => onSelectClient(client.id)}
-                        className="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl hover:border-secondary transition-all cursor-pointer"
+                        className="flex items-center justify-between p-3 bg-background border border-border rounded-button hover:border-secondary transition-all cursor-pointer"
                       >
-                        <span className="text-xs font-bold text-slate-700 truncate max-w-[150px]">{client.name}</span>
+                        <span className="text-body-sm font-medium text-foreground">{client.name}</span>
                         <div className="flex items-center gap-2">
                           <span className={cn(
-                            "text-[10px] font-black",
-                            client.score > 80 ? "text-emerald-600" : client.score > 60 ? "text-blue-600" : "text-rose-600"
+                            "text-body-sm font-medium",
+                            client.score > 80 ? "text-success" : client.score > 60 ? "text-primary" : "text-destructive"
                           )}>{client.score}</span>
-                          <ChevronRight size={12} className="text-slate-300" />
+                          <ChevronRight size={12} className="text-muted-foreground" />
                         </div>
                       </div>
                     ))}
                     {group.clientCount > 3 && (
-                      <p className="text-[10px] text-slate-400 text-center pt-2 font-bold uppercase tracking-widest">
+                      <p className="text-body-sm text-muted-foreground text-center pt-2 font-medium uppercase tracking-widest">
                         + {group.clientCount - 3} outras empresas
                       </p>
                     )}
                   </div>
 
                   <button 
-                    className="w-full mt-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/10"
+                    className="w-full mt-8 py-4 bg-primary text-primary-foreground rounded-md text-body-sm font-medium uppercase tracking-widest hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-sm"
                   >
                     <Zap size={14} className="text-secondary" /> Abrir Visão do Parceiro
                   </button>
@@ -673,24 +675,24 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
             ))}
             {partnerGroups.length === 0 && (
               <div className="col-span-full py-20 text-center">
-                <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
+                <div className="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-6 text-muted-foreground">
                   <Users size={40} />
                 </div>
-                <h4 className="text-xl font-bold text-slate-800 mb-2">Nenhum parceiro estratético identificado</h4>
-                <p className="text-slate-500 max-w-md mx-auto">Cadastre parceiros e vincule clientes para habilitar esta visão consolidada.</p>
+                <h4 className="text-h2 font-medium text-foreground mb-2">Nenhum parceiro estratégico identificado</h4>
+                <p className="text-muted-foreground max-w-md mx-auto">Cadastre parceiros e vincule clientes para habilitar esta visão consolidada.</p>
               </div>
             )}
           </div>
         </div>
       ) : viewMode === 'model' ? (
         <div className="space-y-8 animate-executive-fade">
-          <div className="bg-amber-50 border border-amber-200 rounded-[32px] p-8 flex items-start gap-6">
-            <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-lg shadow-amber-500/20">
+          <div className="bg-amber-50 border border-amber-200 rounded-md p-8 flex items-start gap-6">
+            <div className="w-12 h-12 rounded-md bg-amber-500 text-white flex items-center justify-center shadow-lg shadow-amber-500/20">
               <Sparkles size={24} />
             </div>
             <div>
-              <h4 className="text-xl font-display font-black text-amber-900">Empresas Modelo para Demonstração</h4>
-              <p className="text-sm text-amber-700/80 mt-1 font-medium">
+              <h4 className="text-h2 font-medium text-amber-900">Empresas Modelo para Demonstração</h4>
+              <p className="text-body-md text-amber-700/80 mt-1 font-medium">
                 Estas empresas servem apenas para fins didáticos e demonstração da plataforma. Os dados aqui contidos não impactam a visão consolidada de clientes reais.
               </p>
             </div>
@@ -701,15 +703,15 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
               <div 
                 key={client.id} 
                 onClick={() => onSelectClient(client.id)}
-                className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-xl transition-all group cursor-pointer relative overflow-hidden"
+                className="bg-background rounded-md border border-border p-6 shadow-sm hover:shadow-lg transition-all group cursor-pointer relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                   <LayoutDashboard size={80} />
                 </div>
                 <div className="flex items-center gap-4 mb-6">
                   <div className={cn(
-                    "w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white text-lg shadow-lg shrink-0",
-                    (client.logo || client.icon) ? "bg-white border border-slate-100" : "bg-slate-900"
+                    "w-12 h-12 rounded-md flex items-center justify-center font-medium text-white text-h3 shadow-lg shrink-0",
+                    (client.logo || client.icon) ? "bg-background border border-border" : "bg-primary"
                   )}>
                     {client.icon || client.logo ? (
                       <img src={client.icon || client.logo} alt={client.name} className="w-full h-full object-cover" />
@@ -718,75 +720,73 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors truncate">{client.name}</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">{client.industry}</p>
+                    <p className="text-body-md font-medium text-foreground group-hover:text-primary transition-colors">{client.name}</p>
+                    <p className="text-[9px] font-normal text-muted-foreground/60 uppercase tracking-widest mt-0.5">{client.industry}</p>
                   </div>
                 </div>
                 
                 <div className="flex justify-between items-end">
                   <div>
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Health Score</p>
-                    <p className="text-xl font-black text-slate-900">{client.score}</p>
+                    <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Health Score</p>
+                    <p className="text-h3 font-medium text-foreground">{client.score}</p>
                   </div>
-                  <button className="p-2 bg-slate-50 text-slate-400 rounded-xl group-hover:bg-slate-900 group-hover:text-white transition-all">
+                  <button className="p-2 bg-surface-container text-muted-foreground rounded-button group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                     <ChevronRight size={18} />
                   </button>
                 </div>
               </div>
             ))}
             {modelPortfolio.length === 0 && (
-              <div className="col-span-full py-20 text-center bg-slate-50 rounded-[40px] border border-dashed border-slate-300">
-                <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">Nenhuma empresa modelo cadastrada.</p>
+              <div className="col-span-full py-20 text-center bg-surface-container rounded-card border border-dashed border-border">
+                <p className="text-muted-foreground font-medium uppercase tracking-widest text-body-sm">Nenhuma empresa modelo cadastrada.</p>
               </div>
             )}
           </div>
         </div>
       ) : (
         <>
-          <div className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-3xl border border-slate-200 shadow-sm min-w-0 w-full">
+          <div className="flex flex-col md:flex-row gap-4 bg-background p-4 rounded-md border border-border shadow-sm min-w-0 w-full">
             <div className="relative flex-1">
               <input 
                 type="text" 
                 placeholder="Buscar por cliente ou segmento..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-slate-900/5 transition-all font-bold text-sm"
+                className="w-full pl-12 pr-4 py-3 bg-surface-container border border-border rounded-md outline-none focus:ring-2 focus:ring-primary/5 transition-all font-medium text-body-sm" 
               />
-              <Search size={18} className="absolute left-4 top-3.5 text-slate-400" />
+              <Search size={18} className="absolute left-4 top-3.5 text-muted-foreground" />
             </div>
             <div className="flex gap-2">
-              <button className="flex-1 md:flex-none px-6 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black text-slate-700 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
+              <button className="flex-1 md:flex-none px-4 md:px-6 py-2 md:py-3 bg-background border border-border rounded-md text-body-sm font-medium text-foreground flex items-center justify-center gap-2 hover:bg-surface-container transition-colors">
                 <Filter size={16} /> Filtros Avançados
               </button>
             </div>
           </div>
 
           <div className="space-y-6 min-w-0 w-full">
-            <div className="bg-white rounded-[32px] border border-slate-200 shadow-xl overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse min-w-[1100px]">
+            <div className="bg-background rounded-card border border-border shadow-lg overflow-hidden">
+              <div className="overflow-x-auto scrollbar-premium">
+                <table className="w-full border-collapse min-w-[800px]">
                   <thead>
-                    <tr className="bg-slate-50/50 border-b border-slate-200">
-                      <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Cliente / Setor</th>
-                      <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Health Score</th>
-                      <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest border-x border-slate-200/60 bg-indigo-50/30 text-indigo-700">Índice Gov.</th>
-                      <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Alertas</th>
-                      <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Margem EBITDA</th>
-                      <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Fat. Mensal</th>
-                      <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Ações Estratégicas</th>
+                    <tr className="bg-surface-container/50 border-b border-border">
+                      <th className="px-8 py-5 text-left text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Cliente / Setor</th>
+                      <th className="px-8 py-5 text-center text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Health Score</th>
+                      <th className="px-8 py-5 text-center text-body-sm font-medium text-muted-foreground uppercase tracking-widest border-x border-border bg-secondary/10 text-secondary">Índice Gov.</th>
+                      <th className="px-8 py-5 text-center text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Alertas</th>
+                      <th className="px-8 py-5 text-right text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Ações Estratégicas</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-border">
                     {filteredPortfolio.map((client) => (
-                      <tr key={client.id} className="hover:bg-slate-50/50 transition-colors group cursor-pointer" onClick={() => onSelectClient(client.id)}>
+                      <tr key={client.id} className="hover:bg-surface-container/50 transition-colors group cursor-pointer" onClick={() => onSelectClient(client.id)}>
                         <td className="px-8 py-6">
                           <div className="flex items-center gap-4">
                             <div className={cn(
-                              "w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white text-lg shadow-lg shrink-0 transition-transform group-hover:scale-105 overflow-hidden",
-                              (client.logo || client.icon) ? "bg-white border border-slate-100" :
-                              client.status === 'onboarding' ? "bg-slate-200 text-slate-400 shadow-none" :
-                              client.score > 80 ? "bg-emerald-500 shadow-emerald-500/20" : 
-                              client.score > 60 ? "bg-blue-500 shadow-blue-500/20" : "bg-rose-500 shadow-rose-500/20"
+                              "w-12 h-12 rounded-md flex items-center justify-center font-medium text-white text-h3 shadow-lg shrink-0 transition-transform group-hover:scale-105 overflow-hidden",
+                              (client.logo || client.icon) ? "bg-background border border-border" :
+                              client.status === 'onboarding' ? "bg-surface-container text-muted-foreground shadow-none" :
+                              client.score > 80 ? "bg-success" : 
+                              client.score > 60 ? "bg-primary" : "bg-destructive"
                             )}>
                               {client.icon || client.logo ? (
                                 <img src={client.icon || client.logo} alt={client.name} className="w-full h-full object-cover" />
@@ -795,8 +795,8 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                               )}
                             </div>
                             <div className="min-w-0">
-                              <p className="text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors truncate">{client.name}</p>
-                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">{client.industry}</p>
+                              <p className="text-body-md font-medium text-foreground group-hover:text-primary transition-colors">{client.name}</p>
+                              <p className="text-[9px] font-normal text-muted-foreground/60 uppercase tracking-widest mt-0.5">{client.industry}</p>
                             </div>
                           </div>
                         </td>
@@ -833,28 +833,6 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                               <CheckCircle2 size={12} /> Saudável
                             </div>
                           )}
-                        </td>
-                        <td className="px-8 py-6 text-right">
-                           <span className={cn(
-                             "text-sm font-black",
-                             client.ebitdaMargin > 20 ? "text-emerald-600" : client.ebitdaMargin > 10 ? "text-blue-600" : "text-rose-600"
-                           )}>
-                             {client.status === 'onboarding' ? '--' : `${client.ebitdaMargin.toFixed(1)}%`}
-                           </span>
-                        </td>
-                        <td className="px-8 py-6 text-right whitespace-nowrap">
-                          {client.revenue > 0 ? (
-                            <div className="flex flex-col items-end">
-                              <span className="font-black text-sm text-slate-700">
-                                {fmtCurrency(client.revenue, client.clientCurrency)}
-                              </span>
-                              {client.clientCurrency !== selectedCurrency && client.clientCurrency !== 'BRL' && (
-                                <span className="text-[9px] font-bold text-slate-400 tabular-nums">
-                                  {client.clientCurrency} {client.revenue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                                </span>
-                              )}
-                            </div>
-                          ) : '--'}
                         </td>
                         <td className="px-8 py-6 text-right">
                           <div className="flex justify-end gap-2 shrink-0">

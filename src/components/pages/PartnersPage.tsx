@@ -699,7 +699,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
           {isMaster && (
             <button 
               onClick={openAdd} 
-              className="px-6 py-3 bg-secondary hover:bg-secondary/90 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 shadow-lg shadow-secondary/20"
+              className="px-4 md:px-6 py-2 md:py-3 bg-secondary hover:bg-secondary/90 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 shadow-lg shadow-secondary/20"
             >
               <Plus size={18} /> ADICIONAR PARCEIRO
             </button>
@@ -722,7 +722,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                   </div>
                </div>
                <div>
-                  <h3 className="text-xl font-display font-black text-text-main group-hover:text-secondary transition-colors truncate">{partner.fantasia || partner.razao}</h3>
+                  <h3 className="text-xl font-display font-black text-text-main group-hover:text-secondary transition-colors">{partner.fantasia || partner.razao}</h3>
                   <div className="flex items-center gap-2 mt-1">
                      <MapPin size={12} className="text-text-dim" />
                      <span className="text-[10px] font-bold text-text-dim uppercase tracking-widest">{partner.cidade || '---'}</span>
@@ -735,7 +735,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                   </div>
                   <div>
                      <p className="text-[9px] font-black text-text-dim uppercase tracking-widest mb-1">CNPJ / CPF</p>
-                     <p className="text-xs font-mono font-bold text-text-muted truncate">{formatDoc(partner.cnpj)}</p>
+                     <p className="text-xs font-mono font-bold text-text-muted">{formatDoc(partner.cnpj)}</p>
                   </div>
                </div>
             </div>
@@ -757,7 +757,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                  </div>
                  <div className="grid grid-cols-2 gap-4 pt-4">
                     <button onClick={() => setPartnerToDelete(null)} className="px-6 py-4 bg-bg-surface text-text-dim rounded-2xl text-[10px] font-black uppercase tracking-widest border border-border-main">Cancelar</button>
-                    <button onClick={handleDelete} className="px-6 py-4 bg-rose-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg hover:bg-rose-700 transition-all">Excluir</button>
+                    <button onClick={handleDelete} className="px-4 md:px-6 py-2.5 md:py-4 bg-rose-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg hover:bg-rose-700 transition-all">Excluir</button>
                  </div>
               </motion.div>
           </div>

@@ -8,7 +8,7 @@ import { collection, query, where, onSnapshot, getDocs, limit } from 'firebase/f
 import { db, auth } from '../../lib/firebase';
 import { Page } from '../../app/navigation';
 import { motion } from 'motion/react';
-import { PageHeader, StatusBadge, MarkdownText } from '../Common';
+import { PageHeader, StatusBadge, MarkdownText, KpiCard } from '../Common';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { EixoGestao } from '../../types/modules';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
@@ -321,12 +321,13 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
   }
 
   return (
-    <div className="space-y-10 pb-32 animate-executive-fade">
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-16 pb-32 animate-executive-fade">
       <PageHeader 
         title={config.title === 'Dashboard' ? `Monitoramento de ${axis}` : config.title}
         subtitle={config.subtitle}
         icon={config.icon}
         color={config.color}
+        transparent={config.title?.includes('Monitoramento Estratégico')}
       />
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
@@ -459,64 +460,19 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
       })()}
 
       {/* KPI Grid - Standardized */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {(() => {
-          const maxGroupLen = Math.max(...primaryKPIs.map((kpi: any) => formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '').length));
-          const groupSizeClass = getValueSizeClass(maxGroupLen);
-          
-          return primaryKPIs.map((kpi: any, idx: number) => {
-            const Icon = kpi.icon !== 'AlertCircle' ? kpi.icon : Activity;
-            return (
-              <motion.div 
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="bg-white p-8 rounded-[32px] border border-slate-200/60 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
-              >
-                <div className="flex items-center justify-between mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                    <Icon size={24} />
-                  </div>
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      sessionStorage.setItem('pending_action', JSON.stringify({
-                        title: `Ação para: ${kpi.label}`,
-                        origin: axis,
-                        description: `Focar na melhoria do indicador ${kpi.label} do eixo ${axis}.`
-                      }));
-                      window.dispatchEvent(new CustomEvent('navigate-to', { detail: 'plano_acao' }));
-                    }}
-                    title="Criar Ação Estratégica"
-                    className="w-10 h-10 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center hover:bg-secondary hover:text-white transition-all opacity-0 group-hover:opacity-100"
-                  >
-                    <Zap size={16} />
-                  </button>
-                </div>
-
-                <div>
-                  <h4 className="text-[clamp(1rem,1.3vw,1.5rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors whitespace-nowrap overflow-hidden text-ellipsis mb-1.5">
-                    {kpi.label}
-                  </h4>
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className={cn("w-1.5 h-1.5 rounded-full shadow-sm shrink-0", kpi.status === 'positive' ? "bg-emerald-500" : kpi.status === 'negative' ? "bg-rose-500" : "bg-amber-500")} />
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">{axis}</p>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <p className={cn(
-                      "font-black text-slate-900 tabular-nums tracking-tighter whitespace-nowrap",
-                      groupSizeClass
-                    )}>
-                      {formatValue(kpi.value, kpi.isCur ? 'R$' : kpi.suffix || '')}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          });
-        })()}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+        {primaryKPIs.map((kpi: any, idx: number) => (
+          <KpiCard 
+            key={idx}
+            title={kpi.label}
+            value={formatValue(kpi.value, '')}
+            suffix={kpi.suffix || (kpi.isCur ? 'R$' : '')}
+            icon={kpi.icon !== 'AlertCircle' ? kpi.icon : Activity}
+            status={kpi.value === 0 ? 'Pendente' : (kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo')}
+            trend={kpi.value === 0 ? 'Pendente' : (kpi.status === 'positive' ? 'Em Alta' : kpi.status === 'negative' ? 'Em Queda' : 'Estável')}
+            className="group"
+          />
+        ))}
       </div>
 
       <GovernancePerspectiveSection 

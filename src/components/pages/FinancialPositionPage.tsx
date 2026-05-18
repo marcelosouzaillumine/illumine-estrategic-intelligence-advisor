@@ -26,9 +26,9 @@ import {
   onSnapshot
 } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { PageHeader } from '../Common';
 import { DATA } from '../../data';
-import { cn, formatCurrency } from '../../lib/utils';
+import { cn, formatCurrency, formatValue, getThemeColors } from '../../lib/utils';
+import { PageHeader, KpiCard } from '../Common';
 import { 
   AreaChart, 
   Area, 
@@ -46,22 +46,19 @@ import { BankAccountModal } from '../modals/BankAccountModal';
 import { ImportBankStatementModal } from '../modals/ImportBankStatementModal';
 import { BankTransactionsModal } from '../modals/BankTransactionsModal';
 
-function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
-  return (
-    <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors">{label}</p>
-      <h3 className={cn(
-        "text-2xl font-black tracking-tight",
-        tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
-      )}>{value}</h3>
-      {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80">{helper}</p>}
-    </div>
-  );
-}
 
 export function FinancialPositionPage({ clients, selectedClient }: { clients: any[], selectedClient: string }) {
   const [positions, setPositions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const [, setThemeTrigger] = useState(0);
+  useEffect(() => {
+    const handleThemeChange = () => setThemeTrigger(prev => prev + 1);
+    window.addEventListener('theme-changed', handleThemeChange);
+    return () => window.removeEventListener('theme-changed', handleThemeChange);
+  }, []);
+
+  const colors = getThemeColors();
   const [showAccountModal, setShowAccountModal] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
   const [selectedAccountForTransactions, setSelectedAccountForTransactions] = useState<any | null>(null);
@@ -178,18 +175,19 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
   const clientName = clients.find(c => c.id === selectedClient)?.fantasia || 'Cliente';
 
   return (
-    <div className="space-y-10 pb-20 animate-executive-fade">
+    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
         title="Posição Financeira" 
         subtitle="Monitoramento de disponibilidades, saldos bancários e evolução patrimonial"
         icon={Landmark}
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6">
         <div className="flex items-center gap-3">
-          <div className="px-4 py-2.5 bg-white text-slate-400 border border-slate-200 rounded-xl flex items-center gap-2 shadow-sm">
+          <div className="px-4 py-2.5 bg-card text-muted-foreground border border-border rounded-md flex items-center gap-2 shadow-sm">
             <Clock size={12} />
-            <span className="text-[10px] font-black uppercase tracking-widest">
+            <span className="text-[10px] font-medium uppercase tracking-widest">
               Sinc: {positions[0]?.dataAtualizacao || '--'}
             </span>
           </div>
@@ -199,14 +197,14 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
           <button 
             onClick={() => setShowImportModal(true)}
             disabled={!selectedClient}
-            className="px-5 py-2.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 disabled:opacity-50 shadow-sm"
+            className="px-5 py-2.5 bg-card hover:bg-surface-container text-foreground border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 disabled:opacity-50 shadow-sm"
           >
             <Upload size={12} /> IMPORTAR EXTRATO
           </button>
           <button 
             onClick={() => setShowAccountModal(true)}
             disabled={!selectedClient}
-            className="px-6 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 flex items-center gap-2 disabled:opacity-50"
+            className="px-6 py-2.5 bg-secondary text-white rounded-md text-[10px] font-medium uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-premium flex items-center gap-2 disabled:opacity-50"
           >
             <Plus size={14} /> ADICIONAR CONTA
           </button>
@@ -215,29 +213,25 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
 
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <KpiCardModeling 
-          label="Saldo Total Atual" 
-          value={formatCurrency(kpis.totalCurrent)} 
-          tone="default" 
+        <KpiCard 
+          title="Saldo Total Atual" 
+          value={formatValue(kpis.totalCurrent, '')}
+          suffix="R$"
+          icon={Landmark}
         />
-        <KpiCardModeling 
-          label="Saldos no Início do Mês" 
-          value={formatCurrency(kpis.totalInitial)} 
-          tone="default" 
-          helper={`Soma dos saldos em 01/${(new Date().getMonth() + 1).toString().padStart(2, '0')}/${new Date().getFullYear()}`}
+        <KpiCard 
+          title="Saldos no Início do Mês" 
+          value={formatValue(kpis.totalInitial, '')}
+          suffix="R$"
+          icon={Clock}
         />
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Evolução no Mês</p>
-          <div className="flex items-end justify-between mt-2">
-            <h4 className={cn(
-              "text-2xl font-black",
-              kpis.variation >= 0 ? "text-emerald-600" : "text-rose-600"
-            )}>
-              {kpis.variation >= 0 ? '+' : ''}{kpis.variation.toFixed(2)}%
-            </h4>
-            {kpis.variation >= 0 ? <TrendingUp size={24} className="text-emerald-500" /> : <TrendingDown size={24} className="text-rose-500" />}
-          </div>
-        </div>
+        <KpiCard 
+          title="Evolução no Mês" 
+          value={kpis.variation.toFixed(2)}
+          suffix="%"
+          icon={TrendingUp}
+          status={kpis.variation >= 0 ? 'Verde' : 'Vermelho'}
+        />
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
@@ -256,18 +250,18 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
               <AreaChart data={aggHistory}>
                 <defs>
                   <linearGradient id="colorSaldo" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0e1c2c" stopOpacity={0.1}/>
-                    <stop offset="95%" stopColor="#0e1c2c" stopOpacity={0}/>
+                    <stop offset="5%" stopColor={colors.primary} stopOpacity={0.1}/>
+                    <stop offset="95%" stopColor={colors.primary} stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="mes" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} tickFormatter={v => `R$${v/1000}k`} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
+                <XAxis dataKey="mes" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: colors.mutedForeground, fontWeight: 600 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: colors.mutedForeground, fontWeight: 600 }} tickFormatter={v => `R$${v/1000}k`} />
                 <Tooltip 
-                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                  contentStyle={{ borderRadius: '16px', border: `1px solid ${colors.border}`, backgroundColor: colors.cardBg, color: colors.cardFg, boxShadow: 'var(--shadow-md)' }}
                   formatter={(v: number) => formatCurrency(v)}
                 />
-                <Area type="monotone" dataKey="saldo" stroke="#0e1c2c" strokeWidth={3} fillOpacity={1} fill="url(#colorSaldo)" />
+                <Area type="monotone" dataKey="saldo" stroke={colors.primary} strokeWidth={3} fillOpacity={1} fill="url(#colorSaldo)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -297,11 +291,11 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
                   dataKey="value"
                 >
                   {positions.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={['#0e1c2c', '#004aad', '#ff8552', '#00bf63'][index % 4]} />
+                    <Cell key={`cell-${index}`} fill={[colors.primary, colors.secondary, colors.success, colors.mutedForeground][index % 4]} />
                   ))}
                 </Pie>
                 <Tooltip 
-                   contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                   contentStyle={{ borderRadius: '16px', border: `1px solid ${colors.border}`, backgroundColor: colors.cardBg, color: colors.cardFg, boxShadow: 'var(--shadow-md)' }}
                    formatter={(v: number) => formatCurrency(v)}
                 />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', paddingTop: '20px' }} />

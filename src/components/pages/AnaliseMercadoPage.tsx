@@ -116,19 +116,19 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
         title="Inteligência Competitiva"
         subtitle="Monitoramento estratégico de indicadores setoriais reais e validados nos âmbitos Local, Nacional e Global."
         icon={Globe}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="flex bg-white border border-slate-200 p-1 rounded-2xl shadow-sm">
+          <div className="flex bg-surface-container border border-border p-1 rounded-md shadow-inner">
             {(['Local', 'Nacional', 'Global'] as Scope[]).map(scope => (
               <button 
                 key={scope}
                 onClick={() => setSelectedScope(scope)}
                 className={cn(
-                  "px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all",
-                  selectedScope === scope ? "bg-secondary text-primary shadow-lg" : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
+                  "px-6 py-2 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all",
+                  selectedScope === scope ? "bg-card text-foreground shadow-premium border border-border" : "text-muted-foreground hover:text-foreground hover:bg-card/50"
                 )}
               >
                 {scope}
@@ -138,9 +138,9 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center gap-2">
+          <div className="px-4 py-2.5 bg-card border border-border rounded-md shadow-premium flex items-center gap-2">
             <RefreshCw size={14} className="text-secondary" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Dados em Tempo Real</span>
+            <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Dados em Tempo Real</span>
           </div>
         </div>
       </div>
@@ -156,16 +156,16 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
               transition={{ delay: idx * 0.05 }}
-              className="bg-white p-8 rounded-[32px] border border-slate-200/60 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
+              className="card-premium p-8 group relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-slate-50 rounded-bl-[60px] -mr-12 -mt-12 pointer-events-none group-hover:bg-primary/5 transition-colors" />
+              <div className="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-[60px] -mr-12 -mt-12 pointer-events-none group-hover:bg-primary/5 transition-colors shadow-inner" />
               
               <div className="flex items-center justify-between mb-8 relative z-10">
                 <div className={cn(
-                  "w-12 h-12 rounded-xl flex items-center justify-center shadow-inner group-hover:shadow-lg transition-all duration-500",
-                  trend.status === 'positive' ? "bg-emerald-50 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white" : 
-                  trend.status === 'warning' ? "bg-amber-50 text-amber-500 group-hover:bg-amber-500 group-hover:text-white" : 
-                  "bg-slate-50 text-slate-400 group-hover:bg-slate-900 group-hover:text-white"
+                  "w-12 h-12 rounded-md flex items-center justify-center shadow-inner group-hover:shadow-premium transition-all duration-500",
+                  trend.status === 'positive' ? "bg-success/10 text-success group-hover:bg-success group-hover:text-white" : 
+                  trend.status === 'warning' ? "bg-warning/10 text-warning group-hover:bg-warning group-hover:text-white" : 
+                  "bg-surface-container text-muted-foreground group-hover:bg-executive group-hover:text-white"
                 )}>
                   {(() => {
                     const Icon = trend.icon;
@@ -174,10 +174,10 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                 </div>
                 <div className="flex flex-col items-end">
                    <div className={cn(
-                     "px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest border",
-                     trend.trend === 'up' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : 
-                     trend.trend === 'down' ? "bg-rose-50 text-rose-600 border-rose-100" : 
-                     "bg-slate-50 text-slate-400 border-slate-200"
+                     "px-3 py-1 rounded-sm text-[8px] font-medium uppercase tracking-widest border",
+                     trend.trend === 'up' ? "bg-success/5 text-success border-success/20 shadow-premium" : 
+                     trend.trend === 'down' ? "bg-destructive/5 text-destructive border-destructive/20 shadow-premium" : 
+                     "bg-surface-container text-muted-foreground border-border shadow-inner"
                    )}>
                       {trend.trend}
                    </div>
@@ -185,14 +185,14 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
               </div>
 
               <div className="relative z-10">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{trend.label}</p>
-                <p className="text-3xl font-display font-black text-slate-900 mb-4 tracking-tighter">
+                <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-1">{trend.label}</p>
+                <p className="text-3xl font-medium text-foreground mb-4 tracking-tighter">
                   {trend.value}
-                  {trend.suffix && <span className="text-sm text-slate-400 ml-1">{trend.suffix}</span>}
+                  {trend.suffix && <span className="text-[10px] text-muted-foreground ml-1 uppercase tracking-widest">{trend.suffix}</span>}
                 </p>
-                <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400">
-                  <Info size={12} className="text-slate-300" />
-                  <span className="truncate">{trend.obs}</span>
+                <div className="flex items-center gap-2 text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">
+                  <Info size={12} className="text-secondary" />
+                  <span className="break-words overflow-visible leading-normal">{trend.obs}</span>
                 </div>
               </div>
             </motion.div>
@@ -202,39 +202,39 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
          {/* Sector Performance Chart */}
-         <div className="lg:col-span-2 bg-white p-12 rounded-[48px] border border-slate-200/60 shadow-sm relative overflow-hidden">
+         <div className="lg:col-span-2 card-premium p-12 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
               <BarChart3 size={240} />
             </div>
             <div className="flex justify-between items-center mb-12 relative z-10">
                <div>
-                  <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Análise Comparativa</h3>
-                  <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Performance vs Benchmark {selectedScope}</h2>
+                  <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.3em] mb-2">Análise Comparativa</h3>
+                  <h2 className="text-2xl font-medium text-foreground tracking-tight uppercase">Performance vs Benchmark {selectedScope}</h2>
                </div>
-               <div className="flex bg-slate-50 p-1.5 rounded-2xl border border-slate-100">
-                  <button className="px-5 py-2.5 bg-white text-slate-900 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm border border-slate-100 flex items-center gap-2">
-                    <Calendar size={12} /> Trimestral
+               <div className="flex bg-surface-container/50 p-1 rounded-md border border-border shadow-inner">
+                  <button className="px-5 py-2 bg-card text-foreground rounded-md text-[10px] font-medium uppercase tracking-widest shadow-premium border border-border flex items-center gap-2">
+                    <Calendar size={12} className="text-secondary" /> Trimestral
                   </button>
                </div>
             </div>
             
-            <div className="h-[350px] bg-slate-50 rounded-[40px] flex flex-col items-center justify-center border-2 border-dashed border-slate-200 group hover:border-secondary/30 transition-all cursor-pointer">
-               <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-slate-300 group-hover:text-secondary group-hover:scale-110 transition-all shadow-sm mb-6">
+            <div className="h-[350px] bg-surface-container/30 rounded-md flex flex-col items-center justify-center border-2 border-dashed border-border group hover:border-secondary/30 transition-all cursor-pointer shadow-inner">
+               <div className="w-16 h-16 rounded-md bg-card flex items-center justify-center text-muted-foreground group-hover:text-secondary group-hover:scale-110 transition-all shadow-premium border border-border mb-6">
                  <Activity size={32} />
                </div>
-               <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Integração de Dados em Tempo Real</p>
-               <p className="text-slate-300 text-[9px] font-bold uppercase tracking-widest">Sincronizado via Premissas do Sistema</p>
+               <p className="text-muted-foreground font-medium uppercase tracking-widest text-[10px] mb-2 italic">Integração de Dados em Tempo Real</p>
+               <p className="text-muted-foreground/40 text-[9px] font-medium uppercase tracking-widest">Sincronizado via Premissas do Sistema</p>
             </div>
          </div>
 
          {/* Strategic Market Summary */}
-         <div className="bg-slate-900 p-12 rounded-[48px] text-white shadow-2xl relative overflow-hidden flex flex-col">
-            <div className="absolute -right-20 -top-20 w-80 h-80 bg-secondary/5 rounded-full blur-[100px] pointer-events-none" />
+         <div className="bg-executive p-12 rounded-md text-white shadow-premium relative overflow-hidden flex flex-col border border-white/5">
+            <div className="absolute -right-20 -top-20 w-80 h-80 bg-secondary/5 rounded-full blur-[100px] pointer-events-none shadow-inner" />
             
             <div className="relative z-10 flex flex-col h-full">
                <div className="mb-12">
-                  <p className="text-[10px] font-black text-secondary uppercase tracking-[0.3em] mb-2">Deep Insights</p>
-                  <h3 className="text-2xl font-display font-black text-white tracking-tight flex items-center gap-3">
+                  <p className="text-[10px] font-medium text-secondary uppercase tracking-[0.3em] mb-2">Deep Insights</p>
+                  <h3 className="text-2xl font-medium text-white tracking-tight flex items-center gap-3 uppercase">
                     Panorama de Oportunidades
                   </h3>
                </div>
@@ -242,15 +242,15 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                <div className="space-y-10 flex-1">
                   {[].map((insight: any, i: number) => (
                     <div key={i} className="group cursor-default flex gap-6">
-                       <div className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-primary transition-all duration-500 shadow-lg shrink-0">
+                       <div className="w-10 h-10 rounded-md bg-white/5 border border-white/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-primary transition-all duration-500 shadow-inner shrink-0">
                           {(() => {
                             const Icon = insight.icon;
                             return <Icon size={18} />;
                           })()}
                        </div>
                        <div className="space-y-1">
-                          <h4 className="text-[10px] font-black text-secondary uppercase tracking-widest mb-1">{insight.title}</h4>
-                          <p className="text-xs font-medium text-slate-400 leading-relaxed group-hover:text-white transition-colors">
+                          <h4 className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">{insight.title}</h4>
+                          <p className="text-[11px] font-medium text-white/60 leading-relaxed group-hover:text-white transition-colors uppercase tracking-widest italic">
                             {insight.desc}
                           </p>
                        </div>
@@ -258,8 +258,8 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                   ))}
                </div>
 
-               <div className="mt-12 pt-8 border-t border-white/5">
-                  <button className="w-full py-5 bg-white/5 border border-white/10 text-white rounded-[20px] font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white/10 transition-all flex items-center justify-center gap-3">
+               <div className="mt-12 pt-8 border-t border-white/10">
+                  <button className="btn-executive bg-white/5 border border-white/10 hover:bg-white/10">
                     <RefreshCw size={14} /> Atualizar Inteligência
                   </button>
                </div>

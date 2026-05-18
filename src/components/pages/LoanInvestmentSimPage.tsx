@@ -473,7 +473,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                     <button 
                         onClick={handleSaveProject}
                         disabled={saving}
-                        className="px-8 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
+                        className="px-5 md:px-8 py-2 md:py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
                     >
                         {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />} 
                         {selectedProjectId ? 'ATUALIZAR' : 'SALVAR PROJETO'}

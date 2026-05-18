@@ -261,7 +261,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
                   <tbody className="divide-y divide-slate-50">
                     {parsedData.slice(0, 15).map((row, i) => (
                       <tr key={i} className="hover:bg-slate-50/50 transition-colors">
-                        <td className="px-4 py-2 font-bold text-slate-700 truncate max-w-[300px]">{row.category}</td>
+                        <td className="px-4 py-2 font-bold text-slate-700">{row.category}</td>
                         <td className="px-4 py-2 text-right font-mono text-slate-600">{formatCurrency(row.value)}</td>
                       </tr>
                     ))}

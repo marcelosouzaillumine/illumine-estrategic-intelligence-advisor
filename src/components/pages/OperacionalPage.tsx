@@ -18,7 +18,7 @@ import {
 import { motion } from 'motion/react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { StatusBadge, PageHeader } from '../Common';
+import { StatusBadge, PageHeader, KpiCard, KpiValue } from '../Common';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 
 interface OperacionalPageProps {
@@ -108,20 +108,20 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
   }, [isLogistica, hasData]);
 
   return (
-    <div className="space-y-10 pb-32 animate-executive-fade">
+    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
         title={isLogistica ? 'Eficiência em Logística' : 'Produção & Processos'} 
         subtitle={isLogistica ? 'Monitoramento estratégico de entregas, fretes e cadeia de suprimentos.' : 'Otimização de processos, produtividade e controle de qualidade.'}
         icon={isLogistica ? Truck : Activity}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <ShieldCheck size={14} className="text-secondary" />
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">
                 {loading ? 'Sincronizando...' : !hasData ? 'Aguardando Sincronização' : 'Eficiência Monitorada'}
               </span>
             </div>
@@ -129,114 +129,75 @@ export function OperacionalPage({ type, clientId }: OperacionalPageProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center gap-2">
+          <div className="px-4 py-2.5 bg-card border border-border rounded-md shadow-sm flex items-center gap-2">
             <Layers size={14} className="text-secondary" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Visão de Cadeia de Valor</span>
+            <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Visão de Cadeia de Valor</span>
           </div>
         </div>
       </div>
 
 
 
-      {/* KPI Grid - Standardized */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {(() => {
-          const maxGroupLen = Math.max(...indicators.map(kpi => formatValue(kpi.value, kpi.suffix || '').length));
-          const groupSizeClass = getValueSizeClass(maxGroupLen);
-          
-          return indicators.map((kpi, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
-            >
-              <div className="flex items-center justify-between mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary group-hover:text-white transition-all duration-500">
-                  {(() => {
-                    const Icon = kpi.icon;
-                    return <Icon size={24} />;
-                  })()}
-                </div>
-              </div>
-
-              <div>
-                <h4 className="text-[clamp(1rem,1.3vw,1.5rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors whitespace-nowrap overflow-hidden text-ellipsis mb-1.5">
-                  {kpi.label}
-                </h4>
-                <div className="flex items-center gap-2 mb-4">
-                  <div className={cn("w-1.5 h-1.5 rounded-full shadow-sm shrink-0", kpi.status === 'positive' ? "bg-emerald-500" : kpi.status === 'negative' ? "bg-rose-500" : "bg-amber-500")} />
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">{isLogistica ? 'Logística' : 'Produção'}</p>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <p className={cn(
-                    "font-black text-slate-900 tabular-nums tracking-tighter whitespace-nowrap",
-                    groupSizeClass
-                  )}>
-                    {formatValue(kpi.value, kpi.suffix || '')}
-                  </p>
-                </div>
-                
-                <div className="mt-6 flex items-center gap-2">
-                  <div className="h-1 flex-1 bg-slate-50 rounded-full overflow-hidden">
-                    <div 
-                      className={cn("h-full", kpi.status === 'positive' ? "bg-emerald-500" : kpi.status === 'negative' ? "bg-rose-500" : "bg-amber-500")}
-                      style={{ width: `${Math.min(100, (kpi.value / kpi.target) * 100)}%` }}
-                    />
-                  </div>
-                  <span className="text-[10px] font-bold text-slate-400 tabular-nums">Meta: {formatValue(kpi.target, kpi.suffix || '')}</span>
-                </div>
-              </div>
-            </motion.div>
-          ));
-        })()}
+        {indicators.map((kpi, idx) => (
+          <KpiCard 
+            key={idx}
+            title={kpi.label}
+            value={formatValue(kpi.value, '')}
+            suffix={kpi.suffix || ''}
+            icon={kpi.icon}
+            status={kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo'}
+          />
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
          {/* Chart Placeholder */}
-         <div className="lg:col-span-2 bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
-            <div className="flex justify-between items-center mb-10">
-               <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3">
-                  <BarChart3 size={20} className="text-primary" /> Histórico de Eficiência
+         {/* Chart Placeholder */}
+         <div className="lg:col-span-2 card-premium p-10 relative overflow-hidden">
+            <div className="flex justify-between items-center mb-10 relative z-10">
+               <h3 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-3">
+                  <BarChart3 size={20} className="text-secondary" /> Histórico de Eficiência
                </h3>
                <div className="flex gap-2">
-                  <button className="px-4 py-2 bg-slate-50 text-slate-400 rounded-xl text-[10px] font-black uppercase tracking-widest border border-slate-100">Diário</button>
-                  <button className="px-4 py-2 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary/20">Semanal</button>
+                  <button className="px-4 py-2 bg-surface-container text-muted-foreground rounded-sm text-[9px] font-medium uppercase tracking-widest border border-border shadow-sm">Diário</button>
+                  <button className="btn-executive bg-primary shadow-sm">Semanal</button>
                </div>
             </div>
-            <div className="h-[300px] bg-slate-50 rounded-[32px] flex items-center justify-center border-2 border-dashed border-slate-200">
-               <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Monitoramento em Tempo Real</p>
+            <div className="h-[300px] bg-surface-container/50 rounded-sm flex items-center justify-center border border-dashed border-border relative z-10 shadow-inner">
+               <p className="text-muted-foreground/40 font-medium uppercase tracking-widest text-[9px] italic">Monitoramento em Tempo Real</p>
             </div>
          </div>
 
          {/* Recommendations */}
-         <div className="bg-primary p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden">
-            <div className="absolute right-0 top-0 p-8 text-secondary/5">
+         {/* Recommendations */}
+         <div className="bg-executive p-10 rounded-md text-white shadow-premium relative overflow-hidden group border border-white/5">
+            <div className="absolute right-0 top-0 p-8 text-secondary/5 group-hover:text-secondary/10 transition-colors opacity-10 shadow-inner">
                <Zap size={120} strokeWidth={1} />
             </div>
-            <div className="relative z-10 space-y-8">
-               <h3 className="text-sm font-black text-secondary uppercase tracking-[0.2em] flex items-center gap-3">
-                  <MessageSquare size={20} /> Insights do Eixo Operacional
-               </h3>
-               <div className="space-y-6">
-                  {hasData ? recommendations.map((rec, i) => (
-                    <div key={i} className="flex gap-4 group cursor-default">
-                       <div className="w-8 h-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-xs shrink-0 group-hover:bg-secondary group-hover:text-primary transition-all">
-                          {i + 1}
-                       </div>
-                       <p className="text-xs font-medium text-slate-300 leading-relaxed group-hover:text-white transition-colors">
-                          {rec}
-                       </p>
-                    </div>
-                  )) : (
-                    <p className="text-xs font-medium text-slate-400 leading-relaxed">
-                       Aguardando inserção de dados operacionais para gerar insights e recomendações de eficiência.
-                    </p>
-                  )}
+            <div className="relative z-10 space-y-8 h-full flex flex-col justify-between">
+               <div className="space-y-8">
+                 <h3 className="text-[10px] font-medium text-secondary uppercase tracking-[0.2em] flex items-center gap-3 shadow-sm">
+                    <MessageSquare size={20} /> Insights do Eixo Operacional
+                 </h3>
+                 <div className="space-y-6">
+                    {hasData ? recommendations.map((rec, i) => (
+                      <div key={i} className="flex gap-4 group cursor-default">
+                         <div className="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center text-secondary font-medium text-[10px] shrink-0 group-hover:bg-secondary group-hover:text-white transition-all shadow-inner">
+                            {i + 1}
+                         </div>
+                         <p className="text-[11px] font-medium text-white/60 uppercase tracking-widest italic leading-relaxed group-hover:text-white transition-colors">
+                            {rec}
+                         </p>
+                      </div>
+                    )) : (
+                      <p className="text-[11px] font-medium text-white/40 uppercase tracking-widest italic leading-relaxed">
+                         Aguardando inserção de dados operacionais para gerar insights e recomendações de eficiência.
+                      </p>
+                    )}
+                 </div>
                </div>
-               <button className="w-full py-4 bg-secondary text-primary rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all">
+               <button className="btn-executive w-full bg-white/5 hover:bg-white/10 border border-white/10 uppercase shadow-sm">
                   Otimizar Processos
                </button>
             </div>

@@ -208,9 +208,9 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Governança Corporativa',
     icon: ShieldCheck,
     items: [
-      { id: 'governanca_estrategica', label: 'Dashboard de Governança', icon: LayoutDashboard },
+      { id: 'governanca_estrategica', label: 'Monitoramento Estratégico de Governança', icon: LayoutDashboard },
       { id: 'compliance_page', label: 'Compliance & Políticas', icon: Fingerprint },
-      { id: 'advisory_insights', label: 'Conselho Estratégia CFO', icon: Presentation },
+      { id: 'advisory_insights', label: 'Conselho Estratégico CFO', icon: Presentation },
       { id: 'controladoria_estrategica', label: 'Controladoria Estratégica', icon: Scale },
       { id: 'diagnostico', label: 'Diagnóstico & IVE', icon: Activity },
       { id: 'estrutura_governanca', label: 'Estrutura de Governança', icon: Users },

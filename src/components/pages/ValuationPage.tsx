@@ -148,13 +148,13 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
             <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Resumo Operacional (Anualizado)</h4>
             <div className="space-y-4">
               <div>
-                <p className="text-4xl font-black">{formatCurrency(anualizedEbitda)}</p>
+                <p className="text-4xl font-black whitespace-nowrap">{formatCurrency(anualizedEbitda)}</p>
                 <p className="text-[10px] font-bold opacity-80 uppercase tracking-tighter">EBITDA Estimado</p>
               </div>
               <div className="h-px bg-white/20" />
               <div className="flex justify-between items-end">
                 <div>
-                  <p className="text-xl font-bold">{formatCurrency(anualizedRevenue)}</p>
+                  <p className="text-xl font-bold whitespace-nowrap">{formatCurrency(anualizedRevenue)}</p>
                   <p className="text-[9px] font-medium opacity-70">Receita Líquida Est.</p>
                 </div>
                 <div className="text-right">
@@ -173,7 +173,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
                 <TrendingUp size={24} />
               </div>
               <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Múltiplo de EBITDA</h4>
-              <p className="text-3xl font-black text-slate-900 mb-2">{formatCurrency(valuationEbitda)}</p>
+              <p className="text-3xl font-black text-slate-900 mb-2 whitespace-nowrap">{formatCurrency(valuationEbitda)}</p>
               <div className="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-lg">
                 MÉTODO COMPARATIVO
               </div>
@@ -187,7 +187,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
                 <Zap size={24} />
               </div>
               <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Valor Presente (DCF)</h4>
-              <p className="text-3xl font-black text-slate-900 mb-2">{formatCurrency(enterpriseValueDCF)}</p>
+              <p className="text-3xl font-black text-slate-900 mb-2 whitespace-nowrap">{formatCurrency(enterpriseValueDCF)}</p>
               <div className="px-3 py-1 bg-secondary/20 text-secondary text-[10px] font-black rounded-lg">
                 MÉTODO INTRÍNSECO
               </div>
@@ -202,11 +202,11 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
             <div className="space-y-4">
               <div className="flex justify-between items-center py-3 border-b border-slate-200">
                 <span className="text-xs font-bold text-slate-600">Fluxo de Caixa Livre (Ano 1)</span>
-                <span className="text-xs font-black text-slate-900">{formatCurrency(freeCashFlow)}</span>
+                <span className="text-xs font-black text-slate-900 whitespace-nowrap">{formatCurrency(freeCashFlow)}</span>
               </div>
               <div className="flex justify-between items-center py-3 border-b border-slate-200">
                 <span className="text-xs font-bold text-slate-600">Valor na Perpetuidade</span>
-                <span className="text-xs font-black text-slate-900">{formatCurrency(terminalValue)}</span>
+                <span className="text-xs font-black text-slate-900 whitespace-nowrap">{formatCurrency(terminalValue)}</span>
               </div>
               <div className="flex justify-between items-center py-3 border-b border-slate-200">
                 <span className="text-xs font-bold text-slate-600">Taxa de Desconto (WACC)</span>

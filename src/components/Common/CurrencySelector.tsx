@@ -59,16 +59,16 @@ export function CurrencySelector({
         id="currency-selector-trigger"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          'flex items-center gap-2 px-4 py-2.5 rounded-2xl border transition-all duration-200 text-[10px] font-black uppercase tracking-widest',
+          'flex items-center gap-2 px-4 py-2.5 rounded-button border transition-all duration-200 text-body-sm font-medium uppercase tracking-widest',
           open
-            ? 'bg-slate-900 text-white border-slate-900 shadow-xl shadow-slate-900/20'
-            : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:shadow-md shadow-sm'
+            ? 'bg-primary text-primary-foreground border-primary shadow-md'
+            : 'bg-background text-foreground border-border hover:border-muted-foreground/30 hover:shadow-sm'
         )}
       >
         <span className="text-base leading-none">{current.flag}</span>
         <span>{current.code}</span>
         {loading ? (
-          <Loader2 size={10} className="animate-spin text-slate-400" />
+          <Loader2 size={10} className="animate-spin text-muted-foreground" />
         ) : error ? (
           <WifiOff size={10} className="text-amber-400" />
         ) : (
@@ -90,38 +90,38 @@ export function CurrencySelector({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="absolute right-0 top-full mt-2 w-72 bg-white rounded-3xl border border-slate-200 shadow-2xl shadow-slate-900/15 overflow-hidden z-50"
+            className="absolute right-0 top-full mt-2 w-72 bg-background rounded-md border border-border shadow-lg overflow-hidden z-50"
           >
             {/* Header */}
-            <div className="px-5 py-4 bg-slate-50 border-b border-slate-100">
+            <div className="px-5 py-4 bg-surface-container border-b border-border">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  <p className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground">
                     Moeda de Exibição
                   </p>
-                  <p className="text-xs font-bold text-slate-600 mt-0.5">
+                  <p className="text-body-sm font-medium text-muted-foreground/60 mt-0.5">
                     Câmbio do dia aplicado
                   </p>
                 </div>
                 {loading ? (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-lg">
-                    <Loader2 size={10} className="animate-spin text-slate-400" />
-                    <span className="text-[9px] font-black text-slate-400 uppercase">Buscando...</span>
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-high rounded-button">
+                    <Loader2 size={10} className="animate-spin text-muted-foreground" />
+                    <span className="text-[9px] font-medium text-muted-foreground uppercase">Buscando...</span>
                   </div>
                 ) : error ? (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 border border-amber-200 rounded-lg">
-                    <WifiOff size={10} className="text-amber-500" />
-                    <span className="text-[9px] font-black text-amber-600 uppercase">Fallback</span>
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-warning/10 border border-warning/20 rounded-button">
+                    <WifiOff size={10} className="text-warning" />
+                    <span className="text-[9px] font-medium text-warning uppercase">Fallback</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 border border-emerald-200 rounded-lg">
-                    <Wifi size={10} className="text-emerald-500" />
-                    <span className="text-[9px] font-black text-emerald-600 uppercase">Ao Vivo</span>
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-success/10 border border-success/20 rounded-button">
+                    <Wifi size={10} className="text-success" />
+                    <span className="text-[9px] font-medium text-success uppercase">Ao Vivo</span>
                   </div>
                 )}
               </div>
               {lastUpdated && !error && (
-                <p className="text-[9px] text-slate-400 mt-2 flex items-center gap-1">
+                <p className="text-[9px] text-muted-foreground mt-2 flex items-center gap-1">
                   <RefreshCw size={8} />
                   Atualizado às {formatTime(lastUpdated)}
                 </p>
@@ -142,18 +142,18 @@ export function CurrencySelector({
                       setOpen(false);
                     }}
                     className={cn(
-                      'w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-150 text-left group',
+                      'w-full flex items-center justify-between px-4 py-3 rounded-button transition-all duration-150 text-left group',
                       isSelected
-                        ? 'bg-slate-900 text-white'
-                        : 'hover:bg-slate-50 text-slate-700'
+                        ? 'bg-primary text-primary-foreground shadow-sm'
+                        : 'hover:bg-surface-container text-foreground'
                     )}
                   >
                     <div className="flex items-center gap-3">
                       <span className="text-xl leading-none">{currency.flag}</span>
                       <div>
                         <p className={cn(
-                          'text-[10px] font-black uppercase tracking-wider',
-                          isSelected ? 'text-white' : 'text-slate-800'
+                          'text-body-sm font-medium uppercase tracking-wider',
+                          isSelected ? 'text-primary-foreground' : 'text-foreground'
                         )}>
                           {currency.code}
                         </p>
@@ -167,8 +167,8 @@ export function CurrencySelector({
                     </div>
                     {rate !== undefined && currency.code !== 'BRL' && (
                       <span className={cn(
-                        'text-[9px] font-black tabular-nums',
-                        isSelected ? 'text-slate-300' : 'text-slate-400'
+                        'text-[9px] font-medium tabular-nums',
+                        isSelected ? 'text-primary-foreground/60' : 'text-muted-foreground'
                       )}>
                         R$ {rate.toFixed(4)}
                       </span>
@@ -182,8 +182,8 @@ export function CurrencySelector({
             </div>
 
             {/* Footer note */}
-            <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/50">
-              <p className="text-[9px] text-slate-400 font-medium leading-relaxed">
+            <div className="px-5 py-3 border-t border-border bg-surface-container/50">
+              <p className="text-[9px] text-muted-foreground font-medium leading-relaxed">
                 Todos os valores financeiros dos clientes são convertidos pelo câmbio comercial do dia.
                 Clientes sem moeda definida assumem BRL.
               </p>

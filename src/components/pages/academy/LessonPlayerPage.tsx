@@ -40,16 +40,16 @@ function ModuleLessonList({
 
   if (loading) {
     return (
-      <div className="px-8 py-4 flex items-center gap-2 text-text-dim">
-        <Loader2 size={14} className="animate-spin" />
-        <span className="text-xs">Carregando aulas...</span>
+      <div className="px-8 py-5 flex items-center gap-3 text-muted-foreground">
+        <Loader2 size={14} className="animate-spin text-secondary" />
+        <span className="text-[10px] font-black uppercase tracking-widest">Carregando aulas...</span>
       </div>
     );
   }
 
   if (lessons.length === 0) {
     return (
-      <p className="px-8 py-4 text-xs text-text-dim italic">Nenhuma aula cadastrada.</p>
+      <p className="px-8 py-5 text-xs text-muted-foreground italic">Nenhuma aula cadastrada.</p>
     );
   }
 
@@ -62,8 +62,8 @@ function ModuleLessonList({
           <div
             key={lesson.id}
             className={cn(
-              "w-full px-8 py-4 flex items-center gap-4 hover:bg-bg-surface transition-all group border-b border-border-main/5 last:border-0",
-              isActive ? "bg-primary/5" : ""
+              "w-full px-8 py-5 flex items-center gap-4 hover:bg-surface-container/50 transition-all group border-b border-border/10 last:border-0",
+              isActive ? "bg-secondary/5" : ""
             )}
           >
             <button
@@ -72,25 +72,27 @@ function ModuleLessonList({
                 onToggleProgress(lesson, !isDone);
               }}
               className={cn(
-                "w-6 h-6 rounded-full flex items-center justify-center shrink-0 border transition-all",
-                isDone ? "bg-accent border-accent text-white" : (isActive ? "border-primary text-primary" : "border-current opacity-40 hover:opacity-100")
+                "w-6 h-6 rounded-full flex items-center justify-center shrink-0 border transition-all active:scale-90",
+                isDone 
+                  ? "bg-secondary border-secondary text-primary" 
+                  : (isActive ? "border-secondary text-secondary" : "border-border text-muted-foreground hover:border-secondary hover:text-secondary")
               )}
             >
-              {isDone ? <CheckCircle2 size={14} /> : <PlayCircle size={14} />}
+              {isDone ? <CheckCircle2 size={12} strokeWidth={3} /> : <PlayCircle size={12} />}
             </button>
             
             <button
               onClick={() => onSelectLesson(lesson)}
-              className="flex-1 min-w-0 text-left"
+              className="flex-1 min-w-0 text-left cursor-pointer"
             >
               <p className={cn(
-                "text-sm font-bold leading-tight truncate transition-colors",
-                isActive ? "text-primary" : (isDone ? "text-text-main/70" : "text-text-muted group-hover:text-text-main")
+                "text-xs font-bold leading-normal transition-colors",
+                isActive ? "text-foreground font-black" : (isDone ? "text-muted-foreground/75" : "text-muted-foreground group-hover:text-foreground")
               )}>
                 Aula {lIdx + 1}: {lesson.title}
               </p>
               {lesson.duration && (
-                <p className="text-[10px] font-black uppercase tracking-widest opacity-60">
+                <p className="text-[9px] font-black uppercase tracking-widest text-secondary/75 mt-1">
                   {lesson.duration} min
                 </p>
               )}
@@ -169,20 +171,20 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
   if (!course) return null;
 
   return (
-    <div className="fixed inset-0 bg-bg-main z-[100] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 bg-background z-[100] flex flex-col overflow-hidden animate-executive-fade">
       {/* Header */}
-      <header className="h-20 bg-bg-card border-b border-border-main flex items-center justify-between px-8 shrink-0">
+      <header className="h-20 bg-card border-b border-border flex items-center justify-between px-8 shrink-0 relative z-20">
         <div className="flex items-center gap-6">
           <button 
             onClick={onBack}
-            className="p-2 hover:bg-bg-surface rounded-full transition-colors text-text-dim hover:text-text-main"
+            className="w-10 h-10 rounded-xl bg-surface-container hover:bg-secondary/10 border border-border flex items-center justify-center text-muted-foreground hover:text-secondary transition-all active:scale-95 cursor-pointer"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} strokeWidth={2.5} />
           </button>
           <div>
-            <h1 className="text-lg font-black text-text-main leading-tight">{course.title}</h1>
+            <h1 className="text-base font-display font-medium text-foreground leading-tight tracking-tight">{course.title}</h1>
             {currentLesson && (
-              <p className="text-xs text-text-dim uppercase tracking-widest font-bold truncate max-w-xs">
+              <p className="text-[9px] text-secondary uppercase tracking-[0.2em] font-black max-w-xs truncate mt-1">
                 {currentLesson.title}
               </p>
             )}
@@ -191,24 +193,24 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
 
         <div className="flex items-center gap-6">
           <div className="hidden md:flex flex-col items-end">
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-dim">Progresso no Cliente Ativo</span>
-            <div className="flex items-center gap-3">
-              <div className="w-32 h-1.5 bg-bg-surface rounded-full overflow-hidden">
+            <span className="text-[8.5px] font-black uppercase tracking-[0.2em] text-muted-foreground">Progresso no Cliente</span>
+            <div className="flex items-center gap-3 mt-1.5">
+              <div className="w-32 h-1.5 bg-surface-container rounded-full overflow-hidden border border-border/50">
                 <div 
-                  className="h-full bg-accent transition-all duration-500" 
+                  className="h-full bg-secondary transition-all duration-500" 
                   style={{ width: `${progressPct}%` }} 
                 />
               </div>
-              <span className="text-sm font-black text-text-main">{progressPct}%</span>
+              <span className="text-xs font-black text-foreground font-mono">{progressPct}%</span>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative z-10">
         {/* Main Player Area */}
         <div className="flex-1 overflow-y-auto bg-black flex flex-col">
-          <div className="aspect-video w-full bg-bg-surface relative">
+          <div className="aspect-video w-full bg-neutral-950 relative border-b border-border/5">
             {currentLesson?.contentType === 'video' ? (
               <iframe 
                 src={currentLesson.videoUrl} 
@@ -217,27 +219,27 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
                 title={currentLesson.title}
               />
             ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4 p-12 text-center">
-                <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+              <div className="absolute inset-0 flex flex-col items-center justify-center space-y-6 p-12 text-center">
+                <div className="w-20 h-20 rounded-3xl bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary shadow-lg shadow-secondary/5">
                   {currentLesson?.contentType === 'pdf' 
-                    ? <FileText size={40} /> 
+                    ? <FileText size={36} /> 
                     : currentLesson 
-                      ? <LinkIcon size={40} /> 
-                      : <PlayCircle size={40} />
+                      ? <LinkIcon size={36} /> 
+                      : <PlayCircle size={36} />
                   }
                 </div>
-                <h2 className="text-3xl font-black text-white">
+                <h2 className="text-2xl font-display font-medium text-white max-w-xl">
                   {currentLesson?.title || 'Selecione uma aula para começar'}
                 </h2>
-                <p className="text-white/60 max-w-lg">
-                  {currentLesson?.description || 'Explore o menu lateral para navegar entre os módulos e aulas deste curso.'}
+                <p className="text-white/50 max-w-lg text-sm font-medium leading-relaxed">
+                  {currentLesson?.description || 'Explore o painel de navegação à direita para iniciar o seu aprendizado estratégico corporativo.'}
                 </p>
                 {currentLesson?.externalLink && (
                   <a 
                     href={currentLesson.externalLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-transform"
+                    className="px-8 py-3.5 bg-secondary text-primary rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all border border-secondary/20 shadow-lg shadow-secondary/15 flex items-center gap-2 group"
                   >
                     Acessar Conteúdo Externo
                   </a>
@@ -249,24 +251,24 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
           <div className="p-12 max-w-4xl mx-auto w-full space-y-8">
             {currentLesson && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-4xl font-black text-white font-display">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-white/10">
+                  <h2 className="text-3xl font-display font-medium text-white tracking-tight">
                     {currentLesson.title}
                   </h2>
                   <button
                     onClick={() => handleToggleProgress(currentLesson, !completedLessonIds.has(currentLesson.id))}
                     className={cn(
-                      "px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3",
+                      "px-6 py-3.5 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-3 self-start sm:self-auto cursor-pointer",
                       completedLessonIds.has(currentLesson.id)
-                        ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20"
-                        : "bg-white/10 text-white hover:bg-white/20"
+                        ? "bg-secondary text-primary shadow-lg shadow-secondary/15 border border-secondary/20"
+                        : "bg-white/10 text-white hover:bg-white/20 border border-white/5"
                     )}
                   >
-                    {completedLessonIds.has(currentLesson.id) ? <CheckCircle2 size={16} /> : <PlayCircle size={16} />}
+                    {completedLessonIds.has(currentLesson.id) ? <CheckCircle2 size={14} strokeWidth={3} /> : <PlayCircle size={14} />}
                     {completedLessonIds.has(currentLesson.id) ? 'Concluída' : 'Marcar como Concluída'}
                   </button>
                 </div>
-                <p className="text-xl text-white/60 leading-relaxed">
+                <p className="text-base text-white/70 leading-relaxed font-medium">
                   {currentLesson.description}
                 </p>
               </div>
@@ -274,7 +276,7 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
 
             {currentLesson?.textContent && (
               <div 
-                className="prose prose-invert max-w-none pt-8 border-t border-white/10"
+                className="prose prose-invert max-w-none pt-8"
                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(currentLesson.textContent) }} 
               />
             )}
@@ -282,32 +284,32 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
         </div>
 
         {/* Sidebar Navigation */}
-        <aside className="w-96 bg-bg-card border-l border-border-main flex flex-col shrink-0 overflow-hidden">
-          <div className="p-6 border-b border-border-main bg-bg-surface/30">
-            <h3 className="font-black text-text-main uppercase tracking-widest text-sm">Conteúdo do Curso</h3>
-            <p className="text-xs text-text-dim mt-1">{modules.length} módulos</p>
+        <aside className="w-96 bg-card border-l border-border flex flex-col shrink-0 overflow-hidden relative z-20 shadow-xl">
+          <div className="p-6 border-b border-border bg-surface-container/30">
+            <h3 className="text-[10px] font-black text-foreground uppercase tracking-[0.2em]">Conteúdo do Curso</h3>
+            <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mt-1.5">{modules.length} módulos estratégicos</p>
           </div>
 
-          <div className="flex-1 overflow-y-auto custom-scrollbar">
+          <div className="flex-1 overflow-y-auto no-scrollbar">
             {modules.length === 0 ? (
-              <div className="flex flex-col items-center justify-center p-12 text-center">
-                <Loader2 size={24} className="animate-spin text-text-dim mb-4" />
-                <p className="text-text-dim text-sm">Carregando módulos...</p>
+              <div className="flex flex-col items-center justify-center p-12 text-center h-48">
+                <Loader2 size={24} className="animate-spin text-secondary mb-4" />
+                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Carregando módulos...</p>
               </div>
             ) : (
               modules.map((module, mIdx) => (
-                <div key={module.id} className="border-b border-border-main last:border-0">
+                <div key={module.id} className="border-b border-border last:border-0">
                   <button 
                     onClick={() => toggleModule(module.id)}
-                    className="w-full p-6 flex items-center justify-between hover:bg-bg-surface transition-colors"
+                    className="w-full p-6 flex items-center justify-between hover:bg-surface-container/30 transition-colors cursor-pointer group"
                   >
-                    <div className="flex items-center gap-4">
-                      <span className="text-xs font-black text-text-dim">{String(mIdx + 1).padStart(2, '0')}</span>
-                      <span className="font-bold text-text-main text-left">{module.title}</span>
+                    <div className="flex items-center gap-4 flex-1 min-w-0 pr-4">
+                      <span className="text-[10px] font-black text-secondary group-hover:scale-105 transition-transform">{String(mIdx + 1).padStart(2, '0')}</span>
+                      <span className="text-xs font-bold text-foreground text-left leading-tight truncate">{module.title}</span>
                     </div>
                     <ChevronDown 
                       size={16} 
-                      className={cn("text-text-dim transition-transform", expandedModules.includes(module.id) && "rotate-180")} 
+                      className={cn("text-muted-foreground transition-transform shrink-0", expandedModules.includes(module.id) && "rotate-180")} 
                     />
                   </button>
 
@@ -317,7 +319,7 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
                         initial={{ height: 0 }}
                         animate={{ height: 'auto' }}
                         exit={{ height: 0 }}
-                        className="overflow-hidden bg-bg-surface/20"
+                        className="overflow-hidden bg-surface-container/10"
                       >
                         <ModuleLessonList
                           moduleId={module.id}

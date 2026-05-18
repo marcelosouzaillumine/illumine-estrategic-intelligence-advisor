@@ -2,10 +2,10 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Search, Calculator, FileSpreadsheet, Loader2, Play, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { PageHeader } from '../Common';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
-import { cn, formatCurrency, formatDate } from '../../lib/utils';
+import { cn, formatCurrency, formatDate, formatValue, getThemeColors } from '../../lib/utils';
+import { PageHeader, KpiCard } from '../Common';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { generateCashFlow } from '../../services/cashFlowService';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell, Legend } from 'recharts';
@@ -13,6 +13,15 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedYear }: any) {
    const [activeTab, setActiveTab] = useState<'dashboard' | 'fluxo' | 'receber' | 'pagar' | 'passivo' | 'inadimplencia'>('dashboard');
    const [searchTerm, setSearchTerm] = useState('');
+
+   const [, setThemeTrigger] = useState(0);
+   useEffect(() => {
+     const handleThemeChange = () => setThemeTrigger(prev => prev + 1);
+     window.addEventListener('theme-changed', handleThemeChange);
+     return () => window.removeEventListener('theme-changed', handleThemeChange);
+   }, []);
+
+   const colors = getThemeColors();
    const [filterClient, setFilterClient] = useState(selectedClient);
    const [viewRange, setViewRange] = useState<30 | 90 | 180 | 360>(180);
    const [isGenerating, setIsGenerating] = useState(false);
@@ -165,7 +174,13 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
       .sort((a, b) => b.value - a.value);
   }, [Contas_Pagar]);
 
-  const COLORS = ['#ff8552', '#0e1c2c', '#64748b', '#94a3b8', '#cbd5e1'];
+  const COLORS = [
+    'var(--color-primary)',
+    'var(--color-secondary)',
+    'var(--color-success)',
+    'var(--color-muted-foreground)',
+    'var(--color-border)'
+  ];
 
   const filteredPagar = Contas_Pagar.filter((r: any) => 
     r.Fornecedor.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -194,7 +209,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
               <button 
                 onClick={handleGenerate}
                 disabled={isGenerating || !filterClient}
-                className="px-6 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2 disabled:opacity-50"
+                className="px-4 md:px-6 py-2 md:py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2 disabled:opacity-50"
               >
                 {isGenerating ? <Loader2 size={14} className="animate-spin" /> : <Play size={14} />}
                 GERAR FLUXO
@@ -231,19 +246,20 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
   }
 
   return (
-    <div className="space-y-10 pb-20 animate-executive-fade">
+    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
         title="Fluxo de Caixa" 
         subtitle={`Monitoramento estratégico de liquidez e solvência · ${clients.find((c: any) => c.id === filterClient)?.fantasia || 'Cliente'}`}
         icon={Calculator}
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="bg-white border border-slate-200 p-1 rounded-xl shadow-sm flex items-center gap-1">
+          <div className="bg-card border border-border rounded-md p-1 flex items-center gap-1 shadow-sm">
             <button 
               onClick={handleExportPDF}
-              className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-slate-400 hover:text-slate-600 hover:bg-slate-50 flex items-center gap-2 print:hidden"
+              className="px-4 py-2 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all text-muted-foreground hover:text-foreground hover:bg-surface-container flex items-center gap-2 print:hidden"
             >
               <FileText size={14} /> EXPORTAR PDF
             </button>
@@ -254,7 +270,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
           <button 
             onClick={handleGenerate}
             disabled={isGenerating || !filterClient}
-            className="px-8 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2 disabled:opacity-50 print:hidden"
+            className="px-5 md:px-8 py-2 md:py-3 bg-secondary text-white rounded-md text-[10px] font-medium uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-premium flex items-center gap-2 disabled:opacity-50 print:hidden"
           >
             {isGenerating ? <Loader2 size={14} className="animate-spin" /> : <Play size={14} />}
             GERAR FLUXO
@@ -263,7 +279,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
       </div>
 
 
-        <div className="relative z-10 mt-10 flex bg-white/5 p-1.5 rounded-[20px] border border-white/10 backdrop-blur-sm w-fit overflow-x-auto max-w-full">
+        <div className="relative z-10 mt-10 flex bg-card/40 p-1.5 rounded-md border border-border backdrop-blur-sm w-fit overflow-x-auto max-w-full shadow-sm">
           {[
             { id: 'dashboard', label: 'DASHBOARD' },
             { id: 'fluxo', label: 'FLUXO DIÁRIO' },
@@ -276,8 +292,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               className={cn(
-                "px-6 py-2.5 text-[10px] font-black rounded-xl transition-all uppercase tracking-widest whitespace-nowrap",
-                activeTab === tab.id ? "bg-white text-slate-900 shadow-xl" : "text-slate-400 hover:text-white"
+                "px-6 py-2.5 text-[10px] font-medium rounded-sm transition-all uppercase tracking-widest whitespace-nowrap",
+                activeTab === tab.id ? "bg-white text-secondary shadow-premium" : "text-muted-foreground hover:text-foreground"
               )}
             >{tab.label}</button>
           ))}
@@ -292,9 +308,9 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
             exit={{ opacity: 0, y: -10 }}
             className="space-y-8"
           >
-            <div className="flex justify-between items-center bg-slate-50 p-2 rounded-2xl border border-slate-200">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Janela de Projeção</span>
-              <div className="flex bg-white p-1 rounded-xl shadow-sm border border-slate-200">
+            <div className="flex justify-between items-center bg-surface-container/60 p-2 rounded-md border border-border">
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest ml-4">Janela de Projeção</span>
+              <div className="flex bg-card p-1 rounded-sm shadow-sm border border-border">
                 {[
                   { label: '30 DIAS', value: 30 },
                   { label: '90 DIAS', value: 90 },
@@ -305,8 +321,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                     key={p.value}
                     onClick={() => setViewRange(p.value as any)}
                     className={cn(
-                      "px-6 py-2 text-[10px] font-black rounded-lg transition-all",
-                      viewRange === p.value ? "bg-secondary text-white shadow-md" : "text-slate-500 hover:text-slate-700"
+                      "px-6 py-2 text-[10px] font-medium rounded-sm transition-all",
+                      viewRange === p.value ? "bg-secondary text-white shadow-premium" : "text-muted-foreground hover:text-foreground"
                     )}
                   >{p.label}</button>
                 ))}
@@ -363,21 +379,22 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 col-span-1 md:col-span-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 col-span-1 md:col-span-2">
                 {[
-                  { title: 'Saldo Final Projetado', value: formatCurrency(resumo.saldoFinal), color: resumo.saldoFinal < 0 ? 'text-rose-600' : 'text-emerald-600', icon: '💰' },
-                  { title: 'Passivo Vencido', value: formatCurrency(resumo.passivoVencido), color: 'text-rose-600', icon: '⚠️' },
-                  { title: `LCR (${viewRange}D)`, value: Number(resumo.lcr).toFixed(2), color: Number(resumo.lcr) < 1 ? 'text-rose-600' : 'text-emerald-600', icon: '🛡️' },
-                  { title: `Margem Segurança`, value: Number(resumo.margemSeguranca).toFixed(1) + "%", color: Number(resumo.margemSeguranca) < 10 ? 'text-amber-600' : 'text-emerald-600', icon: '📉' },
-                  { title: 'Necessidade Mensal (NCG)', value: formatCurrency(resumo.ncg), color: 'text-secondary', icon: '🔄' },
+                  { title: 'Saldo Final Projetado', value: formatValue(resumo.saldoFinal, ''), color: resumo.saldoFinal < 0 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: 'R$' },
+                  { title: 'Passivo Vencido', value: formatValue(resumo.passivoVencido, ''), color: 'Vermelho', icon: Calculator, suffix: 'R$' },
+                  { title: `LCR (${viewRange}D)`, value: Number(resumo.lcr).toFixed(2), color: Number(resumo.lcr) < 1 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: '' },
+                  { title: `Margem Segurança`, value: Number(resumo.margemSeguranca).toFixed(1), color: Number(resumo.margemSeguranca) < 10 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: '%' },
+                  { title: 'Necessidade Mensal (NCG)', value: formatValue(resumo.ncg, ''), color: 'Verde', icon: Calculator, suffix: 'R$' },
                 ].map((kpi, idx) => (
-                  <div key={idx} className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                    <div className="flex justify-between items-start mb-2">
-                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{kpi.title}</p>
-                      <span className="text-xs opacity-50">{kpi.icon}</span>
-                    </div>
-                    <h3 className={cn("text-lg font-black tracking-tight", kpi.color || "text-slate-900")}>{kpi.value}</h3>
-                  </div>
+                  <KpiCard 
+                    key={idx}
+                    title={kpi.title}
+                    value={kpi.value}
+                    suffix={kpi.suffix}
+                    icon={kpi.icon}
+                    status={kpi.color as any}
+                  />
                 ))}
               </div>
             </div>
@@ -392,26 +409,34 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                   <AreaChart data={Fluxo_Diario_Filtered}>
                     <defs>
                       <linearGradient id="colorSaldo" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#ff8552" stopOpacity={0.1}/>
-                        <stop offset="95%" stopColor="#ff8552" stopOpacity={0}/>
+                        <stop offset="5%" stopColor={colors.secondary} stopOpacity={0.25}/>
+                        <stop offset="95%" stopColor={colors.secondary} stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
                     <XAxis 
                       dataKey="Data" 
                       tickFormatter={(val) => formatDate(val).split('/')[0] + '/' + formatDate(val).split('/')[1]}
-                      tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }}
+                      tick={{ fontSize: 10, fontWeight: 700, fill: colors.mutedForeground }}
                       axisLine={false}
                       tickLine={false}
                     />
                     <YAxis 
                       tickFormatter={(val) => `R$ ${val / 1000}k`}
-                      tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }}
+                      tick={{ fontSize: 10, fontWeight: 700, fill: colors.mutedForeground }}
                       axisLine={false}
                       tickLine={false}
                     />
                     <Tooltip 
-                      contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                      contentStyle={{ 
+                        borderRadius: '24px', 
+                        border: `1px solid ${colors.border}`, 
+                        backgroundColor: colors.cardBg,
+                        color: colors.cardFg,
+                        boxShadow: 'var(--shadow-md)', 
+                        fontSize: '12px',
+                        padding: '16px'
+                      }}
                       formatter={(val: number) => [formatCurrency(val), 'Saldo Projetado']}
                       labelFormatter={(label) => `Data: ${formatDate(label)}`}
                     />
@@ -419,7 +444,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                     <Area 
                       type="monotone" 
                       dataKey="Saldo Final" 
-                      stroke="#ff8552" 
+                      stroke={colors.secondary} 
                       strokeWidth={3}
                       fillOpacity={1} 
                       fill="url(#colorSaldo)" 
@@ -465,7 +490,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                   {concentracaoCategorias.slice(0, 4).map((c, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                      <span className="text-[10px] font-bold text-slate-500 truncate">{c.name}</span>
+                      <span className="text-[10px] font-bold text-slate-500">{c.name}</span>
                     </div>
                   ))}
                 </div>

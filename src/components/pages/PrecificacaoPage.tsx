@@ -193,7 +193,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
             </div>
 
             <div>
-              <h4 className="text-[clamp(1rem,1.3vw,1.25rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors whitespace-nowrap overflow-hidden text-ellipsis mb-1.5">
+              <h4 className="text-[clamp(1rem,1.3vw,1.25rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors mb-1.5">
                 {kpi.label}
               </h4>
               <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Métrica de Performance</p>
@@ -284,7 +284,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                </div>
 
                <div className="flex justify-end pt-6 border-t border-slate-100">
-                 <button type="submit" className="px-12 py-5 bg-emerald-600 text-white rounded-3xl font-black uppercase tracking-[0.2em] text-xs hover:shadow-2xl hover:shadow-emerald-600/30 transition-all active:scale-95">
+                 <button type="submit" className="px-6 md:px-12 py-3.5 md:py-5 bg-emerald-600 text-white rounded-3xl font-black uppercase tracking-[0.2em] text-xs hover:shadow-2xl hover:shadow-emerald-600/30 transition-all active:scale-95">
                    Salvar Inteligência de Preço
                  </button>
                </div>

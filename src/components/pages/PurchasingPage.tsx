@@ -36,13 +36,15 @@ import {
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
-    <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-elegant transition-all group relative overflow-hidden">
-      <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 group-hover:text-slate-500 transition-colors">{label}</p>
-      <h3 className={cn(
-        "text-2xl font-display font-black tracking-tight",
-        tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
-      )}>{value}</h3>
-      {helper && <p className="text-[10px] text-slate-400 mt-4 font-medium italic opacity-80 leading-relaxed">{helper}</p>}
+    <div className="bg-card p-6 rounded-md border border-border shadow-sm hover:shadow-md transition-all group relative overflow-hidden flex flex-col justify-between min-h-[140px]">
+      <div>
+        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-3 group-hover:text-foreground transition-colors">{label}</p>
+        <h3 className={cn(
+          "text-2xl font-bold tracking-tight text-foreground",
+          tone === 'danger' ? "text-destructive" : tone === 'success' ? "text-success" : ""
+        )}>{value}</h3>
+      </div>
+      {helper && <p className="text-[10px] text-muted-foreground mt-4 font-medium italic opacity-85 leading-relaxed">{helper}</p>}
     </div>
   );
 }
@@ -154,29 +156,20 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
 
   return (
     <div className="space-y-10 pb-20 animate-executive-fade">
-      {/* Strategic Header & Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-slate-900 p-8 rounded-[32px] text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
-              <ShoppingBag size={20} className="text-secondary" />
-            </div>
-            <h1 className="text-3xl font-display font-black tracking-tight">Gestão de Compras</h1>
-          </div>
-          <p className="text-slate-400 text-sm font-medium leading-relaxed">Análise comparativa de fornecedores, economia gerada e curva ABC de insumos.</p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-4 relative z-10">
-          <div className="relative z-10 text-right bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Economia Acumulada</span>
-            <span className="text-emerald-400 font-black uppercase text-sm flex items-center justify-end gap-2">
-              <TrendingDown size={16} />
+      <PageHeader 
+        title="Gestão de Compras"
+        subtitle="Análise comparativa de fornecedores, economia gerada e curva ABC de insumos."
+        icon={ShoppingBag}
+        actions={
+          <div className="flex bg-card border border-border rounded-md px-4 py-2 shadow-sm items-center gap-4">
+            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Economia Acumulada</span>
+            <span className="text-success font-black text-sm flex items-center gap-1.5">
+              <TrendingDown size={14} />
               {formatCurrency(Math.floor(stats.totalEconomy))}
             </span>
           </div>
-        </div>
-      </div>
+        }
+      />
 
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -296,7 +289,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
                           "p-2 rounded-xl border transition-all",
                           f.selecionado ? "bg-primary/5 border-primary/20" : "bg-white border-slate-100"
                         )}>
-                          <p className="text-[9px] font-black text-slate-400 uppercase truncate">{f.nome}</p>
+                          <p className="text-[9px] font-black text-slate-400 uppercase">{f.nome}</p>
                           <p className={cn(
                             "text-xs font-black mt-1",
                             f.selecionado ? "text-primary" : "text-slate-600"

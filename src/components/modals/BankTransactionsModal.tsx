@@ -226,7 +226,7 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
         <div className="p-8 bg-slate-50 border-t border-slate-100 flex justify-end">
           <button 
             onClick={onClose}
-            className="px-8 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-100 transition-all"
+            className="px-5 md:px-8 py-2 md:py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-100 transition-all"
           >
             Fechar Visualização
           </button>

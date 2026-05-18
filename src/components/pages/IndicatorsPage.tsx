@@ -30,7 +30,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from '../../lib/firebase';
 import { formatValue, cn, formatCurrency } from '../../lib/utils';
-import { SectionHeader, StatusBadge, PageHeader } from '../Common';
+import { SectionHeader, StatusBadge, PageHeader, KpiValue } from '../Common';
 import { FULL_MONTH_LABELS, EIXOS_ORDEM } from '../../constants';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 
@@ -177,28 +177,25 @@ function KPICard({ r, group, valueClassName, onAction }: any) {
       <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[100px] -mr-10 -mt-10 pointer-events-none group-hover:bg-slate-100/50 transition-colors" />
 
       <div className="flex items-start justify-between gap-4 md:gap-6 relative z-10">
-        <div className="space-y-1.5 min-w-0 flex-1">
-          <h4 className="text-[clamp(1rem,1.3vw,1.5rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
+        <div className="space-y-1.5 min-w-0 flex-1 overflow-visible">
+          <h4 className="text-[clamp(1rem,1.3vw,1.5rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors break-words">
             {r.ind}
           </h4>
-          <div className="flex items-center gap-2 min-w-0">
+          <div className="flex items-center gap-2 min-w-0 overflow-visible">
             <div className={cn("w-1.5 h-1.5 rounded-full shadow-sm shrink-0", r.sem === 'Verde' ? "bg-emerald-500" : r.sem === 'Amarelo' ? "bg-amber-500" : "bg-rose-500")} />
-            <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap overflow-hidden text-ellipsis">{group}</p>
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] break-words leading-normal">{group}</p>
           </div>
         </div>
       </div>
       
       <div className="flex flex-col mt-auto relative z-10">
         {/* Value framing */}
-        <div className="bg-slate-50/50 rounded-2xl md:rounded-[32px] p-4 md:p-6 mb-6 md:mb-8 group-hover:bg-white group-hover:shadow-inner transition-all border border-slate-100/50 overflow-hidden">
-          <div className="flex items-baseline gap-2 md:gap-3 whitespace-nowrap">
-            <span className={cn(
-              "font-display text-slate-900 font-black tabular-nums tracking-tighter",
-              valueClassName || "text-[clamp(1.5rem,2.5vw,2.25rem)]"
-            )}>
-              {formatValue(r.val, r.un)}
-            </span>
-          </div>
+        <div className="bg-slate-50/50 rounded-2xl md:rounded-[32px] p-4 md:p-6 mb-6 md:mb-8 group-hover:bg-white group-hover:shadow-inner transition-all border border-slate-100/50 overflow-visible">
+          <KpiValue 
+            value={formatValue(r.val, '')} 
+            suffix={r.un}
+            className={cn("font-black tracking-tighter", valueClassName)}
+          />
         </div>
 
         <div className="space-y-6">
@@ -270,16 +267,12 @@ function SummaryCard({ label, value, icon: Icon, colorClass, trend, valueClassNa
         )}
       </div>
       
-      <div className="relative z-10">
-        <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2 line-clamp-1">{label}</p>
-        <div className="flex items-baseline gap-2 whitespace-nowrap">
-          <p className={cn(
-            "font-display font-black text-slate-900 tabular-nums tracking-tighter",
-            valueClassName || "text-[clamp(1.5rem,2.5vw,2.25rem)]"
-          )}>
-              {value}
-          </p>
-        </div>
+      <div className="relative z-10 overflow-visible">
+        <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2 break-words leading-normal">{label}</p>
+        <KpiValue 
+          value={value} 
+          className={cn("font-black tracking-tighter", valueClassName)}
+        />
       </div>
     </div>
   );
@@ -307,8 +300,6 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
   } = usePaginatedData({
     collectionName: 'indicators',
     filters,
-    orderByField: 'ind',
-    orderDirection: 'asc',
     pageSize: 12
   });
 
@@ -329,8 +320,9 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
   }, []);
 
   const { grouped, summary, groups, globalSizeClass, healthScore } = useMemo(() => {
-    // 1. Start with database indicators
-    const listWithGroups = indicators.map(i => {
+    // 1. Start with database indicators (sorted in-memory by name)
+    const sortedIndicators = [...indicators].sort((a, b) => (a.ind || '').localeCompare(b.ind || ''));
+    const listWithGroups = sortedIndicators.map(i => {
         const indName = (i.ind === 'Múltiplo' || i.ind === 'Multiplo') ? 'Múltiplo de EBITDA' : i.ind;
         return {
             ...i,
@@ -501,33 +493,33 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
 
 
       {/* Corporate Health Mini-Header */}
-      <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
+      <div className="bg-card border border-border rounded-md p-8 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
         <div className={cn(
           "absolute top-0 left-0 w-1 h-full",
-          indicators.length > 0 ? "bg-emerald-500" : "bg-slate-300"
+          indicators.length > 0 ? "bg-success" : "bg-muted"
         )} />
         <div className="flex items-center gap-8 relative z-10">
           <div className={cn(
-            "w-20 h-20 rounded-3xl flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform",
-            indicators.length > 0 ? "bg-emerald-50 text-emerald-600" : "bg-slate-50 text-slate-300"
+            "w-16 h-16 rounded-md flex items-center justify-center border border-border shadow-sm group-hover:scale-105 transition-transform",
+            indicators.length > 0 ? "bg-success/10 text-success" : "bg-surface-container text-muted-foreground"
           )}>
-            <ShieldCheck size={40} />
+            <ShieldCheck size={32} />
           </div>
           <div>
-            <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">Score de Saúde Consolidado</h3>
+            <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.25em] mb-1">Score de Saúde Consolidado</h3>
             <div className="flex items-center gap-4">
-              <span className="text-5xl font-display font-black text-slate-900 tracking-tighter">
+              <span className="text-4xl font-display font-medium text-foreground tracking-tighter">
                 {indicators.length > 0 ? healthScore.toFixed(1) : '---'}
               </span>
               <span className={cn(
-                "text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border",
+                "text-[9px] font-medium uppercase tracking-widest px-3 py-1 rounded-sm border",
                 indicators.length > 0 
                   ? (healthScore > 80 
-                    ? "text-emerald-600 bg-emerald-50 border-emerald-100" 
+                    ? "text-success bg-success/10 border-success/20" 
                     : healthScore > 60
-                    ? "text-amber-600 bg-amber-50 border-amber-100"
-                    : "text-rose-600 bg-rose-50 border-rose-100")
-                  : "text-slate-400 bg-slate-50 border-slate-100"
+                    ? "text-warning bg-warning/10 border-warning/20"
+                    : "text-destructive bg-destructive/10 border-destructive/20")
+                  : "text-muted-foreground bg-surface-container border-border"
               )}>
                 {indicators.length > 0 ? (healthScore > 80 ? 'Otimizado' : healthScore > 60 ? 'Em Observação' : 'Crítico') : 'Pendente'}
               </span>
@@ -535,20 +527,20 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
           </div>
         </div>
         <div className="flex-1 max-w-lg w-full relative z-10">
-          <div className="flex justify-between text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
+          <div className="flex justify-between text-[10px] font-medium uppercase tracking-[0.25em] text-muted-foreground mb-2">
             <span>Eficiência Estratégica</span>
-            <span className={indicators.length > 0 ? "text-emerald-600" : "text-slate-400"}>
+            <span className={indicators.length > 0 ? "text-success" : "text-muted-foreground"}>
               {indicators.length > 0 ? `${healthScore}%` : '---'}
             </span>
           </div>
-          <div className="h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+          <div className="h-2 bg-surface-container rounded-full overflow-hidden">
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: `${healthScore}%` }}
               transition={{ duration: 1.5, ease: "circOut" }}
               className={cn(
-                "h-full shadow-[0_0_10px_rgba(16,185,129,0.3)]",
-                healthScore > 80 ? "bg-emerald-500" : healthScore > 60 ? "bg-amber-500" : "bg-rose-500"
+                "h-full shadow-sm",
+                healthScore > 80 ? "bg-success" : healthScore > 60 ? "bg-warning" : "bg-destructive"
               )}
             />
           </div>

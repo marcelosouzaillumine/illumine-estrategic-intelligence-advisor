@@ -50,14 +50,14 @@ export function ClientSelector({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex items-center gap-4 px-6 py-3 rounded-standard transition-all duration-700 group relative overflow-hidden",
+          "flex items-center gap-2.5 px-3.5 py-1.5 rounded-button transition-all duration-700 group relative overflow-hidden border border-border/10",
           isOpen 
-            ? "bg-primary text-white shadow-floating" 
-            : "hover:bg-bg-surface/50"
+            ? "bg-primary text-primary-foreground shadow-md" 
+            : "hover:bg-surface-container/50"
         )}
       >
         <div className={cn(
-          "w-8 h-8 flex items-center justify-center shrink-0 transition-all duration-700 overflow-hidden",
+          "w-7 h-7 rounded-sm flex items-center justify-center shrink-0 transition-all duration-700 overflow-hidden",
           isOpen 
             ? "bg-white shadow-sm" 
             : "bg-white shadow-sm"
@@ -66,43 +66,43 @@ export function ClientSelector({
             <img 
               src={currentClient.icon || currentClient.logo} 
               alt={currentClient.fantasia} 
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain p-0.5"
             />
           ) : (
-            <Building2 size={24} strokeWidth={1} className={cn(
+            <Building2 size={16} strokeWidth={1.25} className={cn(
               "transition-colors",
-              isOpen ? "text-primary" : "text-text-dim group-hover:text-accent"
+              isOpen ? "text-primary" : "text-neutral group-hover:text-accent"
             )} />
           )}
         </div>
         
         <div className="text-left hidden md:block relative z-10">
           <p className={cn(
-            "text-[10px] font-bold uppercase tracking-[0.4em] mb-1.5 transition-colors duration-500",
-            isOpen ? "text-white/60" : "text-accent"
+            "text-[8px] font-bold uppercase tracking-[0.3em] mb-0.5 transition-colors duration-500 leading-none",
+            isOpen ? "text-primary-foreground/60" : "text-accent"
           )}>
             Cliente Ativo
           </p>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <span className={cn(
-              "text-[15px] font-bold tracking-tight transition-all duration-500 block leading-tight",
-              isOpen ? "!text-white" : "text-text-main"
+              "text-xs font-bold tracking-tight transition-all duration-500 block leading-none",
+              isOpen ? "!text-primary-foreground" : "text-foreground"
             )}>
               {currentClient?.fantasia || 'Selecionar Corporação'}
             </span>
-            <div className="flex flex-col">
+            <div className="flex flex-col leading-none">
               {currentClient?.cnpj && (
                 <span className={cn(
-                  "text-[9px] font-bold opacity-60 tracking-wider",
-                  isOpen ? "text-white" : "text-text-dim"
+                  "text-[8px] font-medium opacity-65 tracking-wide",
+                  isOpen ? "text-primary-foreground" : "text-neutral"
                 )}>
                   {formatDoc(currentClient.cnpj)}
                 </span>
               )}
             </div>
-            <ChevronDown size={14} strokeWidth={1} className={cn(
+            <ChevronDown size={11} strokeWidth={1.25} className={cn(
               "transition-transform duration-500 shrink-0",
-              isOpen ? "rotate-180 !text-white" : "text-text-dim group-hover:text-accent"
+              isOpen ? "rotate-180 !text-primary-foreground" : "text-neutral group-hover:text-accent"
             )} />
           </div>
         </div>
@@ -116,7 +116,7 @@ export function ClientSelector({
             animate={{ opacity: 1, y: 5, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="absolute top-full left-0 mt-2 w-80 bg-white/95 backdrop-blur-xl border border-slate-200 rounded-[24px] shadow-2xl z-[100] overflow-hidden"
+            className="absolute top-full left-0 mt-2 w-80 bg-background/95 backdrop-blur-xl border border-border rounded-md shadow-lg z-[100] overflow-hidden"
           >
             {/* Search Header */}
             <div className="p-4 border-b border-slate-100 bg-slate-50/50">
@@ -128,7 +128,7 @@ export function ClientSelector({
                   placeholder="Pesquisar cliente..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/20 transition-all"
+                  className="w-full pl-9 pr-4 py-2.5 bg-background border border-border rounded-button text-body-sm font-medium outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/20 transition-all"
                 />
               </div>
             </div>
@@ -147,13 +147,13 @@ export function ClientSelector({
                       className={cn(
                         "w-full flex items-center gap-3 p-3 rounded-xl transition-all group",
                         selectedClient === client.id 
-                          ? "bg-slate-900 text-white shadow-lg shadow-slate-900/10" 
-                          : "hover:bg-slate-50 text-slate-600 hover:text-slate-900"
+                          ? "bg-primary text-primary-foreground shadow-md" 
+                          : "hover:bg-surface-container text-muted-foreground hover:text-foreground"
                       )}
                     >
                       <div className={cn(
                         "w-10 h-10 rounded-lg flex items-center justify-center shrink-0 overflow-hidden",
-                        selectedClient === client.id ? "bg-white/10" : "bg-white border border-slate-100"
+                        selectedClient === client.id ? "bg-white/10" : "bg-background border border-border"
                       )}>
                         {client.icon || client.logo ? (
                           <img 
@@ -166,7 +166,7 @@ export function ClientSelector({
                         )}
                       </div>
                       <div className="text-left flex-1 min-w-0">
-                        <p className="text-xs font-bold truncate tracking-tight">{client.fantasia}</p>
+                        <p className="text-xs font-bold tracking-tight">{client.fantasia}</p>
                         <p className={cn(
                           "text-[9px] font-bold uppercase tracking-widest opacity-60",
                           selectedClient === client.id ? "text-slate-400" : "text-slate-400"
@@ -208,7 +208,7 @@ export function ClientSelector({
                   setIsOpen(false);
                   onManageClients?.();
                 }}
-                className="flex-1 flex items-center justify-center gap-2 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-primary hover:bg-white rounded-xl transition-all"
+                className="flex-1 flex items-center justify-center gap-2 py-3 text-body-sm font-medium uppercase tracking-widest text-muted-foreground hover:text-primary hover:bg-background rounded-button transition-all"
               >
                 <Settings size={14} /> Gerenciar
               </button>
@@ -217,7 +217,7 @@ export function ClientSelector({
                   setIsOpen(false);
                   onManageClients?.();
                 }}
-                className="flex-1 flex items-center justify-center gap-2 py-3 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-white rounded-xl transition-all"
+                className="flex-1 flex items-center justify-center gap-2 py-3 bg-primary/5 text-primary text-body-sm font-medium uppercase tracking-widest hover:bg-primary hover:text-primary-foreground rounded-button transition-all"
               >
                 <Plus size={14} /> Cadastrar Empresa
               </button>

@@ -92,15 +92,15 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
         title="Fiscal & Tributário" 
         subtitle={`Configurações de enquadramento, alíquotas e encargos de folha para ${clientData?.fantasia || 'a empresa'}.`}
         icon={Landmark}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <ShieldCheck size={14} className="text-secondary" />
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Conformidade Tributária Ativa</span>
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Conformidade Tributária Ativa</span>
             </div>
           </div>
         </div>
@@ -110,10 +110,10 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
             onClick={handleSave}
             disabled={saving}
             className={cn(
-              "flex items-center gap-2 px-8 py-3.5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all",
+              "btn-executive px-8 py-3.5",
               saving 
-                ? "bg-slate-100 text-slate-400 cursor-not-allowed" 
-                : "bg-primary text-white shadow-xl shadow-primary/20 hover:scale-105"
+                ? "bg-surface-container text-muted-foreground cursor-not-allowed border border-border" 
+                : "bg-primary text-white shadow-xl shadow-primary/20"
             )}
           >
             {saving ? <Loader2 size={16} className="animate-spin" /> : <><Save size={16} /> SALVAR CONFIGURAÇÕES</>}
@@ -124,13 +124,13 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
 
       <div className="space-y-10">
         {/* 1. Regime Selector Card */}
-        <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="card-premium p-8 space-y-8 relative overflow-hidden">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
             <div className="space-y-1">
-              <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+              <h4 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-2">
                 <Landmark size={20} className="text-secondary" /> Enquadramento Tributário
               </h4>
-              <p className="text-[11px] text-slate-400 font-medium lowercase">Defina o regime federal principal para o cálculo automático de impostos.</p>
+              <p className="text-[11px] text-muted-foreground font-medium lowercase italic">Defina o regime federal principal para o cálculo automático de impostos.</p>
             </div>
             
             <div className="flex flex-wrap gap-2">
@@ -139,10 +139,10 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
                   key={regime}
                   onClick={() => setClientData({...clientData, regime})}
                   className={cn(
-                    "px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                    "px-6 py-2.5 rounded-sm text-[10px] font-medium uppercase tracking-widest transition-all shadow-sm",
                     clientData.regime === regime 
-                      ? "bg-slate-900 text-white shadow-lg shadow-slate-200" 
-                      : "bg-slate-50 text-slate-400 border border-slate-100 hover:bg-slate-100"
+                      ? "bg-executive text-white border border-white/5" 
+                      : "bg-surface-container text-muted-foreground border border-border hover:bg-card"
                   )}
                 >
                   {regime}
@@ -151,14 +151,14 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-8 border-t border-slate-100">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-8 border-t border-border relative z-10">
             {clientData.regime === 'Lucro Real' && (
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Método de Apuração (LR)</label>
+                <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1">Método de Apuração (LR)</label>
                 <select 
                   value={clientData.regimeReal}
                   onChange={(e) => setClientData({...clientData, regimeReal: e.target.value})}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                  className="w-full px-4 py-3 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner"
                 >
                   <option value="Cumulativo">Cumulativo (654/98)</option>
                   <option value="Não Cumulativo">Não Cumulativo (10.637/10.833)</option>
@@ -169,11 +169,11 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
 
             {clientData.regime === 'Lucro Presumido' && (
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Cálculo Padrão IRPJ/CSLL</label>
+                <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1">Cálculo Padrão IRPJ/CSLL</label>
                 <select 
                   value={clientData.cnaePresuncao}
                   onChange={(e) => setClientData({...clientData, cnaePresuncao: e.target.value})}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                  className="w-full px-4 py-3 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner"
                 >
                   <option value="Venda de produtos / Mercadorias">Comércio (8% / 12%)</option>
                   <option value="Prestação de Serviços Genéricos">Serviços (32%)</option>
@@ -184,12 +184,12 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
             )}
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Porte Declarado (Faturamento)</label>
+              <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1">Porte Declarado (Faturamento)</label>
               <input 
                 type="text" 
                 value={clientData.porte}
                 readOnly
-                className="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-2xl text-sm font-bold text-slate-500 outline-none"
+                className="w-full px-4 py-3 bg-surface-container/50 border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest text-muted-foreground outline-none shadow-inner cursor-not-allowed italic"
               />
             </div>
           </div>
@@ -198,27 +198,27 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-10">
             {clientData.regime === 'Simples Nacional' ? (
-              <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-6 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-secondary/60"></div>
-                <div className="flex items-center justify-between">
-                  <h5 className="text-[11px] font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
+              <div className="card-premium p-8 space-y-6 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-secondary shadow-sm"></div>
+                <div className="flex items-center justify-between relative z-10">
+                  <h5 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-2">
                     <History size={16} className="text-secondary" /> Histórico RBT12
                   </h5>
                 </div>
-                <div className="bg-slate-50/50 rounded-2xl border border-slate-100 overflow-hidden">
+                <div className="bg-surface-container rounded-sm border border-border overflow-hidden relative z-10 shadow-inner">
                   <div className="max-h-[460px] overflow-y-auto custom-scrollbar">
                     <table className="w-full text-left border-collapse">
-                      <thead className="sticky top-0 bg-slate-100/90 backdrop-blur-sm z-10">
-                        <tr className="border-b border-slate-200">
-                          <th className="px-6 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">Referência</th>
-                          <th className="px-6 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor Bruto</th>
+                      <thead className="sticky top-0 bg-card/90 backdrop-blur-sm z-10 shadow-sm border-b border-border">
+                        <tr>
+                          <th className="px-6 py-3 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Referência</th>
+                          <th className="px-6 py-3 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-right">Valor Bruto</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
+                      <tbody className="divide-y divide-border/50">
                         {(clientData.historicoFaturamento || []).map((item: any, idx: number) => (
-                          <tr key={idx} className="hover:bg-white transition-colors group">
+                          <tr key={idx} className="hover:bg-card transition-colors group">
                             <td className="px-6 py-4">
-                              <div className="text-[11px] font-black text-slate-700 uppercase">{item.mes}/{item.ano}</div>
+                              <div className="text-[10px] font-medium text-foreground uppercase tracking-widest italic">{item.mes}/{item.ano}</div>
                             </td>
                             <td className="px-6 py-4 text-right">
                               <input 
@@ -230,7 +230,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
                                   const newRbt12 = newHist.reduce((acc, curr) => acc + (curr.valor || 0), 0);
                                   setClientData({ ...clientData, historicoFaturamento: newHist, rbt12: newRbt12 });
                                 }}
-                                className="w-32 bg-transparent text-xs font-black text-slate-800 text-right outline-none border-b border-transparent focus:border-secondary transition-all py-1"
+                                className="w-32 bg-transparent text-[11px] font-medium text-foreground text-right outline-none border-b border-transparent focus:border-secondary transition-all py-1 tabular-nums tracking-tighter"
                               />
                             </td>
                           </tr>
@@ -239,30 +239,30 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
                     </table>
                   </div>
                 </div>
-                <div className="bg-slate-900 p-6 rounded-2xl flex items-center justify-between">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block opacity-70">Total RBT12 (Acumulado)</label>
-                  <div className="text-2xl font-black text-emerald-400 font-display tracking-tight">
+                <div className="bg-executive p-6 rounded-sm flex items-center justify-between border border-white/5 shadow-premium">
+                  <label className="text-[9px] font-medium text-white/40 uppercase tracking-widest block italic">Total RBT12 (Acumulado)</label>
+                  <div className="text-2xl font-medium text-success tracking-tighter tabular-nums shadow-sm">
                     {formatCurrency(clientData.rbt12 || 0)}
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-6">
-                <h5 className="text-[11px] font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
-                  <TrendingUp size={16} className="text-primary" /> Faturamento Base
+              <div className="card-premium p-8 space-y-6 relative overflow-hidden">
+                <h5 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-2">
+                  <TrendingUp size={16} className="text-secondary" /> Faturamento Base
                 </h5>
-                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-3">
-                  <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest block">Receita Mensal de Referência</label>
+                <div className="bg-surface-container p-6 rounded-sm border border-border space-y-3 shadow-inner">
+                  <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block italic">Receita Mensal de Referência</label>
                   <div className="relative">
-                    <div className="absolute left-5 top-1/2 -translate-y-1/2 flex items-center gap-3 text-slate-400 pr-4">
+                    <div className="absolute left-5 top-1/2 -translate-y-1/2 flex items-center gap-3 text-muted-foreground/30 pr-4">
                       <DollarSign size={20} />
-                      <span className="text-[10px] font-black uppercase tracking-widest">BRL</span>
+                      <span className="text-[10px] font-medium uppercase tracking-widest italic">BRL</span>
                     </div>
                     <input 
                       type="number"
                       value={clientData.faturamentoMensal}
                       onChange={(e) => setClientData({...clientData, faturamentoMensal: parseFloat(e.target.value) || 0})}
-                      className="w-full pl-24 pr-8 py-5 bg-white border border-slate-200 rounded-2xl text-2xl font-black text-slate-900 outline-none focus:border-primary/20 transition-all shadow-sm"
+                      className="w-full pl-24 pr-8 py-5 bg-card border border-border rounded-sm text-2xl font-medium text-foreground outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-premium tabular-nums tracking-tighter"
                     />
                   </div>
                 </div>
@@ -271,18 +271,18 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
           </div>
 
           <div className="space-y-10">
-            <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-8">
-              <h5 className="text-[11px] font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
-                <Activity size={16} className="text-primary" /> Segregação de Atividade
+            <div className="card-premium p-8 space-y-8 relative overflow-hidden">
+              <h5 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-2 relative z-10">
+                <Activity size={16} className="text-secondary" /> Segregação de Atividade
               </h5>
-              <div className="bg-slate-50/80 p-6 rounded-[28px] border border-slate-100 space-y-6">
+              <div className="bg-surface-container/50 p-6 rounded-sm border border-border space-y-6 relative z-10 shadow-inner">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-white rounded-2xl border border-slate-100 flex items-center justify-center text-primary shrink-0 shadow-sm">
+                  <div className="w-12 h-12 bg-card rounded-sm border border-border flex items-center justify-center text-secondary shrink-0 shadow-sm">
                     <ShieldCheck size={24} />
                   </div>
                   <div className="space-y-1 min-w-0 flex-1">
-                    <label className="text-[10px] font-black text-primary uppercase tracking-[0.2em] block">Atividade Principal</label>
-                    <p className="text-[11px] font-bold text-slate-600 truncate">{clientData.cnae}</p>
+                    <label className="text-[9px] font-medium text-secondary uppercase tracking-[0.2em] block italic">Atividade Principal</label>
+                    <p className="text-[11px] font-medium text-foreground uppercase tracking-widest">{clientData.cnae}</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 gap-4">
@@ -290,7 +290,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
                     <select 
                       value={clientData.cnaeAnexo}
                       onChange={(e) => setClientData({...clientData, cnaeAnexo: e.target.value})}
-                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black outline-none focus:border-primary transition-all"
+                      className="w-full px-4 py-3 bg-card border border-border rounded-sm text-[10px] font-medium uppercase tracking-[0.2em] outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-sm"
                     >
                       {['Anexo I - Comércio', 'Anexo II - Indústria', 'Anexo III - Serviços', 'Anexo IV - Serviços Esp.', 'Anexo V - Serviços F.R'].map((anexo, i) => (
                         <option key={i} value={`Anexo ${['I','II','III','IV','V'][i]}`}>{anexo}</option>
@@ -301,10 +301,10 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
                       type="text"
                       readOnly
                       value={clientData.cnaePresuncao}
-                      className="w-full px-4 py-3 bg-white border border-slate-100 rounded-2xl text-xs font-black text-slate-400 outline-none"
+                      className="w-full px-4 py-3 bg-surface-container/50 border border-border rounded-sm text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground/40 outline-none italic"
                     />
                   ) : (
-                    <div className="px-4 py-3 bg-slate-100/50 rounded-2xl text-xs font-black text-slate-500 italic">
+                    <div className="px-4 py-3 bg-surface-container/50 rounded-sm text-[10px] font-medium text-muted-foreground/40 uppercase tracking-[0.2em] italic border border-border">
                       Aplicado regime geral: {clientData.regimeReal}
                     </div>
                   )}
@@ -315,13 +315,13 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
         </div>
 
         {/* 3. Payroll Taxes Section */}
-        <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-8">
-          <div className="space-y-1">
-            <h5 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+        <div className="card-premium p-8 space-y-8 relative overflow-hidden">
+          <div className="space-y-1 relative z-10">
+            <h5 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-2">
               <Users size={20} className="text-secondary" /> Encargos de Folha de Pagamento
             </h5>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
             {[
               { label: 'FGTS (%)', key: 'folhaFgts' },
               { label: 'INSS Patronal (%)', key: 'folhaInssPatronal' },
@@ -329,12 +329,12 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
               { label: 'Multa FGTS (%)', key: 'folhaMultaFgts' }
             ].map(item => (
               <div key={item.key} className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">{item.label}</label>
+                <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">{item.label}</label>
                 <input 
                   type="number"
                   value={clientData[item.key]}
                   onChange={(e) => setClientData({...clientData, [item.key]: parseFloat(e.target.value) || 0})}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                  className="w-full px-4 py-3 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner tabular-nums tracking-tighter"
                 />
               </div>
             ))}

@@ -15,8 +15,8 @@ import {
   PieChart,
   Pie
 } from 'recharts';
-import { cn, formatCurrency } from '../../lib/utils';
-import { PageHeader } from '../Common';
+import { cn, formatCurrency, formatValue } from '../../lib/utils';
+import { PageHeader, KpiCard } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
@@ -231,30 +231,30 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
 
   return (
-    <div className="p-8">
+    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
         title="Balanço Patrimonial" 
         subtitle="Análise da posição financeira, estrutura de capital e solvência patrimonial."
         icon={BookOpen}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="bg-white border border-slate-200 rounded-xl px-4 py-2 flex items-center gap-3 shadow-sm">
-            {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-blue-600" />}
-            <Database size={14} className={dbData.length > 0 ? 'text-emerald-500' : 'text-slate-300'} />
-            <span className={cn('text-[10px] font-black uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-emerald-500' : 'text-slate-400')}>
+          <div className="bg-card border border-border rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
+            {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
+            <Database size={14} className={dbData.length > 0 ? 'text-success' : 'text-muted-foreground/30'} />
+            <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-success' : 'text-muted-foreground/40')}>
               {dbData.length > 0 ? 'Dados Reais' : 'Amostra'}
             </span>
           </div>
 
-          <div className="flex bg-white border border-slate-200 p-1 rounded-xl shadow-sm items-center">
-            <Calendar size={12} className="ml-2 text-slate-400" />
+          <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
+            <Calendar size={12} className="ml-2 text-secondary" />
             <select
               onChange={(e) => setFilterYear(Number(e.target.value))}
               value={filterYear}
-              className="bg-transparent px-3 py-1.5 text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer text-slate-700"
+              className="bg-transparent px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest outline-none cursor-pointer text-foreground appearance-none pr-1"
             >
               {Array.from({ length: 21 }, (_, i) => 2010 + i).map((y) => (
                 <option key={y} value={y}>{y}</option>
@@ -266,19 +266,19 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowManualModal(true)}
-            className="px-4 py-3 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+            className="px-4 py-3 bg-success/10 hover:bg-success text-success hover:text-white border border-success/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
           >
             <Plus size={14} /> Lançar Dados
           </button>
           <button
             onClick={() => setShowImportModal(true)}
-            className="px-4 py-3 bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-600 border border-blue-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+            className="px-4 py-3 bg-secondary/10 hover:bg-secondary text-secondary hover:text-white border border-secondary/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
           >
             <Upload size={14} /> Importar
           </button>
           <button
             onClick={() => setShowDeleteConfirm(true)}
-            className="px-4 py-3 bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 border border-rose-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+            className="px-4 py-3 bg-destructive/10 hover:bg-destructive text-destructive hover:text-white border border-destructive/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
           >
             <Trash2 size={14} /> Excluir
           </button>
@@ -291,73 +291,63 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       <div className="space-y-8 mb-10">
         {/* Liquidez */}
         <div>
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 pl-1">Índices de Liquidez</h3>
+          <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Índices de Liquidez</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {liquidityIndices.map((idx, i) => (
-              <div key={i} className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
-                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-                  {idx.name}
-                </h4>
-                <div className="flex items-baseline gap-2">
-                  <span className={cn('text-2xl font-display font-bold', idx.color)}>
-                    {idx.val.toFixed(2)}
-                  </span>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
-                    Índice
-                  </span>
-                </div>
-                <p className="text-[9px] text-slate-500 font-medium mt-2 leading-tight">{idx.desc}</p>
-              </div>
+              <KpiCard 
+                key={i}
+                title={idx.name}
+                value={idx.val.toFixed(2)}
+                suffix=""
+                icon={BookOpen}
+                status={idx.val >= 1 ? 'Verde' : 'Vermelho'}
+              />
             ))}
           </div>
         </div>
 
         {/* Estrutura e Endividamento */}
         <div>
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 pl-1">Estrutura de Capital & Endividamento</h3>
+          <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Estrutura de Capital & Endividamento</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { 
                 name: 'Endividamento Geral', 
                 val: ((pc + pnc) / (ativoTotal || 1)) * 100, 
                 unit: '%', 
-                desc: 'Percentual do Ativo Total financiado por capital de terceiros.',
-                color: 'text-slate-900'
+                icon: TrendingDown,
+                status: 'Verde'
               },
               { 
                 name: 'Capitais de Terceiros / PL', 
                 val: ((pc + pnc) / (patrimonio.reduce((acc, r) => acc + (r.val || 0), 0) || 1)) * 100, 
                 unit: '%', 
-                desc: 'Relação entre Capital de Terceiros e Capital Próprio.',
-                color: 'text-slate-900'
+                icon: Database,
+                status: 'Verde'
               },
               { 
                 name: 'Composição do Endivid.', 
                 val: (pc / ((pc + pnc) || 1)) * 100, 
                 unit: '%', 
-                desc: 'Perfil da dívida: percentual vencível no curto prazo.',
-                color: 'text-blue-600'
+                icon: Calendar,
+                status: 'Verde'
               },
               { 
                 name: 'Imobilização do PL', 
                 val: (anc / (patrimonio.reduce((acc, r) => acc + (r.val || 0), 0) || 1)) * 100, 
                 unit: '%', 
-                desc: 'Indica quanto do PL está aplicado no Ativo Não Circulante.',
-                color: 'text-purple-600'
+                icon: BookOpen,
+                status: 'Verde'
               },
             ].map((idx, i) => (
-              <div key={i} className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
-                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-                  {idx.name}
-                </h4>
-                <div className="flex items-baseline gap-1">
-                  <span className={cn('text-2xl font-display font-bold', idx.color)}>
-                    {idx.val.toFixed(1)}
-                  </span>
-                  <span className="text-sm font-black text-slate-300">{idx.unit}</span>
-                </div>
-                <p className="text-[9px] text-slate-500 font-medium mt-2 leading-tight">{idx.desc}</p>
-              </div>
+              <KpiCard 
+                key={i}
+                title={idx.name}
+                value={idx.val.toFixed(1)}
+                suffix={idx.unit}
+                icon={idx.icon}
+                status={idx.status as any}
+              />
             ))}
           </div>
         </div>
@@ -529,7 +519,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                       {section.data.map((row: any, i: number) => (
                         <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', row.level === 1 ? 'bg-slate-50/10 font-bold' : '')}>
                           <td className="py-4 px-8">
-                            <span className={cn('block truncate max-w-[250px]', row.level === 1 ? 'text-primary' : 'pl-4 text-slate-600 font-medium')}>
+                            <span className={cn('block overflow-visible break-words', row.level === 1 ? 'text-secondary' : 'pl-4 text-muted-foreground font-medium')}>
                               {row.conta === 'Patrimônio Líquido' ? 'Patrimônio' : row.conta}
                             </span>
                           </td>

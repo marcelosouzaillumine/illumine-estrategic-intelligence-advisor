@@ -436,7 +436,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
               </button>
               <button 
                 onClick={handleAddProject}
-                className="px-8 py-3 bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg active:scale-95"
+                className="px-5 md:px-8 py-2 md:py-3 bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg active:scale-95"
               >
                 CRIAR PROJETO
               </button>

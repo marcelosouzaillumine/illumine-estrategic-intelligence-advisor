@@ -203,7 +203,7 @@ export function GenerateAICompanyModal({
           <button 
             onClick={onClose}
             disabled={loading}
-            className="px-6 py-2.5 text-slate-500 font-bold text-xs uppercase tracking-widest hover:text-slate-700 hover:bg-slate-200/50 rounded-xl transition-all"
+            className="px-4 md:px-6 py-2 md:py-2.5 text-slate-500 font-bold text-xs uppercase tracking-widest hover:text-slate-700 hover:bg-slate-200/50 rounded-xl transition-all"
           >
             Cancelar
           </button>

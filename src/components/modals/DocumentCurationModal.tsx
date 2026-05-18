@@ -230,7 +230,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
               </p>
               <button 
                 onClick={handleProcessAI}
-                className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
+                className="bg-blue-600 text-white px-5 md:px-8 py-2 md:py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
               >
                 Iniciar Processamento com IA
               </button>
@@ -273,7 +273,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
                     <div className="space-y-2 max-h-[150px] overflow-y-auto pr-2 custom-scrollbar">
                       {doc.entries.slice(0, 20).map((entry: any, eIdx: number) => (
                         <div key={eIdx} className="flex justify-between text-xs border-b border-slate-50 pb-1">
-                          <span className="text-slate-600 truncate mr-2" title={entry.category}>{entry.category}</span>
+                          <span className="text-slate-600 mr-2" title={entry.category}>{entry.category}</span>
                           <span className={entry.value < 0 ? 'text-red-600 font-medium' : 'text-slate-800 font-medium'}>
                             {entry.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                           </span>

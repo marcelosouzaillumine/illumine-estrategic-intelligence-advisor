@@ -83,23 +83,23 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
         title="Planejamento Estratégico" 
         subtitle="Monitoramento executivo de metas, execução e análise de desvios sistêmicos."
         icon={Target}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Status: Em Execução Ativa</span>
+              <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Status: Em Execução Ativa</span>
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center gap-2">
+          <div className="px-4 py-2.5 bg-card border border-border rounded-md shadow-sm flex items-center gap-2">
             <Zap size={14} className="text-secondary" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Visão Global de Desvios</span>
+            <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Visão Global de Desvios</span>
           </div>
         </div>
       </div>
@@ -107,70 +107,70 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
 
       {/* Executive Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm relative overflow-hidden group">
+        <div className="card-premium p-8 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-6 text-primary/5 group-hover:text-primary/10 transition-colors">
             <TrendingUp size={64} strokeWidth={3} />
           </div>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Progresso Realizado</p>
+          <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-4">Progresso Realizado</p>
           <div className="flex items-end gap-2">
-            <h3 className="text-4xl font-black text-slate-800 tracking-tighter">{hasData ? `${strategicData.overallProgress}%` : '---'}</h3>
-            {hasData && <span className="text-xs font-bold text-emerald-500 mb-2">+4.2% este mês</span>}
+            <h3 className="text-4xl font-medium text-foreground tracking-tighter">{hasData ? `${strategicData.overallProgress}%` : '---'}</h3>
+            {hasData && <span className="text-[10px] font-medium text-success mb-2 uppercase tracking-widest shadow-sm">+4.2% este mês</span>}
           </div>
-          <div className="mt-6 h-2 bg-slate-50 rounded-full overflow-hidden">
+          <div className="mt-6 h-2 bg-surface-container rounded-sm overflow-hidden shadow-inner">
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: `${strategicData.overallProgress}%` }}
-              className="h-full bg-primary rounded-full shadow-lg shadow-primary/20"
+              className="h-full bg-executive rounded-sm shadow-premium"
             />
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm relative overflow-hidden group">
+        <div className="card-premium p-8 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-6 text-secondary/5 group-hover:text-secondary/10 transition-colors">
             <Target size={64} strokeWidth={3} />
           </div>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Meta Planejada (Q1)</p>
+          <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-4">Meta Planejada (Q1)</p>
           <div className="flex items-end gap-2">
-            <h3 className="text-4xl font-black text-slate-800 tracking-tighter">{strategicData.plannedProgress}%</h3>
-            <span className="text-xs font-bold text-slate-400 mb-2">Gap: -{strategicData.plannedProgress - strategicData.overallProgress}%</span>
+            <h3 className="text-4xl font-medium text-foreground tracking-tighter">{strategicData.plannedProgress}%</h3>
+            <span className="text-[10px] font-medium text-muted-foreground mb-2 uppercase tracking-widest shadow-sm">Gap: -{strategicData.plannedProgress - strategicData.overallProgress}%</span>
           </div>
-          <div className="mt-6 h-2 bg-slate-50 rounded-full overflow-hidden">
+          <div className="mt-6 h-2 bg-surface-container rounded-sm overflow-hidden shadow-inner">
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: `${strategicData.plannedProgress}%` }}
-              className="h-full bg-secondary rounded-full"
+              className="h-full bg-secondary rounded-sm shadow-premium"
             />
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-6 text-rose-500/5 group-hover:text-rose-500/10 transition-colors">
+        <div className="card-premium p-8 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-6 text-destructive/5 group-hover:text-destructive/10 transition-colors">
             <AlertCircle size={64} strokeWidth={3} />
           </div>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Gaps Identificados</p>
+          <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-4">Gaps Identificados</p>
           <div className="flex items-end gap-2">
-            <h3 className="text-4xl font-black text-slate-800 tracking-tighter">{strategicData.gapsCount}</h3>
-            <span className="text-xs font-bold text-rose-500 mb-2">{strategicData.criticalCount} críticos</span>
+            <h3 className="text-4xl font-medium text-foreground tracking-tighter">{strategicData.gapsCount}</h3>
+            <span className="text-[10px] font-medium text-destructive mb-2 uppercase tracking-widest shadow-sm">{strategicData.criticalCount} críticos</span>
           </div>
-          <p className="mt-6 text-[10px] font-bold text-slate-400 uppercase italic">Ações corretivas pendentes</p>
+          <p className="mt-6 text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">Ações corretivas pendentes</p>
         </div>
 
-        <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-6 text-indigo-500/5 group-hover:text-indigo-500/10 transition-colors">
+        <div className="card-premium p-8 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-6 text-secondary/5 group-hover:text-secondary/10 transition-colors">
             <Activity size={64} strokeWidth={3} />
           </div>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Health Score Global</p>
+          <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-4">Health Score Global</p>
           <div className="flex items-end gap-2">
-            <h3 className="text-4xl font-black text-indigo-600 tracking-tighter">{hasData ? 'A-' : '---'}</h3>
-            <span className="text-xs font-bold text-indigo-400 mb-2">{hasData ? 'Estável' : 'Pendente'}</span>
+            <h3 className="text-4xl font-medium text-secondary tracking-tighter">{hasData ? 'A-' : '---'}</h3>
+            <span className="text-[10px] font-medium text-secondary/60 mb-2 uppercase tracking-widest shadow-sm">{hasData ? 'Estável' : 'Pendente'}</span>
           </div>
-          <p className="mt-6 text-[10px] font-bold text-slate-400 uppercase italic">{hasData ? 'Risco de execução: Baixo' : 'Aguardando Planejamento'}</p>
+          <p className="mt-6 text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">{hasData ? 'Risco de execução: Baixo' : 'Aguardando Planejamento'}</p>
         </div>
       </div>
 
       {/* Axis Matrix - Vision of the 7 Pillars */}
       <SectionHeader 
-        title="Matriz de Eixos de Gestão" 
+        title="Matriz de Pilares de Gestão" 
         subtitle="SAÚDE CORPORATIVA POR DIMENSÃO" 
         icon={Zap}
         tone="slate"
@@ -183,135 +183,134 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.05 }}
-            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-2xl hover:border-primary/10 transition-all group cursor-pointer"
+            className="card-premium p-8 group cursor-pointer relative overflow-hidden"
           >
-            <div className="flex justify-between items-start mb-6">
-               <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110", axis.bg, axis.color)}>
+            <div className="flex justify-between items-start mb-6 relative z-10">
+               <div className={cn("w-14 h-14 rounded-md flex items-center justify-center transition-transform group-hover:scale-110 shadow-inner", axis.bg, axis.color)}>
                   {(() => {
                     const Icon = axis.icon;
                     return <Icon size={28} />;
                   })()}
                </div>
                <div className="text-right">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Status</span>
+                  <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest block">Status</span>
                   <span className={cn(
-                    "text-lg font-black",
-                    !hasData ? "text-slate-300" : (axis.status >= 80 ? "text-emerald-500" : axis.status >= 50 ? "text-amber-500" : "text-rose-500")
+                    "text-xl font-medium tracking-tighter",
+                    !hasData ? "text-muted-foreground/30" : (axis.status >= 80 ? "text-success" : axis.status >= 50 ? "text-warning" : "text-destructive")
                   )}>{hasData ? `${axis.status}%` : '---'}</span>
                </div>
             </div>
-            <h3 className="text-lg font-black text-slate-800 mb-1">{axis.title}</h3>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{axis.goals} Objetivos em Curso</p>
+            <h3 className="text-lg font-medium text-foreground tracking-tight uppercase mb-1">{axis.title}</h3>
+            <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">{axis.goals} Objetivos em Curso</p>
             
-            <div className="mt-6 flex items-center justify-between">
+            <div className="mt-6 flex items-center justify-between relative z-10">
                <div className="flex -space-x-2">
                   {[1,2,3].map(i => (
-                    <div key={i} className="w-6 h-6 rounded-full border-2 border-white bg-slate-200" />
+                    <div key={i} className="w-6 h-6 rounded-sm border border-border bg-surface-container shadow-inner" />
                   ))}
                </div>
-               <ChevronRight size={16} className="text-slate-300 group-hover:text-primary transition-colors" />
+               <ChevronRight size={16} className="text-muted-foreground/30 group-hover:text-secondary transition-colors" />
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Planned vs Executed Detailed Analysis - Hidden if no data */}
       {hasData && (
-        <div className="bg-slate-900 rounded-[40px] p-12 text-white shadow-2xl relative overflow-hidden">
-           <div className="absolute right-0 top-0 p-12 text-secondary/5 opacity-10">
+        <div className="bg-executive rounded-md p-12 text-white shadow-premium relative overflow-hidden border border-white/5">
+           <div className="absolute right-0 top-0 p-12 text-secondary/5 opacity-10 shadow-inner">
               <BarChart3 size={320} strokeWidth={1} />
            </div>
            
            <div className="relative z-10 space-y-12">
               <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
                  <div className="max-w-2xl">
-                    <h4 className="text-sm font-black text-secondary uppercase tracking-[0.3em] mb-4">Análise de Execução & Gaps Estratégicos</h4>
-                    <p className="text-slate-400 text-sm font-medium leading-relaxed">
+                    <h4 className="text-[10px] font-medium text-secondary uppercase tracking-[0.3em] mb-4">Análise de Execução & Gaps Estratégicos</h4>
+                    <p className="text-white/60 text-sm font-medium leading-relaxed uppercase tracking-widest italic">
                       Visualização detalhada do desvio entre o planejamento teórico e a realidade operacional. 
                       Foco na identificação de gargalos que impedem a tração das iniciativas.
                     </p>
                  </div>
                  <div className="flex gap-6">
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded bg-white/20" />
-                      <span className="text-[10px] font-black uppercase text-slate-400">Planejado</span>
+                       <div className="w-3 h-3 rounded-sm bg-white/20 shadow-inner" />
+                       <span className="text-[9px] font-medium uppercase text-white/40 tracking-widest">Planejado</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded bg-blue-400" />
-                      <span className="text-[10px] font-black uppercase text-slate-400">Executado</span>
+                       <div className="w-3 h-3 rounded-sm bg-secondary shadow-premium" />
+                       <span className="text-[9px] font-medium uppercase text-white/40 tracking-widest">Executado</span>
                     </div>
                  </div>
               </div>
 
               <div className="space-y-10">
                  {strategicData.objectives.map((task, i) => (
-                   <div key={i} className="group relative">
-                      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-                         <div className="space-y-1">
-                            <div className="flex items-center gap-3">
-                               <span className="text-secondary text-[10px] font-black uppercase tracking-widest">{task.axis}</span>
-                               <span className="w-1 h-1 rounded-full bg-white/20" />
-                               <span className="text-white font-black text-sm">{task.label}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                               <span className="text-[10px] font-bold text-slate-500 uppercase">Gap Analysis:</span>
-                               <span className={cn(
-                                 "text-[10px] font-black uppercase",
-                                 task.gap === 'Nenhum' ? "text-emerald-400" : "text-rose-400"
-                               )}>{task.gap}</span>
-                            </div>
-                         </div>
-                         <div className="flex items-center gap-6">
-                            <div className="text-right">
-                               <span className="text-[9px] font-black text-slate-500 uppercase block">Status</span>
-                               <span className={cn(
-                                 "text-[10px] font-black uppercase tracking-widest",
-                                 task.status === 'Concluído' ? "text-emerald-400" :
-                                 task.status === 'Atrasado' ? "text-rose-400" : "text-amber-400"
-                               )}>{task.status}</span>
-                            </div>
-                            <div className="text-right">
-                               <span className="text-[9px] font-black text-slate-500 uppercase block">Execução</span>
-                               <span className="text-lg font-black text-white">{task.executed}%</span>
-                            </div>
-                         </div>
-                      </div>
-                      
-                      <div className="relative h-3 bg-white/5 rounded-full overflow-hidden">
-                         {/* Planned Track (Background ghost) */}
-                         <div 
-                           className="absolute inset-0 bg-white/10 opacity-30 transition-all duration-1000"
-                           style={{ width: `${task.planned}%` }}
-                         />
-                         {/* Executed Track */}
-                         <motion.div 
-                           initial={{ width: 0 }}
-                           animate={{ width: `${task.executed}%` }}
-                           className={cn(
-                             "absolute inset-0 h-full rounded-full transition-all duration-1000 shadow-[0_0_20px_rgba(56,189,248,0.3)]",
-                             task.status === 'Concluído' ? "bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]" :
-                             task.status === 'Atrasado' ? "bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.3)]" : "bg-blue-400"
-                           )}
-                         />
-                      </div>
-                   </div>
+                    <div key={i} className="group relative">
+                       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                          <div className="space-y-1">
+                             <div className="flex items-center gap-3">
+                                <span className="text-secondary text-[9px] font-medium uppercase tracking-widest italic">{task.axis}</span>
+                                <span className="w-1 h-1 rounded-full bg-white/20 shadow-inner" />
+                                <span className="text-white font-medium text-sm uppercase tracking-tighter">{task.label}</span>
+                             </div>
+                             <div className="flex items-center gap-2">
+                                <span className="text-[9px] font-medium text-white/40 uppercase tracking-widest">Gap Analysis:</span>
+                                <span className={cn(
+                                  "text-[9px] font-medium uppercase tracking-widest italic",
+                                  task.gap === 'Nenhum' ? "text-success" : "text-destructive"
+                                )}>{task.gap}</span>
+                             </div>
+                          </div>
+                          <div className="flex items-center gap-6">
+                             <div className="text-right">
+                                <span className="text-[8px] font-medium text-white/30 uppercase tracking-widest block">Status</span>
+                                <span className={cn(
+                                  "text-[9px] font-medium uppercase tracking-widest shadow-sm",
+                                  task.status === 'Concluído' ? "text-success" :
+                                  task.status === 'Atrasado' ? "text-destructive" : "text-warning"
+                                )}>{task.status}</span>
+                             </div>
+                             <div className="text-right">
+                                <span className="text-[8px] font-medium text-white/30 uppercase tracking-widest block">Execução</span>
+                                <span className="text-lg font-medium text-white tracking-tighter">{task.executed}%</span>
+                             </div>
+                          </div>
+                       </div>
+                       
+                       <div className="relative h-2.5 bg-white/5 rounded-sm overflow-hidden shadow-inner border border-white/5">
+                          {/* Planned Track (Background ghost) */}
+                          <div 
+                            className="absolute inset-0 bg-white/10 opacity-30 transition-all duration-1000 shadow-inner"
+                            style={{ width: `${task.planned}%` }}
+                          />
+                          {/* Executed Track */}
+                          <motion.div 
+                            initial={{ width: 0 }}
+                            animate={{ width: `${task.executed}%` }}
+                            className={cn(
+                              "absolute inset-0 h-full rounded-sm transition-all duration-1000 shadow-premium",
+                              task.status === 'Concluído' ? "bg-success" :
+                              task.status === 'Atrasado' ? "bg-destructive" : "bg-secondary"
+                            )}
+                          />
+                       </div>
+                    </div>
                  ))}
               </div>
               
               {/* Action Items Recommendation */}
-              <div className="mt-12 p-8 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-xl">
+              <div className="mt-12 p-8 bg-white/5 border border-white/10 rounded-md backdrop-blur-xl shadow-inner">
                  <div className="flex items-center gap-3 mb-6">
                     <Lightbulb className="text-secondary" size={20} />
-                    <h5 className="text-xs font-black uppercase tracking-widest">Recomendações do Advisor AI</h5>
+                    <h5 className="text-[10px] font-medium uppercase tracking-[0.2em] shadow-sm">Recomendações do Advisor AI</h5>
                  </div>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-2">
-                       <p className="text-[10px] font-black text-slate-500 uppercase">Foco de Atenção</p>
-                       <p className="text-sm text-slate-300">Análise de desvios em tempo real. Os eixos com menor progresso demandam revisão imediata de recursos.</p>
+                       <p className="text-[9px] font-medium text-white/30 uppercase tracking-widest">Foco de Atenção</p>
+                       <p className="text-[11px] text-white/60 uppercase tracking-widest italic leading-relaxed">Análise de desvios em tempo real. Os eixos com menor progresso demandam revisão imediata de recursos.</p>
                     </div>
                     <div className="space-y-2">
-                       <p className="text-[10px] font-black text-slate-500 uppercase">Oportunidade</p>
-                       <p className="text-sm text-slate-300">Eixos com alta performance indicam maturidade operacional e podem servir de benchmark interno.</p>
+                       <p className="text-[9px] font-medium text-white/30 uppercase tracking-widest">Oportunidade</p>
+                       <p className="text-[11px] text-white/60 uppercase tracking-widest italic leading-relaxed">Eixos com alta performance indicam maturidade operacional e podem servir de benchmark interno.</p>
                     </div>
                  </div>
               </div>

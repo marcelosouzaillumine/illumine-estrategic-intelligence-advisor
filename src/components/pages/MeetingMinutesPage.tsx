@@ -199,20 +199,20 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
           <div>
             <button 
               onClick={() => setView('list')}
-              className="group flex items-center gap-2 text-[10px] font-black text-text-dim uppercase tracking-[0.2em] hover:text-secondary transition-all mb-4"
+              className="group flex items-center gap-2 text-[10px] font-medium text-muted-foreground uppercase tracking-widest hover:text-secondary transition-all mb-4"
             >
-              <div className="w-6 h-6 rounded-full border border-border-main flex items-center justify-center group-hover:border-secondary transition-all">
+              <div className="w-6 h-6 rounded-full border border-border flex items-center justify-center group-hover:border-secondary transition-all">
                 <ChevronLeft size={12} />
               </div>
               Voltar para lista
             </button>
-            <h2 className="text-4xl font-display font-black text-text-main tracking-tight">
+            <h2 className="text-h1 font-medium text-foreground tracking-tight">
               {editingId ? 'Editar Ata de Reunião' : 'Nova Ata de Reunião'}
             </h2>
           </div>
           <div className="flex items-center gap-4">
-            <button onClick={() => setView('list')} className="btn-ghost">Cancelar</button>
-            <button onClick={handleSave} className="btn-accent px-10">
+            <button onClick={() => setView('list')} className="btn-executive bg-surface-container border-border">Cancelar</button>
+            <button onClick={handleSave} className="btn-executive bg-secondary">
               <Save size={16} />
               Salvar Ata
             </button>
@@ -223,59 +223,59 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
           {/* Header Info */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="space-y-3">
-              <label className="text-label">Título da Reunião</label>
+              <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Título da Reunião</label>
               <input 
                 type="text" 
                 value={formData.title}
                 onChange={(e) => setFormData({...formData, title: e.target.value})}
                 placeholder="Ex: Reunião Mensal de Resultados"
-                className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all"
               />
             </div>
             <div className="space-y-3">
-              <label className="text-label">Data</label>
+              <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Data</label>
               <input 
                 type="date" 
                 value={formData.date}
                 onChange={(e) => setFormData({...formData, date: e.target.value})}
-                className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all"
               />
             </div>
             <div className="space-y-3">
-              <label className="text-label">Local / Canal</label>
+              <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Local / Canal</label>
               <input 
                 type="text" 
                 value={formData.location}
                 onChange={(e) => setFormData({...formData, location: e.target.value})}
-                className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
              <div className="space-y-3">
-              <label className="text-label">Início</label>
+              <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Início</label>
               <input 
                 type="time" 
                 value={formData.startTime}
                 onChange={(e) => setFormData({...formData, startTime: e.target.value})}
-                className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all"
               />
             </div>
             <div className="space-y-3">
-              <label className="text-label">Término</label>
+              <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Término</label>
               <input 
                 type="time" 
                 value={formData.endTime}
                 onChange={(e) => setFormData({...formData, endTime: e.target.value})}
-                className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all"
               />
             </div>
           </div>
 
           {/* Participants */}
-          <div className="space-y-6 pt-10 border-t border-border-soft">
-            <label className="text-label">Participantes</label>
+          <div className="space-y-6 pt-10 border-t border-border">
+            <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Participantes</label>
             <div className="flex gap-3">
               <input 
                 type="text" 
@@ -283,7 +283,7 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
                 value={tempParticipant}
                 onChange={(e) => setTempParticipant(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), setFormData({...formData, participants: [...formData.participants, tempParticipant]}), setTempParticipant(''))}
-                className="flex-1 px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
+                className="flex-1 px-5 py-3 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all"
               />
               <button 
                 onClick={() => {
@@ -292,14 +292,14 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
                     setTempParticipant('');
                   }
                 }}
-                className="btn-accent px-6"
+                className="btn-executive bg-secondary"
               >Adicionar</button>
             </div>
             <div className="flex flex-wrap gap-2">
               {formData.participants.map((p, i) => (
-                <span key={i} className="px-4 py-2 bg-bg-surface border border-border-main rounded-full text-[10px] font-black text-text-muted flex items-center gap-2 shadow-sm">
+                <span key={i} className="px-4 py-2 bg-card border border-border rounded-md text-[10px] font-medium text-muted-foreground flex items-center gap-2 shadow-sm">
                   {p}
-                  <button onClick={() => setFormData({...formData, participants: formData.participants.filter((_, idx) => idx !== i)})} className="text-rose-400 hover:text-rose-600 transition-colors">
+                  <button onClick={() => setFormData({...formData, participants: formData.participants.filter((_, idx) => idx !== i)})} className="text-destructive hover:text-destructive/80 transition-colors">
                     <X size={14} />
                   </button>
                 </span>
@@ -308,63 +308,63 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
           </div>
 
           {/* Content */}
-          <div className="space-y-8 pt-10 border-t border-border-soft">
+          <div className="space-y-8 pt-10 border-t border-border">
             <div className="space-y-3">
-              <label className="text-label">Objetivo da Reunião</label>
+              <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Objetivo da Reunião</label>
               <textarea 
                 rows={2}
                 value={formData.objective}
                 onChange={(e) => setFormData({...formData, objective: e.target.value})}
-                className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all leading-relaxed"
+                className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all leading-relaxed italic"
                 placeholder="Descreva o propósito principal deste encontro..."
               />
             </div>
             <div className="space-y-3">
-              <label className="text-label">Pautas e Discussões</label>
+              <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Pautas e Discussões</label>
               <textarea 
                 rows={5}
                 value={formData.agenda}
                 onChange={(e) => setFormData({...formData, agenda: e.target.value})}
-                className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all leading-relaxed"
+                className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all leading-relaxed"
                 placeholder="Relate os pontos discutidos durante a reunião..."
               />
             </div>
             <div className="space-y-3">
-              <label className="text-label">Deliberações e Decisões</label>
+              <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Deliberações e Decisões</label>
               <textarea 
                 rows={4}
                 value={formData.decisions}
                 onChange={(e) => setFormData({...formData, decisions: e.target.value})}
-                className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all leading-relaxed"
+                className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all leading-relaxed font-medium"
                 placeholder="Quais foram as decisões tomadas?"
               />
             </div>
           </div>
 
           {/* Action Plan */}
-          <div className="space-y-6 pt-10 border-t border-border-soft">
+          <div className="space-y-6 pt-10 border-t border-border">
              <div className="flex items-center justify-between">
-                <label className="text-label mb-0">Plano de Ação (Próximos Passos)</label>
+                <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Plano de Ação (Próximos Passos)</label>
              </div>
              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <input 
                   type="text" placeholder="Tarefa"
                   value={tempAction.task}
                   onChange={(e) => setTempAction({...tempAction, task: e.target.value})}
-                  className="px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs outline-none focus:border-secondary transition-all"
+                  className="px-4 py-2.5 bg-surface-container border border-border rounded-md text-xs outline-none focus:border-secondary transition-all"
                 />
                 <input 
                   type="text" placeholder="Responsável"
                   value={tempAction.responsible}
                   onChange={(e) => setTempAction({...tempAction, responsible: e.target.value})}
-                  className="px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs outline-none focus:border-secondary transition-all"
+                  className="px-4 py-2.5 bg-surface-container border border-border rounded-md text-xs outline-none focus:border-secondary transition-all"
                 />
                 <div className="flex gap-2">
                   <input 
                     type="date"
                     value={tempAction.deadline}
                     onChange={(e) => setTempAction({...tempAction, deadline: e.target.value})}
-                    className="flex-1 px-4 py-2.5 bg-bg-card border border-border-main rounded-standard text-xs outline-none focus:border-secondary transition-all"
+                    className="flex-1 px-4 py-2.5 bg-surface-container border border-border rounded-md text-xs outline-none focus:border-secondary transition-all"
                   />
                   <button 
                     onClick={() => {
@@ -373,7 +373,7 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
                         setTempAction({ task: '', responsible: '', deadline: '' });
                       }
                     }}
-                    className="btn-accent p-2.5"
+                    className="btn-executive bg-secondary p-2.5"
                   >
                     <Plus size={18} />
                   </button>
@@ -382,19 +382,19 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
 
              <div className="space-y-3">
                 {formData.actions.map((a, i) => (
-                  <div key={i} className="flex items-center justify-between bg-bg-surface p-4 rounded-standard border border-border-main group">
+                  <div key={i} className="flex items-center justify-between bg-surface-container p-4 rounded-md border border-border group">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-bg-card rounded-xl flex items-center justify-center text-text-dim group-hover:text-secondary transition-all shadow-sm">
+                       <div className="w-10 h-10 bg-card rounded-md flex items-center justify-center text-muted-foreground group-hover:text-secondary transition-all shadow-sm">
                         <CheckCircle2 size={16} />
                       </div>
                       <div>
-                        <p className="text-sm font-black text-text-main">{a.task}</p>
-                        <p className="text-[10px] text-text-muted font-medium uppercase tracking-widest">Responsável: {a.responsible} • Prazo: {a.deadline}</p>
+                        <p className="text-sm font-medium text-foreground tracking-tight">{a.task}</p>
+                        <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Responsável: {a.responsible} • Prazo: {a.deadline}</p>
                       </div>
                     </div>
                     <button 
                       onClick={() => setFormData({...formData, actions: formData.actions.filter((_, idx) => idx !== i)})}
-                      className="w-8 h-8 rounded-full flex items-center justify-center text-rose-400 hover:bg-rose-50 hover:text-rose-600 transition-all"
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-destructive hover:bg-destructive/5 transition-all"
                     >
                       <X size={18} />
                     </button>
@@ -403,28 +403,28 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
              </div>
           </div>
 
-          <div className="pt-10 border-t border-border-soft flex items-center justify-between">
+          <div className="pt-10 border-t border-border flex items-center justify-between">
              <div className="flex items-center gap-8">
-               <div className="space-y-3">
-                 <label className="text-label">Data da Próxima Reunião</label>
-                 <input 
-                   type="date" 
-                   value={formData.nextMeetingDate}
-                   onChange={(e) => setFormData({...formData, nextMeetingDate: e.target.value})}
-                   className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm outline-none focus:border-secondary transition-all"
-                 />
-               </div>
-               <div className="space-y-3">
-                 <label className="text-label">Status da Ata</label>
-                 <select 
-                   value={formData.status}
-                   onChange={(e) => setFormData({...formData, status: e.target.value as any})}
-                   className="w-full px-5 py-3 bg-bg-card border border-border-main rounded-standard text-sm font-bold outline-none focus:border-secondary transition-all"
-                 >
-                   <option value="Draft">Rascunho</option>
-                   <option value="Finalized">Finalizada / Publicada</option>
-                 </select>
-               </div>
+                <div className="space-y-3">
+                  <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Data da Próxima Reunião</label>
+                  <input 
+                    type="date" 
+                    value={formData.nextMeetingDate}
+                    onChange={(e) => setFormData({...formData, nextMeetingDate: e.target.value})}
+                    className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all"
+                  />
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Status da Ata</label>
+                  <select 
+                    value={formData.status}
+                    onChange={(e) => setFormData({...formData, status: e.target.value as any})}
+                    className="w-full px-5 py-3 bg-surface-container border border-border rounded-md text-sm font-medium outline-none focus:border-secondary transition-all"
+                  >
+                    <option value="Draft">Rascunho</option>
+                    <option value="Finalized">Finalizada / Publicada</option>
+                  </select>
+                </div>
              </div>
           </div>
         </div>
@@ -438,7 +438,7 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
         title="Atas de Reunião" 
         subtitle="Registro oficial de deliberações, decisões e planos de ação de governança."
         actions={
-          <button onClick={openAdd} className="btn-accent px-8">
+          <button onClick={openAdd} className="btn-executive bg-secondary">
             <Plus size={18} />
             Nova Ata
           </button>
@@ -452,27 +452,27 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
             placeholder="Pesquisar atas por título ou conteúdo..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-6 py-4 bg-bg-card border border-border-main rounded-2xl text-sm outline-none focus:border-secondary transition-all shadow-premium"
+            className="w-full pl-12 pr-6 py-4 bg-surface-container border border-border rounded-md text-sm outline-none focus:border-secondary transition-all shadow-sm"
           />
-          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
         </div>
       </div>
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-32 space-y-4">
           <div className="w-12 h-12 border-4 border-secondary/20 border-t-secondary rounded-full animate-spin"></div>
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-dim">Carregando documentos...</p>
+          <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Carregando documentos...</p>
         </div>
       ) : minutes.length === 0 ? (
         <div className="card-premium py-24 text-center space-y-6">
-          <div className="w-20 h-20 bg-bg-surface border border-border-main rounded-[2rem] flex items-center justify-center mx-auto text-text-dim/40 shadow-inner-soft">
+          <div className="w-20 h-20 bg-surface-container border border-border rounded-md flex items-center justify-center mx-auto text-muted-foreground/40 shadow-inner">
             <FileText size={32} strokeWidth={1} />
           </div>
           <div className="space-y-2">
-            <h3 className="text-xl font-display font-black text-text-main uppercase tracking-widest">Nenhuma Ata Registrada</h3>
-            <p className="text-xs text-text-muted font-medium uppercase tracking-[0.2em] max-w-xs mx-auto leading-relaxed">Comece registrando a primeira reunião realizada com este cliente.</p>
+            <h3 className="text-h3 font-medium text-foreground tracking-tight uppercase">Nenhuma Ata Registrada</h3>
+            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest w-full max-w-2xl mx-auto leading-relaxed">Comece registrando a primeira reunião realizada com este cliente.</p>
           </div>
-          <button onClick={openAdd} className="btn-executive py-3 px-8 mx-auto mt-4">
+          <button onClick={openAdd} className="btn-executive bg-executive mx-auto mt-4">
             <Plus size={16} />
             Criar Documento
           </button>
@@ -488,23 +488,23 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
             >
               <div className="flex items-start justify-between mb-6">
                 <div className={cn(
-                  "w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm border transition-all",
+                  "w-12 h-12 rounded-md flex items-center justify-center shadow-sm border transition-all",
                   minute.status === 'Finalized' 
-                    ? "bg-emerald-50 border-emerald-100 text-emerald-500" 
-                    : "bg-amber-50 border-amber-100 text-amber-500"
+                    ? "bg-success/10 border-success/20 text-success" 
+                    : "bg-warning/10 border-warning/20 text-warning"
                 )}>
                   <FileText size={22} strokeWidth={1.5} />
                 </div>
                 <div className="flex items-center gap-2">
                   <button 
                     onClick={() => openEdit(minute)}
-                    className="p-2 text-text-dim hover:text-secondary hover:bg-secondary/5 rounded-lg transition-all"
+                    className="p-2 text-muted-foreground hover:text-secondary hover:bg-secondary/5 rounded-md transition-all"
                   >
                     <Edit3 size={16} />
                   </button>
                   <button 
                     onClick={() => minute.id && handleDelete(minute.id)}
-                    className="p-2 text-text-dim hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                    className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/5 rounded-md transition-all"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -518,42 +518,42 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
                       status={minute.status === 'Finalized' ? 'Ativo' : 'Pendente'} 
                       label={minute.status === 'Finalized' ? 'FINALIZADA' : 'RASCUNHO'}
                     />
-                    <span className="text-[10px] font-black text-text-dim uppercase tracking-widest">{new Date(minute.date).toLocaleDateString('pt-BR')}</span>
+                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">{new Date(minute.date).toLocaleDateString('pt-BR')}</span>
                   </div>
-                  <h4 className="text-lg font-black text-text-main line-clamp-2 leading-tight group-hover:text-secondary transition-colors">{minute.title}</h4>
+                  <h4 className="text-body-md font-medium text-foreground tracking-tight line-clamp-2 leading-tight group-hover:text-secondary transition-colors">{minute.title}</h4>
                 </div>
 
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-[11px] font-medium text-text-muted">
+                  <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
                     <MapPin size={12} className="shrink-0" />
-                    <span className="truncate">{minute.location}</span>
+                    <span>{minute.location}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[11px] font-medium text-text-muted">
+                  <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
                     <Users size={12} className="shrink-0" />
-                    <span className="truncate">{minute.participants.length} Participantes</span>
+                    <span>{minute.participants.length} Participantes</span>
                   </div>
                 </div>
 
-                <div className="bg-bg-surface/50 p-4 rounded-xl border border-border-soft">
-                  <p className="text-[10px] font-black text-text-dim uppercase tracking-[0.1em] mb-2 flex items-center gap-2">
+                <div className="bg-surface-container p-4 rounded-md border border-border">
+                  <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-2 flex items-center gap-2">
                     <MessageSquare size={12} /> Objetivo
                   </p>
-                  <p className="text-[11px] text-text-muted font-medium line-clamp-3 leading-relaxed italic">
+                  <p className="text-[11px] text-muted-foreground font-medium line-clamp-3 leading-relaxed italic">
                     "{minute.objective || 'Sem objetivo definido.'}"
                   </p>
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-border-soft flex items-center justify-between">
+              <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-2">
                     {minute.participants.slice(0, 3).map((_, i) => (
-                      <div key={i} className="w-6 h-6 rounded-full bg-bg-card border-2 border-bg-surface flex items-center justify-center text-[8px] font-black text-text-dim uppercase">
+                      <div key={i} className="w-6 h-6 rounded-full bg-card border-2 border-surface-container flex items-center justify-center text-[8px] font-medium text-muted-foreground uppercase">
                         {minute.participants[i][0]}
                       </div>
                     ))}
                     {minute.participants.length > 3 && (
-                      <div className="w-6 h-6 rounded-full bg-secondary/10 border-2 border-bg-surface flex items-center justify-center text-[8px] font-black text-secondary">
+                      <div className="w-6 h-6 rounded-full bg-secondary/10 border-2 border-surface-container flex items-center justify-center text-[8px] font-medium text-secondary">
                         +{minute.participants.length - 3}
                       </div>
                     )}
@@ -561,7 +561,7 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
                 </div>
                 <button 
                   onClick={() => openEdit(minute)}
-                  className="flex items-center gap-2 text-[10px] font-black text-secondary uppercase tracking-[0.2em] hover:gap-3 transition-all"
+                  className="flex items-center gap-2 text-[10px] font-medium text-secondary uppercase tracking-widest hover:gap-3 transition-all"
                 >
                   Ver Detalhes
                   <ChevronRight size={14} />

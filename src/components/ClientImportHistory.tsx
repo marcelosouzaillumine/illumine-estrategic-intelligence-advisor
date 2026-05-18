@@ -373,7 +373,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
                       {h.periodType === 'anual' ? `ANUAL / ${h.year}` : `${getMonthName(h.month).substring(0,3)}/${h.year}`}
                     </span>
                   </div>
-                  <p className="text-[11px] font-bold text-primary truncate mb-1">{h.fileName}</p>
+                  <p className="text-[11px] font-bold text-primary mb-1">{h.fileName}</p>
                   <div className="flex justify-between items-center mt-1">
                     <p className="text-[9px] text-slate-400">Em: {h.createdAt?.toDate() ? h.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recent'}</p>
                     {h.fileUrl && (

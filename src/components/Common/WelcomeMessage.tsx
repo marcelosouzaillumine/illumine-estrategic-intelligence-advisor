@@ -35,59 +35,59 @@ export function WelcomeMessage({ isOpen, onClose, message, userName }: WelcomeMe
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-primary/40 backdrop-blur-sm"
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-lg bg-white rounded-[32px] shadow-2xl overflow-hidden"
+            className="relative w-full max-w-lg bg-background rounded-card shadow-lg overflow-hidden"
           >
             {/* Top decorative element */}
             <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-primary via-secondary to-primary" />
             
             <div className="p-8 sm:p-10">
               <div className="flex justify-between items-start mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+                <div className="w-14 h-14 rounded-md bg-primary/10 flex items-center justify-center text-primary">
                   <Sparkles size={28} className="animate-pulse" />
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all"
+                  className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-full transition-all"
                 >
                   <X size={20} />
                 </button>
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-3xl font-black tracking-tight text-primary leading-tight">
+                <h3 className="text-h3 font-display font-medium tracking-tight text-primary leading-tight">
                   {userName ? `Olá, ${userName.split(' ')[0]}!` : 'Olá!'}
                 </h3>
-                <p className="text-lg text-slate-600 leading-relaxed font-medium">
+                <p className="text-body-lg text-muted-foreground leading-relaxed font-medium">
                   {message}
                 </p>
               </div>
 
               <div className="mt-10 grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+                <div className="p-4 rounded-md bg-surface-container border border-border flex flex-col gap-2">
+                  <div className="w-8 h-8 rounded-button bg-secondary/10 flex items-center justify-center text-secondary">
                     <Rocket size={16} />
                   </div>
-                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">Objetivo</p>
-                  <p className="text-xs font-bold text-slate-700">Crescimento</p>
+                  <p className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground">Objetivo</p>
+                  <p className="text-body-sm font-medium text-foreground">Crescimento</p>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+                <div className="p-4 rounded-md bg-surface-container border border-border flex flex-col gap-2">
+                  <div className="w-8 h-8 rounded-button bg-success/10 flex items-center justify-center text-success">
                     <ShieldCheck size={16} />
                   </div>
-                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">Segurança</p>
-                  <p className="text-xs font-bold text-slate-700">Ambiente Protegido</p>
+                  <p className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground">Segurança</p>
+                  <p className="text-body-sm font-medium text-foreground">Ambiente Protegido</p>
                 </div>
               </div>
 
               <button
                 onClick={onClose}
-                className="mt-10 w-full h-14 bg-primary text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group"
+                className="mt-10 w-full btn-primary h-14 uppercase gap-2 group"
               >
                 Acessar meu Painel
                 <Zap size={16} className="group-hover:fill-current" />
@@ -99,3 +99,4 @@ export function WelcomeMessage({ isOpen, onClose, message, userName }: WelcomeMe
     </AnimatePresence>
   );
 }
+

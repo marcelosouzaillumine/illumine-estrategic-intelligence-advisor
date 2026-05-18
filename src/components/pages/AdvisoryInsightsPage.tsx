@@ -35,12 +35,12 @@ function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
   
   return (
     <div className="flex items-center gap-5">
-      <div className={cn("p-4 rounded-2xl border", tones[tone])}>
+      <div className={cn("p-4 rounded-md border", tones[tone])}>
         <Icon size={24} strokeWidth={2.5} />
       </div>
       <div>
-        <h3 className="text-xl font-display font-extrabold text-slate-900 tracking-tight leading-none mb-1">{title}</h3>
-        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{subtitle}</p>
+        <h3 className="text-h3 font-medium text-foreground tracking-tight leading-none mb-1">{title}</h3>
+        <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">{subtitle}</p>
       </div>
     </div>
   );
@@ -50,15 +50,15 @@ function MatrixQuadrant({ title, list, color }: { title: string, list: string[],
   return (
     <div className="space-y-4">
       <h5 className={cn(
-        "text-[10px] font-black uppercase tracking-widest mb-4 pb-2 border-b-2",
-        color === 'emerald' ? "text-emerald-600 border-emerald-600" :
-        color === 'blue' ? "text-blue-600 border-blue-600" :
-        color === 'indigo' ? "text-indigo-600 border-indigo-600" : "text-slate-600 border-slate-600"
+        "text-[10px] font-medium uppercase tracking-widest mb-4 pb-2 border-b-2",
+        color === 'emerald' ? "text-success border-success" :
+        color === 'blue' ? "text-secondary border-secondary" :
+        color === 'indigo' ? "text-primary border-primary" : "text-muted-foreground border-border"
       )}>{title}</h5>
       <ul className="space-y-3">
         {list.map((item, i) => (
-          <li key={i} className="flex items-center gap-3 text-xs font-bold text-slate-700">
-            <div className={cn("w-1.5 h-1.5 rounded-full", color === 'emerald' ? "bg-emerald-500" : color === 'blue' ? "bg-blue-500" : "bg-indigo-500")} />
+          <li key={i} className="flex items-center gap-3 text-xs font-medium text-muted-foreground">
+            <div className={cn("w-1.5 h-1.5 rounded-full", color === 'emerald' ? "bg-success" : color === 'blue' ? "bg-secondary" : "bg-primary")} />
             {item}
           </li>
         ))}
@@ -196,7 +196,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
         title="Conselho Estratégico CFO"
         subtitle="Inteligência integrada para análise da geração de valor e saúde financeira proativa."
         icon={Presentation}
-        color="bg-slate-900"
+        color="executive"
       />
 
       <div className="mb-10 -mt-6"></div>
@@ -212,8 +212,8 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
               subtitle="Alertas proativos baseados em padrões de consultoria estratégica" 
               tone="blue"
             />
-            <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
-               <span className="px-4 py-1.5 text-[9px] font-black text-slate-500 uppercase tracking-widest">Real-Time Audit</span>
+            <div className="flex bg-surface-container p-1 rounded-md border border-border">
+               <span className="px-4 py-1.5 text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Real-Time Audit</span>
             </div>
           </div>
           
@@ -227,8 +227,8 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
                     className={cn(
-                      "bg-white rounded-[32px] border p-8 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden",
-                      pattern.severity === 'critical' ? "border-rose-100 hover:border-rose-200" : "border-amber-100 hover:border-amber-200"
+                      "card-premium p-8 group relative overflow-hidden",
+                      pattern.severity === 'critical' ? "hover:border-destructive/20" : "hover:border-warning/20"
                     )}
                   >
                     <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
@@ -238,19 +238,19 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                     <div className="flex items-start justify-between mb-8 relative z-10">
                       <div className="flex items-center gap-4">
                         <div className={cn(
-                          "w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner",
-                          pattern.severity === 'critical' ? "bg-rose-50 text-rose-600" : "bg-amber-50 text-amber-600"
+                          "w-12 h-12 rounded-md flex items-center justify-center shadow-inner",
+                          pattern.severity === 'critical' ? "bg-destructive/10 text-destructive" : "bg-warning/10 text-warning"
                         )}>
                           <AlertTriangle size={24} />
                         </div>
                         <div>
-                          <h4 className="text-xl font-black text-slate-900 tracking-tight">{pattern.name}</h4>
+                          <h4 className="text-h4 font-medium text-foreground tracking-tight">{pattern.name}</h4>
                           <div className="flex items-center gap-2 mt-1">
                             <span className={cn(
                               "w-1.5 h-1.5 rounded-full animate-pulse",
-                              pattern.severity === 'critical' ? "bg-rose-500" : "bg-amber-500"
+                              pattern.severity === 'critical' ? "bg-destructive" : "bg-warning"
                             )} />
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{pattern.severity} severity</span>
+                            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">{pattern.severity} severity</span>
                           </div>
                         </div>
                       </div>
@@ -258,36 +258,36 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
                       <div className="space-y-3">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Análise de Padrão</p>
-                        <p className="text-sm text-slate-600 font-medium leading-relaxed">{pattern.description}</p>
+                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Análise de Padrão</p>
+                        <p className="text-body-sm text-muted-foreground font-medium leading-relaxed italic">"{pattern.description}"</p>
                       </div>
                       <div className="space-y-3">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Risco Estratégico</p>
-                        <p className="text-sm text-slate-900 font-black italic">"{pattern.impact}"</p>
+                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Risco Estratégico</p>
+                        <p className="text-body-sm text-foreground font-medium italic">{pattern.impact}</p>
                       </div>
                     </div>
 
                     <div className={cn(
-                      "mt-8 pt-8 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10",
+                      "mt-8 pt-8 border-t border-border flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10",
                     )}>
                       <div className="flex-1">
-                        <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] mb-2 flex items-center gap-2">
-                          <Zap size={12} className="fill-blue-600" /> Executive Action Plan
+                        <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
+                          <Zap size={12} className="fill-secondary" /> Executive Action Plan
                         </p>
-                        <p className="text-sm font-bold text-slate-900 leading-tight">{pattern.recommendation}</p>
+                        <p className="text-body-sm font-medium text-foreground leading-tight italic">{pattern.recommendation}</p>
                       </div>
-                      <button className="px-6 py-3 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-600 transition-colors whitespace-nowrap shadow-lg shadow-slate-900/10">
+                      <button className="btn-executive bg-executive">
                         IMPLEMENTAR SOLUÇÃO
                       </button>
                     </div>
                   </motion.div>
                 ))
               ) : (
-                <div className="bg-emerald-50/30 rounded-[40px] border border-emerald-100 p-20 text-center relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent" />
-                  <Sparkles size={64} className="mx-auto mb-6 text-emerald-500/40 group-hover:scale-110 transition-transform duration-700" />
-                  <h4 className="text-xl font-black text-emerald-900 mb-2">{hasData ? 'Equilíbrio Estrutural Detectado' : 'Aguardando Importação'}</h4>
-                  <p className="text-emerald-700/60 font-medium max-w-sm mx-auto">{hasData ? 'Sua operação não apresenta riscos críticos de padrão financeiro neste período.' : 'Importe os dados financeiros para iniciar o diagnóstico de performance.'}</p>
+                <div className="card-premium bg-success/5 p-20 text-center relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-success/5 to-transparent" />
+                  <Sparkles size={64} className="mx-auto mb-6 text-success/20 group-hover:scale-110 transition-transform duration-700" />
+                  <h4 className="text-h4 font-medium text-foreground mb-2 tracking-tight">{hasData ? 'Equilíbrio Estrutural Detectado' : 'Aguardando Importação'}</h4>
+                  <p className="text-muted-foreground font-medium max-w-2xl mx-auto italic">{hasData ? 'Sua operação não apresenta riscos críticos de padrão financeiro neste período.' : 'Importe os dados financeiros para iniciar o diagnóstico de performance.'}</p>
                 </div>
               )}
             </AnimatePresence>
@@ -297,19 +297,19 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
         {/* Intelligence Sidebar */}
         <div className="space-y-8">
           {/* Premium Score Display - Moved from Header */}
-          <div className="bg-slate-900 p-8 rounded-[32px] text-white border border-white/5 shadow-2xl flex flex-col gap-6 relative group overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="bg-executive p-8 rounded-md text-white shadow-premium flex flex-col gap-6 relative group overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
             <div className="flex items-center justify-between relative z-10">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400">Illumine Health Score</span>
-              <ShieldCheck size={18} className="text-blue-400" />
+              <span className="text-[10px] font-medium uppercase tracking-widest text-secondary">Illumine Health Score</span>
+              <ShieldCheck size={18} className="text-secondary" />
             </div>
 
             <div className="flex items-end gap-3 relative z-10">
-              <h2 className="text-7xl font-display font-black tracking-tighter leading-none">
+              <h2 className="text-7xl font-medium tracking-tighter leading-none">
                 {hasData ? (isNaN(healthScore) ? 0 : healthScore) : '---'}
               </h2>
-              <span className="text-lg font-bold text-slate-500 mb-2">/ 100</span>
+              <span className="text-lg font-medium text-white/60 mb-2">/ 100</span>
             </div>
 
             <div className="space-y-3 relative z-10">
@@ -319,28 +319,28 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                   animate={{ width: `${hasData ? healthScore : 0}%` }}
                   transition={{ duration: 1.5, ease: "circOut" }}
                   className={cn(
-                    "h-full rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)]",
+                    "h-full rounded-full shadow-premium",
                     hasData 
-                      ? (healthScore > 80 ? "bg-emerald-400" : healthScore > 60 ? "bg-blue-400" : "bg-rose-400")
-                      : "bg-slate-700"
+                      ? (healthScore > 80 ? "bg-success" : healthScore > 60 ? "bg-secondary" : "bg-destructive")
+                      : "bg-white/10"
                   )} 
                 />
               </div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex justify-between">
+              <p className="text-[10px] font-medium text-white/60 uppercase tracking-widest flex justify-between">
                 <span>{hasData ? (healthScore > 80 ? 'Status: Elite' : healthScore > 60 ? 'Status: Estável' : 'Status: Alerta') : 'Status: N/A'}</span>
-                <span className="text-blue-400">{hasData ? `${healthScore}% Performance` : 'Aguardando Dados'}</span>
+                <span className="text-white/80">{hasData ? `${healthScore}% Performance` : 'Aguardando Dados'}</span>
               </p>
             </div>
           </div>
 
           {hasData && (
             <>
-              <div className="bg-white/80 backdrop-blur-md p-2 rounded-[24px] border border-slate-200 shadow-sm flex items-center sticky top-8 z-30">
+              <div className="bg-surface-container p-1 rounded-md border border-border shadow-sm flex items-center sticky top-8 z-30">
                 <button
                   onClick={() => setActiveTab('cfo')}
                   className={cn(
-                    "flex-1 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all",
-                    activeTab === 'cfo' ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-600"
+                    "flex-1 py-3 text-[10px] font-medium uppercase tracking-widest rounded-md transition-all",
+                    activeTab === 'cfo' ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   Parecer CFO
@@ -348,8 +348,8 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                 <button
                   onClick={() => setActiveTab('governance')}
                   className={cn(
-                    "flex-1 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all",
-                    activeTab === 'governance' ? "bg-amber-600 text-white shadow-lg" : "text-slate-400 hover:text-slate-600"
+                    "flex-1 py-3 text-[10px] font-medium uppercase tracking-widest rounded-md transition-all",
+                    activeTab === 'governance' ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   Governança
@@ -358,25 +358,25 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
               
               <div className="sticky top-28 space-y-8">
                 {activeTab === 'cfo' ? (
-                  <div className="bg-slate-900 rounded-[40px] p-8 text-white relative overflow-hidden shadow-2xl min-h-[580px] flex flex-col border border-white/5">
+                  <div className="bg-executive rounded-md p-8 text-white relative overflow-hidden shadow-premium min-h-[580px] flex flex-col border border-white/5">
                     <div className="absolute top-0 right-0 p-8 opacity-10"><Sparkles size={160} /></div>
                     
-                    <div className="flex-1 overflow-y-auto mb-8 bg-white/5 border border-white/10 rounded-[32px] p-8 custom-scrollbar">
+                    <div className="flex-1 overflow-y-auto mb-8 bg-white/5 border border-white/10 rounded-md p-8 custom-scrollbar">
                       {loadingAi ? (
-                        <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-6">
-                          <div className="w-16 h-16 rounded-full border-4 border-blue-500/20 border-t-blue-500 animate-spin" />
-                          <p className="text-[10px] font-black uppercase tracking-[0.3em] animate-pulse">Consulting AI...</p>
+                        <div className="h-full flex flex-col items-center justify-center text-white/40 gap-6">
+                          <div className="w-16 h-16 rounded-full border-4 border-secondary/20 border-t-secondary animate-spin" />
+                          <p className="text-[10px] font-medium uppercase tracking-widest animate-pulse">Consulting AI...</p>
                         </div>
                       ) : aiParecer ? (
-                        <div className="text-sm leading-relaxed font-medium text-slate-300 whitespace-pre-wrap advisory-ai-content italic opacity-90">
+                        <div className="text-body-sm leading-relaxed font-medium text-white/80 whitespace-pre-wrap advisory-ai-content italic">
                           <MarkdownText text={aiParecer} />
                         </div>
                       ) : (
-                        <div className="h-full flex flex-col items-center justify-center text-slate-500 gap-6 text-center">
-                          <div className="w-16 h-16 rounded-3xl bg-white/5 flex items-center justify-center">
-                            <Activity size={32} strokeWidth={1} className="text-blue-400/50" />
+                        <div className="h-full flex flex-col items-center justify-center text-white/20 gap-6 text-center">
+                          <div className="w-16 h-16 rounded-md bg-white/5 flex items-center justify-center">
+                            <Activity size={32} strokeWidth={1} className="text-secondary/50" />
                           </div>
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] max-w-[200px] leading-loose">
+                          <p className="text-[10px] font-medium uppercase tracking-widest max-w-[200px] leading-loose">
                             Solicite uma análise sintética da saúde financeira via Gemini Intelligence.
                           </p>
                         </div>
@@ -387,8 +387,8 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                       onClick={handleGenerateAi}
                       disabled={loadingAi}
                       className={cn(
-                        "w-full py-5 rounded-[20px] text-[10px] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4 group",
-                        loadingAi ? "bg-slate-800 text-slate-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/20"
+                        "w-full py-5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center justify-center gap-4 group",
+                        loadingAi ? "bg-white/10 text-white/20 cursor-not-allowed" : "bg-secondary hover:bg-secondary/90 text-white shadow-premium"
                       )}
                     >
                       {loadingAi ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} className="group-hover:scale-125 transition-transform" />}
@@ -396,25 +396,25 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                     </button>
                   </div>
                 ) : (
-                  <div className="bg-gradient-to-br from-amber-600 to-orange-700 rounded-[40px] p-8 text-white relative overflow-hidden shadow-2xl min-h-[580px] flex flex-col border border-white/10">
-                    <div className="absolute top-0 right-0 p-8 opacity-10 text-white"><BookOpen size={160} /></div>
+                  <div className="bg-surface-container rounded-md p-8 text-foreground relative overflow-hidden shadow-premium min-h-[580px] flex flex-col border border-border">
+                    <div className="absolute top-0 right-0 p-8 opacity-10 text-primary"><BookOpen size={160} /></div>
                     
-                    <div className="flex-1 overflow-y-auto mb-8 bg-black/10 border border-white/10 rounded-[32px] p-8 custom-scrollbar">
+                    <div className="flex-1 overflow-y-auto mb-8 bg-card border border-border rounded-md p-8 custom-scrollbar">
                       {loadingGovernance ? (
-                        <div className="h-full flex flex-col items-center justify-center text-white gap-6">
-                          <div className="w-16 h-16 rounded-full border-4 border-white/20 border-t-white animate-spin" />
-                          <p className="text-[10px] font-black uppercase tracking-[0.3em] animate-pulse">Governança Vision...</p>
+                        <div className="h-full flex flex-col items-center justify-center text-muted-foreground gap-6">
+                          <div className="w-16 h-16 rounded-full border-4 border-surface-container border-t-primary animate-spin" />
+                          <p className="text-[10px] font-medium uppercase tracking-widest animate-pulse">Governança Vision...</p>
                         </div>
                       ) : governanceParecer ? (
-                        <div className="text-sm leading-relaxed font-medium text-white/90 whitespace-pre-wrap italic">
+                        <div className="text-body-sm leading-relaxed font-medium text-foreground whitespace-pre-wrap italic">
                           <MarkdownText text={governanceParecer} />
                         </div>
                       ) : (
-                        <div className="h-full flex flex-col items-center justify-center text-white/40 gap-6 text-center">
-                          <div className="w-16 h-16 rounded-3xl bg-white/10 flex items-center justify-center">
+                        <div className="h-full flex flex-col items-center justify-center text-muted-foreground/30 gap-6 text-center">
+                          <div className="w-16 h-16 rounded-md bg-surface-container flex items-center justify-center">
                             <BookOpen size={32} strokeWidth={1} />
                           </div>
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] max-w-[200px] leading-loose">
+                          <p className="text-[10px] font-medium uppercase tracking-widest max-w-[200px] leading-loose">
                             Busque uma perspectiva de alinhamento com os princípios de uma gestão governance.
                           </p>
                         </div>
@@ -425,8 +425,8 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                       onClick={handleGenerateGovernance}
                       disabled={loadingGovernance}
                       className={cn(
-                        "w-full py-5 rounded-[20px] text-[10px] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-4 group",
-                        loadingGovernance ? "bg-white/10 text-white/50 cursor-not-allowed" : "bg-white text-amber-900 hover:bg-amber-50 shadow-xl"
+                        "w-full py-5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center justify-center gap-4 group",
+                        loadingGovernance ? "bg-surface-container text-muted-foreground/50 cursor-not-allowed" : "bg-primary text-white shadow-premium"
                       )}
                     >
                       {loadingGovernance ? <Loader2 size={16} className="animate-spin" /> : <BookOpen size={16} className="group-hover:rotate-12 transition-transform" />}
@@ -436,12 +436,12 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                 )}
 
                 {/* Benchmarks Section Refined */}
-                <div className="bg-white rounded-[40px] p-10 border border-slate-200 shadow-sm relative overflow-hidden group">
+                <div className="card-premium p-10 relative overflow-hidden group">
                    <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none group-hover:rotate-12 transition-transform duration-1000">
                      <TrendingUp size={120} />
                    </div>
                    
-                   <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-10">Setor: {sector}</h4>
+                   <h4 className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-10">Setor: {sector}</h4>
                    
                    <div className="space-y-10">
                       {[
@@ -454,25 +454,24 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                         const range = top - min || 1;
                         const pos = Math.max(0, Math.min(100, ((item.value - min) / range) * 100));
                         const medianPos = Math.max(0, Math.min(100, ((median - min) / range) * 100));
-                        
                         return (
                           <div key={i} className="space-y-4">
                             <div className="flex justify-between items-baseline">
-                              <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest">{item.label}</p>
+                              <p className="text-[10px] font-medium text-foreground uppercase tracking-widest">{item.label}</p>
                               <div className="flex items-center gap-2">
                                  <span className={cn(
-                                   "text-xs font-black",
+                                   "text-xs font-medium",
                                    item.inverse 
-                                    ? (item.value <= median ? "text-emerald-600" : "text-rose-600")
-                                    : (item.value >= median ? "text-emerald-600" : "text-rose-600")
+                                    ? (item.value <= median ? "text-success" : "text-destructive")
+                                    : (item.value >= median ? "text-success" : "text-destructive")
                                  )}>{item.value.toFixed(1)}{unit}</span>
                               </div>
                             </div>
                             
-                            <div className="relative h-1.5 bg-slate-100 rounded-full">
-                              <div className="absolute inset-0 bg-slate-200 opacity-20 rounded-full" />
+                            <div className="relative h-1.5 bg-surface-container rounded-full">
+                              <div className="absolute inset-0 bg-muted/10 opacity-20 rounded-full" />
                               <div 
-                                className="absolute top-0 bottom-0 left-0 border-r border-slate-900/20 h-full z-10" 
+                                className="absolute top-0 bottom-0 left-0 border-r border-foreground/20 h-full z-10" 
                                 style={{ left: `${medianPos}%` }} 
                               />
                               <motion.div 
@@ -481,14 +480,14 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                                 className={cn(
                                   "absolute h-full rounded-full transition-colors duration-1000",
                                   item.inverse 
-                                    ? (item.value <= median ? "bg-emerald-500" : "bg-rose-500")
-                                    : (item.value >= median ? "bg-emerald-500" : "bg-rose-500")
+                                    ? (item.value <= median ? "bg-success" : "bg-destructive")
+                                    : (item.value >= median ? "bg-success" : "bg-destructive")
                                 )}
                               />
                             </div>
-                            <div className="flex justify-between text-[8px] font-bold text-slate-400 uppercase tracking-tighter">
+                            <div className="flex justify-between text-[8px] font-medium text-muted-foreground uppercase tracking-widest">
                               <span>Min {min}</span>
-                              <span className="text-slate-900">Med {median}</span>
+                              <span className="text-foreground">Med {median}</span>
                               <span>Top {top}</span>
                             </div>
                           </div>
@@ -496,16 +495,16 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                       })}
                    </div>
                    
-                   <div className="mt-12 pt-6 border-t border-slate-100">
-                     <p className="text-[8px] font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Fontes de Auditoria</p>
-                     <div className="flex flex-wrap gap-x-4 gap-y-2">
-                       {BENCHMARK_SOURCES.slice(0, 3).map((source, idx) => (
-                         <span key={idx} className="text-[9px] font-bold text-slate-400 flex items-center gap-1.5 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all cursor-default">
-                           <ShieldCheck size={10} className="text-blue-500" /> {source.name}
-                         </span>
-                       ))}
-                     </div>
-                   </div>
+                   <div className="mt-12 pt-6 border-t border-border">
+                      <p className="text-[8px] font-medium text-muted-foreground uppercase tracking-widest mb-4">Fontes de Auditoria</p>
+                      <div className="flex flex-wrap gap-x-4 gap-y-2">
+                        {BENCHMARK_SOURCES.slice(0, 3).map((source, idx) => (
+                          <span key={idx} className="text-[9px] font-medium text-muted-foreground flex items-center gap-1.5 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all cursor-default">
+                            <ShieldCheck size={10} className="text-secondary" /> {source.name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                 </div>
               </div>
             </>
@@ -515,8 +514,8 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
 
       {/* Strategic Board Refactored - Hidden if no data */}
       {hasData && (
-        <div className="bg-white rounded-[60px] border border-slate-200 p-12 md:p-20 overflow-hidden relative shadow-sm">
-          <div className="absolute -left-20 -bottom-20 w-96 h-96 bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="card-premium p-12 md:p-20 overflow-hidden relative">
+          <div className="absolute -left-20 -bottom-20 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
           <div className="relative z-10">
             <SectionHeader 
               icon={Target} 

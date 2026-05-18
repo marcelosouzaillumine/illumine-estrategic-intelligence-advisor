@@ -439,7 +439,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                     <BarChart3 size={32} />
                   </div>
                   <h3 className="text-xl font-display font-extrabold text-slate-900 mb-2">Simulação Indisponível</h3>
-                  <p className="text-sm text-slate-500 font-medium max-w-sm mx-auto">
+                  <p className="text-sm text-slate-500 font-medium max-w-2xl mx-auto">
                     Insira o faturamento ou cadastre produtos no primeiro passo para desbloquear o Laboratório de Cenários.
                   </p>
                   <button 

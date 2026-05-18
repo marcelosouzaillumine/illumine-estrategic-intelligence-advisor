@@ -438,7 +438,7 @@ export function DadosHistoricosPage({
         <Database size={48} className="text-slate-200 mb-6" />
         <h3 className="text-xl font-display text-primary mb-2">Acesso Restrito</h3>
         <p className="text-slate-500 max-w-md mb-8">Faça login com Google para gerenciar os dados.</p>
-        <button onClick={login} className="px-8 py-3 bg-primary text-white rounded-xl font-bold uppercase tracking-widest hover:bg-primary/90 transition-all">
+        <button onClick={login} className="px-5 md:px-8 py-2 md:py-3 bg-primary text-white rounded-xl font-bold uppercase tracking-widest hover:bg-primary/90 transition-all">
           Entrar com Google
         </button>
       </div>
@@ -565,7 +565,7 @@ export function DadosHistoricosPage({
                           {h.periodType === 'anual' ? h.year : (h.month ? `${getMonthName(h.month).substring(0,3)}/${h.year}` : h.year)}
                         </span>
                       </div>
-                      <div className="flex-1 text-xs text-slate-500 mb-6 truncate">{h.fileName || 'Documento s/ nome'}</div>
+                      <div className="flex-1 text-xs text-slate-500 mb-6">{h.fileName || 'Documento s/ nome'}</div>
                       <div className="flex gap-2">
                         <button 
                           onClick={() => {

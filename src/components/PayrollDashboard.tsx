@@ -201,7 +201,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
           <Users size={40} />
         </div>
         <h2 className="text-xl font-display text-primary">Selecione um Cliente</h2>
-        <p className="text-slate-400 text-sm max-w-sm mx-auto uppercase font-bold tracking-widest">Escolha uma empresa no menu superior para visualizar os custos com pessoal.</p>
+        <p className="text-slate-400 text-sm max-w-2xl mx-auto uppercase font-bold tracking-widest">Escolha uma empresa no menu superior para visualizar os custos com pessoal.</p>
       </div>
     );
   }
@@ -523,7 +523,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
               return (
                 <div key={idx} className="group">
                   <div className="flex justify-between items-center text-xs font-bold mb-1.5">
-                    <span className="text-slate-600 truncate max-w-[200px] font-display">{item.name}</span>
+                    <span className="text-slate-600 font-display">{item.name}</span>
                     <span className="text-primary">{formatCurrency(item.value)}</span>
                   </div>
                   <div className="h-2.5 bg-slate-50 rounded-full overflow-hidden">

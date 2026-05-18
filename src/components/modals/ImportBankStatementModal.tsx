@@ -286,7 +286,7 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
                         {parsedData.map((t, i) => (
                           <tr key={i}>
                             <td className="px-3 py-2 text-slate-500 whitespace-nowrap">{new Date(t.date).toLocaleDateString('pt-BR')}</td>
-                            <td className="px-3 py-2 font-bold text-slate-700 truncate max-w-[180px]">{t.description}</td>
+                            <td className="px-3 py-2 font-bold text-slate-700">{t.description}</td>
                             <td className="px-3 py-2">
                               <select 
                                 value={t.category || ''}

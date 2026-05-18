@@ -7,6 +7,7 @@ import { CourseCarousel } from '../../academy/CourseCarousel';
 import { VerticalCourseCard } from '../../academy/VerticalCourseCard';
 import type { Course } from '../../../types/academy';
 import { cn } from '../../../lib/utils';
+import { PageHeader } from '../../Common';
 
 interface AcademyHomePageProps {
   onNavigate: (page: any, params?: any) => void;
@@ -23,7 +24,7 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
   
   const filteredCourses = courses.filter(c => {
     const matchesSearch = c.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         c.description.toLowerCase().includes(searchTerm.toLowerCase());
+                          c.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'Todos' || c.category === selectedCategory;
     return matchesSearch && matchesCategory && c.status === 'published';
   });
@@ -41,33 +42,26 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
   }
 
   return (
-    <div className="space-y-12 pb-20">
+    <div className="max-w-[1440px] mx-auto space-y-16 pb-32 animate-executive-fade">
       {/* Full Width Strategic Header */}
-      <div className="bg-slate-900 rounded-[40px] p-10 shadow-2xl relative overflow-hidden text-white mb-10">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-          <div>
-            <div className="flex items-center gap-4 mb-4">
-               <div className="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center text-secondary">
-                  <GraduationCap size={28} />
-               </div>
-               <h1 className="text-4xl font-display font-black tracking-tight">Trilha do Conhecimento</h1>
-            </div>
-            <p className="text-slate-400 text-lg font-medium">Educação corporativa, mentoria e formação continuada para excelência na gestão.</p>
-          </div>
-          
+      <PageHeader 
+        title="Trilha do Conhecimento"
+        subtitle="Educação corporativa, mentoria e formação continuada para excelência na gestão."
+        icon={GraduationCap}
+        color="executive"
+        actions={
           <div className="relative group min-w-[320px]">
             <input 
               type="text" 
               placeholder="Buscar conteúdo..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-14 pr-6 py-4 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl focus:border-secondary transition-all outline-none text-sm text-white placeholder:text-slate-500" 
+              className="w-full pl-14 pr-6 py-4 bg-surface-container border border-border rounded-2xl focus:border-secondary transition-all outline-none text-xs font-bold placeholder:text-muted-foreground/30 text-foreground" 
             />
-            <Search size={20} className="text-slate-500 absolute left-5 top-1/2 -translate-y-1/2 group-focus-within:text-secondary transition-colors" />
+            <Search size={18} className="text-muted-foreground absolute left-5 top-1/2 -translate-y-1/2 group-focus-within:text-secondary transition-colors" />
           </div>
-        </div>
-      </div>
+        }
+      />
 
       {/* Hero Section */}
       {featuredCourse && (
@@ -87,7 +81,7 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
             className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap ${
               selectedCategory === cat 
                 ? 'bg-secondary text-primary shadow-lg shadow-secondary/20 border border-secondary/20' 
-                : 'bg-bg-surface text-text-muted hover:text-text-main border border-border-main'
+                : 'bg-surface-container text-muted-foreground hover:text-foreground border border-border'
             }`}
           >
             {cat}
@@ -97,7 +91,7 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
 
       {/* Featured Vertical Banners Section */}
       <div className="space-y-6">
-        <h2 className="text-2xl font-black text-text-main px-2 flex items-center gap-3">
+        <h2 className="text-2xl font-black text-foreground px-2 flex items-center gap-3">
           <Sparkles className="text-secondary" /> Conteúdos Recomendados
         </h2>
         <div className="flex gap-6 overflow-x-auto pb-10 px-2 no-scrollbar">
@@ -146,7 +140,7 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
           { icon: Users, label: 'Comunidade Ativa', value: '1.200+', color: 'secondary' },
           { icon: Zap, label: 'Aceleração de Gestão', value: '94%', color: 'primary' },
         ].map((stat, i) => (
-          <div key={i} className="bg-bg-card p-10 rounded-[40px] border border-border-main/50 flex flex-col items-center text-center space-y-6 hover:shadow-premium transition-all">
+          <div key={i} className="bg-card p-10 rounded-[32px] border border-border flex flex-col items-center text-center space-y-6 hover:shadow-elegant transition-all">
             <div className={cn("w-16 h-16 rounded-[24px] flex items-center justify-center", 
               stat.color === 'secondary' ? "bg-secondary/10 text-secondary" : "bg-primary/10 text-primary")}>
               {(() => {
@@ -155,8 +149,8 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
               })()}
             </div>
             <div>
-              <p className="text-4xl font-black text-text-main tracking-tight">{stat.value}</p>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text-dim mt-2">{stat.label}</p>
+              <p className="text-4xl font-black text-foreground tracking-tight">{stat.value}</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground mt-2">{stat.label}</p>
             </div>
           </div>
         ))}

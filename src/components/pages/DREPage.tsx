@@ -16,8 +16,8 @@ import {
   PieChart,
   Pie
 } from 'recharts';
-import { cn, formatCurrency } from '../../lib/utils';
-import { PageHeader } from '../Common';
+import { cn, formatCurrency, formatValue, getThemeColors } from '../../lib/utils';
+import { PageHeader, KpiCard } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
@@ -39,6 +39,14 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const [toast, setToast] = useState<ToastType>(null);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [, setThemeTrigger] = useState(0);
+  useEffect(() => {
+    const handleThemeChange = () => setThemeTrigger(prev => prev + 1);
+    window.addEventListener('theme-changed', handleThemeChange);
+    return () => window.removeEventListener('theme-changed', handleThemeChange);
+  }, []);
+
+  const colors = getThemeColors();
   const [showImportModal, setShowImportModal] = useState(false);
   const [showManualModal, setShowManualModal] = useState(false);
 
@@ -176,30 +184,30 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   ];
 
   return (
-    <div className="p-8">
+    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
         title="Demonstração do Resultado (DRE)" 
         subtitle="Análise de performance operacional, lucratividade e rentabilidade do exercício contábil."
         icon={BarChart3}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="bg-white border border-slate-200 rounded-xl px-4 py-2 flex items-center gap-3 shadow-sm">
-            {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-blue-600" />}
-            <Database size={14} className={dbData.length > 0 ? 'text-emerald-500' : 'text-slate-300'} />
-            <span className={cn('text-[10px] font-black uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-emerald-500' : 'text-slate-400')}>
+          <div className="bg-card border border-border rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
+            {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
+            <Database size={14} className={dbData.length > 0 ? 'text-success' : 'text-muted-foreground/30'} />
+            <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-success' : 'text-muted-foreground')}>
               {dbData.length > 0 ? 'Dados Reais' : 'Amostra'}
             </span>
           </div>
 
-          <div className="flex bg-white border border-slate-200 p-1 rounded-xl shadow-sm items-center">
-            <Calendar size={12} className="ml-2 text-slate-400" />
+          <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
+            <Calendar size={12} className="ml-2 text-muted-foreground" />
             <select
               onChange={(e) => setFilterYear(Number(e.target.value))}
               value={filterYear}
-              className="bg-transparent px-3 py-1.5 text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer text-slate-700"
+              className="bg-transparent px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest outline-none cursor-pointer text-foreground"
             >
               {Array.from({ length: 21 }, (_, i) => 2010 + i).map((y) => (
                 <option key={y} value={y}>{y}</option>
@@ -211,19 +219,19 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowManualModal(true)}
-            className="px-4 py-3 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+            className="px-4 py-3 bg-surface-container hover:bg-success hover:text-white text-success border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
           >
             <Plus size={14} /> Lançar Dados
           </button>
           <button
             onClick={() => setShowImportModal(true)}
-            className="px-4 py-3 bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-600 border border-blue-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+            className="px-4 py-3 bg-surface-container hover:bg-secondary hover:text-white text-secondary border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
           >
             <Upload size={14} /> Importar
           </button>
           <button
             onClick={() => setShowDeleteConfirm(true)}
-            className="px-4 py-3 bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 border border-rose-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+            className="px-4 py-3 bg-surface-container hover:bg-destructive hover:text-white text-destructive border border-border rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
           >
             <Trash2 size={14} /> Excluir
           </button>
@@ -234,18 +242,14 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {marginIndices.map((idx, i) => (
-          <div key={i} className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
-            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-              {idx.name}
-            </h4>
-            <div className="flex items-baseline gap-1">
-              <span className={cn('text-2xl font-display font-bold', idx.color)}>
-                {idx.val.toFixed(1)}
-              </span>
-              <span className="text-sm font-black text-slate-300">{idx.unit}</span>
-            </div>
-            <p className="text-[9px] text-slate-500 font-medium mt-2 leading-tight">{idx.desc}</p>
-          </div>
+          <KpiCard 
+            key={i}
+            title={idx.name}
+            value={idx.unit === 'R$' ? formatValue(idx.val, '') : idx.val.toFixed(1)}
+            suffix={idx.unit}
+            status="Verde"
+            trend="Estável"
+          />
         ))}
       </div>
 
@@ -259,15 +263,15 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             <div className="flex gap-4">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                <span className="text-[9px] font-bold text-slate-500 uppercase">Receita</span>
+                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>Receita</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                <span className="text-[9px] font-bold text-slate-500 uppercase">EBITDA</span>
+                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>EBITDA</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                <span className="text-[9px] font-bold text-slate-500 uppercase">Lucro</span>
+                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>Lucro</span>
               </div>
             </div>
           </div>
@@ -275,17 +279,17 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
                 <XAxis 
                   dataKey="year" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} 
+                  tick={{ fontSize: 10, fontWeight: 700, fill: colors.mutedForeground }} 
                   dy={10}
                 />
                 <YAxis hide />
                 <Tooltip 
-                  cursor={{ fill: '#f8fafc' }}
+                  cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }}
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       return (
@@ -371,7 +375,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 return (
                   <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', isTotal ? 'bg-slate-50/10 font-bold' : '')}>
                     <td className="py-4 px-8">
-                      <span className={cn('block truncate max-w-[250px]', isTotal ? 'text-primary' : 'pl-4 text-slate-600 font-medium')}>
+                      <span className={cn('block break-words overflow-visible', isTotal ? 'text-primary' : 'pl-4 text-slate-600 font-medium')}>
                         {rowName}
                       </span>
                     </td>

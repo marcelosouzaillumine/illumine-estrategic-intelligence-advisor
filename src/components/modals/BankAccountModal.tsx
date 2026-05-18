@@ -252,7 +252,7 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
         <div className="p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4">
           <button 
             onClick={onClose}
-            className="px-6 py-2.5 text-slate-400 font-bold text-sm hover:text-slate-600 transition-colors"
+            className="px-4 md:px-6 py-2 md:py-2.5 text-slate-400 font-bold text-sm hover:text-slate-600 transition-colors"
           >
             Cancelar
           </button>

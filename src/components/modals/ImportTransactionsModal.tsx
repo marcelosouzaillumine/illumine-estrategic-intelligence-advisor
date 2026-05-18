@@ -311,7 +311,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                       <tbody className="divide-y divide-slate-50">
                         {parsedData.slice(0, 15).map((acc, i) => (
                           <tr key={i} className="group">
-                            <td className="px-3 py-2 font-bold text-slate-700 truncate max-w-[150px]">{acc.entidade}</td>
+                            <td className="px-3 py-2 font-bold text-slate-700">{acc.entidade}</td>
                             <td className="px-3 py-2 text-slate-500">{formatDate(acc.vencimento)}</td>
                             <td className="px-3 py-2 text-slate-500 font-mono whitespace-nowrap">
                               <div className="font-bold">R$ {acc.valor}</div>
@@ -319,8 +319,8 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                                 <div className="text-[9px] text-blue-500 font-black uppercase tracking-tighter">Aberto: R$ {acc.valorAberto}</div>
                               )}
                             </td>
-                            <td className="px-3 py-2 text-slate-400 truncate max-w-[100px]">{acc.categoria}</td>
-                            <td className="px-3 py-2 text-slate-400 truncate max-w-[80px]">{acc.centroCusto}</td>
+                            <td className="px-3 py-2 text-slate-400">{acc.categoria}</td>
+                            <td className="px-3 py-2 text-slate-400">{acc.centroCusto}</td>
                           </tr>
                         ))}
                         {parsedData.length > 15 && (

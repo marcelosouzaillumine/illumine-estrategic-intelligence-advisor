@@ -1,6 +1,7 @@
 import React from 'react';
-import { Play, ChevronLeft, Clock, GraduationCap, BookOpen } from 'lucide-react';
+import { Play, ChevronLeft, Clock, GraduationCap, BookOpen, CheckCircle2 } from 'lucide-react';
 import { useAcademyData, useAcademyModules } from '../../../hooks/useAcademyData';
+import { cn } from '../../../lib/utils';
 
 interface CourseDetailsPageProps {
   courseId: string;
@@ -22,75 +23,82 @@ export function CourseDetailsPage({ courseId, onBack, onStart }: CourseDetailsPa
   }
 
   return (
-    <div className="space-y-12 pb-20">
+    <div className="max-w-[1440px] mx-auto space-y-16 pb-32 animate-executive-fade">
+      {/* Back Button */}
       <button 
         onClick={onBack}
-        className="flex items-center gap-2 text-text-dim hover:text-text-main transition-colors group"
+        className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group text-[10px] font-black uppercase tracking-[0.2em]"
       >
-        <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-        <span className="text-sm font-black uppercase tracking-widest">Voltar para Trilha do Conhecimento</span>
+        <ChevronLeft size={16} className="group-hover:-translate-x-1.5 transition-transform text-secondary" strokeWidth={3} />
+        Voltar para a Trilha
       </button>
 
       <div className="grid lg:grid-cols-[1fr_400px] gap-12">
-        <div className="space-y-8">
+        <div className="space-y-10">
           {/* Header */}
           <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20">
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-[9px] font-black uppercase tracking-widest border border-secondary/20 shadow-sm">
                 {course.category}
               </span>
-              <span className="text-text-dim text-xs font-bold uppercase tracking-widest">{course.level}</span>
+              <span className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em]">{course.level}</span>
             </div>
             
-            <h1 className="text-5xl font-black text-text-main font-display leading-tight">
+            <h1 className="text-5xl font-display font-medium text-foreground leading-tight tracking-tight">
               {course.title}
             </h1>
 
-            <div className="flex items-center gap-8 py-4 border-y border-border-main/50">
-              <div className="flex items-center gap-2">
-                <Clock size={18} className="text-secondary" />
-                <span className="text-sm font-bold text-text-main">{course.duration}</span>
+            <div className="flex flex-wrap items-center gap-8 py-6 border-y border-border/40">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-secondary border border-border">
+                  <Clock size={16} />
+                </div>
+                <span className="text-sm font-semibold text-foreground">{course.duration}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <GraduationCap size={18} className="text-secondary" />
-                <span className="text-sm font-bold text-text-main">{course.instructor}</span>
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-secondary border border-border">
+                  <GraduationCap size={16} />
+                </div>
+                <span className="text-sm font-semibold text-foreground">{course.instructor}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <BookOpen size={18} className="text-secondary" />
-                <span className="text-sm font-bold text-text-main">{modules.length} Módulos</span>
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-secondary border border-border">
+                  <BookOpen size={16} />
+                </div>
+                <span className="text-sm font-semibold text-foreground">{modules.length} Módulos</span>
               </div>
             </div>
           </div>
 
           {/* Description */}
-          <div className="prose prose-invert max-w-none">
-            <h2 className="text-2xl font-black text-text-main mb-4">Sobre este curso</h2>
-            <p className="text-text-muted leading-relaxed text-lg whitespace-pre-wrap">
+          <div className="space-y-4">
+            <h2 className="text-2xl font-display font-medium text-foreground">Sobre este curso</h2>
+            <p className="text-muted-foreground leading-relaxed text-base whitespace-pre-wrap font-medium">
               {course.description}
             </p>
           </div>
 
           {/* Curriculum */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-black text-text-main">Conteúdo do curso</h2>
+            <h2 className="text-2xl font-display font-medium text-foreground">Conteúdo do curso</h2>
             <div className="space-y-4">
               {modules.length === 0 ? (
-                <div className="bg-bg-surface border border-border-main rounded-2xl p-8 text-center text-text-dim">
-                  <BookOpen size={32} className="mx-auto mb-3 opacity-30" />
-                  <p className="text-sm font-bold uppercase tracking-widest">Módulos em preparação</p>
+                <div className="bg-surface-container border border-border rounded-[32px] p-12 text-center text-muted-foreground">
+                  <BookOpen size={36} className="mx-auto mb-3 opacity-30 text-secondary" />
+                  <p className="text-[10px] font-black uppercase tracking-widest">Módulos em preparação estratégica</p>
                 </div>
               ) : (
                 modules.map((module, idx) => (
-                  <div key={module.id} className="bg-bg-surface border border-border-main rounded-2xl overflow-hidden">
-                    <div className="p-6 flex items-center justify-between bg-bg-card">
+                  <div key={module.id} className="bg-card border border-border rounded-2xl overflow-hidden group hover:border-secondary/20 transition-colors">
+                    <div className="p-6 flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-black">
+                        <div className="w-10 h-10 rounded-xl bg-surface-container border border-border flex items-center justify-center text-secondary text-xs font-black group-hover:bg-secondary group-hover:text-primary transition-colors">
                           {idx + 1}
                         </div>
                         <div>
-                          <h3 className="font-bold text-text-main">{module.title}</h3>
+                          <h3 className="font-semibold text-foreground">{module.title}</h3>
                           {module.description && (
-                            <p className="text-xs text-text-dim">{module.description}</p>
+                            <p className="text-xs text-muted-foreground mt-1 font-medium">{module.description}</p>
                           )}
                         </div>
                       </div>
@@ -104,32 +112,34 @@ export function CourseDetailsPage({ courseId, onBack, onStart }: CourseDetailsPa
 
         {/* Sidebar Card */}
         <div className="space-y-6">
-          <div className="sticky top-32 bg-bg-card rounded-[40px] border border-border-main/50 overflow-hidden shadow-premium">
+          <div className="sticky top-32 bg-card rounded-[48px] border border-border overflow-hidden shadow-sm hover:shadow-md transition-all">
             <img 
               src={course.coverImage} 
               alt={course.title} 
               className="w-full h-56 object-cover"
             />
-            <div className="p-8 space-y-6">
+            <div className="p-8 space-y-8">
               <button 
                 onClick={() => onStart(course.id)}
-                className="w-full py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-primary/90 transition-all hover:-translate-y-1 shadow-lg shadow-primary/20"
+                className="w-full py-4.5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all border border-secondary/20 shadow-lg shadow-secondary/15 flex items-center justify-center gap-3 group"
               >
-                <Play size={20} fill="currentColor" />
+                <Play size={16} fill="currentColor" className="group-hover:scale-115 transition-transform" />
                 Começar agora
               </button>
               
-              <div className="space-y-4">
-                <p className="text-xs font-black uppercase tracking-widest text-text-dim border-b border-border-main pb-2">O que você vai aprender</p>
-                <ul className="space-y-3">
+              <div className="space-y-6 pt-2">
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-secondary border-b border-border pb-3">O que você vai aprender</p>
+                <ul className="space-y-4">
                   {[
                     'Mentalidade estratégica aplicada',
                     'Domínio de ferramentas de gestão',
                     'Casos práticos e mentorias',
                     'Certificado de conclusão'
                   ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-text-muted">
-                      <div className="mt-1 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    <li key={i} className="flex items-start gap-3 text-xs text-muted-foreground font-medium">
+                      <div className="mt-1 w-2 h-2 rounded-full bg-secondary/35 shrink-0 flex items-center justify-center">
+                        <div className="w-1 h-1 rounded-full bg-secondary animate-pulse" />
+                      </div>
                       {item}
                     </li>
                   ))}

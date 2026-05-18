@@ -117,18 +117,19 @@ export function MessagesPage() {
   return (
     <div className="space-y-8 pb-20">
         <PageHeader 
-          title="Monitoramento Estratégico: Mensagens e Comunicados" 
+          title="Mensagens e Comunicados" 
           subtitle="Gestão centralizada de comunicações institucionais, avisos aos usuários e registros de atualizações do ecossistema Illumine." 
           icon={Bell}
+          transparent
           actions={
-            <div className="flex bg-white/5 backdrop-blur-md p-1 rounded-2xl border border-white/10 shadow-inner">
+            <div className="flex bg-surface-container p-1 rounded-2xl border border-border shadow-inner">
               <button 
                 onClick={() => setActiveTab('messages')}
                 className={cn(
                   "px-6 py-2.5 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest",
                   activeTab === 'messages' 
                     ? "bg-secondary text-primary shadow-lg" 
-                    : "text-slate-400 hover:text-white"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 <Bell size={14} strokeWidth={2.5} /> Mensagens
@@ -139,7 +140,7 @@ export function MessagesPage() {
                   "px-6 py-2.5 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest",
                   activeTab === 'changelog' 
                     ? "bg-secondary text-primary shadow-lg" 
-                    : "text-slate-400 hover:text-white"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 <Zap size={14} strokeWidth={2.5} /> Comunicados de Atualização

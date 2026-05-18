@@ -15,8 +15,8 @@ import {
   PieChart,
   Pie
 } from 'recharts';
-import { cn, formatCurrency } from '../../lib/utils';
-import { PageHeader } from '../Common';
+import { cn, formatCurrency, formatValue } from '../../lib/utils';
+import { PageHeader, KpiCard } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
@@ -132,12 +132,12 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
   const actionButtons = (
     <div className="flex items-center gap-3">
-      <div className="flex bg-slate-50 p-1 rounded-xl border border-slate-200 items-center mr-2">
-        <Calendar size={12} className="ml-2 text-slate-400" />
+      <div className="flex bg-card p-1 rounded-md border border-border items-center mr-2 shadow-sm">
+        <Calendar size={12} className="ml-2 text-secondary" />
         <select
           onChange={(e) => setFilterYear(Number(e.target.value))}
           value={filterYear}
-          className="bg-transparent px-3 py-1 text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer text-slate-700"
+          className="bg-transparent px-3 py-1 text-[10px] font-medium uppercase tracking-widest outline-none cursor-pointer text-foreground appearance-none pr-1"
         >
           {Array.from({ length: 21 }, (_, i) => 2010 + i).map((y) => (
             <option key={y} value={y}>{y}</option>
@@ -147,21 +147,21 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
       <button
         onClick={() => setShowManualModal(true)}
-        className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
+        className="px-4 py-2 bg-success/10 hover:bg-success text-success hover:text-white border border-success/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
       >
         <Plus size={14} /> Lançar Dados
       </button>
 
       <button
         onClick={() => setShowImportModal(true)}
-        className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
+        className="px-4 py-2 bg-secondary/10 hover:bg-secondary text-secondary hover:text-white border border-secondary/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
       >
         <Upload size={14} /> Importar
       </button>
 
       <button
         onClick={() => setShowDeleteConfirm(true)}
-        className="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
+        className="px-4 py-2 bg-destructive/10 hover:bg-destructive text-destructive hover:text-white border border-destructive/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
       >
         <Trash2 size={14} /> Excluir
       </button>
@@ -169,20 +169,20 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   );
 
   return (
-    <div className="p-8">
+    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
         title="Demonstração de Lucros ou Prejuízos Acumulados Contábil (DLPA)" 
         subtitle="Análise das variações no patrimônio líquido originadas de lucros."
         icon={FileText}
-        color="bg-slate-900"
+        color="executive"
       />
       
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-4">
-          <div className="px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
-            {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-blue-600" />}
-            <Database size={14} className={dbData.length > 0 ? 'text-emerald-500' : 'text-slate-300'} />
-            <span className={cn('text-[10px] font-black uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-emerald-500' : 'text-slate-400')}>
+          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-3">
+            {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
+            <Database size={14} className={dbData.length > 0 ? 'text-success' : 'text-muted-foreground/30'} />
+            <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-success' : 'text-muted-foreground/40')}>
               {dbData.length > 0 ? 'Dados Reais' : 'Amostra'}
             </span>
           </div>
@@ -196,18 +196,14 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {dlpaIndices.map((idx, i) => (
-          <div key={i} className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
-            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-              {idx.name}
-            </h4>
-            <div className="flex items-baseline gap-1">
-              <span className={cn('text-lg font-display font-bold', idx.color)}>
-                {idx.unit === '%' ? idx.val.toFixed(1) : formatCurrency(idx.val)}
-              </span>
-              {idx.unit === '%' && <span className="text-sm font-black text-slate-300">%</span>}
-            </div>
-            <p className="text-[9px] text-slate-500 font-medium mt-2 leading-tight">{idx.desc}</p>
-          </div>
+          <KpiCard 
+            key={i}
+            title={idx.name}
+            value={formatValue(idx.val, '')}
+            suffix={idx.unit === '%' ? '%' : 'R$'}
+            icon={FileText}
+            status={idx.val >= 0 ? 'Verde' : 'Vermelho'}
+          />
         ))}
       </div>
 
@@ -320,7 +316,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               {rows.map((row: any, i: number) => (
                 <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', row.isTotal ? 'bg-slate-50/10 font-bold' : '')}>
                   <td className="py-4 px-8">
-                    <span className={cn('block truncate max-w-[400px]', row.isTotal ? 'text-primary' : 'pl-4 text-slate-600 font-medium')}>
+                    <span className={cn('block overflow-visible break-words', row.isTotal ? 'text-secondary' : 'pl-4 text-muted-foreground font-medium')}>
                       {row.conta || row.category}
                     </span>
                   </td>

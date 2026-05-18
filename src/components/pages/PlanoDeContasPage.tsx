@@ -481,7 +481,7 @@ export function PlanoDeContasPage({
                   <td colSpan={7} className="px-8 py-20 text-center">
                     <BookOpen size={48} className="text-slate-200 mx-auto mb-4" />
                     <h4 className="text-xl font-display text-primary">Nenhuma conta encontrada</h4>
-                    <p className="text-slate-500 max-w-xs mx-auto mt-2 font-sans">Ajuste seus filtros ou adicione uma nova conta ao plano.</p>
+                    <p className="text-slate-500 max-w-2xl mx-auto mt-2 font-sans">Ajuste seus filtros ou adicione uma nova conta ao plano.</p>
                   </td>
                 </tr>
               ) : (

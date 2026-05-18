@@ -263,30 +263,30 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
         title="Roadmap de Execução" 
         subtitle="Acompanhamento tático de metas e soluções consultivas."
         icon={<Target className="text-secondary" size={24} />}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200">
+          <div className="bg-surface-container p-1 rounded-sm flex gap-1 border border-border">
             <button 
               onClick={() => setView('list')}
               title="Lista"
-              className={cn("p-2 rounded-lg transition-all", view === 'list' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600")}
+              className={cn("p-2 rounded-sm transition-all", view === 'list' ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
             >
               <List size={18} />
             </button>
             <button 
               onClick={() => setView('board')}
               title="Quadro Kanban"
-              className={cn("p-2 rounded-lg transition-all", view === 'board' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600")}
+              className={cn("p-2 rounded-sm transition-all", view === 'board' ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
             >
               <LayoutGrid size={18} />
             </button>
             <button 
               onClick={() => setView('dashboard')}
               title="Gráficos & Insights"
-              className={cn("p-2 rounded-lg transition-all", view === 'dashboard' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600")}
+              className={cn("p-2 rounded-sm transition-all", view === 'dashboard' ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
             >
               <BarChart2 size={18} />
             </button>
@@ -295,10 +295,10 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
           <button 
             onClick={() => setShowAutomations(!showAutomations)}
             className={cn(
-              "px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 border shadow-sm",
+              "px-4 py-2 rounded-sm text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 border shadow-sm",
               showAutomations 
                 ? "bg-secondary/10 text-secondary border-secondary/20" 
-                : "bg-white text-slate-400 border-slate-200 hover:text-slate-600"
+                : "bg-card text-muted-foreground border-border hover:text-foreground"
             )}
           >
             <Zap size={14} className={showAutomations ? "fill-current" : ""} />
@@ -309,7 +309,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
         <div className="flex items-center gap-3">
           <button 
             onClick={openAdd}
-            className="px-6 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 flex items-center gap-2"
+            className="btn-executive bg-primary shadow-xl shadow-primary/20"
           >
             <Plus size={16} /> NOVA TAREFA
           </button>
@@ -325,11 +325,12 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="bg-bg-surface border border-secondary/20 rounded-[2rem] p-8 mb-10 flex flex-col md:flex-row gap-8 items-start">
-              <div className="flex-1 space-y-4">
+            <div className="card-premium p-8 mb-10 flex flex-col md:flex-row gap-8 items-start relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-1 bg-secondary h-full" />
+              <div className="flex-1 space-y-4 relative z-10">
                 <div className="flex items-center gap-3 text-secondary">
                   <Zap size={20} className="fill-current" />
-                  <h3 className="text-sm font-black uppercase tracking-widest">Automações Sugeridas</h3>
+                  <h3 className="text-[10px] font-medium uppercase tracking-[0.2em]">Automações Sugeridas</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
@@ -338,36 +339,36 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                     "Se o prazo estiver a 24h do vencimento, destacar card em vermelho.",
                     "Ao criar tarefa via Ata de Reunião, atribuir automaticamente ao consultor."
                   ].map((auto, idx) => (
-                    <div key={idx} className="bg-white p-4 rounded-xl border border-border-soft flex items-center justify-between group hover:border-secondary/30 transition-all cursor-pointer">
-                      <p className="text-[11px] font-medium text-text-muted">{auto}</p>
-                      <div className="w-8 h-4 bg-slate-100 rounded-full relative transition-all group-hover:bg-secondary/20">
-                        <div className="absolute right-0.5 top-0.5 w-3 h-3 bg-white rounded-full shadow-sm" />
+                    <div key={idx} className="bg-card p-4 rounded-sm border border-border flex items-center justify-between group hover:border-secondary/30 transition-all cursor-pointer shadow-sm">
+                      <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest italic">{auto}</p>
+                      <div className="w-8 h-4 bg-surface-container rounded-full relative transition-all group-hover:bg-secondary/20">
+                        <div className="absolute right-0.5 top-0.5 w-3 h-3 bg-card rounded-full shadow-sm" />
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="w-full md:w-80 space-y-4">
-                <div className="flex items-center gap-3 text-rose-500">
+              <div className="w-full md:w-80 space-y-4 relative z-10">
+                <div className="flex items-center gap-3 text-destructive">
                   <Bell size={20} />
-                  <h3 className="text-sm font-black uppercase tracking-widest">Alertas do Sistema</h3>
+                  <h3 className="text-[10px] font-medium uppercase tracking-[0.2em]">Alertas do Sistema</h3>
                 </div>
                 <div className="space-y-3">
                   {stats.overdue > 0 && (
-                    <div className="bg-rose-50 border border-rose-100 p-4 rounded-xl flex items-center gap-4">
-                      <AlertTriangle size={18} className="text-rose-500" />
+                    <div className="bg-destructive/5 border border-destructive/10 p-4 rounded-sm flex items-center gap-4 shadow-sm">
+                      <AlertTriangle size={18} className="text-destructive" />
                       <div>
-                        <p className="text-xs font-black text-rose-700">{stats.overdue} Tarefas Atrasadas</p>
-                        <p className="text-[10px] text-rose-600 font-medium">Revisar prazos imediatamente.</p>
+                        <p className="text-[10px] font-medium text-destructive uppercase tracking-widest">{stats.overdue} Tarefas Atrasadas</p>
+                        <p className="text-[9px] text-destructive/60 font-medium uppercase tracking-widest italic">Revisar prazos imediatamente.</p>
                       </div>
                     </div>
                   )}
                   {stats.critical > 0 && (
-                    <div className="bg-amber-50 border border-amber-100 p-4 rounded-xl flex items-center gap-4">
-                      <Activity size={18} className="text-amber-500" />
+                    <div className="bg-warning/5 border border-warning/10 p-4 rounded-sm flex items-center gap-4 shadow-sm">
+                      <Activity size={18} className="text-warning" />
                       <div>
-                        <p className="text-xs font-black text-amber-700">{stats.critical} Ações Críticas</p>
-                        <p className="text-[10px] text-amber-600 font-medium">Foco prioritário nesta semana.</p>
+                        <p className="text-[10px] font-medium text-warning uppercase tracking-widest">{stats.critical} Ações Críticas</p>
+                        <p className="text-[9px] text-warning/60 font-medium uppercase tracking-widest italic">Foco prioritário nesta semana.</p>
                       </div>
                     </div>
                   )}
@@ -381,18 +382,18 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
       {/* Overview Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {[
-          { label: 'Total de Ações', value: stats.total, icon: ClipboardCheck, color: 'text-text-main', bg: 'bg-slate-50' },
-          { label: 'Em Execução', value: stats.emCurso, icon: Clock, color: 'text-secondary', bg: 'bg-orange-50' },
-          { label: 'Atrasadas', value: stats.overdue, icon: AlertTriangle, color: 'text-rose-500', bg: 'bg-rose-50' },
-          { label: 'Progresso Geral', value: `${Math.round(stats.progresso)}%`, icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50' },
+          { label: 'Total de Ações', value: stats.total, icon: ClipboardCheck, color: 'text-foreground', bg: 'bg-surface-container' },
+          { label: 'Em Execução', value: stats.emCurso, icon: Clock, color: 'text-secondary', bg: 'bg-secondary/5' },
+          { label: 'Atrasadas', value: stats.overdue, icon: AlertTriangle, color: 'text-destructive', bg: 'bg-destructive/5' },
+          { label: 'Progresso Geral', value: `${Math.round(stats.progresso)}%`, icon: TrendingUp, color: 'text-success', bg: 'bg-success/5' },
         ].map((stat, i) => (
-          <div key={i} className="card-premium p-6 flex items-center gap-5 group hover:border-secondary/20 transition-all">
-            <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center border border-border-soft shadow-sm transition-transform group-hover:scale-110", stat.bg)}>
+          <div key={i} className="card-premium p-6 flex items-center gap-5 group relative overflow-hidden">
+            <div className={cn("w-12 h-12 rounded-md flex items-center justify-center border border-border shadow-inner transition-transform group-hover:scale-110", stat.bg)}>
               <stat.icon size={20} className={stat.color} />
             </div>
-            <div>
-              <p className="text-[10px] font-black text-text-dim uppercase tracking-widest">{stat.label}</p>
-              <p className={cn("text-2xl font-display font-black", stat.color)}>{stat.value}</p>
+            <div className="relative z-10">
+              <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">{stat.label}</p>
+              <p className={cn("text-2xl font-medium tracking-tighter tabular-nums", stat.color)}>{stat.value}</p>
             </div>
           </div>
         ))}
@@ -406,9 +407,9 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
             placeholder="Pesquisar tarefas, responsáveis ou origens..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-6 py-4 bg-bg-card border border-border-main rounded-2xl text-sm outline-none focus:border-secondary transition-all shadow-inner-soft"
+            className="w-full pl-12 pr-6 py-4 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner italic"
           />
-          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/40" />
         </div>
       </div>
 
@@ -419,14 +420,14 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
         </div>
       ) : actions.length === 0 ? (
         <div className="card-premium py-24 text-center space-y-6">
-          <div className="w-20 h-20 bg-bg-surface border border-border-main rounded-[2.5rem] flex items-center justify-center mx-auto text-text-dim/30 shadow-inner-soft">
+          <div className="w-20 h-20 bg-surface-container border border-border rounded-md flex items-center justify-center mx-auto text-muted-foreground/30 shadow-inner">
             <Target size={32} strokeWidth={1} />
           </div>
           <div className="space-y-2">
-            <h3 className="text-xl font-display font-black text-text-main uppercase tracking-widest">Plano de Voo Vazio</h3>
-            <p className="text-xs text-text-muted font-medium uppercase tracking-[0.2em] max-w-xs mx-auto leading-relaxed">Nenhuma ação estratégica definida. Crie tarefas ou registre uma ata de reunião para iniciar.</p>
+            <h3 className="text-xl font-medium text-foreground uppercase tracking-widest">Plano de Voo Vazio</h3>
+            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-[0.2em] max-w-2xl mx-auto leading-relaxed italic">Nenhuma ação estratégica definida. Crie tarefas ou registre uma ata de reunião para iniciar.</p>
           </div>
-          <button onClick={openAdd} className="btn-executive py-3 px-8 mx-auto mt-4">
+          <button onClick={openAdd} className="btn-executive mx-auto mt-4 shadow-sm">
             <Plus size={16} />
             Definir Prioridade
           </button>
@@ -445,80 +446,80 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                 <div className="flex items-center justify-between px-4">
                   <div className="flex items-center gap-4">
                     <div className={cn(
-                      "w-1 h-8 rounded-full",
+                      "w-1 h-8 rounded-sm shadow-sm",
                       phase === 'Estabilização' ? "bg-blue-500" :
-                      phase === 'Otimização' ? "bg-amber-500" : "bg-emerald-500"
+                      phase === 'Otimização' ? "bg-warning" : "bg-success"
                     )} />
                     <div>
-                      <h3 className="text-sm font-black text-text-main uppercase tracking-widest flex items-center gap-3">
+                      <h3 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em] flex items-center gap-3">
                         {phase}
-                        <span className="text-[10px] text-text-dim font-bold bg-bg-surface px-2 py-0.5 rounded-full border border-border-main">
+                        <span className="text-[9px] text-muted-foreground font-medium bg-surface-container px-2 py-0.5 rounded-sm border border-border shadow-inner">
                           {items.length}
                         </span>
                       </h3>
                       <div className="flex items-center gap-3 mt-1">
-                        <div className="w-32 h-1 bg-bg-surface rounded-full overflow-hidden border border-border-soft">
+                        <div className="w-32 h-1.5 bg-surface-container rounded-sm overflow-hidden border border-border shadow-inner">
                           <motion.div 
                             initial={{ width: 0 }}
                             animate={{ width: `${groupProgress}%` }}
                             className={cn(
-                              "h-full transition-all",
+                              "h-full transition-all shadow-premium",
                               phase === 'Estabilização' ? "bg-blue-500" :
-                              phase === 'Otimização' ? "bg-amber-500" : "bg-emerald-500"
+                              phase === 'Otimização' ? "bg-warning" : "bg-success"
                             )}
                           />
                         </div>
-                        <span className="text-[9px] font-black text-text-dim uppercase">{Math.round(groupProgress)}% Concluído</span>
+                        <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">{Math.round(groupProgress)}% Concluído</span>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-6">
                      <div className="text-right">
-                        <p className="text-[10px] font-black text-text-dim uppercase tracking-widest">Esforço Total</p>
-                        <p className="text-xs font-black text-text-main">{items.reduce((acc, i) => acc + (i.effort || 0), 0)}h</p>
+                        <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">Esforço Total</p>
+                        <p className="text-[11px] font-medium text-foreground uppercase tracking-tighter tabular-nums">{items.reduce((acc, i) => acc + (i.effort || 0), 0)}h</p>
                      </div>
                   </div>
                 </div>
 
-                <div className="card-premium p-0 overflow-hidden border-none shadow-floating bg-white/50 backdrop-blur-md">
+                <div className="card-premium p-0 overflow-hidden relative shadow-premium bg-card/50 backdrop-blur-md">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="bg-bg-surface/50 border-b border-border-main">
-                        <th className="px-8 py-4 text-[9px] font-black text-text-dim uppercase tracking-widest w-1/3">Tarefa</th>
-                        <th className="px-6 py-4 text-[9px] font-black text-text-dim uppercase tracking-widest text-center">Responsável</th>
-                        <th className="px-6 py-4 text-[9px] font-black text-text-dim uppercase tracking-widest text-center">Prioridade</th>
-                        <th className="px-6 py-4 text-[9px] font-black text-text-dim uppercase tracking-widest text-center">Prazo</th>
-                        <th className="px-6 py-4 text-[9px] font-black text-text-dim uppercase tracking-widest text-center">Progresso</th>
-                        <th className="px-8 py-4 text-[9px] font-black text-text-dim uppercase tracking-widest text-right">Status</th>
+                      <tr className="bg-surface-container/50 border-b border-border">
+                        <th className="px-8 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] w-1/3">Tarefa</th>
+                        <th className="px-6 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Responsável</th>
+                        <th className="px-6 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Prioridade</th>
+                        <th className="px-6 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Prazo</th>
+                        <th className="px-6 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Progresso</th>
+                        <th className="px-8 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-right">Status</th>
                         <th className="px-4 py-4 w-12"></th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-border-soft">
+                    <tbody className="divide-y divide-border/50">
                       {items.map((action) => {
                         const isOverdue = action.status !== 'Concluído' && new Date(action.deadline) < new Date();
                         const isCritical = action.priority === 'Crítica';
                         
                         return (
                           <tr key={action.id} className={cn(
-                            "hover:bg-bg-surface/80 transition-colors group relative",
-                            isOverdue && "bg-rose-50/10"
+                            "hover:bg-surface-container/50 transition-colors group relative",
+                            isOverdue && "bg-destructive/5"
                           )}>
                             <td className="px-8 py-5">
                               <div className="flex flex-col gap-1">
                                 <div className="flex items-center gap-3">
                                   <p className={cn(
-                                    "text-sm font-bold text-text-main group-hover:text-secondary transition-colors",
+                                    "text-[11px] font-medium text-foreground uppercase tracking-widest group-hover:text-secondary transition-colors",
                                     isCritical && "flex items-center gap-2"
                                   )}>
-                                    {isCritical && <div className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-ping" />}
+                                    {isCritical && <div className="w-1.5 h-1.5 bg-destructive rounded-sm animate-ping" />}
                                     {action.title}
                                   </p>
                                   {isOverdue && (
-                                    <span className="px-2 py-0.5 bg-rose-500 text-white text-[8px] font-black rounded uppercase tracking-widest">Atrasado</span>
+                                    <span className="px-2 py-0.5 bg-destructive text-white text-[7px] font-medium rounded-sm uppercase tracking-widest shadow-sm">Atrasado</span>
                                   )}
                                 </div>
                                 {action.originTitle && (
-                                  <span className="text-[10px] font-bold text-primary flex items-center gap-1.5 italic opacity-70">
+                                  <span className="text-[9px] font-medium text-secondary flex items-center gap-1.5 italic opacity-60 uppercase tracking-widest">
                                     <MessageSquare size={10} /> {action.originTitle}
                                   </span>
                                 )}
@@ -526,20 +527,20 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                             </td>
                             <td className="px-6 py-5">
                               <div className="flex flex-col items-center gap-1">
-                                <div className="w-7 h-7 rounded-full bg-slate-100 border border-border-main flex items-center justify-center text-[10px] font-black text-text-dim">
+                                <div className="w-7 h-7 rounded-sm bg-surface-container border border-border flex items-center justify-center text-[9px] font-medium text-muted-foreground uppercase shadow-inner">
                                   {action.responsible[0]}
                                 </div>
-                                <span className="text-[10px] font-bold text-text-dim truncate max-w-[80px]">{action.responsible}</span>
+                                <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">{action.responsible}</span>
                               </div>
                             </td>
                             <td className="px-6 py-5 text-center">
                               <div className="flex justify-center">
                                 <span className={cn(
-                                  "px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest",
-                                  action.priority === 'Crítica' ? "bg-rose-500 text-white" :
-                                  action.priority === 'Alta' ? "bg-orange-400 text-white" :
-                                  action.priority === 'Média' ? "bg-blue-400 text-white" :
-                                  "bg-slate-400 text-white"
+                                  "px-3 py-1 rounded-sm text-[8px] font-medium uppercase tracking-widest shadow-sm",
+                                  action.priority === 'Crítica' ? "bg-destructive text-white" :
+                                  action.priority === 'Alta' ? "bg-warning text-white" :
+                                  action.priority === 'Média' ? "bg-blue-500 text-white" :
+                                  "bg-muted-foreground/40 text-white"
                                 )}>
                                   {action.priority}
                                 </span>
@@ -547,31 +548,31 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                             </td>
                             <td className="px-6 py-5 text-center">
                               <div className="flex flex-col items-center">
-                                 <p className={cn("text-[11px] font-black", isOverdue ? "text-rose-500" : "text-text-main")}>
+                                 <p className={cn("text-[10px] font-medium uppercase tracking-widest tabular-nums", isOverdue ? "text-destructive" : "text-foreground")}>
                                    {new Date(action.deadline).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
                                  </p>
-                                 <p className="text-[9px] font-bold text-text-dim uppercase tracking-tighter">{action.effort || 0}h esforço</p>
+                                 <p className="text-[8px] font-medium text-muted-foreground uppercase tracking-tighter italic tabular-nums">{action.effort || 0}h esforço</p>
                               </div>
                             </td>
                             <td className="px-6 py-5 text-center">
                                <div className="flex flex-col items-center gap-2">
-                                  <div className="w-20 h-1.5 bg-bg-surface rounded-full overflow-hidden border border-border-soft">
+                                  <div className="w-20 h-1.5 bg-surface-container rounded-sm overflow-hidden border border-border shadow-inner">
                                     <div 
-                                      className="h-full bg-secondary transition-all" 
+                                      className="h-full bg-secondary transition-all shadow-premium" 
                                       style={{ width: `${action.status === 'Concluído' ? 100 : (action.progress || 0)}%` }}
                                     />
                                   </div>
-                                  <span className="text-[9px] font-black text-text-dim">{action.status === 'Concluído' ? '100' : (action.progress || 0)}%</span>
+                                  <span className="text-[9px] font-medium text-muted-foreground tabular-nums italic">{action.status === 'Concluído' ? '100' : (action.progress || 0)}%</span>
                                </div>
                             </td>
                             <td className="px-8 py-5 text-right">
                               <div className="flex justify-end">
                                 <span className={cn(
-                                  "px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-white min-w-[110px] text-center shadow-sm",
-                                  action.status === 'Concluído' ? "bg-emerald-500" :
+                                  "px-4 py-2 rounded-sm text-[9px] font-medium uppercase tracking-widest text-white min-w-[110px] text-center shadow-premium",
+                                  action.status === 'Concluído' ? "bg-success" :
                                   action.status === 'Em curso' ? "bg-secondary" :
-                                  action.status === 'Impedido' ? "bg-rose-500" :
-                                  "bg-slate-400"
+                                  action.status === 'Impedido' ? "bg-destructive" :
+                                  "bg-muted-foreground/40"
                                 )}>
                                   {action.status}
                                 </span>
@@ -579,8 +580,8 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                             </td>
                             <td className="px-4 py-5">
                               <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button onClick={() => openEdit(action)} className="p-1.5 text-text-dim hover:text-secondary rounded-lg"><Edit3 size={14} /></button>
-                                <button onClick={() => action.id && handleDelete(action.id)} className="p-1.5 text-text-dim hover:text-rose-500 rounded-lg"><Trash2 size={14} /></button>
+                                <button onClick={() => openEdit(action)} className="p-1.5 text-muted-foreground/60 hover:text-secondary rounded-sm transition-all"><Edit3 size={14} /></button>
+                                <button onClick={() => action.id && handleDelete(action.id)} className="p-1.5 text-muted-foreground/60 hover:text-destructive rounded-sm transition-all"><Trash2 size={14} /></button>
                               </div>
                             </td>
                           </tr>
@@ -601,19 +602,19 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               <div className="flex items-center justify-between px-4">
                 <div className="flex items-center gap-3">
                   <div className={cn(
-                    "w-2 h-2 rounded-full",
-                    status === 'Concluído' ? "bg-emerald-500" :
+                    "w-2 h-2 rounded-sm shadow-sm",
+                    status === 'Concluído' ? "bg-success" :
                     status === 'Em curso' ? "bg-secondary" :
-                    status === 'Impedido' ? "bg-rose-500" : "bg-text-dim"
+                    status === 'Impedido' ? "bg-destructive" : "bg-muted-foreground/40"
                   )} />
-                  <h4 className="text-[11px] font-black text-text-main uppercase tracking-[0.2em]">{status}</h4>
+                  <h4 className="text-[10px] font-medium text-foreground uppercase tracking-[0.2em]">{status}</h4>
                 </div>
-                <span className="text-[10px] font-black text-text-dim bg-bg-surface px-2 py-0.5 rounded-full border border-border-main">
+                <span className="text-[9px] font-medium text-muted-foreground bg-surface-container px-2 py-0.5 rounded-sm border border-border shadow-inner">
                   {actions.filter(a => a.status === status).length}
                 </span>
               </div>
               
-              <div className="flex-1 space-y-4 p-2 bg-bg-surface/30 rounded-3xl border-2 border-dashed border-border-main/50 overflow-y-auto">
+              <div className="flex-1 space-y-4 p-4 bg-surface-container/30 rounded-md border border-dashed border-border overflow-y-auto custom-scrollbar">
                 {actions.filter(a => a.status === status).map((action) => {
                   const isOverdue = action.status !== 'Concluído' && new Date(action.deadline) < new Date();
                   return (
@@ -621,53 +622,58 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                       key={action.id}
                       layoutId={action.id}
                       className={cn(
-                        "card-premium p-5 space-y-4 hover:border-secondary/40 transition-all group relative cursor-pointer",
-                        isOverdue && "border-rose-200 bg-rose-50/30"
+                        "card-premium p-5 space-y-4 group relative cursor-pointer",
+                        isOverdue && "border-destructive/20 bg-destructive/5"
                       )}
                       onClick={() => openEdit(action)}
                     >
                       <div className="flex justify-between items-start gap-2">
                         <div className="flex flex-col gap-1">
                           <span className={cn(
-                            "px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest w-fit",
-                            action.priority === 'Crítica' ? "bg-rose-100 text-rose-600" :
-                            action.priority === 'Alta' ? "bg-orange-100 text-orange-600" :
-                            "bg-blue-100 text-blue-600"
+                            "px-2 py-0.5 rounded-sm text-[7px] font-medium uppercase tracking-widest w-fit shadow-sm",
+                            action.priority === 'Crítica' ? "bg-destructive text-white" :
+                            action.priority === 'Alta' ? "bg-warning text-white" :
+                            "bg-blue-500 text-white"
                           )}>
                             {action.priority}
                           </span>
                           {isOverdue && (
-                            <span className="text-[7px] font-black text-rose-600 uppercase tracking-widest">Atrasado</span>
+                            <span className="text-[7px] font-medium text-destructive uppercase tracking-widest italic">Atrasado</span>
                           )}
                         </div>
-                        <p className="text-[9px] font-black text-text-dim uppercase tracking-tighter italic">
+                        <p className="text-[8px] font-medium text-muted-foreground uppercase tracking-widest italic opacity-60">
                           {action.phase}
                         </p>
                       </div>
                       
                       <div className="space-y-1">
-                        <h5 className="text-xs font-black text-text-main leading-tight group-hover:text-secondary transition-colors">{action.title}</h5>
-                        <p className="text-[10px] text-text-muted font-medium line-clamp-2 leading-relaxed">{action.desc}</p>
+                        <h5 className="text-[11px] font-medium text-foreground uppercase tracking-widest leading-tight group-hover:text-secondary transition-colors">{action.title}</h5>
+                        <p className="text-[10px] text-muted-foreground font-medium line-clamp-2 leading-relaxed italic">{action.desc}</p>
                       </div>
 
-                      <div className="pt-4 border-t border-border-soft flex items-center justify-between">
+                      <div className="pt-4 border-t border-border/50 flex items-center justify-between">
                          <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-[8px] font-black text-white uppercase">
+                            <div className="w-5 h-5 rounded-sm bg-surface-container border border-border flex items-center justify-center text-[8px] font-medium text-muted-foreground uppercase shadow-inner">
                               {action.responsible[0]}
                             </div>
-                            <span className="text-[10px] font-bold text-text-dim">{action.responsible}</span>
+                            <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">{action.responsible}</span>
                          </div>
-                         <div className={cn("flex items-center gap-1.5", isOverdue ? "text-rose-500" : "text-text-dim")}>
+                         <div className={cn("flex items-center gap-1.5", isOverdue ? "text-destructive" : "text-muted-foreground/60")}>
                             <Calendar size={10} />
-                            <span className="text-[10px] font-bold">{new Date(action.deadline).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}</span>
+                            <span className="text-[9px] font-medium uppercase tracking-widest tabular-nums">{new Date(action.deadline).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}</span>
                          </div>
                       </div>
                     </motion.div>
                   );
                 })}
+                {actions.filter(a => a.status === status).length === 0 && (
+                  <div className="py-10 text-center">
+                    <p className="text-[9px] font-medium text-muted-foreground/40 uppercase tracking-widest italic">Nenhuma tarefa</p>
+                  </div>
+                )}
                 <button 
                   onClick={() => { resetForm(); setFormData(prev => ({...prev, status: status as any})); setIsFormOpen(true); }}
-                  className="w-full py-4 rounded-2xl border border-dashed border-border-main text-text-dim hover:text-secondary hover:border-secondary hover:bg-bg-card transition-all text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2"
+                  className="w-full py-4 rounded-sm border border-dashed border-border text-muted-foreground/40 hover:text-secondary hover:border-secondary hover:bg-surface-container transition-all text-[9px] font-medium uppercase tracking-widest flex items-center justify-center gap-2 shadow-sm"
                 >
                   <Plus size={14} /> Adicionar Item
                 </button>
@@ -679,11 +685,11 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
         /* Dashboard / Analytics View */
         <div className="space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="card-premium p-8 space-y-6">
-              <div className="flex items-center justify-between">
+            <div className="card-premium p-8 space-y-6 relative overflow-hidden">
+              <div className="flex items-center justify-between relative z-10">
                 <div>
-                  <h3 className="text-sm font-black uppercase tracking-widest text-text-main">Distribuição por Status</h3>
-                  <p className="text-[10px] text-text-dim font-bold uppercase tracking-widest mt-1">Visão geral do progresso operacional</p>
+                  <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground">Distribuição por Status</h3>
+                  <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest mt-1 italic">Visão geral do progresso operacional</p>
                 </div>
                 <Activity size={20} className="text-secondary" />
               </div>
@@ -713,13 +719,13 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               </div>
             </div>
 
-            <div className="card-premium p-8 space-y-6">
-              <div className="flex items-center justify-between">
+            <div className="card-premium p-8 space-y-6 relative overflow-hidden">
+              <div className="flex items-center justify-between relative z-10">
                 <div>
-                  <h3 className="text-sm font-black uppercase tracking-widest text-text-main">Prioridades Estratégicas</h3>
-                  <p className="text-[10px] text-text-dim font-bold uppercase tracking-widest mt-1">Concentração de urgência e impacto</p>
+                  <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground">Prioridades Estratégicas</h3>
+                  <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest mt-1 italic">Concentração de urgência e impacto</p>
                 </div>
-                <Flag size={20} className="text-rose-500" />
+                <Flag size={20} className="text-destructive" />
               </div>
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -742,13 +748,13 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
             </div>
           </div>
 
-          <div className="card-premium p-8 space-y-6">
-            <div className="flex items-center justify-between">
+          <div className="card-premium p-8 space-y-6 relative overflow-hidden">
+            <div className="flex items-center justify-between relative z-10">
               <div>
-                <h3 className="text-sm font-black uppercase tracking-widest text-text-main">Linha do Tempo de Produtividade</h3>
-                <p className="text-[10px] text-text-dim font-bold uppercase tracking-widest mt-1">Acompanhamento de entregas nos últimos meses</p>
+                <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground">Linha do Tempo de Produtividade</h3>
+                <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest mt-1 italic">Acompanhamento de entregas nos últimos meses</p>
               </div>
-              <TrendingUp size={20} className="text-emerald-500" />
+              <TrendingUp size={20} className="text-success" />
             </div>
             <div className="h-[300px] w-full">
               <ResponsiveContainer width="100%" height="100%">
@@ -795,73 +801,73 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-bg-card rounded-[2.5rem] shadow-2xl overflow-hidden border border-border-main max-h-[90vh] flex flex-col"
+              className="relative w-full max-w-2xl bg-card rounded-md shadow-premium overflow-hidden border border-border max-h-[90vh] flex flex-col"
             >
-              <div className="px-10 py-8 bg-bg-surface border-b border-border-main flex items-center justify-between shrink-0">
+              <div className="px-10 py-8 bg-surface-container border-b border-border flex items-center justify-between shrink-0">
                 <div>
-                  <h3 className="text-xl font-display font-black text-text-main uppercase tracking-widest">
+                  <h3 className="text-[14px] font-medium text-foreground uppercase tracking-[0.2em]">
                     {editingId ? 'Editar Prioridade' : 'Nova Ação Tática'}
                   </h3>
-                  <p className="text-[10px] text-text-muted font-bold uppercase tracking-[0.2em] mt-1">Definição de objetivos e responsáveis</p>
+                  <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-[0.2em] mt-1 italic">Definição de objetivos e responsáveis</p>
                 </div>
-                <button onClick={() => setIsFormOpen(false)} className="p-2 text-text-dim hover:text-rose-500 rounded-full transition-all">
+                <button onClick={() => setIsFormOpen(false)} className="p-2 text-muted-foreground/60 hover:text-destructive rounded-sm transition-all">
                   <X size={20} />
                 </button>
               </div>
 
-              <div className="p-10 space-y-8 overflow-y-auto">
-                <div className="space-y-4">
-                  <label className="text-label">Título da Tarefa</label>
+              <div className="p-10 space-y-8 overflow-y-auto custom-scrollbar">
+                <div className="space-y-3">
+                  <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Título da Tarefa</label>
                   <input 
                     type="text" 
                     value={formData.title}
                     onChange={(e) => setFormData({...formData, title: e.target.value})}
                     placeholder="O que precisa ser feito?"
-                    className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-xl text-sm font-bold outline-none focus:border-secondary transition-all"
+                    className="w-full px-5 py-3 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner italic"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <label className="text-label">Responsável</label>
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Responsável</label>
                     <input 
                       type="text" 
                       value={formData.responsible}
                       onChange={(e) => setFormData({...formData, responsible: e.target.value})}
                       placeholder="Nome do dono"
-                      className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-xl text-sm font-bold outline-none focus:border-secondary transition-all"
+                      className="w-full px-5 py-3 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner italic"
                     />
                   </div>
-                  <div className="space-y-4">
-                    <label className="text-label">Prazo Final</label>
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Prazo Final</label>
                     <input 
                       type="date" 
                       value={formData.deadline}
                       onChange={(e) => setFormData({...formData, deadline: e.target.value})}
-                      className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-xl text-sm font-bold outline-none focus:border-secondary transition-all"
+                      className="w-full px-5 py-3 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <label className="text-label">Fase do Roadmap</label>
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Fase do Roadmap</label>
                     <select 
                       value={formData.phase}
                       onChange={(e) => setFormData({...formData, phase: e.target.value as any})}
-                      className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-xl text-sm font-black uppercase tracking-widest outline-none focus:border-secondary transition-all"
+                      className="w-full px-5 py-3 bg-surface-container border border-border rounded-sm text-[10px] font-medium uppercase tracking-[0.2em] outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner"
                     >
                       <option value="Estabilização">Fase 1: Estabilização</option>
                       <option value="Otimização">Fase 2: Otimização</option>
                       <option value="Expansão">Fase 3: Expansão</option>
                     </select>
                   </div>
-                  <div className="space-y-4">
-                    <label className="text-label">Prioridade Estratégica</label>
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Prioridade Estratégica</label>
                     <select 
                       value={formData.priority}
                       onChange={(e) => setFormData({...formData, priority: e.target.value as any})}
-                      className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-xl text-sm font-black uppercase tracking-widest outline-none focus:border-secondary transition-all"
+                      className="w-full px-5 py-3 bg-surface-container border border-border rounded-sm text-[10px] font-medium uppercase tracking-[0.2em] outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner"
                     >
                       <option value="Baixa">Baixa</option>
                       <option value="Média">Média</option>
@@ -871,43 +877,43 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <label className="text-label">Descrição / Contexto (Opcional)</label>
+                <div className="space-y-3">
+                  <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Descrição / Contexto (Opcional)</label>
                   <textarea 
                     rows={3}
                     value={formData.desc}
                     onChange={(e) => setFormData({...formData, desc: e.target.value})}
                     placeholder="Detalhes adicionais sobre a execução..."
-                    className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-xl text-sm outline-none focus:border-secondary transition-all leading-relaxed"
+                    className="w-full px-5 py-3 bg-surface-container border border-border rounded-sm text-[11px] font-medium outline-none focus:ring-1 focus:ring-secondary/20 transition-all leading-relaxed shadow-inner italic"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <label className="text-label">Esforço Estimado (Horas)</label>
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Esforço Estimado (Horas)</label>
                     <input 
                       type="number" 
                       value={formData.effort}
                       onChange={(e) => setFormData({...formData, effort: Number(e.target.value)})}
-                      className="w-full px-5 py-3 bg-bg-surface border border-border-main rounded-xl text-sm font-bold outline-none focus:border-secondary transition-all"
+                      className="w-full px-5 py-3 bg-surface-container border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner tabular-nums tracking-tighter"
                     />
                   </div>
-                  <div className="space-y-4">
-                    <label className="text-label">Progresso Atual (%)</label>
+                  <div className="space-y-3">
+                    <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block px-1 italic">Progresso Atual (%)</label>
                     <input 
                       type="range" 
                       min="0" max="100" step="5"
                       value={formData.progress}
                       onChange={(e) => setFormData({...formData, progress: Number(e.target.value)})}
-                      className="w-full h-10 accent-secondary"
+                      className="w-full h-10 accent-secondary cursor-pointer"
                     />
-                    <div className="text-right text-[10px] font-black text-secondary">{formData.progress}%</div>
+                    <div className="text-right text-[10px] font-medium text-secondary uppercase tracking-widest tabular-nums italic">{formData.progress}%</div>
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-border-soft flex justify-end gap-4">
-                   <button onClick={() => setIsFormOpen(false)} className="btn-ghost px-8">Cancelar</button>
-                   <button onClick={handleSave} className="btn-accent px-12">
+                <div className="pt-6 border-t border-border/50 flex justify-end gap-4 shrink-0">
+                   <button onClick={() => setIsFormOpen(false)} className="px-8 py-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all">Cancelar</button>
+                   <button onClick={handleSave} className="btn-executive bg-executive shadow-premium">
                      <Save size={18} />
                      Salvar Ação
                    </button>

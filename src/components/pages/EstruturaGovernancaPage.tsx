@@ -483,15 +483,15 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
         title="Estrutura de Governança" 
         subtitle="Mapeamento de papéis, responsabilidades e alinhamento de perfil comportamental para alta performance."
         icon={ShieldCheck}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Award size={14} className="text-secondary" />
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Protocolo de Alta Direção</span>
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Protocolo de Alta Direção</span>
             </div>
           </div>
         </div>
@@ -508,7 +508,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
               setDilemmaStep(0);
               setActiveTab('roles');
             }}
-            className="px-6 py-3.5 bg-white border border-slate-200 text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:text-primary hover:border-primary transition-all"
+            className="btn-ghost px-6 py-3.5"
           >
             Refazer Tudo
           </button>
@@ -516,7 +516,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
           <button 
             disabled={isSaving}
             onClick={handleSaveResults}
-            className="flex items-center gap-2 px-8 py-3.5 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-emerald-500/20 hover:scale-105 transition-all disabled:opacity-50"
+            className="btn-executive"
           >
             <Zap size={14} fill="currentColor" />
             {isSaving ? 'SALVANDO...' : 'SALVAR NO HISTÓRICO'}
@@ -526,7 +526,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
 
 
       {/* Navigation Tabs */}
-      <div className="flex gap-2 p-1.5 bg-bg-surface/50 backdrop-blur-xl border border-white/20 rounded-2xl w-fit">
+      <div className="flex gap-2 p-1.5 bg-surface-container/60 backdrop-blur-xl border border-border rounded-md w-fit">
         {[
           { id: 'roles', label: 'Papéis e Skills', icon: Users },
           { id: 'assessment', label: 'DNA Comportamental', icon: Brain },
@@ -538,10 +538,10 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
             className={cn(
-              "flex items-center gap-3 px-6 py-3 rounded-xl text-xs font-bold transition-all",
+              "flex items-center gap-3 px-6 py-3 rounded-md text-xs font-medium transition-all uppercase tracking-widest",
               activeTab === tab.id 
-                ? "bg-white text-primary shadow-premium" 
-                : "text-text-dim hover:text-text-main"
+                ? "bg-card text-primary shadow-sm border border-border" 
+                : "text-muted-foreground hover:text-foreground"
             )}
           >
             <tab.icon size={16} />
@@ -577,22 +577,22 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                           key={role.id}
                           onClick={() => setSelectedRole(role)}
                           className={cn(
-                            "w-full flex items-center justify-between p-4 rounded-2xl border transition-all text-left group",
+                            "w-full flex items-center justify-between p-4 rounded-md border transition-all text-left group",
                             selectedRole?.id === role.id 
-                              ? "bg-primary border-primary text-white shadow-xl shadow-primary/20" 
-                              : "bg-white border-slate-100 hover:border-primary/30"
+                              ? "bg-primary border-primary text-white shadow-premium" 
+                              : "bg-card border-border hover:border-primary/30"
                           )}
                         >
                           <div className="flex items-center gap-4">
                             <div className={cn(
-                              "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
-                              selectedRole?.id === role.id ? "bg-white/10" : "bg-slate-50"
+                              "w-10 h-10 rounded-md flex items-center justify-center transition-colors",
+                              selectedRole?.id === role.id ? "bg-white/10" : "bg-surface-container"
                             )}>
                               {cat === 'Direção' ? <Zap size={18} className={selectedRole?.id === role.id ? "text-white" : "text-primary"} /> : <ShieldCheck size={18} className={selectedRole?.id === role.id ? "text-white" : "text-secondary"} />}
                             </div>
                             <div>
-                              <p className="text-sm font-black">{role.title}</p>
-                              <p className={cn("text-[10px] font-medium", selectedRole?.id === role.id ? "text-white/60" : "text-slate-400")}>Clique para ver detalhes</p>
+                              <p className="text-body-sm font-medium">{role.title}</p>
+                              <p className={cn("text-[10px] font-medium uppercase tracking-widest", selectedRole?.id === role.id ? "text-white/60" : "text-muted-foreground")}>Clique para ver detalhes</p>
                             </div>
                           </div>
                           <ChevronRight size={16} className={cn("transition-transform", selectedRole?.id === role.id ? "translate-x-1" : "group-hover:translate-x-1 text-slate-300")} />
@@ -607,55 +607,55 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
             {/* Right Col: Details */}
             <div className="lg:col-span-2">
               {selectedRole ? (
-                <div className="bg-white rounded-[32px] border border-slate-100 p-8 shadow-premium space-y-10 sticky top-32">
+                <div className="card-premium p-8 sticky top-32 space-y-10">
                   <div className="flex justify-between items-start">
                     <div className="space-y-2">
                       <div className="flex items-center gap-3">
                         <StatusBadge status={selectedRole.category === 'Direção' ? 'Verde' : 'Amarelo'} />
-                        <h2 className="text-3xl font-display font-black text-primary">{selectedRole.title}</h2>
+                        <h2 className="text-h2 font-medium text-foreground tracking-tight">{selectedRole.title}</h2>
                       </div>
-                      <p className="text-slate-500 max-w-2xl">{selectedRole.description}</p>
+                      <p className="text-body-sm text-muted-foreground font-medium max-w-2xl">{selectedRole.description}</p>
                     </div>
-                    <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-primary border border-slate-100">
+                    <div className="w-16 h-16 bg-surface-container rounded-md flex items-center justify-center text-primary border border-border">
                       <Compass size={32} strokeWidth={1.5} />
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-6">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                      <h3 className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-2">
                         <Target size={14} className="text-secondary" />
                         Soft Skills Essenciais
                       </h3>
                       <div className="space-y-4">
                         {selectedRole.essentialSoftSkills.map(skill => (
-                          <div key={skill.name} className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 group hover:bg-white hover:shadow-lg hover:shadow-slate-200/50 transition-all">
+                          <div key={skill.name} className="p-4 bg-surface-container/40 rounded-md border border-border group hover:bg-card hover:shadow-md transition-all">
                             <div className="flex justify-between items-center mb-2">
-                              <p className="text-sm font-black text-primary">{skill.name}</p>
+                              <p className="text-body-sm font-medium text-foreground">{skill.name}</p>
                               <div className="flex gap-1">
                                 {[1, 2, 3, 4, 5].map(i => (
                                   <div 
                                     key={i} 
                                     className={cn(
                                       "w-1.5 h-3 rounded-full transition-all",
-                                      i <= skill.idealLevel ? "bg-secondary" : "bg-slate-200"
+                                      i <= skill.idealLevel ? "bg-secondary" : "bg-muted"
                                     )} 
                                   />
                                 ))}
                               </div>
                             </div>
-                            <p className="text-[11px] leading-relaxed text-slate-500">{skill.description}</p>
+                            <p className="text-[11px] leading-relaxed text-muted-foreground font-medium">{skill.description}</p>
                           </div>
                         ))}
                       </div>
                     </div>
 
                     <div className="space-y-6">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                      <h3 className="text-body-sm font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-2">
                         <PieChart size={14} className="text-primary" />
                         Perfil Comportamental Ideal (DISC)
                       </h3>
-                      <div className="p-6 bg-primary rounded-3xl text-white space-y-6 shadow-xl shadow-primary/10">
+                      <div className="p-6 bg-primary rounded-md text-white space-y-6 shadow-premium">
                         <div className="grid grid-cols-4 gap-2">
                           {Object.entries(selectedRole.idealProfile.disc).map(([trait, val]) => (
                             <div key={trait} className="flex flex-col items-center gap-2">
@@ -666,16 +666,16 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                                   className="w-full bg-white/30 backdrop-blur-md"
                                 />
                               </div>
-                              <span className="text-[10px] font-black opacity-60">{trait}</span>
-                              <span className="text-xs font-bold">{val}%</span>
+                              <span className="text-[10px] font-medium uppercase tracking-widest opacity-60">{trait}</span>
+                              <span className="text-xs font-medium">{val}%</span>
                             </div>
                           ))}
                         </div>
                         <div className="pt-4 border-t border-white/10">
-                          <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-2">Arquétipos de Eneagrama</p>
+                          <p className="text-[10px] font-medium uppercase tracking-widest opacity-60 mb-2">Arquétipos de Eneagrama</p>
                           <div className="flex gap-2">
                             {selectedRole.idealProfile.enneagram.map(type => (
-                              <div key={type} className="px-3 py-1 bg-white/10 rounded-lg text-[10px] font-bold">
+                              <div key={type} className="px-3 py-1 bg-white/10 rounded-md text-[10px] font-medium uppercase tracking-widest">
                                 Tipo {type}
                               </div>
                             ))}
@@ -683,13 +683,13 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         </div>
                       </div>
 
-                      <div className="p-6 bg-secondary/5 rounded-3xl border border-secondary/10 flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0">
+                      <div className="p-6 bg-secondary/5 rounded-md border border-secondary/10 flex items-start gap-4">
+                        <div className="w-10 h-10 rounded-md bg-secondary/10 flex items-center justify-center shrink-0">
                           <Lightbulb size={20} className="text-secondary" />
                         </div>
                         <div>
-                          <p className="text-xs font-black text-secondary uppercase tracking-widest mb-1">Insight do Advisor</p>
-                          <p className="text-[11px] text-slate-600 leading-relaxed italic">
+                          <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">Insight do Advisor</p>
+                          <p className="text-[11px] text-muted-foreground leading-relaxed italic font-medium">
                             "Para este cargo, buscamos um equilíbrio entre a {selectedRole.category === 'Direção' ? 'agilidade executiva e a visão estratégica' : 'imparcialidade e a profundidade analítica'}. O perfil deve inspirar confiança imediata."
                           </p>
                         </div>
@@ -698,12 +698,12 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   </div>
                 </div>
               ) : (
-                <div className="h-full min-h-[600px] flex flex-col items-center justify-center bg-slate-50/50 rounded-[32px] border-2 border-dashed border-slate-200 text-center p-10">
-                  <div className="w-20 h-20 bg-white rounded-3xl shadow-lg flex items-center justify-center text-slate-300 mb-6">
+                <div className="h-full min-h-[600px] flex flex-col items-center justify-center bg-surface-container/50 rounded-md border-2 border-dashed border-border text-center p-10">
+                  <div className="w-20 h-20 bg-card rounded-md shadow-premium flex items-center justify-center text-muted-foreground/30 mb-6">
                     <Users size={40} strokeWidth={1} />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900">Nenhum cargo selecionado</h3>
-                  <p className="mt-2 text-slate-500 max-w-sm">Escolha uma função na lista ao lado para explorar as competências e o perfil ideal de governança.</p>
+                  <h3 className="text-body-md font-medium text-foreground uppercase tracking-widest">Nenhum cargo selecionado</h3>
+                  <p className="mt-2 text-body-sm text-muted-foreground font-medium max-w-2xl">Escolha uma função na lista ao lado para explorar as competências e o perfil ideal de governança.</p>
                 </div>
               )}
             </div>
@@ -721,12 +721,12 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
             <div className="flex justify-between items-end">
               <SectionHeader title="Prudência Decisória" subtitle="Avaliação de tomada de decisão para Diretores e Conselheiros." icon={ShieldCheck} />
               <div className="text-right pb-2">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Progresso do Diagnóstico</p>
-                <p className="text-xl font-black text-primary">{dilemmaStep + 1} <span className="text-slate-300">/ {ETHICAL_DILEMMAS.length}</span></p>
+                <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Progresso do Diagnóstico</p>
+                <p className="text-h2 font-medium text-primary">{dilemmaStep + 1} <span className="text-muted-foreground/30">/ {ETHICAL_DILEMMAS.length}</span></p>
               </div>
             </div>
 
-            <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+            <div className="w-full h-1.5 bg-surface-container rounded-full overflow-hidden border border-border">
               <motion.div 
                 initial={{ width: 0 }}
                 animate={{ width: `${((dilemmaStep + 1) / ETHICAL_DILEMMAS.length) * 100}%` }}
@@ -740,23 +740,23 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="bg-white rounded-[40px] border border-slate-100 p-10 lg:p-16 shadow-premium space-y-10"
+                className="card-premium p-10 lg:p-16 space-y-10"
               >
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary shrink-0">
+                    <div className="w-14 h-14 rounded-md bg-primary/10 flex items-center justify-center text-primary shrink-0">
                       <AlertCircle size={28} />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-secondary uppercase tracking-widest mb-1">
+                      <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-1">
                         {GOVERNANCE_PRINCIPLES.find(p => p.id === ETHICAL_DILEMMAS[dilemmaStep].principleId)?.axis}
                       </p>
-                      <h4 className="text-2xl font-display font-black text-primary">{ETHICAL_DILEMMAS[dilemmaStep].title}</h4>
+                      <h4 className="text-h2 font-medium text-foreground tracking-tight">{ETHICAL_DILEMMAS[dilemmaStep].title}</h4>
                     </div>
                   </div>
                   <div className="relative">
                     <div className="absolute -left-4 top-0 bottom-0 w-1 bg-secondary/20 rounded-full" />
-                    <p className="text-lg text-slate-600 leading-relaxed italic pl-6">
+                    <p className="text-body-md text-muted-foreground font-medium leading-relaxed italic pl-6">
                       "{ETHICAL_DILEMMAS[dilemmaStep].scenario}"
                     </p>
                   </div>
@@ -773,10 +773,10 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         }
                       }}
                       className={cn(
-                        "w-full p-6 rounded-3xl border-2 text-left transition-all text-base font-bold group",
+                        "w-full p-6 rounded-md border text-left transition-all text-body-md font-medium group uppercase tracking-widest",
                         dilemmaAnswers[ETHICAL_DILEMMAS[dilemmaStep].id] === opt.score
-                          ? "bg-primary border-primary text-white shadow-xl shadow-primary/20"
-                          : "bg-white border-slate-100 hover:border-secondary/30 text-slate-600 hover:text-primary"
+                          ? "bg-primary border-primary text-white shadow-premium"
+                          : "bg-card border-border hover:border-secondary/30 text-muted-foreground hover:text-primary"
                       )}
                     >
                       <div className="flex items-center justify-between">
@@ -790,11 +790,11 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   ))}
                 </div>
 
-                <div className="flex justify-between items-center pt-10 border-t border-slate-100">
+                <div className="flex justify-between items-center pt-10 border-t border-border">
                   <button
                     disabled={dilemmaStep === 0}
                     onClick={() => setDilemmaStep(s => s - 1)}
-                    className="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors disabled:opacity-20"
+                    className="btn-ghost px-8 py-3"
                   >
                     Anterior
                   </button>
@@ -805,7 +805,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         setShowResults(true);
                         setActiveTab('analysis');
                       }}
-                      className="px-10 py-4 bg-emerald-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
+                      className="btn-executive"
                     >
                       Finalizar Simulação
                       <Zap size={16} fill="currentColor" />
@@ -813,7 +813,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   ) : (
                     <button
                       onClick={() => setDilemmaStep(s => s + 1)}
-                      className="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors"
+                      className="btn-ghost px-8 py-3"
                     >
                       Pular
                     </button>
@@ -831,18 +831,18 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
             exit={{ opacity: 0, scale: 0.98 }}
             className="max-w-4xl mx-auto"
           >
-            <div className="bg-white rounded-[40px] border border-slate-100 shadow-2xl shadow-slate-900/5 overflow-hidden">
-              <div className="bg-primary p-10 text-white relative">
+            <div className="card-premium p-0 overflow-hidden">
+              <div className="bg-executive p-10 text-white relative">
                 <div className="absolute top-0 right-0 p-10 opacity-10">
                   <Brain size={120} strokeWidth={1} />
                 </div>
                 <div className="relative z-10 space-y-2">
-                  <div className="flex items-center gap-3 mb-4 py-2 px-4 bg-white/10 rounded-full w-fit">
+                  <div className="flex items-center gap-3 mb-4 py-2 px-4 bg-white/10 rounded-md w-fit border border-white/10">
                     <Users size={14} className="text-secondary" />
-                    <span className="text-[10px] font-bold tracking-widest uppercase">Avaliador: {auth.currentUser?.displayName || 'Convidado'}</span>
+                    <span className="text-[10px] font-medium tracking-widest uppercase">Avaliador: {auth.currentUser?.displayName || 'Convidado'}</span>
                   </div>
-                  <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Deep Profile Analysis</p>
-                  <h2 className="text-4xl font-display font-black">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] opacity-60">Deep Profile Analysis</p>
+                  <h2 className="text-h2 font-medium tracking-tight">
                     {!hasConfirmedRole ? 'Confirme seu Cargo' : assessmentType === 'disc' ? 'DNA Comportamental' : 'Arquétipo de Eneagrama'}
                   </h2>
                 </div>
@@ -854,7 +854,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         key={i} 
                         className={cn(
                           "h-1.5 flex-1 rounded-full transition-all duration-500",
-                          i < assessmentStep ? "bg-secondary" : i === assessmentStep ? "bg-white" : "bg-white/20"
+                          i < assessmentStep ? "bg-secondary" : i === assessmentStep ? "bg-white" : "bg-white/10"
                         )} 
                       />
                     ))}
@@ -865,14 +865,14 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
               <div className="p-10 lg:p-16 space-y-12">
                 {!hasConfirmedRole ? (
                   <div className="space-y-10">
-                    <div className="p-8 bg-slate-50 rounded-[32px] border border-slate-100 space-y-6">
+                    <div className="p-8 bg-surface-container rounded-md border border-border space-y-6">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center text-white">
+                        <div className="w-12 h-12 rounded-md bg-primary flex items-center justify-center text-white">
                           <Users size={24} />
                         </div>
                         <div>
-                          <h3 className="text-lg font-bold text-primary">Confirme sua posição de Governança</h3>
-                          <p className="text-sm text-slate-500">Isso garante que sua análise seja comparada ao perfil ideal correto do cargo.</p>
+                          <h3 className="text-body-md font-medium text-foreground">Confirme sua posição de Governança</h3>
+                          <p className="text-body-sm text-muted-foreground font-medium">Isso garante que sua análise seja comparada ao perfil ideal correto do cargo.</p>
                         </div>
                       </div>
                       
@@ -882,14 +882,14 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                             key={role.id}
                             onClick={() => setSelectedRole(role)}
                             className={cn(
-                              "p-4 rounded-2xl border-2 text-left transition-all",
+                              "p-4 rounded-md border text-left transition-all",
                               selectedRole?.id === role.id 
-                                ? "bg-white border-primary shadow-lg ring-4 ring-primary/5" 
-                                : "bg-white border-slate-100 hover:border-slate-200"
+                                ? "bg-card border-primary shadow-premium ring-1 ring-primary/5" 
+                                : "bg-card border-border hover:border-primary/20"
                             )}
                           >
-                            <p className="text-sm font-black text-primary">{role.title}</p>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{role.category}</p>
+                            <p className="text-body-sm font-medium text-foreground uppercase tracking-widest">{role.title}</p>
+                            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">{role.category}</p>
                           </button>
                         ))}
                       </div>
@@ -899,7 +899,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                       <button
                         disabled={!selectedRole}
                         onClick={() => setHasConfirmedRole(true)}
-                        className="px-12 py-4 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-secondary/20 hover:scale-105 transition-all disabled:opacity-30 disabled:hover:scale-100"
+                        className="btn-executive"
                       >
                         Confirmar e Iniciar Avaliação
                       </button>
@@ -911,15 +911,15 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   {(assessmentType === 'disc' ? DISC_QUESTIONS : ENNEAGRAM_QUESTIONS).slice(assessmentStep * 2, (assessmentStep * 2) + 2).map((q) => (
                     <div key={q.id} className="space-y-8">
                       <div className="space-y-4">
-                        <span className="text-[10px] font-black text-secondary uppercase tracking-widest flex items-center gap-2">
+                        <span className="text-[10px] font-medium text-secondary uppercase tracking-widest flex items-center gap-2">
                           <CheckCircle2 size={12} />
                           {assessmentType === 'disc' ? 'Comportamento' : 'Motivação'}
                         </span>
-                        <h4 className="text-xl font-bold text-primary leading-tight">{q.text}</h4>
+                        <h4 className="text-h3 font-medium text-foreground tracking-tight leading-tight">{q.text}</h4>
                       </div>
                       
                       <div className="flex flex-col gap-4">
-                        <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-400 px-2">
+                        <div className="flex justify-between text-[10px] font-medium uppercase tracking-widest text-muted-foreground px-2">
                           <span>Discordo Totalmente</span>
                           <span>Concordo Totalmente</span>
                         </div>
@@ -935,10 +935,10 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                                 }
                               }}
                               className={cn(
-                                "flex-1 h-16 rounded-2xl border-2 font-black text-lg transition-all active:scale-95",
+                                "flex-1 h-16 rounded-md border font-medium text-lg transition-all active:scale-95",
                                 (assessmentType === 'disc' ? answers[q.id] : enneagramAnswers[q.id]) === val 
-                                  ? "bg-secondary border-secondary text-white shadow-xl shadow-secondary/20" 
-                                  : "bg-white border-slate-100 text-slate-400 hover:border-secondary/30 hover:text-secondary"
+                                  ? "bg-secondary border-secondary text-white shadow-premium" 
+                                  : "bg-card border-border text-muted-foreground hover:border-secondary/30 hover:text-secondary"
                               )}
                             >
                               {val}
@@ -950,7 +950,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   ))}
                 </div>
 
-                <div className="flex justify-between pt-8 border-t border-slate-100">
+                <div className="flex justify-between pt-8 border-t border-border">
                   <button
                     disabled={assessmentStep === 0 && assessmentType === 'disc'}
                     onClick={() => {
@@ -961,7 +961,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         setAssessmentStep(Math.ceil(DISC_QUESTIONS.length / 2) - 1);
                       }
                     }}
-                    className="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors disabled:opacity-30"
+                    className="btn-ghost px-8 py-3"
                   >
                     Voltar
                   </button>
@@ -969,7 +969,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   {assessmentStep < Math.ceil((assessmentType === 'disc' ? DISC_QUESTIONS : ENNEAGRAM_QUESTIONS).length / 2) - 1 ? (
                     <button
                       onClick={() => setAssessmentStep(s => s + 1)}
-                      className="px-10 py-4 bg-primary text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-primary/20 transition-all active:scale-95"
+                      className="btn-executive"
                     >
                       Próximas Questões
                       <ArrowRight size={16} />
@@ -980,7 +980,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         setAssessmentType('enneagram');
                         setAssessmentStep(0);
                       }}
-                      className="px-10 py-4 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-secondary/20 transition-all active:scale-95"
+                      className="btn-executive"
                     >
                       Iniciar Eneagrama
                       <ArrowRight size={16} />
@@ -991,13 +991,13 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         setShowResults(true);
                         setActiveTab('analysis');
                       }}
-                      className="px-10 py-4 bg-emerald-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
+                      className="btn-executive bg-success border-success"
                     >
                       Finalizar Análise
                       <Zap size={16} fill="currentColor" />
                     </button>
                   )}
-                    </div>
+                </div>
                   </div>
                 )}
               </div>
@@ -1017,7 +1017,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
               <>
                 {/* Result Hero */}
                 <div className="grid lg:grid-cols-2 gap-8">
-                  <div className="bg-white rounded-[40px] border border-slate-100 p-10 shadow-premium flex flex-col justify-between">
+                  <div className="card-premium p-10 flex flex-col justify-between">
                     <div className="space-y-6">
                       <SectionHeader title="Seu Perfil Atual" subtitle="Baseado na autoavaliação DISC." icon={Brain} />
                       <div className="grid grid-cols-4 gap-4 h-48 items-end pt-4">
@@ -1028,11 +1028,11 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                                 initial={{ height: 0 }}
                                 animate={{ height: `${val * 1.5}px` }}
                                 className={cn(
-                                  "w-full rounded-2xl transition-all shadow-lg",
-                                  trait === 'D' ? "bg-rose-500 shadow-rose-500/20" :
-                                  trait === 'I' ? "bg-amber-500 shadow-amber-500/20" :
-                                  trait === 'S' ? "bg-emerald-500 shadow-emerald-500/20" :
-                                  "bg-indigo-500 shadow-indigo-500/20"
+                                  "w-full rounded-md transition-all shadow-sm",
+                                  trait === 'D' ? "bg-destructive/80" :
+                                  trait === 'I' ? "bg-warning/80" :
+                                  trait === 'S' ? "bg-success/80" :
+                                  "bg-secondary/80"
                                 )}
                               />
                               <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1040,8 +1040,8 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                               </div>
                             </div>
                             <div>
-                              <p className="text-sm font-black text-primary">{trait}</p>
-                              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                              <p className="text-body-sm font-medium text-foreground">{trait}</p>
+                              <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">
                                 {trait === 'D' ? 'Domínio' : 
                                  trait === 'I' ? 'Influência' : 
                                  trait === 'S' ? 'Estabilidade' : 'Cautela'}
@@ -1051,26 +1051,26 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         ))}
                       </div>
                     </div>
-                    <div className="mt-10 p-6 bg-slate-50 rounded-3xl border border-slate-100">
-                      <p className="text-xs font-black text-primary uppercase tracking-widest mb-2">Resumo Comportamental</p>
-                      <p className="text-[11px] text-slate-500 leading-relaxed">
+                    <div className="mt-10 p-6 bg-surface-container/50 rounded-md border border-border">
+                      <p className="text-[10px] font-medium text-foreground uppercase tracking-widest mb-2">Resumo Comportamental</p>
+                      <p className="text-body-sm text-muted-foreground font-medium leading-relaxed italic">
                         Seu perfil demonstra uma forte orientação para {userProfile.D > 40 ? 'resultados e tomada de decisão assertiva' : userProfile.I > 40 ? 'comunicação e influência interpessoal' : userProfile.S > 40 ? 'estabilidade e trabalho em equipe' : 'precisão e conformidade técnica'}.
                       </p>
                     </div>
                   </div>
 
-                  <div className="bg-primary rounded-[40px] p-10 text-white shadow-2xl shadow-primary/20 space-y-8">
+                  <div className="bg-executive rounded-md p-10 text-white shadow-premium space-y-8">
                     <SectionHeader title="Análise de Gap" subtitle="Comparação com o perfil de referência." icon={Target} tone="amber" />
                     
                     {/* Governança Alignment Card */}
-                    <div className="p-6 bg-white/10 rounded-3xl border border-white/20 backdrop-blur-md mb-8">
+                    <div className="p-6 bg-white/5 rounded-md border border-white/10 backdrop-blur-md mb-8">
                       <div className="flex justify-between items-center mb-6">
                         <div>
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary">Aderência ao Cargo</p>
-                          <h4 className="text-xl font-black">Gráfico de Aderência (DISC + Eneagrama)</h4>
+                          <p className="text-[10px] font-medium uppercase tracking-widest text-secondary">Aderência ao Cargo</p>
+                          <h4 className="text-h3 font-medium tracking-tight">Gráfico de Aderência (DISC + Eneagrama)</h4>
                         </div>
                         <div className="text-right">
-                          <span className="text-4xl font-black text-secondary">{adherenceScore}%</span>
+                          <span className="text-4xl font-medium text-secondary">{adherenceScore}%</span>
                         </div>
                       </div>
                       
@@ -1123,11 +1123,11 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                       <div className="mt-8 pt-8 border-t border-white/10">
                         <div className="flex justify-between items-center mb-6">
                           <div>
-                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary">Inteligência Governança</p>
-                            <h4 className="text-xl font-black">Alinhamento de Princípios</h4>
+                            <p className="text-[10px] font-medium uppercase tracking-widest text-secondary">Inteligência Governança</p>
+                            <h4 className="text-h3 font-medium tracking-tight">Alinhamento de Princípios</h4>
                           </div>
                           <div className="text-right">
-                            <span className="text-3xl font-black text-secondary">{governançaAlignment.score}%</span>
+                            <span className="text-3xl font-medium text-secondary">{governançaAlignment.score}%</span>
                           </div>
                         </div>
                       
@@ -1147,7 +1147,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         <p className="text-xs font-bold opacity-80">{governançaAlignment.status}</p>
                       </div>
 
-                      <p className="mt-4 text-[11px] opacity-60 leading-relaxed italic">
+                      <p className="mt-4 text-[11px] opacity-60 leading-relaxed italic font-medium">
                         "Este score reflete o quanto sua tomada de decisão individual converge com os Princípios de Governança da Inteligência Governança. Um score alto indica que sua liderança preservará o DNA espiritual e ético da organização."
                       </p>
                     </div>
@@ -1155,13 +1155,13 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                     
                   {selectedRole ? (
                       <div className="space-y-6">
-                        <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
-                          <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-secondary">
+                        <div className="flex items-center gap-4 p-4 bg-white/5 rounded-md border border-white/10">
+                          <div className="w-12 h-12 rounded-md bg-white/10 flex items-center justify-center text-secondary">
                             <Compass size={24} />
                           </div>
                           <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Cargo Alvo</p>
-                            <p className="text-lg font-black">{selectedRole.title}</p>
+                            <p className="text-[10px] font-medium uppercase tracking-widest opacity-60">Cargo Alvo</p>
+                            <p className="text-body-md font-medium tracking-tight">{selectedRole.title}</p>
                           </div>
                         </div>
 
@@ -1215,21 +1215,21 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: idx * 0.1 }}
-                        className="bg-white rounded-3xl border border-slate-100 p-8 shadow-premium group hover:border-secondary/50 transition-all"
+                        className="bg-card rounded-md border border-border p-8 shadow-sm group hover:border-secondary/50 transition-all"
                       >
-                        <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
+                        <div className="w-12 h-12 rounded-md bg-secondary/10 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
                           <Award size={24} />
                         </div>
-                        <h4 className="text-lg font-black text-primary mb-2">{trail.title}</h4>
-                        <p className="text-xs text-slate-500 leading-relaxed mb-6">{trail.description}</p>
+                        <h4 className="text-body-md font-medium text-foreground mb-2 uppercase tracking-widest">{trail.title}</h4>
+                        <p className="text-body-sm text-muted-foreground font-medium leading-relaxed mb-6">{trail.description}</p>
                         
                         <div className="space-y-3">
                           {trail.items.map((item, i) => (
-                            <div key={i} className="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                            <div key={i} className="flex items-start gap-3 p-3 bg-surface-container rounded-md">
                               <div className="mt-1">
                                 <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
                               </div>
-                              <span className="text-[11px] font-bold text-slate-700">{item}</span>
+                              <span className="text-[11px] font-medium text-muted-foreground">{item}</span>
                             </div>
                           ))}
                         </div>
@@ -1243,17 +1243,17 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                 </div>
               </>
             ) : (
-              <div className="min-h-[500px] flex flex-col items-center justify-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200 text-center p-10">
-                <div className="w-24 h-24 bg-white rounded-full shadow-xl flex items-center justify-center text-primary mb-8 animate-bounce">
+              <div className="min-h-[500px] flex flex-col items-center justify-center bg-surface-container/50 rounded-md border-2 border-dashed border-border text-center p-10">
+                <div className="w-24 h-24 bg-card rounded-md shadow-premium flex items-center justify-center text-primary mb-8 animate-bounce">
                   <Brain size={48} strokeWidth={1} />
                 </div>
-                <h3 className="text-2xl font-black text-primary">Aguardando Avaliação</h3>
-                <p className="mt-4 text-slate-500 max-w-md mx-auto leading-relaxed">
+                <h3 className="text-h3 font-medium text-foreground uppercase tracking-widest">Aguardando Avaliação</h3>
+                <p className="mt-4 text-body-sm text-muted-foreground max-w-md mx-auto leading-relaxed font-medium">
                   Para visualizar a análise de gaps e receber suas trilhas de desenvolvimento, primeiro complete o questionário de autoavaliação comportamental.
                 </p>
                 <button 
                   onClick={() => setActiveTab('assessment')}
-                  className="mt-8 px-10 py-4 bg-primary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-primary/20 flex items-center gap-3 hover:scale-105 transition-all"
+                  className="btn-executive mt-8"
                 >
                   Ir para Questionário <ArrowRight size={16} />
                 </button>
@@ -1274,37 +1274,37 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                 <SectionHeader title="Visão Consolidada" subtitle="Sobreposição do perfil real do time vs. estrutura ideal de cargos." icon={Users} />
                 
                 {teamMetrics ? (
-                  <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-premium space-y-8">
+                  <div className="card-premium p-8 space-y-8">
                     <div className="space-y-6">
                       <div className="space-y-2">
-                        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Aderência Média do Time</p>
+                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Aderência Média do Time</p>
                         <div className="flex items-end gap-3">
-                          <span className="text-5xl font-display font-black text-primary">{teamMetrics.avgAdherence}%</span>
+                          <span className="text-5xl font-medium text-foreground">{teamMetrics.avgAdherence}%</span>
                           <StatusBadge status={teamMetrics.avgAdherence > 80 ? 'Verde' : teamMetrics.avgAdherence > 60 ? 'Amarelo' : 'Vermelho'} />
                         </div>
                       </div>
                       
                       <div className="space-y-2">
-                        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Maturidade de Governança</p>
+                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Maturidade de Governança</p>
                         <div className="flex items-end gap-3">
-                          <span className="text-3xl font-display font-black text-secondary">{teamMetrics.avgGov}%</span>
+                          <span className="text-3xl font-medium text-secondary">{teamMetrics.avgGov}%</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="space-y-6 pt-6 border-t border-slate-100">
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <div className="space-y-6 pt-6 border-t border-border">
+                      <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                         <Users size={14} />
                         Participantes ({teamMetrics.totalParticipants})
                       </p>
                       <div className="space-y-3">
                         {teamAssessments.map(ass => (
-                          <div key={ass.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                          <div key={ass.id} className="flex items-center justify-between p-3 bg-surface-container rounded-md border border-border">
                             <div>
-                              <p className="text-xs font-black text-primary">{ass.userName}</p>
-                              <p className="text-[10px] text-slate-500 font-bold">{ass.roleTitle}</p>
+                              <p className="text-[10px] font-medium text-foreground uppercase tracking-widest">{ass.userName}</p>
+                              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">{ass.roleTitle}</p>
                             </div>
-                            <span className="text-xs font-black text-secondary">{ass.adherenceScore}%</span>
+                            <span className="text-xs font-medium text-secondary">{ass.adherenceScore}%</span>
                           </div>
                         ))}
                       </div>
@@ -1319,11 +1319,11 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
 
               <div className="lg:col-span-2 space-y-8">
                 {teamMetrics && (
-                  <div className="bg-primary rounded-[40px] p-10 text-white space-y-12 shadow-xl shadow-primary/20">
+                  <div className="bg-executive rounded-md p-10 text-white space-y-12 shadow-premium">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-2xl font-display font-black">Sinergia de Governança do Time</h3>
-                        <p className="text-white/60 text-sm">Comparativo entre a média real da equipe e o perfil ideal dos cargos ocupados.</p>
+                        <h3 className="text-h3 font-medium tracking-tight">Sinergia de Governança do Time</h3>
+                        <p className="text-white/60 text-body-sm font-medium">Comparativo entre a média real da equipe e o perfil ideal dos cargos ocupados.</p>
                       </div>
                       <div className="flex gap-4">
                         <div className="flex items-center gap-2">
@@ -1351,16 +1351,16 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                             <motion.div 
                               initial={{ height: 0 }}
                               animate={{ height: `${teamMetrics.actual[trait as keyof typeof teamMetrics.actual]}%` }}
-                              className="relative w-full bg-secondary shadow-[0_0_20px_rgba(var(--secondary-rgb),0.5)] z-10"
+                              className="relative w-full bg-secondary shadow-premium z-10"
                             >
                               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full pb-2">
-                                <span className="text-xs font-black">{teamMetrics.actual[trait as keyof typeof teamMetrics.actual]}%</span>
+                                <span className="text-[10px] font-medium">{teamMetrics.actual[trait as keyof typeof teamMetrics.actual]}%</span>
                               </div>
                             </motion.div>
                           </div>
                           <div className="text-center space-y-1">
-                            <p className="text-lg font-black">{trait}</p>
-                            <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest">
+                            <p className="text-body-md font-medium">{trait}</p>
+                            <p className="text-[10px] font-medium text-white/40 uppercase tracking-widest">
                               Ideal: {teamMetrics.ideal[trait as keyof typeof teamMetrics.ideal]}%
                             </p>
                           </div>
@@ -1369,23 +1369,23 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                     </div>
 
                     <div className="pt-8 border-t border-white/10 grid md:grid-cols-2 gap-8">
-                      <div className="p-6 bg-white/5 rounded-3xl space-y-3">
+                      <div className="p-6 bg-white/5 rounded-md space-y-3">
                         <div className="flex items-center gap-2 text-secondary">
                           <Zap size={16} />
-                          <span className="text-xs font-black uppercase tracking-widest">Análise de Grupo</span>
+                          <span className="text-[10px] font-medium uppercase tracking-widest">Análise de Grupo</span>
                         </div>
-                        <p className="text-sm leading-relaxed text-white/80">
+                        <p className="text-body-sm leading-relaxed text-white/80 font-medium italic">
                           {teamMetrics.avgGov > 70 ? 
                             "O time de governança demonstra alta maturidade e alinhamento com os 49 princípios." : 
                             "Existem gaps de governança que precisam ser endereçados para garantir a perenidade do negócio."}
                         </p>
                       </div>
-                      <div className="p-6 bg-white/5 rounded-3xl space-y-3">
-                        <div className="flex items-center gap-2 text-amber-400">
+                      <div className="p-6 bg-white/5 rounded-md space-y-3">
+                        <div className="flex items-center gap-2 text-warning">
                           <AlertCircle size={16} />
-                          <span className="text-xs font-black uppercase tracking-widest">Sinergia de Cargos</span>
+                          <span className="text-[10px] font-medium uppercase tracking-widest">Sinergia de Cargos</span>
                         </div>
-                        <p className="text-sm leading-relaxed text-white/80">
+                        <p className="text-body-sm leading-relaxed text-white/80 font-medium italic">
                           {teamMetrics.avgAdherence > 80 ? 
                             "A sobreposição entre os perfis reais e os cargos ideais está em alto nível de excelência." : 
                             "Há necessidade de ajustes finos nas atribuições ou treinamentos para alinhar o time aos cargos."}

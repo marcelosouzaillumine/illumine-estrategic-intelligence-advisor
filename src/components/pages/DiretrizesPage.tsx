@@ -80,15 +80,15 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
         title="Identidade & Diretrizes" 
         subtitle="O DNA e o norte estratégico da organização — Propósito, Missão, Visão e Valores."
         icon={Flag}
-        color="bg-slate-900"
+        color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Rocket size={14} className="text-secondary" />
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">DNA Corporativo Ativo</span>
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">DNA Corporativo Ativo</span>
             </div>
           </div>
         </div>
@@ -97,10 +97,10 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
           <button
             onClick={() => setIsEditing(!isEditing)}
             className={cn(
-              "flex items-center gap-2 px-8 py-3.5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all",
+              "btn-executive px-8 py-3.5",
               isEditing 
-                ? "bg-slate-100 text-slate-600 border border-slate-200" 
-                : "bg-secondary text-white shadow-xl shadow-secondary/20 hover:scale-105"
+                ? "bg-surface-container text-foreground border border-border" 
+                : "bg-secondary text-white shadow-xl shadow-secondary/20"
             )}
           >
             {isEditing ? <><X size={14} /> CANCELAR</> : <><Edit2 size={14} /> EDITAR DIRETRIZES</>}
@@ -113,27 +113,27 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
       <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
+          className="card-premium p-10 relative overflow-hidden"
         >
-          <div className="absolute top-0 right-0 p-8 text-rose-50">
+          <div className="absolute top-0 right-0 p-8 text-destructive/5 opacity-20">
             <Heart size={120} strokeWidth={1} />
           </div>
           <div className="relative z-10 space-y-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-500">
+              <div className="w-12 h-12 rounded-md bg-destructive/10 flex items-center justify-center text-destructive shadow-inner">
                 <Heart size={24} />
               </div>
-              <h3 className="text-xl font-black text-slate-800">Propósito</h3>
+              <h3 className="text-xl font-medium text-foreground tracking-tight uppercase">Propósito</h3>
             </div>
             {isEditing ? (
               <textarea
                 value={formData.proposito || ''}
                 onChange={(e) => setFormData(prev => ({ ...prev, proposito: e.target.value }))}
-                className="w-full h-24 p-6 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-rose-500/20 transition-all font-medium text-slate-600 resize-none"
+                className="w-full h-24 p-6 bg-surface-container border border-border rounded-md outline-none focus:ring-1 focus:ring-destructive/20 transition-all font-medium text-foreground text-sm uppercase tracking-widest placeholder:text-muted-foreground/30 shadow-inner resize-none italic"
                 placeholder="Por que a empresa existe? Qual a sua causa?"
               />
             ) : (
-              <p className="text-slate-500 leading-relaxed font-semibold text-lg italic">
+              <p className="text-muted-foreground leading-relaxed font-medium text-lg italic uppercase tracking-widest">
                 {currentDiretriz?.proposito ? `"${currentDiretriz.proposito}"` : 'O propósito ainda não foi definido. Ele é o "porquê" por trás de tudo.'}
               </p>
             )}
@@ -145,33 +145,33 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
+        className="card-premium p-10 relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 p-8 text-slate-50">
+        <div className="absolute top-0 right-0 p-8 text-muted-foreground/5 opacity-20">
           <BookOpen size={120} strokeWidth={1} />
         </div>
         <div className="relative z-10 space-y-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-600">
+            <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-muted-foreground shadow-inner">
               <BookOpen size={24} />
             </div>
-            <h3 className="text-xl font-black text-slate-800">Nossa História & Origem</h3>
+            <h3 className="text-xl font-medium text-foreground tracking-tight uppercase">Nossa História & Origem</h3>
           </div>
           {isEditing ? (
             <textarea
               value={formData.historia || ''}
               onChange={(e) => setFormData(prev => ({ ...prev, historia: e.target.value }))}
-              className="w-full h-48 p-6 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-slate-500/20 transition-all font-medium text-slate-600 resize-none"
+              className="w-full h-48 p-6 bg-surface-container border border-border rounded-md outline-none focus:ring-1 focus:ring-secondary/20 transition-all font-medium text-foreground text-sm uppercase tracking-widest placeholder:text-muted-foreground/30 shadow-inner resize-none"
               placeholder="Conte como tudo começou, os desafios superados e a herança da marca..."
             />
           ) : (
-            <div className="text-slate-500 leading-relaxed font-medium space-y-4">
+            <div className="text-muted-foreground leading-relaxed font-medium space-y-4 uppercase tracking-widest text-[11px] italic">
               {currentDiretriz?.historia ? (
                 currentDiretriz.historia.split('\n').map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))
               ) : (
-                <p className="italic text-slate-400">A história da empresa ainda não foi registrada. O storytelling é fundamental para criar conexão e confiança.</p>
+                <p className="italic text-muted-foreground/40">A história da empresa ainda não foi registrada. O storytelling é fundamental para criar conexão e confiança.</p>
               )}
             </div>
           )}
@@ -184,27 +184,27 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
+          className="card-premium p-10 relative overflow-hidden"
         >
-          <div className="absolute top-0 right-0 p-8 text-slate-50">
+          <div className="absolute top-0 right-0 p-8 text-primary/5 opacity-20">
             <Target size={120} strokeWidth={1} />
           </div>
           <div className="relative z-10 space-y-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+              <div className="w-12 h-12 rounded-md bg-primary/10 flex items-center justify-center text-primary shadow-inner">
                 <Target size={24} />
               </div>
-              <h3 className="text-xl font-black text-slate-800">Missão</h3>
+              <h3 className="text-xl font-medium text-foreground tracking-tight uppercase">Missão</h3>
             </div>
             {isEditing ? (
               <textarea
                 value={formData.missao || ''}
                 onChange={(e) => setFormData(prev => ({ ...prev, missao: e.target.value }))}
-                className="w-full h-32 p-6 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium text-slate-600 resize-none"
+                className="w-full h-32 p-6 bg-surface-container border border-border rounded-md outline-none focus:ring-1 focus:ring-primary/20 transition-all font-medium text-foreground text-sm uppercase tracking-widest placeholder:text-muted-foreground/30 shadow-inner resize-none italic"
                 placeholder="Qual o propósito fundamental da organização?"
               />
             ) : (
-              <p className="text-slate-500 leading-relaxed font-medium italic">
+              <p className="text-muted-foreground leading-relaxed font-medium italic uppercase tracking-widest text-[11px]">
                 "{currentDiretriz?.missao || 'Não definida.'}"
               </p>
             )}
@@ -216,27 +216,27 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden"
+          className="card-premium p-10 relative overflow-hidden"
         >
-          <div className="absolute top-0 right-0 p-8 text-slate-50">
+          <div className="absolute top-0 right-0 p-8 text-secondary/5 opacity-20">
             <Rocket size={120} strokeWidth={1} />
           </div>
           <div className="relative z-10 space-y-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
+              <div className="w-12 h-12 rounded-md bg-secondary/10 flex items-center justify-center text-secondary shadow-inner">
                 <Rocket size={24} />
               </div>
-              <h3 className="text-xl font-black text-slate-800">Visão</h3>
+              <h3 className="text-xl font-medium text-foreground tracking-tight uppercase">Visão</h3>
             </div>
             {isEditing ? (
               <textarea
                 value={formData.visao || ''}
                 onChange={(e) => setFormData(prev => ({ ...prev, visao: e.target.value }))}
-                className="w-full h-32 p-6 bg-slate-50 border border-slate-100 rounded-3xl outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-medium text-slate-600 resize-none"
+                className="w-full h-32 p-6 bg-surface-container border border-border rounded-md outline-none focus:ring-1 focus:ring-secondary/20 transition-all font-medium text-foreground text-sm uppercase tracking-widest placeholder:text-muted-foreground/30 shadow-inner resize-none italic"
                 placeholder="Onde a empresa deseja chegar a longo prazo?"
               />
             ) : (
-              <p className="text-slate-500 leading-relaxed font-medium italic">
+              <p className="text-muted-foreground leading-relaxed font-medium italic uppercase tracking-widest text-[11px]">
                 "{currentDiretriz?.visao || 'Não definida.'}"
               </p>
             )}
@@ -249,21 +249,21 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="bg-slate-900 p-12 rounded-[50px] shadow-2xl relative overflow-hidden"
+        className="bg-executive p-12 rounded-md shadow-premium relative overflow-hidden border border-white/5"
       >
-        <div className="absolute -right-20 -bottom-20 w-96 h-96 bg-primary/10 blur-3xl rounded-full"></div>
+        <div className="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary/10 blur-3xl rounded-full shadow-inner"></div>
         <div className="relative z-10 space-y-10">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-secondary">
+              <div className="w-12 h-12 rounded-md bg-white/10 flex items-center justify-center text-secondary shadow-inner">
                 <Flag size={24} />
               </div>
-              <h3 className="text-2xl font-black text-white">Nossos Valores</h3>
+              <h3 className="text-2xl font-medium text-white tracking-tight uppercase">Nossos Valores</h3>
             </div>
             {isEditing && (
               <button
                 onClick={addValor}
-                className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-2xl flex items-center gap-2 font-black uppercase tracking-widest text-[10px] transition-all"
+                className="btn-executive bg-white/10 hover:bg-white/20 border border-white/10"
               >
                 <Plus size={14} /> Adicionar Valor
               </button>
@@ -279,7 +279,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  className="bg-white/5 border border-white/10 p-8 rounded-3xl group relative hover:bg-white/10 transition-all"
+                  className="bg-white/5 border border-white/10 p-8 rounded-md group relative hover:bg-white/10 transition-all shadow-inner"
                 >
                   {isEditing ? (
                     <div className="space-y-4">
@@ -287,24 +287,24 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
                         <input
                           value={valor.nome}
                           onChange={(e) => updateValor(idx, 'nome', e.target.value)}
-                          className="bg-transparent text-lg font-black text-white outline-none border-b border-white/20 focus:border-secondary w-full mr-4"
+                          className="bg-transparent text-lg font-medium text-white outline-none border-b border-white/20 focus:border-secondary w-full mr-4 uppercase tracking-tighter"
                           placeholder="Nome do Valor"
                         />
-                        <button onClick={() => removeValor(idx)} className="text-rose-400 hover:text-rose-300">
+                        <button onClick={() => removeValor(idx)} className="text-destructive hover:text-destructive/80 shadow-sm">
                           <Trash2 size={16} />
                         </button>
                       </div>
                       <textarea
                         value={valor.definicao}
                         onChange={(e) => updateValor(idx, 'definicao', e.target.value)}
-                        className="bg-transparent text-sm text-slate-400 outline-none w-full h-20 resize-none"
+                        className="bg-transparent text-[10px] text-white/60 outline-none w-full h-20 resize-none uppercase tracking-widest italic"
                         placeholder="Definição operacional..."
                       />
                     </div>
                   ) : (
                     <>
-                      <h4 className="text-xl font-black text-secondary mb-3 tracking-tight">{valor.nome}</h4>
-                      <p className="text-slate-300 text-sm leading-relaxed font-medium">
+                      <h4 className="text-xl font-medium text-secondary mb-3 tracking-tight uppercase">{valor.nome}</h4>
+                      <p className="text-white/60 text-[11px] leading-relaxed font-medium uppercase tracking-widest italic">
                         {valor.definicao}
                       </p>
                     </>
@@ -313,7 +313,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
               ))}
             </AnimatePresence>
             {!formData.valores?.length && !isEditing && (
-              <div className="col-span-full py-20 text-center text-slate-500 font-bold italic">
+              <div className="col-span-full py-20 text-center text-white/20 font-medium uppercase tracking-widest text-[10px] italic">
                 Nenhum valor cadastrado ainda.
               </div>
             )}
@@ -323,7 +323,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
             <div className="flex justify-center pt-8">
               <button
                 onClick={handleSave}
-                className="bg-secondary hover:bg-secondary/90 text-white px-12 py-4 rounded-3xl font-black uppercase tracking-widest text-sm shadow-xl shadow-secondary/20 flex items-center gap-3 transition-all transform hover:scale-105 active:scale-95"
+                className="btn-executive bg-secondary hover:bg-secondary/90 shadow-xl shadow-secondary/20 border border-white/10"
               >
                 <Save size={20} /> Salvar Diretrizes Corporativas
               </button>
