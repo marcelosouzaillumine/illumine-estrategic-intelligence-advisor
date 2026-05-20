@@ -246,7 +246,7 @@ export function PreferencesPage() {
       </section>
 
       <div className="flex justify-end pt-12">
-        <button className="px-6 md:px-12 py-3.5 md:py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10">
+        <button className="px-4 md:px-6 md:px-12 py-2 md:py-3.5 md:py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10">
           Salvar Configurações <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
         </button>
       </div>

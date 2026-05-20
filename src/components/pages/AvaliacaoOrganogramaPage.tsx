@@ -162,7 +162,7 @@ export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
         <button
           onClick={() => setViewMode('visual')}
           className={cn(
-            "flex items-center gap-3 px-6 py-2.5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all",
+            "flex items-center gap-3 px-4 md:px-6 py-2 md:py-2.5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all",
             viewMode === 'visual' ? "bg-card text-foreground shadow-premium border border-border" : "text-muted-foreground hover:text-foreground"
           )}
         >
@@ -172,7 +172,7 @@ export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
         <button
           onClick={() => setViewMode('manual')}
           className={cn(
-            "flex items-center gap-3 px-6 py-2.5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all",
+            "flex items-center gap-3 px-4 md:px-6 py-2 md:py-2.5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all",
             viewMode === 'manual' ? "bg-card text-foreground shadow-premium border border-border" : "text-muted-foreground hover:text-foreground"
           )}
         >

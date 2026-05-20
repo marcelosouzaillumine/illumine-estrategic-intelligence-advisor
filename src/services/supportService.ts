@@ -8,13 +8,18 @@ import {
   orderBy, 
   getDocs,
   limit,
-  getCountFromServer
+  getCountFromServer,
+  doc,
+  updateDoc,
+  onSnapshot
 } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { SupportTicket } from '../types/support';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../lib/firebase';
+import { SupportTicket, SupportMessage, TicketStatus } from '../types/support';
 import { notificationService } from './notificationService';
 
 const TICKETS_COLLECTION = 'support_tickets';
+const MESSAGES_COLLECTION = 'support_messages';
 
 export const supportService = {
   async createTicket(ticket: Omit<SupportTicket, 'createdAt' | 'protocolo' | 'hasFollowUpProtocol'>) {
@@ -94,6 +99,63 @@ export const supportService = {
     } catch (error) {
       console.error('Error fetching all tickets:', error);
       return [];
+    }
+  },
+
+  async updateTicketStatus(ticketId: string, status: TicketStatus, adminNotes?: string) {
+    try {
+      const docRef = doc(db, TICKETS_COLLECTION, ticketId);
+      const updateData: any = { status, updatedAt: serverTimestamp() };
+      if (adminNotes !== undefined) {
+        updateData.adminNotes = adminNotes;
+      }
+      await updateDoc(docRef, updateData);
+    } catch (error) {
+      console.error('Error updating ticket status:', error);
+      throw error;
+    }
+  },
+
+  async addTicketMessage(ticketId: string, message: Omit<SupportMessage, 'id' | 'createdAt'>) {
+    try {
+      const newMessage = {
+        ...message,
+        createdAt: serverTimestamp()
+      };
+      await addDoc(collection(db, MESSAGES_COLLECTION), newMessage);
+    } catch (error) {
+      console.error('Error adding ticket message:', error);
+      throw error;
+    }
+  },
+
+  subscribeToTicketMessages(ticketId: string, callback: (messages: SupportMessage[]) => void) {
+    const q = query(
+      collection(db, MESSAGES_COLLECTION),
+      where('ticketId', '==', ticketId),
+      orderBy('createdAt', 'asc')
+    );
+    
+    return onSnapshot(q, (snapshot) => {
+      const messages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as SupportMessage));
+      callback(messages);
+    }, (error) => {
+      console.error('Error in messages subscription:', error);
+    });
+  },
+
+  async uploadTicketAttachment(ticketId: string, file: File): Promise<string> {
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const storageRef = ref(storage, `support_attachments/${ticketId}/${fileName}`);
+      
+      const uploadTask = await uploadBytesResumable(storageRef, file);
+      const downloadURL = await getDownloadURL(uploadTask.ref);
+      return downloadURL;
+    } catch (error) {
+      console.error('Error uploading attachment:', error);
+      throw error;
     }
   }
 };

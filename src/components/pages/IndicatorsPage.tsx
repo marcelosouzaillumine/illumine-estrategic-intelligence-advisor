@@ -25,17 +25,20 @@ import {
   Lightbulb,
   Globe,
   ShoppingBag,
-  Loader2
+  Loader2,
+  TrendingDown,
+  Minus,
+  ArrowUp,
+  ArrowDown
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from '../../lib/firebase';
 import { formatValue, cn, formatCurrency } from '../../lib/utils';
-import { SectionHeader, StatusBadge, PageHeader, KpiValue } from '../Common';
+import { SectionHeader, StatusBadge, PageHeader, KpiValue, ControlBar } from '../Common';
 import { FULL_MONTH_LABELS, EIXOS_ORDEM } from '../../constants';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 
 const GROUP_MAPPING: Record<string, string> = {
-  // Por Categoria (Fallback)
   'Performance': 'Administração e Finanças',
   'Operacional': 'Gestão Operacional',
   'Lucratividade': 'Administração e Finanças',
@@ -55,8 +58,6 @@ const GROUP_MAPPING: Record<string, string> = {
   'RH': 'Cultura Organizacional',
   'Marketing': 'Gestão de Marketing',
   'Vendas': 'Gestão Comercial',
-  
-  // Governança Corporativa
   'Indice de Alinhamento': 'Governança Corporativa',
   'Índice de Alinhamento': 'Governança Corporativa',
   'Heath Score': 'Governança Corporativa',
@@ -74,8 +75,6 @@ const GROUP_MAPPING: Record<string, string> = {
   'Índice de Alavancagem': 'Governança Corporativa',
   'Aderencia Orçamentaria': 'Governança Corporativa',
   'Aderência Orçamentária': 'Governança Corporativa',
-  
-  // Cultura Organizacional
   'ENPS': 'Cultura Organizacional',
   'eNPS': 'Cultura Organizacional',
   'Turnover': 'Cultura Organizacional',
@@ -84,8 +83,6 @@ const GROUP_MAPPING: Record<string, string> = {
   'Indice de Clima Organizacional': 'Cultura Organizacional',
   'Índice de Clima Organizacional': 'Cultura Organizacional',
   'Clima Organizacional': 'Cultura Organizacional',
-  
-  // Administração e Finanças
   'EBITDA': 'Administração e Finanças',
   'Margem EBITDA': 'Administração e Finanças',
   'Saldo Em Caixa': 'Administração e Finanças',
@@ -104,18 +101,12 @@ const GROUP_MAPPING: Record<string, string> = {
   'PMR': 'Administração e Finanças',
   'Margem Líquida': 'Administração e Finanças',
   'WACC': 'Administração e Finanças',
-  
-  // Gestão de Inovação
   'Projetos Ativos': 'Gestão de Inovação',
   'Investimento em PAD': 'Gestão de Inovação',
   'Investimento em P&D': 'Gestão de Inovação',
-  
-  // Gestão de Marketing
   'Roi de Marketing': 'Gestão de Marketing',
   'ROI de Marketing': 'Gestão de Marketing',
   'LTV/CAC': 'Gestão de Marketing',
-  
-  // Gestão Comercial
   'Churn Rate': 'Gestão Comercial',
   'Churn': 'Gestão Comercial',
   'Ticket Médio': 'Gestão Comercial',
@@ -123,8 +114,6 @@ const GROUP_MAPPING: Record<string, string> = {
   'Taxa de Conversão': 'Gestão Comercial',
   'Taxa de Conversao': 'Gestão Comercial',
   'NPS': 'Gestão Comercial',
-  
-  // Gestão Operacional
   'OEE': 'Gestão Operacional',
   'Lead Time': 'Gestão Operacional',
   'Indice de Qualidade': 'Gestão Operacional',
@@ -132,8 +121,6 @@ const GROUP_MAPPING: Record<string, string> = {
   'Atrasos': 'Gestão Operacional',
   'Produtividade Colaborador': 'Gestão Operacional',
   'Manutenção Preditiva': 'Gestão Operacional',
-  
-  // New Strategic indicators mapping
   'Índice de Transparência': 'Governança Corporativa',
   'Eficácia Decisória': 'Governança Corporativa',
   'Absenteísmo': 'Cultura Organizacional',
@@ -146,15 +133,26 @@ const GROUP_MAPPING: Record<string, string> = {
   'Cash Runaway': 'Administração e Finanças'
 };
 
-const CATEGORY_CONFIG: Record<string, { icon: any; color: string; bg: string; border: string; text: string }> = {
-  'Governança Corporativa': { icon: ShieldCheck, color: 'slate', bg: 'bg-slate-50 dark:bg-slate-900', border: 'border-slate-100 dark:border-slate-800', text: 'text-slate-600 dark:text-slate-400' },
-  'Cultura Organizacional': { icon: Users, color: 'purple', bg: 'bg-purple-50 dark:bg-purple-900', border: 'border-purple-100 dark:border-purple-800', text: 'text-purple-600 dark:text-purple-400' },
-  'Gestão de Inovação': { icon: Lightbulb, color: 'cyan', bg: 'bg-cyan-50 dark:bg-cyan-900', border: 'border-cyan-100 dark:border-cyan-800', text: 'text-cyan-600 dark:text-cyan-400' },
-  'Gestão Comercial': { icon: ShoppingBag, color: 'emerald', bg: 'bg-emerald-50 dark:bg-emerald-900', border: 'border-emerald-100 dark:border-emerald-800', text: 'text-emerald-600 dark:text-emerald-400' },
-  'Gestão Operacional': { icon: Activity, color: 'amber', bg: 'bg-amber-50 dark:bg-amber-900', border: 'border-amber-100 dark:border-amber-800', text: 'text-amber-600 dark:text-amber-400' },
-  'Administração e Finanças': { icon: BarChart3, color: 'indigo', bg: 'bg-indigo-50 dark:bg-indigo-900', border: 'border-indigo-100 dark:border-indigo-800', text: 'text-indigo-600 dark:text-indigo-400' },
-  'Gestão de Marketing': { icon: Globe, color: 'blue', bg: 'bg-blue-50 dark:bg-blue-900', border: 'border-blue-100 dark:border-blue-800', text: 'text-blue-600 dark:text-blue-400' },
+const CATEGORY_CONFIG: Record<string, {
+  icon: any;
+  accentFrom: string;
+  accentTo: string;
+  badgeBg: string;
+  badgeText: string;
+  borderAccent: string;
+  glowColor: string;
+  pillActive: string;
+}> = {
+  'Governança Corporativa':  { icon: ShieldCheck,  accentFrom: 'from-slate-500',   accentTo: 'to-slate-700',   badgeBg: 'bg-slate-500/10 border-slate-500/20',   badgeText: 'text-slate-600 dark:text-slate-300',   borderAccent: 'border-l-slate-400',   glowColor: 'rgba(100,116,139,0.18)',   pillActive: 'bg-slate-800 text-white border-slate-800' },
+  'Cultura Organizacional':  { icon: Users,         accentFrom: 'from-purple-500',  accentTo: 'to-violet-700',  badgeBg: 'bg-purple-500/10 border-purple-500/20',  badgeText: 'text-purple-600 dark:text-purple-300',  borderAccent: 'border-l-purple-400',  glowColor: 'rgba(168,85,247,0.18)',   pillActive: 'bg-purple-800 text-white border-purple-800' },
+  'Gestão de Inovação':      { icon: Lightbulb,     accentFrom: 'from-cyan-500',    accentTo: 'to-blue-600',    badgeBg: 'bg-cyan-500/10 border-cyan-500/20',      badgeText: 'text-cyan-600 dark:text-cyan-300',      borderAccent: 'border-l-cyan-400',    glowColor: 'rgba(6,182,212,0.18)',    pillActive: 'bg-cyan-800 text-white border-cyan-800' },
+  'Gestão Comercial':        { icon: ShoppingBag,   accentFrom: 'from-emerald-500', accentTo: 'to-teal-600',    badgeBg: 'bg-emerald-500/10 border-emerald-500/20', badgeText: 'text-emerald-600 dark:text-emerald-300', borderAccent: 'border-l-emerald-400', glowColor: 'rgba(16,185,129,0.18)',   pillActive: 'bg-emerald-800 text-white border-emerald-800' },
+  'Gestão Operacional':      { icon: Activity,      accentFrom: 'from-amber-500',   accentTo: 'to-orange-600',  badgeBg: 'bg-amber-500/10 border-amber-500/20',    badgeText: 'text-amber-600 dark:text-amber-300',    borderAccent: 'border-l-amber-400',   glowColor: 'rgba(245,158,11,0.18)',   pillActive: 'bg-amber-800 text-white border-amber-800' },
+  'Administração e Finanças':{ icon: BarChart3,      accentFrom: 'from-indigo-500',  accentTo: 'to-blue-700',    badgeBg: 'bg-indigo-500/10 border-indigo-500/20',  badgeText: 'text-indigo-600 dark:text-indigo-300',  borderAccent: 'border-l-indigo-400',  glowColor: 'rgba(99,102,241,0.18)',   pillActive: 'bg-indigo-800 text-white border-indigo-800' },
+  'Gestão de Marketing':     { icon: Globe,         accentFrom: 'from-blue-500',    accentTo: 'to-indigo-600',  badgeBg: 'bg-blue-500/10 border-blue-500/20',      badgeText: 'text-blue-600 dark:text-blue-300',      borderAccent: 'border-l-blue-400',    glowColor: 'rgba(59,130,246,0.18)',   pillActive: 'bg-blue-800 text-white border-blue-800' },
 };
+
+const DEFAULT_CONFIG = CATEGORY_CONFIG['Administração e Finanças'];
 
 const getValueSizeClass = (maxLen: number) => {
   if (maxLen > 22) return "text-[clamp(0.6rem,1vw,0.75rem)]";
@@ -165,82 +163,105 @@ const getValueSizeClass = (maxLen: number) => {
   return "text-[clamp(1.6rem,2.5vw,2.3rem)]";
 };
 
-function KPICard({ r, group, valueClassName, onAction }: any) {
-  const config = CATEGORY_CONFIG[group] || CATEGORY_CONFIG['Administração e Finanças'];
-  
-  return (
-    <motion.div 
-      whileHover={{ y: -8 }}
-      className="p-6 md:p-10 h-full flex flex-col gap-8 md:gap-10 group bg-white border border-slate-100 rounded-[32px] md:rounded-[40px] shadow-sm hover:shadow-2xl transition-all duration-500 relative overflow-hidden"
-    >
-      {/* Decorative framing element */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[100px] -mr-10 -mt-10 pointer-events-none group-hover:bg-slate-100/50 transition-colors" />
+// Status bar progress helper
+const semProgress = (sem: string) => {
+  if (sem === 'Verde')  return { w: '100%', bar: 'bg-gradient-to-r from-emerald-400 to-emerald-500', glow: 'shadow-[0_0_8px_rgba(16,185,129,0.55)]', label: 'Meta Superada', labelCls: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/25 border-emerald-200 dark:border-emerald-800/40' };
+  if (sem === 'Amarelo') return { w: '62%',  bar: 'bg-gradient-to-r from-amber-400 to-amber-500',   glow: 'shadow-[0_0_8px_rgba(245,158,11,0.55)]',   label: 'Em Atenção',   labelCls: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/25 border-amber-200 dark:border-amber-800/40' };
+  return { w: '30%', bar: 'bg-gradient-to-r from-rose-400 to-rose-500', glow: 'shadow-[0_0_8px_rgba(244,63,94,0.55)]', label: 'Alerta Crítico', labelCls: 'text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/25 border-rose-200 dark:border-rose-800/40' };
+};
 
-      <div className="flex items-start justify-between gap-4 md:gap-6 relative z-10">
-        <div className="space-y-1.5 min-w-0 flex-1 overflow-visible">
-          <h4 className="text-[clamp(1rem,1.3vw,1.5rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors break-words">
-            {r.ind}
-          </h4>
-          <div className="flex items-center gap-2 min-w-0 overflow-visible">
-            <div className={cn("w-1.5 h-1.5 rounded-full shadow-sm shrink-0", r.sem === 'Verde' ? "bg-emerald-500" : r.sem === 'Amarelo' ? "bg-amber-500" : "bg-rose-500")} />
-            <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] break-words leading-normal">{group}</p>
+function KPICard({ r, group, valueClassName, onAction }: any) {
+  const config = CATEGORY_CONFIG[group] || DEFAULT_CONFIG;
+  const Icon = config.icon || Activity;
+  const sp = semProgress(r.sem);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -5, boxShadow: `0 24px 40px -8px ${config.glowColor}, 0 8px 16px -4px rgba(0,0,0,0.06)` }}
+      transition={{ duration: 0.28, ease: 'easeOut' }}
+      className={cn(
+        "relative flex flex-col gap-0 group min-w-0 overflow-hidden",
+        "bg-card border border-border rounded-2xl",
+        "hover:border-white/20 dark:hover:border-white/10 transition-colors duration-300",
+        "border-l-4", config.borderAccent
+      )}
+    >
+      {/* Subtle gradient top wash */}
+      <div className={cn(
+        "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none",
+        `bg-gradient-to-br ${config.accentFrom}/5 ${config.accentTo}/0`
+      )} />
+
+      {/* Card body */}
+      <div className="flex flex-col gap-5 p-6 relative z-10 flex-1">
+        {/* Header row: axis pill + action button */}
+        <div className="flex items-start justify-between gap-3">
+          <div className={cn(
+            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[8.5px] font-black uppercase tracking-wider border shrink-0",
+            config.badgeBg, config.badgeText
+          )}>
+            <Icon size={9} className="shrink-0" />
+            <span className="truncate max-w-[120px]">{group}</span>
           </div>
+
+          <button
+            onClick={(e) => { e.stopPropagation(); onAction && onAction(r); }}
+            title="Transformar em Plano de Ação"
+            className="w-8 h-8 rounded-xl bg-foreground/5 dark:bg-white/5 text-foreground/40 flex items-center justify-center hover:bg-secondary hover:text-white transition-all duration-200 shadow-sm shrink-0 group/btn"
+          >
+            <Zap size={13} className="group-hover/btn:scale-110 group-hover/btn:rotate-12 transition-transform" />
+          </button>
         </div>
-      </div>
-      
-      <div className="flex flex-col mt-auto relative z-10">
-        {/* Value framing */}
-        <div className="bg-slate-50/50 rounded-2xl md:rounded-[32px] p-4 md:p-6 mb-6 md:mb-8 group-hover:bg-white group-hover:shadow-inner transition-all border border-slate-100/50 overflow-visible">
-          <KpiValue 
-            value={formatValue(r.val, '')} 
+
+        {/* Indicator name */}
+        <h4 className="text-[clamp(0.92rem,1.1vw,1.15rem)] font-display font-bold text-foreground leading-snug tracking-tight group-hover:text-secondary transition-colors duration-300 break-words">
+          {r.ind}
+        </h4>
+
+        {/* Value block */}
+        <div className="bg-surface-container/50 dark:bg-slate-900/30 rounded-xl px-4 py-3 border border-border/40 overflow-visible relative">
+          <KpiValue
+            value={formatValue(r.val, '')}
             suffix={r.un}
-            className={cn("font-black tracking-tighter", valueClassName)}
+            className={cn("font-semibold tracking-tight text-foreground", valueClassName)}
           />
         </div>
+      </div>
 
-        <div className="space-y-6">
-          <div className="space-y-3">
-            <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest gap-4">
-              <span className="text-slate-400">Eficiência</span>
-              <span className={cn(
-                "shrink-0",
-                r.sem === 'Verde' ? "text-emerald-600" : r.sem === 'Amarelo' ? "text-amber-600" : "text-rose-600"
-              )}>
-                {r.sem === 'Verde' ? 'Meta Superada' : r.sem === 'Amarelo' ? 'Atenção' : 'Alerta'}
-              </span>
-            </div>
-            <div className="h-2 w-full bg-slate-100 overflow-hidden rounded-full">
-              <motion.div 
-                initial={{ width: 0 }}
-                whileInView={{ width: r.sem === 'Verde' ? '100%' : r.sem === 'Amarelo' ? '65%' : '35%' }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, ease: "circOut" }}
-                className={cn(
-                  "h-full transition-all shadow-sm",
-                  r.sem === 'Verde' ? "bg-emerald-500" : r.sem === 'Amarelo' ? "bg-amber-500" : "bg-rose-500"
-                )}
-              />
-            </div>
+      {/* Status + footer strip */}
+      <div className="px-6 pb-6 relative z-10 space-y-4">
+        {/* Progress bar */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[8.5px] font-black uppercase tracking-widest text-muted-foreground">
+              Status Meta
+            </span>
+            <span className={cn(
+              "text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md border",
+              sp.labelCls
+            )}>
+              {sp.label}
+            </span>
           </div>
-          
-          <div className="flex items-center justify-between pt-6 border-t border-slate-100/50">
-            <div className="flex items-center gap-2.5 text-slate-400">
-              <Calendar size={14} className="text-secondary" />
-              <span className="text-[10px] font-bold uppercase tracking-widest">
-                Competência: {r.comp}
-              </span>
-            </div>
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                onAction && onAction(r);
-              }}
-              title="Transformar em Plano de Ação"
-              className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center hover:bg-secondary transition-all shadow-lg shadow-slate-900/10 group/btn"
-            >
-               <Zap size={16} className="group-hover/btn:scale-125 transition-transform" />
-            </button>
+          <div className="h-1.5 w-full bg-border/40 dark:bg-slate-800 rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: sp.w }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.1, ease: 'circOut' }}
+              className={cn("h-full rounded-full", sp.bar, sp.glow)}
+            />
           </div>
+        </div>
+
+        {/* Competência */}
+        <div className="flex items-center gap-2 pt-1 border-t border-border/30">
+          <Calendar size={11} className="text-secondary shrink-0" />
+          <span className="text-[8.5px] font-black uppercase tracking-wider text-muted-foreground truncate">
+            {r.comp}
+          </span>
         </div>
       </div>
     </motion.div>
@@ -248,71 +269,75 @@ function KPICard({ r, group, valueClassName, onAction }: any) {
 }
 
 function SummaryCard({ label, value, icon: Icon, colorClass, trend, valueClassName }: any) {
+  const isNeg = trend && trend.startsWith('-');
   return (
-    <div className="bg-white border border-slate-100 rounded-[32px] md:rounded-[40px] p-6 md:p-10 shadow-sm hover:shadow-2xl transition-all duration-500 group relative overflow-hidden">
-      {/* Subtle Background pattern */}
-      <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-slate-50 rounded-full opacity-50 group-hover:scale-125 transition-transform" />
-      
-      <div className="flex items-center justify-between mb-10 relative z-10">
-        <div className="w-16 h-16 rounded-[22px] bg-slate-50 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-all duration-500 shadow-inner group-hover:shadow-lg">
-          <Icon size={28} />
+    <motion.div
+      whileHover={{ y: -4, boxShadow: '0 16px 32px -8px rgba(0,0,0,0.08)' }}
+      transition={{ duration: 0.22, ease: 'easeOut' }}
+      className={cn(
+        "bg-card border border-border rounded-2xl p-5 sm:p-6",
+        "hover:border-secondary/20 dark:hover:border-white/10 transition-all duration-300 group relative overflow-hidden min-w-0"
+      )}
+    >
+      {/* Decorative circle */}
+      <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-secondary/3 group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+
+      <div className="flex items-center justify-between mb-5 relative z-10">
+        <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
+          <Icon size={18} />
         </div>
         {trend && (
-            <div className={cn(
-                "px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.15em] border rounded-full backdrop-blur-sm",
-                trend.startsWith('-') ? "text-rose-600 border-rose-100 bg-rose-50/50" : "text-emerald-600 border-emerald-100 bg-emerald-50/50"
-            )}>
-              {trend}
-            </div>
+          <div className={cn(
+            "flex items-center gap-1 px-2.5 py-1 rounded-full text-[8.5px] font-black uppercase tracking-wider border",
+            isNeg
+              ? "text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/40 bg-rose-50 dark:bg-rose-950/20"
+              : "text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/40 bg-emerald-50 dark:bg-emerald-950/20"
+          )}>
+            {isNeg ? <ArrowDown size={9} /> : <ArrowUp size={9} />}
+            {trend}
+          </div>
         )}
       </div>
-      
-      <div className="relative z-10 overflow-visible">
-        <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2 break-words leading-normal">{label}</p>
-        <KpiValue 
-          value={value} 
-          className={cn("font-black tracking-tighter", valueClassName)}
+
+      <div className="relative z-10 overflow-visible min-w-0">
+        <p className="text-[8.5px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1.5 truncate">{label}</p>
+        <KpiValue
+          value={value}
+          className={cn("font-semibold tracking-tight text-foreground", valueClassName)}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-
 export function IndicatorsPage({ clients, selectedClient, selectedMonth, selectedYear }: any) {
+  const [periodType, setPeriodType] = useState<'mensal' | 'anual'>('mensal');
   const [filterMonth, setFilterMonth] = useState(selectedMonth);
   const [filterYear, setFilterYear] = useState(selectedYear);
   const [filterGroup, setFilterGroup] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
-  const filters = useMemo(() => [
-    { field: 'clientId', operator: '==', value: selectedClient },
-    { field: 'ano', operator: '==', value: filterYear },
-    { field: 'mes', operator: '==', value: filterMonth }
-  ], [selectedClient, filterYear, filterMonth]);
+  const filters = useMemo(() => {
+    const list = [
+      { field: 'clientId', operator: '==', value: selectedClient },
+      { field: 'ano', operator: '==', value: filterYear }
+    ];
+    if (periodType === 'mensal') {
+      list.push({ field: 'mes', operator: '==', value: filterMonth });
+    }
+    return list;
+  }, [selectedClient, filterYear, filterMonth, periodType]);
 
-  const { 
-    data: indicators, 
-    loading, 
-    hasMore, 
-    fetchNextPage, 
-    reset 
-  } = usePaginatedData({
+  const { data: indicators, loading, hasMore, fetchNextPage, reset } = usePaginatedData({
     collectionName: 'indicators',
     filters,
     pageSize: 12
   });
 
-  const { kpis: calculatedKPIs } = useRealIndicatorData(selectedClient, filterMonth, filterYear);
+  const { kpis: calculatedKPIs } = useRealIndicatorData(selectedClient, periodType === 'anual' ? 0 : filterMonth, filterYear);
 
-  useEffect(() => {
-    reset();
-  }, [selectedClient, filterYear, filterMonth]);
-
-  useEffect(() => {
-    setFilterYear(selectedYear);
-    setFilterMonth(selectedMonth);
-  }, [selectedYear, selectedMonth]);
+  useEffect(() => { reset(); }, [selectedClient, filterYear, filterMonth, periodType]);
+  useEffect(() => { setFilterYear(selectedYear); setFilterMonth(selectedMonth); }, [selectedYear, selectedMonth]);
 
   const years = useMemo(() => {
     const current = new Date().getFullYear();
@@ -320,20 +345,55 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
   }, []);
 
   const { grouped, summary, groups, globalSizeClass, healthScore } = useMemo(() => {
-    // 1. Start with database indicators (sorted in-memory by name)
-    const sortedIndicators = [...indicators].sort((a, b) => (a.ind || '').localeCompare(b.ind || ''));
+    let finalIndicators = [...indicators];
+
+    if (periodType === 'anual') {
+      const groupsMapByName: Record<string, any[]> = {};
+      finalIndicators.forEach(ind => {
+        const name = ind.ind || '';
+        if (!groupsMapByName[name]) groupsMapByName[name] = [];
+        groupsMapByName[name].push(ind);
+      });
+
+      finalIndicators = Object.entries(groupsMapByName).map(([name, docs]) => {
+        const lowerName = name.toLowerCase();
+        const shouldSum = lowerName.includes('faturamento') ||
+          (lowerName.includes('ebitda') && !lowerName.includes('margem')) ||
+          (lowerName.includes('lucro') && !lowerName.includes('margem')) ||
+          (lowerName.includes('receita') && !lowerName.includes('margem')) ||
+          lowerName.includes('fluxo de caixa');
+
+        let val = 0;
+        if (shouldSum) {
+          val = docs.reduce((sum, doc) => sum + (Number(doc.val) || 0), 0);
+        } else {
+          val = docs.reduce((sum, doc) => sum + (Number(doc.val) || 0), 0) / docs.length;
+        }
+
+        const semScore = docs.reduce((sum, doc) => {
+          const s = doc.sem;
+          if (s === 'Verde') return sum + 3;
+          if (s === 'Amarelo') return sum + 2;
+          return sum + 1;
+        }, 0) / docs.length;
+
+        const sem = semScore >= 2.5 ? 'Verde' : semScore >= 1.5 ? 'Amarelo' : 'Vermelho';
+
+        return { ...docs[0], val, sem, comp: `Anual / ${filterYear}` };
+      });
+    }
+
+    const sortedIndicators = finalIndicators.sort((a, b) => (a.ind || '').localeCompare(b.ind || ''));
     const listWithGroups = sortedIndicators.map(i => {
-        const indName = (i.ind === 'Múltiplo' || i.ind === 'Multiplo') ? 'Múltiplo de EBITDA' : i.ind;
-        return {
-            ...i,
-            ind: indName,
-            analysisGroup: GROUP_MAPPING[indName] || GROUP_MAPPING[i.cat] || 'Outros'
-        };
+      const indName = (i.ind === 'Múltiplo' || i.ind === 'Multiplo') ? 'Múltiplo de EBITDA' : i.ind;
+      return {
+        ...i,
+        ind: indName,
+        analysisGroup: GROUP_MAPPING[indName] || GROUP_MAPPING[i.cat] || 'Outros'
+      };
     });
 
-    // 2. Add fallbacks if specific indicators are missing from DB
-    const missingKPIs = [];
-    
+    const missingKPIs: any[] = [];
     const checkAndAdd = (name: string, value: number, unit: string) => {
       const isMandatory = name === 'Gestão de Ativos' || name === 'Gestão de Passivos' || name === 'Saldo em Caixa';
       if (!listWithGroups.some(i => i.ind === name) && (value !== 0 || isMandatory)) {
@@ -341,7 +401,9 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
           ind: name,
           val: value,
           un: unit,
-          comp: `${FULL_MONTH_LABELS[filterMonth as keyof typeof FULL_MONTH_LABELS]} / ${filterYear}`,
+          comp: periodType === 'anual'
+            ? `Anual / ${filterYear}`
+            : `${FULL_MONTH_LABELS[filterMonth as keyof typeof FULL_MONTH_LABELS]} / ${filterYear}`,
           sem: value > 0 ? 'Verde' : 'Amarelo',
           analysisGroup: GROUP_MAPPING[name] || 'Administração e Finanças'
         });
@@ -358,10 +420,9 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
     checkAndAdd('Gestão de Passivos', calculatedKPIs.totalLiabilities, 'R$');
 
     const finalFullList = [...listWithGroups, ...missingKPIs];
-
     let filteredList = finalFullList;
     if (filterGroup) filteredList = filteredList.filter(f => f.analysisGroup === filterGroup);
-    
+
     const availableGroups = Array.from(new Set(finalFullList.map(i => i.analysisGroup)))
       .sort((a: string, b: string) => {
         const indexA = EIXOS_ORDEM.indexOf(a);
@@ -371,37 +432,34 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
         if (indexB !== -1) return 1;
         return a.localeCompare(b);
       });
-    
+
     const groupsMap: Record<string, any[]> = {};
     availableGroups.forEach((g: string) => {
       groupsMap[g] = filteredList.filter(i => i.analysisGroup === g);
     });
 
     const getVal = (label: string) => {
-        // First try to find in real-time calculated KPIs
-        if (label === 'Faturamento' && calculatedKPIs.revenue > 0) return formatCurrency(calculatedKPIs.revenue);
-        if (label === 'EBITDA' && calculatedKPIs.ebitda > 0) return formatCurrency(calculatedKPIs.ebitda);
-        if (label === 'Ativos' && calculatedKPIs.totalAssets > 0) return formatCurrency(calculatedKPIs.totalAssets);
-        if (label === 'Passivos' && calculatedKPIs.totalLiabilities > 0) return formatCurrency(calculatedKPIs.totalLiabilities);
-        if (label === 'Saldo em Caixa' && calculatedKPIs.saldoCaixa > 0) return formatCurrency(calculatedKPIs.saldoCaixa);
-        
-        const found = finalFullList.find(i => i.ind.toLowerCase().includes(label.toLowerCase()));
-        return found ? formatValue(found.val, found.un) : '---';
+      if (label === 'Faturamento' && calculatedKPIs.revenue > 0) return formatCurrency(calculatedKPIs.revenue);
+      if (label === 'EBITDA' && calculatedKPIs.ebitda > 0) return formatCurrency(calculatedKPIs.ebitda);
+      if (label === 'Ativos' && calculatedKPIs.totalAssets > 0) return formatCurrency(calculatedKPIs.totalAssets);
+      if (label === 'Passivos' && calculatedKPIs.totalLiabilities > 0) return formatCurrency(calculatedKPIs.totalLiabilities);
+      if (label === 'Saldo em Caixa' && calculatedKPIs.saldoCaixa > 0) return formatCurrency(calculatedKPIs.saldoCaixa);
+      const found = finalFullList.find(i => i.ind.toLowerCase().includes(label.toLowerCase()));
+      return found ? formatValue(found.val, found.un) : '---';
     };
 
     const stats = [
-        { label: 'Faturamento', value: getVal('Faturamento'), icon: BarChart3, colorClass: 'text-secondary', trend: '' },
-        { label: 'EBITDA', value: getVal('EBITDA'), icon: Zap, colorClass: 'text-secondary', trend: '' },
-        { label: 'Ativos Totais', value: getVal('Ativos'), icon: TrendingUp, colorClass: 'text-emerald-500', trend: '' },
-        { label: 'Passivos Totais', value: getVal('Passivos'), icon: ShieldAlert, colorClass: 'text-rose-500', trend: '' }
+      { label: 'Faturamento',    value: getVal('Faturamento'), icon: BarChart3,  colorClass: 'text-secondary',    trend: '' },
+      { label: 'EBITDA',         value: getVal('EBITDA'),       icon: Zap,        colorClass: 'text-secondary',    trend: '' },
+      { label: 'Ativos Totais',  value: getVal('Ativos'),       icon: TrendingUp, colorClass: 'text-emerald-500',  trend: '' },
+      { label: 'Passivos Totais',value: getVal('Passivos'),     icon: ShieldAlert,colorClass: 'text-rose-500',     trend: '' }
     ];
 
-    const healthScore = indicators.length > 0 ? Math.round(
-      indicators.reduce((acc, curr) => {
-        // Simple heuristic for score based on semaforo if no real formula is available for generic indicators
+    const healthScore = finalIndicators.length > 0 ? Math.round(
+      finalIndicators.reduce((acc, curr) => {
         const val = curr.sem === 'Verde' ? 100 : curr.sem === 'Amarelo' ? 60 : 30;
         return acc + val;
-      }, 0) / indicators.length
+      }, 0) / finalIndicators.length
     ) : 0;
 
     const globalMaxLen = Math.max(
@@ -411,280 +469,351 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
     const globalSizeClass = getValueSizeClass(globalMaxLen);
 
     return { grouped: groupsMap, summary: stats, groups: availableGroups, globalSizeClass, healthScore };
-  }, [indicators, filterGroup, filterMonth, filterYear, calculatedKPIs]);
+  }, [indicators, filterGroup, filterMonth, filterYear, calculatedKPIs, periodType]);
 
-  const currentClient = clients.find((c: any) => c.id === selectedClient);
+  // Health score derived values
+  const hsColor = healthScore > 80 ? 'emerald' : healthScore > 60 ? 'amber' : 'rose';
+  const hsLabel = healthScore > 80 ? 'Otimizado' : healthScore > 60 ? 'Em Observação' : 'Crítico';
+  const hsBar = healthScore > 80
+    ? 'bg-gradient-to-r from-emerald-400 to-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]'
+    : healthScore > 60
+    ? 'bg-gradient-to-r from-amber-400 to-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]'
+    : 'bg-gradient-to-r from-rose-400 to-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]';
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-100 rounded-3xl p-20 text-center">
-        <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-6">
+      <div className="flex flex-col items-center justify-center min-h-[400px] bg-card border border-border rounded-2xl p-20 text-center">
+        <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-6">
           <Loader2 className="text-secondary animate-spin" size={32} />
         </div>
-        <h3 className="text-xl font-bold text-slate-800 mb-2">Sincronizando Análise</h3>
-        <p className="text-slate-500 max-w-md">Consolidando indicadores vitais e eixos estratégicos...</p>
+        <h3 className="text-xl font-bold text-foreground mb-2">Sincronizando Análise</h3>
+        <p className="text-muted-foreground max-w-md font-medium">Consolidando indicadores vitais e eixos estratégicos...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-10 pb-20 animate-executive-fade">
-      <PageHeader 
-        title="Análise de KPIs"
-        subtitle="Monitoramento avançado de performance e eixos estratégicos em tempo real."
-        icon={TrendingUp}
-      />
+    <div className="space-y-8 pb-24 animate-executive-fade max-w-[1440px] mx-auto">
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 shrink-0">
-            <button 
-              onClick={() => setViewMode('grid')}
-              className={cn(
-                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-                viewMode === 'grid' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
-              )}
-            >
-              <LayoutGrid size={14} className="inline mr-2" />
-              Grade
-            </button>
-            <button 
-              onClick={() => setViewMode('table')}
-              className={cn(
-                "px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-                viewMode === 'table' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
-              )}
-            >
-              <List size={14} className="inline mr-2" />
-              Lista
-            </button>
+      {/* ── Header row ─────────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        {/* Page title */}
+        <div className="lg:col-span-8 flex flex-col justify-center">
+          <PageHeader
+            title="Análise de KPIs"
+            subtitle="Monitoramento avançado de performance e eixos estratégicos em tempo real."
+            icon={TrendingUp}
+            className="mb-0"
+          />
+        </div>
+
+        {/* Health Score panel */}
+        <div className="lg:col-span-4">
+          <div className="h-full bg-card border border-border rounded-2xl p-5 relative overflow-hidden group flex flex-col justify-between gap-4">
+            {/* Accent left bar */}
+            <div className={cn(
+              "absolute top-0 left-0 w-1 h-full rounded-l-2xl transition-all duration-500",
+              indicators.length > 0
+                ? hsColor === 'emerald' ? 'bg-gradient-to-b from-emerald-400 to-emerald-600 shadow-[2px_0_14px_rgba(16,185,129,0.35)]'
+                : hsColor === 'amber'   ? 'bg-gradient-to-b from-amber-400 to-amber-600 shadow-[2px_0_14px_rgba(245,158,11,0.35)]'
+                :                        'bg-gradient-to-b from-rose-400 to-rose-600 shadow-[2px_0_14px_rgba(244,63,94,0.35)]'
+                : 'bg-border'
+            )} />
+
+            <div className="relative z-10 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <div className={cn(
+                  "w-9 h-9 rounded-xl flex items-center justify-center border shadow-xs shrink-0",
+                  indicators.length > 0
+                    ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                    : "bg-surface-container text-muted-foreground border-border"
+                )}>
+                  <ShieldCheck size={16} />
+                </div>
+                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] leading-snug">
+                  Score de Saúde<br />Consolidado
+                </p>
+              </div>
+              <span className={cn(
+                "text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border shadow-sm shrink-0 whitespace-nowrap",
+                indicators.length > 0
+                  ? hsColor === 'emerald' ? "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/40"
+                  : hsColor === 'amber'   ? "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/40"
+                  :                        "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/40"
+                  : "text-muted-foreground bg-surface-container border-border"
+              )}>
+                {indicators.length > 0 ? hsLabel : 'Pendente'}
+              </span>
+            </div>
+
+            <div className="relative z-10 flex items-baseline gap-1.5 pl-1">
+              <span className="text-4xl font-display font-semibold text-foreground tracking-tight leading-none tabular-nums">
+                {indicators.length > 0 ? healthScore.toFixed(1) : '---'}
+              </span>
+              <span className="text-[10px] font-semibold text-muted-foreground">/ 100</span>
+            </div>
+
+            <div className="relative z-10 space-y-1.5">
+              <div className="flex justify-between items-center text-[8.5px] font-black uppercase tracking-widest text-muted-foreground gap-2">
+                <span>Eficiência Estratégica</span>
+                <span className={cn(
+                  "font-bold shrink-0",
+                  indicators.length > 0
+                    ? hsColor === 'emerald' ? "text-emerald-500" : hsColor === 'amber' ? "text-amber-500" : "text-rose-500"
+                    : "text-muted-foreground"
+                )}>
+                  {indicators.length > 0 ? `${healthScore}%` : '---'}
+                </span>
+              </div>
+              <div className="h-2 w-full bg-surface-container dark:bg-slate-900 rounded-full overflow-hidden border border-border/50 shadow-inner">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${healthScore}%` }}
+                  transition={{ duration: 1.5, ease: 'circOut' }}
+                  className={cn("h-full rounded-full", hsBar)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Summary KPI Matrix ──────────────────────────────────────── */}
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+        {summary.map((stat, idx) => (
+          <SummaryCard key={idx} {...stat} valueClassName={globalSizeClass} />
+        ))}
+      </div>
+
+      {/* ── Control / Filter Bar ────────────────────────────────────── */}
+      <div className={cn(
+        "flex flex-wrap items-center justify-between gap-3 p-3 md:p-4",
+        "bg-card/80 backdrop-blur-sm border border-border rounded-2xl shadow-sm"
+      )}>
+        {/* Left: View toggle */}
+        <div className="flex items-center gap-2">
+          <div className="bg-surface-container p-1 rounded-xl flex gap-1 border border-border shadow-xs shrink-0">
+            {[
+              { mode: 'grid' as const, icon: LayoutGrid, label: 'Grade' },
+              { mode: 'table' as const, icon: List,       label: 'Lista' },
+            ].map(({ mode, icon: MIcon, label }) => (
+              <button
+                key={mode}
+                onClick={() => setViewMode(mode)}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-2 rounded-lg text-[9.5px] font-black uppercase tracking-widest transition-all duration-200",
+                  viewMode === mode
+                    ? "bg-card text-foreground shadow-sm border border-border/40"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <MIcon size={13} />
+                <span className="hidden sm:inline">{label}</span>
+              </button>
+            ))}
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-3 bg-white p-1 rounded-xl border border-slate-100 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-slate-100">
-              <Calendar size={14} className="text-secondary mr-2.5" />
-              <select 
-                value={filterYear} 
-                onChange={(e) => setFilterYear(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-              >
-                {years.map(y => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-center px-4 py-2">
-              <select 
-                value={filterMonth} 
+        {/* Right: Period selectors */}
+        <div className="flex items-center bg-card border border-border rounded-xl shadow-xs overflow-hidden">
+          <div className="flex items-center px-3 py-2 border-r border-border">
+            <select
+              value={periodType}
+              onChange={(e) => setPeriodType(e.target.value as 'mensal' | 'anual')}
+              className="text-[9.5px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+            >
+              <option value="mensal">Mensal</option>
+              <option value="anual">Anual</option>
+            </select>
+          </div>
+          <div className={cn("flex items-center px-3 py-2", periodType === 'mensal' && "border-r border-border")}>
+            <Calendar size={13} className="text-secondary mr-2 shrink-0" />
+            <select
+              value={filterYear}
+              onChange={(e) => setFilterYear(Number(e.target.value))}
+              className="text-[9.5px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+            >
+              {years.map(y => <option key={y} value={y}>{y}</option>)}
+            </select>
+          </div>
+          {periodType === 'mensal' && (
+            <div className="flex items-center px-3 py-2">
+              <select
+                value={filterMonth}
                 onChange={(e) => setFilterMonth(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                className="text-[9.5px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
                 {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
                   <option key={m} value={Number(m)}>{label}</option>
                 ))}
               </select>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
-
-
-      {/* Corporate Health Mini-Header */}
-      <div className="bg-card border border-border rounded-md p-8 shadow-sm flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden group">
-        <div className={cn(
-          "absolute top-0 left-0 w-1 h-full",
-          indicators.length > 0 ? "bg-success" : "bg-muted"
-        )} />
-        <div className="flex items-center gap-8 relative z-10">
-          <div className={cn(
-            "w-16 h-16 rounded-md flex items-center justify-center border border-border shadow-sm group-hover:scale-105 transition-transform",
-            indicators.length > 0 ? "bg-success/10 text-success" : "bg-surface-container text-muted-foreground"
-          )}>
-            <ShieldCheck size={32} />
-          </div>
-          <div>
-            <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.25em] mb-1">Score de Saúde Consolidado</h3>
-            <div className="flex items-center gap-4">
-              <span className="text-4xl font-display font-medium text-foreground tracking-tighter">
-                {indicators.length > 0 ? healthScore.toFixed(1) : '---'}
-              </span>
-              <span className={cn(
-                "text-[9px] font-medium uppercase tracking-widest px-3 py-1 rounded-sm border",
-                indicators.length > 0 
-                  ? (healthScore > 80 
-                    ? "text-success bg-success/10 border-success/20" 
-                    : healthScore > 60
-                    ? "text-warning bg-warning/10 border-warning/20"
-                    : "text-destructive bg-destructive/10 border-destructive/20")
-                  : "text-muted-foreground bg-surface-container border-border"
-              )}>
-                {indicators.length > 0 ? (healthScore > 80 ? 'Otimizado' : healthScore > 60 ? 'Em Observação' : 'Crítico') : 'Pendente'}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="flex-1 max-w-lg w-full relative z-10">
-          <div className="flex justify-between text-[10px] font-medium uppercase tracking-[0.25em] text-muted-foreground mb-2">
-            <span>Eficiência Estratégica</span>
-            <span className={indicators.length > 0 ? "text-success" : "text-muted-foreground"}>
-              {indicators.length > 0 ? `${healthScore}%` : '---'}
-            </span>
-          </div>
-          <div className="h-2 bg-surface-container rounded-full overflow-hidden">
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: `${healthScore}%` }}
-              transition={{ duration: 1.5, ease: "circOut" }}
-              className={cn(
-                "h-full shadow-sm",
-                healthScore > 80 ? "bg-success" : healthScore > 60 ? "bg-warning" : "bg-destructive"
-              )}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Summary Matrix */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-        {summary.map((stat, idx) => (
-          <SummaryCard key={idx} {...stat} valueClassName={globalSizeClass} />
-        ))}
-      </div>
-
-      {/* Axis Filters only */}
-      <div className="flex items-center gap-4 overflow-x-auto no-scrollbar pb-4">
+      {/* ── Axis Filter Pills ───────────────────────────────────────── */}
+      <div className="flex items-center gap-2.5 overflow-x-auto pb-1 no-scrollbar">
         <button
           onClick={() => setFilterGroup('')}
           className={cn(
-            "px-8 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap border shadow-sm",
-            filterGroup === '' 
-              ? "bg-slate-900 text-white border-slate-900 shadow-xl scale-105" 
-              : "bg-white text-slate-400 border-slate-100 hover:border-secondary/30 hover:text-slate-600"
+            "px-4 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.18em] transition-all duration-200 whitespace-nowrap border shrink-0 shadow-sm",
+            filterGroup === ''
+              ? "bg-foreground text-background border-foreground shadow-md scale-[1.03]"
+              : "bg-card text-muted-foreground border-border hover:border-secondary/30 hover:text-foreground"
           )}
         >
           Todos os Eixos
         </button>
-        {groups.map((g: string) => (
-          <button
-            key={g}
-            onClick={() => setFilterGroup(g)}
-            className={cn(
-              "px-8 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap border shadow-sm",
-              filterGroup === g 
-                ? "bg-slate-900 text-white border-slate-900 shadow-xl scale-105" 
-                : "bg-white text-slate-400 border-slate-100 hover:border-secondary/30 hover:text-slate-600"
-            )}
-          >
-            {g}
-          </button>
-        ))}
+        {groups.map((g: string) => {
+          const cfg = CATEGORY_CONFIG[g] || DEFAULT_CONFIG;
+          return (
+            <button
+              key={g}
+              onClick={() => setFilterGroup(g)}
+              className={cn(
+                "px-4 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.18em] transition-all duration-200 whitespace-nowrap border shrink-0 shadow-sm",
+                filterGroup === g
+                  ? cn(cfg.pillActive, "shadow-md scale-[1.03]")
+                  : "bg-card text-muted-foreground border-border hover:border-secondary/30 hover:text-foreground"
+              )}
+            >
+              {g}
+            </button>
+          );
+        })}
       </div>
 
-
-      {/* Main Content Area */}
+      {/* ── Main Content ────────────────────────────────────────────── */}
       <AnimatePresence mode="wait">
         {viewMode === 'grid' ? (
-          <motion.div 
+          <motion.div
             key="grid"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="space-y-16"
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.22 }}
+            className="space-y-14"
           >
-            {(Object.entries(grouped) as [string, any[]][]).map(([group, items], groupIdx) => {
-                const config = CATEGORY_CONFIG[group] || CATEGORY_CONFIG['Administração e Finanças'];
-                
-                return (
-                  <div key={group} className="space-y-8">
-                    <div className="flex items-center gap-4">
-                      <div className={cn("p-3 rounded-xl border", config.bg, config.border)}>
-                        {(() => {
-                          const Icon = config.icon;
-                          return <Icon size={20} className={config.text} />;
-                        })()}
+            {(Object.entries(grouped) as [string, any[]][]).map(([group, items]) => {
+              if (!items.length) return null;
+              const config = CATEGORY_CONFIG[group] || DEFAULT_CONFIG;
+              const Icon = config.icon;
+              const verde = items.filter(i => i.sem === 'Verde').length;
+              const amarelo = items.filter(i => i.sem === 'Amarelo').length;
+              const vermelho = items.filter(i => i.sem === 'Vermelho').length;
+
+              return (
+                <div key={group} className="space-y-6">
+                  {/* Section header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="flex items-center gap-4 min-w-0">
+                      <div className={cn(
+                        "w-11 h-11 rounded-xl flex items-center justify-center border shrink-0",
+                        config.badgeBg, config.badgeText
+                      )}>
+                        <Icon size={20} />
                       </div>
-                      <div>
-                        <h3 className="text-xl font-display font-black text-slate-900">{group}</h3>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{items.length} indicadores monitorados</p>
+                      <div className="min-w-0">
+                        <h3 className="text-lg font-display font-bold text-foreground leading-none tracking-tight truncate">{group}</h3>
+                        <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mt-1">{items.length} indicadores</p>
                       </div>
-                      <div className="h-px flex-1 bg-slate-100 ml-4" />
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-                      {items.map((r, i) => (
-                        <KPICard 
-                          key={i} 
-                          r={r} 
-                          group={group} 
-                          valueClassName={globalSizeClass} 
-                          onAction={(ind: any) => {
-                            sessionStorage.setItem('pending_action', JSON.stringify({
-                              title: `Ação para: ${ind.ind}`,
-                              origin: 'Indicadores',
-                              description: `Melhorar o indicador ${ind.ind} (Valor atual: ${ind.val})`
-                            }));
-                            // Assuming setCurrentPage is available via props, but it's not here.
-                            // I'll use a custom event or check how to navigate.
-                            window.dispatchEvent(new CustomEvent('navigate-to', { detail: 'plano_acao' }));
-                          }}
-                        />
-                      ))}
+                    {/* Mini status summary */}
+                    <div className="flex items-center gap-2 ml-0 sm:ml-4 shrink-0">
+                      {verde > 0 && (
+                        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/25 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />{verde} ok
+                        </span>
+                      )}
+                      {amarelo > 0 && (
+                        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/25 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/40">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />{amarelo} atenção
+                        </span>
+                      )}
+                      {vermelho > 0 && (
+                        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/25 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/40">
+                          <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />{vermelho} alerta
+                        </span>
+                      )}
                     </div>
+
+                    <div className="hidden sm:block h-px flex-1 bg-border ml-2" />
                   </div>
-                );
+
+                  {/* Cards grid — fluid breakpoints respect sidebar state */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
+                    {items.map((r, i) => (
+                      <KPICard
+                        key={i}
+                        r={r}
+                        group={group}
+                        valueClassName={globalSizeClass}
+                        onAction={(ind: any) => {
+                          sessionStorage.setItem('pending_action', JSON.stringify({
+                            title: `Ação para: ${ind.ind}`,
+                            origin: 'Indicadores',
+                            description: `Melhorar o indicador ${ind.ind} (Valor atual: ${ind.val})`
+                          }));
+                          window.dispatchEvent(new CustomEvent('navigate-to', { detail: 'plano_acao' }));
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
             })}
 
             {Object.keys(grouped).length === 0 && (
-                <div className="py-32 flex flex-col items-center justify-center text-center bg-white border border-slate-100 rounded-[32px]">
-                    <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 text-slate-300">
-                        <Info size={40} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-2">Sem resultados</h3>
-                    <p className="text-slate-500 max-w-sm">
-                        Nenhum indicador encontrado para os filtros selecionados neste eixo.
-                    </p>
+              <div className="py-32 flex flex-col items-center justify-center text-center bg-card border border-border rounded-2xl">
+                <div className="w-20 h-20 bg-surface-container border border-border rounded-full flex items-center justify-center mb-6 text-muted-foreground">
+                  <Info size={36} />
                 </div>
+                <h3 className="text-xl font-bold text-foreground mb-2">Sem resultados</h3>
+                <p className="text-muted-foreground max-w-sm font-medium">
+                  Nenhum indicador encontrado para os filtros selecionados neste eixo.
+                </p>
+              </div>
             )}
           </motion.div>
         ) : (
-          <motion.div 
+          <motion.div
             key="table"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="bg-white border border-slate-100 rounded-[40px] overflow-hidden shadow-xl"
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.22 }}
+            className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm"
           >
             <div className="overflow-x-auto">
-              <table className="w-full text-sm min-w-[800px]">
+              <table className="w-full text-sm min-w-[700px]">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-100">
-                    <th className="text-left py-6 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Indicador</th>
-                    <th className="text-left py-6 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Eixo</th>
-                    <th className="text-left py-6 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Competência</th>
-                    <th className="text-right py-6 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor Realizado</th>
-                    <th className="text-right py-6 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                  <tr className="bg-surface-container/60 border-b border-border">
+                    <th className="text-left py-5 px-6 text-[9px] font-black text-muted-foreground uppercase tracking-widest">Indicador</th>
+                    <th className="text-left py-5 px-6 text-[9px] font-black text-muted-foreground uppercase tracking-widest">Eixo</th>
+                    <th className="text-left py-5 px-6 text-[9px] font-black text-muted-foreground uppercase tracking-widest">Competência</th>
+                    <th className="text-right py-5 px-6 text-[9px] font-black text-muted-foreground uppercase tracking-widest">Valor</th>
+                    <th className="text-right py-5 px-6 text-[9px] font-black text-muted-foreground uppercase tracking-widest">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
+                <tbody className="divide-y divide-border/50">
                   {(Object.entries(grouped) as [string, any[]][]).map(([group, items]) => (
                     <React.Fragment key={group}>
                       {items.map((r, i) => (
-                        <tr key={`${group}-${i}`} className="hover:bg-slate-50/50 transition-colors group">
-                          <td className="py-6 px-8 font-bold text-slate-800">{r.ind}</td>
-                          <td className="py-6 px-8 text-xs font-medium text-slate-500">{group}</td>
-                          <td className="py-6 px-8 text-slate-400 font-medium text-xs">{r.comp}</td>
-                          <td className="py-6 px-8 text-right font-display font-black text-slate-900 text-lg">{formatValue(r.val, r.un)}</td>
-                          <td className="py-6 px-8 text-right"><StatusBadge status={r.sem} /></td>
+                        <tr key={`${group}-${i}`} className="hover:bg-surface-container/30 transition-colors group">
+                          <td className="py-5 px-6 font-semibold text-foreground">{r.ind}</td>
+                          <td className="py-5 px-6 text-xs font-medium text-muted-foreground">{group}</td>
+                          <td className="py-5 px-6 text-xs font-medium text-muted-foreground">{r.comp}</td>
+                          <td className="py-5 px-6 text-right font-display font-medium text-foreground text-base tabular-nums">{formatValue(r.val, r.un)}</td>
+                          <td className="py-5 px-6 text-right"><StatusBadge status={r.sem} /></td>
                         </tr>
                       ))}
                     </React.Fragment>
                   ))}
                   {Object.keys(grouped).length === 0 && (
                     <tr>
-                      <td colSpan={5} className="py-32 text-center text-slate-400 font-medium italic">
+                      <td colSpan={5} className="py-24 text-center text-muted-foreground font-medium italic">
                         Nenhum registro localizado para esta consulta.
                       </td>
                     </tr>
@@ -694,11 +823,12 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
             </div>
           </motion.div>
         )}
+
         {hasMore && !loading && (
-          <div className="flex justify-center pt-10">
+          <div className="flex justify-center pt-8">
             <button
               onClick={() => fetchNextPage()}
-              className="px-10 py-4 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-secondary hover:border-secondary/30 transition-all shadow-sm"
+              className="px-8 py-3 bg-card border border-border rounded-2xl text-[9.5px] font-black uppercase tracking-widest text-muted-foreground hover:text-secondary hover:border-secondary/30 transition-all shadow-sm active:scale-95"
             >
               Carregar Mais Indicadores
             </button>

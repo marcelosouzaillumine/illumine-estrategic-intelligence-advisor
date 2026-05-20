@@ -238,7 +238,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setShowContractModal(true)}
-              className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/20"
+              className="px-4 md:px-6 py-2 md:py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/20"
             >
               <Plus size={16} /> Inserir Contrato
             </button>
@@ -492,11 +492,11 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             <div className="mt-10 flex gap-4">
               <button 
                 onClick={() => setInputs(loanData || inputs)}
-                className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all"
+                className="px-4 md:px-6 py-2 md:py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all"
               >Restaurar Original</button>
               <button 
                 onClick={() => updateInput("parcelaMensal", Number(pmt(inputs.taxaMensal, inputs.periodoMeses, inputs.valorEmprestimo).toFixed(2)))}
-                className="px-6 py-2.5 bg-secondary hover:bg-secondary/90 text-white font-black text-xs uppercase tracking-widest rounded-xl shadow-lg shadow-secondary/20 transition-all"
+                className="px-4 md:px-6 py-2 md:py-2.5 bg-secondary hover:bg-secondary/90 text-white font-black text-xs uppercase tracking-widest rounded-xl shadow-lg shadow-secondary/20 transition-all"
               >Recalcular Parcela PRICE</button>
             </div>
           </motion.div>
@@ -518,20 +518,20 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 <thead className="bg-slate-50 sticky top-0 z-10">
                   <tr>
                     {["Per", "Vencimento", "Saldo Inicial", "Parcela", "Juros", "Amortização", "Saldo Final"].map(h => (
-                      <th key={h} className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
+                      <th key={h} className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {paginatedSchedule.map((row: any) => (
                     <tr key={row.periodo} className="hover:bg-slate-50 transition-colors group">
-                      <td className="px-6 py-4 text-sm font-bold text-slate-400">{row.periodo}</td>
-                      <td className="px-6 py-4 text-sm font-semibold text-slate-600">{formatDate(row.vencimento)}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-slate-500">{formatCurrency(row.saldoInicial)}</td>
-                      <td className="px-6 py-4 text-sm font-bold text-secondary">{formatCurrency(row.parcela)}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-rose-500">{formatCurrency(row.juros)}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-emerald-500">{formatCurrency(row.amortizacao)}</td>
-                      <td className="px-6 py-4 text-sm font-black text-slate-900 group-hover:text-secondary transition-colors">{formatCurrency(row.saldoFinal)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-400">{row.periodo}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.vencimento)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-slate-500">{formatCurrency(row.saldoInicial)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-secondary">{formatCurrency(row.parcela)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-rose-500">{formatCurrency(row.juros)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-emerald-500">{formatCurrency(row.amortizacao)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-slate-900 group-hover:text-secondary transition-colors">{formatCurrency(row.saldoFinal)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -590,7 +590,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 <thead className="bg-slate-50 sticky top-0 z-10">
                   <tr>
                     {["Per", "Data Vcto", "Valor Parcela", "Status do Débito", "Data de Pagamento"].map(h => (
-                      <th key={h} className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
+                      <th key={h} className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -599,10 +599,10 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                     const payment = paymentStatus.find((item) => item.periodo === row.periodo) || { status: "A Vencer", dataDebito: "" };
                     return (
                       <tr key={row.periodo} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-6 py-4 text-sm font-bold text-slate-400">{row.periodo}</td>
-                        <td className="px-6 py-4 text-sm font-semibold text-slate-600">{formatDate(row.vencimento)}</td>
-                        <td className="px-6 py-4 text-sm font-bold text-slate-900">{formatCurrency(row.parcela)}</td>
-                        <td className="px-6 py-4">
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-400">{row.periodo}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.vencimento)}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900">{formatCurrency(row.parcela)}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4">
                           <select 
                             value={payment.status} 
                             onChange={(e) => updateStatus(row.periodo, "status", e.target.value)}
@@ -618,7 +618,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                             <option value="Em Atraso">Em Atraso</option>
                           </select>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-4 md:px-6 py-2.5 md:py-4">
                           <input 
                             type="date" 
                             value={payment.dataDebito} 

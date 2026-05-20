@@ -68,6 +68,13 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'list' | 'strategic' | 'partner' | 'model'>(isPartner ? 'strategic' : 'list');
   const [selectedCurrency, setSelectedCurrency] = useState('BRL');
+  const [selectedPartnerId, setSelectedPartnerId] = useState<string>('all');
+
+  useEffect(() => {
+    if (isPartner && userPartnerIds && userPartnerIds.length > 0) {
+      setSelectedPartnerId(userPartnerIds[0]);
+    }
+  }, [isPartner, userPartnerIds]);
 
   // Câmbio do dia via AwesomeAPI
   const { rates, loading: ratesLoading, error: ratesError, lastUpdated } = useCurrencyRates();
@@ -241,13 +248,45 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
   }, [clients, financialData]);
 
   const filteredPortfolio = useMemo(() => {
-    let list = portfolioData.filter(c => !c.isModel && (clients.find(cc => cc.id === c.id)?.approvalStatus !== 'Pending')).sort((a, b) => a.score - b.score);
+    let list = portfolioData.filter(c => !c.isModel && (clients.find((cc: any) => cc.id === c.id)?.approvalStatus !== 'Pending'));
+    
+    // Filter by selected partner
+    if (selectedPartnerId !== 'all') {
+      list = list.filter(c => {
+        const clientObj = clients.find((cc: any) => cc.id === c.id);
+        const matchesPartnerId = clientObj && clientObj.partnerId === selectedPartnerId;
+        
+        const selectedPartnerDoc = partners.find(p => p.id === selectedPartnerId);
+        const matchesLinkedClient = selectedPartnerDoc?.linkedClientIds?.includes(c.id);
+        
+        return matchesPartnerId || matchesLinkedClient;
+      });
+    }
+
+    list = list.sort((a, b) => a.score - b.score);
+
     if (searchTerm) {
       const q = searchTerm.toLowerCase();
       list = list.filter(c => c.name.toLowerCase().includes(q) || c.industry.toLowerCase().includes(q));
     }
     return list;
-  }, [portfolioData, searchTerm]);
+  }, [portfolioData, searchTerm, selectedPartnerId, clients, partners]);
+
+  const activeRealPortfolioData = useMemo(() => {
+    let list = portfolioData.filter(c => !c.isModel);
+    if (selectedPartnerId !== 'all') {
+      list = list.filter(c => {
+        const clientObj = clients.find((cc: any) => cc.id === c.id);
+        const matchesPartnerId = clientObj && clientObj.partnerId === selectedPartnerId;
+        
+        const selectedPartnerDoc = partners.find(p => p.id === selectedPartnerId);
+        const matchesLinkedClient = selectedPartnerDoc?.linkedClientIds?.includes(c.id);
+        
+        return matchesPartnerId || matchesLinkedClient;
+      });
+    }
+    return list;
+  }, [portfolioData, selectedPartnerId, clients, partners]);
 
   const modelPortfolio = useMemo(() => {
     let list = portfolioData.filter(c => c.isModel).sort((a, b) => b.name.localeCompare(a.name));
@@ -259,14 +298,33 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
   }, [portfolioData, searchTerm]);
 
   const stats = useMemo(() => {
-    const realPortfolioData = portfolioData.filter(c => !c.isModel);
-    const totalClients = realPortfolioData.length;
-    const activeClients = realPortfolioData.filter(c => c.status !== 'onboarding');
+    const activePortfolioData = portfolioData.filter(c => {
+      const isModelMatch = viewMode === 'model' ? c.isModel : !c.isModel;
+      if (!isModelMatch) return false;
+      
+      if (viewMode === 'model') return true;
+
+      // Filter by selected partner
+      if (selectedPartnerId !== 'all') {
+        const clientObj = clients.find((cc: any) => cc.id === c.id);
+        const matchesPartnerId = clientObj && clientObj.partnerId === selectedPartnerId;
+        
+        const selectedPartnerDoc = partners.find(p => p.id === selectedPartnerId);
+        const matchesLinkedClient = selectedPartnerDoc?.linkedClientIds?.includes(c.id);
+        
+        return matchesPartnerId || matchesLinkedClient;
+      }
+      
+      return true;
+    });
+
+    const totalClients = activePortfolioData.length;
+    const activeClients = activePortfolioData.filter(c => c.status !== 'onboarding');
     const avgScore = activeClients.length > 0 ? Math.round(activeClients.reduce((acc, c) => acc + c.score, 0) / activeClients.length) : 0;
     
     // Strategic Concentration
     const industryConcentration: Record<string, number> = {};
-    realPortfolioData.forEach(c => {
+    activePortfolioData.forEach(c => {
       industryConcentration[c.industry] = (industryConcentration[c.industry] || 0) + c.revenue;
     });
 
@@ -276,22 +334,22 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
 
     // Tax Reform Impact (Setores de Serviços e Tech)
     const impactedKeywords = ['serviço', 'tech', 'tecnologia', 'saas', 'consultoria', 'software', 'advocacia', 'marketing'];
-    const impactedClients = realPortfolioData.filter(c => 
+    const impactedClients = activePortfolioData.filter(c => 
       impactedKeywords.some(key => c.industry.toLowerCase().includes(key))
     );
     const impactPercentage = totalClients > 0 ? Math.round((impactedClients.length / totalClients) * 100) : 0;
 
     return {
       avgScore,
-      totalRevenue: realPortfolioData.reduce((acc, c) => acc + convert(c.revenue, c.clientCurrency), 0),
-      activeAlerts: realPortfolioData.reduce((acc, c) => acc + c.criticalAlerts, 0),
+      totalRevenue: activePortfolioData.reduce((acc, c) => acc + convert(c.revenue, c.clientCurrency), 0),
+      activeAlerts: activePortfolioData.reduce((acc, c) => acc + c.criticalAlerts, 0),
       totalClients,
-      onboarding: realPortfolioData.filter(c => c.status === 'onboarding').length,
+      onboarding: activePortfolioData.filter(c => c.status === 'onboarding').length,
       industryConcentration,
       partnerVolume: partners.map(p => {
-        const pClients = realPortfolioData.filter(c => {
+        const pClients = activePortfolioData.filter(c => {
           const clientObj = clients.find((cc: any) => cc.id === c.id);
-          return clientObj?.partnerId === p.id;
+          return clientObj?.partnerId === p.id || p.linkedClientIds?.includes(c.id);
         });
         return {
           name: p.fantasia || p.razao,
@@ -302,11 +360,15 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
       impactPercentage,
       impactedRevenue: impactedClients.reduce((acc, c) => acc + convert(c.revenue, c.clientCurrency), 0)
     };
-  }, [portfolioData, partners, clients, convert]);
+  }, [portfolioData, partners, clients, convert, viewMode, selectedPartnerId]);
 
   const partnerGroups = useMemo(() => {
     return partners.map(p => {
-      const partnerClients = portfolioData.filter(c => !c.isModel && p.linkedClientIds?.includes(c.id));
+      const partnerClients = portfolioData.filter(c => {
+        if (c.isModel) return false;
+        const clientObj = clients.find((cc: any) => cc.id === c.id);
+        return p.linkedClientIds?.includes(c.id) || clientObj?.partnerId === p.id;
+      });
       const totalRevenue = partnerClients.reduce((acc, c) => acc + c.revenue, 0);
       const avgScore = partnerClients.length > 0 ? partnerClients.reduce((acc, c) => acc + c.score, 0) / partnerClients.length : 0;
       
@@ -318,7 +380,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
         clientCount: partnerClients.length
       };
     }).sort((a, b) => b.totalRevenue - a.totalRevenue);
-  }, [partners, portfolioData]);
+  }, [partners, portfolioData, clients]);
 
   if (loading) {
     return (
@@ -330,7 +392,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
   }
 
   return (
-    <div ref={containerRef} className="space-y-8 pb-20 w-full min-w-0 max-w-full overflow-x-hidden p-8">
+    <div ref={containerRef} className="space-y-8 pb-20 w-full min-w-0 max-w-full overflow-x-hidden p-4 md:p-8">
       <PageHeader 
         title="Visão Consolidada"
         subtitle="Inteligência estratégica e monitoramento de saúde do portfólio de clientes."
@@ -338,12 +400,12 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
       />
 
       {/* ── Barra de Ferramentas (Fora do Título) ── */}
-      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm w-full">
-        <div className="bg-surface-container-high p-1 rounded-button flex flex-row overflow-x-auto whitespace-nowrap gap-1 border border-border w-full lg:w-auto scrollbar-none shrink-0">
+      <div className="flex flex-row items-center justify-between gap-1.5 md:gap-4 flex-wrap bg-surface-container/60 p-2 md:p-3.5 rounded-card border border-border backdrop-blur-sm shadow-sm w-full">
+        <div className="bg-surface-container-high p-0.5 md:p-1 rounded-button flex flex-row items-center gap-0.5 md:gap-1 border border-border min-w-0">
           <button 
             onClick={() => setViewMode('list')}
             className={cn(
-              "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all shrink-0",
+              "px-1.5 py-1 min-[400px]:px-2.5 min-[400px]:py-1.5 md:px-3 md:py-1.5 rounded-button text-[7px] min-[400px]:text-[8px] sm:text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] transition-all whitespace-nowrap",
               viewMode === 'list' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -352,7 +414,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
           <button 
             onClick={() => setViewMode('strategic')}
             className={cn(
-              "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all shrink-0",
+              "px-1.5 py-1 min-[400px]:px-2.5 min-[400px]:py-1.5 md:px-3 md:py-1.5 rounded-button text-[7px] min-[400px]:text-[8px] sm:text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] transition-all whitespace-nowrap",
               viewMode === 'strategic' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -361,26 +423,47 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
           <button 
             onClick={() => setViewMode('partner')}
             className={cn(
-              "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all shrink-0",
+              "px-1.5 py-1 min-[400px]:px-2.5 min-[400px]:py-1.5 md:px-3 md:py-1.5 rounded-button text-[7px] min-[400px]:text-[8px] sm:text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] transition-all whitespace-nowrap",
               viewMode === 'partner' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             )}
           >
-            Por Parceiro
+            <span className="hidden sm:inline">Por Parceiro</span>
+            <span className="inline sm:hidden">Parceiro</span>
           </button>
           <button 
             onClick={() => setViewMode('model')}
             className={cn(
-              "px-4 py-2 rounded-button text-body-sm font-medium uppercase tracking-widest transition-all shrink-0",
+              "px-1.5 py-1 min-[400px]:px-2.5 min-[400px]:py-1.5 md:px-3 md:py-1.5 rounded-button text-[7px] min-[400px]:text-[8px] sm:text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] transition-all whitespace-nowrap",
               viewMode === 'model' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             )}
           >
-            Modelos (Demo)
+            <span className="hidden sm:inline">Modelos (Demo)</span>
+            <span className="inline sm:hidden">Modelos</span>
           </button>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+        <div className="flex flex-row items-center gap-1.5 md:gap-3 shrink-0 flex-wrap">
+          {/* ── Seletor de Parceiro (Apenas para Admin Master) ── */}
+          {!isPartner && viewMode !== 'model' && (
+            <div className="shrink-0 flex items-center gap-2">
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest hidden lg:inline">Parceiro:</span>
+              <select
+                value={selectedPartnerId}
+                onChange={(e) => setSelectedPartnerId(e.target.value)}
+                className="bg-surface-container-high border border-border rounded-button text-[7px] min-[400px]:text-[8px] sm:text-[9px] md:text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 min-[400px]:py-1.5 md:py-1.5 outline-none focus:border-secondary transition-all text-foreground cursor-pointer"
+              >
+                <option value="all">Todos os Parceiros</option>
+                {partners.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.fantasia || p.razao}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           {/* ── Seletor de Moeda ── */}
-          <div className="flex-1 sm:flex-none">
+          <div className="shrink-0">
             <CurrencySelector
               selected={selectedCurrency}
               onChange={setSelectedCurrency}
@@ -394,10 +477,11 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
           <button 
             onClick={downloadPDF}
             disabled={isExporting}
-            className="w-full sm:w-auto justify-center px-4 md:px-6 py-2 md:py-3 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-body-sm font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm disabled:opacity-50"
+            className="inline-flex items-center justify-center bg-primary text-primary-foreground rounded-button font-display font-bold uppercase tracking-[0.1em] shadow-lg shadow-primary/20 hover:bg-primary/90 hover:shadow-xl active:scale-[0.98] transition-all gap-1 md:gap-3 px-2 py-1 min-[400px]:px-2.5 min-[400px]:py-1.5 md:px-5 md:py-2.5 text-[7px] min-[400px]:text-[8px] sm:text-[9px] md:text-[10px] w-auto justify-center disabled:opacity-50"
           >
-            {isExporting ? <span className="animate-spin mr-2">◌</span> : <TrendingUp size={14} className="text-secondary" />} 
-            {isExporting ? 'Gerando...' : 'Exportar QBR Consolidado'}
+            {isExporting ? <span className="animate-spin mr-1">◌</span> : <TrendingUp size={12} className="text-secondary shrink-0" />} 
+            <span className="hidden md:inline">{isExporting ? 'Gerando...' : 'Exportar QBR Consolidado'}</span>
+            <span className="inline md:hidden">{isExporting ? 'Gerando...' : 'Exportar'}</span>
           </button>
         </div>
       </div>
@@ -409,10 +493,10 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
           { label: 'Alertas Críticos', value: stats.activeAlerts, icon: AlertCircle, color: 'rose', desc: 'Urgência imediata' },
           { label: 'Total de Clientes', value: stats.totalClients, icon: Users, color: 'slate', desc: `${stats.onboarding} em onboarding` },
         ].map((stat, i) => (
-          <div key={i} className="bg-background p-6 rounded-md border border-border shadow-sm relative overflow-hidden group hover:border-primary/20 transition-all">
+          <div key={i} className="card-premium p-6 relative overflow-hidden group hover:border-primary/20 transition-all">
             <div className={cn(
               "absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500",
-              stat.color === 'blue' ? "text-blue-600" : stat.color === 'emerald' ? "text-emerald-600" : stat.color === 'rose' ? "text-rose-600" : "text-foreground"
+              stat.color === 'blue' ? "text-primary" : stat.color === 'emerald' ? "text-secondary" : stat.color === 'rose' ? "text-destructive" : "text-neutral"
             )}>
               {(() => {
                 const Icon = stat.icon;
@@ -431,28 +515,28 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
       {viewMode === 'strategic' ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-primary rounded-card p-10 text-primary-foreground relative overflow-hidden min-h-[300px] flex flex-col justify-center border border-border/10">
+            <div className="bg-primary rounded-card p-6 md:p-10 text-primary-foreground relative overflow-hidden min-h-[300px] flex flex-col justify-center border border-border/10">
               <div className="absolute top-0 right-0 p-12 opacity-10 rotate-12"><ShieldAlert size={160} /></div>
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-destructive/20 border border-destructive/30 rounded-full mb-6">
                   <span className="w-2 h-2 bg-destructive rounded-full animate-pulse"></span>
                   <span className="text-body-sm font-medium uppercase tracking-widest text-destructive">Alerta de Risco Sistêmico</span>
                 </div>
-                <h4 className="text-h1 font-medium mb-6 max-w-2xl leading-tight">Exposição do Portfólio à Transição da Reforma Tributária</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                  <div className="p-4 bg-white/5 rounded-md border border-white/10">
+                <h4 className="text-xl md:text-2xl lg:text-3xl font-medium mb-6 max-w-2xl leading-tight">Exposição do Portfólio à Transição da Reforma Tributária</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                  <div className="p-4 bg-white/10 border border-white/10 rounded-button">
                     <p className="text-body-sm font-medium text-muted-foreground uppercase mb-2">Empresas Impactadas</p>
-                    <p className="text-h2 font-medium text-destructive">{stats.impactPercentage}%</p>
+                    <p className="text-lg md:text-xl lg:text-2xl font-medium text-secondary">{stats.impactPercentage}%</p>
                     <p className="text-body-sm text-muted-foreground mt-2">Setores de Serviços e Tecnologia na base.</p>
                   </div>
-                  <div className="p-4 bg-white/5 rounded-md border border-white/10">
+                  <div className="p-4 bg-white/10 border border-white/10 rounded-button">
                     <p className="text-body-sm font-medium text-muted-foreground uppercase mb-2">Volume sob Risco</p>
-                    <p className="text-h2 font-medium text-primary-foreground">{fmtCurrency(stats.impactedRevenue, selectedCurrency)}</p>
+                    <p className="text-lg md:text-xl lg:text-2xl font-medium text-primary-foreground">{fmtCurrency(stats.impactedRevenue, selectedCurrency)}</p>
                     <p className="text-body-sm text-muted-foreground mt-2">Receita total dos clientes expostos.</p>
                   </div>
-                  <div className="p-4 bg-white/5 rounded-md border border-white/10">
+                  <div className="p-4 bg-white/10 border border-white/10 rounded-button">
                     <p className="text-body-sm font-medium text-muted-foreground uppercase mb-2">Prioridade de Saneamento</p>
-                    <p className="text-h2 font-medium text-amber-500">{stats.impactPercentage > 50 ? 'Alta' : 'Média'}</p>
+                    <p className="text-lg md:text-xl lg:text-2xl font-medium text-secondary">{stats.impactPercentage > 50 ? 'Alta' : 'Média'}</p>
                     <p className="text-body-sm text-muted-foreground mt-2">Necessidade de revisão de NCM/CST.</p>
                   </div>
                 </div>
@@ -460,9 +544,9 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-background rounded-md p-8 border border-border shadow-sm">
+              <div className="card-premium p-6 md:p-8">
                 <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
-                  <Target size={14} className="text-blue-600" /> Concentração por Segmento (Fat.)
+                  <Target size={14} className="text-secondary" /> Concentração por Segmento (Fat.)
                 </h5>
                 <div className="space-y-4">
                   {Object.entries(stats.industryConcentration)
@@ -479,7 +563,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                             animate={{ width: `${(revenue / stats.totalRevenue) * 100}%` }}
                             className={cn(
                               "h-full rounded-full",
-                              i === 0 ? "bg-primary" : i === 1 ? "bg-blue-600" : "bg-neutral"
+                              i === 0 ? "bg-primary" : i === 1 ? "bg-secondary" : "bg-tertiary"
                             )}
                           />
                         </div>
@@ -488,7 +572,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                 </div>
               </div>
 
-                  <div className="bg-background rounded-md p-8 border border-border shadow-sm flex flex-col justify-between">
+              <div className="card-premium p-6 md:p-8 flex flex-col justify-between">
                 <div>
                   <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
                     <Users size={14} className="text-secondary" /> Volume por Parceiro Estratégico
@@ -515,7 +599,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                 </div>
                 <button 
                   onClick={() => setViewMode('partner')}
-                  className="w-full mt-4 py-4 bg-surface-container hover:bg-surface-container-high border border-border rounded-md text-body-sm font-medium uppercase tracking-widest transition-all"
+                  className="btn-executive w-full mt-4 bg-surface-container text-foreground hover:bg-surface-container-high border border-border shadow-none"
                 >
                   Análise por Parceiro
                 </button>
@@ -524,20 +608,20 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
           </div>
 
           <div className="space-y-8">
-            <div className="bg-background rounded-card border-2 border-primary p-8 shadow-lg relative">
+            <div className="bg-card rounded-card border-2 border-primary p-6 md:p-8 shadow-lg relative">
               <div className="absolute -top-3 left-8 px-4 py-1 bg-primary text-primary-foreground rounded-full text-[8px] font-medium uppercase tracking-widest">
                 Master Insight
               </div>
               <h5 className="text-h3 font-medium text-foreground mb-6">Agenda Prioritária Master</h5>
               <div className="space-y-6">
-                {portfolioData
-                  .filter(c => !c.isModel && (c.status === 'critical' || c.criticalAlerts > 0))
+                {activeRealPortfolioData
+                  .filter(c => c.status === 'critical' || c.criticalAlerts > 0)
                   .sort((a, b) => b.criticalAlerts - a.criticalAlerts)
                   .slice(0, 4)
                   .map((client, i) => (
                     <div key={i} className="flex gap-4 group cursor-pointer" onClick={() => onSelectClient(client.id)}>
                       <div className={cn(
-                        "w-12 h-12 rounded-md flex items-center justify-center font-medium text-white text-body-md shrink-0 overflow-hidden",
+                        "w-12 h-12 rounded-button flex items-center justify-center font-medium text-white text-body-md shrink-0 overflow-hidden",
                         (client.logo || client.icon) ? "bg-background border border-border" :
                         client.score > 60 ? "bg-primary" : "bg-destructive"
                       )}>
@@ -559,20 +643,20 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                       </div>
                     </div>
                   ))}
-                {portfolioData.filter(c => c.status === 'critical' || c.criticalAlerts > 0).length === 0 && (
+                {activeRealPortfolioData.filter(c => c.status === 'critical' || c.criticalAlerts > 0).length === 0 && (
                   <p className="text-body-sm font-medium text-muted-foreground italic text-center py-4">Nenhum cliente crítico no radar.</p>
                 )}
               </div>
-              <button className="w-full mt-8 py-4 bg-primary text-primary-foreground rounded-md text-body-sm font-medium uppercase tracking-widest hover:bg-primary/90 transition-all">
+              <button className="btn-executive w-full mt-8">
                 Abrir Central de Consultoria
               </button>
             </div>
 
-            <div className="bg-surface-container rounded-card p-8 border border-border">
+            <div className="bg-surface-container rounded-card p-6 md:p-8 border border-border">
                <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-6">Radar de Conformidade IVA</h5>
                <div className="space-y-4">
-                  {portfolioData.some(c => !c.isModel && (c.industry.toLowerCase().includes('indúst') || c.industry.toLowerCase().includes('fabr'))) && (
-                    <div className="flex items-center justify-between p-4 bg-background rounded-md border border-border shadow-sm">
+                  {activeRealPortfolioData.some(c => c.industry.toLowerCase().includes('indúst') || c.industry.toLowerCase().includes('fabr')) && (
+                    <div className="flex items-center justify-between p-4 bg-background rounded-button border border-border shadow-sm">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-button bg-success/10 text-success flex items-center justify-center"><ShieldCheck size={16} /></div>
                         <span className="text-body-sm font-medium uppercase text-muted-foreground tracking-tight">Setor Industrial</span>
@@ -581,7 +665,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                     </div>
                   )}
                   {stats.impactPercentage > 0 && (
-                    <div className="flex items-center justify-between p-4 bg-background rounded-md border border-border shadow-sm">
+                    <div className="flex items-center justify-between p-4 bg-background rounded-button border border-border shadow-sm">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-button bg-destructive/10 text-destructive flex items-center justify-center"><AlertCircle size={16} /></div>
                         <span className="text-body-sm font-medium uppercase text-muted-foreground tracking-tight">Serviços / Tech</span>
@@ -589,13 +673,13 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                       <span className="text-body-sm font-medium text-destructive">Impacto Direto IVA-S</span>
                     </div>
                   )}
-                  {stats.impactPercentage === 0 && !portfolioData.some(c => !c.isModel && c.industry.toLowerCase().includes('indúst')) && (
+                  {stats.impactPercentage === 0 && !activeRealPortfolioData.some(c => c.industry.toLowerCase().includes('indúst')) && (
                     <p className="text-body-sm font-medium text-muted-foreground italic text-center py-4">Nenhum risco setorial imediato detectado.</p>
                   )}
                </div>
             </div>
 
-            <div className="bg-secondary rounded-card p-8 text-secondary-foreground">
+            <div className="bg-secondary rounded-card p-6 md:p-8 text-secondary-foreground">
               <h5 className="text-body-sm font-medium text-secondary-foreground/60 uppercase tracking-widest mb-4">Maturidade do Portfólio</h5>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-body-md font-medium">Resonância Estratégica</span>
@@ -614,150 +698,154 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
         </div>
       ) : viewMode === 'partner' ? (
         <div className="space-y-8 animate-executive-fade">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {partnerGroups.map((group, i) => (
-              <div key={group.id} className="bg-background rounded-card border border-border p-8 shadow-sm hover:shadow-lg transition-all group overflow-hidden relative">
-                <div className="absolute -right-10 -top-10 w-32 h-32 bg-surface-container rounded-full group-hover:bg-secondary/5 transition-colors" />
-                <div className="relative z-10">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 rounded-md bg-primary flex items-center justify-center text-primary-foreground shadow-lg">
-                      <LayoutDashboard size={24} />
-                    </div>
-                    <div>
-                      <h4 className="text-h3 font-medium text-foreground group-hover:text-secondary transition-colors">{group.fantasia || group.razao}</h4>
-                      <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest">{group.clientCount} Clientes Vinculados</p>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 mb-8">
-                    <div className="p-4 bg-surface-container rounded-md border border-border">
-                      <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Fat. ({selectedCurrency})</p>
-                      <p className="text-body-md font-medium text-foreground">{fmtCurrency(group.totalRevenue, selectedCurrency)}</p>
-                    </div>
-                    <div className="p-4 bg-surface-container rounded-md border border-border">
-                      <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Health Score Médio</p>
-                    <p className="text-body-md font-medium text-foreground">{group.avgScore.toFixed(1)}%</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-4">Empresas do Portfólio</h5>
-                    {group.clients.slice(0, 3).map((client) => (
-                      <div 
-                        key={client.id} 
-                        onClick={() => onSelectClient(client.id)}
-                        className="flex items-center justify-between p-3 bg-background border border-border rounded-button hover:border-secondary transition-all cursor-pointer"
-                      >
-                        <span className="text-body-sm font-medium text-foreground">{client.name}</span>
-                        <div className="flex items-center gap-2">
-                          <span className={cn(
-                            "text-body-sm font-medium",
-                            client.score > 80 ? "text-success" : client.score > 60 ? "text-primary" : "text-destructive"
-                          )}>{client.score}</span>
-                          <ChevronRight size={12} className="text-muted-foreground" />
-                        </div>
+          {partnerGroups.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {partnerGroups.map((group, i) => (
+                <div key={group.id} className="card-premium p-6 md:p-8 hover:shadow-lg transition-all group overflow-hidden relative">
+                  <div className="absolute -right-10 -top-10 w-32 h-32 bg-surface-container rounded-full group-hover:bg-secondary/5 transition-colors" />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-14 h-14 rounded-md bg-primary flex items-center justify-center text-primary-foreground shadow-lg">
+                        <LayoutDashboard size={24} />
                       </div>
-                    ))}
-                    {group.clientCount > 3 && (
-                      <p className="text-body-sm text-muted-foreground text-center pt-2 font-medium uppercase tracking-widest">
-                        + {group.clientCount - 3} outras empresas
-                      </p>
-                    )}
-                  </div>
+                      <div>
+                        <h4 className="text-h3 font-medium text-foreground group-hover:text-secondary transition-colors">{group.fantasia || group.razao}</h4>
+                        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest">{group.clientCount} Clientes Vinculados</p>
+                      </div>
+                    </div>
 
-                  <button 
-                    className="w-full mt-8 py-4 bg-primary text-primary-foreground rounded-md text-body-sm font-medium uppercase tracking-widest hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-sm"
-                  >
-                    <Zap size={14} className="text-secondary" /> Abrir Visão do Parceiro
-                  </button>
+                    <div className="grid grid-cols-2 gap-4 mb-8">
+                      <div className="p-4 bg-surface-container rounded-button border border-border">
+                        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Fat. ({selectedCurrency})</p>
+                        <p className="text-body-md font-medium text-foreground">{fmtCurrency(group.totalRevenue, selectedCurrency)}</p>
+                      </div>
+                      <div className="p-4 bg-surface-container rounded-button border border-border">
+                        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Health Score Médio</p>
+                      <p className="text-body-md font-medium text-foreground">{group.avgScore.toFixed(1)}%</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h5 className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-4">Empresas do Portfólio</h5>
+                      {group.clients.slice(0, 3).map((client) => (
+                        <div 
+                          key={client.id} 
+                          onClick={() => onSelectClient(client.id)}
+                          className="flex items-center justify-between p-3 bg-background border border-border rounded-button hover:border-secondary transition-all cursor-pointer"
+                        >
+                          <span className="text-body-sm font-medium text-foreground">{client.name}</span>
+                          <div className="flex items-center gap-2">
+                            <span className={cn(
+                              "text-body-sm font-medium",
+                              client.score > 80 ? "text-success" : client.score > 60 ? "text-primary" : "text-destructive"
+                            )}>{client.score}</span>
+                            <ChevronRight size={12} className="text-muted-foreground" />
+                          </div>
+                        </div>
+                      ))}
+                      {group.clientCount > 3 && (
+                        <p className="text-body-sm text-muted-foreground text-center pt-2 font-medium uppercase tracking-widest">
+                          + {group.clientCount - 3} outras empresas
+                        </p>
+                      )}
+                    </div>
+
+                    <button 
+                      className="btn-executive w-full mt-8 shadow-none"
+                    >
+                      <Zap size={14} className="text-secondary" /> Abrir Visão do Parceiro
+                    </button>
+                  </div>
                 </div>
+              ))}
+            </div>
+          ) : (
+            <div className="w-full py-20 text-center">
+              <div className="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-6 text-muted-foreground">
+                <Users size={40} />
               </div>
-            ))}
-            {partnerGroups.length === 0 && (
-              <div className="col-span-full py-20 text-center">
-                <div className="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-6 text-muted-foreground">
-                  <Users size={40} />
-                </div>
-                <h4 className="text-h2 font-medium text-foreground mb-2">Nenhum parceiro estratégico identificado</h4>
-                <p className="text-muted-foreground max-w-md mx-auto">Cadastre parceiros e vincule clientes para habilitar esta visão consolidada.</p>
-              </div>
-            )}
-          </div>
+              <h4 className="text-h2 font-medium text-foreground mb-2">Nenhum parceiro estratégico identificado</h4>
+              <p className="text-muted-foreground block text-center mx-auto" style={{ whiteSpace: 'normal', overflowWrap: 'break-word', wordBreak: 'break-word', display: 'block', width: '100%', maxWidth: 'none' }}>
+                Cadastre parceiros e vincule clientes para habilitar esta visão consolidada.
+              </p>
+            </div>
+          )}
         </div>
       ) : viewMode === 'model' ? (
         <div className="space-y-8 animate-executive-fade">
-          <div className="bg-amber-50 border border-amber-200 rounded-md p-8 flex items-start gap-6">
-            <div className="w-12 h-12 rounded-md bg-amber-500 text-white flex items-center justify-center shadow-lg shadow-amber-500/20">
+          <div className="bg-warning/10 border border-warning/20 rounded-card p-6 md:p-8 flex flex-col sm:flex-row items-start gap-4 md:gap-6">
+            <div className="w-12 h-12 rounded-button bg-warning text-white flex items-center justify-center shadow-lg shadow-warning/20 shrink-0">
               <Sparkles size={24} />
             </div>
             <div>
-              <h4 className="text-h2 font-medium text-amber-900">Empresas Modelo para Demonstração</h4>
-              <p className="text-body-md text-amber-700/80 mt-1 font-medium">
+              <h4 className="text-h2 font-medium text-foreground">Empresas Modelo para Demonstração</h4>
+              <p className="text-body-md text-muted-foreground mt-1 font-medium">
                 Estas empresas servem apenas para fins didáticos e demonstração da plataforma. Os dados aqui contidos não impactam a visão consolidada de clientes reais.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {modelPortfolio.map((client) => (
-              <div 
-                key={client.id} 
-                onClick={() => onSelectClient(client.id)}
-                className="bg-background rounded-md border border-border p-6 shadow-sm hover:shadow-lg transition-all group cursor-pointer relative overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                  <LayoutDashboard size={80} />
-                </div>
-                <div className="flex items-center gap-4 mb-6">
-                  <div className={cn(
-                    "w-12 h-12 rounded-md flex items-center justify-center font-medium text-white text-h3 shadow-lg shrink-0",
-                    (client.logo || client.icon) ? "bg-background border border-border" : "bg-primary"
-                  )}>
-                    {client.icon || client.logo ? (
-                      <img src={client.icon || client.logo} alt={client.name} className="w-full h-full object-cover" />
-                    ) : (
-                      client.name.split(' ').map(n => n[0]).join('').slice(0, 2)
-                    )}
+          {modelPortfolio.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {modelPortfolio.map((client) => (
+                <div 
+                  key={client.id} 
+                  onClick={() => onSelectClient(client.id)}
+                  className="card-premium p-6 hover:shadow-lg transition-all group cursor-pointer relative overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                    <LayoutDashboard size={80} />
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-body-md font-medium text-foreground group-hover:text-primary transition-colors">{client.name}</p>
-                    <p className="text-[9px] font-normal text-muted-foreground/60 uppercase tracking-widest mt-0.5">{client.industry}</p>
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={cn(
+                      "w-12 h-12 rounded-button flex items-center justify-center font-medium text-white text-h3 shadow-lg shrink-0",
+                      (client.logo || client.icon) ? "bg-background border border-border" : "bg-primary"
+                    )}>
+                      {client.icon || client.logo ? (
+                        <img src={client.icon || client.logo} alt={client.name} className="w-full h-full object-cover" />
+                      ) : (
+                        client.name.split(' ').map(n => n[0]).join('').slice(0, 2)
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-body-md font-medium text-foreground group-hover:text-primary transition-colors">{client.name}</p>
+                      <p className="text-[9px] font-normal text-muted-foreground/60 uppercase tracking-widest mt-0.5">{client.industry}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Health Score</p>
+                      <p className="text-h3 font-medium text-foreground">{client.score}</p>
+                    </div>
+                    <button className="p-2 bg-surface-container text-muted-foreground rounded-button group-hover:bg-primary group-hover:text-primary-foreground transition-all">
+                      <ChevronRight size={18} />
+                    </button>
                   </div>
                 </div>
-                
-                <div className="flex justify-between items-end">
-                  <div>
-                    <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Health Score</p>
-                    <p className="text-h3 font-medium text-foreground">{client.score}</p>
-                  </div>
-                  <button className="p-2 bg-surface-container text-muted-foreground rounded-button group-hover:bg-primary group-hover:text-primary-foreground transition-all">
-                    <ChevronRight size={18} />
-                  </button>
-                </div>
-              </div>
-            ))}
-            {modelPortfolio.length === 0 && (
-              <div className="col-span-full py-20 text-center bg-surface-container rounded-card border border-dashed border-border">
-                <p className="text-muted-foreground font-medium uppercase tracking-widest text-body-sm">Nenhuma empresa modelo cadastrada.</p>
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="w-full py-20 text-center bg-surface-container rounded-card border border-dashed border-border">
+              <p className="text-muted-foreground font-medium uppercase tracking-widest text-body-sm">Nenhuma empresa modelo cadastrada.</p>
+            </div>
+          )}
         </div>
       ) : (
         <>
-          <div className="flex flex-col md:flex-row gap-4 bg-background p-4 rounded-md border border-border shadow-sm min-w-0 w-full">
+          <div className="flex flex-col md:flex-row gap-4 bg-background p-4 rounded-card border border-border shadow-sm min-w-0 w-full">
             <div className="relative flex-1">
               <input 
                 type="text" 
                 placeholder="Buscar por cliente ou segmento..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-surface-container border border-border rounded-md outline-none focus:ring-2 focus:ring-primary/5 transition-all font-medium text-body-sm" 
+                className="w-full pl-12 pr-4 py-3 bg-surface-container border border-border rounded-input outline-none focus:ring-2 focus:ring-primary/5 transition-all font-medium text-body-sm" 
               />
               <Search size={18} className="absolute left-4 top-3.5 text-muted-foreground" />
             </div>
             <div className="flex gap-2">
-              <button className="flex-1 md:flex-none px-4 md:px-6 py-2 md:py-3 bg-background border border-border rounded-md text-body-sm font-medium text-foreground flex items-center justify-center gap-2 hover:bg-surface-container transition-colors">
+              <button className="btn-ghost flex-1 md:flex-none border border-border hover:bg-surface-container transition-all text-foreground text-xs md:text-sm font-medium shadow-none">
                 <Filter size={16} /> Filtros Avançados
               </button>
             </div>
@@ -769,27 +857,27 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                 <table className="w-full border-collapse min-w-[800px]">
                   <thead>
                     <tr className="bg-surface-container/50 border-b border-border">
-                      <th className="px-8 py-5 text-left text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Cliente / Setor</th>
-                      <th className="px-8 py-5 text-center text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Health Score</th>
-                      <th className="px-8 py-5 text-center text-body-sm font-medium text-muted-foreground uppercase tracking-widest border-x border-border bg-secondary/10 text-secondary">Índice Gov.</th>
-                      <th className="px-8 py-5 text-center text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Alertas</th>
-                      <th className="px-8 py-5 text-right text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Ações Estratégicas</th>
+                      <th className="px-5 md:px-8 py-3 md:py-5 text-left text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Cliente / Setor</th>
+                      <th className="px-5 md:px-8 py-3 md:py-5 text-center text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Health Score</th>
+                      <th className="px-5 md:px-8 py-3 md:py-5 text-center text-body-sm font-medium text-muted-foreground uppercase tracking-widest border-x border-border bg-secondary/10 text-secondary">Índice Gov.</th>
+                      <th className="px-5 md:px-8 py-3 md:py-5 text-center text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Alertas</th>
+                      <th className="px-5 md:px-8 py-3 md:py-5 text-right text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Ações Estratégicas</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {filteredPortfolio.map((client) => (
                       <tr key={client.id} className="hover:bg-surface-container/50 transition-colors group cursor-pointer" onClick={() => onSelectClient(client.id)}>
-                        <td className="px-8 py-6">
+                        <td className="px-4 md:px-8 py-4 md:py-6">
                           <div className="flex items-center gap-4">
                             <div className={cn(
-                              "w-12 h-12 rounded-md flex items-center justify-center font-medium text-white text-h3 shadow-lg shrink-0 transition-transform group-hover:scale-105 overflow-hidden",
+                              "w-12 h-12 rounded-button flex items-center justify-center font-medium text-white text-h3 shadow-lg shrink-0 transition-transform group-hover:scale-105 overflow-hidden",
                               (client.logo || client.icon) ? "bg-background border border-border" :
                               client.status === 'onboarding' ? "bg-surface-container text-muted-foreground shadow-none" :
                               client.score > 80 ? "bg-success" : 
                               client.score > 60 ? "bg-primary" : "bg-destructive"
                             )}>
                               {client.icon || client.logo ? (
-                                <img src={client.icon || client.logo} alt={client.name} className="w-full h-full object-cover" />
+                                  <img src={client.icon || client.logo} alt={client.name} className="w-full h-full object-cover" />
                               ) : (
                                 client.name.split(' ').map(n => n[0]).join('').slice(0, 2)
                               )}
@@ -800,7 +888,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                             </div>
                           </div>
                         </td>
-                        <td className="px-8 py-6">
+                        <td className="px-4 md:px-8 py-4 md:py-6">
                           <div className="flex flex-col items-center">
                             <div className="flex items-center gap-2">
                               <span className={cn(
@@ -813,38 +901,38 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                             {client.status === 'onboarding' && <span className="text-[8px] font-black uppercase text-slate-400">Pendente</span>}
                           </div>
                         </td>
-                        <td className="px-8 py-6 text-center border-x border-slate-100/50 bg-indigo-50/10">
+                        <td className="px-4 md:px-8 py-4 md:py-6 text-center border-x border-border/50 bg-surface-container/50">
                           <div className="flex items-center justify-center gap-1.5">
-                            <ShieldCheck size={14} className={client.status === 'onboarding' ? "text-slate-300" : "text-indigo-500"} />
-                            <span className={cn("font-black text-lg", client.status === 'onboarding' ? "text-slate-300" : "text-slate-800")}>
+                            <ShieldCheck size={14} className={client.status === 'onboarding' ? "text-muted-foreground/40" : "text-secondary"} />
+                            <span className={cn("font-black text-lg", client.status === 'onboarding' ? "text-muted-foreground/40" : "text-foreground")}>
                               {client.status === 'onboarding' ? '--' : client.governanceScore}
                             </span>
                           </div>
                         </td>
-                        <td className="px-8 py-6 text-center">
+                        <td className="px-4 md:px-8 py-4 md:py-6 text-center">
                           {client.criticalAlerts > 0 ? (
-                            <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-rose-50 text-rose-600 rounded-lg text-[10px] font-black uppercase whitespace-nowrap">
+                            <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-destructive/10 text-destructive rounded-button text-[10px] font-black uppercase whitespace-nowrap">
                               <AlertCircle size={12} /> {client.criticalAlerts} Críticos
                             </div>
                           ) : client.status === 'onboarding' ? (
                             <span className="text-[10px] font-bold text-slate-300 uppercase italic">Dados em carga</span>
                           ) : (
-                            <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase whitespace-nowrap">
+                            <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-success/10 text-success rounded-button text-[10px] font-black uppercase whitespace-nowrap">
                               <CheckCircle2 size={12} /> Saudável
                             </div>
                           )}
                         </td>
-                        <td className="px-8 py-6 text-right">
+                        <td className="px-4 md:px-8 py-4 md:py-6 text-right">
                           <div className="flex justify-end gap-2 shrink-0">
                             <button 
                               onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'advisory_insights'); }}
-                              className="px-4 py-2 bg-slate-900 text-white hover:bg-slate-800 rounded-xl transition-all shadow-md flex items-center gap-2 text-[10px] font-black uppercase tracking-tight"
+                              className="btn-executive text-[9px] px-3 py-1.5 md:px-4 md:py-2 shadow-none hover:shadow-sm"
                             >
                               <Zap size={14} className="text-secondary" /> Advisory
                             </button>
                             <button 
                               onClick={(e) => { e.stopPropagation(); onSelectClient(client.id, 'dashboard'); }}
-                              className="p-2 hover:bg-slate-100 border border-slate-200 rounded-xl transition-all flex items-center justify-center text-slate-600"
+                              className="btn-ghost p-2 hover:bg-surface-container border border-border rounded-button transition-all flex items-center justify-center text-muted-foreground"
                               title="Ver Dashboard"
                             >
                               <ChevronRight size={18} />

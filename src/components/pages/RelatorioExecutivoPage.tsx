@@ -165,7 +165,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
           <select 
             value={reportType}
             onChange={(e) => setReportType(e.target.value as ReportType)}
-            className="bg-card border border-border rounded-md px-6 py-2.5 text-[10px] font-medium uppercase tracking-widest text-foreground outline-none cursor-pointer hover:border-secondary transition-all"
+            className="bg-card border border-border rounded-md px-4 md:px-6 py-2 md:py-2.5 text-[10px] font-medium uppercase tracking-widest text-foreground outline-none cursor-pointer hover:border-secondary transition-all"
           >
             <option value="full">Executivo Full AI</option>
             <option value="governance">Eixo Governança</option>

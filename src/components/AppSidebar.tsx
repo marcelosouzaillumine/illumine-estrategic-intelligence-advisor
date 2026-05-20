@@ -48,7 +48,7 @@ function Logo({ collapsed }: { collapsed?: boolean }) {
             illumine
           </span>
           <div className="sidebar-logo-sub">
-            {'Business Intelligence'.split('').map((char, i) => (
+            {'Business Intelligence & Advisory'.split('').map((char, i) => (
               <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
             ))}
           </div>
@@ -112,12 +112,12 @@ export function AppSidebar({
     <Sidebar collapsible="icon" className="border-r border-border">
       {/* Header: Logo */}
       <SidebarHeader className={cn('py-3', isCollapsed ? 'px-2 items-center' : 'px-4')}>
-        <div className={cn('flex items-center', isCollapsed ? 'justify-center' : 'justify-between')}>
+        <div className="flex items-center justify-center w-full relative">
           <Logo collapsed={isCollapsed} />
           {isMobile && (
             <button
               onClick={() => setOpenMobile(false)}
-              className="p-1.5 text-slate-400 hover:text-rose-500 transition-colors rounded-lg"
+              className="absolute right-0 p-1.5 text-slate-400 hover:text-rose-500 transition-colors rounded-lg"
             >
               <X size={16} />
             </button>

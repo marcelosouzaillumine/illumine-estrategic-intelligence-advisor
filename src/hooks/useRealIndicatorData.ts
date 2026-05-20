@@ -46,7 +46,14 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
 
     // Set up all queries
     const qAcc = query(collection(db, 'account_plans'), where('clientId', '==', clientId));
-    const qEntries = query(collection(db, 'financial_entries'), where('clientId', '==', clientId), where('year', '==', year), where('month', '==', month));
+    const entriesConstraints = [
+      where('clientId', '==', clientId),
+      where('year', '==', year)
+    ];
+    if (month > 0) {
+      entriesConstraints.push(where('month', '==', month));
+    }
+    const qEntries = query(collection(db, 'financial_entries'), ...entriesConstraints);
     const qAssets = query(collection(db, 'assets'), where('clientId', '==', clientId));
     const qCashFlows = query(collection(db, 'cash_flows'), where('clientId', '==', clientId));
     const qPositions = query(collection(db, 'financial_positions'), where('clientId', '==', clientId));

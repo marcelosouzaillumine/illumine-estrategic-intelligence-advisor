@@ -11,7 +11,8 @@ export function PageHeader({
   actions,
   badge,
   color,
-  transparent
+  transparent,
+  className
 }: { 
   title: string; 
   subtitle?: string; 
@@ -20,6 +21,7 @@ export function PageHeader({
   badge?: string;
   color?: string;
   transparent?: boolean;
+  className?: string;
 }) {
   const renderIcon = (size: number, className?: string) => {
     if (!Icon) return <LayoutGrid size={size} className={className} />;
@@ -34,33 +36,33 @@ export function PageHeader({
   };
 
   return (
-    <div className="mb-12">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
-        <div className="space-y-2 flex-1">
+    <div className={cn("mb-12", className)}>
+      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 xl:gap-8">
+        <div className="space-y-2 flex-1 min-w-0 w-full">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-button bg-surface-container flex items-center justify-center border border-border shrink-0 shadow-sm">
               {renderIcon(22, "text-secondary")}
             </div>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <h1 className="text-h2 font-display font-medium tracking-tight text-foreground leading-tight">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0">
+              <h1 className="text-h2 font-display font-medium tracking-tight text-foreground leading-tight truncate">
                 {title}
               </h1>
               {badge && (
-                <span className="inline-flex w-fit px-3 py-1 bg-surface-container border border-border rounded-full text-[10px] font-medium uppercase tracking-widest text-secondary">
+                <span className="inline-flex w-fit px-3 py-1 bg-surface-container border border-border rounded-full text-[10px] font-medium uppercase tracking-widest text-secondary shrink-0">
                   {badge}
                 </span>
               )}
             </div>
           </div>
           {subtitle && (
-            <p className="text-muted-foreground text-body-md font-medium ml-0 lg:ml-16 leading-relaxed max-w-3xl">
+            <p className="text-muted-foreground text-body-md font-medium ml-0 xl:ml-16 leading-relaxed max-w-3xl break-words">
               {subtitle}
             </p>
           )}
         </div>
         
         {actions && (
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex flex-wrap items-center gap-3 shrink-0 w-full xl:w-auto mt-4 xl:mt-0">
             {actions}
           </div>
         )}
@@ -132,18 +134,21 @@ export function SectionHeader({ title, subtitle, icon: Icon, tone = 'blue' }: an
 export function KpiValue({ 
   value, 
   suffix = '', 
-  className 
+  className,
+  noScroll = false
 }: { 
   value: string | number; 
   suffix?: string;
   className?: string;
+  noScroll?: boolean;
 }) {
   const cleanSuffix = suffix.replace(/\s+/g, '\u00A0');
   const isCurrency = ['R$', 'BRL', 'USD', 'EUR', 'GBP', '$'].includes(cleanSuffix.trim());
   return (
-    <div className="w-full [container-type:inline-size] overflow-x-auto scrollbar-hide">
+    <div className="w-full [container-type:inline-size] py-1">
       <div className={cn(
-        "whitespace-nowrap tabular-nums text-right font-display leading-none min-w-0 max-w-full text-[clamp(0.8rem,10cqw,2.5rem)]",
+        "whitespace-nowrap tabular-nums font-display leading-[1.15] min-w-0 max-w-full",
+        "text-[clamp(0.9rem,9cqw,2.2rem)]",
         className
       )}>
         {isCurrency ? `${cleanSuffix.trim()}\u00A0${value}` : `${value}${cleanSuffix}`}
@@ -161,7 +166,8 @@ export function KpiCard({
   trend,
   className,
   highlight = false,
-  onClick
+  onClick,
+  noScroll = false
 }: {
   title: string;
   value: string | number;
@@ -172,6 +178,7 @@ export function KpiCard({
   className?: string;
   highlight?: boolean;
   onClick?: () => void;
+  noScroll?: boolean;
 }) {
   const statusConfig: Record<string, { bg: string; text: string; border: string; glow: string; label: string }> = {
     'Verde': { bg: 'bg-success/5', text: 'text-success', border: 'border-success/20', glow: 'shadow-[0_0_12px_rgba(16,185,129,0.08)]', label: 'Saudável' },
@@ -188,7 +195,40 @@ export function KpiCard({
     'N/A': { bg: 'bg-surface-container', text: 'text-muted-foreground', border: 'border-border', glow: '', label: 'N/A' },
   };
 
+  // Trend-specific color config — each evolution state has its own highlight color
+  const trendConfig: Record<string, { bg: string; text: string; border: string; glow: string; dot: string }> = {
+    // 🟢 Positive / Growth
+    'Em Alta':    { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-emerald-500' },
+    'Bullish':    { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-emerald-500' },
+    'Saudável':   { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-emerald-500' },
+    'Verde':      { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-emerald-500' },
+    'Stable':     { bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/25', glow: 'shadow-[0_0_14px_rgba(16,185,129,0.12)]', dot: 'bg-emerald-500' },
+    // 🔴 Negative / Decline
+    'Em Queda':   { bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-rose-500' },
+    'Bearish':    { bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-rose-500' },
+    'Crítico':    { bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-rose-500' },
+    'Vermelho':   { bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/25', glow: 'shadow-[0_0_14px_rgba(239,68,68,0.12)]', dot: 'bg-rose-500' },
+    // 🟡 Neutral / Caution
+    'Estável':    { bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-amber-500' },
+    'Correction': { bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-amber-500' },
+    'Atenção':    { bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-amber-500' },
+    'Amarelo':    { bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/25', glow: 'shadow-[0_0_14px_rgba(245,158,11,0.10)]', dot: 'bg-amber-500' },
+    // 🔵 Informational
+    'Real':       { bg: 'bg-blue-500/10', text: 'text-blue-500', border: 'border-blue-500/25', glow: 'shadow-[0_0_14px_rgba(59,130,246,0.10)]', dot: 'bg-blue-500' },
+    'Calculado':  { bg: 'bg-blue-500/10', text: 'text-blue-500', border: 'border-blue-500/25', glow: 'shadow-[0_0_14px_rgba(59,130,246,0.10)]', dot: 'bg-blue-500' },
+    'Mensal':     { bg: 'bg-blue-500/10', text: 'text-blue-500', border: 'border-blue-500/25', glow: 'shadow-[0_0_14px_rgba(59,130,246,0.10)]', dot: 'bg-blue-500' },
+    'Consolidado':{ bg: 'bg-blue-500/10', text: 'text-blue-500', border: 'border-blue-500/25', glow: 'shadow-[0_0_14px_rgba(59,130,246,0.10)]', dot: 'bg-blue-500' },
+    // ⚪ Neutral / Unknown
+    'Pendente':   { bg: 'bg-surface-container', text: 'text-muted-foreground', border: 'border-border', glow: '', dot: 'bg-muted-foreground' },
+    'N/A':        { bg: 'bg-surface-container', text: 'text-muted-foreground', border: 'border-border', glow: '', dot: 'bg-muted-foreground' },
+  };
+
   const cfg = statusConfig[status] || statusConfig['Verde'];
+
+  // When a trend is provided, use its specific color; otherwise fall back to status color
+  const badgeCfg = trend && trendConfig[trend]
+    ? trendConfig[trend]
+    : { bg: cfg.bg, text: cfg.text, border: cfg.border, glow: cfg.glow, dot: 'bg-success' };
 
   return (
     <motion.div 
@@ -196,7 +236,9 @@ export function KpiCard({
       whileTap={{ scale: 0.99 }}
       onClick={onClick}
       className={cn(
-        "rounded-2xl border shadow-xs p-8 min-w-0 h-full overflow-hidden flex flex-col justify-between transition-all duration-300 relative group",
+        /* overflow-clip instead of overflow-hidden: clips visually without affecting layout/scrollbars,
+           preventing digit descenders (6, 3, 9, etc.) from being cut by the border radius */
+        "rounded-2xl border shadow-xs p-8 min-w-0 h-full flex flex-col justify-between transition-all duration-300 relative group",
         highlight 
           ? "bg-primary text-primary-foreground border-transparent" 
           : "bg-card text-card-foreground border-border hover:border-secondary/40",
@@ -216,44 +258,37 @@ export function KpiCard({
           </div>
         )}
         
-        {/* Advanced Glowing Status Badge */}
+        {/* Status/Trend Badge — color is driven by the trend value when provided */}
         <div className={cn(
           "px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest border flex items-center gap-1.5 shrink-0 transition-all duration-300",
           highlight 
             ? "bg-white/10 text-white border-white/20" 
-            : `${cfg.bg} ${cfg.text} ${cfg.border} ${cfg.glow} group-hover:scale-105`
+            : `${badgeCfg.bg} ${badgeCfg.text} ${badgeCfg.border} ${badgeCfg.glow} group-hover:scale-105`
         )}>
           <span className={cn(
             "w-1.5 h-1.5 rounded-full animate-pulse",
-            highlight 
-              ? "bg-white" 
-              : status === 'Vermelho' || status === 'Bearish' || status === 'Em Queda'
-                ? 'bg-destructive' 
-                : status === 'Amarelo' || status === 'Correction' || status === 'Atenção'
-                  ? 'bg-warning' 
-                  : status === 'Pendente' || status === 'N/A'
-                    ? 'bg-muted-foreground'
-                    : 'bg-success'
+            highlight ? "bg-white" : badgeCfg.dot
           )} />
           <span>{trend || cfg.label}</span>
         </div>
       </div>
 
-      <div className="space-y-4 min-w-0 overflow-hidden flex-1 flex flex-col justify-center">
-        {/* Dynamic Responsive Clamp Title */}
-        <div className="w-full overflow-x-auto scrollbar-hide">
-          <p className={cn(
-            "text-[clamp(8.5px,0.75vw,10.5px)] font-black uppercase tracking-[0.2em] leading-normal transition-colors duration-300 whitespace-nowrap",
-            highlight ? "text-secondary/90" : "text-muted-foreground group-hover:text-secondary"
-          )}>
-            {title}
-          </p>
-        </div>
+      {/* Value area: no overflow-hidden so digits are never clipped; flex-1 fills remaining height */}
+      <div className="space-y-3 min-w-0 flex-1 flex flex-col justify-center">
+        {/* Title — single line, truncate gracefully if too long */}
+        <p className={cn(
+          "text-[clamp(8.5px,0.75vw,10.5px)] font-black uppercase tracking-[0.2em] leading-normal transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis",
+          highlight ? "text-secondary/90" : "text-muted-foreground group-hover:text-secondary"
+        )}>
+          {title}
+        </p>
+        {/* Number value — container-query font scaling, no overflow-hidden, py-1 gives vertical breathing room */}
         <KpiValue 
           value={value} 
           suffix={suffix} 
+          noScroll={true}
           className={cn(
-            "font-semibold tracking-tighter text-[clamp(1.5rem,1.8vw,2rem)] font-display transition-transform duration-300 group-hover:scale-[1.01] origin-left",
+            "font-semibold tracking-tight font-display transition-transform duration-300 group-hover:scale-[1.01] origin-left",
             highlight ? "text-white" : "text-foreground"
           )} 
         />
@@ -312,7 +347,11 @@ export interface ControlBarProps {
   selectedMonth?: number;
   setSelectedMonth?: (month: number) => void;
   years?: number[];
-  
+
+  // Period mode (Mensal / Anual) — optional controlled mode
+  periodMode?: 'mensal' | 'anual';
+  setPeriodMode?: (mode: 'mensal' | 'anual') => void;
+
   // Custom Tabs (like in LoansPage)
   tabs?: { id: string; label: string }[];
   activeTab?: string;
@@ -327,16 +366,26 @@ export interface ControlBarProps {
   // Custom Actions / Children
   actions?: React.ReactNode;
   children?: React.ReactNode;
+  /** @deprecated Use periodMode/setPeriodMode instead. Kept for compatibility. */
+  periodToggle?: React.ReactNode;
+  hideMonth?: boolean;
   
   className?: string;
 }
+
+const DEFAULT_YEARS = (() => {
+  const cur = new Date().getFullYear();
+  return Array.from({ length: 11 }, (_, i) => cur - 5 + i);
+})();
 
 export function ControlBar({
   selectedYear,
   setSelectedYear,
   selectedMonth,
   setSelectedMonth,
-  years = [2024, 2025, 2026],
+  years = DEFAULT_YEARS,
+  periodMode: periodModeProp,
+  setPeriodMode: setPeriodModeProp,
   tabs,
   activeTab,
   setActiveTab,
@@ -346,8 +395,18 @@ export function ControlBar({
   statusBadgeColor = 'success',
   actions,
   children,
-  className
+  className,
+  periodToggle,
+  hideMonth = false
 }: ControlBarProps) {
+  const [internalPeriodMode, setInternalPeriodMode] = React.useState<'mensal' | 'anual'>('mensal');
+  const isControlled = periodModeProp !== undefined && setPeriodModeProp !== undefined;
+  const periodMode = isControlled ? periodModeProp : internalPeriodMode;
+  const setPeriodMode = isControlled ? setPeriodModeProp : setInternalPeriodMode;
+
+  // When period mode is anual, month is hidden
+  const effectiveHideMonth = hideMonth || periodMode === 'anual';
+
   const showSelectors = selectedYear !== undefined && setSelectedYear !== undefined && selectedMonth !== undefined && setSelectedMonth !== undefined;
   
   const badgeColors = {
@@ -364,10 +423,40 @@ export function ControlBar({
       className
     )}>
       <div className="flex items-center gap-3">
+        {/* Legacy periodToggle slot — rendered only if no built-in selectors */}
+        {periodToggle && !showSelectors && periodToggle}
+
         {/* Date Selectors */}
         {showSelectors && (
           <div className="flex items-center bg-background border border-border rounded-button p-1 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-border">
+            {/* Mensal / Anual Toggle */}
+            <div className="flex items-center border-r border-border pr-1 mr-1">
+              <button
+                onClick={() => setPeriodMode('mensal')}
+                className={cn(
+                  "px-3 py-1.5 rounded-md text-[10px] font-black uppercase tracking-widest transition-all",
+                  periodMode === 'mensal'
+                    ? "bg-surface-container text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-secondary"
+                )}
+              >
+                Mensal
+              </button>
+              <button
+                onClick={() => setPeriodMode('anual')}
+                className={cn(
+                  "px-3 py-1.5 rounded-md text-[10px] font-black uppercase tracking-widest transition-all",
+                  periodMode === 'anual'
+                    ? "bg-surface-container text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-secondary"
+                )}
+              >
+                Anual
+              </button>
+            </div>
+
+            {/* Year Selector */}
+            <div className={cn("flex items-center px-4 py-2", !effectiveHideMonth && "border-r border-border")}>
               <Calendar size={14} className="text-secondary mr-2.5" />
               <select 
                 value={selectedYear} 
@@ -379,19 +468,26 @@ export function ControlBar({
                 ))}
               </select>
             </div>
-            <div className="flex items-center px-4 py-2">
-              <select 
-                value={selectedMonth} 
-                onChange={(e) => setSelectedMonth!(Number(e.target.value))}
-                className="text-body-sm font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-              >
-                {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
-                  <option key={m} value={Number(m)}>{label}</option>
-                ))}
-              </select>
-            </div>
+
+            {/* Month Selector — hidden in Anual mode */}
+            {!effectiveHideMonth && (
+              <div className="flex items-center px-4 py-2">
+                <select 
+                  value={selectedMonth} 
+                  onChange={(e) => setSelectedMonth!(Number(e.target.value))}
+                  className="text-body-sm font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                >
+                  {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
+                    <option key={m} value={Number(m)}>{label}</option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
         )}
+
+        {/* Legacy periodToggle when selectors are present */}
+        {periodToggle && showSelectors && periodToggle}
 
         {/* Navigation Tabs */}
         {tabs && activeTab && setActiveTab && (

@@ -50,14 +50,14 @@ export function ClientSelector({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex items-center gap-2.5 px-3.5 py-1.5 rounded-button transition-all duration-700 group relative overflow-hidden border border-border/10",
+          "flex items-center gap-1 sm:gap-2.5 px-1.5 sm:px-3.5 py-1 sm:py-1.5 rounded-button transition-all duration-700 group relative overflow-hidden border border-border/10",
           isOpen 
             ? "bg-primary text-primary-foreground shadow-md" 
             : "hover:bg-surface-container/50"
         )}
       >
         <div className={cn(
-          "w-7 h-7 rounded-sm flex items-center justify-center shrink-0 transition-all duration-700 overflow-hidden",
+          "w-5 h-5 sm:w-7 sm:h-7 rounded-sm flex items-center justify-center shrink-0 transition-all duration-700 overflow-hidden",
           isOpen 
             ? "bg-white shadow-sm" 
             : "bg-white shadow-sm"
@@ -66,39 +66,31 @@ export function ClientSelector({
             <img 
               src={currentClient.icon || currentClient.logo} 
               alt={currentClient.fantasia} 
-              className="w-full h-full object-contain p-0.5"
+              className="w-full h-full object-cover"
             />
           ) : (
             <Building2 size={16} strokeWidth={1.25} className={cn(
-              "transition-colors",
+              "transition-colors sm:w-4 sm:h-4 w-3.5 h-3.5",
               isOpen ? "text-primary" : "text-neutral group-hover:text-accent"
             )} />
           )}
         </div>
         
-        <div className="text-left hidden md:block relative z-10">
+        <div className="text-left relative z-10">
           <p className={cn(
-            "text-[8px] font-bold uppercase tracking-[0.3em] mb-0.5 transition-colors duration-500 leading-none",
+            "hidden sm:block text-[8px] font-bold uppercase tracking-[0.3em] mb-0.5 transition-colors duration-500 leading-none",
             isOpen ? "text-primary-foreground/60" : "text-accent"
           )}>
             Cliente Ativo
           </p>
-          <div className="flex items-center gap-2">
-            <span className={cn(
-              "text-xs font-bold tracking-tight transition-all duration-500 block leading-none",
-              isOpen ? "!text-primary-foreground" : "text-foreground"
-            )}>
-              {currentClient?.fantasia || 'Selecionar Corporação'}
-            </span>
-            <div className="flex flex-col leading-none">
-              {currentClient?.cnpj && (
-                <span className={cn(
-                  "text-[8px] font-medium opacity-65 tracking-wide",
-                  isOpen ? "text-primary-foreground" : "text-neutral"
-                )}>
-                  {formatDoc(currentClient.cnpj)}
-                </span>
-              )}
+          <div className="flex items-center gap-1 sm:gap-2 whitespace-nowrap">
+            <div className="flex items-center gap-1 sm:gap-1.5">
+              <span className={cn(
+                "text-[clamp(8px,2.5vw,12px)] font-bold tracking-tight transition-all duration-500 leading-none",
+                isOpen ? "!text-primary-foreground" : "text-foreground"
+              )}>
+                {currentClient?.fantasia || 'Selecionar Corporação'}
+              </span>
             </div>
             <ChevronDown size={11} strokeWidth={1.25} className={cn(
               "transition-transform duration-500 shrink-0",
@@ -159,7 +151,7 @@ export function ClientSelector({
                           <img 
                             src={client.icon || client.logo} 
                             alt={client.fantasia} 
-                            className="w-full h-full object-contain p-1.5"
+                            className="w-full h-full object-cover"
                           />
                         ) : (
                           <Building2 size={18} className={selectedClient === client.id ? "text-white" : "text-slate-400"} />

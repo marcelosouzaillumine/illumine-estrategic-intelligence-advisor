@@ -127,7 +127,7 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                 key={scope}
                 onClick={() => setSelectedScope(scope)}
                 className={cn(
-                  "px-6 py-2 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all",
+                  "px-4 md:px-6 py-1.5 md:py-2 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all",
                   selectedScope === scope ? "bg-card text-foreground shadow-premium border border-border" : "text-muted-foreground hover:text-foreground hover:bg-card/50"
                 )}
               >

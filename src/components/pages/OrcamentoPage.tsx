@@ -18,7 +18,8 @@ import {
   LayoutGrid,
   AlertCircle,
   TrendingUp,
-  FileText
+  FileText,
+  Calendar
 } from 'lucide-react';
 import { 
   collection, 
@@ -366,12 +367,12 @@ export function OrcamentoPage({
       />
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <div className="flex bg-slate-100/50 p-1 rounded-2xl border border-slate-200/60">
             <button 
               onClick={() => setViewType('mensal')}
               className={cn(
-                "px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                "px-4 md:px-6 py-1.5 md:py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
                 viewType === 'mensal' ? "bg-white text-primary shadow-sm" : "text-slate-400 hover:text-slate-600"
               )}
             >
@@ -380,7 +381,7 @@ export function OrcamentoPage({
             <button 
               onClick={() => setViewType('anual')}
               className={cn(
-                "px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                "px-4 md:px-6 py-1.5 md:py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
                 viewType === 'anual' ? "bg-white text-primary shadow-sm" : "text-slate-400 hover:text-slate-600"
               )}
             >
@@ -388,17 +389,45 @@ export function OrcamentoPage({
             </button>
           </div>
 
-          <div className="h-8 w-px bg-slate-200 mx-2" />
+          <div className="flex items-center bg-white p-1 rounded-xl border border-slate-200 shadow-sm h-[40px]">
+            <div className={cn("flex items-center px-4 py-2", viewType === 'mensal' && "border-r border-slate-100")}>
+              <Calendar size={14} className="text-secondary mr-2" />
+              <select 
+                value={localYear} 
+                onChange={(e) => setLocalYear(parseInt(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {years.map(y => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            </div>
+            {viewType === 'mensal' && (
+              <div className="flex items-center px-4 py-2 animate-in fade-in zoom-in duration-300">
+                <select 
+                  value={localMonth} 
+                  onChange={(e) => setLocalMonth(parseInt(e.target.value))}
+                  className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                >
+                  {months.map(m => (
+                    <option key={m.v} value={m.v}>{m.l}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+
+          <div className="h-8 w-px bg-slate-200 mx-2 hidden md:block" />
 
           <button 
             onClick={handleDuplicate}
             disabled={isSaving || budgets.filter(b => b.month === localMonth).length === 0}
-            className="px-6 py-3 bg-white border border-slate-200 text-emerald-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-50 transition-all flex items-center gap-2 shadow-sm disabled:opacity-50"
+            className="px-4 md:px-6 py-2 md:py-2.5 bg-white border border-slate-200 text-emerald-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-50 transition-all flex items-center gap-2 shadow-sm disabled:opacity-50 h-[40px]"
           >
             <LayoutGrid size={14} /> DUPLICAR MÊS
           </button>
 
-          <label className="cursor-pointer px-6 py-3 bg-white border border-slate-200 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm">
+          <label className="cursor-pointer px-4 md:px-6 py-2 md:py-2.5 bg-white border border-slate-200 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm h-[40px]">
             {isImporting ? <Loader2 size={14} className="animate-spin" /> : <UploadCloud size={14} />}
             {isImporting ? 'IMPORTANDO...' : 'IMPORTAR CSV'}
             <input type="file" accept=".csv" className="hidden" onChange={handleImport} disabled={isImporting} />
@@ -420,7 +449,7 @@ export function OrcamentoPage({
               });
               setIsModalOpen(true); 
             }}
-            className="px-8 py-3.5 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
+            className="px-5 md:px-8 py-2.5 md:py-3.5 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
           >
             <Plus size={16} /> NOVO LANÇAMENTO
           </button>
@@ -444,37 +473,11 @@ export function OrcamentoPage({
           <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500" />
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Referência</p>
           <div className="flex items-baseline gap-2">
-            {viewType === 'mensal' ? (
-              <select 
-                value={localMonth}
-                onChange={(e) => setLocalMonth(parseInt(e.target.value))}
-                className="text-3xl font-display font-black text-slate-900 tracking-tighter bg-transparent outline-none cursor-pointer hover:text-secondary transition-colors"
-              >
-                {months.map(m => (
-                  <option key={m.v} value={m.v}>{m.l}</option>
-                ))}
-              </select>
-            ) : (
-              <select 
-                value={localYear}
-                onChange={(e) => setLocalYear(parseInt(e.target.value))}
-                className="text-3xl font-display font-black text-slate-900 tracking-tighter bg-transparent outline-none cursor-pointer hover:text-secondary transition-colors"
-              >
-                {years.map(y => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
-            )}
+            <span className="text-3xl font-display font-black text-slate-900 tracking-tighter">
+              {viewType === 'mensal' ? months.find(m => m.v === localMonth)?.l : localYear}
+            </span>
             {viewType === 'mensal' && (
-              <select 
-                value={localYear}
-                onChange={(e) => setLocalYear(parseInt(e.target.value))}
-                className="text-sm font-bold text-slate-400 bg-transparent outline-none cursor-pointer hover:text-secondary transition-colors"
-              >
-                {years.map(y => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
+              <span className="text-sm font-bold text-slate-400">{localYear}</span>
             )}
           </div>
         </div>
@@ -510,11 +513,11 @@ export function OrcamentoPage({
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50/50 border-b border-slate-100">
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Conta Contábil</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Unidade / Filial</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Centro de Custo</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor Orçado</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Conta Contábil</th>
+                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Unidade / Filial</th>
+                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Centro de Custo</th>
+                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor Orçado</th>
+                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -536,25 +539,25 @@ export function OrcamentoPage({
                   ) : (
                     filteredBudgets.map((b) => (
                       <tr key={b.id} className="hover:bg-slate-50/50 transition-colors group">
-                        <td className="px-8 py-4">
+                        <td className="px-5 md:px-8 py-2.5 md:py-4">
                           <div>
                             <p className="text-sm font-black text-primary">{b.accountName}</p>
                             <p className="text-[10px] font-mono font-bold text-slate-400">{b.accountCode}</p>
                           </div>
                         </td>
-                        <td className="px-8 py-4">
+                        <td className="px-5 md:px-8 py-2.5 md:py-4">
                           <div className="flex flex-col gap-1">
                             <span className="text-[10px] font-black text-slate-600 uppercase tracking-tighter px-2 py-0.5 bg-slate-100 rounded-md w-fit">{b.unidade || 'Sem Unidade'}</span>
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{b.filial || 'Sem Filial'}</span>
                           </div>
                         </td>
-                        <td className="px-8 py-4">
+                        <td className="px-5 md:px-8 py-2.5 md:py-4">
                           <span className="text-xs font-bold text-slate-600">{b.centroCusto || 'Geral'}</span>
                         </td>
-                        <td className="px-8 py-4 text-right">
+                        <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                           <span className="text-sm font-black text-slate-900">{formatCurrency(b.valor)}</span>
                         </td>
-                        <td className="px-8 py-4 text-right">
+                        <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                           <div className={cn(
                             "flex items-center justify-end gap-2 transition-opacity",
                             viewType === 'anual' ? "opacity-20 cursor-not-allowed" : "opacity-0 group-hover:opacity-100"

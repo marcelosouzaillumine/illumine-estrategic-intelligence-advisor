@@ -216,7 +216,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
         "hover:bg-surface-container/30 transition-colors group",
         row.isTotal && "bg-surface-container/50 font-black text-foreground"
       )}>
-        <td className="px-8 py-4 sticky left-0 bg-card z-10 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">
+        <td className="px-5 md:px-8 py-2.5 md:py-4 sticky left-0 bg-card z-10 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">
            <div className="flex items-center gap-2" style={{ paddingLeft: `${row.level * 20}px` }}>
               <span className={cn(
                 "text-[11px] break-words overflow-visible",
@@ -233,7 +233,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
           const val = reportData.valuesByPeriod[key]?.[row.id] || 0;
           return (
             <td key={key} className={cn(
-              "px-6 py-4 text-right text-[11px] font-mono",
+              "px-4 md:px-6 py-2.5 md:py-4 text-right text-[11px] font-mono",
               val < 0 ? "text-rose-500" : "text-foreground",
               isCurrent && "bg-secondary/5 font-bold"
             )}>
@@ -242,7 +242,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
           );
         })}
 
-        <td className="px-6 py-4 text-right">
+        <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
           <span className={cn(
             "text-[10px] font-bold px-2 py-0.5 rounded-full",
             av > 0 ? "bg-secondary/10 text-secondary" : "bg-surface-container text-muted-foreground border border-border"
@@ -251,7 +251,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
           </span>
         </td>
 
-        <td className="px-6 py-4 text-right">
+        <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
           <div className="flex items-center justify-end gap-1">
             {ah !== 0 && (ah > 0 ? <ArrowUpRight size={10} className="text-success" /> : <ArrowDownRight size={10} className="text-destructive" />)}
             <span className={cn(
@@ -274,9 +274,37 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
         icon={Activity}
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
+      <div className="flex items-center justify-start gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-3 bg-card border border-border rounded-md px-4 py-1.5 shadow-sm h-[40px]">
+            <span className={cn(
+              "text-[10px] font-medium uppercase tracking-[0.2em] transition-colors",
+              periodType === 'mensal' ? "text-secondary font-semibold" : "text-muted-foreground"
+            )}>Mensal</span>
+            <button 
+              onClick={() => setPeriodType(prev => prev === 'mensal' ? 'anual' : 'mensal')}
+              className={cn(
+                "w-10 h-5 rounded-full p-0.5 transition-all duration-300 relative",
+                periodType === 'anual' ? "bg-secondary" : "bg-muted-foreground/30"
+              )}
+            >
+              <motion.div 
+                layout
+                className="w-4 h-4 bg-white rounded-full shadow-sm"
+                style={{
+                  float: periodType === 'anual' ? 'right' : 'left'
+                }}
+              />
+            </button>
+            <span className={cn(
+              "text-[10px] font-medium uppercase tracking-[0.2em] transition-colors",
+              periodType === 'anual' ? "text-secondary font-semibold" : "text-muted-foreground"
+            )}>
+              Anual
+            </span>
+          </div>
+
+          <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center h-[40px]">
             <Calendar size={12} className="ml-2 text-muted-foreground" />
             <select
               onChange={(e) => setSelectedYear(Number(e.target.value))}
@@ -290,7 +318,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
           </div>
 
           {periodType === 'mensal' && (
-            <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
+            <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center h-[40px] animate-in fade-in zoom-in duration-300">
               <select
                 onChange={(e) => setSelectedMonth(Number(e.target.value))}
                 value={selectedMonth}
@@ -302,34 +330,6 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
               </select>
             </div>
           )}
-        </div>
-
-        <div className="flex items-center gap-3 bg-card border border-border rounded-md px-4 py-1.5 shadow-sm">
-          <span className={cn(
-            "text-[10px] font-medium uppercase tracking-[0.2em] transition-colors",
-            periodType === 'mensal' ? "text-secondary font-semibold" : "text-muted-foreground"
-          )}>Mensal</span>
-          <button 
-            onClick={() => setPeriodType(prev => prev === 'mensal' ? 'anual' : 'mensal')}
-            className={cn(
-              "w-10 h-5 rounded-full p-0.5 transition-all duration-300 relative",
-              periodType === 'anual' ? "bg-secondary" : "bg-muted-foreground/30"
-            )}
-          >
-            <motion.div 
-              layout
-              className="w-4 h-4 bg-white rounded-full shadow-sm"
-              style={{
-                float: periodType === 'anual' ? 'right' : 'left'
-              }}
-            />
-          </button>
-          <span className={cn(
-            "text-[10px] font-medium uppercase tracking-[0.2em] transition-colors",
-            periodType === 'anual' ? "text-secondary font-semibold" : "text-muted-foreground"
-          )}>
-            Anual
-          </span>
         </div>
       </div>
 
@@ -455,21 +455,21 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
           <table className="w-full min-w-[1200px]">
             <thead>
               <tr className="bg-surface-container border-b border-border">
-                <th className="px-8 py-4 text-left text-[10px] font-black text-muted-foreground uppercase tracking-widest sticky left-0 bg-surface-container z-20 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">Estrutura DRE</th>
+                <th className="px-5 md:px-8 py-2.5 md:py-4 text-left text-[10px] font-black text-muted-foreground uppercase tracking-widest sticky left-0 bg-surface-container z-20 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">Estrutura DRE</th>
                 {(viewMode === 'historical' ? [...periods.historical, periods.current] : [periods.current, ...periods.projections]).map(p => {
                   const key = periodType === 'anual' ? p.year.toString() : `${p.year}-${p.month}`;
                   const isCurrent = periodType === 'anual' ? p.year === selectedYear : (p.year === selectedYear && p.month === selectedMonth);
                   return (
                     <th key={key} className={cn(
-                      "px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest",
+                      "px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black uppercase tracking-widest",
                       isCurrent ? "text-secondary bg-secondary/5" : "text-muted-foreground"
                     )}>
                       {p.label}
                     </th>
                   );
                 })}
-                <th className="px-6 py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest">AV %</th>
-                <th className="px-6 py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest">AH %</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest">AV %</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-widest">AH %</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/40">

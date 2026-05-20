@@ -206,7 +206,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                   <h2 className="text-5xl font-display font-black tracking-tight">{formatCurrency(simulation.simulatedValuation)}</h2>
                 </div>
                 <div className="flex items-center gap-6">
-                   <div className="bg-emerald-500/20 px-6 py-2 rounded-2xl border border-emerald-500/30">
+                   <div className="bg-emerald-500/20 px-4 md:px-6 py-1.5 md:py-2 rounded-2xl border border-emerald-500/30">
                       <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">Delta de Valor</p>
                       <p className="text-lg font-black text-emerald-400 flex items-center gap-2">
                         <TrendingUp size={18} /> +{formatCurrency(simulation.valuationDelta)}
@@ -231,7 +231,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                   <h2 className="text-5xl font-display font-black text-slate-900 tracking-tight">{formatCurrency(simulation.simulatedEbitda)}</h2>
                 </div>
                 <div className="flex items-center gap-6">
-                   <div className="bg-slate-50 px-6 py-2 rounded-2xl border border-slate-100">
+                   <div className="bg-slate-50 px-4 md:px-6 py-1.5 md:py-2 rounded-2xl border border-slate-100">
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Margem Projetada</p>
                       <p className="text-lg font-black text-slate-900">
                         {((simulation.simulatedEbitda / (simulation.simulatedRevenue || 1)) * 100).toFixed(1)}%
@@ -300,7 +300,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                    <h4 className="text-lg font-black text-emerald-900 mb-1">Potencial Máximo de Governança</h4>
                    <p className="text-sm text-emerald-700/70 font-medium">Ao aplicar os fundamentos de Eficiência e Crescimento, a empresa pode gerar um prêmio de valor de <span className="font-black text-emerald-600">{formatCurrency(simulation.valuationDelta)}</span> no mercado de M&A.</p>
                 </div>
-                <button className="px-6 md:px-10 py-3 md:py-5 bg-emerald-600 text-white rounded-[20px] text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-emerald-600/20 hover:bg-emerald-500 transition-all">
+                <button className="px-4 md:px-6 md:px-10 py-2 md:py-3 md:py-5 bg-emerald-600 text-white rounded-[20px] text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-emerald-600/20 hover:bg-emerald-500 transition-all">
                   SALVAR CENÁRIO
                 </button>
              </div>

@@ -282,7 +282,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                  setEditingAsset(null);
                  setIsModalOpen(true);
                }}
-               className="px-8 py-4 bg-secondary text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-secondary/20 hover:scale-105 transition-all"
+               className="px-5 md:px-8 py-2.5 md:py-4 bg-secondary text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-secondary/20 hover:scale-105 transition-all"
              >
                <Plus size={16} className="inline mr-2" /> Adicionar Primeiro Ativo
              </button>
@@ -323,7 +323,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
               setEditingAsset(null);
               setIsModalOpen(true);
             }}
-            className="px-8 py-3.5 bg-secondary text-primary hover:bg-white hover:scale-[1.02] rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-xl shadow-secondary/10 cursor-pointer"
+            className="px-5 md:px-8 py-2.5 md:py-3.5 bg-secondary text-primary hover:bg-white hover:scale-[1.02] rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 shadow-xl shadow-secondary/10 cursor-pointer"
           >
             <Plus size={16} /> NOVO ATIVO
           </button>
@@ -646,19 +646,19 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50/50">
-                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Ativo</th>
+                  <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Ativo</th>
                   <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Classe / Rend.</th>
                   <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor Atual</th>
                   <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Rent. (Mês)</th>
                   <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Lucro/Prejuízo</th>
                   <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
-                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                  <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {filteredAssets.map((asset) => (
                   <tr key={asset.id} className="hover:bg-slate-50/30 transition-colors group">
-                    <td className="px-8 py-5">
+                    <td className="px-5 md:px-8 py-3 md:py-5">
                       <div className="flex flex-col">
                         <span className="text-xs font-black text-primary group-hover:text-secondary transition-colors">{asset.name}</span>
                         <span className="text-[10px] text-slate-400 font-medium mt-0.5">
@@ -698,7 +698,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                         <span className="text-[10px] font-bold text-slate-500">{asset.status}</span>
                       </div>
                     </td>
-                    <td className="px-8 py-5 text-right">
+                    <td className="px-5 md:px-8 py-3 md:py-5 text-right">
                        <button 
                          onClick={() => {
                            setEditingAsset(asset);

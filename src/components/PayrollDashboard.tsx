@@ -568,17 +568,17 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
             <tbody className="divide-y divide-slate-50">
               {paginatedEmployees.length > 0 ? paginatedEmployees.map((emp, idx) => (
                 <tr key={idx} className="hover:bg-slate-50/50 transition-colors group">
-                  <td className="px-8 py-5">
+                  <td className="px-5 md:px-8 py-3 md:py-5">
                     <p className="text-sm font-black text-primary uppercase tracking-tight">{emp.nome}</p>
                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Admissão: {new Date(emp.admissao).toLocaleDateString('pt-BR')}</p>
                   </td>
-                  <td className="px-8 py-5">
+                  <td className="px-5 md:px-8 py-3 md:py-5">
                     <div className="flex flex-col">
                       <span className="text-xs font-bold text-slate-600">{emp.funcao}</span>
                     </div>
                   </td>
-                  <td className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{emp.area}</td>
-                  <td className="px-8 py-5">
+                  <td className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{emp.area}</td>
+                  <td className="px-5 md:px-8 py-3 md:py-5">
                     <span className={cn(
                       "px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest", 
                       emp.tipoContrato === 'CLT' ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'bg-amber-50 text-amber-600 border border-amber-100'
@@ -586,17 +586,17 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
                       {emp.tipoContrato}
                     </span>
                   </td>
-                  <td className="px-8 py-5">
+                  <td className="px-5 md:px-8 py-3 md:py-5">
                     <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
                       <div className={cn("w-2 h-2 rounded-full", emp.status === 'Ativo' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]' : 'bg-slate-300')} />
                       {emp.status}
                     </div>
                   </td>
-                  <td className="px-8 py-5 text-right">
+                  <td className="px-5 md:px-8 py-3 md:py-5 text-right">
                     <p className="text-sm font-display text-primary">{formatCurrency(emp.custoMensal)}</p>
                     <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">Anual: {formatCurrency(emp.custoAnual)}</p>
                   </td>
-                  <td className="px-8 py-5 text-right">
+                  <td className="px-5 md:px-8 py-3 md:py-5 text-right">
                     <p className="text-sm font-bold text-red-500">{formatCurrency(emp.custoRescisaoEstimado)}</p>
                     <div className="hidden group-hover:block absolute right-8 bg-white border border-slate-200 p-3 rounded-xl shadow-xl z-10 text-left min-w-[180px]">
                       <p className="text-[8px] font-black text-slate-400 uppercase mb-2 border-b border-slate-100 pb-1">Composição Estimada</p>

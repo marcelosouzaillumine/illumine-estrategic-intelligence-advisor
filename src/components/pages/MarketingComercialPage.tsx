@@ -12,7 +12,6 @@ import {
   MessageSquare,
   Activity,
   ShieldCheck,
-  Calendar,
   LayoutDashboard,
   Search,
   ChevronRight,
@@ -49,6 +48,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [view, setView] = useState<'dashboard' | 'pipeline'>('dashboard');
   const [pipelineEntries, setPipelineEntries] = useState<any[]>([]);
+  const [periodMode, setPeriodMode] = useState<'mensal' | 'anual'>('mensal');
 
   useEffect(() => {
     if (!clientId || isMarketing) return;
@@ -84,13 +84,6 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
   };
 
   const hasData = dbIndicators.length > 0;
-
-  const [isYTD, setIsYTD] = useState(false);
-
-  const years = useMemo(() => {
-    const currentYear = new Date().getFullYear();
-    return Array.from({ length: 6 }, (_, i) => currentYear - i).sort((a, b) => b - a);
-  }, []);
 
   const indicators = useMemo(() => {
     if (isMarketing) {
@@ -230,31 +223,15 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
         setSelectedYear={setSelectedYear}
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
-        years={years}
+        periodMode={periodMode}
+        setPeriodMode={setPeriodMode}
         tabs={!isMarketing ? [
           { id: 'dashboard', label: 'DASHBOARD' },
           { id: 'pipeline', label: 'GESTÃO DE PIPELINE' }
         ] : undefined}
         activeTab={!isMarketing ? view : undefined}
         setActiveTab={!isMarketing ? (tab) => setView(tab as any) : undefined}
-      >
-        <div className="flex items-center gap-4 bg-background rounded-button px-5 py-2 border border-border shadow-sm h-[40px]">
-          <span className={cn("text-[9px] font-medium uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-muted-foreground")}>Mensal</span>
-          <button 
-            onClick={() => setIsYTD(!isYTD)}
-            className={cn(
-              "w-10 h-5 rounded-full p-1 transition-colors relative group cursor-pointer",
-              isYTD ? "bg-secondary" : "bg-surface-container hover:bg-border"
-            )}
-          >
-            <motion.div 
-              animate={{ x: isYTD ? 20 : 0 }}
-              className="w-3 h-3 bg-card rounded-full shadow-sm group-hover:scale-110 transition-transform" 
-            />
-          </button>
-          <span className={cn("text-[9px] font-medium uppercase tracking-[0.2em]", isYTD ? "text-secondary" : "text-muted-foreground")}>Anual</span>
-        </div>
-      </ControlBar>
+      />
 
 
       {view === 'pipeline' ? (

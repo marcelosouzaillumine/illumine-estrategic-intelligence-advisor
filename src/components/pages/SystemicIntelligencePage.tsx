@@ -169,11 +169,11 @@ export function SystemicIntelligencePage({ clientId, selectedMonth, selectedYear
             </p>
          </div>
          <div className="flex gap-4">
-            <div className="px-6 py-3 bg-surface-container rounded-md flex items-center gap-2 border border-border">
+            <div className="px-4 md:px-6 py-2 md:py-3 bg-surface-container rounded-md flex items-center gap-2 border border-border">
                <div className="w-2 h-2 rounded-full bg-border" />
                <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest whitespace-nowrap">Aguardando Dados Financeiros</span>
             </div>
-            <div className="px-6 py-3 bg-surface-container rounded-md flex items-center gap-2 border border-border">
+            <div className="px-4 md:px-6 py-2 md:py-3 bg-surface-container rounded-md flex items-center gap-2 border border-border">
                <div className="w-2 h-2 rounded-full bg-border" />
                <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest whitespace-nowrap">Aguardando Diagnóstico SWOT/IVE</span>
             </div>
@@ -195,7 +195,7 @@ export function SystemicIntelligencePage({ clientId, selectedMonth, selectedYear
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div>
               <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest block mb-1">Score de Integração</span>
               <div className="flex items-center gap-3">

@@ -87,7 +87,7 @@ export function PremissasTributariasPage({ clients }: any) {
               A alíquota exibida nas tabelas é a <strong>Nominal</strong>. Para encontrar a taxa real paga sobre o faturamento do mês, utilize a fórmula:
             </p>
           </div>
-          <div className="bg-white px-6 py-3 rounded-xl border border-slate-200 shadow-sm">
+          <div className="bg-white px-4 md:px-6 py-2 md:py-3 rounded-xl border border-slate-200 shadow-sm">
              <code className="text-xs font-black text-slate-700">
                ((RBT12 × Alíq. Nom) - Ded) / RBT12
              </code>
@@ -97,7 +97,7 @@ export function PremissasTributariasPage({ clients }: any) {
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
           {p.simplesNacional.map((anexo: any, idx: number) => (
             <div key={idx} className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm flex flex-col">
-              <div className="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+              <div className="bg-slate-50 px-4 md:px-6 py-2.5 md:py-4 border-b border-slate-200 flex justify-between items-center">
                 <div>
                   <span className="text-xs font-bold text-slate-400 tracking-widest uppercase">Anexo {anexo.anexo}</span>
                   <p className="text-[10px] text-slate-500 font-medium mt-0.5">{anexo.descricao}</p>
@@ -111,7 +111,7 @@ export function PremissasTributariasPage({ clients }: any) {
               </div>
               
               {anexo.fatorR && (
-                <div title={anexo.fatorR} className="px-6 py-2 bg-amber-50/30 border-b border-amber-100/50">
+                <div title={anexo.fatorR} className="px-4 md:px-6 py-1.5 md:py-2 bg-amber-50/30 border-b border-amber-100/50">
                   <p className="text-[9px] text-amber-800 font-medium flex items-center gap-2 italic">
                     <Info size={10} />
                     {anexo.fatorR}
@@ -120,7 +120,7 @@ export function PremissasTributariasPage({ clients }: any) {
               )}
 
               {anexo.obs && (
-                <div className="px-6 py-2 bg-slate-50/50 border-b border-slate-100">
+                <div className="px-4 md:px-6 py-1.5 md:py-2 bg-slate-50/50 border-b border-slate-100">
                   <p className="text-[9px] text-slate-500 font-medium italic">Nota: {anexo.obs}</p>
                 </div>
               )}
@@ -129,17 +129,17 @@ export function PremissasTributariasPage({ clients }: any) {
                 <table className="w-full text-left text-sm min-w-[400px]">
                   <thead>
                     <tr className="bg-slate-50/50">
-                      <th className="px-6 py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Faixa de Faturamento (12m)</th>
-                      <th className="px-6 py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Alíquota Nom.</th>
-                      <th className="px-6 py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Dedução</th>
+                      <th className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Faixa de Faturamento (12m)</th>
+                      <th className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Alíquota Nom.</th>
+                      <th className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Dedução</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {anexo.faixas.map((faixa: any, fidx: number) => (
                       <tr key={fidx} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-6 py-4 text-slate-600 font-medium">Até {faixa.ate === 4800000 ? "R$ 4.800.000" : formatCurrency(faixa.ate)}</td>
-                        <td className="px-6 py-4 font-bold text-emerald-600">{(faixa.aliq * 100).toFixed(2)}%</td>
-                        <td className="px-6 py-4 text-slate-400 font-mono">{formatCurrency(faixa.deducao)}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-slate-600 font-medium">Até {faixa.ate === 4800000 ? "R$ 4.800.000" : formatCurrency(faixa.ate)}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 font-bold text-emerald-600">{(faixa.aliq * 100).toFixed(2)}%</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-slate-400 font-mono">{formatCurrency(faixa.deducao)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -166,7 +166,7 @@ export function PremissasTributariasPage({ clients }: any) {
           
           <div className="space-y-6">
             <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-              <div className="bg-slate-50 px-6 py-4 border-b border-slate-200">
+              <div className="bg-slate-50 px-4 md:px-6 py-2.5 md:py-4 border-b border-slate-200">
                 <span className="text-xs font-bold text-slate-400 tracking-widest uppercase">Percentuais de Presunção</span>
                 <p className="text-[10px] text-slate-500 font-medium mt-0.5">Base de cálculo aplicada sobre a Receita Bruta</p>
               </div>
@@ -174,17 +174,17 @@ export function PremissasTributariasPage({ clients }: any) {
                 <table className="w-full text-left text-sm min-w-[500px]">
                   <thead>
                     <tr className="bg-slate-50/50">
-                      <th className="px-6 py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Atividade Econômica</th>
-                      <th className="px-6 py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">IRPJ (%)</th>
-                      <th className="px-6 py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">CSLL (%)</th>
+                      <th className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Atividade Econômica</th>
+                      <th className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">IRPJ (%)</th>
+                      <th className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">CSLL (%)</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {p.lucroPresumido.presuncao.map((item: any, idx: number) => (
                       <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-6 py-4 text-slate-600 font-medium">{item.atividade}</td>
-                        <td className="px-6 py-4 font-bold text-indigo-600">{(item.irpj * 100).toFixed(item.irpj === 0.016 ? 1 : 0)}%</td>
-                        <td className="px-6 py-4 font-bold text-indigo-600">{(item.csll * 100)}%</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-slate-600 font-medium">{item.atividade}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 font-bold text-indigo-600">{(item.irpj * 100).toFixed(item.irpj === 0.016 ? 1 : 0)}%</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 font-bold text-indigo-600">{(item.csll * 100)}%</td>
                       </tr>
                     ))}
                   </tbody>
@@ -198,7 +198,7 @@ export function PremissasTributariasPage({ clients }: any) {
               </div>
               <div className="grid grid-cols-1 divide-y divide-slate-100">
                 {p.lucroPresumido.federal.map((imp: any, idx: number) => (
-                  <div key={idx} className="px-6 py-4 flex items-center justify-between hover:bg-slate-50">
+                  <div key={idx} className="px-4 md:px-6 py-2.5 md:py-4 flex items-center justify-between hover:bg-slate-50">
                     <div className="flex flex-col">
                       <span className="text-sm font-bold text-slate-800">{imp.imposto}</span>
                       <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Base Presumida: {(imp.base * 100)}%</span>
@@ -236,7 +236,7 @@ export function PremissasTributariasPage({ clients }: any) {
 
           <div className="grid grid-cols-1 gap-8 mb-8">
             <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-              <div className="bg-slate-50 px-6 py-4 border-b border-slate-200">
+              <div className="bg-slate-50 px-4 md:px-6 py-2.5 md:py-4 border-b border-slate-200">
                 <span className="text-xs font-bold text-slate-400 tracking-widest uppercase">Modelos PIS/COFINS (Lucro Real)</span>
                 <p className="text-[10px] text-slate-500 font-medium mt-0.5">Enquadramento conforme atividade e legislação</p>
               </div>
@@ -244,24 +244,24 @@ export function PremissasTributariasPage({ clients }: any) {
                 <table className="w-full text-left text-sm min-w-[600px]">
                   <thead>
                     <tr className="bg-slate-50/50">
-                      <th className="px-6 py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Modelo / Regime</th>
-                      <th className="px-6 py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Descrição</th>
-                      <th className="px-6 py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">PIS</th>
-                      <th className="px-6 py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">COFINS</th>
+                      <th className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Modelo / Regime</th>
+                      <th className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">Descrição</th>
+                      <th className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">PIS</th>
+                      <th className="px-4 md:px-6 py-2 md:py-3 font-bold text-slate-500 uppercase text-[10px] tracking-widest">COFINS</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {p.lucroReal.modelos.map((modelo: any, idx: number) => (
                       <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-6 py-4">
+                        <td className="px-4 md:px-6 py-2.5 md:py-4">
                           <span className="text-sm font-bold text-slate-800 block">{modelo.nome}</span>
                           <span className="text-[9px] text-slate-400 font-medium italic mt-0.5">{modelo.obs}</span>
                         </td>
-                        <td className="px-6 py-4 text-[11px] text-slate-500 leading-relaxed max-w-xs">{modelo.descricao}</td>
-                        <td className="px-6 py-4 font-bold text-indigo-600">
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-[11px] text-slate-500 leading-relaxed max-w-xs">{modelo.descricao}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 font-bold text-indigo-600">
                           {typeof modelo.pis === 'number' ? `${(modelo.pis * 100).toFixed(2)}%` : modelo.pis}
                         </td>
-                        <td className="px-6 py-4 font-bold text-indigo-600">
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 font-bold text-indigo-600">
                           {typeof modelo.cofins === 'number' ? `${(modelo.cofins * 100).toFixed(2)}%` : modelo.cofins}
                         </td>
                       </tr>
@@ -278,7 +278,7 @@ export function PremissasTributariasPage({ clients }: any) {
             </div>
             <div className="grid grid-cols-1 divide-y divide-slate-100">
               {p.lucroReal.federal.map((imp: any, idx: number) => (
-                <div key={idx} className="px-6 py-4 flex items-center justify-between hover:bg-slate-50">
+                <div key={idx} className="px-4 md:px-6 py-2.5 md:py-4 flex items-center justify-between hover:bg-slate-50">
                   <div className="flex flex-col">
                     <span className="text-sm font-bold text-slate-800">{imp.imposto}</span>
                     {imp.adicional && (
@@ -315,7 +315,7 @@ export function PremissasTributariasPage({ clients }: any) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Encargos Patronais */}
           <div className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-            <div className="bg-slate-50 px-8 py-5 border-b border-slate-200">
+            <div className="bg-slate-50 px-5 md:px-8 py-3 md:py-5 border-b border-slate-200">
               <h4 className="text-sm font-black text-slate-400 uppercase tracking-widest">Encargos Patronais (Empresa)</h4>
               <p className="text-[10px] text-slate-500 font-medium">Aplicado sobre a folha bruta mensal</p>
             </div>
@@ -358,7 +358,7 @@ export function PremissasTributariasPage({ clients }: any) {
 
           {/* Provisões e Multas */}
           <div className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-            <div className="bg-slate-50 px-8 py-5 border-b border-slate-200">
+            <div className="bg-slate-50 px-5 md:px-8 py-3 md:py-5 border-b border-slate-200">
               <h4 className="text-sm font-black text-slate-400 uppercase tracking-widest">Provisões & Riscos</h4>
               <p className="text-[10px] text-slate-500 font-medium">Reservas financeiras obrigatórias</p>
             </div>
@@ -389,7 +389,7 @@ export function PremissasTributariasPage({ clients }: any) {
 
           {/* IRRF Tabela */}
           <div className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-            <div className="bg-slate-50 px-8 py-5 border-b border-slate-200">
+            <div className="bg-slate-50 px-5 md:px-8 py-3 md:py-5 border-b border-slate-200">
               <h4 className="text-sm font-black text-slate-400 uppercase tracking-widest">IRRF - Folha (Retenção)</h4>
               <p className="text-[10px] text-slate-500 font-medium">Tabela Progressiva Mensal</p>
             </div>
@@ -397,36 +397,36 @@ export function PremissasTributariasPage({ clients }: any) {
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="bg-slate-100/50">
-                    <th className="px-6 py-3 font-black text-slate-400 uppercase tracking-widest">Base de Cálculo</th>
-                    <th className="px-6 py-3 font-black text-slate-400 uppercase tracking-widest text-center">Alíquota</th>
-                    <th className="px-6 py-3 font-black text-slate-400 uppercase tracking-widest text-right">Dedução</th>
+                    <th className="px-4 md:px-6 py-2 md:py-3 font-black text-slate-400 uppercase tracking-widest">Base de Cálculo</th>
+                    <th className="px-4 md:px-6 py-2 md:py-3 font-black text-slate-400 uppercase tracking-widest text-center">Alíquota</th>
+                    <th className="px-4 md:px-6 py-2 md:py-3 font-black text-slate-400 uppercase tracking-widest text-right">Dedução</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 text-slate-600 font-bold">Até R$ 2.259,20</td>
-                    <td className="px-6 py-4 font-black text-slate-400 text-center">-</td>
-                    <td className="px-6 py-4 text-right text-slate-400">Isento</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-slate-600 font-bold">Até R$ 2.259,20</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 font-black text-slate-400 text-center">-</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-right text-slate-400">Isento</td>
                   </tr>
                   <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 text-slate-600 font-bold">Até R$ 2.826,65</td>
-                    <td className="px-6 py-4 font-black text-blue-600 text-center">7.5%</td>
-                    <td className="px-6 py-4 text-right text-slate-400 font-mono">169,44</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-slate-600 font-bold">Até R$ 2.826,65</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 font-black text-blue-600 text-center">7.5%</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-right text-slate-400 font-mono">169,44</td>
                   </tr>
                    <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 text-slate-600 font-bold">Até R$ 3.751,05</td>
-                    <td className="px-6 py-4 font-black text-blue-600 text-center">15.0%</td>
-                    <td className="px-6 py-4 text-right text-slate-400 font-mono">381,44</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-slate-600 font-bold">Até R$ 3.751,05</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 font-black text-blue-600 text-center">15.0%</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-right text-slate-400 font-mono">381,44</td>
                   </tr>
                    <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 text-slate-600 font-bold">Até R$ 4.664,68</td>
-                    <td className="px-6 py-4 font-black text-blue-600 text-center">22.5%</td>
-                    <td className="px-6 py-4 text-right text-slate-400 font-mono">662,77</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-slate-600 font-bold">Até R$ 4.664,68</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 font-black text-blue-600 text-center">22.5%</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-right text-slate-400 font-mono">662,77</td>
                   </tr>
                    <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 text-slate-600 font-bold">Acima de R$ 4.664,68</td>
-                    <td className="px-6 py-4 font-black text-blue-600 text-center">27.5%</td>
-                    <td className="px-6 py-4 text-right text-slate-400 font-mono">896,00</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-slate-600 font-bold">Acima de R$ 4.664,68</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 font-black text-blue-600 text-center">27.5%</td>
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-right text-slate-400 font-mono">896,00</td>
                   </tr>
                 </tbody>
               </table>

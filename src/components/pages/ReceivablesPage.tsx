@@ -283,7 +283,7 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
         <div className="flex items-center gap-3">
           <button 
             onClick={() => { setEditingReceivable(null); setIsModalOpen(true); }}
-            className="px-8 py-3 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-900/20 flex items-center gap-2"
+            className="px-5 md:px-8 py-2 md:py-3 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-900/20 flex items-center gap-2"
           >
             <Plus size={16} /> LANÇAR TÍTULO
           </button>
@@ -398,7 +398,7 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
                 <SortableHeader label="Vencimento" sortKey="vencimento" currentSort={sort} onSort={toggleSort} align="center" />
                 <SortableHeader label="Valor" sortKey="valor" currentSort={sort} onSort={toggleSort} align="right" />
                 <SortableHeader label="Status" sortKey="status" currentSort={sort} onSort={toggleSort} align="center" />
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -418,13 +418,13 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
               ) : (
                 paginatedReceivables.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-8 py-4">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4">
                       <div className="flex flex-col">
                         <span className="text-sm font-bold text-slate-700">{item.cliente}</span>
                         {item.centroCusto && <span className="text-[9px] font-black text-emerald-400 uppercase tracking-tighter bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100/50 self-start mt-1">{item.centroCusto}</span>}
                       </div>
                     </td>
-                    <td className="px-8 py-4">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4">
                       {item.categoria ? (
                         <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/50">
                           {item.categoria}
@@ -433,17 +433,17 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
                         <span className="text-[10px] text-slate-300 italic">Sem categoria</span>
                       )}
                     </td>
-                    <td className="px-8 py-4 text-center">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <span className="text-[10px] font-mono font-black text-slate-400 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200/50">{item.documento}</span>
                     </td>
-                    <td className="px-8 py-4 text-center text-xs text-slate-500 font-bold">{formatDate(item.emissao)}</td>
-                    <td className="px-8 py-4 text-center">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center text-xs text-slate-500 font-bold">{formatDate(item.emissao)}</td>
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <div className="flex flex-col items-center gap-0.5">
                         <span className="text-xs font-black text-slate-700">{formatDate(item.vencimento)}</span>
                         {item.status === 'Em atraso' && <span className="text-[8px] text-rose-500 font-black uppercase tracking-tighter animate-pulse">Vencido</span>}
                       </div>
                     </td>
-                    <td className="px-8 py-4 text-right">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                       <div className="flex flex-col items-end">
                         <span className="text-sm font-black text-primary">{formatCurrency(item.valor)}</span>
                         {item.valorAberto !== undefined && item.valorAberto !== item.valor && item.status !== 'Pago' && (
@@ -451,7 +451,7 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
                         )}
                       </div>
                     </td>
-                    <td className="px-8 py-4 text-center">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <span className={cn(
                         "text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter",
                         item.status === 'Pago' ? "bg-emerald-50 text-emerald-600 border border-emerald-100" :
@@ -461,7 +461,7 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
                         {item.status}
                       </span>
                     </td>
-                    <td className="px-8 py-4 text-right">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => { setEditingReceivable(item); setIsModalOpen(true); }}

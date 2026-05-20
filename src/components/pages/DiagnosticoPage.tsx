@@ -220,7 +220,7 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Activity size={14} className="text-secondary" />
               <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Score de Priorização Ativo</span>
@@ -235,7 +235,7 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
               if (!showAddForm) setEditingId(null);
             }}
             className={cn(
-              "btn-executive px-8 py-3.5",
+              "btn-executive",
               showAddForm 
                 ? "bg-surface-container text-foreground border border-border" 
                 : "bg-secondary text-white shadow-xl shadow-secondary/20"
@@ -274,7 +274,7 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
                         required
                         value={formData.descricao}
                         onChange={e => setFormData({...formData, descricao: e.target.value})}
-                        className="w-full px-6 py-4 bg-surface-container border border-border rounded-md outline-none focus:ring-1 focus:ring-primary/20 transition-all font-medium text-foreground text-sm uppercase tracking-widest placeholder:text-muted-foreground/30 shadow-inner"
+                        className="w-full px-4 md:px-6 py-2.5 md:py-4 bg-surface-container border border-border rounded-md outline-none focus:ring-1 focus:ring-primary/20 transition-all font-medium text-foreground text-sm uppercase tracking-widest placeholder:text-muted-foreground/30 shadow-inner"
                         placeholder="Ex: Alta rotatividade no setor operacional"
                       />
                     </div>
@@ -393,7 +393,7 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
 
               <div className="flex flex-col gap-3 pt-4">
                 {saveError && (
-                  <div className="px-6 py-3 bg-destructive/10 border border-destructive/20 rounded-md text-[10px] font-medium text-destructive uppercase tracking-widest">
+                  <div className="px-4 md:px-6 py-2 md:py-3 bg-destructive/10 border border-destructive/20 rounded-md text-[10px] font-medium text-destructive uppercase tracking-widest">
                     ⚠️ {saveError}
                   </div>
                 )}

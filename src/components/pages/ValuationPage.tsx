@@ -98,7 +98,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
             {loading && <Loader2 size={14} className="animate-spin text-secondary" />}
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
               {hasDbData ? 'Dados Reais' : 'Sem Dados'}

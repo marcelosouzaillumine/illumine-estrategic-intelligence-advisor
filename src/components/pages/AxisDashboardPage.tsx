@@ -290,8 +290,33 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
          </div>
 
          <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
-            <div className="flex items-center bg-white/10 backdrop-blur-md border border-slate-200 rounded-2xl p-1 shadow-sm">
-              <div className="flex items-center px-4 py-2 border-r border-slate-100">
+            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-2 border border-slate-200 shadow-sm h-[40px]">
+              <span className={cn(
+                "text-[10px] font-black uppercase tracking-widest transition-colors",
+                !isYTD ? "text-secondary" : "text-slate-400"
+              )}>Mensal</span>
+              <button 
+                onClick={() => setIsYTD(!isYTD)}
+                className={cn(
+                  "w-10 h-5 rounded-full p-1 transition-all duration-500 relative",
+                  isYTD ? "bg-secondary" : "bg-slate-200"
+                )}
+              >
+                <motion.div 
+                  animate={{ x: isYTD ? 20 : 0 }}
+                  className="w-3 h-3 bg-white rounded-full shadow-md"
+                />
+              </button>
+              <span className={cn(
+                "text-[10px] font-black uppercase tracking-widest transition-colors",
+                isYTD ? "text-secondary" : "text-slate-400"
+              )}>
+                Anual
+              </span>
+            </div>
+
+            <div className="flex items-center bg-white/10 backdrop-blur-md border border-slate-200 rounded-2xl p-1 shadow-sm h-[40px]">
+              <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-slate-100")}>
                 <ShieldAlert size={14} className="text-secondary mr-2" />
                 <select 
                   value={selectedYear} 
@@ -303,17 +328,19 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                   ))}
                 </select>
               </div>
-              <div className="flex items-center px-4 py-2">
-                <select 
-                  value={selectedMonth} 
-                  onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
-                  className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-                >
-                  {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
-                    <option key={i} value={i + 1} className="bg-white">{label}</option>
-                  ))}
-                </select>
-              </div>
+              {!isYTD && (
+                <div className="flex items-center px-4 py-2 animate-in fade-in zoom-in duration-300">
+                  <select 
+                    value={selectedMonth} 
+                    onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
+                    className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                  >
+                    {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
+                      <option key={i} value={i + 1} className="bg-white">{label}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
          </div>
       </div>
@@ -330,37 +357,9 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
         transparent={config.title?.includes('Monitoramento Estratégico')}
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-3 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-slate-100">
-              <ShieldAlert size={14} className="text-secondary mr-2" />
-              <select 
-                value={selectedYear} 
-                onChange={(e) => setSelectedYear?.(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-              >
-                {[2024, 2025, 2026].map(y => (
-                  <option key={y} value={y} className="bg-white">{y}</option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-center px-4 py-2">
-              <select 
-                value={selectedMonth} 
-                onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-              >
-                {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
-                  <option key={i} value={i + 1} className="bg-white">{label}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-4 bg-white p-1 rounded-2xl border border-slate-200 shadow-sm px-5 py-2">
+      <div className="flex items-center justify-start gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-4 bg-white p-1 rounded-2xl border border-slate-200 shadow-sm px-5 py-2 h-[40px]">
             <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-slate-400")}>Mensal</span>
             <button 
               onClick={() => setIsYTD(!isYTD)}
@@ -375,6 +374,34 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
               />
             </button>
             <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", isYTD ? "text-secondary" : "text-slate-400")}>Anual</span>
+          </div>
+
+          <div className="flex items-center gap-3 bg-white p-1 rounded-xl border border-slate-200 shadow-sm h-[40px]">
+            <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-slate-100")}>
+              <ShieldAlert size={14} className="text-secondary mr-2" />
+              <select 
+                value={selectedYear} 
+                onChange={(e) => setSelectedYear?.(Number(e.target.value))}
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {[2024, 2025, 2026].map(y => (
+                  <option key={y} value={y} className="bg-white">{y}</option>
+                ))}
+              </select>
+            </div>
+            {!isYTD && (
+              <div className="flex items-center px-4 py-2 animate-in fade-in zoom-in duration-300">
+                <select 
+                  value={selectedMonth} 
+                  onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
+                  className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                >
+                  {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
+                    <option key={i} value={i + 1} className="bg-white">{label}</option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -62,14 +62,14 @@ export function HeroBanner({ course, onPlay, onSelect }: HeroBannerProps) {
         >
           <button 
             onClick={() => onPlay(course)}
-            className="px-8 py-4 bg-white text-primary rounded-2xl font-black uppercase tracking-widest flex items-center gap-3 hover:bg-accent transition-all hover:-translate-y-1 active:scale-95"
+            className="px-5 md:px-8 py-2.5 md:py-4 bg-white text-primary rounded-2xl font-black uppercase tracking-widest flex items-center gap-3 hover:bg-accent transition-all hover:-translate-y-1 active:scale-95"
           >
             <Play size={20} fill="currentColor" />
             Assistir Agora
           </button>
           <button 
             onClick={() => onSelect(course)}
-            className="px-8 py-4 bg-white/10 backdrop-blur-xl border border-white/20 text-white rounded-2xl font-black uppercase tracking-widest flex items-center gap-3 hover:bg-white/20 transition-all hover:-translate-y-1 active:scale-95"
+            className="px-5 md:px-8 py-2.5 md:py-4 bg-white/10 backdrop-blur-xl border border-white/20 text-white rounded-2xl font-black uppercase tracking-widest flex items-center gap-3 hover:bg-white/20 transition-all hover:-translate-y-1 active:scale-95"
           >
             <Info size={20} />
             Mais Informações

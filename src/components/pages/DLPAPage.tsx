@@ -179,7 +179,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-4">
-          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-3">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-3">
             {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
             <Database size={14} className={dbData.length > 0 ? 'text-success' : 'text-muted-foreground/30'} />
             <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-success' : 'text-muted-foreground/40')}>
@@ -298,7 +298,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       </div>
 
       <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden mb-10">
-        <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
+        <div className="px-5 md:px-8 py-3 md:py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
           <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Detalhamento da DLPA</h4>
           <span className="text-[9px] font-black uppercase px-3 py-1 rounded-full bg-blue-50 text-blue-600">
             Composição de Lucros
@@ -308,19 +308,19 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100">
-                <th className="text-left py-4 px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Descrição da Conta</th>
-                <th className="text-right py-4 px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Valor (R$)</th>
+                <th className="text-left py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Descrição da Conta</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Valor (R$)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
               {rows.map((row: any, i: number) => (
                 <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', row.isTotal ? 'bg-slate-50/10 font-bold' : '')}>
-                  <td className="py-4 px-8">
+                  <td className="py-2.5 md:py-4 px-5 md:px-8">
                     <span className={cn('block overflow-visible break-words', row.isTotal ? 'text-secondary' : 'pl-4 text-muted-foreground font-medium')}>
                       {row.conta || row.category}
                     </span>
                   </td>
-                  <td className={cn("py-4 px-8 text-right font-mono", (row.val || 0) < 0 ? "text-rose-500" : "text-slate-700")}>
+                  <td className={cn("py-2.5 md:py-4 px-5 md:px-8 text-right font-mono", (row.val || 0) < 0 ? "text-rose-500" : "text-slate-700")}>
                     {formatCurrency(row.val || row.valor || 0)}
                   </td>
                 </tr>
@@ -393,7 +393,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
       {toast && (
         <div className={cn(
-          'fixed bottom-8 right-8 px-8 py-4 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-bottom-4 transition-all',
+          'fixed bottom-8 right-8 px-5 md:px-8 py-2.5 md:py-4 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-bottom-4 transition-all',
           toast.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'
         )}>
           <p className="text-xs font-black uppercase tracking-widest">{toast.message}</p>

@@ -204,7 +204,7 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
           <button 
             onClick={() => setShowAccountModal(true)}
             disabled={!selectedClient}
-            className="px-6 py-2.5 bg-secondary text-white rounded-md text-[10px] font-medium uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-premium flex items-center gap-2 disabled:opacity-50"
+            className="px-4 md:px-6 py-2 md:py-2.5 bg-secondary text-white rounded-md text-[10px] font-medium uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-premium flex items-center gap-2 disabled:opacity-50"
           >
             <Plus size={14} /> ADICIONAR CONTA
           </button>
@@ -310,13 +310,13 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100">
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Instituição / Banco</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Ag / Conta</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Tipo / Moeda</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Saldo Atual (BRL)</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Variação</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Atualização</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Instituição / Banco</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Ag / Conta</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Tipo / Moeda</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Saldo Atual (BRL)</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Variação</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Atualização</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">

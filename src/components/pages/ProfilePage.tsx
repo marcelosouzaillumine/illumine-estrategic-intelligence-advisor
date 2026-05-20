@@ -101,12 +101,13 @@ export function ProfilePage({ user }: ProfilePageProps) {
   ];
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-16 pb-32 animate-executive-fade">
+    <div className="max-w-[1440px] w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8 sm:space-y-12 pb-32 animate-executive-fade overflow-x-hidden">
       <PageHeader 
         title="Meu Perfil" 
         subtitle="Gerencie suas informações pessoais, configurações de segurança e preferências de acesso à plataforma." 
         icon={User}
         color="executive"
+        className="px-2"
       />
 
       <AnimatePresence>
@@ -139,9 +140,9 @@ export function ProfilePage({ user }: ProfilePageProps) {
         )}
       </AnimatePresence>
 
-      <div className="grid lg:grid-cols-[320px_1fr] gap-10">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
         {/* Sidebar */}
-        <aside className="space-y-6">
+        <aside className="w-full lg:w-[320px] shrink-0 space-y-6">
           <div className="bg-primary p-8 rounded-[48px] text-center relative overflow-hidden shadow-2xl shadow-primary/20 border border-white/5">
             <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-white/5 to-transparent" />
             <div className="relative z-10">
@@ -173,20 +174,20 @@ export function ProfilePage({ user }: ProfilePageProps) {
               </p>
             </div>
 
-            <div className="mt-10 pt-10 border-t border-white/10 flex flex-col gap-2 relative z-10">
+            <div className="mt-8 md:mt-10 pt-8 md:pt-10 border-t border-white/10 flex flex-col gap-2 relative z-10">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
                   className={cn(
-                    "flex items-center gap-4 px-5 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all",
+                    "flex items-center gap-4 px-5 py-4 rounded-2xl text-[10px] md:text-xs font-black uppercase tracking-[0.2em] transition-all w-full text-left",
                     activeTab === tab.id 
                       ? "bg-secondary text-primary shadow-xl shadow-secondary/20 font-bold" 
                       : "text-white/60 hover:bg-white/5 hover:text-white"
                   )}
                 >
-                  <tab.icon size={18} />
-                  {tab.label}
+                  <tab.icon size={18} className="shrink-0" />
+                  <span className="truncate">{tab.label}</span>
                 </button>
               ))}
             </div>
@@ -220,42 +221,42 @@ export function ProfilePage({ user }: ProfilePageProps) {
         </aside>
 
         {/* Main Content */}
-        <main>
+        <main className="flex-1 min-w-0">
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-card p-12 rounded-[48px] border border-border shadow-sm h-full"
+            className="bg-card p-6 md:p-8 lg:p-12 rounded-[32px] md:rounded-[48px] border border-border shadow-sm h-full"
           >
             {activeTab === 'info' && (
-              <div className="space-y-10">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-border/40">
-                  <div>
-                    <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">Dados Cadastrais</h3>
-                    <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest mt-1">Informações de Identidade</p>
+              <div className="space-y-8 md:space-y-10">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border/40">
+                  <div className="min-w-0">
+                    <h3 className="text-xl sm:text-2xl font-display font-medium text-foreground tracking-tight">Dados Cadastrais</h3>
+                    <p className="text-muted-foreground text-[10px] sm:text-xs font-bold uppercase tracking-widest mt-1">Informações de Identidade</p>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex gap-2 sm:gap-3 shrink-0">
                     {isEditing ? (
                       <>
                         <button 
                           onClick={() => setIsEditing(false)}
-                          className="px-6 py-3.5 bg-surface-container text-foreground rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] border border-border hover:bg-surface-container-high transition-all"
+                          className="px-3 sm:px-5 py-2 sm:py-3 bg-surface-container text-foreground rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] border border-border hover:bg-surface-container-high transition-all whitespace-nowrap"
                         >
                           Cancelar
                         </button>
                         <button 
                           onClick={handleUpdateProfile}
                           disabled={isLoading}
-                          className="px-4 md:px-6 py-2 md:py-3.5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all shadow-xl shadow-secondary/10 flex items-center gap-2"
+                          className="px-3 sm:px-5 py-2 sm:py-3 bg-secondary text-primary rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all shadow-xl shadow-secondary/10 flex items-center gap-2 whitespace-nowrap"
                         >
-                          {isLoading ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-                          Salvar Alterações
+                          {isLoading ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
+                          Salvar
                         </button>
                       </>
                     ) : (
                       <button 
                         onClick={() => setIsEditing(true)}
-                        className="px-6 py-3.5 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary hover:text-primary transition-all shadow-xl shadow-primary/20 flex items-center gap-2 border border-white/5"
+                        className="px-3 sm:px-5 py-2 sm:py-3 bg-primary text-white rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary hover:text-primary transition-all shadow-xl shadow-primary/20 flex items-center gap-2 border border-white/5 whitespace-nowrap"
                       >
                         Editar Dados
                       </button>
@@ -263,62 +264,69 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
+                  {/* Nome Completo */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Nome Completo</label>
+                    <label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Nome Completo</label>
                     {isEditing ? (
                       <input 
                         type="text"
                         value={displayName}
                         onChange={(e) => setDisplayName(e.target.value)}
-                        className="w-full px-5 py-3.5 bg-surface-container border border-border rounded-[20px] text-[11px] font-medium outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner focus:border-secondary text-foreground"
+                        className="w-full px-4 py-3 bg-surface-container border border-border rounded-[20px] text-xs font-medium outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner focus:border-secondary text-foreground"
                       />
                     ) : (
-                      <div className="flex items-center gap-4 px-5 py-4 bg-surface-container/50 border border-border rounded-[20px] text-sm font-semibold text-foreground">
-                        <div className="w-8 h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm">
-                          <User size={14} />
+                      <div className="flex items-center gap-3 px-4 py-3 bg-surface-container/50 border border-border rounded-[20px] min-w-0 overflow-hidden">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm shrink-0">
+                          <User size={13} />
                         </div>
-                        {displayName}
+                        <span className="text-xs sm:text-sm font-semibold text-foreground truncate min-w-0">{displayName}</span>
                       </div>
                     )}
                   </div>
+
+                  {/* E-mail Principal */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-secondary ml-1">E-mail Principal</label>
-                    <div className="flex items-center gap-4 px-5 py-4 bg-surface-container border border-border rounded-[20px] text-sm font-semibold text-muted-foreground cursor-not-allowed">
-                      <div className="w-8 h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm">
-                        <Mail size={14} />
+                    <label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">E-mail Principal</label>
+                    <div className="flex items-center gap-3 px-4 py-3 bg-surface-container border border-border rounded-[20px] cursor-not-allowed min-w-0 overflow-hidden">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm shrink-0">
+                        <Mail size={13} />
                       </div>
-                      {user?.email}
+                      <span className="text-xs sm:text-sm font-semibold text-muted-foreground truncate min-w-0 flex-1">{user?.email}</span>
                       {!isMaster && (
-                        <span title="Somente Master Admin pode alterar" className="ml-auto opacity-50">
+                        <span title="Somente Master Admin pode alterar" className="opacity-50 shrink-0">
                           <Shield size={12} />
                         </span>
                       )}
                     </div>
                   </div>
+
+                  {/* Empresa / Unidade */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Empresa / Unidade</label>
-                    <div className="flex items-center gap-4 px-5 py-4 bg-surface-container border border-border rounded-[20px] text-sm font-semibold text-muted-foreground cursor-not-allowed">
-                      <div className="w-8 h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm">
-                        <Building size={14} />
+                    <label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Empresa / Unidade</label>
+                    <div className="flex items-center gap-3 px-4 py-3 bg-surface-container border border-border rounded-[20px] cursor-not-allowed min-w-0 overflow-hidden">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm shrink-0">
+                        <Building size={13} />
                       </div>
-                      Illumine Strategic Advisory
+                      <span className="text-xs sm:text-sm font-semibold text-muted-foreground truncate min-w-0 flex-1">Illumine Strategic Advisory</span>
                       {!isMaster && (
-                        <span title="Somente Master Admin pode alterar" className="ml-auto opacity-50">
+                        <span title="Somente Master Admin pode alterar" className="opacity-50 shrink-0">
                           <Shield size={12} />
                         </span>
                       )}
                     </div>
                   </div>
+
+                  {/* Cargo / Função */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Cargo / Função</label>
-                    <div className="flex items-center gap-4 px-5 py-4 bg-surface-container border border-border rounded-[20px] text-sm font-semibold text-muted-foreground cursor-not-allowed">
-                      <div className="w-8 h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm">
-                        <Shield size={14} />
+                    <label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Cargo / Função</label>
+                    <div className="flex items-center gap-3 px-4 py-3 bg-surface-container border border-border rounded-[20px] cursor-not-allowed min-w-0 overflow-hidden">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm shrink-0">
+                        <Shield size={13} />
                       </div>
-                      {isMaster ? 'Master Admin' : 'Consultor Estratégico'}
+                      <span className="text-xs sm:text-sm font-semibold text-muted-foreground truncate min-w-0 flex-1">{isMaster ? 'Master Admin' : 'Consultor Estratégico'}</span>
                       {!isMaster && (
-                        <span title="Somente Master Admin pode alterar" className="ml-auto opacity-50">
+                        <span title="Somente Master Admin pode alterar" className="opacity-50 shrink-0">
                           <Shield size={12} />
                         </span>
                       )}
@@ -328,10 +336,10 @@ export function ProfilePage({ user }: ProfilePageProps) {
 
                 <div className="pt-10 border-t border-border/40">
                   <h4 className="text-lg font-display font-medium text-foreground mb-6">Contas Conectadas</h4>
-                  <div className="flex items-center justify-between p-6 bg-surface-container border border-border rounded-[32px] group hover:border-secondary/20 transition-all">
-                    <div className="flex items-center gap-5">
-                      <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform shrink-0">
-                        <svg className="w-6 h-6" viewBox="0 0 24 24">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 md:p-6 bg-surface-container border border-border rounded-[24px] md:rounded-[32px] group hover:border-secondary/20 transition-all">
+                    <div className="flex items-center gap-4 md:gap-5">
+                      <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-card border border-border flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform shrink-0">
+                        <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24">
                           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                           <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
                           <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
@@ -339,11 +347,11 @@ export function ProfilePage({ user }: ProfilePageProps) {
                         </svg>
                       </div>
                       <div>
-                        <p className="text-base font-semibold text-foreground">Conta Google</p>
-                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Sincronização Ativa</p>
+                        <p className="text-sm md:text-base font-semibold text-foreground">Conta Google</p>
+                        <p className="text-[9px] md:text-[10px] font-black text-muted-foreground uppercase tracking-widest">Sincronização Ativa</p>
                       </div>
                     </div>
-                    <span className="flex items-center gap-2 px-4 py-2 bg-success/10 text-success rounded-xl text-[10px] font-black uppercase tracking-widest border border-success/20">
+                    <span className="flex items-center justify-center gap-2 px-4 py-2 bg-success/10 text-success rounded-xl text-[10px] font-black uppercase tracking-widest border border-success/20 w-full sm:w-auto">
                       <CheckCircle2 size={14} /> Conectado
                     </span>
                   </div>
@@ -352,7 +360,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
             )}
 
             {activeTab === 'security' && (
-              <div className="space-y-10">
+              <div className="space-y-8 md:space-y-10">
                 <div className="pb-6 border-b border-border/40">
                   <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">Segurança & Acesso</h3>
                   <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest mt-1">Proteção de Dados e Autenticação</p>
@@ -366,9 +374,9 @@ export function ProfilePage({ user }: ProfilePageProps) {
                         <RefreshCw size={64} className="text-secondary" />
                       </div>
                       <div className="relative z-10 space-y-6">
-                        <div className="flex items-center gap-5">
-                          <div className="w-14 h-14 rounded-2xl bg-secondary text-primary flex items-center justify-center shadow-lg shadow-secondary/15 shrink-0">
-                            <Key size={28} />
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-5">
+                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-secondary text-primary flex items-center justify-center shadow-lg shadow-secondary/15 shrink-0">
+                            <Key size={24} className="md:w-7 md:h-7" />
                           </div>
                           <div>
                             <h4 className="text-lg font-semibold text-foreground">Resetar Senha de Usuário</h4>
@@ -386,7 +394,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                           <button 
                             onClick={() => handleResetPassword(resetEmail)}
                             disabled={isLoading || !resetEmail}
-                            className="px-8 py-3.5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all shadow-xl shadow-secondary/10 flex items-center justify-center gap-2 disabled:opacity-50"
+                            className="px-5 md:px-8 py-2.5 md:py-3.5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all shadow-xl shadow-secondary/10 flex items-center justify-center gap-2 disabled:opacity-50"
                           >
                             {isLoading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
                             Enviar Reset
@@ -400,10 +408,10 @@ export function ProfilePage({ user }: ProfilePageProps) {
                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform">
                       <Shield size={64} className="text-secondary" />
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
-                      <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 rounded-2xl bg-surface-container text-secondary flex items-center justify-center group-hover:bg-secondary/15 transition-all shrink-0 border border-border">
-                          <Shield size={28} />
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-5">
+                        <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-surface-container text-secondary flex items-center justify-center group-hover:bg-secondary/15 transition-all shrink-0 border border-border">
+                          <Shield size={24} className="md:w-7 md:h-7" />
                         </div>
                         <div>
                           <h4 className="text-lg font-semibold text-foreground">Autenticação de Dois Fatores</h4>
@@ -412,7 +420,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                       </div>
                       <button 
                         onClick={() => setMessage({ type: 'error', text: 'Funcionalidade em desenvolvimento.' })}
-                        className="px-6 py-3 bg-surface-container border border-border hover:bg-surface-container-high text-foreground rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap shrink-0"
+                        className="px-4 md:px-6 py-2 md:py-3 bg-surface-container border border-border hover:bg-surface-container-high text-foreground rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap shrink-0"
                       >
                         Configurar
                       </button>
@@ -423,10 +431,10 @@ export function ProfilePage({ user }: ProfilePageProps) {
                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform">
                       <Key size={64} className="text-secondary" />
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
-                      <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 rounded-2xl bg-surface-container text-secondary flex items-center justify-center group-hover:bg-secondary/15 transition-all shrink-0 border border-border">
-                          <Key size={28} />
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-5">
+                        <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-surface-container text-secondary flex items-center justify-center group-hover:bg-secondary/15 transition-all shrink-0 border border-border">
+                          <Key size={24} className="md:w-7 md:h-7" />
                         </div>
                         <div>
                           <h4 className="text-lg font-semibold text-foreground">Alterar Minha Senha</h4>
@@ -436,7 +444,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                       <button 
                         onClick={() => handleResetPassword(user?.email || '')}
                         disabled={isLoading}
-                        className="px-6 py-3 bg-surface-container border border-border hover:bg-surface-container-high text-foreground rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap shrink-0"
+                        className="px-4 md:px-6 py-2 md:py-3 bg-surface-container border border-border hover:bg-surface-container-high text-foreground rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap shrink-0"
                       >
                         Solicitar Reset
                       </button>
@@ -448,9 +456,9 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform text-destructive">
                     <AlertCircle size={64} />
                   </div>
-                  <div className="flex items-start gap-6 relative z-10">
-                    <div className="w-14 h-14 rounded-2xl bg-rose-500/10 text-destructive flex items-center justify-center shrink-0 border border-rose-500/10">
-                      <AlertCircle size={28} />
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-4 md:gap-6 relative z-10">
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-rose-500/10 text-destructive flex items-center justify-center shrink-0 border border-rose-500/10">
+                      <AlertCircle size={24} className="md:w-7 md:h-7" />
                     </div>
                     <div>
                       <h4 className="text-lg font-semibold text-destructive">Zona de Perigo</h4>
@@ -467,21 +475,21 @@ export function ProfilePage({ user }: ProfilePageProps) {
             )}
 
             {activeTab === 'sessions' && (
-              <div className="space-y-10">
+              <div className="space-y-8 md:space-y-10">
                 <div className="pb-6 border-b border-border/40">
                   <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">Sessões Ativas</h3>
                   <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest mt-1">Controle de Acessos em Tempo Real</p>
                 </div>
                 
                 <div className="space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 p-8 border border-secondary/20 bg-secondary/5 rounded-[32px] relative overflow-hidden group">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 border border-secondary/20 bg-secondary/5 rounded-[24px] md:rounded-[32px] relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform text-secondary">
                       <Activity size={64} />
                     </div>
-                    <div className="flex items-center gap-5 relative z-10">
-                      <div className="w-14 h-14 rounded-2xl bg-card border border-secondary/20 flex items-center justify-center text-secondary shadow-sm shrink-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-5 relative z-10">
+                      <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-card border border-secondary/20 flex items-center justify-center text-secondary shadow-sm shrink-0">
                         <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2 }}>
-                          <Shield size={28} />
+                          <Shield size={24} className="md:w-7 md:h-7" />
                         </motion.div>
                       </div>
                       <div>
@@ -492,15 +500,15 @@ export function ProfilePage({ user }: ProfilePageProps) {
                         <p className="text-sm font-medium text-muted-foreground mt-1">Chrome / MacBook Pro • IP: 189.122.XX.XX</p>
                       </div>
                     </div>
-                    <button className="p-3 text-muted-foreground/30 cursor-not-allowed">
+                    <button className="hidden md:block p-3 text-muted-foreground/30 cursor-not-allowed">
                       <ChevronRight size={24} />
                     </button>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 p-8 border border-border rounded-[32px] group hover:border-secondary/20 transition-all bg-card">
-                    <div className="flex items-center gap-5">
-                      <div className="w-14 h-14 rounded-2xl bg-surface-container border border-border flex items-center justify-center text-muted-foreground group-hover:text-secondary group-hover:bg-secondary/15 transition-all shrink-0">
-                        <Shield size={28} />
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 border border-border rounded-[24px] md:rounded-[32px] group hover:border-secondary/20 transition-all bg-card">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-5">
+                      <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-surface-container border border-border flex items-center justify-center text-muted-foreground group-hover:text-secondary group-hover:bg-secondary/15 transition-all shrink-0">
+                        <Shield size={24} className="md:w-7 md:h-7" />
                       </div>
                       <div>
                         <h4 className="text-lg font-semibold text-foreground font-display">Dispositivo Mobile</h4>

@@ -40,7 +40,7 @@ function ModuleLessonList({
 
   if (loading) {
     return (
-      <div className="px-8 py-5 flex items-center gap-3 text-muted-foreground">
+      <div className="px-5 md:px-8 py-3 md:py-5 flex items-center gap-3 text-muted-foreground">
         <Loader2 size={14} className="animate-spin text-secondary" />
         <span className="text-[10px] font-black uppercase tracking-widest">Carregando aulas...</span>
       </div>
@@ -49,7 +49,7 @@ function ModuleLessonList({
 
   if (lessons.length === 0) {
     return (
-      <p className="px-8 py-5 text-xs text-muted-foreground italic">Nenhuma aula cadastrada.</p>
+      <p className="px-5 md:px-8 py-3 md:py-5 text-xs text-muted-foreground italic">Nenhuma aula cadastrada.</p>
     );
   }
 
@@ -62,7 +62,7 @@ function ModuleLessonList({
           <div
             key={lesson.id}
             className={cn(
-              "w-full px-8 py-5 flex items-center gap-4 hover:bg-surface-container/50 transition-all group border-b border-border/10 last:border-0",
+              "w-full px-5 md:px-8 py-3 md:py-5 flex items-center gap-4 hover:bg-surface-container/50 transition-all group border-b border-border/10 last:border-0",
               isActive ? "bg-secondary/5" : ""
             )}
           >
@@ -239,7 +239,7 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
                     href={currentLesson.externalLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-8 py-3.5 bg-secondary text-primary rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all border border-secondary/20 shadow-lg shadow-secondary/15 flex items-center gap-2 group"
+                    className="px-5 md:px-8 py-2.5 md:py-3.5 bg-secondary text-primary rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all border border-secondary/20 shadow-lg shadow-secondary/15 flex items-center gap-2 group"
                   >
                     Acessar Conteúdo Externo
                   </a>
@@ -258,7 +258,7 @@ export function LessonPlayerPage({ courseId, onBack, userId, clientId }: LessonP
                   <button
                     onClick={() => handleToggleProgress(currentLesson, !completedLessonIds.has(currentLesson.id))}
                     className={cn(
-                      "px-6 py-3.5 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-3 self-start sm:self-auto cursor-pointer",
+                      "px-4 md:px-6 py-2 md:py-3.5 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-3 self-start sm:self-auto cursor-pointer",
                       completedLessonIds.has(currentLesson.id)
                         ? "bg-secondary text-primary shadow-lg shadow-secondary/15 border border-secondary/20"
                         : "bg-white/10 text-white hover:bg-white/20 border border-white/5"

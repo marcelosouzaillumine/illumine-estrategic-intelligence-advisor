@@ -206,11 +206,34 @@ export function GovernanceDashboardPage({
               Não identificamos indicadores financeiros ou estratégicos para o período de <strong>{['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][(selectedMonth || 1) - 1]} de {selectedYear}</strong>. 
               Importe os dados históricos do cliente para ativar o monitoramento de performance.
             </p>
-         </div>
+          <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
+            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-2 border border-slate-200 shadow-sm h-[40px]">
+              <span className={cn(
+                "text-[10px] font-black uppercase tracking-widest transition-colors",
+                !isYTD ? "text-secondary" : "text-slate-400"
+              )}>Mensal</span>
+              <button 
+                onClick={() => setIsYTD(!isYTD)}
+                className={cn(
+                  "w-10 h-5 rounded-full p-1 transition-all duration-500 relative",
+                  isYTD ? "bg-secondary" : "bg-slate-200"
+                )}
+              >
+                <motion.div 
+                  animate={{ x: isYTD ? 20 : 0 }}
+                  className="w-3 h-3 bg-white rounded-full shadow-md"
+                />
+              </button>
+              <span className={cn(
+                "text-[10px] font-black uppercase tracking-widest transition-colors",
+                isYTD ? "text-secondary" : "text-slate-400"
+              )}>
+                Anual
+              </span>
+            </div>
 
-         <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
-            <div className="flex items-center bg-white/10 backdrop-blur-md border border-slate-200 rounded-2xl p-1 shadow-sm">
-              <div className="flex items-center px-4 py-2 border-r border-slate-100">
+            <div className="flex items-center bg-white/10 backdrop-blur-md border border-slate-200 rounded-2xl p-1 shadow-sm h-[40px]">
+              <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-slate-100")}>
                 <BookOpen size={14} className="text-secondary mr-2" />
                 <select 
                   value={selectedYear} 
@@ -222,22 +245,25 @@ export function GovernanceDashboardPage({
                   ))}
                 </select>
               </div>
-              <div className="flex items-center px-4 py-2">
-                <select 
-                  value={selectedMonth} 
-                  onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
-                  className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-                >
-                  {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
-                    <option key={i} value={i + 1} className="bg-white">{label}</option>
-                  ))}
-                </select>
-              </div>
+              {!isYTD && (
+                <div className="flex items-center px-4 py-2 animate-in fade-in zoom-in duration-300">
+                  <select 
+                    value={selectedMonth} 
+                    onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
+                    className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                  >
+                    {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
+                      <option key={i} value={i + 1} className="bg-white">{label}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
+          </div>
             
             <button 
               onClick={() => onNavigate('maintenance')}
-              className="px-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary transition-all shadow-xl shadow-slate-900/10"
+              className="px-5 md:px-8 py-2.5 md:py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary transition-all shadow-xl shadow-slate-900/10"
             >
               IR PARA IMPORTAÇÃO DE DADOS
             </button>
@@ -255,37 +281,9 @@ export function GovernanceDashboardPage({
         transparent
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center bg-card border border-border rounded-md p-1 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-border">
-              <BookOpen size={14} className="text-secondary mr-2.5" />
-              <select 
-                value={selectedYear} 
-                onChange={(e) => setSelectedYear?.(Number(e.target.value))}
-                className="text-[10px] font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-              >
-                {[2024, 2025, 2026].map(y => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-center px-4 py-2">
-              <select 
-                value={selectedMonth} 
-                onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
-                className="text-[10px] font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-              >
-                {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
-                  <option key={i} value={i + 1}>{label}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-4 bg-card rounded-md px-6 py-2.5 border border-border shadow-sm">
+      <div className="flex items-center justify-start gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-4 bg-card rounded-md px-4 md:px-6 py-2 md:py-2.5 border border-border shadow-sm h-[40px]">
             <span className={cn(
               "text-[10px] font-medium uppercase tracking-widest transition-colors",
               !isYTD ? "text-secondary" : "text-muted-foreground"
@@ -309,6 +307,34 @@ export function GovernanceDashboardPage({
               Anual
             </span>
           </div>
+
+          <div className="flex items-center bg-card border border-border rounded-md p-1 shadow-sm h-[40px]">
+            <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-border")}>
+              <BookOpen size={14} className="text-secondary mr-2.5" />
+              <select 
+                value={selectedYear} 
+                onChange={(e) => setSelectedYear?.(Number(e.target.value))}
+                className="text-[10px] font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+              >
+                {[2024, 2025, 2026].map(y => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            </div>
+            {!isYTD && (
+              <div className="flex items-center px-4 py-2 animate-in fade-in zoom-in duration-300">
+                <select 
+                  value={selectedMonth} 
+                  onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
+                  className="text-[10px] font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
+                >
+                  {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
+                    <option key={i} value={i + 1}>{label}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -324,6 +350,7 @@ export function GovernanceDashboardPage({
             icon={kpi.icon}
             status={kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo'}
             trend="Bullish"
+            noScroll={true}
           />
         ))}
       </div>
@@ -448,7 +475,7 @@ export function GovernanceDashboardPage({
               <h3 className="text-h2 font-medium text-foreground tracking-tight">Health Check das Áreas</h3>
               <p className="text-muted-foreground text-body-sm font-medium uppercase tracking-widest mt-1">Visão 360º da Operação</p>
            </div>
-           <button className="btn-ghost text-[10px] py-2 px-4 flex items-center gap-2">
+           <button className="btn-ghost flex items-center gap-2">
               Ver Todos os Indicadores <ChevronRight size={14} />
            </button>
         </div>

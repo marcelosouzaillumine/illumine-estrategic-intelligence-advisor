@@ -131,7 +131,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-card border border-border rounded-sm shadow-inner shadow-black/5 flex items-center gap-4">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-sm shadow-inner shadow-black/5 flex items-center gap-4">
             <div className="flex items-center gap-2">
               <TrendingUp size={14} className="text-secondary" />
               <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest italic">Monitoramento de Performance Ativo</span>
@@ -143,7 +143,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
           <button
             onClick={() => { setShowForm(!showForm); if(!showForm) setEditingId(null); }}
             className={cn(
-              "btn-executive px-8 py-3.5 transition-all shadow-xl shadow-primary/20",
+              "btn-executive transition-all shadow-xl shadow-primary/20",
               showForm 
                 ? "bg-surface-container text-muted-foreground border-border" 
                 : "bg-primary text-white"
@@ -171,7 +171,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                       required
                       value={formData.titulo}
                       onChange={e => setFormData({...formData, titulo: e.target.value})}
-                      className="w-full px-6 py-4 bg-surface-container border border-border rounded-sm outline-none focus:ring-1 focus:ring-secondary/20 text-[11px] font-medium text-foreground uppercase tracking-widest italic shadow-inner"
+                      className="w-full px-4 md:px-6 py-2.5 md:py-4 bg-surface-container border border-border rounded-sm outline-none focus:ring-1 focus:ring-secondary/20 text-[11px] font-medium text-foreground uppercase tracking-widest italic shadow-inner"
                       placeholder="Ex: Expandir margem operacional em 15%..."
                     />
                  </div>

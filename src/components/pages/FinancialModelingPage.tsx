@@ -56,9 +56,9 @@ import { PremissasClientePage } from './PremissasClientePage';
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
     <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors">{label}</p>
+      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
       <h3 className={cn(
-        "text-2xl font-black tracking-tight",
+        "text-2xl font-black tracking-tight leading-[1.2] whitespace-nowrap",
         tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
       )}>{value}</h3>
       {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80">{helper}</p>}
@@ -82,9 +82,9 @@ function FinancialModelTable({ table, title, subtitle }: { table: any, title: st
         <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
             <tr className="bg-slate-50/50 sticky top-0 z-20">
-              <th className="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 sticky left-0 top-0 bg-slate-50 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-30">Indicador</th>
+              <th className="px-5 md:px-8 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 sticky left-0 top-0 bg-slate-50 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-30">Indicador</th>
               {headers.map((h: any) => (
-                <th key={h} className="px-8 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 whitespace-nowrap bg-slate-50">
+                <th key={h} className="px-5 md:px-8 py-2.5 md:py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 whitespace-nowrap bg-slate-50">
                   <div className="flex flex-col items-end">
                     <span>{h}</span>
                     <span className="hidden md:inline text-[8px] opacity-40 font-bold">Projeção</span>
@@ -96,14 +96,14 @@ function FinancialModelTable({ table, title, subtitle }: { table: any, title: st
           <tbody className="divide-y divide-slate-50">
             {table.rows.map((row: any) => (
               <tr key={row.item} className="hover:bg-slate-50/50 transition-colors group">
-                <td className="px-8 py-4 text-xs font-bold text-slate-600 sticky left-0 bg-white group-hover:bg-slate-50 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10">{row.item}</td>
+                <td className="px-5 md:px-8 py-2.5 md:py-4 text-xs font-bold text-slate-600 sticky left-0 bg-white group-hover:bg-slate-50 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10">{row.item}</td>
                 {row.values.map((v: any, i: number) => {
                   const isNumeric = typeof v === 'number' && Number.isFinite(v);
                   const isInvalid = !isNumeric;
 
                   return (
                     <td key={i} className={cn(
-                      "px-8 py-4 text-xs font-black text-right transition-all",
+                      "px-5 md:px-8 py-2.5 md:py-4 text-xs font-black text-right transition-all",
                       isNumeric && v < 0 ? "text-rose-500" : "text-slate-900",
                       isInvalid ? "bg-rose-50/50" : ""
                     )}>
@@ -240,17 +240,17 @@ function InputsDataEntryView({ selectedClient }: { selectedClient: string }) {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50">
-                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Tipo</th>
-                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Descrição</th>
-                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Plano de Contas</th>
-                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Valor Inicial</th>
-                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Ações</th>
+                  <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Tipo</th>
+                  <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Descrição</th>
+                  <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Plano de Contas</th>
+                  <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Valor Inicial</th>
+                  <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 text-right">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {inputs.map((item, index) => (
                   <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-8 py-4">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4">
                       <select 
                         value={item.tipo} 
                         onChange={(e) => updateInput(index, 'tipo', e.target.value)}
@@ -261,7 +261,7 @@ function InputsDataEntryView({ selectedClient }: { selectedClient: string }) {
                         <option value="Despesa">Despesa</option>
                       </select>
                     </td>
-                    <td className="px-8 py-4">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4">
                       <input 
                         type="text" 
                         value={item.descricao} 
@@ -270,7 +270,7 @@ function InputsDataEntryView({ selectedClient }: { selectedClient: string }) {
                         className="text-sm font-medium text-slate-700 bg-white px-3 py-2 rounded-xl border border-slate-200 outline-none w-full"
                       />
                     </td>
-                    <td className="px-8 py-4">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4">
                       <select 
                         value={item.accountId || ''} 
                         onChange={(e) => updateInput(index, 'accountId', e.target.value)}
@@ -284,7 +284,7 @@ function InputsDataEntryView({ selectedClient }: { selectedClient: string }) {
                         ))}
                       </select>
                     </td>
-                    <td className="px-8 py-4 text-right">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                       <input 
                         type="number" 
                         value={item.valorInicial} 
@@ -292,7 +292,7 @@ function InputsDataEntryView({ selectedClient }: { selectedClient: string }) {
                         className="text-sm font-black text-slate-900 bg-white px-3 py-2 rounded-xl border border-slate-200 outline-none w-32 text-right"
                       />
                     </td>
-                    <td className="px-8 py-4 text-right">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                       <button onClick={() => handleDelete(item.id, index)} className="p-2 text-slate-300 hover:text-rose-500 transition-colors">
                         <Trash2 size={16} />
                       </button>
@@ -371,9 +371,9 @@ function ConfiguracaoProjecaoEstrutural({ hasData }: { hasData: boolean }) {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/50">
-                <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Indicador</th>
-                <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Descrição Técnica</th>
-                <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 italic">Impacto no Modelo</th>
+                <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Indicador</th>
+                <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">Descrição Técnica</th>
+                <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 italic">Impacto no Modelo</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -384,9 +384,9 @@ function ConfiguracaoProjecaoEstrutural({ hasData }: { hasData: boolean }) {
                 { i: "Capex Plan", d: "Capital Expenditure", m: "Investimentos em ativos fixos necessários para suportar o crescimento." }
               ].map((item, idx) => (
                 <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="px-8 py-4 text-xs font-black text-slate-800">{item.i}</td>
-                  <td className="px-8 py-4 text-xs font-medium text-slate-500">{item.d}</td>
-                  <td className="px-8 py-4 text-xs font-bold text-blue-600 italic">{item.m}</td>
+                  <td className="px-5 md:px-8 py-2.5 md:py-4 text-xs font-black text-slate-800">{item.i}</td>
+                  <td className="px-5 md:px-8 py-2.5 md:py-4 text-xs font-medium text-slate-500">{item.d}</td>
+                  <td className="px-5 md:px-8 py-2.5 md:py-4 text-xs font-bold text-blue-600 italic">{item.m}</td>
                 </tr>
               ))}
             </tbody>
@@ -550,7 +550,7 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
         <div className="flex items-center gap-3">
           <button 
             onClick={() => setIsImportModalOpen(true)}
-            className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2"
+            className="px-4 md:px-6 py-2 md:py-2.5 bg-white border border-slate-200 text-slate-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2"
           >
             <Upload size={14} /> IMPORTAR DADOS
           </button>

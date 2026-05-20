@@ -196,13 +196,13 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             <div className="grid grid-cols-2 gap-4">
               <button 
                 onClick={() => setConfirmDelete(null)}
-                className="px-6 py-3 bg-slate-100 text-slate-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-200 transition-all"
+                className="px-4 md:px-6 py-2 md:py-3 bg-slate-100 text-slate-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-200 transition-all"
               >
                 Cancelar
               </button>
               <button 
                 onClick={() => removeEntry(confirmDelete.category, confirmDelete.index)}
-                className="px-6 py-3 bg-rose-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-rose-700 transition-all shadow-lg shadow-rose-500/25"
+                className="px-4 md:px-6 py-2 md:py-3 bg-rose-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-rose-700 transition-all shadow-lg shadow-rose-500/25"
               >
                 Excluir
               </button>
@@ -220,7 +220,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
           onClick={handleSave}
           disabled={saving}
           className={cn(
-            "flex items-center gap-2 px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg disabled:opacity-50",
+            "flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg disabled:opacity-50",
             saveSuccess 
               ? "bg-emerald-500 text-white shadow-emerald-500/25" 
               : "bg-blue-600 text-white shadow-blue-500/25 hover:bg-blue-700"
@@ -254,17 +254,17 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             <table className="w-full">
               <thead className="bg-slate-50">
                 <tr>
-                  <th className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipo de Receita</th>
-                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Delay (Dias)</th>
-                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Parcelas</th>
-                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Intervalo</th>
-                  <th className="px-6 py-4 text-right"></th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipo de Receita</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Delay (Dias)</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Parcelas</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Intervalo</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-right"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {assumptions.receitas.map((item: any, idx: number) => (
                   <tr key={idx}>
-                    <td className="px-6 py-4">
+                    <td className="px-4 md:px-6 py-2.5 md:py-4">
                       <select 
                         value={item.accountId || ''}
                         onChange={(e) => {
@@ -291,7 +291,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         <p className="mt-1 text-[9px] text-rose-400 font-bold uppercase px-1">Vínculo obrigatório para automação</p>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
                       <div className="flex items-center justify-center gap-2">
                         <input 
                           type="number" 
@@ -302,7 +302,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
                       <input 
                         type="number" 
                         min="1"
@@ -311,7 +311,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         className="w-12 text-center text-sm font-black text-slate-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-emerald-500"
                       />
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
                       <div className={cn("flex items-center justify-center gap-2", (item.parcelas || 1) <= 1 && "opacity-20 pointer-events-none")}>
                         <input 
                           type="number" 
@@ -323,7 +323,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
                       <button 
                         onClick={() => setConfirmDelete({ category: 'receitas', index: idx })}
                         className="p-2 text-slate-300 hover:text-rose-500 transition-colors"
@@ -364,17 +364,17 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             <table className="w-full">
               <thead className="bg-slate-50">
                 <tr>
-                  <th className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipo de Custo/Despesa</th>
-                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Prazo (Dias)</th>
-                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Parcelas</th>
-                  <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Intervalo</th>
-                  <th className="px-6 py-4 text-right"></th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipo de Custo/Despesa</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Prazo (Dias)</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Parcelas</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Intervalo</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-right"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {assumptions.custos.map((item: any, idx: number) => (
                   <tr key={idx}>
-                    <td className="px-6 py-4">
+                    <td className="px-4 md:px-6 py-2.5 md:py-4">
                       <select 
                         value={item.accountId || ''}
                         onChange={(e) => {
@@ -404,7 +404,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         <p className="mt-1 text-[9px] text-rose-400 font-bold uppercase px-1">Vínculo obrigatório para automação</p>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
                       <div className="flex items-center justify-center gap-2">
                         <input 
                           type="number" 
@@ -415,7 +415,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
                       <input 
                         type="number" 
                         min="1"
@@ -424,7 +424,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         className="w-12 text-center text-sm font-black text-slate-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-rose-500"
                       />
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
                       <div className={cn("flex items-center justify-center gap-2", (item.parcelas || 1) <= 1 && "opacity-20 pointer-events-none")}>
                         <input 
                           type="number" 
@@ -436,7 +436,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
                       <button 
                         onClick={() => setConfirmDelete({ category: 'custos', index: idx })}
                         className="p-2 text-slate-300 hover:text-rose-500 transition-colors"
@@ -477,7 +477,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                     step="0.1"
                     value={assumptions.crescimento}
                     onChange={(e) => setAssumptions({ ...assumptions, crescimento: parseFloat(e.target.value) || 0 })}
-                    className="w-full text-4xl font-black text-blue-600 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-200 outline-none focus:border-blue-500 transition-all text-right pr-12"
+                    className="w-full text-4xl font-black text-blue-600 bg-slate-50 px-4 md:px-6 py-2.5 md:py-4 rounded-2xl border border-slate-200 outline-none focus:border-blue-500 transition-all text-right pr-12"
                   />
                   <span className="absolute right-6 top-1/2 -translate-y-1/2 text-2xl font-black text-slate-300">%</span>
                 </div>

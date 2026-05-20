@@ -196,7 +196,7 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
 
         <div className="flex items-center gap-3">
           <div className={cn(
-            "px-6 py-2.5 rounded-md border shadow-sm flex items-center gap-3", 
+            "px-4 md:px-6 py-2 md:py-2.5 rounded-md border shadow-sm flex items-center gap-3", 
             hasData ? classification.bg : "bg-surface-container", 
             hasData ? classification.border : "border-border"
           )}>
@@ -216,7 +216,7 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
         <button
           onClick={() => setActiveTab('score')}
           className={cn(
-            "px-8 py-3 text-[10px] font-medium uppercase tracking-widest rounded-md transition-all",
+            "px-5 md:px-8 py-2 md:py-3 text-[10px] font-medium uppercase tracking-widest rounded-md transition-all",
             activeTab === 'score' ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
           )}
         >
@@ -225,7 +225,7 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
         <button
           onClick={() => setActiveTab('principios')}
           className={cn(
-            "px-8 py-3 text-[10px] font-medium uppercase tracking-widest rounded-md transition-all",
+            "px-5 md:px-8 py-2 md:py-3 text-[10px] font-medium uppercase tracking-widest rounded-md transition-all",
             activeTab === 'principios' ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
           )}
         >

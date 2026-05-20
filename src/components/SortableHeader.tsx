@@ -17,7 +17,7 @@ export function SortableHeader({ label, sortKey, currentSort, onSort, align = 'l
   return (
     <th 
       className={cn(
-        "px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest cursor-pointer hover:text-primary transition-colors group",
+        "px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest cursor-pointer hover:text-primary transition-colors group",
         align === 'center' && "text-center",
         align === 'right' && "text-right",
         className

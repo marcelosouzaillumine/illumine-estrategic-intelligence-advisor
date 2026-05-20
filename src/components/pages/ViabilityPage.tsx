@@ -304,7 +304,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
   const toolbar = (
     <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
       <div className="flex items-center gap-3">
-        <div className="px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
+        <div className="px-4 md:px-6 py-2 md:py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
           <Activity size={14} className="text-secondary" />
           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
             {projects.length} Projetos Ativos
@@ -315,7 +315,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
       <div className="flex items-center gap-3">
         <button 
           onClick={() => setShowModal(true)}
-          className="px-8 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
+          className="px-5 md:px-8 py-2 md:py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
         >
           <Plus size={16} /> ADICIONAR PROJETO
         </button>
@@ -430,7 +430,7 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
             <div className="p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4">
               <button 
                 onClick={() => setShowModal(false)}
-                className="px-6 py-3 text-xs font-bold text-slate-500 hover:text-slate-700"
+                className="px-4 md:px-6 py-2 md:py-3 text-xs font-bold text-slate-500 hover:text-slate-700"
               >
                 CANCELAR
               </button>

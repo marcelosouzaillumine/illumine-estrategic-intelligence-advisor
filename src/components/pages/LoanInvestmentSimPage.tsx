@@ -478,7 +478,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                         {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />} 
                         {selectedProjectId ? 'ATUALIZAR' : 'SALVAR PROJETO'}
                     </button>
-                    <button onClick={() => window.print()} className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2">
+                    <button onClick={() => window.print()} className="px-5 md:px-8 py-2 md:py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2">
                         <Printer size={16} /> RELATÓRIO
                     </button>
                 </div>

@@ -97,7 +97,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <ShieldCheck size={14} className="text-secondary" />
               <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Conformidade Tributária Ativa</span>
@@ -110,7 +110,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
             onClick={handleSave}
             disabled={saving}
             className={cn(
-              "btn-executive px-8 py-3.5",
+              "btn-executive",
               saving 
                 ? "bg-surface-container text-muted-foreground cursor-not-allowed border border-border" 
                 : "bg-primary text-white shadow-xl shadow-primary/20"
@@ -139,7 +139,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
                   key={regime}
                   onClick={() => setClientData({...clientData, regime})}
                   className={cn(
-                    "px-6 py-2.5 rounded-sm text-[10px] font-medium uppercase tracking-widest transition-all shadow-sm",
+                    "px-4 md:px-6 py-2 md:py-2.5 rounded-sm text-[10px] font-medium uppercase tracking-widest transition-all shadow-sm",
                     clientData.regime === regime 
                       ? "bg-executive text-white border border-white/5" 
                       : "bg-surface-container text-muted-foreground border border-border hover:bg-card"
@@ -210,17 +210,17 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
                     <table className="w-full text-left border-collapse">
                       <thead className="sticky top-0 bg-card/90 backdrop-blur-sm z-10 shadow-sm border-b border-border">
                         <tr>
-                          <th className="px-6 py-3 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Referência</th>
-                          <th className="px-6 py-3 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-right">Valor Bruto</th>
+                          <th className="px-4 md:px-6 py-2 md:py-3 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em]">Referência</th>
+                          <th className="px-4 md:px-6 py-2 md:py-3 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-right">Valor Bruto</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-border/50">
                         {(clientData.historicoFaturamento || []).map((item: any, idx: number) => (
                           <tr key={idx} className="hover:bg-card transition-colors group">
-                            <td className="px-6 py-4">
+                            <td className="px-4 md:px-6 py-2.5 md:py-4">
                               <div className="text-[10px] font-medium text-foreground uppercase tracking-widest italic">{item.mes}/{item.ano}</div>
                             </td>
-                            <td className="px-6 py-4 text-right">
+                            <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
                               <input 
                                 type="number"
                                 value={item.valor}

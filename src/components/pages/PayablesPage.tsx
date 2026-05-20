@@ -52,9 +52,9 @@ import {
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
     <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors">{label}</p>
+      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
       <h3 className={cn(
-        "text-2xl font-black tracking-tight",
+        "text-2xl font-black tracking-tight leading-[1.2] whitespace-nowrap",
         tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
       )}>{value}</h3>
       {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80">{helper}</p>}
@@ -283,7 +283,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
         <div className="flex items-center gap-3">
           <button 
             onClick={() => { setEditingPayable(null); setIsModalOpen(true); }}
-            className="px-8 py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
+            className="px-5 md:px-8 py-2 md:py-3 bg-secondary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20 flex items-center gap-2"
           >
             <Plus size={16} /> LANÇAR TÍTULO
           </button>
@@ -398,7 +398,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                 <SortableHeader label="Vencimento" sortKey="vencimento" currentSort={sort} onSort={toggleSort} align="center" />
                 <SortableHeader label="Valor" sortKey="valor" currentSort={sort} onSort={toggleSort} align="right" />
                 <SortableHeader label="Status" sortKey="status" currentSort={sort} onSort={toggleSort} align="center" />
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -418,13 +418,13 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
               ) : (
                 paginatedPayables.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-8 py-4">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4">
                       <div className="flex flex-col">
                         <span className="text-sm font-bold text-slate-700">{item.fornecedor}</span>
                         {item.centroCusto && <span className="text-[9px] font-black text-blue-400 uppercase tracking-tighter bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100/50 self-start mt-1">{item.centroCusto}</span>}
                       </div>
                     </td>
-                    <td className="px-8 py-4">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4">
                       {item.categoria ? (
                         <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/50">
                           {item.categoria}
@@ -433,17 +433,17 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                         <span className="text-[10px] text-slate-300 italic">Sem categoria</span>
                       )}
                     </td>
-                    <td className="px-8 py-4 text-center">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <span className="text-[10px] font-mono font-black text-slate-400 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200/50">{item.documento}</span>
                     </td>
-                    <td className="px-8 py-4 text-center text-xs text-slate-500 font-bold">{formatDate(item.emissao)}</td>
-                    <td className="px-8 py-4 text-center">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center text-xs text-slate-500 font-bold">{formatDate(item.emissao)}</td>
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <div className="flex flex-col items-center gap-0.5">
                         <span className="text-xs font-black text-slate-700">{formatDate(item.vencimento)}</span>
                         {item.status === 'Em atraso' && <span className="text-[8px] text-rose-500 font-black uppercase tracking-tighter animate-pulse">Vencido</span>}
                       </div>
                     </td>
-                    <td className="px-8 py-4 text-right">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                       <div className="flex flex-col items-end">
                         <span className="text-sm font-black text-primary">{formatCurrency(item.valor)}</span>
                         {item.valorAberto !== undefined && item.valorAberto !== item.valor && item.status !== 'Pago' && (
@@ -451,7 +451,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                         )}
                       </div>
                     </td>
-                    <td className="px-8 py-4 text-center">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <span className={cn(
                         "text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter",
                         item.status === 'Pago' ? "bg-emerald-50 text-emerald-600 border border-emerald-100" :
@@ -461,7 +461,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                         {item.status}
                       </span>
                     </td>
-                    <td className="px-8 py-4 text-right">
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => { setEditingPayable(item); setIsModalOpen(true); }}

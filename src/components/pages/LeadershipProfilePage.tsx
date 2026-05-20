@@ -459,7 +459,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Brain size={14} className="text-secondary" />
               <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">DNA de Gestão Ativo</span>
@@ -490,7 +490,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
             className={cn(
-              "flex items-center gap-3 px-6 py-2.5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all",
+              "flex items-center gap-3 px-4 md:px-6 py-2 md:py-2.5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all",
               activeTab === tab.id 
                 ? "bg-card text-foreground shadow-premium border border-border" 
                 : "text-muted-foreground hover:text-foreground"
@@ -779,7 +779,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                             setAssessmentStep(Math.ceil(DISC_QUESTIONS.length / 2) - 1);
                           }
                         }}
-                        className="px-8 py-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors disabled:opacity-30"
+                        className="px-5 md:px-8 py-2 md:py-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors disabled:opacity-30"
                       >
                         Voltar
                       </button>
@@ -798,7 +798,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                             setAssessmentType('enneagram');
                             setAssessmentStep(0);
                           }}
-                          className="px-10 py-4 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-secondary/20 transition-all active:scale-95"
+                          className="px-6 md:px-10 py-3 md:py-4 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-secondary/20 transition-all active:scale-95"
                         >
                           Eneagrama
                           <ArrowRight size={16} />
@@ -809,7 +809,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                             setShowResults(true);
                             setActiveTab('analysis');
                           }}
-                          className="px-10 py-4 bg-emerald-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
+                          className="px-6 md:px-10 py-3 md:py-4 bg-emerald-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
                         >
                           Ver Resultados
                           <Zap size={16} fill="currentColor" />
@@ -907,7 +907,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   <button
                     disabled={dilemmaStep === 0}
                     onClick={() => setDilemmaStep(s => s - 1)}
-                    className="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors disabled:opacity-20"
+                    className="px-5 md:px-8 py-2 md:py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors disabled:opacity-20"
                   >
                     Anterior
                   </button>
@@ -918,7 +918,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                         setShowResults(true);
                         setActiveTab('analysis');
                       }}
-                      className="px-10 py-4 bg-emerald-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
+                      className="px-6 md:px-10 py-3 md:py-4 bg-emerald-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-emerald-500/20 transition-all active:scale-95"
                     >
                       Finalizar Diagnóstico
                       <Zap size={16} fill="currentColor" />
@@ -926,7 +926,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   ) : (
                     <button
                       onClick={() => setDilemmaStep(s => s + 1)}
-                      className="px-10 py-4 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-slate-900/20 transition-all active:scale-95"
+                      className="px-6 md:px-10 py-3 md:py-4 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-xl hover:shadow-slate-900/20 transition-all active:scale-95"
                     >
                       Pular
                       <ArrowRight size={16} />
@@ -994,7 +994,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   <button
                     onClick={handleSaveResults}
                     disabled={isSaving}
-                    className="px-6 md:px-12 py-3 md:py-4 bg-primary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 transition-all flex items-center gap-3 disabled:opacity-50"
+                    className="px-4 md:px-6 md:px-12 py-2 md:py-3 md:py-4 bg-primary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 transition-all flex items-center gap-3 disabled:opacity-50"
                   >
                     {isSaving ? (
                       <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />

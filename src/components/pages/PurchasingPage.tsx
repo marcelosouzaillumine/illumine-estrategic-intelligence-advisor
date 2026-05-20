@@ -36,11 +36,11 @@ import {
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
-    <div className="bg-card p-6 rounded-md border border-border shadow-sm hover:shadow-md transition-all group relative overflow-hidden flex flex-col justify-between min-h-[140px]">
+    <div className="bg-card p-6 rounded-md border border-border shadow-sm hover:shadow-md transition-all group relative flex flex-col justify-between min-h-[140px]">
       <div>
-        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-3 group-hover:text-foreground transition-colors">{label}</p>
+        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-3 group-hover:text-foreground transition-colors whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
         <h3 className={cn(
-          "text-2xl font-bold tracking-tight text-foreground",
+          "text-2xl font-bold tracking-tight leading-[1.2] whitespace-nowrap text-foreground",
           tone === 'danger' ? "text-destructive" : tone === 'success' ? "text-success" : ""
         )}>{value}</h3>
       </div>
@@ -262,7 +262,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
                 { [1,2,3].map(i => (
                   <th key={i} className="px-4 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Fornecedor {i}</th>
                 ))}
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Economia Gerada</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Economia Gerada</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -274,7 +274,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
 
                 return (
                   <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-8 py-5">
+                    <td className="px-5 md:px-8 py-3 md:py-5">
                       <div className="flex flex-col">
                         <span className="text-sm font-bold text-slate-700">{item.produto}</span>
                         <span className="text-[10px] font-bold text-slate-400 uppercase">{item.centroCusto}</span>
@@ -298,7 +298,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
                         </div>
                       </td>
                     ))}
-                    <td className="px-8 py-5 text-right">
+                    <td className="px-5 md:px-8 py-3 md:py-5 text-right">
                       <div className="flex flex-col items-end">
                         <div className="flex items-center gap-1.5">
                           <span className="text-sm font-black text-emerald-600">+{formatCurrency(economy)}</span>

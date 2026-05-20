@@ -185,7 +185,7 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-3">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-3">
             <ShieldCheck size={14} className="text-secondary" />
             <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
               {policies.length} Políticas Ativas
@@ -197,7 +197,7 @@ export function CompliancePage({ clientId }: CompliancePageProps) {
           <button 
             onClick={triggerUpload}
             disabled={isUploading}
-            className="btn-ghost px-4 md:px-6 py-2 md:py-3"
+            className="btn-ghost md:px-6 md:py-3"
           >
             {isUploading ? <Loader2 className="animate-spin" size={14} /> : <Upload size={14} />}
             {isUploading ? 'Analisando...' : 'Importar Política (PDF)'}

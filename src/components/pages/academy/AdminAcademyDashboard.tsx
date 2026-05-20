@@ -56,12 +56,12 @@ export function AdminAcademyDashboard({ onEditCourse, onCreateCourse }: AdminAca
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-surface-container border-b border-border">
-              <th className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Curso</th>
-              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Categoria</th>
-              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Instrutor</th>
-              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Status</th>
-              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Alunos</th>
-              <th className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Ações</th>
+              <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Curso</th>
+              <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Categoria</th>
+              <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Instrutor</th>
+              <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Status</th>
+              <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Alunos</th>
+              <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Ações</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border/40">
@@ -79,7 +79,7 @@ export function AdminAcademyDashboard({ onEditCourse, onCreateCourse }: AdminAca
               </tr>
             ) : filteredCourses.map(course => (
               <tr key={course.id} className="hover:bg-surface-container/30 transition-colors group">
-                <td className="px-8 py-4">
+                <td className="px-5 md:px-8 py-2.5 md:py-4">
                   <div className="flex items-center gap-4">
                     <img src={course.coverImage} className="w-12 h-12 rounded-md object-cover border border-border shadow-sm" alt="" />
                     <div>
@@ -88,26 +88,26 @@ export function AdminAcademyDashboard({ onEditCourse, onCreateCourse }: AdminAca
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 md:px-6 py-2.5 md:py-4">
                   <span className="px-3 py-1 rounded-sm bg-surface-container border border-border text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
                     {course.category}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-xs font-medium text-muted-foreground">{course.instructor}</td>
-                <td className="px-6 py-4">
+                <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs font-medium text-muted-foreground">{course.instructor}</td>
+                <td className="px-4 md:px-6 py-2.5 md:py-4">
                   <span className={`px-2.5 py-1 rounded-sm text-[10px] font-medium uppercase tracking-widest ${
                     course.status === 'published' ? 'bg-success/10 text-success border border-success/20' : 'bg-warning/10 text-warning border border-warning/20'
                   }`}>
                     {course.status === 'published' ? 'Publicado' : 'Rascunho'}
                   </span>
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 md:px-6 py-2.5 md:py-4">
                   <div className="flex items-center gap-2 text-muted-foreground text-xs font-mono">
                     <Users size={12} />
                     <span>124</span>
                   </div>
                 </td>
-                <td className="px-8 py-4 text-right">
+                <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                   <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button className="p-2 hover:bg-surface-container rounded-md text-muted-foreground hover:text-foreground transition-colors" title="Visualizar">
                       <Eye size={14} />

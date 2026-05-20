@@ -95,7 +95,7 @@ export function ContractModal({ clientId, onClose, onSuccess, contractToEdit }: 
             <button
               onClick={() => setContractType('FINANCIAMENTO')}
               className={cn(
-                "px-6 py-2.5 text-[10px] font-black rounded-xl transition-all uppercase tracking-widest flex items-center gap-2",
+                "px-4 md:px-6 py-2 md:py-2.5 text-[10px] font-black rounded-xl transition-all uppercase tracking-widest flex items-center gap-2",
                 contractType === 'FINANCIAMENTO' ? "bg-white text-blue-600 shadow-md" : "text-slate-400 hover:text-slate-600"
               )}
             >
@@ -104,7 +104,7 @@ export function ContractModal({ clientId, onClose, onSuccess, contractToEdit }: 
             <button
               onClick={() => setContractType('TRIBUTARIO')}
               className={cn(
-                "px-6 py-2.5 text-[10px] font-black rounded-xl transition-all uppercase tracking-widest flex items-center gap-2",
+                "px-4 md:px-6 py-2 md:py-2.5 text-[10px] font-black rounded-xl transition-all uppercase tracking-widest flex items-center gap-2",
                 contractType === 'TRIBUTARIO' ? "bg-white text-rose-600 shadow-md" : "text-slate-400 hover:text-slate-600"
               )}
             >

@@ -485,12 +485,12 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-surface-container/50 border-b border-border">
-                        <th className="px-8 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] w-1/3">Tarefa</th>
-                        <th className="px-6 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Responsável</th>
-                        <th className="px-6 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Prioridade</th>
-                        <th className="px-6 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Prazo</th>
-                        <th className="px-6 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Progresso</th>
-                        <th className="px-8 py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-right">Status</th>
+                        <th className="px-5 md:px-8 py-2.5 md:py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] w-1/3">Tarefa</th>
+                        <th className="px-4 md:px-6 py-2.5 md:py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Responsável</th>
+                        <th className="px-4 md:px-6 py-2.5 md:py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Prioridade</th>
+                        <th className="px-4 md:px-6 py-2.5 md:py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Prazo</th>
+                        <th className="px-4 md:px-6 py-2.5 md:py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-center">Progresso</th>
+                        <th className="px-5 md:px-8 py-2.5 md:py-4 text-[9px] font-medium text-muted-foreground uppercase tracking-[0.2em] text-right">Status</th>
                         <th className="px-4 py-4 w-12"></th>
                       </tr>
                     </thead>
@@ -504,7 +504,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                             "hover:bg-surface-container/50 transition-colors group relative",
                             isOverdue && "bg-destructive/5"
                           )}>
-                            <td className="px-8 py-5">
+                            <td className="px-5 md:px-8 py-3 md:py-5">
                               <div className="flex flex-col gap-1">
                                 <div className="flex items-center gap-3">
                                   <p className={cn(
@@ -565,7 +565,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                                   <span className="text-[9px] font-medium text-muted-foreground tabular-nums italic">{action.status === 'Concluído' ? '100' : (action.progress || 0)}%</span>
                                </div>
                             </td>
-                            <td className="px-8 py-5 text-right">
+                            <td className="px-5 md:px-8 py-3 md:py-5 text-right">
                               <div className="flex justify-end">
                                 <span className={cn(
                                   "px-4 py-2 rounded-sm text-[9px] font-medium uppercase tracking-widest text-white min-w-[110px] text-center shadow-premium",
@@ -912,7 +912,7 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
                 </div>
 
                 <div className="pt-6 border-t border-border/50 flex justify-end gap-4 shrink-0">
-                   <button onClick={() => setIsFormOpen(false)} className="px-8 py-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all">Cancelar</button>
+                   <button onClick={() => setIsFormOpen(false)} className="px-5 md:px-8 py-2 md:py-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all">Cancelar</button>
                    <button onClick={handleSave} className="btn-executive bg-executive shadow-premium">
                      <Save size={18} />
                      Salvar Ação

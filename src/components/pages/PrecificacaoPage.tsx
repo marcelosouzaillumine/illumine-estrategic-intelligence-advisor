@@ -160,7 +160,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
         actions={
           <button
             onClick={() => setShowAddForm(!showAddForm)}
-            className="flex items-center gap-2 px-8 py-4 bg-secondary text-primary rounded-3xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-secondary/20 transition-all font-display"
+            className="flex items-center gap-2 px-5 md:px-8 py-2.5 md:py-4 bg-secondary text-primary rounded-3xl font-black uppercase tracking-widest text-[10px] hover:shadow-xl hover:shadow-secondary/20 transition-all font-display"
           >
             {showAddForm ? 'Cancelar' : <><Plus size={16} /> Adicionar Produto/Serviço</>}
           </button>
@@ -237,7 +237,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                         required
                         value={formData.nome}
                         onChange={e => setFormData({...formData, nome: e.target.value})}
-                        className="w-full px-8 py-5 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-emerald-500/10 font-bold text-lg text-slate-700 transition-all"
+                        className="w-full px-5 md:px-8 py-3 md:py-5 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-emerald-500/10 font-bold text-lg text-slate-700 transition-all"
                         placeholder="Ex: Consultoria Premium Mensal"
                       />
                     </div>
@@ -284,7 +284,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                </div>
 
                <div className="flex justify-end pt-6 border-t border-slate-100">
-                 <button type="submit" className="px-6 md:px-12 py-3.5 md:py-5 bg-emerald-600 text-white rounded-3xl font-black uppercase tracking-[0.2em] text-xs hover:shadow-2xl hover:shadow-emerald-600/30 transition-all active:scale-95">
+                 <button type="submit" className="px-4 md:px-6 md:px-12 py-2 md:py-3.5 md:py-5 bg-emerald-600 text-white rounded-3xl font-black uppercase tracking-[0.2em] text-xs hover:shadow-2xl hover:shadow-emerald-600/30 transition-all active:scale-95">
                    Salvar Inteligência de Preço
                  </button>
                </div>

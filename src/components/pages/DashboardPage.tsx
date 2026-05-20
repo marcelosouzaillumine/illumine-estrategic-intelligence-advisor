@@ -106,6 +106,7 @@ const AxisCard = ({ axis, value, status, trend, onClick }: any) => {
       trend={trend || (value === 0 ? 'Pendente' : 'Estável')}
       onClick={onClick}
       className="group"
+      noScroll={true}
     />
   );
 };
@@ -327,6 +328,7 @@ export function DashboardPage({
             highlight={item.highlight}
             status={getIndicatorStatus(item.key) || (item.value === 0 ? 'Pendente' : 'Verde')}
             trend={getIndicatorTrend(item.key)}
+            noScroll={true}
           />
         ))}
       </div>
@@ -511,7 +513,7 @@ export function DashboardPage({
           </div>
           <button 
             onClick={() => onNavigate('relatorio_executivo')}
-            className="flex items-center gap-3 px-8 py-4 bg-surface-container text-foreground rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all border border-border shadow-sm shrink-0"
+            className="flex items-center gap-3 px-5 md:px-8 py-2.5 md:py-4 bg-surface-container text-foreground rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all border border-border shadow-sm shrink-0"
           >
             Gerar Relatório Executivo
           </button>
@@ -534,6 +536,7 @@ export function DashboardPage({
                     <KpiValue 
                       value={val > 0 ? formatValue(val, '') : '0,00'} 
                       suffix={axis.suffix}
+                      noScroll={true}
                       className="text-lg font-medium text-foreground tracking-tight"
                     />
                     <div className="flex items-center justify-between gap-2 pt-2 overflow-visible">

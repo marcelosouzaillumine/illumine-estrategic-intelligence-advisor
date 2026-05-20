@@ -292,7 +292,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               className={cn(
-                "px-6 py-2.5 text-[10px] font-medium rounded-sm transition-all uppercase tracking-widest whitespace-nowrap",
+                "px-4 md:px-6 py-2 md:py-2.5 text-[10px] font-medium rounded-sm transition-all uppercase tracking-widest whitespace-nowrap",
                 activeTab === tab.id ? "bg-white text-secondary shadow-premium" : "text-muted-foreground hover:text-foreground"
               )}
             >{tab.label}</button>
@@ -321,7 +321,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                     key={p.value}
                     onClick={() => setViewRange(p.value as any)}
                     className={cn(
-                      "px-6 py-2 text-[10px] font-medium rounded-sm transition-all",
+                      "px-4 md:px-6 py-1.5 md:py-2 text-[10px] font-medium rounded-sm transition-all",
                       viewRange === p.value ? "bg-secondary text-white shadow-premium" : "text-muted-foreground hover:text-foreground"
                     )}
                   >{p.label}</button>
@@ -535,18 +535,18 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                   <thead className="bg-slate-50 sticky top-0 z-10">
                     <tr>
                       {["Data", "Saldo Inicial", "Entradas", "Saídas", "Saldo Final"].map(h => (
-                        <th key={h} className={cn("px-6 py-4 text-left text-[10px] font-black uppercase tracking-widest", h === "Saldo Inicial" ? "text-primary bg-primary/5" : "text-slate-400")}>{h}</th>
+                        <th key={h} className={cn("px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black uppercase tracking-widest", h === "Saldo Inicial" ? "text-primary bg-primary/5" : "text-slate-400")}>{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {Fluxo_Diario_Filtered.map((row: any, idx: number) => (
                       <tr key={idx} className="hover:bg-slate-50 transition-colors border-l-4 border-transparent hover:border-secondary">
-                        <td className="px-6 py-4 text-sm font-semibold text-slate-600">{formatDate(row.Data)}</td>
-                        <td className="px-6 py-4 text-sm font-bold text-slate-700 bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
-                        <td className="px-6 py-4 text-sm font-bold text-emerald-600">+{formatCurrency(row.Entradas)}</td>
-                        <td className="px-6 py-4 text-sm font-bold text-rose-600">-{formatCurrency(row["Saídas"])}</td>
-                        <td className={cn("px-6 py-4 text-sm font-black", row["Saldo Final"] < 0 ? "text-rose-600" : "text-slate-900")}>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.Data)}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-700 bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-emerald-600">+{formatCurrency(row.Entradas)}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-rose-600">-{formatCurrency(row["Saídas"])}</td>
+                        <td className={cn("px-4 md:px-6 py-2.5 md:py-4 text-sm font-black", row["Saldo Final"] < 0 ? "text-rose-600" : "text-slate-900")}>
                           {formatCurrency(row["Saldo Final"])}
                         </td>
                       </tr>
@@ -574,18 +574,18 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <thead className="bg-slate-50 sticky top-0 z-10">
                   <tr>
                     {["Data", "Saldo Inicial", "Entradas", "Saídas", "Saldo Final"].map(h => (
-                      <th key={h} className={cn("px-6 py-4 text-left text-[10px] font-black uppercase tracking-widest", h === "Saldo Inicial" ? "text-primary bg-primary/5" : "text-slate-400")}>{h}</th>
+                      <th key={h} className={cn("px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black uppercase tracking-widest", h === "Saldo Inicial" ? "text-primary bg-primary/5" : "text-slate-400")}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {Fluxo_Diario.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors border-l-4 border-transparent hover:border-secondary">
-                      <td className="px-6 py-4 text-sm font-semibold text-slate-600">{formatDate(row.Data)}</td>
-                      <td className="px-6 py-4 text-sm font-bold text-slate-700 bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
-                      <td className="px-6 py-4 text-sm font-bold text-emerald-600">+{formatCurrency(row.Entradas)}</td>
-                      <td className="px-6 py-4 text-sm font-bold text-rose-600">-{formatCurrency(row["Saídas"])}</td>
-                      <td className={cn("px-6 py-4 text-sm font-black", row["Saldo Final"] < 0 ? "text-rose-600" : "text-slate-900")}>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.Data)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-700 bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-emerald-600">+{formatCurrency(row.Entradas)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-rose-600">-{formatCurrency(row["Saídas"])}</td>
+                      <td className={cn("px-4 md:px-6 py-2.5 md:py-4 text-sm font-black", row["Saldo Final"] < 0 ? "text-rose-600" : "text-slate-900")}>
                         {formatCurrency(row["Saldo Final"])}
                       </td>
                     </tr>
@@ -623,20 +623,20 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
               <table className="w-full">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Vencimento</th>
-                    <th className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{activeTab === 'receber' ? 'Cliente' : 'Fornecedor'}</th>
-                    <th className="px-6 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor</th>
-                    <th className="px-6 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                    {activeTab === 'pagar' && <th className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Obs</th>}
+                    <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Vencimento</th>
+                    <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{activeTab === 'receber' ? 'Cliente' : 'Fornecedor'}</th>
+                    <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor</th>
+                    <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                    {activeTab === 'pagar' && <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Obs</th>}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {(activeTab === 'receber' ? filteredReceber : filteredPagar).map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4 text-xs font-bold text-slate-600">{formatDate(row.Vencimento)}</td>
-                      <td className="px-6 py-4 text-xs font-black text-slate-900">{row.Cliente || row.Fornecedor}</td>
-                      <td className="px-6 py-4 text-right text-xs font-black text-secondary">{formatCurrency(row.Valor)}</td>
-                      <td className="px-6 py-4 text-center">
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs font-bold text-slate-600">{formatDate(row.Vencimento)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs font-black text-slate-900">{row.Cliente || row.Fornecedor}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-right text-xs font-black text-secondary">{formatCurrency(row.Valor)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
                         <span className={cn(
                           "text-[9px] font-black px-2 py-1 rounded uppercase tracking-tighter",
                           row.Status === 'Recebido' || row.Status === 'Pago' ? "bg-emerald-100 text-emerald-700" :
@@ -644,7 +644,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                           "bg-primary/10 text-primary"
                         )}>{row.Status}</span>
                       </td>
-                      {activeTab === 'pagar' && <td className="px-6 py-4 text-xs text-slate-500 italic">{row.Observação}</td>}
+                      {activeTab === 'pagar' && <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs text-slate-500 italic">{row.Observação}</td>}
                     </tr>
                   ))}
                 </tbody>
@@ -669,17 +669,17 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <thead className="bg-slate-50">
                   <tr>
                     {["Cliente", "Vencimento Originário", "Valor Principal", "Status"].map(h => (
-                      <th key={h} className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
+                      <th key={h} className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {Inadimplencia.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4 text-sm font-black text-slate-900">{row.Cliente}</td>
-                      <td className="px-6 py-4 text-sm font-semibold text-slate-600">{formatDate(row.Vencimento)}</td>
-                      <td className="px-6 py-4 text-sm font-black text-rose-600">{formatCurrency(row.Valor)}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-slate-900">{row.Cliente}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.Vencimento)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-rose-600">{formatCurrency(row.Valor)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4">
                         <span className="text-[9px] font-black px-2 py-1 rounded uppercase tracking-tighter bg-rose-100 text-rose-700">Vencido</span>
                       </td>
                     </tr>
@@ -706,17 +706,17 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <thead className="bg-slate-50">
                   <tr>
                     {["Credor", "Tipo", "Vencimento Originário", "Valor Principal"].map(h => (
-                      <th key={h} className="px-6 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
+                      <th key={h} className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {Passivo_Vencido.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4 text-sm font-black text-slate-900">{row.Credor}</td>
-                      <td className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{row.Tipo}</td>
-                      <td className="px-6 py-4 text-sm font-semibold text-slate-600">{formatDate(row.Vencimento)}</td>
-                      <td className="px-6 py-4 text-sm font-black text-rose-600">{formatCurrency(row.Valor)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-slate-900">{row.Credor}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs font-bold text-slate-500 uppercase">{row.Tipo}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.Vencimento)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-rose-600">{formatCurrency(row.Valor)}</td>
                     </tr>
                   ))}
                 </tbody>

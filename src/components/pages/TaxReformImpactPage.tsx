@@ -238,7 +238,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={cn(
-              "flex items-center gap-2 px-6 py-4 text-[10px] font-black uppercase tracking-widest transition-all border-b-2 -mb-[2px]",
+              "flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black uppercase tracking-widest transition-all border-b-2 -mb-[2px]",
               activeTab === tab.id 
                 ? "border-primary text-primary bg-primary/5 rounded-t-2xl" 
                 : "border-transparent text-slate-400 hover:text-slate-600"
@@ -283,7 +283,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                       <select 
                         value={diagnosis.regimeTributario}
                         onChange={(e) => setDiagnosis({...diagnosis, regimeTributario: e.target.value as any})}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       >
                         <option value="Lucro Real">Lucro Real</option>
                         <option value="Lucro Presumido">Lucro Presumido</option>
@@ -296,7 +296,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                         type="number"
                         value={diagnosis.faturamentoMensal}
                         onChange={(e) => setDiagnosis({...diagnosis, faturamentoMensal: Number(e.target.value)})}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -308,7 +308,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                         type="number"
                         value={(diagnosis.margemEBITDA * 100).toFixed(1)}
                         onChange={(e) => setDiagnosis({...diagnosis, margemEBITDA: Number(e.target.value) / 100})}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       />
                     </div>
                     <div>
@@ -317,7 +317,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                         type="number"
                         value={(diagnosis.aliquotaEfetivaAtual * 100).toFixed(2)}
                         onChange={(e) => setDiagnosis({...diagnosis, aliquotaEfetivaAtual: Number(e.target.value) / 100})}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -444,7 +444,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                   </p>
                   <button 
                     onClick={() => setActiveTab('diagnosis')}
-                    className="mt-8 px-8 py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all"
+                    className="mt-8 px-5 md:px-8 py-2 md:py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all"
                   >
                     Configurar Diagnóstico
                   </button>

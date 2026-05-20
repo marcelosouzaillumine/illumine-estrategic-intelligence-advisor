@@ -499,7 +499,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               { title: 'Patrimônio Líquido', data: comparativeAnalysis.filter(r => isPL(r)), color: 'purple' }
             ].map((section, idx) => (
               <div key={idx} className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden">
-                <div className={cn("px-8 py-5 border-b border-slate-100 flex items-center justify-between", `bg-${section.color}-50/30`)}>
+                <div className={cn("px-5 md:px-8 py-3 md:py-5 border-b border-slate-100 flex items-center justify-between", `bg-${section.color}-50/30`)}>
                   <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">{section.title}</h4>
                   <span className={cn("text-[9px] font-black uppercase px-3 py-1 rounded-full", `bg-${section.color}-50 text-${section.color}-600`)}>
                     Detalhamento Estrutural
@@ -509,28 +509,28 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="bg-slate-50/50 border-b border-slate-100">
-                        <th className="text-left py-4 px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conta</th>
-                        <th className="text-right py-4 px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Saldo Atual (R$)</th>
-                        <th className="text-right py-4 px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AV (%)</th>
-                        <th className="text-right py-4 px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (%)</th>
+                        <th className="text-left py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conta</th>
+                        <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Saldo Atual (R$)</th>
+                        <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AV (%)</th>
+                        <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (%)</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50">
                       {section.data.map((row: any, i: number) => (
                         <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', row.level === 1 ? 'bg-slate-50/10 font-bold' : '')}>
-                          <td className="py-4 px-8">
+                          <td className="py-2.5 md:py-4 px-5 md:px-8">
                             <span className={cn('block overflow-visible break-words', row.level === 1 ? 'text-secondary' : 'pl-4 text-muted-foreground font-medium')}>
                               {row.conta === 'Patrimônio Líquido' ? 'Patrimônio' : row.conta}
                             </span>
                           </td>
-                          <td className="py-4 px-8 text-right font-mono text-slate-700">
+                          <td className="py-2.5 md:py-4 px-5 md:px-8 text-right font-mono text-slate-700">
                             {formatCurrency(row.val)}
                           </td>
-                          <td className="py-4 px-8 text-right font-bold text-slate-500 text-xs">
+                          <td className="py-2.5 md:py-4 px-5 md:px-8 text-right font-bold text-slate-500 text-xs">
                             {row.av.toFixed(1)}%
                           </td>
                           <td className={cn(
-                            "py-4 px-8 text-right font-black text-xs",
+                            "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
                             row.ah > 0 ? "text-emerald-500" : row.ah < 0 ? "text-rose-500" : "text-slate-300"
                           )}>
                             {row.ah !== 0 ? (
@@ -620,7 +620,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       {/* Toast */}
       {toast && (
         <div className={cn(
-          'fixed bottom-8 right-8 px-8 py-4 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-bottom-4 transition-all',
+          'fixed bottom-8 right-8 px-5 md:px-8 py-2.5 md:py-4 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-bottom-4 transition-all',
           toast.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'
         )}>
           <p className="text-xs font-black uppercase tracking-widest">{toast.message}</p>

@@ -302,7 +302,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
               <button 
                 onClick={() => setExtractedDocs([])}
                 disabled={isProcessing}
-                className="px-6 py-2.5 rounded-xl font-bold text-slate-600 hover:bg-slate-200 transition-colors disabled:opacity-50"
+                className="px-4 md:px-6 py-2 md:py-2.5 rounded-xl font-bold text-slate-600 hover:bg-slate-200 transition-colors disabled:opacity-50"
               >
                 Descartar Extração
               </button>

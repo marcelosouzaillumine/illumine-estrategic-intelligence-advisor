@@ -277,7 +277,7 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
            <div className="flex justify-end gap-3 pt-6">
               <button 
                 onClick={() => { setIsAdding(false); setEditingId(null); }}
-                className="px-6 py-2.5 text-[10px] font-black uppercase text-slate-500 hover:text-slate-700 underline transition-all"
+                className="px-4 md:px-6 py-2 md:py-2.5 text-[10px] font-black uppercase text-slate-500 hover:text-slate-700 underline transition-all"
               >
                 Cancelar
               </button>
@@ -298,11 +298,11 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
            <table className="w-full text-left">
              <thead className="bg-slate-50">
                <tr>
-                 <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Nome / Cargo</th>
-                 <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Área</th>
-                 <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Vínculo</th>
-                 <th className="px-6 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Salário Base</th>
-                 <th className="px-6 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Ações</th>
+                 <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Nome / Cargo</th>
+                 <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Área</th>
+                 <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Vínculo</th>
+                 <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Salário Base</th>
+                 <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Ações</th>
                </tr>
              </thead>
              <tbody className="divide-y divide-slate-100">
@@ -315,20 +315,20 @@ export function EmployeeManager({ clientId, clientConfig }: { clientId: string, 
                  ) : (
                    employees.map(emp => (
                      <tr key={emp.id} className="hover:bg-slate-50/50 transition-colors">
-                       <td className="px-6 py-4">
+                       <td className="px-4 md:px-6 py-2.5 md:py-4">
                           <p className="text-xs font-bold text-slate-800">{emp.nome}</p>
                           <p className="text-[10px] text-slate-400 font-medium">{emp.funcao}</p>
                        </td>
-                       <td className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-tighter">
+                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-500 uppercase tracking-tighter">
                           {emp.area}
                        </td>
-                       <td className="px-6 py-4">
+                       <td className="px-4 md:px-6 py-2.5 md:py-4">
                           <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 rounded text-[9px] font-black text-slate-500 uppercase">{emp.tipoContrato}</span>
                        </td>
-                       <td className="px-6 py-4 text-right font-mono text-xs font-bold text-slate-700">
+                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-right font-mono text-xs font-bold text-slate-700">
                           {formatCurrency(emp.salarioBase)}
                        </td>
-                       <td className="px-6 py-4 text-right">
+                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
                           <div className="flex items-center justify-end gap-2">
                              <button 
                                onClick={() => {

@@ -253,7 +253,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
           </div>
           <div className="flex items-center gap-4">
             <button onClick={() => setView('list')} className="btn-ghost">Cancelar</button>
-            <button onClick={handleSave} className="btn-accent px-10">
+            <button onClick={handleSave} className="btn-accent">
               <Save size={16} /> {editingId ? 'Salvar' : 'Cadastrar'}
             </button>
           </div>
@@ -275,7 +275,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                 key={tab.id}
                 onClick={() => setActiveFormTab(tab.id as any)}
                 className={cn(
-                  "flex items-center gap-2 px-6 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all whitespace-nowrap",
+                  "flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all whitespace-nowrap",
                   activeFormTab === tab.id 
                     ? "bg-secondary text-white shadow-lg" 
                     : "text-text-dim hover:bg-bg-card"
@@ -322,12 +322,12 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                         placeholder={docType === 'CNPJ' ? "00.000.000/0000-00" : "000.000.000-00"} 
                         value={docQuery}
                         onChange={(e) => setDocQuery(formatDoc(e.target.value))}
-                        className="flex-1 px-6 py-4 bg-white border border-border-main rounded-2xl text-sm font-bold outline-none focus:border-secondary" 
+                        className="flex-1 px-4 md:px-6 py-2.5 md:py-4 bg-white border border-border-main rounded-2xl text-sm font-bold outline-none focus:border-secondary" 
                       />
                       <button 
                         onClick={handleFetch}
                         disabled={loading}
-                        className="btn-accent px-8"
+                        className="btn-accent"
                       >
                         {loading ? <Loader2 className="animate-spin" size={18} /> : 'Buscar'}
                       </button>
@@ -348,7 +348,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                       onChange={(e) => setFormData({...formData, razao: e.target.value})} 
                       readOnly={!!formData.razao && !editingId}
                       className={cn(
-                        "w-full px-6 py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold",
+                        "w-full px-4 md:px-6 py-2.5 md:py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold",
                         formData.razao && !editingId ? "opacity-70 bg-slate-50" : ""
                       )} 
                     />
@@ -359,7 +359,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                       type="text" 
                       value={formData.fantasia} 
                       onChange={(e) => setFormData({...formData, fantasia: e.target.value})} 
-                      className="w-full px-6 py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold" 
+                      className="w-full px-4 md:px-6 py-2.5 md:py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold" 
                     />
                   </div>
                   <div className="space-y-3">
@@ -370,7 +370,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                       onChange={(e) => setFormData({...formData, cnpj: e.target.value.replace(/\D/g, '')})} 
                       readOnly={!!formData.cnpj && !editingId}
                       className={cn(
-                        "w-full px-6 py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold",
+                        "w-full px-4 md:px-6 py-2.5 md:py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold",
                         formData.cnpj && !editingId ? "opacity-70 bg-slate-50" : ""
                       )} 
                     />
@@ -383,7 +383,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                       onChange={(e) => setFormData({...formData, segmento: e.target.value})} 
                       readOnly={!!formData.segmento && !editingId}
                       className={cn(
-                        "w-full px-6 py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold",
+                        "w-full px-4 md:px-6 py-2.5 md:py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold",
                         formData.segmento && !editingId ? "opacity-70 bg-slate-50" : ""
                       )} 
                     />
@@ -394,7 +394,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                       type="text" 
                       value={formData.cidade} 
                       onChange={(e) => setFormData({...formData, cidade: e.target.value})} 
-                      className="w-full px-6 py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold" 
+                      className="w-full px-4 md:px-6 py-2.5 md:py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold" 
                     />
                   </div>
                   <div className="space-y-3">
@@ -403,7 +403,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                       type="text" 
                       value={formData.endereco} 
                       onChange={(e) => setFormData({...formData, endereco: e.target.value})} 
-                      className="w-full px-6 py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold" 
+                      className="w-full px-4 md:px-6 py-2.5 md:py-4 bg-bg-surface border border-border-main rounded-2xl text-sm font-bold" 
                     />
                   </div>
                 </div>
@@ -436,7 +436,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                             (document.getElementById('socio-part') as HTMLInputElement).value = '';
                           }
                         }}
-                        className="btn-accent px-6"
+                        className="btn-accent"
                       >Adicionar</button>
                     </div>
                     <div className="space-y-3">
@@ -471,7 +471,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                             setTempUnit('');
                           }
                         }}
-                        className="btn-accent px-6"
+                        className="btn-accent"
                       >Adicionar</button>
                     </div>
                     <div className="flex flex-wrap gap-3">
@@ -660,7 +660,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                     <p className="text-[9px] font-black text-text-dim uppercase tracking-widest mb-1">Faturamento</p>
                     <p className="text-xs font-black text-text-main">{formatCurrency(client.faturamentoMensal || 0)}</p>
                   </div>
-                  <button onClick={() => setSelectedClient(client.id)} className="btn-ghost py-2 px-4 text-[9px]">Acessar</button>
+                  <button onClick={() => setSelectedClient(client.id)} className="btn-ghost">Acessar</button>
                 </div>
               </div>
             ))}
@@ -756,7 +756,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                     <p className="text-sm text-text-muted leading-relaxed font-medium">Você está prestes a remover <strong className="text-text-main">{partnerToDelete.name}</strong>. Esta ação não removerá os clientes vinculados.</p>
                  </div>
                  <div className="grid grid-cols-2 gap-4 pt-4">
-                    <button onClick={() => setPartnerToDelete(null)} className="px-6 py-4 bg-bg-surface text-text-dim rounded-2xl text-[10px] font-black uppercase tracking-widest border border-border-main">Cancelar</button>
+                    <button onClick={() => setPartnerToDelete(null)} className="px-4 md:px-6 py-2.5 md:py-4 bg-bg-surface text-text-dim rounded-2xl text-[10px] font-black uppercase tracking-widest border border-border-main">Cancelar</button>
                     <button onClick={handleDelete} className="px-4 md:px-6 py-2.5 md:py-4 bg-rose-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg hover:bg-rose-700 transition-all">Excluir</button>
                  </div>
               </motion.div>

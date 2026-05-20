@@ -70,7 +70,7 @@ export function DesenvolvimentoHumanoPage({ clientId }: DesenvolvimentoHumanoPag
           icon={Users}
           color="executive"
           actions={
-            <div className="relative z-10 text-right bg-surface-container/30 backdrop-blur-md border border-border rounded-md px-6 py-4 shadow-inner">
+            <div className="relative z-10 text-right bg-surface-container/30 backdrop-blur-md border border-border rounded-md px-4 md:px-6 py-2.5 md:py-4 shadow-inner">
                <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest block mb-1">Saúde Organizacional</span>
                <span className="text-success font-medium uppercase text-[10px] flex items-center justify-end gap-2 tracking-widest">
                  <ShieldCheck size={16} />

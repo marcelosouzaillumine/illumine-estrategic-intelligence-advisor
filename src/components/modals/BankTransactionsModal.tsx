@@ -158,10 +158,10 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
             <table className="w-full text-left border-collapse">
               <thead className="bg-slate-50/50 sticky top-0 z-10 backdrop-blur-md">
                 <tr className="border-b border-slate-100">
-                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Data</th>
-                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição</th>
-                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Classificação (Plano)</th>
-                  <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor</th>
+                  <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Data</th>
+                  <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição</th>
+                  <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Classificação (Plano)</th>
+                  <th className="px-5 md:px-8 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -179,14 +179,14 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
                 ) : (
                   filtered.map(t => (
                     <tr key={t.id} className="hover:bg-slate-50/50 transition-colors group">
-                      <td className="px-8 py-5 text-xs font-bold text-slate-500">{formatDate(t.date)}</td>
-                      <td className="px-8 py-5">
+                      <td className="px-5 md:px-8 py-3 md:py-5 text-xs font-bold text-slate-500">{formatDate(t.date)}</td>
+                      <td className="px-5 md:px-8 py-3 md:py-5">
                         <div className="flex flex-col">
                           <span className="text-sm font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">{t.description}</span>
                           <span className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">Ref: {t.id.slice(-8)}</span>
                         </div>
                       </td>
-                      <td className="px-8 py-5">
+                      <td className="px-5 md:px-8 py-3 md:py-5">
                         <div className="relative">
                           {updatingId === t.id ? (
                             <div className="flex items-center gap-2 text-[10px] text-slate-400 italic">
@@ -210,7 +210,7 @@ export function BankTransactionsModal({ account, onClose }: BankTransactionsModa
                         </div>
                       </td>
                       <td className={cn(
-                        "px-8 py-5 text-right text-sm font-black",
+                        "px-5 md:px-8 py-3 md:py-5 text-right text-sm font-black",
                         t.amount >= 0 ? "text-emerald-600" : "text-rose-600"
                       )}>
                         {formatCurrency(t.amount)}

@@ -214,14 +214,14 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <label className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl cursor-pointer transition-all text-xs font-black uppercase tracking-widest">
+          <label className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl cursor-pointer transition-all text-xs font-black uppercase tracking-widest">
             <Upload size={16} className="text-secondary" />
             Importar CSV
             <input type="file" accept=".csv" className="hidden" onChange={handleImport} />
           </label>
           <button 
             onClick={() => setIsAdding(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-secondary text-primary rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg hover:scale-105 transition-all"
+            className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-secondary text-primary rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg hover:scale-105 transition-all"
           >
             <Plus size={16} /> Inserir Oportunidade
           </button>
@@ -283,12 +283,12 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/50">
-                <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Cliente / Oportunidade</th>
-                <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Responsável</th>
-                <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Unidade/Filial</th>
-                <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Etapa</th>
-                <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Valor Previsto</th>
-                <th className="px-6 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Ações</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Cliente / Oportunidade</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Responsável</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Unidade/Filial</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Etapa</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Valor Previsto</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -447,7 +447,7 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
                   <button 
                     type="button"
                     onClick={() => setIsAdding(false)}
-                    className="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors"
+                    className="px-5 md:px-8 py-2 md:py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors"
                   >
                     Cancelar
                   </button>

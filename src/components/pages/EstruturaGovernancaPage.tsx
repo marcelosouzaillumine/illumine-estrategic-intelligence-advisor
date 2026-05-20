@@ -488,7 +488,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Award size={14} className="text-secondary" />
               <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Protocolo de Alta Direção</span>
@@ -508,7 +508,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
               setDilemmaStep(0);
               setActiveTab('roles');
             }}
-            className="btn-ghost px-6 py-3.5"
+            className="btn-ghost"
           >
             Refazer Tudo
           </button>
@@ -538,7 +538,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
             className={cn(
-              "flex items-center gap-3 px-6 py-3 rounded-md text-xs font-medium transition-all uppercase tracking-widest",
+              "flex items-center gap-3 px-4 md:px-6 py-2 md:py-3 rounded-md text-xs font-medium transition-all uppercase tracking-widest",
               activeTab === tab.id 
                 ? "bg-card text-primary shadow-sm border border-border" 
                 : "text-muted-foreground hover:text-foreground"
@@ -794,7 +794,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   <button
                     disabled={dilemmaStep === 0}
                     onClick={() => setDilemmaStep(s => s - 1)}
-                    className="btn-ghost px-8 py-3"
+                    className="btn-ghost"
                   >
                     Anterior
                   </button>
@@ -813,7 +813,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                   ) : (
                     <button
                       onClick={() => setDilemmaStep(s => s + 1)}
-                      className="btn-ghost px-8 py-3"
+                      className="btn-ghost"
                     >
                       Pular
                     </button>
@@ -961,7 +961,7 @@ export function EstruturaGovernancaPage({ clientId }: { clientId: string }) {
                         setAssessmentStep(Math.ceil(DISC_QUESTIONS.length / 2) - 1);
                       }
                     }}
-                    className="btn-ghost px-8 py-3"
+                    className="btn-ghost"
                   >
                     Voltar
                   </button>

@@ -59,13 +59,13 @@ export function CurrencySelector({
         id="currency-selector-trigger"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          'flex items-center gap-2 px-4 py-2.5 rounded-button border transition-all duration-200 text-body-sm font-medium uppercase tracking-widest',
+          'flex items-center gap-1 md:gap-2 px-1.5 py-1 min-[400px]:px-2.5 min-[400px]:py-1.5 md:px-3.5 md:py-2 rounded-button border transition-all duration-200 text-[8px] min-[400px]:text-[9px] sm:text-[10px] md:text-xs font-medium uppercase tracking-widest',
           open
             ? 'bg-primary text-primary-foreground border-primary shadow-md'
             : 'bg-background text-foreground border-border hover:border-muted-foreground/30 hover:shadow-sm'
         )}
       >
-        <span className="text-base leading-none">{current.flag}</span>
+        <span className="text-sm md:text-base leading-none">{current.flag}</span>
         <span>{current.code}</span>
         {loading ? (
           <Loader2 size={10} className="animate-spin text-muted-foreground" />
@@ -73,12 +73,11 @@ export function CurrencySelector({
           <WifiOff size={10} className="text-amber-400" />
         ) : (
           <div className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-emerald-500 animate-pulse" />
           </div>
         )}
         <ChevronDown
-          size={12}
-          className={cn('transition-transform duration-200', open && 'rotate-180')}
+          className={cn('transition-transform duration-200 w-2.5 h-2.5 md:w-3 md:h-3', open && 'rotate-180')}
         />
       </button>
 

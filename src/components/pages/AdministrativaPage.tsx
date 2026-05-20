@@ -77,7 +77,7 @@ export function AdministrativaPage({ clientId }: AdministrativaPageProps) {
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="px-6 py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-card border border-border rounded-md shadow-sm flex items-center gap-4">
             <div className="flex items-center gap-2">
               <ShieldCheck size={14} className="text-success" />
               <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Back-office Target: <span className="text-success">Otimizado</span></span>

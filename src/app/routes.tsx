@@ -385,7 +385,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <MessagesPage />;
   }
   if (currentPage === 'suporte') {
-    return <SupportPage selectedClient={selectedClient} />;
+    return <SupportPage selectedClient={selectedClient} isMaster={isMaster} user={user} />;
   }
   if (currentPage === 'academy_home') {
     return <AcademyHomePage onNavigate={(page, params) => {

@@ -122,11 +122,11 @@ export function MessagesPage() {
           icon={Bell}
           transparent
           actions={
-            <div className="flex bg-surface-container p-1 rounded-2xl border border-border shadow-inner">
+            <div className="flex flex-col sm:flex-row bg-surface-container p-1 rounded-2xl border border-border shadow-inner w-full xl:w-auto">
               <button 
                 onClick={() => setActiveTab('messages')}
                 className={cn(
-                  "px-6 py-2.5 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest",
+                  "px-4 md:px-6 py-2 md:py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest w-full sm:w-auto",
                   activeTab === 'messages' 
                     ? "bg-secondary text-primary shadow-lg" 
                     : "text-muted-foreground hover:text-foreground"
@@ -137,7 +137,7 @@ export function MessagesPage() {
               <button 
                 onClick={() => setActiveTab('changelog')}
                 className={cn(
-                  "px-6 py-2.5 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest",
+                  "px-4 md:px-6 py-2 md:py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest w-full sm:w-auto mt-1 sm:mt-0",
                   activeTab === 'changelog' 
                     ? "bg-secondary text-primary shadow-lg" 
                     : "text-muted-foreground hover:text-foreground"

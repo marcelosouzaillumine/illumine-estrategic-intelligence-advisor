@@ -261,7 +261,7 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                         key={status}
                         onClick={() => setFormData({...formData, status: status})}
                         className={cn(
-                          "px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border flex items-center gap-3",
+                          "px-5 md:px-8 py-2 md:py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border flex items-center gap-3",
                           formData.status === status 
                             ? (status === 'Ativo' ? "bg-emerald-500 text-white border-emerald-500 shadow-floating-success" : "bg-rose-500 text-white border-rose-500 shadow-floating-danger")
                             : "bg-bg-surface text-text-dim border-border-main hover:bg-bg-card"
@@ -359,7 +359,7 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
              <div className="flex justify-end gap-5 pt-8 border-t border-border-soft">
                 <button 
                   onClick={() => { setIsAdding(false); setEditingId(null); }}
-                  className="px-8 py-3 text-[10px] font-black uppercase text-text-dim hover:text-text-main tracking-widest transition-all"
+                  className="px-5 md:px-8 py-2 md:py-3 text-[10px] font-black uppercase text-text-dim hover:text-text-main tracking-widest transition-all"
                 >
                   Cancelar
                 </button>
@@ -381,11 +381,11 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
            <table className="w-full text-left">
              <thead className="bg-bg-surface border-b border-border-main">
                <tr>
-                 <th className="px-8 py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Identificação / Função</th>
-                 <th className="px-8 py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Nível Global</th>
-                 <th className="px-8 py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Módulos</th>
-                 <th className="px-8 py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Status</th>
-                 <th className="px-8 py-5 text-right text-[10px] font-black text-text-dim uppercase tracking-widest">Ações</th>
+                 <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Identificação / Função</th>
+                 <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Nível Global</th>
+                 <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Módulos</th>
+                 <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-text-dim uppercase tracking-widest">Status</th>
+                 <th className="px-5 md:px-8 py-3 md:py-5 text-right text-[10px] font-black text-text-dim uppercase tracking-widest">Ações</th>
                </tr>
              </thead>
              <tbody className="divide-y divide-border-soft">
