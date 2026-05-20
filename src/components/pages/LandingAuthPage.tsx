@@ -28,8 +28,10 @@ import {
   Handshake,
   Database,
   BarChart3,
+  HelpCircle,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { sendPasswordResetEmail } from '../../lib/firebase';
 
 // ─── Brand Helpers ────────────────────────────────────────────────────────────
 
@@ -82,6 +84,35 @@ function LoginModal({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
+  const [resetMessage, setResetMessage] = useState('');
+  const [resetError, setResetError] = useState('');
+
+  const handlePasswordReset = async () => {
+    if (!email) {
+      setResetError('Digite seu e-mail acima para recuperar a senha.');
+      setResetMessage('');
+      return;
+    }
+    setIsResetting(true);
+    setResetError('');
+    setResetMessage('');
+    try {
+      await sendPasswordResetEmail(email.trim());
+      setResetMessage('E-mail de recuperação enviado! Verifique sua caixa de entrada.');
+    } catch (error: any) {
+      console.error('Password reset error:', error);
+      if (error?.code === 'auth/user-not-found') {
+        setResetError('E-mail não cadastrado.');
+      } else if (error?.code === 'auth/invalid-email') {
+        setResetError('E-mail inválido.');
+      } else {
+        setResetError('Erro ao enviar e-mail de recuperação.');
+      }
+    } finally {
+      setIsResetting(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     onEmailLogin(e, email, password);
@@ -288,13 +319,6 @@ function LoginModal({
 function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const handleCTA = (message: string) => {
-    window.open(
-      `https://wa.me/554131514537?text=${encodeURIComponent(message)}`,
-      '_blank'
-    );
-  };
-
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -306,7 +330,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
     },
     {
       q: 'Como funciona o Diagnóstico Estratégico Inicial?',
-      a: 'A Illumine realiza uma análise inicial da estrutura financeira, operacional, organizacional e gerencial da empresa para identificar riscos, gargalos, oportunidades e prioridades estratégicas.'
+      a: 'A Illumine realiza uma análise aprofundada da estrutura financeira, operacional, organizacional e gerencial da empresa para identificar riscos, gargalos, oportunidades e prioridades estratégicas.'
     },
     {
       q: 'Qual é o nível de envolvimento esperado dos sócios e executivos?',
@@ -314,7 +338,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
     },
     {
       q: 'A Illumine executa as melhorias operacionais?',
-      a: 'A Illumine atua prioritariamente no advisory estratégico, estruturação gerencial, acompanhamento executivo e direcionamento organizacional. Dependendo da necessidade, algumas ações específicas podem ser acompanhadas de forma assistida.'
+      a: 'Além do acompanhamento recorrente, a Illumine também atua em projetos estratégicos complementares conforme a necessidade e complexidade de cada operação.'
     },
     {
       q: 'Para quais empresas a Illumine é recomendada?',
@@ -326,13 +350,22 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
     },
     {
       q: 'Os relatórios permanecem disponíveis após o encerramento do contrato?',
-      a: 'Durante a vigência do acompanhamento, a empresa possui acesso completo ao ambiente estratégico da plataforma. Em caso de encerramento contratual, a Illumine disponibiliza um relatório executivo consolidado com os principais indicadores e análises gerenciais.'
+      a: 'Durante a vigência do acompanhamento, a empresa possui acesso completo à estrutura estratégica Illumine. Em caso de encerramento contratual, a Illumine disponibiliza um relatório executivo consolidado com os principais indicadores e análises gerenciais.'
     }
   ];
 
   return (
-    <div className="space-y-0 text-foreground">
-      {/* Hero */}
+    <div className="space-y-0 text-foreground relative font-sans selection:bg-primary/20 selection:text-primary">
+
+      {/* Background Effects */}
+      <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
+      <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[120px] pointer-events-none" />
+      <div className="fixed inset-0 bg-[url('/noise.png')] opacity-[0.03] pointer-events-none mix-blend-overlay" />
+      
+      {/* Navbar */}
+      
+
+      {/* Hero Section */}
       <section id="hero" className="pt-40 pb-24 px-6 relative overflow-hidden">
         <div className="max-w-5xl mx-auto text-center space-y-8 relative z-10">
           <motion.div
@@ -342,7 +375,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 backdrop-blur-md text-primary text-[11px] font-semibold uppercase tracking-widest shadow-xs"
           >
             <Sparkles size={13} className="text-secondary animate-pulse" />
-            <span>Illumine Business Intelligence &amp; Advisory</span>
+            <span>Illumine Strategic Intelligence &amp; Advisory</span>
           </motion.div>
 
           <motion.h1
@@ -359,13 +392,16 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.16 }}
-            className="space-y-6 max-w-3xl mx-auto text-lg md:text-xl text-muted-foreground font-medium leading-relaxed"
+            className="text-lg md:text-xl text-muted-foreground font-medium max-w-4xl mx-auto space-y-4 leading-relaxed"
           >
             <p>
               Inteligência estratégica, governança e advisory executivo para empresas que desejam crescer com clareza, estrutura e sustentabilidade.
             </p>
-            <p className="text-base text-muted-foreground/80 font-normal leading-relaxed">
-              A Illumine integra inteligência financeira, governança corporativa, indicadores estratégicos e acompanhamento executivo em um único ecossistema de gestão e advisory. Mais do que dashboards ou relatórios, oferecemos uma estrutura contínua de inteligência empresarial para líderes que precisam tomar decisões com maior segurança, organização e visão de longo prazo.
+            <p className="text-base text-muted-foreground/80">
+              A Illumine integra inteligência financeira, governança corporativa, indicadores estratégicos e acompanhamento executivo em um ecossistema contínuo de Strategic Intelligence & Advisory.
+            </p>
+            <p className="text-base text-muted-foreground/80">
+              Mais do que dashboards ou relatórios, oferecemos uma estrutura integrada de inteligência empresarial para líderes que precisam tomar decisões com maior segurança, organização e visão de longo prazo.
             </p>
           </motion.div>
 
@@ -383,19 +419,18 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button
-              onClick={() => handleCTA('Gostaria de agendar um diagnóstico estratégico')}
+              onClick={onConsultant}
               className="w-full sm:w-auto h-14 px-8 rounded-button bg-surface-container border border-border text-foreground font-bold text-sm uppercase tracking-widest hover:bg-surface-container/80 hover:border-muted-foreground/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <MessageSquare size={16} className="text-secondary" />
+              <MessageSquare size={16} />
               <span>Agendar Diagnóstico Estratégico</span>
             </button>
           </motion.div>
         </div>
       </section>
 
-      {/* Por que Illumine (Direção Estratégica) */}
       <section id="porque" className="py-24 px-6 bg-surface-container/30 border-y border-border/40 relative">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <div className="space-y-6">
             <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
               <div className="w-8 h-px bg-secondary" />
@@ -409,26 +444,37 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                 A maioria das empresas já possui sistemas, relatórios e informações operacionais.
               </p>
               <p>
-                O verdadeiro desafio está em interpretar cenários, identificar gargalos, integrar áreas, organizar prioridades, reduzir riscos e transformar dados em decisões consistentes.
+                O verdadeiro desafio está em:
               </p>
+              <ul className="list-disc pl-6 space-y-1 text-base text-muted-foreground/80 font-normal">
+                <li>interpretar cenários;</li>
+                <li>identificar gargalos;</li>
+                <li>integrar áreas;</li>
+                <li>organizar prioridades;</li>
+                <li>reduzir riscos;</li>
+                <li>transformar dados em decisões consistentes.</li>
+              </ul>
             </div>
           </div>
           <div className="relative">
-            <div className="absolute -inset-1 bg-gradient-to-r from-secondary/20 to-primary/10 rounded-card blur-lg opacity-30" />
-            <div className="relative p-8 rounded-card bg-background border border-border shadow-md space-y-4 hover:shadow-lg transition-shadow duration-300">
-              <h4 className="font-bold text-xl text-primary flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse" />
-                O Espaço Illumine
-              </h4>
-              <p className="text-muted-foreground font-medium text-sm leading-relaxed">
-                A Illumine foi criada para preencher exatamente esse espaço. Nossa estrutura conecta tecnologia, análise executiva, governança e acompanhamento estratégico contínuo para apoiar empresas em crescimento, profissionalização e expansão sustentável.
-              </p>
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-card blur-lg opacity-30" />
+            <div className="relative p-8 sm:p-10 rounded-[32px] bg-gradient-to-br from-surface-container to-background border border-primary/10 shadow-2xl overflow-hidden group hover:shadow-primary/5 transition-all duration-500">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-primary/10 transition-colors duration-500" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary/5 rounded-full blur-3xl -ml-10 -mb-10 group-hover:bg-secondary/10 transition-colors duration-500" />
+              <div className="relative z-10 flex flex-col justify-center h-full space-y-6">
+                <p className="text-xl sm:text-2xl font-medium leading-relaxed text-foreground tracking-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+                  A tecnologia organiza informações.
+                </p>
+                <div className="w-12 h-px bg-border group-hover:w-24 transition-all duration-500" />
+                <p className="text-2xl sm:text-3xl leading-tight font-medium text-primary tracking-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+                  A inteligência estratégica transforma informações em <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-[#E96F3D]">direção, clareza e decisões consistentes.</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Framework Proprietário */}
       <section id="framework" className="py-24 px-6 bg-foreground text-background relative">
         <div className="absolute inset-0 bg-primary-soft/10 pointer-events-none" />
         <div className="max-w-7xl mx-auto space-y-16 relative z-10">
@@ -452,9 +498,9 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
               { title: 'Gestão Comercial', desc: 'Estrutura comercial orientada à performance, previsibilidade e crescimento.' },
               { title: 'Gestão Operacional', desc: 'Eficiência operacional, integração de processos e fortalecimento da execução.' }
             ].map((pilar, idx) => (
-              <div
-                key={idx}
-                className="p-6 rounded-card bg-background/5 border border-background/10 space-y-3 hover:bg-background/10 hover:border-background/20 transition-all duration-300"
+              <div 
+                key={idx} 
+                className="p-6 rounded-card bg-transparent/5 border border-background/10 space-y-3 hover:bg-transparent/10 hover:border-background/20 transition-all duration-300"
               >
                 <div className="flex items-center gap-3">
                   <CheckCircle2 size={16} className="text-secondary shrink-0" />
@@ -482,12 +528,12 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                 { title: 'Governança', desc: 'Estruturas de liderança, responsabilidade institucional e direção estratégica.' },
                 { title: 'Econômica', desc: 'Gestão financeira e inteligência econômica aplicadas à sustentabilidade do negócio.' },
                 { title: 'Identidade', desc: 'Cultura, valores e princípios que sustentam a essência organizacional.' },
-                { title: 'Sistêmica', desc: 'Integração entre dados, processos, tecnologia e operation.' },
+                { title: 'Sistêmica', desc: 'Integração entre dados, processos, tecnologia e operação.' },
                 { title: 'Antropológica', desc: 'Compreensão da natureza humana como fundamento da liderança, das relações e da cultura empresarial.' }
               ].map((intel, idx) => (
-                <div
-                  key={idx}
-                  className="p-6 rounded-card bg-background/5 border border-background/10 space-y-3 hover:bg-background/10 hover:border-background/20 transition-all duration-300"
+                <div 
+                  key={idx} 
+                  className="p-6 rounded-card bg-transparent/5 border border-background/10 space-y-3 hover:bg-transparent/10 hover:border-background/20 transition-all duration-300"
                 >
                   <span className="font-bold text-sm uppercase tracking-wider text-secondary block">{intel.title}</span>
                   <p className="text-background/60 font-medium text-xs leading-relaxed">{intel.desc}</p>
@@ -499,8 +545,8 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
       </section>
 
       {/* O Ecossistema Illumine */}
-      <section id="ecossistema" className="py-24 px-6 bg-background relative overflow-hidden">
-        <div className="max-w-7xl mx-auto space-y-16 relative z-10">
+      <section id="ecossistema" className="py-24 px-6 bg-transparent relative overflow-hidden">
+        <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-2">
               <Network size={16} className="text-secondary" />
@@ -509,23 +555,30 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               Uma estrutura integrada de inteligência empresarial
             </h3>
-            <p className="text-lg text-muted-foreground leading-relaxed font-medium">
-              A Illumine combina tecnologia, advisory e análise estratégica em um ambiente privado e continuamente acompanhado por especialistas.
-            </p>
+            <div className="text-lg text-muted-foreground leading-relaxed font-medium space-y-2">
+              <p>A Illumine foi criada para apoiar empresas em crescimento, profissionalização e expansão sustentável através de uma estrutura contínua de inteligência estratégica, governança e acompanhamento executivo.</p>
+              <p>Nosso ecossistema combina:</p>
+              <ul className="flex flex-wrap justify-center gap-2 pt-2 pb-2">
+                {['inteligência financeira', 'advisory estratégico', 'governança corporativa', 'indicadores executivos', 'acompanhamento recorrente', 'curadoria especializada', 'inteligência orientada por dados'].map((item, i) => (
+                  <span key={i} className="px-3 py-1 bg-surface-container rounded-full text-xs font-bold text-foreground border border-border">{item}</span>
+                ))}
+              </ul>
+              <p>Tudo isso em um ambiente privado, seguro e continuamente acompanhado por especialistas.</p>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { icon: LineChart, title: 'Indicadores Estratégicos Integrados', desc: 'Indicadores financeiros, operacionais e gerenciais organizados em uma central executiva para acompanhamento e tomada de decisão.' },
               { icon: BarChart3, title: 'Diagnósticos Executivos', desc: 'Análises aprofundadas que revelam riscos, gargalos, oportunidades e maturidade organizacional.' },
               { icon: Users, title: 'Advisory Estratégico Contínuo', desc: 'Acompanhamento executivo recorrente com análise interpretativa, direcionamento estratégico e suporte à tomada de decisão.' },
               { icon: Building2, title: 'Governança Corporativa', desc: 'Estrutura orientada à profissionalização da gestão, transparência institucional e fortalecimento organizacional.' },
-              { icon: Database, title: 'Inteligência Orientada por Dados', desc: 'Integração entre métricas, dashboards, automação e monitoramento estratégico da performance empresarial.' },
-              { icon: BrainCircuit, title: 'Curadoria Especializada', desc: 'A equipe Illumine acompanha, organiza e interpreta os indicadores de forma contínua, gerando maior clareza gerencial e consistência analítica.' },
+              { icon: Database, title: 'Inteligência Orientada por Dados', desc: 'Integração entre métricas, inteligência gerencial, automação e monitoramento estratégico da performance empresarial.' },
+              { icon: BrainCircuit, title: 'Curadoria Especializada', desc: 'A equipe Illumine acompanha, organiza e interpreta os indicadores de forma contínua, promovendo maior clareza gerencial e consistência analítica.' },
               { icon: ShieldCheck, title: 'Governança e Segurança', desc: 'Ambiente privado com controle de acesso, confidencialidade operacional e estrutura segura para gestão estratégica recorrente.' }
             ].map((item, idx) => (
-              <div
-                key={idx}
+              <div 
+                key={idx} 
                 className="p-8 rounded-card bg-white border border-border/80 shadow-xs hover:shadow-lg hover:border-secondary/35 hover:-translate-y-1 active:scale-[0.99] transition-all duration-300 group"
               >
                 <div className="w-12 h-12 rounded-button bg-surface-container flex items-center justify-center mb-6 group-hover:bg-secondary/10 transition-colors duration-300">
@@ -539,16 +592,76 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
         </div>
       </section>
 
-      {/* Modelos de Advisory Estratégico */}
+      {/* Como a Illumine Atua */}
+      <section className="py-24 px-6 bg-surface-container/50 border-t border-border/40">
+        <div className="max-w-7xl mx-auto space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Como a Illumine Atua</h2>
+            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+              Uma estrutura contínua de inteligência estratégica e acompanhamento executivo
+            </h3>
+            <p className="text-lg text-muted-foreground leading-relaxed font-medium">
+              A Illumine foi estruturada para apoiar empresas em diferentes níveis de maturidade, complexidade e necessidade estratégica.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="p-8 rounded-card bg-card border border-border hover:shadow-md transition-shadow">
+              <h4 className="text-xl font-bold text-primary mb-3">Diagnóstico Estratégico</h4>
+              <p className="text-muted-foreground text-sm font-medium">Leitura aprofundada da realidade organizacional, financeira e operacional da empresa.</p>
+            </div>
+            <div className="p-8 rounded-card bg-card border border-border hover:shadow-md transition-shadow">
+              <h4 className="text-xl font-bold text-primary mb-3">Acompanhamento Executivo</h4>
+              <p className="text-muted-foreground text-sm font-medium">Estrutura recorrente de inteligência estratégica, governança aplicada e suporte à tomada de decisão.</p>
+            </div>
+            <div className="p-8 rounded-card bg-card border border-border hover:shadow-md transition-shadow">
+              <h4 className="text-xl font-bold text-primary mb-3">Governance & Advisory</h4>
+              <p className="text-muted-foreground text-sm font-medium">Apoio executivo para empresas que demandam maior maturidade de gestão, organização estratégica e suporte recorrente à liderança.</p>
+            </div>
+          </div>
+
+          <div className="bg-primary text-primary-foreground p-8 md:p-12 rounded-[32px] grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h4 className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>Projetos Estratégicos Complementares</h4>
+              <div className="space-y-4 text-primary-foreground/80 font-medium">
+                <p>Além do acompanhamento recorrente, a Illumine também desenvolve projetos especializados de consultoria estratégica, governança e inteligência empresarial.</p>
+                <p>As iniciativas são estruturadas conforme a necessidade, momento e complexidade de cada operação.</p>
+              </div>
+              <div className="pt-4 space-y-2">
+                <h5 className="font-bold uppercase tracking-widest text-secondary text-xs">Estrutura dos Projetos</h5>
+                <ul className="space-y-2 text-sm text-primary-foreground/90">
+                  <li className="flex gap-2 items-center"><CheckCircle2 size={14} className="text-secondary" /> escopo individualizado</li>
+                  <li className="flex gap-2 items-center"><CheckCircle2 size={14} className="text-secondary" /> cronograma estruturado</li>
+                  <li className="flex gap-2 items-center"><CheckCircle2 size={14} className="text-secondary" /> acompanhamento executivo</li>
+                  <li className="flex gap-2 items-center"><CheckCircle2 size={14} className="text-secondary" /> entregáveis definidos</li>
+                  <li className="flex gap-2 items-center"><CheckCircle2 size={14} className="text-secondary" /> alinhamento estratégico com a realidade da empresa</li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <h5 className="font-bold uppercase tracking-widest text-secondary text-xs mb-4">Frentes Estratégicas Especializadas</h5>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-xs md:text-sm text-primary-foreground/90 font-medium">
+                {['reestruturação financeira', 'planejamento estratégico', 'governança corporativa', 'modelagem gerencial', 'inteligência financeira', 'reorganização operacional', 'estruturação de indicadores', 'inteligência gerencial', 'cultura organizacional', 'advisory executivo', 'valuation', 'planejamento orçamentário', 'estruturação de processos', 'apoio à profissionalização da gestão'].map((frente, i) => (
+                  <div key={i} className="flex items-start gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 shrink-0" />
+                    <span>{frente}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="modalidades" className="py-24 px-6 bg-surface-container">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-4xl mx-auto space-y-4">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Modelos de Advisory Estratégico</h2>
+            <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Estruturas de Strategic Intelligence & Advisory</h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Estruturas desenvolvidas para empresas em diferentes níveis de operação
+              Estruturas desenvolvidas para empresas em diferentes níveis de operação, maturidade e complexidade estratégica.
             </h3>
             <p className="text-lg text-muted-foreground leading-relaxed font-medium">
-              Todos os modelos incluem: acesso completo à plataforma Illumine; curadoria contínua dos indicadores; acompanhamento executivo recorrente; dashboards integrados; suporte estratégico especializado; inteligência orientada por dados.
+              Todos os modelos incluem: acesso completo à estrutura estratégica Illumine; curadoria contínua dos indicadores; acompanhamento executivo recorrente; inteligência gerencial integrada; advisory estratégico especializado; monitoramento orientado por dados.
             </p>
           </div>
 
@@ -564,26 +677,26 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                 <div className="bg-surface-container/50 p-4 rounded-xl border border-border/40 space-y-2">
                   <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Perfil recomendado</p>
                   <ul className="text-xs text-foreground font-semibold space-y-1">
-                    <li className="flex items-center gap-1.5">• Até 10 colaboradores</li>
-                    <li className="flex items-center gap-1.5">• Faturamento de até R$ 150 mil/mês</li>
+                    <li className="flex items-center gap-1.5">• até 10 colaboradores;</li>
+                    <li className="flex items-center gap-1.5">• faturamento de até R$ 150 mil/mês.</li>
                   </ul>
                 </div>
 
                 <div className="bg-surface-container/30 p-3.5 rounded-xl border border-border/30 flex items-center justify-between">
                   <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Investimento</span>
-                  <span className="text-xs font-extrabold text-secondary bg-secondary/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Sob Consulta</span>
+                  <span className="text-xs font-extrabold text-secondary bg-secondary/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Sob consulta</span>
                 </div>
 
                 <div className="h-px bg-border/60" />
                 
                 <ul className="space-y-3.5">
                   {[
-                    'Encontro executivo mensal',
-                    'Estruturação dos indicadores essenciais',
-                    'Curadoria estratégica das informações',
-                    'Acompanhamento consultivo recorrente',
-                    'Central executiva Illumine',
-                    'Suporte estratégico contínuo'
+                    'encontro executivo mensal;',
+                    'estruturação dos indicadores essenciais;',
+                    'curadoria estratégica das informações;',
+                    'acompanhamento consultivo recorrente;',
+                    'central executiva Illumine;',
+                    'advisory estratégico contínuo.'
                   ].map((f, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <CheckCircle2 size={16} className="text-secondary shrink-0 mt-0.5" />
@@ -593,7 +706,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                 </ul>
               </div>
               <button
-                onClick={() => handleCTA('Gostaria de falar com um especialista sobre o modelo Essential')}
+                onClick={onConsultant}
                 className="w-full h-12 mt-8 rounded-button bg-surface-container hover:bg-primary hover:text-primary-foreground border border-border hover:border-primary font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 Falar com um especialista
@@ -616,27 +729,27 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                 <div className="bg-surface-container/50 p-4 rounded-xl border border-border/40 space-y-2">
                   <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Perfil recomendado</p>
                   <ul className="text-xs text-foreground font-semibold space-y-1">
-                    <li className="flex items-center gap-1.5">• 10 a 40 colaboradores</li>
-                    <li className="flex items-center gap-1.5">• Faturamento entre R$ 150k e R$ 1M/mês</li>
+                    <li className="flex items-center gap-1.5">• 10 a 40 colaboradores;</li>
+                    <li className="flex items-center gap-1.5">• faturamento entre R$ 150 mil e R$ 1 milhão/mês.</li>
                   </ul>
                 </div>
 
                 <div className="bg-surface-container/30 p-3.5 rounded-xl border border-border/30 flex items-center justify-between">
                   <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Investimento</span>
-                  <span className="text-xs font-extrabold text-secondary bg-secondary/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Sob Consulta</span>
+                  <span className="text-xs font-extrabold text-secondary bg-secondary/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Sob consulta</span>
                 </div>
 
                 <div className="h-px bg-border/60" />
                 
                 <ul className="space-y-3.5">
                   {[
-                    'Dois encontros executivos mensais',
-                    'Dashboards estratégicos personalizados',
-                    'Curadoria avançada de indicadores',
-                    'Acompanhamento financeiro e operacional',
-                    'Apoio à liderança e gestão',
-                    'Advisory estratégico contínuo',
-                    'Central executiva Illumine'
+                    'dois encontros executivos mensais;',
+                    'inteligência gerencial personalizada;',
+                    'curadoria avançada de indicadores;',
+                    'acompanhamento financeiro e operacional;',
+                    'apoio à liderança e gestão;',
+                    'advisory estratégico contínuo;',
+                    'central executiva Illumine.'
                   ].map((f, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <CheckCircle2 size={16} className="text-secondary shrink-0 mt-0.5" />
@@ -646,10 +759,10 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                 </ul>
               </div>
               <button
-                onClick={() => handleCTA('Gostaria de agendar um diagnóstico estratégico - Modelo Strategic')}
+                onClick={onConsultant}
                 className="w-full h-12 mt-8 rounded-button bg-primary text-primary-foreground hover:bg-primary/95 shadow-lg shadow-primary/20 font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
-                Agendar diagnóstico estratégico
+                Agendar Diagnóstico Estratégico
               </button>
             </div>
 
@@ -664,28 +777,28 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                 <div className="bg-surface-container/50 p-4 rounded-xl border border-border/40 space-y-2">
                   <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Perfil recomendado</p>
                   <ul className="text-xs text-foreground font-semibold space-y-1">
-                    <li className="flex items-center gap-1.5">• Acima de 40 colaboradores</li>
-                    <li className="flex items-center gap-1.5">• Faturamento acima de R$ 1 milhão/mês</li>
+                    <li className="flex items-center gap-1.5">• acima de 40 colaboradores;</li>
+                    <li className="flex items-center gap-1.5">• faturamento acima de R$ 1 milhão/mês.</li>
                   </ul>
                 </div>
 
                 <div className="bg-surface-container/30 p-3.5 rounded-xl border border-border/30 flex items-center justify-between">
                   <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Investimento</span>
-                  <span className="text-xs font-extrabold text-secondary bg-secondary/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Sob Consulta</span>
+                  <span className="text-xs font-extrabold text-secondary bg-secondary/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Sob consulta</span>
                 </div>
 
                 <div className="h-px bg-border/60" />
                 
                 <ul className="space-y-3.5">
                   {[
-                    'Encontros executivos semanais ou quinzenais',
-                    'Advisory estratégico personalizado',
-                    'Curadoria executiva contínua',
-                    'Relatórios gerenciais integrados',
-                    'Apoio à governança corporativa',
-                    'Estruturação de indicadores avançados',
-                    'Acompanhamento multidisciplinar',
-                    'Central executiva Illumine'
+                    'encontros executivos semanais ou quinzenais;',
+                    'advisory estratégico personalizado;',
+                    'curadoria executiva contínua;',
+                    'relatórios gerenciais integrados;',
+                    'apoio à governança corporativa;',
+                    'estruturação avançada de indicadores;',
+                    'acompanhamento multidisciplinar;',
+                    'central estratégica Illumine.'
                   ].map((f, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <CheckCircle2 size={16} className="text-secondary shrink-0 mt-0.5" />
@@ -695,7 +808,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                 </ul>
               </div>
               <button
-                onClick={() => handleCTA('Gostaria de solicitar uma reunião executiva - Executive Advisory')}
+                onClick={onConsultant}
                 className="w-full h-12 mt-8 rounded-button bg-surface-container hover:bg-primary hover:text-primary-foreground border border-border hover:border-primary font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 Solicitar reunião executiva
@@ -705,62 +818,49 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
         </div>
       </section>
 
-      {/* Alinhamento Estratégico - FAQ */}
       <section id="faq" className="py-24 px-6 bg-surface-container/30 border-y border-border/40">
         <div className="max-w-4xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Alinhamento Estratégico</h2>
+            <h2 className="text-sm font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-2">
+              <HelpCircle size={16} className="text-secondary" />
+              <span>Alinhamento Estratégico</span>
+            </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               Perguntas Frequentes
             </h3>
           </div>
 
           <div className="space-y-4 max-w-3xl mx-auto">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaq === idx;
-              return (
-                <div
-                  key={idx}
-                  className={cn(
-                    "border rounded-card bg-background overflow-hidden transition-all duration-300",
-                    isOpen ? "border-secondary/35 shadow-md shadow-secondary/[0.01]" : "border-border/80"
-                  )}
+            {faqs.map((faq, idx) => (
+              <div 
+                key={idx} 
+                className="border border-border/80 rounded-card bg-white overflow-hidden transition-all duration-300 shadow-xs hover:border-secondary/20"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  className="w-full py-5 px-6 flex justify-between items-center text-left font-bold text-foreground hover:bg-surface-container/30 transition-colors cursor-pointer"
                 >
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full py-5 px-6 flex justify-between items-center text-left font-bold text-foreground hover:bg-surface-container/30 transition-colors cursor-pointer"
-                  >
-                    <span className="text-base pr-4 transition-colors duration-300">{faq.q}</span>
-                    <div className={cn(
-                      "w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-300 shrink-0",
-                      isOpen ? "bg-secondary/15 text-secondary" : "bg-surface-container text-muted-foreground"
-                    )}>
-                      <ChevronRight
-                        size={16}
-                        className={cn(
-                          "transition-transform duration-300",
-                          isOpen && "transform rotate-90"
-                        )}
-                      />
-                    </div>
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
-                      >
-                        <div className="px-6 pb-5 text-muted-foreground font-medium text-sm leading-relaxed border-t border-border/30 pt-4 bg-surface-container/10">
-                          {faq.a}
-                        </div>
-                      </motion.div>
+                  <span className="text-base pr-4">{faq.q}</span>
+                  <ChevronRight
+                    size={18}
+                    className={cn(
+                      "text-muted-foreground shrink-0 transition-transform duration-300",
+                      openFaq === idx && "transform rotate-90 text-secondary"
                     )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
+                  />
+                </button>
+                {openFaq === idx && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    transition={{ duration: 0.25 }}
+                    className="px-6 pb-5 text-muted-foreground font-medium text-sm leading-relaxed border-t border-border/30 pt-4 bg-surface-container/5"
+                  >
+                    {faq.a}
+                  </motion.div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -789,9 +889,9 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
       {/* Final CTA Buttons */}
       <section className="py-20 px-6 bg-surface-container/20 border-t border-border/40">
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h4 className="text-2xl font-bold text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>Illumine Business Intelligence &amp; Advisory</h4>
-          <p className="text-muted-foreground font-medium text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-            Inteligência estratégica, governança e performance para empresas e parceiros que desejam crescer com clareza, estrutura e sustentabilidade.
+          <h4 className="text-2xl font-bold text-foreground animate-pulse" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>Illumine Strategic Intelligence &amp; Advisory</h4>
+          <p className="text-muted-foreground font-medium text-sm md:text-base max-w-2xl mx-auto">
+            Inteligência estratégica, governança e performance para empresas que desejam crescer com clareza, estrutura e sustentabilidade.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <button
@@ -801,13 +901,13 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
               Conhecer a Estrutura Illumine
             </button>
             <button
-              onClick={() => handleCTA('Gostaria de agendar um diagnóstico estratégico')}
+              onClick={onConsultant}
               className="w-full sm:w-auto h-12 px-6 rounded-button bg-primary text-primary-foreground font-bold text-xs uppercase tracking-widest hover:bg-primary/95 hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               Agendar Diagnóstico Estratégico
             </button>
             <button
-              onClick={() => handleCTA('Gostaria de falar com um Advisor')}
+              onClick={onConsultant}
               className="w-full sm:w-auto h-12 px-6 rounded-button bg-surface-container border border-secondary/35 text-foreground font-bold text-xs uppercase tracking-widest hover:bg-surface-container/85 hover:border-secondary/55 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               Falar com um Advisor Illumine
@@ -815,10 +915,12 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
           </div>
         </div>
       </section>
+
+      
+    
     </div>
   );
 }
-
 function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
   const handleFinalCTA = (type: string) => {
     if (type === 'estrutura') {
@@ -848,7 +950,7 @@ function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 backdrop-blur-md text-primary text-[11px] font-semibold uppercase tracking-widest shadow-xs"
           >
             <Sparkles size={13} className="text-secondary animate-pulse" />
-            <span>Illumine Business Intelligence &amp; Advisory</span>
+            <span>Illumine Strategic Intelligence &amp; Advisory</span>
           </motion.div>
 
           <motion.h1
@@ -858,7 +960,7 @@ function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
             className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-foreground leading-[1.1]"
             style={{ fontFamily: "'Tilt Warp', sans-serif" }}
           >
-            Estrutura estratégica de Business Intelligence &amp; Advisory para parceiros que desejam{' '}
+            Estrutura estratégica de Strategic Intelligence &amp; Advisory para parceiros que desejam{' '}
             <span className="bg-gradient-to-r from-secondary to-[#E96F3D] bg-clip-text text-transparent">ampliar valor, recorrência e capacidade consultiva.</span>
           </motion.h1>
 
@@ -1016,7 +1118,7 @@ function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
               </h3>
             </div>
             <p className="text-lg text-muted-foreground leading-relaxed font-medium">
-              A parceria estratégica Illumine permite que consultores, escritórios e operações empresariais utilizem uma estrutura robusta de Business Intelligence &amp; Advisory para ampliar sua capacidade de entrega e posicionamento estratégico.
+              A parceria estratégica Illumine permite que consultores, escritórios e operações empresariais utilizem uma estrutura robusta de Strategic Intelligence &amp; Advisory para ampliar sua capacidade de entrega e posicionamento estratégico.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed font-medium">
               Os parceiros utilizam a estrutura Illumine como central estratégica de acompanhamento, inteligência empresarial, governança e suporte executivo aos seus clientes.
@@ -1614,7 +1716,7 @@ export function LandingAuthPage({
                 illumine
               </span>
               <span className="text-[10px] font-bold uppercase tracking-widest text-background/60">
-                Business Intelligence &amp; Advisory
+                Strategic Intelligence &amp; Advisory
               </span>
             </div>
           </div>

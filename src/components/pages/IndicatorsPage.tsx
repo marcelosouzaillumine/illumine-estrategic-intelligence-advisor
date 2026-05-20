@@ -653,7 +653,8 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
       </div>
 
       {/* ── Axis Filter Pills ───────────────────────────────────────── */}
-      <div className="flex items-center gap-2.5 overflow-x-auto pb-1 no-scrollbar">
+      {/* px-3 ensures no clipping of borders/shadows during the scale-[1.03] animation */}
+      <div className="flex items-center gap-2.5 overflow-x-auto pb-3 pt-2 px-3 -mx-3 no-scrollbar [scroll-padding-inline-start:12px]">
         <button
           onClick={() => setFilterGroup('')}
           className={cn(

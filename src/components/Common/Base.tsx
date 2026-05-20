@@ -85,7 +85,7 @@ export function Semaphore({ status }: { status: string }) {
   return <div className={cn("w-2 h-2 rounded-full shadow-sm", colors[status] || 'bg-muted')} />;
 }
 
-export function StatusBadge({ status, label }: { status: string; label?: string }) {
+export function StatusBadge({ status, label, className }: { status: string; label?: string; className?: string }) {
   const classMap: Record<string, string> = {
     'Verde': 'text-success border-success/30 bg-success/10',
     'Amarelo': 'text-warning border-warning/30 bg-warning/10',
@@ -99,8 +99,9 @@ export function StatusBadge({ status, label }: { status: string; label?: string 
   
   return (
     <span className={cn(
-      "px-5 py-1.5 rounded-full text-body-sm font-medium uppercase tracking-widest border transition-all",
-      classMap[status] || 'text-muted-foreground border-border bg-surface-container'
+      "px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all whitespace-nowrap",
+      classMap[status] || 'text-muted-foreground border-border bg-surface-container',
+      className
     )}>
       {label || status}
     </span>

@@ -2284,11 +2284,11 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
         ) : (
           <>
             {/* Column headers — apenas desktop */}
-            <div className="hidden xl:grid xl:grid-cols-[64px_minmax(0,2.5fr)_minmax(0,1.2fr)_minmax(0,1fr)_120px_auto] gap-3 px-5 py-2.5 text-[8.5px] font-medium text-muted-foreground/70 uppercase tracking-[0.2em]">
+            <div className="hidden lg:grid lg:grid-cols-[56px_minmax(0,2.5fr)_minmax(0,1.2fr)_minmax(0,1fr)_100px_auto] gap-4 px-6 py-3 text-[9px] font-bold text-muted-foreground/70 uppercase tracking-[0.2em]">
               <div />
               <div>Empresa</div>
               <div>Documento</div>
-              <div className="flex items-center gap-1"><MapPin size={9} /> Local</div>
+              <div className="flex items-center gap-1.5"><MapPin size={10} /> Local</div>
               <div className="text-center">Status</div>
               <div className="text-right pr-2">Ações</div>
             </div>
@@ -2305,15 +2305,15 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.035, ease: 'easeOut' }}
-                  className="group relative overflow-hidden rounded-md border border-border bg-card hover:border-secondary/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.07)] transition-all duration-300"
+                  className="group relative overflow-hidden rounded-xl border border-border bg-card hover:border-secondary/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.07)] transition-all duration-300"
                 >
                   {/* Status stripe */}
                   <div className={cn(
-                    'absolute left-0 top-0 bottom-0 w-[3px] transition-all duration-300 rounded-r-full',
+                    'absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 rounded-r-full',
                     statusColor
                   )} />
 
-                  <div className="flex flex-col xl:grid xl:grid-cols-[64px_minmax(0,2.5fr)_minmax(0,1.2fr)_minmax(0,1fr)_120px_auto] items-start xl:items-center gap-3 px-5 py-4 pl-6">
+                  <div className="flex flex-col lg:grid lg:grid-cols-[56px_minmax(0,2.5fr)_minmax(0,1.2fr)_minmax(0,1fr)_100px_auto] items-start lg:items-center gap-4 px-6 py-4 pl-7">
                     
                     {/* Avatar */}
                     <div className={cn(
@@ -2381,28 +2381,28 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                     </div>
 
                     {/* CNPJ / Regime — apenas desktop */}
-                    <div className="hidden xl:block min-w-0">
-                      <p className="text-[10.5px] font-mono font-medium text-muted-foreground tracking-wide">{formatDoc(client.cnpj) || '—'}</p>
+                    <div className="hidden lg:block min-w-0">
+                      <p className="text-[10.5px] font-mono font-medium text-foreground tracking-wide">{formatDoc(client.cnpj) || '—'}</p>
                       {client.regime && (
-                        <span className="inline-block mt-1 px-1.5 py-0.5 bg-surface-container text-muted-foreground/60 text-[8px] font-medium uppercase rounded border border-border tracking-wide">{client.regime}</span>
+                        <span className="inline-block mt-1.5 px-2 py-0.5 bg-surface-container text-muted-foreground text-[8px] font-bold uppercase rounded-md border border-border tracking-wider">{client.regime}</span>
                       )}
                     </div>
 
                     {/* Localização — apenas desktop */}
-                    <div className="hidden xl:flex items-center gap-1.5 min-w-0">
-                      <MapPin size={11} className="text-muted-foreground/50 shrink-0" />
-                      <span className="text-[10.5px] font-medium text-muted-foreground/70 truncate">{client.cidade || '—'}</span>
+                    <div className="hidden lg:flex items-center gap-1.5 min-w-0">
+                      <MapPin size={11} className="text-muted-foreground/60 shrink-0" />
+                      <span className="text-[10.5px] font-medium text-muted-foreground truncate">{client.cidade || '—'}</span>
                     </div>
 
                     {/* Status badge */}
-                    <div className="hidden xl:flex justify-center">
+                    <div className="hidden lg:flex justify-center">
                       <StatusBadge status={client.approvalStatus === 'Pending' ? 'Pendente' : (client.status || 'Em Implantação')} />
                     </div>
 
                     {/* Ações */}
-                    <div className="flex items-center gap-1.5 w-full xl:w-auto xl:justify-end">
+                    <div className="flex items-center gap-2 w-full lg:w-auto lg:justify-end">
                       {/* Mobile: status badge inline */}
-                      <div className="xl:hidden mr-auto">
+                      <div className="lg:hidden mr-auto">
                         <StatusBadge status={client.approvalStatus === 'Pending' ? 'Pendente' : (client.status || 'Em Implantação')} />
                       </div>
 

@@ -284,9 +284,17 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
         
         return matchesPartnerId || matchesLinkedClient;
       });
+    } else if (viewMode === 'partner') {
+      // When in partner tab with "all" selected, restrict to clients linked to any partner
+      list = list.filter(c => {
+        const clientObj = clients.find((cc: any) => cc.id === c.id);
+        const hasPartnerId = clientObj && clientObj.partnerId;
+        const isInAnyPartner = partners.some(p => p.linkedClientIds?.includes(c.id));
+        return hasPartnerId || isInAnyPartner;
+      });
     }
     return list;
-  }, [portfolioData, selectedPartnerId, clients, partners]);
+  }, [portfolioData, selectedPartnerId, clients, partners, viewMode]);
 
   const modelPortfolio = useMemo(() => {
     let list = portfolioData.filter(c => c.isModel).sort((a, b) => b.name.localeCompare(a.name));
@@ -313,6 +321,14 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
         const matchesLinkedClient = selectedPartnerDoc?.linkedClientIds?.includes(c.id);
         
         return matchesPartnerId || matchesLinkedClient;
+      }
+
+      // In partner view with "all" selected, only count clients linked to at least one partner
+      if (viewMode === 'partner') {
+        const clientObj = clients.find((cc: any) => cc.id === c.id);
+        const hasPartnerId = clientObj && clientObj.partnerId;
+        const isInAnyPartner = partners.some(p => p.linkedClientIds?.includes(c.id));
+        return hasPartnerId || isInAnyPartner;
       }
       
       return true;

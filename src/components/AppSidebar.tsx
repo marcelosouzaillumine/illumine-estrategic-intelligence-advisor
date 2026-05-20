@@ -35,20 +35,20 @@ import { login, logout } from '../lib/firebase';
 /* ──────────────────────────── Logo ──────────────────────────── */
 function Logo({ collapsed }: { collapsed?: boolean }) {
   return (
-    <div className={cn('flex items-center gap-1 transition-all duration-1000 justify-center w-full', collapsed ? '' : '')}>
+    <div className={cn('flex items-center gap-0 transition-all duration-1000 justify-center w-full', collapsed ? '' : '')}>
       <div className={cn(
         'flex items-center justify-center transition-all duration-700 relative group',
-        collapsed ? 'w-[46px] h-[46px]' : 'sidebar-logo-img'
+        collapsed ? 'w-[46px] h-[46px]' : 'sidebar-logo-img w-[64px] h-[64px]'
       )}>
         <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain" />
       </div>
       {!collapsed && (
-        <div className="flex flex-col w-fit">
-          <span className="sidebar-logo-text">
+        <div className="flex flex-col items-center w-fit">
+          <span className="sidebar-logo-text" style={{ fontSize: '56px' }}>
             illumine
           </span>
-          <div className="sidebar-logo-sub">
-            {'Business Intelligence & Advisory'.split('').map((char, i) => (
+          <div className="sidebar-logo-sub" style={{ fontSize: '8.5px' }}>
+            {'Strategic Intelligence & Advisory'.split('').map((char, i) => (
               <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
             ))}
           </div>

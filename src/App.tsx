@@ -102,26 +102,26 @@ import { DadosHistoricosPage } from './components/pages/DadosHistoricosPage';
 
 function Logo({ collapsed }: { collapsed?: boolean }) {
   return (
-    <div className={cn("flex items-center gap-1 transition-all duration-1000 justify-center w-full", collapsed ? "" : "")}>
+    <div className={cn("flex items-center gap-0 transition-all duration-1000 justify-center w-full", collapsed ? "" : "")}>
       <div className={cn(
         "flex items-center justify-center transition-all duration-700 relative group",
-        collapsed ? "w-[58px] h-[58px]" : "w-[72px] h-[72px] -translate-y-[6px]"
+        collapsed ? "w-[58px] h-[58px]" : "w-[84px] h-[84px] -translate-y-[8px]"
       )}>
         <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain" />
       </div>
       {!collapsed && (
         <div className="flex flex-col items-center w-fit">
           <span 
-            className="text-[64px] tracking-[-0.06em] text-foreground leading-[0.8]" 
+            className="text-[72px] tracking-[-0.06em] text-foreground leading-[0.8]" 
             style={{ fontFamily: '"Tilt Warp", sans-serif' }}
           >
             illumine
           </span>
           <div 
-            className="flex justify-between w-full text-[10px] text-secondary uppercase mt-[2px] whitespace-nowrap" 
+            className="flex justify-between w-full text-[10.5px] text-secondary uppercase mt-[2px] whitespace-nowrap" 
             style={{ fontFamily: '"Work Sans", sans-serif' }}
           >
-            {"Business Intelligence & Advisory".split('').map((char, i) => (
+            {"Strategic Intelligence & Advisory".split('').map((char, i) => (
               <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
             ))}
           </div>
