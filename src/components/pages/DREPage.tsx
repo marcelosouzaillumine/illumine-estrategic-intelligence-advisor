@@ -149,11 +149,22 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     pontoEquilibrio = 0;
   }
 
-  // 10. MARGEM DE SEGURANÇA
-  const margemSegurancaValor = recLiquida - pontoEquilibrio;
+  // 9. GAP PARA EQUILÍBRIO
+  const gapEquilibrio = pontoEquilibrio - recLiquida;
 
-  // 11. ÍNDICE DA MARGEM DE SEGURANÇA
+  // 10. MARGEM DE SEGURANÇA
+  let margemSegurancaValor = 0;
+  if (recLiquida > pontoEquilibrio) {
+    margemSegurancaValor = recLiquida - pontoEquilibrio;
+  } else {
+    margemSegurancaValor = -gapEquilibrio;
+  }
+
+  // 11. MARGEM DE SEGURANÇA (KPI %)
   const margemSeguranca = recLiquida > 0 ? (margemSegurancaValor / recLiquida) * 100 : 0;
+
+  // 12. ÍNDICE DE COBERTURA OPERACIONAL
+  const indiceCoberturaOperacional = pontoEquilibrio > 0 ? (recLiquida / pontoEquilibrio) * 100 : 0;
 
   // CÁLCULOS ADICIONAIS (EBITDA, etc)
   const lucroBruto = getValue(rows, 'Lucro Bruto');
@@ -171,23 +182,15 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   }
 
   // TEXTOS INTERPRETATIVOS
-  const isMarginInsufficient = indiceMargemContrib <= 0;
   const performanceNote = useMemo(() => {
     if (recLiquida === 0 || pontoEquilibrio === 0) return "Aguardando dados para análise operacional completa.";
-    if (isMarginInsufficient) return "A operação apresenta margem de contribuição insuficiente para cálculo do ponto de equilíbrio.";
     
-    let text = "";
-    if (recLiquida >= pontoEquilibrio) {
-      text = `A receita operacional líquida de ${formatCurrency(recLiquida)} superou o ponto de equilíbrio estimado em ${formatCurrency(margemSegurancaValor)}, indicando que a empresa operou acima do nível mínimo necessário para cobertura de seus custos e despesas no período.`;
+    if (recLiquida < pontoEquilibrio) {
+      return `A empresa apresentou Receita Operacional Líquida de ${formatCurrency(recLiquida)}, enquanto o ponto de equilíbrio estimado da operação foi de ${formatCurrency(pontoEquilibrio)}. \n\nIsso indica que a operação permaneceu ${formatCurrency(Math.abs(gapEquilibrio))} abaixo do faturamento mínimo necessário para cobertura integral de seus custos e despesas.\n\nO índice de cobertura operacional foi de ${indiceCoberturaOperacional.toFixed(2)}%, demonstrando que a empresa conseguiu sustentar apenas parte da estrutura operacional necessária para atingir equilíbrio financeiro.`;
     } else {
-      text = `A receita operacional líquida permaneceu abaixo do ponto de equilíbrio estimado, indicando insuficiência operacional para cobertura integral dos custos e despesas da empresa no período.`;
+      return `A empresa apresentou Receita Operacional Líquida superior ao ponto de equilíbrio estimado, gerando margem de segurança operacional de ${formatCurrency(margemSegurancaValor)} no período analisado.`;
     }
-
-    if (margemSeguranca < 10 && margemSeguranca > 0) {
-      text += ` A margem de segurança operacional foi reduzida (${margemSeguranca.toFixed(2)}%), demonstrando elevada sensibilidade da operação a oscilações de receita, custos ou despesas.`;
-    }
-    return text;
-  }, [recLiquida, pontoEquilibrio, margemSegurancaValor, margemSeguranca, isMarginInsufficient]);
+  }, [recLiquida, pontoEquilibrio, gapEquilibrio, indiceCoberturaOperacional, margemSegurancaValor]);
 
   // CORES E ALERTAS DE RISCO
   let riskColor = 'text-emerald-600';
@@ -196,7 +199,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
   const marginIndices = [
     { name: 'Margem Bruta',  val: recLiquida > 0 ? (lucroBruto / recLiquida) * 100 : 0, unit: '%', desc: 'Eficiência na produção/serviço', color: 'text-emerald-600' },
-    { name: 'Índice Margem Contrib.', val: indiceMargemContrib * 100, unit: '%', desc: 'Sobra da receita para custos fixos', color: 'text-emerald-600' },
+    { name: 'Índice de CMV', val: recLiquida > 0 ? (custosVar / recLiquida) * 100 : 0,  unit: '%', desc: 'Custo sobre a receita líquida', color: 'text-rose-500' },
     { name: 'Margem EBITDA', val: recLiquida > 0 ? (ebitda / recLiquida) * 100 : 0,     unit: '%', desc: 'Eficiência operacional (caixa)',  color: 'text-blue-600'    },
     { name: 'Ponto de Equilíbrio', val: pontoEquilibrio, unit: 'R$', desc: 'Faturamento mínimo para cobrir custos', color: 'text-slate-900' },
     { name: 'Margem de Segurança', val: margemSeguranca, unit: '%', desc: 'Gordura antes de operar no prejuízo', color: riskColor },
@@ -507,9 +510,50 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             </div>
             
             <div className="p-4 bg-white/5 rounded-2xl border border-white/5 relative z-10">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Análise do Ponto de Equilíbrio</p>
-              <p className="text-sm font-bold text-white">{dbData.length > 0 ? formatCurrency(pontoEquilibrio) : '---'}</p>
-              <p className="text-[10px] text-white/60 font-medium mt-2 italic leading-relaxed">{dbData.length > 0 ? performanceNote : 'Aguardando dados estruturados para análise operacional.'}</p>
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Ponto de Equilíbrio & Cobertura</p>
+              
+              <div className="flex justify-between items-center text-[10px] text-white/70">
+                <span>Receita Operacional Líquida:</span>
+                <span className="font-bold">{formatCurrency(recLiquida)}</span>
+              </div>
+              <div className="flex justify-between items-center text-[10px] text-white/70">
+                <span>(-) Custos Variáveis:</span>
+                <span className="font-bold text-rose-300">{formatCurrency(custosVar)}</span>
+              </div>
+              <div className="flex justify-between items-center text-[11px] text-white font-bold border-t border-white/10 pt-2 mt-1">
+                <span>(=) Margem de Contribuição ({ (indiceMargemContrib * 100).toFixed(2) }%):</span>
+                <span className="text-emerald-400">{formatCurrency(margemContrib)}</span>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-white/10 flex flex-col gap-1">
+                <div className="flex justify-between items-center text-[10px] text-white/70">
+                  <span>Despesas Fixas:</span>
+                  <span className="font-bold text-rose-300">{formatCurrency(despesasFixas)}</span>
+                </div>
+                <div className="flex justify-between items-center text-[11px] text-white font-bold bg-white/5 p-2 rounded-lg mt-2 border border-white/5">
+                  <span>Ponto de Equilíbrio (Absoluto):</span>
+                  <span className="text-blue-400">{dbData.length > 0 ? formatCurrency(pontoEquilibrio) : '---'}</span>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-white/10 flex flex-col gap-1">
+                <div className="flex justify-between items-center text-[10px] text-white/70">
+                  <span>Gap para Equilíbrio:</span>
+                  <span className="font-bold text-rose-300">{dbData.length > 0 ? formatCurrency(gapEquilibrio) : '---'}</span>
+                </div>
+                <div className="flex justify-between items-center text-[10px] text-white/70">
+                  <span>Margem de Segurança:</span>
+                  <span className="font-bold text-emerald-400">{dbData.length > 0 ? formatCurrency(margemSegurancaValor) : '---'}</span>
+                </div>
+                <div className="flex justify-between items-center text-[10px] text-white/70">
+                  <span>Índice de Cobertura Operacional:</span>
+                  <span className={cn("font-bold", indiceCoberturaOperacional >= 100 ? "text-emerald-400" : indiceCoberturaOperacional >= 85 ? "text-blue-400" : indiceCoberturaOperacional >= 60 ? "text-amber-400" : "text-rose-400")}>
+                    {dbData.length > 0 ? `${indiceCoberturaOperacional.toFixed(2)}%` : '---'}
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-[10px] text-white/60 font-medium mt-3 italic leading-relaxed whitespace-pre-line">{dbData.length > 0 ? performanceNote : 'Aguardando dados estruturados para análise operacional.'}</p>
             </div>
           </div>
 
@@ -549,7 +593,13 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     const name = row.conta || row.category || '';
                     const val = row.val || 0;
                     const level = row.level ?? 1;
-                    const av = recLiquida > 0 ? (val / recLiquida) * 100 : 0;
+                    
+                    let baseForAV = recLiquida;
+                    const nameLower = name.toLowerCase();
+                    if (nameLower.includes('receita operacional bruta') || nameLower.includes('receita bruta') || nameLower.includes('faturamento') || nameLower.includes('deduções') || nameLower.includes('impostos sobre vendas') || nameLower.includes('abatimentos')) {
+                      baseForAV = receitaBruta;
+                    }
+                    const av = baseForAV > 0 ? (val / baseForAV) * 100 : 0;
                     const prevVal = getPrevValue(name);
                     const ah = prevVal > 0 ? ((val / prevVal) - 1) * 100 : null;
                     const isTotal = level === 1;

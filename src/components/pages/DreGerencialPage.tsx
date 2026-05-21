@@ -196,7 +196,13 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
     if (!reportData) return null;
     const currentVal = reportData.valuesByPeriod[currentKey]?.[row.id] || 0;
     const netRevenue = reportData.valuesByPeriod[currentKey]?.rl || 1;
-    const av = (currentVal / netRevenue) * 100;
+    const grossRevenue = reportData.valuesByPeriod[currentKey]?.rb || 1;
+    
+    let baseRevenue = netRevenue;
+    if (row.id === 'rb' || row.id === 'ded') {
+      baseRevenue = grossRevenue;
+    }
+    const av = (currentVal / baseRevenue) * 100;
 
     let prevKey = '';
     if (periodType === 'anual') {
