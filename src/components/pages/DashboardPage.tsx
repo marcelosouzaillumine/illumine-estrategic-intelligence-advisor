@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useState, useCallback } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Calendar, 
   TrendingUp, 
@@ -22,19 +22,22 @@ import {
 } from 'lucide-react';
 import { 
   CartesianGrid, 
-  Tooltip, 
+  Tooltip as RechartsTooltip, 
   ResponsiveContainer, 
   XAxis,
   YAxis,
   AreaChart,
   Area
 } from 'recharts';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
+import { DashboardSkeleton } from '../ui/skeletons';
 import { PageHeader, Semaphore, KpiCard, KpiValue, ControlBar } from '../Common';
 import { formatCurrency, formatValue, cn, getThemeColors } from '../../lib/utils';
 import { db } from '../../lib/firebase';
 import { query, collection, where, onSnapshot } from 'firebase/firestore';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 import { FULL_MONTH_LABELS, MONTH_LABELS } from '../../constants';
+import { Button } from '../ui/button';
 
 const AXIS_DATA = [
   { 
@@ -282,15 +285,7 @@ export function DashboardPage({
   }
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background border border-border rounded-md p-20 text-center">
-        <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-6">
-          <Loader2 className="text-secondary animate-spin" size={32} />
-        </div>
-        <h3 className="text-h3 font-medium text-foreground mb-2">Sincronizando Inteligência</h3>
-        <p className="text-muted-foreground max-w-md font-medium">Consolidando visão estratégica dos Pilares de Gestão...</p>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   return (
@@ -414,7 +409,7 @@ export function DashboardPage({
                     tick={{ fontSize: 10, fill: colors.mutedForeground, fontWeight: 700 }} 
                     tickFormatter={(v) => `R$${v / 1000}k`} 
                   />
-                  <Tooltip 
+                  <RechartsTooltip 
                     contentStyle={{ 
                       borderRadius: '24px', 
                       border: `1px solid ${colors.border}`, 
@@ -494,12 +489,12 @@ export function DashboardPage({
               </div>
             </div>
 
-            <button 
+            <Button 
               onClick={() => onNavigate('advisory_insights')}
               className="mt-12 w-full py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10"
             >
               Acessar Advisory Hub <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -511,12 +506,12 @@ export function DashboardPage({
             <h3 className="text-3xl font-display font-medium text-foreground tracking-tight">Direcionamento Estratégico</h3>
             <p className="text-body-md text-muted-foreground font-medium">Status atual das diretrizes institucionais nos eixos de governança.</p>
           </div>
-          <button 
+          <Button 
             onClick={() => onNavigate('relatorio_executivo')}
             className="flex items-center gap-3 px-5 md:px-8 py-2.5 md:py-4 bg-surface-container text-foreground rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all border border-border shadow-sm shrink-0"
           >
             Gerar Relatório Executivo
-          </button>
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">

@@ -16,9 +16,10 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { doc, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
 import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
+import { DashboardSkeleton } from '../ui/skeletons';
+import { db } from '../../lib/firebase';
 
 interface FiscalTributarioPageProps {
   clientId: string;
@@ -64,12 +65,7 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
   };
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center h-64 gap-4">
-        <Loader2 className="animate-spin text-secondary" size={32} />
-        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Carregando dados fiscais...</p>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (!clientId) {

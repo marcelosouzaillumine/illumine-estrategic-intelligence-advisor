@@ -26,6 +26,7 @@ import {
   Briefcase
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { Button } from '../ui/button';
 
 function IllumineMark({ className = "w-16 h-16" }: { className?: string }) {
   return (
@@ -125,13 +126,13 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             >
               Entrar
             </button>
-            <button 
+            <Button 
               onClick={handleConsultantClick}
-              className="h-10 px-5 rounded-button bg-primary text-primary-foreground font-bold text-xs uppercase tracking-widest hover:bg-primary/95 hover:shadow-lg hover:shadow-primary/20 active:scale-[0.98] transition-all flex items-center gap-2 cursor-pointer"
+              className="h-10 px-5 font-bold text-xs uppercase tracking-widest flex items-center gap-2"
             >
               <MessageSquare size={14} />
               <span>Seja Parceiro</span>
-            </button>
+            </Button>
           </div>
         </div>
       </nav>
@@ -179,20 +180,21 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             transition={{ duration: 0.55, delay: 0.24 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6"
           >
-            <button
+            <Button
               onClick={() => scrollToSection('porque')}
-              className="w-full sm:w-auto h-14 px-8 rounded-button bg-primary text-primary-foreground font-bold text-sm uppercase tracking-widest hover:bg-primary/95 hover:shadow-xl hover:shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group cursor-pointer"
+              className="w-full sm:w-auto h-14 px-8 font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2 group"
             >
               <span>Conhecer a Estrutura de Parceria</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
               onClick={handleConsultantClick}
-              className="w-full sm:w-auto h-14 px-8 rounded-button bg-surface-container border border-border text-foreground font-bold text-sm uppercase tracking-widest hover:bg-surface-container/80 hover:border-muted-foreground/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto h-14 px-8 font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2"
             >
               <Briefcase size={16} />
               <span>Aplicar para Parceria Estratégica</span>
-            </button>
+            </Button>
           </motion.div>
         </div>
       </section>

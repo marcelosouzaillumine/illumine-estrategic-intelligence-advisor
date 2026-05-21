@@ -8,6 +8,7 @@ import { VerticalCourseCard } from '../../academy/VerticalCourseCard';
 import type { Course } from '../../../types/academy';
 import { cn } from '../../../lib/utils';
 import { PageHeader } from '../../Common';
+import { DashboardSkeleton } from '../../ui/skeletons';
 
 interface AcademyHomePageProps {
   onNavigate: (page: any, params?: any) => void;
@@ -34,11 +35,7 @@ export function AcademyHomePage({ onNavigate }: AcademyHomePageProps) {
   );
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   return (

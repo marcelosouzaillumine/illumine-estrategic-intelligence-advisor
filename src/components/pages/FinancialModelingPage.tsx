@@ -51,6 +51,7 @@ import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Ba
 import { PageHeader } from '../Common';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
+import { DashboardSkeleton } from '../ui/skeletons';
 import { PremissasClientePage } from './PremissasClientePage';
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
@@ -205,7 +206,7 @@ function InputsDataEntryView({ selectedClient }: { selectedClient: string }) {
     setInputs(newInputs);
   };
 
-  if (loading) return <div className="p-12 flex justify-center"><Loader2 className="animate-spin text-blue-600" size={32} /></div>;
+  if (loading) return <DashboardSkeleton />;
 
   return (
     <div className="space-y-8">

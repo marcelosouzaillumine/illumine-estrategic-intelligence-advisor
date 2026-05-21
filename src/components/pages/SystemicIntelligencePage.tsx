@@ -33,6 +33,7 @@ import { cn, formatCurrency } from '../../lib/utils';
 import { useModuleData } from '../../hooks/useModuleData';
 import { DiagnosticoItem, EixoGestao } from '../../types/modules';
 import { PageHeader, MarkdownText } from '../Common';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 interface SystemicIntelligencePageProps {
   clientId: string;
@@ -147,12 +148,7 @@ export function SystemicIntelligencePage({ clientId, selectedMonth, selectedYear
   }, [indicators, diagnostics, loadingInd, loadingDiag, selectedMonth, selectedYear, hasFinancialData, hasDiagnosticData]);
 
   if (loadingInd || loadingDiag) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Loader2 className="text-secondary animate-spin mb-4" size={48} />
-        <p className="text-muted-foreground font-medium uppercase tracking-widest text-[10px]">Processando Inteligência Sistêmica...</p>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (!hasFinancialData && !hasDiagnosticData) {

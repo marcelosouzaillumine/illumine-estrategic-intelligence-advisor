@@ -24,6 +24,9 @@ import { cn, getThemeColors } from '../../lib/utils';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { logout, MASTER_ADMINS, auth } from '../../lib/firebase';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 interface ProfilePageProps {
   user: FirebaseUser | null;
@@ -238,28 +241,29 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   <div className="flex gap-2 sm:gap-3 shrink-0">
                     {isEditing ? (
                       <>
-                        <button 
+                        <Button 
                           onClick={() => setIsEditing(false)}
-                          className="px-3 sm:px-5 py-2 sm:py-3 bg-surface-container text-foreground rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] border border-border hover:bg-surface-container-high transition-all whitespace-nowrap"
+                          variant="outline"
+                          className="px-3 sm:px-5 py-2 sm:py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap"
                         >
                           Cancelar
-                        </button>
-                        <button 
+                        </Button>
+                        <Button 
                           onClick={handleUpdateProfile}
                           disabled={isLoading}
-                          className="px-3 sm:px-5 py-2 sm:py-3 bg-secondary text-primary rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all shadow-xl shadow-secondary/10 flex items-center gap-2 whitespace-nowrap"
+                          className="px-3 sm:px-5 py-2 sm:py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] shadow-xl flex items-center gap-2 whitespace-nowrap"
                         >
                           {isLoading ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
                           Salvar
-                        </button>
+                        </Button>
                       </>
                     ) : (
-                      <button 
+                      <Button 
                         onClick={() => setIsEditing(true)}
-                        className="px-3 sm:px-5 py-2 sm:py-3 bg-primary text-white rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] hover:bg-secondary hover:text-primary transition-all shadow-xl shadow-primary/20 flex items-center gap-2 border border-white/5 whitespace-nowrap"
+                        className="px-3 sm:px-5 py-2 sm:py-3 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] shadow-xl flex items-center gap-2 whitespace-nowrap"
                       >
                         Editar Dados
-                      </button>
+                      </Button>
                     )}
                   </div>
                 </div>
@@ -267,13 +271,13 @@ export function ProfilePage({ user }: ProfilePageProps) {
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
                   {/* Nome Completo */}
                   <div className="space-y-2">
-                    <label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Nome Completo</label>
+                    <Label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Nome Completo</Label>
                     {isEditing ? (
-                      <input 
+                      <Input 
                         type="text"
                         value={displayName}
                         onChange={(e) => setDisplayName(e.target.value)}
-                        className="w-full px-4 py-3 bg-surface-container border border-border rounded-[20px] text-xs font-medium outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner focus:border-secondary text-foreground"
+                        className="w-full h-12 bg-surface-container rounded-[20px] shadow-inner"
                       />
                     ) : (
                       <div className="flex items-center gap-3 px-4 py-3 bg-surface-container/50 border border-border rounded-[20px] min-w-0 overflow-hidden">
@@ -287,7 +291,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
 
                   {/* E-mail Principal */}
                   <div className="space-y-2">
-                    <label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">E-mail Principal</label>
+                    <Label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">E-mail Principal</Label>
                     <div className="flex items-center gap-3 px-4 py-3 bg-surface-container border border-border rounded-[20px] cursor-not-allowed min-w-0 overflow-hidden">
                       <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm shrink-0">
                         <Mail size={13} />
@@ -303,7 +307,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
 
                   {/* Empresa / Unidade */}
                   <div className="space-y-2">
-                    <label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Empresa / Unidade</label>
+                    <Label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Empresa / Unidade</Label>
                     <div className="flex items-center gap-3 px-4 py-3 bg-surface-container border border-border rounded-[20px] cursor-not-allowed min-w-0 overflow-hidden">
                       <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm shrink-0">
                         <Building size={13} />
@@ -319,7 +323,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
 
                   {/* Cargo / Função */}
                   <div className="space-y-2">
-                    <label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Cargo / Função</label>
+                    <Label className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-secondary ml-1">Cargo / Função</Label>
                     <div className="flex items-center gap-3 px-4 py-3 bg-surface-container border border-border rounded-[20px] cursor-not-allowed min-w-0 overflow-hidden">
                       <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm shrink-0">
                         <Shield size={13} />
@@ -384,21 +388,21 @@ export function ProfilePage({ user }: ProfilePageProps) {
                           </div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4">
-                          <input 
+                          <Input 
                             type="email"
                             placeholder="E-mail do usuário..."
                             value={resetEmail}
                             onChange={(e) => setResetEmail(e.target.value)}
-                            className="flex-1 px-5 py-3.5 bg-surface-container border border-border rounded-[20px] text-[11px] font-medium outline-none focus:ring-1 focus:ring-secondary/20 transition-all shadow-inner focus:border-secondary text-foreground"
+                            className="flex-1 h-12 bg-surface-container rounded-[20px] shadow-inner"
                           />
-                          <button 
+                          <Button 
                             onClick={() => handleResetPassword(resetEmail)}
                             disabled={isLoading || !resetEmail}
-                            className="px-5 md:px-8 py-2.5 md:py-3.5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all shadow-xl shadow-secondary/10 flex items-center justify-center gap-2 disabled:opacity-50"
+                            className="px-5 md:px-8 py-2.5 md:py-3.5 text-[10px] font-black uppercase tracking-[0.2em] shadow-xl flex items-center justify-center gap-2"
                           >
                             {isLoading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
                             Enviar Reset
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -418,12 +422,13 @@ export function ProfilePage({ user }: ProfilePageProps) {
                           <p className="text-sm font-medium text-muted-foreground mt-1">Camada extra de proteção via aplicativo de segurança</p>
                         </div>
                       </div>
-                      <button 
+                      <Button 
                         onClick={() => setMessage({ type: 'error', text: 'Funcionalidade em desenvolvimento.' })}
-                        className="px-4 md:px-6 py-2 md:py-3 bg-surface-container border border-border hover:bg-surface-container-high text-foreground rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap shrink-0"
+                        variant="outline"
+                        className="px-4 md:px-6 py-2 md:py-3 text-[10px] font-black uppercase tracking-[0.2em] shrink-0"
                       >
                         Configurar
-                      </button>
+                      </Button>
                     </div>
                   </div>
 
@@ -441,13 +446,14 @@ export function ProfilePage({ user }: ProfilePageProps) {
                           <p className="text-sm font-medium text-muted-foreground mt-1">Troque sua senha periodicamente para manter a segurança</p>
                         </div>
                       </div>
-                      <button 
+                      <Button 
                         onClick={() => handleResetPassword(user?.email || '')}
                         disabled={isLoading}
-                        className="px-4 md:px-6 py-2 md:py-3 bg-surface-container border border-border hover:bg-surface-container-high text-foreground rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap shrink-0"
+                        variant="outline"
+                        className="px-4 md:px-6 py-2 md:py-3 text-[10px] font-black uppercase tracking-[0.2em] shrink-0"
                       >
                         Solicitar Reset
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -465,9 +471,9 @@ export function ProfilePage({ user }: ProfilePageProps) {
                       <p className="text-sm font-medium text-muted-foreground mt-2 mb-6 leading-relaxed">
                         Ao excluir sua conta, todos os seus dados pessoais, relatórios e preferências salvos serão removidos permanentemente. Esta ação é irreversível.
                       </p>
-                      <button className="px-4 md:px-6 py-2 md:py-3 bg-destructive text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-destructive/90 transition-all shadow-xl shadow-destructive/15">
+                      <Button variant="destructive" className="px-4 md:px-6 py-2 md:py-3 text-[10px] font-black uppercase tracking-[0.2em] shadow-xl">
                         Solicitar Exclusão
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>

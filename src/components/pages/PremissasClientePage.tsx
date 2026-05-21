@@ -27,6 +27,7 @@ import {
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { cn } from '../../lib/utils';
 import { DATA } from '../../data';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 
 function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
@@ -170,11 +171,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="animate-spin text-blue-600" size={32} />
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   return (

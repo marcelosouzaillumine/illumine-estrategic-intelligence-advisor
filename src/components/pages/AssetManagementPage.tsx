@@ -48,6 +48,7 @@ import { FULL_MONTH_LABELS } from '../../constants';
 import { PageHeader, Semaphore, ControlBar } from '../Common';
 import { AssetModal } from '../modals/AssetModal';
 import { fetchBenchmarks, MarketBenchmark } from '../../services/marketService';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 // --- Data Arrays ---
 const PERFORMANCE_HISTORY: any[] = [];
@@ -255,12 +256,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
   }
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Loader2 className="animate-spin text-secondary mb-4" size={32} />
-        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Carregando carteira de ativos...</p>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (assets.length === 0) {

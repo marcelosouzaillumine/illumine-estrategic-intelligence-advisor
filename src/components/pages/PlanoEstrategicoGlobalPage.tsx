@@ -23,6 +23,7 @@ import { cn, formatValue, formatCurrency } from '../../lib/utils';
 import { PageHeader, SectionHeader, StatusBadge } from '../Common';
 import { useModuleData } from '../../hooks/useModuleData';
 import { ObjetivoOKR } from '../../types/modules';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 interface PlanejamentoEstrategicoPageProps {
   clientId: string;
@@ -75,7 +76,7 @@ export function PlanoEstrategicoGlobalPage({ clientId }: PlanejamentoEstrategico
     };
   }, [okrs]);
 
-  if (loading) return null;
+  if (loading) return <DashboardSkeleton />;
 
   return (
     <div className="space-y-12 pb-32 animate-executive-fade">

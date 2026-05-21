@@ -12,6 +12,7 @@ import { cn } from '../../lib/utils';
 import { SectionHeader, PageHeader } from '../Common';
 import { GOVERNANCE_PRINCIPLES } from '../../lib/governanceIntelligence';
 import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 const EIXOS: EixoGestao[] = [
   'Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
@@ -207,7 +208,7 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
   };
 
 
-  if (loading) return <div>Carregando...</div>;
+  if (loading) return <DashboardSkeleton />;
 
   return (
     <div className="space-y-10 pb-32 animate-executive-fade">

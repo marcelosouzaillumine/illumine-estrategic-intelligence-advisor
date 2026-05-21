@@ -43,9 +43,12 @@ import { useDataTable } from '../../hooks/useDataTable';
 import { EmployeeManager } from '../EmployeeManager';
 import { GenerateAICompanyModal } from '../modals/GenerateAICompanyModal';
 import { ClientImportHistory } from '../ClientImportHistory';
-import { ClientAccessLogs } from '../ClientAccessLogs';
 import { ClientLoginAudit } from '../ClientLoginAudit';
 import { ClientUserManager } from '../ClientUserManager';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 
 export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, isPartner, userPartnerIds }: any) {
   const [view, setView] = useState<'list' | 'form'>('list');
@@ -447,15 +450,13 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
           <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none" />
           <div className="relative flex flex-col md:flex-row md:items-start justify-between gap-6">
             <div className="flex-1 min-w-0">
-              <button 
+              <Button 
+                variant="outline"
                 onClick={() => setView('list')}
-                className="group inline-flex items-center gap-2 text-[10px] font-medium text-muted-foreground uppercase tracking-[0.18em] hover:text-secondary transition-all mb-4"
+                className="group mb-4 text-[10px] font-medium uppercase tracking-[0.18em]"
               >
-                <div className="w-5 h-5 rounded-full border border-border flex items-center justify-center group-hover:border-secondary group-hover:bg-secondary/5 transition-all">
-                  <ChevronLeft size={10} />
-                </div>
-                Voltar para lista
-              </button>
+                <ChevronLeft size={10} className="mr-2" /> Voltar para lista
+              </Button>
               <h2 className="text-h1 font-medium text-foreground tracking-tight">
                 {editingId ? 'Alterar Cadastro' : 'Cadastrar Empresa'}
               </h2>
@@ -464,12 +465,13 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
               </p>
             </div>
             <div className="flex items-center gap-3 shrink-0 md:mt-4">
-              <button 
+              <Button 
+                variant="outline"
                 onClick={() => setView('list')}
-                className="px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground bg-background/50 hover:bg-background border border-border rounded-md transition-all duration-300 flex items-center gap-2 shadow-sm"
+                className="px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.15em]"
               >
                 Cancelar
-              </button>
+              </Button>
               <button 
                 onClick={handleSave}
                 disabled={loading}
@@ -543,7 +545,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div>
-                      <label className="text-label">Tipo de Organização</label>
+                      <Label className="text-label">Tipo de Organização</Label>
                       <select 
                         value={formData.type}
                         onChange={(e) => setFormData({...formData, type: e.target.value as any})}
@@ -638,10 +640,10 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
 
                     <div className="space-y-6">
                       <div>
-                        <label className="text-label">{formData.origin === 'nacional' ? 'Número do CNPJ' : 'Tax ID / Registration Number'}</label>
+                        <Label className="text-label">{formData.origin === 'nacional' ? 'Número do CNPJ' : 'Tax ID / Registration Number'}</Label>
                         <div className="flex flex-col sm:flex-row gap-4">
                           <div className="relative flex-1">
-                            <input 
+                            <Input 
                               type="text" 
                               value={formData.origin === 'nacional' ? cnpjQuery : formData.cnpj}
                               onChange={(e) => {
@@ -688,8 +690,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="text-label">Razão Social</label>
-                        <input 
+                        <Label className="text-label">Razão Social</Label>
+                        <Input 
                           type="text" 
                           value={formData.razao}
                           onChange={(e) => {
@@ -697,14 +699,14 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                             validateField('razao', e.target.value);
                           }}
                           className={cn(
-                            "w-full px-5 py-3.5 bg-background border border-border rounded-md text-body-sm font-medium outline-none transition-all",
+                            "w-full h-12 bg-background",
                             validationErrors.razao ? "border-destructive/50" : "focus:border-secondary"
                           )}
                         />
                       </div>
                       <div>
-                        <label className="text-label">Nome Fantasia</label>
-                        <input 
+                        <Label className="text-label">Nome Fantasia</Label>
+                        <Input 
                           type="text" 
                           value={formData.fantasia}
                           onChange={(e) => {
@@ -712,7 +714,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                             validateField('fantasia', e.target.value);
                           }}
                           className={cn(
-                            "w-full px-5 py-3.5 bg-background border border-border rounded-md text-body-sm font-medium outline-none transition-all",
+                            "w-full h-12 bg-background",
                             validationErrors.fantasia ? "border-destructive/50" : "focus:border-secondary"
                           )}
                         />
@@ -1332,17 +1334,17 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
 
                         <div className="bg-bg-card rounded-2xl border border-border-main overflow-hidden shadow-sm">
                           <div className="max-h-[460px] overflow-y-auto custom-scrollbar">
-                            <table className="w-full text-left border-collapse">
-                              <thead className="sticky top-0 bg-bg-surface/95 backdrop-blur-md z-10 border-b border-border-main">
-                                <tr>
-                                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">Referência</th>
-                                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-text-dim uppercase tracking-widest text-right">Faturamento Bruto</th>
-                                </tr>
-                              </thead>
-                              <tbody className="divide-y divide-border-soft">
+                            <Table>
+                              <TableHeader className="sticky top-0 bg-bg-surface/95 backdrop-blur-md z-10">
+                                <TableRow>
+                                  <TableHead className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">Referência</TableHead>
+                                  <TableHead className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-text-dim uppercase tracking-widest text-right">Faturamento Bruto</TableHead>
+                                </TableRow>
+                              </TableHeader>
+                              <TableBody className="divide-y divide-border-soft">
                                 {(formData.historicoFaturamento || Array(12).fill({ mes: '', ano: '', valor: 0 })).map((item, idx) => (
-                                  <tr key={idx} className="hover:bg-bg-surface/50 transition-colors group">
-                                    <td className="px-4 md:px-6 py-2.5 md:py-4">
+                                  <TableRow key={idx} className="hover:bg-bg-surface/50 transition-colors group">
+                                    <TableCell className="px-4 md:px-6 py-2.5 md:py-4">
                                       <div className="flex items-center gap-3">
                                         <select 
                                           value={item.mes}
@@ -1374,8 +1376,8 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                                           ))}
                                         </select>
                                       </div>
-                                    </td>
-                                    <td className="px-4 md:px-6 py-2.5 md:py-4">
+                                    </TableCell>
+                                    <TableCell className="px-4 md:px-6 py-2.5 md:py-4 text-right">
                                       <div className="flex items-center justify-end gap-2 group">
                                         <span className="text-[10px] font-black text-text-dim group-focus-within:text-secondary">R$</span>
                                         <input 
@@ -1391,11 +1393,11 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                                           placeholder="0.00"
                                         />
                                       </div>
-                                    </td>
-                                  </tr>
+                                    </TableCell>
+                                  </TableRow>
                                 ))}
-                              </tbody>
-                            </table>
+                              </TableBody>
+                            </Table>
                           </div>
                         </div>
 

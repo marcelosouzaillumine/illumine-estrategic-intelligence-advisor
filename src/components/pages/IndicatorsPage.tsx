@@ -37,6 +37,7 @@ import { formatValue, cn, formatCurrency } from '../../lib/utils';
 import { SectionHeader, StatusBadge, PageHeader, KpiValue, ControlBar } from '../Common';
 import { FULL_MONTH_LABELS, EIXOS_ORDEM } from '../../constants';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 const GROUP_MAPPING: Record<string, string> = {
   'Performance': 'Administração e Finanças',
@@ -481,15 +482,7 @@ export function IndicatorsPage({ clients, selectedClient, selectedMonth, selecte
     : 'bg-gradient-to-r from-rose-400 to-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]';
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-card border border-border rounded-2xl p-20 text-center">
-        <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-6">
-          <Loader2 className="text-secondary animate-spin" size={32} />
-        </div>
-        <h3 className="text-xl font-bold text-foreground mb-2">Sincronizando Análise</h3>
-        <p className="text-muted-foreground max-w-md font-medium">Consolidando indicadores vitais e eixos estratégicos...</p>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   return (

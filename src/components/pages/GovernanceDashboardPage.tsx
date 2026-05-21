@@ -18,6 +18,7 @@ import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
 import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
 import { generateGovernanceParecer } from '../../services/governanceAiService';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 interface GovernanceDashboardPageProps {
   clientId: string;
@@ -189,6 +190,10 @@ export function GovernanceDashboardPage({
 
   const [isYTD, setIsYTD] = useState(false);
   const hasData = dbIndicators.length > 0;
+
+  if (loading) {
+    return <DashboardSkeleton />;
+  }
 
   if (!loading && !hasData) {
     return (

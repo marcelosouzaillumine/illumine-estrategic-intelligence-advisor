@@ -1,4 +1,4 @@
-# Illumine Advisor Brownfield Enhancement Architecture
+# Illumine Strategic Intelligence & Advisor Brownfield Enhancement Architecture
 
 > Status: baseline arquitetural brownfield em modo YOLO
 > Data: 2026-05-09
@@ -6,7 +6,7 @@
 
 ## 1. Introducao
 
-Este documento define a arquitetura brownfield para evoluir o Illumine Advisor sem quebrar o comportamento existente. A aplicacao foi importada do Google AI Studio e hoje funciona como uma SPA React/Vite com Firebase Auth, Firestore e integracao Gemini no cliente.
+Este documento define a arquitetura brownfield para evoluir o Illumine Strategic Intelligence & Advisor sem quebrar o comportamento existente. A aplicacao foi importada do Google AI Studio e hoje funciona como uma SPA React/Vite com Firebase Auth, Firestore e integracao Gemini no cliente.
 
 O objetivo arquitetural mais adequado para a aplicacao agora e estabilizar a base antes de ampliar escopo funcional: reduzir acoplamento em `src/App.tsx`, formalizar fronteiras de dados, preservar as regras Firestore, melhorar testabilidade e preparar uma fronteira de servidor para chamadas Gemini que envolvam dados sensiveis.
 

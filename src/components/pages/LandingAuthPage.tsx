@@ -35,6 +35,9 @@ import {
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { sendPasswordResetEmail } from '../../lib/firebase';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 // ─── Brand Helpers ────────────────────────────────────────────────────────────
 
@@ -158,12 +161,11 @@ function LoginModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 24 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 pointer-events-none"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 pointer-events-none"
           >
             <div
-              className="relative w-full max-w-[460px] rounded-card bg-card/95 backdrop-blur-2xl border border-border/60 shadow-2xl overflow-hidden pointer-events-auto flex flex-col"
+              className="relative w-full max-w-[460px] max-h-full rounded-card bg-card/95 backdrop-blur-2xl border border-border/60 shadow-2xl overflow-hidden pointer-events-auto flex flex-col"
               style={{
-                maxHeight: 'min(90dvh, 780px)',
                 boxShadow: '0 32px 80px rgba(14,28,44,0.22), 0 0 0 1px rgba(255,133,82,0.08)'
               }}
             >
@@ -171,51 +173,51 @@ function LoginModal({
               <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-secondary to-transparent" />
 
               {/* Header */}
-              <div className="relative bg-gradient-to-b from-primary/8 to-transparent p-5 sm:p-7 pb-4 sm:pb-5 border-b border-border/40 shrink-0">
+              <div className="relative bg-gradient-to-b from-primary/8 to-transparent p-4 sm:p-7 pb-3 sm:pb-5 border-b border-border/40 shrink-0">
                 <button
                   onClick={onClose}
-                  className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-button flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-surface-container transition-all"
+                  className="absolute top-3 right-3 sm:top-5 sm:right-5 w-8 h-8 rounded-button flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-surface-container transition-all"
                 >
                   <X size={16} />
                 </button>
 
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-9 h-9 rounded-button bg-primary/10 border border-primary/20 flex items-center justify-center">
-                    <IllumineMark className="w-6 h-6" />
+                <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-button bg-primary border border-primary/20 flex items-center justify-center">
+                    <IllumineMark className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
-                  <div className="flex items-center gap-2 rounded-full bg-success/10 border border-success/20 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest text-success">
+                  <div className="flex items-center gap-1.5 sm:gap-2 rounded-full bg-success/10 border border-success/20 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[9px] font-bold uppercase tracking-widest text-success">
                     <CheckCircle2 size={10} className="animate-pulse" />
                     Acesso protegido
                   </div>
                 </div>
 
-                <h2 className="text-h2 font-medium tracking-tight text-foreground">
+                <h2 className="text-xl sm:text-h2 font-medium tracking-tight text-foreground">
                   Entrar no painel
                 </h2>
-                <p className="mt-1.5 text-body-sm leading-relaxed text-muted-foreground font-medium font-sans">
+                <p className="mt-1 sm:mt-1.5 text-xs sm:text-body-sm leading-relaxed text-muted-foreground font-medium font-sans">
                   Continue com seu e-mail e senha ou conta Google para acessar seu ambiente Illumine.
                 </p>
               </div>
 
-              {/* Body — scrollável */}
-              <div className="flex-1 overflow-y-auto overscroll-contain p-5 sm:p-7 space-y-4">
-                <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Body — scrollável mas autoajustável */}
+              <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-7 space-y-3 sm:space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
                   {/* Email */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block px-1">
+                    <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block px-1">
                       E-mail
-                    </label>
+                    </Label>
                     <div className="relative group">
                       <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
                         <Mail size={15} strokeWidth={1.5} />
                       </span>
-                      <input
+                      <Input
                         type="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="seu.nome@empresa.com.br"
-                        className="w-full pl-10 pr-4 py-3 bg-surface-container/40 border border-border rounded-button focus:border-primary focus:bg-background/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all text-body-sm font-sans text-foreground"
+                        className="pl-10 h-10 sm:h-12 bg-surface-container/40"
                       />
                     </div>
                   </div>
@@ -223,9 +225,9 @@ function LoginModal({
                   {/* Password */}
                   <div className="space-y-2">
                     <div className="flex justify-between items-center px-1">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block">
+                      <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block">
                         Senha
-                      </label>
+                      </Label>
                       <button
                         type="button"
                         onClick={handlePasswordReset}
@@ -239,13 +241,13 @@ function LoginModal({
                       <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
                         <Lock size={15} strokeWidth={1.5} />
                       </span>
-                      <input
+                      <Input
                         type={showPassword ? 'text' : 'password'}
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Sua senha"
-                        className="w-full pl-10 pr-10 py-3 bg-surface-container/40 border border-border rounded-button focus:border-primary focus:bg-background/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all text-body-sm font-sans text-foreground"
+                        className="pl-10 pr-10 h-10 sm:h-12 bg-surface-container/40"
                       />
                       <button
                         type="button"
@@ -258,14 +260,14 @@ function LoginModal({
                   </div>
 
                   {/* Submit */}
-                  <button
+                  <Button
                     type="submit"
                     disabled={isSubmitting || isSigningIn}
-                    className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/15 active:scale-[0.98] transition-all rounded-button font-bold text-body-sm uppercase tracking-widest flex items-center justify-center gap-2 shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full h-10 sm:h-12 font-bold text-xs sm:text-sm text-primary-foreground uppercase tracking-widest flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <LogIn size={16} />}
                     Entrar
-                  </button>
+                  </Button>
                 </form>
 
                 {/* Divider */}
@@ -277,11 +279,12 @@ function LoginModal({
                 </div>
 
                 {/* Google */}
-                <button
+                <Button
                   type="button"
+                  variant="outline"
                   onClick={onGoogleLogin}
                   disabled={isSigningIn || isSubmitting}
-                  className="w-full h-12 rounded-button border border-border bg-background/60 hover:bg-surface-container disabled:opacity-70 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 text-body-sm font-medium text-foreground shadow-sm hover:shadow-md hover:border-muted-foreground/30 active:scale-[0.98]"
+                  className="w-full h-10 sm:h-12 flex items-center justify-center gap-3 text-xs sm:text-sm font-medium"
                 >
                   {isSigningIn ? (
                     <Loader2 size={18} className="animate-spin text-secondary" />
@@ -294,7 +297,7 @@ function LoginModal({
                     </svg>
                   )}
                   {isSigningIn ? 'Conectando...' : 'Entrar com Google'}
-                </button>
+                </Button>
 
                 {/* Error */}
                 <AnimatePresence>

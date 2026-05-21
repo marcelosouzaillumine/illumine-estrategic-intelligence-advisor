@@ -1,10 +1,10 @@
-# Políticas de Governança e Termos de Uso - Illumine Advisor
+# Políticas de Governança e Termos de Uso - Illumine Strategic Intelligence & Advisor
 
 **Versão:** 1.0.2  
 **Data da última atualização:** 15 de Maio de 2026
 
 ## 1. Introdução
-O Illumine Advisor é uma plataforma de inteligência estratégica projetada para elevar o nível de governança e transparência na gestão corporativa. O uso desta plataforma está condicionado à aceitação integral destes termos.
+O Illumine Strategic Intelligence & Advisor é uma plataforma de inteligência estratégica projetada para elevar o nível de governança e transparência na gestão corporativa. O uso desta plataforma está condicionado à aceitação integral destes termos.
 
 ## 2. Privacidade e LGPD
 Em conformidade com a Lei nº 13.709/2018 (Lei Geral de Proteção de Dados):
@@ -20,11 +20,11 @@ Em conformidade com a Lei nº 13.709/2018 (Lei Geral de Proteção de Dados):
 ## 4. Curadoria e Integridade
 - Os dados enviados (Balanços, DREs, etc.) passam por um processo de curadoria.
 - O tempo estimado para integração total após o envio é de 24 horas úteis.
-- O Illumine Advisor não se responsabiliza por decisões tomadas com base em dados incorretos enviados pelo usuário.
+- O Illumine Strategic Intelligence & Advisor não se responsabiliza por decisões tomadas com base em dados incorretos enviados pelo usuário.
 
 ## 5. Segregação de Funções (SoD)
 - Para garantir a integridade financeira, implementamos o princípio de Segregação de Funções.
 - Uploads e aprovações podem exigir usuários distintos dependendo da configuração de governança ativa.
 
 ---
-© 2026 Illumine Advisor - Todos os direitos reservados.
+© 2026 Illumine Strategic Intelligence & Advisor - Todos os direitos reservados.

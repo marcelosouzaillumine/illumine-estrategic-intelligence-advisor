@@ -28,6 +28,7 @@ import { evaluateFinancialRules } from '../../lib/governanceIntelligence';
 import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
 import { PageHeader, StatusBadge, KpiCard } from '../Common';
 import { ObjetivoOKR as OKR, DiagnosticoItem as Diagnostico, Diretriz as Diretrizes } from '../../types/modules';
+import { Button } from '../ui/button';
 
 interface ActionItem {
   id?: string;
@@ -175,21 +176,22 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
         </div>
 
         <div className="flex items-center gap-3">
-          <button
+          <Button
             onClick={generateReportSummary}
             disabled={isAiLoading}
-            className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 bg-card border border-border text-muted-foreground rounded-md font-medium uppercase tracking-widest text-[10px] hover:bg-surface-container transition-all disabled:opacity-50"
+            variant="outline"
+            className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 font-medium uppercase tracking-widest text-[10px]"
           >
             {isAiLoading ? <Loader2 size={14} className="animate-spin" /> : <TrendingUp size={14} />} 
             {aiSummary ? 'Regerar Resumo' : 'Gerar com IA'}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={downloadPDF}
             disabled={isGenerating}
-            className="btn-executive bg-secondary"
+            className="bg-secondary text-primary hover:bg-white hover:text-primary px-4 md:px-6 py-2 md:py-2.5 font-bold uppercase tracking-widest text-[10px] shadow-xl"
           >
             {isGenerating ? <Loader2 size={16} className="animate-spin" /> : <FileDown size={16} />} PDF
-          </button>
+          </Button>
         </div>
       </div>
 

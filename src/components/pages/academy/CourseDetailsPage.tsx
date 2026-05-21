@@ -2,6 +2,7 @@ import React from 'react';
 import { Play, ChevronLeft, Clock, GraduationCap, BookOpen, CheckCircle2 } from 'lucide-react';
 import { useAcademyData, useAcademyModules } from '../../../hooks/useAcademyData';
 import { cn } from '../../../lib/utils';
+import { DashboardSkeleton } from '../../ui/skeletons';
 
 interface CourseDetailsPageProps {
   courseId: string;
@@ -15,11 +16,7 @@ export function CourseDetailsPage({ courseId, onBack, onStart }: CourseDetailsPa
   const course = courses.find(c => c.id === courseId);
 
   if (loading || !course) {
-    return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   return (

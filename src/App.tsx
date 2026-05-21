@@ -53,6 +53,7 @@ import {
   EyeOff,
 } from 'lucide-react';
 import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
+import { TooltipProvider } from './components/ui/tooltip';
 import { AppSidebar } from './components/AppSidebar';
 import { onAuthStateChanged, User, deleteUser } from 'firebase/auth';
 import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch, or } from 'firebase/firestore';
@@ -557,35 +558,37 @@ export default function App() {
 
   return (
     <GovernanceProvider user={user}>
-      <AppContent 
-        user={user}
-        authLoading={authLoading}
-        clients={clients}
-        selectedClient={selectedClient}
-        setSelectedClient={setSelectedClient}
-        selectedMonth={selectedMonth}
-        setSelectedMonth={setSelectedMonth}
-        selectedYear={selectedYear}
-        setSelectedYear={setSelectedYear}
-        setCurrentPage={setCurrentPage}
-        setClients={setClients}
-        currentPage={currentPage}
-        academyCourseId={academyCourseId}
-        setAcademyCourseId={setAcademyCourseId}
-        isSidebarCollapsed={isSidebarCollapsed}
-        setIsSidebarCollapsed={setIsSidebarCollapsed}
-        isMobileMenuOpen={isMobileMenuOpen}
-        setIsMobileMenuOpen={setIsMobileMenuOpen}
-        openSubmenus={openSubmenus}
-        toggleSubmenu={toggleSubmenu}
-        userPermissions={userPermissions}
-        isPartner={isPartner}
-        isMaster={isMaster}
-        userPartnerIds={userPartnerIds}
-        showWelcome={showWelcome}
-        setShowWelcome={setShowWelcome}
-        welcomeText={welcomeText}
-      />
+      <TooltipProvider>
+        <AppContent 
+          user={user}
+          authLoading={authLoading}
+          clients={clients}
+          selectedClient={selectedClient}
+          setSelectedClient={setSelectedClient}
+          selectedMonth={selectedMonth}
+          setSelectedMonth={setSelectedMonth}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+          setCurrentPage={setCurrentPage}
+          setClients={setClients}
+          currentPage={currentPage}
+          academyCourseId={academyCourseId}
+          setAcademyCourseId={setAcademyCourseId}
+          isSidebarCollapsed={isSidebarCollapsed}
+          setIsSidebarCollapsed={setIsSidebarCollapsed}
+          isMobileMenuOpen={isMobileMenuOpen}
+          setIsMobileMenuOpen={setIsMobileMenuOpen}
+          openSubmenus={openSubmenus}
+          toggleSubmenu={toggleSubmenu}
+          userPermissions={userPermissions}
+          isPartner={isPartner}
+          isMaster={isMaster}
+          userPartnerIds={userPartnerIds}
+          showWelcome={showWelcome}
+          setShowWelcome={setShowWelcome}
+          welcomeText={welcomeText}
+        />
+      </TooltipProvider>
     </GovernanceProvider>
   );
 }

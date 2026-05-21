@@ -21,6 +21,7 @@ import { useAllFinancialData } from '../../hooks/useFinancialData';
 import { ObjetivoOKR, KR, EixoGestao } from '../../types/modules';
 import { cn, formatValue, formatCurrency } from '../../lib/utils';
 import { PageHeader, SectionHeader } from '../Common';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 const EIXOS: EixoGestao[] = [
   'Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
@@ -118,7 +119,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
     setTrimestre('Q1'); setAno('2026');
   };
 
-  if (loading) return <div>Carregando...</div>;
+  if (loading) return <DashboardSkeleton />;
 
   return (
     <div className="space-y-8 pb-32">

@@ -42,9 +42,11 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-  Cell
+  Cell,
+  Tooltip as RechartsTooltip
 } from 'recharts';
 import { FULL_MONTH_LABELS } from '../../constants';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 interface FinancialAdminDashboardProps {
   clientId: string;
@@ -281,12 +283,7 @@ export function FinancialAdminDashboard({
   ], [dbIndicators]);
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] animate-pulse">
-        <Loader2 size={48} className="text-primary animate-spin mb-4" />
-        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Reconstruindo Inteligência Financeira...</p>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   return (

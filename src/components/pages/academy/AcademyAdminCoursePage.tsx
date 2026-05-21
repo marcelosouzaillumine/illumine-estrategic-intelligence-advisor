@@ -4,6 +4,7 @@ import { db } from '../../../lib/firebase';
 import { collection, doc, getDoc, setDoc, serverTimestamp, query, where, getDocs, deleteDoc, orderBy } from 'firebase/firestore';
 import type { Course, Module, Lesson } from '../../../types/academy';
 import { cn } from '../../../lib/utils';
+import { FormSkeleton } from '../../ui/skeletons';
 
 interface AcademyAdminCoursePageProps {
   courseId?: string;
@@ -65,11 +66,7 @@ export function AcademyAdminCoursePage({ courseId, onBack }: AcademyAdminCourseP
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <Loader2 className="animate-spin text-secondary" size={32} />
-      </div>
-    );
+    return <FormSkeleton />;
   }
 
   return (

@@ -19,6 +19,7 @@ import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { PageHeader, KpiCard } from '../Common';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
 import { FULL_MONTH_LABELS, MONTH_LABELS } from '../../constants';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 interface PeriodInfo {
   year: number;
@@ -266,6 +267,8 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
     );
   };
 
+  if (loading) return <DashboardSkeleton />;
+
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
@@ -473,14 +476,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
               </tr>
             </thead>
             <tbody className="divide-y divide-border/40">
-              {loading ? (
-                <tr>
-                  <td colSpan={30} className="py-20 text-center">
-                    <Activity className="animate-spin mx-auto text-secondary mb-4" size={32} />
-                    <span className="text-muted-foreground font-bold uppercase tracking-widest text-[10px]">Consolidando dimensões...</span>
-                  </td>
-                </tr>
-              ) : reportData ? (
+              {reportData ? (
                 reportData.structure.map(row => renderAccountRow(row))
               ) : null}
             </tbody>

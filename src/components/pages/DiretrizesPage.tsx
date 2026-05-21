@@ -6,6 +6,7 @@ import { useModuleData } from '../../hooks/useModuleData';
 import { Diretriz } from '../../types/modules';
 import { PageHeader, SectionHeader } from '../Common';
 import { cn } from '../../lib/utils';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 interface DiretrizesPageProps {
   clientId: string;
@@ -68,11 +69,7 @@ export function DiretrizesPage({ clientId }: DiretrizesPageProps) {
     }));
   };
 
-  if (loading) return (
-    <div className="flex items-center justify-center min-h-[400px]">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-secondary"></div>
-    </div>
-  );
+  if (loading) return <DashboardSkeleton />;
 
   return (
     <div className="space-y-8 pb-32">

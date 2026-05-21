@@ -35,6 +35,7 @@ import { useFinancialData } from '../../hooks/useFinancialData';
 import { ProdutoServico } from '../../types/modules';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { SectionHeader, PageHeader } from '../Common';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 interface PrecificacaoPageProps {
   clientId: string;
@@ -141,14 +142,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
     };
   }, [stats, simulador]);
 
-  if (loading) return (
-    <div className="flex items-center justify-center min-h-[400px]">
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Processando Inteligência de Preços...</p>
-      </div>
-    </div>
-  );
+  if (loading) return <DashboardSkeleton />;
 
   return (
     <div className="space-y-12 pb-32 animate-executive-fade">

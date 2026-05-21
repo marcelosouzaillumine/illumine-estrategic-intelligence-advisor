@@ -41,6 +41,7 @@ import { db } from '../../lib/firebase';
 import { PageHeader } from '../Common';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 interface ClientPortfolioData {
   id: string;
@@ -399,12 +400,7 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
   }, [partners, portfolioData, clients]);
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
-        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest animate-pulse">Consolidando Portfólio...</p>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   return (

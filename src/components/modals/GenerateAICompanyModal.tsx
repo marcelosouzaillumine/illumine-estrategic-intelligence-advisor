@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { X, Sparkles, Building2, Loader2, AlertCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { generateAICompanyPayload, createAICompanyInFirestore } from '../../services/aiService';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 export function GenerateAICompanyModal({ 
   isOpen, 
@@ -93,26 +97,19 @@ export function GenerateAICompanyModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="bg-white rounded-[32px] shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200"
-      >
-        <div className="p-8 pb-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center shadow-sm">
-              <Sparkles size={20} />
-            </div>
-            <div>
-              <h3 className="text-lg font-black text-slate-900 tracking-tight">Gerador Inteligente</h3>
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Powered by Google Gemini</p>
-            </div>
+    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden bg-white rounded-[32px] border-slate-200">
+        <DialogHeader className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-row items-center gap-3 space-y-0">
+          <div className="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center shadow-sm">
+            <Sparkles size={20} />
           </div>
-          <button onClick={onClose} disabled={loading} className="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-xl hover:bg-slate-100">
-            <X size={20} />
-          </button>
-        </div>
+          <div>
+            <DialogTitle className="text-lg font-black text-slate-900 tracking-tight">Gerador Inteligente</DialogTitle>
+            <DialogDescription className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+              Powered by Google Gemini
+            </DialogDescription>
+          </div>
+        </DialogHeader>
 
         <div className="p-8 space-y-6">
           {error && (
@@ -125,20 +122,20 @@ export function GenerateAICompanyModal({
           )}
 
           <div className="space-y-3">
-            <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest block">Qual o segmento de atuação?</label>
+            <Label className="text-[11px] font-black text-slate-800 uppercase tracking-widest block">Qual o segmento de atuação?</Label>
             <p className="text-xs text-slate-500 font-medium">A IA criará um nome, CNPJ, estrutura de DRE/Balanço de 5 anos, premissas de valuation e um relatório estratégico baseado neste setor.</p>
             <div className="relative">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
                 <Building2 size={18} />
               </div>
-              <input 
+              <Input 
                 type="text" 
                 autoFocus
                 placeholder="Ex: Rede de Clínicas Odontológicas, Software SaaS, Construtora..."
                 value={segment}
                 onChange={(e) => setSegment(e.target.value)}
                 disabled={loading}
-                className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all placeholder:font-medium placeholder:text-slate-400"
+                className="w-full pl-12 h-12 bg-slate-50 border-slate-200 rounded-2xl text-sm font-bold text-slate-700"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !loading) {
                     handleGenerate();
@@ -149,7 +146,7 @@ export function GenerateAICompanyModal({
           </div>
 
           <div className="space-y-3">
-            <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest block">Características & Referências (Opcional)</label>
+            <Label className="text-[11px] font-black text-slate-800 uppercase tracking-widest block">Características & Referências (Opcional)</Label>
             <p className="text-xs text-slate-500 font-medium">Descreva detalhes gerais como desafios atuais, número de funcionários ou perfil de clientes.</p>
             <textarea 
               placeholder="Ex: Empresa familiar em transição, enfrenta dificuldades no fluxo de caixa, possui 15 funcionários..."
@@ -174,7 +171,7 @@ export function GenerateAICompanyModal({
                 { id: 'operacional', label: 'Gestão Operacional', placeholder: 'Ex: Otimização de processos e logística...' },
               ].map(axis => (
                 <div key={axis.id} className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{axis.label}</label>
+                  <Label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{axis.label}</Label>
                   <textarea 
                     placeholder={axis.placeholder}
                     value={(axisDescriptions as any)[axis.id]}
@@ -200,23 +197,24 @@ export function GenerateAICompanyModal({
         </div>
 
         <div className="p-6 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
-          <button 
+          <Button 
+            variant="outline"
             onClick={onClose}
             disabled={loading}
-            className="px-4 md:px-6 py-2 md:py-2.5 text-slate-500 font-bold text-xs uppercase tracking-widest hover:text-slate-700 hover:bg-slate-200/50 rounded-xl transition-all"
+            className="text-xs uppercase tracking-widest font-bold"
           >
             Cancelar
-          </button>
-          <button 
+          </Button>
+          <Button 
             onClick={handleGenerate}
             disabled={loading || !segment.trim()}
-            className="flex items-center gap-2 px-8 py-2.5 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20 active:scale-95 disabled:opacity-50 disabled:active:scale-100"
+            className="bg-indigo-600 text-white font-black text-xs uppercase tracking-widest hover:bg-indigo-700 flex items-center gap-2"
           >
             {loading ? 'Gerando...' : 'Gerar com IA'}
             {!loading && <Sparkles size={14} />}
-          </button>
+          </Button>
         </div>
-      </motion.div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

@@ -4,6 +4,7 @@ import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { PageHeader } from '../Common';
 import { EmployeeManager } from '../EmployeeManager';
+import { DashboardSkeleton } from '../ui/skeletons';
 
 interface QuadroPessoalPageProps {
   clientId: string;
@@ -31,12 +32,7 @@ export function QuadroPessoalPage({ clientId }: QuadroPessoalPageProps) {
   }, [clientId]);
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center h-64 gap-4">
-        <Loader2 className="animate-spin text-secondary" size={32} />
-        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Carregando quadro de pessoal...</p>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (!clientId) {
