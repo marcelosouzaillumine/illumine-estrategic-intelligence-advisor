@@ -197,12 +197,46 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   if (margemSeguranca < 5) riskColor = 'text-rose-600';
   else if (margemSeguranca <= 15) riskColor = 'text-amber-500';
 
+  const mbVal = recLiquida > 0 ? (lucroBruto / recLiquida) * 100 : 0;
+  const cmvVal = recLiquida > 0 ? (custosVar / recLiquida) * 100 : 0;
+  const ebitdaVal = recLiquida > 0 ? (ebitda / recLiquida) * 100 : 0;
+
   const marginIndices = [
-    { name: 'Margem Bruta',  val: recLiquida > 0 ? (lucroBruto / recLiquida) * 100 : 0, unit: '%', desc: 'Eficiência na produção/serviço', color: 'text-emerald-600' },
-    { name: 'Índice de CMV', val: recLiquida > 0 ? (custosVar / recLiquida) * 100 : 0,  unit: '%', desc: 'Custo sobre a receita líquida', color: 'text-rose-500' },
-    { name: 'Margem EBITDA', val: recLiquida > 0 ? (ebitda / recLiquida) * 100 : 0,     unit: '%', desc: 'Eficiência operacional (caixa)',  color: 'text-blue-600'    },
-    { name: 'Ponto de Equilíbrio', val: pontoEquilibrio, unit: 'R$', desc: 'Faturamento mínimo para cobrir custos', color: 'text-slate-900' },
-    { name: 'Margem de Segurança', val: margemSeguranca, unit: '%', desc: 'Gordura antes de operar no prejuízo', color: riskColor },
+    { 
+      name: 'Margem Bruta',  
+      val: mbVal, 
+      unit: '%', 
+      status: mbVal > 40 ? 'Verde' : mbVal >= 20 ? 'Amarelo' : 'Vermelho',
+      trend: mbVal > 40 ? 'Sólida' : mbVal >= 20 ? 'Atenção' : 'Baixa'
+    },
+    { 
+      name: 'Índice de CMV', 
+      val: cmvVal,  
+      unit: '%', 
+      status: cmvVal < 50 ? 'Verde' : cmvVal <= 70 ? 'Amarelo' : 'Vermelho',
+      trend: cmvVal < 50 ? 'Eficiente' : cmvVal <= 70 ? 'Atenção' : 'Crítico'
+    },
+    { 
+      name: 'Margem EBITDA', 
+      val: ebitdaVal,     
+      unit: '%', 
+      status: ebitdaVal > 15 ? 'Verde' : ebitdaVal >= 5 ? 'Amarelo' : 'Vermelho',
+      trend: ebitdaVal > 15 ? 'Forte' : ebitdaVal >= 5 ? 'Razoável' : 'Crítico'
+    },
+    { 
+      name: 'Ponto de Equilíbrio', 
+      val: pontoEquilibrio, 
+      unit: 'R$', 
+      status: 'Amarelo',
+      trend: 'Consolidado'
+    },
+    { 
+      name: 'Margem de Segurança', 
+      val: margemSeguranca, 
+      unit: '%', 
+      status: margemSeguranca > 15 ? 'Verde' : margemSeguranca >= 5 ? 'Amarelo' : 'Vermelho',
+      trend: margemSeguranca > 15 ? 'Segura' : margemSeguranca >= 5 ? 'Atenção' : 'Risco'
+    },
   ];
 
   // ── Histórico para Gráfico ────────────────────────────────────────────────
@@ -470,8 +504,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             title={idx.name}
             value={idx.unit === 'R$' ? formatValue(idx.val, '') : idx.val.toFixed(1)}
             suffix={idx.unit}
-            status="Verde"
-            trend="Estável"
+            status={idx.status as any}
+            trend={idx.trend}
           />
         ))}
       </div>
