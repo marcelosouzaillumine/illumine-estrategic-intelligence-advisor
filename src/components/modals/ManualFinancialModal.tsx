@@ -29,6 +29,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const governance = useGovernance();
   const role = governance?.role || 'cliente';
 
@@ -106,6 +107,28 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
 
   const handleSave = async () => {
     if (!auth.currentUser || !clientId) return;
+    setErrorMsg(null);
+
+    if (selectedType === 'Balanço Patrimonial' || selectedType === 'BP') {
+      let totalAtivo = 0;
+      let totalPassivo = 0;
+      let totalPL = 0;
+
+      computedRows.forEach(r => {
+        if (r.level === 1) {
+          if (r.type === 'ativo') totalAtivo += r.computedValue;
+          else if (r.type === 'passivo') totalPassivo += r.computedValue;
+          else if (r.type === 'patrimônio líquido' || r.type === 'pl') totalPL += r.computedValue;
+        }
+      });
+
+      const difference = Math.abs(totalAtivo - (totalPassivo + totalPL));
+      if (difference > 0.01) {
+        setErrorMsg(`Dados inconsistentes: O Total do Ativo (${totalAtivo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}) deve ser igual ao Total do Passivo + Patrimônio Líquido (${(totalPassivo + totalPL).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}). Diferença: ${difference.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}. Por favor, corrija os valores.`);
+        return;
+      }
+    }
+
     setSaving(true);
     try {
       const t = type === 'BP' ? 'Balanço Patrimonial' : type;
@@ -181,6 +204,12 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
 
         {/* Content */}
         <div className="p-8 space-y-6 overflow-y-auto flex-1">
+          {errorMsg && (
+            <div className="bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-xl flex items-start gap-3">
+              <AlertCircle size={20} className="shrink-0 mt-0.5" />
+              <p className="text-sm font-medium">{errorMsg}</p>
+            </div>
+          )}
           <div className="space-y-2">
             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tipo de Documento</label>
             <select 
