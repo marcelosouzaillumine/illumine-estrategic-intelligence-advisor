@@ -377,7 +377,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     );
   }
   if (currentPage === 'perfil_usuario') {
-    return <ProfilePage user={user} />;
+    return <ProfilePage user={user} clients={clients} selectedClient={selectedClient} />;
   }
   if (currentPage === 'gestao_usuarios') {
     return <GestaoUsuariosPage setSelectedClient={setSelectedClient} setCurrentPage={setCurrentPage} />;

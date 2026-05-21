@@ -4,7 +4,8 @@ import { X, Plus, Trash2, Save, Loader2, AlertCircle, Database } from 'lucide-re
 import { collection, addDoc, query, where, getDocs, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
-import { DOCUMENT_TYPES } from '../../constants/documents';
+import { useGovernance } from '../../lib/governanceContext';
+import { cn } from '../../lib/utils';
 
 interface ManualFinancialModalProps {
   type: 'Balanço Patrimonial' | 'DRE' | 'BP' | 'DFC' | 'DLPA';
@@ -19,6 +20,7 @@ interface Row {
   category: string;
   value: number;
   type: 'ativo' | 'passivo' | 'patrimônio líquido' | 'pl' | 'receitas' | 'despesas';
+  level: number;
 }
 
 export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess }: ManualFinancialModalProps) {
@@ -26,6 +28,8 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const governance = useGovernance();
+  const role = governance?.role || 'cliente';
 
   useEffect(() => {
     // Load existing data if any
@@ -47,7 +51,8 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
             id: Math.random().toString(36).substr(2, 9),
             category: item.category || item.conta || '',
             value: item.value || item.valor || item.val || 0,
-            type: (item.type || item.tipo || (type === 'DRE' ? 'receitas' : 'ativo')).toLowerCase()
+            type: (item.type || item.tipo || (type === 'DRE' ? 'receitas' : 'ativo')).toLowerCase(),
+            level: item.level || 1
           }));
           setRows(existingData);
         }
@@ -65,7 +70,8 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
       id: Math.random().toString(36).substr(2, 9), 
       category: '', 
       value: 0, 
-      type: type === 'DRE' ? 'receitas' : 'ativo' 
+      type: type === 'DRE' ? 'receitas' : 'ativo',
+      level: 1
     }]);
   };
 
@@ -76,6 +82,26 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
   const updateRow = (id: string, field: keyof Row, val: any) => {
     setRows(rows.map(r => r.id === id ? { ...r, [field]: val } : r));
   };
+
+  const computedRows = [...rows].map(r => ({ ...r, hasChildren: false, computedValue: 0 }));
+  for (let i = computedRows.length - 1; i >= 0; i--) {
+    let hasChildren = false;
+    let sum = 0;
+    
+    if (i < computedRows.length - 1 && computedRows[i + 1].level > computedRows[i].level) {
+      hasChildren = true;
+      const targetLevel = computedRows[i].level + 1;
+      for (let j = i + 1; j < computedRows.length; j++) {
+        if (computedRows[j].level <= computedRows[i].level) break;
+        if (computedRows[j].level === targetLevel) {
+          sum += computedRows[j].hasChildren ? computedRows[j].computedValue : computedRows[j].value;
+        }
+      }
+    }
+    
+    computedRows[i].hasChildren = hasChildren;
+    computedRows[i].computedValue = hasChildren ? sum : computedRows[i].value;
+  }
 
   const handleSave = async () => {
     if (!auth.currentUser || !clientId) return;
@@ -98,25 +124,33 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         clientId,
         type: selectedType,
         year,
-        data: rows.map(r => ({ category: r.category, value: r.value, type: r.type })),
+        data: computedRows.map(r => ({ 
+          category: r.category, 
+          value: r.computedValue, 
+          type: r.type,
+          level: r.level
+        })),
         createdAt: serverTimestamp(),
         createdBy: auth.currentUser!.uid,
         creatorEmail: auth.currentUser!.email,
-        status: 'pending',
-        requiresApproval: true
+        status: role === 'master' ? 'approved' : 'pending',
+        requiresApproval: role === 'master' ? false : true,
+        ...(role === 'master' ? { approvedAt: serverTimestamp() } : {})
       };
 
       await addDoc(collection(db, 'financial_entries'), payload);
 
-      // Notify Admins
-      await notificationService.createNotification({
-        userId: 'admin_group',
-        title: 'Novo Lançamento Manual para Aprovação',
-        message: `Dados manuais de ${selectedType} (${year}) foram enviados para aprovação.`,
-        type: 'approval_request',
-        link: 'maintenance',
-        metadata: { clientId, docType: selectedType }
-      });
+      if (role !== 'master') {
+        // Notify Admins only if it requires approval
+        await notificationService.createNotification({
+          userId: 'admin_group',
+          title: 'Novo Lançamento Manual para Aprovação',
+          message: `Dados manuais de ${selectedType} (${year}) foram enviados para aprovação.`,
+          type: 'approval_request',
+          link: 'maintenance',
+          metadata: { clientId, docType: selectedType }
+        });
+      }
 
       onSuccess();
     } catch (err) {
@@ -170,6 +204,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
               <table className="w-full text-sm">
                 <thead className="bg-slate-50/50 border-b border-slate-100">
                   <tr>
+                    <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-400 uppercase w-20">Nível</th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-400 uppercase">Conta / Categoria</th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-400 uppercase w-40">Tipo</th>
                     <th className="text-right py-3 px-4 text-[10px] font-bold text-slate-400 uppercase w-40">Valor (R$)</th>
@@ -177,15 +212,27 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
-                  {rows.map((row) => (
+                  {computedRows.map((row) => (
                     <tr key={row.id}>
+                      <td className="py-2 px-2">
+                        <select
+                          value={row.level}
+                          onChange={(e) => updateRow(row.id, 'level', Number(e.target.value))}
+                          className="w-full bg-slate-50 border border-slate-100 rounded-xl px-2 py-2 text-xs focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all text-center"
+                        >
+                          {[1, 2, 3, 4, 5].map(l => (
+                            <option key={l} value={l}>{l}</option>
+                          ))}
+                        </select>
+                      </td>
                       <td className="py-2 px-2">
                         <input 
                           type="text" 
                           value={row.category} 
                           onChange={(e) => updateRow(row.id, 'category', e.target.value)}
                           placeholder="Ex: Caixa e Equivalentes"
-                          className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                          style={{ paddingLeft: `${(row.level - 1) * 12 + 16}px` }}
+                          className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                         />
                       </td>
                       <td className="py-2 px-2">
@@ -211,9 +258,15 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                       <td className="py-2 px-2">
                         <input 
                           type="number" 
-                          value={row.value} 
+                          value={row.hasChildren ? row.computedValue : row.value} 
                           onChange={(e) => updateRow(row.id, 'value', Number(e.target.value))}
-                          className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm text-right font-mono focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                          disabled={row.hasChildren}
+                          className={cn(
+                            "w-full border border-slate-100 rounded-xl px-4 py-2 text-sm text-right font-mono outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+                            row.hasChildren 
+                              ? "bg-slate-100/50 text-slate-500 font-bold cursor-not-allowed" 
+                              : "bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary/20 text-slate-900"
+                          )}
                         />
                       </td>
                       <td className="py-2 px-2 text-center">

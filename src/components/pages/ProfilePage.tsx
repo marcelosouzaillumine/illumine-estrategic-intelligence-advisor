@@ -30,9 +30,11 @@ import { Label } from '../ui/label';
 
 interface ProfilePageProps {
   user: FirebaseUser | null;
+  clients?: any[];
+  selectedClient?: string;
 }
 
-export function ProfilePage({ user }: ProfilePageProps) {
+export function ProfilePage({ user, clients = [], selectedClient = '' }: ProfilePageProps) {
   const [activeTab, setActiveTab] = useState<'info' | 'security' | 'sessions'>('info');
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +46,10 @@ export function ProfilePage({ user }: ProfilePageProps) {
   const [resetEmail, setResetEmail] = useState('');
 
   const isMaster = user?.email && MASTER_ADMINS.includes(user.email);
+  
+  const currentClient = clients.find(c => c.id === selectedClient);
+  const userRole = currentClient ? 'Usuário do Cliente' : 'Consultor Estratégico';
+  const companyName = isMaster ? 'Illumine Strategic Advisory' : (currentClient?.fantasia || currentClient?.razao || 'Empresa não vinculada');
 
   useEffect(() => {
     if (user) {
@@ -173,7 +179,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                 {displayName || 'Usuário Illumine'}
               </h3>
               <p className="text-[10px] font-black text-white/55 uppercase tracking-[0.3em] mt-2">
-                {isMaster ? 'Master Admin' : 'Consultor Estratégico'}
+                {isMaster ? 'Master Admin' : userRole}
               </p>
             </div>
 
@@ -312,7 +318,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                       <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm shrink-0">
                         <Building size={13} />
                       </div>
-                      <span className="text-xs sm:text-sm font-semibold text-muted-foreground truncate min-w-0 flex-1">Illumine Strategic Advisory</span>
+                      <span className="text-xs sm:text-sm font-semibold text-muted-foreground truncate min-w-0 flex-1">{companyName}</span>
                       {!isMaster && (
                         <span title="Somente Master Admin pode alterar" className="opacity-50 shrink-0">
                           <Shield size={12} />
@@ -328,7 +334,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                       <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-card border border-border flex items-center justify-center text-muted-foreground shadow-sm shrink-0">
                         <Shield size={13} />
                       </div>
-                      <span className="text-xs sm:text-sm font-semibold text-muted-foreground truncate min-w-0 flex-1">{isMaster ? 'Master Admin' : 'Consultor Estratégico'}</span>
+                      <span className="text-xs sm:text-sm font-semibold text-muted-foreground truncate min-w-0 flex-1">{isMaster ? 'Master Admin' : userRole}</span>
                       {!isMaster && (
                         <span title="Somente Master Admin pode alterar" className="opacity-50 shrink-0">
                           <Shield size={12} />

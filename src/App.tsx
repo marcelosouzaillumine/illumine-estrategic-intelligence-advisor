@@ -56,7 +56,7 @@ import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
 import { TooltipProvider } from './components/ui/tooltip';
 import { AppSidebar } from './components/AppSidebar';
 import { onAuthStateChanged, User, deleteUser } from 'firebase/auth';
-import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch, or, setDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch, or, setDoc, documentId } from 'firebase/firestore';
 import { auth, login, loginWithEmail, registerWithEmail, logout, db, handleFirestoreError, OperationType, MASTER_ADMINS } from './lib/firebase';
 import { DATA, modelData } from './data';
 import { cn, formatValue, formatCurrency, calculateVPL, calculateTIR, calculatePayback, setActiveCurrency } from './lib/utils';
@@ -461,7 +461,7 @@ export default function App() {
             const safeAssocIdsForPartnerCheck = assocIds.slice(0, 30);
             let partnerIds: string[] = [];
             if (safeAssocIdsForPartnerCheck.length > 0) {
-              const partnersSnap = await getDocs(query(collection(db, 'partners'), where('__name__', 'in', safeAssocIdsForPartnerCheck)));
+              const partnersSnap = await getDocs(query(collection(db, 'partners'), where(documentId(), 'in', safeAssocIdsForPartnerCheck)));
               partnerIds = partnersSnap.docs.map(d => d.id);
             }
 
@@ -486,7 +486,7 @@ export default function App() {
               if (safeAssocIds.length > 0) {
                 q = query(collection(db, 'clients'), 
                   or(
-                    where('__name__', 'in', safeAssocIds),
+                    where(documentId(), 'in', safeAssocIds),
                     where('isModel', '==', true),
                     where('ownerId', '==', user.uid)
                   )
@@ -610,7 +610,8 @@ export default function App() {
           }
         }
       } else if (clients.length > 0) {
-        setSelectedClient(clients[0].id);
+        const nonModelClient = clients.find(c => !c.isModel);
+        setSelectedClient(nonModelClient ? nonModelClient.id : clients[0].id);
       }
 
       initialRedirectDone.current = true;
