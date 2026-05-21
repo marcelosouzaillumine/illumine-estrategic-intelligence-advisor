@@ -133,16 +133,16 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               />
               <button
                 onClick={() => window.location.href = '/empresas'}
-                className="relative z-10 flex items-center justify-center gap-1 md:gap-1.5 px-1 min-[350px]:px-1.5 min-[400px]:px-2 md:px-3.5 py-0.5 min-[400px]:py-1 text-[5px] min-[350px]:text-[7px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-tight md:tracking-widest transition-colors duration-200 text-primary-foreground min-w-[35px] min-[350px]:min-w-[50px] sm:min-w-[75px] md:min-w-0"
+                className="relative z-10 flex items-center justify-center gap-1 md:gap-1.5 px-1.5 min-[400px]:px-2 md:px-3.5 py-1 text-[7px] min-[370px]:text-[8px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-tight md:tracking-widest transition-colors duration-200 text-primary-foreground min-w-[50px] sm:min-w-[75px] md:min-w-0"
               >
-                <Building2 className="w-2 h-2 min-[350px]:w-2.5 min-[350px]:h-2.5 md:w-3 md:h-3 shrink-0" /> 
+                <Building2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" /> 
                 <span>Empresa</span>
               </button>
               <button
                 onClick={() => window.location.href = '/parceiros'}
-                className="relative z-10 flex items-center justify-center gap-1 md:gap-1.5 px-1 min-[350px]:px-1.5 min-[400px]:px-2 md:px-3.5 py-0.5 min-[400px]:py-1 text-[5px] min-[350px]:text-[7px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-tight md:tracking-widest transition-colors duration-200 text-muted-foreground hover:text-foreground min-w-[35px] min-[350px]:min-w-[50px] sm:min-w-[75px] md:min-w-0"
+                className="relative z-10 flex items-center justify-center gap-1 md:gap-1.5 px-1.5 min-[400px]:px-2 md:px-3.5 py-1 text-[7px] min-[370px]:text-[8px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-tight md:tracking-widest transition-colors duration-200 text-muted-foreground hover:text-foreground min-w-[50px] sm:min-w-[75px] md:min-w-0"
               >
-                <Handshake className="w-2 h-2 min-[350px]:w-2.5 min-[350px]:h-2.5 md:w-3 md:h-3 shrink-0" /> 
+                <Handshake className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" /> 
                 <span>Parceiro</span>
               </button>
             </div>
@@ -159,15 +159,15 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
           <div className="flex items-center gap-1.5 min-[400px]:gap-2 md:gap-4 ml-auto lg:ml-0 shrink-0">
             <button 
               onClick={onLoginClick}
-              className="text-[5px] min-[350px]:text-[7px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-tight md:tracking-widest text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+              className="text-[7px] min-[370px]:text-[8px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-tight md:tracking-widest text-muted-foreground hover:text-primary transition-colors cursor-pointer"
             >
               Entrar
             </button>
             <button 
               onClick={() => handleCTAClick('Gostaria de agendar um diagnóstico estratégico')}
-              className="h-4 min-[350px]:h-6 min-[400px]:h-8 md:h-9 px-1 min-[350px]:px-1.5 min-[400px]:px-3 md:px-4 rounded-[4px] min-[400px]:rounded-[8px] md:rounded-[10px] bg-primary text-primary-foreground font-bold text-[5px] min-[350px]:text-[6px] sm:text-[8px] md:text-[10px] uppercase tracking-tight md:tracking-widest hover:bg-primary/95 hover:shadow-lg hover:shadow-primary/20 active:scale-[0.98] transition-all flex items-center gap-0.5 min-[350px]:gap-1 md:gap-1.5 cursor-pointer whitespace-nowrap"
+              className="h-6 min-[400px]:h-8 md:h-9 px-2 min-[400px]:px-3 md:px-4 rounded-[6px] md:rounded-[10px] bg-primary text-primary-foreground font-bold text-[6px] min-[370px]:text-[7px] sm:text-[9px] md:text-[10px] uppercase tracking-tight md:tracking-widest hover:bg-primary/95 hover:shadow-lg hover:shadow-primary/20 active:scale-[0.98] transition-all flex items-center gap-1 md:gap-1.5 cursor-pointer whitespace-nowrap"
             >
-              <MessageSquare className="w-1.5 h-1.5 min-[350px]:w-2 min-[350px]:h-2 sm:w-3 sm:h-3 md:w-3 md:h-3 shrink-0" />
+              <MessageSquare className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 shrink-0" />
               <span>Diagnóstico Estratégico</span>
             </button>
           </div>
