@@ -180,9 +180,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
         fileUrl = await getDownloadURL(uploadResult.ref);
       } catch (storageErr: any) {
         console.warn("Failed to upload original file to storage, proceeding with data only.", storageErr);
-        if (extension === 'pdf') {
-          throw new Error(`Falha ao salvar o arquivo físico do PDF na nuvem: ${storageErr.message || 'Verifique as regras do Firebase Storage.'}`);
-        }
+        throw new Error(`Falha de conexão com a Nuvem: ${storageErr.message || 'Verifique as regras do Firebase Storage.'}`);
       }
 
       const payload = {

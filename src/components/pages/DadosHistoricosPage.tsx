@@ -283,16 +283,10 @@ export function DadosHistoricosPage({
           setProgress(50);
         } catch (raceErr: any) {
           console.error("[DEBUG] Erro no upload ou timeout:", raceErr);
-          
-          if (file.name.toLowerCase().endsWith('.pdf')) {
+          if (uploadTask && typeof uploadTask.cancel === 'function') {
             uploadTask.cancel();
-            throw new Error(`Falha ao fazer upload do PDF: ${raceErr.message}`);
           }
-          
-          // Fallback: Prosseguir sem o arquivo físico se falhar ou der timeout
-          fileUrl = `fallback_error_${Date.now()}`;
-          console.warn("[DEBUG] Prosseguindo com fallback de URL para arquivo não-PDF");
-          setProgress(50);
+          throw new Error(`Falha de conexão com a Nuvem: ${raceErr.message}`);
         }
       } catch (err: any) {
         console.error("[DEBUG] Erro crítico no bloco de upload:", err);
