@@ -398,7 +398,16 @@ service cloud.firestore {
     match /client_users/{assocId} {
       allow get: if isSignedIn() && (resource.data.email == request.auth.token.email || ownsClient(resource.data.clientId));
       allow list: if isSignedIn() && (resource.data.email == request.auth.token.email || ownsClient(resource.data.clientId));
-      allow create, update, delete: if isSignedIn() && ownsClient(incoming().clientId);
+      allow create, delete: if isSignedIn() && ownsClient(incoming().clientId);
+      allow update: if isSignedIn() && (ownsClient(incoming().clientId) || resource.data.email == request.auth.token.email);
+    }
+
+    match /partners/{partnerId} {
+      allow get: if isSignedIn() && (isOwner(existing()) || isMasterAdmin() || resource.data.email == request.auth.token.email);
+      allow list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isMasterAdmin() || resource.data.email == request.auth.token.email);
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && (isOwner(existing()) || isMasterAdmin() || resource.data.email == request.auth.token.email);
+      allow delete: if isSignedIn() && (isOwner(existing()) || isMasterAdmin());
     }
 
     match /report_notes/{noteId} {
