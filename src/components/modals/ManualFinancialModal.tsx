@@ -6,6 +6,7 @@ import { db, auth } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
 import { useGovernance } from '../../lib/governanceContext';
 import { cn } from '../../lib/utils';
+import { DOCUMENT_TYPES } from '../../constants/documents';
 
 interface ManualFinancialModalProps {
   type: 'Balanço Patrimonial' | 'DRE' | 'BP' | 'DFC' | 'DLPA';
