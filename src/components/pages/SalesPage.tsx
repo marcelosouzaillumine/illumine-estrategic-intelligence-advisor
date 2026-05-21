@@ -165,8 +165,8 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.08 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-foreground leading-[1.08]"
-            style={{ fontFamily: "'Tilt Warp', sans-serif" }}
+            className="font-medium tracking-tight text-foreground"
+            style={{ fontFamily: "'Tilt Warp', sans-serif", fontSize: 'clamp(22px, 2.8vw, 36px)', lineHeight: '1.15' }}
           >
             Inteligência estratégica, governança e <span className="bg-gradient-to-r from-secondary to-[#E96F3D] bg-clip-text text-transparent">advisory executivo</span> para empresas
           </motion.h1>
@@ -219,7 +219,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               <div className="w-8 h-px bg-secondary" />
               Direção Estratégica
             </h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-xl md:text-3xl font-medium tracking-tight text-foreground leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               Empresas não precisam apenas de dados. Precisam de direção estratégica.
             </h3>
             <div className="space-y-4 text-lg text-muted-foreground leading-relaxed font-medium">
@@ -264,7 +264,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
         <div className="max-w-7xl mx-auto space-y-16 relative z-10">
           <div className="max-w-3xl space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-secondary">Framework Proprietário</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-xl md:text-3xl font-medium tracking-tight text-background" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               7 Pilares de Inteligência Empresarial
             </h3>
             <p className="text-lg text-background/70 leading-relaxed font-medium pt-2">
@@ -299,7 +299,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
           <div className="pt-16 border-t border-background/10 space-y-12">
             <div className="max-w-3xl space-y-4">
               <h2 className="text-sm font-bold uppercase tracking-widest text-secondary">As 5 Inteligências</h2>
-              <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+              <h3 className="text-xl md:text-3xl font-medium tracking-tight text-background" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
                 Nossa Visão: Inteligência em Unidade
               </h3>
               <p className="text-lg text-background/70 leading-relaxed font-medium">
@@ -336,7 +336,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               <Network size={16} className="text-secondary" />
               <span>O Ecossistema Illumine</span>
             </h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-xl md:text-3xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               Uma estrutura integrada de inteligência empresarial
             </h3>
             <div className="text-lg text-muted-foreground leading-relaxed font-medium space-y-2">
@@ -381,7 +381,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Como a Illumine Atua</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-xl md:text-3xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               Uma estrutura contínua de inteligência estratégica e acompanhamento executivo
             </h3>
             <p className="text-lg text-muted-foreground leading-relaxed font-medium">
@@ -441,7 +441,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-4xl mx-auto space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Estruturas de Strategic Intelligence & Advisory</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-xl md:text-3xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               Estruturas desenvolvidas para empresas em diferentes níveis de operação, maturidade e complexidade estratégica.
             </h3>
             <p className="text-lg text-muted-foreground leading-relaxed font-medium">
@@ -609,7 +609,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               <HelpCircle size={16} className="text-secondary" />
               <span>Alinhamento Estratégico</span>
             </h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-xl md:text-3xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               Perguntas Frequentes
             </h3>
           </div>
@@ -653,7 +653,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
       <section id="conclusao" className="py-24 px-6 bg-foreground text-background relative overflow-hidden">
         <div className="absolute inset-0 bg-primary-soft/10 pointer-events-none" />
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
-          <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+          <h3 className="text-xl md:text-3xl font-medium tracking-tight text-background leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
             Crescimento exige mais do que informação
           </h3>
           <div className="text-lg md:text-xl text-background/70 space-y-4 font-medium leading-relaxed">

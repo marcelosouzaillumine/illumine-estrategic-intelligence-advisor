@@ -686,8 +686,10 @@ function AppContent({
   };
 
   return (
-    <SidebarProvider defaultOpen={!isSidebarCollapsed}>
-    <div className="flex h-screen bg-background overflow-hidden text-foreground transition-colors duration-500 w-full">
+    <SidebarProvider
+      defaultOpen={!isSidebarCollapsed}
+      className="bg-background text-foreground transition-colors duration-500 overflow-hidden h-screen"
+    >
       <WelcomeMessage 
         isOpen={showWelcome} 
         onClose={() => setShowWelcome(false)} 
@@ -840,7 +842,6 @@ function AppContent({
           onAccept={() => setAccepted(true)} 
         />
       </main>
-    </div>
     </SidebarProvider>
   );
 }

@@ -154,8 +154,8 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.08 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-foreground leading-[1.08]"
-            style={{ fontFamily: "'Tilt Warp', sans-serif" }}
+            className="font-medium tracking-tight text-foreground"
+            style={{ fontFamily: "'Tilt Warp', sans-serif", fontSize: 'clamp(26px, 3.2vw, 42px)', lineHeight: '1.15' }}
           >
             Estrutura executiva de inteligência empresarial para parceiros que desejam ampliar <span className="bg-gradient-to-r from-secondary to-[#E96F3D] bg-clip-text text-transparent">valor, recorrência e capacidade consultiva</span>
           </motion.h1>
@@ -243,7 +243,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               <div className="w-8 h-px bg-secondary" />
               Cenário de Mercado
             </h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-xl md:text-3xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               O mercado mudou. Empresas não buscam apenas execução operacional.
             </h3>
             <p className="text-lg text-muted-foreground leading-relaxed font-medium">
@@ -282,7 +282,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
           <div className="space-y-8">
             <div className="space-y-4">
               <h2 className="text-sm font-bold uppercase tracking-widest text-secondary">Infraestrutura Estratégica</h2>
-              <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+              <h3 className="text-xl md:text-3xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
                 Uma infraestrutura desenvolvida para ampliação consultiva
               </h3>
             </div>
@@ -320,7 +320,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
         <div className="max-w-7xl mx-auto space-y-12 relative z-10">
           <div className="max-w-3xl space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-secondary">Framework Proprietário</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-xl md:text-3xl font-medium tracking-tight text-background" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               7 Pilares de Inteligência Empresarial
             </h3>
             <p className="text-lg text-background/70 leading-relaxed font-medium pt-2">
@@ -357,7 +357,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
       <section id="diferenciais" className="py-24 px-6 bg-surface-container/30 border-y border-border/40 relative overflow-hidden">
         <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
         <div className="max-w-5xl mx-auto text-center space-y-8 relative z-10">
-          <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+          <h3 className="text-xl md:text-3xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
             Muito além de uma plataforma
           </h3>
           <div className="text-lg md:text-xl text-muted-foreground font-medium max-w-4xl mx-auto space-y-6 leading-relaxed">
@@ -379,7 +379,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               <Network size={16} className="text-secondary" />
               <span>Estrutura Integrada</span>
             </h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-xl md:text-3xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               Estrutura Integrada de Inteligência Empresarial
             </h3>
             <p className="text-lg text-muted-foreground leading-relaxed font-medium">
@@ -419,7 +419,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Estruturas de Strategic Intelligence & Advisory</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-xl md:text-3xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               Estruturas desenvolvidas para parceiros em diferentes níveis de operação, maturidade e complexidade consultiva.
             </h3>
             <div className="text-lg text-muted-foreground leading-relaxed font-medium">
@@ -575,7 +575,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               <span className="w-8 h-px bg-secondary" />
               Crescimento consultivo exige mais do que operação
             </h2>
-            <h3 className="text-4xl md:text-6xl font-medium tracking-tight text-white leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            <h3 className="text-3xl md:text-4xl font-medium tracking-tight text-white leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               O futuro das estruturas consultivas está na capacidade de:
             </h3>
             <div className="text-lg md:text-xl text-primary-foreground/90 font-medium leading-relaxed max-w-3xl mx-auto space-y-6">

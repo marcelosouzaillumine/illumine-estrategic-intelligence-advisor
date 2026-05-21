@@ -1691,11 +1691,9 @@ export function LandingAuthPage({
           {/* Brand */}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-3 shrink-0 select-none"
+            className="flex items-center gap-3 shrink-0 select-none cursor-pointer"
           >
-            <div className="w-9 h-9 rounded-button bg-primary shadow-md flex items-center justify-center border border-white/10">
-              <IllumineMark className="w-6 h-6" />
-            </div>
+            <IllumineMark className="w-9 h-9" />
             <span
               className="text-xl font-normal lowercase leading-none text-primary hidden sm:block"
               style={{ fontFamily: "'Tilt Warp', sans-serif" }}
@@ -1858,27 +1856,34 @@ export function LandingAuthPage({
       </AnimatePresence>
 
       {/* ── Footer ─────────────────────────────────────────────────────── */}
-      <footer className="py-12 px-6 bg-foreground text-background">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex items-center gap-4 shrink-0">
-            <div className="w-12 h-12 rounded-button bg-primary flex items-center justify-center">
-              <IllumineMark className="w-8 h-8" />
-            </div>
-            <div>
-              <span className="text-2xl font-normal lowercase leading-none text-background block" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+      <footer className="py-10 px-6 bg-foreground text-background border-t border-white/10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 md:gap-8">
+          <div className="flex items-center gap-3 shrink-0">
+            <IllumineMark className="w-16 h-16" />
+            <div className="flex flex-col items-center w-fit">
+              <span 
+                className="text-[62px] font-normal lowercase leading-[0.8] text-background tracking-[-0.06em] block" 
+                style={{ fontFamily: "'Tilt Warp', sans-serif" }}
+              >
                 illumine
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-background/60">
-                Strategic Intelligence &amp; Advisory
-              </span>
+              <div 
+                className="flex justify-between w-full text-[8.5px] text-background/60 uppercase mt-[6px] whitespace-nowrap font-bold" 
+                style={{ fontFamily: '"Work Sans", sans-serif' }}
+              >
+                {"Strategic Intelligence & Advisory".split('').map((char, i) => (
+                  <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="flex flex-col items-center md:items-end gap-2 min-w-0">
-            <p className="text-background/80 font-medium text-center md:text-right leading-relaxed">
-              Inteligência estratégica, governança e performance para empresas e parceiros que desejam crescer com clareza, estrutura e sustentabilidade.
+          <div className="flex flex-col items-center md:items-end gap-4 max-w-2xl md:max-w-3xl">
+            <p className="text-background/85 font-display text-sm md:text-base font-normal text-center md:text-right leading-relaxed">
+              Inteligência estratégica, governança e performance para líderes e organizações que buscam clareza de direção, solidez gerencial e crescimento sustentável.
             </p>
-            <p className="text-background/40 text-sm">
-              © {new Date().getFullYear()} Illumine. Todos os direitos reservados.
+
+            <p className="text-background/30 text-[10px] tracking-widest uppercase font-semibold text-center md:text-right">
+              © {new Date().getFullYear()} Illumine • Todos os direitos reservados.
             </p>
           </div>
         </div>
