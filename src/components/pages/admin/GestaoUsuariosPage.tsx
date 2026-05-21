@@ -49,6 +49,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
         
         let userType = 'Indefinido';
         const companiesMap = new Map<string, { id: string; name: string; type: 'client' | 'partner' | 'global' }>();
+        let fallbackName = u.displayName;
 
         // Check Master
         if (MASTER_ADMINS.some(m => m.toLowerCase().trim() === emailLower)) {
@@ -60,6 +61,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
           if (ownedPartners.length > 0) {
             userType = 'Parceiro Master';
             ownedPartners.forEach((p: any) => {
+              if (p.responsavel && !fallbackName) fallbackName = p.responsavel;
               companiesMap.set(p.id, { id: p.id, name: p.name || p.fantasia || 'Parceiro', type: 'partner' });
             });
           }
@@ -69,6 +71,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
           if (ownedClients.length > 0) {
             if (userType === 'Indefinido') userType = 'Proprietário de Cliente';
             ownedClients.forEach((c: any) => {
+              if (c.responsavel && !fallbackName) fallbackName = c.responsavel;
               companiesMap.set(c.id, { id: c.id, name: c.fantasia || c.name || 'Empresa', type: 'client' });
             });
           }
@@ -78,6 +81,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
           if (associatedClientUsers.length > 0) {
             if (userType === 'Indefinido') userType = 'Usuário de Cliente';
             associatedClientUsers.forEach((cu: any) => {
+              if (cu.nome && !fallbackName) fallbackName = cu.nome;
               const clientId = cu.clientId;
               const clientMatch = clientsData.find(c => c.id === clientId);
               if (clientMatch) {
@@ -94,10 +98,11 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
 
         return {
           ...u,
+          displayName: fallbackName || '',
           userType,
           associatedCompanies: Array.from(companiesMap.values())
         };
-      });
+      }).filter(u => u.userType !== 'Indefinido');
       setUsers(data);
     } catch (error) {
       console.error("Error fetching global users:", error);
