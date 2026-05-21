@@ -92,47 +92,170 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     return source.find(s => (s.conta || s.category || '').toLowerCase() === search)?.val || source.find(s => (s.conta || s.category || '').toLowerCase() === search)?.valor || 0;
   };
 
-  const recLiquida = getValue(rows, 'Receita Líquida') || getValue(rows, 'Receita Operacional Líquida') || 0;
-  const lucroBruto = getValue(rows, 'Lucro Bruto');
-  const ebitda     = getValue(rows, 'EBITDA');
-  const lucroLiq   = getValue(rows, 'Lucro Líquido') || getValue(rows, 'Lucro Líquido do Exercício');
+  // 1. RECEITA OPERACIONAL BRUTA
+  const receitaBruta = getValue(rows, 'Receita Operacional Bruta') || getValue(rows, 'Receita Bruta') || getValue(rows, 'Faturamento Bruto') || getValue(rows, 'Faturamento') || 0;
 
-  const custosVar = getValue(rows, 'Custos Variáveis') || getValue(rows, 'CMV') || getValue(rows, 'CPV') || 0;
-  const despesasFixas = getValue(rows, 'Despesas Operacionais') || 0;
+  // 2. DEDUÇÕES DA RECEITA BRUTA
+  const deducoesReceita = Math.abs(
+    getValue(rows, 'Deduções e Impostos') || getValue(rows, 'Deduções da Receita') || 
+    getValue(rows, 'Impostos sobre Vendas') || getValue(rows, 'Devoluções') || 
+    getValue(rows, 'Vendas Canceladas') || getValue(rows, 'Cancelamentos') || 
+    getValue(rows, 'Abatimentos') || 0
+  );
+
+  // 3. RECEITA OPERACIONAL LÍQUIDA
+  let recLiquida = getValue(rows, 'Receita Líquida') || getValue(rows, 'Receita Operacional Líquida') || 0;
+  if (recLiquida === 0 && receitaBruta > 0) {
+    recLiquida = receitaBruta - deducoesReceita;
+  }
+
+  // 4. ÍNDICE DAS DEDUÇÕES DA RECEITA
+  const indiceDeducoes = receitaBruta > 0 ? (deducoesReceita / receitaBruta) * 100 : 0;
+
+  // 5. CUSTOS VARIÁVEIS
+  const custosVar = Math.abs(
+    getValue(rows, 'Custos Variáveis') || getValue(rows, 'CMV') || 
+    getValue(rows, 'CPV') || getValue(rows, 'CSV') || 
+    getValue(rows, 'Custo das Mercadorias Vendidas') || 
+    getValue(rows, 'Custo dos Serviços Prestados') || 0
+  );
+
+  // 6. MARGEM DE CONTRIBUIÇÃO
   const margemContrib = recLiquida - custosVar;
-  const indiceMargemContrib = recLiquida > 0 ? margemContrib / recLiquida : 0;
-  const pontoEquilibrio = (indiceMargemContrib > 0) ? despesasFixas / indiceMargemContrib : 0;
 
-  const performanceNote = useMemo(() => {
-    if (recLiquida === 0 || pontoEquilibrio === 0) return "Aguardando dados para análise.";
-    if (recLiquida >= pontoEquilibrio) {
-      return `A receita anual de ${formatCurrency(recLiquida)} superou o ponto de equilíbrio de ${formatCurrency(pontoEquilibrio)}, indicando uma operação rentável no exercício.`;
+  // 7. ÍNDICE DA MARGEM DE CONTRIBUIÇÃO
+  const indiceMargemContrib = recLiquida > 0 ? margemContrib / recLiquida : 0;
+
+  // 8. DESPESAS FIXAS
+  const despOperacionais = Math.abs(getValue(rows, 'Despesas Operacionais') || getValue(rows, 'Despesas') || getValue(rows, 'Despesas Operacionais Fixas') || 0);
+  const despVendas = Math.abs(getValue(rows, 'Despesas de Vendas') || 0);
+  const despAdmin = Math.abs(getValue(rows, 'Despesas Administrativas') || 0);
+  const despFin = Math.abs(getValue(rows, 'Despesas Financeiras') || 0);
+  const outrasRecOp = Math.abs(getValue(rows, 'Outras Receitas Operacionais') || 0);
+  
+  const despesasFixas = despOperacionais + despVendas + despAdmin + despFin - outrasRecOp;
+
+  // 9. PONTO DE EQUILÍBRIO CONTÁBIL
+  let pontoEquilibrio = 0;
+  if (indiceMargemContrib > 0) {
+    pontoEquilibrio = Math.abs(despesasFixas) / indiceMargemContrib;
+  }
+
+  // 12. PROTEÇÕES OBRIGATÓRIAS
+  if (pontoEquilibrio < 0) {
+    pontoEquilibrio = Math.abs(pontoEquilibrio);
+  }
+  if (!isFinite(pontoEquilibrio)) {
+    pontoEquilibrio = 0;
+  }
+
+  // 10. MARGEM DE SEGURANÇA
+  const margemSegurancaValor = recLiquida - pontoEquilibrio;
+
+  // 11. ÍNDICE DA MARGEM DE SEGURANÇA
+  const margemSeguranca = recLiquida > 0 ? (margemSegurancaValor / recLiquida) * 100 : 0;
+
+  // CÁLCULOS ADICIONAIS (EBITDA, etc)
+  const lucroBruto = getValue(rows, 'Lucro Bruto');
+  let ebitda       = getValue(rows, 'EBITDA') || getValue(rows, 'LAJIDA') || 0;
+  const lucroLiq   = getValue(rows, 'Lucro Líquido') || getValue(rows, 'Lucro Líquido do Exercício');
+  const depreciacao = Math.abs(getValue(rows, 'Depreciação e Amortização') || getValue(rows, 'Depreciação') || getValue(rows, 'Amortização') || 0);
+  const ebitVal = getValue(rows, 'EBIT') || getValue(rows, 'Lucro Operacional') || getValue(rows, 'Resultado Operacional') || 0;
+
+  if (ebitda === 0) {
+    if (ebitVal !== 0) {
+      ebitda = ebitVal + depreciacao;
     } else {
-      return `A receita anual de ${formatCurrency(recLiquida)} ficou abaixo do ponto de equilíbrio de ${formatCurrency(pontoEquilibrio)}, necessitando de ajustes para cobrir as despesas operacionais e custos.`;
+      ebitda = lucroBruto - despOperacionais + depreciacao;
     }
-  }, [recLiquida, pontoEquilibrio]);
+  }
+
+  // TEXTOS INTERPRETATIVOS
+  const isMarginInsufficient = indiceMargemContrib <= 0;
+  const performanceNote = useMemo(() => {
+    if (recLiquida === 0 || pontoEquilibrio === 0) return "Aguardando dados para análise operacional completa.";
+    if (isMarginInsufficient) return "A operação apresenta margem de contribuição insuficiente para cálculo do ponto de equilíbrio.";
+    
+    let text = "";
+    if (recLiquida >= pontoEquilibrio) {
+      text = `A receita operacional líquida de ${formatCurrency(recLiquida)} superou o ponto de equilíbrio estimado em ${formatCurrency(margemSegurancaValor)}, indicando que a empresa operou acima do nível mínimo necessário para cobertura de seus custos e despesas no período.`;
+    } else {
+      text = `A receita operacional líquida permaneceu abaixo do ponto de equilíbrio estimado, indicando insuficiência operacional para cobertura integral dos custos e despesas da empresa no período.`;
+    }
+
+    if (margemSeguranca < 10 && margemSeguranca > 0) {
+      text += ` A margem de segurança operacional foi reduzida (${margemSeguranca.toFixed(2)}%), demonstrando elevada sensibilidade da operação a oscilações de receita, custos ou despesas.`;
+    }
+    return text;
+  }, [recLiquida, pontoEquilibrio, margemSegurancaValor, margemSeguranca, isMarginInsufficient]);
+
+  // CORES E ALERTAS DE RISCO
+  let riskColor = 'text-emerald-600';
+  if (margemSeguranca < 5) riskColor = 'text-rose-600';
+  else if (margemSeguranca <= 15) riskColor = 'text-amber-500';
 
   const marginIndices = [
-    { name: 'Margem Bruta',  val: (lucroBruto / recLiquida) * 100, unit: '%', desc: 'Eficiência na produção/serviço', color: 'text-emerald-600' },
-    { name: 'Margem EBITDA', val: (ebitda / recLiquida) * 100,     unit: '%', desc: 'Eficiência operacional (caixa)',  color: 'text-blue-600'    },
-    { name: 'Margem Líquida', val: (lucroLiq / recLiquida) * 100,   unit: '%', desc: 'Rentabilidade final do negócio', color: 'text-purple-600'  },
-    { name: 'Ponto de Equilíbrio', val: pontoEquilibrio, unit: 'R$', desc: 'Faturamento mínimo para cobrir custos fixos', color: 'text-slate-900' },
+    { name: 'Margem Bruta',  val: recLiquida > 0 ? (lucroBruto / recLiquida) * 100 : 0, unit: '%', desc: 'Eficiência na produção/serviço', color: 'text-emerald-600' },
+    { name: 'Índice Margem Contrib.', val: indiceMargemContrib * 100, unit: '%', desc: 'Sobra da receita para custos fixos', color: 'text-emerald-600' },
+    { name: 'Margem EBITDA', val: recLiquida > 0 ? (ebitda / recLiquida) * 100 : 0,     unit: '%', desc: 'Eficiência operacional (caixa)',  color: 'text-blue-600'    },
+    { name: 'Ponto de Equilíbrio', val: pontoEquilibrio, unit: 'R$', desc: 'Faturamento mínimo para cobrir custos', color: 'text-slate-900' },
+    { name: 'Margem de Segurança', val: margemSeguranca, unit: '%', desc: 'Gordura antes de operar no prejuízo', color: riskColor },
   ];
 
   // ── Histórico para Gráfico ────────────────────────────────────────────────
   const chartData = useMemo(() => {
     return [5, 4, 3, 2, 1, 0].map(offset => {
       const y = filterYear - offset;
-      const yearEntries = allHistoryData.filter((d: any) => d.year === y && d.type === 'DRE');
+      const yearEntries = allHistoryData.filter((d: any) => {
+        if (Number(d.year) !== y) return false;
+        const et = (d.entryType || '').toLowerCase();
+        if (['receitas', 'despesas', 'dre', 'resultado'].includes(et)) return true;
+        if (!['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(et) && d.type === 'DRE') return true;
+        return false;
+      });
       
       let rl = 0;
       let ebt = 0;
       let ll = 0;
 
       if (yearEntries.length > 0) {
-        rl = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('receita líquida')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-        ebt = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('ebitda')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-        ll = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('lucro líquido')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+        rl = yearEntries.filter(d => {
+          const name = (d.conta || d.category || '').toLowerCase();
+          return name === 'receita líquida' || name === 'receita operacional líquida';
+        }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+        
+        ebt = yearEntries.filter(d => {
+          const name = (d.conta || d.category || '').toLowerCase();
+          return name === 'ebitda' || name.includes('ebitda') || name === 'lajida';
+        }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+
+        if (ebt === 0) {
+          const ebitHist = yearEntries.filter(d => {
+            const name = (d.conta || d.category || '').toLowerCase();
+            return name === 'ebit' || name.includes('lucro operacional') || name.includes('resultado operacional');
+          }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+          
+          const depHist = yearEntries.filter(d => {
+            const name = (d.conta || d.category || '').toLowerCase();
+            return name.includes('deprecia') || name.includes('amortiza');
+          }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+
+          if (ebitHist !== 0) {
+            ebt = ebitHist + Math.abs(depHist);
+          } else {
+             const lbHist = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('lucro bruto')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+             const despHist = yearEntries.filter(d => {
+               const name = (d.conta || d.category || '').toLowerCase();
+               return name.includes('despesas operacionais') || name === 'despesas';
+             }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+             ebt = lbHist - Math.abs(despHist) + Math.abs(depHist);
+          }
+        }
+        
+        ll = yearEntries.filter(d => {
+          const name = (d.conta || d.category || '').toLowerCase();
+          return name === 'lucro líquido' || name === 'lucro líquido do exercício';
+        }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
       } else {
         const mockYear = DATA.dre.filter((r: any) => r.id === selectedClient && r.ano === y);
         rl = mockYear.find(m => m.conta === 'Receita Líquida')?.valor || 0;
@@ -146,7 +269,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         ebitda: ebt,
         lucro: ll
       };
-    }).filter(d => d.receita > 0 || d.ebitda > 0 || d.lucro > 0);
+    }).filter(d => d.receita > 0 || d.ebitda > 0 || d.lucro > 0 || d.year === filterYear.toString());
   }, [allHistoryData, selectedClient, filterYear]);
 
   const showToast = (type: 'success' | 'error', message: string) => {
@@ -198,7 +321,13 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
   // Histórico para AH no ano anterior
   const prevYearRows = useMemo(() => {
-    const prevEntries = allHistoryData.filter((d: any) => d.year === (filterYear - 1) && d.type === 'DRE');
+    const prevEntries = allHistoryData.filter((d: any) => {
+      if (Number(d.year) !== (filterYear - 1)) return false;
+      const et = (d.entryType || '').toLowerCase();
+      if (['receitas', 'despesas', 'dre', 'resultado'].includes(et)) return true;
+      if (!['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(et) && d.type === 'DRE') return true;
+      return false;
+    });
     if (prevEntries.length > 0) {
       const agg: any = {};
       prevEntries.forEach((d: any) => {
@@ -356,18 +485,31 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-8">Insights de Resultado</p>
           
           <div className="space-y-6 flex-1">
-            <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Margem EBITDA Alvo</p>
-              <p className="text-sm font-bold">{dbData.length > 0 ? '25.0%' : '---'}</p>
-              <div className="w-full bg-white/10 h-1.5 rounded-full mt-2 overflow-hidden">
-                <div className="bg-emerald-500 h-full" style={{ width: `${Math.min(100, (marginIndices[1].val / 25) * 100)}%` }} />
+            <div className="p-4 bg-white/5 rounded-2xl border border-white/5 space-y-2 relative z-10">
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Composição da Receita</p>
+              
+              <div className="flex justify-between items-center text-[10px] text-white/70">
+                <span>Receita Operacional Bruta:</span>
+                <span className="font-bold">{formatCurrency(receitaBruta)}</span>
               </div>
+              <div className="flex justify-between items-center text-[10px] text-white/70">
+                <span>(-) Deduções da Receita:</span>
+                <span className="font-bold text-rose-300">{formatCurrency(deducoesReceita)}</span>
+              </div>
+              <div className="flex justify-between items-center text-[11px] text-white font-bold border-t border-white/10 pt-2 mt-1">
+                <span>(=) Receita Operacional Líquida:</span>
+                <span className="text-emerald-400">{formatCurrency(recLiquida)}</span>
+              </div>
+              
+              <p className="text-[10px] text-white/50 font-medium mt-3 italic leading-relaxed">
+                A empresa apresentou Receita Operacional Bruta de {formatCurrency(receitaBruta)}, com deduções operacionais e tributárias de {formatCurrency(deducoesReceita)}, equivalentes a {indiceDeducoes.toFixed(2)}% da receita bruta, resultando em Receita Operacional Líquida de {formatCurrency(recLiquida)}.
+              </p>
             </div>
             
-            <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Ponto de Equilíbrio Estimado</p>
-              <p className="text-sm font-bold">{dbData.length > 0 ? formatCurrency(pontoEquilibrio) : '---'}</p>
-              <p className="text-[10px] text-white/50 font-medium mt-2 italic leading-relaxed">{dbData.length > 0 ? performanceNote : 'Baseado na estrutura de custos atual'}</p>
+            <div className="p-4 bg-white/5 rounded-2xl border border-white/5 relative z-10">
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Análise do Ponto de Equilíbrio</p>
+              <p className="text-sm font-bold text-white">{dbData.length > 0 ? formatCurrency(pontoEquilibrio) : '---'}</p>
+              <p className="text-[10px] text-white/60 font-medium mt-2 italic leading-relaxed">{dbData.length > 0 ? performanceNote : 'Aguardando dados estruturados para análise operacional.'}</p>
             </div>
           </div>
 

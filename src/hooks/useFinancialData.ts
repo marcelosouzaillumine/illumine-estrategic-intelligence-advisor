@@ -101,12 +101,17 @@ export function useAllFinancialData(clientId: string) {
         if (docData.status === 'pending' || docData.status === 'rejected') return;
 
         if (Array.isArray(docData.data)) {
+          let lastType = 'ativo';
           docData.data.forEach((entry: any) => {
+            const innerType = entry.type || entry.tipo || lastType;
+            lastType = innerType;
             allEntries.push({
               ...entry,
               id: `${doc.id}_${entry.category}`,
               clientId: docData.clientId,
               type: docData.type,
+              docType: docData.type,
+              entryType: innerType.toLowerCase(),
               ano: docData.year,
               year: docData.year,
               mes: docData.month,
@@ -173,7 +178,6 @@ export function useAnnualFinancialData(
       const q = query(
         collection(db, 'financial_entries'),
         where('clientId', '==', clientId),
-        where('type', '==', type),
         where('year', '==', year)
       );
       const snap = await getDocs(q);
@@ -201,6 +205,7 @@ export function useAnnualFinancialData(
               ...entry,
               id: `${docSnap.id}_${entry.category}`,
               docId: docSnap.id,
+              docType: docData.type,
               conta: entry.category,
               valor: entry.value,
               val: entry.value,
@@ -212,6 +217,7 @@ export function useAnnualFinancialData(
             ...docData,
             id: docSnap.id,
             docId: docSnap.id,
+            docType: docData.type,
             conta: docData.category,
             valor: docData.value,
             val: docData.value,
@@ -220,7 +226,17 @@ export function useAnnualFinancialData(
         }
       });
 
-      setDbData(allEntries);
+      const filteredEntries = allEntries.filter(entry => {
+        const t = (entry.type || '').toLowerCase();
+        if (type === 'DRE' || type === 'DRE Gerencial') {
+          return ['receitas', 'despesas'].includes(t) || (!['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(t) && (entry.docType === 'DRE' || entry.docType === 'DRE Gerencial'));
+        } else if (type === 'BP' || type === 'Balanço Patrimonial') {
+          return ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(t) || (!['receitas', 'despesas'].includes(t) && (entry.docType === 'BP' || entry.docType === 'Balanço Patrimonial'));
+        }
+        return entry.docType === type;
+      });
+
+      setDbData(filteredEntries);
       setDocIds(ids);
     } catch (e: any) {
       if (!isCancelled.current) {

@@ -275,24 +275,17 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                         />
                       </td>
                       <td className="py-2 px-2">
-                        <select
-                          value={row.type}
-                          onChange={(e) => updateRow(row.id, 'type', e.target.value)}
-                          className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                        >
-                          {type === 'DRE' ? (
-                            <>
-                              <option value="receitas">Receitas</option>
-                              <option value="despesas">Despesas</option>
-                            </>
-                          ) : (
-                            <>
-                              <option value="ativo">Ativo</option>
-                              <option value="passivo">Passivo</option>
-                              <option value="patrimônio líquido">Patrimônio Líquido</option>
-                            </>
-                          )}
-                        </select>
+                          <select
+                            value={row.type}
+                            onChange={(e) => updateRow(row.id, 'type', e.target.value)}
+                            className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                          >
+                            <option value="ativo">Ativo</option>
+                            <option value="passivo">Passivo</option>
+                            <option value="patrimônio líquido">Patrimônio Líquido</option>
+                            <option value="receitas">Receitas</option>
+                            <option value="despesas">Despesas</option>
+                          </select>
                       </td>
                       <td className="py-2 px-2">
                         <input 
@@ -341,9 +334,37 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                 </div>
               )}
 
+              {selectedType === 'DRE' && (
+                <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle size={20} className="text-indigo-500 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-[11px] font-black text-indigo-800 uppercase tracking-tight">Cálculo de EBITDA</p>
+                      <p className="text-[11px] text-indigo-700 leading-relaxed mt-0.5">
+                        Para que o sistema calcule corretamente o EBITDA (caso a linha original não exista), insira o valor deduzido a título de <strong>Depreciação e Amortização</strong>.
+                      </p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => {
+                      setRows([...rows, { 
+                        id: Math.random().toString(36).substr(2, 9), 
+                        category: 'Depreciação e Amortização', 
+                        value: 0, 
+                        type: 'despesas',
+                        level: 2
+                      }]);
+                    }}
+                    className="shrink-0 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold uppercase tracking-widest rounded-xl transition-colors shadow-sm"
+                  >
+                    + Add Depreciação
+                  </button>
+                </div>
+              )}
+
               <button 
                 onClick={addRow}
-                className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all flex items-center justify-center gap-2 font-bold text-sm"
+                className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all flex items-center justify-center gap-2 font-bold text-sm mt-4"
               >
                 <Plus size={18} /> Adicionar Linha
               </button>

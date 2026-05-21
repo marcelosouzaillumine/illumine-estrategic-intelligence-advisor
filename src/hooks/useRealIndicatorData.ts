@@ -95,11 +95,43 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
       Object.entries(standardMappings).forEach(([kpi, names]) => {
         if (calculated[kpi] === 0) {
           const sum = allEntries
-            .filter((e: any) => names.includes(e.category))
-            .reduce((s: number, e: any) => s + (Number(e.value) || 0), 0);
+            .filter((e: any) => {
+              const cat = e.category || e.conta;
+              return names.includes(cat);
+            })
+            .reduce((s: number, e: any) => s + (Number(e.value || e.valor || e.val) || 0), 0);
           calculated[kpi] = sum;
         }
       });
+
+      // Fallback EBITDA calculation if still 0
+      if (calculated.ebitda === 0) {
+        const ebitVal = allEntries.filter((e: any) => {
+          const name = (e.category || e.conta || '').toLowerCase();
+          return name === 'ebit' || name.includes('lucro operacional') || name.includes('resultado operacional');
+        }).reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
+
+        const depVal = allEntries.filter((e: any) => {
+          const name = (e.category || e.conta || '').toLowerCase();
+          return name.includes('deprecia') || name.includes('amortiza');
+        }).reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
+
+        if (ebitVal !== 0) {
+          calculated.ebitda = ebitVal + Math.abs(depVal);
+        } else {
+          const lb = allEntries.filter((e: any) => {
+            const name = (e.category || e.conta || '').toLowerCase();
+            return name.includes('lucro bruto');
+          }).reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
+          
+          const desp = allEntries.filter((e: any) => {
+            const name = (e.category || e.conta || '').toLowerCase();
+            return name.includes('despesas operacionais') || name === 'despesas';
+          }).reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
+
+          calculated.ebitda = lb - Math.abs(desp) + Math.abs(depVal);
+        }
+      }
 
       // C. Strategic Financial Position (Current balances)
       let bankSum = currentPositions.reduce((s, p) => s + ((Number(p.saldoAtual) || 0) * (rates[p.moeda as keyof typeof rates] || 1)), 0);

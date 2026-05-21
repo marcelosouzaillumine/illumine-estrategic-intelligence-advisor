@@ -272,10 +272,6 @@ export function DashboardPage({
       const d = new Date(selectedYear, selectedMonth - 1 - (11 - i), 1);
       return { m: d.getMonth() + 1, y: d.getFullYear() };
     });
-    
-    // Fallback names for robust mapping
-    const revenueNames = ['Receita Líquida', 'Receita Operacional Bruta', 'Faturamento', 'Receita de Vendas', 'Faturamento Bruto'];
-    const ebitdaNames = ['EBITDA', 'LAJIDA', 'EBITDA Mensal'];
 
     return months.map(({ m, y }) => {
       // 1. Try to find in indicators collection
@@ -286,16 +282,31 @@ export function DashboardPage({
       // 2. If indicators are empty, fallback to aggregated financial_entries
       if (rec === 0 && ebitda === 0 && allFinancialEntries.length > 0) {
         const monthEntries = allFinancialEntries.filter(
-          (e: any) => (e.month === m || e.mes === m) && (e.year === y || e.ano === y)
+          (e: any) => (Number(e.month) === m || Number(e.mes) === m) && (Number(e.year) === y || Number(e.ano) === y)
         );
         
-        rec = monthEntries
-          .filter((e: any) => revenueNames.includes(e.category))
-          .reduce((sum: number, e: any) => sum + (Number(e.value) || 0), 0);
+        let flattenedEntries: any[] = [];
+        monthEntries.forEach((doc: any) => {
+          if (Array.isArray(doc.data)) {
+            flattenedEntries.push(...doc.data);
+          } else {
+            flattenedEntries.push(doc);
+          }
+        });
+
+        rec = flattenedEntries
+          .filter((e: any) => {
+            const name = (e.category || e.conta || '').toLowerCase();
+            return name === 'receita líquida' || name === 'receita operacional líquida' || name === 'faturamento bruto' || name === 'faturamento' || name === 'receita de vendas';
+          })
+          .reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
           
-        ebitda = monthEntries
-          .filter((e: any) => ebitdaNames.includes(e.category))
-          .reduce((sum: number, e: any) => sum + (Number(e.value) || 0), 0);
+        ebitda = flattenedEntries
+          .filter((e: any) => {
+            const name = (e.category || e.conta || '').toLowerCase();
+            return name === 'ebitda' || name.includes('ebitda') || name === 'lajida';
+          })
+          .reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
       }
       
       return {
