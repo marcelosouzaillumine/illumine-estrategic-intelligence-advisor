@@ -220,6 +220,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       let rl = 0;
       let ebt = 0;
       let ll = 0;
+      let cmv = 0;
 
       if (yearEntries.length > 0) {
         rl = yearEntries.filter(d => {
@@ -259,20 +260,28 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           const name = (d.conta || d.category || '').toLowerCase();
           return name === 'lucro líquido' || name === 'lucro líquido do exercício';
         }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+
+        cmv = yearEntries.filter(d => {
+          const name = (d.conta || d.category || '').toLowerCase();
+          return name.includes('custos variáveis') || name === 'cmv' || name === 'cpv' || name === 'csv' || name.includes('custo das mercadorias') || name.includes('custo dos serviços');
+        }).reduce((acc, d) => acc + Math.abs(d.val || d.valor || d.value || 0), 0);
+
       } else {
         const mockYear = DATA.dre.filter((r: any) => r.id === selectedClient && r.ano === y);
         rl = mockYear.find(m => m.conta === 'Receita Líquida')?.valor || 0;
         ebt = mockYear.find(m => m.conta === 'EBITDA')?.valor || 0;
         ll = mockYear.find(m => m.conta === 'Lucro Líquido')?.valor || 0;
+        cmv = Math.abs(mockYear.find(m => m.conta === 'Custos Variáveis')?.valor || mockYear.find(m => m.conta === 'CMV')?.valor || 0);
       }
 
       return {
         year: y.toString(),
         receita: rl,
+        cmv: cmv,
         ebitda: ebt,
         lucro: ll
       };
-    }).filter(d => d.receita > 0 || d.ebitda > 0 || d.lucro > 0 || d.year === filterYear.toString());
+    }).filter(d => d.receita > 0 || d.ebitda > 0 || d.lucro > 0 || d.cmv > 0 || d.year === filterYear.toString());
   }, [allHistoryData, selectedClient, filterYear]);
 
   const showToast = (type: 'success' | 'error', message: string) => {
@@ -347,6 +356,55 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     const search = name.toLowerCase();
     return (prevYearRows as any[]).find(s => (s.conta || s.category || '').toLowerCase() === search)?.val || 0;
   };
+
+  // Histórico para AH de 5 anos atrás
+  const prev5YearRows = useMemo(() => {
+    const prevEntries = allHistoryData.filter((d: any) => {
+      if (Number(d.year) !== (filterYear - 5)) return false;
+      const et = (d.entryType || '').toLowerCase();
+      if (['receitas', 'despesas', 'dre', 'resultado'].includes(et)) return true;
+      if (!['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(et) && d.type === 'DRE') return true;
+      return false;
+    });
+    if (prevEntries.length > 0) {
+      const agg: any = {};
+      prevEntries.forEach((d: any) => {
+        const key = d.conta || d.category;
+        if (!agg[key]) agg[key] = { ...d, val: 0 };
+        agg[key].val += (d.val || d.valor || d.value || 0);
+      });
+      return Object.values(agg);
+    }
+    return [];
+  }, [allHistoryData, filterYear]);
+
+  const getPrev5Value = (name: string) => {
+    const search = name.toLowerCase();
+    return (prev5YearRows as any[]).find(s => (s.conta || s.category || '').toLowerCase() === search)?.val || 0;
+  };
+
+  const trendNote = useMemo(() => {
+    if (chartData.length < 2) return null;
+    const current = chartData[chartData.length - 1];
+    const oldest = chartData.find(d => d.receita > 0) || chartData[0];
+    
+    if (!oldest || oldest.year === current.year) return null;
+
+    const calcGrowth = (curr: number, old: number) => old !== 0 ? ((curr / old) - 1) * 100 : 0;
+    
+    const recGrowth = calcGrowth(current.receita, oldest.receita);
+    const cmvGrowth = calcGrowth(current.cmv, oldest.cmv);
+    const ebtGrowth = calcGrowth(current.ebitda, oldest.ebitda);
+    const lucGrowth = calcGrowth(current.lucro, oldest.lucro);
+
+    return {
+      period: `${oldest.year} a ${current.year}`,
+      receita: recGrowth,
+      cmv: cmvGrowth,
+      ebitda: ebtGrowth,
+      lucro: lucGrowth
+    };
+  }, [chartData]);
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
@@ -428,7 +486,11 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             <div className="flex gap-4">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>Receita</span>
+                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>Receita Líquida</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>CMV</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
@@ -436,7 +498,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>Lucro</span>
+                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>Resultado Líquido</span>
               </div>
             </div>
           </div>
@@ -474,9 +536,10 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     return null;
                   }}
                 />
-                <Bar dataKey="receita" name="Receita" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="receita" name="Receita Líquida" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="cmv" name="CMV" fill="#f43f5e" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="ebitda" name="EBITDA" fill="#10b981" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="lucro" name="Lucro" fill="#a855f7" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="lucro" name="Resultado Líquido" fill="#a855f7" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -583,7 +646,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 <th className="text-left py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conta</th>
                 <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Valor (R$)</th>
                 <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AV (%)</th>
-                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (%)</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (1 Ano)</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (5 Anos)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -602,6 +666,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     const av = baseForAV > 0 ? (val / baseForAV) * 100 : 0;
                     const prevVal = getPrevValue(name);
                     const ah = prevVal > 0 ? ((val / prevVal) - 1) * 100 : null;
+                    const prev5Val = getPrev5Value(name);
+                    const ah5 = prev5Val > 0 ? ((val / prev5Val) - 1) * 100 : null;
                     const isTotal = level === 1;
 
                     return (
@@ -634,6 +700,17 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                             </div>
                           ) : '—'}
                         </td>
+                        <td className={cn(
+                          "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
+                          ah5 === null ? "text-slate-300" : ah5 > 0 ? "text-emerald-500" : ah5 < 0 ? "text-rose-500" : "text-slate-300"
+                        )}>
+                          {ah5 !== null ? (
+                            <div className="flex items-center justify-end gap-1">
+                              {ah5 > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                              {Math.abs(ah5).toFixed(2)}%
+                            </div>
+                          ) : '—'}
+                        </td>
                       </tr>
                     );
                   })
@@ -656,6 +733,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                         <td className="py-2.5 md:py-4 px-5 md:px-8 text-right font-mono text-slate-200">R$ 0,00</td>
                         <td className="py-2.5 md:py-4 px-5 md:px-8 text-right text-slate-200 text-xs">0,00%</td>
                         <td className="py-2.5 md:py-4 px-5 md:px-8 text-right text-slate-200 text-xs">—</td>
+                        <td className="py-2.5 md:py-4 px-5 md:px-8 text-right text-slate-200 text-xs">—</td>
                       </tr>
                     );
                   })
@@ -664,6 +742,64 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           </table>
         </div>
       </div>
+
+      {trendNote && (
+        <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm p-8 mb-10">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+              <TrendingUp size={20} />
+            </div>
+            <div>
+              <h4 className="text-lg font-black text-slate-900">Nota Explicativa de Evolução</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Tendência Histórica Acumulada ({trendNote.period})</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Crescimento de Receita</p>
+              <div className="flex items-center gap-2">
+                {trendNote.receita > 0 ? <TrendingUp size={16} className="text-emerald-500" /> : <TrendingDown size={16} className="text-rose-500" />}
+                <p className={cn("text-2xl font-black", trendNote.receita > 0 ? "text-emerald-500" : "text-rose-500")}>
+                  {trendNote.receita > 0 ? '+' : ''}{trendNote.receita.toFixed(2)}%
+                </p>
+              </div>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Evolução de CMV</p>
+              <div className="flex items-center gap-2">
+                {trendNote.cmv > 0 ? <TrendingUp size={16} className="text-rose-500" /> : <TrendingDown size={16} className="text-emerald-500" />}
+                <p className={cn("text-2xl font-black", trendNote.cmv > 0 ? "text-rose-500" : "text-emerald-500")}>
+                  {trendNote.cmv > 0 ? '+' : ''}{trendNote.cmv.toFixed(2)}%
+                </p>
+              </div>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Evolução de EBITDA</p>
+              <div className="flex items-center gap-2">
+                {trendNote.ebitda > 0 ? <TrendingUp size={16} className="text-emerald-500" /> : <TrendingDown size={16} className="text-rose-500" />}
+                <p className={cn("text-2xl font-black", trendNote.ebitda > 0 ? "text-emerald-500" : "text-rose-500")}>
+                  {trendNote.ebitda > 0 ? '+' : ''}{trendNote.ebitda.toFixed(2)}%
+                </p>
+              </div>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Evolução do Lucro</p>
+              <div className="flex items-center gap-2">
+                {trendNote.lucro > 0 ? <TrendingUp size={16} className="text-emerald-500" /> : <TrendingDown size={16} className="text-rose-500" />}
+                <p className={cn("text-2xl font-black", trendNote.lucro > 0 ? "text-emerald-500" : "text-rose-500")}>
+                  {trendNote.lucro > 0 ? '+' : ''}{trendNote.lucro.toFixed(2)}%
+                </p>
+              </div>
+            </div>
+          </div>
+          <p className="text-sm text-slate-500 mt-6 leading-relaxed">
+            A análise histórica demonstra um {trendNote.receita > 0 ? 'crescimento' : 'decréscimo'} de <strong>{Math.abs(trendNote.receita).toFixed(2)}%</strong> nas receitas líquidas no período de {trendNote.period}.
+            Este movimento foi acompanhado por uma variação de <strong>{trendNote.cmv > 0 ? '+' : ''}{trendNote.cmv.toFixed(2)}%</strong> nos Custos Variáveis (CMV).
+            No que tange à geração de caixa operacional, o EBITDA obteve uma variação de <strong>{trendNote.ebitda > 0 ? '+' : ''}{trendNote.ebitda.toFixed(2)}%</strong>, resultando
+            finalmente num impacto na linha de Lucro Líquido de <strong>{trendNote.lucro > 0 ? '+' : ''}{trendNote.lucro.toFixed(2)}%</strong> no acumulado de cinco anos.
+          </p>
+        </div>
+      )}
 
       <ExecutiveCommentary
         reportType="DRE"
