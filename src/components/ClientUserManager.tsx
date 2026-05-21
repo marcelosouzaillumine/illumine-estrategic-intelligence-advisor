@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component, ErrorInfo, ReactNode } from 'react';
+import { createPortal } from 'react-dom';
+import { motion } from 'motion/react';
 import { 
   Plus,
   UserPlus, 
@@ -15,13 +17,14 @@ import {
   ShieldAlert,
   Save,
   UserCheck,
-  ArrowRight
+  ArrowRight,
+  Copy
 } from 'lucide-react';
 import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { db, auth } from '../lib/firebase';
+import { db, auth, createSecondaryUser } from '../lib/firebase';
 import { cn } from '../lib/utils';
 import { PermissaoModulo } from '../types/modules';
-import { motion, AnimatePresence } from 'motion/react';
+
 import { NAVIGATION_GROUPS } from '../app/navigation';
 
 const PERMISSION_GROUPS = NAVIGATION_GROUPS.map(group => ({
@@ -31,12 +34,55 @@ const PERMISSION_GROUPS = NAVIGATION_GROUPS.map(group => ({
 
 const EIXOS: PermissaoModulo[] = PERMISSION_GROUPS.map(g => g.id as PermissaoModulo);
 
-export function ClientUserManager({ clientId }: { clientId: string }) {
+class ErrorBoundary extends Component<{children: ReactNode}, {hasError: boolean, error: Error | null}> {
+  constructor(props: {children: ReactNode}) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("ErrorBoundary caught error:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-8 bg-rose-50 border border-rose-200 rounded-lg">
+          <h2 className="text-xl font-bold text-rose-600 mb-4">Um erro ocorreu na interface</h2>
+          <pre className="text-sm bg-white p-4 rounded overflow-auto max-w-full text-rose-800">
+            {this.state.error?.toString()}
+            {"\n\n"}
+            {this.state.error?.stack}
+          </pre>
+          <button 
+            onClick={() => this.setState({ hasError: false, error: null })}
+            className="mt-4 px-4 py-2 bg-rose-600 text-white rounded font-bold"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+export function ClientUserManager(props: { clientId: string }) {
+  return (
+    <ErrorBoundary>
+      <ClientUserManagerInner {...props} />
+    </ErrorBoundary>
+  );
+}
+
+function ClientUserManagerInner({ clientId }: { clientId: string }) {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
+  const [createdCredentials, setCreatedCredentials] = useState<{email: string, pass: string} | null>(null);
 
   const initialForm = {
     nome: '',
@@ -49,6 +95,21 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
   };
 
   const [formData, setFormData] = useState(initialForm);
+
+  useEffect(() => {
+    const handleGlobalError = (event: ErrorEvent) => {
+      alert("ERRO GLOBAL CAPTURADO:\n" + event.message + "\n\n" + event.error?.stack);
+    };
+    const handlePromiseError = (event: PromiseRejectionEvent) => {
+      alert("PROMISE REJECTION:\n" + String(event.reason) + "\n\n" + event.reason?.stack);
+    };
+    window.addEventListener('error', handleGlobalError);
+    window.addEventListener('unhandledrejection', handlePromiseError);
+    return () => {
+      window.removeEventListener('error', handleGlobalError);
+      window.removeEventListener('unhandledrejection', handlePromiseError);
+    };
+  }, []);
 
   useEffect(() => {
     fetchUsers();
@@ -81,22 +142,54 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
     setLoading(true);
     try {
       const emailLower = formData.email.toLowerCase().trim();
-      const payload = {
+      let generatedPass = null;
+
+      const payload: any = {
         ...formData,
         email: emailLower,
         clientId,
         updatedAt: serverTimestamp(),
       };
 
+      if (!editingId) {
+        // New user creation
+        generatedPass = Math.random().toString(36).substring(2, 8).toUpperCase() + '@123';
+        await createSecondaryUser(emailLower, generatedPass);
+        payload.requirePasswordChange = true;
+      }
+
       const docId = `${emailLower}_${clientId}`;
-      await setDoc(doc(db, 'client_users', docId), payload);
+      await setDoc(doc(db, 'client_users', docId), payload, { merge: true });
       
       setIsAdding(false);
       setEditingId(null);
       setFormData(initialForm);
       fetchUsers();
-    } catch (e) {
+
+      if (generatedPass) {
+        setCreatedCredentials({ email: emailLower, pass: generatedPass });
+      }
+    } catch (e: any) {
       console.error(e);
+      if (e.code === 'auth/email-already-in-use') {
+        alert('Este e-mail já possui uma conta. Apenas vinculamos ao cliente atual.');
+        // Still link the user to the client
+        const emailLower = formData.email.toLowerCase().trim();
+        const payload: any = {
+          ...formData,
+          email: emailLower,
+          clientId,
+          updatedAt: serverTimestamp(),
+        };
+        const docId = `${emailLower}_${clientId}`;
+        await setDoc(doc(db, 'client_users', docId), payload, { merge: true });
+        setIsAdding(false);
+        setEditingId(null);
+        setFormData(initialForm);
+        fetchUsers();
+      } else {
+        alert('Erro ao salvar usuário: ' + e.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -113,10 +206,16 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
   };
 
   const togglePermission = (item: string) => {
-    const newPerms = formData.permissoes.includes(item)
-      ? formData.permissoes.filter(p => p !== item)
-      : [...formData.permissoes, item];
-    setFormData({ ...formData, permissoes: newPerms });
+    setFormData(prev => {
+      const perms = Array.isArray(prev.permissoes) ? [...prev.permissoes] : [];
+      const idx = perms.indexOf(item);
+      if (idx !== -1) {
+        perms.splice(idx, 1);
+      } else {
+        perms.push(item);
+      }
+      return { ...prev, permissoes: perms };
+    });
   };
 
   const toggleGroup = (groupId: string) => {
@@ -126,27 +225,95 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
   };
 
   const isGroupSelected = (group: typeof PERMISSION_GROUPS[0]) => {
-    return group.subItems.every(sub => formData.permissoes.includes(`${group.id}:${sub}`));
+    const currentPerms = Array.isArray(formData.permissoes) ? formData.permissoes : [];
+    return group.subItems.every(sub => currentPerms.includes(`${group.id}:${sub}`));
   };
 
   const toggleFullGroup = (group: typeof PERMISSION_GROUPS[0]) => {
-    const allSelected = isGroupSelected(group);
-    let newPerms = [...formData.permissoes];
-    
-    group.subItems.forEach(sub => {
-      const key = `${group.id}:${sub}`;
-      if (allSelected) {
-        newPerms = newPerms.filter(p => p !== key);
-      } else if (!newPerms.includes(key)) {
-        newPerms.push(key);
-      }
+    setFormData(prev => {
+      const perms = Array.isArray(prev.permissoes) ? [...prev.permissoes] : [];
+      const allSelected = group.subItems.every(sub => perms.includes(`${group.id}:${sub}`));
+      let newPerms = [...perms];
+      
+      group.subItems.forEach(sub => {
+        const key = `${group.id}:${sub}`;
+        if (allSelected) {
+          const idx = newPerms.indexOf(key);
+          if (idx !== -1) newPerms.splice(idx, 1);
+        } else if (!newPerms.includes(key)) {
+          newPerms.push(key);
+        }
+      });
+      return { ...prev, permissoes: newPerms };
     });
-
-    setFormData({ ...formData, permissoes: newPerms });
   };
 
   return (
     <div className="space-y-10">
+      {createdCredentials && createPortal(
+          <div className="fixed inset-0 z-[9999] bg-background/95 backdrop-blur-sm flex items-center justify-center p-4">
+            <div 
+              className="w-full max-w-md bg-card border border-border shadow-2xl rounded-2xl p-6 sm:p-8 relative mx-auto"
+            >
+              <div className="flex justify-center mb-6">
+                <div className="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center">
+                  <CheckCircle2 size={32} />
+                </div>
+              </div>
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-foreground">Usuário Criado!</h2>
+                <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+                  A conta foi gerada com sucesso. Por favor, envie as credenciais abaixo para que o usuário realize o primeiro acesso.
+                </p>
+              </div>
+
+              <div className="space-y-4 mb-8">
+                <div className="bg-surface-container/50 border border-border rounded-xl p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">E-mail</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-medium text-foreground">{createdCredentials.email}</p>
+                    <button 
+                      onClick={() => {
+                        navigator.clipboard.writeText(createdCredentials.email);
+                        alert('E-mail copiado!');
+                      }}
+                      className="p-2 text-muted-foreground hover:text-secondary transition-colors"
+                      title="Copiar e-mail"
+                    >
+                      <Copy size={16} />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-surface-container/50 border border-border rounded-xl p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Senha Provisória</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-medium text-foreground select-all">{createdCredentials.pass}</p>
+                    <button 
+                      onClick={() => {
+                        navigator.clipboard.writeText(createdCredentials.pass);
+                        alert('Senha copiada!');
+                      }}
+                      className="p-2 text-muted-foreground hover:text-secondary transition-colors"
+                      title="Copiar senha"
+                    >
+                      <Copy size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <button 
+                onClick={() => setCreatedCredentials(null)}
+                className="w-full py-3 bg-secondary text-white font-bold rounded-standard shadow-premium hover:shadow-lg transition-all"
+              >
+                Concluir
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
+
       <div className="flex items-center justify-between pb-8 border-b border-border-soft">
         <div className="flex items-center gap-5">
           <div className="w-12 h-12 bg-bg-surface rounded-2xl flex items-center justify-center text-secondary border border-border-main shadow-sm">
@@ -167,12 +334,8 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
         )}
       </div>
 
-      <AnimatePresence>
-        {isAdding && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+      {isAdding && (
+          <div 
             className="card-premium space-y-10 border-secondary/20"
           >
              <div className="flex items-center justify-between">
@@ -280,18 +443,24 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                   <label className="text-label px-1">Autorizações por Módulo</label>
                   <button 
                     onClick={() => {
-                      const allSubItems = PERMISSION_GROUPS.flatMap(g => g.subItems.map(s => `${g.id}:${s}`));
-                      setFormData({...formData, permissoes: formData.permissoes.length === allSubItems.length ? [] : allSubItems});
+                      const allSubItems = PERMISSION_GROUPS.reduce((acc, g) => {
+                        return acc.concat(g.subItems.map(s => `${g.id}:${s}`));
+                      }, [] as string[]);
+                      setFormData(prev => {
+                        const currentPerms = Array.isArray(prev.permissoes) ? prev.permissoes : [];
+                        return { ...prev, permissoes: currentPerms.length === allSubItems.length ? [] : allSubItems };
+                      });
                     }}
                     className="text-[10px] font-black text-secondary uppercase hover:underline tracking-widest"
                   >
-                    {formData.permissoes.length === PERMISSION_GROUPS.flatMap(g => g.subItems).length ? 'Limpar Todos' : 'Selecionar Tudo'}
+                    {(Array.isArray(formData.permissoes) ? formData.permissoes : []).length === PERMISSION_GROUPS.reduce((acc, g) => acc + g.subItems.length, 0) ? 'Limpar Todos' : 'Selecionar Tudo'}
                   </button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                   {PERMISSION_GROUPS.map((group) => {
-                    const selectedCount = group.subItems.filter(s => formData.permissoes.includes(`${group.id}:${s}`)).length;
+                    const currentPerms = Array.isArray(formData.permissoes) ? formData.permissoes : [];
+                    const selectedCount = group.subItems.filter(s => currentPerms.includes(`${group.id}:${s}`)).length;
                     const isExpanded = expandedGroups.includes(group.id);
 
                     return (
@@ -323,21 +492,15 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                           </div>
                         </div>
 
-                        <AnimatePresence>
                           {isExpanded && (
-                            <motion.div 
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="overflow-hidden bg-bg-card/50 border-t border-border-soft"
-                            >
+                            <div className="overflow-hidden bg-bg-card/50 border-t border-border-soft">
                               <div className="p-5 space-y-3">
                                 {group.subItems.map((sub) => (
                                   <label key={sub} className="flex items-center gap-4 cursor-pointer select-none group/item">
                                     <input 
                                       type="checkbox"
                                       className="sr-only peer"
-                                      checked={formData.permissoes.includes(`${group.id}:${sub}`)}
+                                      checked={(Array.isArray(formData.permissoes) ? formData.permissoes : []).includes(`${group.id}:${sub}`)}
                                       onChange={() => togglePermission(`${group.id}:${sub}`)}
                                     />
                                     <div className="w-4 h-4 rounded border border-border-main bg-bg-card peer-checked:bg-secondary peer-checked:border-secondary flex items-center justify-center transition-all group-hover/item:border-secondary/50">
@@ -347,9 +510,8 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                                   </label>
                                 ))}
                               </div>
-                            </motion.div>
+                            </div>
                           )}
-                        </AnimatePresence>
                       </div>
                     );
                   })}
@@ -372,9 +534,8 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                   {editingId ? 'Confirmar Alterações' : 'Liberar Acesso'}
                 </button>
              </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
 
       <div className="card-premium p-0 overflow-hidden">
          <div className="overflow-x-auto">
@@ -430,7 +591,8 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                         <td className="px-8 py-6">
                            <div className="flex flex-wrap gap-2 max-w-[240px]">
                              {(() => {
-                               const selectedGroups = [...new Set((u.permissoes || []).map((p: string) => p.split(':')[0]))];
+                               const safePerms = Array.isArray(u.permissoes) ? u.permissoes : [];
+                               const selectedGroups = [...new Set(safePerms.map((p: string) => p.split(':')[0]))];
                                if (selectedGroups.length === PERMISSION_GROUPS.length) return <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1"><UserCheck size={14} /> Full Access</span>;
                                return selectedGroups.map((g: any, idx: number) => (
                                  <span key={idx} className="px-2 py-1 bg-bg-surface border border-border-main rounded text-[9px] font-bold text-text-muted uppercase tracking-widest">{g}</span>
@@ -449,7 +611,7 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
                               <button 
                                 onClick={() => {
                                    setEditingId(u.id);
-                                   setFormData({ ...initialForm, ...u });
+                                   setFormData({ ...initialForm, ...u, permissoes: Array.isArray(u.permissoes) ? u.permissoes : [] });
                                    setIsAdding(true);
                                 }}
                                 className="w-8 h-8 rounded-full flex items-center justify-center text-text-dim hover:bg-bg-surface hover:text-secondary transition-all"
@@ -485,7 +647,7 @@ export function ClientUserManager({ clientId }: { clientId: string }) {
          <div className="shrink-0 flex items-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all">
            Saber mais <ArrowRight size={14} />
          </div>
-      </div>
+        </div>
     </div>
   );
 }

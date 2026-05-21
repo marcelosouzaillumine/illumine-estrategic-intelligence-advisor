@@ -152,6 +152,18 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [tempUnit, setTempUnit] = useState('');
 
+  useEffect(() => {
+    const el = document.getElementById('debug-clientspage');
+    if (el) {
+      el.textContent = `ClientsPage State:
+view: ${view}
+activeFormTab: ${activeFormTab}
+editingId: ${editingId}
+loading: ${loading}
+`;
+    }
+  });
+
   const validateField = (name: string, value: string) => {
     let error = '';
     if (name === 'cnpj' && formData.origin === 'nacional') {

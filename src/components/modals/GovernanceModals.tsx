@@ -35,22 +35,23 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-primary/80 backdrop-blur-md"
-          />
+        <motion.div 
+          key="lgpd-modal"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6"
+        >
+          <div className="absolute inset-0 bg-primary/80 backdrop-blur-md" />
           
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-2xl bg-background rounded-card shadow-lg overflow-hidden border border-border"
+            className="relative w-full max-w-2xl bg-background rounded-card shadow-lg overflow-hidden border border-border flex flex-col max-h-[90vh]"
           >
             {/* Header */}
-            <div className="bg-primary p-10 text-primary-foreground relative overflow-hidden">
+            <div className="bg-primary p-6 md:p-10 text-primary-foreground relative overflow-hidden shrink-0">
               <div className="absolute top-0 right-0 p-8 opacity-10 rotate-12">
                 <ShieldCheck size={160} />
               </div>
@@ -61,14 +62,14 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 <h2 className="text-h1 font-medium font-display tracking-tight leading-none mb-4">
                   Termos & Governança
                 </h2>
-                <p className="text-primary-foreground/60 text-body-md font-medium max-w-md">
+                <p className="text-primary-foreground/60 text-body-md font-medium w-full max-w-none">
                   Para prosseguir com o acesso à plataforma Illumine Strategic Intelligence & Advisor, é necessário revisar e aceitar os termos de conformidade e governança de dados.
                 </p>
               </div>
             </div>
 
             {/* Content */}
-            <div className="p-10 space-y-8 max-h-[60vh] overflow-y-auto custom-scrollbar">
+            <div className="p-6 md:p-10 space-y-8 flex-1 overflow-y-auto custom-scrollbar">
               <div className="space-y-4">
                 {/* LGPD */}
                 <div 
@@ -139,7 +140,7 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-border flex items-center justify-between">
+              <div className="pt-6 border-t border-border flex items-center justify-between shrink-0">
                 <button 
                   onClick={() => setShowFullTerms(true)}
                   className="flex items-center gap-2 text-body-sm font-medium uppercase tracking-widest text-secondary hover:underline"
@@ -155,7 +156,7 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 disabled={!allAccepted}
                 onClick={onAccept}
                 className={cn(
-                  "w-full py-5 rounded-md text-body-sm font-medium uppercase tracking-widest transition-all flex items-center justify-center gap-4 shadow-sm",
+                  "w-full py-5 rounded-md text-body-sm font-medium uppercase tracking-widest transition-all flex items-center justify-center gap-4 shadow-sm shrink-0",
                   allAccepted 
                     ? "bg-primary text-primary-foreground hover:-translate-y-0.5 active:scale-98" 
                     : "bg-surface-container text-muted-foreground cursor-not-allowed shadow-none"
@@ -165,15 +166,19 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
               </button>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
 
       {/* Full Terms Modal */}
       {showFullTerms && (
-        <div className="fixed inset-0 z-[300] flex items-center justify-center p-6">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+        <motion.div 
+          key="full-terms"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[300] flex items-center justify-center p-6"
+        >
+          <div 
             className="absolute inset-0 bg-primary/60 backdrop-blur-sm"
             onClick={() => setShowFullTerms(false)}
           />
@@ -217,7 +222,7 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
@@ -243,11 +248,14 @@ export function DocConfirmationModal({ isOpen, onConfirm, onCancel, data }: DocC
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+        <motion.div 
+          key="doc-confirmation"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6"
+        >
+          <div 
             className="absolute inset-0 bg-primary/60 backdrop-blur-md"
             onClick={onCancel}
           />
@@ -345,7 +353,7 @@ export function DocConfirmationModal({ isOpen, onConfirm, onCancel, data }: DocC
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
@@ -360,13 +368,14 @@ export function MandatoryClientModal({ isOpen, onSelect }: MandatoryClientModalP
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-primary/60 backdrop-blur-md"
-          />
+        <motion.div 
+          key="mandatory-client"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6"
+        >
+          <div className="absolute inset-0 bg-primary/60 backdrop-blur-md" />
           
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -390,7 +399,7 @@ export function MandatoryClientModal({ isOpen, onSelect }: MandatoryClientModalP
               <Building2 size={18} /> Selecionar Cliente
             </button>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

@@ -68,6 +68,7 @@ import { OrcamentoPage } from '../components/pages/OrcamentoPage';
 import { DadosHistoricosPage } from '../components/pages/DadosHistoricosPage';
 import { SupportPage } from '../components/pages/SupportPage';
 import { CleanupTool } from '../components/pages/CleanupTool';
+import { GestaoUsuariosPage } from '../components/pages/admin/GestaoUsuariosPage';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -377,6 +378,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'perfil_usuario') {
     return <ProfilePage user={user} />;
+  }
+  if (currentPage === 'gestao_usuarios') {
+    return <GestaoUsuariosPage setSelectedClient={setSelectedClient} setCurrentPage={setCurrentPage} />;
   }
   if (currentPage === 'configuracoes_sistema') {
     return <PreferencesPage />;

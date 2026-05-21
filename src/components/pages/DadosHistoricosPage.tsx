@@ -271,22 +271,14 @@ export function DadosHistoricosPage({
           }
         );
 
-        // Timeout de 30 segundos para o upload
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error("Timeout de Conexão ou Bloqueio do Servidor (30s)")), 30000)
-        );
-
         try {
-          const snapshot = await Promise.race([uploadTask, timeoutPromise]) as any;
+          const snapshot = await uploadTask;
           setProgress(40);
           fileUrl = await getDownloadURL(snapshot.ref);
           setProgress(50);
-        } catch (raceErr: any) {
-          console.error("[DEBUG] Erro no upload ou timeout:", raceErr);
-          if (uploadTask && typeof uploadTask.cancel === 'function') {
-            uploadTask.cancel();
-          }
-          throw new Error(`Falha de conexão com a Nuvem: ${raceErr.message}`);
+        } catch (uploadErr: any) {
+          console.error("[DEBUG] Erro no upload:", uploadErr);
+          throw new Error(`Falha de conexão com a Nuvem: ${uploadErr.message}`);
         }
       } catch (err: any) {
         console.error("[DEBUG] Erro crítico no bloco de upload:", err);

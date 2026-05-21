@@ -134,7 +134,8 @@ export type Page =
   | 'orcamento'
   | 'aprovacoes'
   | 'suporte'
-  | 'dados_historicos';
+  | 'dados_historicos'
+  | 'gestao_usuarios';
 
 export interface NavigationItem {
   id: Page;
@@ -202,6 +203,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'clientes', label: 'Empresas', icon: Building2 },
       { id: 'parceiros', label: 'Parceiros Estratégicos', icon: Users, masterOnly: true },
       { id: 'premissas_economicas', label: 'Premissas do Sistema', icon: Settings },
+      { id: 'gestao_usuarios', label: 'Usuários', icon: Users, masterOnly: true },
     ],
   },
   {

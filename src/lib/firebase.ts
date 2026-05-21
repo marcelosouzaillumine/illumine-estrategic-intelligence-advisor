@@ -16,6 +16,15 @@ export const registerWithEmail = (email: string, pass: string) => createUserWith
 export const logout = () => signOut(auth);
 export const sendPasswordResetEmail = (email: string) => fbSendPasswordResetEmail(auth, email);
 
+const secondaryApp = initializeApp(firebaseConfig, "Secondary");
+const secondaryAuth = getAuth(secondaryApp);
+
+export const createSecondaryUser = async (email: string, pass: string) => {
+  const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, pass);
+  await signOut(secondaryAuth);
+  return userCredential;
+};
+
 export const MASTER_ADMINS = [
   'marcelo.illuminecoaching@gmail.com',
   'marcelosouza.illumine@gmail.com',

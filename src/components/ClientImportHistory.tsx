@@ -173,10 +173,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
         const safeFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
         const storageRef = ref(storage, `imports/${clientId}/${Date.now()}_${safeFileName}`);
         
-        const uploadPromise = uploadBytes(storageRef, file);
-        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout de Conexão ou Bloqueio do Servidor (30s)")), 30000));
-        
-        const uploadResult = await Promise.race([uploadPromise, timeoutPromise]) as any;
+        const uploadResult = await uploadBytes(storageRef, file);
         fileUrl = await getDownloadURL(uploadResult.ref);
       } catch (storageErr: any) {
         console.warn("Failed to upload original file to storage, proceeding with data only.", storageErr);

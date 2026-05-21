@@ -56,7 +56,7 @@ import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
 import { TooltipProvider } from './components/ui/tooltip';
 import { AppSidebar } from './components/AppSidebar';
 import { onAuthStateChanged, User, deleteUser } from 'firebase/auth';
-import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch, or } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, serverTimestamp, updateDoc, doc, deleteDoc, orderBy, onSnapshot, limit, writeBatch, or, setDoc } from 'firebase/firestore';
 import { auth, login, loginWithEmail, registerWithEmail, logout, db, handleFirestoreError, OperationType, MASTER_ADMINS } from './lib/firebase';
 import { DATA, modelData } from './data';
 import { cn, formatValue, formatCurrency, calculateVPL, calculateTIR, calculatePayback, setActiveCurrency } from './lib/utils';
@@ -74,6 +74,7 @@ import { EmpresasPage } from './components/pages/public/EmpresasPage';
 import { ParceirosPage } from './components/pages/public/ParceirosPage';
 import { DiagnosticoPage } from './components/pages/public/DiagnosticoPage';
 import { LoginPage } from './components/pages/public/LoginPage';
+import { ForcePasswordChangeModal } from './components/modals/ForcePasswordChangeModal';
 
 import { useDataTable } from './hooks/useDataTable';
 import { SortableHeader } from './components/SortableHeader';
@@ -135,6 +136,38 @@ function Logo({ collapsed }: { collapsed?: boolean }) {
       )}
     </div>
   );
+}
+
+class GlobalErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error: any}> {
+  constructor(props: {children: React.ReactNode}) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error: any) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error("GLOBAL ERROR BOUNDARY CAUGHT:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-8 bg-red-100 border border-red-500 rounded-xl m-8">
+          <h1 className="text-2xl font-bold text-red-800 mb-4">CRITICAL RENDER ERROR</h1>
+          <pre className="whitespace-pre-wrap text-sm text-red-900 bg-white/50 p-4 rounded">
+            {String(this.state.error)}
+          </pre>
+          <button 
+            className="mt-4 px-4 py-2 bg-red-800 text-white rounded"
+            onClick={() => this.setState({ hasError: false })}
+          >
+            Retry
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
 }
 
 function IllumineMark({ className = "w-16 h-16" }: { className?: string }) {
@@ -206,6 +239,7 @@ export default function App() {
   const [userPartnerIds, setUserPartnerIds] = useState<string[]>([]);
   const [showWelcome, setShowWelcome] = useState(false);
   const [welcomeText, setWelcomeText] = useState('');
+  const [requirePasswordChange, setRequirePasswordChange] = useState(false);
   const initialRedirectDone = useRef(false);
   const [rolesLoaded, setRolesLoaded] = useState(false);
 
@@ -238,8 +272,8 @@ export default function App() {
         try {
           const userEmail = (u.email || '').toLowerCase().trim();
           const masterCheck = MASTER_ADMINS.some(email => email.toLowerCase().trim() === userEmail);
-          
           let hasAccess = masterCheck;
+          let mustChangePass = false;
           
           if (!hasAccess) {
             const userAssocQuery = query(
@@ -254,6 +288,9 @@ export default function App() {
               const activeUsers = assocSnap.docs.filter(doc => doc.data().status !== 'Inativo');
               if (activeUsers.length > 0) {
                 hasAccess = true;
+                if (activeUsers.some(doc => doc.data().requirePasswordChange === true)) {
+                  mustChangePass = true;
+                }
               }
             }
             
@@ -265,17 +302,32 @@ export default function App() {
               }
             }
 
-            if (!hasAccess) {
+            if (!hasAccess || !mustChangePass) {
               const partnerQuery = query(collection(db, 'partners'), where('ownerId', '==', u.uid));
               const partnerSnap = await getDocs(partnerQuery);
               if (!partnerSnap.empty) {
                 hasAccess = true;
+                if (partnerSnap.docs.some(doc => doc.data().requirePasswordChange === true)) {
+                  mustChangePass = true;
+                }
               }
             }
           }
           
           if (hasAccess) {
             setUser(u);
+            setRequirePasswordChange(mustChangePass);
+            try {
+              await setDoc(doc(db, 'users', u.uid), {
+                uid: u.uid,
+                email: u.email,
+                displayName: u.displayName || '',
+                photoURL: u.photoURL || '',
+                lastAccess: serverTimestamp()
+              }, { merge: true });
+            } catch (err) {
+              console.error("Error updating user access time in users collection", err);
+            }
           } else {
             console.warn(`Access denied for non-registered user ${userEmail}. Deleting from Firebase Auth.`);
             try {
@@ -521,6 +573,7 @@ export default function App() {
           user ? (
             <GovernanceProvider user={user}>
               <TooltipProvider>
+                {requirePasswordChange && <ForcePasswordChangeModal onSuccess={() => setRequirePasswordChange(false)} />}
                 <AppContent 
                   user={user}
                   authLoading={authLoading}
@@ -753,28 +806,31 @@ function AppContent({
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
               >
-                {renderCurrentPage({
-                  currentPage,
-                  clients,
-                  selectedClient,
-                  setSelectedClient: handleSelectClient,
-                  selectedMonth,
-                  setSelectedMonth,
-                  selectedYear,
-                  setSelectedYear,
-                  user,
-                  setCurrentPage,
-                  setClients,
-                  academyCourseId,
-                  setAcademyCourseId,
-                  isPartner,
-                  isMaster,
-                  userPartnerIds
-                })}
+                <GlobalErrorBoundary>
+                  {renderCurrentPage({
+                    currentPage,
+                    clients,
+                    selectedClient,
+                    setSelectedClient: handleSelectClient,
+                    selectedMonth,
+                    setSelectedMonth,
+                    selectedYear,
+                    setSelectedYear,
+                    user,
+                    setCurrentPage,
+                    setClients,
+                    academyCourseId,
+                    setAcademyCourseId,
+                    isPartner,
+                    isMaster,
+                    userPartnerIds
+                  })}
+                </GlobalErrorBoundary>
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
+
 
         {showUniversalImport && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
