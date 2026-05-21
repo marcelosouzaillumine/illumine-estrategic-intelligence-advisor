@@ -521,9 +521,11 @@ export default function App() {
       const isFirstAccessOfDay = lastAccess !== today;
       
       if (isFirstAccessOfDay) {
-        setWelcomeText(getRandomWelcomeMessage());
-        setShowWelcome(true);
         localStorage.setItem(lastAccessKey, today);
+        setTimeout(() => {
+          setWelcomeText(getRandomWelcomeMessage());
+          setShowWelcome(true);
+        }, 800);
       }
 
       // Client Selection Logic: 

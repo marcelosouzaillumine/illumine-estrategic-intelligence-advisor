@@ -48,46 +48,46 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-2xl bg-background rounded-card shadow-lg overflow-hidden border border-border flex flex-col max-h-[90vh]"
+            className="relative w-full max-w-[95vw] md:max-w-2xl bg-background rounded-card shadow-lg overflow-hidden border border-border flex flex-col h-[95dvh] max-h-[900px]"
           >
             {/* Header */}
-            <div className="bg-primary p-6 md:p-10 text-primary-foreground relative overflow-hidden shrink-0">
+            <div className="bg-primary p-[clamp(1rem,3dvh,2.5rem)] text-primary-foreground relative overflow-hidden shrink-0 flex flex-col justify-center">
               <div className="absolute top-0 right-0 p-8 opacity-10 rotate-12">
-                <ShieldCheck size={160} />
+                <ShieldCheck className="w-[clamp(100px,25dvh,160px)] h-[clamp(100px,25dvh,160px)]" />
               </div>
               <div className="relative z-10">
-                <div className="w-16 h-16 rounded-button bg-white/10 flex items-center justify-center mb-6">
-                  <Lock size={32} className="text-secondary" />
+                <div className="w-[clamp(2.5rem,7dvh,4rem)] h-[clamp(2.5rem,7dvh,4rem)] rounded-button bg-white/10 flex items-center justify-center mb-[clamp(0.5rem,2dvh,1.5rem)]">
+                  <Lock className="w-[50%] h-[50%] text-secondary" />
                 </div>
-                <h2 className="text-h1 font-medium font-display tracking-tight leading-none mb-4">
+                <h2 className="text-[clamp(1.25rem,4dvh,2.25rem)] font-medium font-display tracking-tight leading-none mb-[clamp(0.25rem,1dvh,1rem)]">
                   Termos & Governança
                 </h2>
-                <p className="text-primary-foreground/60 text-body-md font-medium w-full max-w-none">
+                <p className="text-primary-foreground/60 text-[clamp(0.75rem,1.8dvh,1rem)] font-medium w-full max-w-none">
                   Para prosseguir com o acesso à plataforma Illumine Strategic Intelligence & Advisor, é necessário revisar e aceitar os termos de conformidade e governança de dados.
                 </p>
               </div>
             </div>
 
             {/* Content */}
-            <div className="p-6 md:p-10 space-y-8 flex-1 overflow-y-auto custom-scrollbar">
-              <div className="space-y-4">
+            <div className="p-[clamp(1rem,3dvh,2.5rem)] flex flex-col gap-[clamp(0.75rem,2dvh,2rem)] flex-1 overflow-hidden justify-between">
+              <div className="flex flex-col gap-[clamp(0.5rem,1.5dvh,1rem)] w-full">
                 {/* LGPD */}
                 <div 
                   className={cn(
-                    "flex items-start gap-5 p-6 rounded-md border-2 transition-all cursor-pointer group",
+                    "flex items-start gap-[clamp(0.5rem,1.5dvw,1.25rem)] p-[clamp(0.75rem,2dvh,1.5rem)] rounded-md border-2 transition-all cursor-pointer group",
                     accepted.lgpd ? "border-success bg-success/10" : "border-border bg-surface-container hover:border-primary/20"
                   )}
                   onClick={() => setAccepted(prev => ({ ...prev, lgpd: !prev.lgpd }))}
                 >
                   <div className={cn(
-                    "w-6 h-6 rounded-button border-2 flex items-center justify-center transition-all mt-1 shrink-0",
+                    "w-[clamp(1.25rem,3dvh,1.5rem)] h-[clamp(1.25rem,3dvh,1.5rem)] rounded-button border-2 flex items-center justify-center transition-all mt-0.5 shrink-0",
                     accepted.lgpd ? "bg-success border-success" : "bg-background border-border group-hover:border-primary"
                   )}>
-                    {accepted.lgpd && <CheckCircle2 size={14} className="text-white" />}
+                    {accepted.lgpd && <CheckCircle2 className="w-[60%] h-[60%] text-white" />}
                   </div>
-                  <div>
-                    <h4 className="text-h3 font-medium text-foreground mb-1">Lei Geral de Proteção de Dados (LGPD)</h4>
-                    <p className="text-body-sm text-muted-foreground leading-relaxed font-medium">
+                  <div className="flex-1">
+                    <h4 className="text-[clamp(0.875rem,2.2dvh,1.125rem)] font-medium text-foreground mb-[clamp(0.125rem,0.5dvh,0.25rem)] leading-tight">Lei Geral de Proteção de Dados (LGPD)</h4>
+                    <p className="text-[clamp(0.7rem,1.6dvh,0.875rem)] text-muted-foreground leading-snug font-medium break-words">
                       Confirmo que estou ciente do tratamento de dados pessoais realizado pela plataforma, em total conformidade com a Lei nº 13.709/2018.
                     </p>
                   </div>
@@ -96,22 +96,20 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 {/* Policies */}
                 <div 
                   className={cn(
-                    "flex items-start gap-5 p-6 rounded-md border-2 transition-all cursor-pointer group",
+                    "flex items-start gap-[clamp(0.5rem,1.5dvw,1.25rem)] p-[clamp(0.75rem,2dvh,1.5rem)] rounded-md border-2 transition-all cursor-pointer group",
                     accepted.policies ? "border-success bg-success/10" : "border-border bg-surface-container hover:border-primary/20"
                   )}
                   onClick={() => setAccepted(prev => ({ ...prev, policies: !prev.policies }))}
                 >
                   <div className={cn(
-                    "w-6 h-6 rounded-button border-2 flex items-center justify-center transition-all mt-1 shrink-0",
+                    "w-[clamp(1.25rem,3dvh,1.5rem)] h-[clamp(1.25rem,3dvh,1.5rem)] rounded-button border-2 flex items-center justify-center transition-all mt-0.5 shrink-0",
                     accepted.policies ? "bg-success border-success" : "bg-background border-border group-hover:border-primary"
                   )}>
-                    {accepted.policies && <CheckCircle2 size={14} className="text-white" />}
+                    {accepted.policies && <CheckCircle2 className="w-[60%] h-[60%] text-white" />}
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-h3 font-medium text-foreground mb-1">Políticas da Plataforma</h4>
-                    </div>
-                    <p className="text-body-sm text-muted-foreground leading-relaxed font-medium">
+                    <h4 className="text-[clamp(0.875rem,2.2dvh,1.125rem)] font-medium text-foreground mb-[clamp(0.125rem,0.5dvh,0.25rem)] leading-tight">Políticas da Plataforma</h4>
+                    <p className="text-[clamp(0.7rem,1.6dvh,0.875rem)] text-muted-foreground leading-snug font-medium break-words">
                       Aceito as diretrizes de uso, confidencialidade e responsabilidade operacional estabelecidas para o ambiente Illumine Strategic Intelligence & Advisor.
                     </p>
                   </div>
@@ -120,35 +118,35 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 {/* Curation */}
                 <div 
                   className={cn(
-                    "flex items-start gap-5 p-6 rounded-md border-2 transition-all cursor-pointer group",
+                    "flex items-start gap-[clamp(0.5rem,1.5dvw,1.25rem)] p-[clamp(0.75rem,2dvh,1.5rem)] rounded-md border-2 transition-all cursor-pointer group",
                     accepted.curation ? "border-success bg-success/10" : "border-border bg-surface-container hover:border-primary/20"
                   )}
                   onClick={() => setAccepted(prev => ({ ...prev, curation: !prev.curation }))}
                 >
                   <div className={cn(
-                    "w-6 h-6 rounded-button border-2 flex items-center justify-center transition-all mt-1 shrink-0",
+                    "w-[clamp(1.25rem,3dvh,1.5rem)] h-[clamp(1.25rem,3dvh,1.5rem)] rounded-button border-2 flex items-center justify-center transition-all mt-0.5 shrink-0",
                     accepted.curation ? "bg-success border-success" : "bg-background border-border group-hover:border-primary"
                   )}>
-                    {accepted.curation && <CheckCircle2 size={14} className="text-white" />}
+                    {accepted.curation && <CheckCircle2 className="w-[60%] h-[60%] text-white" />}
                   </div>
-                  <div>
-                    <h4 className="text-h3 font-medium text-foreground mb-1">Ciência de Curadoria</h4>
-                    <p className="text-body-sm text-muted-foreground leading-relaxed font-medium">
+                  <div className="flex-1">
+                    <h4 className="text-[clamp(0.875rem,2.2dvh,1.125rem)] font-medium text-foreground mb-[clamp(0.125rem,0.5dvh,0.25rem)] leading-tight">Ciência de Curadoria</h4>
+                    <p className="text-[clamp(0.7rem,1.6dvh,0.875rem)] text-muted-foreground leading-snug font-medium break-words">
                       Compreendo que toda informação enviada passa por processos de curadoria e validação humana para garantir a integridade dos indicadores.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-border flex items-center justify-between shrink-0">
+              <div className="pt-[clamp(0.5rem,1.5dvh,1.5rem)] border-t border-border flex items-center justify-between shrink-0">
                 <button 
                   onClick={() => setShowFullTerms(true)}
-                  className="flex items-center gap-2 text-body-sm font-medium uppercase tracking-widest text-secondary hover:underline"
+                  className="flex items-center gap-[clamp(0.25rem,0.5dvw,0.5rem)] text-[clamp(0.6rem,1.4dvh,0.875rem)] font-medium uppercase tracking-widest text-secondary hover:underline"
                 >
-                  <FileText size={14} /> Ler Termos Completos
+                  <FileText className="w-[clamp(0.75rem,1.8dvh,1rem)] h-[clamp(0.75rem,1.8dvh,1rem)]" /> Ler Termos Completos
                 </button>
-                <div className="flex items-center gap-2 text-[9px] font-medium text-muted-foreground">
-                  <Info size={12} /> Versão 1.0.2 (Mai/2026)
+                <div className="flex items-center gap-[clamp(0.25rem,0.5dvw,0.5rem)] text-[clamp(0.5rem,1.2dvh,0.6rem)] font-medium text-muted-foreground hidden sm:flex">
+                  <Info className="w-[clamp(0.5rem,1.2dvh,0.75rem)] h-[clamp(0.5rem,1.2dvh,0.75rem)]" /> Versão 1.0.2 (Mai/2026)
                 </div>
               </div>
 
@@ -156,13 +154,13 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 disabled={!allAccepted}
                 onClick={onAccept}
                 className={cn(
-                  "w-full py-5 rounded-md text-body-sm font-medium uppercase tracking-widest transition-all flex items-center justify-center gap-4 shadow-sm shrink-0",
+                  "w-full py-[clamp(0.75rem,2.5dvh,1.25rem)] rounded-md text-[clamp(0.7rem,1.8dvh,0.875rem)] font-medium uppercase tracking-widest transition-all flex items-center justify-center gap-[clamp(0.5rem,1dvw,1rem)] shadow-sm shrink-0",
                   allAccepted 
                     ? "bg-primary text-primary-foreground hover:-translate-y-0.5 active:scale-98" 
                     : "bg-surface-container text-muted-foreground cursor-not-allowed shadow-none"
                 )}
               >
-                Confirmar e Entrar <ArrowRight size={18} />
+                Confirmar e Entrar <ArrowRight className="w-[clamp(1rem,2dvh,1.25rem)] h-[clamp(1rem,2dvh,1.25rem)]" />
               </button>
             </div>
           </motion.div>

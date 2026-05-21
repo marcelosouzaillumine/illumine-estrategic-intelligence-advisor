@@ -122,6 +122,7 @@ export function DashboardPage({
   setSelectedYear,
   onNavigate
 }: any) {
+  const [periodMode, setPeriodMode] = useState<'mensal' | 'anual'>('mensal');
   const [dbIndicators, setDbIndicators] = useState<any[]>([]);
   const [allYearIndicators, setAllYearIndicators] = useState<any[]>([]);
   const [allFinancialEntries, setAllFinancialEntries] = useState<any[]>([]);
@@ -136,7 +137,7 @@ export function DashboardPage({
 
   const colors = getThemeColors();
 
-  const { kpis: calculatedKPIs } = useRealIndicatorData(selectedClient, selectedMonth, selectedYear);
+  const { kpis: calculatedKPIs } = useRealIndicatorData(selectedClient, periodMode === 'anual' ? 0 : selectedMonth, selectedYear);
 
   useEffect(() => {
     if (!selectedClient) return;
@@ -151,7 +152,45 @@ export function DashboardPage({
       const allData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setAllYearIndicators(allData);
       
-      const current = allData.filter((i: any) => i.ano === selectedYear && i.mes === selectedMonth);
+      let current: any[] = [];
+      if (periodMode === 'anual') {
+        const yearData = allData.filter((i: any) => i.ano === selectedYear);
+        const groupsMapByName: Record<string, any[]> = {};
+        yearData.forEach((ind: any) => {
+          const name = ind.ind || '';
+          if (!groupsMapByName[name]) groupsMapByName[name] = [];
+          groupsMapByName[name].push(ind);
+        });
+
+        current = Object.entries(groupsMapByName).map(([name, docs]) => {
+          const lowerName = name.toLowerCase();
+          const shouldSum = lowerName.includes('faturamento') ||
+            (lowerName.includes('ebitda') && !lowerName.includes('margem')) ||
+            (lowerName.includes('lucro') && !lowerName.includes('margem')) ||
+            (lowerName.includes('receita') && !lowerName.includes('margem')) ||
+            lowerName.includes('fluxo de caixa');
+
+          let val = 0;
+          if (shouldSum) {
+            val = docs.reduce((sum, doc) => sum + (Number(doc.val) || 0), 0);
+          } else {
+            val = docs.reduce((sum, doc) => sum + (Number(doc.val) || 0), 0) / docs.length;
+          }
+
+          const semScore = docs.reduce((sum, doc) => {
+            const s = doc.sem;
+            if (s === 'Verde') return sum + 3;
+            if (s === 'Amarelo') return sum + 2;
+            return sum + 1;
+          }, 0) / docs.length;
+
+          const sem = semScore >= 2.5 ? 'Verde' : semScore >= 1.5 ? 'Amarelo' : 'Vermelho';
+
+          return { ...docs[0], val, sem };
+        });
+      } else {
+        current = allData.filter((i: any) => i.ano === selectedYear && i.mes === selectedMonth);
+      }
       setDbIndicators(current);
       setLoading(false);
     });
@@ -170,7 +209,7 @@ export function DashboardPage({
       unsubAll();
       unsubEntries();
     };
-  }, [selectedClient, selectedYear, selectedMonth]);
+  }, [selectedClient, selectedYear, selectedMonth, periodMode]);
 
   const getIndicatorValue = useCallback((name: string) => {
     const ind = dbIndicators.find((i: any) => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
@@ -303,6 +342,8 @@ export function DashboardPage({
         setSelectedYear={setSelectedYear}
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
+        periodMode={periodMode}
+        setPeriodMode={setPeriodMode}
         showStatusBadge={true}
         statusBadgeLabel="Monitoramento Ativo"
       />
