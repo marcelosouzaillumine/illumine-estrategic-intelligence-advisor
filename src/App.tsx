@@ -230,6 +230,7 @@ export default function App() {
   const [expandedGroups, setExpandedGroups] = useState<string[]>(['Dados de Cadastro', 'Análise de Performance', 'Planejamento Estratégico']);
   const [user, setUser] = useState<User | null>(null);
   const [userPermissions, setUserPermissions] = useState<string[] | null>(null);
+  const [clientPermissionsMap, setClientPermissionsMap] = useState<Record<string, string[]>>({});
   const [authLoading, setAuthLoading] = useState(true);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>(DEFAULT_OPEN_SUBMENUS);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
@@ -434,46 +435,81 @@ export default function App() {
           q = query(collection(db, 'clients'));
           setUserPermissions(null);
         } else {
-          const userAssocQuery = query(collection(db, 'client_users'), where('email', '==', user.email));
+          const userEmail = (user.email || '').toLowerCase().trim();
+          const userAssocQuery = query(
+            collection(db, 'client_users'), 
+            or(
+              where('email', '==', userEmail),
+              where('email', '==', user.email || '')
+            )
+          );
           const assocSnap = await getDocs(userAssocQuery);
           
           if (!assocSnap.empty) {
             const assocData = assocSnap.docs.map(doc => doc.data());
-            const assocIds = assocData.map(d => d.clientId);
-            const permissions = assocData.flatMap(d => d.permissoes || []);
-            setUserPermissions(permissions);
+            const rawAssocIds = assocData.map(d => d.clientId).filter(Boolean);
+            const assocIds = Array.from(new Set(rawAssocIds));
+            const pMap: Record<string, string[]> = {};
+            assocData.forEach(d => {
+              if (d.clientId) {
+                pMap[d.clientId] = d.permissoes || [];
+              }
+            });
+            setClientPermissionsMap(pMap);
 
             // Check if any assocId is a partnerId
-            const partnersSnap = await getDocs(query(collection(db, 'partners'), where('__name__', 'in', assocIds)));
-            const partnerIds = partnersSnap.docs.map(d => d.id);
+            const safeAssocIdsForPartnerCheck = assocIds.slice(0, 30);
+            let partnerIds: string[] = [];
+            if (safeAssocIdsForPartnerCheck.length > 0) {
+              const partnersSnap = await getDocs(query(collection(db, 'partners'), where('__name__', 'in', safeAssocIdsForPartnerCheck)));
+              partnerIds = partnersSnap.docs.map(d => d.id);
+            }
 
             if (partnerIds.length > 0) {
               console.log('[Auth] Partner detected:', partnerIds);
               setIsPartner(true);
               setUserPartnerIds(partnerIds);
-              // For partners, fetch clients where partnerId matches OR isModel is true
+              const safePartnerIds = partnerIds.slice(0, 30);
+              // For partners, fetch clients where partnerId matches OR isModel is true OR ownerId matches
               q = query(collection(db, 'clients'), 
                 or(
-                  where('partnerId', 'in', partnerIds),
-                  where('isModel', '==', true)
+                  where('partnerId', 'in', safePartnerIds),
+                  where('isModel', '==', true),
+                  where('ownerId', '==', user.uid)
                 )
               );
             } else {
               setIsPartner(false);
               setUserPartnerIds([]);
-              // For regular users, fetch linked clients OR model companies
-              q = query(collection(db, 'clients'), 
-                or(
-                  where('__name__', 'in', assocIds),
-                  where('isModel', '==', true)
-                )
-              );
+              // For regular users, fetch linked clients OR model companies OR ownerId matches
+              const safeAssocIds = assocIds.slice(0, 30);
+              if (safeAssocIds.length > 0) {
+                q = query(collection(db, 'clients'), 
+                  or(
+                    where('__name__', 'in', safeAssocIds),
+                    where('isModel', '==', true),
+                    where('ownerId', '==', user.uid)
+                  )
+                );
+              } else {
+                q = query(collection(db, 'clients'), 
+                  or(
+                    where('ownerId', '==', user.uid),
+                    where('isModel', '==', true)
+                  )
+                );
+              }
             }
           } else {
-            setUserPermissions(null);
+            setClientPermissionsMap({});
             setIsPartner(false);
             setUserPartnerIds([]);
-            q = query(collection(db, 'clients'), where('ownerId', '==', user.uid));
+            q = query(collection(db, 'clients'), 
+              or(
+                where('ownerId', '==', user.uid),
+                where('isModel', '==', true)
+              )
+            );
           }
         }
 
@@ -500,6 +536,36 @@ export default function App() {
       unsubscribePromise.then(unsub => unsub && (unsub as any)());
     };
   }, [user, authLoading]);
+
+  // Handle dynamic permissions based on selected client
+  useEffect(() => {
+    if (!user || authLoading || !rolesLoaded) return;
+
+    if (isMaster) {
+      setUserPermissions(null);
+      return;
+    }
+
+    if (!selectedClient || clients.length === 0) return;
+
+    const client = clients.find(c => c.id === selectedClient);
+    if (!client) return;
+
+    // Full access if user owns the client, or if it is a model company
+    if (client.ownerId === user.uid || client.isModel) {
+      setUserPermissions(null);
+      return;
+    }
+
+    // Full access if partner is linked to the client
+    if (isPartner && client.partnerId && userPartnerIds.includes(client.partnerId)) {
+      setUserPermissions(null);
+      return;
+    }
+
+    // Otherwise apply permissions from client_users
+    setUserPermissions(clientPermissionsMap[selectedClient] || []);
+  }, [selectedClient, clients, isMaster, isPartner, userPartnerIds, clientPermissionsMap, user, authLoading, rolesLoaded]);
 
   // Initial redirection and welcome message logic
   useEffect(() => {

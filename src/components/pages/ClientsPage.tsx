@@ -2283,7 +2283,7 @@ loading: ${loading}
               </div>
               <div className="space-y-2">
                 <h3 className="text-h4 font-medium text-foreground">Nenhuma empresa encontrada</h3>
-                <p className="text-body-sm text-muted-foreground max-w-xs mx-auto leading-relaxed">
+                <p className="text-body-sm text-muted-foreground max-w-xs mx-auto leading-relaxed text-balance">
                   Ajuste os filtros ou o termo de busca para visualizar empresas da carteira.
                 </p>
               </div>
