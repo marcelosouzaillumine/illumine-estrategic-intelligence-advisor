@@ -80,7 +80,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             level: d.level ?? 1  // preserve level from manual launch
           };
         }
-        aggregated[key].val += (d.val || d.valor || 0);
+        aggregated[key].val += (d.val || d.valor || d.value || 0);
       });
       return Object.values(aggregated);
     }
@@ -98,10 +98,19 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const lucroLiq   = getValue(rows, 'Lucro Líquido') || getValue(rows, 'Lucro Líquido do Exercício');
 
   const custosVar = getValue(rows, 'Custos Variáveis') || getValue(rows, 'CMV') || getValue(rows, 'CPV') || 0;
-  const despesasFixas = getValue(rows, 'Despesas Operacionais') || getValue(rows, 'Despesas Administrativas') || 0;
+  const despesasFixas = getValue(rows, 'Despesas Operacionais') || 0;
   const margemContrib = recLiquida - custosVar;
   const indiceMargemContrib = recLiquida > 0 ? margemContrib / recLiquida : 0;
   const pontoEquilibrio = (indiceMargemContrib > 0) ? despesasFixas / indiceMargemContrib : 0;
+
+  const performanceNote = useMemo(() => {
+    if (recLiquida === 0 || pontoEquilibrio === 0) return "Aguardando dados para análise.";
+    if (recLiquida >= pontoEquilibrio) {
+      return `A receita anual de ${formatCurrency(recLiquida)} superou o ponto de equilíbrio de ${formatCurrency(pontoEquilibrio)}, indicando uma operação rentável no exercício.`;
+    } else {
+      return `A receita anual de ${formatCurrency(recLiquida)} ficou abaixo do ponto de equilíbrio de ${formatCurrency(pontoEquilibrio)}, necessitando de ajustes para cobrir as despesas operacionais e custos.`;
+    }
+  }, [recLiquida, pontoEquilibrio]);
 
   const marginIndices = [
     { name: 'Margem Bruta',  val: (lucroBruto / recLiquida) * 100, unit: '%', desc: 'Eficiência na produção/serviço', color: 'text-emerald-600' },
@@ -121,9 +130,9 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       let ll = 0;
 
       if (yearEntries.length > 0) {
-        rl = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('receita líquida')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
-        ebt = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('ebitda')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
-        ll = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('lucro líquido')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
+        rl = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('receita líquida')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+        ebt = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('ebitda')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+        ll = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('lucro líquido')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
       } else {
         const mockYear = DATA.dre.filter((r: any) => r.id === selectedClient && r.ano === y);
         rl = mockYear.find(m => m.conta === 'Receita Líquida')?.valor || 0;
@@ -195,7 +204,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       prevEntries.forEach((d: any) => {
         const key = d.conta || d.category;
         if (!agg[key]) agg[key] = { ...d, val: 0 };
-        agg[key].val += (d.val || d.valor || 0);
+        agg[key].val += (d.val || d.valor || d.value || 0);
       });
       return Object.values(agg);
     }
@@ -357,8 +366,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             
             <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
               <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Ponto de Equilíbrio Estimado</p>
-              <p className="text-sm font-bold">{dbData.length > 0 ? formatCurrency(recLiquida * 0.7) : '---'}</p>
-              <p className="text-[9px] text-white/30 font-medium mt-1 italic">Baseado na estrutura de custos atual</p>
+              <p className="text-sm font-bold">{dbData.length > 0 ? formatCurrency(pontoEquilibrio) : '---'}</p>
+              <p className="text-[10px] text-white/50 font-medium mt-2 italic leading-relaxed">{dbData.length > 0 ? performanceNote : 'Baseado na estrutura de custos atual'}</p>
             </div>
           </div>
 

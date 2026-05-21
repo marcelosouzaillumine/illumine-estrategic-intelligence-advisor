@@ -120,7 +120,11 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
       }
     } catch (err: any) {
       console.error("Curation Error:", err);
-      setError(err.message || 'Erro ao processar com Inteligência Artificial.');
+      let errorMessage = err.message || 'Erro ao processar com Inteligência Artificial.';
+      if (errorMessage.includes('Failed to fetch') || errorMessage.includes('NetworkError')) {
+        errorMessage = 'Erro de CORS ou Arquivo inacessível. Certifique-se de configurar as regras de CORS no Firebase Storage (consulte cors.json no diretório raiz).';
+      }
+      setError(errorMessage);
     } finally {
       setIsProcessing(false);
       setProgress(100);

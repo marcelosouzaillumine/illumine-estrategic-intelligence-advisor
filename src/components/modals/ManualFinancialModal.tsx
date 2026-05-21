@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { X, Plus, Trash2, Save, Loader2, AlertCircle, Database } from 'lucide-react';
+import { X, Plus, Trash2, Save, Loader2, AlertCircle, Database, ArrowUp, ArrowDown } from 'lucide-react';
 import { collection, addDoc, query, where, getDocs, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
@@ -83,6 +83,15 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
 
   const updateRow = (id: string, field: keyof Row, val: any) => {
     setRows(rows.map(r => r.id === id ? { ...r, [field]: val } : r));
+  };
+
+  const moveRow = (index: number, direction: 1 | -1) => {
+    if (index + direction < 0 || index + direction >= rows.length) return;
+    const newRows = [...rows];
+    const temp = newRows[index];
+    newRows[index] = newRows[index + direction];
+    newRows[index + direction] = temp;
+    setRows(newRows);
   };
 
   const computedRows = [...rows].map(r => ({ ...r, hasChildren: false, computedValue: 0 }));
@@ -238,11 +247,11 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                     <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-400 uppercase">Conta / Categoria</th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-400 uppercase w-40">Tipo</th>
                     <th className="text-right py-3 px-4 text-[10px] font-bold text-slate-400 uppercase w-40">Valor (R$)</th>
-                    <th className="w-12"></th>
+                    <th className="w-20"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
-                  {computedRows.map((row) => (
+                  {computedRows.map((row, index) => (
                     <tr key={row.id}>
                       <td className="py-2 px-2">
                         <select
@@ -309,8 +318,14 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                           )}
                         />
                       </td>
-                      <td className="py-2 px-2 text-center">
-                        <button onClick={() => removeRow(row.id)} className="p-2 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
+                      <td className="py-2 px-2 text-center flex items-center justify-center gap-1">
+                        <button onClick={() => moveRow(index, -1)} disabled={index === 0} className="p-1 text-slate-400 hover:text-primary hover:bg-slate-100 rounded transition-all disabled:opacity-30 disabled:hover:bg-transparent">
+                          <ArrowUp size={16} />
+                        </button>
+                        <button onClick={() => moveRow(index, 1)} disabled={index === computedRows.length - 1} className="p-1 text-slate-400 hover:text-primary hover:bg-slate-100 rounded transition-all disabled:opacity-30 disabled:hover:bg-transparent">
+                          <ArrowDown size={16} />
+                        </button>
+                        <button onClick={() => removeRow(row.id)} className="p-1 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-all">
                           <Trash2 size={16} />
                         </button>
                       </td>

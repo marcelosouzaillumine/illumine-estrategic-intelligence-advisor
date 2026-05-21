@@ -94,7 +94,7 @@ export function AppSidebar({
   setIsMobileMenuOpen,
   totalPending,
 }: AppSidebarProps) {
-  const { state, isMobile, setOpenMobile } = useSidebar();
+  const { state, isMobile, setOpenMobile, setOpen } = useSidebar();
   const isCollapsed = state === 'collapsed';
 
   // Filter groups based on permissions
@@ -182,7 +182,11 @@ export function AppSidebar({
                           isActive={isActive}
                           tooltip={isCollapsed ? item.label : undefined}
                           onClick={() => {
-                            if (isCollapsed && hasChildren) return;
+                            if (isCollapsed && hasChildren) {
+                              setOpen(true);
+                              setCurrentPage(item.id);
+                              return;
+                            }
                             setCurrentPage(item.id);
                             if (isMobile) setOpenMobile(false);
                           }}

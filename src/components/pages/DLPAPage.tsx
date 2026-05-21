@@ -86,8 +86,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       let lucro = 0; let dividendos = 0;
 
       if (yearEntries.length > 0) {
-        lucro = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('lucro líquido')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
-        dividendos = Math.abs(yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('dividendos')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0));
+        lucro = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('lucro líquido')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+        dividendos = Math.abs(yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('dividendos')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0));
       } else {
         lucro = 0; dividendos = 0;
       }

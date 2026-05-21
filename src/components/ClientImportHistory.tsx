@@ -33,6 +33,7 @@ import { db, storage, auth, handleFirestoreError, OperationType } from '../lib/f
 import { cn } from '../lib/utils';
 import { DOCUMENT_TYPES } from '../constants/documents';
 import { notificationService } from '../services/notificationService';
+import { parseFinancialPdf } from '../services/importService';
 
 export function ClientImportHistory({ clientId, clientName }: { clientId: string, clientName: string }) {
   const [month, setMonth] = useState(new Date().getMonth() + 1);
@@ -139,26 +140,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
         });
         await promise;
       } else if (extension === 'pdf') {
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-        let fullText = '';
-        for (let i = 1; i <= pdf.numPages; i++) {
-          const page = await pdf.getPage(i);
-          const textContent = await page.getTextContent();
-          fullText += textContent.items.map((item: any) => (item as any).str).join(' ') + '\n';
-        }
-        
-        const lines = fullText.split('\n');
-        lines.forEach(line => {
-          const match = line.match(/(.*?)\s+([-+]?\d+[.,\d]*)$/);
-          if (match) {
-            const cat = match[1].trim();
-            const val = cleanNumber(match[2]);
-            if (cat && !isNaN(val) && cat.length < 100) {
-              dataEntries.push({ category: cat, value: val });
-            }
-          }
-        });
+        dataEntries = await parseFinancialPdf(file);
       } else {
         throw new Error('Formato de arquivo não suportado. Use XLSX, XLS, CSV ou PDF.');
       }

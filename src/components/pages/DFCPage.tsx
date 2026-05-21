@@ -86,9 +86,9 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       let o = 0; let i = 0; let f = 0;
 
       if (yearEntries.length > 0) {
-        o = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('operacionais')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
-        i = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('investimento')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
-        f = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('financiamento')).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
+        o = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('operacionais')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+        i = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('investimento')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
+        f = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('financiamento')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
       } else {
         o = 0; i = 0; f = 0;
       }

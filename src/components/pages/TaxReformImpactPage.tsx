@@ -172,7 +172,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
     if (dreData && dreData.length > 0) {
       const getValue = (name: string) => {
         const search = name.toLowerCase();
-        return dreData.filter(d => (d.conta || d.category || '').toLowerCase().includes(search)).reduce((acc, d) => acc + (d.val || d.valor || 0), 0);
+        return dreData.filter(d => (d.conta || d.category || '').toLowerCase().includes(search)).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
       };
 
       const rb = getValue('receita operacional bruta') || getValue('faturamento');

@@ -62,7 +62,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   const docIds = dbDataBP.length > 0 ? docIdsBP : docIdsShort;
 
   const rows = dbData.length > 0
-    ? dbData.map((d: any) => ({ ...d, val: d.val ?? d.valor ?? 0 }))
+    ? dbData.map((d: any) => ({ ...d, val: d.val ?? d.valor ?? d.value ?? 0, conta: d.conta || d.category || '' }))
     : [];
 
   // ── Processamento Histórico ────────────────────────────────────────────────

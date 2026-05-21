@@ -134,7 +134,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
       if (filterUnidade !== 'Todas' && d.unidade !== filterUnidade) return;
       if (filterCentroCusto !== 'Todos' && (d.centro_custo || d.centroCusto) !== filterCentroCusto) return;
 
-      const val = d.val || d.valor || 0;
+      const val = d.val || d.valor || d.value || 0;
       const cat = (d.conta || d.category || '').toLowerCase();
 
       if (cat.includes('receita bruta') || cat.includes('faturamento')) valuesByPeriod[periodKey].rb += val;
