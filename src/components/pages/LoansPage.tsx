@@ -234,7 +234,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             <WalletCards size={48} className="text-slate-200" />
           </div>
           <h3 className="text-xl font-bold text-slate-800 mb-2">Sem contratos registrados</h3>
-          <p className="text-slate-500 max-w-md mb-8">Nenhum contrato de financiamento foi cadastrado para o cliente {(clients || []).find((c: any) => c.id === selectedClient)?.fantasia || 'Selecionado'} até o momento.</p>
+          <p className="text-slate-500 max-w-2xl mx-auto mb-8 leading-relaxed">Nenhum contrato de financiamento foi cadastrado para o cliente {(clients || []).find((c: any) => c.id === selectedClient)?.fantasia || 'Selecionado'} até o momento.</p>
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setShowContractModal(true)}

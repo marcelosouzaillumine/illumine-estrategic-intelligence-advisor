@@ -170,11 +170,19 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
       // 1. Upload File to Firebase Storage for Audit Integrity
       let fileUrl = '';
       try {
-        const storageRef = ref(storage, `imports/${clientId}/${Date.now()}_${file.name}`);
-        const uploadResult = await uploadBytes(storageRef, file);
+        const safeFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+        const storageRef = ref(storage, `imports/${clientId}/${Date.now()}_${safeFileName}`);
+        
+        const uploadPromise = uploadBytes(storageRef, file);
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout de Conexão ou Bloqueio do Servidor (30s)")), 30000));
+        
+        const uploadResult = await Promise.race([uploadPromise, timeoutPromise]) as any;
         fileUrl = await getDownloadURL(uploadResult.ref);
-      } catch (storageErr) {
+      } catch (storageErr: any) {
         console.warn("Failed to upload original file to storage, proceeding with data only.", storageErr);
+        if (extension === 'pdf') {
+          throw new Error(`Falha ao salvar o arquivo físico do PDF na nuvem: ${storageErr.message || 'Verifique as regras do Firebase Storage.'}`);
+        }
       }
 
       const payload = {

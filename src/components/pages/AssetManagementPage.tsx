@@ -379,7 +379,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                   <m.icon size={18} />
                 </div>
               </div>
-              <p className="text-2xl font-display font-black tracking-tight text-primary group-hover:text-secondary transition-colors">
+              <p className="text-2xl font-display tracking-tight text-primary group-hover:text-secondary transition-colors">
                 {m.value}
               </p>
               <div className="mt-4 flex items-center gap-2">
@@ -512,8 +512,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                 <div key={b.name} className="space-y-3">
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{b.name}</p>
                   <div className="flex items-baseline gap-1">
-                    <p className={`text-2xl font-display font-black ${b.color}`}>{b.value.toFixed(2)}%</p>
-                    <span className="text-[10px] font-bold text-slate-400">/mês</span>
+                    <p className={`text-2xl font-display ${b.color}`}>{b.value.toFixed(2)}%</p>
+                    <span className="text-[10px] text-slate-400">/mês</span>
                   </div>
                   <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
                     <motion.div 
@@ -552,8 +552,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-display font-black text-secondary">{sim.yield}% <span className="text-[10px] text-slate-400 uppercase">Est.</span></p>
-                    <p className="text-[9px] text-emerald-400 font-bold">+{ (sim.yield - monthlyYield).toFixed(2) }% vs Atual</p>
+                    <p className="text-lg font-display text-secondary">{sim.yield}% <span className="text-[10px] text-slate-400 uppercase">Est.</span></p>
+                    <p className="text-[9px] text-emerald-400">+{ (sim.yield - monthlyYield).toFixed(2) }% vs Atual</p>
                   </div>
                 </div>
               ))}
@@ -567,25 +567,25 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
           <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm space-y-8 h-full">
             <div className="p-6 bg-slate-50 rounded-3xl space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Lucro Bruto</span>
-                <span className="text-sm font-black text-primary">{formatCurrency(taxSimulation.grossProfit)}</span>
+                <span className="text-[10px] text-slate-400 uppercase tracking-widest">Lucro Bruto</span>
+                <span className="text-sm text-primary">{formatCurrency(taxSimulation.grossProfit)}</span>
               </div>
               <div className="flex justify-between items-center text-rose-500">
-                <span className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                <span className="text-[10px] uppercase tracking-widest flex items-center gap-1.5">
                   <TrendingDown size={12} /> IOF (30 dias)
                 </span>
-                <span className="text-sm font-black">-{formatCurrency(taxSimulation.iof)}</span>
+                <span className="text-sm">-{formatCurrency(taxSimulation.iof)}</span>
               </div>
               <div className="flex justify-between items-center text-rose-500">
-                <span className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                <span className="text-[10px] uppercase tracking-widest flex items-center gap-1.5">
                   <Percent size={12} /> IRF (15%)
                 </span>
-                <span className="text-sm font-black">-{formatCurrency(taxSimulation.irf)}</span>
+                <span className="text-sm">-{formatCurrency(taxSimulation.irf)}</span>
               </div>
               <div className="h-px bg-slate-200 my-2"></div>
               <div className="flex justify-between items-center text-emerald-500">
-                <span className="text-[11px] font-black uppercase tracking-widest">Lucro Líquido</span>
-                <span className="text-lg font-display font-black">{formatCurrency(taxSimulation.netProfit)}</span>
+                <span className="text-[11px] uppercase tracking-widest">Lucro Líquido</span>
+                <span className="text-lg font-display">{formatCurrency(taxSimulation.netProfit)}</span>
               </div>
             </div>
 
@@ -656,7 +656,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                   <tr key={asset.id} className="hover:bg-slate-50/30 transition-colors group">
                     <td className="px-5 md:px-8 py-3 md:py-5">
                       <div className="flex flex-col">
-                        <span className="text-xs font-black text-primary group-hover:text-secondary transition-colors">{asset.name}</span>
+                        <span className="text-xs text-primary group-hover:text-secondary transition-colors">{asset.name}</span>
                         <span className="text-[10px] text-slate-400 font-medium mt-0.5">
                           {asset.applicationDate ? `Aplicado em ${new Date(asset.applicationDate + 'T12:00:00').toLocaleDateString('pt-BR')}` : 'Custódia Principal'}
                         </span>
@@ -664,34 +664,34 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                     </td>
                     <td className="px-6 py-5 text-center">
                        <div className="flex flex-col items-center gap-1">
-                        <span className="px-3 py-1 bg-slate-100 rounded-full text-[9px] font-black text-slate-500 uppercase tracking-tighter">
+                        <span className="px-3 py-1 bg-slate-100 rounded-full text-[9px] text-slate-500 uppercase tracking-tighter">
                           {asset.category}
                         </span>
                         {asset.yieldType && (
-                          <span className="text-[9px] font-bold text-secondary uppercase tracking-widest">{asset.yieldType}</span>
+                          <span className="text-[9px] text-secondary uppercase tracking-widest">{asset.yieldType}</span>
                         )}
                        </div>
                      </td>
                     <td className="px-6 py-5 text-right">
-                      <span className="text-xs font-black text-primary">{formatCurrency(asset.value)}</span>
+                      <span className="text-xs text-primary">{formatCurrency(asset.value)}</span>
                     </td>
                     <td className="px-6 py-5 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         {asset.change >= 0 ? <ArrowUpRight size={12} className="text-emerald-500" /> : <ArrowDownRight size={12} className="text-rose-500" />}
-                        <span className={cn("text-xs font-black", asset.change >= 0 ? "text-emerald-500" : "text-rose-500")}>
+                        <span className={cn("text-xs", asset.change >= 0 ? "text-emerald-500" : "text-rose-500")}>
                           {Math.abs(asset.change)}%
                         </span>
                       </div>
                     </td>
                     <td className="px-6 py-5 text-right">
-                       <span className={cn("text-xs font-bold", asset.profit >= 0 ? "text-emerald-500" : "text-rose-500")}>
+                       <span className={cn("text-xs", asset.profit >= 0 ? "text-emerald-500" : "text-rose-500")}>
                         {asset.profit >= 0 ? '+' : ''}{formatCurrency(asset.profit)}
                        </span>
                     </td>
                     <td className="px-6 py-5">
                       <div className="flex items-center justify-center gap-2">
                         <Semaphore status={asset.status} />
-                        <span className="text-[10px] font-bold text-slate-500">{asset.status}</span>
+                        <span className="text-[10px] text-slate-500">{asset.status}</span>
                       </div>
                     </td>
                     <td className="px-5 md:px-8 py-3 md:py-5 text-right">

@@ -2286,13 +2286,13 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
         ) : (
           <>
             {/* Column headers — apenas desktop */}
-            <div className="hidden lg:grid lg:grid-cols-[56px_minmax(0,2.5fr)_minmax(0,1.2fr)_minmax(0,1fr)_100px_auto] gap-4 px-6 py-3 text-[9px] font-bold text-muted-foreground/70 uppercase tracking-[0.2em]">
+            <div className="hidden lg:grid lg:grid-cols-[56px_minmax(0,2.5fr)_minmax(0,1.2fr)_minmax(0,1fr)_100px_260px] gap-4 px-6 pl-7 py-3 text-[9px] font-bold text-muted-foreground/70 uppercase tracking-[0.2em]">
               <div />
               <div>Empresa</div>
               <div>Documento</div>
               <div className="flex items-center gap-1.5"><MapPin size={10} /> Local</div>
               <div className="text-center">Status</div>
-              <div className="text-right pr-2">Ações</div>
+              <div className="text-right">Ações</div>
             </div>
 
             {paginatedClients.map((client: any, idx: number) => {
@@ -2315,7 +2315,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
                     statusColor
                   )} />
 
-                  <div className="flex flex-col lg:grid lg:grid-cols-[56px_minmax(0,2.5fr)_minmax(0,1.2fr)_minmax(0,1fr)_100px_auto] items-start lg:items-center gap-4 px-6 py-4 pl-7">
+                  <div className="flex flex-col lg:grid lg:grid-cols-[56px_minmax(0,2.5fr)_minmax(0,1.2fr)_minmax(0,1fr)_100px_260px] items-start lg:items-center gap-4 px-6 py-4 pl-7">
                     
                     {/* Avatar */}
                     <div className={cn(

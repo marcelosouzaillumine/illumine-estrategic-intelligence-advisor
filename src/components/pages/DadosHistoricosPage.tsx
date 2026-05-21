@@ -271,9 +271,9 @@ export function DadosHistoricosPage({
           }
         );
 
-        // Timeout de 45 segundos para o upload
+        // Timeout de 30 segundos para o upload
         const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error("Timeout de Conexão (45s)")), 45000)
+          setTimeout(() => reject(new Error("Timeout de Conexão ou Bloqueio do Servidor (30s)")), 30000)
         );
 
         try {
@@ -283,9 +283,15 @@ export function DadosHistoricosPage({
           setProgress(50);
         } catch (raceErr: any) {
           console.error("[DEBUG] Erro no upload ou timeout:", raceErr);
+          
+          if (file.name.toLowerCase().endsWith('.pdf')) {
+            uploadTask.cancel();
+            throw new Error(`Falha ao fazer upload do PDF: ${raceErr.message}`);
+          }
+          
           // Fallback: Prosseguir sem o arquivo físico se falhar ou der timeout
           fileUrl = `fallback_error_${Date.now()}`;
-          console.warn("[DEBUG] Prosseguindo com fallback de URL");
+          console.warn("[DEBUG] Prosseguindo com fallback de URL para arquivo não-PDF");
           setProgress(50);
         }
       } catch (err: any) {

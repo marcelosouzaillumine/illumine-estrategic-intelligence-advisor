@@ -54,7 +54,7 @@ function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
     <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
       <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors">{label}</p>
       <h3 className={cn(
-        "text-2xl font-black tracking-tight",
+        "text-2xl tracking-tight",
         tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
       )}>{value}</h3>
       {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80">{helper}</p>}
@@ -420,13 +420,13 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
                   <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
                     <td className="px-5 md:px-8 py-2.5 md:py-4">
                       <div className="flex flex-col">
-                        <span className="text-sm font-bold text-slate-700">{item.cliente}</span>
-                        {item.centroCusto && <span className="text-[9px] font-black text-emerald-400 uppercase tracking-tighter bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100/50 self-start mt-1">{item.centroCusto}</span>}
+                        <span className="text-sm text-slate-700">{item.cliente}</span>
+                        {item.centroCusto && <span className="text-[9px] uppercase tracking-tighter bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100/50 self-start mt-1">{item.centroCusto}</span>}
                       </div>
                     </td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4">
                       {item.categoria ? (
-                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/50">
+                        <span className="text-[10px] text-slate-500 uppercase tracking-widest bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/50">
                           {item.categoria}
                         </span>
                       ) : (
@@ -434,26 +434,26 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
                       )}
                     </td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
-                      <span className="text-[10px] font-mono font-black text-slate-400 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200/50">{item.documento}</span>
+                      <span className="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200/50">{item.documento}</span>
                     </td>
-                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center text-xs text-slate-500 font-bold">{formatDate(item.emissao)}</td>
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center text-xs text-slate-500">{formatDate(item.emissao)}</td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <div className="flex flex-col items-center gap-0.5">
-                        <span className="text-xs font-black text-slate-700">{formatDate(item.vencimento)}</span>
-                        {item.status === 'Em atraso' && <span className="text-[8px] text-rose-500 font-black uppercase tracking-tighter animate-pulse">Vencido</span>}
+                        <span className="text-xs text-slate-700">{formatDate(item.vencimento)}</span>
+                        {item.status === 'Em atraso' && <span className="text-[8px] text-rose-500 uppercase tracking-tighter animate-pulse">Vencido</span>}
                       </div>
                     </td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                       <div className="flex flex-col items-end">
-                        <span className="text-sm font-black text-primary">{formatCurrency(item.valor)}</span>
+                        <span className="text-sm text-primary">{formatCurrency(item.valor)}</span>
                         {item.valorAberto !== undefined && item.valorAberto !== item.valor && item.status !== 'Pago' && (
-                          <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Aberto: {formatCurrency(item.valorAberto)}</span>
+                          <span className="text-[9px] text-slate-400 uppercase tracking-tighter">Aberto: {formatCurrency(item.valorAberto)}</span>
                         )}
                       </div>
                     </td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <span className={cn(
-                        "text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter",
+                        "text-[10px] px-3 py-1 rounded-full uppercase tracking-tighter",
                         item.status === 'Pago' ? "bg-emerald-50 text-emerald-600 border border-emerald-100" :
                         item.status === 'Em atraso' ? "bg-rose-50 text-rose-600 border border-rose-100" :
                         "bg-blue-50 text-blue-600 border border-blue-100"

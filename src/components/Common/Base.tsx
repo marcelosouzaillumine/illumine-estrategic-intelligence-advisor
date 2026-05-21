@@ -224,12 +224,31 @@ export function KpiCard({
     'N/A':        { bg: 'bg-surface-container', text: 'text-muted-foreground', border: 'border-border', glow: '', dot: 'bg-muted-foreground' },
   };
 
-  const cfg = statusConfig[status] || statusConfig['Verde'];
+  let finalStatus = status;
+  let finalTrend = trend;
+
+  const isNoData = value === undefined || value === null || value === '' || value === '---' || value === '--' || value === 0 || value === '0' || value === '0,00' || value === '0.00' || value === 'R$ 0,00' || value === 'R$ 0' || value === '0%';
+
+  if (isNoData) {
+    const targetWords = ['Saudável', 'Crítico', 'Em Queda', 'Em Alta', 'Stable', 'Bearish', 'Estável', 'Verde', 'Vermelho', 'Bullish', 'Amarelo', 'Atenção', 'Correction'];
+    if (finalTrend && targetWords.includes(finalTrend)) {
+      finalTrend = 'Pendente';
+    }
+    const currentLabel = statusConfig[status]?.label;
+    if (currentLabel && targetWords.includes(currentLabel)) {
+      finalStatus = 'Pendente';
+    }
+    if (targetWords.includes(status)) {
+      finalStatus = 'Pendente';
+    }
+  }
+
+  const cfg = statusConfig[finalStatus] || statusConfig['Verde'];
 
   // When a trend is provided, use its specific color; otherwise fall back to status color
-  const badgeCfg = trend && trendConfig[trend]
-    ? trendConfig[trend]
-    : { bg: cfg.bg, text: cfg.text, border: cfg.border, glow: cfg.glow, dot: 'bg-success' };
+  const badgeCfg = finalTrend && trendConfig[finalTrend]
+    ? trendConfig[finalTrend]
+    : { bg: cfg.bg, text: cfg.text, border: cfg.border, glow: cfg.glow, dot: finalStatus === 'Pendente' || finalTrend === 'Pendente' ? 'bg-muted-foreground' : 'bg-success' };
 
   return (
     <motion.div 
@@ -270,7 +289,7 @@ export function KpiCard({
             "w-1.5 h-1.5 rounded-full animate-pulse",
             highlight ? "bg-white" : badgeCfg.dot
           )} />
-          <span>{trend || cfg.label}</span>
+          <span>{finalTrend || cfg.label}</span>
         </div>
       </div>
 

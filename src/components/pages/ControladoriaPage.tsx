@@ -371,7 +371,11 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
                       </td>
                       <td className="py-6 px-10">
                         <div className="flex justify-center">
-                          {row.indice > 100 ? (
+                          {row.realizado === 0 ? (
+                            <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-surface-container text-muted-foreground border border-border text-[8px] font-medium uppercase tracking-widest shadow-sm">
+                              Pendente
+                            </div>
+                          ) : row.indice > 100 ? (
                             <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-destructive/10 text-destructive border border-destructive/20 text-[8px] font-medium uppercase tracking-widest animate-pulse shadow-sm">
                               <ShieldAlert size={12} /> Crítico
                             </div>

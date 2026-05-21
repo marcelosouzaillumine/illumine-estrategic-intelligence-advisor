@@ -390,12 +390,12 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
                               responses[principle.id] !== undefined && "border-warning/20 bg-warning/5"
                             )}
                           >
-                            <div className="flex justify-between items-start">
-                              <div className="space-y-2">
+                            <div className="flex justify-between items-start gap-6">
+                              <div className="space-y-2 flex-1">
                                 <span className="text-[10px] font-medium text-warning uppercase tracking-widest">{principle.name}</span>
-                                <h4 className="text-body-md font-medium text-foreground tracking-tight max-w-md">{principle.maturityQuestion}</h4>
+                                <h4 className="text-body-md font-medium text-foreground tracking-tight leading-relaxed">{principle.maturityQuestion}</h4>
                               </div>
-                              <div className="bg-surface-container px-4 py-2 rounded-md border border-border text-[10px] font-medium text-muted-foreground group-hover:bg-warning/10 group-hover:text-warning group-hover:border-warning/20 transition-colors flex items-center gap-2">
+                              <div className="shrink-0 bg-surface-container px-4 py-2 rounded-md border border-border text-[10px] font-medium text-muted-foreground group-hover:bg-warning/10 group-hover:text-warning group-hover:border-warning/20 transition-colors flex items-center gap-2">
                                 <span className="uppercase tracking-widest">Impacto</span>
                                 <div className="flex gap-0.5">
                                   {[1, 2, 3, 4, 5].map((star) => (

@@ -542,11 +542,11 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                   <tbody className="divide-y divide-slate-100">
                     {Fluxo_Diario_Filtered.map((row: any, idx: number) => (
                       <tr key={idx} className="hover:bg-slate-50 transition-colors border-l-4 border-transparent hover:border-secondary">
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.Data)}</td>
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-700 bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-emerald-600">+{formatCurrency(row.Entradas)}</td>
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-rose-600">-{formatCurrency(row["Saídas"])}</td>
-                        <td className={cn("px-4 md:px-6 py-2.5 md:py-4 text-sm font-black", row["Saldo Final"] < 0 ? "text-rose-600" : "text-slate-900")}>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-slate-600">{formatDate(row.Data)}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-slate-700 bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-emerald-600">+{formatCurrency(row.Entradas)}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-rose-600">-{formatCurrency(row["Saídas"])}</td>
+                        <td className={cn("px-4 md:px-6 py-2.5 md:py-4 text-sm", row["Saldo Final"] < 0 ? "text-rose-600" : "text-slate-900")}>
                           {formatCurrency(row["Saldo Final"])}
                         </td>
                       </tr>
@@ -581,11 +581,11 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <tbody className="divide-y divide-slate-100">
                   {Fluxo_Diario.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors border-l-4 border-transparent hover:border-secondary">
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.Data)}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-700 bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-emerald-600">+{formatCurrency(row.Entradas)}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-rose-600">-{formatCurrency(row["Saídas"])}</td>
-                      <td className={cn("px-4 md:px-6 py-2.5 md:py-4 text-sm font-black", row["Saldo Final"] < 0 ? "text-rose-600" : "text-slate-900")}>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-slate-600">{formatDate(row.Data)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-slate-700 bg-slate-50/30">{formatCurrency(row["Saldo Inicial"])}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-emerald-600">+{formatCurrency(row.Entradas)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-rose-600">-{formatCurrency(row["Saídas"])}</td>
+                      <td className={cn("px-4 md:px-6 py-2.5 md:py-4 text-sm", row["Saldo Final"] < 0 ? "text-rose-600" : "text-slate-900")}>
                         {formatCurrency(row["Saldo Final"])}
                       </td>
                     </tr>
@@ -633,12 +633,12 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <tbody className="divide-y divide-slate-100">
                   {(activeTab === 'receber' ? filteredReceber : filteredPagar).map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs font-bold text-slate-600">{formatDate(row.Vencimento)}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs font-black text-slate-900">{row.Cliente || row.Fornecedor}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-right text-xs font-black text-secondary">{formatCurrency(row.Valor)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs text-slate-600">{formatDate(row.Vencimento)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs text-slate-900">{row.Cliente || row.Fornecedor}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-right text-xs text-secondary">{formatCurrency(row.Valor)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
                         <span className={cn(
-                          "text-[9px] font-black px-2 py-1 rounded uppercase tracking-tighter",
+                          "text-[9px] px-2 py-1 rounded uppercase tracking-tighter",
                           row.Status === 'Recebido' || row.Status === 'Pago' ? "bg-emerald-100 text-emerald-700" :
                           row.Status === 'Vencido' ? "bg-rose-100 text-rose-700" :
                           "bg-primary/10 text-primary"
@@ -676,11 +676,11 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <tbody className="divide-y divide-slate-100">
                   {Inadimplencia.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-slate-900">{row.Cliente}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.Vencimento)}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-rose-600">{formatCurrency(row.Valor)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-slate-900">{row.Cliente}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-slate-600">{formatDate(row.Vencimento)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-rose-600">{formatCurrency(row.Valor)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4">
-                        <span className="text-[9px] font-black px-2 py-1 rounded uppercase tracking-tighter bg-rose-100 text-rose-700">Vencido</span>
+                        <span className="text-[9px] px-2 py-1 rounded uppercase tracking-tighter bg-rose-100 text-rose-700">Vencido</span>
                       </td>
                     </tr>
                   ))}
@@ -713,10 +713,10 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 <tbody className="divide-y divide-slate-100">
                   {Passivo_Vencido.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-slate-900">{row.Credor}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs font-bold text-slate-500 uppercase">{row.Tipo}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.Vencimento)}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-rose-600">{formatCurrency(row.Valor)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-slate-900">{row.Credor}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-xs uppercase text-slate-500">{row.Tipo}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-slate-600">{formatDate(row.Vencimento)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-rose-600">{formatCurrency(row.Valor)}</td>
                     </tr>
                   ))}
                 </tbody>

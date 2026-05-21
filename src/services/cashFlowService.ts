@@ -35,7 +35,9 @@ export async function generateCashFlow(clientId: string) {
   let finalReceivables = [...receivables];
   let finalPositions = [...positions];
 
-  if (payables.length === 0 && receivables.length === 0 && positions.length === 0) {
+  const hasRealData = payables.length > 0 || receivables.length > 0 || positions.length > 0;
+
+  if (!hasRealData) {
     console.log("No real-time operational data found in Firestore. Activating Illumine Strategic Financial Simulator to generate premium baseline projections.");
     
     // Initial bank/investment balances
@@ -222,9 +224,9 @@ export async function generateCashFlow(clientId: string) {
 
   const kpis = [
     { "Indicador": "Burn rate médio diário", "Fórmula / Valor": burnRate, "Status": "Info" },
-    { "Indicador": "Dias de caixa (Runway)", "Fórmula / Valor": Math.round(diasCaixa), "Status": diasCaixa < 30 ? "Crítico" : "Saudável" },
+    { "Indicador": "Dias de caixa (Runway)", "Fórmula / Valor": Math.round(diasCaixa), "Status": !hasRealData ? "Pendente" : (diasCaixa < 30 ? "Crítico" : "Saudável") },
     { "Indicador": "Ponto de Caixa Mínimo", "Fórmula / Valor": menorSaldo, "Data": dataMenorSaldo, "Status": menorSaldo < 0 ? "Risco" : "OK" },
-    { "Indicador": "Índice de Cobertura (LCR)", "Fórmula / Valor": lcr.toFixed(2), "Status": lcr < 1 ? "Crítico" : "Saudável" },
+    { "Indicador": "Índice de Cobertura (LCR)", "Fórmula / Valor": lcr.toFixed(2), "Status": !hasRealData ? "Pendente" : (lcr < 1 ? "Crítico" : "Saudável") },
     { "Indicador": "Margem de Segurança", "Fórmula / Valor": margemSeguranca.toFixed(1) + "%", "Status": "Info" },
     { "Indicador": "Necessidade de Cap. Giro", "Fórmula / Valor": totalPagar - totalReceber, "Status": "Strategic" },
     { "Indicador": "Dias até Ruptura", "Fórmula / Valor": diasAtePontoCritico, "Status": diasAtePontoCritico !== -1 ? "Alerta" : "Seguro" }

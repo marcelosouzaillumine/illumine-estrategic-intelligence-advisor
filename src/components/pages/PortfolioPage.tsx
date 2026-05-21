@@ -922,14 +922,16 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                           </div>
                         </td>
                         <td className="px-4 md:px-8 py-4 md:py-6 text-center">
-                          {client.criticalAlerts > 0 ? (
-                            <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-destructive/10 text-destructive rounded-button text-[10px] font-black uppercase whitespace-nowrap">
+                          {client.status === 'onboarding' ? (
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-surface-container text-muted-foreground border border-border text-[10px] font-bold uppercase tracking-widest shadow-sm">
+                              Pendente
+                            </div>
+                          ) : client.criticalAlerts > 0 ? (
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-rose-500/10 text-rose-500 border border-rose-500/20 text-[10px] font-bold uppercase tracking-widest">
                               <AlertCircle size={12} /> {client.criticalAlerts} Críticos
                             </div>
-                          ) : client.status === 'onboarding' ? (
-                            <span className="text-[10px] font-bold text-slate-300 uppercase italic">Dados em carga</span>
                           ) : (
-                            <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-success/10 text-success rounded-button text-[10px] font-black uppercase whitespace-nowrap">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[10px] font-bold uppercase tracking-widest">
                               <CheckCircle2 size={12} /> Saudável
                             </div>
                           )}
