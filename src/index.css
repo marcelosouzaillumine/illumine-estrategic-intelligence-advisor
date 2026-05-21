@@ -198,14 +198,20 @@ html, body {
     @apply font-display font-medium tracking-[-0.02em] leading-[1.1];
   }
 
-  /* Landing pages: reset base layer so Tailwind utilities control heading sizes */
-  main.min-h-screen h1,
-  main.min-h-screen h2,
-  main.min-h-screen h3,
+  /* Landing pages: proportional heading hierarchy (h1 = 56px desktop) */
+  main.min-h-screen h1 {
+    font-size: clamp(32px, 4.4vw, 56px) !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.01em !important;
+  }
+  main.min-h-screen h3 {
+    font-size: clamp(24px, 3.2vw, 40px) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.01em !important;
+  }
   main.min-h-screen h4 {
-    font-size: unset;
-    line-height: unset;
-    letter-spacing: unset;
+    font-size: clamp(20px, 2.7vw, 34px) !important;
+    line-height: 1.25 !important;
   }
   h2 {
     font-size: clamp(24px, 4vw, 40px);

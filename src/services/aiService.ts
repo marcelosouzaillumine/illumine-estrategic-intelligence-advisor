@@ -232,6 +232,9 @@ const financialStatementSchema = {
           type: { type: Type.STRING }, // "Balanço Patrimonial", "DRE", "DFC", "DLPA"
           year: { type: Type.NUMBER },
           month: { type: Type.NUMBER }, // 12 for annual, 1-12 for monthly
+          cnpj: { type: Type.STRING, description: "CNPJ encontrado no cabeçalho ou rodapé do documento" },
+          confidenceScore: { type: Type.NUMBER, description: "Nível de confiança da extração de 0 a 100" },
+          periodoDocumento: { type: Type.STRING, description: "Texto original do período encontrado no documento (ex: 'Período: 01/01/2024 a 31/12/2024')" },
           entries: {
             type: Type.ARRAY,
             items: {
@@ -244,7 +247,7 @@ const financialStatementSchema = {
             }
           }
         },
-        required: ["type", "year", "month", "entries"]
+        required: ["type", "year", "month", "entries", "confidenceScore"]
       }
     }
   },
@@ -1277,6 +1280,9 @@ export interface AIFinancialDocument {
   type: string;
   year: number;
   month: number;
+  cnpj?: string;
+  confidenceScore?: number;
+  periodoDocumento?: string;
   entries: { category: string; value: number }[];
 }
 
@@ -1313,6 +1319,8 @@ REGRAS DE OURO PARA ESTE DOCUMENTO:
 5. SINAIS NEGATIVOS: Fique atento a sinais de menos "-" soltos entre o nome da conta e o valor, ou nomes de conta que começam com "(-)". Esses valores DEVEM ser retornados como números NEGATIVOS.
 6. FORMATO NUMÉRICO: Converta o padrão brasileiro (1.234,56) para o padrão computacional (1234.56).
 7. MÊS: Use 12 para balanços e DREs de encerramento de exercício, a menos que o texto indique outro mês.
+8. METADADOS OBRIGATÓRIOS: Você deve retornar o nível de confiança (confidenceScore) da sua extração (0-100). Se o PDF parece ilegível ou muito confuso, diminua a nota.
+9. CNPJ e PERÍODO: Tente localizar o CNPJ e o texto literal do período da demonstração e retorne nas propriedades correspondentes.
 ${customPromptSection}
 TEXTO EXTRAÍDO:
 """

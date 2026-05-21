@@ -20,7 +20,8 @@ export const MASTER_ADMINS = [
   'marcelo.illuminecoaching@gmail.com',
   'marcelosouza.illumine@gmail.com',
   'atendimentoliminar@gmail.com',
-  'avivacolonia@gmail.com'
+  'avivacolonia@gmail.com',
+  'suporte@illumineconsultoria.com.br'
 ];
 
 export enum OperationType {

@@ -23,7 +23,8 @@ import {
   LayoutDashboard,
   Compass,
   Network,
-  Briefcase
+  Briefcase,
+  Handshake
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
@@ -111,12 +112,33 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             </div>
           </div>
 
-          <div className="hidden md:flex items-center gap-8">
-            <button onClick={() => scrollToSection('perfil')} className="text-body-sm font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Objetivo</button>
-            <button onClick={() => scrollToSection('mercado')} className="text-body-sm font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Mercado</button>
-            <button onClick={() => scrollToSection('framework-parceiro')} className="text-body-sm font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Framework</button>
-            <button onClick={() => scrollToSection('ecossistema-parceiro')} className="text-body-sm font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Ecossistema</button>
-            <button onClick={() => scrollToSection('modalidades')} className="text-body-sm font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Modalidades</button>
+          <div className="hidden lg:flex items-center gap-6">
+            <div className="relative flex items-center bg-surface-container border border-border rounded-button p-1 gap-0.5 mr-2">
+              <motion.div
+                className="absolute top-1 bottom-1 bg-primary rounded-[10px] shadow-sm"
+                layout
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                style={{ left: '50%', width: 'calc(50% - 4px)' }}
+              />
+              <button
+                onClick={() => window.location.href = '/empresas'}
+                className="relative z-10 flex items-center gap-2 px-4 py-1.5 rounded-[10px] text-xs font-bold uppercase tracking-widest transition-colors duration-200 text-muted-foreground hover:text-foreground"
+              >
+                <Building2 size={13} /> Empresa
+              </button>
+              <button
+                onClick={() => window.location.href = '/parceiros'}
+                className="relative z-10 flex items-center gap-2 px-4 py-1.5 rounded-[10px] text-xs font-bold uppercase tracking-widest transition-colors duration-200 text-primary-foreground"
+              >
+                <Handshake size={13} /> Parceiro
+              </button>
+            </div>
+
+            <button onClick={() => scrollToSection('perfil')} className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Objetivo</button>
+            <button onClick={() => scrollToSection('mercado')} className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Mercado</button>
+            <button onClick={() => scrollToSection('framework-parceiro')} className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Framework</button>
+            <button onClick={() => scrollToSection('ecossistema-parceiro')} className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Ecossistema</button>
+            <button onClick={() => scrollToSection('modalidades')} className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Modalidades</button>
           </div>
 
           <div className="flex items-center gap-4">
@@ -155,7 +177,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.08 }}
             className="font-medium tracking-tight text-foreground"
-            style={{ fontFamily: "'Tilt Warp', sans-serif", fontSize: 'clamp(26px, 3.2vw, 42px)', lineHeight: '1.15' }}
+            style={{ fontFamily: "'Tilt Warp', sans-serif" }}
           >
             Estrutura executiva de inteligência empresarial para parceiros que desejam ampliar <span className="bg-gradient-to-r from-secondary to-[#E96F3D] bg-clip-text text-transparent">valor, recorrência e capacidade consultiva</span>
           </motion.h1>
@@ -651,28 +673,26 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-foreground text-background border-t border-background/10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="flex items-center justify-center">
-              <IllumineMark className="w-14 h-14" />
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-[56px] font-normal lowercase leading-[0.85] text-primary block" style={{ fontFamily: "'Tilt Warp', sans-serif", letterSpacing: '-0.04em' }}>
+      <footer className="py-12 px-6 bg-foreground border-t border-background/10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div className="flex items-center gap-4">
+            <IllumineMark className="w-16 h-16 shrink-0" />
+            <div className="flex flex-col items-center w-fit">
+              <span className="text-[56px] font-normal lowercase leading-[0.85] text-white tracking-[-0.04em] block" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
                 illumine
               </span>
-              <div className="flex justify-between w-full text-[8.5px] text-background/60 uppercase mt-1 font-bold whitespace-nowrap" style={{ fontFamily: '"Work Sans", sans-serif' }}>
-                {'Strategic Intelligence & Advisory'.split('').map((char, i) => (
+              <div className="flex justify-between w-full text-[8px] text-white/60 uppercase mt-[6px] font-bold whitespace-nowrap" style={{ fontFamily: '"Work Sans", sans-serif' }}>
+                {"Strategic Intelligence & Advisory".split('').map((char, i) => (
                   <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
                 ))}
               </div>
             </div>
           </div>
-          <div className="text-center md:text-right">
-            <p className="text-background/80 font-medium max-w-sm ml-auto text-sm leading-relaxed">
+          <div className="flex flex-col items-start md:items-end gap-4 w-full">
+            <p className="text-white/80 font-medium text-sm leading-relaxed text-left md:text-right">
               Inteligência estratégica, governança e performance para empresas e parceiros que desejam crescer com clareza, estrutura e sustentabilidade.
             </p>
-            <p className="text-background/40 text-xs mt-4">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest text-left md:text-right">
               © {new Date().getFullYear()} Illumine. Todos os direitos reservados.
             </p>
           </div>

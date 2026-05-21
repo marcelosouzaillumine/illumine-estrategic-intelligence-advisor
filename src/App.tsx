@@ -68,7 +68,12 @@ import { AccountModal } from './components/modals/AccountModal';
 import { ImportPlanoModal } from './components/modals/ImportPlanoModal';
 import { MappingWizard } from './components/modals/MappingWizard';
 import { PageHeader, Semaphore, StatusBadge, SectionHeader, WelcomeMessage, getRandomWelcomeMessage } from './components/Common';
-import { LandingAuthPage } from './components/pages/LandingAuthPage';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { HomePage } from './components/pages/public/HomePage';
+import { EmpresasPage } from './components/pages/public/EmpresasPage';
+import { ParceirosPage } from './components/pages/public/ParceirosPage';
+import { DiagnosticoPage } from './components/pages/public/DiagnosticoPage';
+import { LoginPage } from './components/pages/public/LoginPage';
 
 import { useDataTable } from './hooks/useDataTable';
 import { SortableHeader } from './components/SortableHeader';
@@ -175,76 +180,10 @@ function AuthLoadingScreen() {
 }
 
 
-function AuthGate() {
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loginError, setLoginError] = useState('');
-
-  useEffect(() => {
-    const handleGlobalError = (e: any) => {
-      setLoginError(e.detail);
-      setIsSigningIn(false);
-      setIsSubmitting(false);
-    };
-    window.addEventListener('login-error', handleGlobalError);
-    return () => window.removeEventListener('login-error', handleGlobalError);
-  }, []);
-
-  const handleGoogleLogin = async () => {
-    setIsSigningIn(true);
-    setLoginError('');
-    try {
-      await login();
-    } catch (error: any) {
-      console.error('Google sign-in failed:', error);
-      setLoginError(
-        error?.code === 'auth/popup-closed-by-user'
-          ? 'Login cancelado antes da confirmação.'
-          : 'Não foi possível entrar com Google. Verifique se este domínio está autorizado para acesso.'
-      );
-    } finally {
-      setIsSigningIn(false);
-    }
-  };
-
-  const handleEmailLogin = async (email: string, password: string) => {
-    if (isSubmitting || isSigningIn) return;
-    setLoginError('');
-    if (!email || !password) {
-      setLoginError('Por favor, preencha todos os campos.');
-      return;
-    }
-    setIsSubmitting(true);
-    try {
-      await loginWithEmail(email.trim(), password);
-    } catch (error: any) {
-      console.error('Email authentication error:', error);
-      let errorMsg = 'Ocorreu um erro ao autenticar. Verifique seus dados.';
-      switch (error?.code) {
-        case 'auth/invalid-email':        errorMsg = 'Endereço de e-mail inválido.'; break;
-        case 'auth/user-disabled':        errorMsg = 'Este usuário foi desabilitado.'; break;
-        case 'auth/user-not-found':       errorMsg = 'E-mail não cadastrado. Verifique se digitou corretamente ou utilize o login com Google.'; break;
-        case 'auth/wrong-password':       errorMsg = 'Senha incorreta.'; break;
-        case 'auth/invalid-credential':   errorMsg = 'Credenciais inválidas. Verifique seu e-mail e senha.'; break;
-      }
-      setLoginError(errorMsg);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  return (
-    <LandingAuthPage
-      onGoogleLogin={handleGoogleLogin}
-      onEmailLogin={handleEmailLogin}
-      isSigningIn={isSigningIn}
-      isSubmitting={isSubmitting}
-      loginError={loginError}
-    />
-  );
-}
 
 export default function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState<Page>(DEFAULT_PAGE);
   const [academyCourseId, setAcademyCourseId] = useState<string | null>(null);
@@ -390,7 +329,7 @@ export default function App() {
     window.addEventListener('theme-changed', applyTheme);
 
     const handleNavigate = (e: any) => {
-      setCurrentPage(e.detail);
+      navigate(`/dashboard/${e.detail}`);
     };
     window.addEventListener('navigate-to', handleNavigate);
 
@@ -399,7 +338,22 @@ export default function App() {
       window.removeEventListener('theme-changed', applyTheme);
       window.removeEventListener('navigate-to', handleNavigate);
     };
-  }, []);
+  }, [navigate]);
+
+  // Sync currentPage state from URL
+  useEffect(() => {
+    if (location.pathname.startsWith('/dashboard/')) {
+      const parts = location.pathname.split('/');
+      const page = parts[2];
+      if (page && page !== currentPage) {
+        setCurrentPage(page as Page);
+      }
+    } else if (location.pathname === '/dashboard') {
+      if (currentPage !== 'dashboard') {
+        setCurrentPage('dashboard' as Page);
+      }
+    }
+  }, [location.pathname, currentPage]);
 
   // Fetch clients from Firestore if user is authenticated
   useEffect(() => {
@@ -499,13 +453,14 @@ export default function App() {
       
       // Role-based redirection: Master/Partner -> portfolio, Company User -> dashboard
       if (isMaster || isPartner) {
-        setCurrentPage('portfolio');
+        navigate('/dashboard/portfolio', { replace: true });
       } else {
-        setCurrentPage('dashboard');
+        navigate('/dashboard/dashboard', { replace: true });
       }
 
       // First access of the day check
-      const today = new Date().toISOString().split('T')[0];
+      const now = new Date();
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
       const lastAccessKey = `last_access_${user.uid}`;
       const lastAccess = localStorage.getItem(lastAccessKey);
       const isFirstAccessOfDay = lastAccess !== today;
@@ -552,44 +507,58 @@ export default function App() {
     return <AuthLoadingScreen />;
   }
 
-  if (!user) {
-    return <AuthGate />;
-  }
-
   return (
-    <GovernanceProvider user={user}>
-      <TooltipProvider>
-        <AppContent 
-          user={user}
-          authLoading={authLoading}
-          clients={clients}
-          selectedClient={selectedClient}
-          setSelectedClient={setSelectedClient}
-          selectedMonth={selectedMonth}
-          setSelectedMonth={setSelectedMonth}
-          selectedYear={selectedYear}
-          setSelectedYear={setSelectedYear}
-          setCurrentPage={setCurrentPage}
-          setClients={setClients}
-          currentPage={currentPage}
-          academyCourseId={academyCourseId}
-          setAcademyCourseId={setAcademyCourseId}
-          isSidebarCollapsed={isSidebarCollapsed}
-          setIsSidebarCollapsed={setIsSidebarCollapsed}
-          isMobileMenuOpen={isMobileMenuOpen}
-          setIsMobileMenuOpen={setIsMobileMenuOpen}
-          openSubmenus={openSubmenus}
-          toggleSubmenu={toggleSubmenu}
-          userPermissions={userPermissions}
-          isPartner={isPartner}
-          isMaster={isMaster}
-          userPartnerIds={userPartnerIds}
-          showWelcome={showWelcome}
-          setShowWelcome={setShowWelcome}
-          welcomeText={welcomeText}
-        />
-      </TooltipProvider>
-    </GovernanceProvider>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/empresas" element={<EmpresasPage />} />
+      <Route path="/parceiros" element={<ParceirosPage />} />
+      <Route path="/diagnostico" element={<DiagnosticoPage />} />
+      <Route path="/login" element={user ? <Navigate to="/dashboard/dashboard" replace /> : <LoginPage />} />
+      
+      <Route 
+        path="/dashboard/*" 
+        element={
+          user ? (
+            <GovernanceProvider user={user}>
+              <TooltipProvider>
+                <AppContent 
+                  user={user}
+                  authLoading={authLoading}
+                  clients={clients}
+                  selectedClient={selectedClient}
+                  setSelectedClient={setSelectedClient}
+                  selectedMonth={selectedMonth}
+                  setSelectedMonth={setSelectedMonth}
+                  selectedYear={selectedYear}
+                  setSelectedYear={setSelectedYear}
+                  setCurrentPage={(page: Page) => navigate(`/dashboard/${page}`)}
+                  setClients={setClients}
+                  currentPage={currentPage}
+                  academyCourseId={academyCourseId}
+                  setAcademyCourseId={setAcademyCourseId}
+                  isSidebarCollapsed={isSidebarCollapsed}
+                  setIsSidebarCollapsed={setIsSidebarCollapsed}
+                  isMobileMenuOpen={isMobileMenuOpen}
+                  setIsMobileMenuOpen={setIsMobileMenuOpen}
+                  openSubmenus={openSubmenus}
+                  toggleSubmenu={toggleSubmenu}
+                  userPermissions={userPermissions}
+                  isPartner={isPartner}
+                  isMaster={isMaster}
+                  userPartnerIds={userPartnerIds}
+                  showWelcome={showWelcome}
+                  setShowWelcome={setShowWelcome}
+                  welcomeText={welcomeText}
+                />
+              </TooltipProvider>
+            </GovernanceProvider>
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 
@@ -809,17 +778,17 @@ function AppContent({
 
         {showUniversalImport && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-            <div className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-3xl shadow-2xl bg-white flex flex-col">
-              <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
+            <div className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-3xl shadow-2xl bg-card flex flex-col">
+              <div className="p-6 border-b border-border flex justify-between items-center bg-surface-container/50 shrink-0">
                 <div>
-                  <h3 className="text-lg font-black text-slate-900">Importação Universal de Inteligência</h3>
-                  <p className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-widest font-bold">
+                  <h3 className="text-lg font-black text-foreground">Importação Universal de Inteligência</h3>
+                  <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-widest font-bold">
                     Central de Governança e Auditabilidade
                   </p>
                 </div>
                 <button 
                   onClick={() => setShowUniversalImport(false)}
-                  className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"
+                  className="p-2 hover:bg-slate-200 rounded-full transition-colors text-neutral"
                 >
                   <X size={20} />
                 </button>
