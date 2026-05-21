@@ -137,11 +137,11 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             </div>
             
             <div className="hidden min-[1150px]:flex items-center gap-3 xl:gap-6">
-              <button onClick={() => scrollToSection('perfil')} className="text-[9px] xl:text-[10px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Objetivo</button>
-              <button onClick={() => scrollToSection('mercado')} className="text-[9px] xl:text-[10px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Mercado</button>
-              <button onClick={() => scrollToSection('framework-parceiro')} className="text-[9px] xl:text-[10px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Framework</button>
-              <button onClick={() => scrollToSection('ecossistema-parceiro')} className="text-[9px] xl:text-[10px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Ecossistema</button>
-              <button onClick={() => scrollToSection('modalidades')} className="text-[9px] xl:text-[10px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Modalidades</button>
+              <button onClick={() => scrollToSection('perfil')} className="text-[10px] xl:text-[11px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Objetivo</button>
+              <button onClick={() => scrollToSection('mercado')} className="text-[10px] xl:text-[11px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Mercado</button>
+              <button onClick={() => scrollToSection('framework-parceiro')} className="text-[10px] xl:text-[11px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Framework</button>
+              <button onClick={() => scrollToSection('ecossistema-parceiro')} className="text-[10px] xl:text-[11px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Ecossistema</button>
+              <button onClick={() => scrollToSection('modalidades')} className="text-[10px] xl:text-[11px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Modalidades</button>
             </div>
           </div>
 
