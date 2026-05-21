@@ -69,6 +69,9 @@ import { ImportPlanoModal } from './components/modals/ImportPlanoModal';
 import { MappingWizard } from './components/modals/MappingWizard';
 import { PageHeader, Semaphore, StatusBadge, SectionHeader, WelcomeMessage, getRandomWelcomeMessage } from './components/Common';
 import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { ClientsPage } from './components/pages/ClientsPage';
+import { FiscalTributarioPage } from './components/pages/FiscalTributarioPage';
+import { QuadroPessoalPage } from './components/pages/QuadroPessoalPage';
 import { HomePage } from './components/pages/public/HomePage';
 import { EmpresasPage } from './components/pages/public/EmpresasPage';
 import { ParceirosPage } from './components/pages/public/ParceirosPage';
@@ -407,7 +410,7 @@ export default function App() {
     }
   }, [location.pathname, currentPage]);
 
-  // Fetch clients from Firestore if user is authenticated
+  // Handle client selectionm Firestore if user is authenticated
   useEffect(() => {
     if (authLoading) return;
 
@@ -797,37 +800,27 @@ function AppContent({
         </header>
 
         <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden p-8">
-          <div className="max-w-[1600px] mx-auto w-full">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentPage}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                <GlobalErrorBoundary>
-                  {renderCurrentPage({
-                    currentPage,
-                    clients,
-                    selectedClient,
-                    setSelectedClient: handleSelectClient,
-                    selectedMonth,
-                    setSelectedMonth,
-                    selectedYear,
-                    setSelectedYear,
-                    user,
-                    setCurrentPage,
-                    setClients,
-                    academyCourseId,
-                    setAcademyCourseId,
-                    isPartner,
-                    isMaster,
-                    userPartnerIds
-                  })}
-                </GlobalErrorBoundary>
-              </motion.div>
-            </AnimatePresence>
+          <div id="main-content-wrapper" className="max-w-[1600px] mx-auto w-full">
+            <GlobalErrorBoundary>
+              {renderCurrentPage({
+                currentPage,
+                clients,
+                selectedClient,
+                setSelectedClient: handleSelectClient,
+                selectedMonth,
+                setSelectedMonth,
+                selectedYear,
+                setSelectedYear,
+                user,
+                setCurrentPage,
+                setClients,
+                academyCourseId,
+                setAcademyCourseId,
+                isPartner,
+                isMaster,
+                userPartnerIds
+              })}
+            </GlobalErrorBoundary>
           </div>
         </div>
 

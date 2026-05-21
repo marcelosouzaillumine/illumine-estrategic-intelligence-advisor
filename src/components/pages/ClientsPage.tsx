@@ -1903,7 +1903,7 @@ loading: ${loading}
             )}
 
             {activeFormTab === 'usuarios' && (
-              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
+              <div className="space-y-8 animate-in fade-in slide-in-from-left-2 duration-300">
                 {editingId ? (
                   <ClientUserManager clientId={editingId} />
                 ) : (
@@ -1917,7 +1917,7 @@ loading: ${loading}
                     </div>
                   </div>
                 )}
-              </motion.div>
+              </div>
             )}
 
             {activeFormTab === 'pessoal' && (

@@ -97,18 +97,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
   const [formData, setFormData] = useState(initialForm);
 
   useEffect(() => {
-    const handleGlobalError = (event: ErrorEvent) => {
-      alert("ERRO GLOBAL CAPTURADO:\n" + event.message + "\n\n" + event.error?.stack);
-    };
-    const handlePromiseError = (event: PromiseRejectionEvent) => {
-      alert("PROMISE REJECTION:\n" + String(event.reason) + "\n\n" + event.reason?.stack);
-    };
-    window.addEventListener('error', handleGlobalError);
-    window.addEventListener('unhandledrejection', handlePromiseError);
-    return () => {
-      window.removeEventListener('error', handleGlobalError);
-      window.removeEventListener('unhandledrejection', handlePromiseError);
-    };
+    // Component mounted
   }, []);
 
   useEffect(() => {
@@ -126,7 +115,7 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
       const snap = await getDocs(q);
       const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setUsers(data);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
     } finally {
       setLoading(false);
@@ -499,13 +488,10 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
                                   <label key={sub} className="flex items-center gap-4 cursor-pointer select-none group/item">
                                     <input 
                                       type="checkbox"
-                                      className="sr-only peer"
+                                      className="w-4 h-4 rounded border-border-main text-secondary focus:ring-secondary/50 cursor-pointer"
                                       checked={(Array.isArray(formData.permissoes) ? formData.permissoes : []).includes(`${group.id}:${sub}`)}
                                       onChange={() => togglePermission(`${group.id}:${sub}`)}
                                     />
-                                    <div className="w-4 h-4 rounded border border-border-main bg-bg-card peer-checked:bg-secondary peer-checked:border-secondary flex items-center justify-center transition-all group-hover/item:border-secondary/50">
-                                      <div className="w-1.5 h-1.5 bg-white rounded-full opacity-0 peer-checked:opacity-100 transition-opacity" />
-                                    </div>
                                     <span className="text-[10px] font-bold text-text-muted group-hover/item:text-text-main transition-colors">{sub}</span>
                                   </label>
                                 ))}

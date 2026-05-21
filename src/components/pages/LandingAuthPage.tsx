@@ -173,7 +173,7 @@ function LoginModal({
               <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-secondary to-transparent" />
 
               {/* Header */}
-              <div className="relative bg-gradient-to-b from-primary/8 to-transparent p-4 sm:p-7 pb-3 sm:pb-5 border-b border-border/40 shrink-0">
+              <div className="relative bg-gradient-to-b from-primary/8 to-transparent p-[clamp(1rem,4vh,2rem)] pb-[clamp(0.75rem,2vh,1rem)] border-b border-border/40 shrink-0">
                 <button
                   onClick={onClose}
                   className="absolute top-3 right-3 sm:top-5 sm:right-5 w-8 h-8 rounded-button flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-surface-container transition-all"
@@ -181,35 +181,35 @@ function LoginModal({
                   <X size={16} />
                 </button>
 
-                <div className="flex items-center gap-3 mb-3 sm:mb-4">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-button bg-primary border border-primary/20 flex items-center justify-center">
-                    <IllumineMark className="w-5 h-5 sm:w-6 sm:h-6" />
+                <div className="flex items-center gap-[clamp(0.5rem,2vh,0.75rem)] mb-[clamp(0.5rem,2vh,1rem)]">
+                  <div className="w-[clamp(2rem,6vh,2.5rem)] h-[clamp(2rem,6vh,2.5rem)] rounded-button bg-primary border border-primary/20 flex items-center justify-center">
+                    <IllumineMark className="w-[clamp(1.25rem,4vh,1.5rem)] h-[clamp(1.25rem,4vh,1.5rem)]" />
                   </div>
-                  <div className="flex items-center gap-1.5 sm:gap-2 rounded-full bg-success/10 border border-success/20 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[9px] font-bold uppercase tracking-widest text-success">
+                  <div className="flex items-center gap-[clamp(0.25rem,1vh,0.5rem)] rounded-full bg-success/10 border border-success/20 px-[clamp(0.5rem,1.5vh,0.75rem)] py-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.5rem,1.5vh,0.5625rem)] font-bold uppercase tracking-widest text-success">
                     <CheckCircle2 size={10} className="animate-pulse" />
                     Acesso protegido
                   </div>
                 </div>
 
-                <h2 className="text-xl sm:text-h2 font-medium tracking-tight text-foreground">
+                <h2 className="text-[clamp(1.25rem,4vh,1.5rem)] font-medium tracking-tight text-foreground leading-tight">
                   Entrar no painel
                 </h2>
-                <p className="mt-1 sm:mt-1.5 text-xs sm:text-body-sm leading-relaxed text-muted-foreground font-medium font-sans">
+                <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.75rem,2vh,0.875rem)] leading-snug text-muted-foreground font-medium font-sans">
                   Continue com seu e-mail e senha ou conta Google para acessar seu ambiente Illumine.
                 </p>
               </div>
 
               {/* Body — scrollável mas autoajustável */}
-              <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-7 space-y-3 sm:space-y-4">
-                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+              <div className="flex-1 overflow-y-auto overscroll-contain p-[clamp(1rem,4vh,2rem)] space-y-[clamp(0.5rem,2.5vh,1rem)]">
+                <form onSubmit={handleSubmit} className="space-y-[clamp(0.5rem,2.5vh,1rem)]">
                   {/* Email */}
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block px-1">
+                  <div className="space-y-[clamp(0.25rem,1vh,0.5rem)]">
+                    <Label className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground block px-1">
                       E-mail
                     </Label>
                     <div className="relative group">
                       <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
-                        <Mail size={15} strokeWidth={1.5} />
+                        <Mail className="w-[clamp(0.875rem,2.5vh,0.9375rem)] h-[clamp(0.875rem,2.5vh,0.9375rem)]" strokeWidth={1.5} />
                       </span>
                       <Input
                         type="email"
@@ -217,29 +217,29 @@ function LoginModal({
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="seu.nome@empresa.com.br"
-                        className="pl-10 h-10 sm:h-12 bg-surface-container/40"
+                        className="pl-10 h-[clamp(2.25rem,7vh,3rem)] text-[clamp(0.75rem,2vh,0.875rem)] bg-surface-container/40"
                       />
                     </div>
                   </div>
 
                   {/* Password */}
-                  <div className="space-y-2">
+                  <div className="space-y-[clamp(0.25rem,1vh,0.5rem)]">
                     <div className="flex justify-between items-center px-1">
-                      <Label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block">
+                      <Label className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground block">
                         Senha
                       </Label>
                       <button
                         type="button"
                         onClick={handlePasswordReset}
                         disabled={isResetting}
-                        className="text-[10px] font-bold uppercase tracking-widest text-primary hover:text-primary/80 disabled:opacity-70 transition-colors cursor-pointer"
+                        className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-primary hover:text-primary/80 disabled:opacity-70 transition-colors cursor-pointer"
                       >
                         {isResetting ? 'Enviando...' : 'Esqueceu a senha?'}
                       </button>
                     </div>
                     <div className="relative group">
                       <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
-                        <Lock size={15} strokeWidth={1.5} />
+                        <Lock className="w-[clamp(0.875rem,2.5vh,0.9375rem)] h-[clamp(0.875rem,2.5vh,0.9375rem)]" strokeWidth={1.5} />
                       </span>
                       <Input
                         type={showPassword ? 'text' : 'password'}
@@ -247,14 +247,14 @@ function LoginModal({
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Sua senha"
-                        className="pl-10 pr-10 h-10 sm:h-12 bg-surface-container/40"
+                        className="pl-10 pr-10 h-[clamp(2.25rem,7vh,3rem)] text-[clamp(0.75rem,2vh,0.875rem)] bg-surface-container/40"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-foreground transition-colors"
                       >
-                        {showPassword ? <EyeOff size={15} strokeWidth={1.5} /> : <Eye size={15} strokeWidth={1.5} />}
+                        {showPassword ? <EyeOff className="w-[clamp(0.875rem,2.5vh,0.9375rem)] h-[clamp(0.875rem,2.5vh,0.9375rem)]" strokeWidth={1.5} /> : <Eye className="w-[clamp(0.875rem,2.5vh,0.9375rem)] h-[clamp(0.875rem,2.5vh,0.9375rem)]" strokeWidth={1.5} />}
                       </button>
                     </div>
                   </div>
@@ -263,17 +263,17 @@ function LoginModal({
                   <Button
                     type="submit"
                     disabled={isSubmitting || isSigningIn}
-                    className="w-full h-10 sm:h-12 font-bold text-xs sm:text-sm text-primary-foreground uppercase tracking-widest flex items-center justify-center gap-2"
+                    className="w-full h-[clamp(2.25rem,7vh,3rem)] font-bold text-[clamp(0.75rem,2vh,0.875rem)] text-primary-foreground uppercase tracking-widest flex items-center justify-center gap-2"
                   >
-                    {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <LogIn size={16} />}
+                    {isSubmitting ? <Loader2 className="w-[clamp(0.875rem,2.5vh,1rem)] h-[clamp(0.875rem,2.5vh,1rem)] animate-spin" /> : <LogIn className="w-[clamp(0.875rem,2.5vh,1rem)] h-[clamp(0.875rem,2.5vh,1rem)]" />}
                     Entrar
                   </Button>
                 </form>
 
                 {/* Divider */}
-                <div className="relative flex items-center justify-center">
+                <div className="relative flex items-center justify-center pt-[clamp(0.25rem,1vh,0.5rem)] pb-[clamp(0.25rem,1vh,0.5rem)]">
                   <div className="absolute inset-x-0 h-px bg-border" />
-                  <span className="relative px-3 bg-card text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                  <span className="relative px-3 bg-card text-[clamp(0.5rem,1.5vh,0.625rem)] font-semibold uppercase tracking-widest text-muted-foreground">
                     ou continue com
                   </span>
                 </div>
@@ -284,12 +284,12 @@ function LoginModal({
                   variant="outline"
                   onClick={onGoogleLogin}
                   disabled={isSigningIn || isSubmitting}
-                  className="w-full h-10 sm:h-12 flex items-center justify-center gap-3 text-xs sm:text-sm font-medium"
+                  className="w-full h-[clamp(2.25rem,7vh,3rem)] flex items-center justify-center gap-3 text-[clamp(0.75rem,2vh,0.875rem)] font-medium"
                 >
                   {isSigningIn ? (
-                    <Loader2 size={18} className="animate-spin text-secondary" />
+                    <Loader2 className="w-[clamp(1rem,3vh,1.125rem)] h-[clamp(1rem,3vh,1.125rem)] animate-spin text-secondary" />
                   ) : (
-                    <svg className="w-4 h-4" viewBox="0 0 24 24">
+                    <svg className="w-[clamp(0.875rem,2.5vh,1rem)] h-[clamp(0.875rem,2.5vh,1rem)]" viewBox="0 0 24 24">
                       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
                       <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
                       <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
@@ -306,7 +306,7 @@ function LoginModal({
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="rounded-button bg-destructive/10 border border-destructive/20 px-4 py-3 text-body-sm font-medium text-destructive leading-5"
+                      className="rounded-button bg-destructive/10 border border-destructive/20 px-[clamp(0.75rem,2.5vh,1rem)] py-[clamp(0.5rem,1.5vh,0.75rem)] text-[clamp(0.75rem,2vh,0.875rem)] font-medium text-destructive leading-5"
                     >
                       {loginError}
                     </motion.div>
@@ -320,7 +320,7 @@ function LoginModal({
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="rounded-button bg-destructive/10 border border-destructive/20 px-4 py-3 text-body-sm font-medium text-destructive leading-5"
+                      className="rounded-button bg-destructive/10 border border-destructive/20 px-[clamp(0.75rem,2.5vh,1rem)] py-[clamp(0.5rem,1.5vh,0.75rem)] text-[clamp(0.75rem,2vh,0.875rem)] font-medium text-destructive leading-5"
                     >
                       {resetError}
                     </motion.div>
@@ -334,7 +334,7 @@ function LoginModal({
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="rounded-button bg-success/10 border border-success/20 px-4 py-3 text-body-sm font-medium text-success leading-5"
+                      className="rounded-button bg-success/10 border border-success/20 px-[clamp(0.75rem,2.5vh,1rem)] py-[clamp(0.5rem,1.5vh,0.75rem)] text-[clamp(0.75rem,2vh,0.875rem)] font-medium text-success leading-5"
                     >
                       {resetMessage}
                     </motion.div>
@@ -342,12 +342,12 @@ function LoginModal({
                 </AnimatePresence>
 
                 {/* Security note */}
-                <div className="rounded-button bg-surface-container/40 border border-border/60 p-3">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-                    <ShieldCheck size={11} className="text-secondary shrink-0" />
+                <div className="hidden sm:block rounded-button bg-surface-container/40 border border-border/60 p-[clamp(0.5rem,2vh,0.75rem)] mt-[clamp(0.5rem,2vh,1rem)]">
+                  <p className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                    <ShieldCheck className="w-[clamp(0.625rem,2vh,0.6875rem)] h-[clamp(0.625rem,2vh,0.6875rem)] text-secondary shrink-0" />
                     Ambiente privado e seguro
                   </p>
-                  <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground/75 font-medium font-sans">
+                  <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.625rem,1.8vh,0.6875rem)] leading-snug text-muted-foreground/75 font-medium font-sans">
                     Suas informações ficam associadas à sua conta corporativa e são acessíveis somente mediante autenticação autorizada.
                   </p>
                 </div>

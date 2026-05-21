@@ -92,17 +92,17 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
       
       {/* Navbar */}
       <nav className="fixed top-0 inset-x-0 h-20 z-50 border-b border-border/40 backdrop-blur-md bg-background/85 transition-all duration-300 shadow-xs">
-        <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
-          <div className="flex items-center gap-1.5 cursor-pointer group" onClick={() => scrollToSection('hero')}>
+        <div className="max-w-7xl mx-auto px-2 min-[400px]:px-6 h-full flex items-center justify-between gap-2 md:gap-4">
+          <div className="flex items-center gap-1 min-[400px]:gap-1.5 md:gap-2 cursor-pointer group shrink-0" onClick={() => scrollToSection('hero')}>
             <div className="flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-              <IllumineMark className="w-12 h-12" />
+              <IllumineMark className="w-6 h-6 min-[350px]:w-8 min-[350px]:h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" />
             </div>
-            <div className="flex flex-col items-center select-none hidden sm:flex">
-              <span className="text-4xl font-normal lowercase leading-none text-primary group-hover:text-primary/90 transition-colors" style={{ fontFamily: "'Tilt Warp', sans-serif", letterSpacing: '-0.04em' }}>
+            <div className="flex flex-col items-center select-none">
+              <span className="text-[14px] min-[350px]:text-lg sm:text-3xl md:text-4xl font-normal lowercase leading-none text-primary group-hover:text-primary/90 transition-colors" style={{ fontFamily: "'Tilt Warp', sans-serif", letterSpacing: '-0.04em' }}>
                 illumine
               </span>
               <div 
-                className="flex justify-between w-full text-[8px] text-secondary uppercase mt-0.5 whitespace-nowrap font-bold" 
+                className="flex justify-between w-full text-[4px] min-[350px]:text-[5px] sm:text-[6px] md:text-[8px] text-secondary uppercase mt-0.5 whitespace-nowrap font-bold" 
                 style={{ fontFamily: '"Work Sans", sans-serif' }}
               >
                 {'Strategic Intelligence & Advisory'.split('').map((char, i) => (
@@ -112,47 +112,51 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             </div>
           </div>
 
-          <div className="hidden lg:flex items-center gap-6">
-            <div className="relative flex items-center bg-surface-container border border-border rounded-button p-1 gap-0.5 mr-2">
+          <div className="flex flex-1 items-center justify-center min-[1150px]:justify-start xl:justify-center gap-4 xl:gap-8 px-1">
+            <div className="relative flex items-center bg-surface-container border border-border rounded-md min-[400px]:rounded-button p-1 gap-0.5">
               <motion.div
-                className="absolute top-1 bottom-1 bg-primary rounded-[10px] shadow-sm"
+                className="absolute top-1 bottom-1 bg-primary rounded-[6px] min-[400px]:rounded-[10px] shadow-sm"
                 layout
                 transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 style={{ left: '50%', width: 'calc(50% - 4px)' }}
               />
               <button
                 onClick={() => window.location.href = '/empresas'}
-                className="relative z-10 flex items-center gap-2 px-4 py-1.5 rounded-[10px] text-xs font-bold uppercase tracking-widest transition-colors duration-200 text-muted-foreground hover:text-foreground"
+                className="relative z-10 flex items-center justify-center gap-1 md:gap-1.5 px-1 min-[350px]:px-1.5 min-[400px]:px-2 md:px-3.5 py-0.5 min-[400px]:py-1 text-[5px] min-[350px]:text-[7px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-tight md:tracking-widest transition-colors duration-200 text-muted-foreground hover:text-foreground min-w-[35px] min-[350px]:min-w-[50px] sm:min-w-[75px] md:min-w-0"
               >
-                <Building2 size={13} /> Empresa
+                <Building2 className="w-2 h-2 min-[350px]:w-2.5 min-[350px]:h-2.5 md:w-3 md:h-3 shrink-0" /> 
+                <span>Empresa</span>
               </button>
               <button
                 onClick={() => window.location.href = '/parceiros'}
-                className="relative z-10 flex items-center gap-2 px-4 py-1.5 rounded-[10px] text-xs font-bold uppercase tracking-widest transition-colors duration-200 text-primary-foreground"
+                className="relative z-10 flex items-center justify-center gap-1 md:gap-1.5 px-1 min-[350px]:px-1.5 min-[400px]:px-2 md:px-3.5 py-0.5 min-[400px]:py-1 text-[5px] min-[350px]:text-[7px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-tight md:tracking-widest transition-colors duration-200 text-primary-foreground min-w-[35px] min-[350px]:min-w-[50px] sm:min-w-[75px] md:min-w-0"
               >
-                <Handshake size={13} /> Parceiro
+                <Handshake className="w-2 h-2 min-[350px]:w-2.5 min-[350px]:h-2.5 md:w-3 md:h-3 shrink-0" /> 
+                <span>Parceiro</span>
               </button>
             </div>
-
-            <button onClick={() => scrollToSection('perfil')} className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Objetivo</button>
-            <button onClick={() => scrollToSection('mercado')} className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Mercado</button>
-            <button onClick={() => scrollToSection('framework-parceiro')} className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Framework</button>
-            <button onClick={() => scrollToSection('ecossistema-parceiro')} className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Ecossistema</button>
-            <button onClick={() => scrollToSection('modalidades')} className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Modalidades</button>
+            
+            <div className="hidden min-[1150px]:flex items-center gap-3 xl:gap-6">
+              <button onClick={() => scrollToSection('perfil')} className="text-[9px] xl:text-[10px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Objetivo</button>
+              <button onClick={() => scrollToSection('mercado')} className="text-[9px] xl:text-[10px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Mercado</button>
+              <button onClick={() => scrollToSection('framework-parceiro')} className="text-[9px] xl:text-[10px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Framework</button>
+              <button onClick={() => scrollToSection('ecossistema-parceiro')} className="text-[9px] xl:text-[10px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Ecossistema</button>
+              <button onClick={() => scrollToSection('modalidades')} className="text-[9px] xl:text-[10px] font-bold uppercase tracking-normal xl:tracking-widest text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap cursor-pointer">Modalidades</button>
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1.5 min-[400px]:gap-2 md:gap-4 ml-auto lg:ml-0 shrink-0">
             <button 
               onClick={onLoginClick}
-              className="text-body-sm font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors hidden sm:block cursor-pointer"
+              className="text-[5px] min-[350px]:text-[7px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-tight md:tracking-widest text-muted-foreground hover:text-primary transition-colors cursor-pointer"
             >
               Entrar
             </button>
             <Button 
               onClick={handleConsultantClick}
-              className="h-10 px-5 font-bold text-xs uppercase tracking-widest flex items-center gap-2"
+              className="h-4 min-[350px]:h-6 min-[400px]:h-8 md:h-9 px-1 min-[350px]:px-1.5 min-[400px]:px-3 md:px-4 rounded-[4px] min-[400px]:rounded-[8px] md:rounded-[10px] font-bold text-[5px] min-[350px]:text-[6px] sm:text-[8px] md:text-[10px] uppercase tracking-tight md:tracking-widest flex items-center gap-0.5 min-[350px]:gap-1 md:gap-1.5 whitespace-nowrap"
             >
-              <MessageSquare size={14} />
+              <MessageSquare className="w-1.5 h-1.5 min-[350px]:w-2 min-[350px]:h-2 sm:w-3 sm:h-3 md:w-3 md:h-3 shrink-0" />
               <span>Seja Parceiro</span>
             </Button>
           </div>
