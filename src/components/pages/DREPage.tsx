@@ -87,21 +87,28 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     return [];
   }, [dbData]);
 
+  const getRobustRow = (source: any[], possibleNames: string[]) => {
+    return source.find(s => {
+      const sName = (s.conta || s.category || '').toLowerCase();
+      const cleanName = sName.replace(/^[(-/+)\s]+/, '').trim();
+      return possibleNames.some(p => {
+        const cleanP = p.toLowerCase().replace(/^[(-/+)\s]+/, '').trim();
+        return cleanName === cleanP || cleanName.includes(cleanP);
+      });
+    });
+  };
+
   const getValue = (source: any[], name: string) => {
-    const search = name.toLowerCase();
-    return source.find(s => (s.conta || s.category || '').toLowerCase() === search)?.val || source.find(s => (s.conta || s.category || '').toLowerCase() === search)?.valor || 0;
+    const row = getRobustRow(source, [name]);
+    return row?.val || row?.valor || 0;
   };
 
   // 1. RECEITA OPERACIONAL BRUTA
   const receitaBruta = getValue(rows, 'Receita Operacional Bruta') || getValue(rows, 'Receita Bruta') || getValue(rows, 'Faturamento Bruto') || getValue(rows, 'Faturamento') || 0;
 
   // 2. DEDUÇÕES DA RECEITA BRUTA
-  const deducoesReceita = Math.abs(
-    getValue(rows, 'Deduções e Impostos') || getValue(rows, 'Deduções da Receita') || 
-    getValue(rows, 'Impostos sobre Vendas') || getValue(rows, 'Devoluções') || 
-    getValue(rows, 'Vendas Canceladas') || getValue(rows, 'Cancelamentos') || 
-    getValue(rows, 'Abatimentos') || 0
-  );
+  const deducoesRow = getRobustRow(rows, ['Deduções e Impostos', 'Deduções da Receita', 'Impostos sobre Vendas', 'Deduções', 'Devoluções', 'Vendas Canceladas', 'Cancelamentos', 'Abatimentos']);
+  const deducoesReceita = Math.abs(deducoesRow?.val || deducoesRow?.valor || 0);
 
   // 3. RECEITA OPERACIONAL LÍQUIDA
   let recLiquida = getValue(rows, 'Receita Líquida') || getValue(rows, 'Receita Operacional Líquida') || 0;
@@ -112,13 +119,13 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   // 4. ÍNDICE DAS DEDUÇÕES DA RECEITA
   const indiceDeducoes = receitaBruta > 0 ? (deducoesReceita / receitaBruta) * 100 : 0;
 
-  // 5. CUSTOS VARIÁVEIS
-  const custosVar = Math.abs(
-    getValue(rows, 'Custos Variáveis') || getValue(rows, 'CMV') || 
-    getValue(rows, 'CPV') || getValue(rows, 'CSV') || 
-    getValue(rows, 'Custo das Mercadorias Vendidas') || 
-    getValue(rows, 'Custo dos Serviços Prestados') || 0
-  );
+  // 5. CUSTOS VARIÁVEIS E LABEL DINÂMICO
+  const cmvRow = getRobustRow(rows, ['Custo das Mercadorias Vendidas', 'Custo dos Produtos Vendidos', 'Custo dos Serviços Prestados', 'Custos (CPV/CSP)', 'Custos Variáveis', 'CMV', 'CPV', 'CSV']);
+  const custosVar = Math.abs(cmvRow?.val || cmvRow?.valor || 0);
+  
+  let cmvLabelRaw = cmvRow ? (cmvRow.conta || cmvRow.category) : 'Custos Variáveis';
+  // limpar o label dinâmico retirando prefixos como (-)
+  const cmvLabel = cmvLabelRaw.replace(/^[(-/+)\s]+/, '').trim();
 
   // 6. MARGEM DE CONTRIBUIÇÃO
   const margemContrib = recLiquida - custosVar;
@@ -524,7 +531,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>CMV</span>
+                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>{cmvLabel}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
@@ -571,7 +578,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                   }}
                 />
                 <Bar dataKey="receita" name="Receita Líquida" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="cmv" name="CMV" fill="#f43f5e" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="cmv" name={cmvLabel} fill="#f43f5e" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="ebitda" name="EBITDA" fill="#10b981" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="lucro" name="Resultado Líquido" fill="#a855f7" radius={[4, 4, 0, 0]} />
               </BarChart>
@@ -614,7 +621,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 <span className="font-bold">{formatCurrency(recLiquida)}</span>
               </div>
               <div className="flex justify-between items-center text-[10px] text-white/70">
-                <span>(-) Custos Variáveis:</span>
+                <span>(-) {cmvLabel}:</span>
                 <span className="font-bold text-rose-300">{formatCurrency(custosVar)}</span>
               </div>
               <div className="flex justify-between items-center text-[11px] text-white font-bold border-t border-white/10 pt-2 mt-1">
@@ -799,7 +806,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               </div>
             </div>
             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Evolução de CMV</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Evolução de {cmvLabel}</p>
               <div className="flex items-center gap-2">
                 {trendNote.cmv > 0 ? <TrendingUp size={16} className="text-rose-500" /> : <TrendingDown size={16} className="text-emerald-500" />}
                 <p className={cn("text-2xl font-black", trendNote.cmv > 0 ? "text-rose-500" : "text-emerald-500")}>
@@ -828,7 +835,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           </div>
           <p className="text-sm text-slate-500 mt-6 leading-relaxed">
             A análise histórica demonstra um {trendNote.receita > 0 ? 'crescimento' : 'decréscimo'} de <strong>{Math.abs(trendNote.receita).toFixed(2)}%</strong> nas receitas líquidas no período de {trendNote.period}.
-            Este movimento foi acompanhado por uma variação de <strong>{trendNote.cmv > 0 ? '+' : ''}{trendNote.cmv.toFixed(2)}%</strong> nos Custos Variáveis (CMV).
+            Este movimento foi acompanhado por uma variação de <strong>{trendNote.cmv > 0 ? '+' : ''}{trendNote.cmv.toFixed(2)}%</strong> em <strong>{cmvLabel}</strong>.
             No que tange à geração de caixa operacional, o EBITDA obteve uma variação de <strong>{trendNote.ebitda > 0 ? '+' : ''}{trendNote.ebitda.toFixed(2)}%</strong>, resultando
             finalmente num impacto na linha de Lucro Líquido de <strong>{trendNote.lucro > 0 ? '+' : ''}{trendNote.lucro.toFixed(2)}%</strong> no acumulado de cinco anos.
           </p>
