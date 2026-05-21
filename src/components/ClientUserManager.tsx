@@ -242,7 +242,8 @@ function ClientUserManagerInner({ clientId }: { clientId: string }) {
       {createdCredentials && createPortal(
           <div className="fixed inset-0 z-[9999] bg-background/95 backdrop-blur-sm flex items-center justify-center p-4">
             <div 
-              className="w-full min-w-[320px] sm:min-w-[400px] max-w-[448px] bg-card border border-border shadow-2xl rounded-2xl p-6 sm:p-8 relative mx-auto"
+              className="w-full max-w-md bg-card border border-border shadow-2xl rounded-2xl p-6 sm:p-8 relative"
+              style={{ width: '100%', maxWidth: '448px', minWidth: '320px' }}
             >
               <div className="flex justify-center mb-6">
                 <div className="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center">

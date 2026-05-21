@@ -98,8 +98,8 @@ export function GenerateAICompanyModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
-      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden bg-white rounded-[32px] border-slate-200">
-        <DialogHeader className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-row items-center gap-3 space-y-0">
+      <DialogContent className="sm:max-w-[600px] w-[95vw] max-h-[90vh] flex flex-col p-0 overflow-hidden bg-white rounded-[32px] border-slate-200">
+        <DialogHeader className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-row items-center gap-3 space-y-0 shrink-0">
           <div className="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center shadow-sm">
             <Sparkles size={20} />
           </div>
@@ -111,7 +111,7 @@ export function GenerateAICompanyModal({
           </div>
         </DialogHeader>
 
-        <div className="p-8 space-y-6">
+        <div className="p-6 md:p-8 space-y-6 overflow-y-auto flex-1 custom-scrollbar">
           {error && (
             <div className="bg-rose-50 text-rose-600 p-4 rounded-2xl border border-rose-100 flex items-start gap-3">
               <AlertCircle size={18} className="shrink-0 mt-0.5" />
@@ -196,7 +196,7 @@ export function GenerateAICompanyModal({
           )}
         </div>
 
-        <div className="p-6 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
+        <div className="p-6 bg-slate-50 border-t border-slate-100 flex justify-end gap-3 shrink-0">
           <Button 
             variant="outline"
             onClick={onClose}

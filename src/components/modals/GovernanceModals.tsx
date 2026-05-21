@@ -381,7 +381,8 @@ export function MandatoryClientModal({ isOpen, onSelect }: MandatoryClientModalP
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full min-w-[320px] sm:min-w-[400px] max-w-md bg-background rounded-card shadow-lg p-10 text-center border border-border"
+            className="relative w-full max-w-md bg-background rounded-card shadow-lg p-10 text-center border border-border"
+            style={{ width: '100%', maxWidth: '448px', minWidth: '320px' }}
           >
             <div className="w-20 h-20 rounded-md bg-destructive/10 text-destructive flex items-center justify-center mx-auto mb-8 shadow-inner">
               <AlertTriangle size={32} />
