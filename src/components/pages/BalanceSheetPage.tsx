@@ -519,7 +519,13 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                       {section.data.map((row: any, i: number) => (
                         <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', row.level === 1 ? 'bg-slate-50/10 font-bold' : '')}>
                           <td className="py-2.5 md:py-4 px-5 md:px-8">
-                            <span className={cn('block overflow-visible break-words', row.level === 1 ? 'text-secondary' : 'pl-4 text-muted-foreground font-medium')}>
+                            <span 
+                              className={cn('block overflow-visible break-words', row.level === 1 ? 'text-secondary font-bold' : 'text-muted-foreground font-medium')}
+                              style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 16}px` : '0px' }}
+                            >
+                              {row.level > 1 && (
+                                <span className="inline-block w-2 h-2 border-b border-l border-slate-300 mr-2 mb-0.5" />
+                              )}
                               {row.conta === 'Patrimônio Líquido' ? 'Patrimônio' : row.conta}
                             </span>
                           </td>
@@ -527,7 +533,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                             {formatCurrency(row.val)}
                           </td>
                           <td className="py-2.5 md:py-4 px-5 md:px-8 text-right font-bold text-slate-500 text-xs">
-                            {row.av.toFixed(1)}%
+                            {row.av.toFixed(2)}%
                           </td>
                           <td className={cn(
                             "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
@@ -536,7 +542,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                             {row.ah !== 0 ? (
                               <div className="flex items-center justify-end gap-1">
                                 {row.ah > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-                                {Math.abs(row.ah).toFixed(1)}%
+                                {Math.abs(row.ah).toFixed(2)}%
                               </div>
                             ) : '—'}
                           </td>

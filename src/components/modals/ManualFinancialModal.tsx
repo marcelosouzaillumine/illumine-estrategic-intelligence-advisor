@@ -258,10 +258,20 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                       </td>
                       <td className="py-2 px-2">
                         <input 
-                          type="number" 
-                          value={row.hasChildren ? row.computedValue : row.value} 
-                          onChange={(e) => updateRow(row.id, 'value', Number(e.target.value))}
+                          type="number"
+                          step="0.01"
+                          value={row.hasChildren ? row.computedValue.toFixed(2) : row.value === 0 ? '' : row.value}
+                          onChange={(e) => {
+                            const parsed = parseFloat(e.target.value);
+                            updateRow(row.id, 'value', isNaN(parsed) ? 0 : parsed);
+                          }}
+                          onWheel={(e) => (e.target as HTMLInputElement).blur()}
+                          onBlur={(e) => {
+                            const parsed = parseFloat(e.target.value);
+                            updateRow(row.id, 'value', isNaN(parsed) ? 0 : Math.round(parsed * 100) / 100);
+                          }}
                           disabled={row.hasChildren}
+                          placeholder="0,00"
                           className={cn(
                             "w-full border border-slate-100 rounded-xl px-4 py-2 text-sm text-right font-mono outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
                             row.hasChildren 

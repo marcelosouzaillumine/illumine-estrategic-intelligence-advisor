@@ -67,14 +67,18 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
 
   
-  // Agrega dados se houver múltiplos meses no banco para o mesmo ano
+  // Agrega dados preservando level, categoria e tipo
   const rows = useMemo(() => {
     if (dbData.length > 0) {
       const aggregated: any = {};
       dbData.forEach((d: any) => {
         const key = d.conta || d.category;
         if (!aggregated[key]) {
-          aggregated[key] = { ...d, val: 0 };
+          aggregated[key] = { 
+            ...d, 
+            val: 0,
+            level: d.level ?? 1  // preserve level from manual launch
+          };
         }
         aggregated[key].val += (d.val || d.valor || 0);
       });
@@ -168,20 +172,40 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
 
   const tableRows = [
-    'Receita Operacional Bruta',
-    '(-) Deduções e Impostos',
-    'Receita Líquida',
-    '(-) Custos (CPV/CSP)',
-    'Lucro Bruto',
-    '(-) Despesas Operacionais',
-    'EBITDA',
-    '(-) Depreciação e Amortização',
-    'EBIT',
-    '(+/-) Resultado Financeiro',
-    'LAIR (Lucro Antes do IR)',
-    '(-) Provisão IR/CSLL',
-    'Lucro Líquido'
+    { name: 'Receita Operacional Bruta', level: 1 },
+    { name: '(-) Deduções e Impostos', level: 2 },
+    { name: 'Receita Líquida', level: 1 },
+    { name: '(-) Custos (CPV/CSP)', level: 2 },
+    { name: 'Lucro Bruto', level: 1 },
+    { name: '(-) Despesas Operacionais', level: 2 },
+    { name: 'EBITDA', level: 1 },
+    { name: '(-) Depreciação e Amortização', level: 2 },
+    { name: 'EBIT', level: 1 },
+    { name: '(+/-) Resultado Financeiro', level: 2 },
+    { name: 'LAIR (Lucro Antes do IR)', level: 1 },
+    { name: '(-) Provisão IR/CSLL', level: 2 },
+    { name: 'Lucro Líquido', level: 1 },
   ];
+
+  // Histórico para AH no ano anterior
+  const prevYearRows = useMemo(() => {
+    const prevEntries = allHistoryData.filter((d: any) => d.year === (filterYear - 1) && d.type === 'DRE');
+    if (prevEntries.length > 0) {
+      const agg: any = {};
+      prevEntries.forEach((d: any) => {
+        const key = d.conta || d.category;
+        if (!agg[key]) agg[key] = { ...d, val: 0 };
+        agg[key].val += (d.val || d.valor || 0);
+      });
+      return Object.values(agg);
+    }
+    return [];
+  }, [allHistoryData, filterYear]);
+
+  const getPrevValue = (name: string) => {
+    const search = name.toLowerCase();
+    return (prevYearRows as any[]).find(s => (s.conta || s.category || '').toLowerCase() === search)?.val || 0;
+  };
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
@@ -354,7 +378,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         <div className="px-5 md:px-8 py-3 md:py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
           <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Detalhamento da DRE</h4>
           <span className="text-[9px] font-black uppercase px-3 py-1 rounded-full bg-blue-50 text-blue-600">
-            Realizado vs Vertical
+            Análise Horizontal e Vertical
           </span>
         </div>
         <div className="overflow-x-auto">
@@ -364,30 +388,77 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 <th className="text-left py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conta</th>
                 <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Valor (R$)</th>
                 <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AV (%)</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (%)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {tableRows.map((rowName, i) => {
-                const val = getValue(rows, rowName);
-                const av = recLiquida > 0 ? (val / recLiquida) * 100 : 0;
-                const isTotal = ['Receita Líquida', 'Lucro Bruto', 'EBITDA', 'EBIT', 'LAIR (Lucro Antes do IR)', 'Lucro Líquido'].includes(rowName);
+              {rows.length > 0
+                // ── Dados reais do banco: renderiza exatamente as linhas lançadas ──
+                ? (rows as any[]).map((row: any, i: number) => {
+                    const name = row.conta || row.category || '';
+                    const val = row.val || 0;
+                    const level = row.level ?? 1;
+                    const av = recLiquida > 0 ? (val / recLiquida) * 100 : 0;
+                    const prevVal = getPrevValue(name);
+                    const ah = prevVal > 0 ? ((val / prevVal) - 1) * 100 : null;
+                    const isTotal = level === 1;
 
-                return (
-                  <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', isTotal ? 'bg-slate-50/10 font-bold' : '')}>
-                    <td className="py-2.5 md:py-4 px-5 md:px-8">
-                      <span className={cn('block break-words overflow-visible', isTotal ? 'text-primary' : 'pl-4 text-slate-600 font-medium')}>
-                        {rowName}
-                      </span>
-                    </td>
-                    <td className={cn("py-2.5 md:py-4 px-5 md:px-8 text-right font-mono", val < 0 ? "text-rose-500" : "text-slate-700")}>
-                      {formatCurrency(val)}
-                    </td>
-                    <td className="py-2.5 md:py-4 px-5 md:px-8 text-right font-bold text-slate-500 text-xs">
-                      {av.toFixed(1)}%
-                    </td>
-                  </tr>
-                );
-              })}
+                    return (
+                      <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', isTotal ? 'bg-slate-50/30 font-bold' : '')}>
+                        <td className="py-2.5 md:py-4 px-5 md:px-8">
+                          <span
+                            className={cn('block break-words overflow-visible', isTotal ? 'text-primary font-bold' : 'text-slate-600 font-medium')}
+                            style={{ paddingLeft: level > 1 ? `${(level - 1) * 20}px` : '0px' }}
+                          >
+                            {level > 1 && (
+                              <span className="inline-block w-2 h-2 border-b border-l border-slate-300 mr-2 mb-0.5" />
+                            )}
+                            {name}
+                          </span>
+                        </td>
+                        <td className={cn("py-2.5 md:py-4 px-5 md:px-8 text-right font-mono", val < 0 ? "text-rose-500" : "text-slate-700")}>
+                          {formatCurrency(val)}
+                        </td>
+                        <td className="py-2.5 md:py-4 px-5 md:px-8 text-right font-bold text-slate-500 text-xs">
+                          {av.toFixed(2)}%
+                        </td>
+                        <td className={cn(
+                          "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
+                          ah === null ? "text-slate-300" : ah > 0 ? "text-emerald-500" : ah < 0 ? "text-rose-500" : "text-slate-300"
+                        )}>
+                          {ah !== null ? (
+                            <div className="flex items-center justify-end gap-1">
+                              {ah > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                              {Math.abs(ah).toFixed(2)}%
+                            </div>
+                          ) : '—'}
+                        </td>
+                      </tr>
+                    );
+                  })
+                // ── Sem dados: mostra template estático como guia ──
+                : tableRows.map((row, i) => {
+                    const isTotal = row.level === 1;
+                    return (
+                      <tr key={i} className={cn('transition-colors group', isTotal ? 'bg-slate-50/30 font-bold' : '')}>
+                        <td className="py-2.5 md:py-4 px-5 md:px-8">
+                          <span
+                            className={cn('block break-words overflow-visible', isTotal ? 'text-slate-300 font-bold' : 'text-slate-200 font-medium')}
+                            style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 20}px` : '0px' }}
+                          >
+                            {row.level > 1 && (
+                              <span className="inline-block w-2 h-2 border-b border-l border-slate-200 mr-2 mb-0.5" />
+                            )}
+                            {row.name}
+                          </span>
+                        </td>
+                        <td className="py-2.5 md:py-4 px-5 md:px-8 text-right font-mono text-slate-200">R$ 0,00</td>
+                        <td className="py-2.5 md:py-4 px-5 md:px-8 text-right text-slate-200 text-xs">0,00%</td>
+                        <td className="py-2.5 md:py-4 px-5 md:px-8 text-right text-slate-200 text-xs">—</td>
+                      </tr>
+                    );
+                  })
+              }
             </tbody>
           </table>
         </div>
