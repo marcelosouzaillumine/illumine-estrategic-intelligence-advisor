@@ -133,14 +133,21 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   // 7. ÍNDICE DA MARGEM DE CONTRIBUIÇÃO
   const indiceMargemContrib = recLiquida > 0 ? margemContrib / recLiquida : 0;
 
-  // 8. DESPESAS FIXAS
-  const despOperacionais = Math.abs(getValue(rows, 'Despesas Operacionais') || getValue(rows, 'Despesas') || getValue(rows, 'Despesas Operacionais Fixas') || 0);
-  const despVendas = Math.abs(getValue(rows, 'Despesas de Vendas') || 0);
+  // 8. DESPESAS FIXAS (Consolidação Inteligente V2)
+  const despOperacionaisMae = Math.abs(getValue(rows, 'Despesas Operacionais') || getValue(rows, 'Despesas') || getValue(rows, 'Despesas Operacionais Fixas') || 0);
+  const despVendas = Math.abs(getValue(rows, 'Despesas de Vendas') || getValue(rows, 'Despesas Comerciais') || 0);
   const despAdmin = Math.abs(getValue(rows, 'Despesas Administrativas') || 0);
   const despFin = Math.abs(getValue(rows, 'Despesas Financeiras') || 0);
   const outrasRecOp = Math.abs(getValue(rows, 'Outras Receitas Operacionais') || 0);
   
-  const despesasFixas = despOperacionais + despVendas + despAdmin + despFin - outrasRecOp;
+  const somaAnaliticas = despVendas + despAdmin + despFin;
+  let despesasFixas = 0;
+
+  if (somaAnaliticas > 0) {
+    despesasFixas = somaAnaliticas - outrasRecOp;
+  } else {
+    despesasFixas = despOperacionaisMae - outrasRecOp;
+  }
 
   // 9. PONTO DE EQUILÍBRIO CONTÁBIL
   let pontoEquilibrio = 0;
@@ -184,7 +191,20 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     if (ebitVal !== 0) {
       ebitda = ebitVal + depreciacao;
     } else {
-      ebitda = lucroBruto - despOperacionais + depreciacao;
+      ebitda = lucroBruto - despOperacionaisMae + depreciacao;
+    }
+  }
+
+  // AUDITORIA MATEMÁTICA INTERNA
+  const internalAuditErrors: string[] = [];
+  if (recLiquida !== 0) {
+    const calcLB = recLiquida - custosVar;
+    if (lucroBruto !== 0 && Math.abs(calcLB - lucroBruto) > (recLiquida * 0.01)) {
+        internalAuditErrors.push(`Divergência matemática detectada: O Lucro Bruto contabilizado difere do cálculo (Receita Líquida - Custos Variáveis).`);
+    }
+    const calcOp = calcLB - despesasFixas;
+    if (ebitVal !== 0 && Math.abs(calcOp - ebitVal) > (recLiquida * 0.01)) {
+        internalAuditErrors.push(`Divergência matemática detectada: O Resultado Operacional contabilizado difere da dedução de Despesas Fixas do Lucro Bruto.`);
     }
   }
 
@@ -193,12 +213,12 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const indiceDespesasComerciais = recLiquida > 0 ? (despVendas / recLiquida) * 100 : 0;
   const indiceDespesasFinanceiras = recLiquida > 0 ? (despFin / recLiquida) * 100 : 0;
 
-  const margemOperacional = recLiquida > 0 ? (ebitVal / recLiquida) * 100 : 0;
-  const margemLiquida = recLiquida > 0 ? (lucroLiq / recLiquida) * 100 : 0;
+  const margemOperacional = recLiquida !== 0 ? (ebitVal / recLiquida) * 100 : 0;
+  const margemLiquida = recLiquida !== 0 ? (lucroLiq / recLiquida) * 100 : 0;
   
   const capacidadeAbsorcaoEstrutura = despesasFixas > 0 ? margemContrib / despesasFixas : margemContrib > 0 ? Infinity : 0;
   const grauAlavancagemOperacional = ebitVal !== 0 ? margemContrib / ebitVal : 0;
-  const indiceConversaoOperacional = lucroBruto > 0 ? (ebitda / lucroBruto) * 100 : 0;
+  const indiceConversaoOperacional = lucroBruto !== 0 ? (ebitVal / lucroBruto) * 100 : 0;
   
   const receitaMediaDiaria = recLiquida / 360;
   const breakEvenDays = receitaMediaDiaria > 0 ? pontoEquilibrio / receitaMediaDiaria : 0;
@@ -500,6 +520,13 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const finalHealthScore = useMemo(() => {
       if (recLiquida <= 0) return 0;
       let score = healthScoreBase;
+      
+      // Rebalanceamento: Se Margem Bruta é boa (> 30%) mas a escala é baixa, suavizar penalização.
+      const margemBrutaVal = recLiquida > 0 ? (lucroBruto / recLiquida) * 100 : 0;
+      if (margemBrutaVal > 30 && capacidadeAbsorcaoEstrutura < 1) {
+          score += 10; // Compensação por escala vs margem primária
+      }
+
       if (trendNote && trendNote.receita) {
           const scoreGrowth = Math.min(Math.max((trendNote.receita / 20) * 100, 0), 100) * 0.15;
           score += scoreGrowth;
@@ -507,38 +534,52 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           score = (score / 85) * 100;
       }
       return Math.min(Math.max(score, 0), 100);
-  }, [healthScoreBase, trendNote, recLiquida]);
+  }, [healthScoreBase, trendNote, recLiquida, lucroBruto, capacidadeAbsorcaoEstrutura]);
 
   const smartInsights = useMemo(() => {
       const insights = [];
       if (recLiquida === 0) return insights;
       
+      const margemBrutaVal = recLiquida > 0 ? (lucroBruto / recLiquida) * 100 : 0;
+
       if (indiceDespesasAdministrativas > 20) {
-          insights.push("A estrutura administrativa está consumindo uma parcela muito elevada da receita líquida, pressionando a margem final.");
+          insights.push("A estrutura administrativa está consumindo uma parcela muito elevada da receita, pressionando a margem final.");
       }
       if (margemOperacional > 0 && margemLiquida < 0 && indiceDespesasFinanceiras > 5) {
           insights.push("A operação é lucrativa no core business, mas o custo financeiro elevado está consumindo o resultado e gerando prejuízo líquido.");
       }
       if (capacidadeAbsorcaoEstrutura < 1) {
-          insights.push("A margem de contribuição gerada não é suficiente para a absorção da estrutura fixa existente (operação deficitária no volume atual).");
+          if (margemBrutaVal > 30) {
+              insights.push("A margem bruta da operação é saudável, porém a atual escala operacional é insuficiente para absorção da estrutura fixa existente.");
+          } else {
+              insights.push("A margem de contribuição gerada não é suficiente para a absorção da estrutura fixa existente (operação pressionada).");
+          }
       } else if (capacidadeAbsorcaoEstrutura < 1.3) {
-          insights.push("A empresa demonstra forte dependência de aumento de escala ou necessidade de redução de custos fixos para sustentar sua operação confortavelmente.");
+          insights.push("A operação apresenta baixa absorção estrutural, dependendo de aumento de escala ou redução de custos fixos para sustentar-se com folga.");
       }
       if (margemOperacional > 15 && indiceConversaoOperacional > 60) {
-          insights.push("Operação apresenta alta performance executiva, combinando rentabilidade operacional com forte conversão de lucros em caixa (EBITDA).");
+          insights.push("Operação apresenta alta performance executiva, combinando rentabilidade com forte conversão de lucros em caixa operacional.");
+      } else if (indiceConversaoOperacional < 0) {
+          insights.push("A operação atual está consumindo caixa e destruindo margem operacional, exigindo revisão profunda da estrutura de custos.");
       }
       return insights;
-  }, [indiceDespesasAdministrativas, margemOperacional, margemLiquida, indiceDespesasFinanceiras, capacidadeAbsorcaoEstrutura, indiceConversaoOperacional, recLiquida]);
+  }, [indiceDespesasAdministrativas, margemOperacional, margemLiquida, indiceDespesasFinanceiras, capacidadeAbsorcaoEstrutura, indiceConversaoOperacional, recLiquida, lucroBruto]);
 
   const systemAlerts = useMemo(() => {
       const alerts = [];
+      
+      // Auditoria Lógica
+      internalAuditErrors.forEach(err => {
+         alerts.push({ type: 'danger', msg: err });
+      });
+
       if (recLiquida === 0) return alerts;
-      if (recLiquida < pontoEquilibrio) alerts.push({ type: 'danger', msg: 'Faturamento abaixo do ponto de equilíbrio contábil.' });
-      if (margemOperacional < 0) alerts.push({ type: 'danger', msg: 'Margem Operacional crítica (Destruição de valor).' });
-      if (capacidadeAbsorcaoEstrutura < 1) alerts.push({ type: 'warning', msg: 'Incapacidade de absorver estrutura de despesas fixas.' });
-      if (indiceDespesasFinanceiras > 10) alerts.push({ type: 'warning', msg: 'Alta pressão bancária e dependência de capital externo.' });
+      if (recLiquida < pontoEquilibrio) alerts.push({ type: 'warning', msg: 'Escala Insuficiente: Faturamento abaixo do ponto de equilíbrio contábil.' });
+      if (margemOperacional < 0) alerts.push({ type: 'danger', msg: 'Operação Sensível: Margem Operacional destruindo valor.' });
+      if (capacidadeAbsorcaoEstrutura < 1) alerts.push({ type: 'warning', msg: 'Estrutura Pressionada: Incapacidade de absorver despesas fixas atuais.' });
+      if (indiceDespesasFinanceiras > 10) alerts.push({ type: 'warning', msg: 'Pressão Administrativa Elevada e dependência de capital externo.' });
       return alerts;
-  }, [recLiquida, pontoEquilibrio, margemOperacional, capacidadeAbsorcaoEstrutura, indiceDespesasFinanceiras]);
+  }, [recLiquida, pontoEquilibrio, margemOperacional, capacidadeAbsorcaoEstrutura, indiceDespesasFinanceiras, internalAuditErrors]);
 
 
   return (
@@ -667,7 +708,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           <KpiCard 
             key={i}
             title={idx.name}
-            value={idx.unit === 'R$' ? formatValue(idx.val, '') : isFinite(idx.val) ? idx.val.toFixed(1) : '0.0'}
+            value={idx.unit === 'currency' ? formatValue(idx.val, 'currency') : isFinite(idx.val) ? idx.val.toFixed(1) : '0.0'}
             suffix={idx.unit}
             status={idx.status as any}
             trend={idx.trend}
@@ -675,8 +716,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-        <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm flex flex-col">
+      <div className="grid grid-cols-1 gap-8 mb-10">
+        <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm flex flex-col">
           <div className="flex items-center justify-between mb-8 shrink-0">
             <div>
               <h3 className="text-lg font-black text-slate-900">Evolução de Performance</h3>
@@ -749,73 +790,75 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           <h3 className="text-lg font-black mb-1">Destaques</h3>
           <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-8">Insights de Resultado</p>
           
-          <div className="space-y-6 flex-1">
-            <div className="p-4 bg-white/5 rounded-2xl border border-white/5 space-y-2 relative z-10">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Composição da Receita</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
+            <div className="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-2 relative z-10 h-fit">
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4">Composição da Receita</p>
               
-              <div className="flex justify-between items-center text-[10px] text-white/70">
+              <div className="flex justify-between items-center text-xs text-white/70 mb-2">
                 <span>Receita Operacional Bruta:</span>
                 <span className="font-bold">{formatCurrency(receitaBruta)}</span>
               </div>
-              <div className="flex justify-between items-center text-[10px] text-white/70">
+              <div className="flex justify-between items-center text-xs text-white/70 mb-3">
                 <span>(-) Deduções da Receita:</span>
                 <span className="font-bold text-rose-300">{formatCurrency(deducoesReceita)}</span>
               </div>
-              <div className="flex justify-between items-center text-[11px] text-white font-bold border-t border-white/10 pt-2 mt-1">
+              <div className="flex justify-between items-center text-sm text-white font-bold border-t border-white/10 pt-3 mt-2">
                 <span>(=) Receita Operacional Líquida:</span>
                 <span className="text-emerald-400">{formatCurrency(recLiquida)}</span>
               </div>
               
-              <p className="text-[10px] text-white/50 font-medium mt-3 italic leading-relaxed">
+              <p className="text-xs text-white/50 font-medium mt-6 italic leading-relaxed">
                 A empresa apresentou Receita Operacional Bruta de {formatCurrency(receitaBruta)}, com deduções operacionais e tributárias de {formatCurrency(deducoesReceita)}, equivalentes a {indiceDeducoes.toFixed(2)}% da receita bruta, resultando em Receita Operacional Líquida de {formatCurrency(recLiquida)}.
               </p>
             </div>
             
-            <div className="p-4 bg-white/5 rounded-2xl border border-white/5 relative z-10">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Ponto de Equilíbrio & Cobertura</p>
-              
-              <div className="flex justify-between items-center text-[10px] text-white/70">
-                <span>Receita Operacional Líquida:</span>
-                <span className="font-bold">{formatCurrency(recLiquida)}</span>
-              </div>
-              <div className="flex justify-between items-center text-[10px] text-white/70">
-                <span>(-) {cmvLabel}:</span>
-                <span className="font-bold text-rose-300">{formatCurrency(custosVar)}</span>
-              </div>
-              <div className="flex justify-between items-center text-[11px] text-white font-bold border-t border-white/10 pt-2 mt-1">
-                <span>(=) Margem de Contribuição ({ (indiceMargemContrib * 100).toFixed(2) }%):</span>
-                <span className="text-emerald-400">{formatCurrency(margemContrib)}</span>
+            <div className="p-6 bg-white/5 rounded-2xl border border-white/5 relative z-10 h-fit flex flex-col justify-between">
+              <div>
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4">Ponto de Equilíbrio & Cobertura</p>
+                
+                <div className="flex justify-between items-center text-xs text-white/70 mb-2">
+                  <span>Receita Operacional Líquida:</span>
+                  <span className="font-bold">{formatCurrency(recLiquida)}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs text-white/70 mb-3">
+                  <span>(-) {cmvLabel}:</span>
+                  <span className="font-bold text-rose-300">{formatCurrency(custosVar)}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm text-white font-bold border-t border-white/10 pt-3 mt-2">
+                  <span>(=) Margem de Contribuição ({ (indiceMargemContrib * 100).toFixed(2) }%):</span>
+                  <span className="text-emerald-400">{formatCurrency(margemContrib)}</span>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-white/10 flex flex-col gap-2">
+                  <div className="flex justify-between items-center text-xs text-white/70">
+                    <span>Despesas Fixas:</span>
+                    <span className="font-bold text-rose-300">{formatCurrency(despesasFixas)}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-white font-bold bg-white/5 p-3 rounded-xl mt-2 border border-white/5">
+                    <span>Ponto de Equilíbrio (Absoluto):</span>
+                    <span className="text-blue-400">{dbData.length > 0 ? formatCurrency(pontoEquilibrio) : '---'}</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-white/10 flex flex-col gap-3">
+                  <div className="flex justify-between items-center text-xs text-white/70">
+                    <span>Gap para Equilíbrio:</span>
+                    <span className="font-bold text-rose-300">{dbData.length > 0 ? formatCurrency(gapEquilibrio) : '---'}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-white/70">
+                    <span>Margem de Segurança:</span>
+                    <span className="font-bold text-emerald-400">{dbData.length > 0 ? formatCurrency(margemSegurancaValor) : '---'}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-white/70">
+                    <span>Índice de Cobertura Operacional:</span>
+                    <span className={cn("font-bold text-sm", indiceCoberturaOperacional >= 100 ? "text-emerald-400" : indiceCoberturaOperacional >= 85 ? "text-blue-400" : indiceCoberturaOperacional >= 60 ? "text-amber-400" : "text-rose-400")}>
+                      {dbData.length > 0 ? `${indiceCoberturaOperacional.toFixed(2)}%` : '---'}
+                    </span>
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-white/10 flex flex-col gap-1">
-                <div className="flex justify-between items-center text-[10px] text-white/70">
-                  <span>Despesas Fixas:</span>
-                  <span className="font-bold text-rose-300">{formatCurrency(despesasFixas)}</span>
-                </div>
-                <div className="flex justify-between items-center text-[11px] text-white font-bold bg-white/5 p-2 rounded-lg mt-2 border border-white/5">
-                  <span>Ponto de Equilíbrio (Absoluto):</span>
-                  <span className="text-blue-400">{dbData.length > 0 ? formatCurrency(pontoEquilibrio) : '---'}</span>
-                </div>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-white/10 flex flex-col gap-1">
-                <div className="flex justify-between items-center text-[10px] text-white/70">
-                  <span>Gap para Equilíbrio:</span>
-                  <span className="font-bold text-rose-300">{dbData.length > 0 ? formatCurrency(gapEquilibrio) : '---'}</span>
-                </div>
-                <div className="flex justify-between items-center text-[10px] text-white/70">
-                  <span>Margem de Segurança:</span>
-                  <span className="font-bold text-emerald-400">{dbData.length > 0 ? formatCurrency(margemSegurancaValor) : '---'}</span>
-                </div>
-                <div className="flex justify-between items-center text-[10px] text-white/70">
-                  <span>Índice de Cobertura Operacional:</span>
-                  <span className={cn("font-bold", indiceCoberturaOperacional >= 100 ? "text-emerald-400" : indiceCoberturaOperacional >= 85 ? "text-blue-400" : indiceCoberturaOperacional >= 60 ? "text-amber-400" : "text-rose-400")}>
-                    {dbData.length > 0 ? `${indiceCoberturaOperacional.toFixed(2)}%` : '---'}
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-[10px] text-white/60 font-medium mt-3 italic leading-relaxed whitespace-pre-line">{dbData.length > 0 ? performanceNote : 'Aguardando dados estruturados para análise operacional.'}</p>
+              <p className="text-xs text-white/60 font-medium mt-6 italic leading-relaxed whitespace-pre-line border-t border-white/10 pt-4">{dbData.length > 0 ? performanceNote : 'Aguardando dados estruturados para análise operacional.'}</p>
             </div>
           </div>
 
