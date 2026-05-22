@@ -144,27 +144,36 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
         const batch = writeBatch(db);
         const clientFantasia = clients.find(c => c.id === selectedClient)?.fantasia || 'N/A';
         for (const tx of chunk) {
-          const docRef = doc(collection(db, collectionName));
-          const payload = {
+          const docRef = doc(collection(db, 'financial_staging'));
+          const targetPayload = {
             [collectionName === 'payables' ? 'fornecedor' : 'cliente']: tx.entidade,
             documento: tx.documento,
             emissao: tx.emissao,
             vencimento: tx.vencimento,
             valor: tx.valor,
             valorAberto: tx.valorAberto ?? tx.valor,
-            status: isMaster ? 'approved' : 'pending',
-            requiresApproval: !isMaster,
-            sourceCollection: collectionName,
-            clientName: clientFantasia,
-            fileName: file.name,
             categoria: tx.categoria || '',
             centroCusto: tx.centroCusto || '',
             clientId: selectedClient,
             batchId,
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
-            approvedAt: isMaster ? serverTimestamp() : null,
-            approvedBy: isMaster ? auth.currentUser!.uid : null,
+            createdBy: auth.currentUser!.uid,
+            creatorEmail: auth.currentUser!.email,
+          };
+
+          const stagingPayload = {
+            clientId: selectedClient,
+            clientName: clientFantasia,
+            fileName: file.name,
+            batchId,
+            status: 'pending',
+            requiresApproval: true,
+            sourceCollection: 'financial_staging',
+            targetCollection: collectionName,
+            payload: targetPayload,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
             createdBy: auth.currentUser!.uid,
             creatorEmail: auth.currentUser!.email,
           };
@@ -185,7 +194,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
               }
             });
           }
-          batch.set(docRef, payload);
+          batch.set(docRef, stagingPayload);
           created++;
         }
         await batch.commit();

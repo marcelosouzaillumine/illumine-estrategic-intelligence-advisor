@@ -32,6 +32,10 @@ import {
   ChevronUp,
   ChevronDown,
   Briefcase,
+  Leaf,
+  Activity,
+  Scale,
+  Layers,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { sendPasswordResetEmail } from '../../lib/firebase';
@@ -369,37 +373,6 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const faqs = [
-    {
-      q: 'Por que o acompanhamento mínimo recomendado é de 6 meses?',
-      a: 'Porque crescimento sustentável exige continuidade, acompanhamento e amadurecimento gerencial. A transformação estratégica acontece de forma progressiva e integrada.'
-    },
-    {
-      q: 'Como funciona o Diagnóstico Estratégico Inicial?',
-      a: 'A Illumine realiza uma análise aprofundada da estrutura financeira, operacional, organizacional e gerencial da empresa para identificar riscos, gargalos, oportunidades e prioridades estratégicas.'
-    },
-    {
-      q: 'Qual é o nível de envolvimento esperado dos sócios e executivos?',
-      a: 'O envolvimento da liderança é essencial para garantir alinhamento estratégico, clareza de direção e evolução consistente da gestão.'
-    },
-    {
-      q: 'A Illumine executa as melhorias operacionais?',
-      a: 'Além do acompanhamento recorrente, a Illumine também atua em projetos estratégicos complementares conforme a necessidade e complexidade de cada operação.'
-    },
-    {
-      q: 'Para quais empresas a Illumine é recomendada?',
-      a: 'Empresas em crescimento, profissionalização, reorganização financeira, expansão operacional ou fortalecimento de governança.'
-    },
-    {
-      q: 'Como funciona a segurança das informações?',
-      a: 'Toda a estrutura opera em ambiente privado, com controle de acesso, confidencialidade operacional e acompanhamento seguro das informações estratégicas.'
-    },
-    {
-      q: 'Os relatórios permanecem disponíveis após o encerramento do contrato?',
-      a: 'Durante a vigência do acompanhamento, a empresa possui acesso completo à estrutura estratégica Illumine. Em caso de encerramento contratual, a Illumine disponibiliza um relatório executivo consolidado com os principais indicadores e análises gerenciais.'
-    }
-  ];
-
   return (
     <div className="space-y-0 text-foreground relative font-sans selection:bg-primary/20 selection:text-primary">
 
@@ -408,10 +381,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
       <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[120px] pointer-events-none" />
       <div className="fixed inset-0 bg-[url('/noise.png')] opacity-[0.03] pointer-events-none mix-blend-overlay" />
       
-      {/* Navbar */}
-      
-
-      {/* Hero Section */}
+      {/* 1. HERO SECTION */}
       <section id="hero" className="pt-40 pb-24 px-6 relative overflow-hidden">
         <div className="max-w-5xl mx-auto text-center space-y-8 relative z-10">
           <motion.div
@@ -431,7 +401,8 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
             className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-foreground leading-[1.08]"
             style={{ fontFamily: "'Tilt Warp', sans-serif" }}
           >
-            Inteligência estratégica, governança e <span className="bg-gradient-to-r from-secondary to-[#E96F3D] bg-clip-text text-transparent">advisory executivo</span> para empresas
+            Empresas não quebram apenas por falta de faturamento.<br/>
+            <span className="bg-gradient-to-r from-secondary to-[#E96F3D] bg-clip-text text-transparent">Quebram por ausência de leitura estrutural.</span>
           </motion.h1>
 
           <motion.div
@@ -440,15 +411,15 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
             transition={{ duration: 0.55, delay: 0.16 }}
             className="text-lg md:text-xl text-muted-foreground font-medium max-w-4xl mx-auto space-y-4 leading-relaxed"
           >
-            <p>
-              Inteligência estratégica, governança e advisory executivo para empresas que desejam crescer com clareza, estrutura e sustentabilidade.
+            <p className="text-xl text-foreground font-semibold">
+              A Illumine é uma arquitetura de inteligência estrutural empresarial desenvolvida para transformar dados, operação, governança e estratégia em clareza decisional para empresas que precisam crescer com sustentabilidade.
             </p>
-            <p className="text-base text-muted-foreground/80">
-              A Illumine integra inteligência financeira, governança corporativa, indicadores estratégicos e acompanhamento executivo em um ecossistema contínuo de Strategic Intelligence & Advisory.
-            </p>
-            <p className="text-base text-muted-foreground/80">
-              Mais do que dashboards ou relatórios, oferecemos uma estrutura integrada de inteligência empresarial para líderes que precisam tomar decisões com maior segurança, organização e visão de longo prazo.
-            </p>
+            <div className="pt-4 space-y-3 text-base text-muted-foreground/80">
+              <p>A maioria das empresas possui informações.<br/>Poucas possuem interpretação estrutural.</p>
+              <p>Quando indicadores deixam de conversar entre si, o crescimento perde sustentação, o caixa perde previsibilidade, a operação se torna reativa e decisões passam a ser tomadas sem contexto real.</p>
+              <p>A Illumine foi concebida para identificar relações invisíveis entre operação, margem, capital de giro, endividamento, governança e sustentabilidade organizacional antes que essas pressões silenciosas se transformem em crise.</p>
+              <p className="text-foreground font-medium pt-2">Não entregamos apenas indicadores.<br/>Entregamos inteligência estrutural para decisões críticas.</p>
+            </div>
           </motion.div>
 
           <motion.div
@@ -458,48 +429,57 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6"
           >
             <button
-              onClick={() => scrollToSection('porque')}
+              onClick={onConsultant}
               className="w-full sm:w-auto h-14 px-8 rounded-button bg-primary text-primary-foreground font-bold text-sm uppercase tracking-widest hover:bg-primary/95 hover:shadow-xl hover:shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group cursor-pointer"
             >
-              <span>Conhecer a Estrutura Illumine</span>
+              <span>Solicitar Diagnóstico Estrutural</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button
-              onClick={onConsultant}
+              onClick={() => scrollToSection('tese')}
               className="w-full sm:w-auto h-14 px-8 rounded-button bg-surface-container border border-border text-foreground font-bold text-sm uppercase tracking-widest hover:bg-surface-container/80 hover:border-muted-foreground/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <MessageSquare size={16} />
-              <span>Agendar Diagnóstico Estratégico</span>
+              <Target size={16} />
+              <span>Conhecer a Arquitetura Illumine</span>
             </button>
           </motion.div>
         </div>
       </section>
 
-      <section id="porque" className="py-24 px-6 bg-surface-container/30 border-y border-border/40 relative">
+      {/* 2. A TESE ILLUMINE */}
+      <section id="tese" className="py-24 px-6 bg-surface-container/30 border-y border-border/40 relative">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <div className="space-y-6">
             <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
               <div className="w-8 h-px bg-secondary" />
-              Direção Estratégica
+              A TESE ILLUMINE
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Empresas não precisam apenas de dados. Precisam de direção estratégica.
+              O problema não é falta de dados.<br/>É falta de clareza estrutural.
             </h3>
             <div className="space-y-4 text-lg text-muted-foreground leading-relaxed font-medium">
-              <p>
-                A maioria das empresas já possui sistemas, relatórios e informações operacionais.
-              </p>
-              <p>
-                O verdadeiro desafio está em:
-              </p>
-              <ul className="list-disc pl-6 space-y-1 text-base text-muted-foreground/80 font-normal">
-                <li>interpretar cenários;</li>
-                <li>identificar gargalos;</li>
-                <li>integrar áreas;</li>
-                <li>organizar prioridades;</li>
-                <li>reduzir riscos;</li>
-                <li>transformar dados em decisões consistentes.</li>
+              <p>Empresas raramente entram em colapso por um único fator.</p>
+              <p>Na maioria das vezes, a deterioração começa silenciosamente:</p>
+              <ul className="list-none space-y-2 text-base text-muted-foreground/80 font-normal py-2">
+                {[
+                  'crescimento sem sustentação financeira;',
+                  'expansão pressionando o caixa;',
+                  'dependência bancária crescente;',
+                  'margem operacional deteriorando;',
+                  'governança insuficiente;',
+                  'decisões tomadas sem profundidade analítica;',
+                  'excesso de indicadores sem interpretação integrada;',
+                  'baixa previsibilidade estrutural.'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-2 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
+              <p>O excesso de informação não necessariamente produz inteligência.</p>
+              <p>Sem interpretação causal, dados se tornam apenas ruído operacional.</p>
+              <p className="text-primary font-bold text-xl pt-2">A Illumine foi desenvolvida para transformar complexidade empresarial em direção executiva clara.</p>
             </div>
           </div>
           <div className="relative">
@@ -508,12 +488,13 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-primary/10 transition-colors duration-500" />
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary/5 rounded-full blur-3xl -ml-10 -mb-10 group-hover:bg-secondary/10 transition-colors duration-500" />
               <div className="relative z-10 flex flex-col justify-center h-full space-y-6">
+                <BrainCircuit size={40} className="text-secondary" />
                 <p className="text-xl sm:text-2xl font-medium leading-relaxed text-foreground tracking-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-                  A tecnologia organiza informações.
+                  A inteligência está na conexão.
                 </p>
                 <div className="w-12 h-px bg-border group-hover:w-24 transition-all duration-500" />
-                <p className="text-2xl sm:text-3xl leading-tight font-medium text-primary tracking-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-                  A inteligência estratégica transforma informações em <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-[#E96F3D]">direção, clareza e decisões consistentes.</span>
+                <p className="text-lg leading-relaxed font-medium text-muted-foreground">
+                  Mais do que organizar dados, a Illumine cria um modelo causal que explica como cada decisão impacta a sustentabilidade do negócio.
                 </p>
               </div>
             </div>
@@ -521,452 +502,363 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
         </div>
       </section>
 
-      <section id="framework" className="py-24 px-6 bg-foreground text-background relative">
+      {/* 3. O COLAPSO SILENCIOSO */}
+      <section className="py-24 px-6 bg-foreground text-background relative">
         <div className="absolute inset-0 bg-primary-soft/10 pointer-events-none" />
-        <div className="max-w-7xl mx-auto space-y-16 relative z-10">
-          <div className="max-w-3xl space-y-4">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-secondary">Framework Proprietário</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              7 Pilares de Inteligência Empresarial
-            </h3>
-            <p className="text-lg text-background/70 leading-relaxed font-medium pt-2">
-              Toda a estrutura de acompanhamento da Illumine é construída sobre um framework proprietário desenvolvido para gerar visão integrada da empresa, fortalecer a gestão e apoiar decisões estratégicas sustentáveis.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
-            {[
-              { title: 'Governança Corporativa', desc: 'Estruturas de liderança, direção institucional, compliance e sustentabilidade organizacional.' },
-              { title: 'Cultura Organizacional', desc: 'Valores, comportamento, alinhamento interno e fortalecimento da identidade empresarial.' },
-              { title: 'Gestão Financeira', desc: 'Inteligência financeira aplicada à sustentabilidade, rentabilidade e crescimento estruturado.' },
-              { title: 'Gestão de Inovação', desc: 'Capacidade de adaptação, melhoria contínua e desenvolvimento estratégico.' },
-              { title: 'Gestão de Marketing', desc: 'Posicionamento, comunicação, percepção de valor e geração de autoridade.' },
-              { title: 'Gestão Comercial', desc: 'Estrutura comercial orientada à performance, previsibilidade e crescimento.' },
-              { title: 'Gestão Operacional', desc: 'Eficiência operacional, integração de processos e fortalecimento da execução.' }
-            ].map((pilar, idx) => (
-              <div 
-                key={idx} 
-                className="p-6 rounded-card bg-transparent/5 border border-background/10 space-y-3 hover:bg-transparent/10 hover:border-background/20 transition-all duration-300"
-              >
-                <div className="flex items-center gap-3">
-                  <CheckCircle2 size={16} className="text-secondary shrink-0" />
-                  <span className="font-bold text-sm uppercase tracking-wider text-background">{pilar.title}</span>
-                </div>
-                <p className="text-background/60 font-medium text-xs leading-relaxed">{pilar.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* As 5 Inteligências */}
-          <div className="pt-16 border-t border-background/10 space-y-12">
-            <div className="max-w-3xl space-y-4">
-              <h2 className="text-sm font-bold uppercase tracking-widest text-secondary">As 5 Inteligências</h2>
-              <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-                Nossa Visão: Inteligência em Unidade
-              </h3>
-              <p className="text-lg text-background/70 leading-relaxed font-medium">
-                Acreditamos que organizações saudáveis são construídas quando governança, tecnologia, inteligência de dados, identidade organizacional e desenvolvimento humano operam em unidade. Mais do que processos e indicadores, empresas fortes nascem da integração entre estratégia, cultura, propósito e capacidade de execução.
-              </p>
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
+          <div className="order-2 lg:order-1 relative">
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#E96F3D]/20 to-secondary/20 rounded-card blur-lg opacity-30" />
+            <div className="relative p-8 sm:p-10 rounded-[32px] bg-background/5 border border-background/10 shadow-2xl overflow-hidden backdrop-blur-sm">
+               <ul className="space-y-4">
+                {[
+                  'aumento silencioso da pressão no capital de giro;',
+                  'crescimento consumindo caixa;',
+                  'deterioração progressiva da margem;',
+                  'aumento de dependência financeira;',
+                  'baixa capacidade de absorção operacional;',
+                  'perda de previsibilidade;',
+                  'expansão sem maturidade de gestão;',
+                  'desalinhamento entre operação e estrutura financeira.'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 bg-background/5 p-4 rounded-xl border border-background/10 hover:bg-background/10 transition-colors">
+                    <TrendingUp size={20} className="text-secondary shrink-0" />
+                    <span className="text-background/90 font-medium">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-              {[
-                { title: 'Governança', desc: 'Estruturas de liderança, responsabilidade institucional e direção estratégica.' },
-                { title: 'Econômica', desc: 'Gestão financeira e inteligência econômica aplicadas à sustentabilidade do negócio.' },
-                { title: 'Identidade', desc: 'Cultura, valores e princípios que sustentam a essência organizacional.' },
-                { title: 'Sistêmica', desc: 'Integração entre dados, processos, tecnologia e operação.' },
-                { title: 'Antropológica', desc: 'Compreensão da natureza humana como fundamento da liderança, das relações e da cultura empresarial.' }
-              ].map((intel, idx) => (
-                <div 
-                  key={idx} 
-                  className="p-6 rounded-card bg-transparent/5 border border-background/10 space-y-3 hover:bg-transparent/10 hover:border-background/20 transition-all duration-300"
-                >
-                  <span className="font-bold text-sm uppercase tracking-wider text-secondary block">{intel.title}</span>
-                  <p className="text-background/60 font-medium text-xs leading-relaxed">{intel.desc}</p>
-                </div>
-              ))}
+          </div>
+          <div className="order-1 lg:order-2 space-y-6">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
+              <div className="w-8 h-px bg-secondary" />
+              O COLAPSO SILENCIOSO DAS EMPRESAS
+            </h2>
+            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+              Os maiores riscos empresariais normalmente não são visíveis no início.
+            </h3>
+            <div className="space-y-4 text-lg text-background/70 leading-relaxed font-medium">
+              <p>Empresas frequentemente aparentam crescimento enquanto perdem sustentabilidade estrutural.</p>
+              <p>Os sinais normalmente surgem antes da crise.</p>
+              <p className="pt-4">Quando esses fatores deixam de ser interpretados, a empresa passa a operar de forma reativa.</p>
+              <p className="text-background font-bold text-xl pt-2">A Illumine existe para antecipar essas relações antes que se tornem irreversíveis.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* O Ecossistema Illumine */}
-      <section id="ecossistema" className="py-24 px-6 bg-transparent relative overflow-hidden">
+      {/* 4. O QUE É A ILLUMINE */}
+      <section id="o-que-e" className="py-24 px-6 bg-surface-container relative overflow-hidden">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-2">
-              <Network size={16} className="text-secondary" />
-              <span>O Ecossistema Illumine</span>
+              <Compass size={16} className="text-secondary" />
+              <span>O QUE É A ILLUMINE</span>
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Uma estrutura integrada de inteligência empresarial
+              Mais do que software. Mais do que consultoria.<br/>Uma arquitetura de inteligência estrutural empresarial.
             </h3>
             <div className="text-lg text-muted-foreground leading-relaxed font-medium space-y-2">
-              <p>A Illumine foi criada para apoiar empresas em crescimento, profissionalização e expansão sustentável através de uma estrutura contínua de inteligência estratégica, governança e acompanhamento executivo.</p>
-              <p>Nosso ecossistema combina:</p>
+              <p>A Illumine integra:</p>
               <ul className="flex flex-wrap justify-center gap-2 pt-2 pb-2">
-                {['inteligência financeira', 'advisory estratégico', 'governança corporativa', 'indicadores executivos', 'acompanhamento recorrente', 'curadoria especializada', 'inteligência orientada por dados'].map((item, i) => (
-                  <span key={i} className="px-3 py-1 bg-surface-container rounded-full text-xs font-bold text-foreground border border-border">{item}</span>
+                {[
+                  'inteligência financeira', 'causalidade empresarial', 'governança', 'advisory estratégico',
+                  'interpretação patrimonial', 'análise estrutural', 'maturidade organizacional', 'stress analysis',
+                  'inteligência operacional', 'leitura integrada dos pilares empresariais'
+                ].map((item, i) => (
+                  <span key={i} className="px-3 py-1 bg-background rounded-full text-xs font-bold text-foreground border border-border shadow-sm">{item}</span>
                 ))}
               </ul>
-              <p>Tudo isso em um ambiente privado, seguro e continuamente acompanhado por especialistas.</p>
+              <p className="pt-4">Tudo conectado em uma arquitetura desenvolvida para apoiar empresas em crescimento, profissionalização e sustentabilidade.</p>
+              <p>A plataforma é apenas a camada operacional dessa inteligência.</p>
+              <p className="text-foreground font-bold text-xl pt-2">O verdadeiro núcleo da Illumine é a interpretação estrutural da realidade empresarial.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. COMO A ILLUMINE PENSA */}
+      <section className="py-24 px-6 bg-transparent relative">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+          <div className="space-y-6">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
+              <div className="w-8 h-px bg-secondary" />
+              COMO A ILLUMINE PENSA
+            </h2>
+            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+              Não analisamos apenas números. Interpretamos relações estruturais.
+            </h3>
+            <div className="space-y-4 text-lg text-muted-foreground leading-relaxed font-medium">
+              <p>A Illumine opera sobre uma lógica de causalidade empresarial.</p>
+              <p>Isso significa compreender que:</p>
+              <ul className="list-none space-y-2 text-base text-muted-foreground/80 font-normal py-2">
+                {[
+                  'crescimento impacta caixa;',
+                  'margem impacta sustentabilidade;',
+                  'governança impacta previsibilidade;',
+                  'estrutura de capital impacta expansão;',
+                  'eficiência operacional impacta capacidade de sustentação;',
+                  'maturidade decisional impacta continuidade empresarial.'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-2 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p>Nosso objetivo não é apenas mostrar indicadores.</p>
+              <p className="text-primary font-bold text-xl pt-2">É produzir clareza para decisões críticas.</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div className="col-span-2 text-center pb-4">
+              <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Cada análise considera simultaneamente:</span>
+            </div>
+            {[
+              { icon: LineChart, title: 'liquidez' },
+              { icon: Database, title: 'capital de giro' },
+              { icon: Building2, title: 'estrutura patrimonial' },
+              { icon: Target, title: 'eficiência operacional' },
+              { icon: Activity, title: 'pressão financeira' },
+              { icon: Scale, title: 'endividamento' },
+              { icon: LayoutDashboard, title: 'capacidade operacional' },
+              { icon: ShieldCheck, title: 'governança' },
+              { icon: Leaf, title: 'sustentabilidade estrutural' },
+              { icon: Users, title: 'maturidade organizacional' }
+            ].map((item, idx) => (
+              <div key={idx} className="bg-surface-container/50 border border-border/60 p-4 rounded-xl flex items-center gap-3 hover:border-secondary/40 transition-colors">
+                <item.icon size={18} className="text-secondary shrink-0" />
+                <span className="text-sm font-semibold text-foreground">{item.title}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. INTELLIGENCE LAYERS */}
+      <section className="py-24 px-6 bg-surface-container/30 border-y border-border/40 relative">
+        <div className="max-w-7xl mx-auto space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-2">
+              <Layers size={16} className="text-secondary" />
+              <span>INTELLIGENCE LAYERS</span>
+            </h2>
+            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+              Uma arquitetura integrada de inteligência empresarial.
+            </h3>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: LineChart, title: 'Indicadores Estratégicos Integrados', desc: 'Indicadores financeiros, operacionais e gerenciais organizados em uma central executiva para acompanhamento e tomada de decisão.' },
-              { icon: BarChart3, title: 'Diagnósticos Executivos', desc: 'Análises aprofundadas que revelam riscos, gargalos, oportunidades e maturidade organizacional.' },
-              { icon: Users, title: 'Advisory Estratégico Contínuo', desc: 'Acompanhamento executivo recorrente com análise interpretativa, direcionamento estratégico e suporte à tomada de decisão.' },
-              { icon: Building2, title: 'Governança Corporativa', desc: 'Estrutura orientada à profissionalização da gestão, transparência institucional e fortalecimento organizacional.' },
-              { icon: Database, title: 'Inteligência Orientada por Dados', desc: 'Integração entre métricas, inteligência gerencial, automação e monitoramento estratégico da performance empresarial.' },
-              { icon: BrainCircuit, title: 'Curadoria Especializada', desc: 'A equipe Illumine acompanha, organiza e interpreta os indicadores de forma contínua, promovendo maior clareza gerencial e consistência analítica.' },
-              { icon: ShieldCheck, title: 'Governança e Segurança', desc: 'Ambiente privado com controle de acesso, confidencialidade operacional e estrutura segura para gestão estratégica recorrente.' }
+              { icon: BarChart3, title: 'Financial Intelligence Engine', desc: 'Transforma demonstrações financeiras em leitura estrutural, diagnósticos executivos e interpretação causal da sustentabilidade empresarial.' },
+              { icon: ShieldCheck, title: 'Governance Intelligence', desc: 'Estrutura previsibilidade decisional, maturidade operacional e governança corporativa.' },
+              { icon: Network, title: 'Causal Engine', desc: 'Identifica relações invisíveis entre crescimento, caixa, margem, endividamento, eficiência operacional e sustentabilidade organizacional.' },
+              { icon: Users, title: 'Advisory Intelligence', desc: 'Converte indicadores em direção executiva para decisões estratégicas de alto impacto.' },
+              { icon: Activity, title: 'Stress & Risk Analysis', desc: 'Simula pressão estrutural, riscos financeiros, sensibilidade operacional e capacidade de sustentação da empresa.' },
+              { icon: Target, title: 'Executive Scoring', desc: 'Avalia maturidade organizacional, saúde estrutural e capacidade de crescimento sustentável.' },
+              { icon: BrainCircuit, title: 'Structural Intelligence Model', desc: 'Integra operação, estrutura financeira, governança e sustentabilidade em uma leitura empresarial unificada.' }
             ].map((item, idx) => (
               <div 
                 key={idx} 
-                className="p-8 rounded-card bg-white border border-border/80 shadow-xs hover:shadow-lg hover:border-secondary/35 hover:-translate-y-1 active:scale-[0.99] transition-all duration-300 group"
+                className="p-8 rounded-card bg-card border border-border/80 shadow-xs hover:shadow-lg hover:border-secondary/35 hover:-translate-y-1 active:scale-[0.99] transition-all duration-300 group"
               >
                 <div className="w-12 h-12 rounded-button bg-surface-container flex items-center justify-center mb-6 group-hover:bg-secondary/10 transition-colors duration-300">
                   <item.icon size={22} className="text-secondary group-hover:scale-110 transition-transform duration-300" strokeWidth={1.5} />
                 </div>
                 <h4 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">{item.title}</h4>
-                <p className="text-muted-foreground font-medium leading-relaxed text-sm md:text-base">{item.desc}</p>
+                <p className="text-muted-foreground font-medium leading-relaxed text-sm">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Como a Illumine Atua */}
-      <section className="py-24 px-6 bg-surface-container/50 border-t border-border/40">
-        <div className="max-w-7xl mx-auto space-y-16">
-          <div className="text-center max-w-3xl mx-auto space-y-4">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Como a Illumine Atua</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Uma estrutura contínua de inteligência estratégica e acompanhamento executivo
-            </h3>
-            <p className="text-lg text-muted-foreground leading-relaxed font-medium">
-              A Illumine foi estruturada para apoiar empresas em diferentes níveis de maturidade, complexidade e necessidade estratégica.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="p-8 rounded-card bg-card border border-border hover:shadow-md transition-shadow">
-              <h4 className="text-xl font-bold text-primary mb-3">Diagnóstico Estratégico</h4>
-              <p className="text-muted-foreground text-sm font-medium">Leitura aprofundada da realidade organizacional, financeira e operacional da empresa.</p>
-            </div>
-            <div className="p-8 rounded-card bg-card border border-border hover:shadow-md transition-shadow">
-              <h4 className="text-xl font-bold text-primary mb-3">Acompanhamento Executivo</h4>
-              <p className="text-muted-foreground text-sm font-medium">Estrutura recorrente de inteligência estratégica, governança aplicada e suporte à tomada de decisão.</p>
-            </div>
-            <div className="p-8 rounded-card bg-card border border-border hover:shadow-md transition-shadow">
-              <h4 className="text-xl font-bold text-primary mb-3">Governance & Advisory</h4>
-              <p className="text-muted-foreground text-sm font-medium">Apoio executivo para empresas que demandam maior maturidade de gestão, organização estratégica e suporte recorrente à liderança.</p>
-            </div>
-          </div>
-
-          <div className="bg-primary text-primary-foreground p-8 md:p-12 rounded-[32px] grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h4 className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>Projetos Estratégicos Complementares</h4>
-              <div className="space-y-4 text-primary-foreground/80 font-medium">
-                <p>Além do acompanhamento recorrente, a Illumine também desenvolve projetos especializados de consultoria estratégica, governança e inteligência empresarial.</p>
-                <p>As iniciativas são estruturadas conforme a necessidade, momento e complexidade de cada operação.</p>
-              </div>
-              <div className="pt-4 space-y-2">
-                <h5 className="font-bold uppercase tracking-widest text-secondary text-xs">Estrutura dos Projetos</h5>
-                <ul className="space-y-2 text-sm text-primary-foreground/90">
-                  <li className="flex gap-2 items-center"><CheckCircle2 size={14} className="text-secondary" /> escopo individualizado</li>
-                  <li className="flex gap-2 items-center"><CheckCircle2 size={14} className="text-secondary" /> cronograma estruturado</li>
-                  <li className="flex gap-2 items-center"><CheckCircle2 size={14} className="text-secondary" /> acompanhamento executivo</li>
-                  <li className="flex gap-2 items-center"><CheckCircle2 size={14} className="text-secondary" /> entregáveis definidos</li>
-                  <li className="flex gap-2 items-center"><CheckCircle2 size={14} className="text-secondary" /> alinhamento estratégico com a realidade da empresa</li>
-                </ul>
-              </div>
-            </div>
-            <div>
-              <h5 className="font-bold uppercase tracking-widest text-secondary text-xs mb-4">Frentes Estratégicas Especializadas</h5>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-xs md:text-sm text-primary-foreground/90 font-medium">
-                {['reestruturação financeira', 'planejamento estratégico', 'governança corporativa', 'modelagem gerencial', 'inteligência financeira', 'reorganização operacional', 'estruturação de indicadores', 'inteligência gerencial', 'cultura organizacional', 'advisory executivo', 'valuation', 'planejamento orçamentário', 'estruturação de processos', 'apoio à profissionalização da gestão'].map((frente, i) => (
-                  <div key={i} className="flex items-start gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 shrink-0" />
-                    <span>{frente}</span>
-                  </div>
+      {/* 7. A PLATAFORMA */}
+      <section className="py-24 px-6 bg-transparent relative">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+          <div className="order-2 lg:order-1 relative">
+             <div className="relative p-8 sm:p-10 rounded-[32px] bg-gradient-to-br from-surface-container to-background border border-primary/10 shadow-2xl overflow-hidden group">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10" />
+               <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary/5 rounded-full blur-3xl -ml-10 -mb-10" />
+               
+               <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-6">A plataforma Illumine centraliza:</p>
+               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  'indicadores executivos',
+                  'diagnósticos estruturais',
+                  'relatórios estratégicos',
+                  'governance layers',
+                  'scoring empresarial',
+                  'análises causais',
+                  'monitoramento estrutural',
+                  'stress tests',
+                  'inteligência financeira',
+                  'leitura integrada dos pilares empresariais'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2">
+                    <CheckCircle2 size={16} className="text-secondary shrink-0" />
+                    <span className="text-sm font-semibold text-foreground/90">{item}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section id="modalidades" className="py-24 px-6 bg-surface-container">
-        <div className="max-w-7xl mx-auto space-y-16">
-          <div className="text-center max-w-4xl mx-auto space-y-4">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Estruturas de Strategic Intelligence & Advisory</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Estruturas desenvolvidas para empresas em diferentes níveis de operação, maturidade e complexidade estratégica.
+          <div className="order-1 lg:order-2 space-y-6">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
+              <div className="w-8 h-px bg-secondary" />
+              A PLATAFORMA
+            </h2>
+            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+              A infraestrutura operacional da inteligência Illumine.
             </h3>
-            <p className="text-lg text-muted-foreground leading-relaxed font-medium">
-              Todos os modelos incluem: acesso completo à estrutura estratégica Illumine; curadoria contínua dos indicadores; acompanhamento executivo recorrente; inteligência gerencial integrada; advisory estratégico especializado; monitoramento orientado por dados.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8 items-stretch pt-4">
-            {/* ESSENTIAL */}
-            <div className="rounded-card bg-card border border-border/80 p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-primary/25 hover:-translate-y-1 group">
-              <div className="space-y-6">
-                <div>
-                  <h4 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>ESSENTIAL</h4>
-                  <p className="text-muted-foreground font-semibold text-xs mt-1">Estruturação e Clareza Operacional</p>
-                </div>
-                
-                <div className="bg-surface-container/50 p-4 rounded-xl border border-border/40 space-y-2">
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Perfil recomendado</p>
-                  <ul className="text-xs text-foreground font-semibold space-y-1">
-                    <li className="flex items-center gap-1.5">• até 10 colaboradores;</li>
-                    <li className="flex items-center gap-1.5">• faturamento de até R$ 150 mil/mês.</li>
-                  </ul>
-                </div>
-
-                <div className="bg-surface-container/30 p-3.5 rounded-xl border border-border/30 flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Investimento</span>
-                  <span className="text-xs font-extrabold text-secondary bg-secondary/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Sob consulta</span>
-                </div>
-
-                <div className="h-px bg-border/60" />
-                
-                <ul className="space-y-3.5">
-                  {[
-                    'encontro executivo mensal;',
-                    'estruturação dos indicadores essenciais;',
-                    'curadoria estratégica das informações;',
-                    'acompanhamento consultivo recorrente;',
-                    'central executiva Illumine;',
-                    'advisory estratégico contínuo.'
-                  ].map((f, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <CheckCircle2 size={16} className="text-secondary shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground font-semibold text-xs md:text-sm leading-relaxed">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                onClick={onConsultant}
-                className="w-full h-12 mt-8 rounded-button bg-surface-container hover:bg-primary hover:text-primary-foreground border border-border hover:border-primary font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-              >
-                Falar com um especialista
-              </button>
-            </div>
-
-            {/* STRATEGIC */}
-            <div className="rounded-card bg-card border-2 border-primary p-8 flex flex-col justify-between relative overflow-hidden shadow-xl shadow-primary/5 transform lg:-translate-y-4 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 group">
-              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-secondary to-[#E96F3D]" />
-              <div className="absolute top-6 right-6 px-3 py-1 bg-secondary text-secondary-foreground text-[9px] font-extrabold uppercase tracking-widest rounded-full shadow-sm animate-pulse">
-                Recomendado
-              </div>
-              
-              <div className="space-y-6">
-                <div>
-                  <h4 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>STRATEGIC</h4>
-                  <p className="text-muted-foreground font-semibold text-xs mt-1">Expansão e Performance Empresarial</p>
-                </div>
-                
-                <div className="bg-surface-container/50 p-4 rounded-xl border border-border/40 space-y-2">
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Perfil recomendado</p>
-                  <ul className="text-xs text-foreground font-semibold space-y-1">
-                    <li className="flex items-center gap-1.5">• 10 a 40 colaboradores;</li>
-                    <li className="flex items-center gap-1.5">• faturamento entre R$ 150 mil e R$ 1 milhão/mês.</li>
-                  </ul>
-                </div>
-
-                <div className="bg-surface-container/30 p-3.5 rounded-xl border border-border/30 flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Investimento</span>
-                  <span className="text-xs font-extrabold text-secondary bg-secondary/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Sob consulta</span>
-                </div>
-
-                <div className="h-px bg-border/60" />
-                
-                <ul className="space-y-3.5">
-                  {[
-                    'dois encontros executivos mensais;',
-                    'inteligência gerencial personalizada;',
-                    'curadoria avançada de indicadores;',
-                    'acompanhamento financeiro e operacional;',
-                    'apoio à liderança e gestão;',
-                    'advisory estratégico contínuo;',
-                    'central executiva Illumine.'
-                  ].map((f, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <CheckCircle2 size={16} className="text-secondary shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground font-semibold text-xs md:text-sm leading-relaxed">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                onClick={onConsultant}
-                className="w-full h-12 mt-8 rounded-button bg-primary text-primary-foreground hover:bg-primary/95 shadow-lg shadow-primary/20 font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-              >
-                Agendar Diagnóstico Estratégico
-              </button>
-            </div>
-
-            {/* EXECUTIVE ADVISORY */}
-            <div className="rounded-card bg-card border border-border/80 p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-primary/25 hover:-translate-y-1 group">
-              <div className="space-y-6">
-                <div>
-                  <h4 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>EXECUTIVE ADVISORY</h4>
-                  <p className="text-muted-foreground font-semibold text-xs mt-1">Governança, Inteligência e Escala</p>
-                </div>
-                
-                <div className="bg-surface-container/50 p-4 rounded-xl border border-border/40 space-y-2">
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Perfil recomendado</p>
-                  <ul className="text-xs text-foreground font-semibold space-y-1">
-                    <li className="flex items-center gap-1.5">• acima de 40 colaboradores;</li>
-                    <li className="flex items-center gap-1.5">• faturamento acima de R$ 1 milhão/mês.</li>
-                  </ul>
-                </div>
-
-                <div className="bg-surface-container/30 p-3.5 rounded-xl border border-border/30 flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Investimento</span>
-                  <span className="text-xs font-extrabold text-secondary bg-secondary/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Sob consulta</span>
-                </div>
-
-                <div className="h-px bg-border/60" />
-                
-                <ul className="space-y-3.5">
-                  {[
-                    'encontros executivos semanais ou quinzenais;',
-                    'advisory estratégico personalizado;',
-                    'curadoria executiva contínua;',
-                    'relatórios gerenciais integrados;',
-                    'apoio à governança corporativa;',
-                    'estruturação avançada de indicadores;',
-                    'acompanhamento multidisciplinar;',
-                    'central estratégica Illumine.'
-                  ].map((f, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <CheckCircle2 size={16} className="text-secondary shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground font-semibold text-xs md:text-sm leading-relaxed">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                onClick={onConsultant}
-                className="w-full h-12 mt-8 rounded-button bg-surface-container hover:bg-primary hover:text-primary-foreground border border-border hover:border-primary font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-              >
-                Solicitar reunião executiva
-              </button>
+            <div className="space-y-4 text-lg text-muted-foreground leading-relaxed font-medium">
+              <p>A tecnologia existe para organizar, visualizar e sustentar a interpretação estratégica da empresa.</p>
+              <p>Mas tecnologia, sozinha, não produz clareza.</p>
+              <p className="text-primary font-bold text-xl pt-2">É a interpretação integrada que transforma dados em direção.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="faq" className="py-24 px-6 bg-surface-container/30 border-y border-border/40">
-        <div className="max-w-4xl mx-auto space-y-16">
+      {/* 8. GOVERNANÇA E MATURIDADE EMPRESARIAL */}
+      <section className="py-24 px-6 bg-foreground text-background relative overflow-hidden">
+        <div className="absolute inset-0 bg-primary-soft/10 pointer-events-none" />
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
+          <div className="space-y-6">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
+              <div className="w-8 h-px bg-secondary" />
+              GOVERNANÇA E MATURIDADE EMPRESARIAL
+            </h2>
+            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+              Empresas sustentáveis dependem de maturidade decisional.
+            </h3>
+            <div className="space-y-4 text-lg text-background/70 leading-relaxed font-medium">
+              <p>Crescimento sem governança normalmente produz:</p>
+              <ul className="list-disc pl-6 space-y-1 text-base text-background/60 font-normal pb-2">
+                <li>perda de previsibilidade;</li>
+                <li>aumento de risco estrutural;</li>
+                <li>baixa capacidade de controle;</li>
+                <li>decisões reativas;</li>
+                <li>desalinhamento operacional;</li>
+                <li>deterioração silenciosa da sustentabilidade empresarial.</li>
+              </ul>
+              <p className="text-background font-bold text-xl pt-2">Empresas maduras não operam apenas com informação.<br/>Operam com inteligência integrada.</p>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute -inset-1 bg-gradient-to-r from-secondary/20 to-primary/20 rounded-card blur-lg opacity-30" />
+            <div className="relative p-8 sm:p-10 rounded-[32px] bg-background/5 border border-background/10 shadow-2xl overflow-hidden backdrop-blur-sm">
+               <p className="text-sm font-bold uppercase tracking-widest text-background mb-6">A Illumine ajuda empresas a desenvolver:</p>
+               <ul className="space-y-4">
+                {[
+                  'disciplina decisional;',
+                  'clareza executiva;',
+                  'governança integrada;',
+                  'leitura estratégica;',
+                  'previsibilidade estrutural;',
+                  'maturidade organizacional.'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 bg-background/5 p-4 rounded-xl border border-background/10 hover:bg-background/10 transition-colors">
+                    <ShieldCheck size={20} className="text-secondary shrink-0" />
+                    <span className="text-background/90 font-medium text-lg">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. PARA QUEM A ILLUMINE EXISTE */}
+      <section className="py-24 px-6 bg-surface-container/50 border-y border-border/40 relative">
+        <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-2">
-              <HelpCircle size={16} className="text-secondary" />
-              <span>Alinhamento Estratégico</span>
+              <Target size={16} className="text-secondary" />
+              <span>PARA QUEM A ILLUMINE EXISTE</span>
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Perguntas Frequentes
+              Para empresas que precisam crescer com estrutura.
             </h3>
           </div>
 
-          <div className="space-y-4 max-w-3xl mx-auto">
-            {faqs.map((faq, idx) => (
-              <div 
-                key={idx} 
-                className="border border-border/80 rounded-card bg-white overflow-hidden transition-all duration-300 shadow-xs hover:border-secondary/20"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full py-5 px-6 flex justify-between items-center text-left font-bold text-foreground hover:bg-surface-container/30 transition-colors cursor-pointer"
-                >
-                  <span className="text-base pr-4">{faq.q}</span>
-                  <ChevronRight
-                    size={18}
-                    className={cn(
-                      "text-muted-foreground shrink-0 transition-transform duration-300",
-                      openFaq === idx && "transform rotate-90 text-secondary"
-                    )}
-                  />
-                </button>
-                {openFaq === idx && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    transition={{ duration: 0.25 }}
-                    className="px-6 pb-5 text-muted-foreground font-medium text-sm leading-relaxed border-t border-border/30 pt-4 bg-surface-container/5"
-                  >
-                    {faq.a}
-                  </motion.div>
-                )}
-              </div>
-            ))}
+          <div className="max-w-4xl mx-auto bg-card border border-border/80 rounded-[32px] p-8 md:p-12 shadow-xl shadow-primary/5">
+            <p className="text-lg font-bold text-foreground mb-6">A Illumine foi desenvolvida para:</p>
+            <ul className="grid sm:grid-cols-2 gap-4">
+              {[
+                'empresas em expansão;',
+                'organizações em profissionalização;',
+                'negócios familiares;',
+                'operações pressionadas por crescimento;',
+                'empresas com baixa previsibilidade financeira;',
+                'organizações que desejam implantar governança;',
+                'lideranças que precisam de clareza estrutural;',
+                'empresas que operam com múltiplos indicadores desconectados;',
+                'organizações que precisam transformar dados em direção executiva.'
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3 p-3 rounded-xl hover:bg-surface-container/50 transition-colors">
+                  <CheckCircle2 size={18} className="text-secondary shrink-0 mt-0.5" />
+                  <span className="text-muted-foreground font-medium text-sm md:text-base leading-snug">{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
-      {/* Conclusão */}
-      <section id="conclusao" className="py-24 px-6 bg-foreground text-background relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary-soft/10 pointer-events-none" />
+      {/* 10. POSICIONAMENTO FILOSÓFICO */}
+      <section className="py-24 px-6 bg-transparent relative">
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
-          <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-            Crescimento exige mais do que informação
+          <h2 className="text-sm font-bold uppercase tracking-widest text-secondary">POSICIONAMENTO FILOSÓFICO</h2>
+          <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            Tecnologia sem interpretação gera dependência.<br/>
+            <span className="text-primary">Inteligência gera direção.</span>
           </h3>
-          <div className="text-lg md:text-xl text-background/70 space-y-4 font-medium leading-relaxed">
-            <p>
-              Empresas sustentáveis não são construídas apenas com dados.
-            </p>
-            <p>
-              São construídas com clareza estratégica, estrutura de gestão, capacidade de decisão e acompanhamento consistente.
-            </p>
-            <p className="text-background font-bold text-xl pt-4">
-              A Illumine existe para apoiar líderes e organizações que desejam crescer com direção, governança e inteligência aplicada à realidade do negócio.
+          <div className="text-lg md:text-xl text-muted-foreground space-y-4 font-medium leading-relaxed">
+            <p>Acreditamos que sustentabilidade empresarial não é construída apenas com crescimento.</p>
+            <p>É construída com:</p>
+            <div className="flex flex-wrap justify-center gap-3 py-4">
+              {['clareza', 'governança', 'causalidade', 'previsibilidade', 'maturidade operacional', 'responsabilidade decisional', 'inteligência estrutural'].map((item, i) => (
+                <span key={i} className="px-4 py-2 bg-surface-container rounded-full text-sm font-bold text-foreground border border-border shadow-sm">{item}</span>
+              ))}
+            </div>
+            <p className="pt-4">A tecnologia da Illumine foi concebida como infraestrutura para apoiar essa leitura organizacional.</p>
+            <p className="font-bold text-foreground">
+              Porque empresas saudáveis não dependem apenas de informação.<br/>Dependem da capacidade de interpretar a própria estrutura antes que os riscos se tornem visíveis demais.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Final CTA Buttons */}
-      <section className="py-20 px-6 bg-surface-container/20 border-t border-border/40">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h4 className="text-2xl font-bold text-foreground animate-pulse" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>Illumine Strategic Intelligence &amp; Advisory</h4>
-          <p className="text-muted-foreground font-medium text-sm md:text-base max-w-2xl mx-auto">
-            Inteligência estratégica, governança e performance para empresas que desejam crescer com clareza, estrutura e sustentabilidade.
+      {/* 11. CTA FINAL */}
+      <section className="py-24 px-6 bg-primary text-primary-foreground relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.05] pointer-events-none mix-blend-overlay" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary rounded-full blur-[100px] opacity-30 -mr-20 -mt-20 pointer-events-none" />
+        <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
+          <h3 className="text-4xl md:text-6xl font-medium tracking-tight leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+            O futuro da empresa depende da qualidade das decisões tomadas hoje.
+          </h3>
+          <p className="text-xl text-primary-foreground/90 font-medium max-w-2xl mx-auto">
+            A Illumine existe para ajudar empresas a operar com mais clareza estrutural, governança, previsibilidade e inteligência decisional.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <button
-              onClick={() => scrollToSection('ecossistema')}
-              className="w-full sm:w-auto h-12 px-6 rounded-button bg-surface-container border border-border text-foreground font-bold text-xs uppercase tracking-widest hover:bg-surface-container/85 hover:border-muted-foreground/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              Conhecer a Estrutura Illumine
-            </button>
+          <div className="pt-8">
             <button
               onClick={onConsultant}
-              className="w-full sm:w-auto h-12 px-6 rounded-button bg-primary text-primary-foreground font-bold text-xs uppercase tracking-widest hover:bg-primary/95 hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto h-16 px-10 rounded-button bg-background text-foreground font-bold text-base uppercase tracking-widest hover:bg-surface-container hover:shadow-2xl active:scale-[0.98] transition-all flex items-center justify-center gap-3 cursor-pointer mx-auto group"
             >
-              Agendar Diagnóstico Estratégico
-            </button>
-            <button
-              onClick={onConsultant}
-              className="w-full sm:w-auto h-12 px-6 rounded-button bg-surface-container border border-secondary/35 text-foreground font-bold text-xs uppercase tracking-widest hover:bg-surface-container/85 hover:border-secondary/55 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              Falar com um Advisor Illumine
+              <span>Solicitar Análise Executiva Estrutural</span>
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform text-secondary" />
             </button>
           </div>
         </div>
       </section>
 
-      
-    
     </div>
   );
 }
+
 function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
 
   const [openFaq, setOpenFaq] = React.useState<number | null>(null);

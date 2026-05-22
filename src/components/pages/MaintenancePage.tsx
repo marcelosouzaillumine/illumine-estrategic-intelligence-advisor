@@ -33,7 +33,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
     
     setLoadingDocs(true);
     const q = query(
-      collection(db, 'financial_entries'),
+      collection(db, 'financial_staging'),
       where('status', '==', 'pending')
     );
     
@@ -47,11 +47,17 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
 
   const handleApprove = async (docId: string, entry: any) => {
     try {
-      await updateDoc(doc(db, 'financial_entries', docId), {
+      const batch = writeBatch(db);
+      const targetDoc = doc(collection(db, entry.targetCollection || 'financial_entries'));
+      batch.set(targetDoc, {
+        ...(entry.payload || {}),
         status: 'approved',
         approvedAt: serverTimestamp(),
-        approvedBy: auth.currentUser?.uid
+        approvedBy: auth.currentUser?.uid,
+        requiresApproval: false
       });
+      batch.update(doc(db, 'financial_staging', docId), { status: 'migrated' });
+      await batch.commit();
       
       // Notify User
       await notificationService.createNotification({
@@ -70,7 +76,7 @@ export function MaintenancePage({ clients }: { clients: any[] }) {
 
   const handleReject = async (docId: string, entry: any) => {
     try {
-      await updateDoc(doc(db, 'financial_entries', docId), {
+      await updateDoc(doc(db, 'financial_staging', docId), {
         status: 'rejected',
         rejectedAt: serverTimestamp(),
         rejectedBy: auth.currentUser?.uid

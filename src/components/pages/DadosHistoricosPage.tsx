@@ -123,7 +123,7 @@ export function DadosHistoricosPage({
     if (!user) return;
     setHistoryLoading(true);
     try {
-      const collectionsToFetch = ['financial_entries', 'payables', 'receivables', 'budgets', 'account_plans', 'document_uploads'];
+      const collectionsToFetch = ['financial_staging', 'financial_entries', 'payables', 'receivables', 'budgets', 'account_plans', 'document_uploads'];
       let allItems: any[] = [];
 
       const promises = collectionsToFetch.map(async (colName) => {
@@ -379,22 +379,48 @@ export function DadosHistoricosPage({
 
         for (const chunk of chunks) {
           const batch = writeBatch(db);
-          chunk.forEach(itemId => {
-            batch.update(doc(db, collectionName, itemId), {
-              status: 'approved',
-              approvedAt: serverTimestamp(),
-              requiresApproval: false
-            });
-          });
+          for (const itemId of chunk) {
+            const item = history.find((h: any) => h.id === itemId) || (isBatch ? { sourceCollection: collectionName, id: itemId } : null);
+            if (item && item.sourceCollection === 'financial_staging') {
+              const targetDoc = doc(collection(db, item.targetCollection));
+              batch.set(targetDoc, {
+                 ...(item.payload || {}),
+                 status: 'approved',
+                 approvedAt: serverTimestamp(),
+                 requiresApproval: false
+              });
+              batch.update(doc(db, 'financial_staging', itemId), { status: 'migrated' });
+            } else if (item) {
+              batch.update(doc(db, item.sourceCollection, itemId), {
+                status: 'approved',
+                approvedAt: serverTimestamp(),
+                requiresApproval: false
+              });
+            }
+          }
           await batch.commit();
         }
       } else {
         // Single approval
-        await updateDoc(doc(db, collectionName, id), { 
-          status: 'approved', 
-          approvedAt: serverTimestamp(),
-          requiresApproval: false
-        });
+        const item = history.find((h: any) => h.id === id);
+        if (item && item.sourceCollection === 'financial_staging') {
+           const batch = writeBatch(db);
+           const targetDoc = doc(collection(db, item.targetCollection));
+           batch.set(targetDoc, {
+              ...item.payload,
+              status: 'approved',
+              approvedAt: serverTimestamp(),
+              requiresApproval: false
+           });
+           batch.update(doc(db, 'financial_staging', id), { status: 'migrated' });
+           await batch.commit();
+        } else {
+           await updateDoc(doc(db, collectionName, id), { 
+             status: 'approved', 
+             approvedAt: serverTimestamp(),
+             requiresApproval: false
+           });
+        }
       }
       fetchHistory();
     } catch (e) {
@@ -538,13 +564,34 @@ export function DadosHistoricosPage({
                 approvedAt: serverTimestamp(),
                 requiresApproval: false
               });
+            } else if (item.sourceCollection === 'financial_staging') {
+              const targetDoc = doc(collection(db, item.targetCollection));
+              batch.set(targetDoc, {
+                 ...item.payload,
+                 status: 'approved',
+                 approvedAt: serverTimestamp(),
+                 requiresApproval: false
+              });
+              batch.update(doc(db, 'financial_staging', id), { status: 'migrated' });
             } else if (item.isBatch && item.itemIds) {
               item.itemIds.forEach((itemId: string) => {
-                batch.update(doc(db, item.sourceCollection, itemId), {
-                  status: 'approved',
-                  approvedAt: serverTimestamp(),
-                  requiresApproval: false
-                });
+                const subItem = history.find((h: any) => h.id === itemId);
+                if (subItem && subItem.sourceCollection === 'financial_staging') {
+                   const targetDoc = doc(collection(db, subItem.targetCollection));
+                   batch.set(targetDoc, {
+                      ...subItem.payload,
+                      status: 'approved',
+                      approvedAt: serverTimestamp(),
+                      requiresApproval: false
+                   });
+                   batch.update(doc(db, 'financial_staging', itemId), { status: 'migrated' });
+                } else {
+                   batch.update(doc(db, item.sourceCollection, itemId), {
+                     status: 'approved',
+                     approvedAt: serverTimestamp(),
+                     requiresApproval: false
+                   });
+                }
               });
             } else {
               batch.update(doc(db, item.sourceCollection, id), {

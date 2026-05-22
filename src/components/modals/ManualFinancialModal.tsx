@@ -278,7 +278,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
       })));
 
       // 2. Add new
-      const payload = {
+      const targetPayload = {
         clientId,
         tenantId: clientId,
         workspaceId: clientId,
@@ -325,13 +325,26 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
           createdBy: auth.currentUser!.uid,
           action: 'manual_entry',
           source: 'manual'
-        },
-        status: role === 'master' ? 'approved' : 'pending',
-        requiresApproval: role === 'master' ? false : true,
-        ...(role === 'master' ? { approvedAt: serverTimestamp() } : {})
+        }
       };
 
-      await addDoc(collection(db, 'financial_entries'), payload);
+      const stagingPayload = {
+        clientId,
+        clientName: 'N/A', // Required by Dashboard
+        fileName: `Lançamento Manual - ${selectedType} ${year}`,
+        type: selectedType,
+        status: 'pending',
+        requiresApproval: true,
+        sourceCollection: 'financial_staging',
+        targetCollection: 'financial_entries',
+        payload: targetPayload,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        createdBy: auth.currentUser!.uid,
+        creatorEmail: auth.currentUser!.email,
+      };
+
+      await addDoc(collection(db, 'financial_staging'), stagingPayload);
 
       if (role !== 'master') {
         // Notify Admins only if it requires approval

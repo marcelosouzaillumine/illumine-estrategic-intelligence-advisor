@@ -2200,13 +2200,6 @@ loading: ${loading}
 
           {/* Right actions */}
           <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={() => setIsAIModalOpen(true)}
-              className="flex items-center gap-2 px-3.5 py-2.5 rounded-md border border-border bg-background text-body-sm font-medium text-muted-foreground hover:text-secondary hover:border-secondary/40 hover:bg-secondary/5 transition-all whitespace-nowrap shadow-sm"
-            >
-              <Sparkles size={13} className="text-secondary" />
-              <span className="hidden md:inline text-[10px] font-medium uppercase tracking-[0.12em]">Empresa Modelo</span>
-            </button>
             <button onClick={openAdd} className="btn-accent whitespace-nowrap py-2.5">
               <Plus size={15} />
               <span className="hidden sm:inline text-[10px] font-medium uppercase tracking-[0.12em]">Novo Cliente</span>
