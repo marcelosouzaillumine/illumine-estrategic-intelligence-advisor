@@ -110,7 +110,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
     setProgress(0);
     setProcessingStatus('Iniciando importação...');
 
-    const batchId = `batch_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    const batchId = `batch_${Date.now()}_${crypto.randomUUID()}`;
     let created = 0, deleted = 0;
 
     try {

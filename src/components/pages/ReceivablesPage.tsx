@@ -144,7 +144,7 @@ export function ReceivablesPage({ clients, selectedClient, isMaster }: { clients
       if (editingReceivable) {
         setReceivables(prev => prev.map(p => p.id === editingReceivable.id ? { ...p, ...data } : p));
       } else {
-        setReceivables(prev => [...prev, { ...data, id: Math.random().toString() }]);
+        setReceivables(prev => [...prev, { ...data, id: crypto.randomUUID() }]);
       }
       setIsModalOpen(false);
       setEditingReceivable(null);

@@ -41,7 +41,7 @@ import { DATA } from '../../data';
 import { cn, formatCurrency, validateCNPJ, formatDoc } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
 import { EmployeeManager } from '../EmployeeManager';
-import { GenerateAICompanyModal } from '../modals/GenerateAICompanyModal';
+// Removed GenerateAICompanyModal import
 import { ClientImportHistory } from '../ClientImportHistory';
 import { ClientLoginAudit } from '../ClientLoginAudit';
 import { ClientUserManager } from '../ClientUserManager';
@@ -57,7 +57,7 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
   const [error, setError] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [clientToDelete, setClientToDelete] = useState<{ id: string, name: string } | null>(null);
-  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+// isAIModalOpen removed
   const [showSegmentSuggestions, setShowSegmentSuggestions] = useState(false);
   
   const allSegments = useMemo(() => {
@@ -781,12 +781,9 @@ loading: ${loading}
                                   <Sparkles size={14} /> Parâmetros de Geração IA
                                 </h4>
                               </div>
-                              <button 
-                                onClick={() => setIsAIModalOpen(true)}
-                                className="btn-executive bg-secondary shadow-xl shadow-secondary/20"
-                              >
-                                <Sparkles size={12} /> GERAR DADOS
-                              </button>
+                              <div className="text-[10px] text-muted-foreground italic">
+                                Geradores de dados sintéticos foram migrados para scripts via CLI corporativa.
+                              </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2540,16 +2537,7 @@ loading: ${loading}
         )}
       </AnimatePresence>
 
-      <GenerateAICompanyModal
-        isOpen={isAIModalOpen}
-        onClose={() => setIsAIModalOpen(false)}
-        onSuccess={(newClientId) => {
-          setView('list');
-          if (newClientId && setSelectedClient) {
-            setSelectedClient(newClientId);
-          }
-        }}
-      />
+
     </div>
   );
 }

@@ -202,7 +202,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
     if (newProduct.descricao && newProduct.valorMensal) {
       setDiagnosis(prev => ({
         ...prev,
-        produtos: [...(prev.produtos || []), { ...newProduct, id: Math.random().toString(36).substr(2, 9) } as ProductInfo]
+        produtos: [...(prev.produtos || []), { ...newProduct, id: crypto.randomUUID() } as ProductInfo]
       }));
       setNewProduct({ descricao: '', ncm: '', valorMensal: 0, tipo: 'Produto' });
     }

@@ -177,7 +177,7 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
     const periodo = `${newOkrTrimestre} ${newOkrAno}`;
     // Build KR if filled in
     const keyResults = newKrForm.descricao && newKrForm.kpi ? [{
-      id: Math.random().toString(36).substr(2, 9),
+      id: crypto.randomUUID(),
       descricao: newKrForm.descricao,
       kpi: newKrForm.kpi,
       tipo: newKrForm.tipo,

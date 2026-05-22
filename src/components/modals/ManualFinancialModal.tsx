@@ -75,7 +75,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
             const docData = doc.data();
             if (docData.status === 'archived') return;
             const data = (docData.data || []).map((item: any) => ({
-              id: item.id || Math.random().toString(36).substr(2, 9),
+              id: item.id || crypto.randomUUID(),
               category: item.category || item.conta || '',
               value: item.value || item.valor || item.val || 0,
               type: (item.type || item.tipo || (type === 'DRE' ? 'receitas' : 'ativo')).toLowerCase(),
@@ -161,7 +161,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
 
   const addRow = () => {
     setRows([...rows, { 
-      id: Math.random().toString(36).substr(2, 9), 
+      id: crypto.randomUUID(), 
       category: '', 
       value: 0, 
       type: type === 'DRE' ? 'receitas' : 'ativo',
@@ -290,7 +290,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         data: computedRows.map(r => {
           const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
           const rowData: any = {
-            id: r.id || Math.random().toString(36).substr(2, 9),
+            id: r.id || crypto.randomUUID(),
             category: r.category || (r as any).nome || '',
             value: r.computedValue !== undefined ? r.computedValue : (r.value || 0),
             type: r.type || '',
@@ -540,7 +540,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                                     const newRows = [...rows];
                                     const insertIdx = newRows.findIndex(r => r.id === row.id) + 1;
                                     newRows.splice(insertIdx, 0, {
-                                      id: Math.random().toString(36).substr(2, 9),
+                                      id: crypto.randomUUID(),
                                       category: '',
                                       value: 0,
                                       type: 'despesas',

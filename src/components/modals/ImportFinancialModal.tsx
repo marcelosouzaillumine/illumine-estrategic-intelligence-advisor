@@ -175,12 +175,12 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
           action: 'import',
           source: 'file_upload'
         },
-        sourceCollection: 'staging_financial_entries',
+        sourceCollection: 'financial_entries',
         status: 'pending',
         requiresApproval: true
       };
 
-      await addDoc(collection(db, 'staging_financial_entries'), payload);
+      await addDoc(collection(db, 'financial_entries'), payload);
 
       // Notify Admins
       await notificationService.createNotification({
@@ -188,7 +188,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         title: 'Novo Documento para Aprovação',
         message: `O cliente ${clientName} enviou um documento (${selectedType}) que requer sua revisão.`,
         type: 'approval_request',
-        link: 'maintenance',
+        link: 'aprovacoes',
         metadata: {
           clientId,
           docType: selectedType,

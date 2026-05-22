@@ -86,7 +86,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
       ...prev,
       keyResults: [
         ...(prev.keyResults || []),
-        { id: Math.random().toString(36).substr(2, 9), descricao: '', kpi: '', tipo: 'Percentual', meta: 0, atual: 0, status: 'Not Started', progresso: 0 }
+        { id: crypto.randomUUID(), descricao: '', kpi: '', tipo: 'Percentual', meta: 0, atual: 0, status: 'Not Started', progresso: 0 }
       ]
     }));
   };

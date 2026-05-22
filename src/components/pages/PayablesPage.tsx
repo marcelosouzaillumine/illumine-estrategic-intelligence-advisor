@@ -144,7 +144,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
       if (editingPayable) {
         setPayables(prev => prev.map(p => p.id === editingPayable.id ? { ...p, ...data } : p));
       } else {
-        setPayables(prev => [...prev, { ...data, id: Math.random().toString() }]);
+        setPayables(prev => [...prev, { ...data, id: crypto.randomUUID() }]);
       }
       setIsModalOpen(false);
       setEditingPayable(null);

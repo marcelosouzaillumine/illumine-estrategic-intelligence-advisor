@@ -86,7 +86,7 @@ export function AvaliacaoOrganogramaPage({ clientId }: { clientId: string }) {
   const handleAddNode = () => {
     if (newNode.name && newNode.role) {
       const node: OrgNode = {
-        id: Math.random().toString(36).substr(2, 9),
+        id: crypto.randomUUID(),
         name: newNode.name,
         role: newNode.role,
         department: newNode.department || 'Geral',
