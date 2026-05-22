@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon } from 'lucide-react';
+import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon, AlertTriangle, Sparkles } from 'lucide-react';
 import { DATA } from '../../data';
 import { 
   ResponsiveContainer, 
@@ -188,6 +188,39 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     }
   }
 
+  // NOVOS INDICADORES MATEMÁTICOS DE ALTA PERFORMANCE
+  const indiceDespesasAdministrativas = recLiquida > 0 ? (despAdmin / recLiquida) * 100 : 0;
+  const indiceDespesasComerciais = recLiquida > 0 ? (despVendas / recLiquida) * 100 : 0;
+  const indiceDespesasFinanceiras = recLiquida > 0 ? (despFin / recLiquida) * 100 : 0;
+
+  const margemOperacional = recLiquida > 0 ? (ebitVal / recLiquida) * 100 : 0;
+  const margemLiquida = recLiquida > 0 ? (lucroLiq / recLiquida) * 100 : 0;
+  
+  const capacidadeAbsorcaoEstrutura = despesasFixas > 0 ? margemContrib / despesasFixas : margemContrib > 0 ? Infinity : 0;
+  const grauAlavancagemOperacional = ebitVal !== 0 ? margemContrib / ebitVal : 0;
+  const indiceConversaoOperacional = lucroBruto > 0 ? (ebitda / lucroBruto) * 100 : 0;
+  
+  const receitaMediaDiaria = recLiquida / 360;
+  const breakEvenDays = receitaMediaDiaria > 0 ? pontoEquilibrio / receitaMediaDiaria : 0;
+  const burnRateOperacional = despesasFixas / 12;
+
+  const mbVal = recLiquida > 0 ? (lucroBruto / recLiquida) * 100 : 0;
+  const cmvVal = recLiquida > 0 ? (custosVar / recLiquida) * 100 : 0;
+  const ebitdaVal = recLiquida > 0 ? (ebitda / recLiquida) * 100 : 0;
+
+  // SCORE DE SAÚDE FINANCEIRA (Parte Operacional - 85%)
+  let healthScoreBase = 0;
+  if (recLiquida > 0) {
+     const scoreMargemOp = Math.min(Math.max((margemOperacional / 15) * 100, 0), 100) * 0.20; 
+     const scoreLiquidez = Math.min(Math.max((ebitdaVal / 15) * 100, 0), 100) * 0.20; 
+     const scoreEstrutura = Math.min(Math.max(capacidadeAbsorcaoEstrutura * 100, 0), 100) * 0.15; 
+     const scoreCaixa = Math.min(Math.max((indiceConversaoOperacional / 80) * 100, 0), 100) * 0.15; 
+     const debtRatio = ebitda > 0 ? despFin / ebitda : despFin > 0 ? 1 : 0;
+     const scoreDivida = Math.max((1 - debtRatio) * 100, 0) * 0.15;
+     
+     healthScoreBase = scoreMargemOp + scoreLiquidez + scoreEstrutura + scoreCaixa + scoreDivida;
+  }
+
   // TEXTOS INTERPRETATIVOS
   const performanceNote = useMemo(() => {
     if (recLiquida === 0 || pontoEquilibrio === 0) return "Aguardando dados para análise operacional completa.";
@@ -203,10 +236,6 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   let riskColor = 'text-emerald-600';
   if (margemSeguranca < 5) riskColor = 'text-rose-600';
   else if (margemSeguranca <= 15) riskColor = 'text-amber-500';
-
-  const mbVal = recLiquida > 0 ? (lucroBruto / recLiquida) * 100 : 0;
-  const cmvVal = recLiquida > 0 ? (custosVar / recLiquida) * 100 : 0;
-  const ebitdaVal = recLiquida > 0 ? (ebitda / recLiquida) * 100 : 0;
 
   const marginIndices = [
     { 
@@ -231,18 +260,39 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       trend: ebitdaVal > 15 ? 'Forte' : ebitdaVal >= 5 ? 'Razoável' : 'Crítico'
     },
     { 
-      name: 'Ponto de Equilíbrio', 
-      val: pontoEquilibrio, 
-      unit: 'R$', 
-      status: 'Amarelo',
-      trend: 'Consolidado'
+      name: 'Margem Operacional', 
+      val: margemOperacional,     
+      unit: '%', 
+      status: margemOperacional > 10 ? 'Verde' : margemOperacional >= 0 ? 'Amarelo' : 'Vermelho',
+      trend: margemOperacional > 10 ? 'Saudável' : margemOperacional >= 0 ? 'Atenção' : 'Prejuízo'
     },
     { 
-      name: 'Margem de Segurança', 
-      val: margemSeguranca, 
+      name: 'Margem Líquida', 
+      val: margemLiquida,     
       unit: '%', 
-      status: margemSeguranca > 15 ? 'Verde' : margemSeguranca >= 5 ? 'Amarelo' : 'Vermelho',
-      trend: margemSeguranca > 15 ? 'Segura' : margemSeguranca >= 5 ? 'Atenção' : 'Risco'
+      status: margemLiquida > 10 ? 'Verde' : margemLiquida >= 0 ? 'Amarelo' : 'Vermelho',
+      trend: margemLiquida > 10 ? 'Lucrativa' : margemLiquida >= 0 ? 'Atenção' : 'Prejuízo'
+    },
+    { 
+      name: 'Conversão Operacional', 
+      val: indiceConversaoOperacional,     
+      unit: '%', 
+      status: indiceConversaoOperacional > 50 ? 'Verde' : indiceConversaoOperacional >= 20 ? 'Amarelo' : 'Vermelho',
+      trend: indiceConversaoOperacional > 50 ? 'Forte' : indiceConversaoOperacional >= 20 ? 'Moderada' : 'Crítica'
+    },
+    { 
+      name: 'Absorção de Estrutura', 
+      val: isFinite(capacidadeAbsorcaoEstrutura) ? capacidadeAbsorcaoEstrutura : 0,     
+      unit: 'x', 
+      status: capacidadeAbsorcaoEstrutura >= 1.5 ? 'Verde' : capacidadeAbsorcaoEstrutura >= 1.0 ? 'Amarelo' : 'Vermelho',
+      trend: capacidadeAbsorcaoEstrutura >= 1.5 ? 'Confortável' : capacidadeAbsorcaoEstrutura >= 1.0 ? 'Equilíbrio' : 'Insustentável'
+    },
+    { 
+      name: 'Break-Even Days', 
+      val: breakEvenDays, 
+      unit: 'd', 
+      status: breakEvenDays <= 20 ? 'Verde' : breakEvenDays <= 25 ? 'Amarelo' : 'Vermelho',
+      trend: breakEvenDays <= 20 ? 'Eficiente' : breakEvenDays <= 25 ? 'Atenção' : 'Lento'
     },
   ];
 
@@ -447,6 +497,50 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     };
   }, [chartData]);
 
+  const finalHealthScore = useMemo(() => {
+      if (recLiquida <= 0) return 0;
+      let score = healthScoreBase;
+      if (trendNote && trendNote.receita) {
+          const scoreGrowth = Math.min(Math.max((trendNote.receita / 20) * 100, 0), 100) * 0.15;
+          score += scoreGrowth;
+      } else {
+          score = (score / 85) * 100;
+      }
+      return Math.min(Math.max(score, 0), 100);
+  }, [healthScoreBase, trendNote, recLiquida]);
+
+  const smartInsights = useMemo(() => {
+      const insights = [];
+      if (recLiquida === 0) return insights;
+      
+      if (indiceDespesasAdministrativas > 20) {
+          insights.push("A estrutura administrativa está consumindo uma parcela muito elevada da receita líquida, pressionando a margem final.");
+      }
+      if (margemOperacional > 0 && margemLiquida < 0 && indiceDespesasFinanceiras > 5) {
+          insights.push("A operação é lucrativa no core business, mas o custo financeiro elevado está consumindo o resultado e gerando prejuízo líquido.");
+      }
+      if (capacidadeAbsorcaoEstrutura < 1) {
+          insights.push("A margem de contribuição gerada não é suficiente para a absorção da estrutura fixa existente (operação deficitária no volume atual).");
+      } else if (capacidadeAbsorcaoEstrutura < 1.3) {
+          insights.push("A empresa demonstra forte dependência de aumento de escala ou necessidade de redução de custos fixos para sustentar sua operação confortavelmente.");
+      }
+      if (margemOperacional > 15 && indiceConversaoOperacional > 60) {
+          insights.push("Operação apresenta alta performance executiva, combinando rentabilidade operacional com forte conversão de lucros em caixa (EBITDA).");
+      }
+      return insights;
+  }, [indiceDespesasAdministrativas, margemOperacional, margemLiquida, indiceDespesasFinanceiras, capacidadeAbsorcaoEstrutura, indiceConversaoOperacional, recLiquida]);
+
+  const systemAlerts = useMemo(() => {
+      const alerts = [];
+      if (recLiquida === 0) return alerts;
+      if (recLiquida < pontoEquilibrio) alerts.push({ type: 'danger', msg: 'Faturamento abaixo do ponto de equilíbrio contábil.' });
+      if (margemOperacional < 0) alerts.push({ type: 'danger', msg: 'Margem Operacional crítica (Destruição de valor).' });
+      if (capacidadeAbsorcaoEstrutura < 1) alerts.push({ type: 'warning', msg: 'Incapacidade de absorver estrutura de despesas fixas.' });
+      if (indiceDespesasFinanceiras > 10) alerts.push({ type: 'warning', msg: 'Alta pressão bancária e dependência de capital externo.' });
+      return alerts;
+  }, [recLiquida, pontoEquilibrio, margemOperacional, capacidadeAbsorcaoEstrutura, indiceDespesasFinanceiras]);
+
+
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
@@ -504,12 +598,76 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
 
 
+      {/* ALERTAS INTELIGENTES */}
+      {systemAlerts.length > 0 && (
+        <div className="flex flex-col gap-3 mb-8">
+          {systemAlerts.map((alert, idx) => (
+            <div key={idx} className={cn("px-4 py-4 rounded-2xl border flex items-center gap-3 text-sm font-bold shadow-sm", 
+              alert.type === 'danger' ? "bg-rose-50 border-rose-200 text-rose-700" : "bg-amber-50 border-amber-200 text-amber-700")}>
+              <AlertTriangle size={20} className={alert.type === 'danger' ? 'text-rose-500' : 'text-amber-500'} />
+              {alert.msg}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* SCORE DE SAÚDE & INSIGHTS */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+        <div className="bg-slate-900 text-white rounded-[40px] p-8 shadow-2xl relative overflow-hidden flex flex-col justify-center items-center">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+          <h3 className="text-lg font-black mb-1">Health Score</h3>
+          <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-6">Saúde Financeira Operacional</p>
+          
+          <div className="relative w-40 h-40 flex items-center justify-center">
+            <svg className="w-full h-full transform -rotate-90">
+              <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-slate-800" />
+              <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="8" fill="transparent" 
+                strokeDasharray="440" 
+                strokeDashoffset={440 - (440 * finalHealthScore) / 100}
+                className={finalHealthScore >= 80 ? "text-emerald-500" : finalHealthScore >= 50 ? "text-amber-500" : "text-rose-500"} 
+                strokeLinecap="round" 
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-4xl font-black">{finalHealthScore.toFixed(0)}</span>
+              <span className="text-[10px] uppercase font-bold text-slate-400">/ 100</span>
+            </div>
+          </div>
+          <p className="text-xs text-center mt-6 text-slate-400 font-medium">
+            {finalHealthScore >= 80 ? 'Alta Performance' : finalHealthScore >= 50 ? 'Operação Estável' : 'Atenção Crítica'}
+          </p>
+        </div>
+
+        <div className="lg:col-span-2 bg-white border border-slate-100 rounded-[40px] p-8 shadow-sm flex flex-col">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
+              <Sparkles size={20} />
+            </div>
+            <div>
+              <h4 className="text-lg font-black text-slate-900">AI Advisory Insights</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Análise Operacional Inteligente</p>
+            </div>
+          </div>
+          
+          <div className="space-y-4 flex-1 flex flex-col justify-center">
+            {smartInsights.length > 0 ? smartInsights.map((insight, idx) => (
+              <div key={idx} className="flex gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 items-start">
+                <div className="w-2 h-2 rounded-full bg-purple-500 mt-2 shrink-0" />
+                <p className="text-sm text-slate-600 font-medium leading-relaxed">{insight}</p>
+              </div>
+            )) : (
+              <p className="text-sm text-slate-400 italic text-center">Aguardando dados suficientes para gerar insights operacionais...</p>
+            )}
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {marginIndices.map((idx, i) => (
           <KpiCard 
             key={i}
             title={idx.name}
-            value={idx.unit === 'R$' ? formatValue(idx.val, '') : idx.val.toFixed(1)}
+            value={idx.unit === 'R$' ? formatValue(idx.val, '') : isFinite(idx.val) ? idx.val.toFixed(1) : '0.0'}
             suffix={idx.unit}
             status={idx.status as any}
             trend={idx.trend}
@@ -518,8 +676,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-        <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
-          <div className="flex items-center justify-between mb-8">
+        <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm flex flex-col">
+          <div className="flex items-center justify-between mb-8 shrink-0">
             <div>
               <h3 className="text-lg font-black text-slate-900">Evolução de Performance</h3>
               <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-1">Receita, EBITDA e Lucro</p>
@@ -544,7 +702,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             </div>
           </div>
           
-          <div className="h-[300px] w-full">
+          <div className="flex-1 w-full min-h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
