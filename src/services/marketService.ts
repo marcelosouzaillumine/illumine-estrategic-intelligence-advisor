@@ -40,10 +40,9 @@ export const fetchBenchmarks = async (): Promise<MarketBenchmark[]> => {
         defaults[1].value = parseFloat(ipcaData[1]?.valor || ipcaData[0].valor);
       }
 
-      // 3. Fetch Ibovespa (Using a mock or simplified logic for now as Ibovespa requires stock market APIs)
-      // In a real production app, we would use Brapi or Yahoo Finance API
-      // For now, we'll keep the Ibovespa as a random variation around 1.2% to look dynamic
-      defaults[3].value = 1.0 + (Math.random() * 0.5);
+      // 3. Fetch Ibovespa (Requires stock market APIs)
+      // Per architectural rules, no mock data should be used.
+      // Until integrated with a real API, we keep it as the static fallback value.
 
     } catch (err) {
       console.warn('Market Data Fetch Error (using fallbacks):', err);

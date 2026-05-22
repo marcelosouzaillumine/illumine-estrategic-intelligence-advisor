@@ -1926,7 +1926,7 @@ export const GOVERNANCE_PRINCIPLES: GovernancePrinciple[] = [
     maturityQuestion: "A empresa possui rituais de re-planejamento ágil e flexibilidade para mudar o modelo de negócio quando necessário?",
     weight: 5,
     expectedEvidences: ["Revisões de Planejamento Ágil", "Análise de Tendências", "Pivotações Documentadas"],
-    risksWhenNeglected: ["Irrelevância de Mercado", "Falência Estrutural", "Lentidão de Resposta"],
+    risksWhenNeglected: ["Irrelevância de Mercado", "Lentidão de Resposta"],
     reference: "Agilidade",
     description: "Velocidade de adaptação e execução de novos projetos.",
     crossAxisImpact: "Comercial e Operações",

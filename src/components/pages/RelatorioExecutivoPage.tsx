@@ -29,6 +29,7 @@ import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
 import { PageHeader, StatusBadge, KpiCard } from '../Common';
 import { ObjetivoOKR as OKR, DiagnosticoItem as Diagnostico, Diretriz as Diretrizes } from '../../types/modules';
 import { Button } from '../ui/button';
+import { RelatorioDemonstracoes5Anos } from './RelatorioDemonstracoes5Anos';
 
 interface ActionItem {
   id?: string;
@@ -56,7 +57,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
   const { data: actions } = useModuleData<ActionItem>('action_items', clientId);
   const { kpis } = useRealIndicatorData(clientId, selectedMonth, selectedYear);
 
-  type ReportType = 'full' | 'governance' | 'financial' | 'operational';
+  type ReportType = 'full' | 'governance' | 'financial' | 'operational' | 'demonstracoes-5-anos';
   const [reportType, setReportType] = useState<ReportType>('full');
 
   const mvv = diretrizes && diretrizes.length > 0 ? diretrizes[0] : null;
@@ -131,27 +132,6 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
 
   const hasData = dbIndicators.length > 0 || okrs.length > 0 || actions.length > 0;
 
-  if (hasData === false && !isAiLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-10 animate-executive-fade">
-         <div className="relative">
-            <div className="absolute inset-0 bg-primary blur-3xl opacity-10 animate-pulse" />
-            <div className="w-40 h-40 rounded-md bg-executive flex items-center justify-center text-secondary shadow-premium relative z-10 border border-white/5">
-              <ShieldCheck size={80} strokeWidth={1} />
-            </div>
-         </div>
-         
-         <div className="text-center space-y-4 w-full max-w-2xl mx-auto px-6">
-            <h2 className="text-h1 font-medium text-foreground tracking-tight leading-tight">Relatório Executivo Silencioso</h2>
-            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed italic">
-              Não identificamos dados estratégicos, indicadores ou planos de ação para o período de <strong>{['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][(selectedMonth || 1) - 1]} de {selectedYear}</strong>. 
-              Importe os dados ou defina OKRs para gerar o relatório.
-            </p>
-         </div>
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
@@ -172,6 +152,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
             <option value="governance">Eixo Governança</option>
             <option value="financial">Eixo Financeiro</option>
             <option value="operational">Eixo Operacional</option>
+            <option value="demonstracoes-5-anos">Demonstrações Contábeis (5 Anos)</option>
           </select>
         </div>
 
@@ -195,6 +176,26 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
         </div>
       </div>
 
+      {reportType === 'demonstracoes-5-anos' ? (
+        <RelatorioDemonstracoes5Anos clientId={clientId} selectedYear={selectedYear} />
+      ) : hasData === false && !isAiLoading ? (
+        <div className="flex flex-col items-center justify-center min-h-[400px] space-y-10 animate-executive-fade py-12">
+           <div className="relative">
+              <div className="absolute inset-0 bg-primary blur-3xl opacity-10 animate-pulse" />
+              <div className="w-40 h-40 rounded-md bg-executive flex items-center justify-center text-secondary shadow-premium relative z-10 border border-white/5 mx-auto">
+                <ShieldCheck size={80} strokeWidth={1} />
+              </div>
+           </div>
+           
+           <div className="text-center space-y-4 w-full max-w-2xl mx-auto px-6">
+              <h2 className="text-h1 font-medium text-foreground tracking-tight leading-tight">Relatório Executivo Silencioso</h2>
+              <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed italic">
+                Não identificamos dados estratégicos, indicadores ou planos de ação para o período de <strong>{['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][(selectedMonth || 1) - 1]} de {selectedYear}</strong>. 
+                Importe os dados ou defina OKRs para gerar o relatório.
+              </p>
+           </div>
+        </div>
+      ) : (
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
          <div className="lg:col-span-1 space-y-6">
             <div className="card-premium p-8 space-y-6">
@@ -401,6 +402,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
             </div>
          </div>
       </div>
+      )}
     </div>
   );
 }

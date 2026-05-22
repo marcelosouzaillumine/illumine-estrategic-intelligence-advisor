@@ -37,7 +37,7 @@ function MetricCard({ title, value, subtitle, icon: Icon, colorClass, trend }: a
             trend > 0 ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"
           )}>
             {trend > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-            {Math.abs(trend).toFixed(1)}%
+            {Math.abs(trend).toFixed(2)}%
           </div>
         )}
       </div>
@@ -306,7 +306,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Margem EBITDA (%)</label>
                       <input 
                         type="number"
-                        value={(diagnosis.margemEBITDA * 100).toFixed(1)}
+                        value={(diagnosis.margemEBITDA * 100).toFixed(2)}
                         onChange={(e) => setDiagnosis({...diagnosis, margemEBITDA: Number(e.target.value) / 100})}
                         className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       />

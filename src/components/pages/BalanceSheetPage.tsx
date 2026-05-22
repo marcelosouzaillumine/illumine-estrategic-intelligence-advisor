@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon } from 'lucide-react';
+import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity } from 'lucide-react';
 import { 
   ResponsiveContainer, 
   BarChart, 
   Bar, 
+  AreaChart,
+  Area,
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -22,6 +24,11 @@ import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFina
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
+import { buildBPHierarchy } from '../../lib/bpEngine';
+import { calculateFinancialMetrics } from '../../lib/financial-engine';
+import { calculateScores } from '../../lib/score-engine';
+import { generateAdvisory } from '../../lib/advisory-engine';
+import { calculateDreCascade } from '../../lib/dreCascade';
 import {
   collection,
   deleteDoc,
@@ -48,22 +55,49 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     if (selectedYear) setFilterYear(selectedYear);
   }, [selectedYear]);
 
-  // ── Busca dados anuais ──────────────────────────────────────────────────────
-  const { dbData: dbDataBP, docIds: docIdsBP, loading: loadingBP, refetch: refetchBP } =
+  // ── Busca dados anuais (BP) ────────────────────────────────────────────────
+  const { dbData, docIds, loading: loadingBP, refetch: refetchBP } =
     useAnnualFinancialData(selectedClient, filterYear, 'Balanço Patrimonial');
-  const { dbData: dbDataShort, docIds: docIdsShort, loading: loadingShort, refetch: refetchShort } =
-    useAnnualFinancialData(selectedClient, filterYear, 'BP');
+
+  // ── Busca dados operacionais (DRE) ─────────────────────────────────────────
+  const { dbData: dreDbData } = useAnnualFinancialData(selectedClient, filterYear, 'DRE');
 
   // ── Busca histórico (todos os dados do cliente) ──────────────────────────────
   const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient);
 
-  const loading = loadingBP || loadingShort;
-  const dbData = dbDataBP.length > 0 ? dbDataBP : dbDataShort;
-  const docIds = dbDataBP.length > 0 ? docIdsBP : docIdsShort;
+  const loading = loadingBP;
 
-  const rows = dbData.length > 0
-    ? dbData.map((d: any) => ({ ...d, val: d.val ?? d.valor ?? d.value ?? 0, conta: d.conta || d.category || '' }))
-    : [];
+  const { flatNodes: rows, summary: bpSummary } = useMemo(() => {
+    if (dbData.length > 0) {
+      const aggregated: any = {};
+      dbData.forEach((d: any) => {
+        // Usa o docId para evitar colisão entre documentos diferentes, mas como o useAnnualFinancialData 
+        // agora retorna apenas 1 documento (ou deveria), a principal fonte de duplicatas são 
+        // contas com nomes repetidos dentro do próprio documento (ou legados).
+        const type = (d.tipo || d.type || '').trim().toLowerCase();
+        const category = (d.conta || d.category || '').trim();
+        const key = `${type}_${category.toLowerCase()}`;
+        
+        if (!aggregated[key]) {
+          aggregated[key] = { 
+            ...d, 
+            val: (d.val ?? d.valor ?? d.value ?? 0),
+            conta: category,
+            level: d.level ?? 1
+          };
+        } else {
+          // Em vez de somar duplicatas (o que corrompe o valor de Ativo Circulante se houverem dois lançamentos),
+          // vamos apenas manter a versão já extraída (a primeira). A não ser que seja zero, aí usamos a nova.
+          if (aggregated[key].val === 0 && (d.val ?? d.valor ?? d.value ?? 0) !== 0) {
+             aggregated[key].val = (d.val ?? d.valor ?? d.value ?? 0);
+          }
+        }
+      });
+      const arr = Object.values(aggregated) as any[];
+      return buildBPHierarchy(arr);
+    }
+    return { flatNodes: [] as any[], summary: {} as any };
+  }, [dbData]);
 
   // ── Processamento Histórico ────────────────────────────────────────────────
   const historyByYear = useMemo(() => {
@@ -82,77 +116,154 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     return data;
   }, [allHistoryData, selectedClient, filterYear]);
 
-  const getYearSummary = (y: number) => {
-    const yearRows = historyByYear[y] || [];
-    const getSum = (search: string) => yearRows.find((r: any) => (r.category || r.conta || '').toLowerCase().includes(search.toLowerCase()))?.value ?? 0;
-    
-    // Tenta encontrar Ativo Total explicitamente ou soma Ativo Circulante + Não Circulante
-    const ativoTotal = getSum('ativo total') || (getSum('ativo circulante') + getSum('ativo não circulante'));
-    const passivoTotal = getSum('passivo total') || (getSum('passivo circulante') + getSum('passivo não circulante'));
-    const pl = getSum('patrimônio líquido') || getSum('pl');
-    
-    return { ativoTotal, passivoTotal, pl };
-  };
+    const getYearSummary = (y: number) => {
+      const yearRows = historyByYear[y] || [];
+  
+      const getSumRobust = (source: any[], possibleNames: string[]) => {
+        const match = source.find(s => {
+          const sName = (s.category || s.conta || '').toLowerCase();
+          const cleanName = sName.replace(/^[0-9.]+\s*[-]\s*/, '').replace(/^[(-/+)\s]+/, '').trim();
+          return possibleNames.some(p => cleanName === p || cleanName.includes(p));
+        });
+        return match?.value || match?.val || match?.valor || 0;
+      };
+  
+      let ativoTotal = getSumRobust(yearRows, ['ativo total', 'total do ativo']);
+      if (!ativoTotal) {
+        const ac = getSumRobust(yearRows, ['ativo circulante', 'circulante']);
+        const anc = getSumRobust(yearRows, ['ativo não circulante', 'não circulante']);
+        ativoTotal = ac + anc;
+      }
+      if (!ativoTotal) {
+        const ativoRows = yearRows.filter((r: any) => (r.type || r.tipo || r.entryType || '').toLowerCase() === 'ativo');
+        ativoTotal = ativoRows.reduce((acc, r) => acc + (r.value || r.val || r.valor || 0), 0);
+      }
+  
+      let passivoTotal = getSumRobust(yearRows, ['passivo total', 'total do passivo']);
+      if (!passivoTotal) {
+        const pc = getSumRobust(yearRows, ['passivo circulante', 'circulante']);
+        const pnc = getSumRobust(yearRows, ['passivo não circulante', 'não circulante']);
+        passivoTotal = pc + pnc;
+      }
+      if (!passivoTotal) {
+        const passivoRows = yearRows.filter((r: any) => (r.type || r.tipo || r.entryType || '').toLowerCase() === 'passivo' && !((r.category || r.conta || '').toLowerCase().includes('patrimônio')));
+        passivoTotal = passivoRows.reduce((acc, r) => acc + (r.value || r.val || r.valor || 0), 0);
+      }
+  
+      let pl = getSumRobust(yearRows, ['patrimônio líquido', 'pl', 'total do patrimônio líquido', 'patrimônio']);
+      if (!pl) {
+        const plRows = yearRows.filter((r: any) => {
+          const t = (r.type || r.tipo || r.entryType || '').toLowerCase();
+          const c = (r.category || r.conta || '').toLowerCase();
+          return t === 'patrimônio líquido' || t === 'pl' || c.includes('patrimônio líquido') || c === 'pl';
+        });
+        pl = plRows.reduce((acc, r) => acc + (r.value || r.val || r.valor || 0), 0);
+      }
+      
+      return { ativoTotal, passivoTotal, pl };
+    };
 
   const chartData = useMemo(() => {
     return [5, 4, 3, 2, 1, 0].map(offset => {
       const y = filterYear - offset;
       const summary = getYearSummary(y);
+      
+      // No Brasil, "Total do Passivo" costuma incluir o PL (pois Ativo = Passivo + PL).
+      // Para o gráfico ficar correto com 3 barras (Ativo, Passivo, PL), a barra de "Passivo" deve ser apenas o Exigível.
+      let passivoExigivel = summary.passivoTotal;
+      if (summary.passivoTotal > 0 && Math.abs(summary.passivoTotal - summary.ativoTotal) < 1) {
+          passivoExigivel = summary.passivoTotal - summary.pl;
+      }
+      
       return {
         year: y.toString(),
         ativo: summary.ativoTotal,
-        passivo: summary.passivoTotal,
+        passivo: passivoExigivel,
         pl: summary.pl
       };
     }).filter(d => d.ativo > 0 || d.passivo > 0 || d.pl > 0);
   }, [historyByYear, filterYear]);
 
-  // ── Divisão por Categorias ────────────────────────────────────────────────
-  const isPL = (r: any) => {
-    const t = (r.tipo || r.type || '').toLowerCase();
-    const c = (r.conta || '').toLowerCase();
-    return t === 'patrimônio líquido' || t === 'pl' || c.includes('patrimônio líquido') || c === 'pl';
+  // ── Extração de Variáveis via Engine Contábil ──────────────────────────────
+  const {
+    ativoTotal,
+    ativoCirculante: ac,
+    ativoNaoCirculante: anc,
+    passivoTotal,
+    passivoCirculante: pc,
+    passivoNaoCirculante: pnc,
+    patrimonioLiquido: plValue,
+    isBalanced,
+    divergence,
+    caixaEquivalentes: cx,
+    estoques: est,
+    clientes,
+    fornecedores,
+    passivosFinanceiros,
+    capitalSocial,
+    lucrosPrejuizos: valorPrejuizo,
+    altaConversibilidade: valAltaConversibilidade,
+    mediaConversibilidade: valMediaConversibilidade,
+    baixaConversibilidade: valBaixaConversibilidade,
+    restritaConversibilidade: valConversibilidadeRestrita,
+    creditosSocios
+  } = bpSummary || {} as any;
+
+  // -- Operacional (DRE) --
+  const { ebitda, lucroLiquido } = useMemo(() => {
+    if (dreDbData.length === 0) return { ebitda: 0, lucroLiquido: 0 };
+    const cascadeResult = calculateDreCascade(dreDbData);
+    const directEbitda = cascadeResult.find(r => r.id === 'EBITDA')?.computedValue || 0;
+    const directLucro = cascadeResult.find(r => r.id === 'LUCRO_LIQ')?.computedValue || 0;
+    return { ebitda: directEbitda, lucroLiquido: directLucro };
+  }, [dreDbData]);
+  
+  // ── Engine de Inteligência Financeira (Centralizada) ──────────────────────
+  const { metrics, scores, causalInsights } = useMemo(() => {
+    const prevPl = getHistoricalValue(filterYear - 1, 'patrimônio líquido') || getHistoricalValue(filterYear - 1, 'pl') || 0;
+    
+    const baseMetrics = calculateFinancialMetrics(bpSummary, ebitda, lucroLiquido);
+    const scoreMetrics = calculateScores(bpSummary, baseMetrics, dreDbData.length, prevPl);
+    const advisory = generateAdvisory(bpSummary, baseMetrics, scoreMetrics);
+
+    return { metrics: baseMetrics, scores: scoreMetrics, causalInsights: advisory };
+  }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, historyByYear]);
+
+  const {
+    liqCorrente, liqSeca, liqImediata, liqGeral, liquidezReal,
+    ncg, concentracaoEstoque, qualidadeEndividamento, dependenciaBancaria,
+    autonomiaFinanceira, indiceDescapitalizacao, cgl, saldoTesouraria
+  } = metrics;
+
+  const {
+    hsLiquidez, hsEstrutura, hsCapitalGiro, hsPatrimonial, hsEvolucao,
+    hsQualidadeAtivos, hsOperacional, resilienciaGlobal
+  } = scores;
+
+  const maturidade = causalInsights.maturidade;
+
+  const hasData = metrics.hasData;
+
+  const formatKpiValue = (val: number, isCurrency: boolean = false, suffix: string = '') => {
+    if (!hasData) return '—';
+    return isCurrency ? formatCurrency(val) : val.toFixed(2);
   };
-
-  const ativo = rows.filter((r: any) => (r.tipo || r.type || '').toLowerCase() === 'ativo');
-  const passivo = rows.filter((r: any) => (r.tipo || r.type || '').toLowerCase() === 'passivo' && !isPL(r));
-  const patrimonio = rows.filter((r: any) => isPL(r)).map(r => ({
-    ...r,
-    conta: r.conta.toLowerCase() === 'patrimônio líquido' ? 'Patrimônio' : r.conta
-  }));
-
-  const findAccountValue = (name: string) => {
-    const search = name.toLowerCase();
-    const match = rows.find((r: any) => {
-      const conta = (r.conta || '').toLowerCase();
-      const cleanConta = conta.replace(/^[0-9.]+\s*[-]\s*/, '').trim();
-      return cleanConta === search || conta.includes(search);
-    });
-    return match?.val || 0;
+  
+  const getKpiStatus = (condition: boolean) => {
+    if (!hasData) return 'Neutro';
+    return condition ? 'Verde' : 'Vermelho';
   };
-
-  const ac  = findAccountValue('ativo circulante');
-  const pc  = findAccountValue('passivo circulante');
-  const est = findAccountValue('estoques') || findAccountValue('estoque');
-  const cx  = findAccountValue('caixa e equivalentes') || findAccountValue('caixa') || findAccountValue('bancos');
-  const anc = findAccountValue('ativo não circulante');
-  const pnc = findAccountValue('passivo não circulante');
-  const ativoTotal = findAccountValue('ativo total') || (ac + anc);
-
-  const liqCorrente = pc > 0 ? ac / pc : 0;
-  const liqSeca     = pc > 0 ? (ac - est) / pc : 0;
-  const liqImediata = pc > 0 ? cx / pc : 0;
-  const liqGeral    = (pc + pnc) > 0 ? (ac + anc * 0.4) / (pc + pnc) : 0;
 
   const liquidityIndices = [
-    { name: 'Liquidez Corrente',  val: liqCorrente,  desc: 'Capacidade de pagamento no curto prazo',              color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { name: 'Liquidez Seca',      val: liqSeca,      desc: 'Capacidade de pagamento sem depender do estoque',     color: 'text-blue-600',    bg: 'bg-blue-50'    },
-    { name: 'Liquidez Imediata',  val: liqImediata,  desc: 'Disponibilidade imediata para quitar obrigações',     color: 'text-amber-600',   bg: 'bg-amber-50'   },
-    { name: 'Liquidez Geral',     val: liqGeral,     desc: 'Solvência de curto e longo prazo',                    color: 'text-purple-600',  bg: 'bg-purple-50'  },
+    { name: 'Liquidez Corrente',  val: liqCorrente,  desc: 'Capacidade de pagamento no curto prazo',              status: liqCorrente >= 1.2 ? 'Verde' : liqCorrente >= 0.8 ? 'Amarelo' : 'Vermelho' },
+    { name: 'Liquidez Seca',      val: liqSeca,      desc: 'Capacidade de pagamento sem depender do estoque',     status: liqSeca >= 1.0 ? 'Verde' : liqSeca >= 0.8 ? 'Amarelo' : 'Vermelho' },
+    { name: 'Liquidez Imediata',  val: liqImediata,  desc: 'Disponibilidade imediata para quitar obrigações',     status: liqImediata >= 0.5 ? 'Verde' : liqImediata >= 0.1 ? 'Amarelo' : 'Vermelho' },
+    { name: 'Liquidez Geral',     val: liqGeral,     desc: 'Solvência de curto e longo prazo',                    status: liqGeral >= 1.2 ? 'Verde' : liqGeral >= 1.0 ? 'Amarelo' : 'Vermelho' },
+    { name: 'Liquidez Real',      val: liquidezReal, desc: 'Liquidez purgada de ativos de difícil realização',    status: liquidezReal >= 1.0 ? 'Verde' : liquidezReal >= 0.5 ? 'Amarelo' : 'Vermelho' },
   ];
 
   // ── Análise Horizontal e Vertical ───────────────────────────────────────────
-  const getHistoricalValue = (y: number, accountName: string) => {
+  function getHistoricalValue(y: number, accountName: string) {
     const yearRows = historyByYear[y] || [];
     const search = accountName.toLowerCase();
     const match = yearRows.find((r: any) => {
@@ -164,15 +275,18 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   };
 
   const comparativeAnalysis = useMemo(() => {
-    return rows.map(row => {
-      const val = row.val || 0;
-      const prevVal = getHistoricalValue(filterYear - 1, row.conta);
+    return rows.map((row: any) => {
+      const val = row.value !== undefined ? row.value : (row.val || 0);
+      const rowName = row.name || row.conta || row.category || '';
+      const prevVal = getHistoricalValue(filterYear - 1, rowName);
       
       const av = ativoTotal > 0 ? (val / ativoTotal) * 100 : 0;
       const ah = prevVal > 0 ? ((val / prevVal) - 1) * 100 : 0;
       
       return {
         ...row,
+        val,
+        name: rowName,
         av,
         ah,
         prevVal
@@ -181,10 +295,24 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   }, [rows, filterYear, historyByYear, ativoTotal]);
 
   const majorChanges = useMemo(() => {
-    return comparativeAnalysis
+    const changes = [];
+    const filtered = comparativeAnalysis
       .filter(a => Math.abs(a.ah) > 5 && a.val > 1000) // Relevância > 5% e > 1k
-      .sort((a, b) => Math.abs(b.ah) - Math.abs(a.ah))
-      .slice(0, 4);
+      .sort((a, b) => Math.abs(b.ah) - Math.abs(a.ah));
+      
+    filtered.forEach(item => {
+      // Remove redundâncias (ex: "Fornecedores" e "Fornecedores Nacionais" com o mesmo valor)
+      const isRedundant = changes.some(u => {
+        const uName = (u.name || u.conta || '').toLowerCase();
+        const itemName = (item.name || item.conta || '').toLowerCase();
+        return u.val === item.val && 
+        Math.abs(u.ah - item.ah) < 0.1 &&
+        (uName.includes(itemName.split(' ')[0]) || itemName.includes(uName.split(' ')[0]));
+      });
+      if (!isRedundant) changes.push(item);
+    });
+    
+    return changes.slice(0, 4);
   }, [comparativeAnalysis]);
 
   const showToast = (type: 'success' | 'error', message: string) => {
@@ -220,7 +348,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       await Promise.all(idsToDelete.map((id) => deleteDoc(doc(db, 'financial_entries', id))));
       showToast('success', `${idsToDelete.length} registro(s) excluído(s) com sucesso.`);
       refetchBP();
-      refetchShort();
+      
     } catch (err: any) {
       showToast('error', err.message || 'Erro ao excluir dados.');
     } finally {
@@ -287,119 +415,444 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
 
 
-      {/* ── Indicadores Estratégicos (Liquidez, Estrutura e Endividamento) ── */}
+      
+      {/* ── Validação Contábil (Engine) ── */}
+      {dbData.length > 0 && bpSummary && !bpSummary.isBalanced && (
+        <div className="mb-12 bg-rose-50 border-2 border-rose-200 rounded-[32px] p-8 shadow-sm flex flex-col gap-4 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 blur-[60px] rounded-full pointer-events-none" />
+          <div className="flex items-center gap-3 text-rose-600 relative z-10">
+            <AlertCircle size={32} strokeWidth={2.5} />
+            <h3 className="text-2xl font-black tracking-tight">Desbalanceamento Patrimonial Detectado</h3>
+          </div>
+          <p className="text-rose-800 font-medium relative z-10">
+            A consolidação identificou que a equação contábil fundamental (Ativo = Passivo + Patrimônio Líquido) não foi atendida.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 relative z-10">
+            <div className="bg-white/60 p-4 rounded-2xl border border-rose-100">
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Total Ativo</span>
+              <div className="text-lg font-black text-slate-900 mt-1">{formatCurrency(bpSummary.ativoTotal)}</div>
+            </div>
+            <div className="bg-white/60 p-4 rounded-2xl border border-rose-100">
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Passivo + PL</span>
+              <div className="text-lg font-black text-slate-900 mt-1">{formatCurrency(bpSummary.passivoTotal + bpSummary.patrimonioLiquido)}</div>
+            </div>
+            <div className="bg-rose-100 p-4 rounded-2xl border border-rose-200">
+              <span className="text-[10px] uppercase font-bold text-rose-600 tracking-wider">Divergência Encontrada</span>
+              <div className="text-xl font-black text-rose-700 mt-1">{formatCurrency(bpSummary.divergence)}</div>
+            </div>
+          </div>
+          <p className="text-xs text-rose-600 font-bold uppercase tracking-wider mt-2 relative z-10">
+            Verifique o arquivo importado ou revise as linhas inseridas manualmente.
+          </p>
+        </div>
+      )}
+
+      {/* ── Resiliência e Maturidade (Health Scores) ── */}
+      <div className={cn("mb-12", dbData.length > 0 && bpSummary && !bpSummary.isBalanced ? "opacity-50 pointer-events-none grayscale" : "")}>
+        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between border border-slate-700/50 mb-8">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none transition-all duration-500" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
+          
+          <div className="w-full md:w-auto md:flex-1 flex flex-col items-center md:items-start z-10 text-center md:text-left mb-10 md:mb-0 md:mr-10">
+            <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">Score Patrimonial</h3>
+            <p className="text-sm md:text-base text-indigo-100/80 font-medium leading-relaxed w-full">
+              Índice composto que avalia a saúde estrutural, folga de caixa, proteção contra choques de curto prazo e a qualidade do financiamento de longo prazo.
+            </p>
+            
+            <div className={cn("px-6 py-3 mt-8 rounded-full border shadow-inner backdrop-blur-sm text-xs font-bold uppercase tracking-wider inline-flex", 
+              resilienciaGlobal >= 81 ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' : 
+              resilienciaGlobal >= 61 ? 'bg-indigo-500/5 text-indigo-300 border-indigo-500/10' : 
+              resilienciaGlobal >= 41 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 
+              resilienciaGlobal >= 21 ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-red-600/20 text-red-400 border-red-500/30')}>
+              Nível {maturidade}
+            </div>
+          </div>
+
+          <div className="relative w-48 h-48 flex items-center justify-center shrink-0 z-10">
+            {/* SVG Gradients */}
+            <svg width="0" height="0">
+              <defs>
+                <linearGradient id="score-gradient-patrimonial" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor={resilienciaGlobal >= 80 ? "#6366f1" : resilienciaGlobal >= 50 ? "#f59e0b" : "#ef4444"} />
+                  <stop offset="100%" stopColor={resilienciaGlobal >= 80 ? "#818cf8" : resilienciaGlobal >= 50 ? "#fbbf24" : "#f87171"} />
+                </linearGradient>
+              </defs>
+            </svg>
+            <svg className="w-full h-full transform -rotate-90 filter drop-shadow-[0_0_12px_rgba(0,0,0,0.5)]" viewBox="0 0 192 192">
+              <circle cx="96" cy="96" r="84" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-800/80" />
+              <circle cx="96" cy="96" r="84" stroke="url(#score-gradient-patrimonial)" strokeWidth="12" fill="transparent" 
+                strokeDasharray="528" 
+                strokeDashoffset={528 - (528 * resilienciaGlobal) / 100}
+                strokeLinecap="round" 
+                className="transition-all duration-1000 ease-out"
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+               <span className="text-6xl font-black text-white filter drop-shadow-sm leading-none absolute">{hasData ? resilienciaGlobal.toFixed(0) : '—'}</span>
+               <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest absolute bottom-9">/ 100</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+          {[
+            { label: 'Liquidez (25%)', val: hsLiquidez, color: 'emerald', explicacao: `Memória de Cálculo:\nLiquidez Corrente (${liqCorrente.toFixed(2)}) e Real (${liquidezReal.toFixed(2)}). Pondera a capacidade de honrar passivos curtos com ativos altamente conversíveis.` },
+            { label: 'Estrutura (25%)', val: hsEstrutura, color: 'blue', explicacao: `Memória de Cálculo:\nQualidade do Endividamento (${(qualidadeEndividamento * 100).toFixed(2)}% curto prazo) e Dependência Bancária (${(dependenciaBancaria * 100).toFixed(2)}%). Penaliza alta concentração no curto prazo.` },
+            { label: 'Cap. Giro (20%)', val: hsCapitalGiro, color: 'amber', explicacao: `Memória de Cálculo:\nNCG (${formatCurrency(ncg)}) vs AC (${formatCurrency(ac)}) e Concentração de Estoques (${(concentracaoEstoque * 100).toFixed(2)}%).` },
+            { label: 'Solidez (20%)', val: hsPatrimonial, color: 'purple', explicacao: `Memória de Cálculo:\nAutonomia Financeira (${(autonomiaFinanceira * 100).toFixed(2)}%) e Índice de Descapitalização (${(indiceDescapitalizacao * 100).toFixed(2)}%). Mede a proteção do passivo pelo capital próprio.` },
+            { label: 'Evolução (10%)', val: hsEvolucao, color: 'indigo', explicacao: `Memória de Cálculo:\nCrescimento YoY do Patrimônio Líquido frente ao ano anterior.` }
+          ].map((hs, i) => (
+            <div key={i} title={hs.explicacao} className={cn("border rounded-[32px] p-6 flex flex-col justify-between relative overflow-hidden group transition-all duration-500 hover:-translate-y-1 hover:shadow-xl cursor-help", 
+              hasData ? "bg-slate-950 border-white/5 hover:border-white/10" : "bg-slate-100 border-slate-200"
+            )}>
+              {hasData && <div className={cn("absolute top-0 right-0 w-32 h-32 blur-[40px] -mr-16 -mt-16 pointer-events-none opacity-40 transition-opacity duration-500 group-hover:opacity-70", `bg-${hs.color}-500/30`)} />}
+              
+              <div className="relative z-10">
+                <span className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-4 block", hasData ? "text-white/40 group-hover:text-white/60 transition-colors" : "text-slate-400")}>{hs.label}</span>
+                <div className="mt-8">
+                  <span className={cn("text-4xl font-black tracking-tighter drop-shadow-md", hasData ? "text-white" : "text-slate-300")}>{hasData ? hs.val.toFixed(0) : '—'}</span>
+                  <div className={cn("w-full h-1.5 rounded-full mt-4 overflow-hidden shadow-inner", hasData ? "bg-white/5" : "bg-slate-200")}>
+                    <div className={cn("h-full rounded-full transition-all duration-1000 ease-out", hasData ? `bg-${hs.color}-500` : "bg-transparent")} style={{ width: `${hasData ? hs.val : 0}%` }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Inteligência Patrimonial (Leitura Causal) ── */}
+      <div className="mb-12">
+        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6 pl-2">Notas Explicativas & Advisory</h3>
+        <div className="grid grid-cols-1 gap-6">
+          {causalInsights ? (
+            <div className="col-span-full space-y-6">
+              {/* Card 1: Diagnóstico Executivo */}
+              <div className="bg-slate-900 rounded-[32px] p-8 text-white relative overflow-hidden shadow-xl">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 blur-[80px] rounded-full" />
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 relative z-10">Diagnóstico Executivo</h4>
+                <p className="text-lg md:text-xl font-medium leading-relaxed relative z-10">{causalInsights.diagnostico}</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Fragilidades */}
+                <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm transition-all hover:shadow-md">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-4">Fragilidades Estruturais</h4>
+                  <ul className="space-y-3">
+                    {causalInsights.fragilidades.map((f: string, i: number) => (
+                      <li key={i} className="flex gap-3 text-sm text-slate-600 font-medium">
+                        <span className="text-rose-500 mt-0.5 shrink-0">•</span>
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Implicações Estratégicas */}
+                <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm transition-all hover:shadow-md">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-4">Implicações Estratégicas</h4>
+                  <ul className="space-y-3">
+                    {causalInsights.estrategico.map((e: string, i: number) => (
+                      <li key={i} className="flex gap-3 text-sm text-slate-600 font-medium">
+                        <span className="text-indigo-500 mt-0.5 shrink-0">•</span>
+                        <span>{e}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Recomendações Executivas */}
+                <div className="bg-gradient-to-br from-slate-50 to-slate-100/50 rounded-[32px] p-8 border border-slate-200 shadow-sm md:col-span-2">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 mb-4">Recomendações Executivas (Action Plan)</h4>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {causalInsights.recomendacoesExecutivas.map((p: string, i: number) => (
+                      <li key={i} className="flex gap-3 text-sm text-slate-700 font-bold bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                        <span className="text-emerald-500 mt-0.5 shrink-0">→</span>
+                        <span>{p}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Impacto Estratégico Esperado */}
+                <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm md:col-span-2">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Impacto Estratégico Esperado</h4>
+                  <div className="space-y-3">
+                    {causalInsights.impactosEsperados.map((imp: any, idx: number) => (
+                      <div key={idx} className="flex flex-col md:flex-row md:items-center gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                        <span className="text-[11px] font-black uppercase tracking-widest text-emerald-600 md:w-1/3 shrink-0">{imp.acao}</span>
+                        <span className="text-sm font-medium text-slate-700">{imp.impacto}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Prioridades Estratégicas */}
+                <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm md:col-span-2">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Prioridades Estratégicas (Nível de Urgência)</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    {causalInsights.prioridadesEstrategicas.map((p: any, idx: number) => (
+                      <div key={idx} className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex flex-col justify-between">
+                        <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">{p.nome}</p>
+                        <p className={cn("text-sm font-black", 
+                          p.status === 'Crítico' ? 'text-rose-600' : 
+                          p.status === 'Atenção' ? 'text-amber-500' : 
+                          p.status === 'Monitorar' ? 'text-blue-500' : 
+                          'text-emerald-500'
+                        )}>{p.status}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tendência e ICE */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:col-span-2">
+                  {/* Índice de Continuidade Empresarial */}
+                  <div className="bg-slate-900 rounded-[32px] p-8 text-white relative overflow-hidden shadow-xl flex flex-col justify-center">
+                    <div className="absolute top-0 right-0 w-48 h-48 bg-slate-800/50 blur-[50px] rounded-full" />
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 relative z-10">Índice de Continuidade Empresarial</h4>
+                    <div className="flex items-end gap-3 relative z-10">
+                      <span className={cn("text-5xl font-black tracking-tighter", 
+                        causalInsights.indiceContinuidade.color === 'emerald' ? 'text-emerald-400' :
+                        causalInsights.indiceContinuidade.color === 'amber' ? 'text-amber-400' :
+                        causalInsights.indiceContinuidade.color === 'blue' ? 'text-blue-400' :
+                        'text-rose-400'
+                      )}>{scores.indiceContinuidade}</span>
+                      <span className="text-sm font-bold text-slate-300 pb-2">/ 100</span>
+                    </div>
+                    <p className="text-sm font-bold text-white mt-2 relative z-10">{causalInsights.indiceContinuidade.status}</p>
+                  </div>
+
+                  {/* Tendência */}
+                  <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col items-start justify-center gap-4">
+                    <div className="shrink-0 w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center border border-slate-200">
+                      <TrendingUp className="text-slate-500" size={20} />
+                    </div>
+                    <div>
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Tendência Projetada</h4>
+                      <p className="text-sm font-bold text-slate-800">{causalInsights.tendencia}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Liquidity Quality Intelligence (LQI) */}
+                <div className="bg-emerald-900/5 rounded-[32px] p-8 border border-emerald-100 shadow-sm md:col-span-2">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                      <Activity className="text-emerald-600" size={16} />
+                    </div>
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600">Liquidity Quality Intelligence</h4>
+                  </div>
+                  
+                  <div className="bg-white p-5 rounded-2xl border border-emerald-100/50 shadow-sm mb-6">
+                    <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-2">Diagnóstico de Sustentabilidade</p>
+                    <p className="text-sm font-bold text-slate-800">{causalInsights.liquidityQuality.diagnostico}</p>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-white p-4 rounded-2xl border border-emerald-100/50 shadow-sm">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Risco de Estrangulamento</p>
+                      <p className={cn("text-sm font-bold", causalInsights.liquidityQuality.riscoEstrangulamento.includes('Imediato') ? 'text-rose-500' : causalInsights.liquidityQuality.riscoEstrangulamento.includes('Latente') ? 'text-amber-500' : 'text-emerald-500')}>{causalInsights.liquidityQuality.riscoEstrangulamento}</p>
+                    </div>
+                    <div className="bg-white p-4 rounded-2xl border border-emerald-100/50 shadow-sm">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Qualidade do Capital de Giro</p>
+                      <p className={cn("text-sm font-bold", causalInsights.liquidityQuality.qualidadeCapitalGiro.includes('Baixa') ? 'text-rose-500' : 'text-emerald-500')}>{causalInsights.liquidityQuality.qualidadeCapitalGiro}</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="bg-white p-3 rounded-xl border border-emerald-100/30 flex flex-col items-center text-center">
+                      <span className="text-[9px] font-black uppercase tracking-wider text-emerald-500">Alta Conv.</span>
+                      <span className="text-xs font-bold mt-1 text-slate-700">{formatCurrency(causalInsights.liquidityQuality.metricas.alta)}</span>
+                    </div>
+                    <div className="bg-white p-3 rounded-xl border border-emerald-100/30 flex flex-col items-center text-center">
+                      <span className="text-[9px] font-black uppercase tracking-wider text-blue-500">Média Conv.</span>
+                      <span className="text-xs font-bold mt-1 text-slate-700">{formatCurrency(causalInsights.liquidityQuality.metricas.media)}</span>
+                    </div>
+                    <div className="bg-white p-3 rounded-xl border border-emerald-100/30 flex flex-col items-center text-center">
+                      <span className="text-[9px] font-black uppercase tracking-wider text-amber-500">Baixa Conv.</span>
+                      <span className="text-xs font-bold mt-1 text-slate-700">{formatCurrency(causalInsights.liquidityQuality.metricas.baixa)}</span>
+                    </div>
+                    <div className="bg-white p-3 rounded-xl border border-emerald-100/30 flex flex-col items-center text-center">
+                      <span className="text-[9px] font-black uppercase tracking-wider text-rose-500">Restrita</span>
+                      <span className="text-xs font-bold mt-1 text-slate-700">{formatCurrency(causalInsights.liquidityQuality.metricas.restrita)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Elasticidade Financeira */}
+                <div className="bg-indigo-900/5 rounded-[32px] p-8 border border-indigo-100 shadow-sm md:col-span-2">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-6">Elasticidade Financeira (Capacidade Estrutural)</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="bg-white p-4 rounded-2xl border border-indigo-100/50 shadow-sm">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Absorção de Choques</p>
+                      <p className={cn("text-sm font-bold", causalInsights.elasticidadeFinanceira.capacidadeAbsorcaoChoques.includes('Nula') ? 'text-rose-500' : causalInsights.elasticidadeFinanceira.capacidadeAbsorcaoChoques.includes('Moderada') ? 'text-amber-500' : 'text-emerald-500')}>{causalInsights.elasticidadeFinanceira.capacidadeAbsorcaoChoques}</p>
+                    </div>
+                    <div className="bg-white p-4 rounded-2xl border border-indigo-100/50 shadow-sm">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Dependência Operacional</p>
+                      <p className={cn("text-sm font-bold", causalInsights.elasticidadeFinanceira.dependenciaOperacao.includes('sufocado') ? 'text-rose-500' : 'text-emerald-500')}>{causalInsights.elasticidadeFinanceira.dependenciaOperacao}</p>
+                    </div>
+                    <div className="bg-white p-4 rounded-2xl border border-indigo-100/50 shadow-sm">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Necessidade de Equity</p>
+                      <p className={cn("text-sm font-bold", causalInsights.elasticidadeFinanceira.necessidadeCapitalizacao.includes('Emergencial') ? 'text-rose-500' : causalInsights.elasticidadeFinanceira.necessidadeCapitalizacao.includes('Recomendada') ? 'text-amber-500' : 'text-emerald-500')}>{causalInsights.elasticidadeFinanceira.necessidadeCapitalizacao}</p>
+                    </div>
+                    <div className="bg-white p-4 rounded-2xl border border-indigo-100/50 shadow-sm">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Resiliência Estrutural</p>
+                      <p className={cn("text-sm font-bold", causalInsights.elasticidadeFinanceira.resilienciaEstrutural === 'Frágil' ? 'text-rose-500' : causalInsights.elasticidadeFinanceira.resilienciaEstrutural === 'Adequada' ? 'text-amber-500' : 'text-emerald-500')}>{causalInsights.elasticidadeFinanceira.resilienciaEstrutural}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Predição Sistêmica (Risco e Sobrevivência) */}
+                <div className="bg-slate-900 rounded-[32px] p-8 border border-slate-800 shadow-lg md:col-span-2">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Projeção de Risco e Sobrevivência</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Horizonte de Pressão</p>
+                      <p className={cn("text-sm font-bold", causalInsights.predicao.horizontePressao.includes('Curto Prazo') ? 'text-rose-400' : causalInsights.predicao.horizontePressao.includes('Médio Prazo') ? 'text-amber-400' : 'text-emerald-400')}>{causalInsights.predicao.horizontePressao}</p>
+                    </div>
+                    <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Risco de Ruptura</p>
+                      <p className={cn("text-sm font-bold", causalInsights.predicao.riscoRuptura.includes('Alto') ? 'text-rose-400' : causalInsights.predicao.riscoRuptura.includes('Moderado') ? 'text-amber-400' : 'text-emerald-400')}>{causalInsights.predicao.riscoRuptura}</p>
+                    </div>
+                    <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Dependência de Geração</p>
+                      <p className={cn("text-sm font-bold", causalInsights.predicao.dependenciaGeracao.includes('Alta') ? 'text-rose-400' : 'text-emerald-400')}>{causalInsights.predicao.dependenciaGeracao}</p>
+                    </div>
+                    <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Sensibilidade a Choques</p>
+                      <p className={cn("text-sm font-bold", causalInsights.predicao.sensibilidadeChoques.includes('Alta') ? 'text-rose-400' : causalInsights.predicao.sensibilidadeChoques.includes('Moderada') ? 'text-amber-400' : 'text-emerald-400')}>{causalInsights.predicao.sensibilidadeChoques}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sensibilidade Operacional (Simulação de Estresse) */}
+                <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm md:col-span-2">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Sensibilidade Operacional (Testes de Estresse)</h4>
+                  <div className="space-y-4">
+                    {causalInsights.estresse.map((s: any, idx: number) => (
+                      <div key={idx} className={cn(
+                        "p-5 rounded-2xl border flex flex-col md:flex-row md:items-center gap-4 transition-all hover:shadow-md",
+                        s.status === 'danger' ? "bg-rose-50/50 border-rose-100" : s.status === 'warning' ? "bg-amber-50/50 border-amber-100" : "bg-emerald-50/50 border-emerald-100"
+                      )}>
+                        <div className={cn(
+                          "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border",
+                          s.status === 'danger' ? "bg-rose-100 text-rose-600 border-rose-200" : s.status === 'warning' ? "bg-amber-100 text-amber-600 border-amber-200" : "bg-emerald-100 text-emerald-600 border-emerald-200"
+                        )}>
+                          {s.status === 'danger' ? <TrendingDown size={18} strokeWidth={2.5} /> : s.status === 'warning' ? <AlertCircle size={18} strokeWidth={2.5} /> : <TrendingUp size={18} strokeWidth={2.5} />}
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-[11px] font-black uppercase tracking-widest text-slate-500 mb-1">{s.cenario}</p>
+                          <p className={cn("text-sm font-semibold", s.status === 'danger' ? 'text-rose-900' : s.status === 'warning' ? 'text-amber-900' : 'text-emerald-900')}>{s.impacto}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+             <div className="col-span-full py-12 text-center opacity-50 bg-slate-50 rounded-[32px] border border-dashed border-slate-200">
+               <Database size={32} className="mx-auto mb-4 text-slate-400" />
+               <p className="text-sm font-bold text-slate-500">Aguardando consolidação dos demonstrativos contábeis para emissão do parecer executivo estrutural.</p>
+             </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── Indicadores Estratégicos Originais e Expandidos ── */}
       <div className="space-y-8 mb-10">
-        {/* Liquidez */}
+        <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Inteligência de Capital de Giro</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <KpiCard title="Capital de Giro Líquido" value={formatKpiValue(cgl, true)} suffix="" icon={Database} status={getKpiStatus(cgl > 0)} />
+            <KpiCard title="Necessidade de Giro (NCG)" value={formatKpiValue(ncg, true)} suffix="" icon={TrendingUp} status={getKpiStatus(ncg < cgl)} />
+            <KpiCard title="Saldo de Tesouraria" value={formatKpiValue(saldoTesouraria, true)} suffix="" icon={BookOpen} status={getKpiStatus(saldoTesouraria > 0)} />
+        </div>
+
         <div>
-          <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Índices de Liquidez</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Índices de Liquidez (Tradicional e Real)</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+
             {liquidityIndices.map((idx, i) => (
               <KpiCard 
                 key={i}
                 title={idx.name}
-                value={idx.val.toFixed(2)}
+                value={formatKpiValue(idx.val)}
                 suffix=""
-                icon={BookOpen}
-                status={idx.val >= 1 ? 'Verde' : 'Vermelho'}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Estrutura e Endividamento */}
-        <div>
-          <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Estrutura de Capital & Endividamento</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { 
-                name: 'Endividamento Geral', 
-                val: ((pc + pnc) / (ativoTotal || 1)) * 100, 
-                unit: '%', 
-                icon: TrendingDown,
-                status: 'Verde'
-              },
-              { 
-                name: 'Capitais de Terceiros / PL', 
-                val: ((pc + pnc) / (patrimonio.reduce((acc, r) => acc + (r.val || 0), 0) || 1)) * 100, 
-                unit: '%', 
-                icon: Database,
-                status: 'Verde'
-              },
-              { 
-                name: 'Composição do Endivid.', 
-                val: (pc / ((pc + pnc) || 1)) * 100, 
-                unit: '%', 
-                icon: Calendar,
-                status: 'Verde'
-              },
-              { 
-                name: 'Imobilização do PL', 
-                val: (anc / (patrimonio.reduce((acc, r) => acc + (r.val || 0), 0) || 1)) * 100, 
-                unit: '%', 
-                icon: BookOpen,
-                status: 'Verde'
-              },
-            ].map((idx, i) => (
-              <KpiCard 
-                key={i}
-                title={idx.name}
-                value={idx.val.toFixed(1)}
-                suffix={idx.unit}
-                icon={idx.icon}
-                status={idx.status as any}
+                icon={TrendingUp}
+                status={hasData ? idx.status : 'Pendente'}
               />
             ))}
           </div>
         </div>
       </div>
-      {/* ── Análise de Evolução e Gráficos ─────────────────────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
-          <div className="flex items-center justify-between mb-8">
+            {/* ── Análise de Evolução e Gráficos ─────────────────────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-slate-50/50 to-transparent pointer-events-none" />
+          
+          <div className="flex items-center justify-between mb-8 relative z-10">
             <div>
               <h3 className="text-lg font-black text-slate-900">Evolução Patrimonial</h3>
-              <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-1">Comparativo de 5 Anos</p>
+              <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mt-1">Comparativo de 5 Anos</p>
             </div>
-            <div className="flex gap-4">
-              <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                <span className="text-[9px] font-bold text-slate-500 uppercase">Ativo</span>
+            <div className="flex gap-5 bg-slate-50 px-4 py-2 rounded-full border border-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Ativo</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-slate-400" />
-                <span className="text-[9px] font-bold text-slate-500 uppercase">Passivo</span>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-slate-400 shadow-[0_0_8px_rgba(148,163,184,0.5)]" />
+                <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Passivo</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                <span className="text-[9px] font-bold text-slate-500 uppercase">PL</span>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
+                <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">PL</span>
               </div>
             </div>
           </div>
           
-          <div className="h-[300px] w-full">
+          <div className="h-[320px] w-full relative z-10">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+              <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorAtivo" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="colorPassivo" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#94a3b8" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#94a3b8" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="colorPl" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis 
                   dataKey="year" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} 
+                  tick={{ fontSize: 10, fontWeight: 800, fill: '#94a3b8' }} 
                   dy={10}
                 />
                 <YAxis hide />
                 <Tooltip 
-                  cursor={{ fill: '#f8fafc' }}
+                  cursor={{ stroke: '#e2e8f0', strokeWidth: 1, strokeDasharray: '4 4' }}
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       return (
-                        <div className="bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-md">
-                          <p className="text-[10px] font-black uppercase tracking-widest mb-2 text-white/50">{payload[0].payload.year}</p>
-                          <div className="space-y-1.5">
+                        <div className="bg-slate-900/90 text-white p-5 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-xl">
+                          <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-white/50">{payload[0].payload.year}</p>
+                          <div className="space-y-3">
                             {payload.map((p: any, idx: number) => (
-                              <div key={idx} className="flex items-center justify-between gap-8">
-                                <span className="text-[10px] font-bold text-white/70 uppercase">{p.name}</span>
-                                <span className="text-xs font-black">{formatCurrency(p.value)}</span>
+                              <div key={idx} className="flex items-center justify-between gap-10">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: p.color }} />
+                                  <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">{p.name}</span>
+                                </div>
+                                <span className="text-xs font-black tabular-nums">{formatCurrency(p.value)}</span>
                               </div>
                             ))}
                           </div>
@@ -409,10 +862,10 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                     return null;
                   }}
                 />
-                <Bar dataKey="ativo" name="Ativo" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="passivo" name="Passivo" fill="#94a3b8" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="pl" name="PL" fill="#a855f7" radius={[4, 4, 0, 0]} />
-              </BarChart>
+                <Area type="monotone" dataKey="ativo" name="Ativo" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorAtivo)" />
+                <Area type="monotone" dataKey="passivo" name="Passivo" stroke="#94a3b8" strokeWidth={3} fillOpacity={1} fill="url(#colorPassivo)" />
+                <Area type="monotone" dataKey="pl" name="PL" stroke="#a855f7" strokeWidth={3} fillOpacity={1} fill="url(#colorPl)" />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
@@ -433,11 +886,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   {change.ah > 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{change.conta}</p>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{change.name || change.conta}</p>
                   <p className="text-sm font-bold">{formatCurrency(change.val)}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <span className={cn("text-[10px] font-black", change.ah > 0 ? "text-emerald-400" : "text-rose-400")}>
-                      {change.ah > 0 ? '+' : ''}{change.ah.toFixed(1)}%
+                      {change.ah > 0 ? '+' : ''}{change.ah.toFixed(2)}%
                     </span>
                     <span className="text-[9px] text-white/30 font-medium">vs ano anterior</span>
                   </div>
@@ -445,9 +898,10 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </div>
             ))}
             {majorChanges.length === 0 && (
-              <div className="flex flex-col items-center justify-center py-10 opacity-30 text-center">
-                <Info size={32} className="mb-2" />
-                <p className="text-xs font-bold">Sem variações bruscas detectadas</p>
+              <div className="flex flex-col items-center justify-center py-10 opacity-50 text-center px-4">
+                <Info size={32} className="mb-3 text-slate-300" />
+                <p className="text-xs font-bold text-slate-400">Estabilidade Estrutural</p>
+                <p className="text-[10px] mt-1 text-slate-500 font-medium">A arquitetura de capital não sofreu realocações bruscas entre os ciclos avaliados.</p>
               </div>
             )}
           </div>
@@ -464,92 +918,121 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         </div>
       </div>
 
-      {/* ── Tabelas Detalhadas com AV/AH ─────────────────────────────────── */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between px-2">
-          <h3 className="text-xl font-black text-slate-900">Análise Horizontal e Vertical</h3>
+            {/* ── Tabelas Detalhadas com AV/AH ─────────────────────────────────── */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between px-2 mb-2">
+          <div>
+            <h3 className="text-lg font-black text-slate-900">Análise Estrutural Detalhada</h3>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mt-1">Composição Horizontal e Vertical</p>
+          </div>
           <div className="flex gap-4">
-             <div className="flex items-center gap-2">
-               <span className="w-2 h-2 rounded-full bg-slate-200" />
-               <span className="text-[10px] font-bold text-slate-400 uppercase">AV: Análise Vertical</span>
+             <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-slate-200 shadow-sm">
+               <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+               <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">AV: Análise Vertical</span>
              </div>
-             <div className="flex items-center gap-2">
-               <span className="w-2 h-2 rounded-full bg-slate-200" />
-               <span className="text-[10px] font-bold text-slate-400 uppercase">AH: Análise Horizontal</span>
+             <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-slate-200 shadow-sm">
+               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+               <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">AH: Análise Horizontal</span>
              </div>
           </div>
         </div>
 
         {rows.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-[40px] border border-dashed border-slate-200">
+          <div className="flex flex-col items-center justify-center py-24 bg-white rounded-[40px] border border-dashed border-slate-200 shadow-sm">
             <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-              <Calendar size={28} className="text-slate-200" />
+              <Calendar size={28} className="text-slate-300" />
             </div>
-            <p className="text-sm font-bold text-slate-400">Nenhum dado encontrado</p>
-            <p className="text-xs text-slate-300 mt-1">
+            <p className="text-sm font-black text-slate-500">Nenhum dado encontrado</p>
+            <p className="text-xs font-medium text-slate-400 mt-2">
               Importe ou insira manualmente os dados para o ano {filterYear}
             </p>
           </div>
         ) : (
-          <div className="space-y-10">
+          <div className="space-y-8">
             {/* Seções de Tabelas */}
             {[
-              { title: 'Ativo', data: comparativeAnalysis.filter(r => (r.tipo || r.type || '').toLowerCase() === 'ativo'), color: 'emerald' },
-              { title: 'Passivo', data: comparativeAnalysis.filter(r => (r.tipo || r.type || '').toLowerCase() === 'passivo' && !isPL(r)), color: 'blue' },
-              { title: 'Patrimônio Líquido', data: comparativeAnalysis.filter(r => isPL(r)), color: 'purple' }
+              { title: 'Ativo', data: comparativeAnalysis.filter(r => (r.tipo || r.type || '').toLowerCase().includes('ativo')), color: 'emerald' },
+              { title: 'Passivo', data: comparativeAnalysis.filter(r => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('passivo') && !t.includes('patrimônio') && !t.includes('pl'); }), color: 'blue' },
+              { title: 'Patrimônio Líquido', data: comparativeAnalysis.filter(r => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('patrimônio') || t.includes('pl'); }), color: 'purple' }
             ].map((section, idx) => (
-              <div key={idx} className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden">
-                <div className={cn("px-5 md:px-8 py-3 md:py-5 border-b border-slate-100 flex items-center justify-between", `bg-${section.color}-50/30`)}>
-                  <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">{section.title}</h4>
-                  <span className={cn("text-[9px] font-black uppercase px-3 py-1 rounded-full", `bg-${section.color}-50 text-${section.color}-600`)}>
+              <div key={idx} className="bg-white border border-slate-100 rounded-[32px] shadow-sm overflow-hidden group">
+                <div className={cn("px-6 py-5 border-b flex items-center justify-between bg-slate-50/50", `border-${section.color}-100/50`)}>
+                  <div className="flex items-center gap-3">
+                    <div className={cn("w-2 h-6 rounded-full", `bg-${section.color}-500`)} />
+                    <h4 className="text-base font-black text-slate-900 tracking-tight">{section.title}</h4>
+                  </div>
+                  <span className={cn("text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full", `bg-${section.color}-50 text-${section.color}-600`)}>
                     Detalhamento Estrutural
                   </span>
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-slate-50/50 border-b border-slate-100">
-                        <th className="text-left py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conta</th>
-                        <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Saldo Atual (R$)</th>
-                        <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AV (%)</th>
-                        <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (%)</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-50">
-                      {section.data.map((row: any, i: number) => (
-                        <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', row.level === 1 ? 'bg-slate-50/10 font-bold' : '')}>
-                          <td className="py-2.5 md:py-4 px-5 md:px-8">
-                            <span 
-                              className={cn('block overflow-visible break-words', row.level === 1 ? 'text-secondary font-bold' : 'text-muted-foreground font-medium')}
-                              style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 16}px` : '0px' }}
-                            >
-                              {row.level > 1 && (
-                                <span className="inline-block w-2 h-2 border-b border-l border-slate-300 mr-2 mb-0.5" />
-                              )}
-                              {row.conta === 'Patrimônio Líquido' ? 'Patrimônio' : row.conta}
-                            </span>
-                          </td>
-                          <td className="py-2.5 md:py-4 px-5 md:px-8 text-right font-mono text-slate-700">
-                            {formatCurrency(row.val)}
-                          </td>
-                          <td className="py-2.5 md:py-4 px-5 md:px-8 text-right font-bold text-slate-500 text-xs">
-                            {row.av.toFixed(2)}%
-                          </td>
-                          <td className={cn(
-                            "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
-                            row.ah > 0 ? "text-emerald-500" : row.ah < 0 ? "text-rose-500" : "text-slate-300"
+                
+                <div className="p-2">
+                  {/* Header Row */}
+                  <div className="flex items-center px-4 py-3 border-b border-slate-100/50 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                    <div className="flex-1">Conta Contábil</div>
+                    <div className="w-32 text-right">Saldo (R$)</div>
+                    <div className="w-24 text-right">AV (%)</div>
+                    <div className="w-28 text-right">AH (%)</div>
+                  </div>
+                  
+                  {/* Data Rows */}
+                  <div className="space-y-1 mt-2">
+                    {section.data.map((row: any, i: number) => (
+                      <div key={i} className={cn(
+                        "flex items-center px-4 py-3 rounded-2xl transition-all duration-200 hover:bg-slate-50",
+                        row.level === 1 ? "bg-slate-50/50" : ""
+                      )}>
+                        <div className="flex-1 flex items-center">
+                          <span 
+                            className={cn(
+                              "text-xs block truncate pr-4", 
+                              row.level === 1 ? "font-black text-slate-800" : "font-semibold text-slate-500"
+                            )}
+                            style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 16}px` : '0px' }}
+                          >
+                            {row.level > 1 && (
+                              <span className="inline-block w-3 h-[1px] bg-slate-300 mr-2 align-middle opacity-50" />
+                            )}
+                            {(row.name || row.conta) === 'Patrimônio Líquido' ? 'Patrimônio' : (row.name || row.conta)}
+                          </span>
+                        </div>
+                        
+                        <div className="w-32 text-right font-display text-sm font-bold text-slate-700 tabular-nums">
+                          {formatCurrency(row.val)}
+                        </div>
+                        
+                        <div className="w-24 text-right flex flex-col items-end justify-center">
+                          <span className={cn(
+                            "inline-flex items-center justify-center px-2 py-1 rounded-lg text-[10px] font-black tabular-nums border",
+                            row.av > 100 ? "bg-rose-50 text-rose-600 border-rose-200" : "bg-slate-100/50 text-slate-500 border-slate-200/50"
                           )}>
-                            {row.ah !== 0 ? (
-                              <div className="flex items-center justify-end gap-1">
-                                {row.ah > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-                                {Math.abs(row.ah).toFixed(2)}%
-                              </div>
-                            ) : '—'}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                            {row.av > 100 ? '> 100%' : `${row.av.toFixed(2)}%`}
+                          </span>
+                          {row.av > 100 && (
+                            <span className="text-[7.5px] font-bold uppercase tracking-widest text-rose-500 mt-1 opacity-70" title={`Representa ${row.av.toFixed(2)}% do Ativo (Passivo a Descoberto)`}>
+                              Passivo a Descoberto
+                            </span>
+                          )}
+                        </div>
+                        
+                        <div className="w-28 text-right flex justify-end">
+                          {row.ah !== 0 ? (
+                            <span className={cn(
+                              "inline-flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-black tabular-nums border",
+                              row.ah > 0 ? "bg-emerald-50 text-emerald-600 border-emerald-100" : row.ah < 0 ? "bg-rose-50 text-rose-600 border-rose-100" : "bg-slate-50 text-slate-400 border-slate-200"
+                            )}>
+                              {row.ah > 0 ? <TrendingUp size={10} strokeWidth={3} /> : <TrendingDown size={10} strokeWidth={3} />}
+                              {Math.abs(row.ah).toFixed(2)}%
+                            </span>
+                          ) : (
+                             <span className="inline-flex items-center justify-center px-2 py-1 text-slate-300 text-[10px] font-black">
+                               —
+                             </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
@@ -576,7 +1059,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
           onSuccess={() => {
             setShowImportModal(false);
             refetchBP();
-            refetchShort();
+            
             showToast('success', 'Dados importados com sucesso!');
           }}
         />
@@ -591,7 +1074,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
           onSuccess={() => {
             setShowManualModal(false);
             refetchBP();
-            refetchShort();
+            
             showToast('success', 'Dados salvos com sucesso!');
           }}
         />

@@ -20,6 +20,8 @@ import { PageHeader, KpiCard } from '../Common';
 import { useAllFinancialData } from '../../hooks/useFinancialData';
 import { FULL_MONTH_LABELS, MONTH_LABELS } from '../../constants';
 import { DashboardSkeleton } from '../ui/skeletons';
+import { calculateDreCascade } from '../../lib/dreCascade';
+import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 
 interface PeriodInfo {
   year: number;
@@ -121,6 +123,8 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
       valuesByPeriod[getPeriodKey(p)] = { rb: 0, ded: 0, rl: 0, custos: 0, lb: 0, desp: 0, ebitda: 0, dep: 0, ebit: 0, fin: 0, lair: 0, ir: 0, ll: 0 };
     });
 
+    const rawDataByPeriod: Record<string, any[]> = {};
+
     dbData.forEach((d: any) => {
       if (d.type !== 'DRE' && d.type !== 'DRE Gerencial') return;
 
@@ -134,27 +138,70 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
       if (filterUnidade !== 'Todas' && d.unidade !== filterUnidade) return;
       if (filterCentroCusto !== 'Todos' && (d.centro_custo || d.centroCusto) !== filterCentroCusto) return;
 
-      const val = d.val || d.valor || d.value || 0;
+      let parentId = d.parentId;
       const cat = (d.conta || d.category || '').toLowerCase();
 
-      if (cat.includes('receita bruta') || cat.includes('faturamento')) valuesByPeriod[periodKey].rb += val;
-      if (cat.includes('deduções') || cat.includes('impostos sobre vendas')) valuesByPeriod[periodKey].ded += Math.abs(val);
-      if (cat.includes('custo')) valuesByPeriod[periodKey].custos += Math.abs(val);
-      if (cat.includes('despesa')) valuesByPeriod[periodKey].desp += Math.abs(val);
-      if (cat.includes('depreciação') || cat.includes('amortização')) valuesByPeriod[periodKey].dep += Math.abs(val);
-      if (cat.includes('financeiro')) valuesByPeriod[periodKey].fin += val;
-      if (cat.includes('irpj') || cat.includes('csll') || cat.includes('imposto de renda')) valuesByPeriod[periodKey].ir += Math.abs(val);
+      // Ignore totals from legacy data
+      if (!parentId && (cat.includes('receita líquida') || cat.includes('receita operacional líquida') || cat.includes('lucro bruto') || cat.includes('ebitda') || cat === 'ebit' || cat.includes('resultado operacional líquido') || cat.includes('lajida') || cat.includes('lucro líquido') || cat.includes('lair') || cat.includes('resultado antes'))) {
+         return; 
+      }
+      
+      if (!parentId) {
+         if (cat.includes('receita operacional bruta') || cat === 'receita bruta' || cat.includes('faturamento') || (cat.includes('receita') && !cat.includes('líquida') && !cat.includes('financeir') && !cat.includes('outras'))) {
+            parentId = 'ROB';
+         } else if (cat.includes('deduç') || cat.includes('imposto sobre') || cat.includes('abatimento') || cat.includes('devoluç') || cat.includes('cancelamento')) {
+            parentId = 'DED';
+         } else if (cat.includes('custo') || cat.includes('cmv') || cat.includes('cpv') || cat.includes('csv') || cat.includes('csp')) {
+            parentId = 'CUSTOS';
+         } else if (cat.includes('deprecia') || cat.includes('amortiza')) {
+            parentId = 'DEP_AMORT';
+         } else if (cat.includes('financeir') || cat.includes('juros')) {
+            parentId = 'RESULT_FIN';
+         } else if (cat.includes('provisão') || cat.includes('irpj') || cat.includes('csll') || cat.includes('imposto de renda') || cat.includes('contribuição social')) {
+            parentId = 'PROV_IR_CSLL';
+         } else if (cat.includes('outras receitas') || cat.includes('outra receita') || cat.includes('outras despesas operacionais')) {
+            parentId = 'OUTRAS_REC_DESP';
+         } else {
+            parentId = 'DESP_OPER'; // Default for generic expenses
+         }
+      }
+
+      if (!rawDataByPeriod[periodKey]) rawDataByPeriod[periodKey] = [];
+      rawDataByPeriod[periodKey].push({
+         ...d,
+         parentId,
+         value: d.val || d.valor || d.value || 0
+      });
     });
 
     [...periods.historical, periods.current].forEach(p => {
       const key = getPeriodKey(p);
+      const periodEntries = rawDataByPeriod[key] || [];
+      const rowsToCalc = [
+        ...DRE_OFFICIAL_STRUCTURE.map(account => ({ ...account, value: 0 })),
+        ...periodEntries
+      ];
+      const calculatedRows = calculateDreCascade(rowsToCalc);
+
+      const getVal = (id: string) => {
+         const match = calculatedRows.find(r => r.id === id);
+         return match ? (match.computedValue !== undefined ? match.computedValue : match.value || 0) : 0;
+      };
+
       const v = valuesByPeriod[key];
-      v.rl = v.rb - v.ded;
-      v.lb = v.rl - v.custos;
-      v.ebitda = v.lb - v.desp;
-      v.ebit = v.ebitda - v.dep;
-      v.lair = v.ebit + v.fin;
-      v.ll = v.lair - v.ir;
+      v.rb = getVal('ROB');
+      v.ded = getVal('DED'); // Deductions are processed by calculateDreCascade.
+      v.rl = getVal('ROL');
+      v.custos = getVal('CUSTOS');
+      v.lb = getVal('LUCRO_BRUTO');
+      v.desp = getVal('DESP_OPER');
+      v.ebitda = getVal('EBITDA');
+      v.dep = getVal('DEP_AMORT');
+      v.ebit = getVal('EBIT');
+      v.fin = getVal('RESULT_FIN');
+      v.lair = getVal('RAIR_CSLL');
+      v.ir = getVal('PROV_IR_CSLL');
+      v.ll = getVal('LUCRO_LIQ');
     });
 
     const growthRate = periodType === 'anual' ? 0.08 : 0.006;
@@ -237,7 +284,12 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
         {visiblePeriods.map(p => {
           const key = periodType === 'anual' ? p.year.toString() : `${p.year}-${p.month}`;
           const isCurrent = periodType === 'anual' ? p.year === selectedYear : (p.year === selectedYear && p.month === selectedMonth);
-          const val = reportData.valuesByPeriod[key]?.[row.id] || 0;
+          let val = reportData.valuesByPeriod[key]?.[row.id] || 0;
+          
+          if (['ded', 'custos', 'desp', 'dep', 'ir'].includes(row.id)) {
+            val = -Math.abs(val);
+          }
+          
           return (
             <td key={key} className={cn(
               "px-4 md:px-6 py-2.5 md:py-4 text-right text-[11px] font-mono",
@@ -254,7 +306,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
             "text-[10px] font-bold px-2 py-0.5 rounded-full",
             av > 0 ? "bg-secondary/10 text-secondary" : "bg-surface-container text-muted-foreground border border-border"
           )}>
-            {av.toFixed(1)}%
+            {av.toFixed(2)}%
           </span>
         </td>
 
@@ -265,7 +317,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
               "text-[10px] font-bold",
               ah > 0 ? "text-success" : ah < 0 ? "text-destructive" : "text-muted-foreground"
             )}>
-              {ah.toFixed(1)}%
+              {ah.toFixed(2)}%
             </span>
           </div>
         </td>
@@ -361,7 +413,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
         />
         <KpiCard 
           title="Margem EBITDA" 
-          value={((reportData?.valuesByPeriod[currentKey]?.ebitda || 0) / (reportData?.valuesByPeriod[currentKey]?.rl || 1) * 100).toFixed(1)} 
+          value={((reportData?.valuesByPeriod[currentKey]?.ebitda || 0) / (reportData?.valuesByPeriod[currentKey]?.rl || 1) * 100).toFixed(2)} 
           suffix="%"
           icon={Target} 
           status={((reportData?.valuesByPeriod[currentKey]?.ebitda || 0) / (reportData?.valuesByPeriod[currentKey]?.rl || 1) * 100) >= 20 ? "Verde" : "Amarelo"} 

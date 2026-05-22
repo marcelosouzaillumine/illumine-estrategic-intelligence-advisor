@@ -136,17 +136,17 @@ export function FinancialAdminDashboard({
         'Receita Bruta': formatCurrency(calculatedKPIs.revenue),
         'EBITDA': formatCurrency(calculatedKPIs.ebitda),
         'Lucro Líquido': formatCurrency(calculatedKPIs.netProfit),
-        'Margem Líquida': `${calculatedKPIs.margemLiquida.toFixed(1)}%`,
+        'Margem Líquida': `${calculatedKPIs.margemLiquida.toFixed(2)}%`,
         
         // Aspectos Financeiros (ALM/Caixa)
         'Saldo de Caixa Real': formatCurrency(calculatedKPIs.saldoCaixa),
         'Liquidez Corrente': calculatedKPIs.liquidezCorrente.toFixed(2),
         'Solvência ALM (Ativo/Passivo)': `${(calculatedKPIs.totalAssets / (calculatedKPIs.totalLiabilities || 1)).toFixed(2)}x`,
-        'Exposição de Risco de Caixa': `${((calculatedKPIs.totalLiabilities / (calculatedKPIs.saldoCaixa || 1)) * 100).toFixed(1)}%`,
+        'Exposição de Risco de Caixa': `${((calculatedKPIs.totalLiabilities / (calculatedKPIs.saldoCaixa || 1)) * 100).toFixed(2)}%`,
         
         // Aspectos Administrativos/Governança
         'Gargalos de Mapeamento Contábil': `${mappingGaps} contas sem classificação`,
-        'Endividamento Geral': `${((calculatedKPIs.totalLiabilities / (calculatedKPIs.totalAssets || 1)) * 100).toFixed(1)}%`
+        'Endividamento Geral': `${((calculatedKPIs.totalLiabilities / (calculatedKPIs.totalAssets || 1)) * 100).toFixed(2)}%`
       };
 
       const topPrinciples = GOVERNANCE_PRINCIPLES
@@ -401,7 +401,7 @@ export function FinancialAdminDashboard({
                 <div className="pt-6 border-t border-white/5">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-[10px] font-medium text-white/60">Margem Líquida</span>
-                    <span className="text-body-sm font-medium text-secondary">{calculatedKPIs.margemLiquida.toFixed(1)}%</span>
+                    <span className="text-body-sm font-medium text-secondary">{calculatedKPIs.margemLiquida.toFixed(2)}%</span>
                   </div>
                   <div className="h-1 bg-white/10 rounded-full">
                     <div className="h-full bg-secondary rounded-full" style={{ width: `${Math.min(calculatedKPIs.margemLiquida * 2, 100)}%` }} />
@@ -421,7 +421,7 @@ export function FinancialAdminDashboard({
                     <p className="text-[10px] font-medium text-secondary uppercase tracking-widest">Efficiency Gap</p>
                   </div>
                   <div className="text-h2 font-medium text-white">
-                    {calculatedKPIs.netProfit > 0 ? ((calculatedKPIs.saldoCaixa / calculatedKPIs.netProfit) * 100).toFixed(0) : '0'}%
+                    {calculatedKPIs.netProfit > 0 ? ((calculatedKPIs.saldoCaixa / calculatedKPIs.netProfit) * 100).toFixed(2) : '0'}%
                   </div>
                   <p className="text-body-sm text-white/60 font-medium leading-relaxed italic">
                     {calculatedKPIs.saldoCaixa < calculatedKPIs.netProfit 

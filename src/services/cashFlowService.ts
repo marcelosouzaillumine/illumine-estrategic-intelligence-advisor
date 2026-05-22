@@ -38,59 +38,8 @@ export async function generateCashFlow(clientId: string) {
   const hasRealData = payables.length > 0 || receivables.length > 0 || positions.length > 0;
 
   if (!hasRealData) {
-    console.log("No real-time operational data found in Firestore. Activating Illumine Strategic Financial Simulator to generate premium baseline projections.");
-    
-    // Initial bank/investment balances
-    finalPositions = [
-      { id: 'sim-1', banco: 'Itaú Unibanco (Conta Corrente)', conta: 'Ag 0196 / CC 71385-2', saldoAtual: 285000, moeda: 'BRL', status: 'Ativo' },
-      { id: 'sim-2', banco: 'XP Investimentos (Reserva Liquidez)', conta: 'CC 32620-0', saldoAtual: 165000, moeda: 'BRL', status: 'Ativo' },
-      { id: 'sim-3', banco: 'JPMorgan Chase (Treasury)', conta: 'USD Global Account', saldoAtual: 18000, moeda: 'USD', status: 'Ativo' } // ~ R$ 90k
-    ];
-
-    // Build operational accounts payable spanning the next 180 days
-    const today = new Date();
-    for (let d = 1; d <= 180; d++) {
-      const targetDate = new Date(today);
-      targetDate.setDate(today.getDate() + d);
-      const dateStr = targetDate.toISOString().split('T')[0];
-      const dayOfMonth = targetDate.getDate();
-
-      // Recurring Payables
-      if (dayOfMonth === 5) {
-        finalPayables.push({ id: `p-rent-${d}`, fornecedor: 'WPremium Office Hub', categoria: 'Aluguel & Infraestrutura', vencimento: dateStr, valor: 14500, status: 'A vencer' });
-        finalPayables.push({ id: `p-sal-${d}`, fornecedor: 'Folha de Pagamento Consolidada', categoria: 'Recursos Humanos', vencimento: dateStr, valor: 78000, status: 'A vencer' });
-      }
-      if (dayOfMonth === 10) {
-        finalPayables.push({ id: `p-cloud-${d}`, fornecedor: 'AWS Cloud Services Hosting', categoria: 'Tecnologia & T.I.', vencimento: dateStr, valor: 9200, status: 'A vencer' });
-      }
-      if (dayOfMonth === 20) {
-        finalPayables.push({ id: `p-tax-${d}`, fornecedor: 'Receita Federal do Brasil (DAS)', categoria: 'Deduções & Tributos', vencimento: dateStr, valor: 21500, status: 'A vencer' });
-      }
-
-      // Daily small utility bills to create realistic micro-variance
-      if (d % 3 === 0) {
-        finalPayables.push({ id: `p-util-${d}`, fornecedor: 'Simulated Utility Services', categoria: 'Operacional', vencimento: dateStr, valor: 850 + (d * 5), status: 'A vencer' });
-      }
-
-      // Build recurring receivables
-      if (dayOfMonth === 10) {
-        finalReceivables.push({ id: `r-clientA-${d}`, cliente: 'Ambev S.A. (Contrato Anual)', vencimento: dateStr, valor: 65000, status: 'A vencer' });
-      }
-      if (dayOfMonth === 15) {
-        finalReceivables.push({ id: `r-clientB-${d}`, cliente: 'Itaú Unibanco (Consultoria)', vencimento: dateStr, valor: 48000, status: 'A vencer' });
-      }
-      if (dayOfMonth === 25) {
-        finalReceivables.push({ id: `r-clientC-${d}`, cliente: 'Gerdau Metalurgia S.A.', vencimento: dateStr, valor: 55000, status: 'A vencer' });
-      }
-      if (dayOfMonth === 30) {
-        finalReceivables.push({ id: `r-clientD-${d}`, cliente: 'Stone Co. (Projeto Especial)', vencimento: dateStr, valor: 42000, status: 'A vencer' });
-      }
-
-      // Add a random cash inflow every 12 days to simulate sales pipeline wins
-      if (d % 12 === 0) {
-        finalReceivables.push({ id: `r-win-${d}`, cliente: 'Pipeline Deal Win - Tier 1', vencimento: dateStr, valor: 85000, status: 'A vencer' });
-      }
-    }
+    console.log("No real-time operational data found in Firestore. Returning empty cash flow projection.");
+    // Removes the mock cash flow generator as per Master Architecture rules
   }
 
   // Get exchange rates from DATA

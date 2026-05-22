@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X, Plus, Trash2, Save, Loader2, AlertCircle, Database, ArrowUp, ArrowDown } from 'lucide-react';
-import { collection, addDoc, query, where, getDocs, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
 import { useGovernance } from '../../lib/governanceContext';
@@ -16,12 +16,29 @@ interface ManualFinancialModalProps {
   onSuccess: () => void;
 }
 
+import { 
+  DreAccountType, 
+  DreNatureza, 
+  DreAccount, 
+  DRE_OFFICIAL_STRUCTURE 
+} from '../../constants/dreStructure';
+import { calculateDreCascade, generateInitialDreState } from '../../lib/dreCascade';
+import { buildBPHierarchy } from '../../lib/bpEngine';
+
 interface Row {
   id: string;
   category: string;
   value: number;
-  type: 'ativo' | 'passivo' | 'patrimônio líquido' | 'pl' | 'receitas' | 'despesas';
+  type: string;
   level: number;
+  // Novos campos exclusivos da DRE
+  dreTipo?: DreAccountType;
+  natureza?: DreNatureza;
+  parentId?: string | null;
+  aceitaLancamento?: boolean;
+  calculaAutomaticamente?: boolean;
+  formula?: string;
+  ordem?: number;
 }
 
 export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess }: ManualFinancialModalProps) {
@@ -33,31 +50,106 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
   const governance = useGovernance();
   const role = governance?.role || 'cliente';
 
+
+
   useEffect(() => {
     // Load existing data if any
     const loadData = async () => {
       if (!clientId) return;
       setLoading(true);
       try {
-        const t = type === 'BP' ? 'Balanço Patrimonial' : type;
+        const typesToQuery = (type === 'BP' || type === 'Balanço Patrimonial') 
+          ? ['Balanço Patrimonial', 'BP'] 
+          : [type];
         const q = query(
           collection(db, 'financial_entries'),
           where('clientId', '==', clientId),
-          where('type', '==', t),
+          where('type', 'in', typesToQuery),
           where('year', '==', year)
         );
         const snap = await getDocs(q);
+        
+        let existingData: Row[] = [];
         if (!snap.empty) {
-          const docData = snap.docs[0].data();
-          const existingData = (docData.data || []).map((item: any) => ({
-            id: Math.random().toString(36).substr(2, 9),
-            category: item.category || item.conta || '',
-            value: item.value || item.valor || item.val || 0,
-            type: (item.type || item.tipo || (type === 'DRE' ? 'receitas' : 'ativo')).toLowerCase(),
-            level: item.level || 1
-          }));
-          setRows(existingData);
+          snap.docs.forEach(doc => {
+            const docData = doc.data();
+            if (docData.status === 'archived') return;
+            const data = (docData.data || []).map((item: any) => ({
+              id: item.id || Math.random().toString(36).substr(2, 9),
+              category: item.category || item.conta || '',
+              value: item.value || item.valor || item.val || 0,
+              type: (item.type || item.tipo || (type === 'DRE' ? 'receitas' : 'ativo')).toLowerCase(),
+              level: item.level || 1,
+              dreTipo: item.dreTipo,
+              natureza: item.natureza,
+              parentId: item.parentId,
+              aceitaLancamento: item.aceitaLancamento,
+              calculaAutomaticamente: item.calculaAutomaticamente,
+              formula: item.formula,
+              ordem: item.ordem
+            }));
+            existingData = [...existingData, ...data];
+          });
         }
+
+        if (type === 'DRE') {
+          const hasOfficialStructure = existingData.some(r => r.dreTipo === 'SINTETICA');
+          
+          if (!hasOfficialStructure && existingData.length > 0) {
+            // Map legacy/imported data to standard shape
+            const mappedEntries = existingData.map((d: any) => {
+              let parentId = d.parentId;
+              const cat = (d.category || '').toLowerCase();
+              
+              // Ignore totals from legacy data
+              if (!parentId && (cat.includes('receita líquida') || cat.includes('receita operacional líquida') || cat.includes('lucro bruto') || cat.includes('ebitda') || cat === 'ebit' || cat.includes('resultado operacional líquido') || cat.includes('lajida') || cat.includes('lucro líquido') || cat.includes('lair') || cat.includes('resultado antes'))) {
+                 return null; 
+              }
+              
+              if (!parentId) {
+                 if (cat.includes('receita operacional bruta') || cat === 'receita bruta' || cat.includes('faturamento') || (cat.includes('receita') && !cat.includes('líquida') && !cat.includes('financeir') && !cat.includes('outras'))) {
+                    parentId = 'ROB';
+                 } else if (cat.includes('deduç') || cat.includes('imposto sobre') || cat.includes('abatimento') || cat.includes('devoluç') || cat.includes('cancelamento')) {
+                    parentId = 'DED';
+                 } else if (cat.includes('custo') || cat.includes('cmv') || cat.includes('cpv') || cat.includes('csv') || cat.includes('csp')) {
+                    parentId = 'CUSTOS';
+                 } else if (cat.includes('deprecia') || cat.includes('amortiza')) {
+                    parentId = 'DEP_AMORT';
+                 } else if (cat.includes('financeir') || cat.includes('juros')) {
+                    parentId = 'RESULT_FIN';
+                 } else if (cat.includes('provisão') || cat.includes('irpj') || cat.includes('csll') || cat.includes('imposto de renda') || cat.includes('contribuição social')) {
+                    parentId = 'PROV_IR_CSLL';
+                 } else if (cat.includes('outras receitas') || cat.includes('outra receita') || cat.includes('outras despesas operacionais')) {
+                    parentId = 'OUTRAS_REC_DESP';
+                 } else {
+                    parentId = 'DESP_OPER'; // Default
+                 }
+              }
+
+              const parentInfo = DRE_OFFICIAL_STRUCTURE.find(p => p.id === parentId);
+              
+              return {
+                 ...d,
+                 parentId,
+                 dreTipo: 'ANALITICA',
+                 level: 2,
+                 natureza: parentInfo?.natureza || 'CREDORA',
+                 ordem: (parentInfo?.ordem || 0) + 0.1
+              };
+            }).filter(Boolean) as Row[];
+
+            const initialDreState = generateInitialDreState() as Row[];
+            existingData = calculateDreCascade([...initialDreState, ...mappedEntries]);
+
+          } else if (!hasOfficialStructure) {
+            existingData = generateInitialDreState() as Row[];
+          } else {
+             // Garante a reordenação e o cálculo em cascata
+             existingData = calculateDreCascade(existingData);
+          }
+        }
+        
+        setRows(existingData);
       } catch (err) {
         console.error('Error loading data:', err);
       } finally {
@@ -94,24 +186,36 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
     setRows(newRows);
   };
 
-  const computedRows = [...rows].map(r => ({ ...r, hasChildren: false, computedValue: 0 }));
-  for (let i = computedRows.length - 1; i >= 0; i--) {
-    let hasChildren = false;
-    let sum = 0;
-    
-    if (i < computedRows.length - 1 && computedRows[i + 1].level > computedRows[i].level) {
-      hasChildren = true;
-      const targetLevel = computedRows[i].level + 1;
-      for (let j = i + 1; j < computedRows.length; j++) {
-        if (computedRows[j].level <= computedRows[i].level) break;
-        if (computedRows[j].level === targetLevel) {
-          sum += computedRows[j].hasChildren ? computedRows[j].computedValue : computedRows[j].value;
+  // Process rows based on selected type
+  let computedRows: (Row & { hasChildren?: boolean; computedValue?: number })[] = [];
+  
+  if (selectedType === 'DRE' || selectedType === 'DRE Gerencial') {
+    // NOVA ESTRUTURA DRE: Cálculo via Cascata Hierárquica Estrita
+    computedRows = calculateDreCascade(rows).map(r => ({
+      ...r,
+      hasChildren: r.dreTipo === 'SINTETICA' || r.dreTipo === 'RESULTADO_CALCULADO'
+    }));
+  } else {
+    // ESTRUTURA LEGADA PARA BP E OUTROS
+    computedRows = [...rows].map(r => ({ ...r, hasChildren: false, computedValue: 0 }));
+    for (let i = computedRows.length - 1; i >= 0; i--) {
+      let hasChildren = false;
+      let sum = 0;
+      
+      if (i < computedRows.length - 1 && computedRows[i + 1].level > computedRows[i].level) {
+        hasChildren = true;
+        const targetLevel = computedRows[i].level + 1;
+        for (let j = i + 1; j < computedRows.length; j++) {
+          if (computedRows[j].level <= computedRows[i].level) break;
+          if (computedRows[j].level === targetLevel) {
+            sum += computedRows[j].hasChildren ? computedRows[j].computedValue! : computedRows[j].value;
+          }
         }
       }
+      
+      computedRows[i].hasChildren = hasChildren;
+      computedRows[i].computedValue = hasChildren ? sum : computedRows[i].value;
     }
-    
-    computedRows[i].hasChildren = hasChildren;
-    computedRows[i].computedValue = hasChildren ? sum : computedRows[i].value;
   }
 
   const handleSave = async () => {
@@ -136,36 +240,92 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         setErrorMsg(`Dados inconsistentes: O Total do Ativo (${totalAtivo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}) deve ser igual ao Total do Passivo + Patrimônio Líquido (${(totalPassivo + totalPL).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}). Diferença: ${difference.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}. Por favor, corrija os valores.`);
         return;
       }
+
+      // Validação Estrutural Rigorosa para BP
+      const { summary } = buildBPHierarchy(computedRows);
+      if (summary.hasOrphans) {
+        const orphansStr = summary.orphanAccounts?.length ? `: ${summary.orphanAccounts.join(', ')}` : '';
+        setErrorMsg(`Existem contas sem classificação ou grupo pai correspondente (Órfãs)${orphansStr}. Bloqueado.`);
+        return;
+      }
+      if (summary.hasDuplicates) {
+        const dupsStr = summary.duplicateAccounts?.length ? `: ${summary.duplicateAccounts.join(', ')}` : '';
+        setErrorMsg(`Contas duplicadas encontradas${dupsStr}. Bloqueado.`);
+        return;
+      }
     }
 
     setSaving(true);
     try {
-      const t = type === 'BP' ? 'Balanço Patrimonial' : type;
+      const typesToDelete = (selectedType === 'BP' || selectedType === 'Balanço Patrimonial')
+        ? ['Balanço Patrimonial', 'BP']
+        : [selectedType];
       
       // 1. Delete existing
       const q = query(
         collection(db, 'financial_entries'),
         where('clientId', '==', clientId),
-        where('type', '==', t),
+        where('type', 'in', typesToDelete),
         where('year', '==', year)
       );
       const snap = await getDocs(q);
-      await Promise.all(snap.docs.map(d => deleteDoc(doc(db, 'financial_entries', d.id))));
+      
+      const docsToArchive = snap.docs.filter(d => d.data().status !== 'archived');
+      await Promise.all(docsToArchive.map(d => updateDoc(doc(db, 'financial_entries', d.id), {
+        status: 'archived',
+        archivedAt: serverTimestamp(),
+        archivedBy: auth.currentUser!.uid
+      })));
 
       // 2. Add new
       const payload = {
         clientId,
+        tenantId: clientId,
+        workspaceId: clientId,
+        companyId: clientId,
+        fiscalYear: year,
+        statementVersion: '1.0',
         type: selectedType,
         year,
-        data: computedRows.map(r => ({ 
-          category: r.category, 
-          value: r.computedValue, 
-          type: r.type,
-          level: r.level
-        })),
+        data: computedRows.map(r => {
+          const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
+          const rowData: any = {
+            id: r.id || Math.random().toString(36).substr(2, 9),
+            category: r.category || (r as any).nome || '',
+            value: r.computedValue !== undefined ? r.computedValue : (r.value || 0),
+            type: r.type || '',
+            level: r.level || 1,
+            explainability: {
+              origin: 'manual',
+              transformation: 'raw_input',
+              dePara: r.type || '',
+              timestamp: new Date().toISOString(),
+              version: 1,
+              engine: 'ManualEntry'
+            }
+          };
+
+          if (isDre) {
+            if (r.dreTipo !== undefined) rowData.dreTipo = r.dreTipo;
+            if (r.natureza !== undefined) rowData.natureza = r.natureza;
+            if (r.parentId !== undefined) rowData.parentId = r.parentId;
+            if (r.aceitaLancamento !== undefined) rowData.aceitaLancamento = r.aceitaLancamento;
+            if (r.calculaAutomaticamente !== undefined) rowData.calculaAutomaticamente = r.calculaAutomaticamente;
+            if (r.formula !== undefined) rowData.formula = r.formula;
+            if (r.ordem !== undefined) rowData.ordem = r.ordem;
+          }
+          
+          return rowData;
+        }),
         createdAt: serverTimestamp(),
         createdBy: auth.currentUser!.uid,
         creatorEmail: auth.currentUser!.email,
+        audit: {
+          createdAt: serverTimestamp(),
+          createdBy: auth.currentUser!.uid,
+          action: 'manual_entry',
+          source: 'manual'
+        },
         status: role === 'master' ? 'approved' : 'pending',
         requiresApproval: role === 'master' ? false : true,
         ...(role === 'master' ? { approvedAt: serverTimestamp() } : {})
@@ -193,6 +353,12 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
     }
   };
 
+  const typeOptions = (selectedType === 'BP' || selectedType === 'Balanço Patrimonial')
+    ? ['ativo', 'passivo', 'patrimônio líquido']
+    : (selectedType === 'DRE' || selectedType === 'DRE Gerencial')
+      ? ['receitas', 'despesas']
+      : ['ativo', 'passivo', 'patrimônio líquido', 'receitas', 'despesas'];
+
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
       <motion.div 
@@ -219,6 +385,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
               <p className="text-sm font-medium">{errorMsg}</p>
             </div>
           )}
+
           <div className="space-y-2">
             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tipo de Documento</label>
             <select 
@@ -251,79 +418,153 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
-                  {computedRows.map((row, index) => (
-                    <tr key={row.id}>
-                      <td className="py-2 px-2">
-                        <select
-                          value={row.level}
-                          onChange={(e) => updateRow(row.id, 'level', Number(e.target.value))}
-                          className="w-full bg-slate-50 border border-slate-100 rounded-xl px-2 py-2 text-xs focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all text-center"
-                        >
-                          {[1, 2, 3, 4, 5].map(l => (
-                            <option key={l} value={l}>{l}</option>
-                          ))}
-                        </select>
-                      </td>
-                      <td className="py-2 px-2">
-                        <input 
-                          type="text" 
-                          value={row.category} 
-                          onChange={(e) => updateRow(row.id, 'category', e.target.value)}
-                          placeholder="Ex: Caixa e Equivalentes"
-                          style={{ paddingLeft: `${(row.level - 1) * 12 + 16}px` }}
-                          className="w-full bg-slate-50 border border-slate-100 rounded-xl py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                        />
-                      </td>
-                      <td className="py-2 px-2">
-                          <select
-                            value={row.type}
-                            onChange={(e) => updateRow(row.id, 'type', e.target.value)}
-                            className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                          >
-                            <option value="ativo">Ativo</option>
-                            <option value="passivo">Passivo</option>
-                            <option value="patrimônio líquido">Patrimônio Líquido</option>
-                            <option value="receitas">Receitas</option>
-                            <option value="despesas">Despesas</option>
-                          </select>
-                      </td>
-                      <td className="py-2 px-2">
-                        <input 
-                          type="number"
-                          step="0.01"
-                          value={row.hasChildren ? row.computedValue.toFixed(2) : row.value === 0 ? '' : row.value}
-                          onChange={(e) => {
-                            const parsed = parseFloat(e.target.value);
-                            updateRow(row.id, 'value', isNaN(parsed) ? 0 : parsed);
-                          }}
-                          onWheel={(e) => (e.target as HTMLInputElement).blur()}
-                          onBlur={(e) => {
-                            const parsed = parseFloat(e.target.value);
-                            updateRow(row.id, 'value', isNaN(parsed) ? 0 : Math.round(parsed * 100) / 100);
-                          }}
-                          disabled={row.hasChildren}
-                          placeholder="0,00"
-                          className={cn(
-                            "w-full border border-slate-100 rounded-xl px-4 py-2 text-sm text-right font-mono outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
-                            row.hasChildren 
-                              ? "bg-slate-100/50 text-slate-500 font-bold cursor-not-allowed" 
-                              : "bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary/20 text-slate-900"
-                          )}
-                        />
-                      </td>
-                      <td className="py-2 px-2 text-center flex items-center justify-center gap-1">
-                        <button onClick={() => moveRow(index, -1)} disabled={index === 0} className="p-1 text-slate-400 hover:text-primary hover:bg-slate-100 rounded transition-all disabled:opacity-30 disabled:hover:bg-transparent">
-                          <ArrowUp size={16} />
-                        </button>
-                        <button onClick={() => moveRow(index, 1)} disabled={index === computedRows.length - 1} className="p-1 text-slate-400 hover:text-primary hover:bg-slate-100 rounded transition-all disabled:opacity-30 disabled:hover:bg-transparent">
-                          <ArrowDown size={16} />
-                        </button>
-                        <button onClick={() => removeRow(row.id)} className="p-1 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-all">
-                          <Trash2 size={16} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {computedRows.map((row, index) => {
+                    const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
+                    const isSintetica = isDre && row.dreTipo === 'SINTETICA';
+                    const isResultado = isDre && row.dreTipo === 'RESULTADO_CALCULADO';
+                    const isAnalitica = isDre && row.dreTipo === 'ANALITICA';
+                    
+                    const isLocked = isDre && (isSintetica || isResultado);
+
+                    return (
+                      <React.Fragment key={row.id}>
+                        <tr className={cn(isLocked ? "bg-slate-50/30" : "")}>
+                          <td className="py-2 px-2">
+                            {isDre ? (
+                              <div className="w-full bg-transparent text-center text-xs font-bold text-slate-400">
+                                {isAnalitica ? '↳' : row.ordem}
+                              </div>
+                            ) : (
+                              <select
+                                value={row.level}
+                                onChange={(e) => updateRow(row.id, 'level', Number(e.target.value))}
+                                className="w-full bg-slate-50 border border-slate-100 rounded-xl px-2 py-2 text-xs focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all text-center"
+                              >
+                                {[1, 2, 3, 4, 5].map(l => (
+                                  <option key={l} value={l}>{l}</option>
+                                ))}
+                              </select>
+                            )}
+                          </td>
+                          <td className="py-2 px-2">
+                            {isLocked ? (
+                              <div 
+                                className="w-full py-2 text-sm font-bold text-slate-700"
+                                style={{ paddingLeft: '16px' }}
+                              >
+                                {row.category}
+                              </div>
+                            ) : (
+                              <input 
+                                type="text" 
+                                value={row.category} 
+                                onChange={(e) => updateRow(row.id, 'category', e.target.value)}
+                                placeholder="Ex: Venda de Produtos"
+                                style={{ paddingLeft: isDre ? '40px' : `${(row.level - 1) * 12 + 16}px` }}
+                                className={cn(
+                                  "w-full bg-slate-50 border border-slate-100 rounded-xl py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all",
+                                  isDre && "text-slate-600"
+                                )}
+                              />
+                            )}
+                          </td>
+                          <td className="py-2 px-2">
+                            {isDre ? (
+                              <div className="w-full py-2 text-xs font-bold text-slate-400 uppercase tracking-widest text-center">
+                                {row.natureza}
+                              </div>
+                            ) : (
+                              <select
+                                value={row.type}
+                                onChange={(e) => updateRow(row.id, 'type', e.target.value)}
+                                className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                              >
+                                {typeOptions.map(opt => (
+                                  <option key={opt} value={opt}>
+                                    {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                                  </option>
+                                ))}
+                              </select>
+                            )}
+                          </td>
+                          <td className="py-2 px-2">
+                            <input 
+                              type="number"
+                              step="0.01"
+                              value={row.hasChildren ? row.computedValue!.toFixed(2) : row.value === 0 ? '' : row.value}
+                              onChange={(e) => {
+                                const parsed = parseFloat(e.target.value);
+                                updateRow(row.id, 'value', isNaN(parsed) ? 0 : parsed);
+                              }}
+                              onWheel={(e) => (e.target as HTMLInputElement).blur()}
+                              onBlur={(e) => {
+                                const parsed = parseFloat(e.target.value);
+                                updateRow(row.id, 'value', isNaN(parsed) ? 0 : Math.round(parsed * 100) / 100);
+                              }}
+                              disabled={row.hasChildren}
+                              placeholder="0,00"
+                              className={cn(
+                                "w-full border border-slate-100 rounded-xl px-4 py-2 text-sm text-right font-mono outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+                                row.hasChildren 
+                                  ? "bg-slate-100/50 text-slate-500 font-bold cursor-not-allowed" 
+                                  : "bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary/20 text-slate-900"
+                              )}
+                            />
+                          </td>
+                          <td className="py-2 px-2 text-center flex items-center justify-center gap-1">
+                            {!isDre && (
+                              <>
+                                <button onClick={() => moveRow(index, -1)} disabled={index === 0} className="p-1 text-slate-400 hover:text-primary hover:bg-slate-100 rounded transition-all disabled:opacity-30 disabled:hover:bg-transparent">
+                                  <ArrowUp size={16} />
+                                </button>
+                                <button onClick={() => moveRow(index, 1)} disabled={index === computedRows.length - 1} className="p-1 text-slate-400 hover:text-primary hover:bg-slate-100 rounded transition-all disabled:opacity-30 disabled:hover:bg-transparent">
+                                  <ArrowDown size={16} />
+                                </button>
+                              </>
+                            )}
+                            {(!isLocked) && (
+                              <button onClick={() => removeRow(row.id)} className="p-1 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-all">
+                                <Trash2 size={16} />
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                        
+                        {/* Botão para adicionar linha analítica debaixo de uma Sintética */}
+                        {isSintetica && (
+                          <tr>
+                            <td colSpan={5} className="py-1 px-2 border-none">
+                              <div className="flex justify-start pl-[50px]">
+                                <button
+                                  onClick={() => {
+                                    const newRows = [...rows];
+                                    const insertIdx = newRows.findIndex(r => r.id === row.id) + 1;
+                                    newRows.splice(insertIdx, 0, {
+                                      id: Math.random().toString(36).substr(2, 9),
+                                      category: '',
+                                      value: 0,
+                                      type: 'despesas',
+                                      level: 2,
+                                      dreTipo: 'ANALITICA',
+                                      natureza: row.natureza,
+                                      parentId: row.id,
+                                      aceitaLancamento: true,
+                                      calculaAutomaticamente: false,
+                                      ordem: row.ordem! + 0.1
+                                    });
+                                    setRows(newRows);
+                                  }}
+                                  className="text-[10px] font-bold text-slate-400 hover:text-primary flex items-center gap-1 py-1 px-2 rounded hover:bg-primary/5 transition-colors"
+                                >
+                                  <Plus size={12} /> Adicionar Sub-Conta
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
                 </tbody>
               </table>
 
@@ -334,40 +575,14 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                 </div>
               )}
 
-              {selectedType === 'DRE' && (
-                <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
-                  <div className="flex items-start gap-3">
-                    <AlertCircle size={20} className="text-indigo-500 shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-[11px] font-black text-indigo-800 uppercase tracking-tight">Cálculo de EBITDA</p>
-                      <p className="text-[11px] text-indigo-700 leading-relaxed mt-0.5">
-                        Para que o sistema calcule corretamente o EBITDA (caso a linha original não exista), insira o valor deduzido a título de <strong>Depreciação e Amortização</strong>.
-                      </p>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => {
-                      setRows([...rows, { 
-                        id: Math.random().toString(36).substr(2, 9), 
-                        category: 'Depreciação e Amortização', 
-                        value: 0, 
-                        type: 'despesas',
-                        level: 2
-                      }]);
-                    }}
-                    className="shrink-0 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold uppercase tracking-widest rounded-xl transition-colors shadow-sm"
-                  >
-                    + Add Depreciação
-                  </button>
-                </div>
+              {!(selectedType === 'DRE' || selectedType === 'DRE Gerencial') && (
+                <button 
+                  onClick={addRow}
+                  className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all flex items-center justify-center gap-2 font-bold text-sm mt-4"
+                >
+                  <Plus size={18} /> Adicionar Linha
+                </button>
               )}
-
-              <button 
-                onClick={addRow}
-                className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all flex items-center justify-center gap-2 font-bold text-sm mt-4"
-              >
-                <Plus size={18} /> Adicionar Linha
-              </button>
             </div>
           )}
         </div>

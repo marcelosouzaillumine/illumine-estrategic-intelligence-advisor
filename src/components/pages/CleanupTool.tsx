@@ -38,21 +38,21 @@ export function CleanupTool() {
     setLoading(true);
     setStatus([]);
     
-    const collectionsToClean = ['financial_entries', 'document_uploads', 'payables', 'receivables', 'budgets'];
-    
     try {
-      for (const colName of collectionsToClean) {
-        const q = query(collection(db, colName), where('clientId', '==', clientId));
-        const snap = await getDocs(q);
-        
-        if (snap.empty) {
-          setStatus(prev => [...prev, { type: 'info', message: `Coleção ${colName}: nenhum registro encontrado.` }]);
-          continue;
-        }
-
-        const deletePromises = snap.docs.map(d => deleteDoc(doc(db, colName, d.id)));
+      const q = query(
+        collection(db, 'financial_entries'), 
+        where('clientId', '==', clientId),
+        where('type', '==', 'DRE'),
+        where('year', 'in', [2025, 2026])
+      );
+      const snap = await getDocs(q);
+      
+      if (snap.empty) {
+        setStatus(prev => [...prev, { type: 'info', message: `Nenhum registro da DRE encontrado para 2025 e 2026.` }]);
+      } else {
+        const deletePromises = snap.docs.map(d => deleteDoc(doc(db, 'financial_entries', d.id)));
         await Promise.all(deletePromises);
-        setStatus(prev => [...prev, { type: 'success', message: `Coleção ${colName}: ${snap.size} registros removidos.` }]);
+        setStatus(prev => [...prev, { type: 'success', message: `${snap.size} registros DRE de 2025-2026 removidos com sucesso.` }]);
       }
     } catch (e: any) {
       setStatus(prev => [...prev, { type: 'error', message: `Erro: ${e.message}` }]);
@@ -68,8 +68,8 @@ export function CleanupTool() {
   return (
     <div className="p-8 max-w-2xl mx-auto space-y-8">
       <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-xl">
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">Ferramenta de Limpeza de Dados</h1>
-        <p className="text-slate-500 mb-6">Esta ferramenta irá apagar permanentemente os registros da empresa Empório.</p>
+        <h1 className="text-2xl font-bold text-slate-900 mb-2">Limpeza de DRE (2025-2026)</h1>
+        <p className="text-slate-500 mb-6">Esta ferramenta irá apagar permanentemente os registros de DRE da empresa Empório referentes aos anos de 2025 e 2026.</p>
         
         {clientId ? (
           <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl mb-6">
@@ -88,7 +88,7 @@ export function CleanupTool() {
           className="w-full py-4 bg-rose-600 text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-rose-700 disabled:opacity-50 transition-all shadow-lg shadow-rose-900/20"
         >
           {loading ? <Loader2 size={20} className="animate-spin" /> : <Trash2 size={20} />}
-          Zerar Histórico e Uploads
+          Zerar DRE (2025 e 2026)
         </button>
       </div>
 

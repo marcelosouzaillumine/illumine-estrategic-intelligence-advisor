@@ -1,3 +1,36 @@
+# DOCUMENTAÇÃO DERIVADA
+
+Esta pasta contém documentação operacional, técnica e funcional derivada da ARQUITETURA_MESTRA_ILLUMINE.md.
+
+Em caso de conflito:
+A ARQUITETURA_MESTRA_ILLUMINE.md prevalece.
+
+## Financial Intelligence Engine
+
+Toda regra de cálculo financeiro, classificação patrimonial, análise de liquidez, estrutura de capital, capital de giro, scoring, stress tests, valuation e advisory narratives deve seguir obrigatoriamente o documento:
+
+`MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md`
+
+A Financial Intelligence Engine é a fonte oficial de:
+
+- indicadores financeiros;
+- fórmulas patrimoniais;
+- regras de liquidez;
+- classificação de severidade;
+- taxonomia de ativos;
+- score patrimonial;
+- curadoria financeira;
+- regras de continuidade empresarial;
+- narrativas automáticas de advisory.
+
+Nenhum módulo, dashboard, componente ou card pode criar fórmulas próprias divergentes da engine oficial.
+
+Em caso de conflito entre lógica local e a Financial Intelligence Engine, prevalece a regra definida em:
+
+`MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md`
+
+---
+
 # Illumine Strategic Intelligence & Advisor Brownfield Enhancement Architecture
 
 > Status: baseline arquitetural brownfield em modo YOLO

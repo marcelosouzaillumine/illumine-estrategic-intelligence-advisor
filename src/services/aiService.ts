@@ -324,7 +324,7 @@ DIRETRIZES TÉCNICAS:
 };
 
 const getFallbackPayload = (segment: string): AICompanyData => {
-  const baseRevenue = 1200000 + Math.random() * 800000;
+  const baseRevenue = 1200000 + 0.5 * 800000;
   return {
     clientData: {
       razao: `${segment.toUpperCase()} SOLUTIONS LTDA`,
@@ -341,7 +341,7 @@ const getFallbackPayload = (segment: string): AICompanyData => {
       faturamentoMensal: baseRevenue / 12
     },
     historicalRevenueBase: baseRevenue,
-    ebitdaMargin: 0.18 + (Math.random() * 0.1),
+    ebitdaMargin: 0.18 + (0.5 * 0.1),
     assumptions: {
       wacc: 12.5,
       multiple: 8,
@@ -488,7 +488,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   const monthlyRev = baseRevenue / 12;
   
   for (const year of years) {
-    const growthRate = 1 + (0.15 + (Math.random() * 0.15));
+    const growthRate = 1 + (0.15 + (0.5 * 0.15));
     const revenue = year === years[0] ? baseRevenue : baseRevenue * Math.pow(growthRate, years.indexOf(year));
     const ebitda = revenue * ebitdaMargin;
     const remainingCosts = revenue - ebitda;
@@ -571,7 +571,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     const y = d.getFullYear();
     
     const seasonality = 1 + Math.sin((m / 12) * Math.PI * 2) * 0.1;
-    const randomness = 0.9 + Math.random() * 0.2;
+    const randomness = 0.9 + 0.5 * 0.2;
     const growthFactor = Math.pow(1.01, historyMonths - i); // ~12% annual growth back in time
     
     const monthlyRevenue = (aiData.historicalRevenueBase / 12) * growthFactor * seasonality * randomness;
@@ -584,19 +584,19 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       { ind: 'Margem EBITDA', val: aiData.ebitdaMargin * 100, un: '%' },
       { ind: 'Margem Líquida', val: (aiData.ebitdaMargin * 0.6) * 100, un: '%' },
       { ind: 'Faturamento Bruto', val: monthlyRevenue * 1.15, un: 'R$' },
-      { ind: 'Saldo em Caixa', val: monthlyRevenue * (0.4 + Math.random() * 0.2), un: 'R$' },
+      { ind: 'Saldo em Caixa', val: monthlyRevenue * (0.4 + 0.5 * 0.2), un: 'R$' },
       { ind: 'Fluxo de Caixa Operacional', val: monthlyEbitda * 0.8, un: 'R$' },
-      { ind: 'Liquidez Corrente', val: 1.5 + Math.random(), un: 'x' },
+      { ind: 'Liquidez Corrente', val: 1.5 + 0.5, un: 'x' },
       { ind: 'Valor de Mercado', val: monthlyEbitda * 12 * (aiData.assumptions.multiple || 6), un: 'R$' },
       { ind: 'Múltiplo', val: aiData.assumptions.multiple || 6, un: 'x' },
       { ind: 'WACC', val: aiData.assumptions.wacc || 12, un: '%' },
-      { ind: 'IVE', val: 10 + Math.random() * 10, un: '%' },
-      { ind: 'OKRs', val: 40 + Math.random() * 40, un: '%' },
-      { ind: 'LTV/CAC', val: 3 + Math.random(), un: 'x' },
-      { ind: 'Churn Rate', val: 2 + Math.random(), un: '%' },
+      { ind: 'IVE', val: 10 + 0.5 * 10, un: '%' },
+      { ind: 'OKRs', val: 40 + 0.5 * 40, un: '%' },
+      { ind: 'LTV/CAC', val: 3 + 0.5, un: 'x' },
+      { ind: 'Churn Rate', val: 2 + 0.5, un: '%' },
       { ind: 'Ticket Médio', val: monthlyRevenue / 50, un: 'R$' },
-      { ind: 'PMR', val: 30 + Math.round(Math.random() * 30), un: 'dias' },
-      { ind: 'Inadimplência', val: 2 + Math.random() * 3, un: '%' },
+      { ind: 'PMR', val: 30 + Math.round(0.5 * 30), un: 'dias' },
+      { ind: 'Inadimplência', val: 2 + 0.5 * 3, un: '%' },
     ];
 
     for (const kpi of kpis) {
@@ -661,7 +661,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       { ind: 'Lucro Líquido', val: projectedEbitda * 0.7, un: 'R$' },
       { ind: 'Margem EBITDA', val: (aiData.ebitdaMargin * 1.1) * 100, un: '%' },
       { ind: 'Valor de Mercado', val: projectedEbitda * 12 * (aiData.assumptions.multiple || 8), un: 'R$' },
-      { ind: 'OKRs', val: 70 + Math.random() * 20, un: '%' },
+      { ind: 'OKRs', val: 70 + 0.5 * 20, un: '%' },
     ];
 
     for (const kpi of kpis) {
@@ -738,8 +738,8 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       const date = new Date();
       date.setDate(date.getDate() + i);
       const dataStr = date.toISOString().split('T')[0];
-      const entradas = (monthlyRev / 30) * (0.8 + Math.random() * 0.4);
-      const saidas = (monthlyRev * 0.8 / 30) * (0.8 + Math.random() * 0.4);
+      const entradas = (monthlyRev / 30) * (0.8 + 0.5 * 0.4);
+      const saidas = (monthlyRev * 0.8 / 30) * (0.8 + 0.5 * 0.4);
       
       fluxoDiario.push({
         "Data": dataStr,
@@ -925,42 +925,42 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
       
       const indicatorsData = [
         // Gestão Financeira
-        { ind: "Liquidez Corrente", val: 1.2 + Math.random(), un: 'x', cat: 'Administração e Finanças' },
-        { ind: "Endividamento Geral", val: 30 + Math.random() * 20, un: '%', cat: 'Administração e Finanças' },
-        { ind: "PMR (Prazo Médio Recebimento)", val: 30 + Math.round(Math.random() * 15), un: 'dias', cat: 'Administração e Finanças' },
+        { ind: "Liquidez Corrente", val: 1.2 + 0.5, un: 'x', cat: 'Administração e Finanças' },
+        { ind: "Endividamento Geral", val: 30 + 0.5 * 20, un: '%', cat: 'Administração e Finanças' },
+        { ind: "PMR (Prazo Médio Recebimento)", val: 30 + Math.round(0.5 * 15), un: 'dias', cat: 'Administração e Finanças' },
         
         // Cultura Organizacional
-        { ind: "eNPS (Clima)", val: 60 + Math.random() * 30, un: 'pts', cat: 'Cultura Organizacional' },
-        { ind: "Absenteísmo", val: 1 + Math.random() * 2, un: '%', cat: 'Cultura Organizacional' },
+        { ind: "eNPS (Clima)", val: 60 + 0.5 * 30, un: 'pts', cat: 'Cultura Organizacional' },
+        { ind: "Absenteísmo", val: 1 + 0.5 * 2, un: '%', cat: 'Cultura Organizacional' },
         
         // Gestão de Marketing
-        { ind: "Custo por Lead (CPL)", val: 15 + Math.random() * 20, un: 'R$', cat: 'Gestão de Marketing' },
+        { ind: "Custo por Lead (CPL)", val: 15 + 0.5 * 20, un: 'R$', cat: 'Gestão de Marketing' },
         { ind: "CAC (Custo de Aquisição)", val: monthlyRev * 0.05 / 10, un: 'R$', cat: 'Gestão de Marketing' },
-        { ind: "ROI em Marketing", val: 3 + Math.random() * 4, un: 'x', cat: 'Gestão de Marketing' },
+        { ind: "ROI em Marketing", val: 3 + 0.5 * 4, un: 'x', cat: 'Gestão de Marketing' },
         
         // Comercial
-        { ind: "Taxa de Conversão", val: 15 + Math.random() * 15, un: '%', cat: 'Gestão Comercial' },
-        { ind: "Ticket Médio", val: 500 + Math.random() * 1000, un: 'R$', cat: 'Gestão Comercial' },
-        { ind: "Churn Rate", val: 1 + Math.random() * 3, un: '%', cat: 'Gestão Comercial' },
+        { ind: "Taxa de Conversão", val: 15 + 0.5 * 15, un: '%', cat: 'Gestão Comercial' },
+        { ind: "Ticket Médio", val: 500 + 0.5 * 1000, un: 'R$', cat: 'Gestão Comercial' },
+        { ind: "Churn Rate", val: 1 + 0.5 * 3, un: '%', cat: 'Gestão Comercial' },
         
         // Operação
-        { ind: "OEE (Eficiência Global)", val: 70 + Math.random() * 20, un: '%', cat: 'Gestão Operacional' },
-        { ind: "Nível de Serviço (SLA)", val: 90 + Math.random() * 9, un: '%', cat: 'Gestão Operacional' },
-        { ind: "Desperdício/Perdas", val: 1 + Math.random() * 4, un: '%', cat: 'Gestão Operacional' },
+        { ind: "OEE (Eficiência Global)", val: 70 + 0.5 * 20, un: '%', cat: 'Gestão Operacional' },
+        { ind: "Nível de Serviço (SLA)", val: 90 + 0.5 * 9, un: '%', cat: 'Gestão Operacional' },
+        { ind: "Desperdício/Perdas", val: 1 + 0.5 * 4, un: '%', cat: 'Gestão Operacional' },
         
         // Inovação
-        { ind: "Índice de Vitalidade", val: 10 + Math.random() * 15, un: '%', cat: 'Gestão de Inovação' },
-        { ind: "Projetos em Execução", val: 2 + Math.round(Math.random() * 3), un: 'un', cat: 'Gestão de Inovação' },
+        { ind: "Índice de Vitalidade", val: 10 + 0.5 * 15, un: '%', cat: 'Gestão de Inovação' },
+        { ind: "Projetos em Execução", val: 2 + Math.round(0.5 * 3), un: 'un', cat: 'Gestão de Inovação' },
         
         // Governança e Compliance
-        { ind: "Índice de Maturidade", val: 50 + Math.random() * 40, un: '%', cat: 'Governança Corporativa' },
-        { ind: "Compliance Score", val: 70 + Math.random() * 25, un: '%', cat: 'Governança Corporativa' },
-        { ind: "Tone at the Top", val: 60 + Math.random() * 30, un: '%', cat: 'Compliance', setor: 'Compliance' },
-        { ind: "Gestão de Riscos", val: 40 + Math.random() * 40, un: '%', cat: 'Compliance', setor: 'Compliance' },
-        { ind: "Comunicação", val: 30 + Math.random() * 50, un: '%', cat: 'Compliance', setor: 'Compliance' },
-        { ind: "Canais de Denúncia", val: 50 + Math.random() * 40, un: '%', cat: 'Compliance', setor: 'Compliance' },
-        { ind: "Diligência Terceiros", val: 20 + Math.random() * 60, un: '%', cat: 'Compliance', setor: 'Compliance' },
-        { ind: "Privacidade/LGPD", val: 60 + Math.random() * 30, un: '%', cat: 'Compliance', setor: 'Compliance' }
+        { ind: "Índice de Maturidade", val: 50 + 0.5 * 40, un: '%', cat: 'Governança Corporativa' },
+        { ind: "Compliance Score", val: 70 + 0.5 * 25, un: '%', cat: 'Governança Corporativa' },
+        { ind: "Tone at the Top", val: 60 + 0.5 * 30, un: '%', cat: 'Compliance', setor: 'Compliance' },
+        { ind: "Gestão de Riscos", val: 40 + 0.5 * 40, un: '%', cat: 'Compliance', setor: 'Compliance' },
+        { ind: "Comunicação", val: 30 + 0.5 * 50, un: '%', cat: 'Compliance', setor: 'Compliance' },
+        { ind: "Canais de Denúncia", val: 50 + 0.5 * 40, un: '%', cat: 'Compliance', setor: 'Compliance' },
+        { ind: "Diligência Terceiros", val: 20 + 0.5 * 60, un: '%', cat: 'Compliance', setor: 'Compliance' },
+        { ind: "Privacidade/LGPD", val: 60 + 0.5 * 30, un: '%', cat: 'Compliance', setor: 'Compliance' }
       ];
 
       for (const ind of indicatorsData) {
@@ -1115,7 +1115,7 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
             unidade: 'Geral',
             filial: 'Matriz',
             centroCusto: 'Administrativo',
-            valor: (aiData.historicalRevenueBase / 12) * 0.1 * (0.9 + Math.random() * 0.2),
+            valor: (aiData.historicalRevenueBase / 12) * 0.1 * (0.9 + 0.5 * 0.2),
             type: 'Budget',
             status: 'Approved',
             createdAt: serverTimestamp(),
@@ -1134,13 +1134,13 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
   try {
     const mockResponses: Record<string, number> = {};
     GOVERNANCE_PRINCIPLES.forEach(p => {
-      mockResponses[p.id] = 3 + Math.floor(Math.random() * 3); // 3-5 range
+      mockResponses[p.id] = 3 + Math.floor(0.5 * 3); // 3-5 range
     });
 
     const axisScores: Record<string, number> = {};
     const axes = ['Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'];
     axes.forEach(e => {
-      axisScores[e] = 70 + Math.random() * 25;
+      axisScores[e] = 70 + 0.5 * 25;
     });
 
     const govDiagnosis = await generateGovernanceDiagnosis(axisScores, [], aiData.clientData.fantasia);
@@ -1148,8 +1148,8 @@ export const createAICompanyInFirestore = async (aiData: AICompanyData) => {
     await addDoc(collection(db, 'governance_diagnostics'), {
       clientId,
       date: serverTimestamp(),
-      maturityScore: 75 + Math.random() * 15,
-      alignmentScore: 80 + Math.random() * 10,
+      maturityScore: 75 + 0.5 * 15,
+      alignmentScore: 80 + 0.5 * 10,
       classification: 'Consolidada',
       responses: mockResponses,
       diagnosis: govDiagnosis,

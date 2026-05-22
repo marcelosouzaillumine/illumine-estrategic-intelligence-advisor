@@ -33,6 +33,7 @@ import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
 import { FULL_MONTH_LABELS } from '../../constants';
 import { useFinancialData } from '../../hooks/useFinancialData';
+import { useMethodologicalAnalysis } from '../../hooks/useMethodologicalAnalysis';
 import { PageHeader, Semaphore } from '../Common';
 
 
@@ -55,43 +56,37 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
   const currentDre = dbDre.length > 0 ? dbDre : [];
   const currentBp = dbBp.length > 0 ? dbBp : [];
 
-  const getVal = (data: any[], name: string) => data.find(d => d.category === name)?.value || 0;
+  const { analysis, loading: loadingAnalysis, error: errorAnalysis, reprocessAnalysis, currentVersion } = useMethodologicalAnalysis(
+    filterClient, year, month, currentDre, currentBp
+  );
 
-  // Data Extraction
-  const receita = getVal(currentDre, 'Receita Líquida');
-  const ebitda = getVal(currentDre, 'EBITDA');
-  const lucro = getVal(currentDre, 'Lucro Líquido');
-  const ativoTotal = getVal(currentBp, 'Ativo Total');
-  const pl = getVal(currentBp, 'Patrimônio Líquido');
-  const ac = getVal(currentBp, 'Ativo Circulante');
-  const pc = getVal(currentBp, 'Passivo Circulante');
-  const pnc = getVal(currentBp, 'Passivo Não Circulante');
-  const est = getVal(currentBp, 'Estoques');
+  const [showReprocessed, setShowReprocessed] = useState(false);
 
-  // Logic Calculations
-  const roe = pl > 0 ? (lucro / pl) * 100 : 0;
-  const investedCapital = pl + pnc;
-  const noplat = ebitda * 0.66; 
-  const roic = investedCapital > 0 ? (noplat / investedCapital) * 100 : 0;
-  
-  const costOfEquity = 0.15;
-  const costOfDebt = 0.12;
-  const wacc = investedCapital > 0 ? ((pl / investedCapital) * costOfEquity + (pnc / investedCapital) * costOfDebt) * 100 : 0;
-  const eva = investedCapital > 0 ? (investedCapital * (roic - wacc) / 100) : 0;
-  const dscr = (pnc > 0) ? (ebitda / (pnc / 12)) : 0;
+  // Seleciona os dados a exibir (original ou reprocessado se o usuário ativou o toggle)
+  const displayData = (showReprocessed && analysis?.reprocessed) 
+    ? analysis.reprocessed 
+    : analysis;
 
-  const totalThirdParty = pc + pnc;
-  const ct = totalThirdParty > 0 ? (pc / totalThirdParty) * 100 : 0;
-  const ce = totalThirdParty > 0 ? (pnc / totalThirdParty) * 100 : 0;
-  const impl = pl > 0 ? (totalThirdParty / pl) * 100 : 0;
-  const irpc = totalThirdParty > 0 ? (pc / totalThirdParty) * 100 : 0;
-  const gaf = (pl > 0 && lucro > 0) ? ((ebitda) / (lucro)) : 0;
+  const metricsObj = displayData?.metrics || {
+    receita: 0, ebitda: 0, lucro: 0, ativoTotal: 0, pl: 0, ac: 0, pc: 0, pnc: 0, est: 0,
+    roe: 0, investedCapital: 0, noplat: 0, roic: 0, wacc: 0, eva: 0, dscr: 0,
+    totalThirdParty: 0, ct: 0, ce: 0, impl: 0, irpc: 0, gaf: 0
+  };
+
+  const {
+    receita, ebitda, lucro, ativoTotal, pl, ac, pc, pnc, est,
+    roe, investedCapital, noplat, roic, wacc, eva, dscr,
+    totalThirdParty, ct, ce, impl, irpc, gaf
+  } = metricsObj;
+
+  const methodologyUsed = displayData?.methodologyVersion || 'Pendente';
+  const hasMethodologyUpdate = analysis && analysis.methodologyVersion !== currentVersion && !analysis.reprocessed;
 
   const metrics = [
     { label: 'Criação de Valor (EVA)', value: formatCurrency(eva), sem: eva > 0 ? 'Verde' : 'Vermelho', sub: eva > 0 ? '+ Cap. Gerado' : '- Cap. Destruído' },
-    { label: 'Retorno ROIC', value: `${roic.toFixed(1)}%`, sem: roic > wacc ? 'Verde' : 'Amarelo', sub: `vs WACC ${wacc.toFixed(1)}%` },
+    { label: 'Retorno ROIC', value: `${roic.toFixed(2)}%`, sem: roic > wacc ? 'Verde' : 'Amarelo', sub: `vs WACC ${wacc.toFixed(2)}%` },
     { label: 'Solvência (DSCR)', value: `${dscr.toFixed(2)}x`, sem: dscr > 1.2 ? 'Verde' : 'Vermelho', sub: dscr > 1.2 ? 'Cobertura Segura' : 'Risco de Liquidez' },
-    { label: 'ROE Anualizado', value: `${roe.toFixed(1)}%`, sem: roe > 10 ? 'Verde' : 'Amarelo', sub: 'Retorno Acionista' },
+    { label: 'ROE Anualizado', value: `${roe.toFixed(2)}%`, sem: roe > 10 ? 'Verde' : 'Amarelo', sub: 'Retorno Acionista' },
     { label: 'Alavancagem (GAF)', value: `${gaf.toFixed(2)}x`, sem: gaf > 1 ? 'Verde' : 'Amarelo', sub: gaf > 1 ? 'Favorável' : 'Risco' },
   ] as const;
 
@@ -144,7 +139,33 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
         </div>
 
         <div className="flex items-center gap-3">
-          {(loadingDre || loadingBp) && (
+          <div className="flex items-center gap-2 px-4 py-2 border border-slate-200 bg-white rounded-xl shadow-sm">
+            <ShieldCheck size={14} className={analysis?.reprocessed ? "text-blue-500" : "text-emerald-500"} />
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+              Análise processada com: <span className="text-slate-800">{methodologyUsed}</span>
+            </span>
+          </div>
+
+          {analysis?.reprocessed && (
+            <button 
+              onClick={() => setShowReprocessed(!showReprocessed)}
+              className={cn("px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm border", showReprocessed ? "bg-blue-50 border-blue-200 text-blue-700" : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50")}
+            >
+              {showReprocessed ? "Ver Original" : "Ver Reprocessada"}
+            </button>
+          )}
+
+          {hasMethodologyUpdate && (
+             <button 
+               onClick={reprocessAnalysis}
+               className="flex items-center gap-2 px-4 py-2 bg-secondary/10 hover:bg-secondary/20 text-secondary border border-secondary/20 rounded-xl shadow-sm transition-all"
+             >
+               <Activity size={14} />
+               <span className="text-[10px] font-black uppercase tracking-widest">Reprocessar ({currentVersion})</span>
+             </button>
+          )}
+
+          {(loadingDre || loadingBp || loadingAnalysis) && (
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm animate-pulse">
               <Loader2 size={14} className="animate-spin text-secondary" />
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Sincronizando...</span>
@@ -169,7 +190,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
             <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight de Capital</h3>
             <p className="executive-note">
               {eva !== 0 ? (
-                `"A estrutura de capital atual apresenta um spread de ROIC/WACC de ${(roic - wacc).toFixed(1)}%. Com a criação de valor (EVA) em ${formatCurrency(eva)}, a empresa está gerando riqueza real para os acionistas. Recomendamos avaliar a otimização do perfil da dívida para reduzir o custo médio ponderado e ampliar a margem de segurança financeira."`
+                `"A estrutura de capital atual apresenta um spread de ROIC/WACC de ${(roic - wacc).toFixed(2)}%. Com a criação de valor (EVA) em ${formatCurrency(eva)}, a empresa está gerando riqueza real para os acionistas. Recomendamos avaliar a otimização do perfil da dívida para reduzir o custo médio ponderado e ampliar a margem de segurança financeira."`
               ) : (
                 "Aguardando dados financeiros consolidados para análise de spread ROIC/WACC e geração de valor econômico (EVA). A análise estratégica será habilitada após a primeira importação de balanço e DRE."
               )}
@@ -181,7 +202,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
           <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
           <div>
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Custo de Capital (WACC)</h3>
-            <p className="text-3xl font-display font-black mb-2">{wacc.toFixed(1)}%</p>
+            <p className="text-3xl font-display font-black mb-2">{wacc.toFixed(2)}%</p>
             <div className="flex items-center gap-2 text-emerald-400">
                <ShieldCheck size={16} />
                <span className="text-xs font-bold">Estrutura Estável</span>
@@ -234,7 +255,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
                 <div key={idx}>
                   <div className="flex justify-between items-baseline mb-2">
                     <span className="text-xs font-bold text-slate-600">{item.label}</span>
-                    <span className="text-base font-black text-slate-900">{item.display || `${item.val.toFixed(1)}%`}</span>
+                    <span className="text-base font-black text-slate-900">{item.display || `${item.val.toFixed(2)}%`}</span>
                   </div>
                   <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                     <motion.div 
@@ -266,7 +287,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
                 ].map((item, idx) => (
                   <div key={idx} className="flex justify-between py-3 border-b border-slate-50 last:border-0">
                     <span className="text-xs font-bold text-slate-500">{item.label}</span>
-                    <span className="text-xs font-black text-slate-900">{item.val.toFixed(1)}%</span>
+                    <span className="text-xs font-black text-slate-900">{item.val.toFixed(2)}%</span>
                   </div>
                 ))}
               </div>
@@ -307,7 +328,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
             { name: 'Giro do Ativo', val: (receita / ativoTotal).toFixed(2), unit: 'x', icon: ArrowRightLeft, desc: 'Eficiência de Uso' },
-            { name: 'Giro Estoque', val: (receita * 0.4 / (est || 1)).toFixed(1), unit: 'dias', icon: LayoutDashboard, desc: 'Renovação Média' },
+            { name: 'Giro Estoque', val: (receita * 0.4 / (est || 1)).toFixed(2), unit: 'dias', icon: LayoutDashboard, desc: 'Renovação Média' },
             { name: 'Ciclo Operacional', val: currentDre.length > 0 ? '72' : '—', unit: 'dias', icon: Zap, desc: 'Tempo Total' },
             { name: 'Ciclo Financeiro', val: currentDre.length > 0 ? '45' : '—', unit: 'dias', icon: Target, desc: 'Nec. Capital' }
           ].map((item, idx) => (

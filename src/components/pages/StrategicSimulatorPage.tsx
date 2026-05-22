@@ -214,7 +214,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                    </div>
                    <div>
                       <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Impacto %</p>
-                      <p className="text-lg font-black text-white">{simulation.impactPercent.toFixed(1)}%</p>
+                      <p className="text-lg font-black text-white">{simulation.impactPercent.toFixed(2)}%</p>
                    </div>
                 </div>
               </div>
@@ -234,7 +234,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                    <div className="bg-slate-50 px-4 md:px-6 py-1.5 md:py-2 rounded-2xl border border-slate-100">
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Margem Projetada</p>
                       <p className="text-lg font-black text-slate-900">
-                        {((simulation.simulatedEbitda / (simulation.simulatedRevenue || 1)) * 100).toFixed(1)}%
+                        {((simulation.simulatedEbitda / (simulation.simulatedRevenue || 1)) * 100).toFixed(2)}%
                       </p>
                    </div>
                    <div>

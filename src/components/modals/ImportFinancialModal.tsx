@@ -5,7 +5,7 @@ import {
   AlertTriangle, Info, Database
 } from 'lucide-react';
 import { 
-  collection, addDoc, query, where, getDocs, deleteDoc, doc, serverTimestamp 
+  collection, addDoc, query, where, getDocs, updateDoc, doc, serverTimestamp 
 } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
@@ -15,6 +15,7 @@ import {
 } from '../../services/importService';
 import { cn, formatCurrency } from '../../lib/utils';
 import { DOCUMENT_TYPES } from '../../constants/documents';
+import { buildBPHierarchy } from '../../lib/bpEngine';
 
 interface ImportFinancialModalProps {
   type: 'Balanço Patrimonial' | 'DRE' | 'BP' | 'DFC' | 'DLPA';
@@ -85,24 +86,25 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
     setStatus('Preparando banco de dados...');
 
     try {
-      // 1. Limpar dados existentes para este cliente/ano/tipo
-      const types = [type, type === 'Balanço Patrimonial' ? 'BP' : 'DRE'];
-      const idsToDelete: string[] = [];
+      // 1. Marcar dados existentes como arquivados (Soft Delete / Versionamento)
+      const typesToDelete = [type, type === 'Balanço Patrimonial' ? 'BP' : 'DRE'];
       
-      for (const t of types) {
-        const q = query(
-          collection(db, 'financial_entries'),
-          where('clientId', '==', clientId),
-          where('type', '==', t),
-          where('year', '==', year)
-        );
-        const snap = await getDocs(q);
-        snap.docs.forEach(d => idsToDelete.push(d.id));
-      }
+      const q = query(
+        collection(db, 'financial_entries'),
+        where('clientId', '==', clientId),
+        where('type', 'in', typesToDelete),
+        where('year', '==', year)
+      );
+      const snap = await getDocs(q);
+      const docsToArchive = snap.docs.filter(d => d.data().status !== 'archived');
 
-      if (idsToDelete.length > 0) {
-        setStatus(`Removendo ${idsToDelete.length} registros antigos...`);
-        await Promise.all(idsToDelete.map(id => deleteDoc(doc(db, 'financial_entries', id))));
+      if (docsToArchive.length > 0) {
+        setStatus(`Arquivando ${docsToArchive.length} registros antigos (Versionamento)...`);
+        await Promise.all(docsToArchive.map(d => updateDoc(doc(db, 'financial_entries', d.id), { 
+          status: 'archived',
+          archivedAt: serverTimestamp(),
+          archivedBy: auth.currentUser!.uid
+        })));
       }
 
       setProgress(40);
@@ -117,13 +119,49 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         }
         return {
           ...entry,
-          type: lastType.toLowerCase()
+          type: lastType.toLowerCase(),
+          explainability: {
+            origin: 'import_file',
+            transformation: 'raw_import',
+            dePara: inferred,
+            timestamp: new Date().toISOString(),
+            version: 1,
+            engine: 'ImportService'
+          }
         };
       });
+
+      // Validação Estrutural Rigorosa para BP
+      if (selectedType === 'Balanço Patrimonial' || selectedType === 'BP') {
+        const { summary } = buildBPHierarchy(classified);
+        
+        if (!summary.isBalanced) {
+          throw new Error(`Desbalanceamento detectado (R$ ${summary.divergence}). Importação bloqueada.`);
+        }
+        if (summary.hasOrphans) {
+          const orphansStr = summary.orphanAccounts?.length ? `: ${summary.orphanAccounts.join(', ')}` : '';
+          throw new Error(`Existem contas sem classificação ou grupo pai correspondente (Órfãs)${orphansStr}. Importação bloqueada.`);
+        }
+        if (summary.hasDuplicates) {
+          const dupsStr = summary.duplicateAccounts?.length ? `: ${summary.duplicateAccounts.join(', ')}` : '';
+          throw new Error(`Contas duplicadas encontradas${dupsStr}. Importação bloqueada.`);
+        }
+      }
+
+      // Validação Sintético/Analítico
+      const unclassified = classified.filter(c => c.type === 'unknown' || !c.type);
+      if (unclassified.length > 0) {
+        throw new Error(`Validação Estrutural Falhou: ${unclassified.length} conta(s) não puderam ser distinguidas entre grupo sintético ou conta analítica. Importação bloqueada.`);
+      }
 
       const payload = {
         clientId,
         clientName,
+        tenantId: clientId,
+        workspaceId: clientId,
+        companyId: clientId,
+        fiscalYear: year,
+        statementVersion: '1.0',
         type: selectedType,
         year,
         data: classified,
@@ -131,12 +169,18 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         createdAt: serverTimestamp(),
         createdBy: auth.currentUser!.uid,
         creatorEmail: auth.currentUser!.email,
-        sourceCollection: 'financial_entries',
+        audit: {
+          createdAt: serverTimestamp(),
+          createdBy: auth.currentUser!.uid,
+          action: 'import',
+          source: 'file_upload'
+        },
+        sourceCollection: 'staging_financial_entries',
         status: 'pending',
         requiresApproval: true
       };
 
-      await addDoc(collection(db, 'financial_entries'), payload);
+      await addDoc(collection(db, 'staging_financial_entries'), payload);
 
       // Notify Admins
       await notificationService.createNotification({

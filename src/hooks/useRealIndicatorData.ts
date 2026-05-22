@@ -105,7 +105,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
       });
 
       // Fallback EBITDA calculation if still 0
-      if (calculated.ebitda === 0) {
+      if (calculated.ebitda === 0 && calculated.revenue > 0) {
         const ebitVal = allEntries.filter((e: any) => {
           const name = (e.category || e.conta || '').toLowerCase();
           return name === 'ebit' || name.includes('lucro operacional') || name.includes('resultado operacional');
@@ -131,6 +131,28 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
 
           calculated.ebitda = lb - Math.abs(desp) + Math.abs(depVal);
         }
+      }
+
+      // Fallback Net Profit calculation if still 0
+      if (calculated.netProfit === 0 && calculated.revenue > 0) {
+        const depVal = allEntries.filter((e: any) => {
+          const name = (e.category || e.conta || '').toLowerCase();
+          return name.includes('deprecia') || name.includes('amortiza');
+        }).reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
+        
+        const ebitVal = calculated.ebitda - Math.abs(depVal);
+        
+        const despFin = allEntries.filter((e: any) => {
+            const name = (e.category || e.conta || '').toLowerCase();
+            return name.includes('despesas financeiras') || name === 'resultado financeiro';
+        }).reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
+        
+        const provisaoIR = allEntries.filter((e: any) => {
+            const name = (e.category || e.conta || '').toLowerCase();
+            return name.includes('ir') || name.includes('csll') || name.includes('imposto sobre o lucro');
+        }).reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
+        
+        calculated.netProfit = ebitVal - Math.abs(despFin) - Math.abs(provisaoIR);
       }
 
       // C. Strategic Financial Position (Current balances)

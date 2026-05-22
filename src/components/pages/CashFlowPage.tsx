@@ -371,7 +371,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                     <div className="p-4 bg-rose-50 rounded-2xl border border-rose-100 col-span-2">
                       <div className="flex justify-between items-center">
                         <p className="text-[9px] font-bold text-rose-900 uppercase">Inadimplência de Clientes (Atrasados)</p>
-                        <span className="text-[10px] font-black text-rose-600 bg-white px-2 py-0.5 rounded-full">{resumo?.indiceInadimplencia.toFixed(1)}%</span>
+                        <span className="text-[10px] font-black text-rose-600 bg-white px-2 py-0.5 rounded-full">{resumo?.indiceInadimplencia.toFixed(2)}%</span>
                       </div>
                       <p className="text-lg font-black text-rose-600">{formatCurrency(resumo?.totalVencidoReceber)}</p>
                     </div>
@@ -384,7 +384,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                   { title: 'Saldo Final Projetado', value: formatValue(resumo.saldoFinal, ''), color: resumo.saldoFinal < 0 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: 'R$' },
                   { title: 'Passivo Vencido', value: formatValue(resumo.passivoVencido, ''), color: 'Vermelho', icon: Calculator, suffix: 'R$' },
                   { title: `LCR (${viewRange}D)`, value: Number(resumo.lcr).toFixed(2), color: Number(resumo.lcr) < 1 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: '' },
-                  { title: `Margem Segurança`, value: Number(resumo.margemSeguranca).toFixed(1), color: Number(resumo.margemSeguranca) < 10 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: '%' },
+                  { title: `Margem Segurança`, value: Number(resumo.margemSeguranca).toFixed(2), color: Number(resumo.margemSeguranca) < 10 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: '%' },
                   { title: 'Necessidade Mensal (NCG)', value: formatValue(resumo.ncg, ''), color: 'Verde', icon: Calculator, suffix: 'R$' },
                 ].map((kpi, idx) => (
                   <KpiCard 

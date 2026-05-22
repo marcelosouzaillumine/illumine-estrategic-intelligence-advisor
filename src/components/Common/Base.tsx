@@ -3,6 +3,7 @@ import { LayoutGrid, Calendar, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn } from '../../lib/utils';
 import { FULL_MONTH_LABELS } from '../../constants';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 
 export function PageHeader({ 
   title, 
@@ -145,11 +146,13 @@ export function KpiValue({
 }) {
   const cleanSuffix = suffix.replace(/\s+/g, '\u00A0');
   const isCurrency = ['R$', 'BRL', 'USD', 'EUR', 'GBP', '$'].includes(cleanSuffix.trim());
+  const isLongText = typeof value === 'string' && isNaN(Number(value)) && value.length > 15;
+
   return (
-    <div className="w-full [container-type:inline-size] py-1">
+    <div className="w-full [container-type:inline-size] py-1 overflow-hidden">
       <div className={cn(
-        "whitespace-nowrap tabular-nums font-display leading-[1.15] min-w-0 max-w-full",
-        "text-[clamp(0.9rem,9cqw,2.2rem)]",
+        "font-display max-w-full overflow-hidden text-ellipsis",
+        isLongText ? "whitespace-normal break-words text-balance leading-tight text-[clamp(0.75rem,5cqw,1.25rem)]" : "whitespace-nowrap tabular-nums leading-[1.15] min-w-0 text-[clamp(0.9rem,9cqw,2.2rem)]",
         className
       )}>
         {isCurrency ? `${cleanSuffix.trim()}\u00A0${value}` : `${value}${cleanSuffix}`}
@@ -168,7 +171,8 @@ export function KpiCard({
   className,
   highlight = false,
   onClick,
-  noScroll = false
+  noScroll = false,
+  tooltip
 }: {
   title: string;
   value: string | number;
@@ -180,6 +184,7 @@ export function KpiCard({
   highlight?: boolean;
   onClick?: () => void;
   noScroll?: boolean;
+  tooltip?: string;
 }) {
   const statusConfig: Record<string, { bg: string; text: string; border: string; glow: string; label: string }> = {
     'Verde': { bg: 'bg-success/5', text: 'text-success', border: 'border-success/20', glow: 'shadow-[0_0_12px_rgba(16,185,129,0.08)]', label: 'Saudável' },
@@ -250,7 +255,7 @@ export function KpiCard({
     ? trendConfig[finalTrend]
     : { bg: cfg.bg, text: cfg.text, border: cfg.border, glow: cfg.glow, dot: finalStatus === 'Pendente' || finalTrend === 'Pendente' ? 'bg-muted-foreground' : 'bg-success' };
 
-  return (
+  const content = (
     <motion.div 
       whileHover={{ y: -6, scale: 1.015, boxShadow: '0 20px 25px -5px rgba(14, 28, 44, 0.06), 0 10px 10px -5px rgba(14, 28, 44, 0.02)' }}
       whileTap={{ scale: 0.99 }}
@@ -297,7 +302,7 @@ export function KpiCard({
       <div className="space-y-3 min-w-0 flex-1 flex flex-col justify-center">
         {/* Title — single line, truncate gracefully if too long */}
         <p className={cn(
-          "text-[clamp(8.5px,0.75vw,10.5px)] font-black uppercase tracking-[0.2em] leading-normal transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis",
+          "text-[clamp(8.5px,0.75vw,10.5px)] font-black uppercase tracking-[0.2em] leading-relaxed transition-colors duration-300 line-clamp-2",
           highlight ? "text-secondary/90" : "text-muted-foreground group-hover:text-secondary"
         )}>
           {title}
@@ -336,6 +341,23 @@ export function KpiCard({
       </div>
     </motion.div>
   );
+
+  if (tooltip) {
+    return (
+      <TooltipProvider delayDuration={100}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            {content}
+          </TooltipTrigger>
+          <TooltipContent className="bg-slate-900 text-white font-medium text-xs px-3 py-2 border-white/10 shadow-xl">
+            {tooltip}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
+  return content;
 }
 
 export function MarkdownText({ text, className }: { text?: string; className?: string }) {

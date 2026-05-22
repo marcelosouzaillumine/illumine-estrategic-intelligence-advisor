@@ -158,7 +158,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
                   <p className="text-[9px] font-medium opacity-70">Receita Líquida Est.</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xl font-bold">{anualizedRevenue > 0 ? ((anualizedEbitda / anualizedRevenue) * 100).toFixed(1) : 0}%</p>
+                  <p className="text-xl font-bold">{anualizedRevenue > 0 ? ((anualizedEbitda / anualizedRevenue) * 100).toFixed(2) : 0}%</p>
                   <p className="text-[9px] font-medium opacity-70">Margem EBITDA</p>
                 </div>
               </div>

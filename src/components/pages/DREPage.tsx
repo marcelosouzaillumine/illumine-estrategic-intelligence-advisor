@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon, AlertTriangle, Sparkles } from 'lucide-react';
+import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon, AlertTriangle, Sparkles, Bug, Target, Shield, Activity, Layers, Scale, Zap, Building2, Coins, Receipt } from 'lucide-react';
 import { DATA } from '../../data';
 import { 
   ResponsiveContainer, 
@@ -22,6 +22,8 @@ import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFina
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
+import { calculateDreCascade } from '../../lib/dreCascade';
+import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import {
   collection,
   deleteDoc,
@@ -40,6 +42,10 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [, setThemeTrigger] = useState(0);
+
+  const currentClient = clients?.find((c: any) => c.id === selectedClient);
+  const segmentoEmpresa = (currentClient?.segmentoAtuacao || currentClient?.segmento || 'Serviços').toLowerCase();
+  
   useEffect(() => {
     const handleThemeChange = () => setThemeTrigger(prev => prev + 1);
     window.addEventListener('theme-changed', handleThemeChange);
@@ -67,87 +73,98 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
 
   
-  // Agrega dados preservando level, categoria e tipo
+  // Agrega dados baseados na estrutura oficial da DRE
   const rows = useMemo(() => {
-    if (dbData.length > 0) {
-      const aggregated: any = {};
-      dbData.forEach((d: any) => {
-        const key = d.conta || d.category;
-        if (!aggregated[key]) {
-          aggregated[key] = { 
-            ...d, 
-            val: 0,
-            level: d.level ?? 1  // preserve level from manual launch
-          };
-        }
-        aggregated[key].val += (d.val || d.valor || d.value || 0);
-      });
-      return Object.values(aggregated);
-    }
-    return [];
+    if (dbData.length === 0) return [];
+    
+    // Map db data to standard shape, auto-assigning parentId for legacy entries
+    const mappedEntries = dbData.map((d: any) => {
+      let parentId = d.parentId;
+      const cat = (d.conta || d.category || '').toLowerCase();
+      
+      // Ignore totals from legacy data
+      if (!parentId && (cat.includes('receita líquida') || cat.includes('receita operacional líquida') || cat.includes('lucro bruto') || cat.includes('ebitda') || cat === 'ebit' || cat.includes('resultado operacional líquido') || cat.includes('lajida') || cat.includes('lucro líquido') || cat.includes('lair') || cat.includes('resultado antes'))) {
+         return null; 
+      }
+      
+      if (!parentId) {
+         if (cat.includes('receita operacional bruta') || cat === 'receita bruta' || cat.includes('faturamento') || (cat.includes('receita') && !cat.includes('líquida') && !cat.includes('financeir') && !cat.includes('outras'))) {
+            parentId = 'ROB';
+         } else if (cat.includes('deduç') || cat.includes('imposto sobre') || cat.includes('abatimento') || cat.includes('devoluç') || cat.includes('cancelamento')) {
+            parentId = 'DED';
+         } else if (cat.includes('custo') || cat.includes('cmv') || cat.includes('cpv') || cat.includes('csv') || cat.includes('csp')) {
+            parentId = 'CUSTOS';
+         } else if (cat.includes('deprecia') || cat.includes('amortiza')) {
+            parentId = 'DEP_AMORT';
+         } else if (cat.includes('financeir') || cat.includes('juros')) {
+            parentId = 'RESULT_FIN';
+         } else if (cat.includes('provisão') || cat.includes('irpj') || cat.includes('csll') || cat.includes('imposto de renda') || cat.includes('contribuição social')) {
+            parentId = 'PROV_IR_CSLL';
+         } else if (cat.includes('outras receitas') || cat.includes('outra receita') || cat.includes('outras despesas operacionais')) {
+            parentId = 'OUTRAS_REC_DESP';
+         } else {
+            parentId = 'DESP_OPER'; // Default for generic expenses
+         }
+      }
+      
+      return {
+         ...d,
+         parentId,
+         value: d.val || d.valor || d.value || 0
+      };
+    }).filter(Boolean);
+
+    // Combine structural accounts and mapped analytic accounts
+    const allRows = [
+       ...DRE_OFFICIAL_STRUCTURE.map(account => ({
+          ...account,
+          value: 0
+       })),
+       ...mappedEntries
+    ];
+
+    return calculateDreCascade(allRows);
   }, [dbData]);
 
-  const getRobustRow = (source: any[], possibleNames: string[]) => {
-    return source.find(s => {
-      const sName = (s.conta || s.category || '').toLowerCase();
-      const cleanName = sName.replace(/^[(-/+)\s]+/, '').trim();
-      return possibleNames.some(p => {
-        const cleanP = p.toLowerCase().replace(/^[(-/+)\s]+/, '').trim();
-        return cleanName === cleanP || cleanName.includes(cleanP);
-      });
-    });
-  };
-
-  const getValue = (source: any[], name: string) => {
-    const row = getRobustRow(source, [name]);
-    return row?.val || row?.valor || 0;
+  const getValue = (source: any[], idMatch: string) => {
+    const exactMatch = source.find((s: any) => s.id === idMatch);
+    if (exactMatch) {
+      return exactMatch.computedValue !== undefined ? exactMatch.computedValue : (exactMatch.val || exactMatch.value || exactMatch.valor || 0);
+    }
+    return 0;
   };
 
   // 1. RECEITA OPERACIONAL BRUTA
-  const receitaBruta = getValue(rows, 'Receita Operacional Bruta') || getValue(rows, 'Receita Bruta') || getValue(rows, 'Faturamento Bruto') || getValue(rows, 'Faturamento') || 0;
+  const receitaBruta = getValue(rows, 'ROB');
 
   // 2. DEDUÇÕES DA RECEITA BRUTA
-  const deducoesRow = getRobustRow(rows, ['Deduções e Impostos', 'Deduções da Receita', 'Impostos sobre Vendas', 'Deduções', 'Devoluções', 'Vendas Canceladas', 'Cancelamentos', 'Abatimentos']);
-  const deducoesReceita = Math.abs(deducoesRow?.val || deducoesRow?.valor || 0);
+  const deducoesReceita = getValue(rows, 'DED');
 
   // 3. RECEITA OPERACIONAL LÍQUIDA
-  let recLiquida = getValue(rows, 'Receita Líquida') || getValue(rows, 'Receita Operacional Líquida') || 0;
-  if (recLiquida === 0 && receitaBruta > 0) {
-    recLiquida = receitaBruta - deducoesReceita;
-  }
+  const recLiquida = getValue(rows, 'ROL');
 
   // 4. ÍNDICE DAS DEDUÇÕES DA RECEITA
-  const indiceDeducoes = receitaBruta > 0 ? (deducoesReceita / receitaBruta) * 100 : 0;
+  const indiceDeducoes = receitaBruta > 0 ? (Math.abs(deducoesReceita) / receitaBruta) * 100 : 0;
 
   // 5. CUSTOS VARIÁVEIS E LABEL DINÂMICO
-  const cmvRow = getRobustRow(rows, ['Custo das Mercadorias Vendidas', 'Custo dos Produtos Vendidos', 'Custo dos Serviços Prestados', 'Custos (CPV/CSP)', 'Custos Variáveis', 'CMV', 'CPV', 'CSV']);
-  const custosVar = Math.abs(cmvRow?.val || cmvRow?.valor || 0);
-  
-  let cmvLabelRaw = cmvRow ? (cmvRow.conta || cmvRow.category) : 'Custos Variáveis';
-  // limpar o label dinâmico retirando prefixos como (-)
+  const custosVar = getValue(rows, 'CUSTOS');
+  const cmvRow = rows.find((r: any) => r.parentId === 'CUSTOS' && r.tipo !== 'SINTETICA') || rows.find((r: any) => r.id === 'CUSTOS');
+  let cmvLabelRaw = cmvRow ? (cmvRow.conta || cmvRow.category || cmvRow.nome || 'Custos Variáveis') : 'Custos Variáveis';
   const cmvLabel = cmvLabelRaw.replace(/^[(-/+)\s]+/, '').trim();
 
-  // 6. MARGEM DE CONTRIBUIÇÃO
-  const margemContrib = recLiquida - custosVar;
+  // 6. MARGEM DE CONTRIBUIÇÃO (Lucro Bruto na nova estrutura = ROL - Custos)
+  const lucroBruto = getValue(rows, 'LUCRO_BRUTO');
+  const margemContrib = lucroBruto;
 
   // 7. ÍNDICE DA MARGEM DE CONTRIBUIÇÃO
   const indiceMargemContrib = recLiquida > 0 ? margemContrib / recLiquida : 0;
 
-  // 8. DESPESAS FIXAS (Consolidação Inteligente V2)
-  const despOperacionaisMae = Math.abs(getValue(rows, 'Despesas Operacionais') || getValue(rows, 'Despesas') || getValue(rows, 'Despesas Operacionais Fixas') || 0);
-  const despVendas = Math.abs(getValue(rows, 'Despesas de Vendas') || getValue(rows, 'Despesas Comerciais') || 0);
-  const despAdmin = Math.abs(getValue(rows, 'Despesas Administrativas') || 0);
-  const despFin = Math.abs(getValue(rows, 'Despesas Financeiras') || 0);
-  const outrasRecOp = Math.abs(getValue(rows, 'Outras Receitas Operacionais') || 0);
-  
-  const somaAnaliticas = despVendas + despAdmin + despFin;
-  let despesasFixas = 0;
-
-  if (somaAnaliticas > 0) {
-    despesasFixas = somaAnaliticas - outrasRecOp;
-  } else {
-    despesasFixas = despOperacionaisMae - outrasRecOp;
-  }
+  // 8. DESPESAS FIXAS / OPERACIONAIS
+  const despesasFixas = getValue(rows, 'DESP_OPER');
+  const outrasRecOp = getValue(rows, 'OUTRAS_REC_DESP');
+  const despVendas = rows.filter((r: any) => r.parentId === 'DESP_OPER' && (r.conta || r.category || r.nome || '').toLowerCase().includes('venda')).reduce((a: any, b: any) => a + (b.computedValue || b.value || b.val || 0), 0);
+  const despAdmin = rows.filter((r: any) => r.parentId === 'DESP_OPER' && (r.conta || r.category || r.nome || '').toLowerCase().includes('admin')).reduce((a: any, b: any) => a + (b.computedValue || b.value || b.val || 0), 0);
+  const despFin = getValue(rows, 'RESULT_FIN');
 
   // 9. PONTO DE EQUILÍBRIO CONTÁBIL
   let pontoEquilibrio = 0;
@@ -181,30 +198,22 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const indiceCoberturaOperacional = pontoEquilibrio > 0 ? (recLiquida / pontoEquilibrio) * 100 : 0;
 
   // CÁLCULOS ADICIONAIS (EBITDA, etc)
-  const lucroBruto = getValue(rows, 'Lucro Bruto');
-  let ebitda       = getValue(rows, 'EBITDA') || getValue(rows, 'LAJIDA') || 0;
-  const lucroLiq   = getValue(rows, 'Lucro Líquido') || getValue(rows, 'Lucro Líquido do Exercício');
-  const depreciacao = Math.abs(getValue(rows, 'Depreciação e Amortização') || getValue(rows, 'Depreciação') || getValue(rows, 'Amortização') || 0);
-  const ebitVal = getValue(rows, 'EBIT') || getValue(rows, 'Lucro Operacional') || getValue(rows, 'Resultado Operacional') || 0;
+  const ebitda = getValue(rows, 'EBITDA');
+  const lucroLiq = getValue(rows, 'LUCRO_LIQ');
+  const depreciacao = getValue(rows, 'DEP_AMORT');
+  const ebitVal = getValue(rows, 'EBIT');
+  const provisaoIR = getValue(rows, 'PROV_IR_CSLL');
 
-  if (ebitda === 0) {
-    if (ebitVal !== 0) {
-      ebitda = ebitVal + depreciacao;
-    } else {
-      ebitda = lucroBruto - despOperacionaisMae + depreciacao;
-    }
-  }
-
-  // AUDITORIA MATEMÁTICA INTERNA
+  // AUDITORIA MATEMÁTICA INTERNA (agora inativa, pois a cascade garante a consistência, mas mantida por segurança)
   const internalAuditErrors: string[] = [];
   if (recLiquida !== 0) {
-    const calcLB = recLiquida - custosVar;
-    if (lucroBruto !== 0 && Math.abs(calcLB - lucroBruto) > (recLiquida * 0.01)) {
-        internalAuditErrors.push(`Divergência matemática detectada: O Lucro Bruto contabilizado difere do cálculo (Receita Líquida - Custos Variáveis).`);
+    const calcLB = recLiquida - Math.abs(custosVar);
+    if (lucroBruto !== 0 && Math.abs(calcLB - lucroBruto) > (Math.abs(recLiquida) * 0.01)) {
+        internalAuditErrors.push(`Divergência matemática detectada: O Lucro Bruto contabilizado difere do cálculo padrão.`);
     }
-    const calcOp = calcLB - despesasFixas;
-    if (ebitVal !== 0 && Math.abs(calcOp - ebitVal) > (recLiquida * 0.01)) {
-        internalAuditErrors.push(`Divergência matemática detectada: O Resultado Operacional contabilizado difere da dedução de Despesas Fixas do Lucro Bruto.`);
+    const calcOp = calcLB - Math.abs(despesasFixas) - Math.abs(depreciacao);
+    if (ebitVal !== 0 && Math.abs(calcOp - ebitVal) > (Math.abs(recLiquida) * 0.01)) {
+        internalAuditErrors.push(`Divergência matemática detectada: O Resultado Operacional contabilizado difere do cálculo padrão.`);
     }
   }
 
@@ -228,27 +237,66 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const cmvVal = recLiquida > 0 ? (custosVar / recLiquida) * 100 : 0;
   const ebitdaVal = recLiquida > 0 ? (ebitda / recLiquida) * 100 : 0;
 
-  // SCORE DE SAÚDE FINANCEIRA (Parte Operacional - 85%)
-  let healthScoreBase = 0;
-  if (recLiquida > 0) {
-     const scoreMargemOp = Math.min(Math.max((margemOperacional / 15) * 100, 0), 100) * 0.20; 
-     const scoreLiquidez = Math.min(Math.max((ebitdaVal / 15) * 100, 0), 100) * 0.20; 
-     const scoreEstrutura = Math.min(Math.max(capacidadeAbsorcaoEstrutura * 100, 0), 100) * 0.15; 
-     const scoreCaixa = Math.min(Math.max((indiceConversaoOperacional / 80) * 100, 0), 100) * 0.15; 
-     const debtRatio = ebitda > 0 ? despFin / ebitda : despFin > 0 ? 1 : 0;
-     const scoreDivida = Math.max((1 - debtRatio) * 100, 0) * 0.15;
-     
-     healthScoreBase = scoreMargemOp + scoreLiquidez + scoreEstrutura + scoreCaixa + scoreDivida;
+  let cmvMin = 0;
+  let cmvMax = 60; 
+  let cmvCritical = 75; 
+
+  if (segmentoEmpresa.includes('saas') || segmentoEmpresa.includes('tecnologia') || segmentoEmpresa.includes('consultoria')) {
+     cmvMin = 10; cmvMax = 35; cmvCritical = 50;
+  } else if (segmentoEmpresa.includes('indústria') || segmentoEmpresa.includes('industria') || segmentoEmpresa.includes('manufatura')) {
+     cmvMin = 40; cmvMax = 70; cmvCritical = 80;
+  } else if (segmentoEmpresa.includes('hospital') || segmentoEmpresa.includes('saúde') || segmentoEmpresa.includes('saude')) {
+     cmvMin = 45; cmvMax = 65; cmvCritical = 75;
+  } else if (segmentoEmpresa.includes('comércio') || segmentoEmpresa.includes('comercio') || segmentoEmpresa.includes('varejo')) {
+     cmvMin = 50; cmvMax = 80; cmvCritical = 85;
+  } else if (segmentoEmpresa.includes('distribui')) {
+     cmvMin = 55; cmvMax = 85; cmvCritical = 90;
   }
 
-  // TEXTOS INTERPRETATIVOS
+
+
+  // OPERATIONAL EFFICIENCY INTELLIGENCE
+  const burdenTributario = receitaBruta > 0 ? (deducoesReceita + Math.abs(provisaoIR)) / receitaBruta : 0;
+  
+  const eficienciaComercial = cmvVal <= cmvMax ? 100 : Math.max(100 - (((cmvVal - cmvMax) / (cmvCritical - cmvMax)) * 100), 0);
+  const eficienciaOperacional = ebitdaVal >= 15 ? 100 : ebitdaVal < 0 ? 0 : (ebitdaVal / 15) * 100;
+  const eficienciaAdministrativa = indiceDespesasAdministrativas <= 10 ? 100 : Math.max(100 - (((indiceDespesasAdministrativas - 10) / 15) * 100), 0);
+  const eficienciaFinanceira = indiceDespesasFinanceiras <= 3 ? 100 : Math.max(100 - (((indiceDespesasFinanceiras - 3) / 7) * 100), 0);
+  const eficienciaTributaria = burdenTributario <= 0.15 ? 100 : Math.max(100 - (((burdenTributario - 0.15) / 0.15) * 100), 0);
+  const eficienciaEstrutural = capacidadeAbsorcaoEstrutura >= 1.5 ? 100 : (capacidadeAbsorcaoEstrutura < 1 ? 0 : ((capacidadeAbsorcaoEstrutura - 1) / 0.5) * 100);
+
+
+  // SCORE DE SAÚDE FINANCEIRA (Parte Operacional)
+  let healthScoreBase = 0;
+  if (recLiquida > 0) {
+     const scoreMargemBruta = Math.min(Math.max((mbVal / 40) * 100, 0), 100) * 0.15;
+     
+     let scoreCMV = 0;
+     if (cmvVal <= cmvMax) scoreCMV = 100;
+     else if (cmvVal >= cmvCritical) scoreCMV = 0;
+     else scoreCMV = 100 - (((cmvVal - cmvMax) / (cmvCritical - cmvMax)) * 100);
+     scoreCMV *= 0.10;
+
+     const scoreMargemEbitda = Math.min(Math.max((ebitdaVal / 15) * 100, 0), 100) * 0.15; 
+     const scoreMargemOp = Math.min(Math.max(((margemOperacional + 10) / 25) * 100, 0), 100) * 0.15; 
+     const scoreCobertura = Math.min(Math.max((indiceCoberturaOperacional / 100) * 100, 0), 100) * 0.15;
+     const scoreEstrutura = Math.min(Math.max(capacidadeAbsorcaoEstrutura * 100, 0), 100) * 0.10; 
+     const scoreCaixa = Math.min(Math.max((indiceConversaoOperacional / 80) * 100, 0), 100) * 0.10; 
+     
+     const debtRatio = ebitda > 0 ? despFin / ebitda : despFin > 0 ? 1 : 0;
+     const scoreDivida = Math.max((1 - debtRatio) * 100, 0) * 0.10;
+     
+     healthScoreBase = scoreMargemBruta + scoreCMV + scoreMargemEbitda + scoreMargemOp + scoreCobertura + scoreEstrutura + scoreCaixa + scoreDivida;
+  }
+
+  // TEXTOS INTERPRETATIVOS (BOARD ANALYTICS)
   const performanceNote = useMemo(() => {
-    if (recLiquida === 0 || pontoEquilibrio === 0) return "Aguardando dados para análise operacional completa.";
+    if (recLiquida === 0 || pontoEquilibrio === 0) return "Aguardando dados para análise operacional estrutural.";
     
     if (recLiquida < pontoEquilibrio) {
-      return `A empresa apresentou Receita Operacional Líquida de ${formatCurrency(recLiquida)}, enquanto o ponto de equilíbrio estimado da operação foi de ${formatCurrency(pontoEquilibrio)}. \n\nIsso indica que a operação permaneceu ${formatCurrency(Math.abs(gapEquilibrio))} abaixo do faturamento mínimo necessário para cobertura integral de seus custos e despesas.\n\nO índice de cobertura operacional foi de ${indiceCoberturaOperacional.toFixed(2)}%, demonstrando que a empresa conseguiu sustentar apenas parte da estrutura operacional necessária para atingir equilíbrio financeiro.`;
+      return `Risco Estrutural Identificado: A operação não absorve o seu ponto de equilíbrio (${formatCurrency(pontoEquilibrio)}). Existe um gap de geração operacional na ordem de ${formatCurrency(Math.abs(gapEquilibrio))}, caracterizando um déficit de capacidade de absorção da estrutura instalada. A operação sustenta apenas ${indiceCoberturaOperacional.toFixed(2)}% do necessário para o break-even.`;
     } else {
-      return `A empresa apresentou Receita Operacional Líquida superior ao ponto de equilíbrio estimado, gerando margem de segurança operacional de ${formatCurrency(margemSegurancaValor)} no período analisado.`;
+      return `A operação demonstra sustentabilidade estrutural, superando o ponto de equilíbrio (${formatCurrency(pontoEquilibrio)}) e gerando uma capacidade de absorção positiva. A geração operacional absorveu a estrutura existente com margem de segurança efetiva de ${formatCurrency(margemSegurancaValor)} no período.`;
     }
   }, [recLiquida, pontoEquilibrio, gapEquilibrio, indiceCoberturaOperacional, margemSegurancaValor]);
 
@@ -269,8 +317,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       name: 'Índice de CMV', 
       val: cmvVal,  
       unit: '%', 
-      status: cmvVal < 50 ? 'Verde' : cmvVal <= 70 ? 'Amarelo' : 'Vermelho',
-      trend: cmvVal < 50 ? 'Eficiente' : cmvVal <= 70 ? 'Atenção' : 'Crítico'
+      status: cmvVal <= cmvMax ? 'Verde' : cmvVal <= cmvCritical ? 'Amarelo' : 'Vermelho',
+      trend: cmvVal <= cmvMin ? 'Eficiente' : cmvVal <= cmvMax ? 'Saudável' : cmvVal <= cmvCritical ? 'Pressionado' : 'Crítico'
     },
     { 
       name: 'Margem EBITDA', 
@@ -294,25 +342,26 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       trend: margemLiquida > 10 ? 'Lucrativa' : margemLiquida >= 0 ? 'Atenção' : 'Prejuízo'
     },
     { 
-      name: 'Conversão Operacional', 
+      name: indiceConversaoOperacional < 0 ? 'Consumo Operacional' : 'Conversão Operacional', 
       val: indiceConversaoOperacional,     
       unit: '%', 
       status: indiceConversaoOperacional > 50 ? 'Verde' : indiceConversaoOperacional >= 20 ? 'Amarelo' : 'Vermelho',
-      trend: indiceConversaoOperacional > 50 ? 'Forte' : indiceConversaoOperacional >= 20 ? 'Moderada' : 'Crítica'
+      trend: indiceConversaoOperacional >= 0 ? (indiceConversaoOperacional > 50 ? 'Forte' : indiceConversaoOperacional >= 20 ? 'Moderada' : 'Baixa') : (indiceConversaoOperacional > -20 ? 'Pressionado' : indiceConversaoOperacional > -50 ? 'Deteriorado' : 'Destruição Op.')
     },
     { 
       name: 'Absorção de Estrutura', 
       val: isFinite(capacidadeAbsorcaoEstrutura) ? capacidadeAbsorcaoEstrutura : 0,     
       unit: 'x', 
-      status: capacidadeAbsorcaoEstrutura >= 1.5 ? 'Verde' : capacidadeAbsorcaoEstrutura >= 1.0 ? 'Amarelo' : 'Vermelho',
-      trend: capacidadeAbsorcaoEstrutura >= 1.5 ? 'Confortável' : capacidadeAbsorcaoEstrutura >= 1.0 ? 'Equilíbrio' : 'Insustentável'
+      status: capacidadeAbsorcaoEstrutura >= 1.0 ? 'Verde' : capacidadeAbsorcaoEstrutura >= 0.8 ? 'Amarelo' : 'Vermelho',
+      trend: capacidadeAbsorcaoEstrutura > 1.3 ? 'Alta Absorção' : capacidadeAbsorcaoEstrutura >= 1.0 ? 'Sustentada' : capacidadeAbsorcaoEstrutura >= 0.8 ? 'Absorção Parcial' : capacidadeAbsorcaoEstrutura >= 0.5 ? 'Baixa Absorção' : 'Não Absorvida'
     },
     { 
       name: 'Break-Even Days', 
-      val: breakEvenDays, 
-      unit: 'd', 
-      status: breakEvenDays <= 20 ? 'Verde' : breakEvenDays <= 25 ? 'Amarelo' : 'Vermelho',
-      trend: breakEvenDays <= 20 ? 'Eficiente' : breakEvenDays <= 25 ? 'Atenção' : 'Lento'
+      val: breakEvenDays > 365 ? 'Estrutura anual não absorvida pela operação atual.' : breakEvenDays, 
+      unit: breakEvenDays > 365 ? '' : 'd', 
+      status: breakEvenDays <= 20 ? 'Verde' : breakEvenDays <= 365 ? 'Amarelo' : 'Vermelho',
+      trend: breakEvenDays <= 20 ? 'Eficiente' : breakEvenDays <= 365 ? 'Atenção' : 'Insuficiente',
+      tooltip: breakEvenDays > 365 ? `${breakEvenDays.toFixed(1)} dias` : undefined
     },
   ];
 
@@ -334,55 +383,42 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       let cmv = 0;
 
       if (yearEntries.length > 0) {
-        rl = yearEntries.filter(d => {
-          const name = (d.conta || d.category || '').toLowerCase();
-          return name === 'receita líquida' || name === 'receita operacional líquida';
-        }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-        
-        ebt = yearEntries.filter(d => {
-          const name = (d.conta || d.category || '').toLowerCase();
-          return name === 'ebitda' || name.includes('ebitda') || name === 'lajida';
-        }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-
-        if (ebt === 0) {
-          const ebitHist = yearEntries.filter(d => {
-            const name = (d.conta || d.category || '').toLowerCase();
-            return name === 'ebit' || name.includes('lucro operacional') || name.includes('resultado operacional');
-          }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-          
-          const depHist = yearEntries.filter(d => {
-            const name = (d.conta || d.category || '').toLowerCase();
-            return name.includes('deprecia') || name.includes('amortiza');
-          }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-
-          if (ebitHist !== 0) {
-            ebt = ebitHist + Math.abs(depHist);
-          } else {
-             const lbHist = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('lucro bruto')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-             const despHist = yearEntries.filter(d => {
-               const name = (d.conta || d.category || '').toLowerCase();
-               return name.includes('despesas operacionais') || name === 'despesas';
-             }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-             ebt = lbHist - Math.abs(despHist) + Math.abs(depHist);
+        const mappedYearEntries = yearEntries.map((d: any) => {
+          let parentId = d.parentId;
+          const cat = (d.conta || d.category || '').toLowerCase();
+          if (!parentId) {
+             if (cat.includes('receita operacional bruta') || cat === 'receita bruta' || cat.includes('faturamento') || (cat.includes('receita') && !cat.includes('líquida') && !cat.includes('financeir') && !cat.includes('outras'))) {
+                parentId = 'ROB';
+             } else if (cat.includes('deduç') || cat.includes('imposto sobre') || cat.includes('abatimento') || cat.includes('devoluç') || cat.includes('cancelamento')) {
+                parentId = 'DED';
+             } else if (cat.includes('custo') || cat.includes('cmv') || cat.includes('cpv') || cat.includes('csv') || cat.includes('csp')) {
+                parentId = 'CUSTOS';
+             } else if (cat.includes('deprecia') || cat.includes('amortiza')) {
+                parentId = 'DEP_AMORT';
+             } else if (cat.includes('financeir') || cat.includes('juros')) {
+                parentId = 'RESULT_FIN';
+             } else if (cat.includes('provisão') || cat.includes('irpj') || cat.includes('csll') || cat.includes('imposto de renda') || cat.includes('contribuição social')) {
+                parentId = 'PROV_IR_CSLL';
+             } else if (cat.includes('outras receitas') || cat.includes('outra receita') || cat.includes('outras despesas operacionais')) {
+                parentId = 'OUTRAS_REC_DESP';
+             } else {
+                parentId = 'DESP_OPER'; // Default for generic expenses
+             }
           }
-        }
+          return { ...d, parentId, value: d.val || d.valor || d.value || 0 };
+        });
+
+        const cascadeResult = calculateDreCascade([...DRE_OFFICIAL_STRUCTURE.map(account => ({ ...account, value: 0 })), ...mappedYearEntries]);
         
-        ll = yearEntries.filter(d => {
-          const name = (d.conta || d.category || '').toLowerCase();
-          return name === 'lucro líquido' || name === 'lucro líquido do exercício';
-        }).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-
-        cmv = yearEntries.filter(d => {
-          const name = (d.conta || d.category || '').toLowerCase();
-          return name.includes('custos variáveis') || name === 'cmv' || name === 'cpv' || name === 'csv' || name.includes('custo das mercadorias') || name.includes('custo dos serviços');
-        }).reduce((acc, d) => acc + Math.abs(d.val || d.valor || d.value || 0), 0);
-
+        rl = cascadeResult.find((r: any) => r.id === 'ROL')?.computedValue || 0;
+        ebt = cascadeResult.find((r: any) => r.id === 'EBITDA')?.computedValue || 0;
+        ll = cascadeResult.find((r: any) => r.id === 'LUCRO_LIQ')?.computedValue || 0;
+        cmv = Math.abs(cascadeResult.find((r: any) => r.id === 'CUSTOS')?.computedValue || 0);
       } else {
-        const mockYear = DATA.dre.filter((r: any) => r.id === selectedClient && r.ano === y);
-        rl = mockYear.find(m => m.conta === 'Receita Líquida')?.valor || 0;
-        ebt = mockYear.find(m => m.conta === 'EBITDA')?.valor || 0;
-        ll = mockYear.find(m => m.conta === 'Lucro Líquido')?.valor || 0;
-        cmv = Math.abs(mockYear.find(m => m.conta === 'Custos Variáveis')?.valor || mockYear.find(m => m.conta === 'CMV')?.valor || 0);
+        rl = 0;
+        ebt = 0;
+        ll = 0;
+        cmv = 0;
       }
 
       return {
@@ -426,72 +462,41 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   };
 
 
-  const tableRows = [
-    { name: 'Receita Operacional Bruta', level: 1 },
-    { name: '(-) Deduções e Impostos', level: 2 },
-    { name: 'Receita Líquida', level: 1 },
-    { name: '(-) Custos (CPV/CSP)', level: 2 },
-    { name: 'Lucro Bruto', level: 1 },
-    { name: '(-) Despesas Operacionais', level: 2 },
-    { name: 'EBITDA', level: 1 },
-    { name: '(-) Depreciação e Amortização', level: 2 },
-    { name: 'EBIT', level: 1 },
-    { name: '(+/-) Resultado Financeiro', level: 2 },
-    { name: 'LAIR (Lucro Antes do IR)', level: 1 },
-    { name: '(-) Provisão IR/CSLL', level: 2 },
-    { name: 'Lucro Líquido', level: 1 },
-  ];
 
-  // Histórico para AH no ano anterior
-  const prevYearRows = useMemo(() => {
-    const prevEntries = allHistoryData.filter((d: any) => {
-      if (Number(d.year) !== (filterYear - 1)) return false;
-      const et = (d.entryType || '').toLowerCase();
-      if (['receitas', 'despesas', 'dre', 'resultado'].includes(et)) return true;
-      if (!['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(et) && d.type === 'DRE') return true;
-      return false;
-    });
-    if (prevEntries.length > 0) {
-      const agg: any = {};
-      prevEntries.forEach((d: any) => {
-        const key = d.conta || d.category;
-        if (!agg[key]) agg[key] = { ...d, val: 0 };
-        agg[key].val += (d.val || d.valor || d.value || 0);
+  // Histórico para AH dos últimos 3 anos
+  const pastYearsData = useMemo(() => {
+    const dataByYear: Record<number, any[]> = {};
+    [1, 2, 3].forEach(offset => {
+      const prevEntries = allHistoryData.filter((d: any) => {
+        if (Number(d.year) !== (filterYear - offset)) return false;
+        const et = (d.entryType || '').toLowerCase();
+        if (['receitas', 'despesas', 'dre', 'resultado'].includes(et)) return true;
+        if (!['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(et) && d.type === 'DRE') return true;
+        return false;
       });
-      return Object.values(agg);
-    }
-    return [];
+      if (prevEntries.length > 0) {
+        const agg: any = {};
+        prevEntries.forEach((d: any) => {
+          const key = d.conta || d.category;
+          if (!agg[key]) agg[key] = { ...d, val: 0 };
+          agg[key].val += (d.val || d.valor || d.value || 0);
+        });
+        dataByYear[offset] = Object.values(agg);
+      } else {
+        dataByYear[offset] = [];
+      }
+    });
+    return dataByYear;
   }, [allHistoryData, filterYear]);
 
-  const getPrevValue = (name: string) => {
-    const search = name.toLowerCase();
-    return (prevYearRows as any[]).find(s => (s.conta || s.category || '').toLowerCase() === search)?.val || 0;
-  };
-
-  // Histórico para AH de 5 anos atrás
-  const prev5YearRows = useMemo(() => {
-    const prevEntries = allHistoryData.filter((d: any) => {
-      if (Number(d.year) !== (filterYear - 5)) return false;
-      const et = (d.entryType || '').toLowerCase();
-      if (['receitas', 'despesas', 'dre', 'resultado'].includes(et)) return true;
-      if (!['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(et) && d.type === 'DRE') return true;
-      return false;
+  const getPastValue = (offset: number, name: string) => {
+    const searchRows = pastYearsData[offset] || [];
+    const normalizedName = name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    const row = searchRows.find((r: any) => {
+      const c = (r.conta || r.category || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      return c.includes(normalizedName);
     });
-    if (prevEntries.length > 0) {
-      const agg: any = {};
-      prevEntries.forEach((d: any) => {
-        const key = d.conta || d.category;
-        if (!agg[key]) agg[key] = { ...d, val: 0 };
-        agg[key].val += (d.val || d.valor || d.value || 0);
-      });
-      return Object.values(agg);
-    }
-    return [];
-  }, [allHistoryData, filterYear]);
-
-  const getPrev5Value = (name: string) => {
-    const search = name.toLowerCase();
-    return (prev5YearRows as any[]).find(s => (s.conta || s.category || '').toLowerCase() === search)?.val || 0;
+    return row?.val || row?.valor || 0;
   };
 
   const trendNote = useMemo(() => {
@@ -517,6 +522,29 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     };
   }, [chartData]);
 
+  // SCALE EFFICIENCY INTELLIGENCE
+  const ebitdaGrowth = trendNote ? trendNote.ebitda : 0;
+  const recGrowth = trendNote ? trendNote.receita : 0;
+  let scaleCategory = 'Análise Inicial';
+  let scaleColor = 'text-slate-400';
+  
+  if (recGrowth > 0 && ebitdaGrowth > recGrowth) {
+      scaleCategory = 'Crescimento Saudável';
+      scaleColor = 'text-emerald-400';
+  } else if (recGrowth > 0 && ebitdaGrowth > 0 && ebitdaGrowth <= recGrowth) {
+      scaleCategory = 'Absorção de Estrutura';
+      scaleColor = 'text-blue-400';
+  } else if (recGrowth > 0 && ebitdaGrowth < 0) {
+      scaleCategory = 'Crescimento Destrutivo';
+      scaleColor = 'text-rose-400';
+  } else if (recGrowth <= 0 && ebitdaGrowth < 0) {
+      scaleCategory = 'Destruição de Valor';
+      scaleColor = 'text-red-500';
+  } else if (recGrowth < 0 && ebitdaGrowth > 0) {
+      scaleCategory = 'Eficiência sob Retração';
+      scaleColor = 'text-amber-400';
+  }
+
   const finalHealthScore = useMemo(() => {
       if (recLiquida <= 0) return 0;
       let score = healthScoreBase;
@@ -527,43 +555,83 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           score += 10; // Compensação por escala vs margem primária
       }
 
-      if (trendNote && trendNote.receita) {
-          const scoreGrowth = Math.min(Math.max((trendNote.receita / 20) * 100, 0), 100) * 0.15;
+      if (trendNote && trendNote.receita > 0) {
+          const scoreGrowth = Math.min((trendNote.receita / 20) * 10, 10);
           score += scoreGrowth;
-      } else {
-          score = (score / 85) * 100;
       }
+      
+      // TRAVA DE PROTEÇÃO ESTRUTURAL (Punitive Cap)
+      // Se a operação queima caixa operacional, ou destrói margem, ou não atingiu o break-even, o score nunca pode ser otimista.
+      if (ebitda < 0 || margemOperacional < 0 || recLiquida < pontoEquilibrio) {
+          score = Math.min(score, 40); // Força para a zona "Estrutura Pressionada" (Amarelo) ou pior
+      }
+      
       return Math.min(Math.max(score, 0), 100);
-  }, [healthScoreBase, trendNote, recLiquida, lucroBruto, capacidadeAbsorcaoEstrutura]);
+  }, [healthScoreBase, trendNote, recLiquida, lucroBruto, capacidadeAbsorcaoEstrutura, ebitda, margemOperacional, pontoEquilibrio]);
 
   const smartInsights = useMemo(() => {
       const insights = [];
       if (recLiquida === 0) return insights;
       
       const margemBrutaVal = recLiquida > 0 ? (lucroBruto / recLiquida) * 100 : 0;
+      
+      let problemaPrincipal = '';
+      let problemaSecundario = '';
+      let potencial = '';
+      let risco = '';
+      let recomendacao = '';
 
-      if (indiceDespesasAdministrativas > 20) {
-          insights.push("A estrutura administrativa está consumindo uma parcela muito elevada da receita, pressionando a margem final.");
+      if (cmvVal > cmvCritical) {
+         problemaPrincipal = `Custo do produto/serviço (${cmvLabel}) em patamar crítico (${cmvVal.toFixed(2)}%), esmagando a margem de contribuição.`;
+         recomendacao = `Revisar precificação imediatamente ou renegociar contratos de fornecimento base.`;
+      } else if (capacidadeAbsorcaoEstrutura < 1) {
+         problemaPrincipal = `Baixa absorção da estrutura administrativa. A operação atual não paga os custos fixos.`;
+         recomendacao = `Ampliar escala comercial sem crescimento proporcional da estrutura fixa.`;
+      } else if (margemOperacional < 0) {
+         problemaPrincipal = `Operação em prejuízo operacional, consumindo o caixa gerado.`;
+         recomendacao = `Revisar eficiência do núcleo operacional e cortar despesas fixas não-essenciais.`;
+      } else if (margemOperacional > 0 && margemLiquida < 0) {
+         problemaPrincipal = `A operação core é lucrativa, mas o alto peso de despesas financeiras destrói o resultado líquido.`;
+         recomendacao = `Priorizar reestruturação de dívidas e substituição por captação mais barata.`;
+      } else {
+         problemaPrincipal = `Nenhum gargalo primário crítico identificado.`;
+         recomendacao = `Focar em expansão de market-share e proteção de margem.`;
       }
-      if (margemOperacional > 0 && margemLiquida < 0 && indiceDespesasFinanceiras > 5) {
-          insights.push("A operação é lucrativa no core business, mas o custo financeiro elevado está consumindo o resultado e gerando prejuízo líquido.");
+
+      if (indiceDespesasAdministrativas > 20 && capacidadeAbsorcaoEstrutura >= 1) {
+         problemaSecundario = `Pressão administrativa moderada, consumindo parcela considerável da margem.`;
+      } else if (breakEvenDays > 365) {
+         problemaSecundario = `Escala operacional insuficiente para cobertura dos custos fixos anuais.`;
+      } else if (margemBrutaVal < 20) {
+         problemaSecundario = `Margem bruta baixa restringe o poder de reinvestimento.`;
+      } else {
+         problemaSecundario = `Operação rodando com gargalos secundários sob controle.`;
       }
+
+      if (margemBrutaVal > 30) {
+         potencial = `A margem bruta permanece forte (${margemBrutaVal.toFixed(2)}%), indicando alta eficiência no núcleo da atividade.`;
+      } else if (indiceConversaoOperacional > 50) {
+         potencial = `Excelente conversão de resultados em caixa operacional.`;
+      } else {
+         potencial = `Modelo de negócio com margens apertadas necessitando volume para gerar caixa.`;
+      }
+
       if (capacidadeAbsorcaoEstrutura < 1) {
-          if (margemBrutaVal > 30) {
-              insights.push("A margem bruta da operação é saudável, porém a atual escala operacional é insuficiente para absorção da estrutura fixa existente.");
-          } else {
-              insights.push("A margem de contribuição gerada não é suficiente para a absorção da estrutura fixa existente (operação pressionada).");
-          }
-      } else if (capacidadeAbsorcaoEstrutura < 1.3) {
-          insights.push("A operação apresenta baixa absorção estrutural, dependendo de aumento de escala ou redução de custos fixos para sustentar-se com folga.");
+         risco = `A permanência do atual volume operacional pode pressionar o caixa no curto/médio prazo.`;
+      } else if (indiceDespesasFinanceiras > 10) {
+         risco = `Exposição elevada ao risco de juros e dependência contínua de alavancagem externa.`;
+      } else {
+         risco = `Risco estrutural baixo. A operação se sustenta de forma autônoma.`;
       }
-      if (margemOperacional > 15 && indiceConversaoOperacional > 60) {
-          insights.push("Operação apresenta alta performance executiva, combinando rentabilidade com forte conversão de lucros em caixa operacional.");
-      } else if (indiceConversaoOperacional < 0) {
-          insights.push("A operação atual está consumindo caixa e destruindo margem operacional, exigindo revisão profunda da estrutura de custos.");
-      }
+
+      insights.push({ category: 'Problema Principal', text: problemaPrincipal, color: 'text-rose-600', bg: 'bg-rose-100', dot: 'bg-rose-500' });
+      insights.push({ category: 'Problema Secundário', text: problemaSecundario, color: 'text-amber-600', bg: 'bg-amber-100', dot: 'bg-amber-500' });
+      insights.push({ category: 'Potencial Operacional', text: potencial, color: 'text-emerald-600', bg: 'bg-emerald-100', dot: 'bg-emerald-500' });
+      insights.push({ category: 'Risco Estrutural', text: risco, color: 'text-rose-400', bg: 'bg-rose-50 border border-rose-100', dot: 'bg-rose-400' });
+      insights.push({ category: 'Recomendação Estratégica', text: recomendacao, color: 'text-blue-600', bg: 'bg-blue-100', dot: 'bg-blue-500' });
+
       return insights;
-  }, [indiceDespesasAdministrativas, margemOperacional, margemLiquida, indiceDespesasFinanceiras, capacidadeAbsorcaoEstrutura, indiceConversaoOperacional, recLiquida, lucroBruto]);
+  }, [indiceDespesasAdministrativas, margemOperacional, margemLiquida, indiceDespesasFinanceiras, capacidadeAbsorcaoEstrutura, indiceConversaoOperacional, recLiquida, lucroBruto, breakEvenDays, cmvVal, cmvCritical, cmvLabel]);
 
   const systemAlerts = useMemo(() => {
       const alerts = [];
@@ -582,6 +650,60 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   }, [recLiquida, pontoEquilibrio, margemOperacional, capacidadeAbsorcaoEstrutura, indiceDespesasFinanceiras, internalAuditErrors]);
 
 
+  // STANDARDIZED DRE LAYOUT (ESPELHO DO MANUAL)
+  const standardDreRows = useMemo(() => {
+    const getVal = (id: string) => {
+      const match = (rows as any[]).find((r: any) => r.id === id);
+      return match ? (match.computedValue !== undefined ? match.computedValue : match.value || match.val || 0) : 0;
+    };
+
+    const getChildren = (parentId: string) => {
+      return (rows as any[]).filter((r: any) => r.parentId === parentId && r.tipo !== 'SINTETICA' && r.tipo !== 'RESULTADO_CALCULADO').map((r: any) => ({
+         name: r.conta || r.category || r.nome,
+         val: r.value || r.val || 0,
+         level: 2
+      }));
+    };
+
+    return [
+      { name: '(+) Receita Operacional Bruta', val: getVal('ROB'), level: 1 },
+      ...getChildren('ROB'),
+      
+      { name: '(-) Deduções da Receita Bruta', val: -Math.abs(getVal('DED')), level: 1 },
+      ...getChildren('DED'),
+
+      { name: '(=) Receita Operacional Líquida', val: getVal('ROL'), level: 1 },
+      
+      { name: '(-) Custos Mercadorias/Produtos/Serviços', val: -Math.abs(getVal('CUSTOS')), level: 1 },
+      ...getChildren('CUSTOS'),
+
+      { name: '(=) Lucro Bruto', val: getVal('LUCRO_BRUTO'), level: 1 },
+      
+      { name: '(-) Despesas Operacionais', val: -Math.abs(getVal('DESP_OPER')), level: 1 },
+      ...getChildren('DESP_OPER'),
+
+      { name: '(=) EBITDA', val: getVal('EBITDA'), level: 1 },
+      
+      { name: '(-) Depreciação e Amortização', val: -Math.abs(getVal('DEP_AMORT')), level: 1 },
+      ...getChildren('DEP_AMORT'),
+
+      { name: '(=) Resultado Operacional Líquido (EBIT)', val: getVal('EBIT'), level: 1 },
+      
+      { name: '(+/-) Resultado Financeiro', val: getVal('RESULT_FIN'), level: 1 },
+      ...getChildren('RESULT_FIN'),
+
+      { name: '(+/-) Outras Receitas / Despesas Operacionais', val: getVal('OUTRAS_REC_DESP'), level: 1 },
+      ...getChildren('OUTRAS_REC_DESP'),
+
+      { name: '(=) Resultado Antes de IR e CSLL', val: getVal('RAIR_CSLL'), level: 1 },
+
+      { name: '(-) Provisões (IRPJ/CSLL)', val: -Math.abs(getVal('PROV_IR_CSLL')), level: 1 },
+      ...getChildren('PROV_IR_CSLL'),
+
+      { name: '(=) Lucro Líquido do Exercício', val: getVal('LUCRO_LIQ'), level: 1 }
+    ];
+  }, [rows]);
+
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
@@ -590,6 +712,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         icon={BarChart3}
         color="executive"
       />
+
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
@@ -652,54 +775,170 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         </div>
       )}
 
-      {/* SCORE DE SAÚDE & INSIGHTS */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-        <div className="bg-slate-900 text-white rounded-[40px] p-8 shadow-2xl relative overflow-hidden flex flex-col justify-center items-center">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-          <h3 className="text-lg font-black mb-1">Health Score</h3>
-          <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-6">Saúde Financeira Operacional</p>
-          
-          <div className="relative w-40 h-40 flex items-center justify-center">
-            <svg className="w-full h-full transform -rotate-90">
-              <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-slate-800" />
-              <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="8" fill="transparent" 
-                strokeDasharray="440" 
-                strokeDashoffset={440 - (440 * finalHealthScore) / 100}
-                className={finalHealthScore >= 80 ? "text-emerald-500" : finalHealthScore >= 50 ? "text-amber-500" : "text-rose-500"} 
-                strokeLinecap="round" 
-              />
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-4xl font-black">{finalHealthScore.toFixed(0)}</span>
-              <span className="text-[10px] uppercase font-bold text-slate-400">/ 100</span>
-            </div>
-          </div>
-          <p className="text-xs text-center mt-6 text-slate-400 font-medium">
-            {finalHealthScore >= 80 ? 'Alta Performance' : finalHealthScore >= 50 ? 'Operação Estável' : 'Atenção Crítica'}
+      {/* SCORE DE SAÚDE */}
+      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between border border-slate-700/50 mb-8">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none transition-all duration-500" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
+        
+        <div className="w-full md:w-auto md:flex-1 flex flex-col items-center md:items-start z-10 text-center md:text-left mb-10 md:mb-0 md:mr-10">
+          <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">Health Score Operacional</h3>
+          <p className="text-sm md:text-base text-emerald-100/80 font-medium leading-relaxed w-full">
+            Métrica consolidada da saúde financeira: avalia margens, conversão de caixa, alavancagem e a capacidade de absorção da estrutura.
           </p>
+          
+          <div className={cn("px-6 py-3 mt-8 rounded-full border shadow-inner backdrop-blur-sm text-xs font-bold uppercase tracking-wider inline-flex", 
+            finalHealthScore >= 81 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 
+            finalHealthScore >= 61 ? 'bg-emerald-500/5 text-emerald-300 border-emerald-500/10' : 
+            finalHealthScore >= 41 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 
+            finalHealthScore >= 21 ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-red-600/20 text-red-400 border-red-500/30')}>
+            {finalHealthScore >= 81 ? 'Alta Performance' : finalHealthScore >= 61 ? 'Operação Saudável' : finalHealthScore >= 41 ? 'Estrutura Pressionada' : finalHealthScore >= 21 ? 'Operação Sensível' : 'Crítico Estrutural'}
+          </div>
         </div>
 
-        <div className="lg:col-span-2 bg-white border border-slate-100 rounded-[40px] p-8 shadow-sm flex flex-col">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
-              <Sparkles size={20} />
+        <div className="relative w-48 h-48 flex items-center justify-center shrink-0 z-10">
+          {/* SVG Gradients */}
+          <svg width="0" height="0">
+            <defs>
+              <linearGradient id="score-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor={finalHealthScore >= 80 ? "#10b981" : finalHealthScore >= 50 ? "#f59e0b" : "#ef4444"} />
+                <stop offset="100%" stopColor={finalHealthScore >= 80 ? "#34d399" : finalHealthScore >= 50 ? "#fbbf24" : "#f87171"} />
+              </linearGradient>
+            </defs>
+          </svg>
+          <svg className="w-full h-full transform -rotate-90 filter drop-shadow-[0_0_12px_rgba(0,0,0,0.5)]" viewBox="0 0 192 192">
+            <circle cx="96" cy="96" r="84" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-800/80" />
+            <circle cx="96" cy="96" r="84" stroke="url(#score-gradient)" strokeWidth="12" fill="transparent" 
+              strokeDasharray="528" 
+              strokeDashoffset={528 - (528 * finalHealthScore) / 100}
+              strokeLinecap="round" 
+              className="transition-all duration-1000 ease-out"
+            />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+             <span className="text-6xl font-black text-white filter drop-shadow-sm leading-none absolute">{finalHealthScore.toFixed(0)}</span>
+             <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest absolute bottom-9">/ 100</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* EFFICIENCY INTELLIGENCE PANELS */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+        
+        {/* OPERATIONAL EFFICIENCY INTELLIGENCE */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+            <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
+              <Layers size={20} />
             </div>
             <div>
-              <h4 className="text-lg font-black text-slate-900">AI Advisory Insights</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Análise Operacional Inteligente</p>
+              <h4 className="text-lg font-black text-slate-800">Operational Efficiency Intelligence</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Eficiência por Camada de Negócio</p>
             </div>
           </div>
           
-          <div className="space-y-4 flex-1 flex flex-col justify-center">
-            {smartInsights.length > 0 ? smartInsights.map((insight, idx) => (
-              <div key={idx} className="flex gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 items-start">
-                <div className="w-2 h-2 rounded-full bg-purple-500 mt-2 shrink-0" />
-                <p className="text-sm text-slate-600 font-medium leading-relaxed">{insight}</p>
-              </div>
-            )) : (
-              <p className="text-sm text-slate-400 italic text-center">Aguardando dados suficientes para gerar insights operacionais...</p>
-            )}
+          <div className="grid grid-cols-2 gap-4">
+             {[
+               { name: 'Comercial', value: eficienciaComercial, desc: 'Gestão de Custos Diretos', icon: Target, color: 'emerald' },
+               { name: 'Operacional', value: eficienciaOperacional, desc: 'Geração de EBITDA', icon: Activity, color: 'blue' },
+               { name: 'Administrativa', value: eficienciaAdministrativa, desc: 'Gestão de Despesas', icon: Building2, color: 'amber' },
+               { name: 'Financeira', value: eficienciaFinanceira, desc: 'Eficiência de Capital', icon: Coins, color: 'purple' },
+               { name: 'Tributária', value: eficienciaTributaria, desc: 'Eficiência Fiscal', icon: Receipt, color: 'rose' },
+               { name: 'Estrutural', value: eficienciaEstrutural, desc: 'Absorção Break-even', icon: Shield, color: 'slate' }
+             ].map((eff, i) => (
+                <div key={i} className="flex flex-col gap-1 p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                   <div className="flex items-center justify-between mb-1">
+                      <div className={`text-${eff.color}-600`}>
+                        <eff.icon size={14} />
+                      </div>
+                      <span className={`text-xs font-black text-${eff.color}-700`}>{eff.value.toFixed(0)}%</span>
+                   </div>
+                   <p className="text-xs font-bold text-slate-700">{eff.name}</p>
+                   <p className="text-[9px] text-slate-400 uppercase tracking-wider">{eff.desc}</p>
+                   <div className="w-full h-1 bg-slate-200 rounded-full mt-2 overflow-hidden">
+                      <div className={`h-full bg-${eff.color}-500 transition-all duration-1000`} style={{ width: `${eff.value}%` }} />
+                   </div>
+                </div>
+             ))}
           </div>
+        </div>
+
+        {/* SCALE EFFICIENCY INTELLIGENCE */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
+              <Scale size={20} />
+            </div>
+            <div>
+              <h4 className="text-lg font-black text-slate-800">Scale Efficiency Intelligence</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Análise Temporal de Escala</p>
+            </div>
+          </div>
+          
+          <div className="flex flex-col flex-1 justify-center">
+             <div className="text-center mb-8">
+                <span className={cn("inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-black uppercase tracking-wider",
+                  scaleColor.replace('text-', 'bg-').replace('400', '50/50').replace('500', '50/50'),
+                  scaleColor.replace('text-', 'border-').replace('400', '200').replace('500', '200'),
+                  scaleColor
+                )}>
+                   <Zap size={16} />
+                   {scaleCategory}
+                </span>
+             </div>
+             
+             <div className="flex items-center justify-between gap-4">
+                <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-4 text-center">
+                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Growth (Receita)</p>
+                   <p className={cn("text-2xl font-black", recGrowth >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                     {recGrowth > 0 ? '+' : ''}{recGrowth.toFixed(2)}%
+                   </p>
+                </div>
+                <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-4 text-center">
+                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Profitability (EBITDA)</p>
+                   <p className={cn("text-2xl font-black", ebitdaGrowth >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                     {ebitdaGrowth > 0 ? '+' : ''}{ebitdaGrowth.toFixed(2)}%
+                   </p>
+                </div>
+             </div>
+             
+             <p className="text-xs font-medium text-slate-500 mt-6 text-center leading-relaxed">
+               {scaleCategory === 'Crescimento Saudável' && "O EBITDA está crescendo a taxas superiores à Receita, demonstrando alavancagem operacional perfeita e captura de ganhos de escala."}
+               {scaleCategory === 'Absorção de Estrutura' && "A operação cresce de forma estruturada, com o EBITDA acompanhando o ritmo da receita, porém sem forte alavancagem de escala."}
+               {scaleCategory === 'Crescimento Destrutivo' && "A operação está queimando margem. A receita cresce, mas a estrutura de custos devora a rentabilidade e destrói o EBITDA."}
+               {scaleCategory === 'Destruição de Valor' && "Cenário crítico. Retração de receita acompanhada por queda livre do EBITDA, indicando estrutura excessivamente pesada e rígida."}
+               {scaleCategory === 'Eficiência sob Retração' && "Proteção de Margem. Apesar da queda no faturamento, cortes estruturais permitiram preservação (ou aumento) do EBITDA."}
+               {scaleCategory === 'Análise Inicial' && "Aguardando histórico financeiro consolidado para gerar análise temporal de eficiência de escala."}
+             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* AI ADVISORY INSIGHTS */}
+      <div className="bg-gradient-to-br from-white to-slate-50/50 border border-slate-200/60 rounded-[40px] p-8 md:p-10 shadow-xl shadow-slate-200/40 flex flex-col mb-10">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/20 flex items-center justify-center text-purple-600 shadow-sm relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-blue-400/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Sparkles size={22} className="relative z-10" />
+          </div>
+          <div>
+            <h4 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">AI Advisory Insights</h4>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400/80 mt-1">Análise Operacional Inteligente</p>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          {smartInsights.length > 0 ? smartInsights.map((insight, idx) => (
+            <div key={idx} className={cn("flex flex-col p-6 rounded-[24px] border items-start gap-4 transition-all hover:shadow-md hover:-translate-y-0.5 duration-300", 
+              insight.category === 'Problema Principal' || insight.category === 'Recomendação Estratégica' ? "lg:col-span-3 bg-white/80 border-slate-200/80 backdrop-blur-sm shadow-sm" : "lg:col-span-1 bg-white/60 border-slate-100 backdrop-blur-sm")}>
+              <div className={cn("px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest flex items-center gap-2 shadow-sm", insight.color, insight.bg)}>
+                <span className={cn("w-1.5 h-1.5 rounded-full animate-pulse", insight.dot)} />
+                {insight.category}
+              </div>
+              <p className="text-sm text-slate-600 font-medium leading-relaxed">{insight.text}</p>
+            </div>
+          )) : (
+            <p className="text-sm text-slate-400 italic text-center col-span-full py-10">Aguardando dados suficientes para gerar insights operacionais...</p>
+          )}
         </div>
       </div>
 
@@ -708,20 +947,21 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           <KpiCard 
             key={i}
             title={idx.name}
-            value={idx.unit === 'currency' ? formatValue(idx.val, 'currency') : isFinite(idx.val) ? idx.val.toFixed(1) : '0.0'}
+            value={typeof idx.val === 'string' ? idx.val : (idx.unit === 'currency' ? formatValue(idx.val as number, 'currency') : isFinite(idx.val as number) ? (idx.val as number).toFixed(2) : '0.0')}
             suffix={idx.unit}
             status={idx.status as any}
             trend={idx.trend}
+            tooltip={idx.tooltip}
           />
         ))}
       </div>
 
       <div className="grid grid-cols-1 gap-8 mb-10">
-        <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm flex flex-col">
-          <div className="flex items-center justify-between mb-8 shrink-0">
+        <div className="bg-gradient-to-br from-white to-slate-50 p-8 rounded-[40px] border border-slate-200/60 shadow-xl shadow-slate-200/40 flex flex-col">
+          <div className="flex items-center justify-between mb-8 shrink-0 flex-wrap gap-4">
             <div>
-              <h3 className="text-lg font-black text-slate-900">Evolução de Performance</h3>
-              <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-1">Receita, EBITDA e Lucro</p>
+              <h3 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">Evolução de Performance</h3>
+              <p className="text-[10px] text-slate-400/80 uppercase font-bold tracking-widest mt-1">Receita, EBITDA e Lucro</p>
             </div>
             <div className="flex gap-4">
               <div className="flex items-center gap-1.5">
@@ -785,10 +1025,10 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           </div>
         </div>
 
-        <div className="bg-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-          <h3 className="text-lg font-black mb-1">Destaques</h3>
-          <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-8">Insights de Resultado</p>
+        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col border border-slate-700/50">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+          <h3 className="text-xl font-black mb-1 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">Destaques</h3>
+          <p className="text-[10px] text-blue-400/80 uppercase font-bold tracking-widest mb-8">Insights de Resultado</p>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
             <div className="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-2 relative z-10 h-fit">
@@ -889,14 +1129,15 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Valor (R$)</th>
                 <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AV (%)</th>
                 <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (1 Ano)</th>
-                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (5 Anos)</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (2 Anos)</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (3 Anos)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {rows.length > 0
-                // ── Dados reais do banco: renderiza exatamente as linhas lançadas ──
-                ? (rows as any[]).map((row: any, i: number) => {
-                    const name = row.conta || row.category || '';
+              {standardDreRows.length > 0
+                // ── Espelho Estrutural: Renderiza a base analítica das 14 linhas com os filhos aninhados ──
+                ? standardDreRows.map((row: any, i: number) => {
+                    const name = row.name || row.conta || row.category || '';
                     const val = row.val || 0;
                     const level = row.level ?? 1;
                     
@@ -906,10 +1147,12 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                       baseForAV = receitaBruta;
                     }
                     const av = baseForAV > 0 ? (val / baseForAV) * 100 : 0;
-                    const prevVal = getPrevValue(name);
-                    const ah = prevVal > 0 ? ((val / prevVal) - 1) * 100 : null;
-                    const prev5Val = getPrev5Value(name);
-                    const ah5 = prev5Val > 0 ? ((val / prev5Val) - 1) * 100 : null;
+                    const prev1Val = getPastValue(1, name);
+                    const ah1 = prev1Val > 0 ? ((val / prev1Val) - 1) * 100 : null;
+                    const prev2Val = getPastValue(2, name);
+                    const ah2 = prev2Val > 0 ? ((val / prev2Val) - 1) * 100 : null;
+                    const prev3Val = getPastValue(3, name);
+                    const ah3 = prev3Val > 0 ? ((val / prev3Val) - 1) * 100 : null;
                     const isTotal = level === 1;
 
                     return (
@@ -933,23 +1176,34 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                         </td>
                         <td className={cn(
                           "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
-                          ah === null ? "text-slate-300" : ah > 0 ? "text-emerald-500" : ah < 0 ? "text-rose-500" : "text-slate-300"
+                          ah1 === null ? "text-slate-300" : ah1 > 0 ? "text-emerald-500" : ah1 < 0 ? "text-rose-500" : "text-slate-300"
                         )}>
-                          {ah !== null ? (
+                          {ah1 !== null ? (
                             <div className="flex items-center justify-end gap-1">
-                              {ah > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-                              {Math.abs(ah).toFixed(2)}%
+                              {ah1 > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                              {Math.abs(ah1).toFixed(2)}%
                             </div>
                           ) : '—'}
                         </td>
                         <td className={cn(
                           "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
-                          ah5 === null ? "text-slate-300" : ah5 > 0 ? "text-emerald-500" : ah5 < 0 ? "text-rose-500" : "text-slate-300"
+                          ah2 === null ? "text-slate-300" : ah2 > 0 ? "text-emerald-500" : ah2 < 0 ? "text-rose-500" : "text-slate-300"
                         )}>
-                          {ah5 !== null ? (
+                          {ah2 !== null ? (
                             <div className="flex items-center justify-end gap-1">
-                              {ah5 > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-                              {Math.abs(ah5).toFixed(2)}%
+                              {ah2 > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                              {Math.abs(ah2).toFixed(2)}%
+                            </div>
+                          ) : '—'}
+                        </td>
+                        <td className={cn(
+                          "py-2.5 md:py-4 px-5 md:px-8 text-right font-black text-xs",
+                          ah3 === null ? "text-slate-300" : ah3 > 0 ? "text-emerald-500" : ah3 < 0 ? "text-rose-500" : "text-slate-300"
+                        )}>
+                          {ah3 !== null ? (
+                            <div className="flex items-center justify-end gap-1">
+                              {ah3 > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                              {Math.abs(ah3).toFixed(2)}%
                             </div>
                           ) : '—'}
                         </td>
@@ -957,7 +1211,21 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     );
                   })
                 // ── Sem dados: mostra template estático como guia ──
-                : tableRows.map((row, i) => {
+                : [
+                    { name: 'Receita Operacional Bruta', level: 1 },
+                    { name: '(-) Deduções e Impostos', level: 2 },
+                    { name: 'Receita Líquida', level: 1 },
+                    { name: '(-) Custos (CPV/CSP)', level: 2 },
+                    { name: 'Lucro Bruto', level: 1 },
+                    { name: '(-) Despesas Operacionais', level: 2 },
+                    { name: 'EBITDA', level: 1 },
+                    { name: '(-) Depreciação e Amortização', level: 2 },
+                    { name: 'EBIT', level: 1 },
+                    { name: '(+/-) Resultado Financeiro', level: 2 },
+                    { name: 'LAIR (Lucro Antes do IR)', level: 1 },
+                    { name: '(-) Provisão IR/CSLL', level: 2 },
+                    { name: 'Lucro Líquido', level: 1 },
+                  ].map((row, i) => {
                     const isTotal = row.level === 1;
                     return (
                       <tr key={i} className={cn('transition-colors group', isTotal ? 'bg-slate-50/30 font-bold' : '')}>
@@ -976,6 +1244,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                         <td className="py-2.5 md:py-4 px-5 md:px-8 text-right text-slate-200 text-xs">0,00%</td>
                         <td className="py-2.5 md:py-4 px-5 md:px-8 text-right text-slate-200 text-xs">—</td>
                         <td className="py-2.5 md:py-4 px-5 md:px-8 text-right text-slate-200 text-xs">—</td>
+                        <td className="py-2.5 md:py-4 px-5 md:px-8 text-right text-slate-200 text-xs">—</td>
                       </tr>
                     );
                   })
@@ -986,49 +1255,49 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       </div>
 
       {trendNote && (
-        <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm p-8 mb-10">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
-              <TrendingUp size={20} />
+        <div className="bg-gradient-to-br from-white to-slate-50 border border-slate-200/60 rounded-[40px] shadow-xl shadow-slate-200/40 p-8 mb-10">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20 flex items-center justify-center text-blue-600 shadow-sm">
+              <TrendingUp size={22} />
             </div>
             <div>
-              <h4 className="text-lg font-black text-slate-900">Nota Explicativa de Evolução</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Tendência Histórica Acumulada ({trendNote.period})</p>
+              <h4 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">Nota Explicativa de Evolução</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400/80 mt-1">Tendência Histórica Acumulada ({trendNote.period})</p>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Crescimento de Receita</p>
-              <div className="flex items-center gap-2">
-                {trendNote.receita > 0 ? <TrendingUp size={16} className="text-emerald-500" /> : <TrendingDown size={16} className="text-rose-500" />}
-                <p className={cn("text-2xl font-black", trendNote.receita > 0 ? "text-emerald-500" : "text-rose-500")}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-5 bg-white rounded-3xl border border-slate-200/60 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 truncate" title="Crescimento de Receita">Crescimento de Receita</p>
+              <div className="flex items-center gap-2 mt-auto">
+                {trendNote.receita > 0 ? <TrendingUp size={18} className="text-emerald-500" /> : <TrendingDown size={18} className="text-rose-500" />}
+                <p className={cn("text-3xl font-black", trendNote.receita > 0 ? "text-emerald-500" : "text-rose-500")}>
                   {trendNote.receita > 0 ? '+' : ''}{trendNote.receita.toFixed(2)}%
                 </p>
               </div>
             </div>
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Evolução de {cmvLabel}</p>
-              <div className="flex items-center gap-2">
-                {trendNote.cmv > 0 ? <TrendingUp size={16} className="text-rose-500" /> : <TrendingDown size={16} className="text-emerald-500" />}
-                <p className={cn("text-2xl font-black", trendNote.cmv > 0 ? "text-rose-500" : "text-emerald-500")}>
+            <div className="p-5 bg-white rounded-3xl border border-slate-200/60 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 truncate" title={`Evolução de ${cmvLabel}`}>Evolução de {cmvLabel}</p>
+              <div className="flex items-center gap-2 mt-auto">
+                {trendNote.cmv > 0 ? <TrendingUp size={18} className="text-rose-500" /> : <TrendingDown size={18} className="text-emerald-500" />}
+                <p className={cn("text-3xl font-black", trendNote.cmv > 0 ? "text-rose-500" : "text-emerald-500")}>
                   {trendNote.cmv > 0 ? '+' : ''}{trendNote.cmv.toFixed(2)}%
                 </p>
               </div>
             </div>
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Evolução de EBITDA</p>
-              <div className="flex items-center gap-2">
-                {trendNote.ebitda > 0 ? <TrendingUp size={16} className="text-emerald-500" /> : <TrendingDown size={16} className="text-rose-500" />}
-                <p className={cn("text-2xl font-black", trendNote.ebitda > 0 ? "text-emerald-500" : "text-rose-500")}>
+            <div className="p-5 bg-white rounded-3xl border border-slate-200/60 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 truncate" title="Evolução de EBITDA">Evolução de EBITDA</p>
+              <div className="flex items-center gap-2 mt-auto">
+                {trendNote.ebitda > 0 ? <TrendingUp size={18} className="text-emerald-500" /> : <TrendingDown size={18} className="text-rose-500" />}
+                <p className={cn("text-3xl font-black", trendNote.ebitda > 0 ? "text-emerald-500" : "text-rose-500")}>
                   {trendNote.ebitda > 0 ? '+' : ''}{trendNote.ebitda.toFixed(2)}%
                 </p>
               </div>
             </div>
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Evolução do Lucro</p>
-              <div className="flex items-center gap-2">
-                {trendNote.lucro > 0 ? <TrendingUp size={16} className="text-emerald-500" /> : <TrendingDown size={16} className="text-rose-500" />}
-                <p className={cn("text-2xl font-black", trendNote.lucro > 0 ? "text-emerald-500" : "text-rose-500")}>
+            <div className="p-5 bg-white rounded-3xl border border-slate-200/60 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 truncate" title="Evolução do Lucro">Evolução do Lucro</p>
+              <div className="flex items-center gap-2 mt-auto">
+                {trendNote.lucro > 0 ? <TrendingUp size={18} className="text-emerald-500" /> : <TrendingDown size={18} className="text-rose-500" />}
+                <p className={cn("text-3xl font-black", trendNote.lucro > 0 ? "text-emerald-500" : "text-rose-500")}>
                   {trendNote.lucro > 0 ? '+' : ''}{trendNote.lucro.toFixed(2)}%
                 </p>
               </div>

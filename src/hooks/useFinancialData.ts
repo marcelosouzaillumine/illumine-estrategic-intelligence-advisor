@@ -206,6 +206,7 @@ export function useAnnualFinancialData(
               id: `${docSnap.id}_${entry.category}`,
               docId: docSnap.id,
               docType: docData.type,
+              createdAt: docData.createdAt,
               conta: entry.category,
               valor: entry.value,
               val: entry.value,
@@ -218,6 +219,7 @@ export function useAnnualFinancialData(
             id: docSnap.id,
             docId: docSnap.id,
             docType: docData.type,
+            createdAt: docData.createdAt,
             conta: docData.category,
             valor: docData.value,
             val: docData.value,
@@ -236,8 +238,39 @@ export function useAnnualFinancialData(
         return entry.docType === type;
       });
 
-      setDbData(filteredEntries);
-      setDocIds(ids);
+      // DEDUPLICAÇÃO DE DOCUMENTOS:
+      // A correção garante que usaremos apenas o documento MAIS RECENTE retornado.
+      const docIdsPresent = [...new Set(filteredEntries.map(e => e.docId))];
+      let finalEntries = filteredEntries;
+      let finalDocIds = ids;
+
+      if (docIdsPresent.length > 1) {
+        // Encontrar o documento mais recente com base no createdAt (se existir)
+        let latestDocId = docIdsPresent[0];
+        let maxTime = 0;
+
+        docIdsPresent.forEach(docId => {
+          const entry = filteredEntries.find(e => e.docId === docId);
+          if (entry && entry.createdAt && entry.createdAt.toMillis) {
+            const time = entry.createdAt.toMillis();
+            if (time > maxTime) {
+              maxTime = time;
+              latestDocId = docId;
+            }
+          }
+        });
+
+        // Fallback: se nenhum tiver createdAt, pega o último da lista
+        if (maxTime === 0) {
+          latestDocId = docIdsPresent[docIdsPresent.length - 1];
+        }
+
+        finalEntries = filteredEntries.filter(e => e.docId === latestDocId);
+        finalDocIds = [latestDocId];
+      }
+
+      setDbData(finalEntries);
+      setDocIds(finalDocIds);
     } catch (e: any) {
       if (!isCancelled.current) {
         console.error(e);

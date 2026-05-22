@@ -594,11 +594,15 @@ export const inferType = (code: string, name: string, rootMap?: Record<string, s
                cleanName === 'pl' || 
                cleanName.startsWith('pl ') ||
                cleanName.includes('capital social') || 
+               cleanName.includes('capital subscrito') ||
                cleanName.includes('lucros ou prejuízos') || 
+               cleanName.includes('lucros e prejuízos') || 
+               cleanName.includes('lucros e prejuizos') || 
                cleanName.includes('lucros acumulados') || 
                cleanName.includes('prejuízos acumulados') || 
                cleanName.includes('distribuição de lucros') ||
-               cleanName.includes('reservas de lucros');
+               cleanName.includes('reservas de lucros') ||
+               cleanName.includes('resultado do exercício');
                
   if (isPL) return 'Patrimônio Líquido';
 
@@ -650,8 +654,37 @@ export const inferType = (code: string, name: string, rootMap?: Record<string, s
     case '6': return 'Resultado Apurado';
     default: 
       // Se não tem código e não casou acima, tentamos inferir por palavras-chave comuns de BP
-      if (cleanName.includes('caixa') || cleanName.includes('banco') || cleanName.includes('estoque') || cleanName.includes('clientes') || cleanName.includes('imobilizado')) return 'Ativo';
-      if (cleanName.includes('fornecedor') || cleanName.includes('empréstimo') || cleanName.includes('salário') || cleanName.includes('tributo')) return 'Passivo';
+      if (
+        cleanName.includes('caixa') || cleanName.includes('banco') || cleanName.includes('estoque') || 
+        cleanName.includes('clientes') || cleanName.includes('imobilizado') ||
+        cleanName.includes('disponibilidad') || cleanName.includes('aplicações financeiras') || cleanName.includes('aplicacoes financeiras') ||
+        cleanName.includes('a receber') || (cleanName.includes('adiantamento') && !cleanName.includes('câmbio') && !cleanName.includes('cambio')) ||
+        cleanName.includes('créditos vencidos') || cleanName.includes('creditos vencidos') ||
+        cleanName.includes('matéria prima') || cleanName.includes('materia prima') ||
+        cleanName.includes('elaboração') || cleanName.includes('elaboracao') ||
+        cleanName.includes('mercadoria') || cleanName.includes('almoxarifado') ||
+        cleanName.includes('capitalização') || cleanName.includes('capitalizacao') ||
+        cleanName.includes('compulsório') || cleanName.includes('compulsorio') || cleanName.includes('depósito') || cleanName.includes('deposito') ||
+        cleanName.includes('participações') || cleanName.includes('participacoes') ||
+        cleanName.includes('depreciação') || cleanName.includes('depreciacao') || cleanName.includes('amortização') || cleanName.includes('amortizacao') ||
+        cleanName.includes('intangível') || cleanName.includes('intangivel')
+      ) return 'Ativo';
+      
+      if (
+        cleanName.includes('fornecedor') || cleanName.includes('empréstimo') || cleanName.includes('salário') || 
+        cleanName.includes('tributo') || cleanName.includes('descontadas') || cleanName.includes('descontas') ||
+        cleanName.includes('câmbio') || cleanName.includes('cambio') || cleanName.includes('financiamento') ||
+        cleanName.includes('a pagar') || cleanName.includes('a recolher') || 
+        cleanName.includes('obrigação') || cleanName.includes('obrigacao') || cleanName.includes('obrtigação') || cleanName.includes('obrtigacoes') ||
+        cleanName.includes('provisões') || cleanName.includes('provisoes') || cleanName.includes('provisão') || cleanName.includes('provisao') ||
+        cleanName.includes('parcelamento') || cleanName.includes('acordo')
+      ) return 'Passivo';
+      
+      if (
+        cleanName.includes('patrimônio líquido') || cleanName.includes('patrimonio liquido') ||
+        cleanName.includes('capital subscrito') || cleanName.includes('lucros') || cleanName.includes('prejuízos') || cleanName.includes('prejuizos')
+      ) return 'Patrimônio Líquido';
+      
       return 'Despesas';
   }
 };
