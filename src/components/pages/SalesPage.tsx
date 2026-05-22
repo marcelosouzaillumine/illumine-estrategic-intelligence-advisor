@@ -97,6 +97,21 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
             </div>
           </div>
 
+          {/* Nav Toggle para Empresas/Parceiros */}
+          <div className="hidden lg:flex items-center gap-1 bg-surface-container border border-border p-1 rounded-lg">
+            <button
+              className="px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-primary text-primary-foreground rounded-md shadow-sm pointer-events-none"
+            >
+              Empresa
+            </button>
+            <button
+              onClick={() => window.location.href = '/parceiros'}
+              className="px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors rounded-md"
+            >
+              Parceiro
+            </button>
+          </div>
+
           {/* Links Desktop */}
           <div className="hidden lg:flex items-center gap-8">
             <button onClick={() => scrollToSection('tese')} className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors cursor-pointer">A Tese</button>
