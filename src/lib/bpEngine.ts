@@ -23,6 +23,8 @@ export interface BPNode {
   explainability?: ExplainabilityMetadata;
   isOrphan?: boolean;
   isDuplicate?: boolean;
+  docId?: string;
+  ordem?: number;
 }
 
 export interface BPSummary {
@@ -106,7 +108,9 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
       classification: typeStr,
       explainability: r.explainability,
       isOrphan: false,
-      isDuplicate: false
+      isDuplicate: false,
+      docId: r.docId,
+      ordem: r.ordem || 0
     };
   });
 

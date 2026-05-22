@@ -3,3 +3,4 @@ export type { SupportedCurrency } from './CurrencySelector';
 export { PageHeader, Semaphore, StatusBadge, SectionHeader, MarkdownText, KpiCard, KpiValue, ControlBar } from './Base';
 export type { ControlBarProps } from './Base';
 export { WelcomeMessage, getRandomWelcomeMessage } from './WelcomeMessage';
+export { SortableTableRow } from './SortableTableRow';

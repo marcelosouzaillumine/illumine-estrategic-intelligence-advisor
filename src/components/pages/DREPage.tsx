@@ -17,7 +17,21 @@ import {
   Pie
 } from 'recharts';
 import { cn, formatCurrency, formatValue, getThemeColors } from '../../lib/utils';
-import { PageHeader, KpiCard } from '../Common';
+import { PageHeader, KpiCard, SortableTableRow } from '../Common';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
@@ -32,6 +46,8 @@ import {
   query,
   where,
   getDocs,
+  getDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 
@@ -79,7 +95,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     if (dbData.length === 0) return [];
     
     // Map db data to standard shape, auto-assigning parentId for legacy entries
-    const mappedEntries = dbData.map((d: any) => {
+    const mappedEntries = [...dbData].sort((a, b) => (a.ordem || 0) - (b.ordem || 0)).map((d: any) => {
       let parentId = d.parentId;
       const cat = (d.conta || d.category || '').toLowerCase();
       
@@ -567,51 +583,122 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     };
 
     const getChildren = (parentId: string) => {
-      return (rows as any[]).filter((r: any) => r.parentId === parentId && r.tipo !== 'SINTETICA' && r.tipo !== 'RESULTADO_CALCULADO').map((r: any) => ({
-         name: r.conta || r.category || r.nome,
-         val: r.value || r.val || 0,
-         level: 2
+      return (rows as any[])
+        .filter((r: any) => r.parentId === parentId && r.tipo !== 'SINTETICA' && r.tipo !== 'RESULTADO_CALCULADO')
+        .sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
+        .map((r: any) => ({
+           name: r.conta || r.category || r.nome,
+           val: r.value || r.val || 0,
+           level: 2,
+           id: r.id || r.conta || r.category,
+           docId: r.docId,
+           parentId: r.parentId,
+           ordem: r.ordem || 0,
+           category: r.category,
+           conta: r.conta
       }));
     };
 
     return [
-      { name: '(+) Receita Operacional Bruta', val: getVal('ROB'), level: 1 },
+      { name: '(+) Receita Operacional Bruta', val: getVal('ROB'), level: 1, id: 'ROB' },
       ...getChildren('ROB'),
       
-      { name: '(-) Deduções da Receita Bruta', val: -Math.abs(getVal('DED')), level: 1 },
+      { name: '(-) Deduções da Receita Bruta', val: -Math.abs(getVal('DED')), level: 1, id: 'DED' },
       ...getChildren('DED'),
 
-      { name: '(=) Receita Operacional Líquida', val: getVal('ROL'), level: 1 },
+      { name: '(=) Receita Operacional Líquida', val: getVal('ROL'), level: 1, id: 'ROL' },
       
-      { name: '(-) Custos Mercadorias/Produtos/Serviços', val: -Math.abs(getVal('CUSTOS')), level: 1 },
+      { name: '(-) Custos Mercadorias/Produtos/Serviços', val: -Math.abs(getVal('CUSTOS')), level: 1, id: 'CUSTOS' },
       ...getChildren('CUSTOS'),
 
-      { name: '(=) Lucro Bruto', val: getVal('LUCRO_BRUTO'), level: 1 },
+      { name: '(=) Lucro Bruto', val: getVal('LUCRO_BRUTO'), level: 1, id: 'LUCRO_BRUTO' },
       
-      { name: '(-) Despesas Operacionais', val: -Math.abs(getVal('DESP_OPER')), level: 1 },
+      { name: '(-) Despesas Operacionais', val: -Math.abs(getVal('DESP_OPER')), level: 1, id: 'DESP_OPER' },
       ...getChildren('DESP_OPER'),
 
-      { name: '(=) EBITDA', val: getVal('EBITDA'), level: 1 },
+      { name: '(=) EBITDA', val: getVal('EBITDA'), level: 1, id: 'EBITDA' },
       
-      { name: '(-) Depreciação e Amortização', val: -Math.abs(getVal('DEP_AMORT')), level: 1 },
+      { name: '(-) Depreciação e Amortização', val: -Math.abs(getVal('DEP_AMORT')), level: 1, id: 'DEP_AMORT' },
       ...getChildren('DEP_AMORT'),
 
-      { name: '(=) Resultado Operacional Líquido (EBIT)', val: getVal('EBIT'), level: 1 },
+      { name: '(=) Resultado Operacional Líquido (EBIT)', val: getVal('EBIT'), level: 1, id: 'EBIT' },
       
-      { name: '(+/-) Resultado Financeiro', val: getVal('RESULT_FIN'), level: 1 },
+      { name: '(+/-) Resultado Financeiro', val: getVal('RESULT_FIN'), level: 1, id: 'RESULT_FIN' },
       ...getChildren('RESULT_FIN'),
 
-      { name: '(+/-) Outras Receitas / Despesas Operacionais', val: getVal('OUTRAS_REC_DESP'), level: 1 },
+      { name: '(+/-) Outras Receitas / Despesas Operacionais', val: getVal('OUTRAS_REC_DESP'), level: 1, id: 'OUTRAS_REC_DESP' },
       ...getChildren('OUTRAS_REC_DESP'),
 
-      { name: '(=) Resultado Antes de IR e CSLL', val: getVal('RAIR_CSLL'), level: 1 },
+      { name: '(=) Resultado Antes de IR e CSLL', val: getVal('RAIR_CSLL'), level: 1, id: 'RAIR_CSLL' },
 
-      { name: '(-) Provisões (IRPJ/CSLL)', val: -Math.abs(getVal('PROV_IR_CSLL')), level: 1 },
+      { name: '(-) Provisões (IRPJ/CSLL)', val: -Math.abs(getVal('PROV_IR_CSLL')), level: 1, id: 'PROV_IR_CSLL' },
       ...getChildren('PROV_IR_CSLL'),
 
-      { name: '(=) Lucro Líquido do Exercício', val: getVal('LUCRO_LIQ'), level: 1 }
+      { name: '(=) Lucro Líquido do Exercício', val: getVal('LUCRO_LIQ'), level: 1, id: 'LUCRO_LIQ' }
     ];
   }, [rows]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor)
+  );
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = standardDreRows.findIndex(r => (r.id || r.name) === active.id);
+    const newIndex = standardDreRows.findIndex(r => (r.id || r.name) === over.id);
+    
+    if (oldIndex !== -1 && newIndex !== -1) {
+      const activeItem = standardDreRows[oldIndex] as any;
+      if (activeItem.level !== 2) return;
+
+      const reorderedRows = arrayMove(standardDreRows, oldIndex, newIndex) as any[];
+      
+      let newParentId = activeItem.parentId;
+      for (let i = newIndex; i >= 0; i--) {
+         if (reorderedRows[i].level === 1) {
+            newParentId = reorderedRows[i].id || reorderedRows[i].name;
+            break;
+         }
+      }
+
+      const level2Items = reorderedRows.filter(r => r.level === 2 && r.docId);
+
+      try {
+         if (docIds && docIds.length > 0) {
+            const docRef = doc(db, 'financial_entries', docIds[0]);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+               const docData = docSnap.data();
+               let newDataArray = Array.isArray(docData.data) ? [...docData.data] : [docData];
+               
+               newDataArray = newDataArray.map(item => {
+                  const categoryToMatch = item.category || item.conta;
+                  const l2ItemIndex = level2Items.findIndex(r => (r.category || r.conta || r.name) === categoryToMatch);
+                  
+                  if (l2ItemIndex !== -1) {
+                     return {
+                        ...item,
+                        parentId: (categoryToMatch === (activeItem.category || activeItem.conta || activeItem.name)) ? newParentId : item.parentId,
+                        ordem: l2ItemIndex
+                     };
+                  }
+                  return item;
+               });
+
+               await updateDoc(docRef, { data: newDataArray });
+               refetchDRE();
+               showToast('success', 'Ordem e hierarquia atualizadas com sucesso.');
+            }
+         }
+      } catch (err) {
+         console.error('Error reordering', err);
+         showToast('error', 'Erro ao reordenar itens.');
+      }
+    }
+  };
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
@@ -1042,10 +1129,12 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (3 Anos)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
-              {standardDreRows.length > 0
+            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+              <SortableContext items={standardDreRows.map(r => r.id || r.name)} strategy={verticalListSortingStrategy}>
+              <tbody className="divide-y divide-slate-50">
+              {standardDreRows.length > 0 &&
                 // ── Espelho Estrutural: Renderiza a base analítica das 14 linhas com os filhos aninhados ──
-                ? standardDreRows.map((row: any, i: number) => {
+                standardDreRows.map((row: any, i: number) => {
                     const name = row.name || row.conta || row.category || '';
                     const val = row.val || 0;
                     const level = row.level ?? 1;
@@ -1065,7 +1154,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     const isTotal = level === 1;
 
                     return (
-                      <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', isTotal ? 'bg-slate-50/30 font-bold' : '')}>
+                      <SortableTableRow key={row.id || name} id={row.id || name} isDraggable={row.level > 1} className={cn('hover:bg-slate-50 transition-colors group', isTotal ? 'bg-slate-50/30 font-bold' : '')}>
                         <td className="py-2.5 md:py-4 px-5 md:px-8">
                           <span
                             className={cn('block break-words overflow-visible', isTotal ? 'text-primary font-bold' : 'text-slate-600 font-medium')}
@@ -1116,11 +1205,18 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                             </div>
                           ) : '—'}
                         </td>
-                      </tr>
+                      </SortableTableRow>
                     );
                   })
+                 }
+                 </tbody>
+              </SortableContext>
+            </DndContext>
+            {standardDreRows.length === 0 && (
+                <tbody className="divide-y divide-slate-50">
+                {
                 // ── Sem dados: mostra template estático como guia ──
-                : [
+                 [
                     { name: 'Receita Operacional Bruta', level: 1 },
                     { name: '(-) Deduções e Impostos', level: 2 },
                     { name: 'Receita Líquida', level: 1 },
@@ -1158,7 +1254,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     );
                   })
               }
-            </tbody>
+              </tbody>
+            )}
           </table>
         </div>
       </div>
