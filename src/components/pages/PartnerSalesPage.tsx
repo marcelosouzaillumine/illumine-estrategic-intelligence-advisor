@@ -1,39 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
-  ArrowRight, BarChart3, BrainCircuit, Building2, CheckCircle2, ChevronRight, 
-  Database, LineChart, MessageSquare, ShieldCheck, Sparkles, Users, LayoutDashboard, 
-  Network, HelpCircle, Handshake, Target, TrendingUp, Leaf, Activity, Scale, Layers, 
-  Compass, AlertCircle, Briefcase, Medal
+  ArrowRight, ShieldCheck, BrainCircuit, Target, Activity, 
+  Layers, Lock, AlertCircle, Briefcase, Network, CheckCircle2, TrendingUp, BarChart3, Database, MessageSquare, Compass, Shield
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-// Helper Logo
-function IllumineMark({ className = "w-16 h-16" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} aria-hidden="true">
-      <line x1="30" y1="30" x2="22" y2="22" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-      <line x1="18" y1="50" x2="8" y2="50" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-      <line x1="30" y1="70" x2="22" y2="78" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-      <line x1="50" y1="82" x2="50" y2="92" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-      <line x1="70" y1="70" x2="78" y2="78" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" />
-      <path d="M50 22 C 34.5 22, 22 34.5, 22 50 C 22 65.5, 34.5 78, 50 78 C 65.5 78, 78 65.5, 78 50 M50 50 L75 25 M75 25 L65 25 M75 25 L75 35" stroke="#ff8552" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
+// Minimal Animation Variant
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+};
 
-// Animation Variants
 const staggerContainer = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: { staggerChildren: 0.15 }
   }
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
 };
 
 export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void }) {
@@ -65,58 +49,62 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground relative overflow-x-hidden font-sans selection:bg-primary/20 selection:text-primary">
-      {/* Background Effects */}
-      <div className="fixed top-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[120px] pointer-events-none z-0" />
-      <div className="fixed bottom-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px] pointer-events-none z-0" />
+    <main className="min-h-screen bg-[#030303] text-white relative overflow-x-hidden font-sans selection:bg-secondary/20 selection:text-secondary">
+      {/* Background Ambient Effects */}
+      <div className="fixed top-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[140px] pointer-events-none z-0" />
+      <div className="fixed bottom-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[140px] pointer-events-none z-0" />
       
       {/* Navbar Premium Blur */}
-      <nav className="fixed top-0 inset-x-0 h-20 z-50 border-b border-border/20 backdrop-blur-xl bg-background/70 transition-all duration-300">
+      <nav className="fixed top-0 inset-x-0 h-20 z-50 border-b border-white/10 backdrop-blur-xl bg-[#030303]/70 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 lg:px-6 h-full flex items-center justify-between gap-4">
           
-          <div className="flex items-center gap-2 cursor-pointer group shrink-0" onClick={() => scrollToSection('hero')}>
-            <IllumineMark className="w-8 h-8 md:w-10 md:h-10 group-hover:scale-105 transition-transform duration-300" />
-            <div className="flex flex-col select-none">
-              <span className="text-xl md:text-3xl font-normal lowercase leading-none text-primary group-hover:text-primary/90 transition-colors" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
+          <div className="flex items-center gap-0 cursor-pointer group" onClick={() => scrollToSection('hero')}>
+            <div className="w-[52px] h-[52px] flex items-center justify-center relative -translate-y-1">
+              <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain drop-shadow-lg" />
+            </div>
+            <div className="flex flex-col items-center w-fit">
+              <span 
+                className="text-[42px] tracking-[-0.06em] text-white leading-[0.8]" 
+                style={{ fontFamily: '"Tilt Warp", sans-serif' }}
+              >
                 illumine
               </span>
-              <div className="text-[5px] md:text-[6px] text-secondary uppercase mt-0.5 tracking-[0.2em] font-bold">
-                Strategic Intelligence & Advisory
+              <div 
+                className="flex justify-between w-full text-[6px] text-secondary uppercase mt-[2px] whitespace-nowrap" 
+                style={{ fontFamily: '"Work Sans", sans-serif' }}
+              >
+                {"Strategic Intelligence & Advisory".split('').map((char, i) => (
+                  <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
+                ))}
               </div>
             </div>
           </div>
 
           {/* Nav Toggle para Empresas/Parceiros */}
-          <div className="hidden lg:flex items-center gap-1 bg-surface-container border border-border p-1 rounded-lg">
+          <div className="hidden lg:flex items-center gap-1 bg-white/5 border border-white/10 p-1 rounded-lg">
             <button
               onClick={() => window.location.href = '/empresas'}
-              className="px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors rounded-md"
+              className="px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors rounded-md"
             >
               Empresa
             </button>
             <button
-              className="px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-primary text-primary-foreground rounded-md shadow-sm pointer-events-none"
+              className="px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-white text-black rounded-md shadow-sm pointer-events-none"
             >
               Parceiro
             </button>
           </div>
 
-          <div className="hidden lg:flex items-center gap-8">
-            <button onClick={() => scrollToSection('tese')} className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors cursor-pointer">A Tese</button>
-            <button onClick={() => scrollToSection('ecossistema')} className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Ecossistema</button>
-            <button onClick={() => scrollToSection('infraestrutura')} className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Infraestrutura</button>
-          </div>
-
-          <div className="flex items-center gap-3 shrink-0">
-            <button onClick={onLoginClick} className="hidden sm:block text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors cursor-pointer">
-              Área do Parceiro
+          <div className="flex items-center gap-4 shrink-0">
+            <button onClick={onLoginClick} className="hidden sm:block text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-secondary transition-colors cursor-pointer">
+              Acesso Restrito
             </button>
             <button 
-              onClick={() => handleCTAClick('Gostaria de solicitar meu credenciamento estratégico na Illumine')}
-              className="h-10 px-5 rounded-lg bg-primary text-primary-foreground font-bold text-[10px] uppercase tracking-widest hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 transition-all flex items-center gap-2 cursor-pointer"
+              onClick={() => handleCTAClick('Gostaria de iniciar uma Conversa Institucional sobre Alianças Estratégicas')}
+              className="h-10 px-6 rounded-md bg-secondary text-white font-bold text-[10px] uppercase tracking-widest hover:bg-secondary/90 hover:shadow-lg hover:shadow-secondary/20 transition-all flex items-center gap-2 cursor-pointer"
             >
               <Briefcase className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Credenciamento</span>
+              <span className="hidden sm:inline">Conversa Institucional</span>
               <span className="sm:hidden">Aplicar</span>
             </button>
           </div>
@@ -124,194 +112,185 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
       </nav>
 
       {/* 1. HERO SECTION */}
-      <section id="hero" className="pt-40 pb-20 px-6 relative overflow-hidden z-10">
-        <div className="max-w-5xl mx-auto text-center space-y-8">
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-xs font-bold uppercase tracking-widest">
-              <Network size={14} className="animate-pulse" /> Ecossistema Estratégico de Parceiros
+      <section id="hero" className="pt-48 pb-32 px-6 relative overflow-hidden z-10 border-b border-white/5">
+        <div className="max-w-5xl mx-auto text-center space-y-10">
+          <motion.div initial="hidden" animate="show" variants={fadeUp}>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-[10px] font-bold uppercase tracking-widest mb-6">
+              <Network size={14} className="animate-pulse opacity-80" /> Ecossistema Enterprise
             </span>
+            <h1 className="text-4xl md:text-6xl lg:text-[72px] font-medium tracking-tight text-white leading-[1.05]" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
+              Alianças Estratégicas para uma Nova Geração de <span className="text-secondary">Inteligência Empresarial.</span>
+            </h1>
           </motion.div>
 
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-[72px] font-medium tracking-tight text-foreground leading-[1.05]"
-            style={{ fontFamily: "'Tilt Warp', sans-serif" }}
-          >
-            O futuro das empresas dependerá da<br/>
-            <span className="bg-gradient-to-r from-secondary to-[#E96F3D] bg-clip-text text-transparent">capacidade de interpretar complexidade.</span>
-          </motion.h1>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground font-medium max-w-3xl mx-auto space-y-4 leading-relaxed"
-          >
-            <p className="text-xl text-foreground font-semibold">
-              O Ecossistema Illumine conecta organizações, consultorias e especialistas a uma arquitetura integrada de inteligência estrutural empresarial, governança e direção estratégica.
+          <motion.div initial="hidden" animate="show" variants={fadeUp} className="text-lg md:text-xl text-white/70 font-medium max-w-3xl mx-auto space-y-6 leading-relaxed">
+            <p className="text-xl text-white font-semibold">
+              A Illumine conecta consultorias, advisors, especialistas e estruturas executivas a uma arquitetura institucional de inteligência empresarial, governança integrada e advisory estratégico.
             </p>
-            <p className="text-base text-muted-foreground/80 pt-2">Empresas sustentáveis exigem mais do que serviços. Exigem clareza estrutural.</p>
-            <p className="text-base text-muted-foreground/80">A Illumine está formando uma rede estratégica de parceiros comprometidos com maturidade organizacional, previsibilidade empresarial e inteligência decisional.</p>
-            <p className="text-foreground font-medium">Mais do que indicações comerciais, buscamos organizações e profissionais capazes de ampliar a capacidade de interpretação estrutural das empresas.</p>
+            <p>
+              Mais do que uma plataforma, a Illumine fornece uma infraestrutura enterprise-grade para profissionais que desejam ampliar profundidade analítica, capacidade consultiva e posicionamento estratégico junto aos seus clientes.
+            </p>
           </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
-          >
+          <motion.div initial="hidden" animate="show" variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
             <button
-              onClick={() => handleCTAClick('Gostaria de solicitar o meu Credenciamento Estratégico como parceiro')}
-              className="w-full sm:w-auto h-14 px-8 rounded-button bg-primary text-primary-foreground font-bold text-xs uppercase tracking-widest hover:bg-primary/95 hover:shadow-xl hover:shadow-primary/30 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+              onClick={() => handleCTAClick('Gostaria de Solicitar uma Aliança Estratégica com a Illumine')}
+              className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-white/90 hover:shadow-xl transition-all flex items-center justify-center gap-3 group"
             >
-              <span>Solicitar Credenciamento Estratégico</span>
+              <span>Solicitar Aliança Estratégica</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button
-              onClick={() => scrollToSection('tese')}
-              className="w-full sm:w-auto h-14 px-8 rounded-button bg-surface-container border border-border text-foreground font-bold text-xs uppercase tracking-widest hover:bg-surface-container/80 hover:border-muted-foreground/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              onClick={() => scrollToSection('plataforma')}
+              className="w-full sm:w-auto h-14 px-8 rounded-md bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-2"
             >
-              <Target size={16} />
-              <span>Conhecer o Ecossistema Illumine</span>
+              <span>Conhecer a Arquitetura Illumine</span>
             </button>
           </motion.div>
         </div>
       </section>
 
-      {/* 2. A TESE DO ECOSSISTEMA */}
-      <section id="tese" className="py-32 px-6 bg-[#0a0a0a] text-white relative z-10 border-y border-white/5 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-secondary/5 via-transparent to-transparent pointer-events-none" />
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
-          <div className="space-y-6">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
-              <div className="w-8 h-px bg-secondary" />
-              A TESE DO ECOSSISTEMA
-            </h2>
-            <h3 className="text-4xl md:text-5xl font-medium tracking-tight text-white leading-[1.1]" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              A nova geração de empresas exigirá mais do que informação.<br/>
-              <span className="text-secondary">Exigirá inteligência estrutural.</span>
-            </h3>
-            <p className="text-lg text-white/70 font-medium leading-relaxed w-full lg:pr-8">
-              O excesso de dados não resolveu a complexidade empresarial. Na maioria das organizações, o crescimento continua sendo pressionado por desafios silenciosos.
-            </p>
-          </div>
-
+      {/* 2. A NOVA REALIDADE DAS EMPRESAS */}
+      <section className="py-32 px-6 relative z-10 border-b border-white/5 bg-[#080808]">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
           <div className="space-y-8">
-            <div className="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm">
-              <p className="text-sm font-bold uppercase tracking-widest text-secondary mb-6">O crescimento é pressionado por:</p>
-              <ul className="grid sm:grid-cols-2 gap-4">
-                {['baixa previsibilidade', 'decisões reativas', 'governança insuficiente', 'indicadores desconectados', 'expansão sem sustentação estrutural', 'pressão silenciosa sobre o capital de giro', 'ausência de interpretação integrada'].map((item, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <TrendingUp size={18} className="text-white/40 shrink-0 mt-0.5" />
-                    <span className="text-white/80 font-medium text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div className="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm">
-              <p className="text-sm font-bold uppercase tracking-widest text-secondary mb-6">Empresas maduras precisarão de:</p>
-              <ul className="grid sm:grid-cols-2 gap-4">
-                {['leitura estrutural', 'causalidade empresarial', 'inteligência decisional', 'governança integrada', 'clareza executiva'].map((item, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <ShieldCheck size={18} className="text-secondary shrink-0 mt-0.5" />
-                    <span className="text-white font-medium text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <p className="text-xl text-white font-semibold leading-relaxed border-l-4 border-secondary pl-6">
-              O Ecossistema Illumine foi concebido para ampliar essa capacidade dentro das organizações.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. O QUE É O ECOSSISTEMA ILLUMINE */}
-      <section id="ecossistema" className="py-32 px-6 relative z-10">
-        <div className="max-w-6xl mx-auto space-y-16">
-          <div className="text-center max-w-3xl mx-auto space-y-4">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-2">
-              <Network size={14} className="text-secondary" />
-              <span>O QUE É O ECOSSISTEMA ILLUMINE</span>
+            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary border-l-2 border-secondary pl-3">
+              A Nova Realidade das Empresas
             </h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Mais do que um programa de parceiros.<br/>Uma arquitetura institucional de inteligência empresarial.
+            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-white leading-[1.1]" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
+              Empresas não enfrentam apenas desafios financeiros.
             </h3>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <p className="text-lg text-foreground font-semibold">O Ecossistema Illumine integra:</p>
-              <div className="flex flex-wrap gap-3">
-                {['consultorias', 'escritórios contábeis', 'advisors', 'especialistas financeiros', 'profissionais de governança', 'organizações estratégicas', 'lideranças empresariais', 'parceiros institucionais'].map((item, i) => (
-                  <span key={i} className="px-4 py-2 bg-surface-container rounded-lg text-sm font-bold text-foreground border border-border shadow-sm">{item}</span>
-                ))}
-              </div>
-            </div>
-
-            <div className="p-10 bg-surface-container/50 border border-border/80 rounded-3xl shadow-xl">
-              <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-6">Apoiamos empresas em:</p>
-              <ul className="grid grid-cols-2 gap-y-4 gap-x-2">
-                {['crescimento sustentável', 'profissionalização', 'governança', 'previsibilidade', 'maturidade operacional', 'inteligência estrutural'].map((item, i) => (
-                  <li key={i} className="flex items-center gap-2">
-                    <CheckCircle2 size={18} className="text-secondary shrink-0" />
-                    <span className="text-sm font-semibold text-foreground/90">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-8 pt-6 border-t border-border">
-                <p className="text-lg text-foreground font-semibold leading-relaxed">
-                  O parceiro Illumine não atua apenas comercialmente.<br/>Ele passa a integrar uma <span className="text-primary">infraestrutura estratégica de interpretação empresarial.</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. O NOVO CONCEITO DE PARCERIA */}
-      <section className="py-32 px-6 bg-surface-container/30 border-y border-border/40 relative z-10">
-        <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <div className="relative order-2 lg:order-1">
-            <div className="absolute -inset-1 bg-gradient-to-tr from-primary/10 to-secondary/10 rounded-3xl blur-xl opacity-50" />
-            <div className="relative p-10 rounded-[2rem] bg-gradient-to-br from-background to-surface-container border border-primary/20 shadow-2xl backdrop-blur-xl">
+            <div className="p-8 rounded-2xl bg-white/5 border border-white/10 mt-6 backdrop-blur-sm">
+              <p className="text-sm font-bold text-secondary uppercase tracking-widest mb-6">Elas enfrentam:</p>
               <ul className="space-y-4">
-                {['interpretar riscos estruturais', 'apoiar decisões críticas', 'ampliar maturidade organizacional', 'fortalecer governança', 'estruturar previsibilidade', 'conectar empresas à inteligência integrada'].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 bg-background/40 p-4 rounded-xl border border-border/40 hover:border-secondary/40 transition-colors">
-                    <Activity size={20} className="text-secondary shrink-0" />
-                    <span className="text-foreground font-medium">{item}</span>
+                {[
+                  'Deterioração silenciosa de margem;',
+                  'Crescimento sem sustentação;',
+                  'Baixa previsibilidade;',
+                  'Desalinhamento operacional;',
+                  'Pressão no capital de giro;',
+                  'Decisões desconectadas da realidade estrutural;',
+                  'Ausência de leitura integrada do negócio.'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <AlertCircle size={18} className="text-white/30 shrink-0 mt-0.5" />
+                    <span className="text-white/80 font-medium text-base">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-          <div className="order-1 lg:order-2 space-y-6">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
-              <div className="w-8 h-px bg-secondary" />
-              O NOVO CONCEITO DE PARCERIA
-            </h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground leading-[1.1]" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Parceiros não ampliam apenas vendas.<br/>Ampliam capacidade estratégica.
-            </h3>
-            <p className="text-lg text-muted-foreground font-medium leading-relaxed w-full">
-              O parceiro Illumine não é um revendedor de software. Ele participa ativamente de uma arquitetura projetada para a sustentabilidade.
-            </p>
-            <p className="text-xl text-foreground font-semibold leading-relaxed border-l-4 border-secondary pl-6">
-              Isso transforma a parceria em uma extensão estratégica da própria arquitetura Illumine.
-            </p>
+
+          <div className="space-y-8 lg:pt-24">
+            <div className="bg-secondary/5 border border-secondary/20 p-10 rounded-2xl">
+              <p className="text-xl text-white font-medium leading-relaxed">
+                Nesse cenário, profissionais estratégicos precisam de mais do que ferramentas isoladas.
+              </p>
+              <p className="text-2xl text-secondary font-bold mt-6">
+                Precisam de: <br/>inteligência estrutural empresarial.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 5. O QUE O PARCEIRO ILLUMINE ACESSA */}
-      <section id="infraestrutura" className="py-32 px-6 relative z-10 bg-[#050505] text-white">
+      {/* 3. O QUE É A ILLUMINE */}
+      <section id="plataforma" className="py-32 px-6 relative z-10 border-b border-white/5 bg-gradient-to-b from-[#030303] to-[#080808]">
         <div className="max-w-6xl mx-auto space-y-16">
-          <div className="text-center max-w-3xl mx-auto space-y-4">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-secondary flex items-center justify-center gap-2">
-              <Layers size={14} className="text-secondary" />
-              <span>O QUE O PARCEIRO ILLUMINE ACESSA</span>
-            </h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-white" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Infraestrutura estratégica para leitura estrutural empresarial.
+          <div className="text-center max-w-4xl mx-auto space-y-6">
+            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary">A ORIGEM DA PLATAFORMA</h2>
+            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-white" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
+              Nossa Ciência e Metodologia de Consultoria<br/><span className="text-secondary">Transformadas em Tecnologia.</span>
+            </h3>
+            <p className="text-lg text-white/80 font-medium leading-relaxed">
+              A plataforma Illumine Strategic Intelligence & Advisory não é apenas um software. Ela contém toda a <strong>metodologia, ciência e arquitetura de inteligência</strong> de como a Illumine Consultoria pensa o desenvolvimento de empresas sustentáveis, agora embarcadas em uma infraestrutura digital para suporte à tomada de decisão.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="p-10 bg-white/5 border border-white/10 rounded-3xl">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-secondary mb-8">A Plataforma Integra</p>
+              <ul className="grid grid-cols-2 gap-y-6 gap-x-4">
+                {[
+                  'Inteligência financeira', 'Governança narrativa', 'Causalidade empresarial', 'Análise estrutural',
+                  'Advisory executivo', 'Continuidade operacional', 'Sustentabilidade de crescimento', 'Inteligência de capital de giro', 'Leitura preditiva de risco'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                    <span className="text-white/90 text-sm font-semibold">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="p-10 bg-white/5 border border-white/10 rounded-3xl flex flex-col justify-center">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-secondary mb-8">Para Ambientes Corporativos</p>
+              <p className="text-lg text-white font-medium mb-6">Tudo em uma estrutura construída para organizações que exigem:</p>
+              <ul className="space-y-4">
+                {['Profundidade', 'Confiabilidade', 'Clareza executiva', 'Sofisticação analítica'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <ShieldCheck size={20} className="text-secondary" />
+                    <span className="text-white text-lg font-bold">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. QUEM A ILLUMINE BUSCA & O QUE NÃO É */}
+      <section className="py-32 px-6 relative z-10 border-b border-white/5">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
+          <div className="space-y-8">
+            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary border-l-2 border-secondary pl-3">QUEM A ILLUMINE BUSCA</h2>
+            <p className="text-2xl text-white font-medium">A Illumine foi desenvolvida para profissionais e estruturas que operam em profundidade estratégica.</p>
+            <p className="text-sm font-bold uppercase tracking-widest text-white/40">Perfis mais aderentes ao ecossistema:</p>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                'Consultorias empresariais', 'CFOs externos', 'Advisors financeiros', 'Escritórios contábeis estratégicos', 
+                'Estruturas de governança', 'Escritórios jurídicos empresariais', 'Conselheiros', 'Especialistas em reestruturação',
+                'Family offices', 'Consultorias de M&A', 'Hubs empresariais', 'Especialistas em transformação'
+              ].map((item, i) => (
+                <div key={i} className="p-3 border border-white/10 rounded-lg bg-white/5 text-sm text-white/80 font-medium">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-8 lg:pl-16 lg:border-l lg:border-white/10">
+            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary border-l-2 border-secondary pl-3">A ILLUMINE NÃO É</h2>
+            <ul className="space-y-3 opacity-60">
+              {['Um dashboard convencional', 'Um ERP', 'Um BI tradicional', 'Uma ferramenta de indicadores isolados', 'Uma consultoria genérica'].map((item, i) => (
+                <li key={i} className="flex items-center gap-2 line-through text-lg font-medium">
+                  {item}
+                </li>
+              ))}
+            </ul>
+            
+            <div className="pt-8 space-y-6">
+              <p className="text-2xl text-secondary font-bold">A Illumine é uma arquitetura institucional de inteligência empresarial.</p>
+              <p className="text-sm font-bold uppercase tracking-widest text-white/40">Seu propósito é ampliar:</p>
+              <ul className="grid grid-cols-2 gap-3">
+                {['Capacidade de interpretação', 'Leitura estrutural', 'Maturidade decisional', 'Governança', 'Profundidade consultiva', 'Previsibilidade executiva'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2 text-white font-semibold">
+                    <CheckCircle2 size={16} className="text-secondary" /> {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. O QUE O PARCEIRO ACESSA */}
+      <section className="py-32 px-6 relative z-10 border-b border-white/5 bg-[#050505]">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-6">
+            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary">O QUE O PARCEIRO ACESSA</h2>
+            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-white" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
+              Intelligence Layers
             </h3>
           </div>
 
@@ -320,19 +299,19 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {[
-              { icon: BrainCircuit, title: 'Structural Intelligence Architecture', desc: 'Acesso à lógica interpretativa e à arquitetura conceitual da Illumine.' },
-              { icon: BarChart3, title: 'Financial Intelligence Engine', desc: 'Modelos integrados de leitura financeira, sustentabilidade operacional e causalidade estrutural.' },
-              { icon: ShieldCheck, title: 'Governance Intelligence', desc: 'Frameworks voltados para maturidade decisional, previsibilidade e governança empresarial.' },
-              { icon: Users, title: 'Advisory Intelligence', desc: 'Estruturas executivas para interpretação estratégica e apoio a decisões críticas.' },
-              { icon: Target, title: 'Executive Scoring', desc: 'Modelos de avaliação estrutural, maturidade organizacional e sustentabilidade empresarial.' },
-              { icon: Activity, title: 'Stress & Risk Analysis', desc: 'Análises de pressão estrutural, sensibilidade operacional e capacidade de sustentação organizacional.' },
-              { icon: LayoutDashboard, title: 'Plataforma de Inteligência Empresarial', desc: 'Infraestrutura tecnológica para diagnósticos, relatórios executivos, monitoramento estrutural e leitura integrada dos pilares empresariais.' }
+              { icon: Layers, title: 'Structural Intelligence', desc: 'Leitura estrutural do negócio com foco em sustentabilidade operacional, capital de giro, liquidez real e resiliência empresarial.' },
+              { icon: BrainCircuit, title: 'Predictive Causality', desc: 'Mapeamento das relações de causa e efeito entre indicadores financeiros, operacionais e estratégicos.' },
+              { icon: Database, title: 'Treasury Intelligence', desc: 'Análise avançada de tesouraria, elasticidade financeira e capacidade de absorção de choques.' },
+              { icon: Shield, title: 'Governance Intelligence', desc: 'Frameworks de governança narrativa, consistência institucional e interpretação executiva.' },
+              { icon: Briefcase, title: 'Executive Advisory Engine', desc: 'Geração de diagnósticos estratégicos com linguagem institucional e foco em tomada de decisão.' },
+              { icon: Activity, title: 'Risk Propagation Engine', desc: 'Identificação de propagação estrutural de riscos financeiros e operacionais.' },
+              { icon: TrendingUp, title: 'Growth Sustainability', desc: 'Avaliação da sustentabilidade do crescimento e da capacidade estrutural de expansão.' }
             ].map((layer, idx) => (
               <motion.div 
                 variants={fadeUp} key={idx} 
-                className="p-8 rounded-card bg-white/5 border border-white/10 hover:shadow-2xl hover:shadow-secondary/10 hover:border-secondary/40 transition-all duration-300 group"
+                className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-secondary/40 hover:bg-white/10 transition-all duration-300 group"
               >
-                <div className="w-12 h-12 rounded-xl bg-black/50 shadow-sm border border-white/10 flex items-center justify-center mb-6 group-hover:scale-105 group-hover:border-secondary/50 transition-all">
+                <div className="w-12 h-12 rounded-xl bg-black/50 border border-white/10 flex items-center justify-center mb-6 group-hover:scale-105 group-hover:border-secondary/50 transition-all">
                   <layer.icon size={20} className="text-secondary" />
                 </div>
                 <h4 className="text-lg font-bold text-white mb-3 leading-snug">{layer.title}</h4>
@@ -343,130 +322,103 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
         </div>
       </section>
 
-      {/* 6 & 7. COMO A ILLUMINE ENXERGA PARCERIAS / DIFERENCIAL */}
-      <section className="py-32 px-6 relative z-10 border-b border-border/40">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
-          <div className="p-10 rounded-3xl bg-surface-container border border-border/60">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-secondary flex items-center gap-2 mb-6">
-              <Handshake size={16} /> COMO ENXERGAMOS PARCERIAS
-            </h2>
-            <h3 className="text-3xl font-medium tracking-tight text-foreground mb-6" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Parcerias sustentáveis são construídas sobre alinhamento intelectual.
-            </h3>
-            <p className="text-base text-muted-foreground font-medium mb-6">Acreditamos que empresas saudáveis dependem de clareza, governança, inteligência integrada, visão de longo prazo e responsabilidade decisional.</p>
-            <p className="text-sm font-bold text-foreground uppercase tracking-widest mb-4">Parceiros comprometidos com:</p>
-            <ul className="space-y-3">
-              {['profundidade analítica', 'sustentabilidade organizacional', 'clareza estrutural', 'desenvolvimento consistente', 'inteligência empresarial aplicada'].map((item, i) => (
-                <li key={i} className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
-                  <span className="text-foreground/90 font-medium">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 pt-6 border-t border-border/50">
-              <p className="text-lg text-primary font-bold">Mais do que expansão comercial, buscamos expansão de capacidade estratégica.</p>
-            </div>
-          </div>
-
-          <div className="p-10 rounded-3xl bg-surface-container border border-border/60">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-secondary flex items-center gap-2 mb-6">
-              <Sparkles size={16} /> O DIFERENCIAL
-            </h2>
-            <h3 className="text-3xl font-medium tracking-tight text-foreground mb-6" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              O diferencial não está apenas na tecnologia. Está na capacidade de interpretação estrutural.
-            </h3>
-            <p className="text-base text-muted-foreground font-medium mb-6">A Illumine não foi desenvolvida apenas para exibir indicadores. Foi arquitetada para:</p>
-            <ul className="space-y-3">
-              {['interpretar relações invisíveis', 'identificar causalidades empresariais', 'antecipar riscos estruturais', 'produzir clareza executiva', 'apoiar decisões críticas', 'fortalecer sustentabilidade organizacional'].map((item, i) => (
-                <li key={i} className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
-                  <span className="text-foreground/90 font-medium">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 pt-6 border-t border-border/50">
-              <p className="text-lg text-foreground font-bold">Os parceiros Illumine passam a integrar essa arquitetura de inteligência empresarial.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. PARA QUEM O ECOSSISTEMA EXISTE */}
-      <section className="py-32 px-6 bg-surface-container/20 relative z-10">
-        <div className="max-w-5xl mx-auto text-center space-y-12">
-          <div className="space-y-4">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-secondary">PARA QUEM EXISTE</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Para profissionais e organizações que compreendem a complexidade empresarial moderna.
+      {/* 6. O QUE ISSO GERA PARA O PARCEIRO */}
+      <section className="py-32 px-6 relative z-10 border-b border-white/5">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-6">
+            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary">VALOR GERADO</h2>
+            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-white" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
+              O Que Isso Gera Para O Parceiro
             </h3>
           </div>
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {['consultorias empresariais', 'escritórios contábeis', 'advisors', 'especialistas financeiros', 'profissionais de governança', 'organizações estratégicas', 'parceiros institucionais', 'lideranças empresariais', 'ecossistemas corporativos'].map((item, i) => (
-              <div key={i} className="p-4 bg-background border border-border rounded-xl shadow-sm font-semibold text-sm text-foreground/80 hover:border-secondary/30 transition-colors">
-                {item}
+          <div className="grid md:grid-cols-2 gap-8">
+            {[
+              { title: 'Ampliação da Capacidade Consultiva', desc: 'Mais profundidade analítica e leitura executiva para atuação junto a clientes empresariais.' },
+              { title: 'Posicionamento Premium', desc: 'Maior percepção de autoridade, sofisticação e maturidade institucional.' },
+              { title: 'Estrutura Enterprise', desc: 'Acesso a frameworks de inteligência organizacional normalmente restritos a estruturas corporativas de alta complexidade.' },
+              { title: 'Advisory Mais Estratégico', desc: 'Transformação de dados em direcionamento executivo claro e contextualizado.' },
+              { title: 'Escalabilidade Intelectual', desc: 'Capacidade de ampliar atuação sem perder profundidade analítica.' }
+            ].map((item, i) => (
+              <div key={i} className="p-8 border border-white/10 bg-white/5 rounded-2xl flex items-start gap-6 hover:border-secondary/30 transition-colors">
+                <Target className="text-secondary shrink-0 mt-1" size={24} />
+                <div>
+                  <h4 className="text-xl font-bold text-white mb-2">{item.title}</h4>
+                  <p className="text-white/70 font-medium">{item.desc}</p>
+                </div>
               </div>
             ))}
           </div>
-
-          <p className="text-lg text-foreground font-semibold">Buscamos parceiros alinhados com clareza estrutural, inteligência integrada, governança, maturidade operacional e sustentabilidade empresarial.</p>
         </div>
       </section>
 
-      {/* 9. POSICIONAMENTO FILOSÓFICO & 10. CERTIFICAÇÃO */}
-      <section className="py-32 px-6 bg-transparent relative z-10 border-t border-border/40">
-        <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-secondary">POSICIONAMENTO FILOSÓFICO</h2>
-          <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-            Tecnologia sem interpretação gera dependência.<br/>
-            <span className="text-primary">Inteligência gera direção.</span>
-          </h3>
-          <p className="text-lg text-muted-foreground font-medium leading-relaxed w-full">
-            Acreditamos que sustentabilidade empresarial não é construída apenas com crescimento. É construída com clareza, causalidade, governança, previsibilidade, responsabilidade decisional, maturidade organizacional e inteligência estrutural.
-          </p>
-          <p className="text-xl text-foreground font-bold leading-relaxed w-full">
-            A tecnologia da Illumine foi concebida como infraestrutura para sustentar essa leitura empresarial. Porque empresas saudáveis não dependem apenas de informação. Dependem da capacidade de interpretar a própria estrutura antes que os riscos se tornem visíveis demais.
-          </p>
-
-          <div className="mt-16 pt-16 border-t border-border/40 text-left grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-secondary flex items-center gap-2"><Medal size={16} /> CERTIFICAÇÃO E EVOLUÇÃO</h2>
-              <h3 className="text-3xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>Uma rede construída sobre maturidade estratégica.</h3>
-              <p className="text-lg text-primary font-bold">Nosso objetivo não é apenas construir uma rede de parceiros. É consolidar um ecossistema orientado por inteligência empresarial e clareza estrutural.</p>
+      {/* 7. PARCERIA COMO ALIANÇA ESTRATÉGICA & PARA EMPRESAS */}
+      <section className="py-32 px-6 relative z-10 border-b border-white/5 bg-[#080808]">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
+          <div className="space-y-8">
+            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary border-l-2 border-secondary pl-3">PARCERIA COMO ALIANÇA</h2>
+            <h3 className="text-3xl font-medium tracking-tight text-white" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
+              A Illumine não busca volume de parceiros.
+            </h3>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">Busca:</p>
+            <ul className="space-y-4">
+              {['Alinhamento estratégico', 'Maturidade profissional', 'Profundidade consultiva', 'Visão de longo prazo', 'Compromisso com inteligência empresarial'].map((item, i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                  <span className="text-white font-medium text-lg">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="pt-8 border-t border-white/10">
+              <p className="text-xl text-white/70 font-medium">Nosso objetivo não é criar um canal comercial comum. É construir:</p>
+              <p className="text-2xl text-secondary font-bold mt-4">Um ecossistema institucional de inteligência estratégica.</p>
             </div>
-            <div>
-              <ul className="grid grid-cols-2 gap-3">
-                {['frameworks proprietários', 'inteligência estrutural', 'metodologias executivas', 'arquitetura de governança', 'leitura integrada', 'desenvolvimento institucional', 'certificações estratégicas', 'expansão organizacional'].map((item, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground font-semibold">
-                    <CheckCircle2 size={16} className="text-secondary shrink-0" /> {item}
-                  </li>
-                ))}
-              </ul>
+          </div>
+
+          <div className="space-y-8 lg:border-l lg:border-white/10 lg:pl-16">
+            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary border-l-2 border-secondary pl-3">EXIGÊNCIA DE MERCADO</h2>
+            <h3 className="text-3xl font-medium tracking-tight text-white" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
+              Para empresas que exigem mais do que relatórios.
+            </h3>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">A nova geração de empresas precisa de:</p>
+            <div className="grid grid-cols-2 gap-4">
+              {['Leitura estrutural', 'Causalidade', 'Governança', 'Previsibilidade', 'Inteligência integrada', 'Clareza executiva'].map((item, i) => (
+                <div key={i} className="p-4 border border-white/10 bg-white/5 rounded-xl text-center text-sm text-white font-semibold">
+                  {item}
+                </div>
+              ))}
+            </div>
+            <div className="pt-8 border-t border-white/10">
+              <p className="text-xl text-white font-medium">A Illumine existe para sustentar exatamente essa transformação.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 11. CTA FINAL */}
-      <section className="py-32 px-6 bg-primary text-primary-foreground relative overflow-hidden z-10">
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.05] mix-blend-overlay" />
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-secondary rounded-full blur-[120px] opacity-20 -mr-[200px] -mt-[200px]" />
-        
+      {/* 8. CTA FINAL */}
+      <section className="py-32 px-6 relative overflow-hidden z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-secondary/10 via-transparent to-transparent pointer-events-none" />
         <div className="max-w-4xl mx-auto text-center space-y-10 relative z-10">
-          <h3 className="text-4xl md:text-5xl lg:text-[64px] font-medium tracking-tight leading-[1.05]" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-            Clareza estrutural será um dos ativos mais valiosos das empresas nos próximos anos.
+          <h3 className="text-4xl md:text-5xl lg:text-[64px] font-medium tracking-tight text-white leading-[1.05]" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
+            Estruturas estratégicas precisam de <span className="text-secondary">infraestrutura institucional.</span>
           </h3>
-          <p className="text-xl md:text-2xl text-primary-foreground/90 font-medium max-w-2xl mx-auto">
-            O Ecossistema Illumine existe para conectar organizações e profissionais comprometidos com inteligência estrutural, governança e direção estratégica.
+          <p className="text-xl text-white/70 font-medium max-w-2xl mx-auto leading-relaxed">
+            Se sua atuação exige profundidade analítica, inteligência integrada e capacidade consultiva enterprise-grade, talvez exista alinhamento estratégico entre sua estrutura e a arquitetura Illumine.
           </p>
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              onClick={() => handleCTAClick('Gostaria de me tornar um Parceiro Estratégico Illumine')}
-              className="w-full sm:w-auto h-16 px-10 rounded-xl bg-background text-foreground font-bold text-sm uppercase tracking-widest hover:bg-surface-container hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group shadow-2xl"
+              onClick={() => handleCTAClick('Gostaria de Solicitar uma Aliança Estratégica')}
+              className="w-full sm:w-auto h-16 px-10 rounded-md bg-white text-black font-bold text-sm uppercase tracking-widest hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-2xl"
             >
-              <Briefcase size={20} className="text-secondary" />
-              <span>Tornar-se Parceiro Estratégico Illumine</span>
-              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform text-secondary" />
+              <span>Solicitar Aliança Estratégica</span>
+              <ArrowRight size={20} />
+            </button>
+            <button
+              onClick={() => handleCTAClick('Gostaria de iniciar uma Conversa Institucional')}
+              className="w-full sm:w-auto h-16 px-10 rounded-md bg-transparent border border-white/20 text-white font-bold text-sm uppercase tracking-widest hover:bg-white/5 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+            >
+              <Briefcase size={20} />
+              <span>Iniciar Conversa Institucional</span>
             </button>
           </div>
         </div>
@@ -482,17 +434,16 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             className="fixed bottom-6 right-6 z-50 flex items-center"
           >
             <button
-              onClick={() => handleCTAClick('Gostaria de me certificar como Parceiro Estratégico Illumine')}
-              className="flex items-center gap-3 px-6 h-14 bg-foreground text-background font-bold text-xs uppercase tracking-widest rounded-full shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] hover:bg-foreground/90 hover:scale-105 active:scale-95 transition-all"
+              onClick={() => handleCTAClick('Gostaria de Solicitar uma Aliança Estratégica')}
+              className="flex items-center gap-3 px-6 h-14 bg-white text-black font-bold text-xs uppercase tracking-widest rounded-full shadow-2xl hover:bg-white/90 hover:scale-105 active:scale-95 transition-all"
             >
-              <Briefcase size={18} className="text-secondary" />
-              <span className="hidden sm:inline">Solicitar Credenciamento</span>
-              <span className="sm:hidden">Aplicar</span>
+              <Briefcase size={18} />
+              <span className="hidden sm:inline">Aliança Estratégica</span>
+              <span className="sm:hidden">Aliança</span>
             </button>
           </motion.div>
         )}
       </AnimatePresence>
-
     </main>
   );
 }

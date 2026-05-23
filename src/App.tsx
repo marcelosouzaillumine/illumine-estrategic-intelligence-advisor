@@ -583,12 +583,18 @@ export default function App() {
       const now = new Date();
       const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
       const lastAccessKey = `last_access_${user.uid}`;
+      const sessionShownKey = `session_welcome_shown_${user.uid}`;
+      
       const lastAccess = localStorage.getItem(lastAccessKey);
-      const isFirstAccessOfDay = lastAccess !== today;
+      const sessionShown = sessionStorage.getItem(sessionShownKey);
+      
+      const isFirstAccessOfDay = lastAccess !== today && sessionShown !== today;
       
       if (isFirstAccessOfDay) {
-        localStorage.setItem(lastAccessKey, today);
+        // Prevent StrictMode from firing this logic twice and dropping the modal
+        sessionStorage.setItem(sessionShownKey, today);
         setTimeout(() => {
+          localStorage.setItem(lastAccessKey, today);
           setWelcomeText(getRandomWelcomeMessage());
           setShowWelcome(true);
         }, 800);

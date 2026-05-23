@@ -1552,7 +1552,28 @@ Toda análise deve responder implicitamente:
 A plataforma deve interpretar continuidade empresarial como fenômeno:
 
 - dinâmico;
-- sistêmico;
 - causal;
 - temporal;
 - estratégico.
+
+---
+
+# 20. Política de Síntese Executiva
+
+Toda análise financeira deve passar obrigatoriamente pela BOARD_SYNTHESIS_ENGINE antes da renderização final.
+
+A plataforma deve:
+- detectar causalidade dominante;
+- eliminar redundâncias narrativas;
+- consolidar engines correlatas;
+- reduzir fragmentação interpretativa;
+- priorizar leitura institucional;
+- apresentar síntese executiva orientada a decisão.
+
+A análise final deve responder prioritariamente:
+
+1. Qual o problema central;
+2. O que causa esse problema;
+3. Qual o risco dominante;
+4. Qual decisão estratégica é necessária;
+5. Qual impacto esperado.

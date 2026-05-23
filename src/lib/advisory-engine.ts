@@ -1,14 +1,31 @@
 import { BPSummary } from './bpEngine';
 import { FinancialMetrics } from './financial-engine';
 import { ScoreMetrics } from './score-engine';
+import { getIndustryWeights } from './industry-engine';
+import { validateNarrativeOutput } from './narrative-governance';
+
+export interface TrendMetrics {
+  hasData: boolean;
+  ebitdaTrend: number; // % var
+  plTrend: number; // % var
+  liquidityTrend: number; // % var
+}
+
+export interface ExecutiveAction {
+  acao: string;
+  impacto: 'Alto' | 'Médio' | 'Baixo';
+  velocidade: 'Imediata' | 'Curto Prazo' | 'Médio Prazo' | 'Longo Prazo';
+  complexidade: 'Alta' | 'Média' | 'Baixa';
+  prioridade: 'Imediata' | 'Alta' | 'Moderada' | 'Estratégica';
+}
 
 export interface AdvisoryOutput {
   maturidade: string;
-  diagnostico: string;
-  fragilidades: string[];
-  estrategico: string[];
-  tendencia: string;
-  prioridades: string[];
+  diagnostico: string; // Focado na causalidade primária (CFO Commentary)
+  fragilidades: string[]; // Problemas secundários
+  estrategico: string[]; // Risco Principal
+  tendencia: string; // Impacto Operacional
+  prioridades: string[]; // Recomendação Estratégica
   predicao: {
     horizontePressao: string;
     riscoRuptura: string;
@@ -21,14 +38,67 @@ export interface AdvisoryOutput {
     dependenciaOperacao: string;
     necessidadeCapitalizacao: string;
     resilienciaEstrutural: string;
+    flexibilidadeFinanceira: string;
+    velocidadeRecuperacao: string;
+  };
+  predictiveCausality: {
+    primaryThreat: string;
+    timeToImpact: string;
+    mitigationFactor: string;
   };
   estresse: {
     cenario: string;
     impacto: string;
     status: 'warning' | 'danger' | 'success';
   }[];
+  governanceRisks: {
+    taxonomia: 'Operacional' | 'Financeiro' | 'Estratégico' | 'Patrimonial' | 'Governança' | 'Continuidade';
+    descricao: string;
+  }[];
+  trendIntelligence: {
+    direcaoEstrutural: string;
+    parecerEvolutivo: string;
+  };
+  boardIntelligence: {
+    suportaCrescimento: string;
+    resilienciaModelo: string;
+    riscoDeterioracao: string;
+  };
+  managementDecisions: {
+    melhoraCaixaRapido: string;
+    ameacaContinuidade: string;
+    reduzRiscoEstrutural: string;
+    maiorImpactoVelocidade: string;
+  };
+  valueCreation: {
+    tipoCrescimento: string;
+    fatorDestruicao: string;
+    alavancaValor: string;
+  };
+  treasuryIntelligence: {
+    linhaAgua: string;
+    velocidadeDeterioracao: string;
+    pontoRuptura: string;
+  };
+  boardNarrative: {
+    visaoSintetica: string;
+    racionalidadeEconomica: string;
+    visaoAcionista: string;
+  };
+  capitalAllocation: {
+    preservar: string;
+    desacelerar: string;
+    monetizar: string;
+    maiorRetorno: string;
+  };
+  valueProtection: {
+    fatorErosaoSilenciosa: string;
+    reducaoResiliencia: string;
+    riscoExpansao: string;
+  };
+  strategicValueInterpretation: string;
   prioridadesEstrategicas: { nome: string; status: string }[];
-  recomendacoesExecutivas: string[];
+  strategicActionMatrix: ExecutiveAction[];
   impactosEsperados: { acao: string; impacto: string }[];
   liquidityQuality: {
     diagnostico: string;
@@ -50,7 +120,9 @@ export interface AdvisoryOutput {
 export function generateAdvisory(
   bpSummary: BPSummary,
   metrics: FinancialMetrics,
-  scores: ScoreMetrics
+  scores: ScoreMetrics,
+  industry?: string,
+  trend?: TrendMetrics
 ): AdvisoryOutput {
   if (!metrics.hasData) {
     return createEmptyAdvisory();
@@ -59,212 +131,324 @@ export function generateAdvisory(
   const {
     ebitda, liqCorrente, liquidezReal, saldoTesouraria, cgl, ncg, concentracaoEstoque,
     qualidadeEndividamento, dependenciaBancaria, indiceDescapitalizacao,
-    autonomiaFinanceira, liqSeca
+    autonomiaFinanceira, liqSeca, dscrSimulado, resilienciaGiro, absorcaoPrejuizo,
+    margemErroOperacional
   } = metrics;
 
   const { 
     passivoCirculante: pc, patrimonioLiquido: plValue, 
     altaConversibilidade, mediaConversibilidade, baixaConversibilidade, restritaConversibilidade,
-    ativoCirculante: ac, creditosSocios
+    ativoCirculante: ac, creditosSocios, capitalSocial
   } = bpSummary;
 
   const { resilienciaGlobal, indiceContinuidade } = scores;
 
-  // -- Maturidade (Aplicando restrições de governança) --
+  // -- Maturidade (Taxonomia Harmonizada) --
   let maturidade = "";
   if (plValue < 0) {
     maturidade = 'Insolvência Técnica';
-  } else if (resilienciaGlobal <= 15) {
-    maturidade = 'Estresse Financeiro Severo';
-  } else if (resilienciaGlobal <= 30) {
-    maturidade = 'Risco Crítico de Continuidade';
-  } else if (resilienciaGlobal <= 45) {
-    maturidade = 'Estrutura Pressionada';
+  } else if (resilienciaGlobal <= 20) {
+    maturidade = 'Fragilizado Profundo';
+  } else if (resilienciaGlobal <= 40) {
+    maturidade = 'Atenção Requerida';
   } else if (resilienciaGlobal <= 60) {
-    maturidade = 'Atenção';
-  } else if (resilienciaGlobal <= 75) {
+    maturidade = 'Pressão Estrutural';
+  } else if (resilienciaGlobal <= 80) {
+    maturidade = 'Sensível';
+  } else if (resilienciaGlobal < 95) {
     maturidade = 'Estável';
-  } else if (resilienciaGlobal <= 90) {
-    maturidade = 'Saudável';
   } else {
-    maturidade = 'Alta Solidez Patrimonial';
+    maturidade = 'Saudável';
   }
 
-  // Travas de narrativa (Expressões proibidas)
-  if (liqCorrente < 1 || plValue < 0 || saldoTesouraria < 0) {
-    if (['Saudável', 'Alta Solidez Patrimonial', 'Estável'].includes(maturidade) && plValue > 0) {
-       maturidade = 'Atenção (Pressão de Curto Prazo)';
-    }
-  }
-
-  const isCriticalLiquidity = liqCorrente < 0.8 || saldoTesouraria < 0;
-  const isEroding = plValue < 0 || indiceDescapitalizacao > 0.5;
+  const isCriticalLiquidity = liquidezReal < 0.5 || saldoTesouraria < 0;
+  const isEroding = plValue < 0 || (indiceDescapitalizacao > 0.5 && plValue > 0);
   const isInventoryDependent = concentracaoEstoque > 0.35;
   const isDebtDependent = dependenciaBancaria > 0.5;
 
+  // -- CFO Commentary Engine (Diagnóstico) --
   let diagnostico = "";
-  if (plValue < 0 && ebitda < 0 && saldoTesouraria < 0 && liqCorrente < 0.8) {
-    diagnostico = "A organização opera em estado de insolvência técnica e estresse operacional. O patrimônio líquido é negativo, não há geração de caixa operacional (EBITDA negativo) e a liquidez é crítica, evidenciando ruptura operacional iminente.";
-  } else if (plValue < 0 && ebitda > 0 && liqCorrente < 1) {
-    // Regra 11.5.6 - Curadoria para Insolvência Técnica com Operação Ativa
-    diagnostico = "A empresa apresenta insolvência técnica patrimonial e severa pressão de liquidez, porém ainda preserva capacidade operacional. O principal risco está no descasamento entre obrigações de curto prazo e ativos de baixa conversibilidade econômica, exigindo reestruturação financeira, alongamento de passivos, capitalização e disciplina rigorosa de capital de giro.";
-  } else if (plValue < 0 && ebitda > 0) {
-    // Regra 11.5.3
-    diagnostico = "A operação ainda preserva capacidade de geração operacional, porém a estrutura financeira permanece pressionada e dependente de reestruturação.";
-  } else if (plValue < 0) {
-    diagnostico = "A organização opera com passivo a descoberto (insolvência técnica), porém ainda mantém base de ativos e atividade. Há urgência de capitalização para reverter a deterioração estrutural antes que contamine a operação.";
-  } else if (plValue > 0 && liqCorrente < 1 && cgl < 0 && saldoTesouraria < 0) {
-    // Regra 12 oficial do Master_Financial_Intelligence_Engine.md
-    diagnostico = "A empresa apresenta estrutura patrimonial positiva, porém financeiramente pressionada. O principal risco está no descasamento entre obrigações de curto prazo e ativos líquidos disponíveis. A prioridade estratégica deve ser a recomposição do capital de giro, alongamento de passivos, melhoria do ciclo financeiro e preservação da geração operacional.";
+  if (ebitda < 0 && saldoTesouraria < 0 && liquidezReal < 0.3) {
+    diagnostico = "Ruptura Estrutural Sistêmica. A arquitetura de capital encontra-se exaurida com passivo a descoberto, severamente agravada pela destruição de caixa operacional na margem (EBITDA negativo). O esgotamento da liquidez e a asfixia da tesouraria inviabilizam a continuidade orgânica do negócio. O cenário exige intervenção de governança corporativa emergencial, incluindo estruturação imediata de reperfilamento passivo, paralisação de Capex e captação primária de equity.";
+  } else if (plValue < 0 && ebitda > 0 && dscrSimulado > 1.2) {
+    diagnostico = "Insolvência Técnica com Absorção Operacional. A companhia opera alavancada com passivo a descoberto, sinalizando corrosão histórica de capital. No entanto, o core business preserva viabilidade econômica, gerando caixa através de um EBITDA positivo capaz de financiar o giro. A sustentabilidade e recuperação do valuation dependem mandatòriamente do alongamento tático da dívida e blindagem da liquidez para permitir a reconstrução orgânica da base de capital ao longo dos próximos exercícios.";
   } else if (plValue > 0 && ebitda < 0 && saldoTesouraria < 0) {
-    diagnostico = "Estrutura financeiramente pressionada. Apesar do patrimônio líquido positivo e da base de ativos realizáveis, a operação queima caixa (EBITDA negativo) e o giro sufocado exige dependência de capital de terceiros. Necessidade urgente de turnaround da operação.";
-  } else if (ebitda > 0 && saldoTesouraria < 0) {
-    // Regra 11.5.3 (Complemento para tesouraria negativa com ebitda positivo)
-    diagnostico = "A operação ainda preserva capacidade de geração operacional, porém a estrutura financeira permanece pressionada e dependente de reestruturação.";
-  } else if (isEroding) {
-    diagnostico = "A estrutura patrimonial permanece positiva, porém altamente pressionada pelo elevado nível de endividamento de curto prazo e pela baixa participação de capital próprio na sustentação operacional.";
-  } else if (isCriticalLiquidity) {
-    diagnostico = "A empresa possui um patrimônio estrutural, porém sua estrutura de capital de giro e liquidez estão comprimidas, indicando pressão de caixa e necessidade de otimização de tesouraria e rolagens estratégicas.";
-  } else if (autonomiaFinanceira > 0.5 && liqCorrente >= 1.2 && ebitda > 0) {
-    diagnostico = "A companhia apresenta uma estrutura patrimonial e operacional saudável, com geração de caixa (EBITDA positivo), adequada folga de liquidez e capitalização compatível com sua escala.";
+    diagnostico = "Deterioração Operacional e Estrangulamento de Tesouraria. Apesar de o balanço apresentar suporte patrimonial, o modelo de negócios atual está consumindo caixa devido à margem EBITDA negativa. Combinado a um capital de giro passivo, a operação impõe uma necessidade contínua de rolagem de dívida de curto prazo, erodindo o patrimônio. É mandatória a imediata revisão de precificação, corte de OPEX e readequação da capacidade instalada.";
+  } else if (plValue > 0 && saldoTesouraria < 0 && ebitda > 0) {
+    diagnostico = "Fricção Severa no Ciclo de Conversão de Caixa. A empresa possui tração comercial e margem econômica, porém o capital de giro encontra-se mal estruturado. O descompasso crônico entre os prazos médios de recebimento e pagamento está drenando a tesouraria e asfixiando o caixa gerado. Requer refinanciamento das linhas de giro de curto prazo e adoção rigorosa de recebíveis como colateral para recomposição da margem de erro operacional.";
+  } else if (autonomiaFinanceira > 0.5 && liquidezReal > 1 && ebitda > 0 && metrics.treasuryStatus === 'Robusta') {
+    diagnostico = "Arquitetura Financeira Funcional e Resiliente. A estrutura de capital próprio da companhia é suficiente para absorver volatilidades e flutuações de demanda. O balanço exibe níveis confortáveis de liquidez real e uma margem de tesouraria que protege a operação comercial contra choques de inadimplência de curto prazo. Posição habilitada para aceleração tática de mercado e preservação consolidada de valuation.";
   } else {
-    diagnostico = "A estrutura patrimonial encontra-se estável, porém requer atenção. Há dependência da eficiência comercial e do capital de giro contínuo para manter a operação sem necessitar de novas dívidas caras.";
+    diagnostico = "Estrutura Funcional com Margem de Erro Restrita. A operação roda de forma equilibrada no aspecto de solvência, contudo a atual elasticidade da tesouraria não suportaria choques abruptos na demanda ou alongamento inesperado no ciclo de clientes. Recomenda-se acompanhamento disciplinado do CGL e otimização da estrutura de recebíveis para prevenir o encurtamento prematuro de passivos e assegurar flexibilidade em cenários adversos.";
   }
 
-  // Regra 11.5.4 Liquidez Real vs Liquidez Contábil
-  if (liquidezReal < liqCorrente * 0.6) {
-    diagnostico += " Existe distorção relevante entre liquidez contábil e liquidez econômica real (excesso de ativos de baixa conversibilidade), conferindo uma falsa percepção de solvência de curto prazo.";
+  // Treasury Intelligence Insight
+  let linhaAguaStr = "";
+  if (saldoTesouraria > 0) {
+    linhaAguaStr = (liqSeca < 0.5 || isInventoryDependent) ? "Sensível à deterioração do giro (Falsa folga de tesouraria)" : "Acima da linha d'água (Autofinanciamento tático garantido)";
+  } else {
+    linhaAguaStr = "Abaixo da linha d'água (Dependência externa de rolagem)";
   }
+  const treasuryIntelligence = {
+    linhaAgua: linhaAguaStr,
+    velocidadeDeterioracao: ebitda < 0 ? "Acelerada (Queima dupla: operacional e financeira)" : (ncg > cgl ? "Moderada (O giro drena capital passivamente)" : "Estável"),
+    pontoRuptura: metrics.treasuryStatus === 'Crítica' ? "Iminente (Rolagem passiva insustentável no curto prazo)" : ((liqSeca < 0.5 || saldoTesouraria < 0) ? "Linha d'água próxima do limite operacional" : "Margem de absorção confortável")
+  };
 
   const fragilidades = [];
-  if (saldoTesouraria < 0) fragilidades.push("Tesouraria Estruturalmente Negativa: A necessidade de giro supera o capital de giro próprio.");
-  if (isInventoryDependent) fragilidades.push("Alta imobilização de capital em estoques, reduzindo a liquidez real da operação.");
-  if (qualidadeEndividamento > 0.7) fragilidades.push("Passivos excessivamente concentrados no curto prazo (exigibilidade imediata altíssima).");
-  if (creditosSocios > (ac * 0.15)) fragilidades.push("Volume expressivo de capital travado em mútuos ou créditos com partes relacionadas.");
-  if (isDebtDependent) fragilidades.push("Alta dependência de capital oneroso (dívida bancária), pressionando as margens operacionais.");
-  if (fragilidades.length === 0) fragilidades.push("Não foram detectadas fragilidades estruturais críticas no fechamento do período.");
+  if (saldoTesouraria < 0) fragilidades.push("A necessidade de capital de giro (NCG) supera a margem do capital próprio alocado no giro (CGL).");
+  if (isInventoryDependent) fragilidades.push("Excesso de capital retido em estoques, comprometendo a capacidade de conversão ágil em caixa.");
+  if (qualidadeEndividamento > 0.7) fragilidades.push("Concentração severa de passivos no curtíssimo prazo, gerando pressão constante de rolagem.");
+  if (creditosSocios > (ac * 0.15)) fragilidades.push("Ativos circulantes poluídos com mútuos ou adiantamentos, distorcendo a percepção de liquidez real disponível.");
+  if (isDebtDependent && dscrSimulado < 1.2) fragilidades.push("Dependência de dívidas onerosas com baixa margem de cobertura pelo fluxo de caixa (EBITDA).");
+  if (fragilidades.length === 0) fragilidades.push("A matriz estrutural não aponta vulnerabilidades imediatas fora da normalidade do segmento.");
 
   const estrategico = [];
-  if (isInventoryDependent && isCriticalLiquidity) estrategico.push("O nível elevado de estoques associado à baixa liquidez sugere imobilização de caixa. Uma desaceleração nas vendas forçará a captação de dívida para gerar liquidez de emergência.");
-  if (saldoTesouraria < 0 && plValue > 0) estrategico.push("Apesar da viabilidade patrimonial, o descompasso na tesouraria exige que parte do lucro gerado seja retido apenas para sustentar o giro diário, anulando a capacidade de distribuição de dividendos consistentes.");
-  if (autonomiaFinanceira < 0.3) estrategico.push("A baixa participação de capital próprio amplia o risco da alavancagem financeira, transferindo a maior parte da geração de valor para o pagamento do serviço da dívida (bancos).");
-  if (estrategico.length === 0) estrategico.push("O balanço não aponta para vulnerabilidades extremas no curtíssimo prazo; no entanto, a margem de elasticidade financeira deve ser monitorada de perto.");
+  if (isInventoryDependent && isCriticalLiquidity) estrategico.push("Risco Primário: Choques na demanda podem asfixiar a tesouraria, pois o caixa está imobilizado e a liquidez imediata é restrita.");
+  if (saldoTesouraria < 0 && plValue > 0) estrategico.push("Risco de Crescimento: Expandir a operação na configuração atual queimará mais caixa, acelerando a dependência de bancos e deteriorando margens.");
+  if (autonomiaFinanceira < 0.3) estrategico.push("Alergagem Crítica: Estrutura excessivamente financiada por terceiros. A resiliência contra oscilações de juros ou compressão de margens é mínima.");
+  if (estrategico.length === 0) estrategico.push("A estratégia deve focar em otimizar a conversão operacional, pois a estrutura básica suporta os ciclos normais.");
 
   let tendencia = "";
-  if (plValue < 0 && ebitda < 0) tendencia = "Cenário de deterioração contínua rumo a uma ruptura operacional iminente se não houver reestruturação profunda da dívida e capitalização externa urgente.";
-  else if (isEroding && ebitda < 0) tendencia = "Risco elevado de deterioração financeira. A operação queima o patrimônio gradualmente sem conseguir originar caixa orgânico suficiente para a virada.";
-  else if (isCriticalLiquidity && ebitda > 0) tendencia = "Pressão de liquidez operacional. O EBITDA é positivo, o que permite que a repactuação de dívidas de curto prazo alivie o estrangulamento de tesouraria.";
-  else if (autonomiaFinanceira > 0.5 && liqSeca > 1 && indiceDescapitalizacao === 0) tendencia = "Trajetória de expansão sustentável com ampla capacidade de absorção de choques de mercado e preservação estrutural da base de capital.";
-  else if (autonomiaFinanceira > 0.5 && indiceDescapitalizacao > 0) tendencia = "A composição primária do capital se mantém aparentemente estável, porém a erosão operacional (prejuízos) drena silenciosamente a robustez da companhia.";
-  else tendencia = "Manutenção do status quo, condicionada à eficiência rigorosa do EBITDA para não agravar a restrita margem de segurança financeira e de giro.";
+  if (plValue < 0 && ebitda < 0) tendencia = "Deterioração Acelerada. A queima simultânea de patrimônio e caixa aponta para insolvência iminente sem injeção de equity.";
+  else if (isEroding && ebitda < 0) tendencia = "Descapitalização Progressiva. O modelo operacional drena a sustentação do negócio.";
+  else if (isCriticalLiquidity && ebitda > 0) tendencia = "Restrição de Caixa. Os ganhos operacionais estão sendo consumidos apenas para rolar o passivo sufocado.";
+  else if (autonomiaFinanceira > 0.4 && liquidezReal > 1) tendencia = "Evolução Saudável. O crescimento atual não estressa a arquitetura de capital da empresa.";
+  else tendencia = "Crescimento Condicionado. A expansão só será sustentável se pareada a uma gestão defensiva do capital de giro.";
 
-  const prioridades = [];
-  if (plValue < 0) prioridades.push("Aprovar plano de injeção de equity (chamada de capital) ou conversão de dívidas estratégicas em capital.");
-  if (isDebtDependent || qualidadeEndividamento > 0.7) prioridades.push("Reestruturar o perfil da dívida de curto prazo para reduzir a pressão de tesouraria e restaurar a capacidade operacional de capital de giro.");
-  if (isInventoryDependent) prioridades.push("Estabelecer metas de eficiência de giro de estoque e renegociar agressivamente prazos com fornecedores essenciais.");
-  if (saldoTesouraria < 0) prioridades.push("Blindar o caixa revisando a política de crédito concedido e exigindo maior alinhamento de prazos operacionais.");
-  if (prioridades.length === 0) prioridades.push("Manter as políticas de governança e focar em projetos que maximizem o Retorno sobre Capital Empregado (ROCE).");
-
-  const predicao = {
-    horizontePressao: saldoTesouraria < 0 || plValue < 0 ? "Curto Prazo (Imediato)" : (liqCorrente < 1 || liquidezReal < 0.5 || dependenciaBancaria > 0.5 ? "Médio Prazo (Monitoramento)" : "Longo Prazo Estável"),
-    riscoRuptura: plValue < 0 || saldoTesouraria < 0 ? "Alto/Crítico" : (liqSeca < 0.8 ? "Moderado" : "Baixo"),
-    dependenciaGeracao: (cgl < 0 || liqSeca < 1 || liquidezReal < 0.5 || saldoTesouraria < 0) ? "Alta (Dependente da Eficiência Operacional)" : "Estável com Baixa Folga",
-    riscoDescapitalizacaoProgressiva: indiceDescapitalizacao > 0.5 ? "Elevado (Erosão letal)" : (indiceDescapitalizacao > 0 ? "Moderado (Erosão em andamento)" : "Baixo (Capital preservado)"),
-    sensibilidadeChoques: resilienciaGlobal < 40 ? "Alta (Vulnerável)" : (resilienciaGlobal < 70 ? "Moderada (Atenção)" : "Baixa (Resiliente)")
-  };
-
-  let capacidadeAbsorcao = (plValue > 0 && saldoTesouraria > 0 && liquidezReal > 0.8 && liqSeca > 0.8 && cgl > 0) ? "Alta (Resiliente)" : (plValue > 0 && saldoTesouraria >= 0 ? "Moderada (Sensível a Choques Operacionais)" : "Nula (Vulnerável e Dependente)");
-  if (capacidadeAbsorcao.includes("Alta") && (baixaConversibilidade + restritaConversibilidade) > (altaConversibilidade * 2)) {
-    capacidadeAbsorcao = "Moderada (Imobilização em Giro Reduz Flexibilidade)";
+  // -- Trend Intelligence (Erosão vs Recuperação) --
+  let direcaoEstrutural = "Estabilidade Detectada";
+  let parecerEvolutivo = "As métricas refletem um quadro pontual equilibrado, sem variações abruptas em relação aos ciclos passados.";
+  if (trend && trend.hasData) {
+    if (trend.plTrend < -10 && trend.ebitdaTrend < -10) {
+      direcaoEstrutural = "Erosão Acelerada";
+      parecerEvolutivo = `Observa-se perda progressiva de valor, com corrosão patrimonial (${trend.plTrend.toFixed(1)}%) acompanhada de queima de margem operacional (${trend.ebitdaTrend.toFixed(1)}%). O modelo demanda revisão extrema.`;
+    } else if (trend.plTrend > 10 && trend.ebitdaTrend > 10) {
+      direcaoEstrutural = "Recuperação/Crescimento Estrutural";
+      parecerEvolutivo = `Tração operacional validada. A evolução simultânea de geração de caixa e base patrimonial fortalece a elasticidade da companhia.`;
+    } else if (trend.plTrend > 0 && trend.ebitdaTrend < 0) {
+      direcaoEstrutural = "Erosão Silenciosa (Operacional)";
+      parecerEvolutivo = `O patrimônio cresceu pontualmente, mas a deterioração do EBITDA aponta ineficiência recente que começará a drenar o caixa no próximo ciclo.`;
+    } else if (trend.plTrend < 0 && trend.ebitdaTrend > 0) {
+      direcaoEstrutural = "Transição Positiva (Tração)";
+      parecerEvolutivo = `Embora o patrimônio apresente queda herdada de períodos passados, a reversão positiva no EBITDA sinaliza forte potencial de reequilíbrio estrutural se a dívida for adequadamente perfilada.`;
+    }
   }
 
-  const elasticidadeFinanceira = {
-    capacidadeAbsorcaoChoques: capacidadeAbsorcao,
-    dependenciaOperacao: (cgl < 0 || saldoTesouraria < 0) ? "Giro sufocado (Altamente dependente)" : (liqCorrente < 1.2 ? "Estável com Baixa Folga" : "Equilibrada (Giro cobre operações)"),
-    necessidadeCapitalizacao: plValue < 0 ? "Emergencial (Equity necessário)" : (indiceDescapitalizacao > 0.3 ? "Recomendada (Recompor margem)" : "Desnecessária no momento"),
-    resilienciaEstrutural: resilienciaGlobal < 40 ? "Frágil" : (resilienciaGlobal < 70 ? "Adequada" : "Forte")
+  const trendIntelligence = { direcaoEstrutural, parecerEvolutivo };
+
+  const prioridades = [];
+  if (plValue < 0 || (indiceDescapitalizacao > 0.6 && plValue > 0)) prioridades.push("Executar plano estruturado de Injeção de Equity ou renegociação de dívidas conversíveis.");
+  if (isDebtDependent || qualidadeEndividamento > 0.7) prioridades.push("Alongar o passivo (reperfilamento tático) para aliviar imediatamente o serviço da dívida e proteger a tesouraria.");
+  if (isInventoryDependent) prioridades.push("Acelerar o giro de estoque, adotando descontos táticos se necessário para destrancar a liquidez retida.");
+  if (saldoTesouraria < 0) prioridades.push("Renegociar prazos com fornecedores essenciais e estruturar linha de crédito voltada especificamente a capital de giro longo.");
+  if (prioridades.length === 0) prioridades.push("Focar na otimização de Return on Invested Capital (ROIC) e na consolidação das reservas de contingência.");
+
+  const predicao = {
+    horizontePressao: saldoTesouraria < 0 || (plValue < 0 && ebitda < 0) ? "Curto Prazo (Fricção de Tesouraria)" : (liquidezReal < 0.6 || dependenciaBancaria > 0.5 ? "Médio Prazo (Monitoramento Executivo)" : "Estável e Projetável"),
+    riscoRuptura: plValue < 0 && ebitda < 0 && liquidezReal < 0.3 ? "Elevado Risco Sistêmico" : (saldoTesouraria < 0 ? "Atenção (Giro Pressionado)" : "Baixa Probabilidade"),
+    dependenciaGeracao: (cgl < 0 || liquidezReal < 0.5) ? "Sensível (Obrigação contínua de Conversão)" : "Moderada (Margem Adequada)",
+    riscoDescapitalizacaoProgressiva: indiceDescapitalizacao > 0.5 ? "Atenção (Corrosão de Base de Capital em andamento)" : "Baixo (Geração retida)",
+    sensibilidadeChoques: resilienciaGlobal < 30 ? "Fragilizado (Menor Margem de Absorção Econômica)" : (resilienciaGlobal < 65 ? "Atenção Tática" : "Resiliente a Choques")
   };
 
-  const isElastic = capacidadeAbsorcao.includes("Alta") && ebitda > 0;
+  const weights = getIndustryWeights(industry);
+  let capacidadeAbsorcao = (plValue > 0 && liquidezReal > 1 && cgl > 0 && margemErroOperacional > weights.workingCapitalTolerance) ? "Altamente Robusta" : (plValue > 0 && ebitda > 0 ? "Sensível (Dependente da velocidade do giro)" : "Baixa Margem de Erro Estrutural");
+  if (capacidadeAbsorcao === "Altamente Robusta" && (baixaConversibilidade + restritaConversibilidade) > (altaConversibilidade * 2)) {
+    capacidadeAbsorcao = "Adequada, porém com Imobilização excessiva travando a folga";
+  }
+
+  // Strategic Resilience Model
+  const elasticidadeFinanceira = {
+    capacidadeAbsorcaoChoques: capacidadeAbsorcao,
+    dependenciaOperacao: (cgl < 0 || saldoTesouraria < 0) ? "Pressionada (Exige rolagem constante e perfeita)" : "Equilibrada (Absorve atrasos moderados)",
+    necessidadeCapitalizacao: plValue < 0 ? "Forte/Recomendada para preservar valuation" : (indiceDescapitalizacao > 0.4 ? "Atenção (Consumo de patrimônio)" : "Base de capital protegida"),
+    resilienciaEstrutural: maturidade,
+    flexibilidadeFinanceira: metrics.treasuryStatus === 'Robusta' ? "Ampla (Acesso fácil a crédito)" : (metrics.treasuryStatus === 'Sensível' || metrics.treasuryStatus === 'Pressionada' ? "Restrita (Custo de capital elevado)" : "Adequada"),
+    velocidadeRecuperacao: ebitda > 0 && dscrSimulado > 1.2 ? "Ágil (Geração de caixa destrava passivos)" : "Lenta (Exige desmobilização ou aporte)"
+  };
+
+  // Board Intelligence Layer
+  const boardIntelligence = {
+    suportaCrescimento: (cgl > 0 && metrics.treasuryStatus === 'Robusta') ? "Sim. Estrutura blindada para aceleração de vendas." : (saldoTesouraria < 0 ? "Não. Expansão acelerada irá esgotar o caixa atual." : "Condicionado ao alongamento prévio de passivos."),
+    resilienciaModelo: resilienciaGlobal > 60 ? "Resiliente. Modelo não depende de alavancagem excessiva." : "Frágil. Alta vulnerabilidade a choques de mercado ou inadimplência.",
+    riscoDeterioracao: (plValue < 0 || (ebitda < 0 && saldoTesouraria < 0)) ? "Alto/Iminente sem intervenção executiva." : "Controlado sob premissas atuais."
+  };
+
+  const boardNarrative = {
+    visaoSintetica: (plValue > 0 && ebitda > 0) ? "Balanço equilibrado com geração orgânica de caixa. O modelo sustenta o tamanho da operação." : "Disfunção estrutural detectada. Requer freio de arrumação operacional antes de novas expansões.",
+    racionalidadeEconomica: ebitda > 0 ? "O Core Business tem lógica econômica validada pela margem EBITDA." : "O modelo de negócio atual é financeiramente inviável e requer restruturação de base.",
+    visaoAcionista: (metrics.treasuryStatus === 'Robusta' && plValue > 0) ? "Valor preservado e pronto para dividendos ou expansão." : "Risco de diluição ou necessidade de aporte de capital primário."
+  };
+
+  const capitalAllocation = {
+    preservar: saldoTesouraria < 0 ? "Caixa tático para folha de pagamento e impostos." : "Investimentos em projetos de alto ROIC.",
+    desacelerar: "Capex expansionista e despesas discricionárias operacionais (SG&A).",
+    monetizar: isInventoryDependent ? "Estoques de baixo giro (Curva C)." : "Ativos não operacionais ou recebíveis.",
+    maiorRetorno: ebitda > 0 ? "Otimização do ciclo financeiro (esticar prazos, reduzir estoques)." : "Revisão de pricing e margem bruta."
+  };
+
+  const valueProtection = {
+    fatorErosaoSilenciosa: (saldoTesouraria < 0 && ebitda > 0) ? "Despesas financeiras oriundas da rolagem de capital de giro." : "Ociosidade e excesso de OPEX.",
+    reducaoResiliencia: dependenciaBancaria > 0.5 ? "Aumento progressivo da alavancagem de terceiros." : "Concentração de capital em ativos fixos ou estoques.",
+    riscoExpansao: (cgl < 0) ? "O crescimento consumirá caixa em velocidade superior à geração do negócio." : "Expansão orgânica protegida."
+  };
+
+  // Enterprise Risk Map (Governance Risks)
+  const governanceRisks: { taxonomia: any, descricao: string }[] = [
+    { taxonomia: 'Operacional', descricao: ebitda < 0 ? 'A matriz de custos destrói caixa na margem, exigindo turnaround focado em eficiência e OPEX.' : 'Margem operacional positiva; risco concentrado em flutuações de ciclo.' },
+    { taxonomia: 'Financeiro', descricao: saldoTesouraria < 0 ? 'Descasamento grave de prazos resultando em dependência sistêmica de capital de curto prazo.' : 'Liquidez adequada para o ciclo atual de obrigações.' },
+    { taxonomia: 'Estratégico', descricao: concentracaoEstoque > 0.4 ? 'Alto capital imobilizado no estoque reduz a flexibilidade e expõe a empresa a choques de demanda.' : 'Alocação de capital equilibrada sem concentrações críticas.' },
+    { taxonomia: 'Governança', descricao: creditosSocios > (ac * 0.2) ? 'Falta de segregação patrimonial evidente através de alto volume de mútuos.' : 'Práticas contábeis refletem separação patrimonial adequada.' },
+    { taxonomia: 'Continuidade', descricao: (liquidezReal < 0.2 && dscrSimulado < 0.5) ? 'Incapacidade latente de honrar compromissos no curto prazo pode gerar ruptura sistêmica.' : 'Operação sustentável dentro do horizonte previsível.' },
+    { taxonomia: 'Patrimonial', descricao: plValue < 0 ? 'Passivo a descoberto (insolvência técnica) consome todo o patrimônio e impõe risco extremo de litígio.' : 'Base de capital próprio protege o valuation.' }
+  ];
+
+  // Value Creation Engine & Strategic Interpretation
+  const valueCreation = {
+    tipoCrescimento: (cgl > 0 && ebitda > 0) ? "Crescimento Saudável (Geração financia NCG)" : (ebitda > 0 ? "Crescimento Consumidor de Caixa (Asfixia tesouraria)" : "Expansão sem Sustentação (Queima de Equity)"),
+    fatorDestruicao: plValue < 0 ? "Insolvência (Passivo descoberto)" : (saldoTesouraria < 0 ? "Custo Financeiro da Tesouraria" : "Nenhum fator crítico imediato"),
+    alavancaValor: isInventoryDependent ? "Monetização de Estoque" : (qualidadeEndividamento > 0.6 ? "Alongamento de Dívida" : "Geração de Caixa Operacional (EBITDA)")
+  };
+
+  const strategicValueInterpretation = (ebitda > 0 && plValue > 0 && metrics.treasuryStatus === 'Robusta')
+    ? "A estrutura atual cria valor econômico, protege o caixa contra fricções de curto prazo e suporta expansão alavancada orgânica."
+    : (ebitda > 0 && saldoTesouraria < 0)
+      ? "O modelo operacional gera valor econômico, mas a arquitetura financeira o destrói através da oneração da tesouraria e antecipações."
+      : "A estrutura atual destrói valor e acelera o risco de ruptura, exigindo turnaround patrimonial imediato.";
+
+  // Management Decision Intelligence
+  const managementDecisions = {
+    melhoraCaixaRapido: isInventoryDependent ? "Liquidação com desconto de estoques lentos." : (qualidadeEndividamento > 0.6 ? "Carência e reperfilamento de dívida bancária." : "Antecipação tática de recebíveis."),
+    ameacaContinuidade: plValue < 0 ? "Insolvência técnica e falência de creditos societários." : (saldoTesouraria < 0 ? "Estrangulamento do fluxo de pagamento a fornecedores." : "Baixa elasticidade a choques de mercado."),
+    reduzRiscoEstrutural: "Capitalização via Equity ou M&A para converter dívida em capital próprio.",
+    maiorImpactoVelocidade: saldoTesouraria < 0 ? "Negociação de moratória/alongamento de fornecedores e impostos." : "Aumento de Markup/Pricing imediato."
+  };
+
+  // Predictive Causality Engine
+  let primaryThreat = "Variabilidade Macroeconômica";
+  let timeToImpact = "Longo Prazo";
+  let mitigationFactor = "Manter governança e controle atual.";
+
+  if (plValue < 0 && ebitda < 0) {
+    primaryThreat = "Insolvência sistêmica e queima operacional simultânea.";
+    timeToImpact = "Imediato (< 3 meses)";
+    mitigationFactor = "Injeção de capital (Equity) mandatória.";
+  } else if (saldoTesouraria < 0 && cgl < 0) {
+    primaryThreat = "Inadimplência de curto prazo no contas a pagar (Fornecedores/Impostos) devido à insuficiência do CGL.";
+    timeToImpact = "Curto Prazo (1 a 4 meses)";
+    mitigationFactor = "Alongamento do passivo de fornecedores ou desconto comercial de recebíveis.";
+  } else if (dependenciaBancaria > 0.5 && dscrSimulado < 1) {
+    primaryThreat = "Oneração excessiva pelo serviço da dívida estrangulando o fluxo de caixa livre.";
+    timeToImpact = "Curto a Médio Prazo";
+    mitigationFactor = "Reperfilamento da dívida para o longo prazo (diminuição da parcela mensal).";
+  } else if (margemErroOperacional > 0 && margemErroOperacional < weights.workingCapitalTolerance) {
+    primaryThreat = "Choque abrupto na demanda ou inadimplência de grandes clientes.";
+    timeToImpact = "Médio Prazo";
+    mitigationFactor = "Acúmulo de reservas táticas em Caixa e Equivalentes.";
+  }
+
+  const predictiveCausality = {
+    primaryThreat,
+    timeToImpact,
+    mitigationFactor
+  };
+
+  // -- Strategic Scenario Simulation --
   const estresse: { cenario: string; impacto: string; status: 'warning' | 'danger' | 'success' }[] = [
     {
-      cenario: "Queda de Receita (-20%)",
-      impacto: ebitda > 0 ? "O EBITDA sofrerá compressão imediata, exigindo cortes drásticos em SG&A." : "Risco de ruptura. Sem margem operacional prévia, a quebra de receita forçará captação imediata de dívida para cobrir folha e fornecedores.",
-      status: isElastic ? "warning" : "danger" as const
+      cenario: "Retração de Demanda (-20% na Receita)",
+      impacto: ebitda > 0 && metrics.treasuryStatus === 'Robusta' 
+        ? "Caixa suporta retração sem necessidade imediata de desmobilização ou novas dívidas." 
+        : "Romperá a linha d'água da tesouraria, exigindo demissões estruturais e rolagem forçada.",
+      status: ebitda > 0 && metrics.treasuryStatus === 'Robusta' ? 'success' : 'danger'
     },
     {
-      cenario: "Inadimplência (+15%)",
-      impacto: (cgl < 0) ? "Ruptura iminente no ciclo financeiro. Com a tesouraria já pressionada, falhas no recebimento geram descasamento diário de obrigações de curto prazo." : "Redução do fluxo de caixa livre. A estrutura de capital absorve o tranco, mas obriga a repactuação tática de prazos com o passivo circulante.",
-      status: cgl < 0 ? "danger" : "warning" as const
+      cenario: "Aumento Inadimplência (+30% no DSO)",
+      impacto: liquidezReal > 1.2 
+        ? "Balanço absorve o impacto sem travar a operação devido a folga de CGL." 
+        : "O asfixiamento da liquidez gerará interrupção de pagamentos a fornecedores no ciclo subsequente.",
+      status: liquidezReal > 1.2 ? 'warning' : 'danger'
     },
     {
-      cenario: "Aumento de Juros (+200 bps)",
-      impacto: dependenciaBancaria > 0.3 ? "O custo financeiro maior comprimirá severamente o Fluxo de Caixa Livre e a Última Linha (Lucro Líquido), elevando o risco de liquidez." : "Impacto orgânico absorvível no Fluxo de Caixa Livre, devido à baixa exposição a capital de terceiros oneroso.",
-      status: dependenciaBancaria > 0.3 ? "danger" : "success" as const
+      cenario: "Expansão Acelerada (Dobro de Vendas)",
+      impacto: cgl > 0 && metrics.treasuryStatus === 'Robusta' 
+        ? "A estrutura financia o crescimento de forma orgânica, suportando a NCG adicional." 
+        : "O crescimento exigirá aportes maciços pois a margem atual drena o caixa ao acelerar vendas.",
+      status: cgl > 0 && metrics.treasuryStatus === 'Robusta' ? 'success' : 'warning'
     },
     {
-      cenario: "Pressão sobre Estoques",
-      impacto: concentracaoEstoque > 0.35 ? "Imobilização grave de capital. O encalhe trava a capacidade de conversão de caixa, sufocando o EBITDA indiretamente por falta de giro." : "Baixo impacto sistêmico; a composição atual do capital de giro detém independência da velocidade de giro do estoque.",
-      status: concentracaoEstoque > 0.35 ? "danger" : "success" as const
+      cenario: "Ruptura no Giro (Queda nos Prazos de Fornecedores)",
+      impacto: saldoTesouraria > 0 
+        ? "A tesouraria positiva cobre o gap gerado por aperto de fornecedores." 
+        : "Cenário fatal no curto prazo, necessitará antecipação maciça de recebíveis com altas taxas.",
+      status: saldoTesouraria > 0 ? 'success' : 'danger'
+    },
+    {
+      cenario: "Choque de Custos / Taxa de Juros (+2% a.m)",
+      impacto: dependenciaBancaria < 0.2 
+        ? "Baixa exposição estrutural. O impacto na DRE será periférico." 
+        : "Corrosão acelerada da margem líquida e deterioração do DSCR (capacidade de serviço da dívida).",
+      status: dependenciaBancaria < 0.2 ? 'success' : 'danger'
     }
   ];
 
   const prioridadesEstrategicas = [
-    { nome: "Liquidez Imediata/Curta", status: liqCorrente < 1 || saldoTesouraria < 0 ? "Crítico" : (liqCorrente < 1.2 ? "Atenção" : "Monitorar (Baixa Folga)") },
-    { nome: "Giro de Estoques", status: concentracaoEstoque > 0.4 ? "Crítico" : (concentracaoEstoque > 0.25 ? "Atenção" : "Monitorar") },
-    { nome: "Pressão Operacional", status: cgl < 0 || saldoTesouraria < 0 ? "Crítico" : (liqSeca < 0.8 ? "Atenção" : "Monitorar (Baixa Folga)") },
-    { nome: "Capitalização (PL)", status: plValue < 0 ? "Crítico" : (indiceDescapitalizacao > 0.3 ? "Atenção" : "Estável") },
-    { nome: "Margem de Proteção", status: capacidadeAbsorcao.includes("Nula") ? "Crítico" : (capacidadeAbsorcao.includes("Moderada") ? "Monitorar" : "Controlado") }
+    { nome: "Proteção da Liquidez Real", status: liquidezReal < 0.6 || saldoTesouraria < 0 ? "Atenção" : (liquidezReal < 1.0 ? "Sensível" : "Saudável") },
+    { nome: "Eficiência de Estoques", status: concentracaoEstoque > 0.4 ? "Atenção" : (concentracaoEstoque > 0.25 ? "Monitoramento" : "Saudável") },
+    { nome: "Capitalização Estrutural", status: plValue < 0 ? "Atenção" : (indiceDescapitalizacao > 0.3 ? "Fragilizado" : "Saudável") },
+    { nome: "Cobertura de Dívida (DSCR)", status: dscrSimulado < 1 ? "Atenção" : (dscrSimulado < 1.5 ? "Sensível" : "Saudável") }
   ];
 
-  const recomendacoesExecutivas = [];
-  if (liqCorrente < 1 || qualidadeEndividamento > 0.7) recomendacoesExecutivas.push("Alongamento urgente de passivos (troca de dívidas curtas por prazos mais longos).");
-  if (concentracaoEstoque > 0.4) recomendacoesExecutivas.push("Redução agressiva de estoques; renegociação de compras e desmobilização de capital travado.");
-  if (plValue < 0 || (isEroding && indiceDescapitalizacao > 0.5)) recomendacoesExecutivas.push("Capitalização imediata: Necessidade de injeção de equity via chamada de capital ou novo sócio.");
-  if (cgl < 0 && saldoTesouraria < 0) recomendacoesExecutivas.push("Otimização do ciclo financeiro: alongar prazo médio de pagamento a fornecedores e antecipar recebimentos.");
-  if (indiceDescapitalizacao > 0 && plValue > 0) recomendacoesExecutivas.push("Revisão de pricing e corte de SG&A: Operação não está gerando margem para bancar despesas, corroendo reservas.");
-  if (recomendacoesExecutivas.length === 0) {
-     recomendacoesExecutivas.push("Aceleração de projetos de Retorno sobre Capital Empregado (ROCE) utilizando o caixa livre.");
-     recomendacoesExecutivas.push("Estudos de M&A ou distribuição segura de dividendos baseado na atual estabilidade.");
+  // Executive Action Matrix
+  const strategicActionMatrix: ExecutiveAction[] = [];
+  if (liquidezReal < 0.8 || qualidadeEndividamento > 0.7) {
+    strategicActionMatrix.push({ acao: "Reperfilamento Passivo Bancário", impacto: "Alto", velocidade: "Curto Prazo", complexidade: "Alta", prioridade: "Imediata" });
+  }
+  if (concentracaoEstoque > 0.4) {
+    strategicActionMatrix.push({ acao: "Desmobilização de Estoque (Promoção Tática)", impacto: "Médio", velocidade: "Imediata", complexidade: "Baixa", prioridade: "Alta" });
+  }
+  if (plValue < 0 && ebitda <= 0) {
+    strategicActionMatrix.push({ acao: "M&A Distressed / Injeção de Equity", impacto: "Alto", velocidade: "Longo Prazo", complexidade: "Alta", prioridade: "Imediata" });
+  } else if (plValue < 0 && ebitda > 0) {
+    strategicActionMatrix.push({ acao: "Recuperação Orgânica (Reinvestimento de Margem e Alongamento Passivo)", impacto: "Alto", velocidade: "Médio Prazo", complexidade: "Alta", prioridade: "Alta" });
+  }
+  if (cgl < 0 && saldoTesouraria < 0) {
+    strategicActionMatrix.push({ acao: "Alongamento do Prazo Médio de Fornecedores", impacto: "Alto", velocidade: "Imediata", complexidade: "Média", prioridade: "Imediata" });
+  }
+  if (ebitda < 0) {
+    strategicActionMatrix.push({ acao: "Corte de SG&A e Revisão de Pricing", impacto: "Alto", velocidade: "Curto Prazo", complexidade: "Média", prioridade: "Imediata" });
+  }
+  if (strategicActionMatrix.length === 0) {
+    strategicActionMatrix.push({ acao: "Reinvestimento em Expansão de ROIC", impacto: "Médio", velocidade: "Longo Prazo", complexidade: "Média", prioridade: "Estratégica" });
   }
 
-  const impactosEsperados = [];
-  recomendacoesExecutivas.forEach(rec => {
-    if (rec.includes("Alongamento")) impactosEsperados.push({ acao: "Alongamento de Passivos", impacto: "Alívio agudo na pressão de tesouraria de curto prazo." });
-    if (rec.includes("Redução agressiva")) impactosEsperados.push({ acao: "Redução de Estoques", impacto: "Injeção imediata de caixa e melhoria na Liquidez Real." });
-    if (rec.includes("Capitalização imediata")) impactosEsperados.push({ acao: "Capitalização", impacto: "Restauração da resiliência estrutural e redução de risco sistêmico." });
-    if (rec.includes("Otimização do ciclo")) impactosEsperados.push({ acao: "Otimização Financeira", impacto: "Sincronização de caixa e alívio da necessidade de dívidas de curtíssimo prazo." });
-    if (rec.includes("Revisão de pricing")) impactosEsperados.push({ acao: "Corte SG&A / Pricing", impacto: "Estancamento da corrosão de margem e proteção do Capital de Giro Próprio." });
-  });
-  if (impactosEsperados.length === 0) {
-     impactosEsperados.push({ acao: "Manutenção de Governança", impacto: "Proteção da elasticidade financeira e perpetuação do crescimento sustentável." });
-  }
+  // Ordenação da matriz: Imediata -> Alta -> Moderada -> Estratégica
+  const orderMap = { "Imediata": 1, "Alta": 2, "Moderada": 3, "Estratégica": 4 };
+  strategicActionMatrix.sort((a, b) => orderMap[a.prioridade] - orderMap[b.prioridade]);
+
+  const impactosEsperados = strategicActionMatrix.map(rec => ({
+    acao: rec.acao,
+    impacto: `Impacto ${rec.impacto} com velocidade ${rec.velocidade}`
+  }));
 
   let lqDiagnostico = "";
   if (altaConversibilidade === 0) {
-    lqDiagnostico = "Ausência crítica de liquidez imediata. A operação depende inteiramente da conversão de ativos operacionais ou injeção externa.";
-  } else if (baixaConversibilidade > mediaConversibilidade && altaConversibilidade < baixaConversibilidade) {
-    lqDiagnostico = "Liquidez fortemente comprometida pelo alto volume de ativos de baixa conversibilidade (estoques e créditos lentos). A resiliência financeira demanda aceleração do ciclo de giro e destravamento de contas retidas.";
-  } else if (restritaConversibilidade > altaConversibilidade * 2) {
-    lqDiagnostico = "Distorção estrutural: volume expressivo de capital retido em ativos de difícil realização (ex: mútuos), reduzindo drasticamente a liquidez econômica real.";
-  } else if (altaConversibilidade > (pc * 0.5)) {
-    lqDiagnostico = "Liquidez econômica robusta. A disponibilidade imediata confere ampla elasticidade e independência em relação ao ciclo operacional de recebíveis.";
+    lqDiagnostico = "Reserva imediata restrita. A arquitetura financeira está exposta à volatilidade e dependente da realização ininterrupta do giro (contas a receber).";
+  } else if (baixaConversibilidade > (mediaConversibilidade + altaConversibilidade)) {
+    lqDiagnostico = `A liquidez teórica está ancorada primariamente em ativos lentos, o que em cenários de stress do setor ${(industry || 'Geral').toUpperCase()} pode gerar ágio elevado na conversão para caixa.`;
   } else {
-    lqDiagnostico = "Liquidez condicionada à regularidade do ciclo operacional. O fluxo de caixa depende fortemente do recebimento tempestivo de clientes e da gestão rigorosa do capital de giro.";
+    lqDiagnostico = "A estrutura de conversibilidade de ativos é de alta qualidade, permitindo absorção ágil de obrigações sem fricção desnecessária ou desconto comercial punitivo.";
   }
 
-  let statusIce = "Expansão Protegida";
+  let statusIce = "Operação Saudável e Resiliente";
   let statusIceColor = "emerald";
-  if (indiceContinuidade < 30) { statusIce = "Alta Fricção (Sobrevivência em Risco)"; statusIceColor = "rose"; }
-  else if (indiceContinuidade < 50) { statusIce = "Dependência de Capitalização/Rolagem"; statusIceColor = "amber"; }
-  else if (indiceContinuidade < 75) { statusIce = "Sustentabilidade Condicionada"; statusIceColor = "amber"; }
-  else if (indiceContinuidade < 90) { statusIce = "Estabilidade com Baixa Folga"; statusIceColor = "blue"; }
-  else { 
-    statusIce = "Operação Contínua Assegurada"; 
-    statusIceColor = "emerald"; 
-  }
+  if (indiceContinuidade < 20 && plValue < 0 && ebitda < 0) { statusIce = "Ruptura Estrutural Comprovada"; statusIceColor = "rose"; }
+  else if (indiceContinuidade < 45) { statusIce = "Fricção Operacional Elevada / Iliquidez"; statusIceColor = "rose"; }
+  else if (indiceContinuidade < 65) { statusIce = "Sensível (Necessita Preservação de Giro)"; statusIceColor = "amber"; }
+  else if (indiceContinuidade < 85) { statusIce = "Estável (Acompanhamento Executivo)"; statusIceColor = "blue"; }
 
-  return {
+  const rawAdvisory = {
     maturidade,
     diagnostico,
     fragilidades,
@@ -273,14 +457,25 @@ export function generateAdvisory(
     prioridades,
     predicao,
     elasticidadeFinanceira,
+    predictiveCausality,
     estresse,
+    governanceRisks,
+    trendIntelligence,
+    boardIntelligence,
+    boardNarrative,
+    capitalAllocation,
+    valueProtection,
+    managementDecisions,
+    valueCreation,
+    strategicValueInterpretation,
+    treasuryIntelligence,
     prioridadesEstrategicas,
-    recomendacoesExecutivas,
+    strategicActionMatrix,
     impactosEsperados,
     liquidityQuality: {
       diagnostico: lqDiagnostico,
-      riscoEstrangulamento: (saldoTesouraria < 0 || altaConversibilidade === 0) ? "Imediato/Severo" : (baixaConversibilidade > (mediaConversibilidade + altaConversibilidade) ? "Latente (Baixa Conversão)" : "Controlado"),
-      qualidadeCapitalGiro: (saldoTesouraria < 0 || cgl < 0) ? "Severa Pressão de Caixa (Necessidade de Giro Descoberta)" : ((mediaConversibilidade + altaConversibilidade) > baixaConversibilidade ? "Estável (Giro Sustenta a Operação)" : "Baixa (Giro Imobilizado em Baixa Conversibilidade)"),
+      riscoEstrangulamento: (saldoTesouraria < 0 || liquidezReal < 0.4) ? "Atenção (Giro Pressionado)" : (liquidezReal < 0.8 ? "Sensível" : "Baixo"),
+      qualidadeCapitalGiro: cgl < 0 ? "Consumo de Terceiros" : "Sustentável",
       metricas: {
         alta: altaConversibilidade,
         media: mediaConversibilidade,
@@ -293,16 +488,40 @@ export function generateAdvisory(
       color: statusIceColor
     }
   };
+
+  // -- Causal Validation Layer (Trava de Segurança Institucional) --
+  if (saldoTesouraria > 0 && cgl > ncg) {
+    rawAdvisory.liquidityQuality.riscoEstrangulamento = "Baixo";
+    rawAdvisory.predicao.riscoRuptura = "Baixa Probabilidade";
+  }
+  if (ebitda < 0 && plValue < 0) {
+    rawAdvisory.indiceContinuidade.status = "Ruptura Estrutural Comprovada";
+    rawAdvisory.indiceContinuidade.color = "rose";
+  }
+
+  return validateNarrativeOutput(rawAdvisory, resilienciaGlobal);
 }
 
 function createEmptyAdvisory(): AdvisoryOutput {
   return {
     maturidade: 'Pendente',
-    diagnostico: 'Dados insuficientes para diagnóstico.',
+    diagnostico: 'Amostragem insuficiente para emitir parecer executivo de Causalidade Financeira e Governança.',
     fragilidades: [], estrategico: [], tendencia: '', prioridades: [],
     predicao: { horizontePressao: '', riscoRuptura: '', dependenciaGeracao: '', riscoDescapitalizacaoProgressiva: '', sensibilidadeChoques: '' },
-    elasticidadeFinanceira: { capacidadeAbsorcaoChoques: '', dependenciaOperacao: '', necessidadeCapitalizacao: '', resilienciaEstrutural: '' },
-    estresse: [], prioridadesEstrategicas: [], recomendacoesExecutivas: [], impactosEsperados: [],
+    elasticidadeFinanceira: { capacidadeAbsorcaoChoques: '', dependenciaOperacao: '', necessidadeCapitalizacao: '', resilienciaEstrutural: '', flexibilidadeFinanceira: '', velocidadeRecuperacao: '' },
+    predictiveCausality: { primaryThreat: '', timeToImpact: '', mitigationFactor: '' },
+    estresse: [], 
+    governanceRisks: [],
+    trendIntelligence: { direcaoEstrutural: '', parecerEvolutivo: '' },
+    boardIntelligence: { suportaCrescimento: '', resilienciaModelo: '', riscoDeterioracao: '' },
+    boardNarrative: { visaoSintetica: '', racionalidadeEconomica: '', visaoAcionista: '' },
+    capitalAllocation: { preservar: '', desacelerar: '', monetizar: '', maiorRetorno: '' },
+    valueProtection: { fatorErosaoSilenciosa: '', reducaoResiliencia: '', riscoExpansao: '' },
+    managementDecisions: { melhoraCaixaRapido: '', ameacaContinuidade: '', reduzRiscoEstrutural: '', maiorImpactoVelocidade: '' },
+    valueCreation: { tipoCrescimento: '', fatorDestruicao: '', alavancaValor: '' },
+    treasuryIntelligence: { linhaAgua: '', velocidadeDeterioracao: '', pontoRuptura: '' },
+    strategicValueInterpretation: '',
+    prioridadesEstrategicas: [], strategicActionMatrix: [], impactosEsperados: [],
     liquidityQuality: { diagnostico: '', riscoEstrangulamento: '', qualidadeCapitalGiro: '', metricas: { alta: 0, media: 0, baixa: 0, restrita: 0 } },
     indiceContinuidade: { status: 'Pendente', color: 'slate' }
   };

@@ -3328,7 +3328,181 @@ A prioridade arquitetural da plataforma deve ser:
 - previsibilidade;
 - resiliência operacional.
 
-## 36. Próximos Passos (Fora do Escopo Atual)
+## 36. Hierarquia Oficial de Inteligência Institucional
+
+A plataforma Illumine opera através de camadas hierárquicas de inteligência.
+
+A ordem oficial de precedência institucional é:
+
+1. ARQUITETURA_MESTRA_ILLUMINE.md
+2. EXECUTIVE_SYNTHESIS_ENGINE.md
+3. MASTER_EXECUTIVE_INTELLIGENCE_LAYER.md
+4. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+5. ENGINE_DE_CAUSALIDADE.md
+6. Demais engines especializadas
+7. Componentes visuais
+8. Mock data
+9. Regras locais
+
+---
+
+A Arquitetura Mestra define:
+- estrutura global;
+- governança institucional;
+- princípios sistêmicos.
+
+A Executive Synthesis Engine define:
+- síntese executiva oficial;
+- harmonização narrativa;
+- consolidação cognitiva;
+- coerência institucional.
+
+A Master Executive Intelligence Layer define:
+- orquestração da inteligência;
+- hierarquia semântica;
+- prioridade narrativa;
+- linguagem institucional.
+
+A Master Financial Intelligence Engine define:
+- fórmulas;
+- cálculos;
+- métricas;
+- indicadores oficiais.
+
+Nenhuma engine especializada pode:
+- contradizer;
+- intensificar;
+- suavizar;
+- reinterpretar;
+
+a narrativa consolidada pela Executive Synthesis Engine.
+
+## 37. Camada Oficial de Renderização Executiva
+
+A renderização institucional da plataforma deve obedecer obrigatoriamente ao documento:
+
+BOARD_RENDER_ENGINE.md
+
+Este documento define:
+- compressão executiva;
+- causalidade dominante;
+- síntese institucional;
+- experiência board-level;
+- hierarquia de renderização;
+- redução de fadiga cognitiva;
+- linguagem advisory corporativa;
+- consolidação narrativa.
+
+Toda engine da plataforma deve produzir dados compatíveis com este protocolo.
+
+Nenhuma interface poderá:
+- repetir causalidades equivalentes;
+- empilhar módulos redundantes;
+- gerar múltiplas narrativas concorrentes;
+- produzir excesso de fragmentação analítica;
+- utilizar linguagem alarmista sem sustentação quantitativa.
+
+A renderização final deve priorizar:
+- síntese;
+- clareza executiva;
+- densidade institucional;
+- leitura rápida;
+- priorização estratégica.
+
+## 38. Camada Oficial de Compressão Executiva
+
+A compressão institucional da plataforma deve obedecer obrigatoriamente ao documento:
+
+EXECUTIVE_COMPRESSION_ENGINE.md
+
+Este documento define:
+- compressão executiva;
+- síntese institucional;
+- redução de redundância;
+- densidade cognitiva controlada;
+- hierarquia executiva;
+- consolidação de engines;
+- redução de fragmentação analítica.
+
+Toda renderização da plataforma deve priorizar:
+- causalidade dominante;
+- leitura rápida;
+- clareza institucional;
+- síntese board-level;
+- advisory executivo.
+
+Nenhuma interface poderá:
+- empilhar módulos redundantes;
+- repetir causalidades equivalentes;
+- fragmentar diagnósticos correlatos;
+- gerar excesso de profundidade não priorizada;
+- produzir fadiga cognitiva executiva.
+
+Hierarquia oficial da plataforma:
+
+1. Arquitetura Mestra Illumine
+2. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+3. BOARD_RENDER_ENGINE.md
+4. EXECUTIVE_COMPRESSION_ENGINE.md
+5. ENGINE_DE_CAUSALIDADE.md
+6. Engines específicas
+7. Componentes de interface
+8. Mock data/local rules
+
+## 39. Engines Institucionais de Síntese Executiva
+
+A plataforma possui engines especializadas responsáveis pela consolidação institucional das análises financeiras e pela redução de redundância cognitiva.
+
+Essas engines possuem prioridade superior sobre componentes narrativos isolados e são responsáveis pela:
+* compressão de causalidade;
+* síntese board-level;
+* priorização de riscos;
+* consolidação de engines correlatas;
+* redução de redundância narrativa;
+* organização hierárquica da leitura executiva.
+
+O documento oficial responsável por esta política é:
+* BOARD_SYNTHESIS_ENGINE.md
+
+Toda renderização financeira institucional deve obedecer suas diretrizes.
+
+## 40. Regra Global Obrigatória
+
+Fica estabelecida a referência cruzada entre as principais diretrizes arquiteturais:
+* MASTER_ARCHITECTURE.md
+* MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+* BOARD_RENDER_ENGINE.md
+* BOARD_SYNTHESIS_ENGINE.md
+
+A BOARD_SYNTHESIS_ENGINE é definida como engine obrigatória para qualquer:
+* score patrimonial;
+* score financeiro;
+* advisory;
+* stress test;
+* board report;
+* intelligence engine;
+* narrative engine;
+* dashboard executivo.
+
+## 41. Política de Prioridade
+
+Fica definida a seguinte precedência na plataforma:
+
+1. MASTER_ARCHITECTURE.md
+2. BOARD_SYNTHESIS_ENGINE.md
+3. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+4. BOARD_RENDER_ENGINE.md
+5. Engines complementares
+
+A BOARD_SYNTHESIS_ENGINE possui autoridade para:
+* consolidar;
+* reduzir;
+* reescrever;
+* sintetizar;
+* eliminar redundâncias;
+* reorganizar hierarquia narrativa.
+
+## 42. Próximos Passos (Fora do Escopo Atual)
 Este documento balizará as *Stories* e refatorações que compõem o *Brownfield Enhancement*, especificamente:
 - A extração do roteamento e App Shell para fora do arquivo central.
 - A padronização dos serviços HTTP para geração de pareceres executivos.

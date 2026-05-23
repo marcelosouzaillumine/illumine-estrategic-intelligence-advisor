@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity } from 'lucide-react';
+import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity, Target, AlertTriangle, Lightbulb, Zap, ShieldCheck, Gem, Crosshair, Layers, PiggyBank, ShieldAlert } from 'lucide-react';
 import { 
   ResponsiveContainer, 
   BarChart, 
@@ -224,18 +224,33 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   // ── Engine de Inteligência Financeira (Centralizada) ──────────────────────
   const { metrics, scores, causalInsights } = useMemo(() => {
     const prevPl = getHistoricalValue(filterYear - 1, 'patrimônio líquido') || getHistoricalValue(filterYear - 1, 'pl') || 0;
+    const clientObj = clients?.find((c: any) => c.id === selectedClient);
+    const industry = clientObj?.segmento || clientObj?.industry || 'Geral';
     
-    const baseMetrics = calculateFinancialMetrics(bpSummary, ebitda, lucroLiquido);
-    const scoreMetrics = calculateScores(bpSummary, baseMetrics, dreDbData.length, prevPl);
-    const advisory = generateAdvisory(bpSummary, baseMetrics, scoreMetrics);
+    // Trend Intelligence Calculation
+    const prevEbitda = getHistoricalValue(filterYear - 1, 'ebitda') || getHistoricalValue(filterYear - 1, 'lajida') || 0;
+    const prevCaixa = getHistoricalValue(filterYear - 1, 'caixa') || getHistoricalValue(filterYear - 1, 'disponibilidades') || 0;
+    
+    const calcTrend = (curr: number, prev: number) => prev === 0 ? 0 : ((curr - prev) / Math.abs(prev)) * 100;
+    
+    const trend = {
+      hasData: prevEbitda !== 0 || prevPl !== 0,
+      ebitdaTrend: calcTrend(ebitda, prevEbitda),
+      plTrend: calcTrend(bpSummary.patrimonioLiquido, prevPl),
+      liquidityTrend: calcTrend(bpSummary.ativoCirculante, prevCaixa) // simplified proxy
+    };
+    
+    const baseMetrics = calculateFinancialMetrics(bpSummary, ebitda, lucroLiquido, industry);
+    const scoreMetrics = calculateScores(bpSummary, baseMetrics, dreDbData.length, prevPl, industry);
+    const advisory = generateAdvisory(bpSummary, baseMetrics, scoreMetrics, industry, trend);
 
     return { metrics: baseMetrics, scores: scoreMetrics, causalInsights: advisory };
-  }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, historyByYear]);
+  }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, historyByYear, clients, selectedClient]);
 
   const {
     liqCorrente, liqSeca, liqImediata, liqGeral, liquidezReal,
     ncg, concentracaoEstoque, qualidadeEndividamento, dependenciaBancaria,
-    autonomiaFinanceira, indiceDescapitalizacao, cgl, saldoTesouraria
+    autonomiaFinanceira, indiceDescapitalizacao, cgl, saldoTesouraria, treasuryStatus
   } = metrics;
 
   const {
@@ -563,18 +578,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   </ul>
                 </div>
 
-                {/* Recomendações Executivas */}
-                <div className="bg-gradient-to-br from-slate-50 to-slate-100/50 rounded-[32px] p-8 border border-slate-200 shadow-sm md:col-span-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 mb-4">Recomendações Executivas (Action Plan)</h4>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {causalInsights.recomendacoesExecutivas.map((p: string, i: number) => (
-                      <li key={i} className="flex gap-3 text-sm text-slate-700 font-bold bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                        <span className="text-emerald-500 mt-0.5 shrink-0">→</span>
-                        <span>{p}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
 
                 {/* Impacto Estratégico Esperado */}
                 <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm md:col-span-2">
@@ -728,6 +731,28 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   </div>
                 </div>
 
+                {/* Predictive Causality Engine */}
+                <div className="bg-gradient-to-r from-slate-900 to-indigo-950 rounded-[32px] p-8 border border-indigo-900 shadow-xl md:col-span-2 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-[60px] rounded-full pointer-events-none" />
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 mb-6 relative z-10 flex items-center gap-2">
+                    <Activity size={14} /> Predictive Causality (C-Level Warning)
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                    <div className="bg-slate-950/50 p-5 rounded-2xl border border-indigo-500/20">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-2">Ameaça Primária Projetada</p>
+                      <p className="text-sm font-medium text-white">{causalInsights.predictiveCausality?.primaryThreat || "—"}</p>
+                    </div>
+                    <div className="bg-slate-950/50 p-5 rounded-2xl border border-indigo-500/20">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-2">Tempo de Impacto</p>
+                      <p className="text-sm font-bold text-amber-400">{causalInsights.predictiveCausality?.timeToImpact || "—"}</p>
+                    </div>
+                    <div className="bg-slate-950/50 p-5 rounded-2xl border border-indigo-500/20">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-2">Mitigador Estratégico Exigido</p>
+                      <p className="text-sm font-medium text-emerald-400">{causalInsights.predictiveCausality?.mitigationFactor || "—"}</p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Sensibilidade Operacional (Simulação de Estresse) */}
                 <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm md:col-span-2">
                   <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Sensibilidade Operacional (Testes de Estresse)</h4>
@@ -751,6 +776,238 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                     ))}
                   </div>
                 </div>
+
+                {/* NEW SECTION: Board Intelligence & Governance */}
+                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                  
+                  {/* Trend Intelligence */}
+                  <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
+                      <TrendingUp size={14} /> Trend Intelligence
+                    </h4>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Direção Estrutural</p>
+                        <p className={cn("text-lg font-bold", causalInsights.trendIntelligence?.direcaoEstrutural.includes('Erosão') || causalInsights.trendIntelligence?.direcaoEstrutural.includes('Deterioração') ? 'text-rose-500' : causalInsights.trendIntelligence?.direcaoEstrutural.includes('Recuperação') || causalInsights.trendIntelligence?.direcaoEstrutural.includes('Positiva') ? 'text-emerald-500' : 'text-amber-500')}>{causalInsights.trendIntelligence?.direcaoEstrutural}</p>
+                      </div>
+                      <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                        <p className="text-sm font-medium text-slate-600 leading-relaxed">{causalInsights.trendIntelligence?.parecerEvolutivo}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Board Intelligence */}
+                  <div className="bg-slate-900 rounded-[32px] p-8 border border-slate-800 shadow-lg text-white">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
+                      <Target size={14} /> Board Intelligence
+                    </h4>
+                    <div className="space-y-4">
+                      <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
+                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Suporta Crescimento Acelerado?</p>
+                        <p className={cn("text-sm font-semibold", causalInsights.boardIntelligence?.suportaCrescimento.includes('Não') ? 'text-rose-400' : causalInsights.boardIntelligence?.suportaCrescimento.includes('Condicionado') ? 'text-amber-400' : 'text-emerald-400')}>{causalInsights.boardIntelligence?.suportaCrescimento}</p>
+                      </div>
+                      <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
+                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Resiliência do Modelo</p>
+                        <p className={cn("text-sm font-semibold", causalInsights.boardIntelligence?.resilienciaModelo.includes('Frágil') ? 'text-rose-400' : 'text-emerald-400')}>{causalInsights.boardIntelligence?.resilienciaModelo}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Governance Risks */}
+                  <div className="md:col-span-2 bg-rose-50/30 rounded-[32px] p-8 border border-rose-100 shadow-sm">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-400 mb-6 flex items-center gap-2">
+                      <AlertTriangle size={14} /> Governance & Strategic Risks
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {causalInsights.governanceRisks?.map((risk: any, idx: number) => (
+                        <div key={idx} className={cn(
+                          "bg-white p-5 rounded-2xl border shadow-sm",
+                          risk.taxonomia === 'Operacional' && risk.descricao.includes('normalidade') ? "border-emerald-100" : "border-rose-100"
+                        )}>
+                          <span className={cn(
+                            "inline-block px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg mb-3",
+                            risk.taxonomia === 'Operacional' && risk.descricao.includes('normalidade') ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"
+                          )}>
+                            Risco {risk.taxonomia}
+                          </span>
+                          <p className="text-sm font-medium text-slate-700">{risk.descricao}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* NOVO: Board Narrative Engine */}
+                  <div className="md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 rounded-[32px] p-8 border border-slate-700 shadow-xl mt-4 text-white">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
+                      <BookOpen size={14} className="text-indigo-400" /> Board Narrative Engine
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-slate-950/50 p-5 rounded-2xl border border-slate-700/50">
+                        <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">Visão Sintética</p>
+                        <p className="text-sm font-medium text-slate-300 leading-relaxed">{causalInsights.boardNarrative?.visaoSintetica}</p>
+                      </div>
+                      <div className="bg-slate-950/50 p-5 rounded-2xl border border-slate-700/50">
+                        <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">Racionalidade Econômica</p>
+                        <p className="text-sm font-medium text-slate-300 leading-relaxed">{causalInsights.boardNarrative?.racionalidadeEconomica}</p>
+                      </div>
+                      <div className="bg-slate-950/50 p-5 rounded-2xl border border-slate-700/50">
+                        <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">Visão do Acionista</p>
+                        <p className="text-sm font-medium text-slate-300 leading-relaxed">{causalInsights.boardNarrative?.visaoAcionista}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* NOVO: Capital Allocation & Value Protection */}
+                  <div className="md:col-span-2 grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2">
+                    <div className="bg-amber-50/50 rounded-[32px] p-8 border border-amber-100 shadow-sm">
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-600 mb-6 flex items-center gap-2">
+                        <PiggyBank size={14} /> Capital Allocation Engine
+                      </h4>
+                      <div className="space-y-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-50">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Preservar</span>
+                          <span className="text-sm font-semibold text-slate-700 text-right">{causalInsights.capitalAllocation?.preservar}</span>
+                        </div>
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-50">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Desacelerar</span>
+                          <span className="text-sm font-semibold text-slate-700 text-right">{causalInsights.capitalAllocation?.desacelerar}</span>
+                        </div>
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-50">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Monetizar</span>
+                          <span className="text-sm font-semibold text-slate-700 text-right">{causalInsights.capitalAllocation?.monetizar}</span>
+                        </div>
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-50">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Maior Retorno</span>
+                          <span className="text-sm font-semibold text-slate-700 text-right">{causalInsights.capitalAllocation?.maiorRetorno}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-rose-50/30 rounded-[32px] p-8 border border-rose-100 shadow-sm">
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-6 flex items-center gap-2">
+                        <ShieldAlert size={14} /> Value Protection Engine
+                      </h4>
+                      <div className="space-y-4">
+                        <div className="bg-white p-4 rounded-2xl border border-rose-50">
+                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Erosão Silenciosa (Destruição)</p>
+                          <p className="text-sm font-semibold text-rose-700">{causalInsights.valueProtection?.fatorErosaoSilenciosa}</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-2xl border border-rose-50">
+                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Redução de Resiliência</p>
+                          <p className="text-sm font-semibold text-slate-700">{causalInsights.valueProtection?.reducaoResiliencia}</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-2xl border border-rose-50">
+                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Risco de Expansão</p>
+                          <p className="text-sm font-semibold text-slate-700">{causalInsights.valueProtection?.riscoExpansao}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Management Decision Intelligence */}
+                  <div className="md:col-span-2 bg-gradient-to-br from-indigo-50/50 to-white rounded-[32px] p-8 border border-indigo-100 shadow-sm mt-2">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 mb-6 flex items-center gap-2">
+                      <Lightbulb size={14} /> Management Decision Intelligence
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white p-4 rounded-2xl border border-indigo-50">
+                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Qual ação melhora o caixa mais rápido?</p>
+                        <p className="text-sm font-semibold text-slate-700">{causalInsights.managementDecisions?.melhoraCaixaRapido}</p>
+                      </div>
+                      <div className="bg-white p-4 rounded-2xl border border-indigo-50">
+                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">O que ameaça a continuidade?</p>
+                        <p className="text-sm font-semibold text-slate-700">{causalInsights.managementDecisions?.ameacaContinuidade}</p>
+                      </div>
+                      <div className="bg-white p-4 rounded-2xl border border-indigo-50">
+                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">O que reduz o risco estrutural?</p>
+                        <p className="text-sm font-semibold text-slate-700">{causalInsights.managementDecisions?.reduzRiscoEstrutural}</p>
+                      </div>
+                      <div className="bg-white p-4 rounded-2xl border border-indigo-50">
+                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Maior relação Impacto x Velocidade</p>
+                        <p className="text-sm font-semibold text-slate-700">{causalInsights.managementDecisions?.maiorImpactoVelocidade}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* NOVO: Value Creation Engine & Treasury Intelligence */}
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                    <div className="bg-emerald-50/30 rounded-[32px] p-8 border border-emerald-100 shadow-sm">
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500 mb-6 flex items-center gap-2">
+                        <Gem size={14} /> Value Creation Engine
+                      </h4>
+                      <div className="space-y-4">
+                        <div className="bg-white p-4 rounded-2xl border border-emerald-50">
+                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Tipo de Crescimento</p>
+                          <p className="text-sm font-bold text-emerald-700">{causalInsights.valueCreation?.tipoCrescimento}</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-2xl border border-emerald-50">
+                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Fator de Destruição Econômica</p>
+                          <p className="text-sm font-semibold text-rose-600">{causalInsights.valueCreation?.fatorDestruicao}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-blue-50/30 rounded-[32px] p-8 border border-blue-100 shadow-sm">
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 mb-6 flex items-center gap-2">
+                        <ShieldCheck size={14} /> Treasury Intelligence
+                      </h4>
+                      <div className="space-y-4">
+                        <div className="bg-white p-4 rounded-2xl border border-blue-50">
+                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Linha d'Água da Tesouraria</p>
+                          <p className="text-sm font-semibold text-blue-700">{causalInsights.treasuryIntelligence?.linhaAgua}</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-2xl border border-blue-50">
+                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Ponto de Ruptura</p>
+                          <p className="text-sm font-semibold text-blue-700">{causalInsights.treasuryIntelligence?.pontoRuptura}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* NOVO: Executive Action Matrix */}
+                  <div className="md:col-span-2 bg-slate-950 rounded-[32px] p-8 border border-slate-800 shadow-xl mt-2 text-white overflow-hidden relative">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-[80px] rounded-full pointer-events-none" />
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2 relative z-10">
+                      <Crosshair size={14} /> Executive Action Matrix (Priorizada)
+                    </h4>
+                    <div className="overflow-x-auto relative z-10">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="border-b border-slate-800">
+                            <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Prioridade</th>
+                            <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Ação Recomendada</th>
+                            <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Impacto</th>
+                            <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Velocidade</th>
+                            <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Complexidade</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {causalInsights.strategicActionMatrix?.map((action: any, idx: number) => (
+                            <tr key={idx} className="border-b border-slate-800/50 hover:bg-slate-900 transition-colors">
+                              <td className="py-4 px-4">
+                                <span className={cn(
+                                  "px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg",
+                                  action.prioridade === 'Imediata' ? "bg-rose-500/20 text-rose-400 border border-rose-500/20" :
+                                  action.prioridade === 'Alta' ? "bg-amber-500/20 text-amber-400 border border-amber-500/20" :
+                                  action.prioridade === 'Moderada' ? "bg-blue-500/20 text-blue-400 border border-blue-500/20" :
+                                  "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
+                                )}>
+                                  {action.prioridade}
+                                </span>
+                              </td>
+                              <td className="py-4 px-4 font-medium text-sm text-slate-200">{action.acao}</td>
+                              <td className="py-4 px-4 text-sm text-slate-400">{action.impacto}</td>
+                              <td className="py-4 px-4 text-sm text-slate-400">{action.velocidade}</td>
+                              <td className="py-4 px-4 text-sm text-slate-400">{action.complexidade}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
               </div>
             </div>
           ) : (
@@ -764,11 +1021,12 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
       {/* ── Indicadores Estratégicos Originais e Expandidos ── */}
       <div className="space-y-8 mb-10">
-        <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Inteligência de Capital de Giro</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Inteligência de Capital de Giro & Tesouraria</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <KpiCard title="Capital de Giro Líquido" value={formatKpiValue(cgl, true)} suffix="" icon={Database} status={getKpiStatus(cgl > 0)} />
             <KpiCard title="Necessidade de Giro (NCG)" value={formatKpiValue(ncg, true)} suffix="" icon={TrendingUp} status={getKpiStatus(ncg < cgl)} />
             <KpiCard title="Saldo de Tesouraria" value={formatKpiValue(saldoTesouraria, true)} suffix="" icon={BookOpen} status={getKpiStatus(saldoTesouraria > 0)} />
+            <KpiCard title="Status da Tesouraria" value={treasuryStatus || 'Pendente'} suffix="" icon={Activity} status={treasuryStatus === 'Robusta' ? 'success' : (treasuryStatus === 'Sensível' || treasuryStatus === 'Estável' ? 'warning' : 'danger')} />
         </div>
 
         <div>

@@ -1,5 +1,6 @@
 import { BPSummary } from './bpEngine';
 import { FinancialMetrics } from './financial-engine';
+import { getIndustryWeights } from './industry-engine';
 
 export interface ScoreMetrics {
   hsLiquidez: number;
@@ -17,7 +18,8 @@ export function calculateScores(
   bpSummary: BPSummary,
   metrics: FinancialMetrics,
   dreDbDataLength: number,
-  prevPl: number
+  prevPl: number,
+  industry?: string
 ): ScoreMetrics {
   if (!metrics.hasData) {
     return {
@@ -30,41 +32,66 @@ export function calculateScores(
   const {
     liqCorrente, liquidezReal, saldoTesouraria, cgl, ncg, concentracaoEstoque,
     qualidadeEndividamento, dependenciaBancaria, indiceDescapitalizacao,
-    autonomiaFinanceira, ativosLiquidosReais, ebitda, lucroLiquido, liqSeca, liqImediata
+    autonomiaFinanceira, ativosLiquidosReais, ebitda, lucroLiquido, liqSeca, liqImediata,
+    dscrSimulado, resilienciaGiro, absorcaoPrejuizo, margemErroOperacional
   } = metrics;
 
-  const { ativoCirculante: ac, passivoCirculante: pc, patrimonioLiquido: plValue, ativoTotal, caixaEquivalentes: cx } = bpSummary;
+  const { ativoCirculante: ac, passivoCirculante: pc, patrimonioLiquido: plValue, caixaEquivalentes: cx } = bpSummary;
+  const weights = getIndustryWeights(industry);
 
   // -- 1. Liquidez (25%) --
+  // Harmonização: Liquidez seca/real agora pesa mais, mas é amortecida se o giro do estoque for ágil (representado por cgl cobrindo ncg)
   let hsLiquidez = 0;
-  if (liqCorrente > 1.2) hsLiquidez += 40; else if (liqCorrente > 1) hsLiquidez += 20;
-  if (liquidezReal > 1) hsLiquidez += 30; else if (liquidezReal > 0.8) hsLiquidez += 15;
-  if (saldoTesouraria > 0) hsLiquidez += 30; else if (cgl > 0) hsLiquidez += 15;
+  if (liquidezReal >= 1.2) hsLiquidez = 100;
+  else if (liquidezReal >= 0.8) hsLiquidez = 75 + ((liquidezReal - 0.8) / 0.4) * 25;
+  else if (liquidezReal >= 0.5) hsLiquidez = 40 + ((liquidezReal - 0.5) / 0.3) * 35;
+  else hsLiquidez = Math.max(0, liquidezReal * 80);
 
-  // TRAVA: Regra 3 (Liquidez Real Severamente Comprometida)
-  if (liquidezReal < 0.5) {
-    hsLiquidez = Math.min(hsLiquidez, 30);
+  // Regra Estrutural de Calibração: Se possui liquidez corrente e capital de giro saudáveis, preserva pontuação mínima
+  if (liqCorrente > 1 && cgl > 0) {
+    hsLiquidez = Math.max(hsLiquidez, 50);
   }
 
-  // -- 2. Estrutura (25%) --
+  // Buffer: Se tesouraria for extremamente positiva, empurra liquidez pra cima.
+  if (saldoTesouraria > (ac * 0.2) && hsLiquidez < 80) {
+    hsLiquidez = Math.min(100, hsLiquidez + 20);
+  }
+
+  // -- 2. Estrutura e Endividamento (20%) --
   let hsEstrutura = 0;
-  if (qualidadeEndividamento < 0.4) hsEstrutura += 50; else if (qualidadeEndividamento < 0.7) hsEstrutura += 25;
-  if (dependenciaBancaria < 0.3) hsEstrutura += 50; else if (dependenciaBancaria < 0.6) hsEstrutura += 25;
+  // Menor dependência bancária e boa qualidade de dívida (mais longo prazo)
+  let qualScore = 100 - (qualidadeEndividamento * 100);
+  let depScore = 100 - (dependenciaBancaria * 100);
+  hsEstrutura = (Math.max(0, qualScore) * 0.5) + (Math.max(0, depScore) * 0.5);
 
-  // -- 3. Capital de Giro (20%) --
+  // -- 3. Capital de Giro (15%) --
   let hsCapitalGiro = 0;
-  if (ncg < ac * 0.5) hsCapitalGiro += 50; else if (ncg < ac * 0.8) hsCapitalGiro += 25;
-  if (concentracaoEstoque < 0.2) hsCapitalGiro += 50; else if (concentracaoEstoque < 0.4) hsCapitalGiro += 25;
-
-  // TRAVA: Regra 2 (Tesouraria Estruturalmente Negativa)
-  if (cgl < 0 && saldoTesouraria < 0) {
-    hsCapitalGiro = Math.min(hsCapitalGiro, 20);
+  if (ncg <= 0 && cgl > 0) {
+    hsCapitalGiro = 100; // Giro plenamente autofinanciado
+  } else {
+    // Proporção do CGL frente a NCG (Resiliência de Giro)
+    let cglCov = ncg > 0 ? (cgl / ncg) : 0;
+    if (cglCov >= 1.2) hsCapitalGiro = 100;
+    else if (cglCov >= 1) hsCapitalGiro = 85;
+    else if (cglCov >= 0.5) hsCapitalGiro = 50 + (cglCov - 0.5) * 70;
+    else hsCapitalGiro = Math.max(0, cglCov * 100);
+  }
+  
+  // Refinamento Executivo: Se a margem de erro operacional (Tesouraria / PC) for criticamente baixa para o setor, limitamos a nota.
+  if (margemErroOperacional > 0 && margemErroOperacional < weights.workingCapitalTolerance && hsCapitalGiro > 70) {
+    hsCapitalGiro = 70; // Trava para empresas com tesouraria positiva, mas asfixiante
   }
 
   // -- 4. Patrimonial (Solidez) (20%) --
   let hsPatrimonial = 0;
-  if (indiceDescapitalizacao === 0) hsPatrimonial += 40; else if (indiceDescapitalizacao < 0.2) hsPatrimonial += 20;
-  if (autonomiaFinanceira > 0.5) hsPatrimonial += 60; else if (autonomiaFinanceira > 0.2) hsPatrimonial += 30;
+  if (plValue > 0) {
+    hsPatrimonial = autonomiaFinanceira * 100;
+    // Bônus para absorção plena de prejuízos acumulados
+    if (absorcaoPrejuizo === 1) hsPatrimonial = Math.min(100, hsPatrimonial + 20);
+    else hsPatrimonial = Math.max(0, hsPatrimonial - (indiceDescapitalizacao * 50));
+  } else {
+    hsPatrimonial = 0; // Insolvência técnica zera a dimensão patrimonial
+  }
 
   // -- 5. Evolução (10%) --
   let hsEvolucao = 50;
@@ -76,91 +103,97 @@ export function calculateScores(
     else hsEvolucao = 0;
   }
 
-  // -- 6. Qualidade dos Ativos (Extra, pode não compor o resilienciaGlobal oficial, mas mantido por legado) --
+  // -- 6. Qualidade dos Ativos (Extra, peso indireto) --
   let hsQualidadeAtivos = 0;
   if (ac > 0) {
     const ratio = ativosLiquidosReais / ac;
-    if (ratio > 0.7) hsQualidadeAtivos += 100;
-    else if (ratio > 0.4) hsQualidadeAtivos += 50;
-    else if (ratio > 0.2) hsQualidadeAtivos += 20;
+    if (ratio > 0.7) hsQualidadeAtivos = 100;
+    else if (ratio > 0.4) hsQualidadeAtivos = 50;
+    else if (ratio > 0.2) hsQualidadeAtivos = 20;
   }
 
-  // -- 7. Operacional --
+  // -- 7. Operacional (10%) --
   let hsOperacional = 50;
   if (dreDbDataLength > 0) {
-    hsOperacional = 0;
-    if (ebitda > 0) hsOperacional += 60;
-    if (lucroLiquido > 0) hsOperacional += 40;
+    if (ebitda > 0 && lucroLiquido > 0) hsOperacional = 100;
+    else if (ebitda > 0) hsOperacional = 70;
+    else hsOperacional = 0;
   }
 
   // -- RESILIÊNCIA GLOBAL (SCORE PATRIMONIAL FINAL) --
   let resilienciaGlobal = (
     (hsLiquidez * 0.25) + 
-    (hsEstrutura * 0.25) + 
-    (hsCapitalGiro * 0.20) + 
+    (hsEstrutura * 0.20) + 
+    (hsCapitalGiro * 0.15) + 
     (hsPatrimonial * 0.20) + 
-    (hsEvolucao * 0.10)
+    (hsEvolucao * 0.10) +
+    (hsOperacional * 0.10)
   );
 
-  // --- APLICAÇÃO DE TRAVAS ESTRUTURAIS MANDATÓRIAS ---
-
-  // Regra 1 e 1.1: Patrimônio Líquido Negativo e EBITDA
+  // --- HARMONIZAÇÃO: LIMITADORES CONTEXTUAIS ---
+  // Ao invés de cortar pontos rigidamente, limitamos o teto baseado na gravidade do conjunto causal.
+  
   if (plValue < 0) {
-    if (ebitda > 0) {
-      // Regra 1.1: Score sugerido entre 10 e 24, salvo exceções críticas
-      resilienciaGlobal = Math.max(10, Math.min(resilienciaGlobal, 24));
-      // Se houver fator agravante crítico (Tesouraria negativa ou Liquidez real severa), quebra o piso de 10
-      if (liquidezReal < 0.5 || saldoTesouraria < 0) {
-        resilienciaGlobal = Math.max(0, resilienciaGlobal - 15);
-      }
-    } else {
-      // Regra 1 pura: Max 35
-      resilienciaGlobal = Math.min(resilienciaGlobal, 35);
-    }
-  } 
-  
-  // Regra 3 (Adicional de penalidade)
+    // Insolvência Técnica: Não pode ter score de empresa estável, mas se tem geração de caixa (EBITDA), não morre em zero.
+    const maxScore = ebitda > 0 ? 45 : 15;
+    resilienciaGlobal = Math.min(resilienciaGlobal, maxScore);
+  }
+
+  // Falta de liquidez severa limitando a resiliência geral, MAS fortemente amortecido se EBITDA for forte
   if (liquidezReal < 0.5) {
-    resilienciaGlobal = Math.max(0, resilienciaGlobal - 15);
+    let teto = 45;
+    if (plValue > 0 && ebitda > 0) {
+      teto = (cgl > 0) ? 75 : 65; // Elasticidade provada pelo PL, Ebitda e giro
+    }
+    resilienciaGlobal = Math.min(resilienciaGlobal, teto);
   }
 
-  // Regra 4: Passivo Circulante Excessivo (PC > AC ou seja LiqCorrente < 1)
-  if (pc > ac) {
-    resilienciaGlobal = Math.min(resilienciaGlobal, 60);
-  }
-
-  // Outras penalizações estruturais (Herdadas)
-  if (indiceDescapitalizacao > 0.5) {
-    resilienciaGlobal = Math.max(0, resilienciaGlobal - 20);
-  }
-  
-  // Trava de Solidez (Não pode ter score alto se a tesouraria está muito negativa ou ebitda negativo e margem zerada)
-  if (ebitda < 0 && saldoTesouraria < 0 && plValue > 0) {
-      resilienciaGlobal = Math.min(resilienciaGlobal, 45); // Força para estrutura fragilizada
-  }
-  
-  // Piso de score para empresa com continuidade viável (PL e EBITDA positivos)
-  if (plValue > 0 && ebitda > 0 && resilienciaGlobal < 15) {
-      resilienciaGlobal = 15;
+  // Passivo Circulante asfixiante
+  if (pc > ac && plValue > 0) {
+    const teto = (ebitda > 0) ? 75 : 55;
+    resilienciaGlobal = Math.min(resilienciaGlobal, teto);
   }
 
   // -- ÍNDICE DE CONTINUIDADE EMPRESARIAL (ICE) --
-  let scoreIce = 100;
-  if (plValue < 0) scoreIce -= 30; 
-  else if (autonomiaFinanceira < 0.15) scoreIce -= 10;
+  // Foca estritamente na capacidade de manter a operação rodando no curtíssimo/médio prazo
+  let iceBase = 100;
   
-  if (ebitda < 0) scoreIce -= 25; 
-  if (saldoTesouraria < 0) scoreIce -= 10; 
-  if (liquidezReal < 0) scoreIce -= 10;
-  if (cgl < 0) scoreIce -= 10;
-  if (liqSeca < 0.8) scoreIce -= 5;
-  if (plValue < 0 || indiceDescapitalizacao > 0.5) scoreIce -= 5; // isEroding
-  if (dependenciaBancaria > 0.4) scoreIce -= 10;
-  if (pc > 0 && cx < pc * 0.1) scoreIce -= 5;
+  // Penalizações Causais Suaves
+  if (plValue < 0) iceBase -= 20; 
+  if (ebitda < 0) iceBase -= 15; 
   
-  if (liquidezReal < 0.5) scoreIce -= 15; // Regra 3 ICE penalty
+  // Pressão de Tesouraria e Margem de Erro
+  if (saldoTesouraria < 0) iceBase -= 15; // Voltou a ter mais peso se estiver queimando caixa
+  else if (margemErroOperacional < weights.workingCapitalTolerance) iceBase -= 5; // Penaliza tesouraria apertada
+  
+  // Liquidez Crítica (mas sem dramatização se houver elasticidade)
+  if (liquidezReal < weights.idealCurrentLiquidity * 0.5) {
+    if (plValue > 0 && ebitda > 0 && cgl > 0 && margemErroOperacional > weights.workingCapitalTolerance) {
+      iceBase -= 0; // Protegida pela estrutura elástica e folga de tesouraria
+    } else if (ebitda > 0 && dscrSimulado > 1) {
+      iceBase -= 5; // Amortecimento pelo fluxo operacional
+    } else {
+      iceBase -= 15;
+    }
+  }
 
-  scoreIce = Math.max(0, scoreIce);
+  // Descapitalização Progressiva Corrosiva
+  if (indiceDescapitalizacao > 0.5 && plValue > 0) iceBase -= 10;
+  if (dependenciaBancaria > 0.5) iceBase -= 10;
+
+  let scoreIce = Math.max(0, Math.min(100, iceBase));
+
+  // Trava final estrutural: Ruptura requer colapso em múltiplas dimensões, não apenas liquidez.
+  if (ebitda < 0 && liquidezReal < 0.2 && plValue < 0) {
+    scoreIce = Math.min(scoreIce, 15);
+  }
+
+  // Piso de Elasticidade Financeira
+  const isHighElasticity = plValue > 0 && cgl > 0 && dependenciaBancaria < 0.3 && ebitda > 0;
+  if (isHighElasticity) {
+    resilienciaGlobal = Math.max(resilienciaGlobal, 70); // Garante mínimo de "Sensível/Estável"
+    scoreIce = Math.max(scoreIce, 75); // Garante continuidade livre de ruptura
+  }
 
   return {
     hsLiquidez,

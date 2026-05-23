@@ -67,6 +67,8 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
 
 
 
+  const [debugText, setDebugText] = useState('');
+  
   useEffect(() => {
     // Load existing data if any
     const loadData = async () => {
@@ -76,19 +78,62 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         const typesToQuery = (type === 'BP' || type === 'Balanço Patrimonial') 
           ? ['Balanço Patrimonial', 'BP'] 
           : [type];
+        // Simplificamos a query para evitar a necessidade de composite index (clientId, year, type)
+        // O filtro de `type` será feito em memória (JavaScript) abaixo.
         const q = query(
           collection(db, 'financial_entries'),
           where('clientId', '==', clientId),
-          where('type', 'in', typesToQuery),
           where('year', '==', year)
         );
         const snap = await getDocs(q);
         
         let existingData: Row[] = [];
-        if (!snap.empty) {
-          snap.docs.forEach(doc => {
+        let debugStr = `Snap:${snap.docs.length}|`;
+        
+        // Vamos capturar o documento mais recente para evitar duplicação em caso de falha de arquivamento
+        let docsForType = snap.docs.filter(doc => {
+          const d = doc.data();
+          debugStr += `[id:${doc.id.slice(0,4)},t:${d.type},s:${d.status},y:${d.year},l:${(d.data||[]).length}]`;
+          if (d.status === 'archived') return false;
+          
+          const docType = (d.type || '').toLowerCase().trim();
+          const targetType = selectedType.toLowerCase().trim();
+          
+          // Verificação ampla (igual a tela principal)
+          const isBp = targetType === 'bp' || targetType === 'balanço patrimonial' || targetType.includes('balan');
+          const isDre = targetType === 'dre' || targetType === 'dre gerencial';
+          
+          if (isBp) {
+             const isDocBp = docType === 'bp' || docType.includes('balanç') || docType.includes('balanc');
+             const hasBpRows = Array.isArray(d.data) && d.data.some((r: any) => ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes((r.type || r.tipo || '').toLowerCase().trim()));
+             return isDocBp || hasBpRows;
+          }
+          
+          if (isDre) {
+             const isDocDre = docType === 'dre' || docType === 'dre gerencial';
+             const hasDreRows = Array.isArray(d.data) && d.data.some((r: any) => ['receitas', 'despesas'].includes((r.type || r.tipo || '').toLowerCase().trim()));
+             return isDocDre || hasDreRows;
+          }
+          
+          return typesToQuery.some(t => t.toLowerCase().trim() === docType);
+        });
+        
+        debugStr += `|Matched:${docsForType.length}`;
+        setDebugText(debugStr);
+        
+        // Deduplicação: pegar apenas o mais recente
+        if (docsForType.length > 1) {
+           docsForType.sort((a, b) => {
+             const tA = a.data().createdAt?.toMillis?.() || 0;
+             const tB = b.data().createdAt?.toMillis?.() || 0;
+             return tB - tA;
+           });
+           docsForType = [docsForType[0]];
+        }
+        
+        if (docsForType.length > 0) {
+          docsForType.forEach(doc => {
             const docData = doc.data();
-            if (docData.status === 'archived') return;
             const data = (docData.data || []).map((item: any) => ({
               id: item.id || crypto.randomUUID(),
               category: item.category || item.conta || item.name || '',
@@ -235,8 +280,22 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
     const { flatNodes } = buildBPHierarchy(rows);
     computedRows = flatNodes.map(node => {
       const original = rows.find(r => r.id === node.id) || rows.find(r => r.category === node.category)!;
+      
+      let inferredType = original.type;
+      let current = node;
+      while (current && current.parentId) {
+        current = flatNodes.find(n => n.id === current.parentId)!;
+      }
+      if (current) {
+        const rootOriginal = rows.find(r => r.id === current.id);
+        if (rootOriginal && rootOriginal.type) {
+           inferredType = rootOriginal.type;
+        }
+      }
+
       return {
         ...original,
+        type: inferredType,
         level: node.level,
         hasChildren: node.isSynthetic,
         computedValue: node.computedValue,
@@ -340,7 +399,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
           const rowData: any = {
             id: r.id || crypto.randomUUID(),
             category: r.category || (r as any).nome || '',
-            value: r.computedValue !== undefined ? r.computedValue : (r.value || 0),
+            value: r.value || 0,
             type: r.type || '',
             level: r.level || 1,
             explainability: {
@@ -376,23 +435,15 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         }
       };
 
-      const stagingPayload = {
-        clientId,
-        clientName: 'N/A', // Required by Dashboard
-        fileName: `Lançamento Manual - ${selectedType} ${year}`,
-        type: selectedType,
-        status: 'pending',
-        requiresApproval: true,
-        sourceCollection: 'financial_staging',
-        targetCollection: 'financial_entries',
-        payload: targetPayload,
-        createdAt: serverTimestamp(),
+      const payload = {
+        ...targetPayload,
+        status: role === 'master' ? 'approved' : 'pending',
+        requiresApproval: role !== 'master',
+        sourceCollection: 'financial_entries',
         updatedAt: serverTimestamp(),
-        createdBy: auth.currentUser!.uid,
-        creatorEmail: auth.currentUser!.email,
       };
 
-      await addDoc(collection(db, 'financial_staging'), stagingPayload);
+      await addDoc(collection(db, 'financial_entries'), payload);
 
       if (role !== 'master') {
         // Notify Admins only if it requires approval
@@ -617,8 +668,12 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                             ) : (
                               <select
                                 value={row.type}
+                                disabled={row.level > 1}
                                 onChange={(e) => updateRow(row.id, 'type', e.target.value)}
-                                className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                className={cn(
+                                  "w-full border border-slate-100 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all",
+                                  row.level > 1 ? "bg-slate-100/50 text-slate-500 cursor-not-allowed" : "bg-slate-50 focus:bg-white"
+                                )}
                               >
                                 {typeOptions.map(opt => (
                                   <option key={opt} value={opt}>

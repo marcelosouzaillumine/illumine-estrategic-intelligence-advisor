@@ -29,6 +29,8 @@ import {
   AreaChart,
   Area
 } from 'recharts';
+import { calculateDreCascade } from '../../lib/dreCascade';
+import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { DashboardSkeleton } from '../ui/skeletons';
 import { PageHeader, Semaphore, KpiCard, KpiValue, ControlBar } from '../Common';
@@ -201,7 +203,9 @@ export function DashboardPage({
     );
 
     const unsubEntries = onSnapshot(qEntries, (snapshot) => {
-      const entriesData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const entriesData = snapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .filter((d: any) => d.status !== 'archived' && d.status !== 'pending' && d.status !== 'rejected');
       setAllFinancialEntries(entriesData);
     });
 
@@ -279,34 +283,99 @@ export function DashboardPage({
       let rec = monthIndicators.find((i: any) => i.ind === 'Receita Líquida' || i.ind === 'Faturamento Bruto')?.val || 0;
       let ebitda = monthIndicators.find((i: any) => i.ind === 'EBITDA')?.val || 0;
 
-      // 2. If indicators are empty, fallback to aggregated financial_entries
+        // 2. If indicators are empty, fallback to aggregated financial_entries
       if (rec === 0 && ebitda === 0 && allFinancialEntries.length > 0) {
-        const monthEntries = allFinancialEntries.filter(
+        // Filter out archived entries
+        const activeEntries = allFinancialEntries.filter((e: any) => e.status !== 'archived');
+        
+        // Separa as entradas que já estão no nível mensal (se existirem)
+        const monthEntries = activeEntries.filter(
           (e: any) => (Number(e.month) === m || Number(e.mes) === m) && (Number(e.year) === y || Number(e.ano) === y)
         );
         
-        let flattenedEntries: any[] = [];
+        let flattenedMonthEntries: any[] = [];
         monthEntries.forEach((doc: any) => {
           if (Array.isArray(doc.data)) {
-            flattenedEntries.push(...doc.data);
+            flattenedMonthEntries.push(...doc.data);
           } else {
-            flattenedEntries.push(doc);
+            flattenedMonthEntries.push(doc);
           }
         });
 
-        rec = flattenedEntries
-          .filter((e: any) => {
-            const name = (e.category || e.conta || '').toLowerCase();
-            return name === 'receita líquida' || name === 'receita operacional líquida' || name === 'faturamento bruto' || name === 'faturamento' || name === 'receita de vendas';
-          })
-          .reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
-          
-        ebitda = flattenedEntries
-          .filter((e: any) => {
-            const name = (e.category || e.conta || '').toLowerCase();
-            return name === 'ebitda' || name.includes('ebitda') || name === 'lajida';
-          })
-          .reduce((sum: number, e: any) => sum + (Number(e.value || e.valor || e.val) || 0), 0);
+        // Pega as entradas anuais do ano correspondente
+        const annualEntries = activeEntries.filter(
+          (e: any) => !e.month && !e.mes && (Number(e.year) === y || Number(e.ano) === y) && e.type === 'DRE'
+        );
+
+        let flattenedAnnualEntries: any[] = [];
+        annualEntries.forEach((doc: any) => {
+          if (Array.isArray(doc.data)) {
+             flattenedAnnualEntries.push(...doc.data);
+          } else {
+             flattenedAnnualEntries.push(doc);
+          }
+        });
+
+        if (flattenedAnnualEntries.length > 0) {
+           // Mapeamento para garantir a estrutura correta para a DRE
+           const mappedYearEntries = flattenedAnnualEntries.map((d: any) => {
+             let parentId = d.parentId;
+             const cat = (d.conta || d.category || '').toLowerCase();
+             if (!parentId) {
+                if (cat.includes('receita operacional bruta') || cat === 'receita bruta' || cat.includes('faturamento') || (cat.includes('receita') && !cat.includes('líquida') && !cat.includes('financeir') && !cat.includes('outras'))) {
+                   parentId = 'ROB';
+                } else if (cat.includes('deduç') || cat.includes('imposto sobre') || cat.includes('abatimento') || cat.includes('devoluç') || cat.includes('cancelamento')) {
+                   parentId = 'DED';
+                } else if (cat.includes('custo') || cat.includes('cmv') || cat.includes('cpv') || cat.includes('csv') || cat.includes('csp')) {
+                   parentId = 'CUSTOS';
+                } else if (cat.includes('deprecia') || cat.includes('amortiza')) {
+                   parentId = 'DEP_AMORT';
+                } else if (cat.includes('financeir') || cat.includes('juros')) {
+                   parentId = 'RESULT_FIN';
+                } else if (cat.includes('provisão') || cat.includes('irpj') || cat.includes('csll') || cat.includes('imposto de renda') || cat.includes('contribuição social')) {
+                   parentId = 'PROV_IR_CSLL';
+                } else if (cat.includes('outras receitas') || cat.includes('outra receita') || cat.includes('outras despesas operacionais')) {
+                   parentId = 'OUTRAS_REC_DESP';
+                } else {
+                   parentId = 'DESP_OPER';
+                }
+             }
+             return { ...d, parentId, value: d.val || d.valor || d.value || 0 };
+           });
+
+           const cascadeResult = calculateDreCascade([...DRE_OFFICIAL_STRUCTURE.map(account => ({ ...account, value: 0 })), ...mappedYearEntries]);
+           
+           // Pega os valores consolidados do ano e divide por 12
+           const annualRol = cascadeResult.find((r: any) => r.id === 'ROL')?.computedValue || 0;
+           const annualEbitda = cascadeResult.find((r: any) => r.id === 'EBITDA')?.computedValue || 0;
+           
+           rec += annualRol / 12;
+           ebitda += annualEbitda / 12;
+        }
+
+        // Soma também o que tiver mensal, se houver
+        if (flattenedMonthEntries.length > 0) {
+           const rolEntries = flattenedMonthEntries.filter((e: any) => {
+             const name = (e.category || e.conta || '').toLowerCase();
+             const id = (e.id || '').toUpperCase();
+             return id === 'ROL' || name.includes('receita operacional líquida') || name.includes('receita líquida');
+           });
+           const robEntries = flattenedMonthEntries.filter((e: any) => {
+             const name = (e.category || e.category || '').toLowerCase();
+             const id = (e.id || '').toUpperCase();
+             return id === 'ROB' || name.includes('receita operacional bruta') || name.includes('faturamento bruto') || name.includes('faturamento');
+           });
+
+           rec += (rolEntries.length > 0 ? rolEntries : robEntries).reduce((sum: number, e: any) => sum + (Number(e.computedValue !== undefined ? e.computedValue : (e.value || e.valor || e.val)) || 0), 0);
+             
+           ebitda += flattenedMonthEntries
+             .filter((e: any) => {
+               const name = (e.category || e.conta || '').toLowerCase();
+               const id = (e.id || '').toUpperCase();
+               return id === 'EBITDA' || name === 'ebitda' || name.includes('ebitda') || name === 'lajida';
+             })
+             .reduce((sum: number, e: any) => sum + (Number(e.computedValue !== undefined ? e.computedValue : (e.value || e.valor || e.val)) || 0), 0);
+        }
       }
       
       return {
