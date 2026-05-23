@@ -24,6 +24,21 @@ import {
 } from '../../constants/dreStructure';
 import { calculateDreCascade, generateInitialDreState } from '../../lib/dreCascade';
 import { buildBPHierarchy } from '../../lib/bpEngine';
+import { SortableTableRow } from '../Common';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable';
 
 interface Row {
   id: string;
@@ -175,15 +190,6 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
 
   const updateRow = (id: string, field: keyof Row, val: any) => {
     setRows(rows.map(r => r.id === id ? { ...r, [field]: val } : r));
-  };
-
-  const moveRow = (index: number, direction: 1 | -1) => {
-    if (index + direction < 0 || index + direction >= rows.length) return;
-    const newRows = [...rows];
-    const temp = newRows[index];
-    newRows[index] = newRows[index + direction];
-    newRows[index + direction] = temp;
-    setRows(newRows);
   };
 
   // Process rows based on selected type
@@ -372,6 +378,62 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
       ? ['receitas', 'despesas']
       : ['ativo', 'passivo', 'patrimônio líquido', 'receitas', 'despesas'];
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor)
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = computedRows.findIndex(r => r.id === active.id);
+    const newIndex = computedRows.findIndex(r => r.id === over.id);
+
+    if (oldIndex !== -1 && newIndex !== -1) {
+      const activeItem = computedRows[oldIndex];
+      const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
+      
+      if (isDre && activeItem.dreTipo !== 'ANALITICA') return;
+
+      const reorderedComputed = arrayMove(computedRows, oldIndex, newIndex);
+
+      if (isDre) {
+        let newParentId = activeItem.parentId;
+        let newNatureza = activeItem.natureza;
+        for (let i = newIndex; i >= 0; i--) {
+           if (reorderedComputed[i].dreTipo === 'SINTETICA') {
+              newParentId = reorderedComputed[i].id;
+              newNatureza = reorderedComputed[i].natureza;
+              break;
+           }
+        }
+        
+        const newRows = rows.map(r => {
+           if (r.id === activeItem.id) {
+              return { ...r, parentId: newParentId, natureza: newNatureza };
+           }
+           return r;
+        });
+        
+        const finalRows = newRows.map(r => {
+           if (r.dreTipo === 'ANALITICA') {
+              const compIdx = reorderedComputed.findIndex(c => c.id === r.id);
+              if (compIdx !== -1) {
+                 return { ...r, ordem: compIdx };
+              }
+           }
+           return r;
+        });
+        
+        setRows(finalRows);
+      } else {
+        const finalRows = reorderedComputed.map(c => rows.find(r => r.id === c.id)!);
+        setRows(finalRows);
+      }
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
       <motion.div 
@@ -430,18 +492,24 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                     <th className="w-20"></th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
-                  {computedRows.map((row, index) => {
-                    const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
-                    const isSintetica = isDre && row.dreTipo === 'SINTETICA';
-                    const isResultado = isDre && row.dreTipo === 'RESULTADO_CALCULADO';
-                    const isAnalitica = isDre && row.dreTipo === 'ANALITICA';
-                    
-                    const isLocked = isDre && (isSintetica || isResultado);
+                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                  <SortableContext items={computedRows.map(r => r.id)} strategy={verticalListSortingStrategy}>
+                    <tbody className="divide-y divide-slate-50">
+                      {computedRows.map((row, index) => {
+                        const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
+                        const isSintetica = isDre && row.dreTipo === 'SINTETICA';
+                        const isResultado = isDre && row.dreTipo === 'RESULTADO_CALCULADO';
+                        const isAnalitica = isDre && row.dreTipo === 'ANALITICA';
+                        
+                        const isLocked = isDre && (isSintetica || isResultado);
 
-                    return (
-                      <React.Fragment key={row.id}>
-                        <tr className={cn(isLocked ? "bg-slate-50/30" : "")}>
+                        return (
+                          <React.Fragment key={row.id}>
+                            <SortableTableRow 
+                              id={row.id} 
+                              isDraggable={!isLocked} 
+                              className={cn(isLocked ? "bg-slate-50/30" : "")}
+                            >
                           <td className="py-2 px-2">
                             {isDre ? (
                               <div className="w-full bg-transparent text-center text-xs font-bold text-slate-400">
@@ -525,60 +593,52 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                             />
                           </td>
                           <td className="py-2 px-2 text-center flex items-center justify-center gap-1">
-                            {!isDre && (
-                              <>
-                                <button onClick={() => moveRow(index, -1)} disabled={index === 0} className="p-1 text-slate-400 hover:text-primary hover:bg-slate-100 rounded transition-all disabled:opacity-30 disabled:hover:bg-transparent">
-                                  <ArrowUp size={16} />
-                                </button>
-                                <button onClick={() => moveRow(index, 1)} disabled={index === computedRows.length - 1} className="p-1 text-slate-400 hover:text-primary hover:bg-slate-100 rounded transition-all disabled:opacity-30 disabled:hover:bg-transparent">
-                                  <ArrowDown size={16} />
-                                </button>
-                              </>
-                            )}
                             {(!isLocked) && (
                               <button onClick={() => removeRow(row.id)} className="p-1 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-all">
                                 <Trash2 size={16} />
                               </button>
                             )}
                           </td>
-                        </tr>
-                        
-                        {/* Botão para adicionar linha analítica debaixo de uma Sintética */}
-                        {isSintetica && (
-                          <tr>
-                            <td colSpan={5} className="py-1 px-2 border-none">
-                              <div className="flex justify-start pl-[50px]">
-                                <button
-                                  onClick={() => {
-                                    const newRows = [...rows];
-                                    const insertIdx = newRows.findIndex(r => r.id === row.id) + 1;
-                                    newRows.splice(insertIdx, 0, {
-                                      id: crypto.randomUUID(),
-                                      category: '',
-                                      value: 0,
-                                      type: 'despesas',
-                                      level: 2,
-                                      dreTipo: 'ANALITICA',
-                                      natureza: row.natureza,
-                                      parentId: row.id,
-                                      aceitaLancamento: true,
-                                      calculaAutomaticamente: false,
-                                      ordem: row.ordem! + 0.1
-                                    });
-                                    setRows(newRows);
-                                  }}
-                                  className="text-[10px] font-bold text-slate-400 hover:text-primary flex items-center gap-1 py-1 px-2 rounded hover:bg-primary/5 transition-colors"
-                                >
-                                  <Plus size={12} /> Adicionar Sub-Conta
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                </tbody>
+                            </SortableTableRow>
+                            
+                            {/* Botão para adicionar linha analítica debaixo de uma Sintética */}
+                            {isSintetica && (
+                              <tr>
+                                <td colSpan={5} className="py-1 px-2 border-none">
+                                  <div className="flex justify-start pl-[50px]">
+                                    <button
+                                      onClick={() => {
+                                        const newRows = [...rows];
+                                        const insertIdx = newRows.findIndex(r => r.id === row.id) + 1;
+                                        newRows.splice(insertIdx, 0, {
+                                          id: crypto.randomUUID(),
+                                          category: '',
+                                          value: 0,
+                                          type: 'despesas',
+                                          level: 2,
+                                          dreTipo: 'ANALITICA',
+                                          natureza: row.natureza,
+                                          parentId: row.id,
+                                          aceitaLancamento: true,
+                                          calculaAutomaticamente: false,
+                                          ordem: row.ordem! + 0.1
+                                        });
+                                        setRows(newRows);
+                                      }}
+                                      className="text-[10px] font-bold text-slate-400 hover:text-primary flex items-center gap-1 py-1 px-2 rounded hover:bg-primary/5 transition-colors"
+                                    >
+                                      <Plus size={12} /> Adicionar Sub-Conta
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                          </React.Fragment>
+                        );
+                      })}
+                    </tbody>
+                  </SortableContext>
+                </DndContext>
               </table>
 
               {rows.length === 0 && (

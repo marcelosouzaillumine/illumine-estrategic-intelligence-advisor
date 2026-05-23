@@ -18,21 +18,7 @@ import {
   Pie
 } from 'recharts';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
-import { PageHeader, KpiCard, SortableTableRow } from '../Common';
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent
-} from '@dnd-kit/core';
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy
-} from '@dnd-kit/sortable';
+import { PageHeader, KpiCard } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
@@ -373,71 +359,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     }
   };
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(KeyboardSensor)
-  );
-
-  const handleDragEnd = async (event: DragEndEvent, sectionTitle: string) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-
-    const sectionData = comparativeAnalysis.filter(r => {
-        if (sectionTitle === 'Ativo') return (r.tipo || r.type || '').toLowerCase().includes('ativo');
-        if (sectionTitle === 'Passivo') {
-            const t = (r.tipo || r.type || '').toLowerCase();
-            return t.includes('passivo') && !t.includes('patrimônio') && !t.includes('pl');
-        }
-        if (sectionTitle === 'Patrimônio Líquido') {
-            const t = (r.tipo || r.type || '').toLowerCase();
-            return t.includes('patrimônio') || t.includes('pl');
-        }
-        return false;
-    });
-
-    const oldIndex = sectionData.findIndex(r => (r.id || r.conta || r.name) === active.id);
-    const newIndex = sectionData.findIndex(r => (r.id || r.conta || r.name) === over.id);
-    
-    if (oldIndex !== -1 && newIndex !== -1) {
-      const activeItem = sectionData[oldIndex] as any;
-      if (activeItem.level === 1) return; 
-
-      const reorderedSection = arrayMove(sectionData, oldIndex, newIndex) as any[];
-
-      try {
-         if (docIds && docIds.length > 0) {
-            const docRef = doc(db, 'financial_entries', docIds[0]);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-               const docData = docSnap.data();
-               let newDataArray = Array.isArray(docData.data) ? [...docData.data] : [docData];
-               
-               const sectionOffset = sectionTitle === 'Ativo' ? 0 : sectionTitle === 'Passivo' ? 1000 : 2000;
-
-               newDataArray = newDataArray.map(item => {
-                  const categoryToMatch = (item.category || item.conta || '').toLowerCase().trim();
-                  const l2ItemIndex = reorderedSection.findIndex(r => (r.category || r.conta || r.name || '').toLowerCase().trim() === categoryToMatch);
-                  
-                  if (l2ItemIndex !== -1) {
-                     return {
-                        ...item,
-                        ordem: sectionOffset + l2ItemIndex
-                     };
-                  }
-                  return item;
-               });
-
-               await updateDoc(docRef, { data: newDataArray });
-               refetchBP();
-               showToast('success', 'Ordem e hierarquia atualizadas com sucesso.');
-            }
-         }
-      } catch (err) {
-         console.error('Error reordering', err);
-         showToast('error', 'Erro ao reordenar itens.');
-      }
-    }
-  };
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
@@ -1057,14 +978,12 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   </div>
                   
                   {/* Data Rows */}
-                  <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={(e) => handleDragEnd(e, section.title)}>
-                    <SortableContext items={section.data.map(r => r.id || r.conta || r.name)} strategy={verticalListSortingStrategy}>
-                      <div className="space-y-1 mt-2">
-                        {section.data.map((row: any, i: number) => (
-                          <SortableTableRow as="div" id={row.id || row.conta || row.name} isDraggable={row.level > 1} key={row.id || row.conta || row.name} className={cn(
-                            "flex items-center px-4 py-3 rounded-2xl transition-all duration-200 hover:bg-slate-50",
-                            row.level === 1 ? "bg-slate-50/50" : ""
-                          )}>
+                  <div className="space-y-1 mt-2">
+                    {section.data.map((row: any, i: number) => (
+                      <div key={i} className={cn(
+                        "flex items-center px-4 py-3 rounded-2xl transition-all duration-200 hover:bg-slate-50",
+                        row.level === 1 ? "bg-slate-50/50" : ""
+                      )}>
                         <div className="flex-1 flex items-center">
                           <span 
                             className={cn(
@@ -1113,11 +1032,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                              </span>
                           )}
                         </div>
-                      </SortableTableRow>
+                      </div>
                     ))}
                   </div>
-                  </SortableContext>
-                </DndContext>
                 </div>
               </div>
             ))}
