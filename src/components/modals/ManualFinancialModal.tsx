@@ -91,7 +91,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
             if (docData.status === 'archived') return;
             const data = (docData.data || []).map((item: any) => ({
               id: item.id || crypto.randomUUID(),
-              category: item.category || item.conta || '',
+              category: item.category || item.conta || item.name || '',
               value: item.value || item.valor || item.val || 0,
               type: (item.type || item.tipo || (type === 'DRE' ? 'receitas' : 'ativo')).toLowerCase(),
               level: item.level || 1,

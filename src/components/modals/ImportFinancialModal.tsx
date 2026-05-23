@@ -131,28 +131,33 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         };
       });
 
+      let hasWarnings = false;
+
       // Validação Estrutural Rigorosa para BP
       if (selectedType === 'Balanço Patrimonial' || selectedType === 'BP') {
         const { summary } = buildBPHierarchy(classified);
         
         if (!summary.isBalanced) {
-          throw new Error(`Desbalanceamento detectado (R$ ${summary.divergence}). Importação bloqueada.`);
+          console.warn(`Desbalanceamento detectado (R$ ${summary.divergence}).`);
+          hasWarnings = true;
         }
         if (summary.hasOrphans) {
-          const orphansStr = summary.orphanAccounts?.length ? `: ${summary.orphanAccounts.join(', ')}` : '';
-          throw new Error(`Existem contas sem classificação ou grupo pai correspondente (Órfãs)${orphansStr}. Importação bloqueada.`);
+          console.warn(`Existem contas sem classificação ou grupo pai correspondente (Órfãs).`);
+          hasWarnings = true;
         }
         if (summary.hasDuplicates) {
-          const dupsStr = summary.duplicateAccounts?.length ? `: ${summary.duplicateAccounts.join(', ')}` : '';
-          throw new Error(`Contas duplicadas encontradas${dupsStr}. Importação bloqueada.`);
+          console.warn(`Contas duplicadas encontradas.`);
+          hasWarnings = true;
         }
       }
 
       // Validação Sintético/Analítico
       const unclassified = classified.filter(c => c.type === 'unknown' || !c.type);
       if (unclassified.length > 0) {
-        throw new Error(`Validação Estrutural Falhou: ${unclassified.length} conta(s) não puderam ser distinguidas entre grupo sintético ou conta analítica. Importação bloqueada.`);
+        console.warn(`Validação Estrutural Falhou: ${unclassified.length} conta(s) não puderam ser distinguidas.`);
+        hasWarnings = true;
       }
+
 
       const payload = {
         clientId,
@@ -198,8 +203,14 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
 
       setImportResult(classified.length);
       setProgress(100);
-      setStatus('Importação concluída!');
-      setTimeout(() => onSuccess(), 1500);
+      
+      if (hasWarnings) {
+        setStatus('Importação concluída com ressalvas! Ajuste no Lançamento Manual.');
+        setTimeout(() => onSuccess(), 3500);
+      } else {
+        setStatus('Importação concluída!');
+        setTimeout(() => onSuccess(), 1500);
+      }
     } catch (err: any) {
       setError(err.message || 'Erro ao salvar no banco de dados.');
     } finally {
