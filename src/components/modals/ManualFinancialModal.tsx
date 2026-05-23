@@ -159,8 +159,10 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
           } else if (!hasOfficialStructure) {
             existingData = generateInitialDreState() as Row[];
           } else {
-             // Garante a reordenação e o cálculo em cascata
-             existingData = calculateDreCascade(existingData);
+             // Garante a reordenação e o cálculo em cascata, e recria sintéticas perdidas
+             const initialDreState = generateInitialDreState() as Row[];
+             const missingSynthetics = initialDreState.filter(s => !existingData.some(e => e.id === s.id));
+             existingData = calculateDreCascade([...existingData, ...missingSynthetics]);
           }
         }
         
@@ -197,12 +199,52 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
   
   if (selectedType === 'DRE' || selectedType === 'DRE Gerencial') {
     // NOVA ESTRUTURA DRE: Cálculo via Cascata Hierárquica Estrita
-    computedRows = calculateDreCascade(rows).map(r => ({
-      ...r,
-      hasChildren: r.dreTipo === 'SINTETICA' || r.dreTipo === 'RESULTADO_CALCULADO'
-    }));
+    const calculated = calculateDreCascade(rows);
+    const interleaved: any[] = [];
+    
+    const structural = calculated
+      .filter(r => r.dreTipo === 'SINTETICA' || r.dreTipo === 'RESULTADO_CALCULADO')
+      .sort((a,b) => (a.ordem || 0) - (b.ordem || 0));
+      
+    structural.forEach(parent => {
+       interleaved.push({
+         ...parent,
+         hasChildren: parent.dreTipo === 'SINTETICA' || parent.dreTipo === 'RESULTADO_CALCULADO'
+       });
+       
+       const children = calculated
+           .filter(r => r.parentId === parent.id && r.dreTipo === 'ANALITICA')
+           .sort((a,b) => (a.ordem || 0) - (b.ordem || 0));
+           
+       children.forEach(child => {
+           interleaved.push({
+             ...child,
+             hasChildren: false
+           });
+       });
+    });
+    
+    const orphans = calculated.filter(r => r.dreTipo === 'ANALITICA' && !structural.some(p => p.id === r.parentId));
+    orphans.forEach(child => {
+       interleaved.push({ ...child, hasChildren: false });
+    });
+    
+    computedRows = interleaved;
+  } else if (selectedType === 'Balanço Patrimonial' || selectedType === 'BP') {
+    // NOVA ESTRUTURA BP: Usa o bpEngine para inferir hierarquia estritamente
+    const { flatNodes } = buildBPHierarchy(rows);
+    computedRows = flatNodes.map(node => {
+      const original = rows.find(r => r.id === node.id) || rows.find(r => r.category === node.category)!;
+      return {
+        ...original,
+        level: node.level,
+        hasChildren: node.isSynthetic,
+        computedValue: node.computedValue,
+        parentId: node.parentId
+      };
+    });
   } else {
-    // ESTRUTURA LEGADA PARA BP E OUTROS
+    // ESTRUTURA LEGADA PARA OUTROS (DFC, DLPA)
     computedRows = [...rows].map(r => ({ ...r, hasChildren: false, computedValue: 0 }));
     for (let i = computedRows.length - 1; i >= 0; i--) {
       let hasChildren = false;
@@ -427,8 +469,26 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         });
         
         setRows(finalRows);
+      } else if (selectedType === 'Balanço Patrimonial' || selectedType === 'BP') {
+        const newRows = [...reorderedComputed];
+        
+        // BP: Auto-indentation based on dragged position (incorporate into new parent)
+        if (newIndex > 0) {
+           const prevItem = reorderedComputed[newIndex - 1];
+           // Se o item anterior é um pai sintético, o item movido se torna filho direto (level + 1)
+           // Se for um item analítico, ele copia o nível do irmão (level)
+           const targetLevel = prevItem.hasChildren ? prevItem.level + 1 : prevItem.level;
+           
+           const activeRowIndex = newRows.findIndex(r => r.id === activeItem.id);
+           if (activeRowIndex !== -1) {
+              newRows[activeRowIndex] = { ...newRows[activeRowIndex], level: targetLevel };
+           }
+        }
+        
+        const finalRows = newRows.map((c, idx) => ({ ...rows.find(r => r.id === c.id)!, level: c.level, ordem: idx }));
+        setRows(finalRows);
       } else {
-        const finalRows = reorderedComputed.map(c => rows.find(r => r.id === c.id)!);
+        const finalRows = reorderedComputed.map((c, idx) => ({ ...rows.find(r => r.id === c.id)!, ordem: idx }));
         setRows(finalRows);
       }
     }
