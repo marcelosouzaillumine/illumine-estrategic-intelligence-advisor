@@ -4,87 +4,92 @@
 
 Este documento define a política oficial de síntese executiva da plataforma Illumine.
 
-Toda renderização financeira deve priorizar:
-- causalidade dominante;
-- síntese institucional;
-- leitura board-level;
-- hierarquia executiva;
-- consolidação de engines correlatas.
+A plataforma deve transformar múltiplos sinais financeiros, patrimoniais e operacionais em **poucos vetores executivos de alta relevância institucional**. O objetivo final é fazer a plataforma parar de “explicar indicadores” e começar a **sintetizar inteligência institucional**.
+
+Esta engine atua como a camada institucional de:
+- Executive Compression;
+- Causal Prioritization;
+- Institutional Narrative Intelligence.
 
 ---
 
-## Regra Central
+## 1. Semantic Deduplication Layer
 
-A plataforma deve identificar:
+A engine deve eliminar impiedosamente redundâncias semânticas entre:
+- liquidez;
+- tesouraria;
+- capital de giro;
+- conversão de caixa;
+- flexibilidade financeira;
+- preservação de caixa.
 
-1. CAUSA RAIZ
-2. EFEITOS ESTRUTURAIS
-3. RISCO DOMINANTE
-4. DECISÃO PRIORITÁRIA
-5. IMPACTO ESPERADO
-
-Toda análise deve ser organizada nessa sequência.
-
----
-
-## Compressão de Engines
-
-Engines que tratam variáveis correlatas devem ser consolidadas.
-
-Exemplo:
-- Liquidity Quality Intelligence
-- Treasury Intelligence
-- Elasticidade Financeira
-- Continuidade
-- Sensibilidade a Choques
-
-Devem convergir para:
-**"SÍNTESE DE LIQUIDEZ E RESILIÊNCIA"**
+**REGRA:** O sistema deve consolidar todos os conceitos equivalentes em um único vetor institucional prioritário.
 
 ---
 
-## Regra Anti-Redundância
+## 2. Causal Hierarchy Engine
 
-A plataforma NÃO pode:
-- repetir causalidades equivalentes;
-- gerar múltiplos alertas semanticamente idênticos;
-- criar módulos paralelos sobre o mesmo fenômeno econômico;
-- fragmentar interpretações correlatas.
+A inteligência deve obrigatoriamente separar e hierarquizar:
+1. **Causa primária** (a raiz do problema estrutural)
+2. **Consequência primária** (o efeito direto)
+3. **Consequência secundária** (o efeito colateral)
+4. **Impacto estratégico** (o risco ao modelo de negócio)
+5. **Impacto institucional** (o risco à continuidade e tese de valor)
 
----
-
-## Regra Board-Level
-
-O relatório deve responder prioritariamente:
-
-- O que realmente está errado?
-- O que causa isso?
-- Qual o risco?
-- Qual decisão resolve?
-- Qual impacto esperado?
+Toda renderização financeira deve obedecer essa cascata causal, nunca invertendo a ordem ou misturando níveis.
 
 ---
 
-## Regra de Hierarquia
+## 3. Executive Compression
 
-O sistema deve priorizar:
-1. Síntese executiva
-2. Causalidade dominante
-3. Risco principal
-4. Decisão estratégica
-5. Detalhamento técnico
-
-Nunca o contrário.
+A densidade cognitiva exige restrições de volume de informação. Os limites da plataforma passam a ser:
+- **Executive Summary:** máximo 3 drivers principais;
+- **Fragilidades:** máximo 3 (apenas as vitais);
+- **Prioridades Estratégicas:** máximo 4;
+- **Action Matrix:** máximo 2 ações prioritárias de choque/resolução.
 
 ---
 
-## Regra de Densidade Cognitiva
+## 4. Institutional Thesis Generator
 
-O sistema deve reduzir:
-- excesso de texto;
-- excesso de módulos;
-- excesso de engines;
-- profundidade redundante.
+Para cada ciclo financeiro avaliado, a engine deve criar automaticamente uma tese consolidada. Ela deve extrair:
+- **Tese executiva central** (ex: "Crescimento condicionado por gargalo de working capital")
+- **Racionalidade econômica** (o porquê matemático/operacional)
+- **Principal restrição institucional** (o que impede a empresa de avançar)
+- **Vetor de crescimento** (a alavanca de maior ROI)
+- **Vetor de risco** (a ameaça de maior severidade)
 
-A prioridade é:
-**clareza institucional + densidade executiva.**
+---
+
+## 5. Executive Silence
+
+A plataforma possui autorização e obrigação para aplicar silêncio estrutural. O sistema deve **ocultar**:
+- sinais redundantes;
+- alertas repetitivos;
+- causalidades duplicadas;
+- diagnósticos semanticamente equivalentes.
+
+Se dois sinais explicam a mesma disfunção, apenas o de maior hierarquia deve sobreviver na renderização.
+
+---
+
+## 6. Institutional Priority Ranking
+
+Toda análise deve possuir inteligência de priorização. É proibido exibir listas orgânicas (aleatórias). A engine aplicará:
+- **Ranking de drivers** (do maior impacto para o menor)
+- **Ranking de risco** (da ruptura iminente para o ruído contábil)
+- **Ranking de prioridades** (da ação corretiva imediata para a otimização de longo prazo)
+- **Ranking de alavancas de valor** (do alto ROI para a melhoria de margem residual)
+
+---
+
+## 7. Narrative Sophistication
+
+A narrativa deve abandonar o estilo "relatório contábil" ou "gerador de insights" e se aproximar estritamente de:
+- **Advisory institucional;**
+- **Board reports;**
+- **Investment memos;**
+- **Restructuring reports;**
+- **Strategic consulting language.**
+
+O tom deve ser assertivo, contido, técnico e voltado exclusivamente à decisão executiva.

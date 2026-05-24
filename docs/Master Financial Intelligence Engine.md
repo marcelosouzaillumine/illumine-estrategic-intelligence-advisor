@@ -1577,3 +1577,42 @@ A análise final deve responder prioritariamente:
 3. Qual o risco dominante;
 4. Qual decisão estratégica é necessária;
 5. Qual impacto esperado.
+
+---
+
+# 21. Integração com Executive Orchestration
+
+Toda inteligência financeira deve ser organizada em camadas progressivas de leitura executiva.
+
+A plataforma deve separar:
+
+* Executive Summary;
+* Executive Intelligence;
+* Technical Analytics.
+
+Nenhuma análise pode apresentar:
+
+* excesso de profundidade inicial;
+* múltiplas engines simultâneas sem agrupamento;
+* detalhamento técnico antes da síntese executiva.
+
+
+## Contextual Financial Interpretation
+
+Nenhum indicador pode utilizar benchmark fixo.
+Toda interpretação depende estritamente de:
+- setor;
+- intensidade operacional;
+- estágio de maturidade;
+- intensidade de capital;
+- previsibilidade de fluxo;
+- dependência de estoque;
+- recorrência operacional.
+
+**REGRA DE OURO:** Indicadores isolados não representam inteligência financeira.
+
+Engloba:
+- interpretação dinâmica de liquidez;
+- interpretação dinâmica de alavancagem;
+- interpretação contextual de capital de giro;
+- diferenciação clara entre pressão operacional saudável e risco estrutural.

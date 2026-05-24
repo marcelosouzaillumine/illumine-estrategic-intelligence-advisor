@@ -186,3 +186,25 @@ Evitar:
 - múltiplos módulos sobre o mesmo fenômeno;
 - repetição de riscos equivalentes;
 - fragmentação narrativa.
+
+---
+
+## 10. Política Oficial de Renderização Executiva
+
+Toda renderização deve obedecer a arquitetura definida pela EXECUTIVE_ORCHESTRATION_ENGINE.
+
+A renderização deve:
+
+* priorizar síntese;
+* agrupar engines correlatas;
+* ocultar complexidade excessiva;
+* utilizar profundidade progressiva;
+* permitir expansão contextual;
+* organizar inteligência por prioridade executiva.
+
+A plataforma NÃO deve:
+
+* despejar inteligência simultaneamente;
+* renderizar todas as engines no mesmo nível;
+* apresentar múltiplos blocos semanticamente equivalentes;
+* criar fadiga cognitiva.

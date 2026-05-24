@@ -14,13 +14,15 @@ interface GenerateBoardReportModalProps {
   clientId: string;
   companyName: string;
   financialData: FinancialEntry[];
+  clientData?: any;
 }
 
 export function GenerateBoardReportModal({
   isOpen,
   onClose,
   companyName,
-  financialData
+  financialData,
+  clientData
 }: GenerateBoardReportModalProps) {
   const [status, setStatus] = useState<'idle' | 'generating_ai' | 'ready' | 'rendering_pdf' | 'error'>('idle');
   const [progressMsg, setProgressMsg] = useState('');
@@ -34,7 +36,7 @@ export function GenerateBoardReportModal({
       setStatus('generating_ai');
       const data = await generateBoardReportFull(companyName, financialData, (msg) => {
         setProgressMsg(msg);
-      });
+      }, clientData);
       setReportData(data);
       setStatus('ready');
     } catch (err: any) {

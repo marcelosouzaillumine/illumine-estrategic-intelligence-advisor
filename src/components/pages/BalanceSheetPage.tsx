@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity, Target, AlertTriangle, Lightbulb, Zap, ShieldCheck, Gem, Crosshair, Layers, PiggyBank, ShieldAlert } from 'lucide-react';
+import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity, Target, AlertTriangle, Lightbulb, Zap, ShieldCheck, Gem, Crosshair, Layers, PiggyBank, ShieldAlert, ChevronDown, ChevronUp } from 'lucide-react';
 import { 
   ResponsiveContainer, 
   BarChart, 
@@ -28,6 +28,7 @@ import { buildBPHierarchy } from '../../lib/bpEngine';
 import { calculateFinancialMetrics } from '../../lib/financial-engine';
 import { calculateScores } from '../../lib/score-engine';
 import { generateAdvisory } from '../../lib/advisory-engine';
+import { inferBusinessIdentity } from "@/lib/business-identity-engine";
 import { calculateDreCascade } from '../../lib/dreCascade';
 import {
   collection,
@@ -52,6 +53,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
   const [showManualModal, setShowManualModal] = useState(false);
+  const [showCamada2, setShowCamada2] = useState(false);
+  const [showCamada3, setShowCamada3] = useState(false);
+  const [showFullStressTests, setShowFullStressTests] = useState(false);
 
   useEffect(() => {
     if (selectedYear) setFilterYear(selectedYear);
@@ -225,7 +229,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   const { metrics, scores, causalInsights } = useMemo(() => {
     const prevPl = getHistoricalValue(filterYear - 1, 'patrimônio líquido') || getHistoricalValue(filterYear - 1, 'pl') || 0;
     const clientObj = clients?.find((c: any) => c.id === selectedClient);
-    const industry = clientObj?.segmento || clientObj?.industry || 'Geral';
+    const industry = clientObj?.segmentoAtuacao || clientObj?.segmento || clientObj?.industry || 'Geral';
     
     // Trend Intelligence Calculation
     const prevEbitda = getHistoricalValue(filterYear - 1, 'ebitda') || getHistoricalValue(filterYear - 1, 'lajida') || 0;
@@ -233,16 +237,35 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     
     const calcTrend = (curr: number, prev: number) => prev === 0 ? 0 : ((curr - prev) / Math.abs(prev)) * 100;
     
+    let calculatedCycles = Object.keys(historyByYear).length || 1;
+    if (clientObj?.dataFundacao) {
+      // dataFundacao format might be DD/MM/YYYY or YYYY-MM-DD
+      let fundacaoYear = null;
+      if (clientObj.dataFundacao.includes('/')) {
+        const parts = clientObj.dataFundacao.split('/');
+        if (parts.length === 3) fundacaoYear = parseInt(parts[2]);
+      } else if (clientObj.dataFundacao.includes('-')) {
+        const parts = clientObj.dataFundacao.split('-');
+        if (parts.length >= 1) fundacaoYear = parseInt(parts[0]);
+      }
+      
+      if (fundacaoYear && !isNaN(fundacaoYear)) {
+        calculatedCycles = Math.max(1, filterYear - fundacaoYear);
+      }
+    }
+
     const trend = {
       hasData: prevEbitda !== 0 || prevPl !== 0,
       ebitdaTrend: calcTrend(ebitda, prevEbitda),
       plTrend: calcTrend(bpSummary.patrimonioLiquido, prevPl),
-      liquidityTrend: calcTrend(bpSummary.ativoCirculante, prevCaixa) // simplified proxy
+      liquidityTrend: calcTrend(bpSummary.ativoCirculante, prevCaixa), // simplified proxy
+      historicalCycles: calculatedCycles
     };
     
+    const businessIdentity = inferBusinessIdentity(clientObj?.segmentoAtuacao || undefined, calculatedCycles);
     const baseMetrics = calculateFinancialMetrics(bpSummary, ebitda, lucroLiquido, industry);
-    const scoreMetrics = calculateScores(bpSummary, baseMetrics, dreDbData.length, prevPl, industry);
-    const advisory = generateAdvisory(bpSummary, baseMetrics, scoreMetrics, industry, trend);
+    const scoreMetrics = calculateScores(bpSummary, baseMetrics, dreDbData.length, prevPl, businessIdentity);
+    const advisory = generateAdvisory(baseMetrics, bpSummary, scoreMetrics, businessIdentity, trend as any);
 
     return { metrics: baseMetrics, scores: scoreMetrics, causalInsights: advisory };
   }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, historyByYear, clients, selectedClient]);
@@ -375,6 +398,31 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   };
 
 
+
+  const ativoData = useMemo(() => {
+    return comparativeAnalysis.filter((r: any) => 
+      (r.tipo || r.type || '').toLowerCase().includes('ativo') && r.level === 2 && r.val > 0
+    ).map((r: any) => ({ name: r.name, value: r.val })).sort((a: any, b: any) => b.value - a.value);
+  }, [comparativeAnalysis]);
+
+  const passivoData = useMemo(() => {
+    return comparativeAnalysis.filter((r: any) => 
+      (r.tipo || r.type || '').toLowerCase().includes('passivo') && !((r.tipo || r.type || '').toLowerCase().includes('patrimônio') || (r.tipo || r.type || '').toLowerCase().includes('pl')) && r.level === 2 && r.val > 0
+    ).map((r: any) => ({ name: r.name, value: r.val })).sort((a: any, b: any) => b.value - a.value);
+  }, [comparativeAnalysis]);
+
+  // Waterfall Capital de Giro preparation
+  const waterfallData = useMemo(() => {
+    if (!bpSummary) return [];
+    return [
+      { name: 'Ativo Circulante', value: bpSummary.ativoCirculante, isPositive: true },
+      { name: 'Passivo Circulante', value: -bpSummary.passivoCirculante, isPositive: false },
+      { name: 'Capital de Giro Líquido', value: bpSummary.ativoCirculante - bpSummary.passivoCirculante, isTotal: true }
+    ];
+  }, [bpSummary]);
+
+  const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
@@ -430,9 +478,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         </div>
       </div>
 
-
-
-      
       {/* ── Validação Contábil (Engine) ── */}
       {dbData.length > 0 && bpSummary && !bpSummary.isBalanced && (
         <div className="mb-12 bg-rose-50 border-2 border-rose-200 rounded-[32px] p-8 shadow-sm flex flex-col gap-4 relative overflow-hidden">
@@ -464,841 +509,878 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         </div>
       )}
 
-      {/* ── Resiliência e Maturidade (Health Scores) ── */}
-      <div className={cn("mb-12", dbData.length > 0 && bpSummary && !bpSummary.isBalanced ? "opacity-50 pointer-events-none grayscale" : "")}>
-        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between border border-slate-700/50 mb-8">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none transition-all duration-500" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
+      {/* =========================================================
+          CAMADA 1: EXECUTIVE SUMMARY
+          Leitura Institucional (< 60 segundos)
+      ========================================================= */}
+      <div className={cn("space-y-6 mb-12", dbData.length > 0 && bpSummary && !bpSummary.isBalanced ? "opacity-50 pointer-events-none grayscale" : "")}>
+        <div className="flex items-center gap-3 px-2 mb-2">
+           <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center font-black text-sm">1</div>
+           <h3 className="text-xl font-black text-slate-900 tracking-tight">Executive Summary</h3>
+        </div>
+
+        {/* Linha Superior: Score Patrimonial (Esquerda) + Diagnóstico/Continuidade (Direita) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
-          <div className="w-full md:w-auto md:flex-1 flex flex-col items-center md:items-start z-10 text-center md:text-left mb-10 md:mb-0 md:mr-10">
-            <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">Score Patrimonial</h3>
-            <p className="text-sm md:text-base text-indigo-100/80 font-medium leading-relaxed w-full">
-              Índice composto que avalia a saúde estrutural, folga de caixa, proteção contra choques de curto prazo e a qualidade do financiamento de longo prazo.
-            </p>
+          {/* Score Patrimonial */}
+          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center border border-slate-700/50">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
             
-            <div className={cn("px-6 py-3 mt-8 rounded-full border shadow-inner backdrop-blur-sm text-xs font-bold uppercase tracking-wider inline-flex", 
+            <h3 className="text-2xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300 z-10">Score Patrimonial</h3>
+            <div className={cn("px-4 py-1.5 mt-2 mb-8 rounded-full border shadow-inner backdrop-blur-sm text-[10px] font-bold uppercase tracking-widest inline-flex z-10", 
               resilienciaGlobal >= 81 ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' : 
               resilienciaGlobal >= 61 ? 'bg-indigo-500/5 text-indigo-300 border-indigo-500/10' : 
               resilienciaGlobal >= 41 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 
               resilienciaGlobal >= 21 ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-red-600/20 text-red-400 border-red-500/30')}>
-              Nível {maturidade}
+              Nível {maturidade} | {causalInsights?.lifecycleStage || 'Maturidade Pendente'}
+            </div>
+
+            <div className="relative w-48 h-48 flex items-center justify-center shrink-0 z-10">
+              <svg width="0" height="0">
+                <defs>
+                  <linearGradient id="score-gradient-patrimonial" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor={resilienciaGlobal >= 80 ? "#6366f1" : resilienciaGlobal >= 50 ? "#f59e0b" : "#ef4444"} />
+                    <stop offset="100%" stopColor={resilienciaGlobal >= 80 ? "#818cf8" : resilienciaGlobal >= 50 ? "#fbbf24" : "#f87171"} />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <svg className="w-full h-full transform -rotate-90 filter drop-shadow-[0_0_12px_rgba(0,0,0,0.5)]" viewBox="0 0 192 192">
+                <circle cx="96" cy="96" r="84" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-800/80" />
+                <circle cx="96" cy="96" r="84" stroke="url(#score-gradient-patrimonial)" strokeWidth="12" fill="transparent" 
+                  strokeDasharray="528" 
+                  strokeDashoffset={528 - (528 * resilienciaGlobal) / 100}
+                  strokeLinecap="round" 
+                  className="transition-all duration-1000 ease-out"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                 <span className="text-6xl font-black text-white filter drop-shadow-sm leading-none absolute">{hasData ? resilienciaGlobal.toFixed(0) : '—'}</span>
+                 <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest absolute bottom-9">/ 100</span>
+              </div>
             </div>
           </div>
 
-          <div className="relative w-48 h-48 flex items-center justify-center shrink-0 z-10">
-            {/* SVG Gradients */}
-            <svg width="0" height="0">
-              <defs>
-                <linearGradient id="score-gradient-patrimonial" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor={resilienciaGlobal >= 80 ? "#6366f1" : resilienciaGlobal >= 50 ? "#f59e0b" : "#ef4444"} />
-                  <stop offset="100%" stopColor={resilienciaGlobal >= 80 ? "#818cf8" : resilienciaGlobal >= 50 ? "#fbbf24" : "#f87171"} />
-                </linearGradient>
-              </defs>
-            </svg>
-            <svg className="w-full h-full transform -rotate-90 filter drop-shadow-[0_0_12px_rgba(0,0,0,0.5)]" viewBox="0 0 192 192">
-              <circle cx="96" cy="96" r="84" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-800/80" />
-              <circle cx="96" cy="96" r="84" stroke="url(#score-gradient-patrimonial)" strokeWidth="12" fill="transparent" 
-                strokeDasharray="528" 
-                strokeDashoffset={528 - (528 * resilienciaGlobal) / 100}
-                strokeLinecap="round" 
-                className="transition-all duration-1000 ease-out"
-              />
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-               <span className="text-6xl font-black text-white filter drop-shadow-sm leading-none absolute">{hasData ? resilienciaGlobal.toFixed(0) : '—'}</span>
-               <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest absolute bottom-9">/ 100</span>
-            </div>
-          </div>
-        </div>
+          {/* Diagnóstico Executivo Consolidado e Tendências */}
+          <div className="lg:col-span-2 flex flex-col gap-6">
+            
+            {/* Diagnóstico Ultra Sintético */}
+            {causalInsights ? (
+              <div className="bg-slate-950 rounded-[32px] p-8 text-white relative overflow-hidden shadow-xl flex-1 flex flex-col justify-center border border-slate-800">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500/20 blur-[80px] rounded-full" />
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 relative z-10 flex items-center gap-2">
+                  <Activity size={12}/> Diagnóstico Executivo
+                </h4>
+                <p className="text-lg font-medium leading-relaxed relative z-10 text-slate-200 line-clamp-3" title={causalInsights.diagnostico}>
+                   {causalInsights.diagnostico}
+                </p>
+              </div>
+            ) : (
+              <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 flex-1 flex items-center justify-center">
+                <p className="text-sm font-bold text-slate-400">Aguardando consolidação contábil.</p>
+              </div>
+            )}
 
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-          {[
-            { label: 'Liquidez (25%)', val: hsLiquidez, color: 'emerald', explicacao: `Memória de Cálculo:\nLiquidez Corrente (${liqCorrente.toFixed(2)}) e Real (${liquidezReal.toFixed(2)}). Pondera a capacidade de honrar passivos curtos com ativos altamente conversíveis.` },
-            { label: 'Estrutura (25%)', val: hsEstrutura, color: 'blue', explicacao: `Memória de Cálculo:\nQualidade do Endividamento (${(qualidadeEndividamento * 100).toFixed(2)}% curto prazo) e Dependência Bancária (${(dependenciaBancaria * 100).toFixed(2)}%). Penaliza alta concentração no curto prazo.` },
-            { label: 'Cap. Giro (20%)', val: hsCapitalGiro, color: 'amber', explicacao: `Memória de Cálculo:\nNCG (${formatCurrency(ncg)}) vs AC (${formatCurrency(ac)}) e Concentração de Estoques (${(concentracaoEstoque * 100).toFixed(2)}%).` },
-            { label: 'Solidez (20%)', val: hsPatrimonial, color: 'purple', explicacao: `Memória de Cálculo:\nAutonomia Financeira (${(autonomiaFinanceira * 100).toFixed(2)}%) e Índice de Descapitalização (${(indiceDescapitalizacao * 100).toFixed(2)}%). Mede a proteção do passivo pelo capital próprio.` },
-            { label: 'Evolução (10%)', val: hsEvolucao, color: 'indigo', explicacao: `Memória de Cálculo:\nCrescimento YoY do Patrimônio Líquido frente ao ano anterior.` }
-          ].map((hs, i) => (
-            <div key={i} title={hs.explicacao} className={cn("border rounded-[32px] p-6 flex flex-col justify-between relative overflow-hidden group transition-all duration-500 hover:-translate-y-1 hover:shadow-xl cursor-help", 
-              hasData ? "bg-slate-950 border-white/5 hover:border-white/10" : "bg-slate-100 border-slate-200"
-            )}>
-              {hasData && <div className={cn("absolute top-0 right-0 w-32 h-32 blur-[40px] -mr-16 -mt-16 pointer-events-none opacity-40 transition-opacity duration-500 group-hover:opacity-70", `bg-${hs.color}-500/30`)} />}
-              
-              <div className="relative z-10">
-                <span className={cn("text-[10px] font-black uppercase tracking-[0.2em] mb-4 block", hasData ? "text-white/40 group-hover:text-white/60 transition-colors" : "text-slate-400")}>{hs.label}</span>
-                <div className="mt-8">
-                  <span className={cn("text-4xl font-black tracking-tighter drop-shadow-md", hasData ? "text-white" : "text-slate-300")}>{hasData ? hs.val.toFixed(0) : '—'}</span>
-                  <div className={cn("w-full h-1.5 rounded-full mt-4 overflow-hidden shadow-inner", hasData ? "bg-white/5" : "bg-slate-200")}>
-                    <div className={cn("h-full rounded-full transition-all duration-1000 ease-out", hasData ? `bg-${hs.color}-500` : "bg-transparent")} style={{ width: `${hasData ? hs.val : 0}%` }} />
+
+            {/* Business Model Intelligence Engine Metadata */}
+            {causalInsights?.businessIdentity && (
+              <div className="bg-white border border-slate-200 rounded-[24px] p-6 shadow-sm mb-2 mt-2 flex flex-col gap-4">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 flex items-center gap-2">
+                  <Activity size={12}/> Business Model Intelligence Engine
+                </h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Modelo de Negócio</span>
+                    <span className="text-sm font-black text-slate-800">{causalInsights.businessIdentity.modeloDeNegocio}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Estágio de Maturidade</span>
+                    <span className="text-sm font-black text-slate-800">{causalInsights.businessIdentity.estagioMaturidade || 'Estável'}</span>
+                  </div>
+                  <div className="flex flex-col md:col-span-2">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Perfil Operacional</span>
+                    <span className="text-sm font-black text-slate-800">{causalInsights.businessIdentity.perfilOperacional}</span>
+                  </div>
+                </div>
+                <div className="flex gap-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                  <div className="flex flex-col flex-1">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Intensidade de Capital</span>
+                    <span className="text-xs font-medium text-slate-700">{causalInsights.businessIdentity.intensidadeCapital}</span>
+                  </div>
+                  <div className="flex flex-col flex-1">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Previsibilidade de Receita</span>
+                    <span className="text-xs font-medium text-slate-700">{causalInsights.businessIdentity.previsibilidadeReceita}</span>
                   </div>
                 </div>
               </div>
+            )}
+
+            {/* Continuidade e Tendência em Linha */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-auto">
+                <div className="bg-slate-900 rounded-[24px] p-6 text-white relative overflow-hidden shadow-lg flex flex-col justify-center border border-slate-800">
+                  <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Continuidade Empresarial</h4>
+                  <div className="flex items-end gap-3 mt-1">
+                    <span className={cn("text-3xl font-black tracking-tighter", 
+                      causalInsights?.indiceContinuidade?.color === 'emerald' ? 'text-emerald-400' :
+                      causalInsights?.indiceContinuidade?.color === 'amber' ? 'text-amber-400' :
+                      causalInsights?.indiceContinuidade?.color === 'blue' ? 'text-blue-400' :
+                      'text-rose-400'
+                    )}>{hasData ? scores.indiceContinuidade : '—'}</span>
+                    <span className="text-xs font-bold text-slate-400 pb-1">/ 100</span>
+                  </div>
+                  <p className="text-xs font-bold text-white mt-2 truncate">{causalInsights?.indiceContinuidade?.status || 'Pendente'}</p>
+                </div>
+
+                <div className="bg-white rounded-[24px] p-6 border border-slate-200 shadow-sm flex flex-col justify-center">
+                  <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Tendência Estrutural</h4>
+                  <div className="flex items-center gap-3 mt-1">
+                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                      <TrendingUp className="text-slate-500" size={14} />
+                    </div>
+                    <p className="text-sm font-bold text-slate-800 line-clamp-2">{causalInsights?.tendencia || 'Pendente'}</p>
+                  </div>
+                </div>
             </div>
-          ))}
+
+          </div>
         </div>
+
+        {causalInsights && (
+          <>
+            {/* Principais Fragilidades & Prioridades Estratégicas (Max 3 e 4) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              {/* Fragilidades (Max 3) */}
+              <div className="bg-rose-50/30 rounded-[32px] p-8 border border-rose-100 shadow-sm">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-5 flex items-center gap-2">
+                  <AlertTriangle size={14} /> Principais Fragilidades
+                </h4>
+                <div className="space-y-4">
+                  {causalInsights.fragilidades?.slice(0, 3).map((f: string, i: number) => (
+                    <div key={i} className="flex gap-3 bg-white p-4 rounded-2xl border border-rose-50 shadow-sm">
+                      <span className="text-rose-500 mt-0.5 shrink-0"><AlertCircle size={14} /></span>
+                      <span className="text-sm text-slate-700 font-medium">{f}</span>
+                    </div>
+                  ))}
+                  {(!causalInsights.fragilidades || causalInsights.fragilidades.length === 0) && (
+                    <p className="text-sm text-slate-500 font-medium italic">Nenhuma fragilidade crítica identificada.</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Prioridades (Max 4) */}
+              <div className="bg-indigo-50/30 rounded-[32px] p-8 border border-indigo-100 shadow-sm flex flex-col">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-5 flex items-center gap-2">
+                  <Target size={14} /> Prioridades Estratégicas
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
+                  {causalInsights.prioridadesEstrategicas?.slice(0, 4).map((p: any, idx: number) => (
+                    <div key={idx} className="bg-white p-4 rounded-2xl border border-indigo-50 shadow-sm flex flex-col justify-between">
+                      <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-2 line-clamp-2" title={p.nome}>{p.nome}</p>
+                      <p className={cn("text-sm font-black", 
+                        p.status === 'Crítico' ? 'text-rose-600' : 
+                        p.status === 'Atenção' ? 'text-amber-500' : 
+                        p.status === 'Monitorar' ? 'text-blue-500' : 
+                        'text-emerald-500'
+                      )}>{p.status}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Executive Action Matrix */}
+            <div className="bg-slate-950 rounded-[32px] p-8 border border-slate-800 shadow-xl text-white overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-[80px] rounded-full pointer-events-none" />
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2 relative z-10">
+                <Crosshair size={14} /> Executive Action Matrix (Ações Imediatas)
+              </h4>
+              <div className="overflow-x-auto relative z-10">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-slate-800">
+                      <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Prioridade</th>
+                      <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Ação Recomendada</th>
+                      <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Impacto</th>
+                      <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Velocidade</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {causalInsights.strategicActionMatrix?.slice(0, 4).map((action: any, idx: number) => (
+                      <tr key={idx} className="border-b border-slate-800/50 hover:bg-slate-900 transition-colors">
+                        <td className="py-4 px-4 w-32">
+                          <span className={cn(
+                            "px-2 py-1 text-[9px] font-bold uppercase tracking-wider rounded-lg whitespace-nowrap",
+                            action.prioridade === 'Imediata' ? "bg-rose-500/20 text-rose-400 border border-rose-500/20" :
+                            action.prioridade === 'Alta' ? "bg-amber-500/20 text-amber-400 border border-amber-500/20" :
+                            action.prioridade === 'Moderada' ? "bg-blue-500/20 text-blue-400 border border-blue-500/20" :
+                            "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
+                          )}>
+                            {action.prioridade}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4 font-medium text-sm text-slate-200">{action.acao}</td>
+                        <td className="py-4 px-4 text-sm text-slate-400 whitespace-nowrap">{action.impacto}</td>
+                        <td className="py-4 px-4 text-sm text-slate-400 whitespace-nowrap">{action.velocidade}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Conclusão Institucional */}
+            <div className="bg-slate-100/50 rounded-[32px] p-8 border border-slate-200 shadow-inner flex flex-col md:flex-row gap-6 items-center">
+               <div className="w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center shrink-0 shadow-lg text-white">
+                 <Gem size={28} />
+               </div>
+               <div>
+                 <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Conclusão Institucional</h4>
+                 <p className="text-slate-800 font-medium text-sm md:text-base leading-relaxed">
+                   A operação permanece funcional e patrimonialmente protegida, porém a sustentabilidade do crescimento depende da melhoria da conversão operacional em caixa. A prioridade deve ser preservar liquidez, reduzir capital imobilizado e ampliar a flexibilidade da tesouraria.
+                 </p>
+               </div>
+            </div>
+          </>
+        )}
       </div>
 
-      {/* ── Inteligência Patrimonial (Leitura Causal) ── */}
-      <div className="mb-12">
-        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6 pl-2">Notas Explicativas & Advisory</h3>
-        <div className="grid grid-cols-1 gap-6">
-          {causalInsights ? (
-            <div className="col-span-full space-y-6">
-              {/* Card 1: Diagnóstico Executivo */}
-              <div className="bg-slate-900 rounded-[32px] p-8 text-white relative overflow-hidden shadow-xl">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 blur-[80px] rounded-full" />
-                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 relative z-10">Diagnóstico Executivo</h4>
-                <p className="text-lg md:text-xl font-medium leading-relaxed relative z-10">{causalInsights.diagnostico}</p>
+      {/* =========================================================
+          CAMADA 2: EXECUTIVE INTELLIGENCE
+          Agrupamento Semântico e Causalidade Expandida (Scannable Cards)
+      ========================================================= */}
+      {hasData && (
+        <div className="mb-12">
+          <button 
+            onClick={() => setShowCamada2(!showCamada2)}
+            className="w-full flex items-center justify-between p-6 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-[24px] transition-all group"
+          >
+            <div className="flex items-center gap-4">
+               <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-black text-sm shadow-md">2</div>
+               <div className="text-left">
+                  <h3 className="text-lg font-black text-slate-900">Executive Intelligence</h3>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Causalidade • Resiliência • Alocação • Crescimento</p>
+               </div>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-400 group-hover:text-slate-900 transition-colors border border-slate-100">
+               {showCamada2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            </div>
+          </button>
+
+          {showCamada2 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 animate-in fade-in slide-in-from-top-4 duration-500">
+              
+              {/* Bloco 1: Liquidez & Resiliência Financeira */}
+              <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col h-full hover:border-slate-300 transition-all">
+                <div className="flex justify-between items-start mb-6">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 flex items-center gap-2">
+                    <Activity size={14} className="text-emerald-500" /> Liquidez & Resiliência Financeira
+                  </h4>
+                  <span className={cn("px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border",
+                    resilienciaGlobal < 50 ? "bg-rose-50 text-rose-600 border-rose-200" : "bg-emerald-50 text-emerald-600 border-emerald-200"
+                  )}>
+                    {resilienciaGlobal < 50 ? 'Sensível' : 'Resiliente'}
+                  </span>
+                </div>
+                
+                <div className="space-y-5 flex-1">
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Fator Estrutural</span>
+                    <p className="text-sm font-medium text-slate-800">{causalInsights.liquidityQuality?.fatorEstrutural || 'Capital de giro alinhado à demanda.'}</p>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Sensibilidade</span>
+                    <p className="text-sm font-medium text-slate-800">{causalInsights.liquidityQuality?.sensibilidade || 'Baixa sensibilidade.'}</p>
+                  </div>
+                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Movimento Recomendado</span>
+                    <p className="text-sm font-bold text-slate-900">{causalInsights.liquidityQuality?.movimentoRecomendado || 'Manutenção da estrutura atual.'}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bloco 2: Riscos Estratégicos & Governança */}
+              <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col h-full hover:border-slate-300 transition-all">
+                <div className="flex justify-between items-start mb-6">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 flex items-center gap-2">
+                    <AlertTriangle size={14} className="text-rose-500" /> Riscos Estratégicos & Governança
+                  </h4>
+                  <span className={cn("px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border",
+                    "bg-amber-50 text-amber-600 border-amber-200"
+                  )}>
+                    Atenção
+                  </span>
+                </div>
+
+                <div className="space-y-5 flex-1">
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Fator Estrutural</span>
+                    <p className="text-sm font-medium text-slate-800">{causalInsights.predictiveCausality?.fatorEstrutural || "Base alinhada."}</p>
+                  </div>
+                  
+                  {causalInsights.estresse && causalInsights.estresse.length > 0 && (
+                    <div>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Sensibilidade a Choques</span>
+                      <p className="text-sm font-medium text-rose-600 font-semibold">{causalInsights.estresse[0].cenario}: {causalInsights.estresse[0].impacto}</p>
+                    </div>
+                  )}
+
+                  {causalInsights.estresse && causalInsights.estresse.length > 1 && (
+                    <div className="pt-2">
+                      <button 
+                        onClick={() => setShowFullStressTests(!showFullStressTests)}
+                        className="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-600 transition-colors flex items-center gap-1"
+                      >
+                        {showFullStressTests ? "Ocultar análise completa" : "Ver análise completa de stress"}
+                      </button>
+                      
+                      {showFullStressTests && (
+                         <div className="mt-3 space-y-2">
+                           {causalInsights.estresse.slice(1).map((s: any, idx: number) => (
+                              <div key={idx} className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">{s.cenario}</p>
+                                <p className={cn("text-xs font-bold mt-1", s.status === 'danger' ? 'text-rose-600' : s.status === 'warning' ? 'text-amber-500' : 'text-emerald-500')}>{s.impacto}</p>
+                              </div>
+                           ))}
+                         </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 mt-auto">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Direcionamento Executivo</span>
+                    <p className="text-sm font-bold text-slate-900">{causalInsights.predictiveCausality?.movimentoRecomendado || "Monitoramento passivo de estrutura."}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bloco 3: Alocação de Capital (Decisão Institucional) */}
+              <div className="bg-slate-900 text-white rounded-[32px] p-8 shadow-xl flex flex-col h-full relative overflow-hidden border border-slate-800">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 blur-[60px] rounded-full pointer-events-none" />
+                <div className="flex justify-between items-start mb-6 relative z-10">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2">
+                    <PiggyBank size={14} className="text-amber-500" /> Decisão Institucional: Capital
+                  </h4>
+                  <span className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider bg-slate-800 border border-slate-700 text-slate-300">
+                    {causalInsights.capitalAllocation?.prioridadeFinanceira || "Estratégica"}
+                  </span>
+                </div>
+
+                <div className="space-y-4 flex-1 relative z-10">
+                  <div className="flex items-center justify-between border-b border-slate-800/50 pb-2">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Expansão</span>
+                    <span className="text-xs font-bold text-slate-200">{causalInsights.capitalAllocation?.expansao || "—"}</span>
+                  </div>
+                  <div className="flex items-center justify-between border-b border-slate-800/50 pb-2">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Preservação de Caixa</span>
+                    <span className="text-xs font-bold text-slate-200">{causalInsights.capitalAllocation?.preservacaoCaixa || "—"}</span>
+                  </div>
+                  <div className="flex items-center justify-between border-b border-slate-800/50 pb-2">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Eficiência Operacional</span>
+                    <span className="text-xs font-bold text-slate-200">{causalInsights.capitalAllocation?.eficienciaOperacional || "—"}</span>
+                  </div>
+                  <div className="flex items-center justify-between border-b border-slate-800/50 pb-2">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Monetização de Ativos</span>
+                    <span className="text-xs font-bold text-slate-200">{causalInsights.capitalAllocation?.monetizacaoAtivos || "—"}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Pressão Estrutural</span>
+                    <span className="text-xs font-bold text-rose-400">{causalInsights.capitalAllocation?.pressaoEstrutural || "—"}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bloco 4: Inteligência de Crescimento */}
+              <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col h-full hover:border-slate-300 transition-all">
+                <div className="flex justify-between items-start mb-6">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 flex items-center gap-2">
+                    <TrendingUp size={14} className="text-indigo-500" /> Inteligência de Crescimento
+                  </h4>
+                  <span className={cn("px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border",
+                    "bg-indigo-50 text-indigo-600 border-indigo-200"
+                  )}>
+                    {causalInsights.trendIntelligence?.tendenciaInstitucional || "Evolução"}
+                  </span>
+                </div>
+
+                <div className="space-y-5 flex-1">
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Exposição Estratégica</span>
+                    <p className="text-sm font-medium text-slate-800">{causalInsights.boardIntelligence?.exposicaoEstrategica || "N/A"}</p>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Vetor de Crescimento</span>
+                    <p className="text-sm font-medium text-slate-800">{causalInsights.boardIntelligence?.vetorCrescimento || "N/A"}</p>
+                  </div>
+                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Pressão Operacional</span>
+                    <p className="text-sm font-bold text-slate-900">{causalInsights.boardIntelligence?.pressaoOperacional || "N/A"}</p>
+                  </div>
+                </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Fragilidades */}
-                <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm transition-all hover:shadow-md">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-4">Fragilidades Estruturais</h4>
-                  <ul className="space-y-3">
-                    {causalInsights.fragilidades.map((f: string, i: number) => (
-                      <li key={i} className="flex gap-3 text-sm text-slate-600 font-medium">
-                        <span className="text-rose-500 mt-0.5 shrink-0">•</span>
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              {/* Bloco 5: Executive Historical Intelligence */}
+              <div className="md:col-span-2 bg-gradient-to-r from-slate-100 to-white rounded-[32px] p-8 border border-slate-200 shadow-inner flex flex-col md:flex-row gap-6 items-center">
+                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm text-slate-900 border border-slate-200">
+                   <Layers size={28} />
+                 </div>
+                 <div className="flex-1">
+                   <div className="flex items-center gap-3 mb-2">
+                     <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Memória Executiva</h4>
+                     <span className="px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest bg-slate-200 text-slate-600">Histórico de Ciclos</span>
+                   </div>
+                   <p className="text-slate-800 font-medium text-sm md:text-base leading-relaxed">
+                     {causalInsights.executiveHistoricalIntelligence?.parecerHistorico || "A matriz atual não reflete ciclos anteriores profundos o suficiente para evidenciar recorrência."}
+                   </p>
+                 </div>
+              </div>
 
-                {/* Implicações Estratégicas */}
-                <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm transition-all hover:shadow-md">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-4">Implicações Estratégicas</h4>
-                  <ul className="space-y-3">
-                    {causalInsights.estrategico.map((e: string, i: number) => (
-                      <li key={i} className="flex gap-3 text-sm text-slate-600 font-medium">
-                        <span className="text-indigo-500 mt-0.5 shrink-0">•</span>
-                        <span>{e}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            </div>
+          )}
+        </div>
+      )}
 
+      {/* =========================================================
+          CAMADA 3: EXECUTIVE FINANCIAL ANALYTICS
+          Detalhamento granular, gráficos e tabelas
+      ========================================================= */}
+      {hasData && (
+        <div className="mb-12">
+          <button 
+            onClick={() => setShowCamada3(!showCamada3)}
+            className="w-full flex items-center justify-between p-6 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-[24px] transition-all group"
+          >
+            <div className="flex items-center gap-4">
+               <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-black text-sm shadow-md">3</div>
+               <div className="text-left">
+                  <h3 className="text-lg font-black text-slate-900">Executive Financial Analytics</h3>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Cálculos • AV / AH • Gráficos</p>
+               </div>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-400 group-hover:text-slate-900 transition-colors border border-slate-100">
+               {showCamada3 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            </div>
+          </button>
 
-                {/* Impacto Estratégico Esperado */}
-                <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm md:col-span-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Impacto Estratégico Esperado</h4>
-                  <div className="space-y-3">
-                    {causalInsights.impactosEsperados.map((imp: any, idx: number) => (
-                      <div key={idx} className="flex flex-col md:flex-row md:items-center gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
-                        <span className="text-[11px] font-black uppercase tracking-widest text-emerald-600 md:w-1/3 shrink-0">{imp.acao}</span>
-                        <span className="text-sm font-medium text-slate-700">{imp.impacto}</span>
+          {showCamada3 && (
+            <div className="space-y-12 mt-8 animate-in fade-in slide-in-from-top-4 duration-500">
+              
+              {/* Detailed Progress Bars */}
+              <div>
+                <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Decomposição do Score Patrimonial</h3>
+                <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                  {[
+                    { label: 'Liquidez (25%)', val: hsLiquidez, color: 'emerald', explicacao: `Memória de Cálculo:\nLiquidez Corrente (${liqCorrente.toFixed(2)}) e Real (${liquidezReal.toFixed(2)}). Pondera a capacidade de honrar passivos curtos com ativos altamente conversíveis.` },
+                    { label: 'Estrutura (25%)', val: hsEstrutura, color: 'blue', explicacao: `Memória de Cálculo:\nQualidade do Endividamento (${(qualidadeEndividamento * 100).toFixed(2)}% curto prazo) e Dependência Bancária (${(dependenciaBancaria * 100).toFixed(2)}%). Penaliza alta concentração no curto prazo.` },
+                    { label: 'Cap. Giro (20%)', val: hsCapitalGiro, color: 'amber', explicacao: `Memória de Cálculo:\nNCG (${formatCurrency(ncg)}) vs AC (${formatCurrency(ac)}) e Concentração de Estoques (${(concentracaoEstoque * 100).toFixed(2)}%).` },
+                    { label: 'Solidez (20%)', val: hsPatrimonial, color: 'purple', explicacao: `Memória de Cálculo:\nAutonomia Financeira (${(autonomiaFinanceira * 100).toFixed(2)}%) e Índice de Descapitalização (${(indiceDescapitalizacao * 100).toFixed(2)}%). Mede a proteção do passivo pelo capital próprio.` },
+                    { label: 'Evolução (10%)', val: hsEvolucao, color: 'indigo', explicacao: `Memória de Cálculo:\nCrescimento YoY do Patrimônio Líquido frente ao ano anterior.` }
+                  ].map((hs, i) => (
+                    <div key={i} title={hs.explicacao} className={cn("border rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group cursor-help", 
+                      "bg-white border-slate-200 shadow-sm hover:shadow-md transition-all"
+                    )}>
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 block text-slate-500">{hs.label}</span>
+                      <div>
+                        <span className="text-3xl font-black tracking-tighter text-slate-800">{hs.val.toFixed(0)}</span>
+                        <div className="w-full h-1.5 rounded-full mt-3 overflow-hidden bg-slate-100">
+                          <div className={cn("h-full rounded-full transition-all duration-1000 ease-out", `bg-${hs.color}-500`)} style={{ width: `${hs.val}%` }} />
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Prioridades Estratégicas */}
-                <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm md:col-span-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Prioridades Estratégicas (Nível de Urgência)</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                    {causalInsights.prioridadesEstrategicas.map((p: any, idx: number) => (
-                      <div key={idx} className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex flex-col justify-between">
-                        <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">{p.nome}</p>
-                        <p className={cn("text-sm font-black", 
-                          p.status === 'Crítico' ? 'text-rose-600' : 
-                          p.status === 'Atenção' ? 'text-amber-500' : 
-                          p.status === 'Monitorar' ? 'text-blue-500' : 
-                          'text-emerald-500'
-                        )}>{p.status}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tendência e ICE */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:col-span-2">
-                  {/* Índice de Continuidade Empresarial */}
-                  <div className="bg-slate-900 rounded-[32px] p-8 text-white relative overflow-hidden shadow-xl flex flex-col justify-center">
-                    <div className="absolute top-0 right-0 w-48 h-48 bg-slate-800/50 blur-[50px] rounded-full" />
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 relative z-10">Índice de Continuidade Empresarial</h4>
-                    <div className="flex items-end gap-3 relative z-10">
-                      <span className={cn("text-5xl font-black tracking-tighter", 
-                        causalInsights.indiceContinuidade.color === 'emerald' ? 'text-emerald-400' :
-                        causalInsights.indiceContinuidade.color === 'amber' ? 'text-amber-400' :
-                        causalInsights.indiceContinuidade.color === 'blue' ? 'text-blue-400' :
-                        'text-rose-400'
-                      )}>{scores.indiceContinuidade}</span>
-                      <span className="text-sm font-bold text-slate-300 pb-2">/ 100</span>
                     </div>
-                    <p className="text-sm font-bold text-white mt-2 relative z-10">{causalInsights.indiceContinuidade.status}</p>
-                  </div>
+                  ))}
+                </div>
+              </div>
 
-                  {/* Tendência */}
-                  <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col items-start justify-center gap-4">
-                    <div className="shrink-0 w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center border border-slate-200">
-                      <TrendingUp className="text-slate-500" size={20} />
+              {/* ── Gráficos Adicionais Executivos ── */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Waterfall: Dinâmica de Capital de Giro */}
+                <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm col-span-1 md:col-span-2 lg:col-span-1 flex flex-col">
+                  <h3 className="text-lg font-black text-slate-900 mb-1">Dinâmica do Capital de Giro</h3>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">Waterfall de Liquidez Corrente</p>
+                  
+                  <div className="flex-1 min-h-[250px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={waterfallData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 800, fill: '#94a3b8' }} />
+                        <YAxis hide />
+                        <Tooltip 
+                          formatter={(value: number) => formatCurrency(value)}
+                          cursor={{ fill: '#f8fafc' }}
+                        />
+                        <Bar dataKey="value">
+                          {waterfallData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.isTotal ? '#3b82f6' : (entry.isPositive ? '#10b981' : '#ef4444')} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Heatmap: Concentração */}
+                <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm flex flex-col">
+                  <h3 className="text-lg font-black text-slate-900 mb-1">Mapa de Calor: Concentração</h3>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">Riscos de Exposição</p>
+                  
+                  <div className="flex-1 flex flex-col justify-center space-y-6">
+                    <div>
+                      <div className="flex justify-between items-end mb-2">
+                        <span className="text-xs font-black uppercase tracking-widest text-slate-500">Estoque / Ativo Circulante</span>
+                        <span className="text-sm font-bold">{bpSummary && bpSummary.ativoCirculante > 0 ? ((bpSummary.estoques / bpSummary.ativoCirculante) * 100).toFixed(1) : 0}%</span>
+                      </div>
+                      <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
+                        <div className="h-full bg-amber-500" style={{ width: `${bpSummary && bpSummary.ativoCirculante > 0 ? (bpSummary.estoques / bpSummary.ativoCirculante) * 100 : 0}%` }} />
+                      </div>
                     </div>
                     <div>
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Tendência Projetada</h4>
-                      <p className="text-sm font-bold text-slate-800">{causalInsights.tendencia}</p>
+                      <div className="flex justify-between items-end mb-2">
+                        <span className="text-xs font-black uppercase tracking-widest text-slate-500">Dívida CP / Passivo Total</span>
+                        <span className="text-sm font-bold">{bpSummary && bpSummary.passivoTotal > 0 ? ((bpSummary.passivoCirculante / bpSummary.passivoTotal) * 100).toFixed(1) : 0}%</span>
+                      </div>
+                      <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
+                        <div className="h-full bg-rose-500" style={{ width: `${bpSummary && bpSummary.passivoTotal > 0 ? (bpSummary.passivoCirculante / bpSummary.passivoTotal) * 100 : 0}%` }} />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between items-end mb-2">
+                        <span className="text-xs font-black uppercase tracking-widest text-slate-500">PL / Ativo Total (Autonomia)</span>
+                        <span className="text-sm font-bold">{bpSummary && bpSummary.ativoTotal > 0 ? ((bpSummary.patrimonioLiquido / bpSummary.ativoTotal) * 100).toFixed(1) : 0}%</span>
+                      </div>
+                      <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
+                        <div className="h-full bg-indigo-500" style={{ width: `${bpSummary && bpSummary.ativoTotal > 0 ? (bpSummary.patrimonioLiquido / bpSummary.ativoTotal) * 100 : 0}%` }} />
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Liquidity Quality Intelligence (LQI) */}
-                <div className="bg-emerald-900/5 rounded-[32px] p-8 border border-emerald-100 shadow-sm md:col-span-2">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
-                      <Activity className="text-emerald-600" size={16} />
-                    </div>
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600">Liquidity Quality Intelligence</h4>
-                  </div>
+                {/* Composição do Ativo */}
+                <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
+                  <h3 className="text-lg font-black text-slate-900 mb-1">Composição do Ativo</h3>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">Distribuição de Capital Investido</p>
                   
-                  <div className="bg-white p-5 rounded-2xl border border-emerald-100/50 shadow-sm mb-6">
-                    <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-2">Diagnóstico de Sustentabilidade</p>
-                    <p className="text-sm font-bold text-slate-800">{causalInsights.liquidityQuality.diagnostico}</p>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="bg-white p-4 rounded-2xl border border-emerald-100/50 shadow-sm">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Risco de Estrangulamento</p>
-                      <p className={cn("text-sm font-bold", causalInsights.liquidityQuality.riscoEstrangulamento.includes('Imediato') ? 'text-rose-500' : causalInsights.liquidityQuality.riscoEstrangulamento.includes('Latente') ? 'text-amber-500' : 'text-emerald-500')}>{causalInsights.liquidityQuality.riscoEstrangulamento}</p>
+                  <div className="flex items-center">
+                    <div className="h-64 w-1/2">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={ativoData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={60}
+                            outerRadius={80}
+                            paddingAngle={5}
+                            dataKey="value"
+                          >
+                            {ativoData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip 
+                            formatter={(value: number) => formatCurrency(value)}
+                            contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' }}
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
                     </div>
-                    <div className="bg-white p-4 rounded-2xl border border-emerald-100/50 shadow-sm">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Qualidade do Capital de Giro</p>
-                      <p className={cn("text-sm font-bold", causalInsights.liquidityQuality.qualidadeCapitalGiro.includes('Baixa') ? 'text-rose-500' : 'text-emerald-500')}>{causalInsights.liquidityQuality.qualidadeCapitalGiro}</p>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <div className="bg-white p-3 rounded-xl border border-emerald-100/30 flex flex-col items-center text-center">
-                      <span className="text-[9px] font-black uppercase tracking-wider text-emerald-500">Alta Conv.</span>
-                      <span className="text-xs font-bold mt-1 text-slate-700">{formatCurrency(causalInsights.liquidityQuality.metricas.alta)}</span>
-                    </div>
-                    <div className="bg-white p-3 rounded-xl border border-emerald-100/30 flex flex-col items-center text-center">
-                      <span className="text-[9px] font-black uppercase tracking-wider text-blue-500">Média Conv.</span>
-                      <span className="text-xs font-bold mt-1 text-slate-700">{formatCurrency(causalInsights.liquidityQuality.metricas.media)}</span>
-                    </div>
-                    <div className="bg-white p-3 rounded-xl border border-emerald-100/30 flex flex-col items-center text-center">
-                      <span className="text-[9px] font-black uppercase tracking-wider text-amber-500">Baixa Conv.</span>
-                      <span className="text-xs font-bold mt-1 text-slate-700">{formatCurrency(causalInsights.liquidityQuality.metricas.baixa)}</span>
-                    </div>
-                    <div className="bg-white p-3 rounded-xl border border-emerald-100/30 flex flex-col items-center text-center">
-                      <span className="text-[9px] font-black uppercase tracking-wider text-rose-500">Restrita</span>
-                      <span className="text-xs font-bold mt-1 text-slate-700">{formatCurrency(causalInsights.liquidityQuality.metricas.restrita)}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Elasticidade Financeira */}
-                <div className="bg-indigo-900/5 rounded-[32px] p-8 border border-indigo-100 shadow-sm md:col-span-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-6">Elasticidade Financeira (Capacidade Estrutural)</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="bg-white p-4 rounded-2xl border border-indigo-100/50 shadow-sm">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Absorção de Choques</p>
-                      <p className={cn("text-sm font-bold", causalInsights.elasticidadeFinanceira.capacidadeAbsorcaoChoques.includes('Nula') ? 'text-rose-500' : causalInsights.elasticidadeFinanceira.capacidadeAbsorcaoChoques.includes('Moderada') ? 'text-amber-500' : 'text-emerald-500')}>{causalInsights.elasticidadeFinanceira.capacidadeAbsorcaoChoques}</p>
-                    </div>
-                    <div className="bg-white p-4 rounded-2xl border border-indigo-100/50 shadow-sm">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Dependência Operacional</p>
-                      <p className={cn("text-sm font-bold", causalInsights.elasticidadeFinanceira.dependenciaOperacao.includes('sufocado') ? 'text-rose-500' : 'text-emerald-500')}>{causalInsights.elasticidadeFinanceira.dependenciaOperacao}</p>
-                    </div>
-                    <div className="bg-white p-4 rounded-2xl border border-indigo-100/50 shadow-sm">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Necessidade de Equity</p>
-                      <p className={cn("text-sm font-bold", causalInsights.elasticidadeFinanceira.necessidadeCapitalizacao.includes('Emergencial') ? 'text-rose-500' : causalInsights.elasticidadeFinanceira.necessidadeCapitalizacao.includes('Recomendada') ? 'text-amber-500' : 'text-emerald-500')}>{causalInsights.elasticidadeFinanceira.necessidadeCapitalizacao}</p>
-                    </div>
-                    <div className="bg-white p-4 rounded-2xl border border-indigo-100/50 shadow-sm">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Resiliência Estrutural</p>
-                      <p className={cn("text-sm font-bold", causalInsights.elasticidadeFinanceira.resilienciaEstrutural === 'Frágil' ? 'text-rose-500' : causalInsights.elasticidadeFinanceira.resilienciaEstrutural === 'Adequada' ? 'text-amber-500' : 'text-emerald-500')}>{causalInsights.elasticidadeFinanceira.resilienciaEstrutural}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Predição Sistêmica (Risco e Sobrevivência) */}
-                <div className="bg-slate-900 rounded-[32px] p-8 border border-slate-800 shadow-lg md:col-span-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Projeção de Risco e Sobrevivência</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Horizonte de Pressão</p>
-                      <p className={cn("text-sm font-bold", causalInsights.predicao.horizontePressao.includes('Curto Prazo') ? 'text-rose-400' : causalInsights.predicao.horizontePressao.includes('Médio Prazo') ? 'text-amber-400' : 'text-emerald-400')}>{causalInsights.predicao.horizontePressao}</p>
-                    </div>
-                    <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Risco de Ruptura</p>
-                      <p className={cn("text-sm font-bold", causalInsights.predicao.riscoRuptura.includes('Alto') ? 'text-rose-400' : causalInsights.predicao.riscoRuptura.includes('Moderado') ? 'text-amber-400' : 'text-emerald-400')}>{causalInsights.predicao.riscoRuptura}</p>
-                    </div>
-                    <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Dependência de Geração</p>
-                      <p className={cn("text-sm font-bold", causalInsights.predicao.dependenciaGeracao.includes('Alta') ? 'text-rose-400' : 'text-emerald-400')}>{causalInsights.predicao.dependenciaGeracao}</p>
-                    </div>
-                    <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Sensibilidade a Choques</p>
-                      <p className={cn("text-sm font-bold", causalInsights.predicao.sensibilidadeChoques.includes('Alta') ? 'text-rose-400' : causalInsights.predicao.sensibilidadeChoques.includes('Moderada') ? 'text-amber-400' : 'text-emerald-400')}>{causalInsights.predicao.sensibilidadeChoques}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Predictive Causality Engine */}
-                <div className="bg-gradient-to-r from-slate-900 to-indigo-950 rounded-[32px] p-8 border border-indigo-900 shadow-xl md:col-span-2 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-[60px] rounded-full pointer-events-none" />
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 mb-6 relative z-10 flex items-center gap-2">
-                    <Activity size={14} /> Predictive Causality (C-Level Warning)
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
-                    <div className="bg-slate-950/50 p-5 rounded-2xl border border-indigo-500/20">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-2">Ameaça Primária Projetada</p>
-                      <p className="text-sm font-medium text-white">{causalInsights.predictiveCausality?.primaryThreat || "—"}</p>
-                    </div>
-                    <div className="bg-slate-950/50 p-5 rounded-2xl border border-indigo-500/20">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-2">Tempo de Impacto</p>
-                      <p className="text-sm font-bold text-amber-400">{causalInsights.predictiveCausality?.timeToImpact || "—"}</p>
-                    </div>
-                    <div className="bg-slate-950/50 p-5 rounded-2xl border border-indigo-500/20">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-2">Mitigador Estratégico Exigido</p>
-                      <p className="text-sm font-medium text-emerald-400">{causalInsights.predictiveCausality?.mitigationFactor || "—"}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Sensibilidade Operacional (Simulação de Estresse) */}
-                <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm md:col-span-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Sensibilidade Operacional (Testes de Estresse)</h4>
-                  <div className="space-y-4">
-                    {causalInsights.estresse.map((s: any, idx: number) => (
-                      <div key={idx} className={cn(
-                        "p-5 rounded-2xl border flex flex-col md:flex-row md:items-center gap-4 transition-all hover:shadow-md",
-                        s.status === 'danger' ? "bg-rose-50/50 border-rose-100" : s.status === 'warning' ? "bg-amber-50/50 border-amber-100" : "bg-emerald-50/50 border-emerald-100"
-                      )}>
-                        <div className={cn(
-                          "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border",
-                          s.status === 'danger' ? "bg-rose-100 text-rose-600 border-rose-200" : s.status === 'warning' ? "bg-amber-100 text-amber-600 border-amber-200" : "bg-emerald-100 text-emerald-600 border-emerald-200"
-                        )}>
-                          {s.status === 'danger' ? <TrendingDown size={18} strokeWidth={2.5} /> : s.status === 'warning' ? <AlertCircle size={18} strokeWidth={2.5} /> : <TrendingUp size={18} strokeWidth={2.5} />}
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-[11px] font-black uppercase tracking-widest text-slate-500 mb-1">{s.cenario}</p>
-                          <p className={cn("text-sm font-semibold", s.status === 'danger' ? 'text-rose-900' : s.status === 'warning' ? 'text-amber-900' : 'text-emerald-900')}>{s.impacto}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* NEW SECTION: Board Intelligence & Governance */}
-                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                  
-                  {/* Trend Intelligence */}
-                  <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
-                      <TrendingUp size={14} /> Trend Intelligence
-                    </h4>
-                    <div className="space-y-4">
-                      <div>
-                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Direção Estrutural</p>
-                        <p className={cn("text-lg font-bold", causalInsights.trendIntelligence?.direcaoEstrutural.includes('Erosão') || causalInsights.trendIntelligence?.direcaoEstrutural.includes('Deterioração') ? 'text-rose-500' : causalInsights.trendIntelligence?.direcaoEstrutural.includes('Recuperação') || causalInsights.trendIntelligence?.direcaoEstrutural.includes('Positiva') ? 'text-emerald-500' : 'text-amber-500')}>{causalInsights.trendIntelligence?.direcaoEstrutural}</p>
-                      </div>
-                      <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                        <p className="text-sm font-medium text-slate-600 leading-relaxed">{causalInsights.trendIntelligence?.parecerEvolutivo}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Board Intelligence */}
-                  <div className="bg-slate-900 rounded-[32px] p-8 border border-slate-800 shadow-lg text-white">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
-                      <Target size={14} /> Board Intelligence
-                    </h4>
-                    <div className="space-y-4">
-                      <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
-                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Suporta Crescimento Acelerado?</p>
-                        <p className={cn("text-sm font-semibold", causalInsights.boardIntelligence?.suportaCrescimento.includes('Não') ? 'text-rose-400' : causalInsights.boardIntelligence?.suportaCrescimento.includes('Condicionado') ? 'text-amber-400' : 'text-emerald-400')}>{causalInsights.boardIntelligence?.suportaCrescimento}</p>
-                      </div>
-                      <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
-                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Resiliência do Modelo</p>
-                        <p className={cn("text-sm font-semibold", causalInsights.boardIntelligence?.resilienciaModelo.includes('Frágil') ? 'text-rose-400' : 'text-emerald-400')}>{causalInsights.boardIntelligence?.resilienciaModelo}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Governance Risks */}
-                  <div className="md:col-span-2 bg-rose-50/30 rounded-[32px] p-8 border border-rose-100 shadow-sm">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-400 mb-6 flex items-center gap-2">
-                      <AlertTriangle size={14} /> Governance & Strategic Risks
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {causalInsights.governanceRisks?.map((risk: any, idx: number) => (
-                        <div key={idx} className={cn(
-                          "bg-white p-5 rounded-2xl border shadow-sm",
-                          risk.taxonomia === 'Operacional' && risk.descricao.includes('normalidade') ? "border-emerald-100" : "border-rose-100"
-                        )}>
-                          <span className={cn(
-                            "inline-block px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg mb-3",
-                            risk.taxonomia === 'Operacional' && risk.descricao.includes('normalidade') ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"
-                          )}>
-                            Risco {risk.taxonomia}
-                          </span>
-                          <p className="text-sm font-medium text-slate-700">{risk.descricao}</p>
+                    <div className="w-1/2 pl-4 space-y-3">
+                      {ativoData.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-3">
+                          <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
+                          <div>
+                             <p className="text-[10px] font-black uppercase tracking-wider text-slate-500 truncate" title={item.name}>{item.name}</p>
+                             <p className="text-sm font-bold text-slate-800">{formatCurrency(item.value)}</p>
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
-
-                  {/* NOVO: Board Narrative Engine */}
-                  <div className="md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 rounded-[32px] p-8 border border-slate-700 shadow-xl mt-4 text-white">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
-                      <BookOpen size={14} className="text-indigo-400" /> Board Narrative Engine
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <div className="bg-slate-950/50 p-5 rounded-2xl border border-slate-700/50">
-                        <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">Visão Sintética</p>
-                        <p className="text-sm font-medium text-slate-300 leading-relaxed">{causalInsights.boardNarrative?.visaoSintetica}</p>
-                      </div>
-                      <div className="bg-slate-950/50 p-5 rounded-2xl border border-slate-700/50">
-                        <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">Racionalidade Econômica</p>
-                        <p className="text-sm font-medium text-slate-300 leading-relaxed">{causalInsights.boardNarrative?.racionalidadeEconomica}</p>
-                      </div>
-                      <div className="bg-slate-950/50 p-5 rounded-2xl border border-slate-700/50">
-                        <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-2">Visão do Acionista</p>
-                        <p className="text-sm font-medium text-slate-300 leading-relaxed">{causalInsights.boardNarrative?.visaoAcionista}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* NOVO: Capital Allocation & Value Protection */}
-                  <div className="md:col-span-2 grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2">
-                    <div className="bg-amber-50/50 rounded-[32px] p-8 border border-amber-100 shadow-sm">
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-600 mb-6 flex items-center gap-2">
-                        <PiggyBank size={14} /> Capital Allocation Engine
-                      </h4>
-                      <div className="space-y-3">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-50">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Preservar</span>
-                          <span className="text-sm font-semibold text-slate-700 text-right">{causalInsights.capitalAllocation?.preservar}</span>
-                        </div>
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-50">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Desacelerar</span>
-                          <span className="text-sm font-semibold text-slate-700 text-right">{causalInsights.capitalAllocation?.desacelerar}</span>
-                        </div>
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-50">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Monetizar</span>
-                          <span className="text-sm font-semibold text-slate-700 text-right">{causalInsights.capitalAllocation?.monetizar}</span>
-                        </div>
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-50">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Maior Retorno</span>
-                          <span className="text-sm font-semibold text-slate-700 text-right">{causalInsights.capitalAllocation?.maiorRetorno}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="bg-rose-50/30 rounded-[32px] p-8 border border-rose-100 shadow-sm">
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-6 flex items-center gap-2">
-                        <ShieldAlert size={14} /> Value Protection Engine
-                      </h4>
-                      <div className="space-y-4">
-                        <div className="bg-white p-4 rounded-2xl border border-rose-50">
-                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Erosão Silenciosa (Destruição)</p>
-                          <p className="text-sm font-semibold text-rose-700">{causalInsights.valueProtection?.fatorErosaoSilenciosa}</p>
-                        </div>
-                        <div className="bg-white p-4 rounded-2xl border border-rose-50">
-                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Redução de Resiliência</p>
-                          <p className="text-sm font-semibold text-slate-700">{causalInsights.valueProtection?.reducaoResiliencia}</p>
-                        </div>
-                        <div className="bg-white p-4 rounded-2xl border border-rose-50">
-                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Risco de Expansão</p>
-                          <p className="text-sm font-semibold text-slate-700">{causalInsights.valueProtection?.riscoExpansao}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Management Decision Intelligence */}
-                  <div className="md:col-span-2 bg-gradient-to-br from-indigo-50/50 to-white rounded-[32px] p-8 border border-indigo-100 shadow-sm mt-2">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 mb-6 flex items-center gap-2">
-                      <Lightbulb size={14} /> Management Decision Intelligence
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-white p-4 rounded-2xl border border-indigo-50">
-                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Qual ação melhora o caixa mais rápido?</p>
-                        <p className="text-sm font-semibold text-slate-700">{causalInsights.managementDecisions?.melhoraCaixaRapido}</p>
-                      </div>
-                      <div className="bg-white p-4 rounded-2xl border border-indigo-50">
-                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">O que ameaça a continuidade?</p>
-                        <p className="text-sm font-semibold text-slate-700">{causalInsights.managementDecisions?.ameacaContinuidade}</p>
-                      </div>
-                      <div className="bg-white p-4 rounded-2xl border border-indigo-50">
-                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">O que reduz o risco estrutural?</p>
-                        <p className="text-sm font-semibold text-slate-700">{causalInsights.managementDecisions?.reduzRiscoEstrutural}</p>
-                      </div>
-                      <div className="bg-white p-4 rounded-2xl border border-indigo-50">
-                        <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Maior relação Impacto x Velocidade</p>
-                        <p className="text-sm font-semibold text-slate-700">{causalInsights.managementDecisions?.maiorImpactoVelocidade}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* NOVO: Value Creation Engine & Treasury Intelligence */}
-                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
-                    <div className="bg-emerald-50/30 rounded-[32px] p-8 border border-emerald-100 shadow-sm">
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500 mb-6 flex items-center gap-2">
-                        <Gem size={14} /> Value Creation Engine
-                      </h4>
-                      <div className="space-y-4">
-                        <div className="bg-white p-4 rounded-2xl border border-emerald-50">
-                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Tipo de Crescimento</p>
-                          <p className="text-sm font-bold text-emerald-700">{causalInsights.valueCreation?.tipoCrescimento}</p>
-                        </div>
-                        <div className="bg-white p-4 rounded-2xl border border-emerald-50">
-                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Fator de Destruição Econômica</p>
-                          <p className="text-sm font-semibold text-rose-600">{causalInsights.valueCreation?.fatorDestruicao}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="bg-blue-50/30 rounded-[32px] p-8 border border-blue-100 shadow-sm">
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 mb-6 flex items-center gap-2">
-                        <ShieldCheck size={14} /> Treasury Intelligence
-                      </h4>
-                      <div className="space-y-4">
-                        <div className="bg-white p-4 rounded-2xl border border-blue-50">
-                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Linha d'Água da Tesouraria</p>
-                          <p className="text-sm font-semibold text-blue-700">{causalInsights.treasuryIntelligence?.linhaAgua}</p>
-                        </div>
-                        <div className="bg-white p-4 rounded-2xl border border-blue-50">
-                          <p className="text-[10px] uppercase tracking-wider text-slate-400 mb-1">Ponto de Ruptura</p>
-                          <p className="text-sm font-semibold text-blue-700">{causalInsights.treasuryIntelligence?.pontoRuptura}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* NOVO: Executive Action Matrix */}
-                  <div className="md:col-span-2 bg-slate-950 rounded-[32px] p-8 border border-slate-800 shadow-xl mt-2 text-white overflow-hidden relative">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-[80px] rounded-full pointer-events-none" />
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2 relative z-10">
-                      <Crosshair size={14} /> Executive Action Matrix (Priorizada)
-                    </h4>
-                    <div className="overflow-x-auto relative z-10">
-                      <table className="w-full text-left border-collapse">
-                        <thead>
-                          <tr className="border-b border-slate-800">
-                            <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Prioridade</th>
-                            <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Ação Recomendada</th>
-                            <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Impacto</th>
-                            <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Velocidade</th>
-                            <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Complexidade</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {causalInsights.strategicActionMatrix?.map((action: any, idx: number) => (
-                            <tr key={idx} className="border-b border-slate-800/50 hover:bg-slate-900 transition-colors">
-                              <td className="py-4 px-4">
-                                <span className={cn(
-                                  "px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg",
-                                  action.prioridade === 'Imediata' ? "bg-rose-500/20 text-rose-400 border border-rose-500/20" :
-                                  action.prioridade === 'Alta' ? "bg-amber-500/20 text-amber-400 border border-amber-500/20" :
-                                  action.prioridade === 'Moderada' ? "bg-blue-500/20 text-blue-400 border border-blue-500/20" :
-                                  "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
-                                )}>
-                                  {action.prioridade}
-                                </span>
-                              </td>
-                              <td className="py-4 px-4 font-medium text-sm text-slate-200">{action.acao}</td>
-                              <td className="py-4 px-4 text-sm text-slate-400">{action.impacto}</td>
-                              <td className="py-4 px-4 text-sm text-slate-400">{action.velocidade}</td>
-                              <td className="py-4 px-4 text-sm text-slate-400">{action.complexidade}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
                 </div>
 
+                {/* Composição do Passivo */}
+                <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
+                  <h3 className="text-lg font-black text-slate-900 mb-1">Composição do Passivo</h3>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">Origem de Capital de Terceiros</p>
+                  
+                  <div className="flex items-center">
+                    <div className="h-64 w-1/2">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={passivoData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={60}
+                            outerRadius={80}
+                            paddingAngle={5}
+                            dataKey="value"
+                          >
+                            {passivoData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip 
+                            formatter={(value: number) => formatCurrency(value)}
+                            contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' }}
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                    <div className="w-1/2 pl-4 space-y-3">
+                      {passivoData.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-3">
+                          <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
+                          <div>
+                             <p className="text-[10px] font-black uppercase tracking-wider text-slate-500 truncate" title={item.name}>{item.name}</p>
+                             <p className="text-sm font-bold text-slate-800">{formatCurrency(item.value)}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          ) : (
-             <div className="col-span-full py-12 text-center opacity-50 bg-slate-50 rounded-[32px] border border-dashed border-slate-200">
-               <Database size={32} className="mx-auto mb-4 text-slate-400" />
-               <p className="text-sm font-bold text-slate-500">Aguardando consolidação dos demonstrativos contábeis para emissão do parecer executivo estrutural.</p>
-             </div>
-          )}
-        </div>
-      </div>
 
-      {/* ── Indicadores Estratégicos Originais e Expandidos ── */}
-      <div className="space-y-8 mb-10">
-        <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Inteligência de Capital de Giro & Tesouraria</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <KpiCard title="Capital de Giro Líquido" value={formatKpiValue(cgl, true)} suffix="" icon={Database} status={getKpiStatus(cgl > 0)} />
-            <KpiCard title="Necessidade de Giro (NCG)" value={formatKpiValue(ncg, true)} suffix="" icon={TrendingUp} status={getKpiStatus(ncg < cgl)} />
-            <KpiCard title="Saldo de Tesouraria" value={formatKpiValue(saldoTesouraria, true)} suffix="" icon={BookOpen} status={getKpiStatus(saldoTesouraria > 0)} />
-            <KpiCard title="Status da Tesouraria" value={treasuryStatus || 'Pendente'} suffix="" icon={Activity} status={treasuryStatus === 'Robusta' ? 'success' : (treasuryStatus === 'Sensível' || treasuryStatus === 'Estável' ? 'warning' : 'danger')} />
-        </div>
-
-        <div>
-          <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Índices de Liquidez (Tradicional e Real)</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-
-            {liquidityIndices.map((idx, i) => (
-              <KpiCard 
-                key={i}
-                title={idx.name}
-                value={formatKpiValue(idx.val)}
-                suffix=""
-                icon={TrendingUp}
-                status={hasData ? idx.status : 'Pendente'}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-            {/* ── Análise de Evolução e Gráficos ─────────────────────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-        <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-slate-50/50 to-transparent pointer-events-none" />
-          
-          <div className="flex items-center justify-between mb-8 relative z-10">
-            <div>
-              <h3 className="text-lg font-black text-slate-900">Evolução Patrimonial</h3>
-              <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mt-1">Comparativo de 5 Anos</p>
-            </div>
-            <div className="flex gap-5 bg-slate-50 px-4 py-2 rounded-full border border-slate-100">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Ativo</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-slate-400 shadow-[0_0_8px_rgba(148,163,184,0.5)]" />
-                <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Passivo</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
-                <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">PL</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="h-[320px] w-full relative z-10">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="colorAtivo" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                  </linearGradient>
-                  <linearGradient id="colorPassivo" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#94a3b8" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#94a3b8" stopOpacity={0}/>
-                  </linearGradient>
-                  <linearGradient id="colorPl" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis 
-                  dataKey="year" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fontSize: 10, fontWeight: 800, fill: '#94a3b8' }} 
-                  dy={10}
-                />
-                <YAxis hide />
-                <Tooltip 
-                  cursor={{ stroke: '#e2e8f0', strokeWidth: 1, strokeDasharray: '4 4' }}
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      return (
-                        <div className="bg-slate-900/90 text-white p-5 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-xl">
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-white/50">{payload[0].payload.year}</p>
-                          <div className="space-y-3">
-                            {payload.map((p: any, idx: number) => (
-                              <div key={idx} className="flex items-center justify-between gap-10">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: p.color }} />
-                                  <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">{p.name}</span>
+              {/* ── Análise de Evolução e Gráficos ── */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-slate-50/50 to-transparent pointer-events-none" />
+                  
+                  <div className="flex items-center justify-between mb-8 relative z-10">
+                    <div>
+                      <h3 className="text-lg font-black text-slate-900">Evolução Patrimonial</h3>
+                      <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mt-1">Comparativo de 5 Anos</p>
+                    </div>
+                    <div className="flex gap-5 bg-slate-50 px-4 py-2 rounded-full border border-slate-100">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Ativo</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-slate-400 shadow-[0_0_8px_rgba(148,163,184,0.5)]" />
+                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Passivo</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
+                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">PL</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="h-[320px] w-full relative z-10">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="colorAtivo" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                          </linearGradient>
+                          <linearGradient id="colorPassivo" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#94a3b8" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#94a3b8" stopOpacity={0}/>
+                          </linearGradient>
+                          <linearGradient id="colorPl" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                        <XAxis 
+                          dataKey="year" 
+                          axisLine={false} 
+                          tickLine={false} 
+                          tick={{ fontSize: 10, fontWeight: 800, fill: '#94a3b8' }} 
+                          dy={10}
+                        />
+                        <YAxis hide />
+                        <Tooltip 
+                          cursor={{ stroke: '#e2e8f0', strokeWidth: 1, strokeDasharray: '4 4' }}
+                          content={({ active, payload }) => {
+                            if (active && payload && payload.length) {
+                              return (
+                                <div className="bg-slate-900/90 text-white p-5 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-xl">
+                                  <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-white/50">{payload[0].payload.year}</p>
+                                  <div className="space-y-3">
+                                    {payload.map((p: any, idx: number) => (
+                                      <div key={idx} className="flex items-center justify-between gap-10">
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: p.color }} />
+                                          <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">{p.name}</span>
+                                        </div>
+                                        <span className="text-xs font-black tabular-nums">{formatCurrency(p.value)}</span>
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
-                                <span className="text-xs font-black tabular-nums">{formatCurrency(p.value)}</span>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                        <Area type="monotone" dataKey="ativo" name="Ativo" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorAtivo)" />
+                        <Area type="monotone" dataKey="passivo" name="Passivo" stroke="#94a3b8" strokeWidth={3} fillOpacity={1} fill="url(#colorPassivo)" />
+                        <Area type="monotone" dataKey="pl" name="PL" stroke="#a855f7" strokeWidth={3} fillOpacity={1} fill="url(#colorPl)" />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                <div className="bg-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+                  
+                  <h3 className="text-lg font-black mb-1">Destaques da Evolução</h3>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-8">Variações Significativas (YoY)</p>
+                  
+                  <div className="space-y-6 flex-1">
+                    {majorChanges.map((change, i) => (
+                      <div key={i} className="flex items-start gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
+                        <div className={cn(
+                          "p-2 rounded-xl shrink-0",
+                          change.ah > 0 ? "bg-emerald-500/20 text-emerald-400" : "bg-rose-500/20 text-rose-400"
+                        )}>
+                          {change.ah > 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                        </div>
+                        <div>
+                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{change.name || change.conta}</p>
+                          <p className="text-sm font-bold">{formatCurrency(change.val)}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className={cn("text-[10px] font-black", change.ah > 0 ? "text-emerald-400" : "text-rose-400")}>
+                              {change.ah > 0 ? '+' : ''}{change.ah.toFixed(2)}%
+                            </span>
+                            <span className="text-[9px] text-white/30 font-medium">vs ano anterior</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {majorChanges.length === 0 && (
+                      <div className="flex flex-col items-center justify-center py-10 opacity-50 text-center px-4">
+                        <Info size={32} className="mb-3 text-slate-300" />
+                        <p className="text-xs font-bold text-slate-400">Estabilidade Estrutural</p>
+                        <p className="text-[10px] mt-1 text-slate-500 font-medium">A arquitetura de capital não sofreu realocações bruscas entre os ciclos avaliados.</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* ── Tabelas Detalhadas com AV/AH ── */}
+              <div>
+                <div className="flex items-center justify-between px-2 mb-4">
+                  <div>
+                    <h3 className="text-lg font-black text-slate-900">Análise Estrutural Detalhada</h3>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mt-1">Composição Horizontal e Vertical</p>
+                  </div>
+                  <div className="flex gap-4">
+                     <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-slate-200 shadow-sm">
+                       <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+                       <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">AV: Análise Vertical</span>
+                     </div>
+                     <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-slate-200 shadow-sm">
+                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                       <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">AH: Análise Horizontal</span>
+                     </div>
+                  </div>
+                </div>
+
+                {rows.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-24 bg-white rounded-[40px] border border-dashed border-slate-200 shadow-sm">
+                    <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+                      <Calendar size={28} className="text-slate-300" />
+                    </div>
+                    <p className="text-sm font-black text-slate-500">Nenhum dado encontrado</p>
+                    <p className="text-xs font-medium text-slate-400 mt-2">
+                      Importe ou insira manualmente os dados para o ano {filterYear}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-8">
+                    {[
+                      { title: 'Ativo', data: comparativeAnalysis.filter(r => (r.tipo || r.type || '').toLowerCase().includes('ativo')), color: 'emerald' },
+                      { title: 'Passivo', data: comparativeAnalysis.filter(r => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('passivo') && !t.includes('patrimônio') && !t.includes('pl'); }), color: 'blue' },
+                      { title: 'Patrimônio Líquido', data: comparativeAnalysis.filter(r => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('patrimônio') || t.includes('pl'); }), color: 'purple' }
+                    ].map((section, idx) => (
+                      <div key={idx} className="bg-white border border-slate-100 rounded-[32px] shadow-sm overflow-hidden group">
+                        <div className={cn("px-6 py-5 border-b flex items-center justify-between bg-slate-50/50", `border-${section.color}-100/50`)}>
+                          <div className="flex items-center gap-3">
+                            <div className={cn("w-2 h-6 rounded-full", `bg-${section.color}-500`)} />
+                            <h4 className="text-base font-black text-slate-900 tracking-tight">{section.title}</h4>
+                          </div>
+                          <span className={cn("text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full", `bg-${section.color}-50 text-${section.color}-600`)}>
+                            Detalhamento Estrutural
+                          </span>
+                        </div>
+                        
+                        <div className="p-2">
+                          <div className="flex items-center px-4 py-3 border-b border-slate-100/50 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                            <div className="flex-1">Conta Contábil</div>
+                            <div className="w-32 text-right">Saldo (R$)</div>
+                            <div className="w-24 text-right">AV (%)</div>
+                            <div className="w-28 text-right">AH (%)</div>
+                          </div>
+                          
+                          <div className="space-y-1 mt-2">
+                            {section.data.map((row: any, i: number) => (
+                              <div key={i} className={cn(
+                                "flex items-center px-4 py-3 rounded-2xl transition-all duration-200 hover:bg-slate-50",
+                                row.level === 1 ? "bg-slate-50/50" : ""
+                              )}>
+                                <div className="flex-1 flex items-center">
+                                  <span 
+                                    className={cn(
+                                      "text-xs block truncate pr-4", 
+                                      row.level === 1 ? "font-black text-slate-800" : "font-semibold text-slate-500"
+                                    )}
+                                    style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 16}px` : '0px' }}
+                                  >
+                                    {row.level > 1 && (
+                                      <span className="inline-block w-3 h-[1px] bg-slate-300 mr-2 align-middle opacity-50" />
+                                    )}
+                                    {(row.name || row.conta) === 'Patrimônio Líquido' ? 'Patrimônio' : (row.name || row.conta)}
+                                  </span>
+                                </div>
+                                
+                                <div className="w-32 text-right font-display text-sm font-bold text-slate-700 tabular-nums">
+                                  {formatCurrency(row.val)}
+                                </div>
+                                
+                                <div className="w-24 text-right flex flex-col items-end justify-center">
+                                  <span className={cn(
+                                    "inline-flex items-center justify-center px-2 py-1 rounded-lg text-[10px] font-black tabular-nums border",
+                                    row.av > 100 ? "bg-rose-50 text-rose-600 border-rose-200" : "bg-slate-100/50 text-slate-500 border-slate-200/50"
+                                  )}>
+                                    {row.av > 100 ? '> 100%' : `${row.av.toFixed(2)}%`}
+                                  </span>
+                                </div>
+                                
+                                <div className="w-28 text-right flex justify-end">
+                                  {row.ah !== 0 ? (
+                                    <span className={cn(
+                                      "inline-flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-black tabular-nums border",
+                                      row.ah > 0 ? "bg-emerald-50 text-emerald-600 border-emerald-100" : row.ah < 0 ? "bg-rose-50 text-rose-600 border-rose-100" : "bg-slate-50 text-slate-400 border-slate-200"
+                                    )}>
+                                      {row.ah > 0 ? <TrendingUp size={10} strokeWidth={3} /> : <TrendingDown size={10} strokeWidth={3} />}
+                                      {Math.abs(row.ah).toFixed(2)}%
+                                    </span>
+                                  ) : (
+                                     <span className="inline-flex items-center justify-center px-2 py-1 text-slate-300 text-[10px] font-black">
+                                       —
+                                     </span>
+                                  )}
+                                </div>
                               </div>
                             ))}
                           </div>
                         </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                <Area type="monotone" dataKey="ativo" name="Ativo" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorAtivo)" />
-                <Area type="monotone" dataKey="passivo" name="Passivo" stroke="#94a3b8" strokeWidth={3} fillOpacity={1} fill="url(#colorPassivo)" />
-                <Area type="monotone" dataKey="pl" name="PL" stroke="#a855f7" strokeWidth={3} fillOpacity={1} fill="url(#colorPl)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="bg-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-          
-          <h3 className="text-lg font-black mb-1">Destaques da Evolução</h3>
-          <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-8">Variações Significativas (YoY)</p>
-          
-          <div className="space-y-6 flex-1">
-            {majorChanges.map((change, i) => (
-              <div key={i} className="flex items-start gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
-                <div className={cn(
-                  "p-2 rounded-xl shrink-0",
-                  change.ah > 0 ? "bg-emerald-500/20 text-emerald-400" : "bg-rose-500/20 text-rose-400"
-                )}>
-                  {change.ah > 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-                </div>
-                <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{change.name || change.conta}</p>
-                  <p className="text-sm font-bold">{formatCurrency(change.val)}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className={cn("text-[10px] font-black", change.ah > 0 ? "text-emerald-400" : "text-rose-400")}>
-                      {change.ah > 0 ? '+' : ''}{change.ah.toFixed(2)}%
-                    </span>
-                    <span className="text-[9px] text-white/30 font-medium">vs ano anterior</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-            {majorChanges.length === 0 && (
-              <div className="flex flex-col items-center justify-center py-10 opacity-50 text-center px-4">
-                <Info size={32} className="mb-3 text-slate-300" />
-                <p className="text-xs font-bold text-slate-400">Estabilidade Estrutural</p>
-                <p className="text-[10px] mt-1 text-slate-500 font-medium">A arquitetura de capital não sofreu realocações bruscas entre os ciclos avaliados.</p>
-              </div>
-            )}
-          </div>
-          
-          <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-3">
-             <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
-                <Database size={18} className="text-white" />
-             </div>
-             <div>
-               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Inteligência de Dados</p>
-               <p className="text-[10px] font-medium text-white/70 italic">Análise baseada em 5 ciclos históricos</p>
-             </div>
-          </div>
-        </div>
-      </div>
-
-            {/* ── Tabelas Detalhadas com AV/AH ─────────────────────────────────── */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between px-2 mb-2">
-          <div>
-            <h3 className="text-lg font-black text-slate-900">Análise Estrutural Detalhada</h3>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mt-1">Composição Horizontal e Vertical</p>
-          </div>
-          <div className="flex gap-4">
-             <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-slate-200 shadow-sm">
-               <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-               <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">AV: Análise Vertical</span>
-             </div>
-             <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-slate-200 shadow-sm">
-               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-               <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">AH: Análise Horizontal</span>
-             </div>
-          </div>
-        </div>
-
-        {rows.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 bg-white rounded-[40px] border border-dashed border-slate-200 shadow-sm">
-            <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-              <Calendar size={28} className="text-slate-300" />
-            </div>
-            <p className="text-sm font-black text-slate-500">Nenhum dado encontrado</p>
-            <p className="text-xs font-medium text-slate-400 mt-2">
-              Importe ou insira manualmente os dados para o ano {filterYear}
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-8">
-            {/* Seções de Tabelas */}
-            {[
-              { title: 'Ativo', data: comparativeAnalysis.filter(r => (r.tipo || r.type || '').toLowerCase().includes('ativo')), color: 'emerald' },
-              { title: 'Passivo', data: comparativeAnalysis.filter(r => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('passivo') && !t.includes('patrimônio') && !t.includes('pl'); }), color: 'blue' },
-              { title: 'Patrimônio Líquido', data: comparativeAnalysis.filter(r => { const t = (r.tipo || r.type || '').toLowerCase(); return t.includes('patrimônio') || t.includes('pl'); }), color: 'purple' }
-            ].map((section, idx) => (
-              <div key={idx} className="bg-white border border-slate-100 rounded-[32px] shadow-sm overflow-hidden group">
-                <div className={cn("px-6 py-5 border-b flex items-center justify-between bg-slate-50/50", `border-${section.color}-100/50`)}>
-                  <div className="flex items-center gap-3">
-                    <div className={cn("w-2 h-6 rounded-full", `bg-${section.color}-500`)} />
-                    <h4 className="text-base font-black text-slate-900 tracking-tight">{section.title}</h4>
-                  </div>
-                  <span className={cn("text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full", `bg-${section.color}-50 text-${section.color}-600`)}>
-                    Detalhamento Estrutural
-                  </span>
-                </div>
-                
-                <div className="p-2">
-                  {/* Header Row */}
-                  <div className="flex items-center px-4 py-3 border-b border-slate-100/50 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                    <div className="flex-1">Conta Contábil</div>
-                    <div className="w-32 text-right">Saldo (R$)</div>
-                    <div className="w-24 text-right">AV (%)</div>
-                    <div className="w-28 text-right">AH (%)</div>
-                  </div>
-                  
-                  {/* Data Rows */}
-                  <div className="space-y-1 mt-2">
-                    {section.data.map((row: any, i: number) => (
-                      <div key={i} className={cn(
-                        "flex items-center px-4 py-3 rounded-2xl transition-all duration-200 hover:bg-slate-50",
-                        row.level === 1 ? "bg-slate-50/50" : ""
-                      )}>
-                        <div className="flex-1 flex items-center">
-                          <span 
-                            className={cn(
-                              "text-xs block truncate pr-4", 
-                              row.level === 1 ? "font-black text-slate-800" : "font-semibold text-slate-500"
-                            )}
-                            style={{ paddingLeft: row.level > 1 ? `${(row.level - 1) * 16}px` : '0px' }}
-                          >
-                            {row.level > 1 && (
-                              <span className="inline-block w-3 h-[1px] bg-slate-300 mr-2 align-middle opacity-50" />
-                            )}
-                            {(row.name || row.conta) === 'Patrimônio Líquido' ? 'Patrimônio' : (row.name || row.conta)}
-                          </span>
-                        </div>
-                        
-                        <div className="w-32 text-right font-display text-sm font-bold text-slate-700 tabular-nums">
-                          {formatCurrency(row.val)}
-                        </div>
-                        
-                        <div className="w-24 text-right flex flex-col items-end justify-center">
-                          <span className={cn(
-                            "inline-flex items-center justify-center px-2 py-1 rounded-lg text-[10px] font-black tabular-nums border",
-                            row.av > 100 ? "bg-rose-50 text-rose-600 border-rose-200" : "bg-slate-100/50 text-slate-500 border-slate-200/50"
-                          )}>
-                            {row.av > 100 ? '> 100%' : `${row.av.toFixed(2)}%`}
-                          </span>
-                          {row.av > 100 && (
-                            <span className="text-[7.5px] font-bold uppercase tracking-widest text-rose-500 mt-1 opacity-70" title={`Representa ${row.av.toFixed(2)}% do Ativo (Passivo a Descoberto)`}>
-                              Passivo a Descoberto
-                            </span>
-                          )}
-                        </div>
-                        
-                        <div className="w-28 text-right flex justify-end">
-                          {row.ah !== 0 ? (
-                            <span className={cn(
-                              "inline-flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-black tabular-nums border",
-                              row.ah > 0 ? "bg-emerald-50 text-emerald-600 border-emerald-100" : row.ah < 0 ? "bg-rose-50 text-rose-600 border-rose-100" : "bg-slate-50 text-slate-400 border-slate-200"
-                            )}>
-                              {row.ah > 0 ? <TrendingUp size={10} strokeWidth={3} /> : <TrendingDown size={10} strokeWidth={3} />}
-                              {Math.abs(row.ah).toFixed(2)}%
-                            </span>
-                          ) : (
-                             <span className="inline-flex items-center justify-center px-2 py-1 text-slate-300 text-[10px] font-black">
-                               —
-                             </span>
-                          )}
-                        </div>
                       </div>
                     ))}
                   </div>
-                </div>
+                )}
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+            </div>
+          )}
+        </div>
+      )}
 
       {/* ── Comentário Executivo ─────────────────────────────────────────── */}
       <ExecutiveCommentary
@@ -1377,4 +1459,5 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       )}
     </div>
   );
+
 }

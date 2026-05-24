@@ -17,6 +17,7 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
   const { dbData, loading, error } = useHistoricalDemonstracoes(clientId, selectedYear);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientName, setClientName] = useState<string>('Empresa');
+  const [clientData, setClientData] = useState<any>(null);
 
   useEffect(() => {
     async function fetchClient() {
@@ -25,6 +26,7 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
       if (snap.exists()) {
         const data = snap.data();
         setClientName(data.fantasia || data.razao || 'Empresa');
+        setClientData(data);
       }
     }
     fetchClient();
@@ -251,6 +253,7 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
         clientId={clientId}
         companyName={clientName}
         financialData={dbData}
+        clientData={clientData}
       />
     </div>
   );

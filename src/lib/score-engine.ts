@@ -1,6 +1,8 @@
 import { BPSummary } from './bpEngine';
 import { FinancialMetrics } from './financial-engine';
 import { getIndustryWeights } from './industry-engine';
+import { BusinessIdentity } from './business-identity-engine';
+
 
 export interface ScoreMetrics {
   hsLiquidez: number;
@@ -19,7 +21,7 @@ export function calculateScores(
   metrics: FinancialMetrics,
   dreDbDataLength: number,
   prevPl: number,
-  industry?: string
+  identity: Readonly<BusinessIdentity>
 ): ScoreMetrics {
   if (!metrics.hasData) {
     return {
@@ -37,7 +39,7 @@ export function calculateScores(
   } = metrics;
 
   const { ativoCirculante: ac, passivoCirculante: pc, patrimonioLiquido: plValue, caixaEquivalentes: cx } = bpSummary;
-  const weights = getIndustryWeights(industry);
+  const weights = getIndustryWeights(identity.setor);
 
   // -- 1. Liquidez (25%) --
   // Harmonização: Liquidez seca/real agora pesa mais, mas é amortecida se o giro do estoque for ágil (representado por cgl cobrindo ncg)

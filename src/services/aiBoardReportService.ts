@@ -295,7 +295,7 @@ REGRAS OBRIGATÓRIAS (MASTER ENGINE):
 DADOS HISTÓRICOS (6 ANOS):
 `;
 
-export async function generateBoardReportFull(companyName: string, financialData: FinancialEntry[], onProgress: (step: string) => void): Promise<BoardReportData> {
+export async function generateBoardReportFull(companyName: string, financialData: FinancialEntry[], onProgress: (step: string) => void, clientData?: any): Promise<BoardReportData> {
   const ai = getAI();
   const compactedData = compactFinancialData(financialData);
 
@@ -330,7 +330,27 @@ export async function generateBoardReportFull(companyName: string, financialData
     prevPl = prevBpSummary.patrimonioLiquido;
   }
 
-  const scores = calculateScores(bpSummary, metrics, dreRows.length, prevPl);
+  
+  let calculatedCycles = 1;
+  const filterYear = new Date().getFullYear(); // Ou pegar o maximo do db
+  if (clientData?.dataFundacao) {
+    let fundacaoYear = null;
+    if (clientData.dataFundacao.includes('/')) {
+      const parts = clientData.dataFundacao.split('/');
+      if (parts.length === 3) fundacaoYear = parseInt(parts[2]);
+    } else if (clientData.dataFundacao.includes('-')) {
+      const parts = clientData.dataFundacao.split('-');
+      if (parts.length >= 1) fundacaoYear = parseInt(parts[0]);
+    }
+    if (fundacaoYear && !isNaN(fundacaoYear)) {
+      calculatedCycles = Math.max(1, filterYear - fundacaoYear);
+    }
+  }
+
+  const businessIdentity = (await import('../lib/business-identity-engine')).inferBusinessIdentity(clientData?.segmentoAtuacao || undefined, calculatedCycles);
+
+
+  const scores = calculateScores(bpSummary, metrics, dreRows.length, prevPl, businessIdentity);
 
   const dataContext = `${BASE_PROMPT}\nEMPRESA: ${companyName}\n${compactedData}\n\n
 SCORES OBRIGATÓRIOS (Use exatamente estes valores no relatório, não os invente):

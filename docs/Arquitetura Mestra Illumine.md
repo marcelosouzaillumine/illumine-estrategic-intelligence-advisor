@@ -3489,10 +3489,15 @@ A BOARD_SYNTHESIS_ENGINE é definida como engine obrigatória para qualquer:
 Fica definida a seguinte precedência na plataforma:
 
 1. MASTER_ARCHITECTURE.md
-2. BOARD_SYNTHESIS_ENGINE.md
-3. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
-4. BOARD_RENDER_ENGINE.md
-5. Engines complementares
+2. EXECUTIVE_ORCHESTRATION_ENGINE.md
+3. BOARD_SYNTHESIS_ENGINE.md
+4. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+5. BOARD_RENDER_ENGINE.md
+6. Engines complementares
+
+A EXECUTIVE_ORCHESTRATION_ENGINE governa experiência executiva;
+A BOARD_SYNTHESIS_ENGINE governa síntese causal;
+A BOARD_RENDER_ENGINE governa renderização visual.
 
 A BOARD_SYNTHESIS_ENGINE possui autoridade para:
 * consolidar;
@@ -3502,7 +3507,76 @@ A BOARD_SYNTHESIS_ENGINE possui autoridade para:
 * eliminar redundâncias;
 * reorganizar hierarquia narrativa.
 
-## 42. Próximos Passos (Fora do Escopo Atual)
+## 42. Arquitetura de Orquestração Executiva
+
+A plataforma Illumine utiliza uma arquitetura de orquestração executiva responsável por:
+
+* organizar profundidade cognitiva;
+* conduzir leitura institucional;
+* estruturar experiência board-level;
+* separar síntese, inteligência executiva e detalhamento técnico;
+* reduzir fadiga cognitiva;
+* melhorar navegação executiva;
+* consolidar percepção enterprise-grade.
+
+O documento oficial responsável por esta camada é:
+
+* EXECUTIVE_ORCHESTRATION_ENGINE.md
+
+Toda renderização institucional deve obedecer suas diretrizes.
+
+## 43. Política Global de Navegação Executiva
+
+Toda inteligência da plataforma deve seguir:
+
+CAMADA 1 → Executive Summary
+CAMADA 2 → Executive Intelligence
+CAMADA 3 → Technical Analytics
+
+A profundidade deve ser:
+
+* progressiva;
+* contextual;
+* expansível;
+* institucionalmente organizada.
+
+## 44. Política de Consolidação Visual
+
+Engines internas podem existir separadamente no backend.
+
+Porém:
+
+* devem ser agrupadas semanticamente na interface;
+* devem compor blocos institucionais consolidados;
+* devem reduzir fragmentação visual.
+
+Exemplo:
+
+* Treasury Intelligence
+* Liquidity Quality Intelligence
+* Elasticidade Financeira
+
+Devem compor:
+“Liquidez & Resiliência Financeira”
+
+## 45. Política de Experiência Enterprise
+
+A plataforma deve transmitir:
+
+* autoridade institucional;
+* clareza decisória;
+* advisory executivo;
+* governança de alta gestão;
+* experiência enterprise-grade.
+
+A experiência NÃO deve parecer:
+
+* chatbot;
+* árvore de IA;
+* coleção de módulos independentes;
+* múltiplas engines desconectadas.
+
+## 46. Próximos Passos (Fora do Escopo Atual)
 Este documento balizará as *Stories* e refatorações que compõem o *Brownfield Enhancement*, especificamente:
 - A extração do roteamento e App Shell para fora do arquivo central.
 - A padronização dos serviços HTTP para geração de pareceres executivos.
@@ -3510,3 +3584,24 @@ Este documento balizará as *Stories* e refatorações que compõem o *Brownfiel
 
 ---
 *Este documento é um artefato vivo de arquitetura conceitual e deve ser atualizado conforme novos domínios forem mapeados, sempre preservando as diretrizes de estabilidade e segurança.*
+
+
+## BUSINESS_MODEL_INTELLIGENCE_ENGINE
+A BUSINESS_MODEL_INTELLIGENCE_ENGINE atua como uma das Core Intelligence Engines e orquestra a Strategic Interpretation Layer, a Executive Advisory Layer e a Financial Intelligence Pipeline.
+
+**REGRA INSTITUCIONAL SUPREMA:**
+Nenhuma análise pode ser executada sem contextualização do modelo econômico-operacional da empresa.
+
+A engine prove:
+- classificação institucional de modelos de negócio;
+- modulação automática de severidade;
+- maturidade corporativa;
+- adaptação dinâmica de benchmark;
+- interpretação contextual de liquidez, capital de giro e alavancagem.
+
+**Dependência Obrigatória:**
+- BP → BUSINESS_MODEL_INTELLIGENCE_ENGINE
+- DRE → BUSINESS_MODEL_INTELLIGENCE_ENGINE
+- STRESS TEST → BUSINESS_MODEL_INTELLIGENCE_ENGINE
+- SCORES → BUSINESS_MODEL_INTELLIGENCE_ENGINE
+- ADVISORY → BUSINESS_MODEL_INTELLIGENCE_ENGINE
