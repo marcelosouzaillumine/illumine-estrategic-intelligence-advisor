@@ -21,11 +21,9 @@ import { PageHeader, KpiCard } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
-import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
-import { calculateDreCascade } from '../../lib/dreCascade';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 
 import {
@@ -66,14 +64,13 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     if (selectedYear) setFilterYear(selectedYear);
   }, [selectedYear]);
 
-  const { advisoryReport, loading: advisoryLoading } = useExecutiveAdvisory(selectedClient, filterYear, 12, currentClient);
 
   // ── Busca dados anuais ──────────────────────────────────────────────────────
   const { dbData: dbDataDRE, docIds: docIdsDRE, loading: loadingDRE, refetch: refetchDRE } =
     useAnnualFinancialData(selectedClient, filterYear, 'DRE');
 
   // ── Busca histórico (todos os dados do cliente) ──────────────────────────────
-  const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient);
+  const { dbData: allHistoryData, loading: loadingHistory, historicalFinancialSeries } = useAllFinancialData(selectedClient);
 
   const loading = loadingDRE;
   const dbData = dbDataDRE;
@@ -89,7 +86,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         dreData: dbData,
         rawFinancialData: { filterYear, segmentoEmpresa },
         historicalCyclesCount: docIds.length,
-        isMockData: dbData.length === 0
+        isMockData: dbData.length === 0,
+        historicalSeries: historicalFinancialSeries
       };
       const report = executiveRuntime.generateExecutiveReport(input);
       setExecutiveReport(report);
@@ -507,7 +505,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       </div>
 
       {/* AI ADVISORY INSIGHTS */}
-      <ExecutivePerspectiveSection report={advisoryReport} loading={advisoryLoading} className="mb-10 shadow-xl" />
+      <ExecutivePerspectiveSection intelligenceReport={executiveReport} loading={!executiveReport} className="mb-10 shadow-xl" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {kpis.map((idx, i) => (

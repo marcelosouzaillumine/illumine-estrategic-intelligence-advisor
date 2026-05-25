@@ -1635,3 +1635,37 @@ Nenhum indicador deve gerar narrativa isolada sem:
 - causalidade econômica;
 - classificação de risco;
 - síntese executiva.
+
+---
+
+# 22. Temporal Causality Engine (Fase 2)
+
+A engine de inferência causal temporal é o mecanismo oficial para analisar comportamento evolutivo (histórico de até 5 períodos) e extrair trajetórias, acelerações, colapsos ou recuperações sem depender da camada de visualização para gerar inteligência. 
+
+Sempre deve consumir estruturas de `HistoricalPeriodData[]`.
+
+## 22.1 Padrões Obrigatórios de Detecção
+
+A engine detecta e tipifica institucionalmente os seguintes fenômenos através da enumeração `TemporalPatternName`:
+
+1. **Crescimento Destrutivo (`DESTRUCTIVE_GROWTH`)**
+   - Receita cresce, porém o lucro reduz, o estoque dispara acima da receita e consome intensamente o caixa, usualmente gerando aumento de endividamento sistêmico.
+2. **Colapso Abrupto (`ABRUPT_COLLAPSE`)**
+   - Degradação severa e imediata na liquidez de curto prazo (Caixa caindo > 80%) ou no Patrimônio Líquido (queda > 50%), em apenas um período de inflexão.
+3. **Deterioração Progressiva (`PROGRESSIVE_DETERIORATION`)**
+   - Declínio contínuo na geração de margem (EBITDA caindo ano a ano) acompanhado pelo aumento sistêmico de dívida.
+4. **Melhora Artificial (`ARTIFICIAL_IMPROVEMENT`)**
+   - Melhoria contábil aparente impulsionada por rubricas não-operacionais no Lucro Líquido, enquanto as métricas orgânicas vitais (EBITDA, Fluxo de Caixa Operacional) decaem.
+5. **Dependência Recorrente de Capital Externo (`RECURRENT_EXTERNAL_DEPENDENCY`)**
+   - Manutenção ou crescimento aparente de caixa sustentado massivamente pela assunção contínua de novas dívidas ou injeções de terceiros, diante de EBITDA nulo ou recorrentemente negativo.
+6. **Recuperação Estrutural (`STRUCTURAL_RECOVERY` / Turnaround)**
+   - Reversão sustentável de EBITDA (de queima para geração) e alívio contínuo nas frentes de caixa/necessidade de capital de giro.
+7. **Estabilização de Fundamentos (`STABILIZATION`)**
+   - Consolidação de operação madura com EBITDA crescente, estabilidade de caixa e nenhuma pressão relevante de dívida marginal.
+
+## 22.2 Modos de Análise
+
+- **FULL_TEMPORAL_MODE**: Ativado quando há histórico a partir de 3 anos, o que autoriza inferência causal avançada e tipificação de aceleração ou desaceleração.
+- **LIMITED_TEMPORAL_MODE**: Ativado em conjuntos de dados com menos de 3 períodos, permitindo inferências curtas (como o colapso abrupto), porém inibindo scores temporais definitivos.
+
+Nenhum componente de UI pode calcular trajetórias temporais locais (e.g. Hooks React). Todo o relatório temporal, incluindo a matriz de *Inflection Points* e os alertas executivos (como `riskPatterns` e `recoveryPatterns`), deve ser lido do payload central (ExecutiveIntelligenceReport).

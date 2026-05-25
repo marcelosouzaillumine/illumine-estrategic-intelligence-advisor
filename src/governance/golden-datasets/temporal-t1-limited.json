@@ -19,5 +19,11 @@
     "endividamento": "Sem dados suficientes para inferência direcional.",
     "capitalDeGiro": "Sem dados suficientes para inferência direcional.",
     "continuidade": "Série histórica incompleta para detecção de tendência."
-  }
+  },
+  "trendSignals": [],
+  "inflectionPoints": [],
+  "riskPatterns": [],
+  "recoveryPatterns": [],
+  "executiveSummary": "Série histórica insuficiente para estabelecer correlação longitudinal.",
+  "confidence": "LOW"
 }

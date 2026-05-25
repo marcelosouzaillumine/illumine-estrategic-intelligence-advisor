@@ -20,7 +20,7 @@ import {
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { StatusBadge, PageHeader } from '../Common';
 import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
-import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
+
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
@@ -72,7 +72,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
   // ── Busca dados anuais (BP) ────────────────────────────────────────────────
   const { dbData: financialEntries, loading, error, refetch } = useAnnualFinancialData(selectedClient, selectedYear, 'BP');
-  const { advisoryReport, loading: advisoryLoading } = useExecutiveAdvisory(selectedClient, selectedYear, 12, clients?.find((c:any) => c.id === selectedClient));
+
 
   // ── Busca dados operacionais (DRE) ─────────────────────────────────────────
   const { dbData: dreDbData } = useAnnualFinancialData(selectedClient, filterYear, 'DRE');
@@ -486,7 +486,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
           
           {/* Diagnóstico Executivo Consolidado e Tendências */}
           <div className="lg:col-span-2 flex flex-col gap-6">
-             <ExecutivePerspectiveSection report={advisoryReport} loading={advisoryLoading} className="h-full border-none shadow-xl" />
+             <ExecutivePerspectiveSection intelligenceReport={executiveReport} loading={!executiveReport} className="h-full border-none shadow-xl" />
           </div>
         </div>
       </div>

@@ -149,6 +149,23 @@ A Arquitetura Mestra deverá registrar que a plataforma Illumine evolui para uma
 
 capaz de interpretar estrutura, operação e caixa de forma integrada, causal, ponderada, calibrada e executivamente coerente.
 
+## SCENARIO SIMULATION GOVERNANCE
+
+A plataforma Illumine evolui oficialmente de um sistema interpretativo para uma plataforma preditiva. O eixo de simulação torna-se estrutural.
+
+A camada de simulação será regida por:
+* SCENARIO_SIMULATION_ENGINE.md
+* EXECUTIVE_SCENARIO_LAB.md
+
+A engine será responsável por:
+* projeção causal;
+* simulação empresarial (crescimento e retração);
+* stress testing estrutural;
+* análise de impacto no runway financeiro;
+* simulação de continuidade empresarial.
+
+Nenhum módulo da plataforma poderá gerar projeções isoladas de receita ou métricas preditivas sem recalcular integralmente BP, DRE, Caixa e Causalidade através da `SCENARIO_SIMULATION_ENGINE`. A plataforma bloqueia euforia artificial e crescimento destrutivo, exigindo validação de funding e elasticidade para toda expansão simulada.
+
 ## 1. Visão Geral do Sistema
 O **Illumine Strategic Intelligence & Advisor** é uma plataforma de inteligência estratégica e gestão financeira (CFO-as-a-Service). Seu objetivo principal é transcender a contabilidade tradicional, oferecendo relatórios executivos, diagnósticos aprofundados e governança corporativa impulsionada por Inteligência Artificial.
 

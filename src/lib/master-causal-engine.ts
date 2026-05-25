@@ -5,7 +5,7 @@ import { evaluateInventoryQuality } from '../core/intelligence/inventory-quality
 import { evaluateMaturityContext } from '../core/intelligence/industry-maturity-context-engine';
 import { modulateSeverity } from '../core/intelligence/severity-modulation-engine';
 import { calculateInferenceConfidence } from '../core/intelligence/inference-confidence-engine';
-import { evaluateTemporalCausality, HistoricalPeriodData, TemporalTrajectoryOutput } from '../core/intelligence/temporal-causality-engine';
+import { evaluateTemporalCausality, HistoricalPeriodData, TemporalCausalityOutput } from '../core/intelligence/temporal-causality-engine';
 
 export interface CausalScenario {
   id: string;
@@ -42,7 +42,7 @@ export interface MasterCausalOutput {
     tendenciaEstrutural: string;
     confiancaInferencia: string;
   };
-  temporalIntelligence?: TemporalTrajectoryOutput;
+  temporalIntelligence?: TemporalCausalityOutput;
 }
 
 export function getLiquidityIndicators(

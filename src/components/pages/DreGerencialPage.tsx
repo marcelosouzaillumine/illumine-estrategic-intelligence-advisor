@@ -47,14 +47,9 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
         const y = selectedYear - 5 + i;
         return { year: y, label: y.toString() };
       });
-      const projections: PeriodInfo[] = Array.from({ length: 5 }, (_, i) => {
-        const y = selectedYear + 1 + i;
-        return { year: y, label: y.toString() };
-      });
       return { 
         historical, 
-        current: { year: selectedYear, label: selectedYear.toString() } as PeriodInfo, 
-        projections 
+        current: { year: selectedYear, label: selectedYear.toString() } as PeriodInfo
       };
     } else {
       const historical: PeriodInfo[] = Array.from({ length: 12 }, (_, i) => {
@@ -63,16 +58,9 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
         const y = d.getFullYear();
         return { month: m, year: y, label: `${MONTH_LABELS[m]}/${y.toString().slice(-2)}` };
       });
-      const projections: PeriodInfo[] = Array.from({ length: 12 }, (_, i) => {
-        const d = new Date(selectedYear, selectedMonth - 1 + (i + 1), 1);
-        const m = d.getMonth() + 1;
-        const y = d.getFullYear();
-        return { month: m, year: y, label: `${MONTH_LABELS[m]}/${y.toString().slice(-2)}` };
-      });
       return { 
         historical, 
-        current: { month: selectedMonth, year: selectedYear, label: `${MONTH_LABELS[selectedMonth]}/${selectedYear.toString().slice(-2)}` } as PeriodInfo, 
-        projections 
+        current: { month: selectedMonth, year: selectedYear, label: `${MONTH_LABELS[selectedMonth]}/${selectedYear.toString().slice(-2)}` } as PeriodInfo
       };
     }
   }, [selectedYear, selectedMonth, periodType]);
@@ -115,7 +103,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
     ];
 
     const valuesByPeriod: Record<string, Record<string, number>> = {};
-    const allPeriods = [...periods.historical, periods.current, ...periods.projections];
+    const allPeriods = [...periods.historical, periods.current];
     
     const getPeriodKey = (p: PeriodInfo) => periodType === 'anual' ? p.year.toString() : `${p.year}-${p.month}`;
 
@@ -204,36 +192,6 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
       v.ll = getVal('LUCRO_LIQ');
     });
 
-    const growthRate = periodType === 'anual' ? 0.08 : 0.006;
-    periods.projections.forEach((p) => {
-      const key = getPeriodKey(p);
-      let prevKey = '';
-      if (periodType === 'anual') {
-        prevKey = (p.year - 1).toString();
-      } else {
-        const d = new Date(p.year, (p.month || 0) - 2, 1);
-        prevKey = `${d.getFullYear()}-${d.getMonth() + 1}`;
-      }
-      
-      const prevV = valuesByPeriod[prevKey] || valuesByPeriod[getPeriodKey(periods.current)];
-      const v = valuesByPeriod[key];
-      
-      const factor = 1 + growthRate;
-      v.rb = prevV.rb * factor;
-      v.ded = prevV.ded * factor;
-      v.rl = v.rb - v.ded;
-      v.custos = prevV.custos * factor;
-      v.lb = v.rl - v.custos;
-      v.desp = prevV.desp * (periodType === 'anual' ? 1.05 : 1.004);
-      v.ebitda = v.lb - v.desp;
-      v.dep = prevV.dep;
-      v.ebit = v.ebitda - v.dep;
-      v.fin = prevV.fin;
-      v.lair = v.ebit + v.fin;
-      v.ir = v.lair > 0 ? v.lair * 0.15 : 0;
-      v.ll = v.lair - v.ir;
-    });
-
     return { structure, valuesByPeriod };
   }, [dbData, loading, periods, filterFilial, filterUnidade, filterCentroCusto, periodType]);
 
@@ -261,9 +219,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
     const prevVal = reportData.valuesByPeriod[prevKey]?.[row.id] || 0;
     const ah = prevVal !== 0 ? ((currentVal / prevVal) - 1) * 100 : 0;
 
-    const visiblePeriods = viewMode === 'historical' 
-      ? [...periods.historical, periods.current]
-      : [periods.current, ...periods.projections];
+    const visiblePeriods = [...periods.historical, periods.current];
 
     return (
       <tr key={row.id} className={cn(
@@ -474,22 +430,21 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
 
         <div className="flex bg-surface-container p-1 rounded-md border border-border">
            <button 
-             onClick={() => setViewMode('historical')}
              className={cn(
                "flex-1 py-2 rounded-sm text-[9px] font-medium uppercase tracking-widest transition-all",
-               viewMode === 'historical' ? "bg-card text-secondary shadow-sm" : "text-muted-foreground hover:text-foreground"
+               "bg-card text-secondary shadow-sm"
              )}
            >
              Série Histórica
            </button>
            <button 
-             onClick={() => setViewMode('projection')}
+             disabled
              className={cn(
-               "flex-1 py-2 rounded-sm text-[9px] font-medium uppercase tracking-widest transition-all",
-               viewMode === 'projection' ? "bg-card text-secondary shadow-sm" : "text-muted-foreground hover:text-foreground"
+               "flex-1 py-2 rounded-sm text-[9px] font-medium uppercase tracking-widest transition-all text-muted-foreground opacity-50"
              )}
+             title="Projeções delegadas ao Runtime Orchestrator."
            >
-             Projeção 
+             Projeção (Runtime)
            </button>
         </div>
       </div>
@@ -499,7 +454,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
           <div>
             <h2 className="text-lg font-black text-foreground">Análise de Resultados Multi-Dimensional</h2>
             <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em] mt-0.5">
-              {viewMode === 'historical' ? 'Série Histórica' : 'Projeções Futuras'} · {periodType === 'anual' ? 'Visão de 5 Anos' : 'Visão de 12 Meses'}
+              Série Histórica · {periodType === 'anual' ? 'Visão de 5 Anos' : 'Visão de 12 Meses'}
             </p>
           </div>
           <div className="flex gap-2">
@@ -517,7 +472,7 @@ export function DreGerencialPage({ selectedClient, selectedYear: initialYear, se
             <thead>
               <tr className="bg-surface-container border-b border-border">
                 <th className="px-5 md:px-8 py-2.5 md:py-4 text-left text-[10px] font-black text-muted-foreground uppercase tracking-widest sticky left-0 bg-surface-container z-20 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">Estrutura DRE</th>
-                {(viewMode === 'historical' ? [...periods.historical, periods.current] : [periods.current, ...periods.projections]).map(p => {
+                {[...periods.historical, periods.current].map(p => {
                   const key = periodType === 'anual' ? p.year.toString() : `${p.year}-${p.month}`;
                   const isCurrent = periodType === 'anual' ? p.year === selectedYear : (p.year === selectedYear && p.month === selectedMonth);
                   return (

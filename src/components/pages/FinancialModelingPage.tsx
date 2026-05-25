@@ -413,111 +413,40 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
 
   const clientName = activeClient?.fantasia || activeClient?.name || 'Cliente';
 
-  // Projection Engine (5 Years)
+  // Projection Engine (Delegated to Runtime)
   const projection = useMemo(() => {
     const years = [2026, 2027, 2028, 2029, 2030];
-    const growthRate = 0.12; 
-    const ipca = 0.045; 
-    
-    const hasData = dbData && dbData.length > 0;
-    
-    let lastYearRevenue = 0;
-    if (hasData) {
-      lastYearRevenue = dbData
-        .filter((d: any) => d.type === 'DRE' && d.ano === 2025 && (d.conta === 'Receita Líquida' || d.category === 'Receita Líquida'))
-        .reduce((acc: number, curr: any) => acc + (curr.val || curr.valor || curr.value || 0), 0);
-    }
-    
-    // REMOVED: Mockup fallback to DATA.dre
-    
-    let baseRevenue = lastYearRevenue > 0 ? lastYearRevenue : 0;
-    let baseAssets = 0;
-    let baseDebt = 0;
-    let fixedCostsBase = hasData ? 1800000 : 0;
-    let capexBase = hasData ? 500000 : 0;
-    let capexRecurring = hasData ? 200000 : 0;
 
-    // Derived Projections
     const dreGerencialRows: any[] = [
-      { item: "Receita Bruta", values: [] },
-      { item: "Custos Variáveis", values: [] },
-      { item: "Margem de Contribuição", values: [] },
-      { item: "Despesas Fixas", values: [] },
-      { item: "EBITDA Gerencial", values: [] },
+      { item: "Receita Bruta", values: [0,0,0,0,0] },
+      { item: "Custos Variáveis", values: [0,0,0,0,0] },
+      { item: "Margem de Contribuição", values: [0,0,0,0,0] },
+      { item: "Despesas Fixas", values: [0,0,0,0,0] },
+      { item: "EBITDA Gerencial", values: [0,0,0,0,0] },
     ];
 
     const dreContabilRows: any[] = [
-      { item: "Receita Líquida", values: [] },
-      { item: "Lucro Bruto", values: [] },
-      { item: "EBIT", values: [] },
-      { item: "Impostos (IRPJ/CSLL)", values: [] },
-      { item: "Lucro Líquido", values: [] },
+      { item: "Receita Líquida", values: [0,0,0,0,0] },
+      { item: "Lucro Bruto", values: [0,0,0,0,0] },
+      { item: "EBIT", values: [0,0,0,0,0] },
+      { item: "Impostos (IRPJ/CSLL)", values: [0,0,0,0,0] },
+      { item: "Lucro Líquido", values: [0,0,0,0,0] },
     ];
 
     const fluxoCaixaRows: any[] = [
-      { item: "EBITDA", values: [] },
-      { item: "(-) Capex", values: [] },
-      { item: "(-) Variação NCG", values: [] },
-      { item: "(+) Amortização", values: [] },
-      { item: "Fluxo de Caixa Livre (FCFF)", values: [] },
+      { item: "EBITDA", values: [0,0,0,0,0] },
+      { item: "(-) Capex", values: [0,0,0,0,0] },
+      { item: "(-) Variação NCG", values: [0,0,0,0,0] },
+      { item: "(+) Amortização", values: [0,0,0,0,0] },
+      { item: "Fluxo de Caixa Livre (FCFF)", values: [0,0,0,0,0] },
     ];
 
     const balancoRows: any[] = [
-      { item: "Ativo Circulante", values: [] },
-      { item: "Ativo Não Circulante", values: [] },
-      { item: "Patrimônio Líquido", values: [] },
-      { item: "Passivo Oneroso", values: [] },
+      { item: "Ativo Circulante", values: [0,0,0,0,0] },
+      { item: "Ativo Não Circulante", values: [0,0,0,0,0] },
+      { item: "Patrimônio Líquido", values: [0,0,0,0,0] },
+      { item: "Passivo Oneroso", values: [0,0,0,0,0] },
     ];
-
-    years.forEach((year, i) => {
-      const yearGrowth = hasData ? growthRate * Math.pow(1 + ipca, i) : 0;
-      const revenue = baseRevenue * Math.pow(1 + yearGrowth, i);
-      const variableCosts = revenue * 0.45;
-      const fixedCosts = fixedCostsBase * Math.pow(1 + ipca, i);
-      const ebitda = revenue - variableCosts - fixedCosts;
-      const depr = baseAssets * 0.1;
-      const ebit = ebitda - depr;
-      
-      // Tax Logic (Accounting DRE)
-      const isLucroReal = activeClient?.regime === 'Lucro Real';
-      const taxRate = isLucroReal ? 0.34 : 0.15; // Simplified
-      const taxes = ebit > 0 ? ebit * taxRate : 0;
-      const lucroLiquido = ebit - taxes;
-
-      // Cash Flow Path
-      const capex = year === 2026 ? capexBase : capexRecurring * Math.pow(1 + ipca, i);
-      const deltaNcg = revenue * 0.05;
-      const fcff = ebitda - capex - deltaNcg + depr;
-
-      // Balance Sheet Path
-      const currentAssets = (revenue / 12) * 2; // ~60 days sales
-      const netAssets = baseAssets - (depr * (i + 1)) + capex;
-      const currentPL = (revenue * 0.3) + lucroLiquido; // Simulation
-
-      // Filling Rows
-      dreGerencialRows[0].values.push(revenue);
-      dreGerencialRows[1].values.push(-variableCosts);
-      dreGerencialRows[2].values.push(revenue - variableCosts);
-      dreGerencialRows[3].values.push(-fixedCosts);
-      dreGerencialRows[4].values.push(ebitda);
-
-      dreContabilRows[0].values.push(revenue * 0.85); // Net of sales taxes
-      dreContabilRows[1].values.push((revenue * 0.85) - variableCosts);
-      dreContabilRows[2].values.push(ebit);
-      dreContabilRows[3].values.push(-taxes);
-      dreContabilRows[4].values.push(lucroLiquido);
-
-      fluxoCaixaRows[0].values.push(ebitda);
-      fluxoCaixaRows[1].values.push(-capex);
-      fluxoCaixaRows[2].values.push(-deltaNcg);
-      fluxoCaixaRows[3].values.push(depr);
-      fluxoCaixaRows[4].values.push(fcff);
-
-      balancoRows[0].values.push(currentAssets);
-      balancoRows[1].values.push(netAssets);
-      balancoRows[2].values.push(currentPL);
-      balancoRows[3].values.push(baseDebt * (1 - (i/10))); // Paying off debt
-    });
 
     return { 
       years, 
@@ -599,10 +528,10 @@ export function FinancialModelingPage({ clients, selectedClient, setSelectedClie
           {tab === 'configuracao' && (
              <div className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                   <KpiCardModeling label="EBITDA Ano 5" value={hasData ? formatCurrency(projection.fluxoCaixa.rows[0].values[4]) : '---'} helper="Geração operacional final" tone="success" />
-                  <KpiCardModeling label="Geração de Caixa (Acum.)" value={hasData ? formatCurrency(projection.fluxoCaixa.rows[4].values.reduce((a: any, b: any) => a + b, 0)) : '---'} helper="FCF Total Projected" tone="success" />
+                   <KpiCardModeling label="Status do Módulo" value={"Em Migração"} helper="Aguardando Runtime Engine" tone="default" />
+                  <KpiCardModeling label="Geração de Caixa" value={"---"} helper="FCF Total Projected" tone="default" />
                   <KpiCardModeling label="Tax Efficiency" value={hasData ? activeClient?.regime : '---'} helper={hasData ? `Baseado em ${activeClient?.regime}` : 'Aguardando Dados'} />
-                  <KpiCardModeling label="Proj. Debt Score" value={hasData ? "0.4x" : "---"} helper="EBITDA / Dívida Ano 5" tone="success" />
+                  <KpiCardModeling label="Proj. Debt Score" value={"---"} helper="EBITDA / Dívida Ano 5" tone="default" />
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

@@ -18,5 +18,36 @@
     "endividamento": "Desalavancagem ativa.",
     "capitalDeGiro": "Melhora estrutural do ciclo financeiro.",
     "continuidade": "Sinais consistentes de turnaround financeiro e estancamento de sangria."
-  }
+  },
+  "trendSignals": [
+    {
+      "indicator": "EBITDA",
+      "direction": "DECELERATING",
+      "isFavorable": true,
+      "description": "A geração operacional histórica apresenta ganho de tração."
+    },
+    {
+      "indicator": "Tesouraria (Caixa)",
+      "direction": "ACCELERATING",
+      "isFavorable": true,
+      "description": "A liquidez consolidada indica acúmulo progressivo de caixa."
+    }
+  ],
+  "inflectionPoints": [],
+  "riskPatterns": [],
+  "recoveryPatterns": [
+    {
+      "patternId": "REC_TURNAROUND_EMERGING",
+      "strength": "MODERATE",
+      "name": "STRUCTURAL_RECOVERY",
+      "label": "Turnaround Emergente",
+      "evidence": [
+        "Reversão de histórico de prejuízo",
+        "Recuperação de caixa operacional",
+        "Expansão de margem EBITDA consolidada"
+      ]
+    }
+  ],
+  "executiveSummary": "Sinais consistentes de recuperação estrutural emergente, com estancamento de perdas e formação de nova capacidade de geração.",
+  "confidence": "MEDIUM"
 }

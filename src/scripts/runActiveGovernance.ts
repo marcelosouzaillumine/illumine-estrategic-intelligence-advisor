@@ -44,6 +44,22 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
+  console.log('\nIniciando Consolidated Financial Audit...');
+  try {
+    execSync('npx tsx src/scripts/runConsolidatedFinancialAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação Financeira Consolidada. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Consolidated Advisory Audit...');
+  try {
+    execSync('npx tsx src/scripts/runConsolidatedAdvisoryAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação do Advisory Consolidado. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
   console.log('\nIniciando Self-Audit Core...');
 
   const report = runSelfAudit(mockCompliantRuntimeOutput, ['src/components', 'src/lib', 'src/runtime', 'src/services']);

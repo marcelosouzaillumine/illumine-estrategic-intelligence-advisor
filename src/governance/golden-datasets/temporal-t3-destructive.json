@@ -18,5 +18,47 @@
     "endividamento": "Aumento recorrente de dependência de capital de terceiros oneroso.",
     "capitalDeGiro": "Melhora estrutural do ciclo financeiro.",
     "continuidade": "Padrão de expansão destrutiva identificado; colapso sistêmico em aceleração."
-  }
+  },
+  "trendSignals": [
+    {
+      "indicator": "EBITDA",
+      "direction": "DECELERATING",
+      "isFavorable": false,
+      "description": "A geração operacional histórica apresenta perda de tração."
+    },
+    {
+      "indicator": "Tesouraria (Caixa)",
+      "direction": "DECELERATING",
+      "isFavorable": false,
+      "description": "A liquidez consolidada indica consumo progressivo de caixa."
+    }
+  ],
+  "inflectionPoints": [],
+  "riskPatterns": [
+    {
+      "patternId": "RISK_DESTRUCTIVE_GROWTH",
+      "severity": "CRITICAL",
+      "name": "DESTRUCTIVE_GROWTH",
+      "label": "Crescimento Destrutivo",
+      "evidence": [
+        "Aumento de estoque desproporcional",
+        "Consumo contínuo de caixa",
+        "Crescimento de dívida",
+        "Deterioração de margem operacional (EBITDA)"
+      ]
+    },
+    {
+      "patternId": "RISK_PROGRESSIVE_DETERIORATION",
+      "severity": "HIGH",
+      "name": "PROGRESSIVE_DETERIORATION",
+      "label": "Deterioração Progressiva",
+      "evidence": [
+        "Queda consecutiva de geração operacional",
+        "Aumento sistêmico de endividamento"
+      ]
+    }
+  ],
+  "recoveryPatterns": [],
+  "executiveSummary": "Identificado padrão crítico de expansão destrutiva, caracterizado por queima progressiva de tesouraria operacional simultânea à alavancagem externa.",
+  "confidence": "MEDIUM"
 }

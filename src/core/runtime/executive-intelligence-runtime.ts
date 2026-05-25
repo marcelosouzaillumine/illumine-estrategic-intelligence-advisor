@@ -6,6 +6,8 @@ import { buildBPHierarchy } from '../../lib/bpEngine';
 import { calculateFinancialMetrics } from '../../lib/financial-engine';
 import { inferBusinessIdentity } from '../../lib/business-identity-engine';
 import { evaluateMasterCausality } from '../../lib/master-causal-engine';
+import { ConsolidatedRuntimeOutputExt } from './consolidated/consolidated-types';
+import { TemporalCausalityOutput } from '../intelligence/temporal-causality-engine';
 
 /**
  * INSTITUTIONAL RUNTIME ENFORCER
@@ -22,7 +24,7 @@ import { evaluateMasterCausality } from '../../lib/master-causal-engine';
  * - Gerar narrativas ou diagnósticos parciais.
  * - Alterar pesos matemáticos ou classificações financeiras.
  */
-export interface ExecutiveIntelligenceReport {
+export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputExt {
   context: {
     segment: string;
     businessModel: string;
@@ -111,6 +113,7 @@ export interface ExecutiveIntelligenceReport {
     narrativeRestrictions: string[];
     auditFlags: string[];
   };
+  temporalCausality?: TemporalCausalityOutput;
 }
 
 export class ExecutiveIntelligenceRuntime {
@@ -198,6 +201,7 @@ export class ExecutiveIntelligenceRuntime {
     const anosHistorico = rawData.historicalCyclesCount || 0;
     const identity = inferBusinessIdentity(segment, anosHistorico, bpSummary as any, undefined, undefined);
     const masterCausality = hasBP ? evaluateMasterCausality(bpSummary as any, metrics, identity) : undefined;
+    const temporalCausality = masterCausality?.temporalIntelligence;
 
     // TODO: Injetar os cálculos reais do score-engine
     const scores = {
@@ -282,7 +286,8 @@ export class ExecutiveIntelligenceRuntime {
         causalDepth,
         narrativeRestrictions,
         auditFlags: []
-      }
+      },
+      temporalCausality
     };
   }
 }

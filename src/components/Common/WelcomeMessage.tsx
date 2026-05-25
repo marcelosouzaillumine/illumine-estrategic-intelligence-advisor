@@ -29,18 +29,17 @@ export function WelcomeMessage({ isOpen, onClose, message, userName }: WelcomeMe
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div 
-          key="welcome-modal"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-        >
-          <div
+        <motion.div key="welcome-wrapper" className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <motion.div
+            key="welcome-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={onClose}
             className="absolute inset-0 bg-primary/40 backdrop-blur-sm"
           />
           <motion.div
+            key="welcome-content"
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}

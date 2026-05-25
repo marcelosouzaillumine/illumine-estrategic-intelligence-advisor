@@ -321,7 +321,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
                 <div>
                   <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Saldo Devedor Total</h3>
-                  <p className="text-3xl font-display font-black mb-2">{formatCurrency(Math.floor(priceSchedule.reduce((acc, r) => acc + r.saldoInicial, 0) / priceSchedule.length))}</p>
+                  <p className="text-3xl font-display font-black mb-2">{formatCurrency(Math.floor(sumBy(priceSchedule, "saldoInicial") / priceSchedule.length))}</p>
                   <div className="flex items-center gap-2 text-emerald-400">
                      <TrendingUp size={16} />
                      <span className="text-xs font-bold">Amortização em Dia</span>

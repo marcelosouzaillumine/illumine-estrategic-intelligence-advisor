@@ -25,7 +25,11 @@ const FORBIDDEN_UI_PATTERNS = [
   { pattern: /trendAnalysis/g, message: 'UI não pode analisar tendência. Use RuntimeOutput.' },
   { pattern: /classifyTrend/g, message: 'UI não pode classificar tendência. Use RuntimeOutput.' },
   { pattern: /inferTrend/g, message: 'UI não pode inferir tendência. Use RuntimeOutput.' },
-  { pattern: /generateInsight/g, message: 'UI não pode gerar insight temporal local.' }
+  { pattern: /generateInsight/g, message: 'UI não pode gerar insight temporal local.' },
+  { pattern: /calculateScore/g, message: 'UI não pode calcular score localmente. Use RuntimeOutput.' },
+  { pattern: /localScore/g, message: 'Score local não é permitido. Use RuntimeOutput.' },
+  { pattern: /generateAdvisory/g, message: 'UI não pode gerar advisory. Use RuntimeOutput.' },
+  { pattern: /localAdvisory/g, message: 'Advisory local não é permitido. Use RuntimeOutput.' }
 ];
 
 export function detectRegressions(directoriesToScan: string[]): RegressionResult {

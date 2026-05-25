@@ -2,15 +2,17 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShieldCheck, Zap, AlertTriangle, BookOpen, Target, Activity } from 'lucide-react';
 import { ExecutiveAdvisoryReport } from '../lib/executive-advisory-engine';
+import { ExecutiveIntelligenceReport } from '../core/runtime/executive-intelligence-runtime';
 import { cn } from '../lib/utils';
 
 interface ExecutivePerspectiveSectionProps {
-  report: ExecutiveAdvisoryReport | null;
+  report?: ExecutiveAdvisoryReport | null;
+  intelligenceReport?: ExecutiveIntelligenceReport | null;
   loading: boolean;
   className?: string;
 }
 
-export function ExecutivePerspectiveSection({ report, loading, className }: ExecutivePerspectiveSectionProps) {
+export function ExecutivePerspectiveSection({ report, intelligenceReport, loading, className }: ExecutivePerspectiveSectionProps) {
   if (loading) {
     return (
       <div className={cn("bg-white rounded-[48px] border border-slate-200 p-12 flex flex-col items-center justify-center min-h-[400px]", className)}>
@@ -20,7 +22,27 @@ export function ExecutivePerspectiveSection({ report, loading, className }: Exec
     );
   }
 
-  if (!report) return null;
+  if (!report && !intelligenceReport) return null;
+
+  const confidenceLevel = intelligenceReport ? 'HIGH_CONFIDENCE' : report?.confidenceLevel || '';
+  const executivePosture = intelligenceReport ? intelligenceReport.advisory?.priorityFocus || 'Aguardando' : report?.executivePosture || '';
+  const executiveSummary = intelligenceReport ? intelligenceReport.advisory?.executiveSummary || '' : report?.executiveSummary || '';
+  const institutionalDiagnosis = intelligenceReport ? intelligenceReport.causality?.financialPropagation || '' : report?.institutionalDiagnosis || '';
+  
+  const dominantRisks = intelligenceReport 
+    ? intelligenceReport.causality?.insights?.filter(i => i.bgClass.includes('rose') || i.bgClass.includes('red')).map(i => i.text) || []
+    : report?.dominantRisks || [];
+    
+  const strategicPriorities = intelligenceReport 
+    ? intelligenceReport.advisory?.actionMatrix || []
+    : report?.strategicPriorities || [];
+    
+  const actionMatrix = intelligenceReport 
+    ? intelligenceReport.advisory?.actionMatrix?.map(action => ({ acao: action, impacto: 'ALTO', prioridade: 'ALTA', velocidade: 'CONTÍNUA' })) || []
+    : report?.actionMatrix || [];
+    
+  const blockedFalsePositives = intelligenceReport ? [] : report?.blockedFalsePositives || [];
+  const causalConflicts = intelligenceReport ? [] : report?.causalConflicts || [];
 
   return (
     <div className={cn("bg-white rounded-[48px] border border-slate-200 p-8 md:p-12 overflow-hidden relative shadow-sm", className)}>
@@ -41,7 +63,7 @@ export function ExecutivePerspectiveSection({ report, loading, className }: Exec
           
           <div className="px-5 py-2.5 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl flex items-center gap-3">
             <Zap size={16} className="text-indigo-400" />
-            Nível de Confiança: {report.confidenceLevel}
+            Nível de Confiança: {confidenceLevel}
           </div>
         </div>
 
@@ -59,16 +81,16 @@ export function ExecutivePerspectiveSection({ report, loading, className }: Exec
               Diagnóstico do Board
             </div>
             <div className="px-3 py-1 bg-white/10 rounded-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white">
-              Postura: {report.executivePosture}
+              Postura: {executivePosture}
             </div>
           </div>
           
           <div className="space-y-6">
             <div className="text-lg md:text-xl font-medium text-slate-200 leading-relaxed italic">
-              "{report.executiveSummary}"
+              "{executiveSummary}"
             </div>
             <div className="text-sm md:text-base font-medium text-slate-400 leading-relaxed border-t border-white/10 pt-6">
-              {report.institutionalDiagnosis}
+              {institutionalDiagnosis}
             </div>
           </div>
 
@@ -78,7 +100,7 @@ export function ExecutivePerspectiveSection({ report, loading, className }: Exec
                 <AlertTriangle size={14} /> Riscos Dominantes
               </h4>
               <ul className="space-y-2">
-                {report.dominantRisks.map((risk, i) => (
+                {dominantRisks.map((risk, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
                     <span className="text-rose-400 mt-1">•</span> {risk}
                   </li>
@@ -90,7 +112,7 @@ export function ExecutivePerspectiveSection({ report, loading, className }: Exec
                 <Target size={14} /> Prioridades Estratégicas
               </h4>
               <ul className="space-y-2">
-                {report.strategicPriorities.map((p, i) => (
+                {strategicPriorities.map((p, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
                     <span className="text-emerald-400 mt-1">•</span> {p}
                   </li>
@@ -107,7 +129,7 @@ export function ExecutivePerspectiveSection({ report, loading, className }: Exec
             <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Action Matrix Executiva</h4>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {report.actionMatrix.map((action, idx) => (
+            {actionMatrix.map((action, idx) => (
               <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:border-indigo-200 transition-colors">
                 <h5 className="text-sm font-black text-slate-900 mb-3">{action.acao}</h5>
                 <div className="flex flex-wrap gap-2">
@@ -121,30 +143,30 @@ export function ExecutivePerspectiveSection({ report, loading, className }: Exec
         </div>
 
         {/* Causal Moderation */}
-        {(report.blockedFalsePositives.length > 0 || report.causalConflicts.length > 0) && (
+        {(blockedFalsePositives.length > 0 || causalConflicts.length > 0) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {report.blockedFalsePositives.length > 0 && (
+            {blockedFalsePositives.length > 0 && (
               <div className="bg-rose-50 border border-rose-100 rounded-2xl p-6">
                 <div className="flex items-center gap-2 text-rose-600 mb-4">
                   <ShieldCheck size={16} />
                   <span className="text-[10px] font-black uppercase tracking-widest">Falsos Positivos Bloqueados</span>
                 </div>
                 <ul className="space-y-2">
-                  {report.blockedFalsePositives.map((fp, i) => (
+                  {blockedFalsePositives.map((fp, i) => (
                     <li key={i} className="text-xs font-bold text-rose-900">• {fp}</li>
                   ))}
                 </ul>
               </div>
             )}
             
-            {report.causalConflicts.length > 0 && (
+            {causalConflicts.length > 0 && (
               <div className="bg-amber-50 border border-amber-100 rounded-2xl p-6">
                 <div className="flex items-center gap-2 text-amber-600 mb-4">
                   <AlertTriangle size={16} />
                   <span className="text-[10px] font-black uppercase tracking-widest">Conflitos Causais Resolvidos</span>
                 </div>
                 <ul className="space-y-2">
-                  {report.causalConflicts.map((cc, i) => (
+                  {causalConflicts.map((cc, i) => (
                     <li key={i} className="text-xs font-bold text-amber-900">• {cc}</li>
                   ))}
                 </ul>

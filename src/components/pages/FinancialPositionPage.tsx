@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { useFinancialMath } from '../../hooks/useFinancialMath';
 import { 
   Clock, 
   TrendingUp, 
@@ -97,60 +98,21 @@ export function FinancialPositionPage({ clients, selectedClient }: { clients: an
     return { USD: usd, EUR: eur, BRL: 1 };
   }, []);
 
-  const kpis = useMemo(() => {
-    const totalCurrent = positions.reduce((acc, p) => {
-      const rate = exchangeRates[p.moeda as keyof typeof exchangeRates] || 1;
-      return acc + (p.saldoAtual * rate);
-    }, 0);
-    
-    const totalInitial = positions.reduce((acc, p) => {
-      const rate = exchangeRates[p.moeda as keyof typeof exchangeRates] || 1;
-      return acc + (p.saldoInicial * rate);
-    }, 0);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-    const variation = totalInitial !== 0 ? ((totalCurrent - totalInitial) / totalInitial) * 100 : 0;
-    
-    return { totalCurrent, totalInitial, variation };
-  }, [positions, exchangeRates]);
+  const financialMath = useFinancialMath();
+
+  const kpis = useMemo(() => {
+    return financialMath.aggregatePositions(positions, exchangeRates);
+  }, [positions, exchangeRates, financialMath]);
 
   const aggHistory = useMemo(() => {
     if (positions.length === 0) return [];
-    
     const monthOrder = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-    const normalizeMonth = (m: string) => {
-      if (!m) return '';
-      // Remove dots and take first 3 chars, capitalized
-      const clean = m.replace(/\./g, '').trim();
-      return clean.charAt(0).toUpperCase() + clean.slice(1, 3).toLowerCase();
-    };
-
-    // Get all unique months from all positions history
-    let allMonths = Array.from(new Set(positions.flatMap(p => p.historico?.map((h: any) => normalizeMonth(h.mes)) || []))) as string[];
-    allMonths = allMonths.filter(m => m && monthOrder.includes(m));
-
-    // If no history exists but we have positions, use current month as fallback
-    if (allMonths.length === 0 && positions.length > 0) {
-      const currentMonth = normalizeMonth(new Date().toLocaleString('pt-BR', { month: 'short' }));
-      allMonths = [currentMonth];
-    }
-
-    const sortedMonths = allMonths.sort((a: string, b: string) => monthOrder.indexOf(a) - monthOrder.indexOf(b));
-
-    return sortedMonths.map(m => {
-      const total = positions.reduce((acc, p) => {
-        const hist = p.historico?.find((h: any) => normalizeMonth(h.mes) === m);
-        const rate = exchangeRates[p.moeda as keyof typeof exchangeRates] || 1;
-        
-        // If no history for this month, use the current balance if it's the current month, 
-        // or 0 if it's a past month (not ideal but consistent with previous logic)
-        const currentMonth = normalizeMonth(new Date().toLocaleString('pt-BR', { month: 'short' }));
-        const balance = hist ? hist.saldo : (m === currentMonth ? p.saldoAtual : 0);
-        
-        return acc + (balance * rate);
-      }, 0);
-      return { mes: m, saldo: total };
-    });
-  }, [positions, exchangeRates]);
+    return financialMath.aggregateHistory(positions, exchangeRates, monthOrder);
+  }, [positions, exchangeRates, financialMath]);
 
   const handleDeleteAccount = async (id: string) => {
     if (!window.confirm('Tem certeza que deseja excluir esta conta bancária? Todos os saldos vinculados serão removidos.')) return;

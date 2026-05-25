@@ -786,18 +786,18 @@ function AppContent({
   };
 
   return (
-    <SidebarProvider
-      defaultOpen={!isSidebarCollapsed}
-      className="bg-background text-foreground transition-colors duration-500 overflow-hidden h-screen"
-    >
+    <>
       <WelcomeMessage 
         isOpen={showWelcome} 
         onClose={() => setShowWelcome(false)} 
         message={welcomeText}
         userName={user?.displayName || ''}
       />
-
-      {/* Shadcn AppSidebar */}
+      <SidebarProvider
+        defaultOpen={!isSidebarCollapsed}
+        className="bg-background text-foreground transition-colors duration-500 overflow-hidden h-screen"
+      >
+        {/* Shadcn AppSidebar */}
       <AppSidebar
         user={user}
         authLoading={authLoading}
@@ -936,5 +936,6 @@ function AppContent({
         />
       </main>
     </SidebarProvider>
+    </>
   );
 }

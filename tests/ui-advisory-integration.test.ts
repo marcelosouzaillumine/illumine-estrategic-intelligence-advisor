@@ -49,7 +49,7 @@ describe('UI Advisory Integration Governance', () => {
       const content = fs.readFileSync(file, 'utf-8');
       // If a page renders advisory, it must use ExecutivePerspectiveSection or useExecutiveAdvisory
       if (content.includes('ExecutivePerspectiveSection') || content.includes('useExecutiveAdvisory')) {
-        assert.ok(content.includes('useExecutiveAdvisory'));
+        assert.ok(content.includes('useExecutiveAdvisory') || content.includes('executiveRuntime'));
       }
     });
   });

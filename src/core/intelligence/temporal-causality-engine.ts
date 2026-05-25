@@ -43,12 +43,106 @@ export interface TemporalTrajectoryOutput {
   };
 }
 
+export type TemporalTrendDirection = 'ACCELERATING' | 'DECELERATING' | 'STABLE' | 'VOLATILE';
+export type TemporalConfidence = 'HIGH' | 'MEDIUM' | 'LOW';
+
+export enum TemporalPatternName {
+  PROGRESSIVE_DETERIORATION = 'PROGRESSIVE_DETERIORATION',
+  ABRUPT_COLLAPSE = 'ABRUPT_COLLAPSE',
+  RECURRENT_EXTERNAL_DEPENDENCY = 'RECURRENT_EXTERNAL_DEPENDENCY',
+  ARTIFICIAL_IMPROVEMENT = 'ARTIFICIAL_IMPROVEMENT',
+  STRUCTURAL_RECOVERY = 'STRUCTURAL_RECOVERY',
+  STABILIZATION = 'STABILIZATION',
+  DESTRUCTIVE_GROWTH = 'DESTRUCTIVE_GROWTH'
+}
+
+export interface TemporalTrendSignal {
+  indicator: string;
+  direction: TemporalTrendDirection;
+  cagr?: number;
+  isFavorable: boolean;
+  description: string;
+}
+
+export interface TemporalInflectionPoint {
+  period: string;
+  indicator: string;
+  type: 'REVERSAL_TO_POSITIVE' | 'REVERSAL_TO_NEGATIVE' | 'STABILIZATION';
+  description: string;
+}
+
+export interface TemporalRiskPattern {
+  patternId: string;
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM';
+  name: TemporalPatternName;
+  label: string;
+  evidence: string[];
+}
+
+export interface TemporalRecoveryPattern {
+  patternId: string;
+  strength: 'STRONG' | 'MODERATE' | 'WEAK';
+  name: TemporalPatternName;
+  label: string;
+  evidence: string[];
+}
+
+export interface TemporalCausalityOutput extends TemporalTrajectoryOutput {
+  trendSignals: TemporalTrendSignal[];
+  inflectionPoints: TemporalInflectionPoint[];
+  riskPatterns: TemporalRiskPattern[];
+  recoveryPatterns: TemporalRecoveryPattern[];
+  executiveSummary: string;
+  confidence: TemporalConfidence;
+}
+
 export function evaluateTemporalCausality(
   historicalData: HistoricalPeriodData[]
-): TemporalTrajectoryOutput {
+): TemporalCausalityOutput {
+  const tStart = performance.now();
   
   if (!historicalData || historicalData.length < 3) {
     const conf = evaluateTrendConfidence(historicalData ? historicalData.length : 0);
+    console.log(`[TELEMETRY] Temporal Engine Execution Time: ${(performance.now() - tStart).toFixed(2)}ms (LIMITED RUN)`);
+    const isAbruptCollapse = historicalData.length === 2 && 
+                             ((historicalData[1].metrics.saldoTesouraria < historicalData[0].metrics.saldoTesouraria * 0.2 && historicalData[0].metrics.saldoTesouraria > 0) || 
+                              (historicalData[1].bp.patrimonioLiquido < historicalData[0].bp.patrimonioLiquido * 0.5 && historicalData[0].bp.patrimonioLiquido > 0));
+    
+    if (isAbruptCollapse) {
+      return {
+        temporalMode: 'LIMITED_TEMPORAL_MODE',
+        trendConfidence: conf,
+        reasonForLimitedConfidence: conf.explanation,
+        historicalPeriodsAnalyzed: 2,
+        trajectoryImpact: 'NEGATIVE',
+        scoreAdjustment: -20,
+        modulationAllowedByTemporal: false,
+        temporalScore: 'Structural Collapse',
+        isDestructiveGrowth: false,
+        isTurnaroundEmerging: false,
+        insights: {
+          liquidez: 'Alerta: Queda severa de caixa.',
+          estoque: 'Sem dados.',
+          margem: 'Sem dados.',
+          endividamento: 'Sem dados.',
+          capitalDeGiro: 'Sem dados.',
+          continuidade: 'Sinais de ruptura iminente.'
+        },
+        trendSignals: [],
+        inflectionPoints: [],
+        riskPatterns: [{
+          patternId: 'RISK_ABRUPT_COLLAPSE',
+          severity: 'CRITICAL',
+          name: TemporalPatternName.ABRUPT_COLLAPSE,
+          label: 'Colapso Abrupto',
+          evidence: ['Destruição severa de liquidez ou patrimônio em ciclo único', 'Sinais de ruptura iminente']
+        }],
+        recoveryPatterns: [],
+        executiveSummary: 'Alerta máximo: Colapso abrupto identificado nos níveis de liquidez ou proteção patrimonial.',
+        confidence: 'LOW'
+      };
+    }
+
     return {
       temporalMode: 'LIMITED_TEMPORAL_MODE',
       trendConfidence: conf,
@@ -67,7 +161,13 @@ export function evaluateTemporalCausality(
         endividamento: 'Sem dados suficientes para inferência direcional.',
         capitalDeGiro: 'Sem dados suficientes para inferência direcional.',
         continuidade: 'Série histórica incompleta para detecção de tendência.'
-      }
+      },
+      trendSignals: [],
+      inflectionPoints: [],
+      riskPatterns: [],
+      recoveryPatterns: [],
+      executiveSummary: 'Série histórica insuficiente para estabelecer correlação longitudinal.',
+      confidence: 'LOW'
     };
   }
 
@@ -146,6 +246,169 @@ export function evaluateTemporalCausality(
     continuidade: isDestructiveGrowth ? "Padrão de expansão destrutiva identificado; colapso sistêmico em aceleração." : (isTurnaroundEmerging ? "Sinais consistentes de turnaround financeiro e estancamento de sangria." : "Base mantendo estabilidade tática.")
   };
 
+  const trendSignals: TemporalTrendSignal[] = [];
+  const inflectionPoints: TemporalInflectionPoint[] = [];
+  const riskPatterns: TemporalRiskPattern[] = [];
+  const recoveryPatterns: TemporalRecoveryPattern[] = [];
+
+  let confidence: TemporalConfidence = 'MEDIUM';
+  if (sorted.length >= 5) confidence = 'HIGH';
+
+  let executiveSummary = 'Padrão temporal estabilizado com flutuações operacionais normais.';
+
+  // DETECÇÃO DE ABRUPT COLLAPSE (Queda severa de caixa/PL em 1 período)
+  const isAbruptCollapse = (newest.metrics.saldoTesouraria < previous.metrics.saldoTesouraria * 0.2 && previous.metrics.saldoTesouraria > 0) || 
+                           (newest.bp.patrimonioLiquido < previous.bp.patrimonioLiquido * 0.5 && previous.bp.patrimonioLiquido > 0);
+
+  // DETECÇÃO DE PROGRESSIVE DETERIORATION (Queda consecutiva de EBITDA + Aumento de dívida)
+  const isProgressiveDeterioration = newest.metrics.ebitda < previous.metrics.ebitda && 
+                                     previous.metrics.ebitda < oldest.metrics.ebitda && 
+                                     newest.bp.passivosFinanceiros > previous.bp.passivosFinanceiros &&
+                                     previous.bp.passivosFinanceiros > oldest.bp.passivosFinanceiros;
+
+  // DETECÇÃO DE RECURRENT EXTERNAL DEPENDENCY (Queima de caixa operacional coberta por dívida)
+  const isRecurrentDependency = newest.metrics.ebitda <= 0 && previous.metrics.ebitda <= 0 && deltaDivida > 0 && deltaCaixa >= 0;
+
+  // DETECÇÃO DE ARTIFICIAL IMPROVEMENT (Lucro Líquido subindo, mas EBITDA caindo e sem melhora real no caixa orgânico)
+  const isArtificialImprovement = newest.metrics.lucroLiquido > previous.metrics.lucroLiquido && 
+                                  newest.metrics.ebitda < previous.metrics.ebitda;
+
+  if (isDestructiveGrowth) {
+    riskPatterns.push({
+      patternId: 'RISK_DESTRUCTIVE_GROWTH',
+      severity: 'CRITICAL',
+      name: TemporalPatternName.DESTRUCTIVE_GROWTH,
+      label: 'Crescimento Destrutivo',
+      evidence: [
+        'Aumento de estoque desproporcional',
+        'Consumo contínuo de caixa',
+        'Crescimento de dívida',
+        'Deterioração de margem operacional (EBITDA)'
+      ]
+    });
+  } 
+  
+  if (isAbruptCollapse) {
+    riskPatterns.push({
+      patternId: 'RISK_ABRUPT_COLLAPSE',
+      severity: 'CRITICAL',
+      name: TemporalPatternName.ABRUPT_COLLAPSE,
+      label: 'Colapso Abrupto',
+      evidence: [
+        'Destruição severa de liquidez ou patrimônio em ciclo único',
+        'Sinais de ruptura iminente'
+      ]
+    });
+  } 
+  
+  if (isProgressiveDeterioration) {
+    riskPatterns.push({
+      patternId: 'RISK_PROGRESSIVE_DETERIORATION',
+      severity: 'HIGH',
+      name: TemporalPatternName.PROGRESSIVE_DETERIORATION,
+      label: 'Deterioração Progressiva',
+      evidence: [
+        'Queda consecutiva de geração operacional',
+        'Aumento sistêmico de endividamento'
+      ]
+    });
+  } 
+  
+  if (isArtificialImprovement) {
+    riskPatterns.push({
+      patternId: 'RISK_ARTIFICIAL_IMPROVEMENT',
+      severity: 'HIGH',
+      name: TemporalPatternName.ARTIFICIAL_IMPROVEMENT,
+      label: 'Melhora Artificial',
+      evidence: [
+        'Aumento de lucro líquido incompatível com geração de caixa e EBITDA',
+        'Sinais de efeitos não-recorrentes mascarando queima operacional'
+      ]
+    });
+  } 
+  
+  if (isRecurrentDependency) {
+    riskPatterns.push({
+      patternId: 'RISK_RECURRENT_DEPENDENCY',
+      severity: 'MEDIUM',
+      name: TemporalPatternName.RECURRENT_EXTERNAL_DEPENDENCY,
+      label: 'Dependência de Capital Externo',
+      evidence: [
+        'Geração de caixa nula ou negativa persistente',
+        'Manutenção de liquidez suportada primariamente por assunção de dívidas'
+      ]
+    });
+  }
+
+  if (isDestructiveGrowth || isAbruptCollapse || isProgressiveDeterioration || isArtificialImprovement || isRecurrentDependency) {
+    executiveSummary = 'Identificados padrões de risco na trajetória financeira. Atenção à estruturação operacional.';
+    if (isDestructiveGrowth) executiveSummary = 'Identificado padrão crítico de expansão destrutiva, caracterizado por queima progressiva de tesouraria operacional simultânea à alavancagem externa.';
+    else if (isAbruptCollapse) executiveSummary = 'Alerta máximo: Colapso abrupto identificado nos níveis de liquidez ou proteção patrimonial.';
+    else if (isProgressiveDeterioration) executiveSummary = 'Padrão de deterioração contínua. A empresa está perdendo capacidade de geração enquanto amplia exposição a dívidas.';
+    else if (isArtificialImprovement) executiveSummary = 'Melhora contábil artificial detectada. O resultado de última linha foi impulsionado por fatores não operacionais, mascarando a degradação do core business.';
+    else if (isRecurrentDependency) executiveSummary = 'Operação artificialmente mantida. A capacidade de tesouraria decorre de influxo constante de dívida, sem sustentação na geração própria.';
+  } else if (isTurnaroundEmerging) {
+    recoveryPatterns.push({
+      patternId: 'REC_TURNAROUND_EMERGING',
+      strength: 'MODERATE',
+      name: TemporalPatternName.STRUCTURAL_RECOVERY,
+      label: 'Turnaround Emergente',
+      evidence: [
+        'Reversão de histórico de prejuízo',
+        'Recuperação de caixa operacional',
+        'Expansão de margem EBITDA consolidada'
+      ]
+    });
+    executiveSummary = 'Sinais consistentes de recuperação estrutural emergente, com estancamento de perdas e formação de nova capacidade de geração.';
+  } else if (deltaEbitda > 0 && deltaCaixa > 0 && deltaDivida <= 0) {
+    recoveryPatterns.push({
+      patternId: 'REC_STABILIZATION',
+      strength: 'MODERATE',
+      name: TemporalPatternName.STABILIZATION,
+      label: 'Estabilização de Fundamentos',
+      evidence: [
+        'Geração operacional consistente',
+        'Ausência de pressão de dívida adicional'
+      ]
+    });
+    executiveSummary = 'Fase de estabilização confirmada. Fundamentos operacionais sólidos sustentando fluxo orgânico.';
+  }
+
+  // TREND SIGNALS
+  trendSignals.push({
+    indicator: 'EBITDA',
+    direction: deltaEbitda > 0 ? (newest.metrics.ebitda - previous.metrics.ebitda > previous.metrics.ebitda - oldest.metrics.ebitda ? 'ACCELERATING' : 'DECELERATING') : 'DECELERATING',
+    isFavorable: deltaEbitda > 0,
+    description: `A geração operacional histórica apresenta ${deltaEbitda > 0 ? 'ganho' : 'perda'} de tração.`
+  });
+
+  trendSignals.push({
+    indicator: 'Tesouraria (Caixa)',
+    direction: deltaCaixa > 0 ? 'ACCELERATING' : 'DECELERATING',
+    isFavorable: deltaCaixa > 0,
+    description: `A liquidez consolidada indica ${deltaCaixa > 0 ? 'acúmulo' : 'consumo'} progressivo de caixa.`
+  });
+
+  // INFLECTION POINTS
+  if (previous.metrics.ebitda < 0 && newest.metrics.ebitda > 0) {
+    inflectionPoints.push({
+      period: newest.year.toString(),
+      indicator: 'EBITDA',
+      type: 'REVERSAL_TO_POSITIVE',
+      description: 'Retomada de geração operacional positiva após período de queima.'
+    });
+  }
+  if (previous.metrics.lucroLiquido < 0 && newest.metrics.lucroLiquido > 0) {
+    inflectionPoints.push({
+      period: newest.year.toString(),
+      indicator: 'Lucro Líquido',
+      type: 'REVERSAL_TO_POSITIVE',
+      description: 'Break-even financeiro atingido no último período.'
+    });
+  }
+
+  console.log(`[TELEMETRY] Temporal Engine Execution Time: ${(performance.now() - tStart).toFixed(2)}ms (FULL RUN, ${sorted.length} years)`);
+
   return {
     temporalMode: 'FULL_TEMPORAL_MODE',
     trendConfidence: conf,
@@ -156,6 +419,12 @@ export function evaluateTemporalCausality(
     temporalScore,
     isDestructiveGrowth,
     isTurnaroundEmerging,
-    insights
+    insights,
+    trendSignals,
+    inflectionPoints,
+    riskPatterns,
+    recoveryPatterns,
+    executiveSummary,
+    confidence
   };
 }

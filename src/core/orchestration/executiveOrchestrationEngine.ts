@@ -125,6 +125,8 @@ export function orchestrateSynchronousIntelligence(
   trendParams?: { isTurnaroundEmerging?: boolean; isDestructiveGrowth?: boolean; confidenceLevel?: 'HIGH_CONFIDENCE' | 'MEDIUM_CONFIDENCE' | 'LOW_CONFIDENCE' },
   historicalSeries?: any[]
 ): { metrics: any; scores: any; causalInsights: any; auditTrail: InstitutionalAuditTrail; businessIdentity: any } {
+  const tStart = performance.now();
+  
   const metrics = calculateFinancialMetrics(bpSummary, ebitda, lucroLiquido, industry);
   const identity = inferBusinessIdentity(industry, 1, bpSummary, [], clientValidation);
   
@@ -144,6 +146,8 @@ export function orchestrateSynchronousIntelligence(
       score: updatedScores.resilienciaGlobal
     }
   );
+  
+  console.log(`[TELEMETRY] Orchestrator Execution Time: ${(performance.now() - tStart).toFixed(2)}ms`);
 
   return {
     metrics: result.sanitizedOutput.metrics,

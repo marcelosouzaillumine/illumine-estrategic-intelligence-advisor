@@ -7,7 +7,9 @@ import { db, auth } from '../../lib/firebase';
 import { cn, formatCurrency, formatDate, formatValue, getThemeColors } from '../../lib/utils';
 import { PageHeader, KpiCard } from '../Common';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
+import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
 import { generateCashFlow } from '../../services/cashFlowService';
+import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell, Legend } from 'recharts';
 
 export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedYear }: any) {
@@ -31,6 +33,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
   }, [selectedClient]);
 
   const [dbFluxo, setDbFluxo] = useState<any>(null);
+  const [executiveReport, setExecutiveReport] = useState<ExecutiveIntelligenceReport | null>(null);
 
   useEffect(() => {
     refreshData();
@@ -52,9 +55,18 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
     try {
       const snap = await getDocs(q);
       if (!snap.empty) {
-        setDbFluxo(snap.docs[0].data());
+        const data = snap.docs[0].data();
+        setDbFluxo(data);
+        const input = {
+          cashFlowData: [data],
+          rawFinancialData: { segmentoEmpresa: clients?.find((c: any) => c.id === cleanId)?.segmento || 'Default' },
+          historicalCyclesCount: 1,
+          isMockData: false
+        };
+        setExecutiveReport(executiveRuntime.generateExecutiveReport(input));
       } else {
         setDbFluxo(null);
+        setExecutiveReport(null);
       }
     } catch (err) {
       console.error('Error refreshing data:', err);
@@ -117,24 +129,17 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
       const entradasNoPeriodo = Fluxo_Diario_Filtered.reduce((acc: number, r: any) => acc + (Number(r?.Entradas) || 0), 0);
       const saídasNoPeriodo = Fluxo_Diario_Filtered.reduce((acc: number, r: any) => acc + (Number(r?.["Saídas"]) || 0), 0);
-      const payablesNoPeriodo = Contas_Pagar.filter((p: any) => p.Vencimento <= Fluxo_Diario_Filtered[Fluxo_Diario_Filtered.length - 1]?.Data).reduce((acc: number, p: any) => acc + (Number(p.Valor) || 0), 0);
       
-      const mesesNoPeriodo = Math.max(1, viewRange / 30);
-      const ncg = saídasNoPeriodo / mesesNoPeriodo;
-
-      const lcr = payablesNoPeriodo > 0 ? (saldoInicial + entradasNoPeriodo) / payablesNoPeriodo : 2;
-      const margemSeguranca = saídasNoPeriodo > 0 ? (saldoFinal / saídasNoPeriodo) * 100 : 0;
-
       const diasAteRuptura = Number(KPIs.find((k: any) => k.Indicador === "Dias até Ruptura")?.["Fórmula / Valor"] ?? -1);
       
       const totalVencidoReceber = Contas_Receber.filter((r: any) => r.Status === 'Vencido').reduce((acc: number, r: any) => acc + (Number(r.Valor) || 0), 0);
       const totalReceberGeral = Contas_Receber.reduce((acc: number, r: any) => acc + (Number(r.Valor) || 0), 0);
       const indiceInadimplencia = totalReceberGeral > 0 ? (totalVencidoReceber / totalReceberGeral) * 100 : 0;
 
-      return { saldoInicial, entradas: entradasNoPeriodo, saidas: saídasNoPeriodo, saldoFinal, passivoVencido, burnRate, diasCaixa, pontoMinimo, dataRuptura, ncg, diasAteRuptura, totalVencidoReceber, indiceInadimplencia, lcr, margemSeguranca };
+      return { saldoInicial, entradas: entradasNoPeriodo, saidas: saídasNoPeriodo, saldoFinal, passivoVencido, burnRate, diasCaixa, pontoMinimo, dataRuptura, diasAteRuptura, totalVencidoReceber, indiceInadimplencia };
     } catch (e) {
       console.error("Error calculating summary metrics:", e);
-      return { saldoInicial: 0, entradas: 0, saidas: 0, saldoFinal: 0, passivoVencido: 0, burnRate: 0, diasCaixa: 0, pontoMinimo: { "Fórmula / Valor": 0, Data: '' }, dataRuptura: null, ncg: 0, diasAteRuptura: -1, lcr: 0, margemSeguranca: 0 };
+      return { saldoInicial: 0, entradas: 0, saidas: 0, saldoFinal: 0, passivoVencido: 0, burnRate: 0, diasCaixa: 0, pontoMinimo: { "Fórmula / Valor": 0, Data: '' }, dataRuptura: null, diasAteRuptura: -1 };
     }
   }, [Fluxo_Diario_Filtered, Passivo_Vencido, KPIs, viewRange, Contas_Pagar, Contas_Receber]);
 
@@ -333,29 +338,15 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
               <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm col-span-1 md:col-span-2">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">CFO Executive Summary</p>
                 <div className="space-y-4">
-                  {resumo?.saldoFinal < 0 || resumo?.dataRuptura ? (
-                    <div className="flex items-start gap-3 p-4 bg-rose-50 rounded-2xl border border-rose-100">
-                      <div className="w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center text-white shrink-0">!</div>
+                  {executiveReport?.metrics?.alerts?.map((alert: any, i: number) => (
+                    <div key={i} className={`flex items-start gap-3 p-4 rounded-2xl border ${alert.type === 'danger' ? 'bg-rose-50 border-rose-100' : 'bg-amber-50 border-amber-100'}`}>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0 ${alert.type === 'danger' ? 'bg-rose-500' : 'bg-amber-500'}`}>!</div>
                       <div>
-                        <h4 className="text-sm font-black text-rose-900 uppercase tracking-tight">Risco de Liquidez Identificado</h4>
-                        <p className="text-xs text-rose-700 mt-1">
-                          {resumo?.dataRuptura 
-                            ? `O fluxo ficará negativo pela primeira vez em ${formatDate(resumo.dataRuptura)}. `
-                            : `Atenção: Saldo projetado de ${formatCurrency(resumo?.saldoFinal)}. `
-                          }
-                          Recomenda-se revisão imediata de prazos com fornecedores.
-                        </p>
+                        <h4 className={`text-sm font-black uppercase tracking-tight ${alert.type === 'danger' ? 'text-rose-900' : 'text-amber-900'}`}>{alert.type === 'danger' ? 'Alerta Crítico' : 'Atenção'}</h4>
+                        <p className={`text-xs mt-1 ${alert.type === 'danger' ? 'text-rose-700' : 'text-amber-700'}`}>{alert.msg}</p>
                       </div>
                     </div>
-                  ) : (
-                    <div className="flex items-start gap-3 p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
-                      <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white shrink-0">✓</div>
-                      <div>
-                        <h4 className="text-sm font-black text-emerald-900 uppercase tracking-tight">Liquidez Sob Controle</h4>
-                        <p className="text-xs text-emerald-700 mt-1">A operação mantém-se positiva nos próximos {viewRange} dias. Ponto de caixa mínimo: <span className="font-bold">{formatCurrency(Number(resumo?.pontoMinimo?.["Fórmula / Valor"]) || 0)}</span>.</p>
-                      </div>
-                    </div>
-                  )}
+                  ))}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                       <p className="text-[9px] font-bold text-slate-400 uppercase">Runway Operacional</p>
@@ -383,9 +374,9 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 {[
                   { title: 'Saldo Final Projetado', value: formatValue(resumo.saldoFinal, ''), color: resumo.saldoFinal < 0 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: 'R$' },
                   { title: 'Passivo Vencido', value: formatValue(resumo.passivoVencido, ''), color: 'Vermelho', icon: Calculator, suffix: 'R$' },
-                  { title: `LCR (${viewRange}D)`, value: Number(resumo.lcr).toFixed(2), color: Number(resumo.lcr) < 1 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: '' },
-                  { title: `Margem Segurança`, value: Number(resumo.margemSeguranca).toFixed(2), color: Number(resumo.margemSeguranca) < 10 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: '%' },
-                  { title: 'Necessidade Mensal (NCG)', value: formatValue(resumo.ncg, ''), color: 'Verde', icon: Calculator, suffix: 'R$' },
+                  { title: 'Runway (Dias)', value: formatValue(resumo.diasCaixa, ''), color: resumo.diasCaixa < 30 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: '' },
+                  { title: 'Inadimplência', value: formatValue(resumo.indiceInadimplencia, ''), color: resumo.indiceInadimplencia > 10 ? 'Vermelho' : 'Verde', icon: Calculator, suffix: '%' },
+                  { title: 'Burn Rate Diário', value: formatValue(resumo.burnRate, ''), color: 'Amarelo', icon: Calculator, suffix: 'R$' },
                 ].map((kpi, idx) => (
                   <KpiCard 
                     key={idx}
@@ -398,6 +389,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                 ))}
               </div>
             </div>
+
+            <ExecutivePerspectiveSection intelligenceReport={executiveReport} loading={!executiveReport} className="mb-8 shadow-xl" />
 
             <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
               <div className="mb-8">

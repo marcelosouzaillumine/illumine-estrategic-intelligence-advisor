@@ -21,6 +21,7 @@ import {
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
+import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import {
@@ -82,198 +83,20 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient);
 
   const loading = loadingDLPA;
+  const [executiveReport, setExecutiveReport] = useState<ExecutiveIntelligenceReport | null>(null);
 
-  // ── Inteligência de Extração e Cálculo ─────────────────────────────────────
-  const metrics = useMemo(() => {
-    const normalizeString = (s: string) => 
-      s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/^[0-9.]+\s*[-]\s*/, '').replace(/^[()=/\-+.\s]+|[()=/\-+.\s]+$/g, '').trim();
-
-    const getVal = (y: number, docTypes: string[], nameFilters: string[]) => {
-      const yearEntries = allHistoryData.filter((d: any) => 
-        Number(d.year) === y && docTypes.some(t => normalizeString(d.type || '') === normalizeString(t))
-      );
-      const normalizedFilters = nameFilters.map(normalizeString);
-      const match = yearEntries.find((d: any) => {
-        const c = normalizeString(d.conta || d.category || '');
-        return normalizedFilters.some(n => c === n || c.includes(n));
-      });
-      return match?.val || match?.valor || match?.value || 0;
-    };
-
-    // Bases
-    const lucroLiquido = getVal(filterYear, ['dre', 'resultado'], ['lucro liquido', 'lucro do exercicio', 'resultado do exercicio']);
-    const lucroOperacional = getVal(filterYear, ['dre'], ['ebit', 'lucro operacional', 'resultado operacional']);
-    const ebitda = getVal(filterYear, ['dre'], ['ebitda', 'lajida']);
-    const eventosNaoRecorrentes = getVal(filterYear, ['dre'], ['nao recorrente', 'extraordinario', 'outras receitas e despesas']);
-    
-    // DLPA / DFC
-    let dividendos = getVal(filterYear, ['dlpa', 'dre', 'dfc'], ['dividendos', 'distribuicao de lucros', 'lucros distribuidos']);
-    if (!dividendos && dbDataDLPA.length > 0) {
-       dividendos = dbDataDLPA.find(d => normalizeString(d.conta || d.category || '').includes('distribuicao'))?.val || 0;
+  useEffect(() => {
+    if (!loadingHistory && allHistoryData.length > 0) {
+      const input = {
+        rawFinancialData: { segmentoEmpresa: clients?.find((c: any) => c.id === selectedClient)?.segmento || 'Default' },
+        historicalCyclesCount: 1,
+        isMockData: false
+      };
+      setExecutiveReport(executiveRuntime.generateExecutiveReport(input));
     }
-    dividendos = Math.abs(dividendos); // Distribuição é saída
+  }, [allHistoryData, loadingHistory, selectedClient, clients]);
 
-    const caixaOperacional = getVal(filterYear, ['dfc'], ['caixa operacional', 'fco', 'atividades operacionais']);
-    const capex = Math.abs(getVal(filterYear, ['dfc', 'bp'], ['capex', 'investimento', 'imobilizado', 'atividades de investimento']));
-    const varCapGiro = getVal(filterYear, ['dfc'], ['capital de giro', 'variacao do capital de giro']);
-    
-    // BP
-    const pl = getVal(filterYear, ['bp', 'balanço patrimonial'], ['patrimonio liquido', 'pl']);
-    const plInicial = getVal(filterYear - 1, ['bp', 'balanço patrimonial'], ['patrimonio liquido', 'pl']);
-    const lucrosAcumulados = getVal(filterYear, ['bp', 'dlpa'], ['lucros acumulados', 'saldo final', 'lucros ou prejuizos']);
-    const prejuizoAcumulado = lucrosAcumulados < 0 ? Math.abs(lucrosAcumulados) : 0;
 
-    // Fórmulas
-    const resultadoRecorrente = lucroLiquido - eventosNaoRecorrentes;
-    const fluxCaixaLivre = caixaOperacional - capex;
-
-    const convLucroCaixa = lucroLiquido !== 0 ? caixaOperacional / lucroLiquido : 0;
-    const dividendCoverage = dividendos !== 0 ? lucroLiquido / dividendos : 0;
-    const distCaixaLivre = fluxCaixaLivre !== 0 ? dividendos / fluxCaixaLivre : 0;
-    const retencaoEstrategica = lucroLiquido > 0 ? Math.max(0, lucroLiquido - dividendos) / lucroLiquido : 0;
-    
-    const cobPatrimonialPrejuizo = prejuizoAcumulado !== 0 ? pl / prejuizoAcumulado : 0;
-    const erosaoPatrimonial = pl !== 0 ? prejuizoAcumulado / pl : 0;
-    
-    const plPreDistribuicao = pl + dividendos;
-    const presCapital = plPreDistribuicao !== 0 ? pl / plPreDistribuicao : 0;
-    
-    const taxaReinvest = lucroOperacional !== 0 ? (capex + Math.abs(varCapGiro)) / lucroOperacional : 0;
-    const dependSocios = caixaOperacional !== 0 ? dividendos / caixaOperacional : 0;
-
-    // Health Score (0-100)
-    let score = 100;
-    if (lucroLiquido < 0) score -= 20;
-    if (convLucroCaixa < 0.7) score -= 15;
-    if (dividendCoverage < 1) score -= 20;
-    if (distCaixaLivre > 1) score -= 15;
-    if (erosaoPatrimonial > 0.1) score -= 10;
-    if (dependSocios > 0.5) score -= 10;
-    if (taxaReinvest < 0.1) score -= 10;
-    score = Math.max(0, Math.min(100, score));
-
-    return {
-      bases: { lucroLiquido, lucroOperacional, ebitda, dividendos, caixaOperacional, capex, pl, plInicial, prejuizoAcumulado, fluxCaixaLivre, resultadoRecorrente },
-      indicadores: {
-        convLucroCaixa,
-        dividendCoverage,
-        distCaixaLivre,
-        retencaoEstrategica,
-        cobPatrimonialPrejuizo,
-        erosaoPatrimonial,
-        presCapital,
-        taxaReinvest,
-        dependSocios
-      },
-      score
-    };
-  }, [allHistoryData, filterYear, dbDataDLPA]);
-
-  // ── Classificadores ───────────────────────────────────────────────────────
-  
-  const getStatus = (val: number, type: string) => {
-    switch(type) {
-      case 'convLucroCaixa':
-        if (val > 1) return { label: 'Excelente', bgColor: 'bg-emerald-500/10', textColor: 'text-emerald-600', borderColor: 'border-emerald-500/20' };
-        if (val >= 0.7) return { label: 'Aceitável', bgColor: 'bg-blue-500/10', textColor: 'text-blue-600', borderColor: 'border-blue-500/20' };
-        if (val > 0) return { label: 'Baixa Qualidade', bgColor: 'bg-amber-500/10', textColor: 'text-amber-600', borderColor: 'border-amber-500/20' };
-        return { label: 'Risco Operacional', bgColor: 'bg-rose-500/10', textColor: 'text-rose-600', borderColor: 'border-rose-500/20' };
-      
-      case 'dividendCoverage':
-        if (val > 2) return { label: 'Saudável', bgColor: 'bg-emerald-500/10', textColor: 'text-emerald-600', borderColor: 'border-emerald-500/20' };
-        if (val >= 1) return { label: 'Estável', bgColor: 'bg-blue-500/10', textColor: 'text-blue-600', borderColor: 'border-blue-500/20' };
-        if (val > 0) return { label: 'Risco Patrimonial', bgColor: 'bg-amber-500/10', textColor: 'text-amber-600', borderColor: 'border-amber-500/20' };
-        return { label: 'Crítico', bgColor: 'bg-rose-500/10', textColor: 'text-rose-600', borderColor: 'border-rose-500/20' };
-
-      case 'erosao':
-        if (val < 0.1) return { label: 'Controlado', bgColor: 'bg-emerald-500/10', textColor: 'text-emerald-600', borderColor: 'border-emerald-500/20' };
-        if (val <= 0.3) return { label: 'Atenção', bgColor: 'bg-amber-500/10', textColor: 'text-amber-600', borderColor: 'border-amber-500/20' };
-        return { label: 'Crítico', bgColor: 'bg-rose-500/10', textColor: 'text-rose-600', borderColor: 'border-rose-500/20' };
-
-      case 'distCaixaLivre':
-        if (val <= 0.5) return { label: 'Sustentável', bgColor: 'bg-emerald-500/10', textColor: 'text-emerald-600', borderColor: 'border-emerald-500/20' };
-        if (val <= 1) return { label: 'Equilibrado', bgColor: 'bg-blue-500/10', textColor: 'text-blue-600', borderColor: 'border-blue-500/20' };
-        return { label: 'Pressão de Caixa', bgColor: 'bg-rose-500/10', textColor: 'text-rose-600', borderColor: 'border-rose-500/20' };
-        
-      default:
-        return { label: 'Estável', bgColor: 'bg-slate-500/10', textColor: 'text-slate-600', borderColor: 'border-slate-500/20' };
-    }
-  };
-
-  const getScoreStatus = (score: number) => {
-    if (score >= 80) return { label: 'Estratégico', color: 'text-emerald-500', bg: 'bg-emerald-500', border: 'border-emerald-500/30', lightBg: 'bg-emerald-500/10' };
-    if (score >= 60) return { label: 'Saudável', color: 'text-blue-500', bg: 'bg-blue-500', border: 'border-blue-500/30', lightBg: 'bg-blue-500/10' };
-    if (score >= 40) return { label: 'Sensível', color: 'text-amber-500', bg: 'bg-amber-500', border: 'border-amber-500/30', lightBg: 'bg-amber-500/10' };
-    return { label: 'Crítico', color: 'text-rose-500', bg: 'bg-rose-500', border: 'border-rose-500/30', lightBg: 'bg-rose-500/10' };
-  };
-
-  const getMaturity = (score: number, taxaReinvest: number) => {
-    if (score >= 80 && taxaReinvest > 0.3) return 'Distribuição Estratégica';
-    if (score >= 70) return 'Maturidade';
-    if (score >= 50 && taxaReinvest > 0.2) return 'Expansão';
-    if (score >= 40) return 'Consolidação';
-    return 'Sobrevivência';
-  };
-
-  const scoreStatus = getScoreStatus(metrics.score);
-  const maturityStatus = getMaturity(metrics.score, metrics.indicadores.taxaReinvest);
-
-  // ── Parecer Executivo Automático ──────────────────────────────────────────
-  const generateInsights = () => {
-    const insights = [];
-    const { bases, indicadores } = metrics;
-
-    if (bases.dividendos > 0 && bases.lucroLiquido < 0) {
-      insights.push({
-        type: 'danger',
-        text: 'A distribuição de dividendos em cenário de prejuízo líquido indica forte desalinhamento entre a remuneração dos sócios e a preservação da estrutura patrimonial da companhia.'
-      });
-    }
-
-    if (indicadores.convLucroCaixa > 0 && indicadores.convLucroCaixa < 0.7) {
-      insights.push({
-        type: 'warning',
-        text: 'O lucro contábil apresenta baixa conversão em caixa, indicando fragilidade operacional e possível risco de pressão futura sobre a liquidez.'
-      });
-    } else if (indicadores.convLucroCaixa >= 1) {
-      insights.push({
-        type: 'success',
-        text: 'Excelente conversão de lucro em caixa, validando a alta qualidade do resultado contábil e a robustez da operação.'
-      });
-    }
-
-    if (indicadores.distCaixaLivre > 1) {
-      insights.push({
-        type: 'warning',
-        text: 'A distribuição atual excede o fluxo de caixa livre gerado, forçando a companhia a consumir caixa ou aumentar endividamento para remunerar os sócios.'
-      });
-    }
-
-    if (indicadores.taxaReinvest < 0.1 && bases.lucroOperacional > 0) {
-      insights.push({
-        type: 'info',
-        text: 'A empresa apresenta boa capacidade de geração de valor operacional, porém necessita fortalecer sua taxa de reinvestimento (CAPEX) para sustentar crescimento de longo prazo.'
-      });
-    }
-
-    if (indicadores.erosaoPatrimonial > 0.1) {
-      insights.push({
-        type: 'danger',
-        text: 'Alerta de erosão patrimonial em andamento. O prejuízo acumulado já corrói parcela significativa do capital, exigindo plano de retenção imediato.'
-      });
-    }
-
-    if (insights.length === 0) {
-      insights.push({
-        type: 'success',
-        text: 'O modelo de distribuição encontra-se alinhado à geração de caixa e preservação patrimonial, demonstrando alta maturidade na governança corporativa.'
-      });
-    }
-
-    return insights;
-  };
-
-  const insights = generateInsights();
 
   // ── Histórico para Gráficos ───────────────────────────────────────────────
   const chartData = useMemo(() => {
@@ -365,7 +188,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       {/* Visão de Board e Parecer Automático */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
         <div className="lg:col-span-1 rounded-[32px] p-8 bg-slate-900 border border-slate-800 shadow-2xl relative overflow-hidden flex flex-col justify-between text-white group">
-          <div className={cn("absolute top-0 right-0 w-64 h-64 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none transition-all duration-700 group-hover:scale-110", scoreStatus.lightBg)} />
+          <div className={cn("absolute top-0 right-0 w-64 h-64 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none transition-all duration-700 group-hover:scale-110", "bg-blue-500/10")} />
           <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay pointer-events-none" />
           
           <div className="relative z-10">
@@ -378,21 +201,11 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 <p className="text-[10px] text-white/50 uppercase font-bold tracking-widest mt-0.5">Visão de Board</p>
               </div>
             </div>
-
-            <div className="flex items-baseline gap-2 mb-2">
-              <span className={cn("text-7xl font-black tracking-tighter", scoreStatus.color)}>{metrics.score}</span>
-              <span className="text-2xl font-bold text-white/30">/100</span>
-            </div>
-            
-            <div className={cn("inline-flex items-center gap-2 px-3 py-1.5 rounded-full border backdrop-blur-md mb-8", scoreStatus.lightBg, scoreStatus.border)}>
-              <span className={cn("w-2 h-2 rounded-full animate-pulse", scoreStatus.bg)} />
-              <span className={cn("text-xs font-bold uppercase tracking-widest", scoreStatus.color)}>{scoreStatus.label}</span>
-            </div>
           </div>
 
           <div className="bg-white/5 p-5 rounded-2xl border border-white/5 backdrop-blur-md relative z-10">
             <p className="text-[10px] font-bold uppercase tracking-widest text-white/50 mb-1">Maturidade do Capital</p>
-            <p className="text-lg font-black text-white/90">{maturityStatus}</p>
+            <p className="text-lg font-black text-white/90">{executiveReport?.scores?.governance >= 60 ? 'Distribuição Estratégica' : 'Retenção Recomendada'}</p>
           </div>
         </div>
 
@@ -408,26 +221,19 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
            </div>
 
            <div className="space-y-4 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-             {insights.map((insight, idx) => (
+             {executiveReport?.causality?.insights?.map((insight, idx) => (
                <div key={idx} className={cn(
                  "p-5 rounded-2xl border flex gap-4",
-                 insight.type === 'danger' ? 'bg-rose-50 border-rose-100' :
-                 insight.type === 'warning' ? 'bg-amber-50 border-amber-100' :
-                 insight.type === 'success' ? 'bg-emerald-50 border-emerald-100' :
-                 'bg-blue-50 border-blue-100'
+                 insight.bgClass
                )}>
                  <div className="shrink-0 mt-0.5">
-                   {insight.type === 'danger' ? <ShieldAlert size={18} className="text-rose-500" /> :
-                    insight.type === 'warning' ? <AlertTriangle size={18} className="text-amber-500" /> :
-                    insight.type === 'success' ? <CheckCircle2 size={18} className="text-emerald-500" /> :
-                    <Info size={18} className="text-blue-500" />}
+                    {insight.bgClass.includes('rose') ? <ShieldAlert size={18} className="text-rose-500" /> :
+                     insight.bgClass.includes('amber') ? <AlertTriangle size={18} className="text-amber-500" /> :
+                     insight.bgClass.includes('emerald') ? <CheckCircle2 size={18} className="text-emerald-500" /> :
+                     <Info size={18} className="text-blue-500" />}
                  </div>
                  <p className={cn(
-                   "text-sm font-medium leading-relaxed",
-                   insight.type === 'danger' ? 'text-rose-900' :
-                   insight.type === 'warning' ? 'text-amber-900' :
-                   insight.type === 'success' ? 'text-emerald-900' :
-                   'text-blue-900'
+                   "text-sm font-medium leading-relaxed text-slate-800"
                  )}>
                    {insight.text}
                  </p>
@@ -443,76 +249,40 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         <AdvancedKpiCard 
-          title="Resultado Recorrente" 
-          value={formatCurrency(metrics.bases.resultadoRecorrente)} 
-          subtitle="Lucro s/ efeitos extraordinários"
-          status={{ label: metrics.bases.resultadoRecorrente > 0 ? 'Forte' : 'Atenção', bgColor: 'bg-slate-100', textColor: 'text-slate-600', borderColor: 'border-slate-200' }}
+          title="Liquidez Geral" 
+          value={formatValue(executiveReport?.metrics?.financialMetrics?.liqGeral || 0, '')} 
+          subtitle="Ativos / Passivos"
+          status={{ label: 'Mapeado', bgColor: 'bg-slate-100', textColor: 'text-slate-600', borderColor: 'border-slate-200' }}
           icon={TrendingUp}
           colorClass="bg-blue-50 text-blue-500"
           borderClass="border-blue-100"
         />
         <AdvancedKpiCard 
-          title="Conversão em Caixa" 
-          value={formatValue(metrics.indicadores.convLucroCaixa * 100, '') + '%'} 
-          subtitle="FCO / Lucro Líquido"
-          status={getStatus(metrics.indicadores.convLucroCaixa, 'convLucroCaixa')}
+          title="Endividamento" 
+          value={formatValue((executiveReport?.metrics?.financialMetrics?.qualidadeEndividamento || 0) * 100, '') + '%'} 
+          subtitle="Qualidade Passivo"
+          status={{ label: 'Mapeado', bgColor: 'bg-emerald-500/10', textColor: 'text-emerald-600', borderColor: 'border-emerald-500/20' }}
           icon={Activity}
           colorClass="bg-emerald-50 text-emerald-500"
           borderClass="border-emerald-100"
         />
         <AdvancedKpiCard 
-          title="Dividend Coverage" 
-          value={formatValue(metrics.indicadores.dividendCoverage, '') + 'x'} 
-          subtitle="Lucro / Dividendos"
-          status={getStatus(metrics.indicadores.dividendCoverage, 'dividendCoverage')}
+          title="Capital de Giro Líq." 
+          value={formatCurrency(executiveReport?.metrics?.financialMetrics?.cgl || 0)} 
+          subtitle="Recursos de Longo Prazo"
+          status={{ label: 'Mapeado', bgColor: 'bg-blue-500/10', textColor: 'text-blue-600', borderColor: 'border-blue-500/20' }}
           icon={ShieldCheck}
           colorClass="bg-indigo-50 text-indigo-500"
           borderClass="border-indigo-100"
         />
         <AdvancedKpiCard 
-          title="Retenção Estratégica" 
-          value={formatValue(metrics.indicadores.retencaoEstrategica * 100, '') + '%'} 
-          subtitle="Lucros retidos no negócio"
-          status={{ label: metrics.indicadores.retencaoEstrategica > 0.4 ? 'Saudável' : 'Baixo', bgColor: 'bg-purple-50', textColor: 'text-purple-600', borderColor: 'border-purple-200' }}
+          title="Saldo Tesouraria" 
+          value={formatCurrency(executiveReport?.metrics?.financialMetrics?.saldoTesouraria || 0)} 
+          subtitle="Margem Segurança"
+          status={{ label: 'Mapeado', bgColor: 'bg-purple-50', textColor: 'text-purple-600', borderColor: 'border-purple-200' }}
           icon={Database}
           colorClass="bg-purple-50 text-purple-500"
           borderClass="border-purple-100"
-        />
-        <AdvancedKpiCard 
-          title="Distr. sobre Caixa Livre" 
-          value={formatValue(metrics.indicadores.distCaixaLivre * 100, '') + '%'} 
-          subtitle="Div. / Fluxo Caixa Livre"
-          status={getStatus(metrics.indicadores.distCaixaLivre, 'distCaixaLivre')}
-          icon={PieChartIcon}
-          colorClass="bg-amber-50 text-amber-500"
-          borderClass="border-amber-100"
-        />
-        <AdvancedKpiCard 
-          title="Erosão Patrimonial" 
-          value={formatValue(metrics.indicadores.erosaoPatrimonial * 100, '') + '%'} 
-          subtitle="Prejuízo / Patrimônio Líquido"
-          status={getStatus(metrics.indicadores.erosaoPatrimonial, 'erosao')}
-          icon={TrendingDown}
-          colorClass="bg-rose-50 text-rose-500"
-          borderClass="border-rose-100"
-        />
-        <AdvancedKpiCard 
-          title="Taxa Reinvestimento" 
-          value={formatValue(metrics.indicadores.taxaReinvest * 100, '') + '%'} 
-          subtitle="CAPEX / Lucro Operacional"
-          status={{ label: metrics.indicadores.taxaReinvest > 0.15 ? 'Crescimento' : 'Estagnação', bgColor: 'bg-teal-50', textColor: 'text-teal-600', borderColor: 'border-teal-200' }}
-          icon={Target}
-          colorClass="bg-teal-50 text-teal-500"
-          borderClass="border-teal-100"
-        />
-        <AdvancedKpiCard 
-          title="Dependência dos Sócios" 
-          value={formatValue(metrics.indicadores.dependSocios * 100, '') + '%'} 
-          subtitle="Div. / Caixa Operacional"
-          status={{ label: metrics.indicadores.dependSocios < 0.5 ? 'Controlada' : 'Alta', bgColor: 'bg-orange-50', textColor: 'text-orange-600', borderColor: 'border-orange-200' }}
-          icon={AlertTriangle}
-          colorClass="bg-orange-50 text-orange-500"
-          borderClass="border-orange-100"
         />
       </div>
 
@@ -576,7 +346,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   <div>
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Qualidade do Lucro</p>
                     <p className="text-sm font-bold text-white">
-                      {metrics.indicadores.convLucroCaixa > 1 ? 'Alta' : metrics.indicadores.convLucroCaixa > 0.7 ? 'Moderada' : 'Baixa / Artificial'}
+                      {executiveReport?.scores?.financial >= 70 ? 'Alta' : 'Moderada'}
                     </p>
                   </div>
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
@@ -588,7 +358,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   <div>
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Impacto Patrimonial</p>
                     <p className="text-sm font-bold text-white">
-                      {metrics.indicadores.presCapital > 0.95 ? 'Preservado' : metrics.indicadores.presCapital > 0.8 ? 'Sob Pressão' : 'Descapitalizando'}
+                      {executiveReport?.scores?.composite >= 60 ? 'Preservado' : 'Sob Pressão'}
                     </p>
                   </div>
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
@@ -598,9 +368,9 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
                <div className="p-5 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between backdrop-blur-sm hover:bg-white/10 transition-colors">
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Cobertura de Prejuízos</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Causalidade Temporal</p>
                     <p className="text-sm font-bold text-white">
-                      {metrics.bases.prejuizoAcumulado === 0 ? 'Sem Prejuízo' : `${formatValue(metrics.indicadores.cobPatrimonialPrejuizo, '')}x o Patrimônio`}
+                      Monitorado pelo Runtime
                     </p>
                   </div>
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
@@ -637,10 +407,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
             </thead>
             <tbody className="divide-y divide-slate-50">
               {[
-                { conta: 'Saldo Inicial de Lucros Acumulados', val: metrics.bases.plInicial, isTotal: true },
-                { conta: 'Lucro Líquido do Exercício', val: metrics.bases.lucroLiquido, isTotal: false },
-                { conta: 'Distribuição (Dividendos / Reservas)', val: -metrics.bases.dividendos, isTotal: false },
-                { conta: 'Saldo Final de Lucros Acumulados', val: metrics.bases.plInicial + metrics.bases.lucroLiquido - metrics.bases.dividendos, isTotal: true }
+                { conta: 'DLPA Estrutural', val: 0, isTotal: true },
               ].map((row: any, i: number) => (
                 <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', row.isTotal ? 'bg-slate-50/30' : '')}>
                   <td className="py-3.5 px-6 md:px-8">
