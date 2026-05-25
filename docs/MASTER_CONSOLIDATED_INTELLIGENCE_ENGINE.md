@@ -1,35 +1,46 @@
 # MASTER CONSOLIDATED INTELLIGENCE ENGINE
 
-Este documento é a fonte normativa oficial da inteligência consolidada multi-entidade da Illumine, subordinado à Master Architecture e complementar à Master Financial Intelligence Engine.
+Este documento define as diretrizes absolutas para o **Modo Multi-Entity (Inteligência Consolidada)** da plataforma Illumine. A arquitetura corporativa garante que a consolidação financeira e causal ocorra de forma transparente, isolada e isenta de intervenções manuais não auditáveis.
 
-## 1. Princípio Fundamental
-A plataforma Illumine não é um somatório de balanços, nem um agregador de indicadores. Ela é uma **Predictive Institutional Intelligence Infrastructure**. A consolidação de dados financeiros deve obrigatoriamente evoluir para a interpretação do ecossistema corporativo.
+A camada consolidada atua acima do `MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md`, consumindo outputs normalizados de múltiplas entidades (clientes ou holdings associadas) e gerando uma inteligência executiva sistêmica.
 
-## 2. Camada de Advisory Institucional
-Toda inteligência consolidada nasce exclusivamente do Runtime Consolidado (`src/core/runtime/consolidated/advisory`). É estritamente proibido:
-- Recalcular EBITDA consolidado fora da Master Engine.
-- Inferir métricas na UI.
-- Criar advisory dentro de componentes React ou PDFs.
+---
 
-## 3. Motores de Inteligência Consolidada
+## 1. Princípios Fundamentais (Active Governance)
 
-### Holding Structure Interpreter
-Classifica o papel de cada entidade dentro do grupo (ex: `HOLDING_PATRIMONIAL`, `SUBSIDIARIA_OPERACIONAL`, `VEICULO_FINANCEIRO`). A classificação muda a expectativa de performance e risco sistêmico.
+- **Pureza Matemática e Causal:** A View Layer (React UI) nunca deduz, recalcula, soma ou classifica risco ou narrativa. A UI age exclusivamente como `Presenter`. A Data Layer age exclusivamente como `Fetcher`.
+- **Topologia Rastreada:** O `EntityGraph` rastreia a linhagem `PARENT/SUBSIDIARY` garantindo o correto mapeamento de consolidação e intercompany.
+- **Isolamento Single-Entity:** Motores originais de Single-Entity não podem ser poluídos com lógica de consolidação. A consolidação é uma camada superposta que orquestra outputs isolados em um `ConsolidatedFinancialOutput`.
+- **Proibição de Fallbacks Silenciosos:** Nenhuma Engine, Gateway ou Loader tem autorização para "tapar buracos" de dados faltantes gerando zeros absolutos. A ausência de materialidade rebaixa o Confidence Score do Runtime, que por sua vez gera *Governance Violations*.
 
-### Intercompany Dependency Analyzer
-Mapeia o nível de dependência financeira e operacional entre entidades, rastreando parasitismo de caixa, sustentação artificial (funding contínuo) e dependência de receitas cruzadas.
+## 2. A Arquitetura das Cinco Fases
 
-### Cross-Entity Causality Engine
-Identifica a causa raiz de movimentos no grupo (ex: crescimento artificial intragrupo, transferência de capital) e detecta onde o valor real é criado ou destruído.
+O Motor Consolidado foi construído modularmente em cinco Fases de Evolução e Proteção Fiduciária.
 
-### Group Risk Propagation Engine
-Simula a contaminação financeira e o risco sistêmico (ex: "Se a Subsidiária A colapsar, a Holding B tem liquidez para suportar a quebra da cadeia?").
+### Fase 1: Entity Topology Layer (`src/topology/`)
+O cérebro organizacional responsável por descobrir a cadeia societária (`lineage`), estabelecer escopos de consolidação (`100% full consolidation`) e expor dependências mútuas primárias (`IntercompanyResolver`). Mantém total retrocompatibilidade com o sistema de `clientId` original.
 
-### Consolidated Confidence Resolver
-A confiança narrativa do grupo herda a fundação financeira e sofre degradação adicional caso o advisory detecte parasitismos extremos, eliminações pendentes críticas ou dependência sistêmica não rastreável.
+### Fase 2: Consolidated Financial Runtime (`src/core/runtime/consolidated/`)
+Motor de agregação matemática rigorosa. Orquestra a soma dos BP/DREs através do `ConsolidatedFinancialOrchestrator`, e neutraliza receitas e mútuos entre CNPJs do mesmo grupo por meio do `IntercompanyEliminationEngine`.
 
-### Consolidated Narrative Engine
-Produz a síntese executiva. Proíbe expressamente jargões genéricos ("A empresa precisa melhorar a gestão") em favor de constatações causais ("O risco consolidado do grupo decorre da concentração estrutural da geração de caixa em poucas filiais, sustentadas por alto passivo intercompany").
+### Fase 3: Consolidated Advisory Intelligence Layer (`src/core/runtime/consolidated/advisory/`)
+O Motor de Causalidade. Diferencia empresas geradoras de caixa operacional de meras holdings patrimoniais (`HoldingStructureInterpreter`), encontra "crescimento de receita falso" via vendas internas, e propaga risco sistêmico de colapso de caixa (`Treasury Contamination`) se a holding asfixia subsidiárias rentáveis.
 
-## 4. Active Governance
-Qualquer falha de reconciliação cruzada estrutural (ex: dívida mútua fantasma, equidade negativa sem provisionamento) ou violação da equação patrimonial gera um alerta CRITICAL e bloqueia a emissão do `ConsolidatedExecutiveAdvisoryReport`.
+### Fase 4: Consolidated Executive Presentation Layer (`src/components/consolidated/`)
+A View Layer isolada e protegida. Consome exclusivamente o `ConsolidatedExecutiveAdvisoryReport`. Sem cálculos ou inferências na UI.
+
+### Fase 5: Consolidated Data Integration (`src/core/runtime/consolidated/data/`)
+A camada de integração de dados em nuvem. Substitui os mocks locais pelo carregamento paralelo de dados via Firebase, estritamente orientada a não intervir matematicamente.
+- **Mapeamento Vigente:** *Legacy ClientId as EntityId Bridge*. Até a futura fase de Data Model Hardening, o motor buscará coleções nativas usando `clientId === entity.id`.
+- **Gateways e Loaders:** O `ConsolidatedFinancialDataLoader` carrega todas as entidades do escopo e o `ConsolidatedDataValidationGateway` as converte para o formato rigoroso exigido pelo Runtime Financeiro.
+- **Modo Demo:** O fixture `DEMO_GROUP_FIXTURE` permanece em código apenas como switch (DEMO_MODE) no contexto para apresentações comerciais desconectadas.
+
+## 3. Segurança e Auditoria
+O sistema é continuamente validado via **Self-Audit Automático (`npm run governance:audit`)**:
+1. `runTopologyAudit.ts`: Garante que dependências e métodos de controle acionário funcionem.
+2. `runConsolidatedFinancialAudit.ts`: Protege as regras de eliminação intra-grupo.
+3. `runConsolidatedAdvisoryAudit.ts`: Avalia se o IA determinístico está rastreando causalidade estrutural parasitária de forma sensível.
+4. `runConsolidatedPresentationAudit.ts`: Escaneia os componentes visuais para garantir obediência cega ao padrão de pureza da View Layer.
+5. `runConsolidatedDataIntegrationAudit.ts`: Vasculha as Data Layers para proibir uso de reduce(), operações matemáticas ou mock leaking.
+
+> A Inteligência Consolidada não pode, em nenhuma circunstância, mascarar prejuízos estruturais ou inflar números via eliminações imperfeitas. No Illumine, Risco Oculto em Filiais contamina a narrativa da Holding.

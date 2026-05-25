@@ -78,6 +78,8 @@ import { ParceirosPage } from './components/pages/public/ParceirosPage';
 import { DiagnosticoPage } from './components/pages/public/DiagnosticoPage';
 import { LoginPage } from './components/pages/public/LoginPage';
 import { ForcePasswordChangeModal } from './components/modals/ForcePasswordChangeModal';
+import { ConsolidatedExecutiveProvider } from './context/ConsolidatedExecutiveContext';
+import { ConsolidatedExecutivePage } from './components/pages/ConsolidatedExecutivePage';
 
 import { useDataTable } from './hooks/useDataTable';
 import { SortableHeader } from './components/SortableHeader';
@@ -644,6 +646,17 @@ export default function App() {
       <Route path="/parceiros" element={<ParceirosPage />} />
       <Route path="/diagnostico" element={<DiagnosticoPage />} />
       <Route path="/login" element={user ? <Navigate to="/dashboard/dashboard" replace /> : <LoginPage />} />
+      <Route path="/consolidated-executive" element={
+        user ? (
+          <ConsolidatedExecutiveProvider>
+            <div className="bg-background min-h-screen">
+              <ConsolidatedExecutivePage />
+            </div>
+          </ConsolidatedExecutiveProvider>
+        ) : (
+          <Navigate to="/login" replace />
+        )
+      } />
       
       <Route 
         path="/dashboard/*" 

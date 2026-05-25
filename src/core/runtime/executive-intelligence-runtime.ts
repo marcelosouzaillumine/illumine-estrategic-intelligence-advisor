@@ -8,6 +8,7 @@ import { inferBusinessIdentity } from '../../lib/business-identity-engine';
 import { evaluateMasterCausality } from '../../lib/master-causal-engine';
 import { ConsolidatedRuntimeOutputExt } from './consolidated/consolidated-types';
 import { TemporalCausalityOutput } from '../intelligence/temporal-causality-engine';
+import { ScenarioOutput } from './scenario-intelligence/scenario-types';
 
 /**
  * INSTITUTIONAL RUNTIME ENFORCER
@@ -38,6 +39,12 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
     governance: number;
     structural: number;
     composite: number;
+    financialStress?: {
+      isStressed: boolean;
+      stressFactors: string[];
+      runwayImpact: number;
+      recommendedActions: string[];
+    };
   };
   capitalStructure: {
     qualityRating: string;
@@ -114,6 +121,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
     auditFlags: string[];
   };
   temporalCausality?: TemporalCausalityOutput;
+  scenarioProjections?: ScenarioOutput[];
 }
 
 export class ExecutiveIntelligenceRuntime {

@@ -182,6 +182,10 @@ export function AppSidebar({
                           isActive={isActive}
                           tooltip={isCollapsed ? item.label : undefined}
                           onClick={() => {
+                            if (item.id === 'consolidated_executive') {
+                              window.location.href = '/consolidated-executive';
+                              return;
+                            }
                             if (isCollapsed && hasChildren) {
                               setOpen(true);
                               setCurrentPage(item.id);

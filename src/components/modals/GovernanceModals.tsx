@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+
 import { 
   ShieldCheck, 
   FileText, 
@@ -33,24 +33,17 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
   const allAccepted = accepted.lgpd && accepted.policies && accepted.curation;
 
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
-        <motion.div 
-          key="lgpd-modal"
-          className="fixed inset-0 z-[200] flex items-center justify-center p-6"
+        <div 
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6 animate-in fade-in duration-300"
         >
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div 
             className="absolute inset-0 bg-primary/80 backdrop-blur-md" 
           />
           
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-[95vw] md:max-w-2xl bg-background rounded-card shadow-lg overflow-hidden border border-border flex flex-col h-[95dvh] max-h-[900px]"
+          <div
+            className="relative w-full max-w-[95vw] md:max-w-2xl bg-background rounded-card shadow-lg overflow-hidden border border-border flex flex-col h-[95dvh] max-h-[900px] animate-in zoom-in-95 slide-in-from-bottom-4 duration-500"
           >
             {/* Header */}
             <div className="bg-primary p-[clamp(1rem,3dvh,2.5rem)] text-primary-foreground relative overflow-hidden shrink-0 flex flex-col justify-center">
@@ -165,27 +158,21 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 Confirmar e Entrar <ArrowRight className="w-[clamp(1rem,2dvh,1.25rem)] h-[clamp(1rem,2dvh,1.25rem)]" />
               </button>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
 
       {/* Full Terms Modal */}
       {showFullTerms && (
-        <motion.div 
-          key="full-terms"
-          className="fixed inset-0 z-[300] flex items-center justify-center p-6"
+        <div 
+          className="fixed inset-0 z-[300] flex items-center justify-center p-6 animate-in fade-in duration-300"
         >
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div 
             className="absolute inset-0 bg-primary/60 backdrop-blur-sm"
             onClick={() => setShowFullTerms(false)}
           />
-          <motion.div 
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="relative w-full max-w-4xl bg-background rounded-card shadow-lg overflow-hidden h-[80vh] flex flex-col border border-border"
+          <div 
+            className="relative w-full max-w-4xl bg-background rounded-card shadow-lg overflow-hidden h-[80vh] flex flex-col border border-border animate-in zoom-in-95 duration-300"
           >
             <div className="p-8 border-b border-border flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -221,10 +208,10 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                 <p className="text-body-sm font-medium text-muted-foreground uppercase tracking-widest">Última atualização: 15 de Maio de 2026</p>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }
 
@@ -246,25 +233,18 @@ export function DocConfirmationModal({ isOpen, onConfirm, onCancel, data }: DocC
   const [confirmed, setConfirmed] = useState(false);
 
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
-        <motion.div 
-          key="doc-confirmation"
-          className="fixed inset-0 z-[200] flex items-center justify-center p-6"
+        <div 
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6 animate-in fade-in duration-300"
         >
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div 
             className="absolute inset-0 bg-primary/60 backdrop-blur-md"
             onClick={onCancel}
           />
           
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-xl bg-background rounded-card shadow-lg overflow-hidden border border-border"
+          <div
+            className="relative w-full max-w-xl bg-background rounded-card shadow-lg overflow-hidden border border-border animate-in zoom-in-95 slide-in-from-bottom-4 duration-500"
           >
             <div className="p-8 border-b border-border flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -352,10 +332,10 @@ export function DocConfirmationModal({ isOpen, onConfirm, onCancel, data }: DocC
                 </button>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }
 
@@ -366,24 +346,17 @@ interface MandatoryClientModalProps {
 
 export function MandatoryClientModal({ isOpen, onSelect }: MandatoryClientModalProps) {
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
-        <motion.div 
-          key="mandatory-client"
-          className="fixed inset-0 z-[200] flex items-center justify-center p-6"
+        <div 
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6 animate-in fade-in duration-300"
         >
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div 
             className="absolute inset-0 bg-primary/60 backdrop-blur-md" 
           />
           
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-md bg-background rounded-card shadow-lg p-10 text-center border border-border"
+          <div
+            className="relative w-full max-w-md bg-background rounded-card shadow-lg p-10 text-center border border-border animate-in zoom-in-95 slide-in-from-bottom-4 duration-500"
             style={{ width: '100%', maxWidth: '448px', minWidth: '320px' }}
           >
             <div className="w-20 h-20 rounded-md bg-destructive/10 text-destructive flex items-center justify-center mx-auto mb-8 shadow-inner">
@@ -401,9 +374,9 @@ export function MandatoryClientModal({ isOpen, onSelect }: MandatoryClientModalP
             >
               <Building2 size={18} /> Selecionar Cliente
             </button>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }

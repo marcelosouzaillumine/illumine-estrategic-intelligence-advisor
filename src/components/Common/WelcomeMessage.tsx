@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+
 import { Sparkles, X, Rocket, TrendingUp, ShieldCheck, Zap } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
@@ -26,26 +26,18 @@ export const getRandomWelcomeMessage = () => {
 };
 
 export function WelcomeMessage({ isOpen, onClose, message, userName }: WelcomeMessageProps) {
+  if (!isOpen) return null;
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div key="welcome-wrapper" className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <motion.div
-            key="welcome-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-primary/40 backdrop-blur-sm"
-          />
-          <motion.div
-            key="welcome-content"
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-lg bg-card rounded-card shadow-2xl overflow-hidden border border-border/80"
-          >
-            {/* Top decorative element */}
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-500">
+      <div
+        onClick={onClose}
+        className="absolute inset-0 bg-primary/40 backdrop-blur-sm"
+      />
+      <div
+        className="relative w-full max-w-lg bg-card rounded-card shadow-2xl overflow-hidden border border-border/80 animate-in zoom-in-95 slide-in-from-bottom-4 duration-500"
+      >
+        {/* Top decorative element */}
             <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-primary via-secondary to-primary" />
             
             <div className="p-8 sm:p-10">
@@ -95,10 +87,8 @@ export function WelcomeMessage({ isOpen, onClose, message, userName }: WelcomeMe
                 <Zap size={16} className="group-hover:fill-current" />
               </button>
             </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+      </div>
+    </div>
   );
 }
 

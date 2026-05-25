@@ -3,13 +3,15 @@ import { ConsolidatedConfidence, ConsolidatedViolation, EliminatedValueRecord, E
 import { resolveConsolidatedConfidence } from './EntityScopedConfidenceResolver';
 import { propagateViolations } from './ConsolidatedViolationPropagator';
 import { IntercompanyEliminationResult } from './IntercompanyEliminationEngine';
+import { SystemicRiskProfile } from './stress/stress-types';
 
 export class ConsolidatedOutputAssembler {
   
   public assemble(
     groupId: string | undefined,
     reportsMap: Map<string, ExecutiveIntelligenceReport>,
-    eliminationResult?: IntercompanyEliminationResult
+    eliminationResult?: IntercompanyEliminationResult,
+    stressProfile?: SystemicRiskProfile
   ): ExecutiveIntelligenceReport {
     
     // Fallback: If only one report, we just return it (already handled by Orchestrator, but safe here)
@@ -73,6 +75,7 @@ export class ConsolidatedOutputAssembler {
       eliminationConfidence: eliminationResult?.eliminationConfidence,
       eliminationWarnings: eliminationResult?.eliminationWarnings,
       consolidationAdjustments: eliminationResult?.consolidationAdjustments,
+      systemicRiskProfile: stressProfile,
       // Overriding standard fields to show it's a consolidated view
       severity: {
          level: baseReport.severity.level,

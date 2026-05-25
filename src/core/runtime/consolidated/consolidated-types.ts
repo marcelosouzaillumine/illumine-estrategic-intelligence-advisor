@@ -4,6 +4,8 @@ export interface EntityLineageNode {
   contributionPercentage: number;
 }
 
+import { SystemicRiskProfile } from './stress/stress-types';
+
 export interface EntityProvenance {
   sourceEntityId: string;
   metricOrigin: string;
@@ -103,4 +105,5 @@ export interface ConsolidatedRuntimeOutputExt {
   eliminationConfidence?: EliminationMatchConfidence;
   eliminationWarnings?: EliminationWarning[];
   consolidationAdjustments?: ConsolidationAdjustment[];
+  systemicRiskProfile?: SystemicRiskProfile;
 }

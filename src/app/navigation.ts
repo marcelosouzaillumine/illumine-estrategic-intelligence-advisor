@@ -54,6 +54,7 @@ import {
 } from 'lucide-react';
 
 export type Page =
+  | 'consolidated_executive'
   | 'cleanup'
   | 'portfolio'
   | 'dashboard'
@@ -188,6 +189,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     icon: LayoutGrid,
     items: [
       { id: 'portfolio', label: 'Visão Consolidada', icon: Globe },
+      { id: 'consolidated_executive', label: 'Inteligência Consolidada', icon: Globe, isNew: true },
       { id: 'inteligencia_sistemica', label: 'Inteligência Sistêmica', icon: Cpu, isNew: true },
       { id: 'dashboard', label: 'Monitoramento Estratégico', icon: LayoutDashboard },
       { id: 'indicadores', label: 'Análise de KPIs', icon: TrendingUp },

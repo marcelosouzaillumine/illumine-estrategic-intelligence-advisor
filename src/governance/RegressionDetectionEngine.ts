@@ -12,7 +12,8 @@ const FORBIDDEN_PATTERNS = [
   { pattern: /evolucaoLiquidez/g, message: 'Propriedade obsoleta (evolucaoLiquidez) detectada em AI Service.' },
   { pattern: /FAKE_FALLBACK_ENGANOSO/g, message: 'Fallback genérico não permitido.' },
   { pattern: /if\s*\([^)]*year\s*>\s*prevYear[^)]*\)\s*{[^}]*alta[^}]*}/gi, message: 'Lógica YoY local detectada.' },
-  { pattern: /parseBrNumber\([^)]*\)\s*\?\?\s*0/g, message: 'FAIL-SILENT: Uso de zero silencioso detectado. Proibido pela Import Governance.' }
+  { pattern: /parseBrNumber\([^)]*\)\s*\?\?\s*0/g, message: 'FAIL-SILENT: Uso de zero silencioso detectado. Proibido pela Import Governance.' },
+  { pattern: /from\s+['"]\.\.\/lib\/scenario-simulation-engine['"]/g, message: 'MOTOR LEGADO: Importação do antigo motor de simulação detectada. Use o novo em src/core/runtime/scenario-intelligence/' }
 ];
 
 const FORBIDDEN_UI_PATTERNS = [
@@ -29,7 +30,10 @@ const FORBIDDEN_UI_PATTERNS = [
   { pattern: /calculateScore/g, message: 'UI não pode calcular score localmente. Use RuntimeOutput.' },
   { pattern: /localScore/g, message: 'Score local não é permitido. Use RuntimeOutput.' },
   { pattern: /generateAdvisory/g, message: 'UI não pode gerar advisory. Use RuntimeOutput.' },
-  { pattern: /localAdvisory/g, message: 'Advisory local não é permitido. Use RuntimeOutput.' }
+  { pattern: /localAdvisory/g, message: 'Advisory local não é permitido. Use RuntimeOutput.' },
+  { pattern: /simulateScenario/g, message: 'UI não pode simular cenário localmente. Use Scenario Layer.' },
+  { pattern: /projectedEbitda/g, message: 'UI não pode calcular EBITDA projetado localmente. Use Scenario Output.' },
+  { pattern: /scenarioAdvisory/g, message: 'Advisory preditivo local não é permitido. Use Scenario Output.' }
 ];
 
 export function detectRegressions(directoriesToScan: string[]): RegressionResult {

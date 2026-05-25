@@ -4,6 +4,7 @@ import { MultiEntityExecutionPlanner } from './MultiEntityExecutionPlanner';
 import { EntityRuntimeExecutor } from './EntityRuntimeExecutor';
 import { ConsolidatedOutputAssembler } from './ConsolidatedOutputAssembler';
 import { IntercompanyEliminationEngine } from './IntercompanyEliminationEngine';
+import { ConsolidatedStressPropagationEngine } from './stress/ConsolidatedStressPropagationEngine';
 
 export class ConsolidatedRuntimeOrchestrator {
   private planner: MultiEntityExecutionPlanner;
@@ -11,6 +12,7 @@ export class ConsolidatedRuntimeOrchestrator {
   private assembler: ConsolidatedOutputAssembler;
   private legacyRuntime: ExecutiveIntelligenceRuntime;
   private eliminationEngine: IntercompanyEliminationEngine;
+  private stressEngine: ConsolidatedStressPropagationEngine;
 
   constructor() {
     this.planner = new MultiEntityExecutionPlanner();
@@ -18,6 +20,7 @@ export class ConsolidatedRuntimeOrchestrator {
     this.assembler = new ConsolidatedOutputAssembler();
     this.legacyRuntime = new ExecutiveIntelligenceRuntime();
     this.eliminationEngine = new IntercompanyEliminationEngine();
+    this.stressEngine = new ConsolidatedStressPropagationEngine();
   }
 
   /**
@@ -54,8 +57,16 @@ export class ConsolidatedRuntimeOrchestrator {
     // 2.5 Fase 3: Intercompany Elimination Engine
     const eliminationResult = this.eliminationEngine.executeElimination(typedInput);
 
+    // 2.7 Fase 4: Consolidated Stress Propagation Engine
+    const stressProfile = this.stressEngine.propagateStress(
+      typedInput, 
+      reportsMap, 
+      eliminationResult.eliminatedEntries, 
+      eliminationResult.unreconciledIntercompany
+    );
+
     // 3. Assembler
-    const consolidatedReport = this.assembler.assemble(typedInput.groupId, reportsMap, eliminationResult);
+    const consolidatedReport = this.assembler.assemble(typedInput.groupId, reportsMap, eliminationResult, stressProfile);
 
     return consolidatedReport;
   }

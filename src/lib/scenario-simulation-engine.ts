@@ -4,6 +4,11 @@ import { MasterCausalOutput, evaluateMasterCausality } from './master-causal-eng
 import { ExecutiveAdvisoryReport, generateExecutiveAdvisory } from './executive-advisory-engine';
 import { BPSummary } from './bpEngine';
 
+/**
+ * @deprecated MOTOR LEGADO (FASE 1/2) - SERÁ REMOVIDO APÓS 0 IMPORTS ATIVOS.
+ * POR FAVOR, USE O NOVO MOTOR: `src/core/runtime/scenario-intelligence/`
+ */
+
 // --- INTERFACES ---
 
 export interface ScenarioParameters {
