@@ -221,3 +221,33 @@ export async function generateCashFlow(context: DataAccessContext, clientId: str
 
   return cashFlowData;
 }
+
+export async function getFinancialEntries(context: DataAccessContext, clientId: string) {
+  if (!clientId) throw new Error('Client ID is required');
+  const cleanId = clientId.trim();
+
+  return GovernedRepositoryWrapper.execute(context, async () => {
+    const q = query(
+      collection(db, 'financial_entries'),
+      where('clientId', '==', cleanId)
+    );
+    const snap = await getDocs(q);
+    return snap.docs
+      .map(doc => ({ id: doc.id, ...doc.data() }))
+      .filter((d: any) => d.status !== 'archived' && d.status !== 'pending' && d.status !== 'rejected');
+  });
+}
+
+export async function getBudgets(context: DataAccessContext, clientId: string) {
+  if (!clientId) throw new Error('Client ID is required');
+  const cleanId = clientId.trim();
+
+  return GovernedRepositoryWrapper.execute(context, async () => {
+    const q = query(
+      collection(db, 'budgets'),
+      where('clientId', '==', cleanId)
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  });
+}

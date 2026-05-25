@@ -95,6 +95,7 @@ import { GovernanceStructureCenter } from '../components/pages/governance/Govern
 import { GovernanceRiskHeatmap } from '../components/pages/governance/GovernanceRiskHeatmap';
 import { FiduciaryGovernanceCenter } from '../components/pages/governance/FiduciaryGovernanceCenter';
 import { ComplianceIntegrityCenter } from '../components/pages/governance/ComplianceIntegrityCenter';
+import { GovernanceOrchestrationPage } from '../components/pages/GovernanceOrchestrationPage';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -526,6 +527,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'strategic_simulation' && (isMaster || true)) {
     return <StrategicSimulationPage />;
+  }
+  if (currentPage === 'governance_orchestration' && (isMaster || true)) {
+    return <GovernanceOrchestrationPage />;
   }
   if (currentPage === 'strategic_intelligence_center') {
     return <StrategicIntelligenceCenter />;

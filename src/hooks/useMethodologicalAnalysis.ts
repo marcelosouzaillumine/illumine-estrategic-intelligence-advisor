@@ -9,7 +9,7 @@ export function useMethodologicalAnalysis(clientId: string, year: number, month:
   const [error, setError] = useState<string | null>(null);
 
   const fetchOrCreateAnalysis = useCallback(async (isCancelled: { current: boolean }) => {
-    if (!clientId || dbDre.length === 0 || dbBp.length === 0) {
+    if (!clientId || (dbDre.length === 0 && dbBp.length === 0)) {
       if (!isCancelled.current) setLoading(false);
       return;
     }

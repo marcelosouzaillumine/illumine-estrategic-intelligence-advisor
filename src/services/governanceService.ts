@@ -91,5 +91,24 @@ export const governanceService = {
         return [];
       }
     });
+  },
+
+  async getDashboardIndicators(context: DataAccessContext, clientId: string): Promise<any[]> {
+    if (!clientId) throw new Error('Client ID is required');
+    const cleanId = clientId.trim();
+
+    return GovernedRepositoryWrapper.execute(context, async () => {
+      try {
+        const q = query(
+          collection(db, 'indicators'),
+          where('clientId', '==', cleanId)
+        );
+        const snap = await getDocs(q);
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch (error) {
+        console.error('Error fetching indicators:', error);
+        return [];
+      }
+    });
   }
 };

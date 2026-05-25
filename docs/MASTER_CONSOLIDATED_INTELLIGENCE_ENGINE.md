@@ -103,6 +103,11 @@ A plataforma eleva-se à **Strategic Governance Simulation Infrastructure**. Tra
 - **Sandbox Isolado:** Motores de trade-off e cascatas de stress operam puramente em memória temporal; jamais corrompendo as visões e auditorias da verdade histórica (*Truth Layer*).
 - **Propagação Fiduciária:** A simulação expõe os nós do Knowledge Graph que colapsariam e calcula o tempo de resiliência pós-choque baseando-se estritamente em um *Lineage Hash* gerado pelo *StrategicDecisionEvidenceBinder*.
 
+### Fase 20: Autonomous Governance Orchestration & Institutional Playbooks
+A plataforma eleva-se à **Autonomous Governance Coordination Infrastructure**. Torna-se capaz de não apenas prever (Fase 18) e simular (Fase 19), mas de coordenar ativamente respostas institucionais através de playbooks, criando escalonamento inteligente para o Conselho de Administração.
+- **Supervised Orchestration:** A engine mapeia ações em diversos domínios (cross-domain), sequencia timelines e ordena prioridades de crise, porém nunca aciona automações sem a expressa autorização e supervisão fiduciária (*Human-in-the-Loop* preservado).
+- **Orchestration Evidence:** Toda coordenação recomendada via `GovernanceRecommendationEngine` carrega o *Lineage Hash*, assegurando rastreabilidade da decisão orquestrada contra o repositório de verdade (*Truth Layer*).
+
 ## 3. Segurança e Auditoria Automática
 Nenhum artefato é comitado sem suportar a Active Governance da suíte (`npm run governance:audit`), que escaneia o código via Regex e AST para proibir o desvio ético do desenvolvedor e o vazamento arquitetural nas seguintes camadas:
 1. `runTopologyAudit.ts`
@@ -125,3 +130,4 @@ Nenhum artefato é comitado sem suportar a Active Governance da suíte (`npm run
 18. `runKnowledgeGraphGovernanceAudit.ts` (Bloqueia graph traversal no React e valida Semantic Lineage e Tenant-Isolation em motores de grafos in-memory).
 19. `runEarlyWarningGovernanceAudit.ts` (Bloqueia cálculos de forecast locais e exige vinculação restrita ao `WarningEvidenceBinder`).
 20. `runStrategicSimulationGovernanceAudit.ts` (Impede o Client Side de computar trade-offs arbitrários, bane injeções de randomização não-fiduciárias na view e atesta o Sandboxing Estratégico).
+21. `runGovernanceOrchestrationAudit.ts` (Proíbe execução não supervisionada de automações (`fetch`/`execSync`), assegura a vinculação passiva das evidências pelo `GovernanceRecommendationEvidenceBinder` e preserva o estado isolado entre Tenants).

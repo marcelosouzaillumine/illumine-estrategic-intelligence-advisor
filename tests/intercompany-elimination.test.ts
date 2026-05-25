@@ -44,6 +44,7 @@ describe('Phase 3: Intercompany Elimination Engine', () => {
     
     const input = {
       groupId: 'GRP-WARN',
+      tenantContext: { tenantId: 'tenant-1', executionScope: 'CONSOLIDATION', entityScope: ['Hold', 'Sub1'], runtimeScope: 'MULTI_ENTITY', auditScope: 'test' },
       entities: [
         {
           entityId: 'Hold',

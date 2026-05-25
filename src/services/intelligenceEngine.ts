@@ -1,20 +1,32 @@
-export const CURRENT_METHODOLOGY_VERSION = "Illumine Intelligence Engine v1.0";
+import { buildBPHierarchy } from '../lib/bpEngine';
 
-const getVal = (data: any[], name: string) => data.find(d => d.category === name || d.conta === name)?.value || data.find(d => d.category === name || d.conta === name)?.valor || 0;
+export const CURRENT_METHODOLOGY_VERSION = "Illumine Intelligence Engine v1.1";
+
+const getVal = (data: any[], names: string[]) => {
+  const lowerNames = names.map(n => n.toLowerCase());
+  const found = data.find(d => {
+    const cat = (d.category || d.conta || '').toLowerCase();
+    return lowerNames.includes(cat);
+  });
+  return found?.value || found?.valor || 0;
+};
 
 export const IntelligenceEngine = {
   processFinancialData: (currentDre: any[], currentBp: any[], version: string = CURRENT_METHODOLOGY_VERSION) => {
-    // Extração de Dados
-    const receita = getVal(currentDre, 'Receita Líquida');
-    const ebitda = getVal(currentDre, 'EBITDA');
-    const lucro = getVal(currentDre, 'Lucro Líquido');
+    // Extração de Dados DRE
+    const receita = getVal(currentDre, ['Receita Líquida', 'Receita Operacional Bruta', 'Receitas']);
+    const ebitda = getVal(currentDre, ['EBITDA', 'LAJIDA']);
+    const lucro = getVal(currentDre, ['Lucro Líquido', 'Resultado Líquido']);
     
-    const ativoTotal = getVal(currentBp, 'Ativo Total');
-    const pl = getVal(currentBp, 'Patrimônio Líquido');
-    const ac = getVal(currentBp, 'Ativo Circulante');
-    const pc = getVal(currentBp, 'Passivo Circulante');
-    const pnc = getVal(currentBp, 'Passivo Não Circulante');
-    const est = getVal(currentBp, 'Estoques');
+    // Extração de Dados BP (Robusta com bpEngine)
+    const bpSummary = currentBp.length > 0 ? buildBPHierarchy(currentBp).summary : null;
+    
+    const ativoTotal = bpSummary?.ativoTotal || getVal(currentBp, ['Ativo Total', 'Ativo']);
+    const pl = bpSummary?.patrimonioLiquido || getVal(currentBp, ['Patrimônio Líquido', 'PL']);
+    const ac = bpSummary?.ativoCirculante || getVal(currentBp, ['Ativo Circulante']);
+    const pc = bpSummary?.passivoCirculante || getVal(currentBp, ['Passivo Circulante']);
+    const pnc = bpSummary?.passivoNaoCirculante || getVal(currentBp, ['Passivo Não Circulante']);
+    const est = bpSummary?.estoques || getVal(currentBp, ['Estoques', 'Estoque']);
 
     // Cálculos Lógicos (Padrão v1.0)
     let roe = pl > 0 ? (lucro / pl) * 100 : 0;

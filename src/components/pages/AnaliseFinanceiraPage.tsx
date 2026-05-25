@@ -53,6 +53,9 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
   const { dbData: dbDre, loading: loadingDre } = useFinancialData(filterClient, year, month, 'DRE');
   const { dbData: dbBp, loading: loadingBp } = useFinancialData(filterClient, year, month, 'BP');
 
+  const curYear = new Date().getFullYear();
+  const yearsArray = Array.from({ length: 11 }, (_, i) => curYear - 5 + i);
+
   const currentDre = dbDre.length > 0 ? dbDre : [];
   const currentBp = dbBp.length > 0 ? dbBp : [];
 
@@ -120,8 +123,9 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
                 onChange={(e) => setYear(Number(e.target.value))}
                 className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
-                <option value={2026}>2026</option>
-                <option value={2025}>2025</option>
+                {yearsArray.map(y => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
               </select>
             </div>
             <div className="flex items-center px-4 py-2">

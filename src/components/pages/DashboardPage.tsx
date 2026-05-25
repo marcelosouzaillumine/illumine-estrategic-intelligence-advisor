@@ -42,6 +42,10 @@ import { FULL_MONTH_LABELS, MONTH_LABELS } from '../../constants';
 import { Button } from '../ui/button';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
+import { useInstitutionalContext } from '../../hooks/useInstitutionalContext';
+import { DataAccessContext } from '../../core/security/data-access-context';
+import { governanceService } from '../../services/governanceService';
+import { getFinancialEntries } from '../../services/cashFlowService';
 
 const AXIS_DATA = [
   { 
@@ -155,79 +159,98 @@ export function DashboardPage({
 
   const { kpis: calculatedKPIs } = useRealIndicatorData(selectedClient, periodMode === 'anual' ? 0 : selectedMonth, selectedYear);
 
+  const institutionalContext = useInstitutionalContext();
+  const [accessDenied, setAccessDenied] = useState(false);
+  const [denialReason, setDenialReason] = useState('');
+
   useEffect(() => {
-    if (!selectedClient) return;
+    if (!selectedClient || !institutionalContext.isContextReady) return;
 
+    let isMounted = true;
     setLoading(true);
-    const qAll = query(
-      collection(db, 'indicators'),
-      where('clientId', '==', selectedClient)
-    );
+    setAccessDenied(false);
 
-    const unsubAll = onSnapshot(qAll, (snapshot) => {
-      const allData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setAllYearIndicators(allData);
-      
-      let current: any[] = [];
-      if (periodMode === 'anual') {
-        const yearData = allData.filter((i: any) => i.ano === selectedYear);
-        const groupsMapByName: Record<string, any[]> = {};
-        yearData.forEach((ind: any) => {
-          const name = ind.ind || '';
-          if (!groupsMapByName[name]) groupsMapByName[name] = [];
-          groupsMapByName[name].push(ind);
-        });
+    async function fetchData() {
+      try {
+        const dataAccessContext: DataAccessContext = {
+          actorId: institutionalContext.actorId,
+          tenantId: institutionalContext.tenantId,
+          role: institutionalContext.role,
+          permissions: institutionalContext.permissions,
+          entityScope: institutionalContext.entityScope,
+          requestedAction: 'VIEW_DASHBOARD',
+          resourceType: 'FinancialData',
+          resourceTenantId: institutionalContext.isLegacyContext ? institutionalContext.legacyTenantId || selectedClient : selectedClient,
+          visibilityPolicy: 'INTERNAL',
+          auditRequirement: false
+        };
 
-        current = Object.entries(groupsMapByName).map(([name, docs]) => {
-          const lowerName = name.toLowerCase();
-          const shouldSum = lowerName.includes('faturamento') ||
-            (lowerName.includes('ebitda') && !lowerName.includes('margem')) ||
-            (lowerName.includes('lucro') && !lowerName.includes('margem')) ||
-            (lowerName.includes('receita') && !lowerName.includes('margem')) ||
-            lowerName.includes('fluxo de caixa');
+        const [indicators, entries] = await Promise.all([
+          governanceService.getDashboardIndicators(dataAccessContext, selectedClient),
+          getFinancialEntries(dataAccessContext, selectedClient)
+        ]);
 
-          let val = 0;
-          if (shouldSum) {
-            val = docs.reduce((sum, doc) => sum + (Number(doc.val) || 0), 0);
-          } else {
-            val = docs.reduce((sum, doc) => sum + (Number(doc.val) || 0), 0) / docs.length;
-          }
+        if (!isMounted) return;
 
-          const semScore = docs.reduce((sum, doc) => {
-            const s = doc.sem;
-            if (s === 'Verde') return sum + 3;
-            if (s === 'Amarelo') return sum + 2;
-            return sum + 1;
-          }, 0) / docs.length;
+        setAllYearIndicators(indicators);
+        setAllFinancialEntries(entries);
 
-          const sem = semScore >= 2.5 ? 'Verde' : semScore >= 1.5 ? 'Amarelo' : 'Vermelho';
+        let current: any[] = [];
+        if (periodMode === 'anual') {
+          const yearData = indicators.filter((i: any) => i.ano === selectedYear);
+          const groupsMapByName: Record<string, any[]> = {};
+          yearData.forEach((ind: any) => {
+            const name = ind.ind || '';
+            if (!groupsMapByName[name]) groupsMapByName[name] = [];
+            groupsMapByName[name].push(ind);
+          });
 
-          return { ...docs[0], val, sem };
-        });
-      } else {
-        current = allData.filter((i: any) => i.ano === selectedYear && i.mes === selectedMonth);
+          current = Object.entries(groupsMapByName).map(([name, docs]) => {
+            const lowerName = name.toLowerCase();
+            const shouldSum = lowerName.includes('faturamento') ||
+              (lowerName.includes('ebitda') && !lowerName.includes('margem')) ||
+              (lowerName.includes('lucro') && !lowerName.includes('margem')) ||
+              (lowerName.includes('receita') && !lowerName.includes('margem')) ||
+              lowerName.includes('fluxo de caixa');
+
+            let val = 0;
+            if (shouldSum) {
+              val = docs.reduce((sum, doc) => sum + (Number(doc.val) || 0), 0);
+            } else {
+              val = docs.reduce((sum, doc) => sum + (Number(doc.val) || 0), 0) / docs.length;
+            }
+
+            const semScore = docs.reduce((sum, doc) => {
+              const s = doc.sem;
+              if (s === 'Verde') return sum + 3;
+              if (s === 'Amarelo') return sum + 2;
+              return sum + 1;
+            }, 0) / docs.length;
+
+            const sem = semScore >= 2.5 ? 'Verde' : semScore >= 1.5 ? 'Amarelo' : 'Vermelho';
+
+            return { ...docs[0], val, sem };
+          });
+        } else {
+          current = indicators.filter((i: any) => i.ano === selectedYear && i.mes === selectedMonth);
+        }
+        setDbIndicators(current);
+      } catch (error: any) {
+        if (!isMounted) return;
+        console.error('Governance Error in Dashboard:', error);
+        setAccessDenied(true);
+        setDenialReason(error.message || 'Acesso negado.');
+      } finally {
+        if (isMounted) setLoading(false);
       }
-      setDbIndicators(current);
-      setLoading(false);
-    });
+    }
 
-    const qEntries = query(
-      collection(db, 'financial_entries'),
-      where('clientId', '==', selectedClient)
-    );
-
-    const unsubEntries = onSnapshot(qEntries, (snapshot) => {
-      const entriesData = snapshot.docs
-        .map(doc => ({ id: doc.id, ...doc.data() }))
-        .filter((d: any) => d.status !== 'archived' && d.status !== 'pending' && d.status !== 'rejected');
-      setAllFinancialEntries(entriesData);
-    });
+    fetchData();
 
     return () => {
-      unsubAll();
-      unsubEntries();
+      isMounted = false;
     };
-  }, [selectedClient, selectedYear, selectedMonth, periodMode]);
+  }, [selectedClient, selectedYear, selectedMonth, periodMode, institutionalContext]);
 
   const getIndicatorValue = useCallback((name: string) => {
     const ind = dbIndicators.find((i: any) => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
@@ -412,6 +435,22 @@ export function DashboardPage({
             <h2 className="text-h2 font-medium text-foreground tracking-tight">Selecione uma Empresa</h2>
             <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
               Por favor, selecione uma empresa no seletor de cliente ativo no topo da tela para visualizar o painel estratégico de performance.
+            </p>
+         </div>
+      </div>
+    );
+  }
+
+  if (accessDenied) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade bg-background border border-destructive/20 rounded-md p-20 text-center w-full">
+         <div className="w-24 h-24 rounded-full bg-destructive/10 flex items-center justify-center text-destructive shadow-xl relative">
+            <AlertTriangle size={48} className="relative z-10" />
+         </div>
+         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
+            <h2 className="text-h2 font-medium text-destructive tracking-tight">Acesso Institucional Negado</h2>
+            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
+              {denialReason}
             </p>
          </div>
       </div>

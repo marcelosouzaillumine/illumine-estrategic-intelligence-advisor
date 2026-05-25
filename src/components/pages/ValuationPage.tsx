@@ -16,6 +16,9 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
     if (selectedMonth) setMonth(selectedMonth);
   }, [selectedYear, selectedMonth]);
 
+  const curYear = new Date().getFullYear();
+  const yearsArray = Array.from({ length: 11 }, (_, i) => curYear - 5 + i);
+
   const { dbData, loading } = useFinancialData(selectedClient, year, month, 'DRE');
   
   const hasDbData = dbData.length > 0;
@@ -70,8 +73,9 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
                 onChange={(e) => setYear(Number(e.target.value))}
                 className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer text-slate-700"
               >
-                <option value={2026}>2026</option>
-                <option value={2025}>2025</option>
+                {yearsArray.map(y => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
               </select>
             </div>
             <div className="flex items-center px-4 py-2">

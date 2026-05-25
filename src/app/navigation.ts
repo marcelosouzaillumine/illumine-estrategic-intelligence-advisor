@@ -101,6 +101,7 @@ export type Page =
   | 'institutional_knowledge_graph'
   | 'early_warning'
   | 'strategic_simulation'
+  | 'governance_orchestration'
   | 'institutional_reports'
   | 'scenario_lab'
   | 'runtime_observability'
@@ -291,6 +292,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'institutional_knowledge_graph', label: 'Knowledge Graph', icon: GitGraph, masterOnly: true },
       { id: 'early_warning', label: 'Early Warning System', icon: Siren, masterOnly: true },
       { id: 'strategic_simulation', label: 'Strategic Simulation', icon: Landmark, masterOnly: true },
+      { id: 'governance_orchestration', label: 'Governance Orchestration', icon: ArrowRightLeft, masterOnly: true },
       { id: 'institutional_copilot', label: 'Copiloto Institucional', icon: Bot, masterOnly: false },
       { id: 'institutional_integrations', label: 'Integrações Institucionais', icon: PlugZap, masterOnly: false },
       

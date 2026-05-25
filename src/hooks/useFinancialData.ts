@@ -18,8 +18,7 @@ export function useFinancialData(clientId: string, year: number, month: number, 
         collection(db, 'financial_entries'),
         where('clientId', '==', clientId),
         where('type', '==', type),
-        where('year', '==', year),
-        where('month', '==', month)
+        where('year', '==', year)
       );
       const snap = await getDocs(q);
       
@@ -30,7 +29,10 @@ export function useFinancialData(clientId: string, year: number, month: number, 
         const docData = doc.data() as any;
         
         // Only show approved or legacy (without status) data in dashboards
-        if (docData.status === 'pending' || docData.status === 'rejected') return;
+        if (docData.status === 'pending' || docData.status === 'rejected' || docData.status === 'archived') return;
+
+        // In-memory month filtering for data that has a month
+        if (month > 0 && docData.month !== undefined && docData.month !== 0 && docData.month !== month) return;
 
         if (Array.isArray(docData.data)) {
           docData.data.forEach((entry: any) => {

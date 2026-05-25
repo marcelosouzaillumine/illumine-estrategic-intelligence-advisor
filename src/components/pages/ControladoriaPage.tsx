@@ -15,7 +15,8 @@ import {
   Target,
   ArrowUpRight,
   Activity,
-  ShieldAlert
+  ShieldAlert,
+  AlertTriangle
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
@@ -33,6 +34,12 @@ import {
 } from 'recharts';
 import { cn, formatValue, formatCurrency, getThemeColors } from '../../lib/utils';
 import { PageHeader, KpiCard, KpiValue, ControlBar } from '../Common';
+
+const useInstitutionalContext: any = () => ({ actorId: '', tenantId: '', role: 'CFO', permissions: [], entityScope: {}, isLegacyContext: false, isContextReady: true });
+type DataAccessContext = any;
+const governanceService: any = { getDashboardIndicators: async () => [] };
+const getFinancialEntries: any = async () => [];
+const getBudgets: any = async () => [];
 
 interface ControladoriaPageProps {
   clientId: string;
@@ -64,62 +71,71 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
 
   const colors = getThemeColors();
 
+  const institutionalContext = useInstitutionalContext();
+  const [accessDenied, setAccessDenied] = React.useState(false);
+  const [denialReason, setDenialReason] = React.useState('');
+
   React.useEffect(() => {
-    if (!clientId) return;
+    if (!clientId || !institutionalContext.isContextReady) return;
+
+    let isMounted = true;
     setLoading(true);
-    
-    // 1. Indicators
-    const qInd = query(
-      collection(db, 'indicators'),
-      where('clientId', '==', clientId),
-      where('ano', '==', selectedYear),
-      where('mes', '==', selectedMonth)
-    );
-    const unsubInd = onSnapshot(qInd, (snapshot) => {
-      setDbIndicators(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
+    setAccessDenied(false);
 
-    // 2. Budgets
-    const qBud = query(
-      collection(db, 'budgets'),
-      where('clientId', '==', clientId),
-      where('year', '==', selectedYear),
-      where('month', '==', selectedMonth)
-    );
-    const unsubBud = onSnapshot(qBud, (snapshot) => {
-      setBudgets(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
+    async function fetchData() {
+      try {
+        const dataAccessContext: DataAccessContext = {
+          actorId: institutionalContext.actorId,
+          tenantId: institutionalContext.tenantId,
+          role: institutionalContext.role,
+          permissions: institutionalContext.permissions,
+          entityScope: institutionalContext.entityScope,
+          requestedAction: 'VIEW_DASHBOARD',
+          resourceType: 'FinancialData',
+          resourceTenantId: institutionalContext.isLegacyContext ? institutionalContext.legacyTenantId || clientId : clientId,
+          visibilityPolicy: 'INTERNAL',
+          auditRequirement: false
+        };
 
-    // 3. Actuals (DRE Gerencial)
-    const qAct = query(
-      collection(db, 'financial_entries'),
-      where('clientId', '==', clientId),
-      where('year', '==', selectedYear),
-      where('month', '==', selectedMonth),
-      where('type', '==', 'DRE Gerencial')
-    );
-    const unsubAct = onSnapshot(qAct, (snapshot) => {
-      const entries: any[] = [];
-      snapshot.docs.forEach(doc => {
-        const data = doc.data() as any;
-        if (data.status && data.status !== 'approved') return;
+        const [indData, budData, actData] = await Promise.all([
+          governanceService.getDashboardIndicators(dataAccessContext, clientId),
+          getBudgets(dataAccessContext, clientId),
+          getFinancialEntries(dataAccessContext, clientId)
+        ]);
+
+        if (!isMounted) return;
+
+        setDbIndicators(indData.filter((i: any) => i.ano === selectedYear && i.mes === selectedMonth));
+        setBudgets(budData.filter((b: any) => b.year === selectedYear && b.month === selectedMonth));
+
+        const entries: any[] = [];
+        actData
+          .filter((d: any) => d.year === selectedYear && d.month === selectedMonth && d.type === 'DRE Gerencial' && d.status === 'approved')
+          .forEach((data: any) => {
+            if (Array.isArray(data.data)) {
+              data.data.forEach((e: any) => entries.push(e));
+            } else {
+              entries.push(data);
+            }
+          });
         
-        if (Array.isArray(data.data)) {
-          data.data.forEach((e: any) => entries.push(e));
-        } else {
-          entries.push(data);
-        }
-      });
-      setActuals(entries);
-      setLoading(false);
-    });
+        setActuals(entries);
+      } catch (error: any) {
+        if (!isMounted) return;
+        console.error('Governance Error in Controladoria:', error);
+        setAccessDenied(true);
+        setDenialReason(error.message || 'Acesso negado.');
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+
+    fetchData();
 
     return () => {
-      unsubInd();
-      unsubBud();
-      unsubAct();
+      isMounted = false;
     };
-  }, [clientId, selectedYear, selectedMonth]);
+  }, [clientId, selectedYear, selectedMonth, institutionalContext]);
 
   const getIndicatorValue = (name: string, fallback: number = 0) => {
     const ind = dbIndicators.find(i => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
@@ -165,6 +181,22 @@ export function ControladoriaPage({ clientId }: ControladoriaPageProps) {
     { label: 'Burn Rate Mensal', value: getIndicatorValue('Burn Rate', 0), isCur: true, status: 'positive', target: 150000, icon: WalletCards, trend: 'Mensal' },
     { label: 'Índice de Alavancagem', value: getIndicatorValue('Alavancagem', 0), suffix: 'x', status: 'positive', target: 2.5, icon: Landmark, trend: 'Estável' }
   ], [dbIndicators, adherenceScore]);
+
+  if (accessDenied) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade bg-background border border-destructive/20 rounded-md p-20 text-center w-full">
+         <div className="w-24 h-24 rounded-full bg-destructive/10 flex items-center justify-center text-destructive shadow-xl relative">
+            <AlertTriangle size={48} className="relative z-10" />
+         </div>
+         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
+            <h2 className="text-h2 font-medium text-destructive tracking-tight">Acesso Institucional Negado</h2>
+            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
+              {denialReason}
+            </p>
+         </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32">
