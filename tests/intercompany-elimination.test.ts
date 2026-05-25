@@ -10,7 +10,8 @@ describe('Phase 3: Intercompany Elimination Engine', () => {
     const input = {
       isMockData: true,
       bpData: [{ category: 'Caixa', type: 'ativo', value: 1000 }],
-      dreData: []
+      dreData: [],
+      tenantContext: { tenantId: 'tenant-1', executionScope: 'CONSOLIDATION', entityScope: ['Entity-1'], runtimeScope: 'SINGLE_ENTITY', auditScope: 'test' }
     };
     
     const report = orchestrator.runConsolidatedAnalysis(input);
@@ -20,8 +21,9 @@ describe('Phase 3: Intercompany Elimination Engine', () => {
   it('2. Deve detectar Mútuo Exato e Receita/Despesa Exata, aplicando Eliminação', () => {
     const orchestrator = new ConsolidatedRuntimeOrchestrator();
     
-    // Clonamos para nao sujar
     const fixture = JSON.parse(JSON.stringify(topologyIntercompanyFixture));
+    fixture.tenantContext = { tenantId: 'tenant-1', executionScope: 'CONSOLIDATION', entityScope: ['Holding', 'Sub-A', 'Sub-B'], runtimeScope: 'MULTI_ENTITY', auditScope: 'test' };
+    fixture.entities.forEach((e: any) => e.tenantId = 'tenant-1');
     
     const report = orchestrator.runConsolidatedAnalysis(fixture);
 
@@ -48,18 +50,22 @@ describe('Phase 3: Intercompany Elimination Engine', () => {
       entities: [
         {
           entityId: 'Hold',
+          tenantId: 'tenant-1',
           role: 'Holding' as const,
           rawData: {
             bpData: [{ category: 'Mútuo a Receber', type: 'ativo', value: 1000 }],
-            dreData: []
+            dreData: [],
+            tenantId: 'tenant-1'
           }
         },
         {
           entityId: 'Sub1',
+          tenantId: 'tenant-1',
           role: 'Subsidiary' as const,
           rawData: {
             bpData: [{ category: 'Mútuo a Pagar', type: 'passivo', value: 1050 }],
-            dreData: []
+            dreData: [],
+            tenantId: 'tenant-1'
           }
         }
       ]

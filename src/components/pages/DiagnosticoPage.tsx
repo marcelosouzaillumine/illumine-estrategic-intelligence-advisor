@@ -1,21 +1,21 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from "react";
 import { 
   AlertTriangle, Plus, Trash2, Edit2,
   TrendingUp, Activity, ShieldAlert, Target,
   Link2, Check, X
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import { useModuleData } from '../../hooks/useModuleData';
-import { DiagnosticoItem, ObjetivoOKR, EixoGestao, ClassificacaoSWOT, TipoRisco, Gravidade, Urgencia, Tendencia, ImpactoFinanceiro } from '../../types/modules';
-import { cn } from '../../lib/utils';
-import { SectionHeader, PageHeader } from '../Common';
-import { GOVERNANCE_PRINCIPLES } from '../../lib/governanceIntelligence';
-import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
-import { DashboardSkeleton } from '../ui/skeletons';
+} from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { useModuleData } from "../../hooks/useModuleData";
+import { DiagnosticoItem, ObjetivoOKR, EixoGestao, ClassificacaoSWOT, TipoRisco, Gravidade, Urgencia, Tendencia, ImpactoFinanceiro } from "../../types/modules";
+import { cn } from "../../lib/utils";
+import { SectionHeader, PageHeader } from "../Common";
+import { GOVERNANCE_PRINCIPLES } from "../../lib/governanceIntelligence";
+import { GovernanceInsightPanel } from "../GovernanceInsightPanel";
+import { DashboardSkeleton } from "../ui/skeletons";
 
 const EIXOS: EixoGestao[] = [
-  'Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
+  "Governança Corporativa", "Cultura Organizacional", "Gestão Administrativa e Financeira", "Gestão de Inovação", "Gestão de Marketing", "Gestão Comercial", "Gestão Operacional"
 ];
 
 interface DiagnosticoPageProps {
@@ -25,33 +25,33 @@ interface DiagnosticoPageProps {
 }
 
 export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: DiagnosticoPageProps) {
-  const { data, add, update, remove, loading } = useModuleData<DiagnosticoItem>('diagnostico', clientId);
-  const { data: okrsData, add: addOkr, update: updateOkr } = useModuleData<ObjetivoOKR>('okrs', clientId);
+  const { data, add, update, remove, loading } = useModuleData<DiagnosticoItem>("diagnostico", clientId);
+  const { data: okrsData, add: addOkr, update: updateOkr } = useModuleData<ObjetivoOKR>("okrs", clientId);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   // OKR link modal
   const [linkingItem, setLinkingItem] = useState<DiagnosticoItem | null>(null);
-  const [linkTab, setLinkTab] = useState<'vincular' | 'criar'>('vincular');
+  const [linkTab, setLinkTab] = useState<"vincular" | "criar">("vincular");
   const [linkSaving, setLinkSaving] = useState(false);
-  const [newOkrTrimestre, setNewOkrTrimestre] = useState('Q1');
-  const [newOkrAno, setNewOkrAno] = useState('2026');
-  const [newOkrForm, setNewOkrForm] = useState({ titulo: '', eixo: 'Governança Corporativa' as EixoGestao, responsavel: '' });
-  const [newKrForm, setNewKrForm] = useState({ descricao: '', kpi: '', tipo: 'Percentual' as 'Percentual' | 'Monetário' | 'Unidade', meta: 0 });
+  const [newOkrTrimestre, setNewOkrTrimestre] = useState("Q1");
+  const [newOkrAno, setNewOkrAno] = useState("2026");
+  const [newOkrForm, setNewOkrForm] = useState({ titulo: "", eixo: "Governança Corporativa" as EixoGestao, responsavel: "" });
+  const [newKrForm, setNewKrForm] = useState({ descricao: "", kpi: "", tipo: "Percentual" as "Percentual" | "Monetário" | "Unidade", meta: 0 });
   
   const [formData, setFormData] = useState<Partial<DiagnosticoItem>>({
-    descricao: '',
-    eixo: 'Governança Corporativa',
-    swot: 'Fraqueza',
-    tipoRisco: 'Operacional',
+    descricao: "",
+    eixo: "Governança Corporativa",
+    swot: "Fraqueza",
+    tipoRisco: "Operacional",
     gravidade: 3,
     urgencia: 3,
     tendencia: 3,
     impactoFinanceiro: 3,
-    efeitoFinanceiro: 'Faturamento',
-    custoInvestimento: 'Médio',
-    retornoInvestimento: 'Médio Prazo (90-180 dias)'
+    efeitoFinanceiro: "Faturamento",
+    custoInvestimento: "Médio",
+    retornoInvestimento: "Médio Prazo (90-180 dias)"
   });
 
   const calculateIVE = (g: number, u: number, t: number, i: number) => {
@@ -59,31 +59,31 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
   };
 
   const SWOT_MULTIPLIERS: Record<string, { label: string; value: number; color: string }> = {
-    'Oportunidade': { label: '×1.3', value: 1.3, color: 'text-emerald-600' },
-    'Força':        { label: '×1.1', value: 1.1, color: 'text-sky-500' },
-    'Fraqueza':     { label: '×1.0', value: 1.0, color: 'text-slate-400' },
-    'Ameaça':       { label: '×0.8', value: 0.8, color: 'text-rose-500' },
+    "Oportunidade": { label: "×1.3", value: 1.3, color: "text-emerald-600" },
+    "Força":        { label: "×1.1", value: 1.1, color: "text-sky-500" },
+    "Fraqueza":     { label: "×1.0", value: 1.0, color: "text-slate-400" },
+    "Ameaça":       { label: "×0.8", value: 0.8, color: "text-rose-500" },
   };
 
   const EFEITO_MULTIPLIERS: Record<string, { value: number; color: string }> = {
-    'EBITDA':          { value: 1.4, color: 'text-emerald-600' },
-    'Faturamento':     { value: 1.3, color: 'text-sky-600' },
-    'Capital de Giro': { value: 1.2, color: 'text-amber-500' },
-    'Endividamento':   { value: 0.7, color: 'text-rose-500' },
+    "EBITDA":          { value: 1.4, color: "text-emerald-600" },
+    "Faturamento":     { value: 1.3, color: "text-sky-600" },
+    "Capital de Giro": { value: 1.2, color: "text-amber-500" },
+    "Endividamento":   { value: 0.7, color: "text-rose-500" },
   };
 
   const CUSTO_MULTIPLIERS: Record<string, { value: number }> = {
-    'Baixo': { value: 1.4 },
-    'Médio': { value: 1.0 },
-    'Alto':  { value: 0.7 },
+    "Baixo": { value: 1.4 },
+    "Médio": { value: 1.0 },
+    "Alto":  { value: 0.7 },
   };
 
   const ROI_MULTIPLIERS: Record<string, { value: number; color: string }> = {
-    'Imediato (< 30 dias)':       { value: 1.5, color: 'text-emerald-600' },
-    'Curto Prazo (30-90 dias)':   { value: 1.3, color: 'text-emerald-500' },
-    'Médio Prazo (90-180 dias)':  { value: 1.1, color: 'text-amber-500' },
-    'Longo Prazo (6-12 meses)':   { value: 0.9, color: 'text-orange-500' },
-    'Incerto (> 12 meses)':       { value: 0.7, color: 'text-rose-500' },
+    "Imediato (< 30 dias)":       { value: 1.5, color: "text-emerald-600" },
+    "Curto Prazo (30-90 dias)":   { value: 1.3, color: "text-emerald-500" },
+    "Médio Prazo (90-180 dias)":  { value: 1.1, color: "text-amber-500" },
+    "Longo Prazo (6-12 meses)":   { value: 0.9, color: "text-orange-500" },
+    "Incerto (> 12 meses)":       { value: 0.7, color: "text-rose-500" },
   };
 
   const sortedData = useMemo(() => {
@@ -123,22 +123,22 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
 
       // Reset form
       setFormData({
-        descricao: '',
-        eixo: 'Governança Corporativa',
-        swot: 'Fraqueza',
-        tipoRisco: 'Operacional',
+        descricao: "",
+        eixo: "Governança Corporativa",
+        swot: "Fraqueza",
+        tipoRisco: "Operacional",
         gravidade: 3,
         urgencia: 3,
         tendencia: 3,
         impactoFinanceiro: 3,
-        efeitoFinanceiro: 'Faturamento',
-        custoInvestimento: 'Médio',
-        retornoInvestimento: 'Médio Prazo (90-180 dias)',
+        efeitoFinanceiro: "Faturamento",
+        custoInvestimento: "Médio",
+        retornoInvestimento: "Médio Prazo (90-180 dias)",
         ano: selectedYear,
         mes: selectedMonth
       });
     } catch (err: any) {
-      setSaveError(err.message ?? 'Erro ao salvar. Tente novamente.');
+      setSaveError(err.message ?? "Erro ao salvar. Tente novamente.");
     } finally {
       setSaving(false);
     }
@@ -152,16 +152,16 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
 
   const openLinkModal = (item: DiagnosticoItem) => {
     setLinkingItem(item);
-    setLinkTab('vincular');
-    setNewOkrForm({ titulo: '', eixo: item.eixo, responsavel: '' });
-    setNewOkrTrimestre('Q1');
-    setNewOkrAno('2026');
+    setLinkTab("vincular");
+    setNewOkrForm({ titulo: "", eixo: item.eixo, responsavel: "" });
+    setNewOkrTrimestre("Q1");
+    setNewOkrAno("2026");
     // Pre-fill KR based on efeitoFinanceiro
-    const kpiSugestao = item.efeitoFinanceiro === 'EBITDA' ? 'EBITDA (R$)'
-      : item.efeitoFinanceiro === 'Faturamento' ? 'Faturamento Bruto (R$)'
-      : item.efeitoFinanceiro === 'Capital de Giro' ? 'Capital de Giro Líquido (R$)'
-      : 'Nível de Endividamento (%)';
-    setNewKrForm({ descricao: `Melhorar ${item.efeitoFinanceiro}`, kpi: kpiSugestao, tipo: item.efeitoFinanceiro === 'Endividamento' ? 'Percentual' : 'Monetário', meta: 0 });
+    const kpiSugestao = item.efeitoFinanceiro === "EBITDA" ? "EBITDA (R$)"
+      : item.efeitoFinanceiro === "Faturamento" ? "Faturamento Bruto (R$)"
+      : item.efeitoFinanceiro === "Capital de Giro" ? "Capital de Giro Líquido (R$)"
+      : "Nível de Endividamento (%)";
+    setNewKrForm({ descricao: `Melhorar ${item.efeitoFinanceiro}`, kpi: kpiSugestao, tipo: item.efeitoFinanceiro === "Endividamento" ? "Percentual" : "Monetário", meta: 0 });
   };
 
   const handleToggleOkrLink = async (diagnostico: DiagnosticoItem, okrId: string) => {
@@ -197,7 +197,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
       tipo: newKrForm.tipo,
       meta: newKrForm.meta,
       atual: 0,
-      status: 'Not Started' as const,
+      status: "Not Started" as const,
       progresso: 0,
     }] : [];
     try {
@@ -213,9 +213,9 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
       const newLinks = [...(linkingItem.okrVinculado ?? []), newOkrId];
       await update(linkingItem.id!, { okrVinculado: newLinks });
       setLinkingItem(prev => prev ? { ...prev, okrVinculado: newLinks } : null);
-      setLinkTab('vincular');
-      setNewOkrForm({ titulo: '', eixo: linkingItem.eixo, responsavel: '' });
-      setNewKrForm({ descricao: '', kpi: '', tipo: 'Percentual', meta: 0 });
+      setLinkTab("vincular");
+      setNewOkrForm({ titulo: "", eixo: linkingItem.eixo, responsavel: "" });
+      setNewKrForm({ descricao: "", kpi: "", tipo: "Percentual", meta: 0 });
     } finally {
       setLinkSaving(false);
     }
@@ -256,7 +256,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                 : "bg-secondary text-white shadow-xl shadow-secondary/20"
             )}
           >
-            {showAddForm ? 'CANCELAR' : <><Plus size={16} /> NOVO ITEM DE DIAGNÓSTICO</>}
+            {showAddForm ? "CANCELAR" : <><Plus size={16} /> NOVO ITEM DE DIAGNÓSTICO</>}
           </button>
         </div>
       </div>
@@ -276,7 +276,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
         {showAddForm && (
           <motion.div 
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="card-premium p-10 overflow-hidden"
           >
@@ -325,10 +325,10 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                     <h4 className="text-[10px] font-medium text-primary uppercase tracking-[0.2em] mb-4">Parâmetros de Pontuação (1-5)</h4>
                     <div className="grid grid-cols-2 gap-6">
                       {[
-                        { label: 'Gravidade', field: 'gravidade' },
-                        { label: 'Urgência', field: 'urgencia' },
-                        { label: 'Tendência', field: 'tendencia' },
-                        { label: 'Impacto Fin.', field: 'impactoFinanceiro' },
+                        { label: "Gravidade", field: "gravidade" },
+                        { label: "Urgência", field: "urgencia" },
+                        { label: "Tendência", field: "tendencia" },
+                        { label: "Impacto Fin.", field: "impactoFinanceiro" },
                       ].map(p => (
                         <div key={p.field}>
                           <label className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest block mb-2">{p.label}</label>
@@ -418,7 +418,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                     disabled={saving}
                     className="btn-executive bg-secondary shadow-xl shadow-secondary/20"
                   >
-                    {saving ? 'Salvando...' : editingId ? 'Salvar Alterações' : 'Confirmar Diagnóstico'}
+                    {saving ? "Salvando..." : editingId ? "Salvar Alterações" : "Confirmar Diagnóstico"}
                   </button>
                 </div>
               </div>
@@ -456,7 +456,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
               <div className="flex items-center gap-3">
                 <span className={cn(
                   "px-2 py-0.5 rounded-sm text-[8px] font-medium uppercase tracking-widest border",
-                  item.swot === 'Fraqueza' || item.swot === 'Ameaça' ? "bg-destructive/5 text-destructive border-destructive/20" : "bg-success/5 text-success border-success/20"
+                  item.swot === "Fraqueza" || item.swot === "Ameaça" ? "bg-destructive/5 text-destructive border-destructive/20" : "bg-success/5 text-success border-success/20"
                 )}>
                   {item.swot}
                 </span>
@@ -467,10 +467,10 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
               <h4 className="text-lg font-medium text-foreground tracking-tight uppercase pr-4">{item.descricao}</h4>
               <div className="flex items-center gap-6 text-[9px] font-medium text-muted-foreground uppercase tracking-widest">
                 <div className="flex items-center gap-1.5"><ShieldAlert size={14} className="text-secondary" /> {item.tipoRisco}</div>
-                <div className={cn("flex items-center gap-1.5", EFEITO_MULTIPLIERS[item.efeitoFinanceiro]?.color ?? 'text-muted-foreground')}>
+                <div className={cn("flex items-center gap-1.5", EFEITO_MULTIPLIERS[item.efeitoFinanceiro]?.color ?? "text-muted-foreground")}>
                   <Activity size={14} /> {item.efeitoFinanceiro}
                 </div>
-                <div className={cn("flex items-center gap-1.5", ROI_MULTIPLIERS[item.retornoInvestimento]?.color ?? 'text-muted-foreground')}>
+                <div className={cn("flex items-center gap-1.5", ROI_MULTIPLIERS[item.retornoInvestimento]?.color ?? "text-muted-foreground")}>
                   <TrendingUp size={14} /> {item.retornoInvestimento}
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -485,7 +485,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                     const okr = okrsData.find(o => o.id === okrId);
                     return okr ? (
                       <span key={okrId} className="flex items-center gap-1 text-[8px] font-medium bg-secondary/10 text-secondary px-2 py-0.5 rounded-sm border border-secondary/20 uppercase tracking-widest shadow-sm">
-                        <Target size={9} /> {okr.titulo.substring(0, 30)}{okr.titulo.length > 30 ? '...' : ''}
+                        <Target size={9} /> {okr.titulo.substring(0, 30)}{okr.titulo.length > 30 ? "..." : ""}
                       </span>
                     ) : null;
                   })}
@@ -495,7 +495,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
               {/* Governance Badge */}
               <div className="mt-4 pt-4 border-t border-border">
                 <GovernanceInsightPanel 
-                  principleId={GOVERNANCE_PRINCIPLES.find(p => p.axis === item.eixo)?.id || 'gov_1'} 
+                  principleId={GOVERNANCE_PRINCIPLES.find(p => p.axis === item.eixo)?.id || "gov_1"} 
                   compact 
                 />
               </div>
@@ -542,24 +542,24 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
               </div>
 
               <div className="flex border-b border-border px-8 shrink-0 bg-card">
-                {(['vincular', 'criar'] as const).map(tab => (
+                {(["vincular", "criar"] as const).map(tab => (
                   <button key={tab} onClick={() => setLinkTab(tab)}
-                    className={cn('py-4 px-1 mr-6 text-[10px] font-medium uppercase tracking-widest border-b-2 transition-all',
-                      linkTab === tab ? 'border-secondary text-secondary shadow-premium' : 'border-transparent text-muted-foreground hover:text-foreground')}
+                    className={cn("py-4 px-1 mr-6 text-[10px] font-medium uppercase tracking-widest border-b-2 transition-all",
+                      linkTab === tab ? "border-secondary text-secondary shadow-premium" : "border-transparent text-muted-foreground hover:text-foreground")}
                   >
-                    {tab === 'vincular' ? 'Vincular Existente' : '+ Criar Objetivo (OKR)'}
+                    {tab === "vincular" ? "Vincular Existente" : "+ Criar Objetivo (OKR)"}
                   </button>
                 ))}
               </div>
 
               <div className="flex-1 overflow-y-auto p-8 bg-surface-container/10">
-                {linkTab === 'vincular' ? (
+                {linkTab === "vincular" ? (
                   okrsData.length === 0 ? (
                     <div className="text-center py-12 text-muted-foreground/30 flex flex-col items-center gap-3">
                       <Target size={40} strokeWidth={1} />
                       <p className="font-medium uppercase tracking-widest text-[10px]">Nenhum OKR cadastrado ainda.</p>
                       <p className="text-[9px] text-muted-foreground uppercase tracking-widest italic">OKR é opcional — vincule quando fizer sentido estratégico.</p>
-                      <button onClick={() => setLinkTab('criar')} className="text-secondary font-medium text-[10px] uppercase tracking-widest underline shadow-sm">Criar agora</button>
+                      <button onClick={() => setLinkTab("criar")} className="text-secondary font-medium text-[10px] uppercase tracking-widest underline shadow-sm">Criar agora</button>
                     </div>
                   ) : (
                     <div className="space-y-3">
@@ -567,19 +567,19 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                       {okrsData.map(okr => {
                         const isLinked = (linkingItem.okrVinculado ?? []).includes(okr.id!);
                         return (
-                          <div key={okr.id} className={cn('rounded-md border-2 transition-all overflow-hidden shadow-sm',
-                            isLinked ? 'border-secondary' : 'border-border')}>
+                          <div key={okr.id} className={cn("rounded-md border-2 transition-all overflow-hidden shadow-sm",
+                            isLinked ? "border-secondary" : "border-border")}>
                             <button onClick={() => handleToggleOkrLink(linkingItem, okr.id!)}
-                              className={cn('w-full text-left p-4 transition-all shadow-inner',
-                                isLinked ? 'bg-secondary/5' : 'bg-surface-container/30 hover:bg-card')}
+                              className={cn("w-full text-left p-4 transition-all shadow-inner",
+                                isLinked ? "bg-secondary/5" : "bg-surface-container/30 hover:bg-card")}
                             >
                               <div className="flex items-start justify-between gap-4">
                                 <div className="flex-1 min-w-0">
                                   <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest mb-1 italic">{okr.eixo} • {okr.periodo}</p>
                                   <p className="font-medium text-foreground text-sm uppercase tracking-tighter leading-tight">{okr.titulo}</p>
                                 </div>
-                                <div className={cn('w-6 h-6 rounded-md border-2 flex items-center justify-center shrink-0 transition-all mt-0.5 shadow-sm',
-                                  isLinked ? 'bg-secondary border-secondary' : 'border-border bg-card')}>
+                                <div className={cn("w-6 h-6 rounded-md border-2 flex items-center justify-center shrink-0 transition-all mt-0.5 shadow-sm",
+                                  isLinked ? "bg-secondary border-secondary" : "border-border bg-card")}>
                                   {isLinked && <Check size={12} className="text-white" />}
                                 </div>
                               </div>
@@ -622,14 +622,14 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                         <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest block mb-2">Trimestre</label>
                         <select value={newOkrTrimestre} onChange={e => setNewOkrTrimestre(e.target.value)}
                           className="w-full px-3 py-3 bg-card border border-border rounded-md font-medium text-[9px] uppercase tracking-widest outline-none shadow-inner">
-                          {['Q1','Q2','Q3','Q4'].map(q => <option key={q} value={q}>{q}</option>)}
+                          {["Q1","Q2","Q3","Q4"].map(q => <option key={q} value={q}>{q}</option>)}
                         </select>
                       </div>
                       <div>
                         <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest block mb-2">Ano</label>
                         <select value={newOkrAno} onChange={e => setNewOkrAno(e.target.value)}
                           className="w-full px-3 py-3 bg-card border border-border rounded-md font-medium text-[9px] uppercase tracking-widest outline-none shadow-inner">
-                          {['2024','2025','2026','2027','2028'].map(y => <option key={y} value={y}>{y}</option>)}
+                          {Array.from({ length: 11 }, (_, i) => (new Date().getFullYear() - 5 + i).toString()).map(y => <option key={y} value={y}>{y}</option>)}
                         </select>
                       </div>
                     </div>
@@ -678,7 +678,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                     <div className="flex justify-end pt-2">
                       <button type="submit" disabled={linkSaving}
                         className="btn-executive bg-secondary shadow-xl shadow-secondary/20">
-                        {linkSaving ? 'Criando...' : 'Criar OKR e Vincular'}
+                        {linkSaving ? "Criando..." : "Criar OKR e Vincular"}
                       </button>
                     </div>
                   </form>

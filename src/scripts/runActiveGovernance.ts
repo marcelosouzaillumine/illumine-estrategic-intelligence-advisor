@@ -204,6 +204,22 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
+  console.log('\nIniciando IOS Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runIOSGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de IOS Governance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Enterprise Validation Audit...');
+  try {
+    execSync('npx tsx src/scripts/runEnterpriseValidationGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Enterprise Validation. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
   console.log('\nIniciando Self-Audit Core...');
 
   const report = runSelfAudit(mockCompliantRuntimeOutput, ['src/components', 'src/lib', 'src/runtime', 'src/services']);

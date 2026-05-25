@@ -269,7 +269,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
                     onChange={(e) => setYear(parseInt(e.target.value))}
                     className="flex-1 px-2 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-bold outline-none"
                   >
-                    {[2024, 2025, 2026].map(y => <option key={y} value={y}>{y}</option>)}
+                    {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map(y => <option key={y} value={y}>{y}</option>)}
                   </select>
                 </div>
               </div>
@@ -281,7 +281,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
                   onChange={(e) => setYear(parseInt(e.target.value))}
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none"
                 >
-                  {[2024, 2025, 2026].map(y => <option key={y} value={y}>{y}</option>)}
+                  {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map(y => <option key={y} value={y}>{y}</option>)}
                 </select>
               </div>
             )}

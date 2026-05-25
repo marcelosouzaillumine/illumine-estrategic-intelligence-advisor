@@ -96,6 +96,8 @@ import { GovernanceRiskHeatmap } from '../components/pages/governance/Governance
 import { FiduciaryGovernanceCenter } from '../components/pages/governance/FiduciaryGovernanceCenter';
 import { ComplianceIntegrityCenter } from '../components/pages/governance/ComplianceIntegrityCenter';
 import { GovernanceOrchestrationPage } from '../components/pages/GovernanceOrchestrationPage';
+import { InstitutionalIOSPage } from '../components/pages/InstitutionalIOSPage';
+import { EnterpriseValidationPage } from '../components/pages/EnterpriseValidationPage';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -530,6 +532,12 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'governance_orchestration' && (isMaster || true)) {
     return <GovernanceOrchestrationPage />;
+  }
+  if (currentPage === 'institutional_ios' && (isMaster || true)) {
+    return <InstitutionalIOSPage />;
+  }
+  if (currentPage === 'enterprise_validation' && (isMaster || true)) {
+    return <EnterpriseValidationPage />;
   }
   if (currentPage === 'strategic_intelligence_center') {
     return <StrategicIntelligenceCenter />;

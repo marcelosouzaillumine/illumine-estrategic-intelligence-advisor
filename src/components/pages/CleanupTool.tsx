@@ -43,7 +43,7 @@ export function CleanupTool() {
         collection(db, 'financial_entries'), 
         where('clientId', '==', clientId),
         where('type', '==', 'DRE'),
-        where('year', 'in', [2025, 2026])
+        where('year', 'in', Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i))
       );
       const snap = await getDocs(q);
       

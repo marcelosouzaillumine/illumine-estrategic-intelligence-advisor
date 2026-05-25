@@ -66,7 +66,7 @@ describe('Runtime Performance & Telemetry - Sprint 2 (Active Governance)', () =>
     const result = LazyExecutionCoordinator.executeSafely('HeavyTask', true, true, () => { return "executed"; });
     assert.strictEqual(result.status, 'DEFERRED');
     assert.strictEqual(result.data, undefined);
-    assert.ok(result.reason!.includes('adiado'));
+    assert.ok(result.reason!.includes('sob demanda'));
   });
 
   it('6. Lazy execution com hidden result retorna LAZY_EXECUTION_HIDDEN_RESULT', () => {

@@ -102,6 +102,8 @@ export type Page =
   | 'early_warning'
   | 'strategic_simulation'
   | 'governance_orchestration'
+  | 'institutional_ios'
+  | 'enterprise_validation'
   | 'institutional_reports'
   | 'scenario_lab'
   | 'runtime_observability'
@@ -293,6 +295,8 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'early_warning', label: 'Early Warning System', icon: Siren, masterOnly: true },
       { id: 'strategic_simulation', label: 'Strategic Simulation', icon: Landmark, masterOnly: true },
       { id: 'governance_orchestration', label: 'Governance Orchestration', icon: ArrowRightLeft, masterOnly: true },
+      { id: 'institutional_ios', label: 'Institutional Operating System', icon: Cpu, masterOnly: true },
+      { id: 'enterprise_validation', label: 'Enterprise Validation', icon: ShieldCheck, masterOnly: true },
       { id: 'institutional_copilot', label: 'Copiloto Institucional', icon: Bot, masterOnly: false },
       { id: 'institutional_integrations', label: 'Integrações Institucionais', icon: PlugZap, masterOnly: false },
       

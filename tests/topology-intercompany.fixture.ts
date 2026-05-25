@@ -1,10 +1,12 @@
 export const topologyIntercompanyFixture = {
   groupId: 'GRP-PHASE3',
+  tenantContext: { tenantId: 'tenant-1', executionScope: 'CONSOLIDATION', entityScope: ['Holding', 'Sub-A', 'Sub-B'], runtimeScope: 'MULTI_ENTITY', auditScope: 'test' },
   entities: [
     {
       entityId: 'Holding',
       role: 'Holding' as const,
       rawData: {
+        tenantId: 'tenant-1',
         isMockData: false,
         bpData: [
           { category: 'Caixa', type: 'ativo', value: 1000 },
@@ -21,6 +23,7 @@ export const topologyIntercompanyFixture = {
       role: 'Subsidiary' as const,
       parentId: 'Holding',
       rawData: {
+        tenantId: 'tenant-1',
         isMockData: false,
         bpData: [
           { category: 'Caixa', type: 'ativo', value: 300 },
@@ -37,6 +40,7 @@ export const topologyIntercompanyFixture = {
       role: 'Subsidiary' as const,
       parentId: 'Holding',
       rawData: {
+        tenantId: 'tenant-1',
         isMockData: false,
         bpData: [
           { category: 'Caixa', type: 'ativo', value: 400 },

@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from "react";
 import { 
   Target, 
   TrendingUp, 
@@ -14,17 +14,17 @@ import {
   Users,
   LayoutGrid,
   BarChart3
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import { useModuleData } from '../../hooks/useModuleData';
-import { useAllFinancialData } from '../../hooks/useFinancialData';
-import { ObjetivoOKR, KR, EixoGestao } from '../../types/modules';
-import { cn, formatValue, formatCurrency } from '../../lib/utils';
-import { PageHeader, SectionHeader } from '../Common';
-import { DashboardSkeleton } from '../ui/skeletons';
+} from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { useModuleData } from "../../hooks/useModuleData";
+import { useAllFinancialData } from "../../hooks/useFinancialData";
+import { ObjetivoOKR, KR, EixoGestao } from "../../types/modules";
+import { cn, formatValue, formatCurrency } from "../../lib/utils";
+import { PageHeader, SectionHeader } from "../Common";
+import { DashboardSkeleton } from "../ui/skeletons";
 
 const EIXOS: EixoGestao[] = [
-  'Governança Corporativa', 'Cultura Organizacional', 'Gestão Administrativa e Financeira', 'Gestão de Inovação', 'Gestão de Marketing', 'Gestão Comercial', 'Gestão Operacional'
+  "Governança Corporativa", "Cultura Organizacional", "Gestão Administrativa e Financeira", "Gestão de Inovação", "Gestão de Marketing", "Gestão Comercial", "Gestão Operacional"
 ];
 
 interface OKRsPageProps {
@@ -32,20 +32,20 @@ interface OKRsPageProps {
 }
 
 export function OKRsPage({ clientId }: OKRsPageProps) {
-  const { data, add, update, remove, loading } = useModuleData<ObjetivoOKR>('okrs', clientId);
+  const { data, add, update, remove, loading } = useModuleData<ObjetivoOKR>("okrs", clientId);
   const { dbData: financialEntries } = useAllFinancialData(clientId);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<Partial<ObjetivoOKR>>({
-    titulo: '',
-    eixo: 'Governança Corporativa',
-    responsavel: '',
-    periodo: 'Q1 2026',
+    titulo: "",
+    eixo: "Governança Corporativa",
+    responsavel: "",
+    periodo: "Q1 2026",
     keyResults: []
   });
-  const [trimestre, setTrimestre] = useState('Q1');
-  const [ano, setAno] = useState('2026');
+  const [trimestre, setTrimestre] = useState("Q1");
+  const [ano, setAno] = useState("2026");
 
   // Business Logic: Auto-calculate financial KRs
   const enrichedData = useMemo(() => {
@@ -56,19 +56,19 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
         
         // Auto-read logic for financial KRs
         if (financialEntries && Array.isArray(financialEntries)) {
-          if (kr.kpi.toLowerCase().includes('receita')) {
-            actualValue = financialEntries.filter(e => e.type === 'DRE' && e.conta.toLowerCase().includes('bruta')).reduce((acc, curr) => acc + (curr.valor || 0), 0);
-          } else if (kr.kpi.toLowerCase().includes('ebitda')) {
-            actualValue = financialEntries.filter(e => e.conta.toLowerCase() === 'ebitda').reduce((acc, curr) => acc + (curr.valor || 0), 0);
-          } else if (kr.kpi.toLowerCase().includes('margem')) {
-            const receita = financialEntries.filter(e => e.type === 'DRE' && e.conta.toLowerCase().includes('bruta')).reduce((acc, curr) => acc + (curr.valor || 0), 0);
-            const ebitda = financialEntries.filter(e => e.conta.toLowerCase() === 'ebitda').reduce((acc, curr) => acc + (curr.valor || 0), 0);
+          if (kr.kpi.toLowerCase().includes("receita")) {
+            actualValue = financialEntries.filter(e => e.type === "DRE" && e.conta.toLowerCase().includes("bruta")).reduce((acc, curr) => acc + (curr.valor || 0), 0);
+          } else if (kr.kpi.toLowerCase().includes("ebitda")) {
+            actualValue = financialEntries.filter(e => e.conta.toLowerCase() === "ebitda").reduce((acc, curr) => acc + (curr.valor || 0), 0);
+          } else if (kr.kpi.toLowerCase().includes("margem")) {
+            const receita = financialEntries.filter(e => e.type === "DRE" && e.conta.toLowerCase().includes("bruta")).reduce((acc, curr) => acc + (curr.valor || 0), 0);
+            const ebitda = financialEntries.filter(e => e.conta.toLowerCase() === "ebitda").reduce((acc, curr) => acc + (curr.valor || 0), 0);
             actualValue = receita > 0 ? (ebitda / receita) * 100 : 0;
           }
         }
 
         const progresso = kr.meta > 0 ? Math.min(100, Math.max(0, (actualValue / kr.meta) * 100)) : 0;
-        const status = (progresso >= 100 ? 'Completed' : progresso >= 40 ? 'In Progress' : progresso > 0 ? 'At Risk' : 'Not Started') as 'Completed' | 'In Progress' | 'At Risk' | 'Not Started';
+        const status = (progresso >= 100 ? "Completed" : progresso >= 40 ? "In Progress" : progresso > 0 ? "At Risk" : "Not Started") as "Completed" | "In Progress" | "At Risk" | "Not Started";
 
         return { ...kr, atual: actualValue, progresso, status };
       });
@@ -86,7 +86,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
       ...prev,
       keyResults: [
         ...(prev.keyResults || []),
-        { id: crypto.randomUUID(), descricao: '', kpi: '', tipo: 'Percentual', meta: 0, atual: 0, status: 'Not Started', progresso: 0 }
+        { id: crypto.randomUUID(), descricao: "", kpi: "", tipo: "Percentual", meta: 0, atual: 0, status: "Not Started", progresso: 0 }
       ]
     }));
   };
@@ -115,8 +115,8 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
       await add(payload);
       setShowForm(false);
     }
-    setFormData({ titulo: '', eixo: 'Governança Corporativa', responsavel: '', periodo: 'Q1 2026', keyResults: [] });
-    setTrimestre('Q1'); setAno('2026');
+    setFormData({ titulo: "", eixo: "Governança Corporativa", responsavel: "", periodo: "Q1 2026", keyResults: [] });
+    setTrimestre("Q1"); setAno("2026");
   };
 
   if (loading) return <DashboardSkeleton />;
@@ -150,7 +150,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                 : "bg-primary text-white"
             )}
           >
-            {showForm ? 'CANCELAR' : <><Plus size={16} /> ADICIONAR OBJETIVO</>}
+            {showForm ? "CANCELAR" : <><Plus size={16} /> ADICIONAR OBJETIVO</>}
           </button>
         </div>
       </div>
@@ -191,11 +191,11 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                     <div className="grid grid-cols-2 gap-3">
                       <select value={trimestre} onChange={e => setTrimestre(e.target.value)}
                         className="w-full px-4 py-4 bg-surface-container border border-border rounded-sm text-[10px] font-medium uppercase tracking-widest text-primary outline-none shadow-inner">
-                        {['Q1','Q2','Q3','Q4'].map(q => <option key={q} value={q}>{q}</option>)}
+                        {["Q1","Q2","Q3","Q4"].map(q => <option key={q} value={q}>{q}</option>)}
                       </select>
                       <select value={ano} onChange={e => setAno(e.target.value)}
                         className="w-full px-4 py-4 bg-surface-container border border-border rounded-sm text-[10px] font-medium uppercase tracking-widest text-primary outline-none shadow-inner">
-                        {['2024','2025','2026','2027','2028'].map(y => <option key={y} value={y}>{y}</option>)}
+                        {Array.from({ length: 11 }, (_, i) => (new Date().getFullYear() - 5 + i).toString()).map(y => <option key={y} value={y}>{y}</option>)}
                       </select>
                     </div>
                  </div>
@@ -215,7 +215,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                        <div className="md:col-span-5">
                           <input 
                             value={kr.descricao}
-                            onChange={e => updateKR(kr.id, 'descricao', e.target.value)}
+                            onChange={e => updateKR(kr.id, "descricao", e.target.value)}
                             className="w-full px-4 py-2 bg-card border border-border rounded-sm text-[11px] font-medium outline-none focus:ring-1 focus:ring-secondary/20 shadow-sm italic"
                             placeholder="Descrição do KR"
                           />
@@ -223,7 +223,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                        <div className="md:col-span-2">
                           <input 
                             value={kr.kpi}
-                            onChange={e => updateKR(kr.id, 'kpi', e.target.value)}
+                            onChange={e => updateKR(kr.id, "kpi", e.target.value)}
                             className="w-full px-4 py-2 bg-card border border-border rounded-sm text-[9px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 shadow-sm"
                             placeholder="KPI Associado"
                           />
@@ -231,7 +231,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                        <div className="md:col-span-2">
                           <select 
                             value={kr.tipo}
-                            onChange={e => updateKR(kr.id, 'tipo', e.target.value as any)}
+                            onChange={e => updateKR(kr.id, "tipo", e.target.value as any)}
                             className="w-full px-2 py-2 bg-card border border-border rounded-sm text-[10px] font-medium uppercase tracking-widest outline-none shadow-sm"
                           >
                             <option value="Percentual">%</option>
@@ -243,7 +243,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                           <input 
                             type="number"
                             value={kr.meta}
-                            onChange={e => updateKR(kr.id, 'meta', parseFloat(e.target.value))}
+                            onChange={e => updateKR(kr.id, "meta", parseFloat(e.target.value))}
                             className="w-full px-4 py-2 bg-card border border-border rounded-sm text-[11px] font-medium uppercase tracking-widest outline-none focus:ring-1 focus:ring-secondary/20 shadow-sm tabular-nums tracking-tighter"
                             placeholder="Meta"
                           />
@@ -318,8 +318,8 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                    <div className="flex justify-between items-start relative z-10">
                       <div className="space-y-1">
                          <div className="flex items-center gap-3">
-                            {kr.status === 'Completed' ? <CheckCircle2 size={14} className="text-success" /> : 
-                             kr.status === 'At Risk' ? <AlertCircle size={14} className="text-destructive" /> : 
+                            {kr.status === "Completed" ? <CheckCircle2 size={14} className="text-success" /> : 
+                             kr.status === "At Risk" ? <AlertCircle size={14} className="text-destructive" /> : 
                              <Clock size={14} className="text-warning" />}
                             <span className="text-[11px] font-medium text-foreground uppercase tracking-widest line-clamp-1 italic">{kr.descricao}</span>
                          </div>
@@ -327,16 +327,16 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
                       </div>
                       <div className="text-right">
                          <p className="text-[11px] font-medium text-foreground uppercase tracking-tighter tabular-nums">
-                           {kr.tipo === 'Monetário' ? formatCurrency(kr.atual) : kr.atual}
+                           {kr.tipo === "Monetário" ? formatCurrency(kr.atual) : kr.atual}
                            <span className="text-muted-foreground/40 text-[9px] mx-1">/</span>
-                           {kr.tipo === 'Monetário' ? formatCurrency(kr.meta) : kr.meta}
+                           {kr.tipo === "Monetário" ? formatCurrency(kr.meta) : kr.meta}
                          </p>
                          <p className="text-[10px] font-medium text-secondary tabular-nums italic">{kr.progresso.toFixed(0)}%</p>
                       </div>
                    </div>
                    <div className="h-1 bg-surface-container rounded-sm overflow-hidden border border-border/50">
                       <div 
-                        className={cn("h-full transition-all duration-1000 shadow-premium", kr.status === 'Completed' ? 'bg-success' : kr.status === 'At Risk' ? 'bg-destructive' : 'bg-warning')}
+                        className={cn("h-full transition-all duration-1000 shadow-premium", kr.status === "Completed" ? "bg-success" : kr.status === "At Risk" ? "bg-destructive" : "bg-warning")}
                         style={{ width: `${kr.progresso}%` }}
                       />
                    </div>
@@ -346,7 +346,7 @@ export function OKRsPage({ clientId }: OKRsPageProps) {
             
             <div className="mt-auto px-10 py-6 bg-surface-container/30 border-t border-border flex justify-between items-center relative z-10 shadow-inner">
                <div className="flex items-center gap-2 text-[9px] font-medium text-muted-foreground uppercase tracking-widest italic">
-                  <Users size={14} /> {obj.responsavel || 'Sem Responsável'}
+                  <Users size={14} /> {obj.responsavel || "Sem Responsável"}
                </div>
                <div className="text-[9px] font-medium text-foreground uppercase tracking-widest bg-card px-4 py-1.5 rounded-sm border border-border shadow-sm italic">
                   {obj.periodo}

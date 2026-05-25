@@ -321,7 +321,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                   onChange={(e) => setSelectedYear?.(Number(e.target.value))}
                   className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
                 >
-                  {[2024, 2025, 2026].map(y => (
+                  {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map(y => (
                     <option key={y} value={y} className="bg-white">{y}</option>
                   ))}
                 </select>
@@ -382,7 +382,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 onChange={(e) => setSelectedYear?.(Number(e.target.value))}
                 className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
-                {[2024, 2025, 2026].map(y => (
+                {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map(y => (
                   <option key={y} value={y} className="bg-white">{y}</option>
                 ))}
               </select>
