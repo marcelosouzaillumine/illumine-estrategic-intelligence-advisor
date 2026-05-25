@@ -1,5 +1,5 @@
 import { BPSummary } from '../../lib/bpEngine';
-import { FinancialMetrics } from '../../lib/financial-engine';
+type FinancialMetrics = any;
 import { getSectorProfile } from './sector-behavior-profiles';
 import { InventoryQualityOutput } from './inventory-quality-engine';
 

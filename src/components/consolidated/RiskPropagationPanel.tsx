@@ -1,6 +1,6 @@
 import React from 'react';
 import { GitMerge } from 'lucide-react';
-import { CrossEntityCausality } from '../../../core/runtime/consolidated/advisory/advisoryTypes';
+import { CrossEntityCausality } from '../../core/runtime/consolidated/advisory/advisoryTypes';
 
 export function RiskPropagationPanel({ causalities }: { causalities: CrossEntityCausality[] }) {
   if (!causalities || causalities.length === 0) return null;

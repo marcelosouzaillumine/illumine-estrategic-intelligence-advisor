@@ -76,6 +76,126 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
+  console.log('\nIniciando Consolidated Data Model Audit...');
+  try {
+    execSync('npx tsx src/scripts/runConsolidatedDataModelAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Data Model. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Observability Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runObservabilityGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Observabilidade. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Scenario Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runScenarioGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Cenários. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Reporting Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runReportingGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Reporting. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Tenancy Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runTenancyGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Tenancy. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Performance Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runPerformanceGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Performance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando AI Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runAIGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de AI Governance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Monitoring Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runMonitoringGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Monitoring Governance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Workflow Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runWorkflowGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Workflow Governance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Integration Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runIntegrationGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Integration Governance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Benchmark Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runBenchmarkGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Benchmark Governance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Product Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runProductGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Product Governance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Knowledge Graph Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runKnowledgeGraphGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Knowledge Graph Governance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Early Warning Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runEarlyWarningGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Early Warning Governance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Strategic Simulation Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runStrategicSimulationGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Strategic Simulation Governance. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
   console.log('\nIniciando Self-Audit Core...');
 
   const report = runSelfAudit(mockCompliantRuntimeOutput, ['src/components', 'src/lib', 'src/runtime', 'src/services']);

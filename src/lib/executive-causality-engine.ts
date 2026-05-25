@@ -1,4 +1,4 @@
-import { FinancialMetrics } from './financial-engine';
+type FinancialMetrics = any;
 import { BusinessIdentity } from './business-identity-engine';
 import { MasterCausalOutput, evaluateMasterCausality } from './master-causal-engine';
 

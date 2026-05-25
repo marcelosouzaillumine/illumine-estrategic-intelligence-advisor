@@ -1,5 +1,5 @@
 import { BPSummary } from '../../../lib/bpEngine';
-import { FinancialMetrics } from '../../../lib/financial-engine';
+type FinancialMetrics = any;
 
 export interface CapitalStructureOutput {
   qualityRating: string;

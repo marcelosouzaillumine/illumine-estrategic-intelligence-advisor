@@ -2,9 +2,11 @@ import { ConsolidatedOrchestratorInput } from '../src/core/runtime/consolidated/
 
 export const topologyStressFixture: ConsolidatedOrchestratorInput = {
   groupId: 'STRESS-GRP-01',
+  tenantContext: { tenantId: 'tenant-1', executionScope: 'CONSOLIDATION', entityScope: ['Holding', 'SubDependent', 'SubHealthy'], runtimeScope: 'MULTI_ENTITY', auditScope: 'test' },
   entities: [
     {
       entityId: 'Holding',
+      tenantId: 'tenant-1',
       role: 'Holding',
       rawData: {
         isMockData: false,
@@ -19,6 +21,7 @@ export const topologyStressFixture: ConsolidatedOrchestratorInput = {
     },
     {
       entityId: 'SubDependent',
+      tenantId: 'tenant-1',
       role: 'Subsidiary',
       parentId: 'Holding',
       rawData: {
@@ -36,6 +39,7 @@ export const topologyStressFixture: ConsolidatedOrchestratorInput = {
     },
     {
       entityId: 'SubHealthy', // Sem ligação estrutural direta de dependência (sem mutuos com Holding)
+      tenantId: 'tenant-1',
       role: 'Subsidiary',
       parentId: 'Holding',
       rawData: {

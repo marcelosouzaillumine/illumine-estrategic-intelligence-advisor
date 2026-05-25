@@ -37,6 +37,8 @@ export interface DiagnosticoItem {
   retornoInvestimento: 'Imediato (< 30 dias)' | 'Curto Prazo (30-90 dias)' | 'Médio Prazo (90-180 dias)' | 'Longo Prazo (6-12 meses)' | 'Incerto (> 12 meses)';
   iveScore: number;
   okrVinculado?: string[];
+  ano?: number;
+  mes?: number;
   updatedAt: any;
   ownerId: string;
 }

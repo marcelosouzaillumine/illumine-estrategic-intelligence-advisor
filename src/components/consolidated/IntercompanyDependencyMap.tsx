@@ -1,6 +1,6 @@
 import React from 'react';
 import { Network } from 'lucide-react';
-import { DependencyAnalysis } from '../../../core/runtime/consolidated/advisory/advisoryTypes';
+import { DependencyAnalysis } from '../../core/runtime/consolidated/advisory/advisoryTypes';
 
 export function IntercompanyDependencyMap({ dependencies }: { dependencies: DependencyAnalysis[] }) {
   if (!dependencies || dependencies.length === 0) return null;

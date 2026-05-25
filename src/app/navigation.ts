@@ -2,58 +2,109 @@ import {
   Activity,
   ArrowRightLeft,
   ArrowUpRight,
+  BarChart2,
   BarChart3,
+  Bell,
   BookOpen,
+  Bot,
+  Boxes,
+  Brain,
+  Briefcase,
+  BriefcaseBusiness,
+  Building,
+  Building2,
+  Calculator,
+  CalendarDays,
+  ChartNoAxesCombined,
   CheckSquare,
   CircleDollarSign,
+  ClipboardList,
+  Coins,
+  Compass,
+  Cpu,
   CreditCard,
   Database,
+  DatabaseBackup,
   DollarSign,
+  Eye,
+  Factory,
+  FileSearch,
   FileText,
+  Fingerprint,
+  FlaskConical,
+  GanttChart,
+  Gauge,
+  Gem,
+  GitBranchPlus,
+  GitGraph,
   Globe,
+  GraduationCap,
+  Handshake,
+  HardDrive,
+  HeartPulse,
+  History,
   Landmark,
+  Layers,
+  LayoutDashboard,
   LayoutGrid,
+  LifeBuoy,
   Lightbulb,
+  LineChart,
   List,
+  Magnet,
+  Map,
+  Megaphone,
+  MessageCircle,
+  MessageSquare,
+  Monitor,
+  Network,
+  PackageCheck,
   Percent,
+  PieChart,
+  PiggyBank,
+  PlugZap,
+  Presentation,
+  Radar,
+  Rocket,
   Scale,
+  Settings,
   Settings2,
+  ShieldAlert,
   ShieldCheck,
   ShoppingBag,
+  ShoppingCart,
+  Siren,
+  Star,
+  Tags,
   Target,
   TrendingUp,
+  Type,
+  UserCog,
+  UserPlus,
   Users,
   WalletCards,
+  Waypoints,
   Zap,
-  Bell,
-  LayoutDashboard,
-  Compass,
-  PieChart,
-  LineChart,
-  ClipboardList,
-  Building2,
-  Settings,
-  History,
-  HardDrive,
-  FileSearch,
-  Briefcase,
-  Layers,
-  Monitor,
-  Cpu,
-  Fingerprint,
-  GanttChart,
-  Boxes,
-  Type,
-  Presentation,
-  Rocket,
-  Megaphone,
-  Calculator,
-  Star,
-  MessageSquare,
-  type LucideIcon,
+  type LucideIcon
 } from 'lucide-react';
 
 export type Page =
+  | 'advisor_cockpit'
+  | 'tenant_governance'
+  | 'runtime_performance'
+  | 'institutional_copilot'
+  | 'institutional_monitoring'
+  | 'decision_governance'
+  | 'institutional_integrations'
+  | 'institutional_benchmarking'
+  | 'product_governance'
+  | 'institutional_knowledge_graph'
+  | 'early_warning'
+  | 'strategic_simulation'
+  | 'institutional_reports'
+  | 'scenario_lab'
+  | 'runtime_observability'
+  | 'admin_grupos'
   | 'consolidated_executive'
   | 'cleanup'
   | 'portfolio'
@@ -136,7 +187,16 @@ export type Page =
   | 'aprovacoes'
   | 'suporte'
   | 'dados_historicos'
-  | 'gestao_usuarios';
+  | 'gestao_usuarios'
+  | 'executive_scenario_lab'
+  | 'lab'
+  | 'strategic_intelligence_center'
+  | 'board_deck_center'
+  | 'institutional_observability_center'
+  | 'governance_structure_center'
+  | 'governance_risk_heatmap'
+  | 'fiduciary_governance_center'
+  | 'compliance_integrity_center';
 
 export interface NavigationItem {
   id: Page;
@@ -153,7 +213,7 @@ export interface NavigationGroup {
   items: NavigationItem[];
 }
 
-export const DEFAULT_PAGE: Page = 'portfolio';
+export const DEFAULT_PAGE: Page = 'consolidated_executive';
 
 export const DEFAULT_OPEN_SUBMENUS: Record<string, boolean> = {
   'Governança Corporativa': true,
@@ -169,9 +229,9 @@ const sortNavItems = (items: NavigationItem[]): NavigationItem[] => {
       children: item.children ? sortNavItems(item.children) : undefined
     }))
     .sort((a, b) => {
-      // "Visão Consolidada" (portfolio) always first if it exists in the group
-      if (a.id === 'portfolio') return -1;
-      if (b.id === 'portfolio') return 1;
+      // "Inteligência Consolidada" (consolidated_executive) always first if it exists in the group
+      if (a.id === 'consolidated_executive') return -1;
+      if (b.id === 'consolidated_executive') return 1;
 
       const isADashboard = a.label.toLowerCase().includes('dashboard');
       const isBDashboard = b.label.toLowerCase().includes('dashboard');
@@ -188,14 +248,14 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Cockpit de Gestão',
     icon: LayoutGrid,
     items: [
-      { id: 'portfolio', label: 'Visão Consolidada', icon: Globe },
-      { id: 'consolidated_executive', label: 'Inteligência Consolidada', icon: Globe, isNew: true },
-      { id: 'inteligencia_sistemica', label: 'Inteligência Sistêmica', icon: Cpu, isNew: true },
+      { id: 'consolidated_executive', label: 'Inteligência Consolidada', icon: Globe },
+      { id: 'portfolio', label: 'Portfólio', icon: Briefcase },
+      { id: 'inteligencia_sistemica', label: 'Inteligência Sistêmica', icon: Cpu },
       { id: 'dashboard', label: 'Monitoramento Estratégico', icon: LayoutDashboard },
+      { id: 'lab', label: 'Executive Scenario Lab', icon: FlaskConical },
       { id: 'indicadores', label: 'Análise de KPIs', icon: TrendingUp },
-      { id: 'dados_historicos', label: 'Acompanhamento e Envio', icon: Database, isNew: true },
       { id: 'aprovacoes', label: 'Aprovações de Documentos', icon: CheckSquare, masterOnly: true },
-      { id: 'plano_acao', label: 'Roadmap de Execução', icon: Rocket, isNew: true },
+      { id: 'plano_acao', label: 'Roadmap de Execução', icon: Rocket },
     ],
   },
   {
@@ -203,28 +263,39 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     icon: Database,
     items: [
       { id: 'clientes', label: 'Empresas', icon: Building2 },
-      { id: 'parceiros', label: 'Parceiros Estratégicos', icon: Users, masterOnly: true },
-      { id: 'premissas_economicas', label: 'Premissas do Sistema', icon: Settings },
-      { id: 'gestao_usuarios', label: 'Usuários', icon: Users, masterOnly: true },
+      { id: 'parceiros', label: 'Parceiros Estratégicos', icon: Handshake, masterOnly: true },
+      { id: 'premissas_economicas', label: 'Premissas do Sistema', icon: Settings2 },
+      { id: 'gestao_usuarios', label: 'Usuários', icon: UserPlus, masterOnly: true },
+      { id: 'dados_historicos', label: 'Central de Coleta de Dados', icon: Database },
     ],
   },
   {
     group: 'Governança Corporativa',
-    icon: ShieldCheck,
+    icon: Network,
     items: [
-      { id: 'governanca_estrategica', label: 'Monitoramento Estratégico de Governança', icon: LayoutDashboard },
-      { id: 'compliance_page', label: 'Compliance & Políticas', icon: Fingerprint },
-      { id: 'advisory_insights', label: 'Conselho Estratégico CFO', icon: Presentation },
-      { id: 'controladoria_estrategica', label: 'Controladoria Estratégica', icon: Scale },
-      { id: 'diagnostico', label: 'Diagnóstico & IVE', icon: Activity },
-      { id: 'estrutura_governanca', label: 'Estrutura de Governança', icon: Users },
-      { id: 'diretrizes', label: 'Identidade & Diretrizes', icon: Compass },
-      { id: 'inteligencia_governanca', label: 'Inteligência de Governança', icon: Cpu },
-      { id: 'planejamento_estrategico', label: 'Planejamento Estratégico', icon: Globe },
-      { id: 'relatorio_executivo', label: 'Relatório Executivo', icon: ClipboardList },
-      { id: 'valuation', label: 'Valuation Business', icon: BarChart3 },
-      { id: 'simulador_estrategico', label: 'Simulador de Valor', icon: Zap, isNew: true },
-      { id: 'atas_reuniao', label: 'Atas de Reunião', icon: FileText, isNew: true },
+      // --- Hubs Consolidados (FASE 1, 3 e 4) ---
+      { id: 'strategic_intelligence_center', label: 'Strategic Intelligence Center', icon: Target },
+      { id: 'governance_risk_heatmap', label: 'Enterprise Risk Heatmap', icon: ShieldAlert },
+      { id: 'fiduciary_governance_center', label: 'Governança Fiduciária', icon: Scale },
+      { id: 'compliance_integrity_center', label: 'Integridade & Compliance', icon: ShieldCheck },
+      { id: 'board_deck_center', label: 'Central de Relatórios do Conselho', icon: Presentation },
+      { id: 'institutional_observability_center', label: 'Saúde e Continuidade Institucional', icon: Activity },
+      { id: 'governance_structure_center', label: 'Estrutura Institucional', icon: Users },
+      { id: 'decision_governance', label: 'Governança de Decisão', icon: GitBranchPlus },
+      
+      // --- Legacy & Master Only Routes (Preservados internamente) ---
+      { id: 'advisor_cockpit', label: 'Advisor Cockpit', icon: BriefcaseBusiness, masterOnly: true },
+      { id: 'tenant_governance', label: 'Governança Multi-Tenant', icon: ShieldCheck, masterOnly: true },
+      { id: 'admin_grupos', label: 'Gestão de Grupos Econômicos', icon: Building, masterOnly: true },
+      { id: 'product_governance', label: 'Governança de Produto', icon: PackageCheck, masterOnly: true },
+      { id: 'institutional_knowledge_graph', label: 'Knowledge Graph', icon: GitGraph, masterOnly: true },
+      { id: 'early_warning', label: 'Early Warning System', icon: Siren, masterOnly: true },
+      { id: 'strategic_simulation', label: 'Strategic Simulation', icon: Landmark, masterOnly: true },
+      { id: 'institutional_copilot', label: 'Copiloto Institucional', icon: Bot, masterOnly: false },
+      { id: 'institutional_integrations', label: 'Integrações Institucionais', icon: PlugZap, masterOnly: false },
+      
+      // As demais páginas antigas (advisory_insights, relatorio_executivo, etc) 
+      // continuam existindo no Page type para não quebrar links diretos.
     ],
   },
   {
@@ -232,11 +303,11 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     icon: Users,
     items: [
       { id: 'dashboard_cultura', label: 'Dashboard de Cultura', icon: PieChart },
-      { id: 'desenvolvimento_humano', label: 'Desenvolvimento Humano', icon: Zap },
-      { id: 'perfil_lideranca', label: 'Perfil de Liderança', icon: Star, isNew: true },
+      { id: 'desenvolvimento_humano', label: 'Desenvolvimento Humano', icon: GraduationCap },
+      { id: 'perfil_lideranca', label: 'Perfil de Liderança', icon: Star },
       { id: 'quadro_pessoal', label: 'Gestão de Pessoas', icon: Users },
-      { id: 'avaliacao_organograma', label: 'Avaliação de Organograma', icon: Boxes, isNew: true },
-      { id: 'cultura_feedback', label: 'Cultura de Feedback', icon: MessageSquare, isNew: true },
+      { id: 'avaliacao_organograma', label: 'Avaliação de Organograma', icon: Boxes },
+      { id: 'cultura_feedback', label: 'Cultura de Feedback', icon: MessageCircle },
     ],
   },
   {
@@ -249,7 +320,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
         label: 'Administração',
         icon: Briefcase,
         children: [
-          { id: 'administrativa_indicadores', label: 'Indicadores Administrativos', icon: Activity },
+          { id: 'administrativa_indicadores', label: 'Indicadores Administrativos', icon: BarChart2 },
         ]
       },
       { 
@@ -258,8 +329,8 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
         icon: Calculator,
         children: [
           { id: 'bp', label: 'Balanço Patrimonial', icon: BookOpen },
-          { id: 'dfc', label: 'DFC Contábil', icon: WalletCards },
-          { id: 'dlpa', label: 'DLPA Contábil', icon: Scale },
+          { id: 'dfc', label: 'DFC Contábil', icon: ArrowRightLeft },
+          { id: 'dlpa', label: 'DLPA Contábil', icon: BookOpen },
           { id: 'dre', label: 'DRE Contábil', icon: FileText },
           { id: 'plano_contas', label: 'Plano Contas Contabilidade', icon: List },
         ]
@@ -269,20 +340,20 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
         label: 'Finanças', 
         icon: Landmark,
         children: [
-          { id: 'custos_pessoal', label: 'Análise de Custos de Pessoal', icon: Users },
-          { id: 'dre_gerencial', label: 'DRE Gerencial Estratégica', icon: Activity },
+          { id: 'custos_pessoal', label: 'Análise de Custos de Pessoal', icon: CircleDollarSign },
+          { id: 'dre_gerencial', label: 'DRE Gerencial Estratégica', icon: LineChart },
           { id: 'modelagem', label: 'Engenharia Financeira', icon: LayoutGrid },
           { id: 'caixa', label: 'Fluxo de Caixa Consolidado', icon: CircleDollarSign },
           { id: 'contas_pagar', label: 'Fluxo de Contas a Pagar', icon: CreditCard },
           { id: 'tax_reform_impact', label: 'Simulador de Impacto Tributário', icon: Percent },
-          { id: 'ativos_financeiros', label: 'Gestão de Ativos Financeiros', icon: WalletCards, isNew: true },
+          { id: 'ativos_financeiros', label: 'Gestão de Ativos Financeiros', icon: WalletCards },
           { id: 'contas_receber', label: 'Gestão de Contas a Receber', icon: ArrowUpRight },
-          { id: 'emprestimos', label: 'Gestão de Passivos', icon: WalletCards },
-          { id: 'analise_financeira', label: 'Inteligência de Capital', icon: Boxes },
+          { id: 'emprestimos', label: 'Gestão de Passivos', icon: CreditCard },
+          { id: 'analise_financeira', label: 'Inteligência de Capital', icon: Coins },
           { id: 'plano_contas_gerencial', label: 'Plano de Contas Gerencial', icon: List },
           { id: 'posicao_financeira', label: 'Posição Financeira', icon: Landmark },
-          { id: 'simulador_capital', label: 'Simulador de Captação', icon: Zap },
-          { id: 'orcamento', label: 'Orçamento & Budget', icon: Calculator, isNew: true },
+          { id: 'simulador_capital', label: 'Simulador de Captação', icon: Magnet },
+          { id: 'orcamento', label: 'Orçamento & Budget', icon: PiggyBank },
         ]
       },
     ],
@@ -300,8 +371,8 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     icon: Bell,
     items: [
       { id: 'dashboard_marketing', label: 'Dashboard de Marketing', icon: LayoutDashboard },
-      { id: 'analise_mercado', label: 'Inteligência Competitiva', icon: TrendingUp },
-      { id: 'marketing_estrategico', label: 'Marketing de Posicionamento', icon: Globe },
+      { id: 'analise_mercado', label: 'Inteligência Competitiva', icon: Target },
+      { id: 'marketing_estrategico', label: 'Marketing de Posicionamento', icon: Megaphone },
     ],
   },
   {
@@ -309,8 +380,8 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     icon: ShoppingBag,
     items: [
       { id: 'dashboard_comercial', label: 'Dashboard Comercial', icon: LineChart },
-      { id: 'precificacao', label: 'Precificação & Margem', icon: Percent },
-      { id: 'comercial_estrategico', label: 'Vendas & Mercado', icon: ShoppingBag },
+      { id: 'precificacao', label: 'Precificação & Margem', icon: Tags },
+      { id: 'comercial_estrategico', label: 'Vendas & Mercado', icon: ShoppingCart },
     ],
   },
   {
@@ -320,7 +391,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'dashboard_operacional', label: 'Dashboard Operacional', icon: HardDrive },
       { id: 'compras', label: 'Gestão de Compras', icon: ShoppingBag },
       { id: 'logistica', label: 'Eficiência em Logística', icon: Layers },
-      { id: 'producao', label: 'Produção & Processos', icon: Activity },
+      { id: 'producao', label: 'Produção & Processos', icon: Factory },
     ],
   },
   {
@@ -335,10 +406,10 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Configurações',
     icon: Settings,
     items: [
-      { id: 'suporte', label: 'Suporte', icon: MessageSquare, isNew: true },
+      { id: 'suporte', label: 'Suporte', icon: LifeBuoy },
       { id: 'mensagens', label: 'Mensagens e Comunicados', icon: Bell },
-      { id: 'perfil_usuario', label: 'Gestão de Perfil', icon: Users },
-      { id: 'maintenance', label: 'Manutenção de Dados', icon: HardDrive },
+      { id: 'perfil_usuario', label: 'Gestão de Perfil', icon: UserCog },
+      { id: 'maintenance', label: 'Manutenção de Dados', icon: DatabaseBackup },
       { id: 'configuracoes_sistema', label: 'Preferências do Sistema', icon: Settings },
     ],
   },

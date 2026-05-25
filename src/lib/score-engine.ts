@@ -1,5 +1,5 @@
 import { BPSummary } from './bpEngine';
-import { FinancialMetrics } from './financial-engine';
+type FinancialMetrics = any;
 import { getIndustryWeights } from './industry-engine';
 import { BusinessIdentity } from './business-identity-engine';
 import { MasterCausalOutput } from './master-causal-engine';

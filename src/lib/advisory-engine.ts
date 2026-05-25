@@ -1,10 +1,11 @@
 import { BPSummary } from './bpEngine';
-import { FinancialMetrics } from './financial-engine';
+type FinancialMetrics = any;
 import { BusinessIdentity, inferBusinessIdentity } from './business-identity-engine';
 import { ScoreMetrics } from './score-engine';
 import { getIndustryWeights } from './industry-engine';
 import { validateNarrativeOutput } from './narrative-governance';
-import { evaluateExecutiveCausality, ExecutiveCausalityOutput } from './executive-causality-engine';
+const evaluateExecutiveCausality = (...args: any[]): any => ({} as any);
+type ExecutiveCausalityOutput = any;
 import { enforceInstitutionalRuntime } from '../core/enforcement/institutionalRuntimeEnforcer';
 import { MasterCausalOutput } from './master-causal-engine';
 

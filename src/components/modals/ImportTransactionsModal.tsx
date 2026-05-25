@@ -11,6 +11,8 @@ import { db, auth } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
 import { parseTransactionsExcel, parseTransactionsPdf, ImportedTransaction } from '../../services/importService';
 import { cn, formatDate } from '../../lib/utils';
+import { StagingValidationEngine } from '../../core/runtime/integrations/StagingValidationEngine';
+import { ImportedDataset, StagingValidationWarning } from '../../core/runtime/integrations/IntegrationGovernanceTypes';
 
 type ImportStrategy = 'add_new' | 'replace_all';
 
@@ -48,6 +50,11 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
   const [progress, setProgress] = useState(0);
   const [processingStatus, setProcessingStatus] = useState('');
   const [importResult, setImportResult] = useState<{ created: number; deleted: number } | null>(null);
+  
+  // Staging Validation State
+  const [validationWarnings, setValidationWarnings] = useState<StagingValidationWarning[]>([]);
+  const [validationPassed, setValidationPassed] = useState(false);
+  const [datasetPayload, setDatasetPayload] = useState<ImportedDataset | null>(null);
 
   const title = collectionName === 'payables' ? 'Contas a Pagar' : 'Contas a Receber';
 
@@ -86,16 +93,52 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
         throw new Error('Formato não suportado. Use Excel, CSV ou PDF.');
       }
       setProgress(80);
-      setProcessingStatus('Validando estrutura...');
+      setProcessingStatus('Validando estrutura transacional...');
       if (data.length === 0) throw new Error('Nenhum título válido encontrado no arquivo. Verifique o formato.');
       
+      const batchId = `batch_${Date.now()}_${crypto.randomUUID()}`;
+      
+      const dataset: ImportedDataset = {
+        importId: batchId,
+        datasetType: collectionName === 'payables' ? 'TRANSACTIONS_PAYABLES' : 'TRANSACTIONS_RECEIVABLES',
+        connectorId: ext === 'pdf' ? 'MANUAL_PDF' : 'MANUAL_XLSX',
+        tenantId: 'default_tenant', // Placeholder for actual tenant
+        workspaceId: 'default_workspace',
+        rawPayloadSize: selectedFile.size,
+        extractedRecords: data.length,
+        trustLevel: 'LOW',
+        status: 'PENDING_REVIEW',
+        lineage: {
+          tenantId: 'default_tenant',
+          workspaceId: 'default_workspace',
+          connectorId: ext === 'pdf' ? 'MANUAL_PDF' : 'MANUAL_XLSX',
+          importId: batchId,
+          datasetHash: batchId,
+          sourceHash: selectedFile.name,
+          mappingVersion: '1.0',
+          timestamp: new Date().toISOString()
+        },
+        violations: [],
+        parsedData: { transactions: data },
+        submittedBy: auth.currentUser?.uid || 'unknown',
+        submittedAt: new Date().toISOString(),
+      };
+
+      StagingValidationEngine.validateDataset(dataset);
+
+      setValidationWarnings(dataset.blockingWarnings || []);
+      setValidationPassed(dataset.stagingValidationPassed || false);
+      setDatasetPayload(dataset);
+
       setParsedData(data);
       setProgress(100);
-      setProcessingStatus('Arquivo carregado!');
+      setProcessingStatus('Arquivo carregado e validado!');
     } catch (err: any) {
       setError(err.message || 'Erro ao processar arquivo.');
       setFile(null);
       setParsedData([]);
+      setValidationWarnings([]);
+      setDatasetPayload(null);
     } finally {
       setTimeout(() => { setLoading(false); setProgress(0); setProcessingStatus(''); }, 600);
     }
@@ -108,9 +151,9 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
     setLoading(true);
     setError('');
     setProgress(0);
-    setProcessingStatus('Iniciando importação...');
+    setProcessingStatus('Salvando em Staging...');
 
-    const batchId = `batch_${Date.now()}_${crypto.randomUUID()}`;
+    const batchId = datasetPayload?.importId || `batch_${Date.now()}_${crypto.randomUUID()}`;
     let created = 0, deleted = 0;
 
     try {
@@ -402,6 +445,23 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                 </div>
               )}
 
+              {validationWarnings.length > 0 && (
+                <div className="p-4 bg-rose-50 border border-rose-100 rounded-xl flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle size={18} className="text-rose-500 shrink-0" />
+                    <p className="text-xs text-rose-700 font-bold uppercase">Staging Warnings ({validationWarnings.length})</p>
+                  </div>
+                  <ul className="text-[11px] text-rose-600 font-medium pl-6 list-disc">
+                    {validationWarnings.map((w, i) => <li key={i}>{w}</li>)}
+                  </ul>
+                  {!validationPassed && (
+                    <p className="text-[10px] text-rose-500 font-bold mt-1 uppercase tracking-widest">
+                      O dataset foi bloqueado pela Governança de Staging e não pode ser promovido.
+                    </p>
+                  )}
+                </div>
+              )}
+
               {error && (
                 <div className="p-4 bg-rose-50 border border-rose-100 rounded-xl flex items-start gap-3">
                   <AlertTriangle size={18} className="text-rose-500 shrink-0 mt-0.5" />
@@ -422,7 +482,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
             </button>
             <button 
               onClick={handleConfirmImport}
-              disabled={loading || !file || parsedData.length === 0 || !selectedClient}
+              disabled={loading || !file || parsedData.length === 0 || !selectedClient || !validationPassed}
               className={cn(
                 "flex-1 py-3 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2",
                 strategy === 'replace_all'
@@ -431,7 +491,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
               )}
             >
               {loading ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle2 size={18} />}
-              {loading ? 'Importando...' : 'Confirmar Importação'}
+              {loading ? 'Processando...' : 'Solicitar Aprovação'}
             </button>
           </div>
         )}

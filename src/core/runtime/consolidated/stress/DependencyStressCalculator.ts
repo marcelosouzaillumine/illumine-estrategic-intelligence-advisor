@@ -23,8 +23,12 @@ export class DependencyStressCalculator {
     }
 
     if (edge.propagationType === 'FINANCIAL') {
-      // Se a Liquidez for menor que 1.0, sofre com o choque
-      return targetReport.scores.financialStress?.isStressed === true || targetReport.scores.financial < 50;
+      // Se a Liquidez for menor que 1.0 ou já estiver vulnerável, sofre com o choque
+      return targetReport.scores.financialStress?.isStressed === true || 
+             targetReport.scores.financial < 50 ||
+             targetReport.severity.level === 'CRÍTICO' ||
+             targetReport.severity.level === 'COLAPSO' ||
+             targetReport.severity.level === 'ESTRESSADO';
     }
 
     if (edge.propagationType === 'OPERATIONAL') {

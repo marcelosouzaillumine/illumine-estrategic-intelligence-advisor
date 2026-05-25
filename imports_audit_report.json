@@ -1,0 +1,9 @@
+[
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/hooks/useScenarioSimulation.ts",
+    "risk": "Import of legacy engine: scenario-simulation-engine",
+    "severity": "HIGH",
+    "recommendation": "Use the new orchestration layer or consolidated runtime.",
+    "action": "Remove import and migrate logic to Official Contracts."
+  }
+]

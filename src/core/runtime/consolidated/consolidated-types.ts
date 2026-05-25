@@ -77,13 +77,17 @@ export interface ConsolidatedRuntimeInputExt {
 
 export interface EntityInputPayload {
   entityId: string;
+  tenantId?: string; // Obrigatório no futuro, opcional no legacy
   role: 'Holding' | 'Subsidiary' | 'Branch' | 'JV';
   parentId?: string;
   rawData: any; 
 }
 
+import { TenantExecutionContext } from '../tenancy/hardening/TenantExecutionContext';
+
 export interface ConsolidatedOrchestratorInput {
   groupId?: string;
+  tenantContext?: TenantExecutionContext;
   entities: EntityInputPayload[];
 }
 

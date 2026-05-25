@@ -20,9 +20,11 @@ const EIXOS: EixoGestao[] = [
 
 interface DiagnosticoPageProps {
   clientId: string;
+  selectedYear?: number;
+  selectedMonth?: number;
 }
 
-export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
+export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: DiagnosticoPageProps) {
   const { data, add, update, remove, loading } = useModuleData<DiagnosticoItem>('diagnostico', clientId);
   const { data: okrsData, add: addOkr, update: updateOkr } = useModuleData<ObjetivoOKR>('okrs', clientId);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -85,8 +87,13 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
   };
 
   const sortedData = useMemo(() => {
-    return [...data].sort((a, b) => b.iveScore - a.iveScore);
-  }, [data]);
+    return data.filter(d => {
+      if (d.ano === undefined) return true; // Global/legacy items
+      const matchYear = d.ano === selectedYear;
+      const matchMonth = d.mes ? d.mes === selectedMonth : true;
+      return matchYear && matchMonth;
+    }).sort((a, b) => b.iveScore - a.iveScore);
+  }, [data, selectedYear, selectedMonth]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,7 +106,12 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
       const custoMult  = CUSTO_MULTIPLIERS[formData.custoInvestimento!]?.value ?? 1;
       const roiMult    = ROI_MULTIPLIERS[formData.retornoInvestimento!]?.value   ?? 1;
       const ive = Math.round(baseScore * swotMult * efeitoMult * custoMult * roiMult);
-      const payload = { ...formData, iveScore: ive };
+      const payload = { 
+        ...formData, 
+        iveScore: ive,
+        ano: formData.ano || selectedYear,
+        mes: formData.mes || selectedMonth
+      };
 
       if (editingId) {
         await update(editingId, payload);
@@ -121,7 +133,9 @@ export function DiagnosticoPage({ clientId }: DiagnosticoPageProps) {
         impactoFinanceiro: 3,
         efeitoFinanceiro: 'Faturamento',
         custoInvestimento: 'Médio',
-        retornoInvestimento: 'Médio Prazo (90-180 dias)'
+        retornoInvestimento: 'Médio Prazo (90-180 dias)',
+        ano: selectedYear,
+        mes: selectedMonth
       });
     } catch (err: any) {
       setSaveError(err.message ?? 'Erro ao salvar. Tente novamente.');

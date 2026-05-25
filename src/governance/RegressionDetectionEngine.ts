@@ -33,7 +33,23 @@ const FORBIDDEN_UI_PATTERNS = [
   { pattern: /localAdvisory/g, message: 'Advisory local não é permitido. Use RuntimeOutput.' },
   { pattern: /simulateScenario/g, message: 'UI não pode simular cenário localmente. Use Scenario Layer.' },
   { pattern: /projectedEbitda/g, message: 'UI não pode calcular EBITDA projetado localmente. Use Scenario Output.' },
-  { pattern: /scenarioAdvisory/g, message: 'Advisory preditivo local não é permitido. Use Scenario Output.' }
+  { pattern: /scenarioAdvisory/g, message: 'Advisory preditivo local não é permitido. Use Scenario Output.' },
+  { pattern: /RuntimeTraceEngine/g, message: 'UI não pode instanciar RuntimeTraceEngine. Tracing deve ocorrer no Runtime.' },
+  { pattern: /RuntimeProfiler/g, message: 'UI não pode fazer profiling local. Use runtimeMetadata.' },
+  { pattern: /ExecutionLineageTracker/g, message: 'UI não pode rastrear lineage. Use runtimeMetadata.' },
+  { pattern: /console\.time\(/g, message: 'Profiling local (console.time) não é permitido na UI. Use RuntimeProfiler no Core.' },
+  { pattern: /calculateSystemicRisk/g, message: 'UI não pode calcular risco sistêmico localmente.' },
+  { pattern: /inferContagion/g, message: 'UI não pode inferir contágio localmente.' },
+  { pattern: /generateRecommendation/g, message: 'UI não pode gerar recomendação localmente.' },
+  { pattern: /calculatePropagation/g, message: 'UI não pode calcular propagação localmente.' },
+  { pattern: /localRiskScore/g, message: 'UI não pode calcular score localmente.' },
+  { pattern: /systemicScore/g, message: 'UI não pode calcular score sistêmico localmente.' },
+  { pattern: /riskMatrix/g, message: 'UI não pode montar matriz de risco localmente (apenas exibição).' },
+  { pattern: /aiAnalysis/g, message: 'UI não pode fazer análise por IA local.' },
+  { pattern: /severity\s*=/g, message: 'UI não pode definir ou recalcular severidade.' },
+  { pattern: /confidence\s*=/g, message: 'UI não pode definir ou recalcular confiança.' },
+  { pattern: /\.sort\([^)]*(risco|risk|severity|severidade|confidence|priority|peso|weight)[^)]*\)/gi, message: 'UI não pode usar .sort() para ranquear risco ou severidade.' },
+  { pattern: /import\s+.*ConsolidatedStressPropagationEngine/g, message: 'UI não pode importar a Engine do Runtime Consolidado. Apenas tipos são permitidos.' }
 ];
 
 export function detectRegressions(directoriesToScan: string[]): RegressionResult {
@@ -56,7 +72,7 @@ export function detectRegressions(directoriesToScan: string[]): RegressionResult
         });
 
         // UI specific bans (Progressive Rollout - Strictly enforced on migrated pages)
-        const isMigratedPage = fullPath.includes('BalanceSheetPage.tsx');
+        const isMigratedPage = fullPath.includes('BalanceSheetPage.tsx') || fullPath.includes('systemic-heatmap');
         
         if (fullPath.includes('src/components/pages') || fullPath.endsWith('.tsx')) {
           FORBIDDEN_UI_PATTERNS.forEach(({ pattern, message }) => {

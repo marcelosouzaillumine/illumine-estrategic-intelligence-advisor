@@ -1,0 +1,16 @@
+[
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/lib/financial-engine.ts",
+    "risk": "Legacy engine parallel to official Core Runtime",
+    "severity": "HIGH",
+    "recommendation": "Verify if it is still actively imported, if not, mark for deletion.",
+    "action": "Map active imports and deprecate."
+  },
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/lib/scenario-simulation-engine.ts",
+    "risk": "Legacy engine parallel to official Core Runtime",
+    "severity": "HIGH",
+    "recommendation": "Verify if it is still actively imported, if not, mark for deletion.",
+    "action": "Map active imports and deprecate."
+  }
+]

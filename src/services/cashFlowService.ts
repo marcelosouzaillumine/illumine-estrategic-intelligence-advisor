@@ -11,20 +11,27 @@ import {
 import { db, auth } from '../lib/firebase';
 import { DATA } from '../data';
 
-export async function generateCashFlow(clientId: string) {
+import { DataAccessContext } from '../core/security/data-access-context';
+import { GovernedRepositoryWrapper } from '../core/security/governed-repository';
+
+export async function generateCashFlow(context: DataAccessContext, clientId: string) {
   if (!clientId) throw new Error('Client ID is required');
   const cleanId = clientId.trim();
 
-  // 1. Fetch data from all sources
-  const payablesQuery = query(collection(db, 'payables'), where('clientId', '==', cleanId));
-  const receivablesQuery = query(collection(db, 'receivables'), where('clientId', '==', cleanId));
-  const positionsQuery = query(collection(db, 'financial_positions'), where('clientId', '==', cleanId));
+  // O clientId aqui é tratado como legacyTenantId/entityId transitório.
+  // O wrapper garante a governança fiduciária antes da leitura.
+  
+  const [payablesSnap, receivablesSnap, positionsSnap] = await GovernedRepositoryWrapper.execute(context, async () => {
+    const payablesQuery = query(collection(db, 'payables'), where('clientId', '==', cleanId));
+    const receivablesQuery = query(collection(db, 'receivables'), where('clientId', '==', cleanId));
+    const positionsQuery = query(collection(db, 'financial_positions'), where('clientId', '==', cleanId));
 
-  const [payablesSnap, receivablesSnap, positionsSnap] = await Promise.all([
-    getDocs(payablesQuery),
-    getDocs(receivablesQuery),
-    getDocs(positionsQuery)
-  ]);
+    return await Promise.all([
+      getDocs(payablesQuery),
+      getDocs(receivablesQuery),
+      getDocs(positionsQuery)
+    ]);
+  });
 
   const payables = payablesSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));
   const receivables = receivablesSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));
@@ -189,20 +196,28 @@ export async function generateCashFlow(clientId: string) {
     updatedAt: serverTimestamp()
   };
 
-  const q = query(
-    collection(db, 'cash_flows'), 
-    where('clientId', '==', cleanId),
-    where('ownerId', '==', auth.currentUser?.uid)
-  );
-  const existingSnap = await getDocs(q);
-  
-  if (!existingSnap.empty) {
-    // Update first found (usually only one per client)
-    await setDoc(doc(db, 'cash_flows', existingSnap.docs[0].id), cashFlowData);
-  } else {
-    // Create new
-    await addDoc(collection(db, 'cash_flows'), cashFlowData);
-  }
+  const writeContext: DataAccessContext = {
+    ...context,
+    requestedAction: 'CREATE_SNAPSHOT', // Considering this an internal system snapshot of the cash flow
+    auditRequirement: true
+  };
+
+  await GovernedRepositoryWrapper.execute(writeContext, async () => {
+    const q = query(
+      collection(db, 'cash_flows'), 
+      where('clientId', '==', cleanId),
+      where('ownerId', '==', auth.currentUser?.uid)
+    );
+    const existingSnap = await getDocs(q);
+    
+    if (!existingSnap.empty) {
+      // Update first found (usually only one per client)
+      await setDoc(doc(db, 'cash_flows', existingSnap.docs[0].id), cashFlowData);
+    } else {
+      // Create new
+      await addDoc(collection(db, 'cash_flows'), cashFlowData);
+    }
+  });
 
   return cashFlowData;
 }

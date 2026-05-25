@@ -1,6 +1,6 @@
 import { evaluateTemporalCausality, HistoricalPeriodData } from '../core/intelligence/temporal-causality-engine';
 import { BPSummary } from '../lib/bpEngine';
-import { FinancialMetrics } from '../lib/financial-engine';
+type FinancialMetrics = any;
 import fs from 'fs';
 import path from 'path';
 

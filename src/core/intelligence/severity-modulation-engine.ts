@@ -3,7 +3,7 @@ import { InventoryQualityOutput } from './inventory-quality-engine';
 import { ConfidenceInference } from './inference-confidence-engine';
 import { CausalScenario } from '../../lib/master-causal-engine';
 import { BPSummary } from '../../lib/bpEngine';
-import { FinancialMetrics } from '../../lib/financial-engine';
+type FinancialMetrics = any;
 
 export interface ModulatedCausality {
   scenarios: CausalScenario[];

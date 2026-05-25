@@ -1669,3 +1669,25 @@ A engine detecta e tipifica institucionalmente os seguintes fenômenos através 
 - **LIMITED_TEMPORAL_MODE**: Ativado em conjuntos de dados com menos de 3 períodos, permitindo inferências curtas (como o colapso abrupto), porém inibindo scores temporais definitivos.
 
 Nenhum componente de UI pode calcular trajetórias temporais locais (e.g. Hooks React). Todo o relatório temporal, incluindo a matriz de *Inflection Points* e os alertas executivos (como `riskPatterns` e `recoveryPatterns`), deve ser lido do payload central (ExecutiveIntelligenceReport).
+
+---
+
+# 23. Institutional Runtime Stabilization & Observability Layer (Fase 4)
+
+A engine de Observabilidade Institucional atua como sentinela passiva e forense de todo o Pipeline do Runtime, não influenciando no output matemático primário, mas validando limites operacionais, linhagem, e degradações da confiança sistêmica (`ConfidenceTelemetryEngine`).
+
+## 23.1 Princípios de Observabilidade
+
+- **Zero UI Metrics:** Nenhuma métrica de performance, log de erro, limitador, tracer temporal, ou lineage poderá ser processada na UI. A React Layer apenas lê o output `runtimeMetadata` do `ExecutiveIntelligenceReport`.
+- **Passividade Forense:** Componentes de observação não modificam input do cliente nem influenciam na matemática das Advisory Engines. Eles atuam exclusivamente em auditoria e rastreamento (lineage) da execução.
+- **Transparência Causal (Explainability):** Decisões executivas tomadas pelos geradores de insights (`AdvisoryDecisionTrace`) devem ser rastreadas da raiz ao nó com detalhamento determinístico.
+
+## 23.2 Módulos da Observabilidade
+
+1. **RuntimeTraceEngine**: Trilha master (`RuntimeExecutionTrace`) preenchida a cada inicialização/finalização.
+2. **RuntimeProfiler**: Monitoramento hibrido de tempo de processamento por ciclo de cálculo (ex.: Single-Entity vs Consolidation Array).
+   - Threshold Padrão Excessive Time: > 500ms
+   - Threshold Critical Time: > 1000ms
+3. **ExecutionLineageTracker**: Previne loops de engines circulares (`executionLoopsDetected`), mapeando as dependências lógicas consumidas em profundidade em `RuntimeLineageNode`.
+4. **ConfidenceTelemetryEngine**: Rastreia colapso na confiança base dos dados (`confidenceInitial` vs `confidenceFinal`). Colapso drástico de Score (< 45% do base, ou 65% de Degraded mode) reportará risco intrínseco.
+5. **RuntimeAuditTrail**: Empacotador final de consistência estrutural (`validationHash`).

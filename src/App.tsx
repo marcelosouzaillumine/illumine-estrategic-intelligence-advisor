@@ -107,8 +107,10 @@ import { DEFAULT_OPEN_SUBMENUS, DEFAULT_PAGE, FLAT_NAV_ITEMS, NAVIGATION_GROUPS,
 import { renderCurrentPage } from './app/routes';
 import { ClientSelector } from './components/ClientSelector';
 import { GovernanceProvider, useGovernance } from './lib/governanceContext';
+import { TenancyProvider } from './context/TenancyProvider';
 import { LGPDModal } from './components/modals/GovernanceModals';
 import { governanceService } from './services/governanceService';
+import { DataAccessContext } from './core/security/data-access-context';
 import { DadosHistoricosPage } from './components/pages/DadosHistoricosPage';
 
 
@@ -574,11 +576,14 @@ export default function App() {
     if (!authLoading && user && rolesLoaded && !initialRedirectDone.current) {
       console.log('[Redirect] Checking initial redirection', { isMaster, isPartner });
       
-      // Role-based redirection: Master/Partner -> portfolio, Company User -> dashboard
-      if (isMaster || isPartner) {
-        navigate('/dashboard/portfolio', { replace: true });
-      } else {
-        navigate('/dashboard/dashboard', { replace: true });
+      // Only redirect if at root or login
+      if (location.pathname === '/' || location.pathname === '/login') {
+        // Role-based redirection: Master/Partner -> portfolio, Company User -> dashboard
+        if (isMaster || isPartner) {
+          navigate('/dashboard/portfolio', { replace: true });
+        } else {
+          navigate('/dashboard/dashboard', { replace: true });
+        }
       }
 
       // First access of the day check
@@ -595,11 +600,9 @@ export default function App() {
       if (isFirstAccessOfDay) {
         // Prevent StrictMode from firing this logic twice and dropping the modal
         sessionStorage.setItem(sessionShownKey, today);
-        setTimeout(() => {
-          localStorage.setItem(lastAccessKey, today);
-          setWelcomeText(getRandomWelcomeMessage());
-          setShowWelcome(true);
-        }, 800);
+        localStorage.setItem(lastAccessKey, today);
+        // TEMPORARILY DISABLED: setWelcomeText(getRandomWelcomeMessage());
+        // TEMPORARILY DISABLED: setShowWelcome(true);
       }
 
       // Client Selection Logic: 
@@ -640,69 +643,63 @@ export default function App() {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/empresas" element={<EmpresasPage />} />
-      <Route path="/parceiros" element={<ParceirosPage />} />
-      <Route path="/diagnostico" element={<DiagnosticoPage />} />
-      <Route path="/login" element={user ? <Navigate to="/dashboard/dashboard" replace /> : <LoginPage />} />
-      <Route path="/consolidated-executive" element={
-        user ? (
-          <ConsolidatedExecutiveProvider>
-            <div className="bg-background min-h-screen">
-              <ConsolidatedExecutivePage />
-            </div>
-          </ConsolidatedExecutiveProvider>
-        ) : (
-          <Navigate to="/login" replace />
-        )
-      } />
-      
-      <Route 
-        path="/dashboard/*" 
-        element={
-          user ? (
-            <GovernanceProvider user={user}>
-              <TooltipProvider>
-                {requirePasswordChange && <ForcePasswordChangeModal onSuccess={() => setRequirePasswordChange(false)} />}
-                <AppContent 
-                  user={user}
-                  authLoading={authLoading}
-                  clients={clients}
-                  selectedClient={selectedClient}
-                  setSelectedClient={setSelectedClient}
-                  selectedMonth={selectedMonth}
-                  setSelectedMonth={setSelectedMonth}
-                  selectedYear={selectedYear}
-                  setSelectedYear={setSelectedYear}
-                  setCurrentPage={(page: Page) => navigate(`/dashboard/${page}`)}
-                  setClients={setClients}
-                  currentPage={currentPage}
-                  academyCourseId={academyCourseId}
-                  setAcademyCourseId={setAcademyCourseId}
-                  isSidebarCollapsed={isSidebarCollapsed}
-                  setIsSidebarCollapsed={setIsSidebarCollapsed}
-                  isMobileMenuOpen={isMobileMenuOpen}
-                  setIsMobileMenuOpen={setIsMobileMenuOpen}
-                  openSubmenus={openSubmenus}
-                  toggleSubmenu={toggleSubmenu}
-                  userPermissions={userPermissions}
-                  isPartner={isPartner}
-                  isMaster={isMaster}
-                  userPartnerIds={userPartnerIds}
-                  showWelcome={showWelcome}
-                  setShowWelcome={setShowWelcome}
-                  welcomeText={welcomeText}
-                />
-              </TooltipProvider>
-            </GovernanceProvider>
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
-      />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <GovernanceProvider user={user}>
+      <TenancyProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/empresas" element={<EmpresasPage />} />
+          <Route path="/parceiros" element={<ParceirosPage />} />
+          <Route path="/diagnostico" element={<DiagnosticoPage />} />
+          <Route path="/login" element={user ? <Navigate to="/dashboard/dashboard" replace /> : <LoginPage />} />
+          <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />
+          
+          <Route 
+            path="/dashboard/*" 
+            element={
+              user ? (
+                <GovernanceProvider user={user}>
+                  <TooltipProvider>
+                    {requirePasswordChange && <ForcePasswordChangeModal onSuccess={() => setRequirePasswordChange(false)} />}
+                    <AppContent 
+                      user={user}
+                      authLoading={authLoading}
+                      clients={clients}
+                      selectedClient={selectedClient}
+                      setSelectedClient={setSelectedClient}
+                      selectedMonth={selectedMonth}
+                      setSelectedMonth={setSelectedMonth}
+                      selectedYear={selectedYear}
+                      setSelectedYear={setSelectedYear}
+                      setCurrentPage={(page: Page) => navigate(`/dashboard/${page}`)}
+                      setClients={setClients}
+                      currentPage={currentPage}
+                      academyCourseId={academyCourseId}
+                      setAcademyCourseId={setAcademyCourseId}
+                      isSidebarCollapsed={isSidebarCollapsed}
+                      setIsSidebarCollapsed={setIsSidebarCollapsed}
+                      isMobileMenuOpen={isMobileMenuOpen}
+                      setIsMobileMenuOpen={setIsMobileMenuOpen}
+                      openSubmenus={openSubmenus}
+                      toggleSubmenu={toggleSubmenu}
+                      userPermissions={userPermissions}
+                      isPartner={isPartner}
+                      isMaster={isMaster}
+                      userPartnerIds={userPartnerIds}
+                      showWelcome={showWelcome}
+                      setShowWelcome={setShowWelcome}
+                      welcomeText={welcomeText}
+                    />
+                  </TooltipProvider>
+                </GovernanceProvider>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </TenancyProvider>
+    </GovernanceProvider>
   );
 }
 
@@ -784,9 +781,21 @@ function AppContent({
       } else {
         setActiveCurrency('BRL');
       }
-      await governanceService.logAction({
+      const systemContext: DataAccessContext = {
+        actorId: user?.uid || 'guest',
+        tenantId: 'SYSTEM',
+        role: 'SUPER_ADMIN',
+        permissions: ['VIEW_AUDIT_LOGS'],
+        entityScope: { tenantId: 'SYSTEM', requestedEntityScope: 'ENTITY', entityId: 'SYSTEM', allowedEntityIds: ['SYSTEM'], allowedGroupIds: [], consolidatedScope: true },
+        requestedAction: 'VIEW_AUDIT_LOGS',
+        resourceType: 'Config',
+        resourceTenantId: 'SYSTEM',
+        visibilityPolicy: 'INTERNAL',
+        auditRequirement: false
+      };
+      await governanceService.logAction(systemContext, {
         user_id: user?.uid || '',
-        role: role,
+        role: role as any,
         empresa_id: isPartner ? userPartnerIds[0] : '', // Use first partner ID if partner
         cliente_ativo_id: id,
         acao: 'seleção de cliente ativo',
@@ -800,12 +809,14 @@ function AppContent({
 
   return (
     <>
+      {/* TEMPORARILY DISABLED
       <WelcomeMessage 
         isOpen={showWelcome} 
         onClose={() => setShowWelcome(false)} 
         message={welcomeText}
         userName={user?.displayName || ''}
       />
+      */}
       <SidebarProvider
         defaultOpen={!isSidebarCollapsed}
         className="bg-background text-foreground transition-colors duration-500 overflow-hidden h-screen"
@@ -943,10 +954,12 @@ function AppContent({
           </div>
         )}
 
+        {/* TEMPORARILY DISABLED
         <LGPDModal 
           isOpen={!governanceLoading && !isAccepted} 
           onAccept={() => setAccepted(true)} 
         />
+        */}
       </main>
     </SidebarProvider>
     </>

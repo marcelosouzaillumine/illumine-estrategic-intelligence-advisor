@@ -31,6 +31,7 @@ import {
 } from 'recharts';
 import { cn, formatCurrency } from '../../lib/utils';
 import { useModuleData } from '../../hooks/useModuleData';
+import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 import { DiagnosticoItem, EixoGestao } from '../../types/modules';
 import { PageHeader, MarkdownText } from '../Common';
 import { DashboardSkeleton } from '../ui/skeletons';
@@ -53,11 +54,23 @@ const EIXOS: EixoGestao[] = [
 
 export function SystemicIntelligencePage({ clientId, selectedMonth, selectedYear }: SystemicIntelligencePageProps) {
   const { data: indicators, loading: loadingInd } = useModuleData<any>('indicators', clientId);
-  const { data: diagnostics, loading: loadingDiag } = useModuleData<DiagnosticoItem>('diagnostico', clientId);
+  const { data: rawDiagnostics, loading: loadingDiag } = useModuleData<DiagnosticoItem>('diagnostico', clientId);
+  const { kpis } = useRealIndicatorData(clientId, selectedMonth, selectedYear);
+
+  const diagnostics = useMemo(() => {
+    return rawDiagnostics.filter(d => {
+      // If ano/mes is absent, treat it as global (valid for all periods)
+      if (d.ano === undefined) return true;
+      // Filter by the specific period if it has an assigned year
+      const matchYear = d.ano === selectedYear;
+      const matchMonth = d.mes ? d.mes === selectedMonth : true; // if no month, treat as annual
+      return matchYear && matchMonth;
+    });
+  }, [rawDiagnostics, selectedYear, selectedMonth]);
 
   const hasFinancialData = useMemo(() => {
-    return indicators.some((i: any) => i.ano === selectedYear && i.mes === selectedMonth);
-  }, [indicators, selectedYear, selectedMonth]);
+    return (kpis.revenue > 0 || kpis.totalAssets > 0) || indicators.some((i: any) => i.ano === selectedYear && i.mes === selectedMonth);
+  }, [indicators, selectedYear, selectedMonth, kpis]);
 
   const hasDiagnosticData = useMemo(() => {
     return diagnostics.length > 0;
@@ -71,10 +84,10 @@ export function SystemicIntelligencePage({ clientId, selectedMonth, selectedYear
     const currentInds = indicators.filter((i: any) => i.ano === selectedYear && i.mes === selectedMonth);
     
     // Financial metrics
-    const ebitda = currentInds.find((i: any) => i.ind === 'EBITDA')?.val || 0;
-    const revenue = currentInds.find((i: any) => i.ind === 'Receita Líquida')?.val || 0;
+    const ebitda = kpis.ebitda || currentInds.find((i: any) => i.ind === 'EBITDA')?.val || 0;
+    const revenue = kpis.revenue || currentInds.find((i: any) => i.ind === 'Receita Líquida')?.val || 0;
     const personnel = currentInds.find((i: any) => i.ind === 'Custo com Pessoal')?.val || 0;
-    const cash = currentInds.find((i: any) => i.ind === 'Saldo em Caixa')?.val || 0;
+    const cash = kpis.saldoCaixa || currentInds.find((i: any) => i.ind === 'Saldo em Caixa')?.val || 0;
 
     // 1. Friction Index Calculation (Based on IVE of weaknesses/threats)
     const criticalItems = diagnostics.filter(d => d.swot === 'Fraqueza' || d.swot === 'Ameaça');
@@ -145,7 +158,7 @@ export function SystemicIntelligencePage({ clientId, selectedMonth, selectedYear
       valuationPremium: Math.round((avgMaturity / 100) * 30), // Max 30% premium
       ebitda
     };
-  }, [indicators, diagnostics, loadingInd, loadingDiag, selectedMonth, selectedYear, hasFinancialData, hasDiagnosticData]);
+  }, [indicators, diagnostics, loadingInd, loadingDiag, selectedMonth, selectedYear, hasFinancialData, hasDiagnosticData, kpis]);
 
   if (loadingInd || loadingDiag) {
     return <DashboardSkeleton />;

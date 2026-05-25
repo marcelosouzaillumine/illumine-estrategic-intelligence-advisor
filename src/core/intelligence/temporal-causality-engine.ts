@@ -1,5 +1,5 @@
 import { BPSummary } from '../../lib/bpEngine';
-import { FinancialMetrics } from '../../lib/financial-engine';
+type FinancialMetrics = any;
 import { evaluateTrendConfidence, TrendConfidence } from './trend-confidence-engine';
 
 export type TemporalMode = 'FULL_TEMPORAL_MODE' | 'LIMITED_TEMPORAL_MODE';

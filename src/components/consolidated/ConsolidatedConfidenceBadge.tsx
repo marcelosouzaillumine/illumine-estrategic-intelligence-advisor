@@ -1,7 +1,7 @@
 import React from 'react';
-import { RuntimeConfidence } from '../../../core/runtime/types';
+import { RuntimeConfidence } from '../../runtime/types';
 import { ShieldCheck, AlertTriangle, ShieldAlert } from 'lucide-react';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../lib/utils';
 
 export function ConsolidatedConfidenceBadge({ confidence }: { confidence: RuntimeConfidence }) {
   const isHigh = confidence === 'HIGH';

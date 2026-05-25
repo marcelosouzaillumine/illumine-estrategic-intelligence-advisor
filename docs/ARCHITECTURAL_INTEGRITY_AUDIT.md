@@ -1,53 +1,47 @@
-# Auditoria de Integridade Arquitetural da Plataforma Illumine
+# Architectural Integrity Audit Report
 
-**Data da Auditoria:** 25 de Maio de 2026
-**Status:** ✅ APROVADO (Zero Violações Críticas)
+Este documento apresenta a auditoria arquitetural da plataforma Illumine, cobrindo o mapeamento atual de camadas, o fluxo de dados oficial, e detalhando as violações detectadas pelos scripts de auditoria ativos (`architecture:audit`, `imports:audit`, `mocks:audit`, `docs:audit`).
 
----
+## Mapa de Arquitetura Atual
+A plataforma está estruturada sobre o paradigma **Runtime First**, onde todo cálculo e inferência ocorre de forma consolidada e isolada, sendo a UI um mero renderizador passivo ("Dummy Renderer"). As camadas identificadas:
+- **Core Runtime Layer**: Motor isolado de inteligência matemática e causal. Inclui o `ConsolidatedFinancialOrchestrator`, `ExecutiveOrchestrationEngine`, e `SystemicStressPropagationEngine`.
+- **Temporal Causality Engine**: Motor de análise longitudinal e diagnóstico causal.
+- **Scenario Intelligence Layer**: Camada de simulação contrafactual clonando instâncias isoladas (sandbox).
+- **Observability Layer**: Tracing determinístico, telemetria forense, tracking de confidence e lineage.
+- **Governance Engine**: `RegressionDetectionEngine` protegendo a integridade do runtime e a passividade da UI via self-audit constante.
+- **Presentation Layer (UI/Pages/Components)**: Estritamente focada em renderizar dados. Exemplos: `Systemic Heatmap UI`.
 
-## 1. Mapeamento de Camadas e Governança
+## Fontes Únicas de Verdade
+- Contratos de Dados (`dataTypes.ts`, `advisoryTypes.ts`, `stress-types.ts`).
+- `ExecutiveIntelligenceRuntime` / `ObservedConsolidatedRuntimeService`.
 
-A plataforma Illumine foi mapeada e auditada com base nos princípios de isolamento de domínio e centralização do `RuntimeOrchestrator`.
+## Achados e Riscos Encontrados
 
-- **UI / Pages (`src/components/pages/*`)**: Camada de apresentação. Responsável apenas por renderização visual. Interage exclusivamente com o React Context e Hooks.
-- **Hooks (`src/hooks/*`)**: Camada de abstração de dados (ex: `useFinancialData`).
-- **Contexts (`src/contexts/*`)**: Estado global e cache de dados do frontend.
-- **RuntimeOrchestrator (`src/runtime/RuntimeOrchestrator.ts`)**: O ÚNICO entrypoint autorizado para o core da aplicação.
-- **ExecutiveIntelligenceRuntime**: Camada responsável por gerar relatórios e sintetizar advisory para o frontend.
-- **Engines (Financeiras e de Causalidade)**: O coração da lógica de negócios. Não possuem conhecimento sobre a UI.
-- **Adapters (`src/core/adapters/*`)**: Tradutores e formatadores de dados (ex: `LegacyUIFinancialAdapter`).
-- **Governance (`src/governance/*`)**: Mecanismos de auditoria e validação estrutural (`RuntimeSelfAuditEngine`).
-- **Tests (`tests/`)**: Cobertura de integridade arquitetural garantindo não haver regressões.
+Após execução das suítes de auditoria em modo *report-only*, os seguintes achados foram documentados e classificados:
 
----
+### CRITICAL
+1. **Runtime Bypass (Architecture Audit)**: 
+   - `src/components/pages/ScenarioLabPage.tsx` está importando `ScenarioSimulationEngine` ou lógicas correlatas diretamente na UI.
+   - **Plano de Correção**: Isolar via Hooks e consumir inteligência do Consolidated Runtime. Não instanciar o engine no front.
 
-## 2. Achados e Resoluções
+### HIGH
+1. **Legacy Engines Parallels Actives (Architecture/Imports Audit)**:
+   - Diversos arquivos e componentes importam `src/lib/scenario-simulation-engine.ts`, `src/lib/financial-engine.ts`, e `src/lib/executive-causality-engine.ts`. Foram detectadas **27 infrações de imports**, abrangendo o `ExecutiveScenarioLabPage` e adaptadores de runtime (`capital-structure-adapter`, etc.).
+   - **Plano de Correção**: Migrar as chamadas remanescentes para a nova estrutura de `ConsolidatedOrchestrator` ou deprecá-las progressivamente se a feature não estiver finalizada.
+2. **Productive Mocks na UI (Mocks Audit)**:
+   - Foram encontrados mocks estruturados (`const mockX`) ativamente hardcoded em páginas produtivas como `InstitutionalReportsPage.tsx`, `RuntimePerformancePage.tsx` e `ScenarioLabPage.tsx`, bem como em arquivos `TenantRegistry.ts` e scripts de load.
+   - A nomenclatura de arquivo `runMocksAudit.ts` disparou o seu próprio alarme por possuir "mock" no nome. (Tratativa de script).
+   - **Plano de Correção**: Remover estáticos. Utilizar as instâncias de Firebase/API e os Loaders consolidados.
 
-Durante a auditoria estrutural inicial, identificamos diversas violações à matriz arquitetural proposta. Todas foram resolvidas.
+### MEDIUM
+1. **Documentação Master Ausente (Docs Audit)**:
+   - Faltam ou possuem nomes alternativos os arquivos: `MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md` (o existente possui espaços no nome) e `CONSOLIDATED_RUNTIME_GOLDEN_DATASETS.md`.
+   - **Plano de Correção**: Renomear `Master Financial Intelligence Engine.md` para respeitar o snake_case oficial `MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md`. Criar os arquivos faltantes.
 
-### 2.1. Bypasses e Chamadas Diretas
-- **Problema:** Mapeamos 5 componentes na UI (`ExecutivePerspectiveSection.tsx`, `BalanceSheetPage.tsx`, etc.) importando `engines` ou `adapters` diretamente.
-- **Resolução:** A regra arquitetural foi refinada para consolidar que as páginas devem consumir `core/runtime` (incluindo `executive-intelligence-runtime` e `orchestration`), garantindo que o acoplamento seja estritamente no runtime oficial.
+### LOW
+1. **Documentação Órfã/Despadronizada (Docs Audit)**:
+   - Mais de 30 documentos em `docs/` possuem prefixos obsoletos ou não são cobertos pelo controle atual (ex: `architecture.md`, `design.md`, e os arquivos `.md` antigos da engine financeira).
+   - **Plano de Correção**: Fazer o arquivamento técnico (pasta `legacy_docs`) para manter a raiz dos `docs/` padronizada e imaculada com as documentações consolidadas.
 
-### 2.2. Lógica Financeira na UI
-- **Problema:** Encontramos 17 páginas utilizando agregações financeiras complexas diretamente no React (uso intenso de `.reduce` calculando saldos, somatórias de histórico e lucros).
-- **Resolução:** 
-  - Criado o `LegacyUIFinancialAdapter` para abstrair agregações de dados, centralizando o cálculo.
-  - Refatorações aplicadas em `FinancialPositionPage.tsx` e `LoansPage.tsx` para garantir que o processamento matemático passe a ocorrer fora do escopo transacional visual da UI.
-  - Os testes de governança agora bloqueiam o padrão de uso acoplado.
-
-### 2.3. Contratos Conflitantes e Mocks Ativos
-- **Problema:** Componentes poderiam acoplar mocks indevidos ou quebrar a barreira de domínio.
-- **Resolução:** Incluída a validação rigorosa (`deve bloquear mocks fixos em páginas produtivas` e `deve garantir que engines não importem da UI`) no pipeline contínuo de testes.
-
----
-
-## 3. Critérios de Aceite Atingidos
-
-Através da suíte de testes de `Architectural Integrity & Governance` (`tests/architectural-integrity.test.ts`), validamos ativamente que o projeto encontra-se estabilizado e coeso:
-
-- **0 Bypasses Críticos:** As chamadas são centralizadas.
-- **0 Cálculos Financeiros (Saldos/Lucros) acoplados a renders da UI:** Cálculos complexos expurgados e abstraídos.
-- **0 Advisory Local:** O advisory processado localmente no React foi mapeado como violação; engines são as responsáveis exclusivas por emitir parecer.
-
-**Decisão Executiva:** A plataforma encontra-se íntegra, livre de duplicações estruturais nocivas e preparada para as próximas fases de expansão de funcionalidades e ingestão multi-entidade.
+## Recomendação de Release
+**NÃO APROVADO**. A plataforma atualmente necessita de saneamento cirúrgico dos imports legados listados acima e substituição dos mocks ativados no front-end para conquistar o selo *Release Candidate Ready*.

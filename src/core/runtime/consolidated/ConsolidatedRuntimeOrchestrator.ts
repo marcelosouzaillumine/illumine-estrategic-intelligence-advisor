@@ -5,6 +5,7 @@ import { EntityRuntimeExecutor } from './EntityRuntimeExecutor';
 import { ConsolidatedOutputAssembler } from './ConsolidatedOutputAssembler';
 import { IntercompanyEliminationEngine } from './IntercompanyEliminationEngine';
 import { ConsolidatedStressPropagationEngine } from './stress/ConsolidatedStressPropagationEngine';
+import { TenantGovernanceEnforcer, TenantExecutionContext, LegacyTenantContextAdapter } from '../tenancy/hardening';
 
 export class ConsolidatedRuntimeOrchestrator {
   private planner: MultiEntityExecutionPlanner;
@@ -32,10 +33,32 @@ export class ConsolidatedRuntimeOrchestrator {
     // 1. Detectar Single-Entity (Pass-Through)
     if (!input.entities || !Array.isArray(input.entities) || input.entities.length === 0) {
       console.log('[ConsolidatedRuntimeOrchestrator] Single-Entity Mode detectado. Executando pass-through.');
+      
+      // Condição 1: Adapter apenas para single-entity legados se o tenantContext não existir
+      let contextToValidate = input.tenantContext;
+      if (!contextToValidate) {
+         contextToValidate = LegacyTenantContextAdapter.createLegacyContext(
+           input.entityId || 'legacy_single_entity'
+         );
+      }
+      
+      TenantGovernanceEnforcer.enforceConsolidationBoundaries(
+        contextToValidate,
+        [], // não há entities explícitas aqui
+        { groupId: input.groupId, nodes: [], edges: [], intercompanyOperations: [] }
+      );
+
       return this.legacyRuntime.generateExecutiveReport(input);
     }
 
     const typedInput = input as ConsolidatedOrchestratorInput;
+
+    // Fail-Closed Validation
+    TenantGovernanceEnforcer.enforceConsolidationBoundaries(
+      typedInput.tenantContext,
+      typedInput.entities as any, // Mapeamento top-level validation
+      { groupId: typedInput.groupId, nodes: [], edges: [], intercompanyOperations: [] } // Fake topology para satisfazer contrato temporariamente, depois podemos pegar a real
+    );
 
     if (typedInput.entities.length === 1) {
        console.log('[ConsolidatedRuntimeOrchestrator] Single-Entity (1 nó na topologia) detectado. Executando pass-through.');

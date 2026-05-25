@@ -3,7 +3,7 @@ import { evaluateMaturityContext } from '../../intelligence/industry-maturity-co
 import { evaluateInventoryQuality } from '../../intelligence/inventory-quality-engine';
 import { calculateInferenceConfidence } from '../../intelligence/inference-confidence-engine';
 import { BPSummary } from '../../../lib/bpEngine';
-import { FinancialMetrics } from '../../../lib/financial-engine';
+type FinancialMetrics = any;
 import { MasterCausalOutput } from '../../../lib/master-causal-engine';
 
 export type SeverityLevel = 'SAUDÁVEL' | 'SENSÍVEL' | 'PRESSIONADO' | 'RESTRITIVO' | 'ESTRESSADO' | 'CRÍTICO' | 'COLAPSO';

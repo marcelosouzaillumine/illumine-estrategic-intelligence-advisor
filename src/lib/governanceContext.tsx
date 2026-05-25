@@ -5,6 +5,7 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db, auth, MASTER_ADMINS } from './firebase';
 import { UserRole, GovernanceConfig } from '../types/governance';
 import { governanceService } from '../services/governanceService';
+import { DataAccessContext } from '../core/security/data-access-context';
 
 const POLICY_VERSION = "1.0.2";
 
@@ -56,7 +57,19 @@ export function GovernanceProvider({ children, user }: { children: React.ReactNo
         }
 
         // 3. Get Global Config
-        const govConfig = await governanceService.getConfig();
+        const systemContext: DataAccessContext = {
+          actorId: 'SYSTEM',
+          tenantId: 'SYSTEM',
+          role: 'SUPER_ADMIN',
+          permissions: ['VIEW_OBSERVABILITY'],
+          entityScope: { tenantId: 'SYSTEM', requestedEntityScope: 'ENTITY', entityId: 'SYSTEM', allowedEntityIds: ['SYSTEM'], allowedGroupIds: [], consolidatedScope: true },
+          requestedAction: 'VIEW_OBSERVABILITY',
+          resourceType: 'Config',
+          resourceTenantId: 'SYSTEM',
+          visibilityPolicy: 'INTERNAL',
+          auditRequirement: false
+        };
+        const govConfig = await governanceService.getConfig(systemContext);
         setConfig(govConfig);
 
       } catch (error) {
@@ -86,7 +99,19 @@ export function GovernanceProvider({ children, user }: { children: React.ReactNo
   };
 
   const refreshConfig = async () => {
-    const govConfig = await governanceService.getConfig();
+    const systemContext: DataAccessContext = {
+      actorId: 'SYSTEM',
+      tenantId: 'SYSTEM',
+      role: 'SUPER_ADMIN',
+      permissions: ['VIEW_OBSERVABILITY'],
+      entityScope: { tenantId: 'SYSTEM', requestedEntityScope: 'ENTITY', entityId: 'SYSTEM', allowedEntityIds: ['SYSTEM'], allowedGroupIds: [], consolidatedScope: true },
+      requestedAction: 'VIEW_OBSERVABILITY',
+      resourceType: 'Config',
+      resourceTenantId: 'SYSTEM',
+      visibilityPolicy: 'INTERNAL',
+      auditRequirement: false
+    };
+    const govConfig = await governanceService.getConfig(systemContext);
     setConfig(govConfig);
   };
 

@@ -69,6 +69,32 @@ import { DadosHistoricosPage } from '../components/pages/DadosHistoricosPage';
 import { SupportPage } from '../components/pages/SupportPage';
 import { CleanupTool } from '../components/pages/CleanupTool';
 import { GestaoUsuariosPage } from '../components/pages/admin/GestaoUsuariosPage';
+import { ExecutiveScenarioLabPage } from '../components/pages/ExecutiveScenarioLabPage';
+import { ConsolidatedGroupAdminPage } from '../components/pages/ConsolidatedGroupAdminPage';
+import { RuntimeObservabilityPage } from '../components/pages/RuntimeObservabilityPage';
+import { ScenarioLabPage } from '../components/pages/ScenarioLabPage';
+import { InstitutionalReportsPage } from '../components/pages/InstitutionalReportsPage';
+import { AdvisorCockpitPage } from '../components/pages/AdvisorCockpitPage';
+import { TenantGovernancePage } from '../components/pages/TenantGovernancePage';
+import { RuntimePerformancePage } from '../components/pages/RuntimePerformancePage';
+import { InstitutionalCopilotPage } from '../components/pages/InstitutionalCopilotPage';
+import { InstitutionalMonitoringPage } from '../components/pages/InstitutionalMonitoringPage';
+import { DecisionGovernancePage } from '../components/pages/DecisionGovernancePage';
+import { InstitutionalIntegrationsPage } from '../components/pages/InstitutionalIntegrationsPage';
+import { InstitutionalBenchmarkingPage } from '../components/pages/InstitutionalBenchmarkingPage';
+import { ProductGovernancePage } from '../components/pages/ProductGovernancePage';
+import { InstitutionalKnowledgeGraphPage } from '../components/pages/InstitutionalKnowledgeGraphPage';
+import { EarlyWarningPage } from '../components/pages/EarlyWarningPage';
+import { ConsolidatedExecutivePage } from '../components/pages/ConsolidatedExecutivePage';
+import { ConsolidatedExecutiveProvider } from '../context/ConsolidatedExecutiveContext';
+import { StrategicIntelligenceCenter } from '../components/pages/governance/StrategicIntelligenceCenter';
+import { StrategicSimulationPage } from '../components/pages/StrategicSimulationPage';
+import { BoardDeckCenter } from '../components/pages/governance/BoardDeckCenter';
+import { InstitutionalObservabilityCenter } from '../components/pages/governance/InstitutionalObservabilityCenter';
+import { GovernanceStructureCenter } from '../components/pages/governance/GovernanceStructureCenter';
+import { GovernanceRiskHeatmap } from '../components/pages/governance/GovernanceRiskHeatmap';
+import { FiduciaryGovernanceCenter } from '../components/pages/governance/FiduciaryGovernanceCenter';
+import { ComplianceIntegrityCenter } from '../components/pages/governance/ComplianceIntegrityCenter';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -121,6 +147,15 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
           setCurrentPage(targetPage);
         }}
       />
+    );
+  }
+  if (currentPage === 'consolidated_executive') {
+    return (
+      <ConsolidatedExecutiveProvider>
+        <div className="bg-background min-h-screen">
+          <ConsolidatedExecutivePage />
+        </div>
+      </ConsolidatedExecutiveProvider>
     );
   }
   if (currentPage === 'dashboard') {
@@ -203,7 +238,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <DiretrizesPage clientId={selectedClient} />;
   }
   if (currentPage === 'diagnostico') {
-    return <DiagnosticoPage clientId={selectedClient} />;
+    return <DiagnosticoPage clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
   }
   if (currentPage === 'planejamento_estrategico') {
     return <PlanoEstrategicoGlobalPage clientId={selectedClient} />;
@@ -440,6 +475,78 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'cleanup') {
     return <CleanupTool />;
+  }
+  if (currentPage === 'executive_scenario_lab' || currentPage === 'lab') {
+    return <ExecutiveScenarioLabPage />;
+  }
+  if (currentPage === 'admin_grupos' && isMaster) {
+    return <ConsolidatedGroupAdminPage />;
+  }
+  if (currentPage === 'runtime_observability' && isMaster) {
+    return <RuntimeObservabilityPage />;
+  }
+  if (currentPage === 'scenario_lab' && isMaster) {
+    return <ScenarioLabPage />;
+  }
+  if (currentPage === 'institutional_reports' && isMaster) {
+    return <InstitutionalReportsPage />;
+  }
+  if (currentPage === 'advisor_cockpit' && isMaster) {
+    return <AdvisorCockpitPage />;
+  }
+  if (currentPage === 'tenant_governance' && isMaster) {
+    return <TenantGovernancePage />;
+  }
+  if (currentPage === 'runtime_performance' && isMaster) {
+    return <RuntimePerformancePage />;
+  }
+  if (currentPage === 'institutional_copilot' && (isMaster || true)) { // Adaptação de permissão temporária
+    return <InstitutionalCopilotPage />;
+  }
+  if (currentPage === 'institutional_monitoring' && (isMaster || true)) { // Adaptação de permissão temporária
+    return <InstitutionalMonitoringPage />;
+  }
+  if (currentPage === 'decision_governance' && (isMaster || true)) { // Adaptação de permissão temporária
+    return <DecisionGovernancePage />;
+  }
+  if (currentPage === 'institutional_integrations' && (isMaster || true)) { // Adaptação de permissão temporária
+    return <InstitutionalIntegrationsPage />;
+  }
+  if (currentPage === 'institutional_benchmarking' && (isMaster || true)) { // Adaptação de permissão temporária
+    return <InstitutionalBenchmarkingPage />;
+  }
+  if (currentPage === 'product_governance' && (isMaster || true)) {
+    return <ProductGovernancePage />;
+  }
+  if (currentPage === 'institutional_knowledge_graph' && (isMaster || true)) {
+    return <InstitutionalKnowledgeGraphPage />;
+  }
+  if (currentPage === 'early_warning' && (isMaster || true)) {
+    return <EarlyWarningPage />;
+  }
+  if (currentPage === 'strategic_simulation' && (isMaster || true)) {
+    return <StrategicSimulationPage />;
+  }
+  if (currentPage === 'strategic_intelligence_center') {
+    return <StrategicIntelligenceCenter />;
+  }
+  if (currentPage === 'board_deck_center') {
+    return <BoardDeckCenter />;
+  }
+  if (currentPage === 'institutional_observability_center') {
+    return <InstitutionalObservabilityCenter />;
+  }
+  if (currentPage === 'governance_structure_center') {
+    return <GovernanceStructureCenter />;
+  }
+  if (currentPage === 'governance_risk_heatmap') {
+    return <GovernanceRiskHeatmap />;
+  }
+  if (currentPage === 'fiduciary_governance_center') {
+    return <FiduciaryGovernanceCenter />;
+  }
+  if (currentPage === 'compliance_integrity_center') {
+    return <ComplianceIntegrityCenter />;
   }
 
   return null;

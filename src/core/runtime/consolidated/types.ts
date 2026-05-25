@@ -1,8 +1,12 @@
 import { RuntimeConfidence, RuntimeViolation } from '../../../runtime/types';
 import { EntityGraphData } from '../../../topology/types';
 
+export type { EntityGraphData };
+
 export interface ConsolidationEntity {
   id: string;
+  tenantId?: string; // Optional for now to not break the typecheck everywhere at once, but validated at runtime
+  groupId?: string;
   name: string;
   role: 'PARENT' | 'SUBSIDIARY' | 'JV' | 'BRANCH';
   ownershipPercentage: number;

@@ -1,4 +1,4 @@
-import { FinancialMetrics } from './financial-engine';
+type FinancialMetrics = any;
 import { BusinessIdentity } from './business-identity-engine';
 import { BPSummary } from './bpEngine';
 import { evaluateInventoryQuality } from '../core/intelligence/inventory-quality-engine';

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { query, collection, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { buildBPHierarchy } from '../lib/bpEngine';
 
 export interface RealKPIs {
   margemLiquida: number;
@@ -40,6 +41,9 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
       netProfit: ['Lucro Líquido', 'Resultado Líquido'],
       liquidezCorrente: ['Liquidez Corrente'],
       saldoCaixa: ['Saldo em Caixa', 'Caixa e Equivalentes', 'Disponibilidades', 'Bancos', 'Conta Corrente'],
+      totalAssets: ['Ativo', 'Ativo Total', 'Total de Ativos'],
+      totalLiabilities: ['Passivo', 'Passivo Total', 'Total de Passivos', 'Total do Passivo'],
+      equity: ['Patrimônio Líquido', 'PL', 'Patrimônio'],
     };
 
     const rates = { USD: 5.10, EUR: 5.50, BRL: 1 };
@@ -50,9 +54,7 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
       where('clientId', '==', clientId),
       where('year', '==', year)
     ];
-    if (month > 0) {
-      entriesConstraints.push(where('month', '==', month));
-    }
+    // Removed month from query constraint to allow fetching annual data (without month).
     const qEntries = query(collection(db, 'financial_entries'), ...entriesConstraints);
     const qAssets = query(collection(db, 'assets'), where('clientId', '==', clientId));
     const qCashFlows = query(collection(db, 'cash_flows'), where('clientId', '==', clientId));
@@ -94,10 +96,11 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
       // B. Process via standard names heuristic
       Object.entries(standardMappings).forEach(([kpi, names]) => {
         if (calculated[kpi] === 0) {
+          const lowerNames = names.map(n => n.toLowerCase());
           const sum = allEntries
             .filter((e: any) => {
-              const cat = e.category || e.conta;
-              return names.includes(cat);
+              const cat = (e.category || e.conta || '').toLowerCase();
+              return lowerNames.includes(cat);
             })
             .reduce((s: number, e: any) => s + (Number(e.value || e.valor || e.val) || 0), 0);
           calculated[kpi] = sum;
@@ -131,14 +134,21 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
         .filter(p => p.status !== 'Pago' && p.status !== 'Finalizado')
         .reduce((s, p) => s + (Number(p.valor) || Number(p.Valor) || 0), 0);
 
+      // BP Engine Processing (Reliable asset extraction from manual entries)
+      const bpEntries = allEntries.filter((e: any) => e.type === 'ativo' || e.type === 'passivo' || e.type === 'patrimônio líquido' || e.type === 'pl');
+      const bpSummary = bpEntries.length > 0 ? buildBPHierarchy(bpEntries).summary : null;
+
       // Final Indicators
-      calculated.saldoCaixa = bankSum > 0 ? bankSum : (assetsSum + cashFlowSum);
+      const dynamicBankSum = bankSum > 0 ? bankSum : (assetsSum + cashFlowSum);
+      calculated.saldoCaixa = dynamicBankSum > 0 ? dynamicBankSum : (bpSummary?.caixaEquivalentes || calculated.saldoCaixa);
       
       // GESTÃO DE ATIVOS: Gestão de Ativos (Investimentos) + Saldo Atual de Caixa (Bancos) + Contas a receber (A vencer e Vencidos)
-      calculated.totalAssets = assetsSum + bankSum + receivablesSum;
+      const dynamicAssets = assetsSum + bankSum + receivablesSum;
+      calculated.totalAssets = dynamicAssets > 0 ? dynamicAssets : (bpSummary?.ativoTotal || calculated.totalAssets);
       
       // GESTÃO DE PASSIVOS: Contas a Pagar + Passivo Vencido
-      calculated.totalLiabilities = payablesSum + overdueLiabilities;
+      const dynamicLiabilities = payablesSum + overdueLiabilities;
+      calculated.totalLiabilities = dynamicLiabilities > 0 ? dynamicLiabilities : (bpSummary?.passivoTotal || calculated.totalLiabilities);
 
       // D. Derived Metrics
       if (calculated.revenue > 0) {
@@ -156,6 +166,8 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
         allEntries = [];
         snap.docs.forEach(doc => {
           const data = doc.data();
+          if (data.status === 'archived' || data.status === 'rejected') return;
+          if (month > 0 && data.month !== undefined && data.month !== 0 && data.month !== month) return;
           if (Array.isArray(data.data)) allEntries.push(...data.data);
           else if (data.category && data.value !== undefined) allEntries.push(data);
         });

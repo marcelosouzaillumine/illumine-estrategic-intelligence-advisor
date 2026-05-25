@@ -25,9 +25,17 @@ describe('ConsolidatedRuntimeOrchestrator - Phase 2', () => {
     
     const multiEntityInput = {
       groupId: 'GRP-123',
+      tenantContext: {
+        tenantId: 'tenant-test',
+        executionScope: 'CONSOLIDATION',
+        entityScope: ['EntA'],
+        runtimeScope: 'MULTI_ENTITY',
+        auditScope: 'test'
+      },
       entities: [
         {
           entityId: 'EntA',
+          tenantId: 'tenant-test',
           role: 'Holding' as const,
           rawData: {
             isMockData: true,
@@ -49,14 +57,23 @@ describe('ConsolidatedRuntimeOrchestrator - Phase 2', () => {
     
     const multiEntityInput = {
       groupId: 'GRP-MULTI',
+      tenantContext: {
+        tenantId: 'tenant-test',
+        executionScope: 'CONSOLIDATION',
+        entityScope: ['FilialA', 'HoldingX'],
+        runtimeScope: 'MULTI_ENTITY',
+        auditScope: 'test'
+      },
       entities: [
         {
           entityId: 'FilialA',
+          tenantId: 'tenant-test',
           role: 'Subsidiary' as const,
           rawData: { isMockData: true, bpData: [], dreData: [] } // Fake
         },
         {
           entityId: 'HoldingX',
+          tenantId: 'tenant-test',
           role: 'Holding' as const,
           rawData: { isMockData: true, bpData: [], dreData: [] } // Fake
         }

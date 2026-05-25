@@ -12,6 +12,9 @@ import { generateCashFlow } from '../../services/cashFlowService';
 import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell, Legend } from 'recharts';
 
+import { GovernedRepositoryWrapper } from '../../core/security/governed-repository';
+import { DataAccessContext } from '../../core/security/data-access-context';
+
 export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedYear }: any) {
    const [activeTab, setActiveTab] = useState<'dashboard' | 'fluxo' | 'receber' | 'pagar' | 'passivo' | 'inadimplencia'>('dashboard');
    const [searchTerm, setSearchTerm] = useState('');
@@ -39,6 +42,29 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
     refreshData();
   }, [filterClient]);
 
+  const buildContext = (action: 'VIEW_FINANCIALS' | 'CREATE_SNAPSHOT' = 'VIEW_FINANCIALS', cleanId: string): DataAccessContext => {
+    const currentUserId = auth.currentUser?.uid || 'guest';
+    return {
+      actorId: currentUserId,
+      tenantId: cleanId, // legacyTenantId
+      role: 'CFO', // Mock
+      permissions: ['VIEW_FINANCIALS', 'CREATE_SNAPSHOT'],
+      entityScope: {
+        tenantId: cleanId,
+        requestedEntityScope: 'ENTITY',
+        entityId: cleanId,
+        allowedEntityIds: [cleanId],
+        allowedGroupIds: [],
+        consolidatedScope: false
+      },
+      requestedAction: action,
+      resourceType: 'CashFlow',
+      resourceTenantId: cleanId,
+      visibilityPolicy: 'INTERNAL',
+      auditRequirement: action === 'CREATE_SNAPSHOT'
+    };
+  };
+
   const refreshData = async () => {
     if (!filterClient) {
       setDbFluxo(null);
@@ -47,13 +73,15 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
     const cleanId = filterClient.trim();
     const currentUserId = auth.currentUser?.uid || 'guest';
     
+    const context = buildContext('VIEW_FINANCIALS', cleanId);
+
     const q = query(
       collection(db, 'cash_flows'), 
       where('clientId', '==', cleanId),
       where('ownerId', '==', currentUserId)
     );
     try {
-      const snap = await getDocs(q);
+      const snap = await GovernedRepositoryWrapper.execute(context, async () => await getDocs(q));
       if (!snap.empty) {
         const data = snap.docs[0].data();
         setDbFluxo(data);
@@ -76,8 +104,10 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
   const handleGenerate = async () => {
     if (!filterClient) return;
     setIsGenerating(true);
+    const cleanId = filterClient.trim();
+    const context = buildContext('CREATE_SNAPSHOT', cleanId);
     try {
-      const data = await generateCashFlow(filterClient);
+      const data = await generateCashFlow(context, cleanId);
       await refreshData();
       alert(`Fluxo de caixa gerado com sucesso! (${data.Fluxo_Diario.length} dias projetados)`);
     } catch (error: any) {

@@ -61,7 +61,17 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
   const [reportType, setReportType] = useState<ReportType>('full');
 
   const mvv = diretrizes && diretrizes.length > 0 ? diretrizes[0] : null;
-  const topDiagnostico = useMemo(() => [...(diagnostico || [])].sort((a, b) => (b.iveScore || 0) - (a.iveScore || 0)).slice(0, 3), [diagnostico]);
+  const topDiagnostico = useMemo(() => {
+    return [...(diagnostico || [])]
+      .filter(d => {
+        if (d.ano === undefined) return true;
+        const matchYear = d.ano === selectedYear;
+        const matchMonth = d.mes ? d.mes === selectedMonth : true;
+        return matchYear && matchMonth;
+      })
+      .sort((a, b) => (b.iveScore || 0) - (a.iveScore || 0))
+      .slice(0, 3);
+  }, [diagnostico, selectedYear, selectedMonth]);
   const topOkrs = useMemo(() => [...(okrs || [])].sort((a, b) => (b.progressoGeral || 0) - (a.progressoGeral || 0)).slice(0, 3), [okrs]);
   
   const sacerdotalRules = useMemo(() => evaluateFinancialRules(kpis), [kpis]);
@@ -130,7 +140,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
     }
   };
 
-  const hasData = dbIndicators.length > 0 || okrs.length > 0 || actions.length > 0;
+  const hasData = dbIndicators.length > 0 || okrs.length > 0 || actions.length > 0 || kpis.totalAssets > 0 || kpis.revenue > 0 || kpis.saldoCaixa > 0 || kpis.totalLiabilities > 0 || kpis.ebitda !== 0;
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">

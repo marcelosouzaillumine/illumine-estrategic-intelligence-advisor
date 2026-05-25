@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertOctagon } from 'lucide-react';
-import { RuntimeViolation } from '../../../core/runtime/types';
+import { RuntimeViolation } from '../../runtime/types';
 
 export function GovernanceViolationsPanel({ violations }: { violations: RuntimeViolation[] }) {
   if (!violations || violations.length === 0) return null;
