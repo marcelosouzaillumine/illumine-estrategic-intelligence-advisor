@@ -1,5 +1,6 @@
-import { parseFinancialStatementWithAI, AIFinancialDocument } from './aiService';
 import * as pdfjsLib from 'pdfjs-dist';
+import type { AIFinancialDocument } from './aiService';
+import { ImportGovernanceEngine } from '../import-governance/ImportGovernanceEngine';
 
 // Configuração do worker robusta
 if (typeof window !== 'undefined' && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
@@ -110,7 +111,9 @@ export const parseFinancialPdf = async (
     if (onProgress) onProgress(5 + Math.round((pageNum / pdf.numPages) * 90));
   }
 
-  return results;
+  // Governance Wrapping
+  const governedEntries = ImportGovernanceEngine.processBatch('PDF_BATCH', file.name, 'regex', results);
+  return ImportGovernanceEngine.getLegacyAdapterData(governedEntries);
 };
 
 /**
@@ -169,6 +172,7 @@ export const parseFinancialDocumentIntelligent = async (
     }
 
     console.log(`[Import] Sending text to AI...`);
+    const { parseFinancialStatementWithAI } = await import('./aiService');
     const results = await parseFinancialStatementWithAI(fullText, customInstructions);
     if (onProgress) onProgress(100);
     return results;
@@ -269,15 +273,20 @@ export const parseFinancialExcel = async (
           }
 
           const rawVal = row[valCol];
-          const value = rawVal !== undefined && rawVal !== null && rawVal !== ''
-            ? (typeof rawVal === 'number' ? rawVal : (parseBrNumber(rawVal.toString()) ?? 0))
-            : 0;
+          let value: number | null = null;
+          if (rawVal !== undefined && rawVal !== null && rawVal !== '') {
+             if (typeof rawVal === 'number') value = rawVal;
+             else value = parseBrNumber(rawVal.toString());
+          }
             
-          results.push({ category: fullName, value });
+          results.push({ category: fullName, value: value as number });
         });
 
         if (onProgress) onProgress(100);
-        resolve(results);
+        
+        // Governance Wrapping
+        const governedEntries = ImportGovernanceEngine.processBatch('EXCEL_BATCH', file.name, 'excel_cell', results);
+        resolve(ImportGovernanceEngine.getLegacyAdapterData(governedEntries));
       } catch (err) {
         reject(err);
       }
@@ -326,11 +335,13 @@ export const parseFinancialTxt = async (
           const category = parts[0]?.trim();
           if (!category) return;
           const rawVal = parts[1]?.trim();
-          const value = rawVal ? (parseBrNumber(rawVal) ?? 0) : 0;
-          results.push({ category, value });
+          const value = rawVal ? parseBrNumber(rawVal) : null;
+          results.push({ category, value: value as number });
         });
 
-        resolve(results);
+        // Governance Wrapping
+        const governedEntries = ImportGovernanceEngine.processBatch('TXT_BATCH', file.name, 'csv_split', results);
+        resolve(ImportGovernanceEngine.getLegacyAdapterData(governedEntries));
       } catch (err) {
         reject(err);
       }

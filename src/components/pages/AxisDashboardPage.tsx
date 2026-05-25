@@ -13,8 +13,10 @@ import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { EixoGestao } from '../../types/modules';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
 import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
-import { GovernancePerspectiveSection } from '../GovernancePerspectiveSection';
-import { generateGovernanceParecer } from '../../services/governanceAiService';
+import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
+import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
+import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
+import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 
 interface AxisDashboardPageProps {
@@ -240,33 +242,29 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
     return primaryKPIs.reduce((acc: any, kpi: any) => ({...acc, [kpi.label]: kpi.value}), {});
   }, [primaryKPIs]);
 
+  // Institucional Runtime Integration
+  const currentYear = selectedYear || new Date().getFullYear();
+  const { dbData: financialData } = useHistoricalDemonstracoes(clientId, currentYear);
+  const runtimeInput = useMemo(() => ({
+    rawFinancialData: financialData,
+    historicalCyclesCount: financialData.length,
+    isMockData: false
+  }), [financialData]);
+  
+  const { runtimeOutput } = useInstitutionalRuntime({ input: runtimeInput });
+  const isBlocked = runtimeOutput?.inferences?.['ExecutiveDecisionEngine']?.metrics?.blockedInferences?.length > 0;
+
   // Pegar os alertas sacerdotais (regras violadas) para este eixo baseado nos KPIs
   const triggeredRules = useMemo(() => {
-    return evaluateAxisRules(flatMetrics, axis);
-  }, [axis, flatMetrics]);
+    return evaluateAxisRules(flatMetrics, axis, isBlocked);
+  }, [flatMetrics, axis, isBlocked]);
 
   // Se precisar mandar pro Gemini, mandamos os princípios relacionados em geral
   const axisPrinciples = useMemo(() => {
     return GOVERNANCE_PRINCIPLES.filter(p => p.axis === axis);
   }, [axis]);
 
-
-  const [loadingAi, setLoadingAi] = useState(false);
-  const [aiAnalysis, setAiAnalysis] = useState<string>('');
-
-  const handleGenerateAnalysis = async () => {
-    setLoadingAi(true);
-    const result = await generateGovernanceParecer({
-      clientName: 'Sua Empresa',
-      industry: 'Geral',
-      metrics: flatMetrics,
-      topPrinciples: axisPrinciples.map(p => p.name),
-      scenarios: axisPrinciples.map(p => p.situationalScenario).filter(Boolean) as string[]
-    });
-    setAiAnalysis(result);
-    setLoadingAi(false);
-  };
-
+  const { advisoryReport, loading: advisoryLoading } = useExecutiveAdvisory(clientId, selectedYear || new Date().getFullYear(), selectedMonth || 1);
   const [isYTD, setIsYTD] = useState(false);
   const hasData = dbIndicators.length > 0 || hasOperationalData;
 
@@ -502,14 +500,9 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
         ))}
       </div>
 
-      <GovernancePerspectiveSection 
-        axis={axis}
-        metrics={flatMetrics}
-        triggeredRules={triggeredRules}
-        principles={axisPrinciples}
-        aiAnalysis={aiAnalysis}
-        isGeneratingAi={loadingAi}
-        onGenerateAi={handleGenerateAnalysis}
+      <ExecutivePerspectiveSection 
+        report={advisoryReport} 
+        loading={advisoryLoading}
         className="mt-12"
       />
     </div>

@@ -2,7 +2,7 @@ import { BPSummary } from './bpEngine';
 import { FinancialMetrics } from './financial-engine';
 import { getIndustryWeights } from './industry-engine';
 import { BusinessIdentity } from './business-identity-engine';
-
+import { MasterCausalOutput } from './master-causal-engine';
 
 export interface ScoreMetrics {
   hsLiquidez: number;
@@ -21,7 +21,8 @@ export function calculateScores(
   metrics: FinancialMetrics,
   dreDbDataLength: number,
   prevPl: number,
-  identity: Readonly<BusinessIdentity>
+  identity: Readonly<BusinessIdentity>,
+  causality?: MasterCausalOutput
 ): ScoreMetrics {
   if (!metrics.hasData) {
     return {
@@ -35,7 +36,7 @@ export function calculateScores(
     liqCorrente, liquidezReal, saldoTesouraria, cgl, ncg, concentracaoEstoque,
     qualidadeEndividamento, dependenciaBancaria, indiceDescapitalizacao,
     autonomiaFinanceira, ativosLiquidosReais, ebitda, lucroLiquido, liqSeca, liqImediata,
-    dscrSimulado, resilienciaGiro, absorcaoPrejuizo, margemErroOperacional
+    resilienciaGiro, absorcaoPrejuizo, margemErroOperacional
   } = metrics;
 
   const { ativoCirculante: ac, passivoCirculante: pc, patrimonioLiquido: plValue, caixaEquivalentes: cx } = bpSummary;
@@ -96,8 +97,9 @@ export function calculateScores(
   }
 
   // -- 5. Evolução (10%) --
+  // Integrado à Institutional Memory: Não premiar evolução se histórico < 3
   let hsEvolucao = 50;
-  if (prevPl > 0) {
+  if (dreDbDataLength >= 3 && prevPl > 0) {
     const growth = ((plValue / prevPl) - 1);
     if (growth > 0.1) hsEvolucao = 100;
     else if (growth > 0) hsEvolucao = 75;
@@ -122,7 +124,6 @@ export function calculateScores(
     else hsOperacional = 0;
   }
 
-  // -- RESILIÊNCIA GLOBAL (SCORE PATRIMONIAL FINAL) --
   let resilienciaGlobal = (
     (hsLiquidez * 0.25) + 
     (hsEstrutura * 0.20) + 
@@ -132,69 +133,49 @@ export function calculateScores(
     (hsOperacional * 0.10)
   );
 
-  // --- HARMONIZAÇÃO: LIMITADORES CONTEXTUAIS ---
-  // Ao invés de cortar pontos rigidamente, limitamos o teto baseado na gravidade do conjunto causal.
-  
-  if (plValue < 0) {
-    // Insolvência Técnica: Não pode ter score de empresa estável, mas se tem geração de caixa (EBITDA), não morre em zero.
+  // O Indice de Continuidade Base sem os limitadores
+  let scoreIce = resilienciaGlobal; // Simplificado temporariamente, o Causal é que vai travar
+
+  // --- HARMONIZAÇÃO: LIMITADORES CAUSAIS (MASTER CAUSAL ENGINE) ---
+  if (causality && causality.scenarios) {
+    const corrosao = causality.scenarios.find(s => s.id === 'CORROSAO_PATRIMONIAL');
+    const pressao = causality.scenarios.find(s => s.id === 'PRESSAO_ESTRUTURAL');
+    const dependente = causality.scenarios.find(s => s.id === 'OP_DEPENDENTE_GIRO');
+    const resiliencia = causality.scenarios.find(s => s.id === 'RESILIENCIA_LIMITADA');
+
+    if (corrosao) {
+      const limit = corrosao.severity === 'Crítica' ? 15 : (corrosao.severity === 'Alta' ? 30 : 50);
+      resilienciaGlobal = Math.min(resilienciaGlobal, limit);
+      scoreIce = Math.min(scoreIce, limit);
+    } else if (pressao) {
+      const limit = pressao.severity === 'Crítica' ? 30 : (pressao.severity === 'Alta' ? 45 : 65);
+      resilienciaGlobal = Math.min(resilienciaGlobal, limit);
+      scoreIce = Math.min(scoreIce, limit - 5);
+    } else if (dependente) {
+      const limit = dependente.severity === 'Crítica' ? 45 : (dependente.severity === 'Alta' ? 55 : 80);
+      resilienciaGlobal = Math.min(resilienciaGlobal, limit);
+      scoreIce = Math.min(scoreIce, limit - 5);
+    } else if (resiliencia) {
+      const limit = resiliencia.severity === 'Crítica' ? 55 : (resiliencia.severity === 'Alta' ? 65 : 80);
+      resilienciaGlobal = Math.min(resilienciaGlobal, limit);
+      scoreIce = Math.min(scoreIce, limit - 5);
+    }
+  }
+
+  // Trava matemática de fallback (caso causality não seja provido)
+  if (!causality && plValue < 0) {
     const maxScore = ebitda > 0 ? 45 : 15;
     resilienciaGlobal = Math.min(resilienciaGlobal, maxScore);
   }
 
-  // Falta de liquidez severa limitando a resiliência geral, MAS fortemente amortecido se EBITDA for forte
-  if (liquidezReal < 0.5) {
-    let teto = 45;
-    if (plValue > 0 && ebitda > 0) {
-      teto = (cgl > 0) ? 75 : 65; // Elasticidade provada pelo PL, Ebitda e giro
+  // --- TRAJECTORY INTELLIGENCE (TEMPORAL CAUSALITY) ---
+  if (causality && causality.temporalIntelligence) {
+    resilienciaGlobal += causality.temporalIntelligence.scoreAdjustment;
+    resilienciaGlobal = Math.max(0, Math.min(100, resilienciaGlobal));
+    // Se o crescimento for destrutivo, pune severamente o ICE
+    if (causality.temporalIntelligence.isDestructiveGrowth) {
+      scoreIce = Math.min(scoreIce, 15);
     }
-    resilienciaGlobal = Math.min(resilienciaGlobal, teto);
-  }
-
-  // Passivo Circulante asfixiante
-  if (pc > ac && plValue > 0) {
-    const teto = (ebitda > 0) ? 75 : 55;
-    resilienciaGlobal = Math.min(resilienciaGlobal, teto);
-  }
-
-  // -- ÍNDICE DE CONTINUIDADE EMPRESARIAL (ICE) --
-  // Foca estritamente na capacidade de manter a operação rodando no curtíssimo/médio prazo
-  let iceBase = 100;
-  
-  // Penalizações Causais Suaves
-  if (plValue < 0) iceBase -= 20; 
-  if (ebitda < 0) iceBase -= 15; 
-  
-  // Pressão de Tesouraria e Margem de Erro
-  if (saldoTesouraria < 0) iceBase -= 15; // Voltou a ter mais peso se estiver queimando caixa
-  else if (margemErroOperacional < weights.workingCapitalTolerance) iceBase -= 5; // Penaliza tesouraria apertada
-  
-  // Liquidez Crítica (mas sem dramatização se houver elasticidade)
-  if (liquidezReal < weights.idealCurrentLiquidity * 0.5) {
-    if (plValue > 0 && ebitda > 0 && cgl > 0 && margemErroOperacional > weights.workingCapitalTolerance) {
-      iceBase -= 0; // Protegida pela estrutura elástica e folga de tesouraria
-    } else if (ebitda > 0 && dscrSimulado > 1) {
-      iceBase -= 5; // Amortecimento pelo fluxo operacional
-    } else {
-      iceBase -= 15;
-    }
-  }
-
-  // Descapitalização Progressiva Corrosiva
-  if (indiceDescapitalizacao > 0.5 && plValue > 0) iceBase -= 10;
-  if (dependenciaBancaria > 0.5) iceBase -= 10;
-
-  let scoreIce = Math.max(0, Math.min(100, iceBase));
-
-  // Trava final estrutural: Ruptura requer colapso em múltiplas dimensões, não apenas liquidez.
-  if (ebitda < 0 && liquidezReal < 0.2 && plValue < 0) {
-    scoreIce = Math.min(scoreIce, 15);
-  }
-
-  // Piso de Elasticidade Financeira
-  const isHighElasticity = plValue > 0 && cgl > 0 && dependenciaBancaria < 0.3 && ebitda > 0;
-  if (isHighElasticity) {
-    resilienciaGlobal = Math.max(resilienciaGlobal, 70); // Garante mínimo de "Sensível/Estável"
-    scoreIce = Math.max(scoreIce, 75); // Garante continuidade livre de ruptura
   }
 
   return {

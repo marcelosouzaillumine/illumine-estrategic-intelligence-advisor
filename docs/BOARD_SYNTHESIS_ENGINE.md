@@ -93,3 +93,17 @@ A narrativa deve abandonar o estilo "relatório contábil" ou "gerador de insigh
 - **Strategic consulting language.**
 
 O tom deve ser assertivo, contido, técnico e voltado exclusivamente à decisão executiva.
+
+---
+
+## 8. Regra de Consolidação Institucional
+
+A Board Synthesis Engine deve consolidar os outputs de:
+
+- Business Model Intelligence;
+- Executive Causality;
+- Strategic Risk;
+- Financial Intelligence;
+- Advisory Engine.
+
+Ela não pode remover contexto operacional, causalidade dominante ou risco principal durante a compressão executiva.

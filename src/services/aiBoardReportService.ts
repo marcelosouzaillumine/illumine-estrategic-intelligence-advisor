@@ -3,6 +3,8 @@ import { FinancialEntry } from '../hooks/useHistoricalDemonstracoes';
 import { buildBPHierarchy } from '../lib/bpEngine';
 import { calculateFinancialMetrics } from '../lib/financial-engine';
 import { calculateScores } from '../lib/score-engine';
+import { enforceInstitutionalRuntime } from '../core/enforcement/institutionalRuntimeEnforcer';
+import { evaluateMasterCausality } from '../lib/master-causal-engine';
 
 const getAI = () => {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
@@ -19,7 +21,6 @@ export interface BoardReportData {
     sintesePatrimonial: string;
     forcasEstruturais: string[];
     fragilidadesCriticas: string[];
-    tendenciaProjetada: string;
     leituraBoard: string;
   };
   scoreConsolidado: {
@@ -48,18 +49,19 @@ export interface BoardReportData {
     sustentabilidadeOperacional: string;
   };
   analiseHistorica: {
-    evolucaoLiquidez: string;
-    evolucaoPatrimonial: string;
     velocidadeDeterioracaoRecuperacao: string;
     maturidadeFinanceira: string;
-    tendenciasAceleracao: string[];
+    narrativaMemoriaInstitucional: string;
   };
   stressTesting: {
+    cenarioPressao: string;
+    impactoCausal: string;
+    fatorMitigacao: string;
     simulacoes: {
       cenario: string;
-      impactoEstrutural: string;
+      impactoEbitda: string;
       impactoCaixa: string;
-      impactoContinuidade: string;
+      resiliencia: string;
     }[];
   };
   boardIntelligence: {
@@ -68,16 +70,6 @@ export interface BoardReportData {
     prioridadesConselho: string[];
     riscosSilenciosos: string[];
   };
-  actionPlan: {
-    prioridade: string;
-    urgencia: string; // Alta, Média, Baixa
-    impactoEsperado: string;
-    horizonteTemporal: string;
-  }[];
-  cenariosReequilibrio: {
-    cenario: string;
-    impactoProjetado: string;
-  }[];
   parecerTecnico: {
     companhiaSustentavel: string;
     crescimentoSaudavel: string;
@@ -106,10 +98,9 @@ const phase1Schema = {
         sintesePatrimonial: { type: Type.STRING },
         forcasEstruturais: { type: Type.ARRAY, items: { type: Type.STRING } },
         fragilidadesCriticas: { type: Type.ARRAY, items: { type: Type.STRING } },
-        tendenciaProjetada: { type: Type.STRING },
         leituraBoard: { type: Type.STRING }
       },
-      required: ["diagnostico", "sinteseFinanceira", "sintesePatrimonial", "forcasEstruturais", "fragilidadesCriticas", "tendenciaProjetada", "leituraBoard"]
+      required: ["diagnostico", "sinteseFinanceira", "sintesePatrimonial", "forcasEstruturais", "fragilidadesCriticas", "leituraBoard"]
     },
     scoreConsolidado: {
       type: Type.OBJECT,
@@ -162,13 +153,11 @@ const phase2Schema = {
     analiseHistorica: {
       type: Type.OBJECT,
       properties: {
-        evolucaoLiquidez: { type: Type.STRING },
-        evolucaoPatrimonial: { type: Type.STRING },
         velocidadeDeterioracaoRecuperacao: { type: Type.STRING },
         maturidadeFinanceira: { type: Type.STRING },
-        tendenciasAceleracao: { type: Type.ARRAY, items: { type: Type.STRING } }
+        narrativaMemoriaInstitucional: { type: Type.STRING }
       },
-      required: ["evolucaoLiquidez", "evolucaoPatrimonial", "velocidadeDeterioracaoRecuperacao", "maturidadeFinanceira", "tendenciasAceleracao"]
+      required: ["velocidadeDeterioracaoRecuperacao", "maturidadeFinanceira", "narrativaMemoriaInstitucional"]
     }
   },
   required: ["liquidityIntelligence", "capitalDeGiro", "analiseHistorica"]
@@ -180,21 +169,24 @@ const phase3Schema = {
     stressTesting: {
       type: Type.OBJECT,
       properties: {
+        cenarioPressao: { type: Type.STRING },
+        impactoCausal: { type: Type.STRING },
+        fatorMitigacao: { type: Type.STRING },
         simulacoes: {
           type: Type.ARRAY,
           items: {
             type: Type.OBJECT,
             properties: {
               cenario: { type: Type.STRING },
-              impactoEstrutural: { type: Type.STRING },
+              impactoEbitda: { type: Type.STRING },
               impactoCaixa: { type: Type.STRING },
-              impactoContinuidade: { type: Type.STRING }
+              resiliencia: { type: Type.STRING }
             },
-            required: ["cenario", "impactoEstrutural", "impactoCaixa", "impactoContinuidade"]
+            required: ["cenario", "impactoEbitda", "impactoCaixa", "resiliencia"]
           }
         }
       },
-      required: ["simulacoes"]
+      required: ["cenarioPressao", "impactoCausal", "fatorMitigacao", "simulacoes"]
     },
     boardIntelligence: {
       type: Type.OBJECT,
@@ -205,30 +197,6 @@ const phase3Schema = {
         riscosSilenciosos: { type: Type.ARRAY, items: { type: Type.STRING } }
       },
       required: ["fragilidadesEstruturais", "implicacoesEstrategicas", "prioridadesConselho", "riscosSilenciosos"]
-    },
-    actionPlan: {
-      type: Type.ARRAY,
-      items: {
-        type: Type.OBJECT,
-        properties: {
-          prioridade: { type: Type.STRING },
-          urgencia: { type: Type.STRING },
-          impactoEsperado: { type: Type.STRING },
-          horizonteTemporal: { type: Type.STRING }
-        },
-        required: ["prioridade", "urgencia", "impactoEsperado", "horizonteTemporal"]
-      }
-    },
-    cenariosReequilibrio: {
-      type: Type.ARRAY,
-      items: {
-        type: Type.OBJECT,
-        properties: {
-          cenario: { type: Type.STRING },
-          impactoProjetado: { type: Type.STRING }
-        },
-        required: ["cenario", "impactoProjetado"]
-      }
     },
     parecerTecnico: {
       type: Type.OBJECT,
@@ -254,7 +222,7 @@ const phase3Schema = {
       required: ["sinteseEstrategica", "principaisRiscos", "recomendacaoBoard"]
     }
   },
-  required: ["stressTesting", "boardIntelligence", "actionPlan", "cenariosReequilibrio", "parecerTecnico", "conclusao"]
+  required: ["stressTesting", "boardIntelligence", "parecerTecnico", "conclusao"]
 };
 
 function compactFinancialData(data: FinancialEntry[]) {
@@ -288,9 +256,15 @@ NÃO use alarmismo exagerado nem otimismo cego. Baseie-se apenas nos dados.
 
 REGRAS OBRIGATÓRIAS (MASTER ENGINE):
 1. Proibição de Contradição: Nunca contradiga a liquidez, tesouraria, patrimônio líquido ou estrutura de capital.
-2. Expressões Proibidas: Nunca use 'colchão patrimonial', 'conforto financeiro', 'situação equilibrada' ou 'estabilidade' se o Patrimônio Líquido for negativo ou a Liquidez Corrente < 1.
-3. EBITDA Positivo com PL Negativo: O EBITDA positivo não elimina a insolvência técnica. A narrativa deve ser: 'A operação ainda preserva capacidade de geração operacional, porém a estrutura financeira permanece pressionada e dependente de reestruturação.'
-4. Severidade Extrema: É estritamente PROIBIDO o uso de 'colapso definitivo', 'falência inevitável' ou 'empresa inviável' a menos que EXATAMENTE todas as seguintes condições sejam verdadeiras e comprovadas pelos dados: EBITDA negativo, fluxo operacional negativo recorrente e liquidez imediata próxima a zero. Caso contrário, utilize termos de prudência como 'estresse severo' ou 'risco crítico de liquidez'.
+2. DIRETRIZES DE NARRATIVA (STRICT COMPLIANCE):
+1. Foco em Consequência: Você não analisa números brutos, você explica a causa raiz e o impacto futuro baseado no bloco 'Causalidade Institucional'.
+2. Tom de Board: Direto, sem jargões desnecessários, focando no risco fiduciário e proteção de capital.
+3. Isenção Preditiva: NÃO invente cenários de estresse, não calcule runway e não crie data de ruptura de caixa. Use UNICAMENTE os informados no objeto de *Causalidade Institucional* ou *Inferences*.
+4. GOVERNANÇA DE DECISÃO: Você é ESTRITAMENTE PROIBIDO de sugerir ações executivas, recomendar estratégias, ditar prioridades ou elaborar planos táticos. Sua única função tática é traduzir as restrições e a matriz de ação (StrategicActionMatrix) pré-determinada no 'Inferences' do ExecutiveDecisionEngine. Se não houver, não invente. Se as restrições disserem que a recomendação está bloqueada, narre isso de forma clara: "Recomendação Bloqueada por Validação Institucional".
+
+DADOS DISPONÍVEIS: Severidade Extrema: É estritamente PROIBIDO o uso de 'colapso definitivo', 'falência inevitável' ou 'empresa inviável' a menos que EXATAMENTE todas as seguintes condições sejam verdadeiras e comprovadas pelos dados: EBITDA negativo, fluxo operacional negativo recorrente e liquidez imediata próxima a zero. Caso contrário, utilize termos de prudência como 'estresse severo' ou 'risco crítico de liquidez'.
+5. EXECUTIVE_CAUSALITY_ENGINE: Toda narrativa deve seguir a cadeia CAUSA -> PRESSÃO -> CONSEQUÊNCIA -> DECISÃO. É proibido usar N/A, 'base alinhada', 'monitoramento passivo' ou placeholders genéricos.
+6. STRATEGIC_RISK_ENGINE: Todo risco apontado deve ter origem, evidência, severidade, impacto e mitigador claros. Proibido riscos genéricos sem base nos dados.
 
 DADOS HISTÓRICOS (6 ANOS):
 `;
@@ -348,9 +322,20 @@ export async function generateBoardReportFull(companyName: string, financialData
   }
 
   const businessIdentity = (await import('../lib/business-identity-engine')).inferBusinessIdentity(clientData?.segmentoAtuacao || undefined, calculatedCycles);
+  
+  const masterCausality = evaluateMasterCausality(bpSummary, metrics, businessIdentity);
 
+  const scores = calculateScores(bpSummary, metrics, dreRows.length, prevPl, businessIdentity, masterCausality);
 
-  const scores = calculateScores(bpSummary, metrics, dreRows.length, prevPl, businessIdentity);
+  const { runInstitutionalAnalysis } = await import('../runtime');
+  const runtimeOutput = await runInstitutionalAnalysis({
+    rawFinancialData: {},
+    historicalCyclesCount: years.length,
+    isMockData: false,
+    dreData: dreRows,
+    dfcData: latestData.filter(d => d.docType === 'DFC')
+  });
+  const memoryInference = runtimeOutput.inferences['InstitutionalMemoryEngine'];
 
   const dataContext = `${BASE_PROMPT}\nEMPRESA: ${companyName}\n${compactedData}\n\n
 SCORES OBRIGATÓRIOS (Use exatamente estes valores no relatório, não os invente):
@@ -360,6 +345,23 @@ SCORES OBRIGATÓRIOS (Use exatamente estes valores no relatório, não os invent
 - Resiliência Estrutural: ${scores.hsEstrutura.toFixed(0)}/100
 - Elasticidade Financeira: ${scores.hsCapitalGiro.toFixed(0)}/100
 - Liquidity Quality: ${scores.hsLiquidez.toFixed(0)}/100
+
+CENÁRIOS CAUSAIS DETECTADOS PELA MASTER ENGINE (Eles DEVEM guiar a narrativa do relatório):
+${masterCausality.scenarios.length > 0 ? masterCausality.scenarios.map(s => `- ${s.name} (${s.severity}): ${s.description}`).join('\n') : 'Nenhum cenário de stress estrutural detectado. A operação flui dentro da normalidade esperada.'}
+
+BLOQUEIOS CAUSAIS (PALAVRAS/TERMOS PROIBIDOS NESTE RELATÓRIO):
+${masterCausality.blockedNarratives.length > 0 ? masterCausality.blockedNarratives.join(', ') : 'Nenhum termo bloqueado.'}
+
+DIAGNÓSTICOS COMPORTAMENTAIS (MANDATÓRIOS PARA INCLUSÃO NAS SÍNTESES):
+- Liquidez Qualitativa: ${masterCausality.behavioralInsights.liquidezQualitativa}
+- Dinâmica de Caixa: ${masterCausality.behavioralInsights.dinamicaDeCaixa}
+- Sustentabilidade Operacional: ${masterCausality.behavioralInsights.sustentabilidadeOperacional}
+
+MEMÓRIA INSTITUCIONAL OFICIAL (MANDATÓRIO PARA A SESSÃO DE ANÁLISE HISTÓRICA):
+- Classificação: ${memoryInference?.metrics?.memoryType || 'Indefinida'}
+- Resumo Oficial: ${memoryInference?.narrative?.diagnostic} ${memoryInference?.narrative?.consequence}
+- Restrições Narrativas: ${memoryInference?.metrics?.narrativeBoundary || 'Nenhuma restrição informada.'}
+ATENÇÃO: Você não pode projetar tendências ou inferir continuidade histórica livremente. Você DEVE usar APENAS a Memória Institucional providenciada como verdade para preencher o campo "narrativaMemoriaInstitucional".
 `;
 
   // Fase 1
@@ -406,9 +408,17 @@ SCORES OBRIGATÓRIOS (Use exatamente estes valores no relatório, não os invent
   const phase3Result = JSON.parse(p3.text!);
 
   onProgress("Finalizando renderização do PDF...");
-  return {
+  const combinedResult = {
     ...phase1Result,
     ...phase2Result,
     ...phase3Result
   };
+
+  const { sanitizedOutput } = enforceInstitutionalRuntime(combinedResult, {
+    enginesExecuted: ['ExecutiveRenderEngine'],
+    businessModel: businessIdentity.modeloDeNegocio,
+    score: scores.resilienciaGlobal
+  });
+
+  return sanitizedOutput;
 }

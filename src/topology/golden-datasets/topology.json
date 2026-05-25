@@ -1,0 +1,64 @@
+{
+  "groupId": "group-alpha",
+  "nodes": [
+    {
+      "id": "holding-alpha",
+      "name": "Alpha Holding SA",
+      "type": "HOLDING",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "sub-bravo",
+      "name": "Bravo Operações LTDA",
+      "type": "OPERATIONAL_ENTITY",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "sub-charlie",
+      "name": "Charlie Logística LTDA",
+      "type": "OPERATIONAL_ENTITY",
+      "confidence": "LOW"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "holding-alpha",
+      "targetId": "sub-bravo",
+      "type": "OWNERSHIP",
+      "metadata": { "percentage": 100 }
+    },
+    {
+      "sourceId": "holding-alpha",
+      "targetId": "sub-charlie",
+      "type": "OWNERSHIP",
+      "metadata": { "percentage": 100 }
+    },
+    {
+      "sourceId": "sub-bravo",
+      "targetId": "sub-charlie",
+      "type": "INTERCOMPANY"
+    }
+  ],
+  "intercompanyOperations": [
+    {
+      "operationId": "op-1",
+      "sourceEntityId": "sub-bravo",
+      "targetEntityId": "sub-charlie",
+      "type": "RECEITA_DESPESA",
+      "amount": 500000,
+      "sourceAccountCategory": "Receitas Intercompany",
+      "targetAccountCategory": "Despesas Intercompany",
+      "reconciled": true
+    },
+    {
+      "operationId": "op-2",
+      "sourceEntityId": "sub-charlie",
+      "targetEntityId": "holding-alpha",
+      "type": "MUTUO",
+      "amount": 1000000,
+      "sourceAccountCategory": "Mútuo a Pagar",
+      "targetAccountCategory": "Mútuo a Receber",
+      "reconciled": false
+    }
+  ]
+}

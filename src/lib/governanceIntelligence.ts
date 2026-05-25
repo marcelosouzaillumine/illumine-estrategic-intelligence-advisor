@@ -4191,7 +4191,37 @@ export function evaluateFinancialRules(metrics: any): (GovernanceRule & { princi
     .filter(r => r.principle !== undefined);
 }
 
-export function evaluateAxisRules(metrics: any, axis: string): (GovernanceRule & { principle: GovernancePrinciple })[] {
+export function evaluateAxisRules(metrics: any, axis: string, isBlocked: boolean = false): (GovernanceRule & { principle: GovernancePrinciple })[] {
+  if (isBlocked) {
+    return [{
+       id: 'rule_blocked',
+       principleId: 'blocked',
+       condition: () => true,
+       misalignment: 'Recomendação Bloqueada por Validação Institucional.',
+       impact: 'A análise deste eixo está bloqueada até a validação causal do fluxo de caixa.',
+       recommendation: 'Aguarde validação da base causal primária.',
+       orientation: 'Bloqueio Institucional',
+       principle: {
+         id: 'blocked',
+         name: 'Validação Institucional Pendente',
+         axis: axis as EixoGestao,
+         executiveDefinition: 'A análise deste eixo está bloqueada até a validação causal do fluxo de caixa e pressupostos institucionais.',
+         philosophicalFoundation: { text: 'Sem caixa validado, governança é teórica.', reference: 'Institutional Runtime' },
+         strategicImpact: 5,
+         systemicIntegration: 'Base',
+         executiveRecommendations: ['Recomendação Bloqueada por Validação Institucional'],
+         maturityQuestion: '',
+         weight: 0,
+         expectedEvidences: [],
+         risksWhenNeglected: [],
+         reference: '',
+         description: 'Bloqueio Causal',
+         crossAxisImpact: '',
+         executiveSuggestions: ['Recomendação Bloqueada por Validação Institucional']
+       }
+    }];
+  }
+
   const axisRules = GOVERNANCE_AXIS_RULES.filter(r => {
     const p = getPrincipleById(r.principleId);
     return p && p.axis === axis;

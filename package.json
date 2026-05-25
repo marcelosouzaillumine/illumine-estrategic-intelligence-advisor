@@ -8,12 +8,14 @@
   },
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
+    "prebuild": "npm run governance:audit",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
+    "governance:audit": "tsx src/scripts/runActiveGovernance.ts",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
-    "test": "tsc --noEmit",
+    "test": "tsc --noEmit && tsx --test tests/*.test.ts",
     "test:rules": "firebase emulators:exec --only firestore \"node tests/firestore/rules.test.mjs\""
   },
   "dependencies": {
@@ -56,6 +58,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.21",
+    "firebase-admin": "^13.10.0",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",

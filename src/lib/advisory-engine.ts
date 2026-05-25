@@ -4,6 +4,9 @@ import { BusinessIdentity, inferBusinessIdentity } from './business-identity-eng
 import { ScoreMetrics } from './score-engine';
 import { getIndustryWeights } from './industry-engine';
 import { validateNarrativeOutput } from './narrative-governance';
+import { evaluateExecutiveCausality, ExecutiveCausalityOutput } from './executive-causality-engine';
+import { enforceInstitutionalRuntime } from '../core/enforcement/institutionalRuntimeEnforcer';
+import { MasterCausalOutput } from './master-causal-engine';
 
 export interface TrendMetrics {
   hasData: boolean;
@@ -146,6 +149,7 @@ export interface AdvisoryOutput {
     status: string;
     color: string;
   };
+  masterCausality?: MasterCausalOutput;
 }
 
 export function generateAdvisory(
@@ -180,7 +184,7 @@ export function generateAdvisory(
   const {
     ebitda, liqCorrente, liquidezReal, saldoTesouraria, cgl, ncg, concentracaoEstoque,
     qualidadeEndividamento, dependenciaBancaria, indiceDescapitalizacao,
-    autonomiaFinanceira, liqSeca, dscrSimulado, resilienciaGiro, absorcaoPrejuizo,
+    autonomiaFinanceira, liqSeca, resilienciaGiro, absorcaoPrejuizo,
     margemErroOperacional
   } = metrics;
 
@@ -211,31 +215,31 @@ export function generateAdvisory(
   }
 
 
-  // BUSINESS MODEL INTELLIGENCE ENGINE (MVP)
-  const bm = identity.setor || "indefinido";
+  // BUSINESS MODEL INTELLIGENCE ENGINE
+  const bm = identity.modeloDeNegocio || identity.setor || "indefinido";
   let bmRegraAplicada = "Benchmark Conservador Genérico";
   let bmThresholds = "Liquidez > 1.0 | Estoque < 0.35";
   let bmNarrativa = "Neutra (Modelo Não Parametrizado)";
   let isInventoryDependent = concentracaoEstoque > 0.35;
   let isCriticalLiquidity = liquidezReal < 0.5 || saldoTesouraria < 0;
 
-  if (bm === "Comércio / Varejo") {
+  if (bm.includes("Comércio") || bm.includes("Varejo") || bm.includes("Distribuição")) {
     bmRegraAplicada = "Tolerância a Estoque | Severidade em Liquidez Seca";
     bmThresholds = "Estoque < 0.50 | LiqSeca > 0.8";
     bmNarrativa = "Foco em Giro e Obsolescência";
     isInventoryDependent = concentracaoEstoque > 0.50; // Tolerância maior
     isCriticalLiquidity = liqSeca < 0.8 || saldoTesouraria < 0; // Maior punição na seca
-  } else if (bm === "Asset Light") {
+  } else if (bm.includes("Asset Light") || bm.includes("SaaS") || bm.includes("Tecnologia")) {
     bmRegraAplicada = "Foco em Caixa e Receita | Intolerância a Imobilização";
     bmThresholds = "Estoque < 0.10 | Caixa Forte";
     bmNarrativa = "Foco em Escalabilidade e Geração de Caixa";
     isInventoryDependent = concentracaoEstoque > 0.10;
     isCriticalLiquidity = saldoTesouraria < 0; // Mais focado na tesouraria real
-  } else if (bm === "Asset Heavy") {
+  } else if (bm.includes("Asset Heavy") || bm.includes("Infraestrutura") || bm.includes("Indústria") || bm.includes("Saúde")) {
     bmRegraAplicada = "Tolerância a Endividamento/Imobilização | Previsibilidade Operacional";
     bmThresholds = "Dívida > 0.6 | Estoque < 0.35";
     bmNarrativa = "Foco em Produtividade de Ativos";
-  } else if (bm === "Serviços Operacionais") {
+  } else if (bm.includes("Serviços Operacionais")) {
     bmRegraAplicada = "Foco em Fluxo | Sensibilidade a Inadimplência";
     bmThresholds = "Estoque < 0.15 | Caixa de Curto Prazo";
     bmNarrativa = "Foco em Fluxo Transacional";
@@ -253,7 +257,15 @@ export function generateAdvisory(
   // 1. Ranking & Semantic Deduplication
   const vulnerabilidades: { nome: string; peso: number; tipo: 'Risco' | 'Restricao' | 'Gargalo' }[] = [];
   const alavancas: { nome: string; peso: number; tipo: 'Expansao' | 'Otimizacao' }[] = [];
-  const acoes: ExecutiveAction[] = [];
+  const acoes: ExecutiveAction[] = [
+    {
+      acao: 'Recomendação Bloqueada por Validação Institucional (Falta de Causalidade/DFC)',
+      impacto: 'Baixo',
+      velocidade: 'Longo Prazo',
+      complexidade: 'Alta',
+      prioridade: 'Moderada'
+    }
+  ];
 
   // Deduplicação Semântica: Caixa e Liquidez
   if (isCriticalLiquidity || resilienciaGiro < 0.8) {
@@ -261,13 +273,6 @@ export function generateAdvisory(
       nome: 'Estrangulamento de Solvência de Curto Prazo',
       peso: 10,
       tipo: 'Risco'
-    });
-    acoes.push({
-      acao: 'Desmobilização tática de ativos não operacionais',
-      impacto: 'Alto',
-      velocidade: 'Imediata',
-      complexidade: 'Alta',
-      prioridade: 'Imediata'
     });
   } else if (liqSeca < 0.9 && isInventoryDependent) {
     vulnerabilidades.push({
@@ -295,13 +300,6 @@ export function generateAdvisory(
       peso: 9,
       tipo: 'Risco'
     });
-    acoes.push({
-      acao: 'Plano de capitalização ou turnaround financeiro',
-      impacto: 'Alto',
-      velocidade: 'Curto Prazo',
-      complexidade: 'Alta',
-      prioridade: 'Alta'
-    });
   } else if (isDebtDependent) {
     vulnerabilidades.push({
       nome: 'Risco de Exposição Bancária Elevada',
@@ -322,13 +320,6 @@ export function generateAdvisory(
       peso: 9,
       tipo: 'Expansao'
     });
-    acoes.push({
-      acao: 'Desenvolver política de M&A ou expansão acelerada',
-      impacto: 'Alto',
-      velocidade: 'Médio Prazo',
-      complexidade: 'Alta',
-      prioridade: 'Estratégica'
-    });
   } else if (resilienciaGlobal > 50) {
     alavancas.push({
       nome: 'Preservação de Margem e Melhoria Operacional',
@@ -344,28 +335,15 @@ export function generateAdvisory(
   if (alavancas.length === 0) {
     alavancas.push({ nome: 'Reestruturação de Base Operacional', peso: 1, tipo: 'Otimizacao' });
   }
-  if (acoes.length === 0) {
-    acoes.push({
-      acao: 'Manter governança e monitoramento longitudinal',
-      impacto: 'Baixo',
-      velocidade: 'Longo Prazo',
-      complexidade: 'Baixa',
-      prioridade: 'Moderada'
-    });
-  }
 
   // 2. Institutional Priority Ranking
   vulnerabilidades.sort((a, b) => b.peso - a.peso);
   alavancas.sort((a, b) => b.peso - a.peso);
-  acoes.sort((a, b) => {
-    const prioridadeMap = { 'Imediata': 4, 'Alta': 3, 'Estratégica': 2, 'Moderada': 1, 'Baixa': 0 };
-    return (prioridadeMap[b.prioridade as keyof typeof prioridadeMap] || 0) - (prioridadeMap[a.prioridade as keyof typeof prioridadeMap] || 0);
-  });
 
   // 3. Executive Compression
   const finalFragilidades = vulnerabilidades.slice(0, 3).map(v => v.nome);
-  const finalEstrategico = [...alavancas.map(a => a.nome), ...acoes.map(a => a.acao)].slice(0, 4);
-  const strategicActionMatrix = acoes.slice(0, 2);
+  const finalEstrategico = [...alavancas.map(a => a.nome)].slice(0, 4);
+  const strategicActionMatrix = acoes;
 
   // 4. Institutional Thesis Generator
   const riscoMestre = vulnerabilidades[0].nome;
@@ -397,24 +375,38 @@ export function generateAdvisory(
     if (ebitda < 0 && saldoTesouraria < 0 && liquidezReal < 0.3 && plValue < 0) lifecycleStage = "Reestruturação / Turnaround";
     else if (trend?.ebitdaTrend && trend.ebitdaTrend > 15 && (cgl < 0 || saldoTesouraria < 0)) lifecycleStage = "Expansão Acelerada";
     else if (numCycles >= 5 && trend?.ebitdaTrend && trend.ebitdaTrend >= 0 && trend.ebitdaTrend <= 5 && autonomiaFinanceira > 0.4) lifecycleStage = "Maturidade Corporativa";
+  }
 
-    // Executive Summary (Max 3 frases)
-    const frase1 = resilienciaGlobal > 80 ? "A estrutura patrimonial demonstra robustez institucional." :
-                   resilienciaGlobal > 50 ? "A composição de capital exibe resiliência intermediária sob pressão operacional." :
-                   "A estrutura apresenta forte deterioração e risco sistêmico iminente.";
-    const frase2 = `A principal alavanca identificada reside em ${vetorCrescimento.toLowerCase()}.`;
-    const frase3 = `Entretanto, ${restricaoInstitucional.toLowerCase()} atua como restrição estrutural primária.`;
-    diagnostico = `${frase1} ${frase2} ${frase3}`;
+  // Build remaining required objects for AdvisoryOutput
+  
+  // ==========================================
+  // EXECUTIVE CAUSALITY ENGINE (Mandatory Layer)
+  // ==========================================
+  const causalityOutput: ExecutiveCausalityOutput = evaluateExecutiveCausality(
+    metrics, bpSummary, scores, identity
+  );
+
+  const { narrativeChain, financialElasticity, liquidityPressure, inferredTensions, vulnerabilities, masterCausality } = causalityOutput;
+  
+  diagnostico = `${narrativeChain.causa} ${narrativeChain.pressao} ${narrativeChain.consequencia} ${narrativeChain.decisao}`;
+  let tendencia = (numCycles === 1) ? "Primeiro Ciclo Operacional (Histórico insuficiente para inferência longitudinal)" : "Tendência avaliada.";
+
+  if (masterCausality && masterCausality.temporalIntelligence) {
+    const temporal = masterCausality.temporalIntelligence;
+    if (temporal.temporalMode === 'FULL_TEMPORAL_MODE') {
+      tendencia = `Direção: ${temporal.temporalScore}. Impacto: ${temporal.trajectoryImpact}. Confiança: ${temporal.trendConfidence.level}.`;
+      diagnostico += ` A análise longitudinal aponta: ${temporal.insights.continuidade}`;
+    } else {
+      tendencia = temporal.reasonForLimitedConfidence || "Histórico insuficiente para inferência temporal robusta.";
+    }
   }
 
   const institutionalThesis = {
-    teseCentral,
-    restricaoInstitucional,
-    vetorCrescimento,
-    riscoDominante: riscoMestre
+    teseCentral: narrativeChain.causa,
+    restricaoInstitucional: narrativeChain.pressao,
+    vetorCrescimento: financialElasticity.status === 'Alta' ? 'Expansão Acelerada Autofinanciada' : 'Recuperação e Otimização de Liquidez',
+    riscoDominante: narrativeChain.consequencia
   };
-
-  // Build remaining required objects for AdvisoryOutput
   const liquidityQuality = {
     diagnostico: isCriticalLiquidity ? "Estrangulamento agudo de tesouraria requerendo capital de giro urgente." : "Base de conversão operacional aderente ao ciclo.",
     riscoEstrangulamento: isCriticalLiquidity ? "Crítico" : "Baixo",
@@ -428,9 +420,9 @@ export function generateAdvisory(
   };
 
   const predictiveCausality = {
-    primaryThreat: vulnerabilidades[0].nome,
-    timeToImpact: "Avaliação Cíclica",
-    mitigationFactor: strategicActionMatrix[0].acao
+    primaryThreat: vulnerabilities[0] || vulnerabilidades[0].nome,
+    timeToImpact: liquidityPressure.status === 'Severa' ? 'Curto Prazo Imediato (0-90 dias)' : 'Ciclo Operacional Vigente',
+    mitigationFactor: narrativeChain.decisao
   };
 
   const capitalAllocation = {
@@ -441,20 +433,20 @@ export function generateAdvisory(
   };
 
   const trendIntelligence = {
-    direcaoEstrutural: trend?.hasData ? "Tração Monitorada" : "Base Estática",
-    parecerEvolutivo: "Síntese consolidada via Institutional Engine."
+    direcaoEstrutural: masterCausality?.temporalIntelligence?.temporalScore || (trend?.hasData ? (trend.plTrend > 0 ? "Expansão Patrimonial" : "Contração Patrimonial") : "Avaliação Indisponível"),
+    parecerEvolutivo: masterCausality?.temporalIntelligence?.insights?.continuidade || narrativeChain.consequencia
   };
 
   const boardIntelligence = {
-    suportaCrescimento: resilienciaGlobal > 60 ? "Sim, possui alavancagem operacional adequada." : "Não. Dependência passiva asfixia escalabilidade.",
-    resilienciaModelo: resilienciaGlobal > 60 ? "Resiliente." : "Fragilizado.",
-    riscoDeterioracao: vulnerabilidades[0].nome
+    suportaCrescimento: financialElasticity.status === 'Alta' || financialElasticity.status === 'Média' ? "Sim. Estrutura suporta expansão alavancada ou orgânica sem ruptura." : "Não. A asfixia da tesouraria impede tração.",
+    resilienciaModelo: resilienciaGlobal > 60 ? "Modelo comprovadamente resiliente." : "A resiliência arquitetural foi corroída.",
+    riscoDeterioracao: inferredTensions[0] || vulnerabilidades[0].nome
   };
   
   const boardNarrative = {
     visaoSintetica: diagnostico,
-    racionalidadeEconomica: teseCentral,
-    visaoAcionista: "Alinhado à Diretriz de Equity"
+    racionalidadeEconomica: narrativeChain.causa,
+    visaoAcionista: narrativeChain.decisao
   };
   
   const valueProtection = {
@@ -510,20 +502,20 @@ export function generateAdvisory(
   }
 
   const predicao = {
-    horizontePressao: "Curto Prazo",
-    riscoRuptura: statusIceColor === 'rose' ? "Alto Risco" : "Baixo Risco",
-    dependenciaGeracao: "Alta",
-    riscoDescapitalizacaoProgressiva: "Moderado",
-    sensibilidadeChoques: "Alta"
+    horizontePressao: liquidityPressure.status === 'Severa' ? "Curtíssimo Prazo (Déficit de Tesouraria)" : "Ciclo Operacional Vigente",
+    riscoRuptura: statusIceColor === 'rose' || liquidityPressure.status === 'Severa' ? "Risco Agudo de Falha Tática" : "Baixo Risco Sistêmico",
+    dependenciaGeracao: ebitda < 0 ? "Aceleração Progressiva da Erosão" : "Geração de Caixa Suporta Operação",
+    riscoDescapitalizacaoProgressiva: indiceDescapitalizacao > 0.5 ? "Crítico (Passivo Oneroso Drenando PL)" : "Controlado",
+    sensibilidadeChoques: financialElasticity.status === 'Crítica' ? "Máxima Vulnerabilidade a Choques de Demanda" : "Operação Ancorada e Protegida"
   };
   
   const elasticidadeFinanceira = {
-    capacidadeAbsorcaoChoques: "Média",
-    dependenciaOperacao: "Alta",
-    necessidadeCapitalizacao: "Baseada na Dívida",
-    resilienciaEstrutural: "Sensível",
-    flexibilidadeFinanceira: "Restrita",
-    velocidadeRecuperacao: "Moderada"
+    capacidadeAbsorcaoChoques: financialElasticity.status,
+    dependenciaOperacao: cgl < ncg ? "Dependência Vital de Linhas Onerosas" : "Ciclo Autofinanciado",
+    necessidadeCapitalizacao: plValue < 0 ? "Mandatória (Insolvência)" : "Não Imediata",
+    resilienciaEstrutural: resilienciaGlobal > 70 ? "Preservada" : "Comprometida",
+    flexibilidadeFinanceira: financialElasticity.narrative,
+    velocidadeRecuperacao: ebitda > 0 ? "Margem permite recuperação acelerada" : "Estática (Sem Geração Livre)"
   };
   
   const impactosEsperados = strategicActionMatrix.map(a => ({ acao: a.acao, impacto: a.impacto }));
@@ -531,14 +523,14 @@ export function generateAdvisory(
   const governanceRisks: any[] = [];
 
   const rawAdvisory: AdvisoryOutput = {
-    businessIdentity: inferBusinessIdentity(undefined, 0),
+    businessIdentity: identity,
     lifecycleStage,
     institutionalThesis,
     maturidade,
     diagnostico,
     fragilidades: finalFragilidades,
     estrategico: finalEstrategico,
-    tendencia: (numCycles === 1) ? "Primeiro Ciclo Operacional (Histórico insuficiente para inferência longitudinal)" : "Tendência avaliada.",
+    tendencia,
     prioridades: finalEstrategico,
     predicao,
     elasticidadeFinanceira,
@@ -561,10 +553,18 @@ export function generateAdvisory(
     indiceContinuidade: {
       status: statusIce,
       color: statusIceColor
-    }
+    },
+    masterCausality
   };
 
-  return validateNarrativeOutput(rawAdvisory, resilienciaGlobal);
+  const validated = validateNarrativeOutput(rawAdvisory, resilienciaGlobal);
+  const { sanitizedOutput } = enforceInstitutionalRuntime(validated, {
+    enginesExecuted: ['ExecutiveCausalityEngine', 'StrategicRiskEngine', 'BoardSynthesisEngine'],
+    businessModel: identity.modeloDeNegocio,
+    score: resilienciaGlobal
+  });
+
+  return sanitizedOutput;
 }
 
 
@@ -581,27 +581,30 @@ function createEmptyAdvisory(): AdvisoryOutput {
     },
     maturidade: 'Pendente',
     diagnostico: 'Amostragem insuficiente para emitir parecer executivo de Causalidade Financeira e Governança.',
-    fragilidades: [], estrategico: [], tendencia: '', prioridades: [],
-    predicao: { horizontePressao: '', riscoRuptura: '', dependenciaGeracao: '', riscoDescapitalizacaoProgressiva: '', sensibilidadeChoques: '' },
-    elasticidadeFinanceira: { capacidadeAbsorcaoChoques: '', dependenciaOperacao: '', necessidadeCapitalizacao: '', resilienciaEstrutural: '', flexibilidadeFinanceira: '', velocidadeRecuperacao: '' },
-    predictiveCausality: { primaryThreat: '', timeToImpact: '', mitigationFactor: '' },
+    fragilidades: [],
+    estrategico: [],
+    tendencia: 'Sem dados',
+    prioridades: [],
+    predicao: { horizontePressao: 'Inexistente', riscoRuptura: 'Não Calculado', dependenciaGeracao: 'Não Calculado', riscoDescapitalizacaoProgressiva: 'Não Calculado', sensibilidadeChoques: 'Não Calculado' },
+    elasticidadeFinanceira: { capacidadeAbsorcaoChoques: 'Indefinida', dependenciaOperacao: 'Sem Dados', necessidadeCapitalizacao: 'Sem Dados', resilienciaEstrutural: 'Sem Dados', flexibilidadeFinanceira: 'Sem Dados', velocidadeRecuperacao: 'Sem Dados' },
+    predictiveCausality: { primaryThreat: 'Informação insuficiente para inferência institucional.', timeToImpact: 'Informação insuficiente para inferência institucional.', mitigationFactor: 'Informação insuficiente para inferência institucional.' },
     estresse: [], 
     governanceRisks: [],
-    trendIntelligence: { direcaoEstrutural: '', parecerEvolutivo: '' },
-    boardIntelligence: { suportaCrescimento: '', resilienciaModelo: '', riscoDeterioracao: '' },
-    boardNarrative: { visaoSintetica: '', racionalidadeEconomica: '', visaoAcionista: '' },
-    capitalAllocation: { preservar: '', desacelerar: '', monetizar: '', maiorRetorno: '' },
+    trendIntelligence: { direcaoEstrutural: 'Falta de Matriz Histórica', parecerEvolutivo: 'Requer base de dados completa.' },
+    boardIntelligence: { suportaCrescimento: 'Dados Faltantes', resilienciaModelo: 'Impossível Averiguar', riscoDeterioracao: 'Visibilidade Obscurecida' },
+    boardNarrative: { visaoSintetica: 'Nenhuma predição gerada pela Causality Engine.', racionalidadeEconomica: 'Sem base econômica.', visaoAcionista: 'Status Cego' },
+    capitalAllocation: { preservar: 'Tudo', desacelerar: 'Gastos Marginais', monetizar: 'Nenhum', maiorRetorno: 'Caixa' },
     executiveHistoricalIntelligence: {
-      parecerHistorico: '',
-      recorrencia: ''
+      parecerHistorico: 'Série temporal fragmentada.',
+      recorrencia: 'Pendente'
     },
-    valueProtection: { fatorErosaoSilenciosa: '', reducaoResiliencia: '', riscoExpansao: '' },
-    managementDecisions: { melhoraCaixaRapido: '', ameacaContinuidade: '', reduzRiscoEstrutural: '', maiorImpactoVelocidade: '' },
-    valueCreation: { tipoCrescimento: '', fatorDestruicao: '', alavancaValor: '' },
-    treasuryIntelligence: { linhaAgua: '', velocidadeDeterioracao: '', pontoRuptura: '' },
-    strategicValueInterpretation: '',
+    valueProtection: { fatorErosaoSilenciosa: 'Falta de Controle Integrado', reducaoResiliencia: 'Não Analisado', riscoExpansao: 'Operar no Escuro' },
+    managementDecisions: { melhoraCaixaRapido: 'Subir Dados', ameacaContinuidade: 'Desconhecida', reduzRiscoEstrutural: 'Transparência Financeira', maiorImpactoVelocidade: 'Fechamento Contábil' },
+    valueCreation: { tipoCrescimento: 'Invisível', fatorDestruicao: 'Ausência de Dados', alavancaValor: 'Implementação de Controladoria' },
+    treasuryIntelligence: { linhaAgua: 'Desconhecida', velocidadeDeterioracao: 'Indefinida', pontoRuptura: 'Indetectável' },
+    strategicValueInterpretation: 'Sem interpretação causal por falta de materialidade de dados.',
     prioridadesEstrategicas: [], strategicActionMatrix: [], impactosEsperados: [],
-    liquidityQuality: { diagnostico: '', riscoEstrangulamento: '', qualidadeCapitalGiro: '', metricas: { alta: 0, media: 0, baixa: 0, restrita: 0 } },
-    indiceContinuidade: { status: 'Pendente', color: 'slate' }
+    liquidityQuality: { diagnostico: 'Sem visibilidade.', riscoEstrangulamento: 'Indefinido', qualidadeCapitalGiro: 'Indefinida', metricas: { alta: 0, media: 0, baixa: 0, restrita: 0 } },
+    indiceContinuidade: { status: 'Aguardando Avaliação', color: 'slate' }
   };
 }

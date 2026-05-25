@@ -1,0 +1,29 @@
+{
+  "engineName": "InstitutionalMemoryEngine",
+  "success": true,
+  "confidence": "HIGH",
+  "inference": {
+    "domain": "institutional_memory",
+    "metrics": {
+      "memoryType": "ROBUST_LONGITUDINAL_MEMORY",
+      "periodsAvailable": 5,
+      "allowedInferences": ["Memória executiva consolidada", "Crescimento estrutural histórico"],
+      "blockedInferences": [],
+      "causalContinuity": "Consolidada e Rastreável",
+      "narrativeBoundary": "Abertura total para análises de tendências estruturais."
+    },
+    "causality": [],
+    "narrative": {
+      "diagnostic": "Série temporal avaliada com 5 períodos (ROBUST_LONGITUDINAL_MEMORY).",
+      "cause": "Base de dados composta por 5 ciclos importados.",
+      "consequence": "Liberação total para análises e projeções longitudinais.",
+      "sensitivity": "Controlada",
+      "risk": "Base Estável",
+      "priority": "Aprofundamento de Tendências",
+      "strategicMovement": "Utilizar memória consolidada para atestar robustez operacional."
+    },
+    "confidence": "HIGH",
+    "evidenceLevel": "EVIDENCE_BASED",
+    "score": 5
+  }
+}

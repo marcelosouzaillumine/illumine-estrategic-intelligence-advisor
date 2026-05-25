@@ -11,6 +11,7 @@ interface GovernancePerspectiveSectionProps {
   triggeredRules: any[];
   principles: any[];
   aiAnalysis: string | null;
+  auditTrail?: any;
   isGeneratingAi: boolean;
   onGenerateAi: () => void;
   className?: string;
@@ -21,6 +22,7 @@ export function GovernancePerspectiveSection({
   triggeredRules,
   principles,
   aiAnalysis,
+  auditTrail,
   isGeneratingAi,
   onGenerateAi,
   className
@@ -67,7 +69,32 @@ export function GovernancePerspectiveSection({
             
             <div className="prose prose-invert max-w-none">
               <div className="text-base md:text-lg font-medium text-slate-200 leading-relaxed italic">
-                <MarkdownText text={aiAnalysis} />
+                {auditTrail?.complianceStatus === 'non_compliant' ? (
+                  <div className="bg-red-500/10 border border-red-500/50 p-6 rounded-md mb-8 flex items-start gap-4 text-left not-italic">
+                    <AlertTriangle className="text-red-500 shrink-0" size={24} />
+                    <div>
+                      <h3 className="text-red-500 font-bold text-lg mb-2">Bloqueio Institucional</h3>
+                      <p className="text-red-400 font-medium leading-relaxed">
+                        Relatório bloqueado pela governança institucional: inconsistências de causalidade, risco ou dados insuficientes impedem validação executiva.
+                      </p>
+                      {auditTrail.warnings?.length > 0 && (
+                        <ul className="mt-4 list-disc list-inside text-red-400/80 text-sm">
+                          {auditTrail.warnings.map((w: string, i: number) => <li key={i}>{w}</li>)}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {auditTrail?.complianceStatus === 'partially_compliant' && (
+                      <div className="bg-yellow-500/10 border border-yellow-500/50 p-4 rounded-md mb-8 flex items-center gap-3 text-left not-italic">
+                        <AlertTriangle className="text-yellow-500 shrink-0" size={20} />
+                        <p className="text-yellow-500 font-bold text-sm">Leitura institucional parcial — dados insuficientes para inferência completa.</p>
+                      </div>
+                    )}
+                    <MarkdownText text={aiAnalysis} />
+                  </>
+                )}
               </div>
             </div>
 

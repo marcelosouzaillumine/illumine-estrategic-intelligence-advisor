@@ -7,6 +7,7 @@ export interface MarketBenchmark {
   name: string;
   value: number;
   color: string;
+  degraded?: boolean;
 }
 
 export const fetchBenchmarks = async (): Promise<MarketBenchmark[]> => {
@@ -16,46 +17,46 @@ export const fetchBenchmarks = async (): Promise<MarketBenchmark[]> => {
     const monthStr = lastMonth.getMonth() + 1;
     const yearStr = lastMonth.getFullYear();
 
-    // Default fallbacks (current market averages)
-    const defaults = [
-      { name: 'CDI', value: 0.88, color: 'text-blue-500' },
-      { name: 'IPCA', value: 0.45, color: 'text-rose-500' },
-      { name: 'Poupança', value: 0.50, color: 'text-amber-500' },
-      { name: 'Ibovespa', value: 1.20, color: 'text-emerald-500' }
+    // No hardcoded fallbacks per architectural rules
+    const benchmarks: MarketBenchmark[] = [
+      { name: 'CDI', value: 0, color: 'text-blue-500', degraded: true },
+      { name: 'IPCA', value: 0, color: 'text-rose-500', degraded: true },
+      { name: 'Poupança', value: 0, color: 'text-amber-500', degraded: true },
+      { name: 'Ibovespa', value: 0, color: 'text-emerald-500', degraded: true }
     ];
 
     try {
       // 1. Fetch CDI from BCB (Code 4391 - CDI acumulada no mês)
-      // Note: We try to get the most recent data
       const cdiResponse = await fetch(`https://api.bcb.gov.br/dados/serie/bcdata.sgs.4391/dados/ultimos/1?formato=json`);
       const cdiData = await cdiResponse.json();
       if (cdiData && cdiData.length > 0) {
-        defaults[0].value = parseFloat(cdiData[0].valor);
+        benchmarks[0].value = parseFloat(cdiData[0].valor);
+        benchmarks[0].degraded = false;
       }
 
       // 2. Fetch IPCA from BCB (Code 433 - IPCA mensal)
       const ipcaResponse = await fetch(`https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados/ultimos/1?formato=json`);
       const ipcaData = await ipcaResponse.json();
       if (ipcaData && ipcaData.length > 0) {
-        defaults[1].value = parseFloat(ipcaData[1]?.valor || ipcaData[0].valor);
+        benchmarks[1].value = parseFloat(ipcaData[1]?.valor || ipcaData[0].valor);
+        benchmarks[1].degraded = false;
       }
 
       // 3. Fetch Ibovespa (Requires stock market APIs)
-      // Per architectural rules, no mock data should be used.
-      // Until integrated with a real API, we keep it as the static fallback value.
+      // No mock data. Value remains 0 / degraded until integrated with real API.
 
     } catch (err) {
-      console.warn('Market Data Fetch Error (using fallbacks):', err);
+      console.warn('Market Data Fetch Error (operating in degraded mode):', err);
     }
 
-    return defaults;
+    return benchmarks;
   } catch (error) {
-    console.error('Critical Market Service Error:', error);
+    console.error('Critical Market Service Error (returning degraded mode):', error);
     return [
-      { name: 'CDI', value: 0.88, color: 'text-blue-500' },
-      { name: 'IPCA', value: 0.45, color: 'text-rose-500' },
-      { name: 'Poupança', value: 0.50, color: 'text-amber-500' },
-      { name: 'Ibovespa', value: 1.20, color: 'text-emerald-500' }
+      { name: 'CDI', value: 0, color: 'text-blue-500', degraded: true },
+      { name: 'IPCA', value: 0, color: 'text-rose-500', degraded: true },
+      { name: 'Poupança', value: 0, color: 'text-amber-500', degraded: true },
+      { name: 'Ibovespa', value: 0, color: 'text-emerald-500', degraded: true }
     ];
   }
 };

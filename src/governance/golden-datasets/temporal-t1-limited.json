@@ -1,0 +1,23 @@
+{
+  "temporalMode": "LIMITED_TEMPORAL_MODE",
+  "trendConfidence": {
+    "level": "LOW_CONFIDENCE",
+    "explanation": "Histórico insuficiente para inferência temporal robusta. A análise considera apenas sinais direcionais preliminares."
+  },
+  "reasonForLimitedConfidence": "Histórico insuficiente para inferência temporal robusta. A análise considera apenas sinais direcionais preliminares.",
+  "historicalPeriodsAnalyzed": 1,
+  "trajectoryImpact": "NEUTRAL",
+  "scoreAdjustment": 0,
+  "modulationAllowedByTemporal": false,
+  "temporalScore": "Neutral",
+  "isDestructiveGrowth": false,
+  "isTurnaroundEmerging": false,
+  "insights": {
+    "liquidez": "Sem dados suficientes para inferência direcional.",
+    "estoque": "Sem dados suficientes para inferência direcional.",
+    "margem": "Sem dados suficientes para inferência direcional.",
+    "endividamento": "Sem dados suficientes para inferência direcional.",
+    "capitalDeGiro": "Sem dados suficientes para inferência direcional.",
+    "continuidade": "Série histórica incompleta para detecção de tendência."
+  }
+}

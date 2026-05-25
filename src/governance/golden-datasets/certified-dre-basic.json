@@ -1,0 +1,14 @@
+{
+  "engineName": "LegacyDREAdapter",
+  "success": true,
+  "confidence": "HIGH",
+  "inference": {
+    "domain": "income_statement",
+    "metrics": { "receitaOperacionalLiquida": 5000000, "ebitda": 750000, "margemEbitda": 0.15 },
+    "causality": ["Geração de resultado operacional positiva."],
+    "narrative": { "diagnostic": "Operação rentável.", "cause": "Margem saudável.", "consequence": "Capacidade de geração de caixa se houver conversão." },
+    "confidence": "HIGH",
+    "evidenceLevel": "EVIDENCE_BASED",
+    "score": 70
+  }
+}

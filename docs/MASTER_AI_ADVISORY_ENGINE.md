@@ -44,6 +44,20 @@ A engine é estritamente proibida de tratar sintomas isoladamente. Toda narrativ
 ## 7. Regras de Recomendações Estratégicas
 As recomendações estratégicas devem ser pragmáticas, executáveis e proporcionais ao risco identificado. Devem estar diretamente vinculadas a um diagnóstico prévio e nunca ser genéricas. Toda recomendação deve considerar a liquidez real da empresa, sendo proibido sugerir investimentos ou imobilizações quando a empresa apresentar liquidez imediata crítica, salvo como parte de uma reestruturação de capital abrangente.
 
+Toda recomendação advisory deve obedecer:
+1. modelo de negócio;
+2. causalidade econômica;
+3. risco estratégico;
+4. maturidade corporativa;
+5. severidade calibrada;
+6. prioridade executiva.
+
+Proibir recomendações genéricas como:
+- “monitorar”;
+- “manter estrutura atual”;
+- “plano de turnaround”;
+quando não houver sustentação causal e quantitativa.
+
 ## 8. Regras de Linguagem Institucional
 A linguagem utilizada em qualquer texto gerado deve ser:
 - Executiva;

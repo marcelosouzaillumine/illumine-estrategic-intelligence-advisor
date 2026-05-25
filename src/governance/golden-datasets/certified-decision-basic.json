@@ -1,0 +1,40 @@
+{
+  "engineName": "ExecutiveDecisionEngine",
+  "success": true,
+  "confidence": "HIGH",
+  "inference": {
+    "domain": "executive_decision",
+    "metrics": {
+      "businessIdentityType": "Maturidade Corporativa",
+      "actionMatrixScore": 85,
+      "urgencyLevel": "MEDIUM",
+      "capitalPreservationMode": false
+    },
+    "causality": ["Geração de caixa livre suporta diretriz de otimização estrutural."],
+    "narrative": {
+      "diagnostic": "Espaço para melhoria de eficiência operacional.",
+      "cause": "Caixa livre e histórico robusto permitem foco em rentabilidade.",
+      "consequence": "As recomendações focam em proteção e crescimento contido.",
+      "sensitivity": "Controlada",
+      "risk": "Baixo",
+      "priority": "Otimizar Margem EBITDA",
+      "strategicMovement": "Focar em eficiência e proteção de liquidez"
+    },
+    "confidence": "HIGH",
+    "evidenceLevel": "EVIDENCE_BASED",
+    "score": 85
+  },
+  "blockedNarratives": ["Crescimento Acelerado (Risco de queima de caixa)"],
+  "behavioralInsights": {
+    "liquidezQualitativa": "Sólida",
+    "dinamicaDeCaixa": "Previsível",
+    "sustentabilidadeOperacional": "Garantida"
+  },
+  "scenarios": [
+    {
+      "name": "Otimização de Custos",
+      "severity": "LOW",
+      "description": "Focar em melhoria da margem EBITDA sem arriscar ruptura de caixa."
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { GenerateBoardReportModal } from '../modals/GenerateBoardReportModal';
 import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
 import { formatCurrency, formatValue } from '../../lib/utils';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 
 interface RelatorioDemonstracoes5AnosProps {
   clientId: string;
@@ -15,6 +16,16 @@ interface RelatorioDemonstracoes5AnosProps {
 
 export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: RelatorioDemonstracoes5AnosProps) {
   const { dbData, loading, error } = useHistoricalDemonstracoes(clientId, selectedYear);
+  const yearsWithData = new Set(dbData.map((d: any) => d.year)).size;
+  const runtimeInput = {
+    rawFinancialData: {},
+    historicalCyclesCount: yearsWithData,
+    isMockData: false
+  };
+  const { runtimeOutput } = useInstitutionalRuntime({ input: runtimeInput });
+  const memoryInference = runtimeOutput?.inferences['InstitutionalMemoryEngine'];
+  const isMemoryBlocked = memoryInference?.metrics?.memoryType === 'STRUCTURAL_SNAPSHOT' || memoryInference?.metrics?.memoryType === 'LIMITED_COMPARISON' || memoryInference?.metrics?.memoryType === 'BLOCKED_INSUFFICIENT_HISTORY';
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientName, setClientName] = useState<string>('Empresa');
   const [clientData, setClientData] = useState<any>(null);
@@ -145,6 +156,16 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
         </div>
       </div>
 
+      {isMemoryBlocked && (
+        <div className="bg-destructive/10 border border-destructive/20 rounded-md p-4 flex items-center gap-3 text-destructive">
+          <AlertCircle size={18} />
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest">Aviso de Inferência</p>
+            <p className="text-sm">Histórico insuficiente para inferência longitudinal. Gráficos abaixo exibidos apenas como visualização estática e não configuram tendência institucional válida.</p>
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         {/* Gráfico 1: Evolução de Receita e Lucro */}
         <div className="bg-card p-6 rounded-md border border-border shadow-sm">
@@ -254,6 +275,7 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
         companyName={clientName}
         financialData={dbData}
         clientData={clientData}
+        selectedYear={selectedYear}
       />
     </div>
   );

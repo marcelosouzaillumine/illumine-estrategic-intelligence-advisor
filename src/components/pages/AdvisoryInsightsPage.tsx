@@ -1,29 +1,18 @@
-
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState } from 'react';
 import { 
   Activity, 
   Zap, 
-  MessageSquare, 
-  Loader2, 
-  Save, 
-  Rocket, 
   Target,
   Sparkles,
   AlertTriangle,
-  TrendingUp,
   ShieldCheck,
-  BookOpen,
-  Presentation
+  Presentation,
+  BookOpen
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { PageHeader, MarkdownText } from '../Common';
-import { cn, formatCurrency } from '../../lib/utils';
-import { DATA } from '../../data';
-import { SECTOR_BENCHMARKS, BENCHMARK_SOURCES } from '../../data/benchmarks';
-import { useFinancialData } from '../../hooks/useFinancialData';
-import { detectPatterns, calculateIllumineScore, FinancialPattern } from '../../lib/financialIntelligence';
-import { generateAdvisoryParecer } from '../../services/advisoryAiService';
-import { generateGovernanceParecer } from '../../services/governanceAiService';
+import { PageHeader } from '../Common';
+import { cn } from '../../lib/utils';
+import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 
 function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
   const tones: any = {
@@ -46,154 +35,17 @@ function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
   );
 }
 
-function MatrixQuadrant({ title, list, color }: { title: string, list: string[], color: string }) {
-  return (
-    <div className="space-y-4">
-      <h5 className={cn(
-        "text-[10px] font-medium uppercase tracking-widest mb-4 pb-2 border-b-2",
-        color === 'emerald' ? "text-success border-success" :
-        color === 'blue' ? "text-secondary border-secondary" :
-        color === 'indigo' ? "text-primary border-primary" : "text-muted-foreground border-border"
-      )}>{title}</h5>
-      <ul className="space-y-3">
-        {list.map((item, i) => (
-          <li key={i} className="flex items-center gap-3 text-xs font-medium text-muted-foreground">
-            <div className={cn("w-1.5 h-1.5 rounded-full", color === 'emerald' ? "bg-success" : color === 'blue' ? "bg-secondary" : "bg-primary")} />
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, selectedMonth }: any) {
-  const [loadingAi, setLoadingAi] = useState(false);
-  const [aiParecer, setAiParecer] = useState('');
-  const [activeTab, setActiveTab] = useState<'cfo' | 'governance'>('cfo');
-  const [governanceParecer, setGovernanceParecer] = useState('');
-  const [loadingGovernance, setLoadingGovernance] = useState(false);
-
   const month = selectedMonth || 3;
   const year = selectedYear || 2026;
-
-  const { dbData: dbDre } = useFinancialData(selectedClient, year, month, 'DRE');
-  const { dbData: dbBp } = useFinancialData(selectedClient, year, month, 'BP');
-
-  const hasData = dbDre.length > 0 || dbBp.length > 0;
-
-  const currentDre = dbDre.map(d => ({ category: d.category || d.conta, value: d.value || d.valor }));
-  const currentBp = dbBp.map(b => ({ category: b.category || b.conta, value: b.value || b.val }));
-
-  const getVal = (data: any[], name: string) => data.find(d => d.category === name)?.value || 0;
-
-  const revenue = getVal(currentDre, 'Receita Líquida') || getVal(currentDre, 'Receita Operacional Bruta');
-  let ebitda = getVal(currentDre, 'EBITDA');
-  if (ebitda === 0) {
-    const ebit = getVal(currentDre, 'Lucro Operacional (EBIT)');
-    const da = Math.abs(getVal(currentDre, 'Depreciação e Amortização'));
-    ebitda = ebit + da;
-  }
-  const netProfit = getVal(currentDre, 'Lucro Líquido') || getVal(currentDre, 'Lucro Líquido do Exercício');
-  const cashFlowOp = getVal(currentDre, 'Fluxo de Caixa Operacional'); 
-  const ncg = (getVal(currentBp, 'Ativo Circulante Operacional') - getVal(currentBp, 'Passivo Circulante Operacional'));
-  const debt = getVal(currentBp, 'Passivo Não Circulante') + getVal(currentBp, 'Empréstimos e Financiamentos');
-  
-  const dimensions = useMemo(() => {
-    const d = {
-      liquidity: Math.min(100, (getVal(currentBp, 'Ativo Circulante') / (getVal(currentBp, 'Passivo Circulante') || 1)) * 50),
-      profitability: Math.min(100, (netProfit / (revenue || 1)) * 400),
-      capitalStructure: Math.min(100, 100 - (debt / (getVal(currentBp, 'Ativo Total') || 1)) * 100),
-      efficiency: Math.min(100, (ebitda / (revenue || 1)) * 300),
-      valueCreation: Math.min(100, (netProfit / (getVal(currentBp, 'Patrimônio Líquido') || 1)) * 500)
-    };
-    return {
-      liquidity: isNaN(d.liquidity) ? 0 : d.liquidity,
-      profitability: isNaN(d.profitability) ? 0 : d.profitability,
-      capitalStructure: isNaN(d.capitalStructure) ? 0 : d.capitalStructure,
-      efficiency: isNaN(d.efficiency) ? 0 : d.efficiency,
-      valueCreation: isNaN(d.valueCreation) ? 0 : d.valueCreation,
-    };
-  }, [currentBp, revenue, netProfit, ebitda, debt]);
-
-  const healthScore = useMemo(() => {
-    const score = Math.round(calculateIllumineScore(dimensions));
-    return isNaN(score) ? 0 : score;
-  }, [dimensions]);
-
-  const patterns = useMemo(() => detectPatterns({
-    receita: revenue,
-    ebitda,
-    lucro: netProfit,
-    fluxoOperacional: cashFlowOp,
-    ncg,
-    prazoMedioRecebimento: 0,
-    prazoMedioPagamento: 0,
-    caixa: getVal(currentBp, 'Caixa e Equivalentes'),
-    endividamentoTotal: debt
-  }), [revenue, ebitda, netProfit, cashFlowOp, ncg, currentBp, debt]);
-
   const client = clients.find((c: any) => c.id === selectedClient);
-  const sector = client?.segmento || 'Serviços';
-  const benchmarks = SECTOR_BENCHMARKS[sector] || SECTOR_BENCHMARKS['Serviços'];
 
-  const clientMetrics = useMemo(() => {
-    const ebitdaMargin = revenue > 0 ? (ebitda / revenue) * 100 : 0;
-    const currentLiquidity = getVal(currentBp, 'Passivo Circulante') > 0 ? getVal(currentBp, 'Ativo Circulante') / getVal(currentBp, 'Passivo Circulante') : 0;
-    const leverage = ebitda > 0 ? debt / ebitda : 0;
-    const netMargin = revenue > 0 ? (netProfit / revenue) * 100 : 0;
-    
-    return {
-      ebitdaMargin: isNaN(ebitdaMargin) ? 0 : ebitdaMargin,
-      currentLiquidity: isNaN(currentLiquidity) ? 0 : currentLiquidity,
-      leverage: isNaN(leverage) ? 0 : leverage,
-      netMargin: isNaN(netMargin) ? 0 : netMargin,
-    };
-  }, [revenue, ebitda, netProfit, currentBp, debt]);
-
-  const handleGenerateAi = async () => {
-    setLoadingAi(true);
-    const client = clients.find((c: any) => c.id === selectedClient);
-    const result = await generateAdvisoryParecer({
-      clientName: client?.fantasia || 'Cliente',
-      industry: client?.segmento || 'Estratégico',
-      month: String(month),
-      year,
-      metrics: {
-        'Receita Líquida': revenue,
-        'EBITDA': ebitda,
-        'Lucro Líquido': netProfit,
-        'Health Score': healthScore
-      },
-      patterns
-    });
-    setAiParecer(result);
-    setLoadingAi(false);
-  };
-
-  const handleGenerateGovernance = async () => {
-    setLoadingGovernance(true);
-    const client = clients.find((c: any) => c.id === selectedClient);
-    const result = await generateGovernanceParecer({
-      clientName: client?.fantasia || 'Cliente',
-      industry: client?.segmento || 'Estratégico',
-      metrics: {
-        'Receita Líquida': revenue,
-        'EBITDA': ebitda,
-        'Lucro Líquido': netProfit,
-        'Health Score': healthScore
-      },
-      topPrinciples: [],
-      scenarios: [] // In this page we don't have a specific axis, but we could add general ones
-    });
-    setGovernanceParecer(result);
-    setLoadingGovernance(false);
-  };
+  const { advisoryReport, loading } = useExecutiveAdvisory(selectedClient, year, month, client);
 
   return (
     <div className="space-y-12 pb-32 animate-executive-fade">
       <PageHeader 
-        title="Conselho Estratégico CFO"
+        title="Síntese Executiva Institucional"
         subtitle="Inteligência integrada para análise da geração de valor e saúde financeira proativa."
         icon={Presentation}
         color="executive"
@@ -201,360 +53,170 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
 
       <div className="mb-10 -mt-6"></div>
 
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        {/* Main Content Area */}
-        <div className="lg:col-span-2 space-y-10">
-          <div className="flex items-center justify-between">
-            <SectionHeader 
-              icon={Activity} 
-              title="Diagnóstico de Performance" 
-              subtitle="Alertas proativos baseados em padrões de consultoria estratégica" 
-              tone="blue"
-            />
-            <div className="flex bg-surface-container p-1 rounded-md border border-border">
-               <span className="px-4 py-1.5 text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Real-Time Audit</span>
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-20">
+          <div className="w-16 h-16 rounded-full border-4 border-secondary/20 border-t-secondary animate-spin" />
+          <p className="text-[10px] font-medium uppercase tracking-widest mt-6 text-muted-foreground animate-pulse">Sintetizando Dados...</p>
+        </div>
+      ) : advisoryReport ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Main Content Area */}
+          <div className="lg:col-span-2 space-y-10">
+            <div className="flex items-center justify-between">
+              <SectionHeader 
+                icon={Activity} 
+                title="Diagnóstico Estrutural Integrado" 
+                subtitle="Alertas proativos baseados no motor causal institucional" 
+                tone="blue"
+              />
+              <div className="flex bg-surface-container p-1 rounded-md border border-border">
+                 <span className="px-4 py-1.5 text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Real-Time Audit</span>
+              </div>
             </div>
-          </div>
-          
-          <div className="grid grid-cols-1 gap-6">
-            <AnimatePresence mode="popLayout">
-              {hasData && patterns.length > 0 ? (
-                patterns.map((pattern, idx) => (
+            
+            <div className="card-premium p-8 space-y-8">
+              <div className="space-y-4">
+                <h4 className="text-[10px] font-medium text-primary uppercase tracking-widest mb-2 flex items-center gap-2">
+                  <BookOpen size={14} /> Resumo Executivo
+                </h4>
+                <p className="text-body-lg text-foreground font-medium italic">"{advisoryReport.executiveSummary}"</p>
+              </div>
+
+              <div className="space-y-4 border-t border-border pt-6">
+                <h4 className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
+                  <Activity size={14} /> Diagnóstico Institucional
+                </h4>
+                <p className="text-body text-muted-foreground leading-relaxed">{advisoryReport.institutionalDiagnosis}</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border pt-6">
+                <div className="space-y-4">
+                  <h4 className="text-[10px] font-medium text-destructive uppercase tracking-widest flex items-center gap-2">
+                    <AlertTriangle size={14} /> Riscos Dominantes
+                  </h4>
+                  <ul className="space-y-2">
+                    {advisoryReport.dominantRisks.map((risk, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-foreground">
+                        <span className="text-destructive mt-1">•</span> {risk}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="text-[10px] font-medium text-success uppercase tracking-widest flex items-center gap-2">
+                    <Target size={14} /> Prioridades Estratégicas
+                  </h4>
+                  <ul className="space-y-2">
+                    {advisoryReport.strategicPriorities.map((p, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-foreground">
+                        <span className="text-success mt-1">•</span> {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <SectionHeader 
+                icon={Zap} 
+                title="Action Matrix" 
+                subtitle="Recomendações prescritivas de alto impacto" 
+                tone="emerald"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+              <AnimatePresence mode="popLayout">
+                {advisoryReport.actionMatrix.map((action, idx) => (
                   <motion.div 
-                    key={pattern.id}
+                    key={idx}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
-                    className={cn(
-                      "card-premium p-8 group relative overflow-hidden",
-                      pattern.severity === 'critical' ? "hover:border-destructive/20" : "hover:border-warning/20"
-                    )}
+                    className="card-premium p-6 border-l-4 border-l-secondary flex flex-col md:flex-row gap-6 items-center justify-between"
                   >
-                    <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
-                      <AlertTriangle size={120} />
-                    </div>
-
-                    <div className="flex items-start justify-between mb-8 relative z-10">
-                      <div className="flex items-center gap-4">
-                        <div className={cn(
-                          "w-12 h-12 rounded-md flex items-center justify-center shadow-inner",
-                          pattern.severity === 'critical' ? "bg-destructive/10 text-destructive" : "bg-warning/10 text-warning"
-                        )}>
-                          <AlertTriangle size={24} />
-                        </div>
-                        <div>
-                          <h4 className="text-h4 font-medium text-foreground tracking-tight">{pattern.name}</h4>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className={cn(
-                              "w-1.5 h-1.5 rounded-full animate-pulse",
-                              pattern.severity === 'critical' ? "bg-destructive" : "bg-warning"
-                            )} />
-                            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">{pattern.severity} severity</span>
-                          </div>
-                        </div>
+                    <div>
+                      <h4 className="text-h5 font-medium text-foreground">{action.acao}</h4>
+                      <div className="flex gap-4 mt-2">
+                        <span className="text-[10px] font-medium uppercase text-muted-foreground tracking-widest">Impacto: {action.impacto}</span>
+                        <span className="text-[10px] font-medium uppercase text-muted-foreground tracking-widest">Tempo: {action.velocidade}</span>
                       </div>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
-                      <div className="space-y-3">
-                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Análise de Padrão</p>
-                        <p className="text-body-sm text-muted-foreground font-medium leading-relaxed italic">"{pattern.description}"</p>
-                      </div>
-                      <div className="space-y-3">
-                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Risco Estratégico</p>
-                        <p className="text-body-sm text-foreground font-medium italic">{pattern.impact}</p>
-                      </div>
-                    </div>
-
-                    <div className={cn(
-                      "mt-8 pt-8 border-t border-border flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10",
-                    )}>
-                      <div className="flex-1">
-                        <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
-                          <Zap size={12} className="fill-secondary" /> Executive Action Plan
-                        </p>
-                        <p className="text-body-sm font-medium text-foreground leading-tight italic">{pattern.recommendation}</p>
-                      </div>
-                      <button className="btn-executive bg-executive">
-                        IMPLEMENTAR SOLUÇÃO
-                      </button>
+                    <div className="px-4 py-2 bg-secondary/10 text-secondary rounded-full text-xs font-medium uppercase tracking-widest text-center whitespace-nowrap">
+                      {action.prioridade}
                     </div>
                   </motion.div>
-                ))
-              ) : (
-                <div className="card-premium bg-success/5 p-20 text-center relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-success/5 to-transparent" />
-                  <Sparkles size={64} className="mx-auto mb-6 text-success/20 group-hover:scale-110 transition-transform duration-700" />
-                  <h4 className="text-h4 font-medium text-foreground mb-2 tracking-tight">{hasData ? 'Equilíbrio Estrutural Detectado' : 'Aguardando Importação'}</h4>
-                  <p className="text-muted-foreground font-medium max-w-2xl mx-auto italic">{hasData ? 'Sua operação não apresenta riscos críticos de padrão financeiro neste período.' : 'Importe os dados financeiros para iniciar o diagnóstico de performance.'}</p>
-                </div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Intelligence Sidebar */}
-        <div className="space-y-8">
-          {/* Premium Score Display - Moved from Header */}
-          <div className="bg-executive p-8 rounded-md text-white shadow-premium flex flex-col gap-6 relative group overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            
-            <div className="flex items-center justify-between relative z-10">
-              <span className="text-[10px] font-medium uppercase tracking-widest text-secondary">Illumine Health Score</span>
-              <ShieldCheck size={18} className="text-secondary" />
-            </div>
-
-            <div className="flex items-end gap-3 relative z-10">
-              <h2 className="text-7xl font-medium tracking-tighter leading-none">
-                {hasData ? (isNaN(healthScore) ? 0 : healthScore) : '---'}
-              </h2>
-              <span className="text-lg font-medium text-white/60 mb-2">/ 100</span>
-            </div>
-
-            <div className="space-y-3 relative z-10">
-              <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${hasData ? healthScore : 0}%` }}
-                  transition={{ duration: 1.5, ease: "circOut" }}
-                  className={cn(
-                    "h-full rounded-full shadow-premium",
-                    hasData 
-                      ? (healthScore > 80 ? "bg-success" : healthScore > 60 ? "bg-secondary" : "bg-destructive")
-                      : "bg-white/10"
-                  )} 
-                />
-              </div>
-              <p className="text-[10px] font-medium text-white/60 uppercase tracking-widest flex justify-between">
-                <span>{hasData ? (healthScore > 80 ? 'Status: Elite' : healthScore > 60 ? 'Status: Estável' : 'Status: Alerta') : 'Status: N/A'}</span>
-                <span className="text-white/80">{hasData ? `${healthScore}% Performance` : 'Aguardando Dados'}</span>
-              </p>
+                ))}
+              </AnimatePresence>
             </div>
           </div>
 
-          {hasData && (
-            <>
-              <div className="bg-surface-container p-1 rounded-md border border-border shadow-sm flex items-center sticky top-8 z-30">
-                <button
-                  onClick={() => setActiveTab('cfo')}
-                  className={cn(
-                    "flex-1 py-3 text-[10px] font-medium uppercase tracking-widest rounded-md transition-all",
-                    activeTab === 'cfo' ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  Parecer CFO
-                </button>
-                <button
-                  onClick={() => setActiveTab('governance')}
-                  className={cn(
-                    "flex-1 py-3 text-[10px] font-medium uppercase tracking-widest rounded-md transition-all",
-                    activeTab === 'governance' ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  Governança
-                </button>
-              </div>
+          {/* Intelligence Sidebar */}
+          <div className="space-y-8">
+            <div className="bg-executive p-8 rounded-md text-white shadow-premium flex flex-col gap-6 relative group overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
-              <div className="sticky top-28 space-y-8">
-                {activeTab === 'cfo' ? (
-                  <div className="bg-executive rounded-md p-8 text-white relative overflow-hidden shadow-premium min-h-[580px] flex flex-col border border-white/5">
-                    <div className="absolute top-0 right-0 p-8 opacity-10"><Sparkles size={160} /></div>
-                    
-                    <div className="flex-1 overflow-y-auto mb-8 bg-white/5 border border-white/10 rounded-md p-8 custom-scrollbar">
-                      {loadingAi ? (
-                        <div className="h-full flex flex-col items-center justify-center text-white/40 gap-6">
-                          <div className="w-16 h-16 rounded-full border-4 border-secondary/20 border-t-secondary animate-spin" />
-                          <p className="text-[10px] font-medium uppercase tracking-widest animate-pulse">Consulting AI...</p>
-                        </div>
-                      ) : aiParecer ? (
-                        <div className="text-body-sm leading-relaxed font-medium text-white/80 whitespace-pre-wrap advisory-ai-content italic">
-                          <MarkdownText text={aiParecer} />
-                        </div>
-                      ) : (
-                        <div className="h-full flex flex-col items-center justify-center text-white/20 gap-6 text-center">
-                          <div className="w-16 h-16 rounded-md bg-white/5 flex items-center justify-center">
-                            <Activity size={32} strokeWidth={1} className="text-secondary/50" />
-                          </div>
-                          <p className="text-[10px] font-medium uppercase tracking-widest max-w-[200px] leading-loose">
-                            Solicite uma análise sintética da saúde financeira via Gemini Intelligence.
-                          </p>
-                        </div>
-                      )}
-                    </div>
+              <div className="flex items-center justify-between relative z-10">
+                <span className="text-[10px] font-medium uppercase tracking-widest text-secondary">Nível de Confiança</span>
+                <ShieldCheck size={18} className="text-secondary" />
+              </div>
 
-                    <button 
-                      onClick={handleGenerateAi}
-                      disabled={loadingAi}
-                      className={cn(
-                        "w-full py-5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center justify-center gap-4 group",
-                        loadingAi ? "bg-white/10 text-white/20 cursor-not-allowed" : "bg-secondary hover:bg-secondary/90 text-white shadow-premium"
-                      )}
-                    >
-                      {loadingAi ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} className="group-hover:scale-125 transition-transform" />}
-                      {loadingAi ? 'PROCESSANDO...' : 'GERAR PARECER CFO'}
-                    </button>
-                  </div>
-                ) : (
-                  <div className="bg-surface-container rounded-md p-8 text-foreground relative overflow-hidden shadow-premium min-h-[580px] flex flex-col border border-border">
-                    <div className="absolute top-0 right-0 p-8 opacity-10 text-primary"><BookOpen size={160} /></div>
-                    
-                    <div className="flex-1 overflow-y-auto mb-8 bg-card border border-border rounded-md p-8 custom-scrollbar">
-                      {loadingGovernance ? (
-                        <div className="h-full flex flex-col items-center justify-center text-muted-foreground gap-6">
-                          <div className="w-16 h-16 rounded-full border-4 border-surface-container border-t-primary animate-spin" />
-                          <p className="text-[10px] font-medium uppercase tracking-widest animate-pulse">Governança Vision...</p>
-                        </div>
-                      ) : governanceParecer ? (
-                        <div className="text-body-sm leading-relaxed font-medium text-foreground whitespace-pre-wrap italic">
-                          <MarkdownText text={governanceParecer} />
-                        </div>
-                      ) : (
-                        <div className="h-full flex flex-col items-center justify-center text-muted-foreground/30 gap-6 text-center">
-                          <div className="w-16 h-16 rounded-md bg-surface-container flex items-center justify-center">
-                            <BookOpen size={32} strokeWidth={1} />
-                          </div>
-                          <p className="text-[10px] font-medium uppercase tracking-widest max-w-[200px] leading-loose">
-                            Busque uma perspectiva de alinhamento com os princípios de uma gestão governance.
-                          </p>
-                        </div>
-                      )}
-                    </div>
+              <div className="flex items-end gap-3 relative z-10">
+                <h2 className="text-5xl font-medium tracking-tighter leading-none">
+                  {advisoryReport.confidenceLevel}
+                </h2>
+              </div>
 
-                    <button 
-                      onClick={handleGenerateGovernance}
-                      disabled={loadingGovernance}
-                      className={cn(
-                        "w-full py-5 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center justify-center gap-4 group",
-                        loadingGovernance ? "bg-surface-container text-muted-foreground/50 cursor-not-allowed" : "bg-primary text-white shadow-premium"
-                      )}
-                    >
-                      {loadingGovernance ? <Loader2 size={16} className="animate-spin" /> : <BookOpen size={16} className="group-hover:rotate-12 transition-transform" />}
-                      {loadingGovernance ? 'ANALISANDO...' : 'GERAR LEITURA GOVERNANÇA'}
-                    </button>
-                  </div>
-                )}
-
-                {/* Benchmarks Section Refined */}
-                <div className="card-premium p-10 relative overflow-hidden group">
-                   <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none group-hover:rotate-12 transition-transform duration-1000">
-                     <TrendingUp size={120} />
-                   </div>
-                   
-                   <h4 className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-10">Setor: {sector}</h4>
-                   
-                   <div className="space-y-10">
-                      {[
-                        { label: 'Margem EBITDA', value: clientMetrics.ebitdaMargin, benchmark: benchmarks.ebitdaMargin, inverse: false },
-                        { label: 'Liquidez Corrente', value: clientMetrics.currentLiquidity, benchmark: benchmarks.currentLiquidity, inverse: false },
-                        { label: 'Alavancagem', value: clientMetrics.leverage, benchmark: benchmarks.leverage, inverse: true },
-                        { label: 'Margem Líquida', value: clientMetrics.netMargin, benchmark: benchmarks.netMargin, inverse: false },
-                      ].map((item, i) => {
-                        const { min, median, top, unit } = item.benchmark;
-                        const range = top - min || 1;
-                        const pos = Math.max(0, Math.min(100, ((item.value - min) / range) * 100));
-                        const medianPos = Math.max(0, Math.min(100, ((median - min) / range) * 100));
-                        return (
-                          <div key={i} className="space-y-4">
-                            <div className="flex justify-between items-baseline">
-                              <p className="text-[10px] font-medium text-foreground uppercase tracking-widest">{item.label}</p>
-                              <div className="flex items-center gap-2">
-                                 <span className={cn(
-                                   "text-xs font-medium",
-                                   item.inverse 
-                                    ? (item.value <= median ? "text-success" : "text-destructive")
-                                    : (item.value >= median ? "text-success" : "text-destructive")
-                                 )}>{item.value.toFixed(1)}{unit}</span>
-                              </div>
-                            </div>
-                            
-                            <div className="relative h-1.5 bg-surface-container rounded-full">
-                              <div className="absolute inset-0 bg-muted/10 opacity-20 rounded-full" />
-                              <div 
-                                className="absolute top-0 bottom-0 left-0 border-r border-foreground/20 h-full z-10" 
-                                style={{ left: `${medianPos}%` }} 
-                              />
-                              <motion.div 
-                                initial={{ width: 0 }}
-                                animate={{ width: `${pos}%` }}
-                                className={cn(
-                                  "absolute h-full rounded-full transition-colors duration-1000",
-                                  item.inverse 
-                                    ? (item.value <= median ? "bg-success" : "bg-destructive")
-                                    : (item.value >= median ? "bg-success" : "bg-destructive")
-                                )}
-                              />
-                            </div>
-                            <div className="flex justify-between text-[8px] font-medium text-muted-foreground uppercase tracking-widest">
-                              <span>Min {min}</span>
-                              <span className="text-foreground">Med {median}</span>
-                              <span>Top {top}</span>
-                            </div>
-                          </div>
-                        );
-                      })}
-                   </div>
-                   
-                   <div className="mt-12 pt-6 border-t border-border">
-                      <p className="text-[8px] font-medium text-muted-foreground uppercase tracking-widest mb-4">Fontes de Auditoria</p>
-                      <div className="flex flex-wrap gap-x-4 gap-y-2">
-                        {BENCHMARK_SOURCES.slice(0, 3).map((source, idx) => (
-                          <span key={idx} className="text-[9px] font-medium text-muted-foreground flex items-center gap-1.5 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all cursor-default">
-                            <ShieldCheck size={10} className="text-secondary" /> {source.name}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+              <div className="space-y-3 relative z-10">
+                <p className="text-[10px] font-medium text-white/60 uppercase tracking-widest flex justify-between">
+                  <span>Postura Executiva Recomendada</span>
+                </p>
+                <div className="p-3 bg-white/10 rounded-md border border-white/20">
+                  <p className="text-sm font-medium text-white">{advisoryReport.executivePosture}</p>
                 </div>
               </div>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Strategic Board Refactored - Hidden if no data */}
-      {hasData && (
-        <div className="card-premium p-12 md:p-20 overflow-hidden relative">
-          <div className="absolute -left-20 -bottom-20 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
-          <div className="relative z-10">
-            <SectionHeader 
-              icon={Target} 
-              title="Matriz de Priorização Estratégica" 
-              subtitle="Focos de atuação baseados no cruzamento de dados e impacto financeiro" 
-              tone="blue"
-            />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mt-20">
-              <MatrixQuadrant 
-                title="Quick Wins" 
-                list={hasData 
-                  ? (patterns.filter(p => p.severity === 'warning').map(p => p.name).length > 0 
-                    ? patterns.filter(p => p.severity === 'warning').map(p => p.name) 
-                    : ['Revisão de Prazos', 'Otimização de Estoque']) 
-                  : ['Aguardando Dados']} 
-                color="emerald" 
-              />
-              <MatrixQuadrant 
-                title="Must Do" 
-                list={hasData 
-                  ? (patterns.filter(p => p.severity === 'critical').map(p => p.name).length > 0 
-                    ? patterns.filter(p => p.severity === 'critical').map(p => p.name) 
-                    : ['Equilíbrio de Caixa', 'Gestão de Passivos']) 
-                  : ['Aguardando Dados']} 
-                color="blue" 
-              />
-              <MatrixQuadrant 
-                title="Strategic" 
-                list={hasData ? ['Governança Corporativa', 'Plano de Sucessão', 'Expansão de Margem'] : ['Aguardando Dados']} 
-                color="indigo" 
-              />
-              <MatrixQuadrant 
-                title="Low Priority" 
-                list={hasData ? ['Digitalização de Documentos', 'Ajuste de Processos Menores'] : ['Aguardando Dados']} 
-                color="slate" 
-              />
             </div>
+
+            <div className="card-premium p-6 space-y-4">
+              <h4 className="text-[10px] font-medium text-warning uppercase tracking-widest mb-2">
+                 Decisão de Board
+              </h4>
+              <p className="text-body-sm text-foreground font-medium italic border-l-2 border-warning pl-3">{advisoryReport.recommendedBoardDecision}</p>
+            </div>
+
+            {advisoryReport.blockedFalsePositives.length > 0 && (
+              <div className="bg-destructive/10 border border-destructive/20 p-6 rounded-md space-y-4">
+                <h4 className="text-[10px] font-medium text-destructive uppercase tracking-widest flex items-center gap-2">
+                  <AlertTriangle size={14} /> Moderação Causal (Falsos Positivos Bloqueados)
+                </h4>
+                <ul className="space-y-2">
+                  {advisoryReport.blockedFalsePositives.map((fp, i) => (
+                    <li key={i} className="text-xs text-destructive font-medium leading-relaxed">• {fp}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            {advisoryReport.narrativeModeration.length > 0 && (
+              <div className="bg-primary/5 border border-primary/10 p-6 rounded-md space-y-4">
+                <h4 className="text-[10px] font-medium text-primary uppercase tracking-widest">
+                  Contexto de Moderação
+                </h4>
+                <ul className="space-y-2">
+                  {advisoryReport.narrativeModeration.map((nm, i) => (
+                    <li key={i} className="text-xs text-muted-foreground font-medium leading-relaxed">• {nm}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
+        </div>
+      ) : (
+        <div className="card-premium bg-surface-container p-20 text-center">
+          <Sparkles size={64} className="mx-auto mb-6 text-muted-foreground/20" />
+          <h4 className="text-h4 font-medium text-foreground mb-2 tracking-tight">Aguardando Dados</h4>
+          <p className="text-muted-foreground font-medium">Importe as demonstrações financeiras para gerar a Síntese Executiva.</p>
         </div>
       )}
     </div>

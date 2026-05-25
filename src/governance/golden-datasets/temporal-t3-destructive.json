@@ -1,0 +1,22 @@
+{
+  "temporalMode": "FULL_TEMPORAL_MODE",
+  "trendConfidence": {
+    "level": "MEDIUM_CONFIDENCE",
+    "explanation": "Série histórica razoável. Permite inferência temporal com confiabilidade direcional, mas suscetível a variações táticas."
+  },
+  "historicalPeriodsAnalyzed": 3,
+  "trajectoryImpact": "NEGATIVE",
+  "scoreAdjustment": -20,
+  "modulationAllowedByTemporal": false,
+  "temporalScore": "Structural Collapse",
+  "isDestructiveGrowth": true,
+  "isTurnaroundEmerging": false,
+  "insights": {
+    "liquidez": "Trajetória aponta consumo progressivo de tesouraria operacional.",
+    "estoque": "Sobreacumulação severa com perda de tração e consumo destrutivo de capital.",
+    "margem": "Deterioração silenciosa do core business (destruição de EBITDA).",
+    "endividamento": "Aumento recorrente de dependência de capital de terceiros oneroso.",
+    "capitalDeGiro": "Melhora estrutural do ciclo financeiro.",
+    "continuidade": "Padrão de expansão destrutiva identificado; colapso sistêmico em aceleração."
+  }
+}

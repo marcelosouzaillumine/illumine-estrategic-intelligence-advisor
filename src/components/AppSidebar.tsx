@@ -44,11 +44,11 @@ function Logo({ collapsed }: { collapsed?: boolean }) {
       </div>
       {!collapsed && (
         <div className="flex flex-col items-center w-fit">
-          <span className="sidebar-logo-text" style={{ fontSize: '56px' }}>
+          <span className="sidebar-logo-text" style={{ fontSize: '42px' }}>
             illumine
           </span>
           <div className="sidebar-logo-sub" style={{ fontSize: '8.5px' }}>
-            {'Strategic Intelligence & Advisory'.split('').map((char, i) => (
+            {'Strategic Intelligence'.split('').map((char, i) => (
               <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
             ))}
           </div>

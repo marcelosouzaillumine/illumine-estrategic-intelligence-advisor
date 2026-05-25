@@ -78,5 +78,252 @@ A barreira de segurança institucional do motor analítico. Impede "alucinaçõe
 ## 18. Regras de Inferência Estrutural
 Toda inferência segue árvores de decisão validadas. Exceções são impossíveis. O sistema infere que a margem operacional está corrompida apenas se `EBITDA` for baixo, `Margem Bruta` contraída, e `Receita` estável. As regras impõem que não há diagnósticos soltos, mas sim um framework de dedução lógica e determinística.
 
-## 19. Conclusão Institucional
+## 19. WEIGHTED CAUSAL INFERENCE LAYER
+
+A plataforma Illumine passa oficialmente a operar com inferência causal ponderada (Weighted Causal Inference), abandonando a dependência exclusiva de condicionais booleanas rígidas para classificação institucional.
+
+A causalidade institucional não poderá mais operar predominantemente por estruturas binárias como:
+- if/else simples;
+- AND (&&) absoluto;
+- thresholds isolados;
+- gatilhos únicos de ativação;
+- classificações discretas sem contexto.
+
+A inferência institucional deverá operar por:
+- pesos causais;
+- dominância estrutural;
+- intensidade de exposição;
+- comportamento combinado;
+- propagação de risco;
+- elasticidade financeira;
+- coerência contextual;
+- deterioração progressiva;
+- sensibilidade operacional.
+
+### Princípios da Weighted Causal Inference
+Toda inferência institucional deverá considerar:
+1. Intensidade do risco;
+2. Concentração estrutural;
+3. Dependência operacional;
+4. Capacidade de conversão em caixa;
+5. Elasticidade financeira;
+6. Continuidade operacional;
+7. Pressão de curto prazo;
+8. Capacidade de absorção de choque;
+9. Tendência de deterioração;
+10. Dominância causal combinada.
+
+A plataforma deixa de interpretar indicadores de forma isolada e passa a interpretar comportamento estrutural integrado.
+
+### Dominância Causal
+Determinados fatores passam a possuir capacidade de sobreposição institucional sobre outros indicadores aparentemente positivos. Exemplos:
+- Estoque excessivamente elevado pode reduzir artificialmente a percepção de liquidez;
+- Capitalização de sócios pode mascarar corrosão patrimonial operacional;
+- Liquidez Corrente positiva pode coexistir com stress severo de caixa;
+- Crescimento operacional pode destruir capital de giro;
+- Patrimônio líquido positivo pode coexistir com fragilidade estrutural;
+- EBITDA positivo pode coexistir com incapacidade de conversão financeira.
+
+A engine deverá ponderar a dominância estrutural dos fatores de risco.
+
+### Suavização de Thresholds
+A plataforma não poderá tratar thresholds financeiros de forma abrupta. Exemplo incorreto: 0.09 = Crítico, 0.11 = Saudável.
+A engine deverá operar com:
+- curvas de transição;
+- zonas de sensibilidade;
+- deterioração progressiva;
+- faixas probabilísticas;
+- elasticidade gradual.
+
+Pequenas variações matemáticas não poderão gerar mudanças institucionais radicais sem contexto causal adicional.
+
+### Pesos Causais
+A inferência institucional deverá utilizar pesos proporcionais à relevância estrutural dos fatores analisados.
+Exemplo de fatores com alto peso causal:
+- Liquidez imediata;
+- Dependência de fornecedores;
+- Concentração de estoque;
+- Prejuízos acumulados;
+- Dependência de capitalização;
+- Concentração de dívida CP;
+- Fragilidade de conversão operacional;
+- Pressão sobre tesouraria.
+
+A composição final deverá refletir comportamento estrutural combinado e não apenas soma matemática simples.
+
+### Propagação de Risco
+A deterioração de um eixo estrutural poderá contaminar outros eixos institucionais. Exemplos:
+- Pressão sobre caixa pode deteriorar continuidade empresarial;
+- Estoque excessivo pode afetar resiliência;
+- Dependência de fornecedores pode elevar stress operacional;
+- Corrosão patrimonial pode reduzir capacidade de crescimento;
+- Crescimento sem caixa pode elevar risco estrutural.
+
+A plataforma deverá operar com propagação causal entre módulos.
+
+### Inferência Contextual
+A interpretação institucional deverá considerar:
+- perfil do modelo de negócio;
+- intensidade de capital;
+- maturidade operacional;
+- sazonalidade;
+- comportamento do ciclo financeiro;
+- dependência de demanda;
+- previsibilidade de receita;
+- estrutura operacional do segmento.
+
+O mesmo indicador poderá possuir pesos diferentes dependendo do contexto institucional.
+
+### Operação Baseada em Comportamento
+A plataforma deixa oficialmente de operar como mecanismo estático de classificação financeira.
+A engine passa a operar como:
+- Behavioral Financial Intelligence Engine;
+- Institutional Causal Intelligence Layer;
+- Dynamic Financial Stress Engine;
+- Structural Resilience Intelligence System.
+
+### Proibições Institucionais
+Nenhum módulo poderá:
+- inferir estabilidade apenas por Liquidez Corrente;
+- inferir resiliência apenas por PL positivo;
+- inferir saúde financeira apenas por EBITDA;
+- inferir continuidade apenas por ausência de prejuízo;
+- ignorar capital imobilizado;
+- ignorar pressão de curto prazo;
+- ignorar comportamento do caixa;
+- ignorar deterioração estrutural progressiva.
+
+### Objetivo Final
+A plataforma Illumine passa a interpretar:
+- comportamento institucional;
+- sustentabilidade operacional;
+- dinâmica financeira;
+- stress estrutural;
+- elasticidade empresarial;
+- resiliência real;
+- qualidade da liquidez;
+- capacidade sustentável de crescimento.
+
+A causalidade institucional passa a prevalecer sobre classificações matemáticas simplificadas.
+
+## 20. CAUSAL CALIBRATION & STABILITY LAYER
+
+Garantir estabilidade inferencial, moderação narrativa, controle de propagação de risco e equilíbrio institucional da inteligência causal da plataforma Illumine.
+
+A plataforma deverá evitar:
+- hipersensibilidade inferencial;
+- propagação exagerada de risco;
+- advisory excessivamente alarmista;
+- oscilação abrupta de scores;
+- mudanças violentas de classificação;
+- deterioração narrativa desproporcional;
+- causalidade excessivamente punitiva.
+
+### Princípios da Calibração Causal
+Toda inferência institucional deverá considerar:
+1. Intensidade real do risco;
+2. Capacidade de absorção da empresa;
+3. Contexto operacional;
+4. Qualidade e volume dos dados disponíveis;
+5. Convergência entre indicadores;
+6. Persistência do comportamento;
+7. Tendência estrutural;
+8. Estabilidade histórica;
+9. Relevância causal;
+10. Confiabilidade inferencial.
+
+### Confidence Engine
+Toda inferência institucional deverá possuir nível interno de confiança inferencial.
+Exemplos de redução de confiança:
+- histórico insuficiente;
+- ausência de DFC;
+- ausência de aging de recebíveis;
+- ausência de ciclo financeiro;
+- baixa profundidade histórica;
+- dados incompletos;
+- ausência de séries temporais;
+- baixa densidade informacional.
+
+A engine deverá modular:
+- severidade;
+- confiança;
+- agressividade narrativa;
+- propagação causal;
+
+com base na qualidade da informação disponível.
+
+### Estabilidade Inferencial
+A plataforma não poderá alterar drasticamente:
+- scores;
+- narrativas;
+- classificações;
+- níveis de risco;
+
+com pequenas oscilações matemáticas sem relevância estrutural real.
+
+A engine deverá operar com:
+- suavização;
+- persistência temporal;
+- elasticidade narrativa;
+- amortecimento de transição;
+- zonas de estabilidade.
+
+### Moderação Narrativa
+A plataforma deverá manter linguagem:
+- executiva;
+- proporcional;
+- técnica;
+- institucional;
+- coerente;
+- moderada.
+
+A engine não poderá:
+- dramatizar excessivamente;
+- super penalizar pequenas distorções;
+- propagar colapso estrutural sem convergência causal suficiente;
+- gerar alarmismo institucional artificial.
+
+### Risk Dampening
+A propagação causal entre módulos deverá possuir amortecimento institucional. Exemplos:
+- estoque elevado não deve automaticamente destruir continuidade empresarial;
+- baixa liquidez imediata isolada não deve gerar colapso estrutural;
+- prejuízo pontual não deve inferir falência institucional.
+
+A deterioração deverá considerar:
+- persistência;
+- intensidade;
+- combinação causal;
+- contexto operacional;
+- capacidade de reação.
+
+### Estabilidade dos Scores
+Os scores institucionais deverão priorizar:
+- coerência longitudinal;
+- estabilidade progressiva;
+- interpretação contextual;
+- comportamento estrutural;
+- consistência narrativa.
+
+Evitar:
+- volatilidade excessiva;
+- efeito sanfona;
+- oscilações artificiais;
+- degradação abrupta sem causalidade suficiente.
+
+### Objetivo Final
+A plataforma Illumine deverá operar como:
+- Stable Institutional Intelligence System;
+- Weighted Causal Advisory Engine;
+- Executive Behavioral Intelligence Platform;
+- Institutional Financial Interpretation System.
+
+A causalidade deverá ser:
+- inteligente;
+- proporcional;
+- calibrada;
+- contextual;
+- estável;
+- executivamente confiável.
+
+## 21. Conclusão Institucional
 A **Master Causal Engine** é a espinha dorsal da Illumine. Ela garante que, não importa o quão agressivo seja o estresse ou o quão acelerado seja o crescimento, o sistema sempre extrairá a **Verdade Estrutural** das métricas. Seu mapeamento não avalia apenas números, mas a *mecânica vital* do organismo empresarial, servindo inteligência limpa, purificada de dramas de superfície, direto para os conselhos e executivos que a operam.

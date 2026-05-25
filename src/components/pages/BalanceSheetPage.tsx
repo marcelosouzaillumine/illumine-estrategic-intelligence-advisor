@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity, Target, AlertTriangle, Lightbulb, Zap, ShieldCheck, Gem, Crosshair, Layers, PiggyBank, ShieldAlert, ChevronDown, ChevronUp } from 'lucide-react';
 import { 
   ResponsiveContainer, 
@@ -18,18 +18,17 @@ import {
   Pie
 } from 'recharts';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
-import { PageHeader, KpiCard } from '../Common';
+import { StatusBadge, PageHeader } from '../Common';
+import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
+import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { buildBPHierarchy } from '../../lib/bpEngine';
-import { calculateFinancialMetrics } from '../../lib/financial-engine';
-import { calculateScores } from '../../lib/score-engine';
-import { generateAdvisory } from '../../lib/advisory-engine';
-import { inferBusinessIdentity } from "@/lib/business-identity-engine";
 import { calculateDreCascade } from '../../lib/dreCascade';
+import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 import {
   collection,
   deleteDoc,
@@ -57,29 +56,36 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   const [showCamada3, setShowCamada3] = useState(false);
   const [showFullStressTests, setShowFullStressTests] = useState(false);
 
+  // --- TELEMETRY ---
+  const renderCount = useRef(0);
+  const startTime = useRef(performance.now());
+  renderCount.current += 1;
+  
+  useEffect(() => {
+    console.log(`[TELEMETRY] BalanceSheetPage render #${renderCount.current} at ${performance.now() - startTime.current}ms`);
+  });
+  // -----------------
+
   useEffect(() => {
     if (selectedYear) setFilterYear(selectedYear);
   }, [selectedYear]);
 
   // ── Busca dados anuais (BP) ────────────────────────────────────────────────
-  const { dbData, docIds, loading: loadingBP, refetch: refetchBP } =
-    useAnnualFinancialData(selectedClient, filterYear, 'Balanço Patrimonial');
+  const { dbData: financialEntries, loading, error, refetch } = useAnnualFinancialData(selectedClient, selectedYear, 'BP');
+  const { advisoryReport, loading: advisoryLoading } = useExecutiveAdvisory(selectedClient, selectedYear, 12, clients?.find((c:any) => c.id === selectedClient));
 
   // ── Busca dados operacionais (DRE) ─────────────────────────────────────────
   const { dbData: dreDbData } = useAnnualFinancialData(selectedClient, filterYear, 'DRE');
 
   // ── Busca histórico (todos os dados do cliente) ──────────────────────────────
-  const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient);
+  const { dbData: allHistoryData, loading: loadingHistory, historicalFinancialSeries } = useAllFinancialData(selectedClient);
 
-  const loading = loadingBP;
+  const loadingBP = loading;
 
   const { flatNodes: rows, summary: bpSummary } = useMemo(() => {
-    if (dbData.length > 0) {
+    if (financialEntries.length > 0) {
       const aggregated: any = {};
-      dbData.forEach((d: any) => {
-        // Usa o docId para evitar colisão entre documentos diferentes, mas como o useAnnualFinancialData 
-        // agora retorna apenas 1 documento (ou deveria), a principal fonte de duplicatas são 
-        // contas com nomes repetidos dentro do próprio documento (ou legados).
+      financialEntries.forEach((d: any) => {
         const type = (d.tipo || d.type || '').trim().toLowerCase();
         const category = (d.conta || d.category || '').trim();
         const key = `${type}_${category.toLowerCase()}`;
@@ -92,8 +98,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
             level: d.level ?? 1
           };
         } else {
-          // Em vez de somar duplicatas (o que corrompe o valor de Ativo Circulante se houverem dois lançamentos),
-          // vamos apenas manter a versão já extraída (a primeira). A não ser que seja zero, aí usamos a nova.
           if (aggregated[key].val === 0 && (d.val ?? d.valor ?? d.value ?? 0) !== 0) {
              aggregated[key].val = (d.val ?? d.valor ?? d.value ?? 0);
           }
@@ -104,7 +108,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       return buildBPHierarchy(arr);
     }
     return { flatNodes: [] as any[], summary: {} as any };
-  }, [dbData]);
+  }, [financialEntries]);
 
   // ── Processamento Histórico ────────────────────────────────────────────────
   const historyByYear = useMemo(() => {
@@ -112,7 +116,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     const data: any = {};
     
     years.forEach(y => {
-      // Tenta dados do banco primeiro
       const yearEntries = allHistoryData.filter((d: any) => d.year === y && (d.type === 'Balanço Patrimonial' || d.type === 'BP'));
       if (yearEntries.length > 0) {
         data[y] = yearEntries;
@@ -122,6 +125,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     });
     return data;
   }, [allHistoryData, selectedClient, filterYear]);
+
+    const majorChanges: any[] = [];
+    const refetchBP = () => {};
 
     const getYearSummary = (y: number) => {
       const yearRows = historyByYear[y] || [];
@@ -175,8 +181,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       const y = filterYear - offset;
       const summary = getYearSummary(y);
       
-      // No Brasil, "Total do Passivo" costuma incluir o PL (pois Ativo = Passivo + PL).
-      // Para o gráfico ficar correto com 3 barras (Ativo, Passivo, PL), a barra de "Passivo" deve ser apenas o Exigível.
       let passivoExigivel = summary.passivoTotal;
       if (summary.passivoTotal > 0 && Math.abs(summary.passivoTotal - summary.ativoTotal) < 1) {
           passivoExigivel = summary.passivoTotal - summary.pl;
@@ -191,7 +195,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     }).filter(d => d.ativo > 0 || d.passivo > 0 || d.pl > 0);
   }, [historyByYear, filterYear]);
 
-  // ── Extração de Variáveis via Engine Contábil ──────────────────────────────
   const {
     ativoTotal,
     ativoCirculante: ac,
@@ -216,7 +219,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     creditosSocios
   } = bpSummary || {} as any;
 
-  // -- Operacional (DRE) --
   const { ebitda, lucroLiquido } = useMemo(() => {
     if (dreDbData.length === 0) return { ebitda: 0, lucroLiquido: 0 };
     const cascadeResult = calculateDreCascade(dreDbData);
@@ -225,85 +227,77 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     return { ebitda: directEbitda, lucroLiquido: directLucro };
   }, [dreDbData]);
   
-  // ── Engine de Inteligência Financeira (Centralizada) ──────────────────────
-  const { metrics, scores, causalInsights } = useMemo(() => {
-    const prevPl = getHistoricalValue(filterYear - 1, 'patrimônio líquido') || getHistoricalValue(filterYear - 1, 'pl') || 0;
-    const clientObj = clients?.find((c: any) => c.id === selectedClient);
-    const industry = clientObj?.segmentoAtuacao || clientObj?.segmento || clientObj?.industry || 'Geral';
-    
-    // Trend Intelligence Calculation
-    const prevEbitda = getHistoricalValue(filterYear - 1, 'ebitda') || getHistoricalValue(filterYear - 1, 'lajida') || 0;
-    const prevCaixa = getHistoricalValue(filterYear - 1, 'caixa') || getHistoricalValue(filterYear - 1, 'disponibilidades') || 0;
-    
-    const calcTrend = (curr: number, prev: number) => prev === 0 ? 0 : ((curr - prev) / Math.abs(prev)) * 100;
-    
-    let calculatedCycles = Object.keys(historyByYear).length || 1;
-    if (clientObj?.dataFundacao) {
-      // dataFundacao format might be DD/MM/YYYY or YYYY-MM-DD
-      let fundacaoYear = null;
-      if (clientObj.dataFundacao.includes('/')) {
-        const parts = clientObj.dataFundacao.split('/');
-        if (parts.length === 3) fundacaoYear = parseInt(parts[2]);
-      } else if (clientObj.dataFundacao.includes('-')) {
-        const parts = clientObj.dataFundacao.split('-');
-        if (parts.length >= 1) fundacaoYear = parseInt(parts[0]);
-      }
+  const [executiveReport, setExecutiveReport] = useState<ExecutiveIntelligenceReport | null>(null);
+
+  useEffect(() => {
+    async function runAnalysis() {
+      if (!bpSummary) return;
+
+      const prevPl = getHistoricalValue(filterYear - 1, 'patrimônio líquido') || getHistoricalValue(filterYear - 1, 'pl') || 0;
+      const clientObj = clients?.find((c: any) => c.id === selectedClient);
+      const industry = clientObj?.segmentoAtuacao || clientObj?.segmento || clientObj?.industry || 'Geral';
       
-      if (fundacaoYear && !isNaN(fundacaoYear)) {
-        calculatedCycles = Math.max(1, filterYear - fundacaoYear);
+      const prevEbitda = getHistoricalValue(filterYear - 1, 'ebitda') || getHistoricalValue(filterYear - 1, 'lajida') || 0;
+      const prevCaixa = getHistoricalValue(filterYear - 1, 'caixa') || getHistoricalValue(filterYear - 1, 'disponibilidades') || 0;
+      
+      let calculatedCycles = Object.keys(historyByYear).length || 1;
+      if (clientObj?.dataFundacao) {
+        let fundacaoYear = null;
+        if (clientObj.dataFundacao.includes('/')) {
+          const parts = clientObj.dataFundacao.split('/');
+          if (parts.length === 3) fundacaoYear = parseInt(parts[2]);
+        } else if (clientObj.dataFundacao.includes('-')) {
+          const parts = clientObj.dataFundacao.split('-');
+          if (parts.length >= 1) fundacaoYear = parseInt(parts[0]);
+        }
+        
+        if (fundacaoYear && !isNaN(fundacaoYear)) {
+          calculatedCycles = Math.max(1, filterYear - fundacaoYear);
+        }
+      }
+
+      const input = {
+        rawFinancialData: {
+          bpSummary,
+          ebitda,
+          lucroLiquido,
+          industry,
+          prevPl,
+          prevEbitda,
+          prevCaixa,
+          dreDataLength: dreDbData.length,
+          historicalCyclesCount: calculatedCycles
+        },
+        historicalSeries: historicalFinancialSeries?.series || [],
+        dreData: dreDbData,
+        historicalCyclesCount: calculatedCycles,
+        isMockData: financialEntries.length === 0
+      };
+
+      try {
+        const runtimeStart = performance.now();
+        // DUMMY RENDERER: Chamamos a Single Source of Truth
+        const report = executiveRuntime.generateExecutiveReport(input);
+        const runtimeEnd = performance.now();
+        
+        console.log(`[TELEMETRY] Runtime Execution Time: ${(runtimeEnd - runtimeStart).toFixed(2)}ms`);
+        console.log(`[TELEMETRY] Historical Payload Size: ${input.historicalSeries?.length || 0} years`);
+        console.log(`[TELEMETRY] Temporal Mode: ${report.compliance.runtimeMode}`);
+        console.log(`[TELEMETRY] Trend Confidence: ${report.compliance.confidenceLevel}`);
+        
+        setExecutiveReport(report);
+      } catch (err) {
+        console.error("Executive Runtime Falhou:", err);
       }
     }
 
-    const trend = {
-      hasData: prevEbitda !== 0 || prevPl !== 0,
-      ebitdaTrend: calcTrend(ebitda, prevEbitda),
-      plTrend: calcTrend(bpSummary.patrimonioLiquido, prevPl),
-      liquidityTrend: calcTrend(bpSummary.ativoCirculante, prevCaixa), // simplified proxy
-      historicalCycles: calculatedCycles
-    };
-    
-    const businessIdentity = inferBusinessIdentity(clientObj?.segmentoAtuacao || undefined, calculatedCycles);
-    const baseMetrics = calculateFinancialMetrics(bpSummary, ebitda, lucroLiquido, industry);
-    const scoreMetrics = calculateScores(bpSummary, baseMetrics, dreDbData.length, prevPl, businessIdentity);
-    const advisory = generateAdvisory(baseMetrics, bpSummary, scoreMetrics, businessIdentity, trend as any);
-
-    return { metrics: baseMetrics, scores: scoreMetrics, causalInsights: advisory };
+    runAnalysis();
   }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, historyByYear, clients, selectedClient]);
 
-  const {
-    liqCorrente, liqSeca, liqImediata, liqGeral, liquidezReal,
-    ncg, concentracaoEstoque, qualidadeEndividamento, dependenciaBancaria,
-    autonomiaFinanceira, indiceDescapitalizacao, cgl, saldoTesouraria, treasuryStatus
-  } = metrics;
+  const hasData = executiveReport?.compliance.confidenceLevel !== 'LOW_CONFIDENCE';
+  const resilienciaGlobal = executiveReport?.scores.composite || 0;
+  const maturidade = executiveReport?.context.stage || 'Pendente';
 
-  const {
-    hsLiquidez, hsEstrutura, hsCapitalGiro, hsPatrimonial, hsEvolucao,
-    hsQualidadeAtivos, hsOperacional, resilienciaGlobal
-  } = scores;
-
-  const maturidade = causalInsights.maturidade;
-
-  const hasData = metrics.hasData;
-
-  const formatKpiValue = (val: number, isCurrency: boolean = false, suffix: string = '') => {
-    if (!hasData) return '—';
-    return isCurrency ? formatCurrency(val) : val.toFixed(2);
-  };
-  
-  const getKpiStatus = (condition: boolean) => {
-    if (!hasData) return 'Neutro';
-    return condition ? 'Verde' : 'Vermelho';
-  };
-
-  const liquidityIndices = [
-    { name: 'Liquidez Corrente',  val: liqCorrente,  desc: 'Capacidade de pagamento no curto prazo',              status: liqCorrente >= 1.2 ? 'Verde' : liqCorrente >= 0.8 ? 'Amarelo' : 'Vermelho' },
-    { name: 'Liquidez Seca',      val: liqSeca,      desc: 'Capacidade de pagamento sem depender do estoque',     status: liqSeca >= 1.0 ? 'Verde' : liqSeca >= 0.8 ? 'Amarelo' : 'Vermelho' },
-    { name: 'Liquidez Imediata',  val: liqImediata,  desc: 'Disponibilidade imediata para quitar obrigações',     status: liqImediata >= 0.5 ? 'Verde' : liqImediata >= 0.1 ? 'Amarelo' : 'Vermelho' },
-    { name: 'Liquidez Geral',     val: liqGeral,     desc: 'Solvência de curto e longo prazo',                    status: liqGeral >= 1.2 ? 'Verde' : liqGeral >= 1.0 ? 'Amarelo' : 'Vermelho' },
-    { name: 'Liquidez Real',      val: liquidezReal, desc: 'Liquidez purgada de ativos de difícil realização',    status: liquidezReal >= 1.0 ? 'Verde' : liquidezReal >= 0.5 ? 'Amarelo' : 'Vermelho' },
-  ];
-
-  // ── Análise Horizontal e Vertical ───────────────────────────────────────────
   function getHistoricalValue(y: number, accountName: string) {
     const yearRows = historyByYear[y] || [];
     const search = accountName.toLowerCase();
@@ -335,27 +329,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     });
   }, [rows, filterYear, historyByYear, ativoTotal]);
 
-  const majorChanges = useMemo(() => {
-    const changes = [];
-    const filtered = comparativeAnalysis
-      .filter(a => Math.abs(a.ah) > 5 && a.val > 1000) // Relevância > 5% e > 1k
-      .sort((a, b) => Math.abs(b.ah) - Math.abs(a.ah));
-      
-    filtered.forEach(item => {
-      // Remove redundâncias (ex: "Fornecedores" e "Fornecedores Nacionais" com o mesmo valor)
-      const isRedundant = changes.some(u => {
-        const uName = (u.name || u.conta || '').toLowerCase();
-        const itemName = (item.name || item.conta || '').toLowerCase();
-        return u.val === item.val && 
-        Math.abs(u.ah - item.ah) < 0.1 &&
-        (uName.includes(itemName.split(' ')[0]) || itemName.includes(uName.split(' ')[0]));
-      });
-      if (!isRedundant) changes.push(item);
-    });
-    
-    return changes.slice(0, 4);
-  }, [comparativeAnalysis]);
-
   const showToast = (type: 'success' | 'error', message: string) => {
     setToast({ type, message });
     setTimeout(() => setToast(null), 4000);
@@ -371,24 +344,19 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     setShowDeleteConfirm(false);
     try {
       const types = ['Balanço Patrimonial', 'BP'];
-      const idsToDelete: string[] = [...docIds];
+      const docIds: string[] = [];
+      const q = query(
+        collection(db, 'financial_entries'),
+        where('clientId', '==', selectedClient),
+        where('type', 'in', types),
+        where('year', '==', filterYear)
+      );
+      const snap = await getDocs(q);
+      snap.docs.forEach((d) => docIds.push(d.id));
 
-      for (const t of types) {
-        const q = query(
-          collection(db, 'financial_entries'),
-          where('clientId', '==', selectedClient),
-          where('type',     '==', t),
-          where('year',     '==', filterYear)
-        );
-        const snap = await getDocs(q);
-        snap.docs.forEach((d) => {
-          if (!idsToDelete.includes(d.id)) idsToDelete.push(d.id);
-        });
-      }
-
-      await Promise.all(idsToDelete.map((id) => deleteDoc(doc(db, 'financial_entries', id))));
-      showToast('success', `${idsToDelete.length} registro(s) excluído(s) com sucesso.`);
-      refetchBP();
+      await Promise.all(docIds.map((id) => deleteDoc(doc(db, 'financial_entries', id))));
+      showToast('success', `${docIds.length} registro(s) excluído(s) com sucesso.`);
+      refetch();
       
     } catch (err: any) {
       showToast('error', err.message || 'Erro ao excluir dados.');
@@ -396,8 +364,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       setDeleting(false);
     }
   };
-
-
 
   const ativoData = useMemo(() => {
     return comparativeAnalysis.filter((r: any) => 
@@ -411,7 +377,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     ).map((r: any) => ({ name: r.name, value: r.val })).sort((a: any, b: any) => b.value - a.value);
   }, [comparativeAnalysis]);
 
-  // Waterfall Capital de Giro preparation
   const waterfallData = useMemo(() => {
     if (!bpSummary) return [];
     return [
@@ -435,10 +400,10 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
           <div className="bg-card border border-border rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
-            {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
-            <Database size={14} className={dbData.length > 0 ? 'text-success' : 'text-muted-foreground/30'} />
-            <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', dbData.length > 0 ? 'text-success' : 'text-muted-foreground/40')}>
-              {dbData.length > 0 ? 'Dados Reais' : 'Amostra'}
+            {(loadingBP || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
+            <Database size={14} className={financialEntries.length > 0 ? 'text-success' : 'text-muted-foreground/30'} />
+            <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', financialEntries.length > 0 ? 'text-success' : 'text-muted-foreground/40')}>
+              {financialEntries.length > 0 ? 'Dados Reais' : 'Amostra'}
             </span>
           </div>
 
@@ -478,51 +443,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         </div>
       </div>
 
-      {/* ── Validação Contábil (Engine) ── */}
-      {dbData.length > 0 && bpSummary && !bpSummary.isBalanced && (
-        <div className="mb-12 bg-rose-50 border-2 border-rose-200 rounded-[32px] p-8 shadow-sm flex flex-col gap-4 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 blur-[60px] rounded-full pointer-events-none" />
-          <div className="flex items-center gap-3 text-rose-600 relative z-10">
-            <AlertCircle size={32} strokeWidth={2.5} />
-            <h3 className="text-2xl font-black tracking-tight">Desbalanceamento Patrimonial Detectado</h3>
-          </div>
-          <p className="text-rose-800 font-medium relative z-10">
-            A consolidação identificou que a equação contábil fundamental (Ativo = Passivo + Patrimônio Líquido) não foi atendida.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 relative z-10">
-            <div className="bg-white/60 p-4 rounded-2xl border border-rose-100">
-              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Total Ativo</span>
-              <div className="text-lg font-black text-slate-900 mt-1">{formatCurrency(bpSummary.ativoTotal)}</div>
-            </div>
-            <div className="bg-white/60 p-4 rounded-2xl border border-rose-100">
-              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Passivo + PL</span>
-              <div className="text-lg font-black text-slate-900 mt-1">{formatCurrency(bpSummary.passivoTotal + bpSummary.patrimonioLiquido)}</div>
-            </div>
-            <div className="bg-rose-100 p-4 rounded-2xl border border-rose-200">
-              <span className="text-[10px] uppercase font-bold text-rose-600 tracking-wider">Divergência Encontrada</span>
-              <div className="text-xl font-black text-rose-700 mt-1">{formatCurrency(bpSummary.divergence)}</div>
-            </div>
-          </div>
-          <p className="text-xs text-rose-600 font-bold uppercase tracking-wider mt-2 relative z-10">
-            Verifique o arquivo importado ou revise as linhas inseridas manualmente.
-          </p>
-        </div>
-      )}
-
-      {/* =========================================================
-          CAMADA 1: EXECUTIVE SUMMARY
-          Leitura Institucional (< 60 segundos)
-      ========================================================= */}
-      <div className={cn("space-y-6 mb-12", dbData.length > 0 && bpSummary && !bpSummary.isBalanced ? "opacity-50 pointer-events-none grayscale" : "")}>
-        <div className="flex items-center gap-3 px-2 mb-2">
-           <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center font-black text-sm">1</div>
-           <h3 className="text-xl font-black text-slate-900 tracking-tight">Executive Summary</h3>
-        </div>
-
-        {/* Linha Superior: Score Patrimonial (Esquerda) + Diagnóstico/Continuidade (Direita) */}
+      <div className={cn("space-y-6 mb-12", financialEntries.length > 0 && bpSummary && (!bpSummary.isBalanced || executiveReport?.severity.level === 'CRÍTICO' || executiveReport?.severity.level === 'COLAPSO') ? "opacity-50 pointer-events-none grayscale" : "")}>
+        
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
-          {/* Score Patrimonial */}
           <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center border border-slate-700/50">
             <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
@@ -533,7 +456,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               resilienciaGlobal >= 61 ? 'bg-indigo-500/5 text-indigo-300 border-indigo-500/10' : 
               resilienciaGlobal >= 41 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 
               resilienciaGlobal >= 21 ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-red-600/20 text-red-400 border-red-500/30')}>
-              Nível {maturidade} | {causalInsights?.lifecycleStage || 'Maturidade Pendente'}
+              Nível {maturidade}
             </div>
 
             <div className="relative w-48 h-48 flex items-center justify-center shrink-0 z-10">
@@ -560,385 +483,15 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               </div>
             </div>
           </div>
-
+          
           {/* Diagnóstico Executivo Consolidado e Tendências */}
           <div className="lg:col-span-2 flex flex-col gap-6">
-            
-            {/* Diagnóstico Ultra Sintético */}
-            {causalInsights ? (
-              <div className="bg-slate-950 rounded-[32px] p-8 text-white relative overflow-hidden shadow-xl flex-1 flex flex-col justify-center border border-slate-800">
-                <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500/20 blur-[80px] rounded-full" />
-                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 relative z-10 flex items-center gap-2">
-                  <Activity size={12}/> Diagnóstico Executivo
-                </h4>
-                <p className="text-lg font-medium leading-relaxed relative z-10 text-slate-200 line-clamp-3" title={causalInsights.diagnostico}>
-                   {causalInsights.diagnostico}
-                </p>
-              </div>
-            ) : (
-              <div className="bg-slate-50 border border-slate-200 rounded-[32px] p-8 flex-1 flex items-center justify-center">
-                <p className="text-sm font-bold text-slate-400">Aguardando consolidação contábil.</p>
-              </div>
-            )}
-
-
-            {/* Business Model Intelligence Engine Metadata */}
-            {causalInsights?.businessIdentity && (
-              <div className="bg-white border border-slate-200 rounded-[24px] p-6 shadow-sm mb-2 mt-2 flex flex-col gap-4">
-                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 flex items-center gap-2">
-                  <Activity size={12}/> Business Model Intelligence Engine
-                </h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Modelo de Negócio</span>
-                    <span className="text-sm font-black text-slate-800">{causalInsights.businessIdentity.modeloDeNegocio}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Estágio de Maturidade</span>
-                    <span className="text-sm font-black text-slate-800">{causalInsights.businessIdentity.estagioMaturidade || 'Estável'}</span>
-                  </div>
-                  <div className="flex flex-col md:col-span-2">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Perfil Operacional</span>
-                    <span className="text-sm font-black text-slate-800">{causalInsights.businessIdentity.perfilOperacional}</span>
-                  </div>
-                </div>
-                <div className="flex gap-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
-                  <div className="flex flex-col flex-1">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Intensidade de Capital</span>
-                    <span className="text-xs font-medium text-slate-700">{causalInsights.businessIdentity.intensidadeCapital}</span>
-                  </div>
-                  <div className="flex flex-col flex-1">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Previsibilidade de Receita</span>
-                    <span className="text-xs font-medium text-slate-700">{causalInsights.businessIdentity.previsibilidadeReceita}</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Continuidade e Tendência em Linha */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-auto">
-                <div className="bg-slate-900 rounded-[24px] p-6 text-white relative overflow-hidden shadow-lg flex flex-col justify-center border border-slate-800">
-                  <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Continuidade Empresarial</h4>
-                  <div className="flex items-end gap-3 mt-1">
-                    <span className={cn("text-3xl font-black tracking-tighter", 
-                      causalInsights?.indiceContinuidade?.color === 'emerald' ? 'text-emerald-400' :
-                      causalInsights?.indiceContinuidade?.color === 'amber' ? 'text-amber-400' :
-                      causalInsights?.indiceContinuidade?.color === 'blue' ? 'text-blue-400' :
-                      'text-rose-400'
-                    )}>{hasData ? scores.indiceContinuidade : '—'}</span>
-                    <span className="text-xs font-bold text-slate-400 pb-1">/ 100</span>
-                  </div>
-                  <p className="text-xs font-bold text-white mt-2 truncate">{causalInsights?.indiceContinuidade?.status || 'Pendente'}</p>
-                </div>
-
-                <div className="bg-white rounded-[24px] p-6 border border-slate-200 shadow-sm flex flex-col justify-center">
-                  <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Tendência Estrutural</h4>
-                  <div className="flex items-center gap-3 mt-1">
-                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
-                      <TrendingUp className="text-slate-500" size={14} />
-                    </div>
-                    <p className="text-sm font-bold text-slate-800 line-clamp-2">{causalInsights?.tendencia || 'Pendente'}</p>
-                  </div>
-                </div>
-            </div>
-
+             <ExecutivePerspectiveSection report={advisoryReport} loading={advisoryLoading} className="h-full border-none shadow-xl" />
           </div>
         </div>
-
-        {causalInsights && (
-          <>
-            {/* Principais Fragilidades & Prioridades Estratégicas (Max 3 e 4) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              
-              {/* Fragilidades (Max 3) */}
-              <div className="bg-rose-50/30 rounded-[32px] p-8 border border-rose-100 shadow-sm">
-                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-5 flex items-center gap-2">
-                  <AlertTriangle size={14} /> Principais Fragilidades
-                </h4>
-                <div className="space-y-4">
-                  {causalInsights.fragilidades?.slice(0, 3).map((f: string, i: number) => (
-                    <div key={i} className="flex gap-3 bg-white p-4 rounded-2xl border border-rose-50 shadow-sm">
-                      <span className="text-rose-500 mt-0.5 shrink-0"><AlertCircle size={14} /></span>
-                      <span className="text-sm text-slate-700 font-medium">{f}</span>
-                    </div>
-                  ))}
-                  {(!causalInsights.fragilidades || causalInsights.fragilidades.length === 0) && (
-                    <p className="text-sm text-slate-500 font-medium italic">Nenhuma fragilidade crítica identificada.</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Prioridades (Max 4) */}
-              <div className="bg-indigo-50/30 rounded-[32px] p-8 border border-indigo-100 shadow-sm flex flex-col">
-                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-5 flex items-center gap-2">
-                  <Target size={14} /> Prioridades Estratégicas
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
-                  {causalInsights.prioridadesEstrategicas?.slice(0, 4).map((p: any, idx: number) => (
-                    <div key={idx} className="bg-white p-4 rounded-2xl border border-indigo-50 shadow-sm flex flex-col justify-between">
-                      <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-2 line-clamp-2" title={p.nome}>{p.nome}</p>
-                      <p className={cn("text-sm font-black", 
-                        p.status === 'Crítico' ? 'text-rose-600' : 
-                        p.status === 'Atenção' ? 'text-amber-500' : 
-                        p.status === 'Monitorar' ? 'text-blue-500' : 
-                        'text-emerald-500'
-                      )}>{p.status}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Executive Action Matrix */}
-            <div className="bg-slate-950 rounded-[32px] p-8 border border-slate-800 shadow-xl text-white overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-[80px] rounded-full pointer-events-none" />
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2 relative z-10">
-                <Crosshair size={14} /> Executive Action Matrix (Ações Imediatas)
-              </h4>
-              <div className="overflow-x-auto relative z-10">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-slate-800">
-                      <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Prioridade</th>
-                      <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Ação Recomendada</th>
-                      <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Impacto</th>
-                      <th className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Velocidade</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {causalInsights.strategicActionMatrix?.slice(0, 4).map((action: any, idx: number) => (
-                      <tr key={idx} className="border-b border-slate-800/50 hover:bg-slate-900 transition-colors">
-                        <td className="py-4 px-4 w-32">
-                          <span className={cn(
-                            "px-2 py-1 text-[9px] font-bold uppercase tracking-wider rounded-lg whitespace-nowrap",
-                            action.prioridade === 'Imediata' ? "bg-rose-500/20 text-rose-400 border border-rose-500/20" :
-                            action.prioridade === 'Alta' ? "bg-amber-500/20 text-amber-400 border border-amber-500/20" :
-                            action.prioridade === 'Moderada' ? "bg-blue-500/20 text-blue-400 border border-blue-500/20" :
-                            "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
-                          )}>
-                            {action.prioridade}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4 font-medium text-sm text-slate-200">{action.acao}</td>
-                        <td className="py-4 px-4 text-sm text-slate-400 whitespace-nowrap">{action.impacto}</td>
-                        <td className="py-4 px-4 text-sm text-slate-400 whitespace-nowrap">{action.velocidade}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Conclusão Institucional */}
-            <div className="bg-slate-100/50 rounded-[32px] p-8 border border-slate-200 shadow-inner flex flex-col md:flex-row gap-6 items-center">
-               <div className="w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center shrink-0 shadow-lg text-white">
-                 <Gem size={28} />
-               </div>
-               <div>
-                 <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Conclusão Institucional</h4>
-                 <p className="text-slate-800 font-medium text-sm md:text-base leading-relaxed">
-                   A operação permanece funcional e patrimonialmente protegida, porém a sustentabilidade do crescimento depende da melhoria da conversão operacional em caixa. A prioridade deve ser preservar liquidez, reduzir capital imobilizado e ampliar a flexibilidade da tesouraria.
-                 </p>
-               </div>
-            </div>
-          </>
-        )}
       </div>
 
-      {/* =========================================================
-          CAMADA 2: EXECUTIVE INTELLIGENCE
-          Agrupamento Semântico e Causalidade Expandida (Scannable Cards)
-      ========================================================= */}
-      {hasData && (
-        <div className="mb-12">
-          <button 
-            onClick={() => setShowCamada2(!showCamada2)}
-            className="w-full flex items-center justify-between p-6 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-[24px] transition-all group"
-          >
-            <div className="flex items-center gap-4">
-               <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-black text-sm shadow-md">2</div>
-               <div className="text-left">
-                  <h3 className="text-lg font-black text-slate-900">Executive Intelligence</h3>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Causalidade • Resiliência • Alocação • Crescimento</p>
-               </div>
-            </div>
-            <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-400 group-hover:text-slate-900 transition-colors border border-slate-100">
-               {showCamada2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-            </div>
-          </button>
 
-          {showCamada2 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 animate-in fade-in slide-in-from-top-4 duration-500">
-              
-              {/* Bloco 1: Liquidez & Resiliência Financeira */}
-              <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col h-full hover:border-slate-300 transition-all">
-                <div className="flex justify-between items-start mb-6">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 flex items-center gap-2">
-                    <Activity size={14} className="text-emerald-500" /> Liquidez & Resiliência Financeira
-                  </h4>
-                  <span className={cn("px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border",
-                    resilienciaGlobal < 50 ? "bg-rose-50 text-rose-600 border-rose-200" : "bg-emerald-50 text-emerald-600 border-emerald-200"
-                  )}>
-                    {resilienciaGlobal < 50 ? 'Sensível' : 'Resiliente'}
-                  </span>
-                </div>
-                
-                <div className="space-y-5 flex-1">
-                  <div>
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Fator Estrutural</span>
-                    <p className="text-sm font-medium text-slate-800">{causalInsights.liquidityQuality?.fatorEstrutural || 'Capital de giro alinhado à demanda.'}</p>
-                  </div>
-                  <div>
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Sensibilidade</span>
-                    <p className="text-sm font-medium text-slate-800">{causalInsights.liquidityQuality?.sensibilidade || 'Baixa sensibilidade.'}</p>
-                  </div>
-                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Movimento Recomendado</span>
-                    <p className="text-sm font-bold text-slate-900">{causalInsights.liquidityQuality?.movimentoRecomendado || 'Manutenção da estrutura atual.'}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bloco 2: Riscos Estratégicos & Governança */}
-              <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col h-full hover:border-slate-300 transition-all">
-                <div className="flex justify-between items-start mb-6">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 flex items-center gap-2">
-                    <AlertTriangle size={14} className="text-rose-500" /> Riscos Estratégicos & Governança
-                  </h4>
-                  <span className={cn("px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border",
-                    "bg-amber-50 text-amber-600 border-amber-200"
-                  )}>
-                    Atenção
-                  </span>
-                </div>
-
-                <div className="space-y-5 flex-1">
-                  <div>
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Fator Estrutural</span>
-                    <p className="text-sm font-medium text-slate-800">{causalInsights.predictiveCausality?.fatorEstrutural || "Base alinhada."}</p>
-                  </div>
-                  
-                  {causalInsights.estresse && causalInsights.estresse.length > 0 && (
-                    <div>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Sensibilidade a Choques</span>
-                      <p className="text-sm font-medium text-rose-600 font-semibold">{causalInsights.estresse[0].cenario}: {causalInsights.estresse[0].impacto}</p>
-                    </div>
-                  )}
-
-                  {causalInsights.estresse && causalInsights.estresse.length > 1 && (
-                    <div className="pt-2">
-                      <button 
-                        onClick={() => setShowFullStressTests(!showFullStressTests)}
-                        className="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-600 transition-colors flex items-center gap-1"
-                      >
-                        {showFullStressTests ? "Ocultar análise completa" : "Ver análise completa de stress"}
-                      </button>
-                      
-                      {showFullStressTests && (
-                         <div className="mt-3 space-y-2">
-                           {causalInsights.estresse.slice(1).map((s: any, idx: number) => (
-                              <div key={idx} className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">{s.cenario}</p>
-                                <p className={cn("text-xs font-bold mt-1", s.status === 'danger' ? 'text-rose-600' : s.status === 'warning' ? 'text-amber-500' : 'text-emerald-500')}>{s.impacto}</p>
-                              </div>
-                           ))}
-                         </div>
-                      )}
-                    </div>
-                  )}
-
-                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 mt-auto">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Direcionamento Executivo</span>
-                    <p className="text-sm font-bold text-slate-900">{causalInsights.predictiveCausality?.movimentoRecomendado || "Monitoramento passivo de estrutura."}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bloco 3: Alocação de Capital (Decisão Institucional) */}
-              <div className="bg-slate-900 text-white rounded-[32px] p-8 shadow-xl flex flex-col h-full relative overflow-hidden border border-slate-800">
-                <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 blur-[60px] rounded-full pointer-events-none" />
-                <div className="flex justify-between items-start mb-6 relative z-10">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2">
-                    <PiggyBank size={14} className="text-amber-500" /> Decisão Institucional: Capital
-                  </h4>
-                  <span className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider bg-slate-800 border border-slate-700 text-slate-300">
-                    {causalInsights.capitalAllocation?.prioridadeFinanceira || "Estratégica"}
-                  </span>
-                </div>
-
-                <div className="space-y-4 flex-1 relative z-10">
-                  <div className="flex items-center justify-between border-b border-slate-800/50 pb-2">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Expansão</span>
-                    <span className="text-xs font-bold text-slate-200">{causalInsights.capitalAllocation?.expansao || "—"}</span>
-                  </div>
-                  <div className="flex items-center justify-between border-b border-slate-800/50 pb-2">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Preservação de Caixa</span>
-                    <span className="text-xs font-bold text-slate-200">{causalInsights.capitalAllocation?.preservacaoCaixa || "—"}</span>
-                  </div>
-                  <div className="flex items-center justify-between border-b border-slate-800/50 pb-2">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Eficiência Operacional</span>
-                    <span className="text-xs font-bold text-slate-200">{causalInsights.capitalAllocation?.eficienciaOperacional || "—"}</span>
-                  </div>
-                  <div className="flex items-center justify-between border-b border-slate-800/50 pb-2">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Monetização de Ativos</span>
-                    <span className="text-xs font-bold text-slate-200">{causalInsights.capitalAllocation?.monetizacaoAtivos || "—"}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Pressão Estrutural</span>
-                    <span className="text-xs font-bold text-rose-400">{causalInsights.capitalAllocation?.pressaoEstrutural || "—"}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bloco 4: Inteligência de Crescimento */}
-              <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col h-full hover:border-slate-300 transition-all">
-                <div className="flex justify-between items-start mb-6">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 flex items-center gap-2">
-                    <TrendingUp size={14} className="text-indigo-500" /> Inteligência de Crescimento
-                  </h4>
-                  <span className={cn("px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border",
-                    "bg-indigo-50 text-indigo-600 border-indigo-200"
-                  )}>
-                    {causalInsights.trendIntelligence?.tendenciaInstitucional || "Evolução"}
-                  </span>
-                </div>
-
-                <div className="space-y-5 flex-1">
-                  <div>
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Exposição Estratégica</span>
-                    <p className="text-sm font-medium text-slate-800">{causalInsights.boardIntelligence?.exposicaoEstrategica || "N/A"}</p>
-                  </div>
-                  <div>
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Vetor de Crescimento</span>
-                    <p className="text-sm font-medium text-slate-800">{causalInsights.boardIntelligence?.vetorCrescimento || "N/A"}</p>
-                  </div>
-                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Pressão Operacional</span>
-                    <p className="text-sm font-bold text-slate-900">{causalInsights.boardIntelligence?.pressaoOperacional || "N/A"}</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Bloco 5: Executive Historical Intelligence */}
-              <div className="md:col-span-2 bg-gradient-to-r from-slate-100 to-white rounded-[32px] p-8 border border-slate-200 shadow-inner flex flex-col md:flex-row gap-6 items-center">
-                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm text-slate-900 border border-slate-200">
-                   <Layers size={28} />
-                 </div>
-                 <div className="flex-1">
-                   <div className="flex items-center gap-3 mb-2">
-                     <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Memória Executiva</h4>
-                     <span className="px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest bg-slate-200 text-slate-600">Histórico de Ciclos</span>
-                   </div>
-                   <p className="text-slate-800 font-medium text-sm md:text-base leading-relaxed">
-                     {causalInsights.executiveHistoricalIntelligence?.parecerHistorico || "A matriz atual não reflete ciclos anteriores profundos o suficiente para evidenciar recorrência."}
-                   </p>
-                 </div>
-              </div>
-
-            </div>
-          )}
-        </div>
-      )}
 
       {/* =========================================================
           CAMADA 3: EXECUTIVE FINANCIAL ANALYTICS
@@ -969,21 +522,15 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               <div>
                 <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Decomposição do Score Patrimonial</h3>
                 <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-                  {[
-                    { label: 'Liquidez (25%)', val: hsLiquidez, color: 'emerald', explicacao: `Memória de Cálculo:\nLiquidez Corrente (${liqCorrente.toFixed(2)}) e Real (${liquidezReal.toFixed(2)}). Pondera a capacidade de honrar passivos curtos com ativos altamente conversíveis.` },
-                    { label: 'Estrutura (25%)', val: hsEstrutura, color: 'blue', explicacao: `Memória de Cálculo:\nQualidade do Endividamento (${(qualidadeEndividamento * 100).toFixed(2)}% curto prazo) e Dependência Bancária (${(dependenciaBancaria * 100).toFixed(2)}%). Penaliza alta concentração no curto prazo.` },
-                    { label: 'Cap. Giro (20%)', val: hsCapitalGiro, color: 'amber', explicacao: `Memória de Cálculo:\nNCG (${formatCurrency(ncg)}) vs AC (${formatCurrency(ac)}) e Concentração de Estoques (${(concentracaoEstoque * 100).toFixed(2)}%).` },
-                    { label: 'Solidez (20%)', val: hsPatrimonial, color: 'purple', explicacao: `Memória de Cálculo:\nAutonomia Financeira (${(autonomiaFinanceira * 100).toFixed(2)}%) e Índice de Descapitalização (${(indiceDescapitalizacao * 100).toFixed(2)}%). Mede a proteção do passivo pelo capital próprio.` },
-                    { label: 'Evolução (10%)', val: hsEvolucao, color: 'indigo', explicacao: `Memória de Cálculo:\nCrescimento YoY do Patrimônio Líquido frente ao ano anterior.` }
-                  ].map((hs, i) => (
-                    <div key={i} title={hs.explicacao} className={cn("border rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group cursor-help", 
+                  {executiveReport?.decomposition.map((hs, i) => (
+                    <div key={i} title={hs.explanation} className={cn("border rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group cursor-help", 
                       "bg-white border-slate-200 shadow-sm hover:shadow-md transition-all"
                     )}>
                       <span className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 block text-slate-500">{hs.label}</span>
                       <div>
-                        <span className="text-3xl font-black tracking-tighter text-slate-800">{hs.val.toFixed(0)}</span>
+                        <span className="text-3xl font-black tracking-tighter text-slate-800">{hs.value.toFixed(0)}</span>
                         <div className="w-full h-1.5 rounded-full mt-3 overflow-hidden bg-slate-100">
-                          <div className={cn("h-full rounded-full transition-all duration-1000 ease-out", `bg-${hs.color}-500`)} style={{ width: `${hs.val}%` }} />
+                          <div className={cn("h-full rounded-full transition-all duration-1000 ease-out", `bg-${hs.severityColor}-500`)} style={{ width: `${hs.value}%` }} />
                         </div>
                       </div>
                     </div>

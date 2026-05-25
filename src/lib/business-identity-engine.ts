@@ -1,3 +1,5 @@
+import { InferenceData } from './business-inference-engine';
+
 export interface BusinessIdentity {
   modeloDeNegocio: string;
   setor: string;
@@ -10,6 +12,11 @@ export interface BusinessIdentity {
   perfilLiquidez: 'Exigência Alta' | 'Exigência Moderada' | 'Flexível' | 'Indefinido';
   perfilCrescimento: string;
   hasMinimumInference: boolean;
+  archetypeInference?: string;
+  maturityStage?: string;
+  inventoryBehavior?: string;
+  sectorBehaviorProfile?: string;
+  inferenceData?: InferenceData;
 }
 
 export const INDEFINIDO_IDENTITY: BusinessIdentity = {
@@ -23,24 +30,30 @@ export const INDEFINIDO_IDENTITY: BusinessIdentity = {
   previsibilidadeReceita: 'Indefinida',
   perfilLiquidez: 'Indefinido',
   perfilCrescimento: 'Indefinido',
-  hasMinimumInference: false
+  hasMinimumInference: false,
+  archetypeInference: 'Indefinido',
+  maturityStage: 'Indefinido',
+  inventoryBehavior: 'Indefinido',
+  sectorBehaviorProfile: 'Indefinido'
 };
+
+import { BPSummary } from './bpEngine';
+import { inferOperationalModel, OperationalInference } from './business-inference-engine';
 
 export function inferBusinessIdentity(
   segmentoAtuacao?: string, 
-  anosHistorico: number = 0
+  anosHistorico: number = 0,
+  bpSummary?: BPSummary,
+  dreCascade?: any[],
+  clientValidation?: any // Object containing human override
 ): Readonly<BusinessIdentity> {
   
-  if (!segmentoAtuacao || segmentoAtuacao.trim() === '') {
-    return Object.freeze({ ...INDEFINIDO_IDENTITY });
-  }
-
-  const normSegmento = segmentoAtuacao.toLowerCase().trim();
+  const normSegmento = (segmentoAtuacao || '').toLowerCase().trim();
   
   // Base configuration
-  const identity: BusinessIdentity = {
+  let identity: BusinessIdentity = {
     modeloDeNegocio: 'Modelo Não Classificado',
-    setor: segmentoAtuacao, // Keep original casing where possible
+    setor: segmentoAtuacao || 'Indefinido',
     subsetor: 'Geral',
     intensidadeCapital: 'Asset Moderate',
     intensidadeEstoque: 'Moderada',
@@ -49,10 +62,28 @@ export function inferBusinessIdentity(
     previsibilidadeReceita: 'Volátil',
     perfilLiquidez: 'Exigência Moderada',
     perfilCrescimento: 'Orgânico/Convencional',
-    hasMinimumInference: true
+    hasMinimumInference: !!segmentoAtuacao,
+    sectorBehaviorProfile: normSegmento,
+    archetypeInference: 'Pendente de Inferência Causal',
+    inventoryBehavior: 'Pendente de Inferência Causal',
+    maturityStage: inferMaturity(anosHistorico)
   };
 
-  // 1. Industry / Indústria Mapping
+  // Se houver validação humana (override), ela tem prioridade máxima.
+  if (clientValidation && clientValidation.modeloDeNegocio) {
+    return Object.freeze({
+      ...identity,
+      ...clientValidation,
+      inferenceData: {
+        confidenceScore: 100,
+        adherenceLevel: 'Alto',
+        explainability: ['Modelo de negócio validado e fixado manualmente pelo usuário.'],
+        isHumanOverridden: true
+      }
+    });
+  }
+
+  // 1. Industry / Indústria Mapping (Fallback if no data)
   if (normSegmento.includes('indústria') || normSegmento.includes('industria') || normSegmento.includes('manufatura')) {
     identity.modeloDeNegocio = 'Asset Heavy / Industrial';
     identity.intensidadeCapital = 'Asset Heavy';
@@ -64,7 +95,7 @@ export function inferBusinessIdentity(
     if (normSegmento.includes('cosmético')) {
       identity.subsetor = 'Cosméticos / Cuidados Pessoais';
       identity.perfilOperacional = 'Produção + Distribuição com forte dependência de tendências e giro moderado.';
-      identity.intensidadeCapital = 'Asset Moderate'; // Cosméticos geralmente terceirizam ou não têm maquinário tão pesado quanto base
+      identity.intensidadeCapital = 'Asset Moderate';
     } else {
       identity.perfilOperacional = 'Planta produtiva com alto custo fixo, ciclo de conversão longo e dependência de escala.';
     }
@@ -115,9 +146,51 @@ export function inferBusinessIdentity(
     identity.intensidadeCapital = 'Asset Heavy';
     identity.intensidadeEstoque = 'Moderada';
     identity.previsibilidadeReceita = 'Alta';
-    identity.perfilLiquidez = 'Exigência Moderada'; // Devido à previsibilidade, mas há glosas
+    identity.perfilLiquidez = 'Exigência Moderada';
     identity.perfilCrescimento = 'Expansão de Capacidade / Ticket';
     identity.perfilOperacional = 'Capital intensivo (equipamentos/plantas), fluxo de recebimento complexo (planos de saúde/glosas) e alta resiliência.';
+  }
+
+  // Tenta realizar a inferência financeira
+  if (bpSummary && dreCascade && dreCascade.length > 0) {
+    const finInference = inferOperationalModel(bpSummary, dreCascade);
+    
+    // Se a confiança for maior que 70%, sobrescreve a base textual
+    if (finInference && finInference.inferenceData.confidenceScore > 70) {
+      identity.modeloDeNegocio = finInference.modeloDeNegocio;
+      identity.setor = finInference.setor;
+      identity.intensidadeCapital = finInference.intensidadeCapital;
+      identity.intensidadeEstoque = finInference.intensidadeEstoque;
+      identity.previsibilidadeReceita = finInference.previsibilidadeReceita;
+      identity.inferenceData = finInference.inferenceData;
+      identity.hasMinimumInference = true;
+      
+      // Ajuste de perfil operacional baseado na inferência financeira
+      if (finInference.modeloDeNegocio.includes('Asset Light')) {
+         identity.perfilOperacional = 'Estrutura inferida financeiramente como Asset Light, com alta margem bruta e baixo imobilizado.';
+         identity.perfilCrescimento = 'Expansão de Receita (Opex)';
+      } else if (finInference.modeloDeNegocio.includes('Indústria')) {
+         identity.perfilOperacional = 'Operação industrial intensa, inferida via presença robusta de estoque, fornecedores e custo da mercadoria/produto.';
+         identity.perfilCrescimento = 'Alavancagem Produtiva e de Estoque';
+      } else if (finInference.modeloDeNegocio.includes('Infraestrutura')) {
+         identity.perfilOperacional = 'Volume relevante de ativos imobilizados suporta a tese de operação voltada a infraestrutura ou saúde (Asset Heavy).';
+         identity.perfilCrescimento = 'Aumento de Capacidade Operacional';
+      } else if (finInference.modeloDeNegocio.includes('Comércio')) {
+         identity.perfilOperacional = 'Forte dinâmica de estoque e giro, inferida como comércio ou distribuição.';
+         identity.perfilCrescimento = 'Giro e Abertura de Mercado';
+      }
+    } else {
+      // Guarda a inferência mesmo que baixa para fins de explainability (se ainda não houver)
+      identity.inferenceData = finInference.inferenceData;
+    }
+  }
+
+  if (!identity.inferenceData) {
+    identity.inferenceData = {
+      confidenceScore: 0,
+      adherenceLevel: 'Baixo',
+      explainability: ['Inferência baseada apenas no segmento cadastrado.']
+    };
   }
 
   return Object.freeze(identity);
@@ -125,8 +198,7 @@ export function inferBusinessIdentity(
 
 function inferMaturity(anosHistorico: number): string {
   if (anosHistorico === 0) return 'Indefinido (Histórico Ausente)';
-  if (anosHistorico === 1) return 'Primeiro Ciclo Operacional';
-  if (anosHistorico <= 3) return 'Estágio Inicial / Consolidação';
-  if (anosHistorico <= 7) return 'Estágio de Tração / Crescimento';
-  return 'Maturidade Corporativa';
+  if (anosHistorico < 3) return 'Maturidade não atestável (Histórico < 3 ciclos)';
+  if (anosHistorico <= 5) return 'Maturidade Pendente de Validação Causal';
+  return 'Maturidade Corporativa (Sujeito a Validação)';
 }

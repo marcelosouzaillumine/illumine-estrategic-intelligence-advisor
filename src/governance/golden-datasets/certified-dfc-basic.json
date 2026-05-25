@@ -1,0 +1,14 @@
+{
+  "engineName": "LegacyDFCAdapter",
+  "success": true,
+  "confidence": "HIGH",
+  "inference": {
+    "domain": "cash_flow",
+    "metrics": { "fco": 500000, "fci": -200000, "fcf": -100000, "geracaoLivre": 200000 },
+    "causality": ["FCO cobre FCI e FCF."],
+    "narrative": { "diagnostic": "Geração livre de caixa positiva.", "cause": "Conversão operacional eficiente.", "consequence": "Autossuficiência financeira." },
+    "confidence": "HIGH",
+    "evidenceLevel": "EVIDENCE_BASED",
+    "score": 80
+  }
+}

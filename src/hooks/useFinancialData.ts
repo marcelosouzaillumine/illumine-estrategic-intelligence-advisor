@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { buildHistoricalSeries, HistoricalFinancialSeries } from '../core/adapters/historical-series-adapter';
 
 
 export function useFinancialData(clientId: string, year: number, month: number, type: 'DRE' | 'BP' | 'CAIXA' | 'DRE Gerencial' | 'DFC' | 'DLPA') {
@@ -79,6 +80,7 @@ export function useAllFinancialData(clientId: string) {
   const [dbData, setDbData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [historicalFinancialSeries, setHistoricalFinancialSeries] = useState<HistoricalFinancialSeries | null>(null);
 
   const fetchData = useCallback(async (isCancelled: { current: boolean }) => {
     if (!clientId) return;
@@ -152,7 +154,7 @@ export function useAllFinancialData(clientId: string) {
     };
   }, [fetchData]);
 
-  return { dbData, loading, error, refetch: () => fetchData({ current: false }) };
+  return { dbData, historicalFinancialSeries, loading, error, refetch: () => fetchData({ current: false }) };
 }
 
 /**
@@ -230,9 +232,17 @@ export function useAnnualFinancialData(
 
       const filteredEntries = allEntries.filter(entry => {
         const t = (entry.type || '').toLowerCase();
+        const docT = (entry.docType || '').toLowerCase();
+        
         if (type === 'DRE' || type === 'DRE Gerencial') {
+          // If the document is explicitly a BP document, ignore it completely for DRE
+          if (docT === 'bp' || docT === 'balanço patrimonial') return false;
+          
           return ['receitas', 'despesas'].includes(t) || (!['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(t) && (entry.docType === 'DRE' || entry.docType === 'DRE Gerencial'));
         } else if (type === 'BP' || type === 'Balanço Patrimonial') {
+          // If the document is explicitly a DRE document, ignore it completely for BP
+          if (docT === 'dre' || docT === 'dre gerencial') return false;
+          
           return ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(t) || (!['receitas', 'despesas'].includes(t) && (entry.docType === 'BP' || entry.docType === 'Balanço Patrimonial'));
         }
         return entry.docType === type;

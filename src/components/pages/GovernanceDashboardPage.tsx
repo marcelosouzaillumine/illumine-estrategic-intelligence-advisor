@@ -17,8 +17,10 @@ import { PageHeader, StatusBadge, MarkdownText, KpiCard } from '../Common';
 import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
 import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
-import { generateGovernanceParecer } from '../../services/governanceAiService';
+import { orchestrateGovernanceNarrative } from '../../core/orchestration/executiveOrchestrationEngine';
 import { DashboardSkeleton } from '../ui/skeletons';
+import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
+import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
 
 interface GovernanceDashboardPageProps {
   clientId: string;
@@ -166,25 +168,40 @@ export function GovernanceDashboardPage({
     return strategicKPIs.reduce((acc: any, kpi: any) => ({...acc, [kpi.label]: kpi.value}), {});
   }, [strategicKPIs]);
 
+  // Institucional Runtime Integration
+  const currentYear = selectedYear || new Date().getFullYear();
+  const { dbData: financialData } = useHistoricalDemonstracoes(clientId, currentYear);
+  const runtimeInput = useMemo(() => ({
+    rawFinancialData: financialData,
+    historicalCyclesCount: financialData.length,
+    isMockData: false
+  }), [financialData]);
+  
+  const { runtimeOutput } = useInstitutionalRuntime({ input: runtimeInput });
+  const isBlocked = runtimeOutput?.inferences?.['ExecutiveDecisionEngine']?.metrics?.blockedInferences?.length > 0;
+
   const triggeredRules = useMemo(() => {
-    return evaluateAxisRules(flatMetrics, 'Governança Corporativa');
-  }, [flatMetrics]);
+    return evaluateAxisRules(flatMetrics, 'Governança Corporativa', isBlocked);
+  }, [flatMetrics, isBlocked]);
 
   const [loadingAi, setLoadingAi] = useState(false);
   const [aiAnalysis, setAiAnalysis] = useState<string>('');
+  const [auditTrail, setAuditTrail] = useState<any>(null);
 
 
   const handleGenerateAnalysis = async () => {
     setLoadingAi(true);
     const axisPrinciples = GOVERNANCE_PRINCIPLES.filter(p => p.axis === 'Governança Corporativa');
-    const result = await generateGovernanceParecer({
+    const { narrative, auditTrail } = await orchestrateGovernanceNarrative({
       clientName: 'Sua Empresa',
       industry: 'Geral',
       metrics: flatMetrics,
       topPrinciples: axisPrinciples.map(p => p.name),
       scenarios: axisPrinciples.map(p => p.situationalScenario).filter(Boolean) as string[]
     });
-    setAiAnalysis(result);
+    console.log('Governance Audit Trail:', auditTrail);
+    setAuditTrail(auditTrail);
+    setAiAnalysis(narrative);
     setLoadingAi(false);
   };
 
@@ -535,7 +552,32 @@ export function GovernanceDashboardPage({
                 <Zap size={14} /> Leitura Estratégica AI
               </div>
               <div className="whitespace-pre-wrap relative z-10 text-xs text-muted-foreground font-medium italic">
-                <MarkdownText text={aiAnalysis} />
+                {auditTrail?.complianceStatus === 'non_compliant' ? (
+                  <div className="bg-red-500/10 border border-red-500/50 p-6 rounded-md mb-8 flex items-start gap-4 text-left not-italic">
+                    <ShieldAlert className="text-red-500 shrink-0" size={24} />
+                    <div>
+                      <h3 className="text-red-500 font-bold text-lg mb-2">Bloqueio Institucional</h3>
+                      <p className="text-red-400 font-medium leading-relaxed">
+                        Relatório bloqueado pela governança institucional: inconsistências de causalidade, risco ou dados insuficientes impedem validação executiva.
+                      </p>
+                      {auditTrail.warnings?.length > 0 && (
+                        <ul className="mt-4 list-disc list-inside text-red-400/80 text-sm">
+                          {auditTrail.warnings.map((w: string, i: number) => <li key={i}>{w}</li>)}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {auditTrail?.complianceStatus === 'partially_compliant' && (
+                      <div className="bg-yellow-500/10 border border-yellow-500/50 p-4 rounded-md mb-8 flex items-center gap-3 text-left not-italic">
+                        <ShieldAlert className="text-yellow-500 shrink-0" size={20} />
+                        <p className="text-yellow-500 font-bold text-sm">Leitura institucional parcial — dados insuficientes para inferência completa.</p>
+                      </div>
+                    )}
+                    <MarkdownText text={aiAnalysis} />
+                  </>
+                )}
               </div>
             </div>
           )}

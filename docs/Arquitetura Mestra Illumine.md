@@ -17,6 +17,138 @@
 > **Status:** Referência Conceitual e Diretriz Arquitetural
 > **Objetivo:** Orientar futuras implementações, decisões de design e evolução da plataforma Illumine sem aprofundar em código no momento.
 
+## GOVERNANÇA DA INTELIGÊNCIA CAUSAL
+
+A plataforma Illumine passa a operar sobre uma arquitetura institucional baseada em causalidade financeira, comportamento estrutural e inferência dinâmica.
+
+Toda análise, score, advisory, narrativa executiva, classificação institucional, stress test ou recomendação estratégica deverá obedecer obrigatoriamente às regras definidas na:
+
+* MASTER_CAUSAL_ENGINE.md
+
+A MASTER_CAUSAL_ENGINE torna-se a autoridade oficial para:
+
+* causalidade financeira;
+* liquidez qualitativa;
+* comportamento do capital de giro;
+* elasticidade operacional;
+* continuidade empresarial;
+* pressão estrutural;
+* stress financeiro;
+* resiliência institucional;
+* inferência comportamental;
+* sustentabilidade operacional;
+* inteligência dinâmica.
+
+Nenhum componente, página, serviço, hook, AI service, runtime local ou módulo analítico poderá:
+
+* inferir saúde financeira;
+* classificar estabilidade;
+* gerar advisory;
+* interpretar crescimento;
+* determinar resiliência;
+* interpretar liquidez;
+* avaliar risco estrutural;
+
+fora das regras institucionais definidas pela MASTER_CAUSAL_ENGINE.
+
+Toda inferência institucional deverá manter coerência causal obrigatória entre:
+
+1. Estrutura patrimonial;
+2. Dinâmica operacional;
+3. Composição do capital de giro;
+4. Pressão de caixa;
+5. Dependência operacional;
+6. Estrutura de financiamento;
+7. Sustentabilidade do crescimento;
+8. Continuidade empresarial.
+
+A plataforma deixa oficialmente de operar apenas como sistema de analytics financeiro e passa a operar como:
+
+CAUSAL INSTITUTIONAL INTELLIGENCE PLATFORM.
+
+## CAUSAL VALIDATION GOVERNANCE
+
+Toda evolução da inteligência causal da plataforma deverá ser validada através da:
+
+* CAUSAL_VALIDATION_SUITE.md
+
+A suíte de validação institucional torna-se responsável pela:
+
+* homologação comportamental;
+* estabilidade inferencial;
+* coerência executiva;
+* validação longitudinal;
+* testes de stress;
+* prevenção de regressão causal;
+* consistência narrativa;
+* qualidade institucional da inteligência.
+
+Nenhuma alteração relevante na MASTER_CAUSAL_ENGINE poderá ser considerada homologada sem validação na suíte institucional.
+
+## GOVERNANÇA OPERACIONAL
+
+Toda interpretação operacional da plataforma deverá obedecer obrigatoriamente às diretrizes estabelecidas na:
+
+* OPERATIONAL_INTELLIGENCE_LAYER.md
+
+A plataforma deixa de interpretar a DRE apenas como painel de indicadores ou cálculo financeiro estático. Passa a atuar como um Operational Behavioral Intelligence System.
+Nenhum módulo poderá:
+* interpretar EBITDA isoladamente sem contextualizar a sua qualidade (Saudável, Frágil, Artificial, Destrutivo);
+* inferir saúde operacional apenas por faturamento ou lucros descontextualizados;
+* classificar crescimento sem avaliar pressão estrutural, conversão em caixa e elasticidade operacional.
+
+## CASH FLOW INTELLIGENCE GOVERNANCE
+
+A plataforma Illumine passa a reconhecer o Fluxo de Caixa como terceiro eixo estrutural da inteligência institucional, ao lado de:
+
+* Balanço Patrimonial;
+* DRE;
+* Fluxo de Caixa.
+
+Toda interpretação de caixa deverá obedecer obrigatoriamente ao documento:
+
+* CASH_FLOW_INTELLIGENCE_LAYER.md
+
+A camada de caixa torna-se responsável por:
+
+* sobrevivência institucional;
+* runway financeiro;
+* pressão de tesouraria;
+* drenagem operacional;
+* qualidade da geração de caixa;
+* dependência financeira;
+* elasticidade de caixa;
+* sustentabilidade de investimento;
+* risco de ruptura;
+* continuidade empresarial baseada em caixa.
+
+Nenhum componente, engine, hook, página, serviço, relatório, score ou advisory poderá interpretar Fluxo de Caixa fora das regras definidas pela CASH_FLOW_INTELLIGENCE_LAYER.
+
+A plataforma passa a reconhecer institucionalmente que:
+
+* Lucro não é caixa;
+* EBITDA não é caixa;
+* Receita não é liquidez;
+* Saldo bancário não é saúde financeira;
+* Crescimento sem caixa pode destruir a empresa.
+
+Toda inferência institucional deverá manter coerência causal obrigatória entre:
+
+1. Estrutura patrimonial;
+2. Performance operacional;
+3. Fluxo de caixa;
+4. Runway financeiro;
+5. Pressão de tesouraria;
+6. Dependência de funding;
+7. Sustentabilidade de crescimento;
+8. Continuidade empresarial.
+
+A Arquitetura Mestra deverá registrar que a plataforma Illumine evolui para uma:
+
+**INTEGRATED INSTITUTIONAL INTELLIGENCE PLATFORM**
+
+capaz de interpretar estrutura, operação e caixa de forma integrada, causal, ponderada, calibrada e executivamente coerente.
+
 ## 1. Visão Geral do Sistema
 O **Illumine Strategic Intelligence & Advisor** é uma plataforma de inteligência estratégica e gestão financeira (CFO-as-a-Service). Seu objetivo principal é transcender a contabilidade tradicional, oferecendo relatórios executivos, diagnósticos aprofundados e governança corporativa impulsionada por Inteligência Artificial.
 
@@ -3334,15 +3466,20 @@ A plataforma Illumine opera através de camadas hierárquicas de inteligência.
 
 A ordem oficial de precedência institucional é:
 
-1. ARQUITETURA_MESTRA_ILLUMINE.md
-2. EXECUTIVE_SYNTHESIS_ENGINE.md
-3. MASTER_EXECUTIVE_INTELLIGENCE_LAYER.md
-4. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
-5. ENGINE_DE_CAUSALIDADE.md
-6. Demais engines especializadas
-7. Componentes visuais
-8. Mock data
-9. Regras locais
+1. MASTER_RUNTIME_ORCHESTRATOR.md
+2. RUNTIME_COMPLIANCE_SYSTEM.md
+3. MASTER_ARCHITECTURE.md
+4. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
+5. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+6. Engines específicas
+7. Componentes
+8. Mock data / fallback / regras locais
+
+EXECUTIVE_CAUSALITY_ENGINE.md é a fonte oficial de interpretação econômica causal da plataforma.
+
+STRATEGIC_RISK_ENGINE.md é a fonte oficial de identificação, classificação, priorização e modulação dos riscos estratégicos, financeiros, operacionais, patrimoniais e de continuidade.
+
+Nenhum componente, template local, fallback narrativo ou mock pode gerar narrativa executiva, risco, causalidade ou recomendação sem obedecer a essas engines.
 
 ---
 
@@ -3440,14 +3577,14 @@ Nenhuma interface poderá:
 
 Hierarquia oficial da plataforma:
 
-1. Arquitetura Mestra Illumine
-2. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
-3. BOARD_RENDER_ENGINE.md
-4. EXECUTIVE_COMPRESSION_ENGINE.md
-5. ENGINE_DE_CAUSALIDADE.md
+1. MASTER_RUNTIME_ORCHESTRATOR.md
+2. RUNTIME_COMPLIANCE_SYSTEM.md
+3. MASTER_ARCHITECTURE.md
+4. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
+5. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
 6. Engines específicas
-7. Componentes de interface
-8. Mock data/local rules
+7. Componentes
+8. Mock data / fallback / regras locais
 
 ## 39. Engines Institucionais de Síntese Executiva
 
@@ -3488,12 +3625,14 @@ A BOARD_SYNTHESIS_ENGINE é definida como engine obrigatória para qualquer:
 
 Fica definida a seguinte precedência na plataforma:
 
-1. MASTER_ARCHITECTURE.md
-2. EXECUTIVE_ORCHESTRATION_ENGINE.md
-3. BOARD_SYNTHESIS_ENGINE.md
-4. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
-5. BOARD_RENDER_ENGINE.md
-6. Engines complementares
+1. MASTER_RUNTIME_ORCHESTRATOR.md
+2. RUNTIME_COMPLIANCE_SYSTEM.md
+3. MASTER_ARCHITECTURE.md
+4. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
+5. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+6. Engines específicas
+7. Componentes
+8. Mock data / fallback / regras locais
 
 A EXECUTIVE_ORCHESTRATION_ENGINE governa experiência executiva;
 A BOARD_SYNTHESIS_ENGINE governa síntese causal;
@@ -3605,3 +3744,124 @@ A engine prove:
 - STRESS TEST → BUSINESS_MODEL_INTELLIGENCE_ENGINE
 - SCORES → BUSINESS_MODEL_INTELLIGENCE_ENGINE
 - ADVISORY → BUSINESS_MODEL_INTELLIGENCE_ENGINE
+
+## INSTITUTIONAL_RUNTIME_ENFORCER
+
+**Nível 02**
+INSTITUTIONAL_RUNTIME_ENFORCER
+
+**Função:**
+Guardião institucional de runtime.
+Responsável por:
+- impedir bypass arquitetural;
+- bloquear placeholders fracos;
+- validar causalidade;
+- validar coerência entre score e narrativa;
+- impedir advisory sem evidência;
+- impedir renderização fora da pipeline oficial;
+- gerar Institutional Audit Trail;
+- validar compliance institucional;
+- bloquear outputs non-compliant.
+
+**Status:**
+🟢 Ativo
+
+**Dependências:**
+- EXECUTIVE_ORCHESTRATION_ENGINE
+- BOARD_SYNTHESIS_ENGINE
+- MASTER_FINANCIAL_INTELLIGENCE
+- EXECUTIVE_CAUSALITY_ENGINE
+- STRATEGIC_RISK_ENGINE
+- MASTER_AI_ADVISORY_ENGINE
+
+**Consumidores:**
+Toda renderização executiva:
+- Board Reports
+- Executive Summary
+- Advisory Narratives
+- Governance Reports
+- PDF Exports
+- Stress Tests
+- Strategic Diagnostics
+
+## 47. Runtime Governance Enforcement
+
+A arquitetura institucional não opera apenas como documentação conceitual.
+Toda inteligência executiva deve obrigatoriamente passar pelo enforcement runtime antes da renderização final.
+
+Nenhum componente UI possui autoridade para:
+- gerar advisory;
+- recalcular métricas;
+- inferir causalidade;
+- renderizar narrativa executiva;
+- aplicar fallbacks silenciosos.
+
+Somente engines institucionais possuem autoridade de inteligência.
+
+Componentes React apenas renderizam outputs já auditados.
+
+**Regra Institucional:**
+
+Qualquer output marcado como:
+- `non_compliant`
+deve ser bloqueado.
+
+Qualquer output:
+- `partially_compliant`
+deve exibir aviso institucional obrigatório.
+
+## Camada Cognitiva Institucional
+
+A plataforma utiliza a arquitetura definida em:
+
+MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
+
+como camada oficial de:
+- inferência;
+- causalidade;
+- epistemologia;
+- advisory intelligence;
+- validação cognitiva;
+- enforcement narrativo;
+- confidence scoring;
+- inteligência institucional.
+
+## Runtime Institucional e Governança Cognitiva
+
+A plataforma utiliza uma arquitetura institucional centralizada de execução cognitiva baseada nos documentos:
+
+- MASTER_RUNTIME_ORCHESTRATOR.md
+- RUNTIME_COMPLIANCE_SYSTEM.md
+
+Esses documentos governam:
+- execução centralizada;
+- enforcement institucional;
+- compliance cognitivo;
+- orquestração de engines;
+- integridade causal;
+- propagação de confidence;
+- governança de inferência;
+- auditoria arquitetural;
+- prevenção de bypass;
+- conformidade do runtime.
+
+Toda inteligência institucional da plataforma deve obrigatoriamente utilizar:
+
+runInstitutionalAnalysis()
+
+Nenhum componente pode:
+- inferir diretamente;
+- gerar narrativa local;
+- gerar narrativa desacoplada;
+- calcular score fora do runtime;
+- chamar nenhuma engine diretamente por página ou componente;
+- gerar advisory local sem passar pelo pipeline institucional.
+
+Todo bypass do runtime deve ser tratado estritamente como violação arquitetural.
+
+Toda execução deve obedecer:
+- o pipeline institucional;
+- a arquitetura cognitiva;
+- a governança causal;
+- a validação epistemológica;
+- o compliance institucional.

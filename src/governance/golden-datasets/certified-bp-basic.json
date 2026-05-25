@@ -1,0 +1,14 @@
+{
+  "engineName": "LegacyFinancialAdapter",
+  "success": true,
+  "confidence": "HIGH",
+  "inference": {
+    "domain": "balance_sheet",
+    "metrics": { "patrimonioLiquido": 1500000, "ativoCirculante": 2000000, "passivoCirculante": 1000000, "cgl": 1000000 },
+    "causality": ["Capital de giro positivo indica folga no curto prazo."],
+    "narrative": { "diagnostic": "Estrutura patrimonial sólida.", "cause": "CGL alto e PL saudável.", "consequence": "Baixa dependência de terceiros." },
+    "confidence": "HIGH",
+    "evidenceLevel": "EVIDENCE_BASED",
+    "score": 85
+  }
+}

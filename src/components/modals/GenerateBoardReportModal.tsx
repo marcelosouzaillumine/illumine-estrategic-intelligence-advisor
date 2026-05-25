@@ -1,53 +1,55 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { X, Loader2, Download, Bot } from 'lucide-react';
 import { Button } from '../ui/button';
-import { generateBoardReportFull, BoardReportData } from '../../services/aiBoardReportService';
-import { FinancialEntry } from '../../hooks/useHistoricalDemonstracoes';
+import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 import { BoardReportPDF } from '../pdf/BoardReportPDF';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { motion, AnimatePresence } from 'motion/react';
 
 interface GenerateBoardReportModalProps {
   isOpen: boolean;
   onClose: () => void;
   clientId: string;
   companyName: string;
-  financialData: FinancialEntry[];
+  financialData: any[];
   clientData?: any;
+  selectedYear: number;
 }
 
 export function GenerateBoardReportModal({
   isOpen,
   onClose,
+  clientId,
   companyName,
-  financialData,
+  selectedYear,
   clientData
 }: GenerateBoardReportModalProps) {
   const [status, setStatus] = useState<'idle' | 'generating_ai' | 'ready' | 'rendering_pdf' | 'error'>('idle');
   const [progressMsg, setProgressMsg] = useState('');
-  const [reportData, setReportData] = useState<BoardReportData | null>(null);
   const pdfRef = useRef<HTMLDivElement>(null);
+
+  const { advisoryReport, loading: advisoryLoading } = useExecutiveAdvisory(clientId, selectedYear, 12, clientData);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (advisoryLoading) {
+        setStatus('generating_ai');
+        setProgressMsg('Processando inteligência executiva (Executive Advisory Engine)...');
+      } else if (advisoryReport) {
+        setStatus('ready');
+      } else {
+        setStatus('error');
+        setProgressMsg('Não foi possível gerar a inteligência com os dados atuais.');
+      }
+    } else {
+      setStatus('idle');
+    }
+  }, [isOpen, advisoryLoading, advisoryReport]);
 
   if (!isOpen) return null;
 
-  const handleGenerateAI = async () => {
-    try {
-      setStatus('generating_ai');
-      const data = await generateBoardReportFull(companyName, financialData, (msg) => {
-        setProgressMsg(msg);
-      }, clientData);
-      setReportData(data);
-      setStatus('ready');
-    } catch (err: any) {
-      console.error(err);
-      setStatus('error');
-      setProgressMsg(err.message || 'Erro ao gerar o relatório com IA.');
-    }
-  };
-
   const handleDownloadPDF = async () => {
-    if (!reportData || !pdfRef.current) return;
+    if (!advisoryReport || !pdfRef.current) return;
     setStatus('rendering_pdf');
     setProgressMsg('Renderizando PDF de alta resolução...');
     
@@ -74,7 +76,7 @@ export function GenerateBoardReportModal({
         setProgressMsg(`Processando página ${i + 1} de ${pages.length}...`);
       }
       
-      pdf.save(`Board_Advisory_Report_${companyName.replace(/\\s+/g, '_')}.pdf`);
+      pdf.save(`Board_Advisory_Report_${companyName.replace(/\s+/g, '_')}.pdf`);
       setStatus('ready');
     } catch (error) {
       console.error('Error generating PDF:', error);
@@ -92,7 +94,7 @@ export function GenerateBoardReportModal({
           <div>
             <h2 className="text-sm font-bold text-foreground uppercase tracking-widest">Board Advisory Report</h2>
             <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mt-1">
-              Geração Assistida por IA
+              Executive Advisory Engine
             </p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-surface-container rounded-full transition-colors text-muted-foreground">
@@ -101,29 +103,12 @@ export function GenerateBoardReportModal({
         </div>
 
         <div className="p-8 space-y-8">
-          {status === 'idle' && (
-            <div className="text-center space-y-6">
-               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary">
-                  <Bot size={32} />
-               </div>
-               <div>
-                  <h3 className="text-sm font-medium text-foreground">Motor de Inteligência Ativo</h3>
-                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                     Esta operação utilizará o histórico financeiro de 6 anos para gerar um parecer executivo de alto nível, incluindo diagnósticos patrimoniais, resiliência e simulações estruturais.
-                  </p>
-               </div>
-               <Button onClick={handleGenerateAI} className="w-full bg-[#0E1C2C] text-[#BAB86C] hover:bg-[#0E1C2C]/90 font-bold uppercase tracking-widest">
-                 Iniciar Geração IA
-               </Button>
-            </div>
-          )}
-
           {(status === 'generating_ai' || status === 'rendering_pdf') && (
              <div className="text-center space-y-6 py-6">
                 <Loader2 size={40} className="animate-spin text-secondary mx-auto" />
                 <div className="space-y-2">
                    <h3 className="text-sm font-medium text-foreground">
-                     {status === 'generating_ai' ? 'Processamento IA' : 'Montagem do Documento'}
+                     {status === 'generating_ai' ? 'Síntese Institucional Ativa' : 'Montagem do Documento'}
                    </h3>
                    <p className="text-xs font-bold text-primary animate-pulse">{progressMsg}</p>
                 </div>
@@ -132,21 +117,21 @@ export function GenerateBoardReportModal({
 
           {status === 'error' && (
              <div className="text-center space-y-6">
-                <div className="text-destructive font-bold text-sm">Ocorreu um Erro</div>
-                <p className="text-xs text-muted-foreground">{progressMsg}</p>
-                <Button onClick={() => setStatus('idle')} variant="outline">Tentar Novamente</Button>
+                <div className="text-destructive font-bold text-sm">Bloqueio Institucional</div>
+                <p className="text-xs text-muted-foreground leading-relaxed">{progressMsg}</p>
+                <Button onClick={onClose} variant="outline">Dispensar</Button>
              </div>
           )}
 
-          {status === 'ready' && reportData && (
+          {status === 'ready' && advisoryReport && (
             <div className="text-center space-y-6">
                <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto text-green-500">
                   <Download size={32} />
                </div>
                <div>
-                  <h3 className="text-sm font-medium text-foreground">Relatório Pronto</h3>
+                  <h3 className="text-sm font-medium text-foreground">Relatório Executivo Pronto</h3>
                   <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                     A inteligência corporativa concluiu a análise. O relatório de 14 sessões está pronto para ser baixado.
+                     A Executive Advisory Engine concluiu a síntese. O relatório estratégico consolidado está pronto para ser baixado.
                   </p>
                </div>
                <Button onClick={handleDownloadPDF} className="w-full bg-[#FF8552] text-white hover:bg-[#FF8552]/90 font-bold uppercase tracking-widest">
@@ -159,10 +144,10 @@ export function GenerateBoardReportModal({
 
       {/* Hidden PDF Render Container */}
       <div className="fixed top-[2000px] left-0 opacity-0 pointer-events-none z-[-10]">
-        {reportData && (
+        {advisoryReport && (
           <BoardReportPDF 
              ref={pdfRef} 
-             data={reportData} 
+             data={advisoryReport} 
              companyName={companyName} 
              reportDate={new Date().toLocaleDateString('pt-BR')} 
           />

@@ -29,9 +29,9 @@ import { formatValue, formatCurrency, cn } from '../../lib/utils';
 import { PageHeader, Semaphore, StatusBadge, MarkdownText, KpiCard } from '../Common';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIntelligence';
-import { GovernanceInsightPanel } from '../GovernanceInsightPanel';
-import { GovernancePerspectiveSection } from '../GovernancePerspectiveSection';
-import { generateGovernanceParecer } from '../../services/governanceAiService';
+import { getLiquidityIndicators } from '../../lib/master-causal-engine';
+import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
+import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 import { 
   AreaChart, 
   Area, 
@@ -125,57 +125,34 @@ export function FinancialAdminDashboard({
     return () => unsubs.forEach(unsub => unsub());
   }, [clientId, selectedYear, selectedMonth]);
 
-  const [isGeneratingParecer, setIsGeneratingParecer] = useState(false);
-  const [parecer, setParecer] = useState<string | null>(null);
-
-  const handleGenerateParecer = async () => {
-    setIsGeneratingParecer(true);
-    try {
-      const kpis = {
-        // Aspectos Contábeis
-        'Receita Bruta': formatCurrency(calculatedKPIs.revenue),
-        'EBITDA': formatCurrency(calculatedKPIs.ebitda),
-        'Lucro Líquido': formatCurrency(calculatedKPIs.netProfit),
-        'Margem Líquida': `${calculatedKPIs.margemLiquida.toFixed(2)}%`,
-        
-        // Aspectos Financeiros (ALM/Caixa)
-        'Saldo de Caixa Real': formatCurrency(calculatedKPIs.saldoCaixa),
-        'Liquidez Corrente': calculatedKPIs.liquidezCorrente.toFixed(2),
-        'Solvência ALM (Ativo/Passivo)': `${(calculatedKPIs.totalAssets / (calculatedKPIs.totalLiabilities || 1)).toFixed(2)}x`,
-        'Exposição de Risco de Caixa': `${((calculatedKPIs.totalLiabilities / (calculatedKPIs.saldoCaixa || 1)) * 100).toFixed(2)}%`,
-        
-        // Aspectos Administrativos/Governança
-        'Gargalos de Mapeamento Contábil': `${mappingGaps} contas sem classificação`,
-        'Endividamento Geral': `${((calculatedKPIs.totalLiabilities / (calculatedKPIs.totalAssets || 1)) * 100).toFixed(2)}%`
-      };
-
-      const topPrinciples = GOVERNANCE_PRINCIPLES
-        .filter(p => p.axis === 'Gestão Administrativa e Financeira')
-        .map(p => p.name);
-
-      const scenarios = GOVERNANCE_PRINCIPLES
-        .filter(p => p.axis === 'Gestão Administrativa e Financeira' && p.situationalScenario)
-        .map(p => p.situationalScenario) as string[];
-
-      const result = await generateGovernanceParecer({
-        clientName: 'Sua Empresa',
-        industry: 'Geral',
-        metrics: kpis,
-        topPrinciples: topPrinciples,
-        scenarios: scenarios
-      });
-      setParecer(result);
-    } catch (err) {
-      console.error('Erro ao gerar parecer:', err);
-    } finally {
-      setIsGeneratingParecer(false);
-    }
-  };
+  const { advisoryReport, loading: advisoryLoading } = useExecutiveAdvisory(clientId, selectedYear, selectedMonth);
 
   const fluxo30Dias = useMemo(() => {
     if (!cashFlowData?.Fluxo_Diario) return [];
     return cashFlowData.Fluxo_Diario.slice(0, 30);
   }, [cashFlowData]);
+
+  const liquidityIndices = useMemo(() => getLiquidityIndicators({
+    liqCorrente: calculatedKPIs.liquidezCorrente,
+    liqSeca: calculatedKPIs.liquidezCorrente * 0.8,
+    liqImediata: calculatedKPIs.saldoCaixa / (calculatedKPIs.totalLiabilities || 1),
+    liqGeral: calculatedKPIs.totalAssets / (calculatedKPIs.totalLiabilities || 1),
+    liquidezReal: calculatedKPIs.liquidezCorrente * 0.9,
+  } as any, undefined), [calculatedKPIs]);
+
+  const liqCorrenteObj = useMemo(() => liquidityIndices.find(i => i.name === 'Liquidez Corrente') || { status: 'Vermelho' }, [liquidityIndices]);
+  const liqStatusMap: Record<string, { text: string; bg: string }> = useMemo(() => ({
+    Verde: { text: 'Excelente', bg: 'bg-success' },
+    Amarelo: { text: 'Preservada', bg: 'bg-warning' },
+    Vermelho: { text: 'Crítica', bg: 'bg-destructive' }
+  }), []);
+  const liqInfo = liqStatusMap[liqCorrenteObj.status as keyof typeof liqStatusMap] || liqStatusMap.Vermelho;
+
+  const almObj = useMemo(() => liquidityIndices.find(i => i.name === 'Liquidez Geral') || { status: 'Vermelho' }, [liquidityIndices]);
+  const almInfo = useMemo(() => ({
+    text: almObj.status === 'Verde' ? 'Consolidada' : 'Em Estruturação',
+    color: almObj.status === 'Verde' ? 'text-success' : 'text-warning'
+  }), [almObj]);
 
   const flatMetrics = useMemo(() => {
     return {
@@ -370,17 +347,17 @@ export function FinancialAdminDashboard({
               <div className="text-center px-4 border-r border-white/10">
                 <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest mb-1">Status de Liquidez</p>
                 <div className="flex items-center gap-2">
-                  <div className={cn("w-2 h-2 rounded-full animate-pulse", calculatedKPIs.liquidezCorrente > 1.5 ? "bg-success" : calculatedKPIs.liquidezCorrente >= 1.0 ? "bg-warning" : "bg-destructive")} />
+                  <div className={cn("w-2 h-2 rounded-full animate-pulse", liqInfo.bg)} />
                   <span className="text-body-sm font-medium uppercase">
-                    {calculatedKPIs.liquidezCorrente > 1.5 ? "Excelente" : calculatedKPIs.liquidezCorrente >= 1.0 ? "Preservada" : "Crítica"}
+                    {liqInfo.text}
                   </span>
                 </div>
               </div>
               <div className="text-center px-4">
                 <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest mb-1">Maturidade ALM</p>
-                <span className="text-body-sm font-medium uppercase">
-                   {(calculatedKPIs.totalAssets / (calculatedKPIs.totalLiabilities || 1)) > 1.2 ? "Consolidada" : "Em Estruturação"}
-                </span>
+                <div className={cn("px-2 py-0.5 rounded text-[10px] uppercase tracking-wider", almInfo.color, "bg-black/20")}>
+                   {almInfo.text}
+                </div>
               </div>
             </div>
           </div>
@@ -659,14 +636,9 @@ export function FinancialAdminDashboard({
         </div>
       </div>
 
-      <GovernancePerspectiveSection 
-        axis="Gestão Administrativa e Financeira"
-        metrics={flatMetrics}
-        triggeredRules={triggeredRules}
-        principles={axisPrinciples}
-        aiAnalysis={parecer}
-        isGeneratingAi={isGeneratingParecer}
-        onGenerateAi={handleGenerateParecer}
+      <ExecutivePerspectiveSection 
+        report={advisoryReport} 
+        loading={advisoryLoading}
         className="mt-12"
       />
     </div>

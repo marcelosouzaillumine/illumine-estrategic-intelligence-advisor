@@ -1,0 +1,14 @@
+{
+  "engineName": "StressTestAdapter",
+  "success": true,
+  "confidence": "HIGH",
+  "inference": {
+    "domain": "stress_testing",
+    "metrics": { "runwayMeses": 12, "dscr": 1.5, "fcoEstressado": 400000 },
+    "causality": ["O fluxo de caixa atual suporta estresse operacional sem ruptura em 12 meses."],
+    "narrative": { "diagnostic": "Resiliência moderada a choques.", "cause": "FCO cobre despesas fixas mesmo sob pressão de 20%.", "consequence": "Não há risco imediato de insolvência." },
+    "confidence": "HIGH",
+    "evidenceLevel": "EVIDENCE_BASED",
+    "score": 75
+  }
+}

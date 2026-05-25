@@ -18,11 +18,12 @@ export interface FinancialMetrics {
   treasuryStatus: string;
 
   // Liquidez
-  liqCorrente: number;
-  liqSeca: number;
-  liqImediata: number;
+  liqCorrente: number; // Contábil
+  liqSeca: number; // Operacional
+  liqImediata: number; // Imediata
   liqGeral: number;
-  liquidezReal: number;
+  liquidezReal: number; // De Conversão
+  liquidezDependenteEstoque: number; // Dependente de Estoque
   liquidezRealStatus: string;
 
   // Estrutura / Endividamento
@@ -39,7 +40,6 @@ export interface FinancialMetrics {
   ativosLiquidosReais: number;
 
   // Contextual Harmonized Metrics
-  dscrSimulado: number;
   resilienciaGiro: number;
   absorcaoPrejuizo: number;
 }
@@ -77,11 +77,11 @@ export function calculateFinancialMetrics(
       cgl: 0, ncg: 0, saldoTesouraria: 0,
       capitalGiroMatematico: 0, capitalGiroOperacional: 0, margemErroOperacional: 0,
       treasuryStatus: 'Pendente',
-      liqCorrente: 0, liqSeca: 0, liqImediata: 0, liqGeral: 0, liquidezReal: 0, liquidezRealStatus: 'Pendente',
+      liqCorrente: 0, liqSeca: 0, liqImediata: 0, liqGeral: 0, liquidezReal: 0, liquidezDependenteEstoque: 0, liquidezRealStatus: 'Pendente',
       qualidadeEndividamento: 0, dependenciaBancaria: 0, indiceCapitalizacao: 0,
       indiceDescapitalizacao: 0, protecaoPatrimonial: 0, autonomiaFinanceira: 0,
       alavancagemPatrimonial: 0, concentracaoEstoque: 0, ativosLiquidosReais: 0,
-      dscrSimulado: 0, resilienciaGiro: 0, absorcaoPrejuizo: 0
+      resilienciaGiro: 0, absorcaoPrejuizo: 0
     };
   }
 
@@ -124,40 +124,45 @@ export function calculateFinancialMetrics(
   const liqImediata = pc > 0 ? cx / pc : (cx > 0 ? 99.9 : 0);
   const liqGeral    = (pc + pnc) > 0 ? ativoTotal / (pc + pnc) : (ativoTotal > 0 ? 99.9 : 0);
   const liquidezReal = pc > 0 ? (ativosLiquidosReais / pc) : (ativosLiquidosReais > 0 ? 99.9 : 0);
+  const liquidezDependenteEstoque = pc > 0 ? (estoquesPonderados / pc) : 0;
 
-  // DSCR Simulado: capacidade do EBITDA cobrir parcelas presumidas de DÍVIDA FINANCEIRA ONEROSA de curto prazo.
-  // Fornecedores operacionais são excluídos. Estimamos a parcela circulante da dívida financeira proporcionalmente ao PC.
-  const shortTermDebt = passivoTotal > 0 ? passivosFinanceiros * (pc / passivoTotal) : passivosFinanceiros;
-  const dscrSimulado = shortTermDebt > 0 ? (ebitda / (shortTermDebt / 12)) : (ebitda > 0 ? 99.9 : 0);
-  
+  // Removido dscrSimulado (Delegado para o StressTestAdapter com base em DFC validada)
+
   // Resiliência de Giro: O quão robustos são os ativos líquidos em relação à NCG
   const resilienciaGiro = ncg > 0 ? (ativosLiquidosReais / ncg) : (ativosLiquidosReais > 0 ? 99.9 : 0);
 
   // Absorção de Prejuízo: o quanto do capital social está protegido contra o prejuízo atual
   const absorcaoPrejuizo = capitalSocial > 0 ? Math.max(0, 1 - indiceDescapitalizacao) : 0;
   
-  // -- Inteligência de Tesouraria (Treasury Engine) --
-  let treasuryStatus = 'Estável';
-  if (saldoTesouraria < 0) {
-    treasuryStatus = margemErroOperacional < -0.2 ? 'Crítica' : 'Pressionada';
-  } else if (liqImediata < 0.1 || margemErroOperacional < (weights.workingCapitalTolerance * 0.5)) {
-    treasuryStatus = 'Sensível';
-  } else if (margemErroOperacional > (weights.workingCapitalTolerance * 1.5) && liqImediata > 0.3) {
-    treasuryStatus = 'Robusta';
-  } else {
-    treasuryStatus = 'Estável';
-  }
+  // -- Helpers para Weighted Causal Inference --
+  const clamp = (val: number, min: number, max: number) => Math.min(Math.max(val, min), max);
+  const inverseLerp = (val: number, min: number, max: number) => clamp((val - min) / (max - min), 0, 1);
 
-  // -- Taxonomia da Liquidez Real --
+  // -- Inteligência de Tesouraria (Treasury Engine) com Weighted Score --
+  const treasuryCashWeight = saldoTesouraria >= 0 ? 1.0 : inverseLerp(saldoTesouraria / (pc || 1), -0.2, 0.0);
+  const treasuryMarginWeight = inverseLerp(margemErroOperacional, -0.2, weights.workingCapitalTolerance * 1.5);
+  const treasuryLiquidityWeight = inverseLerp(liqImediata, 0.05, 0.3);
+  
+  const treasuryHealthScore = (treasuryCashWeight * 0.5) + (treasuryMarginWeight * 0.3) + (treasuryLiquidityWeight * 0.2);
+
+  let treasuryStatus = 'Estável';
+  if (treasuryHealthScore > 0.8) treasuryStatus = 'Robusta';
+  else if (treasuryHealthScore > 0.5) treasuryStatus = 'Estável';
+  else if (treasuryHealthScore > 0.3) treasuryStatus = 'Sensível';
+  else if (treasuryHealthScore > 0.15) treasuryStatus = 'Pressionada';
+  else treasuryStatus = 'Crítica';
+
+  // -- Taxonomia da Liquidez Real com Weighted Score e Penalização Estrutural --
+  const baseLiquidityScore = inverseLerp(liquidezReal, 0, 1.0);
+  const rupturePenalty = (plValue < 0 ? 0.3 : 0) + (ebitda < 0 ? 0.2 : 0);
+  const liquidityHealthScore = clamp(baseLiquidityScore - rupturePenalty, 0, 1);
+
   let liquidezRealStatus = 'Estável';
-  if (liquidezReal >= 1.0) liquidezRealStatus = 'Robusta';
-  else if (liquidezReal >= 0.75) liquidezRealStatus = 'Estável';
-  else if (liquidezReal >= 0.50) liquidezRealStatus = 'Sensível';
-  else if (liquidezReal >= 0.25) liquidezRealStatus = 'Fragilizada';
-  else {
-    // Só é crítica se houver risco de ruptura (pl < 0 ou ebitda < 0)
-    liquidezRealStatus = (plValue < 0 || ebitda < 0 || dscrSimulado < 0.5) ? 'Crítica' : 'Fragilizada';
-  }
+  if (liquidityHealthScore >= 0.85) liquidezRealStatus = 'Robusta';
+  else if (liquidityHealthScore >= 0.6) liquidezRealStatus = 'Estável';
+  else if (liquidityHealthScore >= 0.35) liquidezRealStatus = 'Sensível';
+  else if (liquidityHealthScore >= 0.15) liquidezRealStatus = 'Fragilizada';
+  else liquidezRealStatus = 'Crítica';
 
   return {
     hasData: true,
@@ -175,6 +180,7 @@ export function calculateFinancialMetrics(
     liqImediata,
     liqGeral,
     liquidezReal,
+    liquidezDependenteEstoque,
     liquidezRealStatus,
     qualidadeEndividamento,
     dependenciaBancaria,
@@ -185,7 +191,6 @@ export function calculateFinancialMetrics(
     alavancagemPatrimonial,
     concentracaoEstoque,
     ativosLiquidosReais,
-    dscrSimulado,
     resilienciaGiro,
     absorcaoPrejuizo
   };

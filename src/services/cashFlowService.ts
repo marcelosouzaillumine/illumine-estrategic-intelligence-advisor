@@ -151,34 +151,29 @@ export async function generateCashFlow(clientId: string) {
     }))
     .sort((a, b) => (a.Vencimento || '').localeCompare(b.Vencimento || ''));
 
-  // 5. KPIs & CFO Metrics
+  // 5. KPIs & CFO Metrics (Basic aggregations only, no predictive logic)
   const totalSaidasProjetadas = projections.reduce((acc, p) => acc + p.Saídas, 0);
-  const burnRate = totalSaidasProjetadas / 360;
-  const diasCaixa = burnRate > 0 ? currentSaldo / burnRate : (currentSaldo > 0 ? 999 : 0);
   
   // CFO Strategic Metrics
   const saldosFinais = projections.map(p => p["Saldo Final"]);
   const menorSaldo = Math.min(...saldosFinais);
   const dataMenorSaldo = projections.find(p => p["Saldo Final"] === menorSaldo)?.Data || '';
-  const diasAtePontoCritico = projections.findIndex(p => p["Saldo Final"] < 0);
   
   // Advanced CFO KPIs
   const receivables30d = projections.slice(0, 30).reduce((acc, p) => acc + p.Entradas, 0);
   const payables30d = projections.slice(0, 30).reduce((acc, p) => acc + p.Saídas, 0);
   const lcr = payables30d > 0 ? (saldoInicialTotal + receivables30d) / payables30d : 2;
-  const margemSeguranca = totalSaidasProjetadas > 0 ? (currentSaldo / totalSaidasProjetadas) * 100 : 0;
 
   const totalReceber = contasReceber.reduce((acc, r) => acc + r.Valor, 0);
   const totalPagar = contasPagar.reduce((acc, p) => acc + p.Valor, 0);
 
   const kpis = [
-    { "Indicador": "Burn rate médio diário", "Fórmula / Valor": burnRate, "Status": "Info" },
-    { "Indicador": "Dias de caixa (Runway)", "Fórmula / Valor": Math.round(diasCaixa), "Status": !hasRealData ? "Pendente" : (diasCaixa < 30 ? "Crítico" : "Saudável") },
+    { "Indicador": "Burn rate médio diário", "Fórmula / Valor": "Requer Runtime Institucional", "Status": "Info" },
+    { "Indicador": "Dias de caixa (Runway)", "Fórmula / Valor": "Requer Runtime Institucional", "Status": "Pendente" },
     { "Indicador": "Ponto de Caixa Mínimo", "Fórmula / Valor": menorSaldo, "Data": dataMenorSaldo, "Status": menorSaldo < 0 ? "Risco" : "OK" },
     { "Indicador": "Índice de Cobertura (LCR)", "Fórmula / Valor": lcr.toFixed(2), "Status": !hasRealData ? "Pendente" : (lcr < 1 ? "Crítico" : "Saudável") },
-    { "Indicador": "Margem de Segurança", "Fórmula / Valor": margemSeguranca.toFixed(1) + "%", "Status": "Info" },
     { "Indicador": "Necessidade de Cap. Giro", "Fórmula / Valor": totalPagar - totalReceber, "Status": "Strategic" },
-    { "Indicador": "Dias até Ruptura", "Fórmula / Valor": diasAtePontoCritico, "Status": diasAtePontoCritico !== -1 ? "Alerta" : "Seguro" }
+    { "Indicador": "Dias até Ruptura", "Fórmula / Valor": "Requer Runtime Institucional", "Status": "Seguro" }
   ];
 
   // 6. Save to Firestore in 'cash_flows' collection

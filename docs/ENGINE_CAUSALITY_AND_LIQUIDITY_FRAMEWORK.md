@@ -1,5 +1,8 @@
 # ENGINE DE CAUSALIDADE E LIQUIDEZ - FRAMEWORK ARQUITETURAL
 
+> **Status Oficial:** Documento Complementar
+> **Documento Principal:** `EXECUTIVE_CAUSALITY_ENGINE.md`
+
 ## 1. Finalidade do Framework
 Este documento estabelece as regras fundacionais da plataforma Illumine para a governança da correlação entre sintomas financeiros e causas operacionais (Causalidade), com foco primário e inegociável na preservação da continuidade dos negócios (Liquidez e Sobrevivência de Caixa).
 

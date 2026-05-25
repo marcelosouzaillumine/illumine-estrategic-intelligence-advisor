@@ -18,7 +18,8 @@ import {
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiCard } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
-import { ExecutiveCommentary } from '../ExecutiveCommentary';
+import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
+import { ShieldAlert, AlertTriangle } from 'lucide-react';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import {
@@ -55,125 +56,30 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
   const loading = loadingDFC;
   const dbData = dbDataDFC;
-  const docIds = docIdsDFC;
 
-  const [isGenerated, setIsGenerated] = useState(false);
-
-  const rows = useMemo(() => {
-    if (dbData && dbData.length > 0) {
-      setIsGenerated(false);
-      return dbData;
+  const { runtimeOutput, loading: runtimeLoading } = useInstitutionalRuntime({
+    engineType: 'LegacyDFCAdapter',
+    input: {
+      clientId: selectedClient,
+      rawFinancialData: {
+        filterYear,
+        allHistoryData
+      }
     }
+  });
 
-    setIsGenerated(true);
+  const dfcInference = runtimeOutput?.inferences ? Object.values(runtimeOutput.inferences).find(i => i.domain === 'Inteligência de Caixa (DFC)') : null;
+  const metrics = dfcInference?.metrics || {};
+  const rows = metrics.tableRows || [];
+  const chartData = metrics.chartData || [];
+  const fco = metrics.fco || 0;
+  const fci = metrics.fci || 0;
+  const fcf = metrics.fcf || 0;
+  const variacao = metrics.variacaoCaixa || 0;
+  const reinvestmentCapacity = metrics.reinvestmentCapacity || 0;
+  const isGenerated = metrics.isGenerated || false;
 
-    const normalizeString = (s: string) => 
-      s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/^[0-9.]+\s*[-]\s*/, '').replace(/^[()=/\-+.\s]+|[()=/\-+.\s]+$/g, '').trim();
 
-    const getHistoricalValue = (y: number, docTypes: string[], nameFilters: string[]) => {
-      const yearEntries = allHistoryData.filter((d: any) => 
-        Number(d.year) === y && docTypes.some(t => normalizeString(d.type || '') === normalizeString(t))
-      );
-      
-      const normalizedFilters = nameFilters.map(normalizeString);
-      const match = yearEntries.find((d: any) => {
-        const c = normalizeString(d.conta || d.category || '');
-        return normalizedFilters.some(n => c === n || c.includes(n));
-      });
-      return match?.val || match?.valor || match?.value || 0;
-    };
-    
-    const getHistoricalSum = (y: number, docTypes: string[], nameFilters: string[]) => {
-      const yearEntries = allHistoryData.filter((d: any) => 
-        Number(d.year) === y && docTypes.some(t => normalizeString(d.type || '') === normalizeString(t))
-      );
-      
-      let sum = 0;
-      const normalizedFilters = nameFilters.map(normalizeString);
-      yearEntries.forEach((d: any) => {
-        const c = normalizeString(d.conta || d.category || '');
-        if (normalizedFilters.some(n => c === n || c.includes(n))) {
-           sum += (d.val || d.valor || d.value || 0);
-        }
-      });
-      return sum;
-    };
-
-    const lucroLiquido = getHistoricalValue(filterYear, ['dre', 'resultado'], ['lucro liquido', 'lucro do exercicio', 'resultado do exercicio', 'resultado liquido', 'lucro/prejuizo do exercicio']);
-    const depreciacaoDre = Math.abs(getHistoricalSum(filterYear, ['dre', 'resultado'], ['depreciacao', 'amortizacao']));
-
-    const clientesAtual = getHistoricalSum(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['clientes', 'contas a receber', 'duplicatas a receber', 'recebiveis']);
-    const clientesAnt = getHistoricalSum(filterYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['clientes', 'contas a receber', 'duplicatas a receber', 'recebiveis']);
-    const varClientes = clientesAnt - clientesAtual;
-
-    const estoqueAtual = getHistoricalSum(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['estoque', 'estoques', 'mercadorias']);
-    const estoqueAnt = getHistoricalSum(filterYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['estoque', 'estoques', 'mercadorias']);
-    const varEstoque = estoqueAnt - estoqueAtual;
-
-    const fornecedoresAtual = getHistoricalSum(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['fornecedor', 'fornecedores', 'contas a pagar']);
-    const fornecedoresAnt = getHistoricalSum(filterYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['fornecedor', 'fornecedores', 'contas a pagar']);
-    const varFornecedores = fornecedoresAtual - fornecedoresAnt;
-
-    const fco = lucroLiquido + depreciacaoDre + varClientes + varEstoque + varFornecedores;
-
-    const imobAtual = getHistoricalSum(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['imobilizado', 'intangivel', 'investimentos']);
-    const imobAnt = getHistoricalSum(filterYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['imobilizado', 'intangivel', 'investimentos']);
-    const varImob = imobAnt - imobAtual;
-    const fci = varImob - depreciacaoDre;
-
-    const dividasAtual = getHistoricalSum(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['emprestimo', 'emprestimos', 'financiamento', 'financiamentos', 'debentures', 'bancos']);
-    const dividasAnt = getHistoricalSum(filterYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['emprestimo', 'emprestimos', 'financiamento', 'financiamentos', 'debentures', 'bancos']);
-    const varDividas = dividasAtual - dividasAnt;
-
-    const capAtual = getHistoricalSum(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['capital social', 'capital integralizado', 'capital subscrito', 'patrimonio liquido']);
-    const capAnt = getHistoricalSum(filterYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['capital social', 'capital integralizado', 'capital subscrito', 'patrimonio liquido']);
-    const varCapital = capAtual - capAnt;
-
-    const saldoInicialLucro = getHistoricalValue(filterYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['lucros acumulados', 'lucro acumulado', 'prejuizos acumulados', 'lucros ou prejuizos']);
-    const saldoFinalLucro = getHistoricalValue(filterYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['lucros acumulados', 'lucro acumulado', 'prejuizos acumulados', 'lucros ou prejuizos']);
-    const dividendos = saldoInicialLucro + lucroLiquido - saldoFinalLucro;
-
-    const fcf = varDividas + varCapital - dividendos;
-
-    const variacaoCaixa = fco + fci + fcf;
-
-    // --- DEBUG INFO ---
-    setDebugInfo({
-      totalHistoryLength: allHistoryData.length,
-      dreRowsCurrentYear: allHistoryData.filter((d: any) => Number(d.year) === filterYear && ['dre', 'resultado'].some(t => normalizeString(d.type || '') === normalizeString(t))).length,
-      bpRowsCurrentYear: allHistoryData.filter((d: any) => Number(d.year) === filterYear && ['balanço patrimonial', 'bp'].some(t => normalizeString(d.type || '') === normalizeString(t))).length,
-      bpRowsLastYear: allHistoryData.filter((d: any) => Number(d.year) === filterYear - 1 && ['balanço patrimonial', 'bp'].some(t => normalizeString(d.type || '') === normalizeString(t))).length,
-      lucroLiquidoFound: lucroLiquido,
-      fcoCalculated: fco
-    });
-    // ------------------
-
-    return [
-      { item: 'Fluxo de Caixa das Atividades Operacionais (FCO)', val: fco, isTotal: true },
-      { item: '  Lucro Líquido', val: lucroLiquido, isSubTotal: false },
-      { item: '  Depreciação e Amortização', val: depreciacaoDre, isSubTotal: false },
-      { item: '  Variação de Clientes', val: varClientes, isSubTotal: false },
-      { item: '  Variação de Estoques', val: varEstoque, isSubTotal: false },
-      { item: '  Variação de Fornecedores', val: varFornecedores, isSubTotal: false },
-      { item: 'Fluxo de Caixa das Atividades de Investimento (FCI)', val: fci, isTotal: true },
-      { item: '  Aquisição/Alienação de Imob. e Intangível', val: fci, isSubTotal: false },
-      { item: 'Fluxo de Caixa das Atividades de Financiamento (FCF)', val: fcf, isTotal: true },
-      { item: '  Captação/Amortização de Empréstimos', val: varDividas, isSubTotal: false },
-      { item: '  Aumento de Capital', val: varCapital, isSubTotal: false },
-      { item: '  Distribuição de Dividendos e Lucros', val: -dividendos, isSubTotal: false },
-      { item: 'Aumento / Redução de Caixa (Variação Líquida)', val: variacaoCaixa, isTotal: true },
-    ];
-  }, [dbData, allHistoryData, filterYear]);
-
-  const getValue = (source: any[], name: string) => {
-    const search = name.toLowerCase();
-    return source.find(s => (s.conta || s.category || '').toLowerCase().includes(search))?.val || 0;
-  };
-
-  const fco = getValue(rows, 'Atividades Operacionais');
-  const fci = getValue(rows, 'Atividades de Investimento');
-  const fcf = getValue(rows, 'Atividades de Financiamento');
-  const variacao = getValue(rows, 'Aumento / Redução de Caixa');
 
   const cashIndices = [
     { name: 'Fluxo Operacional', val: fco, unit: 'R$', desc: 'Geração de caixa pelas atividades principais', color: 'text-emerald-600' },
@@ -181,31 +87,6 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
     { name: 'Fluxo Financiamento', val: fcf, unit: 'R$', desc: 'Entradas e saídas de capital e dívidas', color: 'text-purple-600' },
     { name: 'Variação Líquida', val: variacao, unit: 'R$', desc: 'Resultado final das movimentações de caixa', color: 'text-slate-900' },
   ];
-
-  // ── Histórico para Gráfico ────────────────────────────────────────────────
-  const chartData = useMemo(() => {
-    return [5, 4, 3, 2, 1, 0].map(offset => {
-      const y = filterYear - offset;
-      const yearEntries = allHistoryData.filter((d: any) => d.year === y && d.type === 'DFC');
-      
-      let o = 0; let i = 0; let f = 0;
-
-      if (yearEntries.length > 0) {
-        o = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('operacionais')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-        i = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('investimento')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-        f = yearEntries.filter(d => (d.conta || d.category || '').toLowerCase().includes('financiamento')).reduce((acc, d) => acc + (d.val || d.valor || d.value || 0), 0);
-      } else {
-        o = 0; i = 0; f = 0;
-      }
-
-      return {
-        year: y.toString(),
-        operacional: o,
-        investimento: i,
-        financiamento: f
-      };
-    }).filter(d => d.operacional !== 0 || d.investimento !== 0 || d.financiamento !== 0);
-  }, [allHistoryData, selectedClient, filterYear]);
 
   const showToast = (type: 'success' | 'error', message: string) => {
     setToast({ type, message });
@@ -249,20 +130,6 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       />
 
       <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
-        
-        {debugInfo && (
-          <div className="w-full mb-4 bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-md text-xs font-mono">
-            <p className="font-bold mb-2">🔍 DFC Debug Info</p>
-            <ul className="space-y-1">
-              <li>totalHistoryLength: {debugInfo.totalHistoryLength}</li>
-              <li>dreRowsCurrentYear: {debugInfo.dreRowsCurrentYear}</li>
-              <li>bpRowsCurrentYear: {debugInfo.bpRowsCurrentYear}</li>
-              <li>bpRowsLastYear: {debugInfo.bpRowsLastYear}</li>
-              <li>lucroLiquidoFound: {debugInfo.lucroLiquidoFound}</li>
-              <li>fcoCalculated: {debugInfo.fcoCalculated}</li>
-            </ul>
-          </div>
-        )}
 
         <div className="flex items-center gap-3">
           <div className="bg-card border border-border rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
@@ -452,13 +319,18 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
         </div>
       </div>
 
-      <ExecutiveCommentary
-        reportType="DFC"
-        clientId={selectedClient}
-        year={filterYear}
-        month={1}
-      />
-
+      {/* Advisory Institutions Layer */}
+      {dfcInference?.narrative && (
+        <div className="bg-slate-900 text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden mb-10">
+          <div className="flex items-center gap-3 mb-6">
+            <Info size={24} className="text-secondary" />
+            <h3 className="text-xl font-black">Advisory Institucional</h3>
+          </div>
+          <p className="text-sm font-medium leading-relaxed text-slate-300">
+            {dfcInference.narrative.diagnostic}
+          </p>
+        </div>
+      )}
       {showImportModal && (
         <ImportFinancialModal
           type="DFC"

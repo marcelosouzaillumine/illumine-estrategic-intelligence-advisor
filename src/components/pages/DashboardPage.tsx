@@ -40,6 +40,8 @@ import { query, collection, where, onSnapshot } from 'firebase/firestore';
 import { useRealIndicatorData } from '../../hooks/useRealIndicatorData';
 import { FULL_MONTH_LABELS, MONTH_LABELS } from '../../constants';
 import { Button } from '../ui/button';
+import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
+import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
 
 const AXIS_DATA = [
   { 
@@ -138,6 +140,18 @@ export function DashboardPage({
   }, []);
 
   const colors = getThemeColors();
+
+  const { dbData: historicalData } = useHistoricalDemonstracoes(selectedClient || '', selectedYear);
+  const yearsWithData = new Set(historicalData.map((d: any) => d.year)).size;
+  const runtimeInput = {
+    rawFinancialData: {},
+    historicalCyclesCount: yearsWithData,
+    isMockData: false
+  };
+  const { runtimeOutput } = useInstitutionalRuntime({ input: runtimeInput });
+
+  const memoryInference = runtimeOutput?.inferences['InstitutionalMemoryEngine'];
+  const isMemoryBlocked = memoryInference?.metrics?.memoryType === 'STRUCTURAL_SNAPSHOT' || memoryInference?.metrics?.memoryType === 'LIMITED_COMPARISON' || memoryInference?.metrics?.memoryType === 'BLOCKED_INSUFFICIENT_HISTORY';
 
   const { kpis: calculatedKPIs } = useRealIndicatorData(selectedClient, periodMode === 'anual' ? 0 : selectedMonth, selectedYear);
 
@@ -253,12 +267,13 @@ export function DashboardPage({
     );
 
     if (!prevInd) return 'Estável';
+    if (isMemoryBlocked) return 'Pendente'; // Bloqueado pelo Institutional Memory
 
     const diff = currentValue - prevInd.val;
     if (diff > 0.001) return 'Em Alta';
     if (diff < -0.001) return 'Em Queda';
     return 'Estável';
-  }, [dbIndicators, allYearIndicators, selectedMonth, selectedYear, getIndicatorValue]);
+  }, [dbIndicators, allYearIndicators, selectedMonth, selectedYear, getIndicatorValue, isMemoryBlocked]);
 
   const getIndicatorStatus = useCallback((name: string) => {
     const ind = dbIndicators.find((i: any) => i.ind === name || i.ind?.toLowerCase() === name.toLowerCase());
@@ -427,6 +442,16 @@ export function DashboardPage({
         showStatusBadge={true}
         statusBadgeLabel="Monitoramento Ativo"
       />
+
+      {isMemoryBlocked && (
+        <div className="bg-destructive/10 border border-destructive/20 rounded-md p-4 flex items-center gap-3 text-destructive">
+          <AlertTriangle size={18} />
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest">Aviso de Inferência</p>
+            <p className="text-sm">Histórico insuficiente para inferência longitudinal. Tendências de eixos estão bloqueadas até a consolidação de pelo menos 3 períodos.</p>
+          </div>
+        </div>
+      )}
 
       {/* Strategic Summary Bar */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">

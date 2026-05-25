@@ -1615,4 +1615,23 @@ Engloba:
 - interpretação dinâmica de liquidez;
 - interpretação dinâmica de alavancagem;
 - interpretação contextual de capital de giro;
-- diferenciação clara entre pressão operacional saudável e risco estrutural.
+- diferença clara entre pressão operacional saudável e risco estrutural.
+
+---
+
+## Integração Causal e Risco Estratégico
+
+Toda interpretação financeira deve consultar obrigatoriamente:
+
+- EXECUTIVE_CAUSALITY_ENGINE.md
+- STRATEGIC_RISK_ENGINE.md
+- BUSINESS_MODEL_INTELLIGENCE_ENGINE.md
+- BOARD_SYNTHESIS_ENGINE.md
+
+Antes da renderização final.
+
+Nenhum indicador deve gerar narrativa isolada sem:
+- contexto do modelo de negócio;
+- causalidade econômica;
+- classificação de risco;
+- síntese executiva.
