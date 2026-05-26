@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, Printer, Download, ShieldCheck, Clock, Activity, Link as LinkIcon } from 'lucide-react';
+import { FileText, Printer, Download, ShieldCheck, Clock, Activity } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { PageHeader } from '../Common';
 import { GroupOnboardingRepository, EconomicGroupModel } from '../../core/runtime/consolidated/data/GroupOnboardingRepository';
 import { ExecutiveBoardPack } from '../../core/runtime/reporting/ReportingTypes';
 import { GovernedRepositoryWrapper } from '../../core/security/governed-repository';
@@ -121,22 +122,19 @@ export function InstitutionalReportsPage() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in bg-background min-h-screen">
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
       <PrintStyles />
       
-      <div className="flex items-center justify-between no-print">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-            <FileText className="text-primary" />
-            Relatórios Institucionais (Executive Board Pack)
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Formalização Fiduciária Imutável. Exportação Zero-Dependency para Conselhos e Auditores.
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 no-print">
+        <PageHeader
+          title="Relatórios Institucionais"
+          subtitle="Formalização Fiduciária Imutável. Exportação Zero-Dependency para Conselhos e Auditores."
+          icon={FileText}
+          transparent
+        />
+        <div className="flex items-center gap-3 shrink-0">
           <select 
-            className="w-64 bg-surface-container border border-border p-2 rounded-md outline-none text-sm text-foreground"
+            className="px-4 py-2.5 bg-surface-container border border-border rounded-md text-body-sm font-medium text-foreground outline-none focus:border-secondary transition-all shadow-sm"
             value={selectedGroupId} 
             onChange={(e) => setSelectedGroupId(e.target.value)}
           >
@@ -145,17 +143,19 @@ export function InstitutionalReportsPage() {
           </select>
           <button 
             onClick={handleLoadReport}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-button text-sm font-medium hover:bg-primary/90"
+            className="btn-executive"
           >
-            Load Latest
+            Carregar Relatório
           </button>
         </div>
       </div>
 
       {!pack && (
-        <div className="flex flex-col items-center justify-center h-64 text-muted-foreground/50 border-2 border-dashed border-border rounded-2xl no-print">
-          <FileText size={48} className="mb-4 opacity-50" />
-          <p>Selecione um grupo para visualizar os pacotes executivos formalizados.</p>
+        <div className="flex flex-col items-center justify-center h-72 text-muted-foreground/50 border-2 border-dashed border-border rounded-md no-print space-y-4">
+          <div className="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center">
+            <FileText size={32} className="opacity-30" />
+          </div>
+          <p className="text-body-sm font-medium text-muted-foreground/60 uppercase tracking-widest">Selecione um grupo para visualizar os pacotes executivos formalizados.</p>
         </div>
       )}
 
@@ -163,24 +163,24 @@ export function InstitutionalReportsPage() {
         <div className="grid grid-cols-12 gap-8">
           {/* Controls Panel (No Print) */}
           <div className="col-span-3 space-y-4 no-print">
-            <div className="p-4 bg-surface-container border border-border rounded-xl space-y-4">
-              <h3 className="font-medium flex items-center gap-2 text-sm"><Clock size={16}/> Histórico de Versões</h3>
-              <div className="p-2 bg-background border border-secondary rounded flex items-center justify-between text-xs font-medium text-secondary">
+            <div className="card-premium p-6 space-y-4">
+              <h3 className="text-h3 font-medium text-foreground tracking-tight flex items-center gap-2"><Clock size={16}/> Histórico de Versões</h3>
+              <div className="p-3 bg-secondary/5 border border-secondary/20 rounded-md flex items-center justify-between text-[10px] font-bold text-secondary uppercase tracking-widest">
                 <span>Versão Atual (v{pack.version})</span>
                 <span>{new Date(pack.timestamp).toLocaleDateString()}</span>
               </div>
-              <button className="w-full text-xs text-muted-foreground p-2 border border-border border-dashed rounded hover:bg-neutral/10">
+              <button className="w-full text-[10px] font-medium text-muted-foreground p-2.5 border border-border border-dashed rounded-md hover:bg-surface-container transition-colors uppercase tracking-widest">
                 Ver Versões Anteriores...
               </button>
             </div>
 
-            <div className="p-4 bg-surface-container border border-border rounded-xl space-y-4">
-              <h3 className="font-medium flex items-center gap-2 text-sm"><Activity size={16}/> Exportação Formal</h3>
-              <button onClick={handlePrint} className="w-full flex items-center justify-center gap-2 bg-background border border-border text-foreground p-2 rounded hover:border-secondary transition-colors text-sm">
-                <Printer size={16}/> Gerar PDF (Imprimir)
+            <div className="card-premium p-6 space-y-4">
+              <h3 className="text-h3 font-medium text-foreground tracking-tight flex items-center gap-2"><Activity size={16}/> Exportação Formal</h3>
+              <button onClick={handlePrint} className="w-full btn-ghost flex items-center justify-center gap-2">
+                <Printer size={15}/> Gerar PDF (Imprimir)
               </button>
-              <button onClick={handleExportJSON} className="w-full flex items-center justify-center gap-2 bg-background border border-border text-foreground p-2 rounded hover:border-secondary transition-colors text-sm">
-                <Download size={16}/> Exportar Snapshot JSON
+              <button onClick={handleExportJSON} className="w-full btn-ghost flex items-center justify-center gap-2">
+                <Download size={15}/> Exportar Snapshot JSON
               </button>
             </div>
           </div>

@@ -21,11 +21,18 @@ class TopLevelErrorBoundary extends Component<{children: ReactNode}, {error: any
   }
 }
 
+import { InstitutionalAuthProvider } from './core/security/auth/InstitutionalAuthProvider';
+import { RuntimeContextProvider } from './core/security/auth/RuntimeContextProvider';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <TopLevelErrorBoundary>
       <BrowserRouter>
-        <App />
+        <InstitutionalAuthProvider>
+          <RuntimeContextProvider>
+            <App />
+          </RuntimeContextProvider>
+        </InstitutionalAuthProvider>
       </BrowserRouter>
     </TopLevelErrorBoundary>
   </StrictMode>,

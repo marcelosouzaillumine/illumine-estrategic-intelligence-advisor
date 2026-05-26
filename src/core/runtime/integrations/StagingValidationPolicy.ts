@@ -1,9 +1,9 @@
-import { StagingValidationWarning } from './IntegrationGovernanceTypes';
+import { StagingValidationWarning, DatasetType } from './IntegrationGovernanceTypes';
 
 export interface StagingValidationPolicy {
   policyId: string;
   version: string;
-  statementType: 'BALANCESHEET_DRE_CASHFLOW' | 'TRANSACTIONS';
+  statementType: DatasetType | 'BALANCESHEET_DRE_CASHFLOW' | 'TRANSACTIONS';
   tolerance: number; // For materiality threshold
   requiredChecks: string[];
   warningMappings: Record<string, StagingValidationWarning>;
@@ -13,7 +13,7 @@ export interface StagingValidationPolicy {
 export const ACTIVE_STAGING_POLICY: StagingValidationPolicy = {
   policyId: 'ILLUMINE_STAGING_VALIDATION_V1',
   version: '1.0.0',
-  statementType: 'BALANCESHEET_DRE_CASHFLOW',
+  statementType: 'FULL_FINANCIAL_STATEMENTS',
   tolerance: 0.0005, // 0.05% materiality threshold for rounding
   requiredChecks: [
     'BP_BALANCE',
@@ -49,7 +49,7 @@ export const ACTIVE_STAGING_POLICY: StagingValidationPolicy = {
 export const TRANSACTIONAL_STAGING_POLICY: StagingValidationPolicy = {
   policyId: 'ILLUMINE_TRANSACTIONAL_VALIDATION_V1',
   version: '1.0.0',
-  statementType: 'TRANSACTIONS',
+  statementType: 'TRANSACTIONS_MIXED',
   tolerance: 0,
   requiredChecks: [
     'TRANSACTION_AMOUNT',

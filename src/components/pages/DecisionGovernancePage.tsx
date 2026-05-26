@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GitBranchPlus, PlusCircle } from 'lucide-react';
+import { PageHeader } from '../Common';
 import { DecisionRecordRegistry } from '../../core/runtime/workflow-governance/DecisionRecordRegistry';
 import { WorkflowAuditLogger } from '../../core/runtime/workflow-governance/WorkflowAuditLogger';
 import { AlertResponseWorkflow } from '../../core/runtime/workflow-governance/AlertResponseWorkflow';
@@ -31,35 +32,31 @@ export function DecisionGovernancePage() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-6 animate-in fade-in bg-background min-h-screen">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-            <GitBranchPlus className="text-primary" />
-            Governança de Decisão
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Workflows Institucionais, Board Approvals e Trilhas de Auditoria.
-          </p>
-        </div>
-        
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <PageHeader
+          title="Governança de Decisão"
+          subtitle="Workflows Institucionais, Board Approvals e Trilhas de Auditoria."
+          icon={GitBranchPlus}
+          transparent
+        />
         <button
           onClick={handleCreateMockWorkflow}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-medium rounded-lg text-sm hover:opacity-90 transition-opacity"
+          className="btn-executive flex items-center gap-2 shrink-0"
         >
-          <PlusCircle size={16} fill="currentColor" />
+          <PlusCircle size={15} />
           Simular Novo Workflow
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2">
-          <h3 className="text-sm font-medium text-foreground mb-4">Workflows Ativos</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="md:col-span-2 space-y-4">
+          <h3 className="text-h3 font-medium text-foreground tracking-tight">Workflows Ativos</h3>
           <WorkflowBoard workflows={workflows} />
         </div>
         
-        <div className="md:col-span-1 border-l border-border pl-6">
-          <h3 className="text-sm font-medium text-foreground mb-4">Trilha de Auditoria Institucional</h3>
+        <div className="md:col-span-1 border-l border-border pl-8 space-y-4">
+          <h3 className="text-h3 font-medium text-foreground tracking-tight">Trilha de Auditoria</h3>
           <WorkflowAuditFeed logs={auditLogs} />
         </div>
       </div>

@@ -99,6 +99,7 @@ import { GovernanceOrchestrationPage } from '../components/pages/GovernanceOrche
 import { InstitutionalIOSPage } from '../components/pages/InstitutionalIOSPage';
 import { EnterpriseValidationPage } from '../components/pages/EnterpriseValidationPage';
 import { RealityValidationPage } from '../components/pages/RealityValidationPage';
+import { PilotMonitoringDashboard } from '../components/pages/PilotMonitoringDashboard';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -563,6 +564,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'compliance_integrity_center') {
     return <ComplianceIntegrityCenter />;
+  }
+  if (currentPage === 'pilot_monitoring') {
+    return <PilotMonitoringDashboard />;
   }
 
   return null;

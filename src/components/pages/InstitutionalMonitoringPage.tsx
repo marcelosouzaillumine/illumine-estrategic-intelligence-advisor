@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Radar, Play } from 'lucide-react';
+import { Radar, Play, Loader2, AlertCircle, Clock } from 'lucide-react';
+import { PageHeader } from '../Common';
 import { MonitoringExecutionScheduler } from '../../core/runtime/monitoring/MonitoringExecutionScheduler';
 import { MonitoringAlertRegistry } from '../../core/runtime/monitoring/MonitoringAlertRegistry';
 import { MonitoringAlert } from '../../core/runtime/monitoring/MonitoringTypes';
@@ -39,59 +40,69 @@ export function InstitutionalMonitoringPage() {
     }, 1000);
   };
 
+  const lastExecution = MonitoringAlertRegistry.getExecutions().slice(-1)[0];
+
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-6 animate-in fade-in bg-background min-h-screen">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-            <Radar className="text-primary" />
-            Monitoramento Institucional
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Vigilância contínua de Risco Sistêmico, Liquidez e Confidence.
-          </p>
-        </div>
-        
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <PageHeader
+          title="Monitoramento Institucional"
+          subtitle="Vigilância contínua de Risco Sistêmico, Liquidez e Confidence."
+          icon={Radar}
+          transparent
+        />
         <button
           onClick={handleRunCycle}
           disabled={isRunning}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-medium rounded-lg text-sm hover:opacity-90 disabled:opacity-50 transition-opacity"
+          className="btn-executive flex items-center gap-2 shrink-0 disabled:opacity-50"
         >
           {isRunning ? (
-            <span className="flex items-center gap-2">
-              <div className="w-3 h-3 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin"></div>
+            <>
+              <Loader2 size={15} className="animate-spin" />
               Executando Ciclo...
-            </span>
+            </>
           ) : (
             <>
-              <Play size={16} fill="currentColor" />
-              Run Scheduled Monitoring Cycle
+              <Play size={15} fill="currentColor" />
+              Run Monitoring Cycle
             </>
           )}
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-1 border-r border-border pr-6">
-          <h3 className="text-sm font-medium text-foreground mb-4">Métricas Consolidadas</h3>
-          <div className="space-y-4">
-            <div className="p-4 bg-surface-container rounded-lg border border-border">
-              <span className="text-xs text-muted-foreground block">Alertas Ativos</span>
-              <span className="text-2xl font-bold text-foreground">{alerts.length}</span>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Métricas Sidebar */}
+        <div className="md:col-span-1 space-y-4">
+          <h3 className="text-h3 font-medium text-foreground tracking-tight">Métricas Consolidadas</h3>
+          <div className="card-premium p-6 space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-md bg-destructive/10 flex items-center justify-center text-destructive">
+                <AlertCircle size={18} />
+              </div>
+              <div>
+                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Alertas Ativos</p>
+                <p className="text-h3 font-medium text-foreground tabular-nums">{alerts.length}</p>
+              </div>
             </div>
-            <div className="p-4 bg-surface-container rounded-lg border border-border">
-              <span className="text-xs text-muted-foreground block">Última Execução</span>
-              <span className="text-sm font-medium text-foreground">
-                {MonitoringAlertRegistry.getExecutions().length > 0 
-                  ? new Date(MonitoringAlertRegistry.getExecutions().slice(-1)[0].timestamp).toLocaleTimeString()
-                  : 'Pendente'}
-              </span>
+            <div className="border-t border-border pt-4 flex items-center gap-4">
+              <div className="w-10 h-10 rounded-md bg-surface-container flex items-center justify-center text-muted-foreground">
+                <Clock size={18} />
+              </div>
+              <div>
+                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Última Execução</p>
+                <p className="text-body-sm font-medium text-foreground">
+                  {lastExecution
+                    ? new Date(lastExecution.timestamp).toLocaleTimeString()
+                    : 'Pendente'}
+                </p>
+              </div>
             </div>
           </div>
         </div>
         
-        <div className="md:col-span-2">
-          <h3 className="text-sm font-medium text-foreground mb-4">Alertas Fiduciários (Feed)</h3>
+        {/* Alert Feed */}
+        <div className="md:col-span-2 space-y-4">
+          <h3 className="text-h3 font-medium text-foreground tracking-tight">Alertas Fiduciários</h3>
           <MonitoringAlertFeed alerts={alerts} />
         </div>
       </div>

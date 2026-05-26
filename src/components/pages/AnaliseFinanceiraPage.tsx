@@ -69,14 +69,18 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
 
   const metricsObj = displayData?.metrics || {
     receita: 0, ebitda: 0, lucro: 0, ativoTotal: 0, pl: 0, ac: 0, pc: 0, pnc: 0, est: 0,
+    clientes: 0, fornecedores: 0, cmv: 0, cmvSource: 'proxy' as 'real' | 'proxy',
     roe: 0, investedCapital: 0, noplat: 0, roic: 0, wacc: 0, eva: 0, dscr: 0,
-    totalThirdParty: 0, ct: 0, ce: 0, impl: 0, irpc: 0, gaf: 0
+    totalThirdParty: 0, ct: 0, ce: 0, impl: 0, irpc: 0, gaf: 0,
+    giroAtivo: 0, giroEstoque: 0, pmr: 0, pme: 0, pmp: 0, cicloOperacional: 0, cicloFinanceiro: 0
   };
 
   const {
     receita, ebitda, lucro, ativoTotal, pl, ac, pc, pnc, est,
+    clientes, fornecedores, cmv, cmvSource,
     roe, investedCapital, noplat, roic, wacc, eva, dscr,
-    totalThirdParty, ct, ce, impl, irpc, gaf
+    totalThirdParty, ct, ce, impl, irpc, gaf,
+    giroAtivo, giroEstoque, pmr, pme, pmp, cicloOperacional, cicloFinanceiro
   } = metricsObj;
 
   const methodologyUsed = displayData?.methodologyVersion || 'Pendente';
@@ -181,7 +185,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
           <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
           <div>
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Custo de Capital (WACC)</h3>
-            <p className="text-3xl font-display font-black mb-2">{wacc.toFixed(2)}%</p>
+            <p className="text-3xl font-display font-medium mb-2">{wacc.toFixed(2)}%</p>
             <div className="flex items-center gap-2 text-emerald-400">
                <ShieldCheck size={16} />
                <span className="text-xs font-bold">Estrutura Estável</span>
@@ -202,7 +206,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
                 <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">{m.label}</p>
                 <Semaphore status={m.sem as 'Verde' | 'Amarelo' | 'Vermelho'} />
               </div>
-              <p className="text-2xl font-display font-black tracking-tight text-primary group-hover:text-secondary transition-colors">
+              <p className="text-2xl font-display font-medium tracking-tight text-primary group-hover:text-secondary transition-colors">
                 {m.value}
               </p>
               <div className="mt-4 flex items-center gap-2">
@@ -234,7 +238,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
                 <div key={idx}>
                   <div className="flex justify-between items-baseline mb-2">
                     <span className="text-xs font-bold text-slate-600">{item.label}</span>
-                    <span className="text-base font-black text-slate-900">{item.display || `${item.val.toFixed(2)}%`}</span>
+                    <span className="text-base font-medium text-slate-700">{item.display || `${item.val.toFixed(2)}%`}</span>
                   </div>
                   <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                     <motion.div 
@@ -259,38 +263,55 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="space-y-4">
                 {[
-                  { label: 'Cap. Terceiros (IMPL)', val: impl },
-                  { label: 'Curto Prazo (CT)', val: ct },
-                  { label: 'Longo Prazo (CE)', val: ce },
-                  { label: 'Endividamento PC', val: irpc }
+                  { label: 'Cap. Terceiros / PL (IMPL)', val: impl },
+                  { label: 'Curto Prazo (CT %)', val: ct },
+                  { label: 'Longo Prazo (CE %)', val: ce },
+                  { label: 'Endividamento Geral (IRPC)', val: irpc }
                 ].map((item, idx) => (
                   <div key={idx} className="flex justify-between py-3 border-b border-slate-50 last:border-0">
-                    <span className="text-xs font-bold text-slate-500">{item.label}</span>
-                    <span className="text-xs font-black text-slate-900">{item.val.toFixed(2)}%</span>
+                    <span className="text-xs font-medium text-slate-500">{item.label}</span>
+                    <span className="text-xs font-medium text-slate-700">{item.val.toFixed(2)}%</span>
                   </div>
                 ))}
               </div>
               <div className="bg-slate-50 p-6 rounded-[32px] border border-slate-100">
-                <div className="relative w-full aspect-square flex items-center justify-center">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-32 h-32 rounded-full border-[12px] border-slate-200" />
-                    <div className="absolute w-32 h-32 rounded-full border-[12px] border-blue-600" style={{ clipPath: `inset(0 0 0 ${100-ct}%)` }} />
-                    <div className="absolute w-32 h-32 rounded-full border-[12px] border-blue-300" style={{ clipPath: `inset(0 ${100-ce}% 0 0)`, transform: `rotate(${ct * 3.6}deg)` }} />
-                  </div>
-                  <div className="text-center z-10">
-                    <p className="text-[10px] font-black text-slate-400 uppercase">Dívida Total</p>
-                    <p className="text-xl font-black text-slate-900">{formatCurrency(totalThirdParty)}</p>
-                  </div>
-                </div>
-                <div className="mt-6 flex flex-wrap justify-center gap-4">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-blue-600" />
-                    <span className="text-[9px] font-black text-slate-400 uppercase">CP</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-blue-300" />
-                    <span className="text-[9px] font-black text-slate-400 uppercase">LP</span>
-                  </div>
+                {/* Gráfico de barras empilhadas proporcional: mantém valores de enquadramento */}
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Dívida Total</p>
+                  <p className="text-xl font-medium text-slate-900">{formatCurrency(totalThirdParty)}</p>
+
+                  {totalThirdParty > 0 ? (
+                    <div className="w-full space-y-3">
+                      {/* CP bar */}
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-2.5 h-2.5 rounded-full bg-blue-600" />
+                            <span className="text-[9px] font-black text-slate-500 uppercase">CP — {ct.toFixed(1)}%</span>
+                          </div>
+                          <span className="text-[10px] font-medium text-slate-600">{formatCurrency(pc)}</span>
+                        </div>
+                        <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
+                          <div className="h-full bg-blue-600 rounded-full transition-all duration-700" style={{ width: `${ct}%` }} />
+                        </div>
+                      </div>
+                      {/* LP bar */}
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-2.5 h-2.5 rounded-full bg-blue-300" />
+                            <span className="text-[9px] font-black text-slate-500 uppercase">LP — {ce.toFixed(1)}%</span>
+                          </div>
+                          <span className="text-[10px] font-medium text-slate-600">{formatCurrency(pnc)}</span>
+                        </div>
+                        <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
+                          <div className="h-full bg-blue-300 rounded-full transition-all duration-700" style={{ width: `${ce}%` }} />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-slate-400 font-medium text-center py-4">Sem endividamento registrado</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -306,18 +327,42 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
-            { name: 'Giro do Ativo', val: (receita / ativoTotal).toFixed(2), unit: 'x', icon: ArrowRightLeft, desc: 'Eficiência de Uso' },
-            { name: 'Giro Estoque', val: (receita * 0.4 / (est || 1)).toFixed(2), unit: 'dias', icon: LayoutDashboard, desc: 'Renovação Média' },
-            { name: 'Ciclo Operacional', val: currentDre.length > 0 ? '72' : '—', unit: 'dias', icon: Zap, desc: 'Tempo Total' },
-            { name: 'Ciclo Financeiro', val: currentDre.length > 0 ? '45' : '—', unit: 'dias', icon: Target, desc: 'Nec. Capital' }
+            {
+              name: 'Giro do Ativo',
+              val: giroAtivo > 0 ? giroAtivo.toFixed(2) : '—',
+              unit: 'x',
+              icon: ArrowRightLeft,
+              desc: 'Receita / Ativo Total'
+            },
+            {
+              name: 'Giro do Estoque',
+              val: giroEstoque > 0 ? giroEstoque.toFixed(2) : '—',
+              unit: 'x',
+              icon: LayoutDashboard,
+              desc: cmvSource === 'real' ? 'CMV / Estoque' : 'Receita / Estoque (sem CMV)'
+            },
+            {
+              name: 'Ciclo Operacional',
+              val: cicloOperacional > 0 ? Math.round(cicloOperacional).toString() : '—',
+              unit: cicloOperacional > 0 ? 'dias' : '',
+              icon: Zap,
+              desc: `PMR ${Math.round(pmr)}d + PME ${Math.round(pme)}d`
+            },
+            {
+              name: 'Ciclo Financeiro',
+              val: cicloFinanceiro !== 0 ? Math.round(cicloFinanceiro).toString() : '—',
+              unit: cicloFinanceiro !== 0 ? 'dias' : '',
+              icon: Target,
+              desc: `C.Op. ${Math.round(cicloOperacional)}d − PMP ${Math.round(pmp)}d`
+            }
           ].map((item, idx) => (
             <div key={idx} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex flex-col items-center text-center group hover:border-secondary/20 transition-all">
               <div className="p-3 bg-slate-50 rounded-2xl text-slate-400 group-hover:bg-secondary/10 group-hover:text-secondary transition-all mb-4">
                 <item.icon size={20} />
               </div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{item.name}</p>
-              <p className="text-2xl font-display font-black text-primary">
-                {item.val}<span className="text-xs ml-1 font-bold text-slate-400 uppercase">{item.unit}</span>
+              <p className="text-2xl font-display font-medium text-primary">
+                {item.val}<span className="text-xs ml-1 font-medium text-slate-400 uppercase">{item.unit}</span>
               </p>
               <p className="text-[10px] text-slate-400 font-medium mt-2">{item.desc}</p>
             </div>

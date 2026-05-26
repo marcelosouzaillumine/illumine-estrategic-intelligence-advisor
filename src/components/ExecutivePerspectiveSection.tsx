@@ -67,6 +67,67 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
           </div>
         </div>
 
+        {/* Contexto Institucional Detectado */}
+        {intelligenceReport?.institutionalContext && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-10 p-6 bg-indigo-50/50 rounded-3xl border border-indigo-100/80 relative overflow-hidden"
+          >
+            <div className="absolute right-0 bottom-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl pointer-events-none" />
+            <h4 className="text-[10px] font-black text-indigo-700 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+              <Activity size={14} className="text-indigo-500" /> Contexto Institucional Detectado
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+              {/* Estágio e Modelo */}
+              <div className="space-y-3">
+                <div>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Estágio da Empresa</p>
+                  <p className="text-sm font-bold text-slate-800">{intelligenceReport.institutionalContext.businessStage.replace(/_/g, ' ')}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Modelo Econômico</p>
+                  <p className="text-sm font-bold text-slate-800">{intelligenceReport.institutionalContext.economicModel.replace(/_/g, ' ')}</p>
+                </div>
+              </div>
+
+              {/* Densidade e Confiança */}
+              <div className="space-y-3">
+                <div>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Densidade Histórica</p>
+                  <p className="text-sm font-bold text-slate-800">{intelligenceReport.institutionalContext.historicalDensity.replace(/_/g, ' ')}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Confiança Estratégica</p>
+                  <span className={cn(
+                    "inline-block px-2.5 py-1 rounded-full text-[10px] font-bold",
+                    intelligenceReport.institutionalContext.confidence.strategicConfidence === 'HIGH' ? "bg-emerald-100 text-emerald-800 border border-emerald-200" :
+                    intelligenceReport.institutionalContext.confidence.strategicConfidence === 'MODERATE' ? "bg-blue-100 text-blue-800 border border-blue-200" :
+                    "bg-amber-100 text-amber-800 border border-amber-200"
+                  )}>
+                    {intelligenceReport.institutionalContext.confidence.strategicConfidence}
+                  </span>
+                </div>
+              </div>
+
+              {/* Limitações e Claims Bloqueados */}
+              <div className="space-y-3 col-span-1">
+                <div>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Limitações Interpretativas</p>
+                  <div className="max-h-24 overflow-y-auto space-y-1 mt-1 text-[11px] text-slate-600 font-medium">
+                    {intelligenceReport.compliance.narrativeRestrictions.filter(r => r.includes('NÃO') || r.includes('Diretriz') || r.includes('limitadas')).map((r, i) => (
+                      <p key={i} className="leading-tight">• {r.replace('Diretriz:', '').replace('NÃO reivindicar:', 'NÃO alegar:').trim()}</p>
+                    ))}
+                    {intelligenceReport.compliance.narrativeRestrictions.length === 0 && (
+                      <p className="italic text-slate-400">Nenhuma limitação ativa.</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Executive Summary Block */}
         <motion.div 
           initial={{ opacity: 0, y: 10 }}

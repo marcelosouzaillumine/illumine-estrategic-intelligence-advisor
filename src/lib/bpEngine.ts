@@ -214,7 +214,8 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
     if (ativoCirculante !== 0 || ativoNaoCirculante !== 0) {
       ativoTotal = ativoCirculante + ativoNaoCirculante;
     } else {
-      ativoTotal = flatNodes.filter(n => n.type === 'ativo' && n.level === 1).reduce((s, n) => s + (n.isSynthetic && n.children.length > 0 ? n.computedValue : n.value), 0);
+      // Fallback: soma todos os nós folhas (não-sintéticos) do tipo ativo
+      ativoTotal = flatNodes.filter(n => n.type === 'ativo' && !n.isSynthetic).reduce((s, n) => s + n.value, 0);
     }
   }
 
@@ -230,13 +231,14 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
     if (passivoCirculante !== 0 || passivoNaoCirculante !== 0) {
       passivoTotal = passivoCirculante + passivoNaoCirculante;
     } else {
-      passivoTotal = flatNodes.filter(n => n.type === 'passivo' && n.level === 1 && !n.cleanCategory.includes('patrimônio')).reduce((s, n) => s + (n.isSynthetic && n.children.length > 0 ? n.computedValue : n.value), 0);
+      // Fallback: soma todos os nós folhas (não-sintéticos) do tipo passivo, excluindo PL
+      passivoTotal = flatNodes.filter(n => n.type === 'passivo' && !n.isSynthetic && !n.cleanCategory.includes('patrimônio') && !n.cleanCategory.includes('pl ')).reduce((s, n) => s + n.value, 0);
     }
   }
   
   let patrimonioLiquido = extractGroupSum(['patrimônio líquido', 'pl', 'total do patrimônio líquido', 'patrimônio'], 'patrimônio');
   if (!patrimonioLiquido) {
-    patrimonioLiquido = flatNodes.filter(n => (n.type === 'patrimônio líquido' || n.type === 'pl') && n.level === 1).reduce((s, n) => s + (n.isSynthetic && n.children.length > 0 ? n.computedValue : n.value), 0);
+    patrimonioLiquido = flatNodes.filter(n => (n.type === 'patrimônio líquido' || n.type === 'pl') && !n.isSynthetic).reduce((s, n) => s + n.value, 0);
   }
 
   // Validação Estrutural Rigorosa (Tolerância zero ao invés de 1.0, aceitando apenas erro de ponto flutuante)

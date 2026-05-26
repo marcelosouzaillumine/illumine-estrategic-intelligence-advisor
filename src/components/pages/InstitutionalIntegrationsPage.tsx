@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { PlugZap } from 'lucide-react';
+import { PlugZap, AlertTriangle } from 'lucide-react';
+import { PageHeader } from '../Common';
 import { ConnectorRegistryPanel } from '../integrations/ConnectorRegistryPanel';
 import { ImportReviewQueueTable } from '../integrations/ImportReviewQueueTable';
 import { ConnectorExecutionEngine } from '../../core/runtime/integrations/ConnectorExecutionEngine';
@@ -23,7 +24,7 @@ export function InstitutionalIntegrationsPage() {
   }, []);
 
   const handleSimulateUpload = (connectorId: string) => {
-    const mockPayload = { _tenantId: mockTenant, simulateMissingColumn: true, data: [1, 2, 3] }; // Força Warning para mostrar o Gatekeeper agindo
+    const mockPayload = { _tenantId: mockTenant, simulateMissingColumn: true, data: [1, 2, 3] };
     ConnectorExecutionEngine.executeIngestion(mockTenant, mockWorkspace, connectorId, mockPayload, mockActor);
     loadState();
   };
@@ -40,34 +41,36 @@ export function InstitutionalIntegrationsPage() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-6 animate-in fade-in bg-background min-h-screen">
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-          <PlugZap className="text-primary" />
-          Integrações Institucionais
-        </h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Pipeline Governado de Ingestão de Dados e Alfândega Fiduciária.
-        </p>
-      </div>
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
+      <PageHeader
+        title="Integrações Institucionais"
+        subtitle="Pipeline Governado de Ingestão de Dados e Alfândega Fiduciária."
+        icon={PlugZap}
+        transparent
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-1 border-r border-border pr-6">
-          <h3 className="text-sm font-medium text-foreground mb-4">Conectores Disponíveis</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="md:col-span-1 space-y-6">
+          <h3 className="text-h3 font-medium text-foreground tracking-tight">Conectores Disponíveis</h3>
           <ConnectorRegistryPanel onSimulateUpload={handleSimulateUpload} />
           
-          <div className="mt-8 p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-500 text-xs">
-            <strong className="block mb-1">Nota de Governança (MVP)</strong>
-            Nenhum arquivo real sobe sem passar pelo Gateway. Simule a ingestão e acompanhe a Fila de Revisão ao lado.
+          <div className="flex items-start gap-3 p-5 bg-warning/10 border border-warning/20 rounded-md text-warning">
+            <AlertTriangle size={16} className="shrink-0 mt-0.5" />
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-widest mb-1">Nota de Governança (MVP)</p>
+              <p className="text-[10px] text-warning/80 leading-relaxed">
+                Nenhum arquivo real sobe sem passar pelo Gateway. Simule a ingestão e acompanhe a Fila de Revisão.
+              </p>
+            </div>
           </div>
         </div>
         
-        <div className="md:col-span-2">
-          <h3 className="text-sm font-medium text-foreground mb-4">Import Review Queue (Staging)</h3>
-          <ImportReviewQueueTable 
-            queue={queue} 
-            onApprove={handleApprove} 
-            onPublish={handlePublish} 
+        <div className="md:col-span-2 space-y-4">
+          <h3 className="text-h3 font-medium text-foreground tracking-tight">Import Review Queue <span className="text-muted-foreground font-normal text-body-sm ml-2">(Staging)</span></h3>
+          <ImportReviewQueueTable
+            queue={queue}
+            onApprove={handleApprove}
+            onPublish={handlePublish}
           />
         </div>
       </div>

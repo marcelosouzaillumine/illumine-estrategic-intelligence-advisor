@@ -1,5 +1,6 @@
 import React from 'react';
 import { Network } from 'lucide-react';
+import { PageHeader } from '../Common';
 import { KnowledgeGraphExplorer } from '../knowledge-graph/KnowledgeGraphExplorer';
 import { GraphQueryConsole } from '../knowledge-graph/GraphQueryConsole';
 import { SemanticLineageViewer } from '../knowledge-graph/SemanticLineageViewer';
@@ -12,18 +13,13 @@ export function InstitutionalKnowledgeGraphPage() {
   const tenantId = 'TENANT-HQ'; // Mock MVP Tenant
   
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-6 animate-in fade-in bg-background min-h-screen">
-      <div className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-            <Network className="text-primary" />
-            Institutional Knowledge Graph
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Semantic Intelligence Layer. Explorador auditável de correlações fiduciárias e memória institucional.
-          </p>
-        </div>
-      </div>
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
+      <PageHeader
+        title="Institutional Knowledge Graph"
+        subtitle="Semantic Intelligence Layer. Explorador auditável de correlações fiduciárias e memória institucional."
+        icon={Network}
+        transparent
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">

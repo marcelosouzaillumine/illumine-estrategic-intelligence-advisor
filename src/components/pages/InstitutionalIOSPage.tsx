@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Cpu } from 'lucide-react';
+import { Cpu, Loader2 } from 'lucide-react';
+import { PageHeader } from '../Common';
 import { InstitutionalOperatingSystem } from '../../core/runtime/ios/InstitutionalOperatingSystem';
 import { InstitutionalPulsePanel } from '../ios/InstitutionalPulsePanel';
 import { UnifiedGovernanceTimelinePanel } from '../ios/UnifiedGovernanceTimelinePanel';
@@ -27,22 +28,22 @@ export function InstitutionalIOSPage() {
   }, [tenantId]);
 
   if (!synced) {
-    return <div className="p-8">Inicializando Institutional Operating System...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[400px] gap-3 text-muted-foreground">
+        <Loader2 size={20} className="animate-spin" />
+        <span className="text-body-sm font-medium uppercase tracking-widest">Inicializando Institutional Operating System...</span>
+      </div>
+    );
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-6 animate-in fade-in bg-background min-h-screen">
-      <div className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-            <Cpu className="text-primary" />
-            Institutional Operating System (IOS)
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Unified Cognitive Infrastructure: Sincronização central de governança, riscos operacionais e contingências cruzadas.
-          </p>
-        </div>
-      </div>
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
+      <PageHeader
+        title="Institutional Operating System (IOS)"
+        subtitle="Unified Cognitive Infrastructure: Sincronização central de governança, riscos operacionais e contingências cruzadas."
+        icon={Cpu}
+        transparent
+      />
 
       <InstitutionalPulsePanel tenantId={tenantId} />
 

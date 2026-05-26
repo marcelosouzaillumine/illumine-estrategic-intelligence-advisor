@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Activity, Play, ShieldAlert, History, TrendingUp, Network } from 'lucide-react';
+import { Activity, Play, ShieldAlert, History, TrendingUp, Network, RefreshCw } from 'lucide-react';
+import { PageHeader } from '../Common';
 import { cn } from '../../lib/utils';
 import { RuntimeExecutionRegistry } from '../../core/runtime/observability/RuntimeExecutionRegistry';
 import { RuntimeHealthMonitor } from '../../core/runtime/observability/RuntimeHealthMonitor';
@@ -97,41 +98,38 @@ export function RuntimeObservabilityPage() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in bg-background min-h-screen">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-            <Activity className="text-secondary" />
-            Observabilidade Institucional
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Monitoramento operacional, telemetria e Explainability Forense do Motor de Inteligência Consolidada.
-          </p>
-        </div>
-        <button onClick={loadData} className="px-4 py-2 border border-border rounded-button text-sm hover:bg-surface-container">
-          Refresh Telemetry
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <PageHeader
+          title="Observabilidade Institucional"
+          subtitle="Monitoramento operacional, telemetria e Explainability Forense do Motor de Inteligência Consolidada."
+          icon={Activity}
+          transparent
+        />
+        <button onClick={loadData} className="btn-ghost flex items-center gap-2 shrink-0">
+          <RefreshCw size={14} /> Refresh Telemetry
         </button>
       </div>
 
       {health && (
-        <div className="grid grid-cols-4 gap-4">
-          <div className="p-4 border border-border rounded-xl bg-surface-container">
-            <p className="text-xs text-muted-foreground uppercase tracking-widest">Execuções Totais</p>
-            <p className="text-2xl font-bold text-foreground mt-1">{health.totalExecutions}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="card-premium p-6 space-y-2">
+            <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Execuções Totais</p>
+            <p className="text-h3 font-medium text-foreground tabular-nums">{health.totalExecutions}</p>
           </div>
-          <div className="p-4 border border-border rounded-xl bg-surface-container">
-            <p className="text-xs text-muted-foreground uppercase tracking-widest">Avg Duration</p>
-            <p className="text-2xl font-bold text-secondary mt-1">{health.avgDurationMs}ms</p>
+          <div className="card-premium p-6 space-y-2">
+            <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Avg Duration</p>
+            <p className="text-h3 font-medium text-secondary tabular-nums">{health.avgDurationMs}ms</p>
           </div>
-          <div className="p-4 border border-border rounded-xl bg-surface-container">
-            <p className="text-xs text-muted-foreground uppercase tracking-widest">Failure Rate</p>
-            <p className={cn("text-2xl font-bold mt-1", health.failureRate > 0 ? "text-rose-500" : "text-emerald-500")}>
+          <div className="card-premium p-6 space-y-2">
+            <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Failure Rate</p>
+            <p className={cn("text-h3 font-medium tabular-nums", health.failureRate > 0 ? "text-destructive" : "text-success")}>
               {(health.failureRate * 100).toFixed(1)}%
             </p>
           </div>
-          <div className="p-4 border border-border rounded-xl bg-surface-container">
-            <p className="text-xs text-muted-foreground uppercase tracking-widest">Critical Blocks</p>
-            <p className="text-2xl font-bold text-rose-500 mt-1">{health.criticalViolationsDetected}</p>
+          <div className="card-premium p-6 space-y-2">
+            <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Critical Blocks</p>
+            <p className="text-h3 font-medium text-destructive tabular-nums">{health.criticalViolationsDetected}</p>
           </div>
         </div>
       )}
@@ -139,39 +137,39 @@ export function RuntimeObservabilityPage() {
       <div className="grid grid-cols-12 gap-8">
         {/* Left: Execution Timeline */}
         <div className="col-span-5 space-y-4">
-          <h3 className="font-medium text-sm flex items-center gap-2"><TrendingUp size={16}/> Timeline de Execuções</h3>
+          <h3 className="text-h3 font-medium text-foreground tracking-tight flex items-center gap-2"><TrendingUp size={18}/> Timeline de Execuções</h3>
           <div className="space-y-2">
             {executions.map(ex => (
               <div 
                 key={ex.executionId}
                 onClick={() => handleSelectExecution(ex.executionId)}
                 className={cn(
-                  "p-3 border rounded-xl cursor-pointer transition-all",
-                  selectedExecution === ex.executionId ? "border-secondary bg-surface-container" : "border-border hover:border-neutral/30"
+                  "p-4 border rounded-md cursor-pointer transition-all",
+                  selectedExecution === ex.executionId ? "border-secondary bg-surface-container shadow-sm" : "border-border hover:border-secondary/30"
                 )}
               >
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-xs font-mono text-muted-foreground">{new Date(ex.timestamp).toLocaleString()}</span>
-                  <span className={cn("text-[10px] px-2 py-0.5 rounded uppercase font-bold", 
-                    ex.executionStatus === 'COMPLETED' ? "bg-emerald-500/10 text-emerald-500" : 
-                    ex.executionStatus === 'BLOCKED' ? "bg-amber-500/10 text-amber-500" : "bg-rose-500/10 text-rose-500"
+                  <span className="text-[10px] font-mono text-muted-foreground">{new Date(ex.timestamp).toLocaleString()}</span>
+                  <span className={cn("text-[10px] px-2 py-0.5 rounded-button uppercase font-bold", 
+                    ex.executionStatus === 'COMPLETED' ? "bg-success/10 text-success" : 
+                    ex.executionStatus === 'BLOCKED' ? "bg-warning/10 text-warning" : "bg-destructive/10 text-destructive"
                   )}>
                     {ex.executionStatus}
                   </span>
                 </div>
-                <div className="flex gap-4 text-xs">
-                  <span>Group: <span className="font-medium">{ex.groupId}</span></span>
-                  <span>Duration: <span className="font-mono">{ex.runtimeDurationMs}ms</span></span>
+                <div className="flex gap-4 text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
+                  <span>Group: <span className="text-foreground font-bold">{ex.groupId}</span></span>
+                  <span>Duration: <span className="font-mono text-foreground">{ex.runtimeDurationMs}ms</span></span>
                 </div>
               </div>
             ))}
-            {executions.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma execução registrada.</p>}
+            {executions.length === 0 && <p className="text-body-sm text-muted-foreground">Nenhuma execução registrada.</p>}
           </div>
         </div>
 
         {/* Right: Replay Panel */}
         <div className="col-span-7">
-          <div className="p-6 border border-border rounded-2xl bg-background shadow-sm h-full">
+          <div className="card-premium p-8 h-full">
             <ExecutionReplayPanel replay={activeReplay} />
           </div>
         </div>

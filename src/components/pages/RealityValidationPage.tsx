@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Radar } from 'lucide-react';
+import { Radar, Loader2, Database } from 'lucide-react';
+import { PageHeader } from '../Common';
 import { GoldenDatasetRegistry } from '../../core/runtime/reality-validation/GoldenDatasetRegistry';
 import { GoldenDatasetIsolationEngine } from '../../core/runtime/reality-validation/GoldenDatasetIsolationEngine';
 import { GoldenDatasetProfile } from '../../core/runtime/reality-validation/RealityValidationTypes';
@@ -35,25 +36,28 @@ export function RealityValidationPage() {
   const selectedDataset = datasets.find(d => d.datasetId === selectedDatasetId) ?? null;
 
   if (!initialized) {
-    return <div className="p-8 text-muted-foreground">Carregando Reality Validation Center...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[400px] gap-3 text-muted-foreground">
+        <Loader2 size={20} className="animate-spin" />
+        <span className="text-body-sm font-medium uppercase tracking-widest">Carregando Reality Validation Center...</span>
+      </div>
+    );
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-6 animate-in fade-in bg-background min-h-screen">
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
       {/* Header */}
-      <div className="flex justify-between items-start mb-6">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-            <Radar className="text-primary" />
-            Reality Validation Center
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Validação operacional enterprise com Golden Datasets isolados. Sandbox in-memory. Produção intocada.
-          </p>
-        </div>
-        <div className="text-right text-xs text-muted-foreground">
-          <div className="font-bold text-foreground">{datasets.length} Golden Datasets</div>
-          <div>Sandbox: {TENANT_ID}</div>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <PageHeader
+          title="Reality Validation Center"
+          subtitle="Validação operacional enterprise com Golden Datasets isolados. Sandbox in-memory. Produção intocada."
+          icon={Radar}
+          transparent
+        />
+        <div className="flex items-center gap-2 px-4 py-2 bg-surface-container border border-border rounded-md shrink-0">
+          <Database size={14} className="text-muted-foreground" />
+          <span className="text-[10px] font-bold text-foreground uppercase tracking-widest">{datasets.length} Golden Datasets</span>
+          <span className="text-[10px] text-muted-foreground font-mono ml-2">{TENANT_ID}</span>
         </div>
       </div>
 

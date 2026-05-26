@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Bot, ShieldCheck } from 'lucide-react';
+import { PageHeader } from '../Common';
 import { CopilotChatPanel } from '../ai-governance/CopilotChatPanel';
 import { CopilotContextSelector } from '../ai-governance/CopilotContextSelector';
 
@@ -11,30 +12,30 @@ export function InstitutionalCopilotPage() {
   };
 
   return (
-    <div className="p-8 max-w-5xl mx-auto space-y-6 animate-in fade-in bg-background min-h-screen">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-            <Bot className="text-primary" />
-            Copiloto Institucional
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Inteligência Artificial Governeada. Respostas com grounding criptográfico e rastreabilidade fiduciária.
-          </p>
-        </div>
-        <div className="flex items-center gap-2 text-xs font-medium px-3 py-1.5 bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 rounded-full">
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <PageHeader
+          title="Copiloto Institucional"
+          subtitle="Inteligência Artificial Governeada. Respostas com grounding criptográfico e rastreabilidade fiduciária."
+          icon={Bot}
+          transparent
+        />
+        <div className="flex items-center gap-2 px-4 py-2 bg-success/10 text-success border border-success/20 rounded-button text-[10px] font-bold uppercase tracking-widest shrink-0">
           <ShieldCheck size={14} /> AI Governance Active
         </div>
       </div>
 
-      <div className="space-y-4">
-        <div>
-          <p className="text-sm font-medium text-foreground mb-2">Contextos Permitidos na Sessão:</p>
-          <CopilotContextSelector selectedContexts={contexts} onToggle={toggleContext} />
+      <div className="card-premium p-8 space-y-6">
+        <div className="space-y-2">
+          <h3 className="text-h3 font-medium text-foreground tracking-tight">Contextos Permitidos na Sessão</h3>
+          <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">
+            Selecione os contextos autorizados para esta sessão de consulta
+          </p>
         </div>
-
-        <CopilotChatPanel />
+        <CopilotContextSelector selectedContexts={contexts} onToggle={toggleContext} />
       </div>
+
+      <CopilotChatPanel />
     </div>
   );
 }

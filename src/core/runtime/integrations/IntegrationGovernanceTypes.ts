@@ -1,5 +1,5 @@
 export type SourceTrustLevel = 'UNVERIFIED' | 'LOW' | 'MEDIUM' | 'HIGH' | 'INSTITUTIONAL';
-export type ImportStatus = 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED' | 'NEEDS_CORRECTION' | 'PUBLISHED';
+export type ImportStatus = 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED' | 'NEEDS_CORRECTION' | 'PUBLISHED' | 'VALIDATED' | 'REVERTED' | 'ARCHIVED';
 export type ConnectorType = 'MANUAL_CSV' | 'MANUAL_XLSX' | 'API_ERP' | 'API_BANKING' | 'MOCK_CONNECTOR';
 
 export interface IngestionLineageReference {
@@ -88,6 +88,10 @@ export interface ImportPublicationRecord {
   publishedBy: string;
   publishedAt: string;
   lineageReference: IngestionLineageReference;
+  reverted?: boolean;
+  revertedAt?: string;
+  revertedBy?: string;
+  reversionJustification?: string;
 }
 
 export interface ConnectorAuditRecord {
@@ -95,8 +99,21 @@ export interface ConnectorAuditRecord {
   tenantId: string;
   importId?: string;
   connectorId?: string;
-  event: 'IMPORT_RECEIVED' | 'IMPORT_VALIDATED' | 'IMPORT_REJECTED' | 'IMPORT_REVIEW_REQUIRED' | 'IMPORT_APPROVED' | 'IMPORT_PUBLISHED' | 'IMPORT_FAILED';
+  event: 'IMPORT_RECEIVED' | 'IMPORT_VALIDATED' | 'IMPORT_REJECTED' | 'IMPORT_REVIEW_REQUIRED' | 'IMPORT_APPROVED' | 'IMPORT_PUBLISHED' | 'IMPORT_FAILED' | 'IMPORT_REVERTED';
   actorId: string;
   timestamp: string;
   details?: string;
 }
+
+export interface RollbackAuditEntry {
+  rollbackId: string;
+  importId?: string;
+  tenantId: string;
+  scope: 'DATASET' | 'PROMOTION' | 'SNAPSHOT';
+  actorId: string;
+  justification: string;
+  timestamp: string;
+  previousStatus: ImportStatus;
+  policyApproved: boolean;
+}
+

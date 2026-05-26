@@ -200,7 +200,8 @@ export type Page =
   | 'governance_structure_center'
   | 'governance_risk_heatmap'
   | 'fiduciary_governance_center'
-  | 'compliance_integrity_center';
+  | 'compliance_integrity_center'
+  | 'pilot_monitoring';
 
 export interface NavigationItem {
   id: Page;
@@ -286,6 +287,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'institutional_observability_center', label: 'Saúde e Continuidade Institucional', icon: Activity },
       { id: 'governance_structure_center', label: 'Estrutura Institucional', icon: Users },
       { id: 'decision_governance', label: 'Governança de Decisão', icon: GitBranchPlus },
+      { id: 'pilot_monitoring', label: 'Painel Operacional Piloto', icon: Activity, masterOnly: true },
       
       // --- Legacy & Master Only Routes (Preservados internamente) ---
       { id: 'advisor_cockpit', label: 'Advisor Cockpit', icon: BriefcaseBusiness, masterOnly: true },

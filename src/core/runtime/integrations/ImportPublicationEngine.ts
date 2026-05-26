@@ -50,7 +50,21 @@ export class ImportPublicationEngine {
   }
 
   static getPublicationsForTenant(tenantId: string): ImportPublicationRecord[] {
-    return this.publications.filter(p => p.lineageReference.tenantId === tenantId);
+    return this.publications.filter(p => p.lineageReference.tenantId === tenantId && !p.reverted);
+  }
+
+  static revertPublication(importId: string, actorId: string, justification: string): void {
+    const pub = this.publications.find(p => p.importId === importId && !p.reverted);
+    if (pub) {
+      pub.reverted = true;
+      pub.revertedAt = new Date().toISOString();
+      pub.revertedBy = actorId;
+      pub.reversionJustification = justification;
+    }
+  }
+
+  static getAllPublications(): ImportPublicationRecord[] {
+    return this.publications;
   }
 
   static clearMockDataForTenant(tenantId: string) {

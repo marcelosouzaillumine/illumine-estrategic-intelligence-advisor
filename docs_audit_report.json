@@ -28,6 +28,13 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/BOARD_EXPERIENCE_LAYER.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/BOARD_NARRATIVE_ENGINE.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
@@ -133,6 +140,13 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/INSTITUTIONAL_AUTH_TENANT_PROVIDER_LAYER.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/INSTITUTIONAL_RUNTIME_ENFORCER.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
@@ -189,7 +203,21 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/PILOT_EDGE_CASES_LOG.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/PILOT_OPERATION_GUIDELINES.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
+    "file": "docs/PILOT_OPERATION_PROTOCOL.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
     "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",

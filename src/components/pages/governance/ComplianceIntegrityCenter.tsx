@@ -12,30 +12,28 @@ import {
   Minus,
   CheckCircle2
 } from 'lucide-react';
+import { PageHeader } from '../../Common';
 
 export function ComplianceIntegrityCenter() {
   const [activeTab, setActiveTab] = useState<'integridade' | 'denuncias' | 'politicas' | 'esg'>('integridade');
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-fade-in">
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
       {/* Cabeçalho */}
-      <div className="flex justify-between items-end border-b border-slate-800 pb-6 mb-8">
-        <div>
-          <h1 className="text-3xl font-light text-slate-100 tracking-tight flex items-center gap-3">
-            <ShieldAlert className="w-8 h-8 text-indigo-500" />
-            Integridade & Compliance
-          </h1>
-          <p className="text-slate-400 mt-2">
-            Governança ética, monitoramento de conduta, canal de relatos e indicadores ESG.
-          </p>
-        </div>
-        <div className="text-right">
-          <div className="text-xs text-slate-500 uppercase tracking-widest font-semibold mb-1">Score de Integridade</div>
-          <div className="text-4xl font-light text-indigo-400 flex items-center justify-end gap-2">
-            85<span className="text-xl text-slate-600">/100</span>
+      <PageHeader 
+        title="Integridade & Compliance"
+        subtitle="Governança ética, monitoramento de conduta, canal de relatos e indicadores ESG."
+        icon={ShieldAlert}
+        transparent
+        actions={
+          <div className="text-right">
+            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1">Score de Integridade</div>
+            <div className="text-4xl font-light text-indigo-400 flex items-center justify-end gap-2">
+              85<span className="text-xl text-slate-600">/100</span>
+            </div>
           </div>
-        </div>
-      </div>
+        }
+      />
 
       {/* Cards Executivos */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -66,7 +64,7 @@ export function ComplianceIntegrityCenter() {
       </div>
 
       {/* Abas */}
-      <div className="flex gap-4 border-b border-slate-800 pb-px mt-8">
+      <div className="flex gap-4 border-b border-border/10 pb-px mt-8 overflow-x-auto no-scrollbar">
         <TabButton active={activeTab === 'integridade'} onClick={() => setActiveTab('integridade')} icon={<Activity className="w-4 h-4"/>} label="Visão Geral" />
         <TabButton active={activeTab === 'denuncias'} onClick={() => setActiveTab('denuncias')} icon={<Lock className="w-4 h-4"/>} label="Canal de Relatos" />
         <TabButton active={activeTab === 'politicas'} onClick={() => setActiveTab('politicas')} icon={<FileText className="w-4 h-4"/>} label="Políticas & Conduta" />
@@ -76,8 +74,8 @@ export function ComplianceIntegrityCenter() {
       {/* Conteúdo das Abas */}
       
       {activeTab === 'integridade' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-in fade-in duration-300">
+          <div className="card-premium p-8">
             <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
               <Activity className="w-5 h-5 text-slate-400" />
               Tendências Institucionais
@@ -89,7 +87,7 @@ export function ComplianceIntegrityCenter() {
             </div>
           </div>
 
-          <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+          <div className="card-premium p-8">
             <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
               <AlertOctagon className="w-5 h-5 text-slate-400" />
               Riscos Éticos Iminentes
@@ -103,14 +101,14 @@ export function ComplianceIntegrityCenter() {
       )}
 
       {activeTab === 'denuncias' && (
-        <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+        <div className="card-premium p-8 animate-in fade-in duration-300">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-medium text-slate-200 flex items-center gap-2">
               <Lock className="w-5 h-5 text-slate-400" />
               Protocolos de Investigação
             </h2>
-            <span className="text-xs text-indigo-400 flex items-center gap-1 bg-indigo-500/10 px-2 py-1 rounded border border-indigo-500/20">
-              <Lock className="w-3 h-3" /> Identidade Blindada
+            <span className="text-xs text-indigo-400 flex items-center gap-1 bg-indigo-500/10 px-2.5 py-1 rounded-xl border border-indigo-500/20 font-bold uppercase tracking-wider">
+              <Lock className="w-3.5 h-3.5" /> Identidade Blindada
             </span>
           </div>
           <div className="space-y-4">
@@ -133,7 +131,7 @@ export function ComplianceIntegrityCenter() {
       )}
 
       {activeTab === 'politicas' && (
-        <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+        <div className="card-premium p-8 animate-in fade-in duration-300">
           <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
             <FileText className="w-5 h-5 text-slate-400" />
             Controle de Aceite Digital
@@ -147,7 +145,7 @@ export function ComplianceIntegrityCenter() {
       )}
 
       {activeTab === 'esg' && (
-        <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+        <div className="card-premium p-8 animate-in fade-in duration-300">
           <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
             <Leaf className="w-5 h-5 text-slate-400" />
             Score ESG Desdobrado
@@ -166,16 +164,16 @@ export function ComplianceIntegrityCenter() {
 
 function StatusCard({ title, value, icon, trend }: { title: string, value: string, icon: React.ReactNode, trend: string }) {
   return (
-    <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:bg-slate-800/50 transition-colors">
+    <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-700 transition-all">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-sm font-medium text-slate-400">{title}</h3>
-        <div className="p-2 bg-slate-950 rounded-lg border border-slate-800">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">{title}</h3>
+        <div className="p-2 bg-slate-950/40 rounded-xl border border-border/10">
           {icon}
         </div>
       </div>
       <div>
         <div className="text-3xl font-light text-slate-100">{value}</div>
-        <div className="text-xs text-slate-500 mt-1 tracking-wider">{trend}</div>
+        <div className="text-xs text-slate-500 mt-1 uppercase tracking-wider font-bold">{trend}</div>
       </div>
     </div>
   );
@@ -185,7 +183,11 @@ function TabButton({ active, onClick, icon, label }: { active: boolean, onClick:
   return (
     <button 
       onClick={onClick}
-      className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors border-b-2 ${active ? 'text-indigo-400 border-indigo-500 bg-slate-800/30' : 'text-slate-400 border-transparent hover:text-slate-300 hover:bg-slate-800/20'}`}
+      className={`flex items-center gap-2 px-6 py-3.5 text-xs font-bold uppercase tracking-wider transition-all border-b-2 ${
+        active 
+          ? 'text-indigo-400 border-indigo-500 bg-indigo-500/5' 
+          : 'text-slate-400 border-transparent hover:text-slate-300 hover:bg-slate-900/40'
+      }`}
     >
       {icon}
       {label}
@@ -198,7 +200,7 @@ function TrendItem({ label, value, type }: { label: string, value: string, type:
   const color = type === 'positive' ? 'text-emerald-400' : type === 'negative' ? 'text-red-400' : 'text-slate-400';
   
   return (
-    <div className="flex justify-between items-center p-3 border-b border-slate-800/50 last:border-0">
+    <div className="flex justify-between items-center p-3 border-b border-border/10 last:border-0">
       <span className="text-sm text-slate-300">{label}</span>
       <span className={`text-sm flex items-center gap-1 ${color}`}>
         {value} <Icon className="w-4 h-4" />
@@ -210,10 +212,10 @@ function TrendItem({ label, value, type }: { label: string, value: string, type:
 function RiskItem({ title, severity }: { title: string, severity: string }) {
   const isCritical = severity === 'Crítica';
   return (
-    <div className={`p-4 rounded-lg border ${isCritical ? 'bg-red-500/5 border-red-500/20' : 'bg-amber-500/5 border-amber-500/20'}`}>
+    <div className={`p-4 rounded-xl border ${isCritical ? 'bg-red-500/5 border-red-500/20 text-red-300' : 'bg-amber-500/5 border-amber-500/20 text-amber-300'}`}>
       <div className="flex justify-between items-center">
-        <span className={`text-sm font-medium ${isCritical ? 'text-red-300' : 'text-amber-300'}`}>{title}</span>
-        <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded ${isCritical ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>
+        <span className="text-sm font-medium">{title}</span>
+        <span className={`text-[10px] uppercase font-black tracking-widest px-2.5 py-1 rounded-xl ${isCritical ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>
           {severity}
         </span>
       </div>
@@ -224,11 +226,11 @@ function RiskItem({ title, severity }: { title: string, severity: string }) {
 function ReportItem({ protocol, category, severity, status, date }: any) {
   const isCritical = severity === 'Crítica';
   return (
-    <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg flex justify-between items-center hover:border-slate-700 transition-colors">
+    <div className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex justify-between items-center hover:border-slate-750 transition-colors">
       <div>
         <div className="flex items-center gap-3">
-          <h3 className="text-slate-200 font-mono text-sm">{protocol}</h3>
-          <span className="text-xs text-slate-500 px-2 py-0.5 bg-slate-800 rounded">{date}</span>
+          <h3 className="text-slate-200 font-mono text-sm font-bold">{protocol}</h3>
+          <span className="text-xs text-slate-500 px-2 py-0.5 bg-slate-900 border border-border/5 rounded-lg">{date}</span>
         </div>
         <div className="flex items-center gap-3 mt-2">
           <p className="text-xs text-slate-400">{category}</p>
@@ -247,7 +249,7 @@ function ReportItem({ protocol, category, severity, status, date }: any) {
 function PolicyItem({ title, compliance, status }: { title: string, compliance: string, status: string }) {
   const isAttention = status === 'Atenção';
   return (
-    <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg flex justify-between items-center">
+    <div className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex justify-between items-center">
       <div className="flex items-center gap-3">
         {isAttention ? <AlertOctagon className="w-5 h-5 text-amber-500" /> : <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
         <span className="text-slate-200 text-sm font-medium">{title}</span>
@@ -264,7 +266,7 @@ function PolicyItem({ title, compliance, status }: { title: string, compliance: 
 
 function ESGPillarCard({ title, score }: { title: string, score: number }) {
   return (
-    <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 text-center">
+    <div className="bg-slate-950/40 border border-border/10 rounded-xl p-6 text-center shadow-inner">
       <h3 className="text-sm font-medium text-slate-400 mb-4">{title}</h3>
       <div className="text-4xl font-light text-emerald-400">{score}</div>
       <div className="text-xs text-slate-500 mt-2">Score de 0 a 100</div>

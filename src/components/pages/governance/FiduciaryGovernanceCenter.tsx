@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
 import { ShieldCheck, UserX, Network, FileWarning, AlertTriangle, Scale, BookOpen, Clock } from 'lucide-react';
+import { PageHeader } from '../../Common';
 
 export function FiduciaryGovernanceCenter() {
   const [activeTab, setActiveTab] = useState<'conflitos' | 'relacionadas' | 'decisoes'>('conflitos');
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-fade-in">
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
       {/* Cabeçalho */}
-      <div className="flex justify-between items-end border-b border-slate-800 pb-6 mb-8">
-        <div>
-          <h1 className="text-3xl font-light text-slate-100 tracking-tight flex items-center gap-3">
-            <Scale className="w-8 h-8 text-indigo-500" />
-            Governança Fiduciária
-          </h1>
-          <p className="text-slate-400 mt-2">
-            Gestão de conflitos de interesse, partes relacionadas e integridade de aprovações.
-          </p>
-        </div>
-      </div>
+      <PageHeader 
+        title="Governança Fiduciária"
+        subtitle="Gestão de conflitos de interesse, partes relacionadas e integridade de aprovações."
+        icon={Scale}
+        transparent
+      />
 
       {/* Cards Executivos (KRI Summary) */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -48,7 +44,7 @@ export function FiduciaryGovernanceCenter() {
       </div>
 
       {/* Abas */}
-      <div className="flex gap-4 border-b border-slate-800 pb-px">
+      <div className="flex gap-4 border-b border-border/10 pb-px overflow-x-auto no-scrollbar">
         <TabButton active={activeTab === 'conflitos'} onClick={() => setActiveTab('conflitos')} icon={<FileWarning className="w-4 h-4"/>} label="Conflitos de Interesse" />
         <TabButton active={activeTab === 'relacionadas'} onClick={() => setActiveTab('relacionadas')} icon={<Network className="w-4 h-4"/>} label="Partes Relacionadas" />
         <TabButton active={activeTab === 'decisoes'} onClick={() => setActiveTab('decisoes')} icon={<ShieldCheck className="w-4 h-4"/>} label="Gateway de Decisões" />
@@ -57,7 +53,7 @@ export function FiduciaryGovernanceCenter() {
       {/* Conteúdo das Abas (Mock UI integrado com conceitos fiduciários) */}
       
       {activeTab === 'conflitos' && (
-        <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+        <div className="card-premium p-8 animate-in fade-in duration-300">
           <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-slate-400" />
             Declarações e Impedimentos
@@ -82,20 +78,20 @@ export function FiduciaryGovernanceCenter() {
       )}
 
       {activeTab === 'relacionadas' && (
-        <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+        <div className="card-premium p-8 animate-in fade-in duration-300">
           <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
             <Network className="w-5 h-5 text-slate-400" />
             Transações Sensíveis e Vínculos
           </h2>
-          <div className="text-center py-10 text-slate-500">
-            <Network className="w-12 h-12 text-slate-700 mx-auto mb-3" />
-            <p>Monitoramento ativo. Nenhuma transação material detectada com partes relacionadas nos últimos 30 dias.</p>
+          <div className="text-center py-12 text-slate-500">
+            <Network className="w-12 h-12 text-slate-700 mx-auto mb-4" />
+            <p className="text-xs font-bold uppercase tracking-wider">Monitoramento ativo. Nenhuma transação material detectada com partes relacionadas nos últimos 30 dias.</p>
           </div>
         </div>
       )}
 
       {activeTab === 'decisoes' && (
-        <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+        <div className="card-premium p-8 animate-in fade-in duration-300">
           <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
             <ShieldCheck className="w-5 h-5 text-slate-400" />
             Validação Fiduciária de Pautas
@@ -123,16 +119,16 @@ export function FiduciaryGovernanceCenter() {
 
 function StatusCard({ title, value, icon, trend }: { title: string, value: string, icon: React.ReactNode, trend: string }) {
   return (
-    <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
+    <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-700 transition-all">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-sm font-medium text-slate-400">{title}</h3>
-        <div className="p-2 bg-slate-950 rounded-lg border border-slate-800">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">{title}</h3>
+        <div className="p-2 bg-slate-950/40 rounded-xl border border-border/10">
           {icon}
         </div>
       </div>
       <div>
         <div className="text-2xl font-light text-slate-100">{value}</div>
-        <div className="text-xs text-slate-500 mt-1 tracking-wider">{trend}</div>
+        <div className="text-xs text-slate-500 mt-1 uppercase tracking-wider font-bold">{trend}</div>
       </div>
     </div>
   );
@@ -142,7 +138,11 @@ function TabButton({ active, onClick, icon, label }: { active: boolean, onClick:
   return (
     <button 
       onClick={onClick}
-      className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors border-b-2 ${active ? 'text-indigo-400 border-indigo-500 bg-slate-800/30' : 'text-slate-400 border-transparent hover:text-slate-300 hover:bg-slate-800/20'}`}
+      className={`flex items-center gap-2 px-6 py-3.5 text-xs font-bold uppercase tracking-wider transition-all border-b-2 ${
+        active 
+          ? 'text-indigo-400 border-indigo-500 bg-indigo-500/5' 
+          : 'text-slate-400 border-transparent hover:text-slate-300 hover:bg-slate-900/40'
+      }`}
     >
       {icon}
       {label}
@@ -152,15 +152,15 @@ function TabButton({ active, onClick, icon, label }: { active: boolean, onClick:
 
 function ConflictItem({ director, role, type, severity, status }: any) {
   return (
-    <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg flex justify-between items-center">
+    <div className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex justify-between items-center">
       <div>
         <div className="flex items-center gap-3">
           <h3 className="text-slate-200 font-medium text-sm">{director}</h3>
-          <span className="text-xs text-slate-500 px-2 py-0.5 bg-slate-800 rounded">{role}</span>
+          <span className="text-xs text-slate-400 px-2.5 py-1 bg-slate-900 border border-border/5 rounded-xl font-medium">{role}</span>
         </div>
         <div className="flex items-center gap-3 mt-2">
           <p className="text-xs text-slate-400">{type}</p>
-          <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded ${severity === 'Alta' ? 'text-amber-400 bg-amber-500/10 border border-amber-500/20' : 'text-slate-400 bg-slate-800 border border-slate-700'}`}>
+          <span className={`text-[10px] uppercase font-black tracking-widest px-2.5 py-1 rounded-xl ${severity === 'Alta' ? 'text-amber-400 bg-amber-500/10 border border-amber-500/20' : 'text-slate-400 bg-slate-800 border border-slate-700'}`}>
             Severidade {severity}
           </span>
         </div>
@@ -175,20 +175,20 @@ function ConflictItem({ director, role, type, severity, status }: any) {
 function DecisionItem({ title, status, reason, hash }: any) {
   const isBlocked = status === 'Bloqueada';
   return (
-    <div className={`p-4 bg-slate-950 border rounded-lg ${isBlocked ? 'border-red-500/20' : 'border-slate-800'}`}>
+    <div className={`p-5 bg-slate-950/40 border rounded-xl ${isBlocked ? 'border-red-500/20' : 'border-border/10'}`}>
       <div className="flex justify-between items-start mb-2">
-        <h3 className="text-slate-200 font-medium text-sm">{title}</h3>
-        <span className={`px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-full border ${isBlocked ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'}`}>
+        <h3 className="text-slate-200 font-medium text-sm md:text-base">{title}</h3>
+        <span className={`px-3 py-1 text-[10px] uppercase font-black tracking-widest rounded-xl border ${isBlocked ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'}`}>
           {status}
         </span>
       </div>
-      <p className={`text-xs mt-2 ${isBlocked ? 'text-red-400' : 'text-amber-400'}`}>
-        <AlertTriangle className="w-3 h-3 inline mr-1 -mt-0.5" />
+      <p className={`text-xs mt-3 flex items-center gap-1.5 ${isBlocked ? 'text-red-455' : 'text-amber-450'}`}>
+        <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
         {reason}
       </p>
-      <div className="mt-3 pt-3 border-t border-slate-800/50 flex justify-end">
+      <div className="mt-4 pt-4 border-t border-border/10 flex justify-end">
         <span className="text-[10px] text-slate-500 font-mono flex items-center gap-1">
-          <ShieldCheck className="w-3 h-3" />
+          <ShieldCheck className="w-3.5 h-3.5" />
           Audit Hash: {hash}
         </span>
       </div>

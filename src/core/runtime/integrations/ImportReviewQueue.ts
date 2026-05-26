@@ -21,4 +21,8 @@ export class ImportReviewQueue {
   static clearMockDataForTenant(tenantId: string) {
     this.queue = this.queue.filter(q => q.tenantId !== tenantId);
   }
+
+  static getAll(): ImportedDataset[] {
+    return this.queue;
+  }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Workflow } from 'lucide-react';
+import { PageHeader } from '../Common';
 import { GovernancePlaybookPanel } from '../governance-orchestration/GovernancePlaybookPanel';
 import { StrategicResponseTimeline } from '../governance-orchestration/StrategicResponseTimeline';
 import { InstitutionalPriorityBoard } from '../governance-orchestration/InstitutionalPriorityBoard';
@@ -13,18 +14,13 @@ export function GovernanceOrchestrationPage() {
   const tenantId = 'TENANT-HQ'; // Mock MVP Tenant
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-6 animate-in fade-in bg-background min-h-screen">
-      <div className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-            <Workflow className="text-primary" />
-            Governance Orchestration & Playbooks
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Autonomous Governance Coordination: Acionamento supervisionado de playbooks institucionais e orquestração de contingência.
-          </p>
-        </div>
-      </div>
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
+      <PageHeader
+        title="Governance Orchestration & Playbooks"
+        subtitle="Autonomous Governance Coordination: Acionamento supervisionado de playbooks institucionais e orquestração de contingência."
+        icon={Workflow}
+        transparent
+      />
 
       <GovernancePlaybookPanel tenantId={tenantId} />
 

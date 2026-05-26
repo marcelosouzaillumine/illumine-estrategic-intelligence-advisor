@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, Loader2 } from 'lucide-react';
+import { PageHeader } from '../Common';
 import { RealDataValidationEngine } from '../../core/runtime/enterprise-validation/RealDataValidationEngine';
 import { RealDataValidationPanel } from '../enterprise-validation/RealDataValidationPanel';
 import { EnterpriseReadinessDashboard } from '../enterprise-validation/EnterpriseReadinessDashboard';
@@ -27,22 +28,22 @@ export function EnterpriseValidationPage() {
   }, [tenantId]);
 
   if (!initialized) {
-    return <div className="p-8">Inicializando Enterprise Validation Sandbox...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[400px] gap-3 text-muted-foreground">
+        <Loader2 size={20} className="animate-spin" />
+        <span className="text-body-sm font-medium uppercase tracking-widest">Inicializando Enterprise Validation Sandbox...</span>
+      </div>
+    );
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-6 animate-in fade-in bg-background min-h-screen">
-      <div className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-            <ShieldCheck className="text-primary" />
-            Enterprise Validation & Go-To-Market
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Hardening Institucional: Validação de dados reais, UX Executiva e Prontidão Comercial.
-          </p>
-        </div>
-      </div>
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
+      <PageHeader
+        title="Enterprise Validation & Go-To-Market"
+        subtitle="Hardening Institucional: Validação de dados reais, UX Executiva e Prontidão Comercial."
+        icon={ShieldCheck}
+        transparent
+      />
 
       <EnterpriseReadinessDashboard tenantId={tenantId} />
 

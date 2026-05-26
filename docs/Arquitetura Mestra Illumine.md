@@ -3483,14 +3483,15 @@ A plataforma Illumine opera através de camadas hierárquicas de inteligência.
 
 A ordem oficial de precedência institucional é:
 
-1. MASTER_RUNTIME_ORCHESTRATOR.md
-2. RUNTIME_COMPLIANCE_SYSTEM.md
-3. MASTER_ARCHITECTURE.md
-4. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
-5. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
-6. Engines específicas
-7. Componentes
-8. Mock data / fallback / regras locais
+1. INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER (Camada de Contexto - Fundamento do Runtime)
+2. MASTER_RUNTIME_ORCHESTRATOR.md
+3. RUNTIME_COMPLIANCE_SYSTEM.md
+4. MASTER_ARCHITECTURE.md
+5. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
+6. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+7. Engines específicas
+8. Componentes
+9. Mock data / fallback / regras locais
 
 EXECUTIVE_CAUSALITY_ENGINE.md é a fonte oficial de interpretação econômica causal da plataforma.
 
@@ -3594,14 +3595,15 @@ Nenhuma interface poderá:
 
 Hierarquia oficial da plataforma:
 
-1. MASTER_RUNTIME_ORCHESTRATOR.md
-2. RUNTIME_COMPLIANCE_SYSTEM.md
-3. MASTER_ARCHITECTURE.md
-4. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
-5. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
-6. Engines específicas
-7. Componentes
-8. Mock data / fallback / regras locais
+1. INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER (Camada de Contexto - Fundamento do Runtime)
+2. MASTER_RUNTIME_ORCHESTRATOR.md
+3. RUNTIME_COMPLIANCE_SYSTEM.md
+4. MASTER_ARCHITECTURE.md
+5. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
+6. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+7. Engines específicas
+8. Componentes
+9. Mock data / fallback / regras locais
 
 ## 39. Engines Institucionais de Síntese Executiva
 
@@ -3642,14 +3644,15 @@ A BOARD_SYNTHESIS_ENGINE é definida como engine obrigatória para qualquer:
 
 Fica definida a seguinte precedência na plataforma:
 
-1. MASTER_RUNTIME_ORCHESTRATOR.md
-2. RUNTIME_COMPLIANCE_SYSTEM.md
-3. MASTER_ARCHITECTURE.md
-4. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
-5. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
-6. Engines específicas
-7. Componentes
-8. Mock data / fallback / regras locais
+1. INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER (Camada de Contexto - Fundamento do Runtime)
+2. MASTER_RUNTIME_ORCHESTRATOR.md
+3. RUNTIME_COMPLIANCE_SYSTEM.md
+4. MASTER_ARCHITECTURE.md
+5. MASTER_INSTITUTIONAL_INFERENCE_ENGINE.md
+6. MASTER_FINANCIAL_INTELLIGENCE_ENGINE.md
+7. Engines específicas
+8. Componentes
+9. Mock data / fallback / regras locais
 
 A EXECUTIVE_ORCHESTRATION_ENGINE governa experiência executiva;
 A BOARD_SYNTHESIS_ENGINE governa síntese causal;
@@ -3847,6 +3850,7 @@ como camada oficial de:
 
 A plataforma utiliza uma arquitetura institucional centralizada de execução cognitiva baseada nos documentos:
 
+- INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER (Fundamento do Runtime)
 - MASTER_RUNTIME_ORCHESTRATOR.md
 - RUNTIME_COMPLIANCE_SYSTEM.md
 
@@ -3882,3 +3886,19 @@ Toda execução deve obedecer:
 - a governança causal;
 - a validação epistemológica;
 - o compliance institucional.
+
+## INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER
+
+**Nível 00 (Fundamento do Runtime)**
+INSTITUTIONAL_CONTEXT_INTELLIGENCE_LAYER
+
+**Função:**
+Camada base de inteligência contextual institucional.
+Responsável por:
+- entender "o que a empresa é" antes de analisar "o que os números são";
+- classificar o estágio de negócios da empresa;
+- classificar o modelo econômico-financeiro;
+- classificar a densidade e robustez de histórico longitudinal;
+- classificar as naturezas e pressões de endividamento;
+- definir as fronteiras e limites de recomendações (recommendation boundaries);
+- calibrar dinamicamente pesos e penalidades dos scores matemáticos.

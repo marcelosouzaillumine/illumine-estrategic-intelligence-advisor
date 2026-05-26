@@ -294,7 +294,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     runAnalysis();
   }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, historyByYear, clients, selectedClient]);
 
-  const hasData = executiveReport?.compliance.confidenceLevel !== 'LOW_CONFIDENCE';
+  const hasData = financialEntries.length > 0;
   const resilienciaGlobal = executiveReport?.scores.composite || 0;
   const maturidade = executiveReport?.context.stage || 'Pendente';
 
@@ -443,7 +443,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
         </div>
       </div>
 
-      <div className={cn("space-y-6 mb-12", financialEntries.length > 0 && bpSummary && (!bpSummary.isBalanced || executiveReport?.severity.level === 'CRÍTICO' || executiveReport?.severity.level === 'COLAPSO') ? "opacity-50 pointer-events-none grayscale" : "")}>
+      <div className="space-y-6 mb-12">
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center border border-slate-700/50">

@@ -35,11 +35,10 @@ import {
 import { cn, formatValue, formatCurrency, getThemeColors } from '../../lib/utils';
 import { PageHeader, KpiCard, KpiValue, ControlBar } from '../Common';
 
-const useInstitutionalContext: any = () => ({ actorId: '', tenantId: '', role: 'CFO', permissions: [], entityScope: {}, isLegacyContext: false, isContextReady: true });
-type DataAccessContext = any;
-const governanceService: any = { getDashboardIndicators: async () => [] };
-const getFinancialEntries: any = async () => [];
-const getBudgets: any = async () => [];
+import { useInstitutionalContext } from '../../hooks/useInstitutionalContext';
+import { DataAccessContext } from '../../core/security/data-access-context';
+import { governanceService } from '../../services/governanceService';
+import { getFinancialEntries, getBudgets } from '../../services/cashFlowService';
 
 interface ControladoriaPageProps {
   clientId: string;

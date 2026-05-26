@@ -221,9 +221,13 @@ function AuthLoadingScreen() {
 
 
 
+import { useInstitutionalAuth } from './core/security/auth/InstitutionalAuthProvider';
+
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { session, loading: authLoading, activateTenant, logout: institutionalLogout, user } = useInstitutionalAuth();
 
   const [currentPage, setCurrentPage] = useState<Page>(DEFAULT_PAGE);
   const [academyCourseId, setAcademyCourseId] = useState<string | null>(null);
@@ -232,138 +236,60 @@ export default function App() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [clients, setClients] = useState<any[]>([]);
   const [expandedGroups, setExpandedGroups] = useState<string[]>(['Dados de Cadastro', 'Análise de Performance', 'Planejamento Estratégico']);
-  const [user, setUser] = useState<User | null>(null);
-  const [userPermissions, setUserPermissions] = useState<string[] | null>(null);
-  const [clientPermissionsMap, setClientPermissionsMap] = useState<Record<string, string[]>>({});
-  const [authLoading, setAuthLoading] = useState(true);
+  
+  // Backward compatibility state variables mapped to session
+  const isMaster = session?.role === 'SUPER_ADMIN';
+  const isPartner = session?.role === 'TENANT_ADMIN' || session?.availableTenants?.some(t => t.role === 'TENANT_ADMIN');
+  const userPartnerIds = session?.availableTenants?.filter(t => t.role === 'TENANT_ADMIN').map(t => t.tenantId) || [];
+  // Permissions are fully managed by InstitutionalAuth; null = full access
+  const userPermissions: string[] | null = isMaster ? null : null;
+  const clientPermissionsMap: Record<string, string[]> = {};
+  const rolesLoaded = !authLoading && session !== null;
+  const initialRedirectDone = useRef(false);
+  
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>(DEFAULT_OPEN_SUBMENUS);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
     const saved = localStorage.getItem('sidebar-collapsed');
     return saved ? JSON.parse(saved) : window.innerWidth < 1280;
   });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isPartner, setIsPartner] = useState(false);
-  const [isMaster, setIsMaster] = useState(false);
-  const [userPartnerIds, setUserPartnerIds] = useState<string[]>([]);
   const [showWelcome, setShowWelcome] = useState(false);
   const [welcomeText, setWelcomeText] = useState('');
   const [requirePasswordChange, setRequirePasswordChange] = useState(false);
-  const initialRedirectDone = useRef(false);
-  const [rolesLoaded, setRolesLoaded] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem('sidebar-collapsed', JSON.stringify(isSidebarCollapsed));
-  }, [isSidebarCollapsed]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setIsSidebarCollapsed(true);
-      }
-      if (window.innerWidth >= 768) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const toggleSidebar = () => {
+    const newCollapsed = !isSidebarCollapsed;
+    setIsSidebarCollapsed(newCollapsed);
+    localStorage.setItem('sidebar-collapsed', JSON.stringify(newCollapsed));
+  };
 
   const toggleSubmenu = (name: string) => {
     setOpenSubmenus(prev => ({ ...prev, [name]: !prev[name] }));
   };
 
+  // Sync session tenants to legacy "clients" state
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (u) => {
-      if (u) {
-        setAuthLoading(true);
-        try {
-          const userEmail = (u.email || '').toLowerCase().trim();
-          const masterCheck = MASTER_ADMINS.some(email => email.toLowerCase().trim() === userEmail);
-          let hasAccess = masterCheck;
-          let mustChangePass = false;
-          
-          if (!hasAccess) {
-            const userAssocQuery = query(
-              collection(db, 'client_users'),
-              or(
-                where('email', '==', userEmail),
-                where('email', '==', u.email || '')
-              )
-            );
-            const assocSnap = await getDocs(userAssocQuery);
-            if (!assocSnap.empty) {
-              const activeUsers = assocSnap.docs.filter(doc => doc.data().status !== 'Inativo');
-              if (activeUsers.length > 0) {
-                hasAccess = true;
-                if (activeUsers.some(doc => doc.data().requirePasswordChange === true)) {
-                  mustChangePass = true;
-                }
-              }
-            }
-            
-            if (!hasAccess) {
-              const ownerQuery = query(collection(db, 'clients'), where('ownerId', '==', u.uid));
-              const ownerSnap = await getDocs(ownerQuery);
-              if (!ownerSnap.empty) {
-                hasAccess = true;
-              }
-            }
-
-            if (!hasAccess || !mustChangePass) {
-              const partnerQuery = query(collection(db, 'partners'), where('ownerId', '==', u.uid));
-              const partnerSnap = await getDocs(partnerQuery);
-              if (!partnerSnap.empty) {
-                hasAccess = true;
-                if (partnerSnap.docs.some(doc => doc.data().requirePasswordChange === true)) {
-                  mustChangePass = true;
-                }
-              }
-            }
-          }
-          
-          if (hasAccess) {
-            setUser(u);
-            setRequirePasswordChange(mustChangePass);
-            try {
-              await setDoc(doc(db, 'users', u.uid), {
-                uid: u.uid,
-                email: u.email,
-                displayName: u.displayName || '',
-                photoURL: u.photoURL || '',
-                lastAccess: serverTimestamp()
-              }, { merge: true });
-            } catch (err) {
-              console.error("Error updating user access time in users collection", err);
-            }
-          } else {
-            console.warn(`Access denied for non-registered user ${userEmail}. Deleting from Firebase Auth.`);
-            try {
-              await deleteUser(u);
-            } catch (err) {
-              console.error("Error deleting unauthorized user account:", err);
-            }
-            await logout();
-            setUser(null);
-            window.dispatchEvent(new CustomEvent('login-error', { detail: 'Acesso negado. Usuário não cadastrado na plataforma.' }));
-          }
-        } catch (error) {
-          console.error("Auth verification error:", error);
-          await logout();
-          setUser(null);
-          window.dispatchEvent(new CustomEvent('login-error', { detail: 'Erro ao verificar credenciais de acesso.' }));
-        } finally {
-          setAuthLoading(false);
-        }
-      } else {
-        setUser(null);
-        setAuthLoading(false);
+    if (session?.availableTenants) {
+      setClients(session.availableTenants.map(t => ({
+        id: t.tenantId,
+        fantasia: t.name,
+        razao: t.name
+      })));
+      if (session.selectedTenantId) {
+        setSelectedClient(session.selectedTenantId);
       }
-    });
-    return () => unsubscribe();
-  }, []);
+    } else {
+      setClients([]);
+      setSelectedClient('');
+    }
+  }, [session]);
 
-  // Initialize and listen for theme changes
+  const handleSelectClient = (clientId: string) => {
+    activateTenant(clientId);
+    setSelectedClient(clientId);
+  };
+
+  // Initialize and listen for theme changesnges
   useEffect(() => {
     const applyTheme = () => {
       const savedTheme = (localStorage.getItem('app-theme') as 'light' | 'dark' | 'system') || 'light';
@@ -415,161 +341,7 @@ export default function App() {
     }
   }, [location.pathname, currentPage]);
 
-  // Handle client selectionm Firestore if user is authenticated
-  useEffect(() => {
-    if (authLoading) return;
-
-    if (!user) {
-      setClients([]);
-      setSelectedClient('');
-      return;
-    }
-
-    const fetchClients = async () => {
-      try {
-        const userEmail = (user.email || '').toLowerCase().trim();
-        const masterCheck = MASTER_ADMINS.some(email => email.toLowerCase().trim() === userEmail);
-        setIsMaster(masterCheck);
-        
-        console.log('[Auth] Master Check:', { userEmail, isMaster: masterCheck });
-
-        let q;
-        if (masterCheck) {
-          console.log('[Auth] Master Admin: Fetching ALL clients');
-          q = query(collection(db, 'clients'));
-          setUserPermissions(null);
-        } else {
-          const userEmail = (user.email || '').toLowerCase().trim();
-          const userAssocQuery = query(
-            collection(db, 'client_users'), 
-            or(
-              where('email', '==', userEmail),
-              where('email', '==', user.email || '')
-            )
-          );
-          const assocSnap = await getDocs(userAssocQuery);
-          
-          if (!assocSnap.empty) {
-            const assocData = assocSnap.docs.map(doc => doc.data());
-            const rawAssocIds = assocData.map(d => d.clientId).filter(Boolean);
-            const assocIds = Array.from(new Set(rawAssocIds));
-            const pMap: Record<string, string[]> = {};
-            assocData.forEach(d => {
-              if (d.clientId) {
-                pMap[d.clientId] = d.permissoes || [];
-              }
-            });
-            setClientPermissionsMap(pMap);
-
-            // Check if any assocId is a partnerId
-            const safeAssocIdsForPartnerCheck = assocIds.slice(0, 30);
-            let partnerIds: string[] = [];
-            if (safeAssocIdsForPartnerCheck.length > 0) {
-              const partnersSnap = await getDocs(query(collection(db, 'partners'), where(documentId(), 'in', safeAssocIdsForPartnerCheck)));
-              partnerIds = partnersSnap.docs.map(d => d.id);
-            }
-
-            if (partnerIds.length > 0) {
-              console.log('[Auth] Partner detected:', partnerIds);
-              setIsPartner(true);
-              setUserPartnerIds(partnerIds);
-              const safePartnerIds = partnerIds.slice(0, 30);
-              // For partners, fetch clients where partnerId matches OR isModel is true OR ownerId matches
-              q = query(collection(db, 'clients'), 
-                or(
-                  where('partnerId', 'in', safePartnerIds),
-                  where('isModel', '==', true),
-                  where('ownerId', '==', user.uid)
-                )
-              );
-            } else {
-              setIsPartner(false);
-              setUserPartnerIds([]);
-              // For regular users, fetch linked clients OR model companies OR ownerId matches
-              const safeAssocIds = assocIds.slice(0, 30);
-              if (safeAssocIds.length > 0) {
-                q = query(collection(db, 'clients'), 
-                  or(
-                    where(documentId(), 'in', safeAssocIds),
-                    where('isModel', '==', true),
-                    where('ownerId', '==', user.uid)
-                  )
-                );
-              } else {
-                q = query(collection(db, 'clients'), 
-                  or(
-                    where('ownerId', '==', user.uid),
-                    where('isModel', '==', true)
-                  )
-                );
-              }
-            }
-          } else {
-            setClientPermissionsMap({});
-            setIsPartner(false);
-            setUserPartnerIds([]);
-            q = query(collection(db, 'clients'), 
-              or(
-                where('ownerId', '==', user.uid),
-                where('isModel', '==', true)
-              )
-            );
-          }
-        }
-
-        return onSnapshot(q, (snapshot) => {
-          const dbClients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          console.log('[Auth] Clients found:', dbClients.length);
-          setClients(dbClients);
-          setRolesLoaded(true);
-          // Removed automatic selection here to handle it in the initial logic useEffect
-        }, (error) => {
-          console.error("[Auth] Snapshot Error:", error);
-          setClients([]);
-          setRolesLoaded(true);
-        });
-      } catch (error) {
-        console.error("[Auth] Fetch Error:", error);
-        setClients([]);
-        setRolesLoaded(true);
-      }
-    };
-
-    const unsubscribePromise = fetchClients();
-    return () => {
-      unsubscribePromise.then(unsub => unsub && (unsub as any)());
-    };
-  }, [user, authLoading]);
-
-  // Handle dynamic permissions based on selected client
-  useEffect(() => {
-    if (!user || authLoading || !rolesLoaded) return;
-
-    if (isMaster) {
-      setUserPermissions(null);
-      return;
-    }
-
-    if (!selectedClient || clients.length === 0) return;
-
-    const client = clients.find(c => c.id === selectedClient);
-    if (!client) return;
-
-    // Full access if user owns the client, or if it is a model company
-    if (client.ownerId === user.uid || client.isModel) {
-      setUserPermissions(null);
-      return;
-    }
-
-    // Full access if partner is linked to the client
-    if (isPartner && client.partnerId && userPartnerIds.includes(client.partnerId)) {
-      setUserPermissions(null);
-      return;
-    }
-
-    // Otherwise apply permissions from client_users
-    setUserPermissions(clientPermissionsMap[selectedClient] || []);
-  }, [selectedClient, clients, isMaster, isPartner, userPartnerIds, clientPermissionsMap, user, authLoading, rolesLoaded]);
+  // Client state is now managed by InstitutionalAuth session sync above (useEffect at line 267).
 
   // Initial redirection and welcome message logic
   useEffect(() => {
