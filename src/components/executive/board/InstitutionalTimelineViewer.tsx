@@ -1,0 +1,46 @@
+import React from 'react';
+import { ExecutiveNarrative } from '../../../core/runtime/executive/types';
+
+interface InstitutionalTimelineViewerProps {
+  narrative: ExecutiveNarrative;
+}
+
+export const InstitutionalTimelineViewer: React.FC<InstitutionalTimelineViewerProps> = ({ narrative }) => {
+  // We extract a timeline only from the runtime execution metrics/evidence. No local sorting of ad-hoc dates.
+  const timelineEvents = narrative.evidenceChain.map(evidence => ({
+    id: evidence.evidenceId,
+    timestamp: evidence.timestamp,
+    nodes: evidence.sourceNodes,
+    critical: narrative.violations.some(v => evidence.sourceNodes.includes(v.sourceContext) && v.severity === 'CRITICAL')
+  }));
+
+  if (timelineEvents.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="p-6 bg-slate-900 border border-slate-800 rounded-lg">
+      <h3 className="text-lg font-semibold text-white mb-6">Historical Causality Timeline</h3>
+      <div className="relative border-l border-slate-700 ml-3 space-y-6">
+        {timelineEvents.map(event => (
+          <div key={event.id} className="relative pl-6">
+            <div className={`absolute -left-1.5 top-1.5 w-3 h-3 rounded-full ${event.critical ? 'bg-red-500' : 'bg-indigo-500'}`}></div>
+            <div className="mb-1 text-xs font-mono text-slate-500">
+              {new Date(event.timestamp).toLocaleString()}
+            </div>
+            <div className="text-sm text-slate-300">
+              <span className="font-semibold text-white">Event Reference:</span> {event.id}
+            </div>
+            <div className="mt-1 flex flex-wrap gap-1">
+              {event.nodes.map(node => (
+                <span key={node} className="text-xs px-2 py-0.5 bg-slate-800 rounded text-slate-400">
+                  {node}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};

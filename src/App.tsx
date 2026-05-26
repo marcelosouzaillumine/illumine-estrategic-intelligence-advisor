@@ -135,7 +135,7 @@ function Logo({ collapsed }: { collapsed?: boolean }) {
             className="flex justify-between w-full text-[10.5px] text-secondary uppercase mt-[2px] whitespace-nowrap" 
             style={{ fontFamily: '"Work Sans", sans-serif' }}
           >
-            {"Strategic Intelligence & Advisory".split('').map((char, i) => (
+            {"Governance".split('').map((char, i) => (
               <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
             ))}
           </div>

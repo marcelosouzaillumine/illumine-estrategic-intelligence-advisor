@@ -144,7 +144,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
                 className="flex justify-between w-full text-[6px] text-secondary uppercase mt-[2px] whitespace-nowrap font-medium" 
                 style={{ fontFamily: '"Work Sans", sans-serif' }}
               >
-                {"Strategic Intelligence".split('').map((char, i) => (
+                {"Governance".split('').map((char, i) => (
                   <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
                 ))}
               </div>

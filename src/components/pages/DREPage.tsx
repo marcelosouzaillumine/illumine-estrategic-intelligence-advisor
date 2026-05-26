@@ -331,7 +331,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               value={filterYear}
               className="bg-transparent px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest outline-none cursor-pointer text-foreground"
             >
-              {Array.from({ length: 21 }, (_, i) => 2010 + i).map((y) => (
+              {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map((y) => (
                 <option key={y} value={y}>{y}</option>
               ))}
             </select>

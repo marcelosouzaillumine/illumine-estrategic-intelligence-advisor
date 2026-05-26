@@ -391,7 +391,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 backdrop-blur-md text-primary text-[11px] font-semibold uppercase tracking-widest shadow-xs"
           >
             <Sparkles size={13} className="text-secondary animate-pulse" />
-            <span>Illumine Strategic Intelligence &amp; Advisory</span>
+            <span>Illumine Governance</span>
           </motion.div>
 
           <motion.h1
@@ -906,7 +906,7 @@ function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 backdrop-blur-md text-primary text-[11px] font-semibold uppercase tracking-widest shadow-xs"
           >
             <Sparkles size={13} className="text-secondary animate-pulse" />
-            <span>Illumine Strategic Intelligence &amp; Advisory</span>
+            <span>Illumine Governance</span>
           </motion.div>
 
           <motion.h1
@@ -926,7 +926,7 @@ function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
             className="text-lg md:text-xl text-muted-foreground font-medium max-w-4xl mx-auto space-y-4 leading-relaxed"
           >
             <p>
-              A Illumine oferece uma estrutura integrada de Strategic Intelligence & Advisory para escritórios, consultorias, assessorias financeiras, operações de BPO, advisors independentes e parceiros que desejam evoluir além da execução operacional.
+              A Illumine oferece uma estrutura integrada de Governance para escritórios, consultorias, assessorias financeiras, operações de BPO, advisors independentes e parceiros que desejam evoluir além da execução operacional.
             </p>
             <p className="text-base text-muted-foreground/80">
               Mais do que uma plataforma, entregamos um ecossistema contínuo de direção empresarial, governança aplicada e acompanhamento executivo para ampliação da capacidade consultiva e geração recorrente de valor.
@@ -1129,7 +1129,7 @@ function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
 <section id="modalidades" className="py-24 px-6 bg-surface-container/30 border-t border-border/40">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Estruturas de Strategic Intelligence & Advisory</h2>
+            <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Estruturas de Governance</h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
               Estruturas desenvolvidas para parceiros em diferentes níveis de operação, maturidade e complexidade consultiva.
             </h3>
@@ -1480,7 +1480,7 @@ function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
                   <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center shrink-0">
                     <Sparkles className="w-6 h-6 text-secondary" />
                   </div>
-                  <h4 className="text-2xl md:text-3xl font-bold text-white" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>Illumine Strategic Intelligence &amp; Advisory</h4>
+                  <h4 className="text-2xl md:text-3xl font-bold text-white" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>Illumine Governance</h4>
                 </div>
                 <p className="text-primary-foreground/80 font-medium leading-relaxed">
                   Inteligência estratégica, governança e performance para parceiros que desejam ampliar valor, recorrência e capacidade consultiva.
@@ -1757,7 +1757,7 @@ export function LandingAuthPage({
                 illumine
               </span>
               <div className="flex justify-between w-full text-[8px] text-white/60 uppercase mt-[6px] font-bold whitespace-nowrap" style={{ fontFamily: '"Work Sans", sans-serif' }}>
-                {"Strategic Intelligence & Advisory".split('').map((char, i) => (
+                {"Governance".split('').map((char, i) => (
                   <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
                 ))}
               </div>

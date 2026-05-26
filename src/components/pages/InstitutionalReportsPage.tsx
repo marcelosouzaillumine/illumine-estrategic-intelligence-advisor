@@ -229,7 +229,7 @@ export function InstitutionalReportsPage() {
 
               {/* Rodapé Fiduciário */}
               <div className="mt-24 pt-8 border-t border-gray-300 text-[10px] text-gray-500 text-center uppercase tracking-widest">
-                <p>Illumine Strategic Intelligence Advisor</p>
+                <p>Illumine Governance</p>
                 <p>Documento Gerado Eletronicamente. Fiduciary Snapshot Ref: {pack.fiduciarySnapshotRef}</p>
               </div>
             </div>

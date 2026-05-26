@@ -104,6 +104,7 @@ export type Page =
   | 'governance_orchestration'
   | 'institutional_ios'
   | 'enterprise_validation'
+  | 'reality_validation'
   | 'institutional_reports'
   | 'scenario_lab'
   | 'runtime_observability'
@@ -277,7 +278,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     icon: Network,
     items: [
       // --- Hubs Consolidados (FASE 1, 3 e 4) ---
-      { id: 'strategic_intelligence_center', label: 'Strategic Intelligence Center', icon: Target },
+      { id: 'strategic_intelligence_center', label: 'Governance Center', icon: Target },
       { id: 'governance_risk_heatmap', label: 'Enterprise Risk Heatmap', icon: ShieldAlert },
       { id: 'fiduciary_governance_center', label: 'Governança Fiduciária', icon: Scale },
       { id: 'compliance_integrity_center', label: 'Integridade & Compliance', icon: ShieldCheck },
@@ -297,6 +298,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'governance_orchestration', label: 'Governance Orchestration', icon: ArrowRightLeft, masterOnly: true },
       { id: 'institutional_ios', label: 'Institutional Operating System', icon: Cpu, masterOnly: true },
       { id: 'enterprise_validation', label: 'Enterprise Validation', icon: ShieldCheck, masterOnly: true },
+      { id: 'reality_validation', label: 'Reality Validation Center', icon: Radar, masterOnly: true },
       { id: 'institutional_copilot', label: 'Copiloto Institucional', icon: Bot, masterOnly: false },
       { id: 'institutional_integrations', label: 'Integrações Institucionais', icon: PlugZap, masterOnly: false },
       

@@ -49,7 +49,7 @@ export function ProfilePage({ user, clients = [], selectedClient = '' }: Profile
   
   const currentClient = clients.find(c => c.id === selectedClient);
   const userRole = currentClient ? 'Usuário do Cliente' : 'Consultor Estratégico';
-  const companyName = isMaster ? 'Illumine Strategic Advisory' : (currentClient?.fantasia || currentClient?.razao || 'Empresa não vinculada');
+  const companyName = isMaster ? 'Illumine Governance' : (currentClient?.fantasia || currentClient?.razao || 'Empresa não vinculada');
 
   useEffect(() => {
     if (user) {

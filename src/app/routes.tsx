@@ -98,6 +98,7 @@ import { ComplianceIntegrityCenter } from '../components/pages/governance/Compli
 import { GovernanceOrchestrationPage } from '../components/pages/GovernanceOrchestrationPage';
 import { InstitutionalIOSPage } from '../components/pages/InstitutionalIOSPage';
 import { EnterpriseValidationPage } from '../components/pages/EnterpriseValidationPage';
+import { RealityValidationPage } from '../components/pages/RealityValidationPage';
 import type { Page } from './navigation';
 
 interface RouteRenderContext {
@@ -538,6 +539,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'enterprise_validation' && (isMaster || true)) {
     return <EnterpriseValidationPage />;
+  }
+  if (currentPage === 'reality_validation' && (isMaster || true)) {
+    return <RealityValidationPage />;
   }
   if (currentPage === 'strategic_intelligence_center') {
     return <StrategicIntelligenceCenter />;

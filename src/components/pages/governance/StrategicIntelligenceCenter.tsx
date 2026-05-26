@@ -8,7 +8,7 @@ export function StrategicIntelligenceCenter() {
       <div className="border-b border-slate-800 pb-6 mb-8">
         <h1 className="text-3xl font-light text-slate-100 tracking-tight flex items-center gap-3">
           <Target className="w-8 h-8 text-blue-500" />
-          Strategic Intelligence Center
+          Governance Center
         </h1>
         <p className="text-slate-400 mt-2">
           Consolidação Institucional de Decisão, Risco e Valor (Orquestração Executiva).

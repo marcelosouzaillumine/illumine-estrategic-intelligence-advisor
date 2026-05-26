@@ -1,4 +1,4 @@
-# Illumine Strategic Intelligence Advisor
+# Illumine Governance
 ## RC-1 Baseline Freeze
 
 **Data do Freeze:** 25 de Maio de 2026  

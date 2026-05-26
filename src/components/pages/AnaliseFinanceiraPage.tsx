@@ -31,36 +31,33 @@ import {
 
 import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
-import { FULL_MONTH_LABELS } from '../../constants';
-import { useFinancialData } from '../../hooks/useFinancialData';
+import { useAnnualFinancialData } from '../../hooks/useFinancialData';
 import { useMethodologicalAnalysis } from '../../hooks/useMethodologicalAnalysis';
 import { PageHeader, Semaphore } from '../Common';
 
 
 
-export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, selectedMonth }: any) {
-  const [filterClient, setFilterClient] = useState(selectedClient);
-  const [month, setMonth] = useState(selectedMonth || 3);
-  const [year, setYear] = useState(selectedYear || 2026);
-  
-  // Sync
-  useEffect(() => {
-    setFilterClient(selectedClient);
-    if (selectedYear) setYear(selectedYear);
-    if (selectedMonth) setMonth(selectedMonth);
-  }, [selectedClient, selectedYear, selectedMonth]);
+export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }: any) {
+  const [year, setYear] = useState(selectedYear || new Date().getFullYear());
 
-  const { dbData: dbDre, loading: loadingDre } = useFinancialData(filterClient, year, month, 'DRE');
-  const { dbData: dbBp, loading: loadingBp } = useFinancialData(filterClient, year, month, 'BP');
+  // Sync year from parent
+  useEffect(() => {
+    if (selectedYear) setYear(selectedYear);
+  }, [selectedYear]);
 
   const curYear = new Date().getFullYear();
   const yearsArray = Array.from({ length: 11 }, (_, i) => curYear - 5 + i);
 
+  // Annual data — fetches all entries for the selected year (no month filter)
+  const { dbData: dbDre, loading: loadingDre } = useAnnualFinancialData(selectedClient, year, 'DRE');
+  const { dbData: dbBp, loading: loadingBp } = useAnnualFinancialData(selectedClient, year, 'BP');
+
   const currentDre = dbDre.length > 0 ? dbDre : [];
   const currentBp = dbBp.length > 0 ? dbBp : [];
 
+  // month = 0 is the annual sentinel (never conflicts with real months 1-12)
   const { analysis, loading: loadingAnalysis, error: errorAnalysis, reprocessAnalysis, currentVersion } = useMethodologicalAnalysis(
-    filterClient, year, month, currentDre, currentBp
+    selectedClient, year, 0, currentDre, currentBp
   );
 
   const [showReprocessed, setShowReprocessed] = useState(false);
@@ -105,18 +102,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
       <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
           <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
-            <div className="flex items-center px-4 py-2 border-r border-slate-100">
-              <select 
-                value={filterClient} 
-                onChange={(e) => setFilterClient(e.target.value)}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors max-w-[150px]"
-              >
-                {clients.map((c: any) => (
-                  <option key={c.id} value={c.id}>{c.fantasia}</option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-center px-4 py-2 border-r border-slate-100">
+            <div className="flex items-center px-4 py-2">
               <Calendar size={14} className="text-slate-400 mr-2.5" />
               <select 
                 value={year} 
@@ -125,17 +111,6 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear, s
               >
                 {yearsArray.map(y => (
                   <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-center px-4 py-2">
-              <select 
-                value={month} 
-                onChange={(e) => setMonth(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
-              >
-                {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
-                  <option key={m} value={Number(m)}>{label}</option>
                 ))}
               </select>
             </div>

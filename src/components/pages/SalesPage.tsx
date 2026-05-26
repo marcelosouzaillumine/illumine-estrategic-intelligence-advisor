@@ -143,7 +143,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
                 className="flex justify-between w-full text-[6px] text-secondary uppercase mt-[2px] whitespace-nowrap font-medium" 
                 style={{ fontFamily: '"Work Sans", sans-serif' }}
               >
-                {"Strategic Intelligence".split('').map((char, i) => (
+                {"Governance".split('').map((char, i) => (
                   <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
                 ))}
               </div>
@@ -195,7 +195,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
 
           <motion.div initial="hidden" animate="show" variants={fadeUp} className="text-lg md:text-xl text-white font-medium max-w-3xl mx-auto space-y-6 leading-relaxed break-words">
             <p>
-              A Illumine Strategic Intelligence centraliza, correlaciona e estrutura o monitoramento contínuo da operação corporativa, reduzindo a assimetria informacional e estabelecendo previsibilidade decisória sobre riscos operacionais e liquidez.
+              A Illumine Governance centraliza, correlaciona e estrutura o monitoramento contínuo da operação corporativa, reduzindo a assimetria informacional e estabelecendo previsibilidade decisória sobre riscos operacionais e liquidez.
             </p>
           </motion.div>
 
@@ -259,7 +259,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               Infrastructure Capabilities
             </h3>
             <p className="text-lg text-white font-medium leading-relaxed break-words">
-              Illumine Strategic Intelligence é a engine contínua de governança corporativa, desenvolvida para processar o volume de dados e convertê-los em direcionamento estruturado de alto rigor.
+              Illumine Governance é a engine contínua de governança corporativa, desenvolvida para processar o volume de dados e convertê-los em direcionamento estruturado de alto rigor.
             </p>
           </div>
 

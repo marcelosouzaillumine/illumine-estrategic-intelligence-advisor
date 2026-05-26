@@ -240,7 +240,7 @@ export function RelatorioExecutivoPage({ clientId, selectedMonth, selectedYear }
                         <h1 className="text-4xl font-medium tracking-tighter text-foreground uppercase">Relatório Executivo</h1>
                      </div>
                      <div className="space-y-1">
-                        <p className="text-[10px] font-medium text-secondary tracking-widest uppercase">Illumine Strategic Advisory</p>
+                        <p className="text-[10px] font-medium text-secondary tracking-widest uppercase">Illumine Governance</p>
                         <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Referência: {selectedMonth}/{selectedYear}</p>
                      </div>
                   </div>

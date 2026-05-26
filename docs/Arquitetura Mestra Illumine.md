@@ -1,4 +1,4 @@
-# Arquitetura Mestra - Illumine Strategic Intelligence & Advisor
+# Arquitetura Mestra - Illumine Governance
 
 > [!CAUTION]
 > # DOCUMENTO CONSTITUCIONAL DA PLATAFORMA ILLUMINE
@@ -167,7 +167,7 @@ A engine será responsável por:
 Nenhum módulo da plataforma poderá gerar projeções isoladas de receita ou métricas preditivas sem recalcular integralmente BP, DRE, Caixa e Causalidade através da `SCENARIO_SIMULATION_ENGINE`. A plataforma bloqueia euforia artificial e crescimento destrutivo, exigindo validação de funding e elasticidade para toda expansão simulada.
 
 ## 1. Visão Geral do Sistema
-O **Illumine Strategic Intelligence & Advisor** é uma plataforma de inteligência estratégica e gestão financeira (CFO-as-a-Service). Seu objetivo principal é transcender a contabilidade tradicional, oferecendo relatórios executivos, diagnósticos aprofundados e governança corporativa impulsionada por Inteligência Artificial.
+O **Illumine Governance** é uma plataforma de inteligência estratégica e gestão financeira (CFO-as-a-Service). Seu objetivo principal é transcender a contabilidade tradicional, oferecendo relatórios executivos, diagnósticos aprofundados e governança corporativa impulsionada por Inteligência Artificial.
 
 A arquitetura é fundamentada em estabilidade, segurança e processamento analítico profundo, correlacionando indicadores de DRE, Balanço Patrimonial, DFC e DLPA com riscos sistêmicos e performance operacional.
 

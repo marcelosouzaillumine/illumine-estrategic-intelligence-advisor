@@ -58,7 +58,7 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                   Termos & Governança
                 </h2>
                 <p className="text-primary-foreground/60 text-[clamp(0.75rem,1.8dvh,1rem)] font-medium w-full max-w-none">
-                  Para prosseguir com o acesso à plataforma Illumine Strategic Intelligence & Advisor, é necessário revisar e aceitar os termos de conformidade e governança de dados.
+                  Para prosseguir com o acesso à plataforma Illumine Governance, é necessário revisar e aceitar os termos de conformidade e governança de dados.
                 </p>
               </div>
             </div>
@@ -105,7 +105,7 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
                   <div className="flex-1">
                     <h4 className="text-[clamp(0.875rem,2.2dvh,1.125rem)] font-medium text-foreground mb-[clamp(0.125rem,0.5dvh,0.25rem)] leading-tight">Políticas da Plataforma</h4>
                     <p className="text-[clamp(0.7rem,1.6dvh,0.875rem)] text-muted-foreground leading-snug font-medium break-words">
-                      Aceito as diretrizes de uso, confidencialidade e responsabilidade operacional estabelecidas para o ambiente Illumine Strategic Intelligence & Advisor.
+                      Aceito as diretrizes de uso, confidencialidade e responsabilidade operacional estabelecidas para o ambiente Illumine Governance.
                     </p>
                   </div>
                 </div>
@@ -189,17 +189,17 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-10 custom-scrollbar prose prose-slate max-w-none">
-              <h1 className="text-4xl font-black mb-8">Políticas de Governança Illumine Strategic Intelligence & Advisor</h1>
+              <h1 className="text-4xl font-black mb-8">Políticas de Governança Illumine Governance</h1>
               <p className="text-lg text-slate-600 mb-8">Esta plataforma foi desenvolvida para garantir a máxima transparência e integridade na assessoria estratégica corporativa.</p>
               
               <h3 className="text-xl font-bold mt-10 mb-4">1. Proteção de Dados (LGPD)</h3>
-              <p>O Illumine Strategic Intelligence & Advisor coleta e processa dados em estrita conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). Os dados financeiros e operacionais inseridos são utilizados exclusivamente para a geração de indicadores estratégicos e suporte à tomada de decisão da organização contratante.</p>
+              <p>O Illumine Governance coleta e processa dados em estrita conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). Os dados financeiros e operacionais inseridos são utilizados exclusivamente para a geração de indicadores estratégicos e suporte à tomada de decisão da organização contratante.</p>
               
               <h3 className="text-xl font-bold mt-10 mb-4">2. Confidencialidade Estrutural</h3>
-              <p>Todas as informações transitadas no ambiente Illumine Strategic Intelligence & Advisor são protegidas por protocolos de criptografia em repouso e em trânsito. O acesso é restrito a usuários autorizados via autenticação federada (Google Workspace).</p>
+              <p>Todas as informações transitadas no ambiente Illumine Governance são protegidas por protocolos de criptografia em repouso e em trânsito. O acesso é restrito a usuários autorizados via autenticação federada (Google Workspace).</p>
               
               <h3 className="text-xl font-bold mt-10 mb-4">3. Protocolo de Curadoria</h3>
-              <p>A integridade dos dashboards e indicadores depende da veracidade dos dados importados. Por este motivo, o Illumine Strategic Intelligence & Advisor utiliza um sistema híbrido de processamento de IA e validação humana. Documentos enviados podem levar até 24 horas para serem totalmente curados e integrados à base oficial.</p>
+              <p>A integridade dos dashboards e indicadores depende da veracidade dos dados importados. Por este motivo, o Illumine Governance utiliza um sistema híbrido de processamento de IA e validação humana. Documentos enviados podem levar até 24 horas para serem totalmente curados e integrados à base oficial.</p>
               
               <h3 className="text-xl font-bold mt-10 mb-4">4. Segregação de Funções (SoD)</h3>
               <p>Para evitar conflitos de interesse e erros operacionais, a plataforma permite a configuração de Segregação de Funções, onde o usuário que realiza o upload do documento não pode ser o mesmo que realiza a aprovação final para integração.</p>

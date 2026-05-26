@@ -318,7 +318,7 @@ loading: ${loading}
 
   const handleSave = async () => {
     if (!auth.currentUser) {
-      alert("Você precisa estar logado para salvar um cliente. Clique em "Entrar com Google" na barra lateral.");
+      alert("Você precisa estar logado para salvar um cliente. Clique em 'Entrar com Google' na barra lateral.");
       return;
     }
 
@@ -631,7 +631,7 @@ loading: ${loading}
                           checked={formData.projectBased}
                           onChange={(e) => setFormData({...formData, projectBased: e.target.checked})}
                         />
-                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                       </label>
                     </motion.div>
                   )}
@@ -760,7 +760,7 @@ loading: ${loading}
                             checked={formData.isModel}
                             onChange={(e) => setFormData({...formData, isModel: e.target.checked})}
                           />
-                          <div className="w-11 h-6 bg-surface-container rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+                          <div className="w-11 h-6 bg-surface-container rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
                           <span className="ml-3 text-[10px] font-medium text-muted-foreground uppercase tracking-widest italic">Empresa Modelo</span>
                         </label>
                       </div>

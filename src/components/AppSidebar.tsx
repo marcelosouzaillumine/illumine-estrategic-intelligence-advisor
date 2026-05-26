@@ -48,7 +48,7 @@ function Logo({ collapsed }: { collapsed?: boolean }) {
             illumine
           </span>
           <div className="sidebar-logo-sub" style={{ fontSize: '8.5px' }}>
-            {'Strategic Intelligence'.split('').map((char, i) => (
+            {'Governance'.split('').map((char, i) => (
               <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
             ))}
           </div>
