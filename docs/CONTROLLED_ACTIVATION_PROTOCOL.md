@@ -1,23 +1,30 @@
-# Protocolo de Ativação Controlada (Controlled Activation Protocol)
+# CONTROLLED_ACTIVATION_PROTOCOL
 
-## 1. Escopo e Propósito
-Este protocolo define as regras estritas para ativar a Plataforma Illumine em ambiente produtivo utilizando **dados reais**, sem comprometer a arquitetura `Runtime-First` congelada no RC-1.
+## Objetivo
+Ativar a plataforma Illumine em ambiente controlado utilizando dados reais, preservando integralmente o baseline congelado RC-1.
 
-## 2. Princípios de Ativação
-- **RC-1 Imutável:** Nenhuma engine, orquestrador, ou pipeline causal pode ser alterada para acomodar dados específicos do piloto.
-- **Isolamento de Erros:** Exceções de parseamento ou lógicas em dados reais devem ser tratados pelo `RuntimeObservabilityLayer` (Confidence Collapse/Degraded Mode) e não via *if/else* na UI.
-- **Rollback 1-Click:** Qualquer ingestão de dados que quebre a topologia Master/Tenant deve ser 100% reversível a nível de dataset (exclusão por lineage trace ID).
+## Princípios Obrigatórios
+1. **Nenhuma alteração estrutural no Runtime**: Toda lógica analítica está bloqueada para modificações.
+2. **Nenhuma nova feature**: O escopo está restrito à ativação da arquitetura atual com dados de produção.
+3. **Nenhuma flexibilização da governança**: Toda regra de validação, escopo de tenant e isolamento permanece rígida.
+4. **Entrada de dado real auditável**: Todo pipeline de dados deve deixar rastros (Lineage).
+5. **Onboarding reversível**: Deve ser possível fazer rollback e limpeza completa de tenants de staging sem corromper a plataforma.
+6. **Observabilidade de erros**: Erros de ingestão não devem ser engolidos silenciosamente; eles formam a base da validação de staging.
+7. **RC-1 Congelado**: O baseline não deve sofrer mutação para acomodar bad data (bad data deve ser tratado na alfândega/Staging).
 
-## 3. Fluxo de Onboarding Seguro
-O fluxo de ingestão de dados deve obrigatoriamente seguir as seguintes etapas:
-1. **Upload Seguro:** Recebimento via endpoints dedicados (JSON/PDF).
-2. **Staging Layer (Quarentena):** Payload fica em memória/tabela temporária.
-3. **Validação Estrutural:** O *Schema Validator* verifica o shape esperado (ex: BP, DRE, Mútuos).
-4. **Normalização Institucional:** Dados contábeis brutos são normalizados para o modelo Illumine.
-5. **Ingestão com Lineage:** Assinatura criptográfica / Hash de origem gerado (`originHash`).
-6. **Aprovação Piloto:** Acesso liberado no Tenant Sandbox.
+## Ambiente de Ativação Controlada
+- **Tenants Piloto**: Apenas empresas selecionadas para teste beta/shadow.
+- **Empresas Sandbox**: Utilizadas para ingestão de lotes com dirty data intencional para estressar a alfândega.
+- **Dados Reais Limitados**: O volume inicial será contido para avaliar a performance e o peso dos cálculos.
+- **Usuários Controlados**: Apenas usuários com role `system_admin` ou `data_auditor` atuando no staging inicial.
+- **Feature Flags**: Liberação progressiva da UI de promoção de dados para o Runtime (Aprovação Manual requerida).
 
-## 4. Ambiente de Piloto (Sandbox Strategy)
-- O acesso inicial será restrito a **Tenants Piloto** designados.
-- Serão utilizadas **Feature Flags** nativas (Firebase Remote Config ou banco) para exibir os módulos apenas para contas marcadas como *beta-testers*.
-- O escopo financeiro importado será limitado para evitar *timeouts* no Consolidated Orchestrator durante as validações inciais de throughput.
+## Fluxo de Onboarding Real (Pipeline)
+1. **Upload Seguro**: Recebimento de arquivos/integrações isolado do Runtime.
+2. **Staging Layer**: Inserção em tabelas/collections de staging (promotedToRuntime = false).
+3. **Validação**: Execução do `StagingValidationEngine` contra a `ValidationPolicy` pertinente.
+4. **Normalização**: Mapeamento de rubricas reais para os Chart of Accounts (COA) do Illumine.
+5. **Lineage**: Marcação de proveniência (hash, data de upload, usuário, ferramenta).
+6. **Aprovação**: Auditoria visual na UI (ImportTransactionsModal / Staging Dashboard).
+7. **Ingestão (Promoção)**: Transição via `ImportPublicationEngine` para o banco de dados oficial do Runtime.
+8. **Rollback**: Remoção lógica ou física do lote caso detectado um falso positivo na ingestão.

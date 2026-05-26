@@ -1,25 +1,26 @@
-# Real Data Onboarding Checklist
+# REAL_DATA_ONBOARDING_CHECKLIST
 
-Este checklist cobre as validações obrigatórias para aceitar conjuntos de dados contábeis reais de clientes no ambiente controlado (Piloto).
+## Pré-requisitos de Staging
+- [ ] O banco de staging está completamente isolado do banco/tabelas de runtime?
+- [ ] O `ValidationPolicy` padrão está ativo para lidar com dados legados e transacionais?
+- [ ] O LineageTracker está capturando o metadado (IP, User ID, Timestamp, FileHash)?
 
-## A. Ingestão e Processamento
-- [ ] Validação do **BP (Balanço Patrimonial)** real.
-- [ ] Validação da **DRE (Demonstração de Resultados)** real.
-- [ ] Validação de **Fluxo de Caixa / Tesouraria** real.
-- [ ] Teste de **Consolidação Multi-Entidade** (Holding + 2+ Filiais).
-- [ ] Teste de Mútuos e **Intercompany Elimination**.
+## Validação de Ingestão Contábil
+- [ ] Balanço Patrimonial real mapeado (Ativo = Passivo + PL). Tolerância configurada e bloqueios ativados para desbalanceamentos materiais.
+- [ ] Demonstração de Resultados (DRE) hierárquica importada, validando agrupamentos sintéticos sem soma dupla.
+- [ ] Demonstração de Fluxo de Caixa (DFC) processada, preservando regime de caixa.
+- [ ] A consolidação multi-entidade funciona corretamente com dados reais das entidades envolvidas?
+- [ ] As eliminações intercompany foram processadas sem gerar falso faturamento ou dupla contagem de dívida?
 
-## B. Validação das Inteligências
-- [ ] **Temporal Causality Engine:** Consegue extrair insights temporais de um DRE real sem crashar (lidando com nulos ou zero-revenue).
-- [ ] **Scenario Intelligence:** Simulador capaz de estressar o BP recém-criado sem dependências locais na UI.
-- [ ] **Stress Propagation:** Detecção de falência / asfixia se os dados reais vierem de empresas insolventes.
+## Tolerância e Qualidade (Confidence)
+- [ ] Datasets corrompidos (missing columns, unmapped strings) foram bloqueados no portal da alfândega?
+- [ ] O `ValidationStatus` exibido na UI para o auditor reflete os warnings e erros críticos corretamente?
+- [ ] O sistema não gerou Advisory ou Executive Reports para datasets ainda não promovidos?
 
-## C. Telemetria e Segurança
-- [ ] **Observability Layer:** Todos os warnings (ex: "EBITDA artificial devido a mútuo") devem aparecer via `runtimeMetadata.warnings`.
-- [ ] **Governance Audit Intacto:** Nenhuma regra fiduciária pode ser violada pela carga de dados reais.
+## Promoção e Rollback
+- [ ] `ImportPublicationEngine` foi testado e comutou com sucesso os dados de Staging para o Runtime?
+- [ ] Os orchestrators recarregaram os cenários e dashboards de forma reativa após a promoção dos dados reais?
+- [ ] Foi possível executar um *Rollback Lógico* para inativar um dataset real importado equivocadamente?
 
-## D. Protocolo de Rollback
-- [ ] **Rollback de Tenant:** Capacidade de deletar/limpar o workspace do cliente em 1-click.
-- [ ] **Rollback de Dataset:** Capacidade de arquivar ou invalidar o último payload contábil inserido (volta ao mês anterior).
-- [ ] **Rollback de Cenário:** Simulador limpa cache projetado.
-- [ ] **Rollback Snapshot:** Reversão do *Master Executive Report* para versão "Before Impact".
+---
+**Status**: PENDENTE (Aguarda injeção dos primeiros datasets piloto).
