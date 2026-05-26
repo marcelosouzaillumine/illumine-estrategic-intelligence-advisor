@@ -1,32 +1,28 @@
-# Deployment Readiness Checklist (RC-1)
+# DEPLOYMENT_READINESS_CHECKLIST
 
-Este checklist garante que a fundação arquitetural da plataforma Illumine encontra-se testada, documentada e apta para as etapas de *Staging*, *Demonstração Executiva* e liberação de acesso controlado (*Beta/Piloto*).
+Esta checklist garante que a baseline RC-1 esteja 100% pronta para ser ativada no ambiente de produção/staging com dados reais.
 
-### 🛠️ 1. Governança e Segurança Técnica
-- [x] O `typecheck` e o `build` executam sem falhas ou _warnings_ críticos.
-- [x] A auditoria `npm run governance:audit` retorna "100% Runtime-Compliant".
-- [x] Nenhuma API Key ou secret (Firebase, OpenAI, etc) está preenchida ("hardcoded") nos repositórios.
-- [x] O *Sandbox* do motor de cenários (*Scenario Intelligence*) garante o não-vazamento (mutação indevida) para os dados originais do Tenant.
+## 1. Configuração e Infraestrutura
+- [ ] **Variáveis de Ambiente**: Todas as vars configuradas corretamente (Vite/Firebase, URLs de API).
+- [ ] **Firebase/Config**: Regras de segurança (Firestore Rules) e configurações de Auth/Storage em conformidade.
+- [ ] **Build Produtivo**: Executado `npm run build` com sucesso sem erros impeditivos de bundlesize ou dependências (Vite build OK).
+- [ ] **Backups**: Política de backup ativada para o banco de dados antes da primeira inserção de dados reais.
 
-### 🧪 2. Certificação Funcional e Testes (102 Golden Tests)
-- [x] A simulação temporal atesta que *Deterioração de Caixa* prevê e calcula corretamente um colapso.
-- [x] A *Intercompany Elimination Engine* prova a eliminação correta de transferências intragrupo.
-- [x] A *Consolidated Stress Propagation Engine* transmite causais e rupturas entre entidades do grupo econômico sem gerar falso contágio.
-- [x] Regras de Permissão garantem que não existe *Cross-Tenant Leakage* (Isolamento B2B) nos dados acessados em tempo de execução.
-- [x] Nenhuma interface UI computa dados matemáticos diretamente no React (*Dummy Renderer Doctrine*).
+## 2. Acesso e Governança
+- [ ] **Autenticação**: Google SSO e fallback email/password funcinando e validados.
+- [ ] **Permissões**: Hierarquia de acessos (`TenantExecutionContext`, RBAC) testada e sem vazamentos cross-tenant.
 
-### 🧑‍💼 3. Demonstração Executiva (Board Review)
-- [ ] O *Systemic Heatmap UI* renderiza com sucesso as arestas e avisos de confiança (*Low Confidence / Unverified Dependency*).
-- [ ] O painel *Executive Decision Advisory* reflete fielmente o output gerado via motor causal.
-- [ ] A massa de dados para o roteiro de Demonstração (Mocks Específicos) está limpa e testável no ambiente isolado do Sandbox.
-- [ ] Roteiro de demonstração end-to-end (Navegação baseada em *Storytelling* de resgate financeiro) documentado.
+## 3. Experiência de Usuário (UI/UX)
+- [ ] **Rotas**: Navegação de rotas, middlewares de proteção (Guardas de Rota) ativos e impedindo acessos indevidos.
+- [ ] **EmptyStates**: Telas de estado vazio (quando não há dados) estão amigáveis e guiando o usuário para ações válidas (Onboarding/Staging).
 
-### 🌍 4. Deploy Infrastructure (Vercel / Netlify / AWS)
-- [ ] Variáveis de ambiente configuradas no painel do provedor (Vite Env, API Endpoints, etc).
-- [ ] Script de build atualizado no CI/CD para incluir `npm run governance:audit` e barrar pushes não governados.
-- [ ] Redirecionamento de rotas tratadas no front-end para Single Page Application (SPA).
+## 4. Ingestão e Validação
+- [ ] **Dados Reais**: Procedimento de ativação controlada desenhado. Staging validation path habilitado para receber os primeiros lotes de dados.
+- [ ] **Smoke Tests**: Conjunto mínimo de testes de conectividade (login, upload, visualização básica) mapeado para execução pós-deploy.
 
-### 📅 5. Planejamento Próxima Release (Post-RC1)
-- [ ] Realizar retrospectiva de Débito Técnico da Fase de Estabilização e mapear tickets.
-- [ ] Iniciar arquitetura de *Onboarding Institucional* e *Setup do Cliente*.
-- [ ] Esboçar *Design Review* das telas de Relatórios Preditivos.
+## 5. Resiliência
+- [ ] **Observabilidade**: Sistema capaz de registrar logs essenciais de erro, auditoria de governança (Governance Engine Log) e warnings críticos de performance.
+- [ ] **Rollback**: Procedimento de rollback para a hash `19dbfdcb0076f0b6ec1fd835c53d41ff1d6c869b` testado e documentado.
+
+---
+**Status**: PENDENTE (Aguarda execução no ambiente de produção).
