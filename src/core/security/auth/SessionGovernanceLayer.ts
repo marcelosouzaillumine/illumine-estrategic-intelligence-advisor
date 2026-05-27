@@ -1,12 +1,18 @@
 import { db } from '../../../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { AuditEventBus } from '../audit/AuditEventBus';
 
 export type SessionEventType = 
+  | 'LOGIN'
+  | 'LOGOUT'
   | 'SESSION_START'
   | 'SESSION_END'
   | 'TENANT_SELECTION'
+  | 'TENANT_SWITCH'
   | 'DENIED_RESOLUTION'
-  | 'CROSS_TENANT_ATTEMPT';
+  | 'CROSS_TENANT_ATTEMPT'
+  | 'SESSION_TIMEOUT'
+  | 'SESSION_INVALIDATED';
 
 export class SessionGovernanceLayer {
   
@@ -21,19 +27,31 @@ export class SessionGovernanceLayer {
     details: Record<string, any> = {}
   ): Promise<void> {
     try {
-      // Usando modelo híbrido: grava no Firestore para auditoria/telemetria,
-      // mas não bloqueia a execução da sessão atual se falhar.
+      // Roteia o evento de sessão para o barramento central AuditEventBus
+      await AuditEventBus.emit({
+        tenantId: details.selectedTenantId || details.attemptedTenantId || details.tenantId || 'GLOBAL',
+        actorId,
+        role: details.role || 'UNAUTHENTICATED',
+        sessionId,
+        eventType,
+        resourceType: 'Session',
+        resourceId: sessionId,
+        auditSeverity: ['DENIED_RESOLUTION', 'CROSS_TENANT_ATTEMPT', 'SESSION_TIMEOUT', 'SESSION_INVALIDATED'].includes(eventType) ? 'CRITICAL' : 'INFO',
+        requestSource: 'SessionGovernanceLayer',
+        metadata: details
+      });
+
+      // Registro legado para compatibilidade operacional do Firebase
       await addDoc(collection(db, 'audit_session_telemetry'), {
         eventType,
         sessionId,
         actorId,
         details,
         timestamp: serverTimestamp(),
-        requestSource: 'InstitutionalSession'
+        requestSource: 'SessionGovernanceLayer'
       });
     } catch (error) {
       console.warn('[SessionGovernance] Failed to emit session telemetry:', error);
-      // Fail-safe: não quebrar runtime institucional se telemetry falhar (offline mode, etc)
     }
   }
 

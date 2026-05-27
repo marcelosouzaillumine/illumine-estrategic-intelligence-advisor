@@ -1,4 +1,5 @@
 import { ConsolidatedFinancialInput } from '../consolidated/types';
+import { CalibrationEngine } from '../calibration/CalibrationEngine';
 
 export class PredictiveStressEngine {
   /**
@@ -12,6 +13,8 @@ export class PredictiveStressEngine {
     let totalGroupCash = 0;
     let totalGroupLiabilities = 0;
     
+    const sensitivity = CalibrationEngine.getCalibration().stressPropagationSensitivity;
+
     // Analisa a solvência bruta entidade a entidade no cenário pós-choque
     for (const entity of stressedInput.entities) {
       const bp = stressedInput.bpByEntity[entity.id] || [];
@@ -26,15 +29,17 @@ export class PredictiveStressEngine {
       totalGroupCash += cash;
       totalGroupLiabilities += shortTermDebt;
 
-      // Critério arbitrário matemático de insolvência imediata em cenários
-      if (shortTermDebt > 0 && cash < (shortTermDebt * 0.05)) {
+      // Critério arbitrário matemático de insolvência imediata escalado por sensibilidade
+      const insolvenceLimit = 0.05 * sensitivity;
+      if (shortTermDebt > 0 && cash < (shortTermDebt * insolvenceLimit)) {
         collapsedEntities.push(entity.id);
       } else {
         survivingEntities.push(entity.id);
       }
     }
 
-    const groupSolvencyStatus: 'SOLVENT' | 'AT_RISK' | 'INSOLVENT' = totalGroupCash >= (totalGroupLiabilities * 0.3) ? 'SOLVENT' 
+    const solvencyLimit = 0.3 * sensitivity;
+    const groupSolvencyStatus: 'SOLVENT' | 'AT_RISK' | 'INSOLVENT' = totalGroupCash >= (totalGroupLiabilities * solvencyLimit) ? 'SOLVENT' 
                               : (totalGroupCash > 0 ? 'AT_RISK' : 'INSOLVENT');
 
     return {

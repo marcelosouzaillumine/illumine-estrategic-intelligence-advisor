@@ -1,4 +1,5 @@
 import { RuntimePerformanceMetrics } from './observability-types';
+import { CalibrationEngine } from '../calibration/CalibrationEngine';
 
 export class RuntimeProfiler {
   private startTime: number;
@@ -20,9 +21,13 @@ export class RuntimeProfiler {
     if (start) {
       const duration = Date.now() - start;
       this.engineDurations[engineName] = (this.engineDurations[engineName] || 0) + duration;
-      if (duration > 1000) { // criticalExecutionTimeMs
+      
+      const excessiveThreshold = CalibrationEngine.getCalibration().degradedModeThresholdMs;
+      const criticalThreshold = excessiveThreshold * 2;
+
+      if (duration > criticalThreshold) {
         this.warnings.push(`Engine ${engineName} exceeded critical execution time (${duration}ms)`);
-      } else if (duration > 500) { // excessiveExecutionTimeMs
+      } else if (duration > excessiveThreshold) {
         this.warnings.push(`Engine ${engineName} exceeded excessive execution time (${duration}ms)`);
       }
     }

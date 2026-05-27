@@ -12,6 +12,7 @@ import { User } from 'firebase/auth';
 import { motion } from 'motion/react';
 import { cn } from '../lib/utils';
 import { NAVIGATION_GROUPS, type Page } from '../app/navigation';
+import { useInstitutionalAuth } from '../core/security/auth/InstitutionalAuthProvider';
 import {
   Sidebar,
   SidebarContent,
@@ -96,13 +97,18 @@ export function AppSidebar({
 }: AppSidebarProps) {
   const { state, isMobile, setOpenMobile, setOpen } = useSidebar();
   const isCollapsed = state === 'collapsed';
+  const { session } = useInstitutionalAuth();
 
   // Filter groups based on permissions
   const filteredGroups = NAVIGATION_GROUPS.filter(group => {
     if (isMaster) return true;
-    if (!userPermissions) return true;
     return group.items.some(item => {
       if (item.masterOnly) return false;
+      if (item.id === 'observability_console') {
+        const hasAccess = session?.role === 'SUPER_ADMIN' || session?.permissions?.includes('VIEW_OBSERVABILITY');
+        if (!hasAccess) return false;
+      }
+      if (!userPermissions) return true;
       const permissionKey = `${group.group}:${item.label}`;
       return userPermissions.includes(permissionKey);
     });
@@ -147,6 +153,10 @@ export function AppSidebar({
 
           const filteredItems = group.items.filter(item => {
             if (item.masterOnly && !isMaster) return false;
+            if (item.id === 'observability_console') {
+              const hasAccess = session?.role === 'SUPER_ADMIN' || session?.permissions?.includes('VIEW_OBSERVABILITY');
+              if (!hasAccess) return false;
+            }
             if (isPartner && item.id === 'portfolio') return true;
             if (!userPermissions || isMaster) return true;
             const permissionKey = `${group.group}:${item.label}`;

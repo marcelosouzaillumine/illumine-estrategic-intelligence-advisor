@@ -1,0 +1,38 @@
+import React from 'react';
+import { AlertCircle, HelpCircle } from 'lucide-react';
+
+interface InstitutionalUnavailableStateProps {
+  title?: string;
+  description?: string;
+  errorCode?: string;
+}
+
+export const InstitutionalUnavailableState: React.FC<InstitutionalUnavailableStateProps> = ({
+  title = 'Serviço Temporariamente Indisponível',
+  description = 'Não foi possível estabelecer contato seguro com o motor de análise fiduciária. O sistema interrompeu a navegação preventiva para assegurar a consistência dos dados.',
+  errorCode = 'SEC-RUNTIME-UNAVAILABLE'
+}) => {
+  return (
+    <div className="card-premium p-12 text-center max-w-xl mx-auto space-y-6 border-red-500/10">
+      <div className="w-16 h-16 rounded-2xl bg-red-500/10 text-red-400 flex items-center justify-center mx-auto border border-red-500/20 shadow-inner">
+        <AlertCircle className="w-8 h-8" />
+      </div>
+
+      <div className="space-y-2">
+        <h4 className="text-base font-bold text-slate-200 uppercase tracking-wider">{title}</h4>
+        <p className="text-[10px] text-red-400 uppercase tracking-widest font-mono font-bold">Fail-Closed Enforcement Active</p>
+      </div>
+
+      <p className="text-xs text-slate-400 leading-relaxed font-medium">
+        {description}
+      </p>
+
+      <div className="pt-4 border-t border-border/10 flex justify-between items-center text-[10px] font-mono text-slate-500">
+        <span>Code: {errorCode}</span>
+        <span className="flex items-center gap-1">
+          <HelpCircle className="w-3.5 h-3.5" /> Fale com o Master Admin
+        </span>
+      </div>
+    </div>
+  );
+};

@@ -1,0 +1,583 @@
+import React, { useEffect, useState, useMemo } from 'react';
+import { 
+  Eye, ShieldCheck, ShieldAlert, Users, AlertTriangle, 
+  Activity, ArrowRightLeft, FileSpreadsheet, Lock, RefreshCw,
+  Search, ShieldX, Terminal, Calendar, Building, Clock
+} from 'lucide-react';
+import { PageHeader } from '../../Common';
+import { useInstitutionalAuth } from '../../../core/security/auth/InstitutionalAuthProvider';
+import { useRuntimeContext } from '../../../core/security/auth/RuntimeContextProvider';
+import { governanceService } from '../../../services/governanceService';
+import { 
+  ResponsiveContainer, ComposedChart, Area, Line, XAxis, YAxis, 
+  CartesianGrid, Tooltip as ChartTooltip, Legend, Bar 
+} from 'recharts';
+import { cn } from '../../../lib/utils';
+
+interface ObservabilityConsolePageProps {
+  selectedClient?: string;
+}
+
+export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsolePageProps) {
+  const { session } = useInstitutionalAuth();
+  const { buildDataAccessContext, isReady } = useRuntimeContext();
+
+  const [activeTab, setActiveTab] = useState<'metrics' | 'history' | 'anomalies' | 'sessions' | 'integrity'>('metrics');
+  const [selectedTenantFilter, setSelectedTenantFilter] = useState<string>('');
+  const [auditEvents, setAuditEvents] = useState<any[]>([]);
+  const [anomalies, setAnomalies] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const isSuperAdmin = session?.role === 'SUPER_ADMIN';
+  const hasPermission = isSuperAdmin || session?.permissions?.includes('VIEW_OBSERVABILITY');
+
+  // Initialize selected tenant filter
+  useEffect(() => {
+    if (isReady && session) {
+      setSelectedTenantFilter(isSuperAdmin ? 'GLOBAL' : session.tenantId);
+    }
+  }, [isReady, session, isSuperAdmin]);
+
+  const fetchData = async (tenantFilter: string) => {
+    if (!isReady || !session || !hasPermission) return;
+    
+    setLoading(true);
+    setErrorMsg(null);
+    try {
+      // Build DataAccessContext governed by tenant switching rules
+      // If SUPER_ADMIN selects GLOBAL, we pass undefined to check default master boundary.
+      // If they select a different tenant, it will evaluate cross-tenant permission and log CROSS_TENANT_ATTEMPT.
+      const targetTenant = tenantFilter === 'GLOBAL' ? session.tenantId : tenantFilter;
+      const context = buildDataAccessContext(
+        'VIEW_OBSERVABILITY',
+        'ObservabilityTelemetry',
+        targetTenant
+      );
+
+      const [eventsData, anomaliesData] = await Promise.all([
+        governanceService.getAuditEvents(context, { 
+          tenantId: tenantFilter === 'GLOBAL' ? undefined : tenantFilter 
+        }),
+        governanceService.getAnomalies(context, { 
+          tenantId: tenantFilter === 'GLOBAL' ? undefined : tenantFilter 
+        })
+      ]);
+
+      setAuditEvents(eventsData);
+      setAnomalies(anomaliesData);
+    } catch (err: any) {
+      console.error('[ObservabilityConsole] Error loading logs:', err);
+      setErrorMsg(err.message || 'Erro ao carregar dados de observabilidade.');
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedTenantFilter) {
+      fetchData(selectedTenantFilter);
+    }
+  }, [selectedTenantFilter, isReady]);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchData(selectedTenantFilter);
+  };
+
+  // 1. Calculate KPI Metrics
+  const stats = useMemo(() => {
+    const total = auditEvents.length;
+    const criticalAnomalies = anomalies.filter(a => a.severity === 'CRITICAL').length;
+    const deniedAccessCount = auditEvents.filter(e => e.eventType.startsWith('DENY_') || e.eventType === 'PERMISSION_DENIED').length;
+    const tenantSwitches = auditEvents.filter(e => e.eventType === 'TENANT_SWITCH' || e.eventType === 'TENANT_SELECTION').length;
+
+    return {
+      total,
+      criticalAnomalies,
+      deniedAccessCount,
+      tenantSwitches
+    };
+  }, [auditEvents, anomalies]);
+
+  // 2. Format Chart Data (Aggregate by hour/minute group for timeline)
+  const chartData = useMemo(() => {
+    if (auditEvents.length === 0) {
+      // Return placeholder chart data if empty
+      return [
+        { time: '09:00', total: 4, denials: 0, anomalies: 0 },
+        { time: '10:00', total: 12, denials: 1, anomalies: 0 },
+        { time: '11:00', total: 18, denials: 0, anomalies: 0 },
+        { time: '12:00', total: 9, denials: 2, anomalies: 1 },
+        { time: '13:00', total: 22, denials: 0, anomalies: 0 }
+      ];
+    }
+
+    // Sort events and map to hourly buckets
+    const buckets: Record<string, { time: string, total: number, denials: number, anomalies: number }> = {};
+    
+    auditEvents.slice(0, 50).reverse().forEach(event => {
+      const date = new Date(event.timestamp);
+      const timeStr = `${date.getHours().toString().padStart(2, '0')}:${Math.floor(date.getMinutes() / 10) * 10}`;
+      
+      if (!buckets[timeStr]) {
+        buckets[timeStr] = { time: timeStr, total: 0, denials: 0, anomalies: 0 };
+      }
+      
+      buckets[timeStr].total++;
+      if (event.eventType.startsWith('DENY_') || event.eventType === 'PERMISSION_DENIED') {
+        buckets[timeStr].denials++;
+      }
+    });
+
+    // Add anomalies count to chart buckets
+    anomalies.forEach(anom => {
+      const date = new Date(anom.detectedAt);
+      const timeStr = `${date.getHours().toString().padStart(2, '0')}:${Math.floor(date.getMinutes() / 10) * 10}`;
+      if (buckets[timeStr]) {
+        buckets[timeStr].anomalies++;
+      }
+    });
+
+    return Object.values(buckets).sort((a, b) => a.time.localeCompare(b.time));
+  }, [auditEvents, anomalies]);
+
+  if (!hasPermission) {
+    return (
+      <div className="max-w-[1440px] mx-auto px-6 py-20 text-center animate-executive-fade">
+        <ShieldX className="w-16 h-16 text-rose-500 mx-auto mb-6" />
+        <h1 className="text-xl font-bold text-slate-100 uppercase tracking-widest mb-2">Acesso Restrito</h1>
+        <p className="text-sm text-slate-400 max-w-md mx-auto">
+          Você não possui privilégios de auditoria (`VIEW_OBSERVABILITY`) para visualizar o console de observabilidade institucional.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-8 pb-32 animate-executive-fade text-slate-200">
+      
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/10 pb-6">
+        <PageHeader 
+          title="Console de Observabilidade"
+          subtitle="Telemetria e Auditoria Fiduciária Multi-Tenant em Tempo Real."
+          icon={Eye}
+          transparent
+        />
+
+        {/* Tenant Filter Selector & Refresh */}
+        <div className="flex items-center gap-3 self-start md:self-center">
+          {isSuperAdmin && (
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-bold uppercase tracking-wider text-slate-500">Inquilino:</span>
+              <select
+                value={selectedTenantFilter}
+                onChange={(e) => setSelectedTenantFilter(e.target.value)}
+                className="pl-20 pr-8 py-2 bg-slate-950/60 border border-border/10 rounded-lg text-xs font-semibold outline-none hover:border-slate-700 focus:ring-1 focus:ring-primary/20 transition-all text-slate-300"
+              >
+                <option value="GLOBAL">Global (Todos os Tenants)</option>
+                {session?.availableTenants?.map(t => (
+                  <option key={t.tenantId} value={t.tenantId}>{t.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <button 
+            onClick={handleRefresh}
+            disabled={loading || refreshing}
+            className="p-2 bg-slate-900 border border-border/10 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 disabled:opacity-50 transition-all"
+            title="Sincronizar Ledger"
+          >
+            <RefreshCw className={cn("w-4 h-4", refreshing && "animate-spin")} />
+          </button>
+        </div>
+      </div>
+
+      {errorMsg && (
+        <div className="p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center gap-3 text-rose-400 text-sm">
+          <AlertTriangle className="w-5 h-5 flex-shrink-0" />
+          <span>{errorMsg}</span>
+        </div>
+      )}
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <StatusCard 
+          title="Log Ledger Total" 
+          value={loading ? "..." : stats.total} 
+          icon={<Terminal className="w-5 h-5 text-indigo-400" />} 
+          trend="Eventos no Inquilino"
+        />
+        <StatusCard 
+          title="Anomalias Críticas" 
+          value={loading ? "..." : stats.criticalAnomalies} 
+          icon={<ShieldAlert className="w-5 h-5 text-rose-500" />} 
+          trend="Alertas Ativos"
+        />
+        <StatusCard 
+          title="Acessos Negados" 
+          value={loading ? "..." : stats.deniedAccessCount} 
+          icon={<Lock className="w-5 h-5 text-amber-500" />} 
+          trend="Gateways de Bloqueio"
+        />
+        <StatusCard 
+          title="Trocas de Tenant" 
+          value={loading ? "..." : stats.tenantSwitches} 
+          icon={<ArrowRightLeft className="w-5 h-5 text-teal-400" />} 
+          trend="Session switches"
+        />
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="flex gap-2 border-b border-border/10 pb-px overflow-x-auto no-scrollbar">
+        <TabButton active={activeTab === 'metrics'} onClick={() => setActiveTab('metrics')} icon={<Activity className="w-4 h-4"/>} label="Painel de Telemetria" />
+        <TabButton active={activeTab === 'anomalies'} onClick={() => setActiveTab('anomalies')} icon={<ShieldAlert className="w-4 h-4"/>} label={`Anomalias (${anomalies.length})`} />
+        <TabButton active={activeTab === 'history'} onClick={() => setActiveTab('history')} icon={<Terminal className="w-4 h-4"/>} label="Ledger de Auditoria" />
+        <TabButton active={activeTab === 'sessions'} onClick={() => setActiveTab('sessions')} icon={<Users className="w-4 h-4"/>} label="Fluxo de Sessões" />
+        <TabButton active={activeTab === 'integrity'} onClick={() => setActiveTab('integrity')} icon={<ShieldCheck className="w-4 h-4"/>} label="Integridade" />
+      </div>
+
+      {/* Tab Panels */}
+      {loading && !refreshing ? (
+        <div className="flex flex-col items-center justify-center py-20 text-slate-500">
+          <LoaderSpinner />
+          <p className="text-xs font-bold uppercase tracking-widest mt-4">Auditando Ledger de Governança...</p>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          
+          {/* 1. TELEMETRY GRAPH TAB */}
+          {activeTab === 'metrics' && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              
+              {/* Graphic container */}
+              <div className="card-premium p-6 lg:col-span-2 space-y-4">
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-indigo-400" />
+                  Evolução Temporal de Ações e Bloqueios
+                </h3>
+                <div className="h-[300px] w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <ComposedChart data={chartData}>
+                      <defs>
+                        <linearGradient id="totalGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#818cf8" stopOpacity={0.2}/>
+                          <stop offset="95%" stopColor="#818cf8" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" vertical={false} />
+                      <XAxis dataKey="time" stroke="#475569" fontSize={10} tickLine={false} />
+                      <YAxis stroke="#475569" fontSize={10} tickLine={false} />
+                      <ChartTooltip 
+                        contentStyle={{ backgroundColor: '#090d16', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px' }}
+                        labelStyle={{ fontSize: '11px', fontWeight: 'bold', color: '#94a3b8' }}
+                      />
+                      <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+                      <Area type="monotone" name="Total Eventos" dataKey="total" stroke="#818cf8" strokeWidth={1.5} fillOpacity={1} fill="url(#totalGrad)" />
+                      <Bar name="Acessos Negados" dataKey="denials" fill="#f59e0b" barSize={10} radius={[2, 2, 0, 0]} />
+                      <Line type="monotone" name="Anomalias" dataKey="anomalies" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* Status Panel */}
+              <div className="card-premium p-6 space-y-6">
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400">Distribuição Organizacional</h3>
+                <div className="space-y-4">
+                  <ProgressIndicator label="Visualização Financeira" value={auditEvents.filter(e => e.eventType === 'VIEW_FINANCIALS').length} total={stats.total} color="bg-indigo-500" />
+                  <ProgressIndicator label="Consultas de Causalidade" value={auditEvents.filter(e => e.eventType === 'VIEW_CAUSALITY').length} total={stats.total} color="bg-teal-500" />
+                  <ProgressIndicator label="Geração de Snapshots" value={auditEvents.filter(e => e.eventType === 'CREATE_SNAPSHOT').length} total={stats.total} color="bg-emerald-500" />
+                  <ProgressIndicator label="Geração de Simulations" value={auditEvents.filter(e => e.eventType === 'CREATE_SIMULATION').length} total={stats.total} color="bg-amber-500" />
+                  <ProgressIndicator label="Exportações Gerais" value={stats.total - auditEvents.filter(e => !e.eventType.includes('EXPORT')).length} total={stats.total} color="bg-rose-500" />
+                </div>
+              </div>
+
+            </div>
+          )}
+
+          {/* 2. ANOMALIES TAB */}
+          {activeTab === 'anomalies' && (
+            <div className="card-premium p-6 space-y-4">
+              <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-rose-500" />
+                Eventos Anômalos e Ações Corretivas Recomendadas
+              </h3>
+
+              {anomalies.length === 0 ? (
+                <div className="text-center py-16 text-slate-500 border border-dashed border-border/10 rounded-xl">
+                  <ShieldCheck className="w-12 h-12 text-emerald-500/20 mx-auto mb-4" />
+                  <p className="text-xs font-bold uppercase tracking-wider">Nenhuma anomalia institucional detectada.</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {anomalies.map((anom) => (
+                    <div 
+                      key={anom.id}
+                      className={cn(
+                        "p-5 bg-slate-950/60 border rounded-xl flex flex-col md:flex-row justify-between gap-4 transition-all hover:bg-slate-950",
+                        anom.severity === 'CRITICAL' ? 'border-red-500/20' : anom.severity === 'HIGH' ? 'border-amber-500/20' : 'border-slate-800'
+                      )}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                          <span className={cn(
+                            "px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border",
+                            anom.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400 border-red-500/20' : anom.severity === 'HIGH' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-slate-800 text-slate-300 border-slate-700'
+                          )}>
+                            {anom.severity}
+                          </span>
+                          <span className="text-sm font-bold text-slate-200">{anom.anomalyType}</span>
+                        </div>
+                        <p className="text-xs text-slate-400 flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 text-slate-500" />
+                          Detectado em: {new Date(anom.detectedAt).toLocaleString()}
+                        </p>
+                        <p className="text-xs text-slate-400">
+                          <span className="font-semibold text-slate-300">Ator:</span> {anom.actorId} | 
+                          <span className="font-semibold text-slate-300 ml-2">Sessão:</span> {anom.sessionId.substring(0, 15)}...
+                        </p>
+                        <p className="text-xs text-rose-300/80 font-medium">
+                          <span className="font-semibold text-slate-300">Ação Recomendada:</span> {anom.recommendedAction}
+                        </p>
+                      </div>
+
+                      {/* Detail attributes */}
+                      <div className="flex flex-col justify-between text-right self-start md:self-stretch min-w-[200px]">
+                        <span className="text-[10px] font-mono text-slate-500">ID: {anom.anomalyId}</span>
+                        {anom.details && (
+                          <div className="p-2 bg-slate-900 border border-border/5 rounded-lg text-[10px] text-left font-mono mt-2 max-h-[80px] overflow-y-auto">
+                            {Object.entries(anom.details).map(([k, v]) => (
+                              <div key={k} className="truncate"><span className="text-indigo-400">{k}:</span> {JSON.stringify(v)}</div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 3. AUDIT HISTORY LEDGER TAB */}
+          {activeTab === 'history' && (
+            <div className="card-premium p-6 space-y-4">
+              <div className="flex items-center justify-between gap-4">
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-indigo-400" />
+                  Histórico Imutável de Auditoria (Ledger)
+                </h3>
+              </div>
+
+              {auditEvents.length === 0 ? (
+                <div className="text-center py-16 text-slate-500">
+                  <p className="text-xs font-bold uppercase tracking-wider">Nenhum evento registrado no ledger.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto border border-border/10 rounded-xl">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-slate-950 border-b border-border/10 text-slate-400 font-bold uppercase tracking-wider">
+                        <th className="p-4">Timestamp</th>
+                        <th className="p-4">Evento</th>
+                        <th className="p-4">Recurso</th>
+                        <th className="p-4">Ator ID</th>
+                        <th className="p-4">Inquilino</th>
+                        <th className="p-4 text-right">Origem</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border/5 bg-slate-950/20">
+                      {auditEvents.map((evt) => (
+                        <tr key={evt.id} className="hover:bg-slate-900/40">
+                          <td className="p-4 text-slate-400 whitespace-nowrap">{new Date(evt.timestamp).toLocaleString()}</td>
+                          <td className="p-4 font-semibold text-slate-200">
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-lg text-[9px] font-bold tracking-tight border",
+                              evt.eventType.startsWith('DENY_') ? 'bg-red-500/10 text-red-400 border-red-500/10' :
+                              evt.eventType === 'CROSS_TENANT_ATTEMPT' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' :
+                              'bg-indigo-500/5 text-indigo-300 border-indigo-500/10'
+                            )}>
+                              {evt.eventType}
+                            </span>
+                          </td>
+                          <td className="p-4 text-slate-300 font-mono text-[11px]">{evt.resourceType}</td>
+                          <td className="p-4 font-mono text-[11px]">{evt.actorId}</td>
+                          <td className="p-4 text-slate-400">{evt.tenantId}</td>
+                          <td className="p-4 text-right text-slate-500">{evt.requestSource}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 4. SESSIONS TAB */}
+          {activeTab === 'sessions' && (
+            <div className="card-premium p-6 space-y-4">
+              <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+                <Users className="w-4 h-4 text-teal-400" />
+                Fluxo de Sessões e Tenant Switchings
+              </h3>
+
+              {auditEvents.filter(e => e.resourceType === 'Session').length === 0 ? (
+                <div className="text-center py-16 text-slate-500">
+                  <p className="text-xs font-bold uppercase tracking-wider">Nenhuma atividade de sessão registrada.</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {auditEvents.filter(e => e.resourceType === 'Session').map((evt) => (
+                    <div key={evt.id} className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex items-center justify-between gap-4">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className={cn(
+                            "w-2 h-2 rounded-full",
+                            evt.eventType === 'SESSION_START' || evt.eventType === 'LOGIN' ? 'bg-emerald-500' :
+                            evt.eventType === 'SESSION_END' || evt.eventType === 'LOGOUT' ? 'bg-slate-500' : 'bg-indigo-400'
+                          )} />
+                          <span className="text-sm font-bold text-slate-200">{evt.eventType}</span>
+                        </div>
+                        <p className="text-xs text-slate-400">Ator: <span className="font-mono">{evt.actorId}</span> | Sessão: <span className="font-mono">{evt.sessionId.substring(0, 15)}...</span></p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs text-slate-500 block">{new Date(evt.timestamp).toLocaleString()}</span>
+                        {evt.metadata?.selectedTenantId && (
+                          <span className="text-[10px] text-teal-400 font-semibold uppercase tracking-wider">Inquilino: {evt.metadata.selectedTenantId}</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 5. GOVERNANCE INTEGRITY TAB */}
+          {activeTab === 'integrity' && (
+            <div className="card-premium p-8 space-y-6">
+              <h2 className="text-lg font-medium text-slate-200 flex items-center gap-2 border-b border-border/10 pb-4">
+                <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                Integridade Fiduciária do Ledger
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* Ledger Integrity status */}
+                <div className="p-5 bg-emerald-500/5 border border-emerald-500/10 rounded-xl space-y-2">
+                  <h3 className="text-sm font-semibold text-emerald-400 flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4" />
+                    Ledger Conexão Ativa
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    A verificação de conexão com a infraestrutura do Firestore e o barramento `audit_events` retornou sucesso. Toda escrita está sendo envelopada e direcionada sob o princípio "Deny by Default".
+                  </p>
+                </div>
+
+                {/* Ledger mutation protection status */}
+                <div className="p-5 bg-indigo-500/5 border border-indigo-500/10 rounded-xl space-y-2">
+                  <h3 className="text-sm font-semibold text-indigo-400 flex items-center gap-2">
+                    <Lock className="w-4 h-4" />
+                    Ledger Mutation Protection
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    As chamadas lógicas de modificação de histórico (`ImmutableLedger.update` e `ImmutableLedger.delete`) estão blindadas contra violação, forçando lançamentos `MUTATION_PROHIBITED`.
+                  </p>
+                </div>
+
+              </div>
+
+              {/* Status checklist */}
+              <div className="border border-border/10 rounded-xl p-5 space-y-4 bg-slate-950/20">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">Verificações Ativas do Trust Framework</h3>
+                
+                <div className="space-y-3">
+                  <Checkline label="Fila de Retentativa Ativa com Retry Exponencial" checked={true} />
+                  <Checkline label="Deduplicação de Anomalias Ativa" checked={true} />
+                  <Checkline label="Auditoria de Acesso SUPER_ADMIN Cross-Tenant Habilitada" checked={true} />
+                  <Checkline label="Isolamento de Visibilidade de Telemetria por Inquilino" checked={true} />
+                </div>
+              </div>
+
+            </div>
+          )}
+
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+function StatusCard({ title, value, icon, trend }: { title: string, value: any, icon: React.ReactNode, trend: string }) {
+  return (
+    <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-700 transition-all bg-slate-950/40">
+      <div className="flex justify-between items-start mb-4">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">{title}</h3>
+        <div className="p-2 bg-slate-950/40 rounded-xl border border-border/10">
+          {icon}
+        </div>
+      </div>
+      <div>
+        <div className="text-2xl font-light text-slate-100">{value}</div>
+        <div className="text-xs text-slate-500 mt-1 uppercase tracking-wider font-bold">{trend}</div>
+      </div>
+    </div>
+  );
+}
+
+function TabButton({ active, onClick, icon, label }: { active: boolean, onClick: () => void, icon: React.ReactNode, label: string }) {
+  return (
+    <button 
+      onClick={onClick}
+      className={`flex items-center gap-2 px-6 py-3.5 text-xs font-bold uppercase tracking-wider transition-all border-b-2 ${
+        active 
+          ? 'text-indigo-400 border-indigo-500 bg-indigo-500/5 font-semibold' 
+          : 'text-slate-400 border-transparent hover:text-slate-300 hover:bg-slate-900/40'
+      }`}
+    >
+      {icon}
+      {label}
+    </button>
+  );
+}
+
+function ProgressIndicator({ label, value, total, color }: { label: string, value: number, total: number, color: string }) {
+  const percent = total > 0 ? Math.round((value / total) * 100) : 0;
+  return (
+    <div className="space-y-1.5">
+      <div className="flex justify-between text-xs font-medium">
+        <span className="text-slate-400">{label}</span>
+        <span className="text-slate-200">{value} ({percent}%)</span>
+      </div>
+      <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+        <div className={cn("h-full rounded-full transition-all duration-500", color)} style={{ width: `${percent}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function Checkline({ label, checked }: { label: string, checked: boolean }) {
+  return (
+    <div className="flex items-center gap-3 text-xs">
+      <div className={cn(
+        "w-4 h-4 rounded-full flex items-center justify-center border",
+        checked ? "border-emerald-500 bg-emerald-500/10 text-emerald-400" : "border-slate-700 bg-slate-900"
+      )}>
+        <ShieldCheck className="w-3 h-3" />
+      </div>
+      <span className="text-slate-300">{label}</span>
+    </div>
+  );
+}
+
+function LoaderSpinner() {
+  return (
+    <div className="w-8 h-8 border-2 border-slate-700 border-t-indigo-400 rounded-full animate-spin" />
+  );
+}

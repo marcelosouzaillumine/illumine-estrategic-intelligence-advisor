@@ -81,7 +81,8 @@ export const RuntimeContextProvider: React.FC<{ children: React.ReactNode }> = (
       inputHash: fiduciaryRequirements?.inputHash,
       scenarioHash: fiduciaryRequirements?.scenarioHash,
 
-      requestSource: 'RuntimeContextProvider'
+      requestSource: 'RuntimeContextProvider',
+      sessionId: session.sessionId
     };
   };
 

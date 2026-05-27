@@ -1,5 +1,7 @@
 import { ImportedDataset, StagingValidationWarning } from './IntegrationGovernanceTypes';
 import { ACTIVE_STAGING_POLICY, TRANSACTIONAL_STAGING_POLICY, StagingValidationPolicy } from './StagingValidationPolicy';
+import { CalibrationEngine } from '../calibration/CalibrationEngine';
+import { NON_SUPPRESSIBLE_WARNINGS } from '../calibration/CalibrationTypes';
 
 export class StagingValidationEngine {
   static validateDataset(dataset: ImportedDataset): void {
@@ -27,10 +29,18 @@ export class StagingValidationEngine {
 
     // Final checks
     dataset.stagingValidationPassed = !this.hasBlockingWarnings(dataset, policy);
+
+    // Apply calibration suppressions (never suppress critical fiduciaries)
+    const suppressed = CalibrationEngine.getCalibration().suppressedWarnings || [];
+    const activeSuppressed = suppressed.filter(w => !NON_SUPPRESSIBLE_WARNINGS.includes(w));
+    if (dataset.blockingWarnings && activeSuppressed.length > 0) {
+      dataset.blockingWarnings = dataset.blockingWarnings.filter(w => !activeSuppressed.includes(w));
+    }
   }
 
   private static validateFinancialDataset(dataset: ImportedDataset, policy: StagingValidationPolicy): void {
     const { bp, dre, dfc, accountList } = dataset.parsedData;
+    const activeTolerance = CalibrationEngine.getCalibration().warningMaterialityThreshold;
 
     if (!bp && !dre && !dfc) {
       this.addWarning(dataset, 'INCOMPLETE_DATASET');
@@ -76,10 +86,10 @@ export class StagingValidationEngine {
       const diff = Math.abs(valAtivo - (valPassivo + valPl));
       
       // Calculate tolerance based on Ativo
-      const toleranceValue = Math.max(valAtivo * policy.tolerance, 0.01);
+      const toleranceValue = Math.max(valAtivo * activeTolerance, 0.01);
 
       if (diff > toleranceValue) {
-        if (diff > (valAtivo * 0.05)) { // 5% diff is material
+        if (diff > (valAtivo * activeTolerance)) { // activeTolerance diff is material
            this.addWarning(dataset, 'INVALID_BALANCE_SHEET');
         } else {
            this.addWarning(dataset, 'MATERIALITY_THRESHOLD_EXCEEDED');
@@ -99,7 +109,7 @@ export class StagingValidationEngine {
         const calcNet = valGross + valDeductions;
         const diffNet = Math.abs(calcNet - netRevenue);
         
-        if (diffNet > Math.max(valGross * policy.tolerance, 0.01)) {
+        if (diffNet > Math.max(valGross * activeTolerance, 0.01)) {
            this.addWarning(dataset, 'HIERARCHY_BREAK');
         }
       }

@@ -1,4 +1,5 @@
 import { ProjectedConfidence, ScenarioPropagationResult } from './ScenarioTypes';
+import { CalibrationEngine } from '../calibration/CalibrationEngine';
 
 export class ScenarioConfidenceProjector {
   /**
@@ -13,8 +14,11 @@ export class ScenarioConfidenceProjector {
       projected = 'LOW';
     }
 
-    // Se a timeline do cenário leva a crise de liquidez em menos de 3 meses, forçamos stress crítico
-    if (propagationResult.stressResult.monthsToLiquidityCrisis <= 3) {
+    const sensitivity = CalibrationEngine.getCalibration().stressPropagationSensitivity;
+    const criticalMonthsLimit = Math.max(Math.round(3 * sensitivity), 1);
+
+    // Se a timeline do cenário leva a crise de liquidez em menos de criticalMonthsLimit, forçamos stress crítico
+    if (propagationResult.stressResult.monthsToLiquidityCrisis <= criticalMonthsLimit) {
       projected = 'CRITICAL_STRESS';
     }
 

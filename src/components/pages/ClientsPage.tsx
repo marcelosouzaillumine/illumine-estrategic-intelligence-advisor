@@ -59,15 +59,41 @@ export function ClientsPage({ clients, setClients, setSelectedClient, isMaster, 
   const [clientToDelete, setClientToDelete] = useState<{ id: string, name: string } | null>(null);
 // isAIModalOpen removed
   const [showSegmentSuggestions, setShowSegmentSuggestions] = useState(false);
+  const [fullClients, setFullClients] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (isMaster) {
+      const unsubscribe = onSnapshot(query(collection(db, "clients")), (snapshot) => {
+        setFullClients(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      });
+      return () => unsubscribe();
+    } else if (clients && clients.length > 0) {
+      const clientIds = clients.map((c: any) => c.id);
+      if (clientIds.length <= 10) {
+        const unsubscribe = onSnapshot(query(collection(db, "clients"), where("__name__", "in", clientIds)), (snapshot) => {
+          setFullClients(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        });
+        return () => unsubscribe();
+      } else {
+        const unsubscribe = onSnapshot(query(collection(db, "clients")), (snapshot) => {
+          const all = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setFullClients(all.filter(c => clientIds.includes(c.id)));
+        });
+        return () => unsubscribe();
+      }
+    } else {
+      setFullClients([]);
+    }
+  }, [isMaster, clients]);
   
   const allSegments = useMemo(() => {
     const segments = new Set<string>();
-    clients.forEach((c: any) => {
+    fullClients.forEach((c: any) => {
       if (c.segmentoAtuacao) segments.add(c.segmentoAtuacao);
       if (c.segmento) segments.add(c.segmento);
     });
     return Array.from(segments).sort();
-  }, [clients]);
+  }, [fullClients]);
   
   const clientTemplate = {
     razao: "",
@@ -434,7 +460,7 @@ loading: ${loading}
     totalPages,
     filteredData: filteredClients,
     paginatedData: paginatedClients
-  } = useDataTable(clients, {
+  } = useDataTable(fullClients, {
     searchFields: ["razao", "fantasia", "cnpj", "segmento", "cidade"],
     initialSort: { key: "fantasia", direction: "asc" },
     itemsPerPage: 5,
@@ -450,9 +476,9 @@ loading: ${loading}
   });
 
   const uniqueSegments = useMemo(() => {
-    const segments = clients.map((c: any) => c.segmento).filter(Boolean);
+    const segments = fullClients.map((c: any) => c.segmento).filter(Boolean);
     return ["Todos", ...(Array.from(new Set(segments)) as string[]).sort()];
-  }, [clients]);
+  }, [fullClients]);
 
   if (view === "form") {
     return (
@@ -2148,9 +2174,9 @@ loading: ${loading}
           {/* Status filter pills */}
           <div className="bg-surface-container p-1 rounded-md flex gap-0.5 border border-border shrink-0 self-start sm:self-auto">
             {([
-              { label: "Todos", value: "", count: clients.length },
-              { label: "Ativos", value: "Ativo", count: clients.filter((c: any) => c.status === "Ativo").length },
-              { label: "Implantação", value: "Em Implantação", count: clients.filter((c: any) => c.status === "Em Implantação").length },
+              { label: "Todos", value: "", count: fullClients.length },
+              { label: "Ativos", value: "Ativo", count: fullClients.filter((c: any) => c.status === "Ativo").length },
+              { label: "Implantação", value: "Em Implantação", count: fullClients.filter((c: any) => c.status === "Em Implantação").length },
             ] as const).map(tab => (
               <button
                 key={tab.value}

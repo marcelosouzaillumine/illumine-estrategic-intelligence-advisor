@@ -66,7 +66,13 @@ export class TenantResolutionEngine {
     if (isMaster) {
       // Para Super Admins, permitimos selecionar qualquer tenant, mas por padrão exigimos seleção
       // Neste mock da engine, eles operam no tenant 'master'
-      return this.buildSession(actorId, 'MASTER', 'SUPER_ADMIN', ['*'], ['*'], true, 'READY');
+      const allClientsSnap = await this.getFirestoreDocs(query(collection(db, 'clients')));
+      const masterAvailableTenants: AvailableTenant[] = allClientsSnap.docs.map((doc: any) => ({
+        tenantId: doc.id,
+        name: doc.data().fantasia || doc.data().razao || doc.id,
+        role: 'SUPER_ADMIN'
+      }));
+      return this.buildSession(actorId, 'MASTER', 'SUPER_ADMIN', ['*'], ['*'], true, 'READY', undefined, masterAvailableTenants);
     }
 
     const availableTenants: AvailableTenant[] = [];

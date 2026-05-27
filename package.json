@@ -13,6 +13,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "governance:audit": "tsx src/scripts/runActiveGovernance.ts",
+    "executive:cognitive:audit": "tsx src/scripts/runExecutiveCognitiveAudit.ts",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "test": "tsc --noEmit && tsx --test tests/*.test.ts",
@@ -21,7 +22,7 @@
     "imports:audit": "tsx src/scripts/runImportsAudit.ts",
     "mocks:audit": "tsx src/scripts/runMocksAudit.ts",
     "docs:audit": "tsx src/scripts/runDocsAudit.ts",
-    "release:check": "npm run typecheck && npm run test && npm run governance:audit && npm run architecture:audit && npm run imports:audit && npm run mocks:audit && npm run docs:audit && npm run build"
+    "release:check": "npm run typecheck && npm run test && npm run governance:audit && npm run executive:cognitive:audit && npm run architecture:audit && npm run imports:audit && npm run mocks:audit && npm run docs:audit && npm run build"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

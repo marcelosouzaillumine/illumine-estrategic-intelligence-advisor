@@ -19,11 +19,15 @@ const CONFIG_COLLECTION = 'configuracoes_governanca';
 const LOGS_COLLECTION = 'audit_logs';
 
 export const governanceService = {
+  async getFirestoreDocs(q: any): Promise<any> {
+    return getDocs(q);
+  },
+
   async getConfig(context: DataAccessContext): Promise<GovernanceConfig | null> {
     return GovernedRepositoryWrapper.execute(context, async () => {
       try {
         const q = query(collection(db, CONFIG_COLLECTION), limit(1));
-        const snap = await getDocs(q);
+        const snap = await this.getFirestoreDocs(q);
         if (!snap.empty) {
           return { id: snap.docs[0].id, ...snap.docs[0].data() } as GovernanceConfig;
         }
@@ -84,7 +88,7 @@ export const governanceService = {
           q = query(q, where('cliente_ativo_id', '==', filters.clienteId));
         }
 
-        const snap = await getDocs(q);
+        const snap = await this.getFirestoreDocs(q);
         return snap.docs.map(d => ({ id: d.id, ...d.data() } as AuditLog));
       } catch (error) {
         console.error('Error fetching audit logs:', error);
@@ -103,10 +107,76 @@ export const governanceService = {
           collection(db, 'indicators'),
           where('clientId', '==', cleanId)
         );
-        const snap = await getDocs(q);
+        const snap = await this.getFirestoreDocs(q);
         return snap.docs.map(d => ({ id: d.id, ...d.data() }));
       } catch (error) {
         console.error('Error fetching indicators:', error);
+        return [];
+      }
+    });
+  },
+
+  async getAuditEvents(context: DataAccessContext, filters: { tenantId?: string } = {}): Promise<any[]> {
+    return GovernedRepositoryWrapper.execute(context, async () => {
+      try {
+        const activeTenant = context.tenantId;
+        const isSuperAdmin = context.role === 'SUPER_ADMIN';
+        const targetTenant = isSuperAdmin ? (filters.tenantId || activeTenant) : activeTenant;
+
+        let q;
+        if (isSuperAdmin && !filters.tenantId) {
+          // Super admin gets global view if no tenant filter is set
+          q = query(
+            collection(db, 'audit_events'),
+            orderBy('timestamp', 'desc'),
+            limit(100)
+          );
+        } else {
+          q = query(
+            collection(db, 'audit_events'),
+            where('tenantId', '==', targetTenant),
+            orderBy('timestamp', 'desc'),
+            limit(100)
+          );
+        }
+
+        const snap = await this.getFirestoreDocs(q);
+        return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) }));
+      } catch (error) {
+        console.error('Error fetching audit events:', error);
+        return [];
+      }
+    });
+  },
+
+  async getAnomalies(context: DataAccessContext, filters: { tenantId?: string } = {}): Promise<any[]> {
+    return GovernedRepositoryWrapper.execute(context, async () => {
+      try {
+        const activeTenant = context.tenantId;
+        const isSuperAdmin = context.role === 'SUPER_ADMIN';
+        const targetTenant = isSuperAdmin ? (filters.tenantId || activeTenant) : activeTenant;
+
+        let q;
+        if (isSuperAdmin && !filters.tenantId) {
+          // Super admin gets global view if no tenant filter is set
+          q = query(
+            collection(db, 'anomalies'),
+            orderBy('detectedAt', 'desc'),
+            limit(100)
+          );
+        } else {
+          q = query(
+            collection(db, 'anomalies'),
+            where('tenantId', '==', targetTenant),
+            orderBy('detectedAt', 'desc'),
+            limit(100)
+          );
+        }
+
+        const snap = await this.getFirestoreDocs(q);
+        return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) }));
+      } catch (error) {
+        console.error('Error fetching anomalies:', error);
         return [];
       }
     });

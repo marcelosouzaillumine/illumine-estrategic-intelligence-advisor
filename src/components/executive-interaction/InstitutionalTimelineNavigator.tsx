@@ -1,0 +1,67 @@
+import React, { useState } from 'react';
+import { Calendar, ShieldCheck, FileText, ChevronRight } from 'lucide-react';
+
+interface TimelineEvent {
+  id: string;
+  date: string;
+  title: string;
+  category: string;
+  author: string;
+  hash: string;
+}
+
+export const InstitutionalTimelineNavigator: React.FC = () => {
+  const [selectedId, setSelectedId] = useState<string>('ev-1');
+
+  const events: TimelineEvent[] = [
+    { id: 'ev-1', date: '26 Mai 2026', title: 'Homologação do Planejamento Orçamentário Retificado', category: 'Fiduciário', author: 'Conselho de Administração', hash: 'SHA256-bd992a88' },
+    { id: 'ev-2', date: '14 Mai 2026', title: 'Auditoria de Segregação de Funções (SoD) Executada', category: 'Compliance', author: 'Comitê de Auditoria', hash: 'SHA256-ff771a33' },
+    { id: 'ev-3', date: '30 Abr 2026', title: 'Aprovação de Projeções de Cenários What-If', category: 'Cenários', author: 'Diretoria Executiva', hash: 'SHA256-cd884b22' }
+  ];
+
+  return (
+    <div className="card-premium p-8 space-y-6">
+      <div>
+        <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+          <Calendar className="w-4 h-4 text-indigo-400" />
+          Linha do Tempo de Deliberações
+        </h4>
+        <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+          Rastreabilidade cronológica das homologações formais da instituição.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+        {events.map((ev, idx) => {
+          const isSelected = selectedId === ev.id;
+          return (
+            <div 
+              key={ev.id}
+              onClick={() => setSelectedId(ev.id)}
+              className={`p-5 rounded-xl border cursor-pointer transition-all ${
+                isSelected 
+                  ? 'bg-indigo-500/5 border-indigo-500/35 text-indigo-400' 
+                  : 'bg-slate-950/20 border-border/10 text-slate-400 hover:border-slate-800'
+              }`}
+            >
+              <div className="flex justify-between items-start mb-3">
+                <span className="text-[10px] font-mono text-slate-500">{ev.date}</span>
+                <span className="text-[9px] uppercase font-mono tracking-widest px-2 py-0.5 bg-slate-900 border border-border/5 rounded-xl text-slate-500">
+                  {ev.category}
+                </span>
+              </div>
+              <h5 className="text-xs font-bold text-slate-200 leading-relaxed uppercase tracking-wide line-clamp-2">{ev.title}</h5>
+              
+              {isSelected && (
+                <div className="mt-4 pt-4 border-t border-indigo-500/10 space-y-2 text-[10px] text-slate-400 font-mono">
+                  <p>Autor: {ev.author}</p>
+                  <p>Lineage Hash: {ev.hash}</p>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};

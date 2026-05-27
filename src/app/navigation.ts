@@ -74,6 +74,7 @@ import {
   ShoppingBag,
   ShoppingCart,
   Siren,
+  Sparkles,
   Star,
   Tags,
   Target,
@@ -201,7 +202,9 @@ export type Page =
   | 'governance_risk_heatmap'
   | 'fiduciary_governance_center'
   | 'compliance_integrity_center'
-  | 'pilot_monitoring';
+  | 'pilot_monitoring'
+  | 'calibration_playground'
+  | 'observability_console';
 
 export interface NavigationItem {
   id: Page;
@@ -288,6 +291,8 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'governance_structure_center', label: 'Estrutura Institucional', icon: Users },
       { id: 'decision_governance', label: 'Governança de Decisão', icon: GitBranchPlus },
       { id: 'pilot_monitoring', label: 'Painel Operacional Piloto', icon: Activity, masterOnly: true },
+      { id: 'calibration_playground', label: 'Calibration Playground', icon: Sparkles, masterOnly: true },
+      { id: 'observability_console', label: 'Console de Observabilidade', icon: Eye },
       
       // --- Legacy & Master Only Routes (Preservados internamente) ---
       { id: 'advisor_cockpit', label: 'Advisor Cockpit', icon: BriefcaseBusiness, masterOnly: true },

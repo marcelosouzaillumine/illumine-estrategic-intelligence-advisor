@@ -103,12 +103,43 @@ function runTenancyGovernanceAudit() {
     }
   }
 
+  // ── Executive Demonstrability Governance ──────────────────────────────────
+  console.log('\nExecutive Demonstrability Governance Check...');
+  const demoShellPath = path.join(process.cwd(), 'src', 'components', 'executive', 'demo', 'ExecutiveDemoShell.tsx');
+  if (!fs.existsSync(demoShellPath)) {
+    console.error('❌ CRITICAL [DEMO-GOV-001]: ExecutiveDemoShell.tsx não encontrado.');
+    violations++;
+  } else {
+    const demoContent = fs.readFileSync(demoShellPath, 'utf8');
+    if (!demoContent.includes('RuntimeDisclosureBanner') || !demoContent.includes('ExecutiveDisclosurePanel')) {
+      console.error('❌ VIOLATION [DEMO-GOV-002]: ExecutiveDemoShell.tsx deve incluir tanto RuntimeDisclosureBanner quanto ExecutiveDisclosurePanel.');
+      violations++;
+    } else {
+      console.log('  ✅ ExecutiveDemoShell inclui Banners e Painéis de Disclosure obrigatórios.');
+    }
+  }
+
+  const demoGuardPath = path.join(process.cwd(), 'src', 'core', 'runtime', 'executive', 'demo', 'InstitutionalDemoDatasetGuard.ts');
+  if (!fs.existsSync(demoGuardPath)) {
+    console.error('❌ CRITICAL [DEMO-GOV-003]: InstitutionalDemoDatasetGuard.ts não encontrado.');
+    violations++;
+  } else {
+    const guardContent = fs.readFileSync(demoGuardPath, 'utf8');
+    if (!guardContent.includes('disclosureState') || !guardContent.includes('lineageIntegrityHash') || !guardContent.includes('evidenceIntegrityHash')) {
+      console.error('❌ VIOLATION [DEMO-GOV-004]: InstitutionalDemoDatasetGuard.ts deve verificar disclosureState, lineageIntegrityHash e evidenceIntegrityHash.');
+      violations++;
+    } else {
+      console.log('  ✅ InstitutionalDemoDatasetGuard possui verificações completas de Lineage/Evidence/Disclosure.');
+    }
+  }
+
   if (violations > 0) {
-    console.error(`\n❌ Falha na auditoria de Tenancy + Board Experience. Foram detectadas ${violations} violações fiduciárias.`);
+    console.error(`\n❌ Falha na auditoria de Tenancy + Board Experience + Demonstrability. Foram detectadas ${violations} violações fiduciárias.`);
     process.exit(1);
   } else {
     console.log('✅ Isolamento Multi-Tenant preservado. Orquestradores utilizam TenantExecutionContext. Zero Cross-Tenant Leakage detectado em código estático.');
     console.log('✅ Board Experience Layer em conformidade: Banner obrigatório e Fail-Closed ativos.');
+    console.log('✅ Demonstrability Layer em conformidade: Guards e Banners obrigatórios em atividade.');
     console.log('\nTenancy Governance Audit Finalizada. Status: COMPLIANT');
   }
 }

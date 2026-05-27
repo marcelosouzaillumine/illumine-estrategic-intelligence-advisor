@@ -23,4 +23,5 @@ export interface DataAccessContext {
   requestSource?: string;
   operation?: string;
   correlationId?: string;
+  sessionId?: string;
 }

@@ -93,6 +93,7 @@ export interface PermissionEvaluationInput {
   approvalState?: string;
   resourceOwnerId?: string;
   auditRequirement?: boolean;
+  sessionId?: string;
 }
 
 export interface PermissionDecision {

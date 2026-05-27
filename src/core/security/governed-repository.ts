@@ -1,5 +1,6 @@
 import { DataAccessContext } from './data-access-context';
 import { PermissionEngine } from './permission-engine';
+import { AuditEventBus } from './audit/AuditEventBus';
 
 export class GovernedRepositoryError extends Error {
   constructor(message: string, public readonly decisionCode: string) {
@@ -60,19 +61,36 @@ export class GovernedRepositoryWrapper {
       visibilityPolicy: context.visibilityPolicy,
       approvalState: context.approvalState,
       resourceOwnerId: context.resourceOwnerId,
-      auditRequirement: context.auditRequirement
+      auditRequirement: context.auditRequirement,
+      sessionId: context.sessionId
     });
 
     if (!decision.allowed) {
       throw new GovernedRepositoryError(`Acesso negado: ${decision.reason} (${decision.decisionCode})`, decision.decisionCode);
     }
 
-    // O ideal aqui é injetar o serviço de auditoria em produção,
-    // Mas mantemos a lógica isolada conforme o guideline de não alterar dependências externas complexas.
-    if (decision.auditRequired) {
-      console.log(`[AUDIT] Action: ${context.requestedAction} | Actor: ${context.actorId} | Resource: ${context.resourceType} | Target Tenant: ${context.resourceTenantId} | Correlation: ${context.correlationId || 'N/A'}`);
-      // Futuro: await AuditService.log(...)
-    }
+    // Emite o evento de acesso bem-sucedido no barramento de auditoria institucional
+    AuditEventBus.emit({
+      tenantId: context.tenantId,
+      actorId: context.actorId,
+      role: context.role,
+      sessionId: context.sessionId || 'N/A',
+      eventType: context.requestedAction,
+      resourceType: context.resourceType,
+      resourceId: context.entityScope?.entityId,
+      entityScope: context.entityScope,
+      visibilityPolicy: context.visibilityPolicy,
+      correlationId: context.correlationId,
+      requestSource: context.requestSource || 'GovernedRepositoryWrapper',
+      lineageReference: context.lineageHash,
+      auditSeverity: ['CREATE_SNAPSHOT', 'EXPORT_SNAPSHOT', 'CREATE_BOARD_PACK', 'EXPORT_BOARD_PACK', 'EXPORT_SIMULATION'].includes(context.requestedAction) ? 'CRITICAL' : 'INFO',
+      metadata: {
+        operation: context.operation,
+        hasLineage: !!context.lineageHash,
+        hasInputHash: !!context.inputHash,
+        hasScenarioHash: !!context.scenarioHash
+      }
+    });
 
     // A permissão foi validada com sucesso, executa a operação
     return await operation();

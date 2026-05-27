@@ -13,6 +13,7 @@ import { RuntimeExecutionTrace } from './observability/observability-types';
 import { RuntimeTraceEngine } from './observability/RuntimeTraceEngine';
 import { InstitutionalContextEngine } from './institutional-context/InstitutionalContextEngine';
 import { InstitutionalContextProfile } from './institutional-context/types';
+import { CalibrationEngine } from './calibration/CalibrationEngine';
 
 /**
  * INSTITUTIONAL RUNTIME ENFORCER
@@ -258,6 +259,10 @@ export class ExecutiveIntelligenceRuntime {
         return { financial: 0, operational: 0, governance: 0, structural: 0, composite: 0 };
       }
 
+      const calibration = CalibrationEngine.getCalibration();
+      const stressSens = calibration.stressPropagationSensitivity;
+      const causalitySens = calibration.temporalCausalitySensitivity;
+
       const at = bp.ativoTotal || 0;
       const ac = bp.ativoCirculante || 0;
       const pc = bp.passivoCirculante || 0;
@@ -269,9 +274,9 @@ export class ExecutiveIntelligenceRuntime {
       // 1. Liquidez (peso calibrado) — Corrente, Seca (com inventoryPenaltyFactor), Imediata
       const liqCorrente = pc > 0 ? Math.min((ac / pc) * 45, 100) : 80;
       const adjustedEst = est * institutionalContext.scoreCalibrationRules.inventoryPenaltyFactor;
-      const liqSeca = pc > 0 ? Math.min((Math.max(ac - adjustedEst, 0) / pc) * 40, 100) : 70;
+      const liqSec = pc > 0 ? Math.min((Math.max(ac - adjustedEst, 0) / pc) * 40, 100) : 70;
       const liqImediata = pc > 0 ? Math.min((cx / pc) * 15, 100) : 60;
-      const scoreLiquidez = Math.min(liqCorrente * 0.5 + liqSeca * 0.35 + liqImediata * 0.15, 100);
+      const scoreLiquidez = Math.min(liqCorrente * 0.5 + liqSec * 0.35 + liqImediata * 0.15, 100);
 
       // 2. Estrutura de Capital (peso calibrado) — Autonomia, qualidade endividamento
       const autonomia = at > 0 ? (pl / at) * 100 : 0; // % PL/Ativo
@@ -286,10 +291,10 @@ export class ExecutiveIntelligenceRuntime {
       const ncgRatio = at > 0 ? (ncg / at) * 100 : 0;
       const scoreCapGiro = Math.min(Math.max(50 + ncgRatio * 2, 0), 100);
 
-      // 4. Solidez / Solvência (peso calibrado) — Cobertura passivo total pelo PL com lossPenaltyFactor
+      // 4. Solidez / Solvência (peso calibrado) — Cobertura passivo total pelo PL com lossPenaltyFactor e stressSens
       let coberturaPL = pt > 0 ? Math.min((pl / pt) * 100, 100) : 80;
       if (lucroLiq < 0) {
-        coberturaPL = Math.max(coberturaPL - (Math.abs(lucroLiq) / (pl || 1)) * 10 * institutionalContext.scoreCalibrationRules.lossPenaltyFactor, 0);
+        coberturaPL = Math.max(coberturaPL - (Math.abs(lucroLiq) / (pl || 1)) * 10 * institutionalContext.scoreCalibrationRules.lossPenaltyFactor * stressSens, 0);
       }
       const scoreSolidez = Math.min(coberturaPL, 100);
 
@@ -303,9 +308,19 @@ export class ExecutiveIntelligenceRuntime {
         scoreEvolucao = 65;
       }
 
-      // Proporções de pesos calibradas pelo modelo de negócio
-      const evWeight = institutionalContext.scoreCalibrationRules.evolutionWeight;
-      const profWeight = institutionalContext.scoreCalibrationRules.profitabilityWeight;
+      // Proporções de pesos calibradas pelo modelo de negócio e sensibilidade
+      let evWeight = institutionalContext.scoreCalibrationRules.evolutionWeight;
+      let profWeight = institutionalContext.scoreCalibrationRules.profitabilityWeight;
+
+      if (causalitySens !== 1.0) {
+        // Adjust evolution weight fiduciarily
+        evWeight = Math.min(Math.max(evWeight * causalitySens, 0.05), 0.40);
+        const remaining = 1.0 - evWeight;
+        const defaultRemaining = 1.0 - institutionalContext.scoreCalibrationRules.evolutionWeight;
+        const ratio = profWeight / (defaultRemaining || 1);
+        profWeight = remaining * ratio;
+      }
+
       const remainderWeight = 1.0 - evWeight - profWeight;
       const liqWeight = remainderWeight * 0.4;
       const estWeight = remainderWeight * 0.3;
@@ -346,11 +361,17 @@ export class ExecutiveIntelligenceRuntime {
     // 5. Severity Modulator Engine
     const severity = translateSeverityModulation(bpSummary, metrics, segment, masterCausality, runtimeMode);
 
-    // 6. Narrative Sanitizer for single year/first operational year
+    // 6. Narrative Sanitizer for single year/first operational year or limited strategic confidence
     const sanitizeNarrative = (text: string): string => {
       if (!text) return text;
       let sanitized = text;
-      if (institutionalContext.historicalDensity === 'SINGLE_YEAR_ONLY' || institutionalContext.businessStage === 'FIRST_OPERATIONAL_YEAR') {
+      const isInitialOrLimited = 
+        institutionalContext.historicalDensity === 'SINGLE_YEAR_ONLY' || 
+        institutionalContext.businessStage === 'FIRST_OPERATIONAL_YEAR' ||
+        institutionalContext.confidence.strategicConfidence === 'LIMITED_CONTEXT' ||
+        institutionalContext.confidence.strategicConfidence === 'UNVERIFIABLE';
+
+      if (isInitialOrLimited) {
         sanitized = sanitized
           .replace(/proteção de market share/gi, 'foco em posicionamento inicial')
           .replace(/robustez operacional/gi, 'estruturação operacional')
@@ -363,6 +384,10 @@ export class ExecutiveIntelligenceRuntime {
     };
 
     // 6. Advisory Engine
+    const calibrationParams = CalibrationEngine.getCalibration();
+    const verbosity = calibrationParams.advisoryVerbosity;
+    const aggressiveness = calibrationParams.advisoryAggressiveness;
+
     let execSummary = '';
     if (runtimeMode === 'FULL_FINANCIAL_VIEW') {
       execSummary = `A operação encontra-se em estágio de ${context.stage} sob o modelo ${context.businessModel}. A confiabilidade dos dados é ${institutionalContext.confidence.dataConfidence} e a suficiência contextual é ${institutionalContext.confidence.strategicConfidence}. Padrão de crescimento: ${institutionalContext.growthPattern}.`;
@@ -370,10 +395,28 @@ export class ExecutiveIntelligenceRuntime {
       execSummary = `Evidências limitadas sugerem operação em estágio de ${context.stage} sob o modelo ${context.businessModel}. A suficiência contextual é considerada ${institutionalContext.confidence.strategicConfidence}.`;
     }
 
+    // Apply verbosity overrides fiduciarily
+    if (verbosity === 'low') {
+      execSummary = execSummary.split('. ')[0] + '.';
+    } else if (verbosity === 'high') {
+      execSummary += ` Calibração regulada sob perfil de causalidade temporal sensível (${calibrationParams.temporalCausalitySensitivity.toFixed(1)}x) e estresse preditivo (${calibrationParams.stressPropagationSensitivity.toFixed(1)}x).`;
+    }
+
+    let focusAreas = [...institutionalContext.recommendationBoundaries.focusAreas];
+    if (aggressiveness > 1.2) {
+      focusAreas.push('Alavancagem estratégica e aumento de produtividade comercial para otimização acelerada.');
+    } else if (aggressiveness < 0.8) {
+      focusAreas.push('Preservação máxima de liquidez e suspensão preventiva de novos Capex operacionais.');
+    }
+
+    if (verbosity === 'low' && focusAreas.length > 2) {
+      focusAreas = focusAreas.slice(0, 2);
+    }
+
     const advisory = {
       executiveSummary: sanitizeNarrative(execSummary),
-      actionMatrix: institutionalContext.recommendationBoundaries.focusAreas.map(sanitizeNarrative),
-      priorityFocus: sanitizeNarrative(institutionalContext.recommendationBoundaries.focusAreas[0] || 'Foco em posicionamento inicial')
+      actionMatrix: focusAreas.map(sanitizeNarrative),
+      priorityFocus: sanitizeNarrative(focusAreas[0] || 'Foco em posicionamento inicial')
     };
 
     const causality = {

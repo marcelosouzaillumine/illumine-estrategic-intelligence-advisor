@@ -228,6 +228,22 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
+  console.log('\nIniciando Executive Interaction Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runExecutiveInteractionGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Executive Interaction. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Executive Cognitive Orchestration Audit...');
+  try {
+    execSync('npx tsx src/scripts/runExecutiveCognitiveAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Executive Cognitive. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
   console.log('\nIniciando Self-Audit Core...');
 
   const report = runSelfAudit(mockCompliantRuntimeOutput, ['src/components', 'src/lib', 'src/runtime', 'src/services']);

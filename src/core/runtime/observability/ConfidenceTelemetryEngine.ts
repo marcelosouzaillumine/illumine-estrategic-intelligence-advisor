@@ -1,12 +1,18 @@
 import { ConfidenceTelemetry } from './observability-types';
+import { CalibrationEngine } from '../calibration/CalibrationEngine';
 
 export class ConfidenceTelemetryEngine {
   private baseConfidenceScore: number = 100;
   private currentConfidenceScore: number = 100;
   private collapseReasons: string[] = [];
 
-  private readonly CONFIDENCE_COLLAPSE_THRESHOLD = 0.45; // 45%
-  private readonly CONFIDENCE_DEGRADED_THRESHOLD = 0.65; // 65%
+  private get CONFIDENCE_COLLAPSE_THRESHOLD() {
+    return CalibrationEngine.getCalibration().confidenceCollapseThreshold;
+  }
+
+  private get CONFIDENCE_DEGRADED_THRESHOLD() {
+    return CalibrationEngine.getCalibration().confidenceDegradedThreshold;
+  }
 
   public setBaseConfidence(score: number) {
     this.baseConfidenceScore = score;

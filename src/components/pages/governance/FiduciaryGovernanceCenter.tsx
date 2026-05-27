@@ -1,19 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShieldCheck, UserX, Network, FileWarning, AlertTriangle, Scale, BookOpen, Clock } from 'lucide-react';
 import { PageHeader } from '../../Common';
+import { useExecutiveCognitive } from '../../../context/executive-cognitive/ExecutiveCognitiveProvider';
+import { InstitutionalPrioritySurface, CriticalDecisionSurface, ExecutivePriorityStack } from '../../executive-cognitive';
 
 export function FiduciaryGovernanceCenter() {
   const [activeTab, setActiveTab] = useState<'conflitos' | 'relacionadas' | 'decisoes'>('conflitos');
+  const { setSignals } = useExecutiveCognitive();
+
+  useEffect(() => {
+    // Populate active cognitive context for the page fiduciarily
+    setSignals([
+      {
+        id: 'fid-1',
+        sourceModule: 'Fiduciary',
+        title: 'Declaração de Conflito Pendente',
+        description: 'João Silva (CFO) possui impedimento societário registrado sob a pauta atual.',
+        timestamp: new Date().toISOString(),
+        rawSeverity: 'WARNING',
+        fiduciaryEscalation: true
+      },
+      {
+        id: 'fid-2',
+        sourceModule: 'Fiduciary',
+        title: 'Impedimento Estatutário de Fornecedor',
+        description: 'Contratação de consultoria externa TechCorp bloqueada devido ao conflito de interesses com o aprovisionador.',
+        timestamp: new Date().toISOString(),
+        rawSeverity: 'CRITICAL',
+        fiduciaryEscalation: true,
+        lineageHash: 'LIN-100234-Y'
+      }
+    ]);
+    return () => {
+      setSignals([]);
+    };
+  }, [setSignals]);
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
-      {/* Cabeçalho */}
-      <PageHeader 
-        title="Governança Fiduciária"
-        subtitle="Gestão de conflitos de interesse, partes relacionadas e integridade de aprovações."
-        icon={Scale}
-        transparent
-      />
+    <InstitutionalPrioritySurface 
+      title="Governança Fiduciária"
+      subtitle="Gestão de conflitos de interesse, partes relacionadas e integridade de aprovações."
+    >
+      {/* Critical Decision Focus and Attention Queue */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <CriticalDecisionSurface />
+        </div>
+        <div className="lg:col-span-1">
+          <ExecutivePriorityStack />
+        </div>
+      </div>
 
       {/* Cards Executivos (KRI Summary) */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -113,7 +149,7 @@ export function FiduciaryGovernanceCenter() {
         </div>
       )}
 
-    </div>
+    </InstitutionalPrioritySurface>
   );
 }
 
