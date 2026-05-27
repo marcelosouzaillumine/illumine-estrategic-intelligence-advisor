@@ -1,5 +1,3 @@
-import { InvalidMetricGuard } from './InvalidMetricGuard';
-
 export interface ExecutiveActionItem {
   title: string;
   category: string;
@@ -20,7 +18,7 @@ export class ExecutiveActionMatrixEngine {
     causality: any,
     severityLevel: string
   ): ExecutiveActionItem[] {
-    if (!actions || actions.length === 0 || !metrics) {
+    if (!actions || actions.length === 0) {
       return [];
     }
 
@@ -88,10 +86,10 @@ export class ExecutiveActionMatrixEngine {
 
     // Fiduciary Evidence Mapping based on real metrics and account values
     if (lower.includes('despesas administrativas') || lower.includes('admin')) {
-      const idxAdmin = metrics.indiceDespesasAdministrativas;
+      const idxAdmin = metrics?.indiceDespesasAdministrativas;
       if (idxAdmin !== undefined && idxAdmin !== null && idxAdmin > 0) {
         fiduciaryEvidence = `Despesa administrativa representa ${idxAdmin.toFixed(2)}% da receita líquida`;
-        expectedImpact = 'Melhoria da absorção operacional e elevação do EBITDA';
+        expectedImpact = 'Melhoria da absorção operacional and elevação do EBITDA';
         executionRisk = 'Persistência de EBITDA negativo e desajuste no SG&A';
         monitoringKPI = 'Despesas Administrativas / Receita Líquida';
       }
@@ -115,7 +113,7 @@ export class ExecutiveActionMatrixEngine {
         expectedImpact = 'Melhoria na solvência imediata e redução do risco de default';
         executionRisk = 'Pressão contínua sobre a folha e ruptura de tesouraria';
         monitoringKPI = 'Caixa Equivalentes / Passivo Circulante';
-      } else if (metrics.saldoTesouraria !== undefined && metrics.saldoTesouraria !== null) {
+      } else if (metrics?.saldoTesouraria !== undefined && metrics?.saldoTesouraria !== null) {
         fiduciaryEvidence = `Saldo de tesouraria líquido de R$ ${metrics.saldoTesouraria.toLocaleString('pt-BR')}`;
         expectedImpact = 'Regularização do caixa tático';
         executionRisk = 'Ruptura de tesouraria e inadimplência de curto prazo';
@@ -139,15 +137,23 @@ export class ExecutiveActionMatrixEngine {
         monitoringKPI = 'Prazo Médio de Fornecedores (PMF)';
       }
     } else if (lower.includes('capex') || lower.includes('investimento')) {
-      const liqCorr = metrics.liqCorrente;
+      const liqCorr = metrics?.liqCorrente;
       if (liqCorr !== undefined && liqCorr !== null) {
-        fiduciaryEvidence = `Índice de liquidez corrente em ${liqCorr.toFixed(2)}x demanda cautela na alocação de Capex`;
+        fiduciaryEvidence = `Índice de liquidez corrente em ${liqCorr.toFixed(2)}x demana cautela na alocação de Capex`;
         expectedImpact = 'Preservação de caixa livre imediato';
         executionRisk = 'Sucateamento de ativos produtivos ou atraso tecnológico';
         monitoringKPI = 'Capex / Receita Líquida';
+      } else {
+        const pl = bp.patrimonioLiquido || 0;
+        if (pl > 0) {
+          fiduciaryEvidence = `Estrutura de capital com patrimônio líquido de R$ ${pl.toLocaleString('pt-BR')} exige cautela em Capex`;
+          expectedImpact = 'Preservação de liquidez estrutural';
+          executionRisk = 'Atraso na expansão programada';
+          monitoringKPI = 'Capex / Ativo Total';
+        }
       }
     } else if (lower.includes('margem') || lower.includes('ebitda') || lower.includes('rentabilidade')) {
-      const ebitMargin = metrics.ebitdaVal;
+      const ebitMargin = metrics?.ebitdaVal;
       if (ebitMargin !== undefined && ebitMargin !== null) {
         fiduciaryEvidence = `Margem EBITDA atual em ${ebitMargin.toFixed(1)}% exige plano de rentabilização`;
         expectedImpact = 'Otimização de custos diretos e indiretos';
@@ -155,7 +161,7 @@ export class ExecutiveActionMatrixEngine {
         monitoringKPI = 'Margem EBITDA (%)';
       }
     } else if (lower.includes('receita') || lower.includes('expansão comercial')) {
-      const rec = metrics.recLiquida;
+      const rec = metrics?.recLiquida;
       if (rec !== undefined && rec !== null && rec > 0) {
         fiduciaryEvidence = `Receita líquida atual de R$ ${rec.toLocaleString('pt-BR')} limita capacidade de reinvestimento comercial`;
         expectedImpact = 'Aumento de ticket médio e otimização do CAC';
@@ -163,7 +169,7 @@ export class ExecutiveActionMatrixEngine {
         monitoringKPI = 'Crescimento de Receita Líquida (%)';
       }
     } else if (lower.includes('capital de giro') || lower.includes('ciclo operacional')) {
-      const ncg = metrics.ncg;
+      const ncg = metrics?.ncg;
       if (ncg !== undefined && ncg !== null) {
         fiduciaryEvidence = `Necessidade de Capital de Giro (NCG) calculada em R$ ${ncg.toLocaleString('pt-BR')}`;
         expectedImpact = 'Sincronização dos prazos médios operacionais';
@@ -180,14 +186,13 @@ export class ExecutiveActionMatrixEngine {
       }
     }
 
-    // Default general evidence if nothing specific matched but metrics are valid
-    if (!fiduciaryEvidence && metrics.hasData) {
-      // We can fallback to basic revenue/EBITDA evidence if it applies
-      const ebitda = metrics.ebitda || 0;
-      fiduciaryEvidence = `Operação estruturada com geração EBITDA de R$ ${ebitda.toLocaleString('pt-BR')}`;
-      expectedImpact = 'Regularização dos indicadores operacionais';
-      executionRisk = 'Deterioração gradual da estabilidade de caixa';
-      monitoringKPI = 'EBITDA Anual';
+    // Default general evidence if nothing specific matched but data exists
+    if (!fiduciaryEvidence && bp.ativoTotal > 0) {
+      const pl = bp.patrimonioLiquido || 0;
+      fiduciaryEvidence = `Balanço estruturado com Patrimônio Líquido de R$ ${pl.toLocaleString('pt-BR')}`;
+      expectedImpact = 'Preservação da autonomia financeira e governança do Board';
+      executionRisk = 'Deterioração das garantias estruturais de capital';
+      monitoringKPI = 'Autonomia Financeira (PL / Ativo)';
     }
 
     return {

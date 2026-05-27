@@ -479,6 +479,20 @@ service cloud.firestore {
       allow delete: if isOwner(existing());
     }
 
+    match /meeting_minutes/{minuteId} {
+      allow read: if ownsClient(existing().clientId);
+      allow create: if ownsClient(incoming().clientId);
+      allow update: if ownsClient(existing().clientId) && ownsClient(incoming().clientId);
+      allow delete: if ownsClient(existing().clientId);
+    }
+
+    match /action_items/{itemId} {
+      allow read: if ownsClient(existing().clientId);
+      allow create: if ownsClient(incoming().clientId);
+      allow update: if ownsClient(existing().clientId) && ownsClient(incoming().clientId);
+      allow delete: if ownsClient(existing().clientId);
+    }
+
     match /user_acceptances/{userId} {
       allow read, write: if isSignedIn() && request.auth.uid == userId;
     }

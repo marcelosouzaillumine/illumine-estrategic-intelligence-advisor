@@ -106,7 +106,7 @@ describe('Institutional Memory & Longitudinal Intelligence Layer', () => {
   });
 
   test('7. Anomaly recurrence gera escalation (GovernanceRecurrenceEngine)', () => {
-    const violation = { violationId: 'ANOMALY_1', severity: 'HIGH', message: 'Anomalia sistêmica', sourceContext: 'Anomaly' };
+    const violation = { violationId: 'ANOMALY_1', severity: 'CRITICAL', message: 'Anomalia sistêmica', sourceContext: 'Anomaly' };
     const cycles = [
       { ...baseCycle(2021), violations: [violation] },
       { ...baseCycle(2022), violations: [violation] },

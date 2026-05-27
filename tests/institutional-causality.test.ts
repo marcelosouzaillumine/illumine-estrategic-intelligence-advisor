@@ -149,9 +149,10 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
     };
 
     const report = executiveRuntime.generateExecutiveReport(payload);
+    console.log('ActionMatrix in Test:', report.advisory);
     assert.ok(report.institutionalCausality);
     assert.equal(report.institutionalCausality.historicalDensityRequirement, 'SUFFICIENT');
-    assert.ok(report.advisory.actionMatrix.some(item => (typeof item === 'string' ? item : item.title).includes('Preservação e reforço imediato de liquidez estrutural')));
+    assert.ok(report.advisory.actionMatrix.some(item => item.includes('Preservação e reforço imediato de liquidez estrutural')));
     assert.equal(report.advisory.priorityFocus, 'Liquidez estrutural, capitalização e autonomia fiduciária.');
   });
 });

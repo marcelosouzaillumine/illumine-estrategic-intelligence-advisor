@@ -27,6 +27,15 @@ import { PageHeader, StatusBadge } from '../Common';
 import { cn } from '../../lib/utils';
 import { useDataTable } from '../../hooks/useDataTable';
 
+export interface ParticipantReview {
+  name: string;
+  userEmail?: string;
+  userId?: string;
+  status: 'Approved' | 'ReviewRequested' | 'Pending';
+  comment?: string;
+  updatedAt?: any;
+}
+
 interface MeetingMinute {
   id?: string;
   clientId: string;
@@ -42,6 +51,7 @@ interface MeetingMinute {
   actions: { task: string; responsible: string; deadline: string }[];
   nextMeetingDate?: string;
   status: 'Draft' | 'Finalized';
+  reviews?: ParticipantReview[];
   createdAt?: any;
   updatedAt?: any;
 }
@@ -63,11 +73,17 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
     agenda: '',
     decisions: '',
     actions: [],
-    status: 'Draft'
+    status: 'Draft',
+    reviews: []
   });
 
   const [tempParticipant, setTempParticipant] = useState('');
   const [tempAction, setTempAction] = useState({ task: '', responsible: '', deadline: '' });
+
+  // States for Participant Review and Approval
+  const [activeReviewer, setActiveReviewer] = useState<string | null>(null);
+  const [reviewStatus, setReviewStatus] = useState<'Approved' | 'ReviewRequested'>('Approved');
+  const [reviewComment, setReviewComment] = useState('');
 
   useEffect(() => {
     if (!clientId) return;
@@ -75,12 +91,13 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
     setLoading(true);
     const q = query(
       collection(db, 'meeting_minutes'),
-      where('clientId', '==', clientId),
-      orderBy('date', 'desc')
+      where('clientId', '==', clientId)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as MeetingMinute));
+      // Sort in-memory to avoid composite index requirement
+      data.sort((a, b) => b.date.localeCompare(a.date));
       setMinutes(data);
       setLoading(false);
     }, (error) => {
@@ -95,18 +112,35 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
     if (!auth.currentUser) return;
 
     try {
-      const minuteData = {
-        ...formData,
+      // Create a clean payload to avoid 'undefined' field errors in Firestore
+      const cleanMinuteData: any = {
+        clientId: formData.clientId,
+        title: formData.title || '',
+        date: formData.date || '',
+        startTime: formData.startTime || '',
+        endTime: formData.endTime || '',
+        location: formData.location || '',
+        participants: formData.participants || [],
+        objective: formData.objective || '',
+        agenda: formData.agenda || '',
+        decisions: formData.decisions || '',
+        actions: formData.actions || [],
+        status: formData.status || 'Draft',
+        reviews: formData.reviews || [],
         updatedAt: serverTimestamp()
       };
+
+      if (formData.nextMeetingDate !== undefined && formData.nextMeetingDate !== "") {
+        cleanMinuteData.nextMeetingDate = formData.nextMeetingDate;
+      }
 
       let minuteId = editingId;
 
       if (editingId) {
-        await updateDoc(doc(db, 'meeting_minutes', editingId), minuteData);
+        await updateDoc(doc(db, 'meeting_minutes', editingId), cleanMinuteData);
       } else {
         const docRef = await addDoc(collection(db, 'meeting_minutes'), {
-          ...minuteData,
+          ...cleanMinuteData,
           createdAt: serverTimestamp()
         });
         minuteId = docRef.id;
@@ -114,24 +148,62 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
 
       // Sync actions to the global action_items collection
       if (minuteId) {
-        // We use a simplified logic: for each action in the minute, 
-        // we ensure it exists in the action_items collection.
-        // For simplicity in this step, we'll create them as new items if it's a new minute.
-        // In a more robust sync, we'd check for existing ones.
+        // Fetch existing action items for this minute to handle create/update/delete correctly
+        const existingActionsMap = new Map<string, any>();
+        if (editingId) {
+          try {
+            const actionsQuery = query(
+              collection(db, 'action_items'),
+              where('minuteId', '==', editingId)
+            );
+            const actionsSnapshot = await getDocs(actionsQuery);
+            actionsSnapshot.docs.forEach(doc => {
+              const data = doc.data();
+              existingActionsMap.set(data.title, { id: doc.id, ref: doc.ref, ...data });
+            });
+          } catch (err) {
+            console.error("Error fetching existing action items:", err);
+          }
+        }
+
+        const currentActionTitles = new Set(formData.actions.map(a => a.task));
+
+        // 1. Delete actions that were removed from the minute
+        const deletePromises: Promise<any>[] = [];
+        existingActionsMap.forEach((act, title) => {
+          if (!currentActionTitles.has(title)) {
+            deletePromises.push(deleteDoc(act.ref));
+          }
+        });
+        await Promise.all(deletePromises);
+
+        // 2. Create or update actions
         const actionPromises = formData.actions.map(action => {
-          return addDoc(collection(db, 'action_items'), {
-            clientId: formData.clientId,
-            minuteId: minuteId,
-            title: action.task,
-            responsible: action.responsible,
-            deadline: action.deadline,
-            status: 'Pendente',
-            priority: 'Média',
-            origin: 'Ata de Reunião',
-            originTitle: formData.title,
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp()
-          });
+          const existingAction = existingActionsMap.get(action.task);
+          if (existingAction) {
+            // Update existing action (preserves status and priority)
+            return updateDoc(existingAction.ref, {
+              responsible: action.responsible,
+              deadline: action.deadline,
+              originTitle: formData.title,
+              updatedAt: serverTimestamp()
+            });
+          } else {
+            // Create new action
+            return addDoc(collection(db, 'action_items'), {
+              clientId: formData.clientId,
+              minuteId: minuteId,
+              title: action.task,
+              responsible: action.responsible,
+              deadline: action.deadline,
+              status: 'Pendente',
+              priority: 'Média',
+              origin: 'Ata de Reunião',
+              originTitle: formData.title,
+              createdAt: serverTimestamp(),
+              updatedAt: serverTimestamp()
+            });
+          }
         });
         await Promise.all(actionPromises);
       }
@@ -142,6 +214,42 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
     } catch (error) {
       console.error("Error saving minute:", error);
       alert("Erro ao salvar ata de reunião.");
+    }
+  };
+
+  const handleParticipantReviewSave = async (participantName: string) => {
+    if (!auth.currentUser || !editingId) return;
+
+    try {
+      const existingReviews = formData.reviews || [];
+      const updatedReviews = existingReviews.filter(r => r.name !== participantName);
+      
+      updatedReviews.push({
+        name: participantName,
+        userEmail: auth.currentUser.email || undefined,
+        userId: auth.currentUser.uid,
+        status: reviewStatus,
+        comment: reviewComment || undefined,
+        updatedAt: new Date().toISOString()
+      });
+
+      // Save directly to Firestore for immediate update
+      await updateDoc(doc(db, 'meeting_minutes', editingId), {
+        reviews: updatedReviews,
+        updatedAt: serverTimestamp()
+      });
+
+      // Update local state too
+      setFormData(prev => ({
+        ...prev,
+        reviews: updatedReviews
+      }));
+      
+      setActiveReviewer(null);
+      setReviewComment('');
+    } catch (err) {
+      console.error("Error saving participant review:", err);
+      alert("Erro ao salvar revisão de participante.");
     }
   };
 
@@ -167,7 +275,8 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
       agenda: '',
       decisions: '',
       actions: [],
-      status: 'Draft'
+      status: 'Draft',
+      reviews: []
     });
   };
 
@@ -400,7 +509,224 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
                     </button>
                   </div>
                 ))}
-             </div>
+              </div>
+          </div>
+
+          {/* Governance Signatures and Reviews */}
+          <div className="space-y-6 pt-10 border-t border-border">
+            <div className="flex items-center justify-between">
+              <div>
+                <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest block">Assinaturas e Revisões de Governança</label>
+                <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest italic block mt-1">Status de leitura, aprovação e revisão dos participantes da reunião.</span>
+              </div>
+            </div>
+
+            {!editingId ? (
+              <div className="bg-surface-container p-6 rounded-md border border-border text-center">
+                <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest italic">
+                  Após salvar a ata pela primeira vez, as opções de assinatura e solicitação de revisão ficarão disponíveis para cada participante.
+                </p>
+              </div>
+            ) : formData.participants.length === 0 ? (
+              <div className="bg-surface-container p-6 rounded-md border border-border text-center">
+                <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-widest italic">
+                  Adicione participantes acima para habilitar o fluxo de assinaturas.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Participants list with their status */}
+                <div className="space-y-4">
+                  {formData.participants.map((p, idx) => {
+                    const review = (formData.reviews || []).find(r => r.name.trim().toLowerCase() === p.trim().toLowerCase());
+                    const isCurrentUser = auth.currentUser && (
+                      p.trim().toLowerCase() === auth.currentUser.displayName?.trim().toLowerCase() ||
+                      p.trim().toLowerCase() === auth.currentUser.email?.trim().toLowerCase()
+                    );
+                    
+                    return (
+                      <div key={idx} className="bg-surface-container p-4 rounded-md border border-border flex items-center justify-between group hover:border-secondary/20 transition-all">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-3">
+                            <span className="text-sm font-semibold text-foreground tracking-tight">{p}</span>
+                            {isCurrentUser && (
+                              <span className="px-2 py-0.5 bg-secondary/15 text-secondary text-[8px] font-semibold rounded-sm uppercase tracking-wider">Você</span>
+                            )}
+                          </div>
+                          {review ? (
+                            <div className="space-y-1.5 mt-2">
+                              <div className="flex items-center gap-2">
+                                {review.status === 'Approved' ? (
+                                  <span className="flex items-center gap-1.5 text-xs text-success font-semibold uppercase tracking-wider">
+                                    <CheckCircle2 size={14} className="text-success" />
+                                    Aprovado
+                                  </span>
+                                ) : (
+                                  <span className="flex items-center gap-1.5 text-xs text-warning font-semibold uppercase tracking-wider">
+                                    <AlertCircle size={14} className="text-warning" />
+                                    Revisão Solicitada
+                                  </span>
+                                )}
+                                {review.updatedAt && (
+                                  <span className="text-[9px] text-muted-foreground font-medium uppercase tracking-widest">
+                                    • {new Date(review.updatedAt).toLocaleDateString('pt-BR')} às {new Date(review.updatedAt).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}
+                                  </span>
+                                )}
+                              </div>
+                              {review.comment && (
+                                <p className="text-[11px] text-muted-foreground italic leading-relaxed pl-5 border-l border-border bg-card/30 py-1 px-2 rounded-sm">
+                                  "{review.comment}"
+                                </p>
+                              )}
+                            </div>
+                          ) : (
+                            <span className="flex items-center gap-1.5 text-xs text-muted-foreground font-semibold uppercase tracking-wider mt-2">
+                              <Clock size={14} />
+                              Pendente de Assinatura
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setActiveReviewer(p);
+                              const existingReview = (formData.reviews || []).find(r => r.name.trim().toLowerCase() === p.trim().toLowerCase());
+                              if (existingReview) {
+                                setReviewStatus(existingReview.status === 'Approved' ? 'Approved' : 'ReviewRequested');
+                                setReviewComment(existingReview.comment || '');
+                              } else {
+                                setReviewStatus('Approved');
+                                setReviewComment('');
+                              }
+                            }}
+                            className={cn(
+                              "btn-executive py-1.5 px-3 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2 shadow-sm transition-all",
+                              isCurrentUser 
+                                ? "bg-secondary text-white hover:bg-secondary/90" 
+                                : "bg-card border border-border text-muted-foreground hover:text-foreground hover:border-muted-foreground/30"
+                            )}
+                          >
+                            {review ? 'Alterar' : 'Interagir'}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Interaction Form for the selected participant */}
+                <div className="relative">
+                  <AnimatePresence mode="wait">
+                    {activeReviewer ? (
+                      <motion.div
+                        key={activeReviewer}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="bg-card p-6 rounded-md border border-border shadow-premium space-y-6"
+                      >
+                        <div className="flex items-center justify-between border-b border-border pb-3">
+                          <h4 className="text-[11px] font-semibold text-foreground uppercase tracking-widest">
+                            Interagir como: {activeReviewer}
+                          </h4>
+                          <button
+                            type="button"
+                            onClick={() => setActiveReviewer(null)}
+                            className="text-muted-foreground hover:text-foreground transition-all"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+
+                        <div className="space-y-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Sua Decisão</label>
+                            <div className="grid grid-cols-2 gap-4">
+                              <button
+                                type="button"
+                                onClick={() => setReviewStatus('Approved')}
+                                className={cn(
+                                  "py-3 rounded-md border text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-sm",
+                                  reviewStatus === 'Approved'
+                                    ? "bg-success/15 border-success text-success"
+                                    : "bg-surface-container border-border text-muted-foreground hover:text-foreground"
+                                )}
+                              >
+                                <CheckCircle2 size={16} />
+                                Aprovar Ata
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setReviewStatus('ReviewRequested')}
+                                className={cn(
+                                  "py-3 rounded-md border text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-sm",
+                                  reviewStatus === 'ReviewRequested'
+                                    ? "bg-warning/15 border-warning text-warning"
+                                    : "bg-surface-container border-border text-muted-foreground hover:text-foreground"
+                                )}
+                              >
+                                <AlertCircle size={16} />
+                                Solicitar Revisão
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">
+                              {reviewStatus === 'Approved' ? 'Comentário (Opcional)' : 'Pontos a Ajustar (Obrigatório)'}
+                            </label>
+                            <textarea
+                              rows={3}
+                              value={reviewComment}
+                              onChange={(e) => setReviewComment(e.target.value)}
+                              placeholder={
+                                reviewStatus === 'Approved'
+                                  ? "Ex: Concordo com os termos e resoluções desta reunião."
+                                  : "Ex: Ajustar o prazo da ação X de 15/06 para 20/06, conforme discutido..."
+                              }
+                              className="w-full px-4 py-3 bg-surface-container border border-border rounded-md text-xs outline-none focus:border-secondary transition-all leading-relaxed"
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-end gap-3 pt-2">
+                            <button
+                              type="button"
+                              onClick={() => setActiveReviewer(null)}
+                              className="btn-executive bg-surface-container border-border"
+                            >
+                              Cancelar
+                            </button>
+                            <button
+                              type="button"
+                              disabled={reviewStatus === 'ReviewRequested' && !reviewComment.trim()}
+                              onClick={() => handleParticipantReviewSave(activeReviewer)}
+                              className={cn(
+                                "btn-executive bg-secondary flex items-center gap-2",
+                                reviewStatus === 'ReviewRequested' && !reviewComment.trim() && "opacity-50 cursor-not-allowed"
+                              )}
+                            >
+                              Confirmar Assinatura
+                            </button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <div className="h-full border border-dashed border-border rounded-md flex flex-col items-center justify-center p-8 text-center bg-surface-container/20">
+                        <Users className="text-muted-foreground/30 mb-3" size={32} />
+                        <p className="text-[11px] text-muted-foreground font-semibold uppercase tracking-widest">
+                          Ações do Participante
+                        </p>
+                        <p className="text-[10px] text-muted-foreground/70 uppercase tracking-widest leading-relaxed mt-2 italic max-w-xs">
+                          Selecione um participante ao lado para assinar a ata de reunião ou solicitar alterações.
+                        </p>
+                      </div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="pt-10 border-t border-border flex items-center justify-between">

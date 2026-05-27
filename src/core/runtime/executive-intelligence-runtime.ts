@@ -330,7 +330,10 @@ export class ExecutiveIntelligenceRuntime {
     if (rawData.bpData && Array.isArray(rawData.bpData) && rawData.bpData.length > 0) {
       // Raw entries array: build hierarchy first
       const hierarchy = buildBPHierarchy(rawData.bpData);
-      bpSummary = hierarchy.summary;
+      bpSummary = {
+        ...rawData.rawFinancialData?.bpSummary,
+        ...hierarchy.summary
+      };
     } else if (rawData.rawFinancialData?.bpSummary && Object.keys(rawData.rawFinancialData.bpSummary).length > 0) {
       // Pre-computed summary passed directly from the page (BalanceSheetPage)
       bpSummary = rawData.rawFinancialData.bpSummary;

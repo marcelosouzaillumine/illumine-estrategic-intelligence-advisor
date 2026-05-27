@@ -92,12 +92,13 @@ export function PlanoAcaoPage({ clientId }: { clientId: string }) {
     setLoading(true);
     const q = query(
       collection(db, 'action_items'),
-      where('clientId', '==', clientId),
-      orderBy('deadline', 'asc')
+      where('clientId', '==', clientId)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ActionItem));
+      // Sort in-memory to avoid composite index requirement
+      data.sort((a, b) => a.deadline.localeCompare(b.deadline));
       setActions(data);
       setLoading(false);
     }, (error) => {

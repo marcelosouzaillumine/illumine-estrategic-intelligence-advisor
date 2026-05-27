@@ -1,9 +1,16 @@
-import { executiveRuntime } from '../core/runtime/executive-intelligence-runtime';
+import { buildBPHierarchy } from '../lib/bpEngine';
+import { calculateFinancialMetrics } from '../lib/financial-engine';
+import { inferBusinessIdentity } from '../lib/business-identity-engine';
+import { evaluateMasterCausality } from '../lib/master-causal-engine';
+import { InstitutionalContextEngine } from '../core/runtime/institutional-context/InstitutionalContextEngine';
+import { InstitutionalMemoryEngine } from '../core/runtime/institutional-memory/InstitutionalMemoryEngine';
+import { InstitutionalCausalityOrchestrator } from '../core/runtime/institutional-causality/InstitutionalCausalityOrchestrator';
+import { ExecutivePriorityCascadeResolver } from '../core/runtime/institutional-causality/ExecutivePriorityCascadeResolver';
+import { StructuralCapitalOrchestrator } from '../core/runtime/structural-capital/StructuralCapitalOrchestrator';
 
 const cycles = [
   {
     year: 2023,
-    scores: { composite: 80 },
     bpData: [
       { code: '1.1.1', accountName: 'Caixa', value: 100 },
       { code: '1.1.2', accountName: 'Estoque', value: 100 },
@@ -13,7 +20,6 @@ const cycles = [
   },
   {
     year: 2024,
-    scores: { composite: 75 },
     bpData: [
       { code: '1.1.1', accountName: 'Caixa', value: 90 },
       { code: '1.1.2', accountName: 'Estoque', value: 120 },
@@ -23,7 +29,6 @@ const cycles = [
   },
   {
     year: 2025,
-    scores: { composite: 70 },
     bpData: [
       { code: '1.1.1', accountName: 'Caixa', value: 50 },
       { code: '1.1.2', accountName: 'Estoque', value: 150 },
@@ -55,8 +60,42 @@ const payload = {
   ]
 };
 
-const report = executiveRuntime.generateExecutiveReport(payload);
-console.log('Action Matrix:', report.advisory.actionMatrix);
-console.log('Causality globalConfidence:', report.institutionalCausality?.confidenceProfile.globalConfidence);
-console.log('Causality historicalDensityRequirement:', report.institutionalCausality?.historicalDensityRequirement);
-console.log('Causality propagationVectors:', report.institutionalCausality?.propagationVectors);
+const hierarchy = buildBPHierarchy(payload.bpData);
+const bpSummary = hierarchy.summary;
+
+const memoryProfile = InstitutionalMemoryEngine.buildMemory(payload.runtimeHistory);
+const causalityProfile = InstitutionalCausalityOrchestrator.evaluate(payload.runtimeHistory);
+const institutionalContext = InstitutionalContextEngine.resolve(payload);
+
+let focusAreas = [...institutionalContext.recommendationBoundaries.focusAreas];
+console.log('1. Initial focusAreas:', focusAreas);
+
+if (memoryProfile.historicalDensityRequirement === 'SUFFICIENT') {
+  if (memoryProfile.decisionPatterns.length > 0) {
+    focusAreas.push(...memoryProfile.decisionPatterns);
+  }
+  if (memoryProfile.deteriorationSignals.length > 0) {
+    focusAreas.push(...memoryProfile.deteriorationSignals);
+  }
+}
+console.log('2. FocusAreas after memory:', focusAreas);
+
+let advisory = {
+  executiveSummary: 'Summary',
+  actionMatrix: focusAreas,
+  priorityFocus: focusAreas[0] || 'Focus'
+};
+
+console.log('3. Advisory before Cascade Resolver:', advisory.actionMatrix);
+advisory = ExecutivePriorityCascadeResolver.resolve(advisory, causalityProfile);
+console.log('4. Advisory after Cascade Resolver:', advisory.actionMatrix);
+
+const structuralCapital = StructuralCapitalOrchestrator.analyze(bpSummary, institutionalContext);
+console.log('5. Structural Capital Severity:', structuralCapital.severity);
+console.log('6. Structural Capital Signals:', structuralCapital.signals);
+
+advisory.actionMatrix = StructuralCapitalOrchestrator.reprioritizeAdvisory(
+  structuralCapital,
+  advisory.actionMatrix
+);
+console.log('7. Final Action Matrix:', advisory.actionMatrix);

@@ -53,11 +53,11 @@ export class GovernanceRecurrenceEngine {
     // Determine severity
     let recurrenceSeverity: 'LOW_RECURRENCE' | 'MODERATE_RECURRENCE' | 'HIGH_RECURRENCE' | 'CRITICAL_STRUCTURAL_RECURRENCE' = 'LOW_RECURRENCE';
 
-    if (governanceFailures.hasCritical || recurringAnomalies.hasCritical || negligence.hasCritical) {
+    if (governanceFailures.hasCritical || recurringAnomalies.hasCritical || negligence.hasCritical || repeatedStress.hasCritical) {
       recurrenceSeverity = 'CRITICAL_STRUCTURAL_RECURRENCE';
-    } else if (governanceFailures.hasHigh || repeatedStress.hasHigh || scoreDecreasedConsecutively) {
+    } else if (governanceFailures.hasHigh || repeatedStress.hasHigh || recurringAnomalies.hasHigh || negligence.hasHigh || scoreDecreasedConsecutively) {
       recurrenceSeverity = 'HIGH_RECURRENCE';
-    } else if (governanceFailures.hasModerate || repeatedStress.hasModerate || recurringAnomalies.hasModerate) {
+    } else if (governanceFailures.hasModerate || repeatedStress.hasModerate || recurringAnomalies.hasModerate || negligence.hasModerate) {
       recurrenceSeverity = 'MODERATE_RECURRENCE';
     }
 
