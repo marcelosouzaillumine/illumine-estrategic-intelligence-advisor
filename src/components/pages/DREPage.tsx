@@ -96,7 +96,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       setExecutiveReport(report);
     }
     runAnalysis();
-  }, [dbData, filterYear, segmentoEmpresa, docIds.length]);
+  }, [dbData, dbDataBP, allHistoryData, filterYear, segmentoEmpresa, docIds.length]);
 
   const finalHealthScore = (executiveReport?.metrics.financialMetrics as any)?.dreHealthScore 
     ?? executiveReport?.scores.operational 

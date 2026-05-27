@@ -70,7 +70,9 @@ export class TenantResolutionEngine {
       const masterAvailableTenants: AvailableTenant[] = allClientsSnap.docs.map((doc: any) => ({
         tenantId: doc.id,
         name: doc.data().fantasia || doc.data().razao || doc.id,
-        role: 'SUPER_ADMIN'
+        role: 'SUPER_ADMIN',
+        segmentoAtuacao: doc.data().segmentoAtuacao || doc.data().segmento,
+        segmento: doc.data().segmento || doc.data().segmentoAtuacao
       }));
       return this.buildSession(actorId, 'MASTER', 'SUPER_ADMIN', ['*'], ['*'], true, 'READY', undefined, masterAvailableTenants);
     }
@@ -84,7 +86,9 @@ export class TenantResolutionEngine {
       availableTenants.push({
         tenantId: doc.id,
         name: doc.data().fantasia || doc.data().razao || doc.id,
-        role: 'CFO' // Default owner role
+        role: 'CFO', // Default owner role
+        segmentoAtuacao: doc.data().segmentoAtuacao || doc.data().segmento,
+        segmento: doc.data().segmento || doc.data().segmentoAtuacao
       });
     });
 
@@ -104,7 +108,9 @@ export class TenantResolutionEngine {
           availableTenants.push({
             tenantId: data.clientId,
             name: data.clientName || 'Tenant Associado',
-            role: (data.role as OfficialRole) || 'OPERATIONAL_USER'
+            role: (data.role as OfficialRole) || 'OPERATIONAL_USER',
+            segmentoAtuacao: data.segmentoAtuacao || data.segmento,
+            segmento: data.segmento || data.segmentoAtuacao
           });
         }
       }
@@ -113,16 +119,34 @@ export class TenantResolutionEngine {
     // 4. Fetch from partners
     const partnerQuery = query(collection(db, 'partners'), where('ownerId', '==', actorId));
     const partnerSnap = await this.getFirestoreDocs(partnerQuery);
-    partnerSnap.docs.forEach((docSnap: any) => {
+    for (const docSnap of partnerSnap.docs) {
       const data = docSnap.data();
       if (!availableTenants.some(t => t.tenantId === docSnap.id)) {
         availableTenants.push({
           tenantId: docSnap.id,
           name: data.fantasia || data.razao || 'Partner Tenant',
-          role: 'TENANT_ADMIN' // Partner acts as Tenant Admin
+          role: 'TENANT_ADMIN', // Partner acts as Tenant Admin
+          segmentoAtuacao: data.segmentoAtuacao || data.segmento,
+          segmento: data.segmento || data.segmentoAtuacao
         });
       }
-    });
+    }
+
+    // 5. Enrich any missing segment fields from the clients collection
+    for (const tenant of availableTenants) {
+      if (!tenant.segmentoAtuacao && !tenant.segmento) {
+        try {
+          const clientDocSnap = await getDoc(doc(db, 'clients', tenant.tenantId));
+          if (clientDocSnap.exists()) {
+            const cData = clientDocSnap.data();
+            tenant.segmentoAtuacao = cData.segmentoAtuacao || cData.segmento;
+            tenant.segmento = cData.segmento || cData.segmentoAtuacao;
+          }
+        } catch (e) {
+          console.error("Failed to enrich tenant with segment data", e);
+        }
+      }
+    }
 
     // 5. Evaluate available tenants
     if (availableTenants.length === 0) {

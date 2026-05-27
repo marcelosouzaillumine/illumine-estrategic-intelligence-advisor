@@ -43,6 +43,7 @@ import { ExecutiveEvidenceViewer } from '../executive-delivery/ExecutiveEvidence
 import { DeliveryTimelinePanel } from '../executive-delivery/DeliveryTimelinePanel';
 import { ExportHistoryPanel } from '../executive-delivery/ExportHistoryPanel';
 import { GuidedBoardJourneyRuntime, BoardEvidenceData } from '../../core/executive-delivery/GuidedBoardJourneyRuntime';
+import { StepContent } from '../../core/executive-delivery/ExecutiveDeliveryOrchestrator';
 import { ExportSnapshotMetadata } from '../../core/exporting/ExportTypes';
 
 export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { selectedClient: string; selectedYear: number }) {
@@ -411,7 +412,7 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
   }
 
   const stepsList = journeyRuntime ? journeyRuntime.getState().steps : [];
-  const currentStep = stepsList[currentStepIndex] || { title: 'N/A', step: 'SUMMARY', data: {} };
+  const currentStep = stepsList[currentStepIndex] || ({ title: 'N/A', step: 'SUMMARY', description: '', data: {} } as StepContent);
   const evidenceData = journeyRuntime?.getBoardEvidence();
 
   return (

@@ -282,7 +282,9 @@ export default function App() {
       setClients(session.availableTenants.map(t => ({
         id: t.tenantId,
         fantasia: t.name,
-        razao: t.name
+        razao: t.name,
+        segmentoAtuacao: t.segmentoAtuacao,
+        segmento: t.segmento
       })));
       if (session.selectedTenantId) {
         setSelectedClient(session.selectedTenantId);

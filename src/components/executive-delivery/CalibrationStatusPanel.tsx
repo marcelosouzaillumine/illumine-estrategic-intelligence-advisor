@@ -12,8 +12,8 @@ interface CalibrationStatusPanelProps {
 export function CalibrationStatusPanel({ report, className }: CalibrationStatusPanelProps) {
   if (!report) return null;
 
-  const activeProfileId = report.runtimeMetadata?.calibrationProfileId || CalibrationEngine.getActiveProfileId();
-  const compilerVersion = report.runtimeMetadata?.engineVersion || CalibrationEngine.getVersion();
+  const activeProfileId = (report.runtimeMetadata as any)?.calibrationProfileId || CalibrationEngine.getActiveProfileId();
+  const compilerVersion = (report.runtimeMetadata as any)?.engineVersion || CalibrationEngine.getVersion();
 
   const getProfileDescription = (profileId: string) => {
     switch (profileId) {

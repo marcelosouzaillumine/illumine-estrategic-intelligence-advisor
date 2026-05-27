@@ -27,11 +27,11 @@ export function translateCausalityInterpretation(
   
   if (!metrics || !metrics.hasData || !bpSummary) {
     return {
-      event: '[INSUFFICIENT_DATA]',
-      rootCause: '[INSUFFICIENT_DATA]',
-      financialPropagation: '[INSUFFICIENT_DATA]',
-      absorptionCapacity: '[INSUFFICIENT_DATA]',
-      strategicImpact: '[INSUFFICIENT_DATA]',
+      event: 'Dados insuficientes para análise de eventos',
+      rootCause: 'Dados insuficientes para identificar a causa raiz',
+      financialPropagation: 'Dados insuficientes para avaliar a propagação financeira',
+      absorptionCapacity: 'Dados insuficientes para determinar a capacidade de absorção',
+      strategicImpact: 'Dados insuficientes para projetar o impacto estratégico',
       insights: []
     };
   }

@@ -35,6 +35,13 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/BOARD_JOURNEY_GUIDE.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/BOARD_NARRATIVE_ENGINE.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
@@ -162,6 +169,13 @@
   },
   {
     "file": "docs/INSTITUTIONAL_AUTH_TENANT_PROVIDER_LAYER.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
+    "file": "docs/INSTITUTIONAL_MEMORY_AND_LONGITUDINAL_INTELLIGENCE_LAYER.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
     "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",

@@ -27,6 +27,10 @@ export interface OnboardingState {
 export class OnboardingEngine {
   private static states: Record<string, OnboardingState> = {};
 
+  public static clearStates(): void {
+    this.states = {};
+  }
+
   public static getOnboardingState(tenantId: string): OnboardingState {
     if (!this.states[tenantId]) {
       this.states[tenantId] = {
@@ -92,11 +96,11 @@ export class OnboardingEngine {
 
     // Validation rules per transition
     if (nextStage === 'COMPLETED') {
-      if (!current.governanceReadiness) {
-        throw new Error('[Onboarding Engine] Rejeitado: Onboarding não pode ser concluído sem governanceReadiness completo (readiness institucional mínimo pendente).');
-      }
       if (!current.topologyValidated) {
         throw new Error('[Onboarding Engine] Rejeitado: Onboarding concluído exige topologia válida.');
+      }
+      if (!current.governanceReadiness) {
+        throw new Error('[Onboarding Engine] Rejeitado: Onboarding não pode ser concluído sem governanceReadiness completo (readiness institucional mínimo pendente).');
       }
     }
 

@@ -37,6 +37,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
   });
   const [calibrationLogs, setCalibrationLogs] = useState<any[]>([]);
   const [customRationale, setCustomRationale] = useState<string>('Calibração padrão do comitê de auditoria fiduciária.');
+  const [calibrationError, setCalibrationError] = useState<string | null>(null);
 
   const context: DataAccessContext = {
     tenantId: 'TENANT-1',
@@ -104,13 +105,14 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
   const handleApplyProfile = (profileId: string) => {
     try {
       CalibrationEngine.applyProfile(profileId, 'ADVISOR-01', customRationale);
+      setCalibrationError(null);
       loadData();
     } catch (err: any) {
-      alert(err.message);
+      setCalibrationError(err.message);
     }
   };
 
-  const handleJobAction = (jobId: string, nextStatus: 'PROMOTED' | 'REVERTED' | 'ARCHIVED' | 'REJECTED') => {
+  const handleJobAction = (jobId: string, nextStatus: 'PROMOTED' | 'REVERTED' | 'ARCHIVED' | 'REJECTED' | 'VALIDATED') => {
     setStagingQueue(prev => prev.map(job => {
       if (job.id === jobId) {
         return { ...job, status: nextStatus };
@@ -334,6 +336,12 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                   rows={2}
                 />
               </div>
+
+              {calibrationError && (
+                <div className="p-2 text-[10px] font-bold text-red-650 bg-red-50 border border-red-100 rounded-lg">
+                  {calibrationError}
+                </div>
+              )}
 
               <div className="grid grid-cols-2 gap-2">
                 <button 

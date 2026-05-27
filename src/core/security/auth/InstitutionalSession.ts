@@ -12,6 +12,8 @@ export interface AvailableTenant {
   tenantId: string;
   name: string;
   role: OfficialRole;
+  segmentoAtuacao?: string;
+  segmento?: string;
 }
 
 export interface InstitutionalSession {

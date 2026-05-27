@@ -6,7 +6,7 @@ import { buildBPHierarchy } from '../../lib/bpEngine';
 import { calculateDreCascade } from '../../lib/dreCascade';
 import { generateDreInsights, DreMetrics } from '../../lib/dreInsights';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
-const calculateFinancialMetrics = (...args: any[]): any => ({} as any);
+import { calculateFinancialMetrics } from '../../lib/financial-engine';
 import { inferBusinessIdentity } from '../../lib/business-identity-engine';
 import { evaluateMasterCausality } from '../../lib/master-causal-engine';
 import { ConsolidatedRuntimeOutputExt } from './consolidated/consolidated-types';
@@ -26,6 +26,17 @@ import { InstitutionalCausalityProfile } from './institutional-causality/types';
 import { ExecutivePriorityCascadeResolver } from './institutional-causality/ExecutivePriorityCascadeResolver';
 import { ExecutiveNarrativeSanitizer } from './institutional-causality/ExecutiveNarrativeSanitizer';
 import { getIndustryOkrs } from '../../lib/industry-engine';
+
+// Integrity Engines (RC-1.3A)
+import { EmptyCycleIntegrityEngine } from './integrity/EmptyCycleIntegrityEngine';
+import { BenchmarkGovernanceRegistry } from './integrity/BenchmarkGovernanceRegistry';
+import { BenchmarkReferenceEngine } from './integrity/BenchmarkReferenceEngine';
+import { ScaleEfficiencyIntegrityEngine } from './integrity/ScaleEfficiencyIntegrityEngine';
+import { InvalidMetricGuard } from './integrity/InvalidMetricGuard';
+import { ExecutiveActionMatrixEngine, ExecutiveActionItem } from './integrity/ExecutiveActionMatrixEngine';
+import { HistoricalSeriesIntegrityEngine } from './integrity/HistoricalSeriesIntegrityEngine';
+import { ExecutiveEmptyStateResolver } from './integrity/ExecutiveEmptyStateResolver';
+import { ExecutiveDiagnosisComposer } from '../executive-experience/ExecutiveDiagnosisComposer';
 
 /**
  * INSTITUTIONAL RUNTIME ENFORCER
@@ -91,7 +102,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   };
   advisory: {
     executiveSummary: string;
-    actionMatrix: string[];
+    actionMatrix: any[];
     priorityFocus: string;
   };
   decomposition: {
@@ -122,8 +133,8 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
     scaleEfficiency: {
       category: string;
       colorClass: string;
-      recGrowth: number;
-      ebitdaGrowth: number;
+      recGrowth: number | null;
+      ebitdaGrowth: number | null;
       description: string;
     };
     alerts: {
@@ -202,7 +213,7 @@ export class ExecutiveIntelligenceRuntime {
       MODERATE:                        'Moderada',
       LOW:                             'Baixa',
       LIMITED_CONTEXT:                 'Contexto Limitado',
-      UNVERIFIABLE:                    'Insufiçência de Dados',
+      UNVERIFIABLE:                    'Insuficiência de Dados',
       // GrowthPattern
       HEALTHY_GROWTH:                  'Crescimento Saudável',
       ARTIFICIAL_GROWTH:               'Crescimento Artificial',
@@ -817,11 +828,25 @@ export class ExecutiveIntelligenceRuntime {
       const indiceDespesasComerciais      = recLiquida > 0 ? (despVendas / recLiquida) * 100 : 0;
       const indiceDespesasFinanceiras     = recLiquida > 0 ? (despFin / recLiquida) * 100 : 0;
 
-      // Segment-aware CMV thresholds
-      let cmvMin = 0; let cmvMax = 60; let cmvCritical = 75;
-      // Efficiencies (Baseado em OKRs setoriais / Benchmarks de Mercado)
-      const okrs = getIndustryOkrs(segmentoEmpresa);
-      
+      // Resolve benchmarks via BenchmarkReferenceEngine
+      const economicModelName = pt(institutionalContext.economicModel);
+      const benchComercial = BenchmarkReferenceEngine.resolve('cmvVal', segmentoEmpresa, economicModelName, rawData.clientConfig);
+      const benchOperacional = BenchmarkReferenceEngine.resolve('ebitdaVal', segmentoEmpresa, economicModelName, rawData.clientConfig);
+      const benchAdministrativa = BenchmarkReferenceEngine.resolve('despAdmin', segmentoEmpresa, economicModelName, rawData.clientConfig);
+      const benchFinanceira = BenchmarkReferenceEngine.resolve('despFin', segmentoEmpresa, economicModelName, rawData.clientConfig);
+      const benchTributaria = BenchmarkReferenceEngine.resolve('burdenTributario', segmentoEmpresa, economicModelName, rawData.clientConfig);
+      const benchEstrutural = BenchmarkReferenceEngine.resolve('capacidadeAbsorcao', segmentoEmpresa, economicModelName, rawData.clientConfig);
+
+      const targetCmvMax = benchComercial.target;
+      const targetEbitdaMin = benchOperacional.target;
+      const targetAdminMax = benchAdministrativa.target;
+      const targetFinMax = benchFinanceira.target;
+      const targetTribMax = benchTributaria.target;
+      const targetAbsorcaoMin = benchEstrutural.target;
+
+      let cmvMax = targetCmvMax || 60;
+      let cmvCritical = 75;
+
       const burdenTributario = receitaBruta > 0 ? (deducoesReceita + Math.abs(provisaoIR)) / receitaBruta : 0;
       const burdenTributarioPerc = burdenTributario * 100;
 
@@ -834,12 +859,12 @@ export class ExecutiveIntelligenceRuntime {
         }
       };
 
-      const eficienciaComercial  = calcScore(cmvVal, okrs.targetCmvMax, true);
-      const eficienciaOperacional= calcScore(ebitdaVal, okrs.targetEbitdaMin, false);
-      const eficienciaAdministrativa = calcScore(indiceDespesasAdministrativas, okrs.targetAdminMax, true);
-      const eficienciaFinanceira = calcScore(indiceDespesasFinanceiras, okrs.targetFinMax, true);
-      const eficienciaTributaria = calcScore(burdenTributarioPerc, okrs.targetTribMax, true);
-      const eficienciaEstrutural = calcScore(capacidadeAbsorcaoEstrutura, okrs.targetAbsorcaoMin, false);
+      const eficienciaComercial  = calcScore(cmvVal, targetCmvMax, true);
+      const eficienciaOperacional= calcScore(ebitdaVal, targetEbitdaMin, false);
+      const eficienciaAdministrativa = calcScore(indiceDespesasAdministrativas, targetAdminMax, true);
+      const eficienciaFinanceira = calcScore(indiceDespesasFinanceiras, targetFinMax, true);
+      const eficienciaTributaria = calcScore(burdenTributarioPerc, targetTribMax, true);
+      const eficienciaEstrutural = calcScore(capacidadeAbsorcaoEstrutura, targetAbsorcaoMin, false);
 
       // Chart data (historical trend)
       const allHistoryData = Array.isArray(rawData.historicalSeries) && rawData.historicalSeries.length > 0 
@@ -952,12 +977,12 @@ export class ExecutiveIntelligenceRuntime {
         },
         kpis,
         efficiencies: [
-          { name: 'Comercial',      value: mbVal,                     score: eficienciaComercial,      desc: `Margem Bruta (Meta: >${(100 - okrs.targetCmvMax).toFixed(0)}%)`, color: eficienciaComercial >= 80 ? 'emerald' : eficienciaComercial >= 50 ? 'amber' : 'rose', unit: '%' },
-          { name: 'Operacional',    value: ebitdaVal,                 score: eficienciaOperacional,    desc: `Margem EBITDA (Meta: >${okrs.targetEbitdaMin}%)`, color: eficienciaOperacional >= 80 ? 'emerald' : eficienciaOperacional >= 50 ? 'amber' : 'rose', unit: '%' },
-          { name: 'Administrativa', value: indiceDespesasAdministrativas, score: eficienciaAdministrativa, desc: `Desp. Adm/ROL (Meta: <${okrs.targetAdminMax}%)`,  color: eficienciaAdministrativa >= 80 ? 'emerald' : eficienciaAdministrativa >= 50 ? 'amber' : 'rose', unit: '%' },
-          { name: 'Financeira',     value: indiceDespesasFinanceiras, score: eficienciaFinanceira,     desc: `Desp. Fin/ROL (Meta: <${okrs.targetFinMax}%)`,    color: eficienciaFinanceira >= 80 ? 'emerald' : eficienciaFinanceira >= 50 ? 'amber' : 'rose', unit: '%' },
-          { name: 'Tributária',     value: burdenTributarioPerc,      score: eficienciaTributaria,     desc: `Carga Tributária (Meta: <${okrs.targetTribMax}%)`,   color: eficienciaTributaria >= 80 ? 'emerald' : eficienciaTributaria >= 50 ? 'amber' : 'rose', unit: '%' },
-          { name: 'Estrutural',     value: capacidadeAbsorcaoEstrutura, score: eficienciaEstrutural,   desc: `Absorção Estrutura (Meta: >${okrs.targetAbsorcaoMin}x)`, color: eficienciaEstrutural >= 80 ? 'emerald' : eficienciaEstrutural >= 50 ? 'amber' : 'rose', unit: 'x' },
+          { name: 'Comercial',      value: mbVal,                     score: eficienciaComercial,      desc: `Margem Bruta (Meta: >${(100 - targetCmvMax).toFixed(0)}%) — ${benchComercial.label}`, color: eficienciaComercial >= 80 ? 'emerald' : eficienciaComercial >= 50 ? 'amber' : 'rose', unit: '%' },
+          { name: 'Operacional',    value: ebitdaVal,                 score: eficienciaOperacional,    desc: `Margem EBITDA (Meta: >${targetEbitdaMin}%) — ${benchOperacional.label}`, color: eficienciaOperacional >= 80 ? 'emerald' : eficienciaOperacional >= 50 ? 'amber' : 'rose', unit: '%' },
+          { name: 'Administrativa', value: indiceDespesasAdministrativas, score: eficienciaAdministrativa, desc: `Desp. Adm/ROL (Meta: <${targetAdminMax}%) — ${benchAdministrativa.label}`,  color: eficienciaAdministrativa >= 80 ? 'emerald' : eficienciaAdministrativa >= 50 ? 'amber' : 'rose', unit: '%' },
+          { name: 'Financeira',     value: indiceDespesasFinanceiras, score: eficienciaFinanceira,     desc: `Desp. Fin/ROL (Meta: <${targetFinMax}%) — ${benchFinanceira.label}`,    color: eficienciaFinanceira >= 80 ? 'emerald' : eficienciaFinanceira >= 50 ? 'amber' : 'rose', unit: '%' },
+          { name: 'Tributária',     value: burdenTributarioPerc,      score: eficienciaTributaria,     desc: `Carga Tributária (Meta: <${targetTribMax}%) — ${benchTributaria.label}`,   color: eficienciaTributaria >= 80 ? 'emerald' : eficienciaTributaria >= 50 ? 'amber' : 'rose', unit: '%' },
+          { name: 'Estrutural',     value: capacidadeAbsorcaoEstrutura, score: eficienciaEstrutural,   desc: `Absorção Estrutura (Meta: >${targetAbsorcaoMin}x) — ${benchEstrutural.label}`, color: eficienciaEstrutural >= 80 ? 'emerald' : eficienciaEstrutural >= 50 ? 'amber' : 'rose', unit: 'x' },
         ],
         scaleEfficiency: {
           category: scaleCategory,
@@ -977,13 +1002,25 @@ export class ExecutiveIntelligenceRuntime {
     traceEngine.Lineage.endNode('ExecutiveReportGenerated');
     traceEngine.Profiler.endEngine('ExecutiveIntelligenceRuntime');
     
-    return {
+    // Enrich the action matrix before consolidation
+    const enrichedActionMatrix = ExecutiveActionMatrixEngine.buildMatrix(
+      advisory.actionMatrix,
+      metrics,
+      bpSummary,
+      causality,
+      severity.level
+    );
+
+    const initialReport: ExecutiveIntelligenceReport = {
       context,
       scores,
       capitalStructure,
       causality,
       severity,
-      advisory,
+      advisory: {
+        ...advisory,
+        actionMatrix: enrichedActionMatrix
+      },
       decomposition,
       metrics: metricsPayload,
       compliance: {
@@ -1005,6 +1042,28 @@ export class ExecutiveIntelligenceRuntime {
       institutionalCausality: causalityProfile,
       structuralCapital
     };
+
+    let report = initialReport;
+
+    // Apply Trilha 1: Empty Cycle Fail-Closed
+    if (EmptyCycleIntegrityEngine.evaluate(rawData)) {
+      report = EmptyCycleIntegrityEngine.applyFailClosed(report);
+    } else {
+      // Apply Trilha 3: Scale Efficiency Fail-Closed
+      if (ScaleEfficiencyIntegrityEngine.evaluate(anosHistorico)) {
+        report = ScaleEfficiencyIntegrityEngine.applyFailClosed(report);
+      }
+      
+      // Apply Trilha 6: Historical Series validation
+      if (!HistoricalSeriesIntegrityEngine.validate(metricsPayload.chartData)) {
+        report = HistoricalSeriesIntegrityEngine.applyFailClosed(report);
+      }
+    }
+
+    // Apply Trilha 7: Terminology Hardening
+    report = ExecutiveDiagnosisComposer.hardenReportStrings(report);
+
+    return report;
   }
 }
 

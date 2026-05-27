@@ -292,7 +292,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     }
 
     runAnalysis();
-  }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, historyByYear, clients, selectedClient]);
+  }, [bpSummary, ebitda, lucroLiquido, filterYear, dreDbData.length, historyByYear, historicalFinancialSeries, clients, selectedClient]);
 
   const hasData = financialEntries.length > 0;
   const resilienciaGlobal = executiveReport?.scores.composite || 0;

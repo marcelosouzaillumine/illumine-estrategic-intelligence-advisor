@@ -34,7 +34,10 @@ export function formatDate(date: string | Date) {
   return d.toLocaleDateString('pt-BR');
 }
 
-export function formatValue(val: number, un: string, currencyCode: string = activeCurrency) {
+export function formatValue(val: number | string, un: string, currencyCode: string = activeCurrency) {
+  if (typeof val === 'string') {
+    return val;
+  }
   if (un === 'R$' || un === 'BRL' || un === 'USD' || un === 'EUR' || un === 'GBP' || un === 'currency') {
     return formatCurrency(val, currencyCode);
   }

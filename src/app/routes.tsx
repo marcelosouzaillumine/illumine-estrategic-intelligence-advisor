@@ -552,7 +552,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <StrategicIntelligenceCenter />;
   }
   if (currentPage === 'board_deck_center') {
-    return <BoardDeckCenter />;
+    return <BoardDeckCenter onNavigate={setCurrentPage} />;
   }
   if (currentPage === 'institutional_observability_center') {
     return <InstitutionalObservabilityCenter />;

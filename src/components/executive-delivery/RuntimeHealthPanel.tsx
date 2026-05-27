@@ -105,7 +105,7 @@ export function RuntimeHealthPanel({ report, className }: RuntimeHealthPanelProp
               {getModeLabel(compliance.runtimeMode)}
             </p>
             <p className="text-[9px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">
-              Trace ID: {runtimeMetadata?.importId ? runtimeMetadata.importId.slice(0, 12) + '...' : 'EXEC-N/A'}
+              Trace ID: {((runtimeMetadata as any)?.importId || runtimeMetadata?.executionId) ? String((runtimeMetadata as any)?.importId || runtimeMetadata?.executionId).slice(0, 12) + '...' : 'EXEC-N/A'}
             </p>
           </div>
         </div>

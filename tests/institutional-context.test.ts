@@ -1,9 +1,13 @@
-import { describe, it } from 'node:test';
+import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { InstitutionalContextEngine } from '../src/core/runtime/institutional-context/InstitutionalContextEngine';
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
+import { CalibrationEngine } from '../src/core/runtime/calibration/CalibrationEngine';
 
 describe('Institutional Context Intelligence Layer', () => {
+  beforeEach(() => {
+    CalibrationEngine.resetToDefault();
+  });
 
   it('1. Archetype: Startup (Early Stage / SaaS / Asset Light / Low Density)', () => {
     const rawData = {
@@ -52,8 +56,8 @@ describe('Institutional Context Intelligence Layer', () => {
 
     // Integridade do report
     const report = executiveRuntime.generateExecutiveReport(rawData);
-    assert.equal(report.context.stage, 'EARLY_STAGE_CONSOLIDATION');
-    assert.equal(report.context.businessModel, 'SAAS');
+    assert.equal(report.context.stage, 'Consolidação Inicial');
+    assert.equal(report.context.businessModel, 'SaaS');
     assert.equal(report.institutionalContext.confidence.strategicConfidence, 'LIMITED_CONTEXT');
     assert.ok(report.compliance.narrativeRestrictions.some(r => r.includes('limitadas') || r.includes('reivindicar')));
   });
@@ -103,8 +107,8 @@ describe('Institutional Context Intelligence Layer', () => {
     assert.equal(ctx.confidence.strategicConfidence, 'HIGH');
 
     const report = executiveRuntime.generateExecutiveReport(rawData);
-    assert.equal(report.context.stage, 'MATURE_OPERATION');
-    assert.equal(report.context.businessModel, 'INDUSTRIAL');
+    assert.equal(report.context.stage, 'Operação Madura');
+    assert.equal(report.context.businessModel, 'Industrial');
   });
 
   it('3. Archetype: Hospital (Healthcare / Scale / Asset Heavy / Low Inventory)', () => {

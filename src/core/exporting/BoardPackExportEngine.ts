@@ -2,6 +2,7 @@ import { jsPDF } from 'jspdf';
 import { ExecutiveIntelligenceReport } from '../runtime/executive-intelligence-runtime';
 import { CalibrationEngine } from '../runtime/calibration/CalibrationEngine';
 import { ExportSnapshotMetadata } from './ExportTypes';
+import { formatValue } from '../../lib/utils';
 
 export interface BoardPackExportOutput {
   pdf: jsPDF;
@@ -104,10 +105,28 @@ export class BoardPackExportEngine {
     pdf.setTextColor(30, 35, 45);
     pdf.text('1. SUMÁRIO EXECUTIVO DE GOVERNANÇA', 20, 90);
 
+    const CONFIDENCE_LEVEL_PT: Record<string, string> = {
+      'HIGH_CONFIDENCE': 'Alta Confiabilidade',
+      'MEDIUM_CONFIDENCE': 'Confiabilidade Moderada',
+      'LOW_CONFIDENCE': 'Confiabilidade Reduzida',
+      'HIGH': 'Alta',
+      'MODERATE': 'Moderada',
+      'LOW': 'Baixa',
+      'LIMITED_CONTEXT': 'Contexto Limitado',
+      'UNVERIFIABLE': 'Insuficiência de Dados'
+    };
+
+    const CAUSAL_DEPTH_PT: Record<string, string> = {
+      'SHALLOW': 'Superficial',
+      'MODERATE': 'Moderada',
+      'DEEP': 'Profunda'
+    };
+
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(9.5);
     pdf.setTextColor(50, 55, 65);
-    pdf.text(`Nível de Confiança do Diagnóstico: ${metadata.confidenceSnapshot}`, 20, 102);
+    const translatedConf = CONFIDENCE_LEVEL_PT[metadata.confidenceSnapshot] || metadata.confidenceSnapshot;
+    pdf.text(`Nível de Confiança do Diagnóstico: ${translatedConf}`, 20, 102);
     pdf.text(`Score de Governança e Solidez: ${scores.governance}/100`, 20, 109);
     pdf.text(`Score Financeiro: ${scores.financial}/100`, 20, 116);
     pdf.text(`Score Estrutural: ${scores.structural}/100`, 20, 123);
@@ -148,7 +167,7 @@ export class BoardPackExportEngine {
       pdf.setFontSize(9);
       for (const kpi of kpis.slice(0, 8)) {
         pdf.text(String(kpi.name), 20, yOffset);
-        pdf.text(`${kpi.val} ${kpi.unit}`, 95, yOffset);
+        pdf.text(formatValue(Number(kpi.val), kpi.unit), 95, yOffset);
         pdf.text(String(kpi.status), 140, yOffset);
         pdf.text(String(kpi.trend), 170, yOffset);
         yOffset += 7;
@@ -195,24 +214,40 @@ export class BoardPackExportEngine {
     pdf.text('Esta seção apresenta a linha do tempo de evolução temporal de causalidade reportada pelo core runtime:', 20, 42);
 
     let tOffset = 52;
-    if (temporalCausality && temporalCausality.trajectories && temporalCausality.trajectories.length > 0) {
-      for (const traj of temporalCausality.trajectories) {
+    if (temporalCausality && ((temporalCausality.trendSignals && temporalCausality.trendSignals.length > 0) || (temporalCausality.inflectionPoints && temporalCausality.inflectionPoints.length > 0))) {
+      if (temporalCausality.trendSignals && temporalCausality.trendSignals.length > 0) {
         pdf.setFont('helvetica', 'bold');
-        pdf.text(`[Snap ID: ${traj.snapshotId}] Período: ${traj.period}`, 20, tOffset);
-        tOffset += 5;
-        
+        pdf.text('Sinais de Tendência Longitudinal:', 20, tOffset);
+        tOffset += 6;
         pdf.setFont('helvetica', 'normal');
-        pdf.text(`- Score Financeiro: ${traj.financialScore} | Score Operacional: ${traj.operationalScore}`, 25, tOffset);
+        for (const sig of temporalCausality.trendSignals) {
+          pdf.text(`- ${sig.indicator}: ${sig.direction} (Favorável: ${sig.isFavorable ? 'Sim' : 'Não'})`, 25, tOffset);
+          tOffset += 5;
+          const descLines = pdf.splitTextToSize(sig.description, 160);
+          pdf.text(descLines, 25, tOffset);
+          tOffset += (descLines.length * 5) + 3;
+          if (tOffset > 250) {
+            pdf.addPage();
+            tOffset = 30;
+          }
+        }
+      }
+      if (temporalCausality.inflectionPoints && temporalCausality.inflectionPoints.length > 0) {
         tOffset += 5;
-        
-        const pathText = `Vetor de Propagação: ${traj.propagationPath.join(' -> ')}`;
-        const pathLines = pdf.splitTextToSize(pathText, 160);
-        pdf.text(pathLines, 25, tOffset);
-        tOffset += (pathLines.length * 5) + 3;
-
-        if (tOffset > 250) {
-          pdf.addPage();
-          tOffset = 30;
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Pontos de Inflexão Histórica:', 20, tOffset);
+        tOffset += 6;
+        pdf.setFont('helvetica', 'normal');
+        for (const inf of temporalCausality.inflectionPoints) {
+          pdf.text(`- Período: ${inf.period} | ${inf.indicator} (${inf.type})`, 25, tOffset);
+          tOffset += 5;
+          const descLines = pdf.splitTextToSize(inf.description, 160);
+          pdf.text(descLines, 25, tOffset);
+          tOffset += (descLines.length * 5) + 3;
+          if (tOffset > 250) {
+            pdf.addPage();
+            tOffset = 30;
+          }
         }
       }
     } else if (metrics?.chartData && metrics.chartData.length > 0) {
@@ -244,7 +279,16 @@ export class BoardPackExportEngine {
 
     let recOffset = 52;
     for (const act of advisory.actionMatrix) {
-      const actLines = pdf.splitTextToSize(`[ ] ${act}`, 170);
+      let actText = '';
+      if (act && typeof act === 'object') {
+        actText = `[ ] ${act.title || ''}\n    Área: ${act.category || ''} | Prio: ${act.priority || ''} | Prazo: ${act.timeline || ''}`;
+        if (act.fiduciaryEvidence) {
+          actText += `\n    Evidência: ${act.fiduciaryEvidence}`;
+        }
+      } else {
+        actText = `[ ] ${act}`;
+      }
+      const actLines = pdf.splitTextToSize(actText, 170);
       pdf.text(actLines, 20, recOffset);
       recOffset += (actLines.length * 5) + 4;
       
@@ -277,11 +321,13 @@ export class BoardPackExportEngine {
     appOffset += 7;
     pdf.text(`Perfil de Calibração Ativo: ${metadata.calibrationProfile}`, 20, appOffset);
     appOffset += 7;
-    pdf.text(`Nível de Confiança de Dados: ${metadata.confidenceSnapshot}`, 20, appOffset);
+    const translatedConfApp = CONFIDENCE_LEVEL_PT[metadata.confidenceSnapshot] || metadata.confidenceSnapshot;
+    pdf.text(`Nível de Confiança de Dados: ${translatedConfApp}`, 20, appOffset);
     appOffset += 7;
     pdf.text(`Completude dos Dados Contábeis: ${(compliance.dataCompleteness * 100).toFixed(1)}%`, 20, appOffset);
     appOffset += 7;
-    pdf.text(`Grau de Profundidade Causal: ${compliance.causalDepth}`, 20, appOffset);
+    const translatedDepth = CAUSAL_DEPTH_PT[compliance.causalDepth] || compliance.causalDepth;
+    pdf.text(`Grau de Profundidade Causal: ${translatedDepth}`, 20, appOffset);
     appOffset += 7;
     pdf.text(`Versão Oficial do Compilador: ${metadata.reportVersion}`, 20, appOffset);
     appOffset += 7;

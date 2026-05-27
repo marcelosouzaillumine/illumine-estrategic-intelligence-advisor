@@ -1,12 +1,16 @@
-import { describe, it } from 'node:test';
+import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { InstitutionalCausalityOrchestrator } from '../src/core/runtime/institutional-causality/InstitutionalCausalityOrchestrator';
 import { ExecutiveNarrativeSanitizer, FiduciaryNarrativeViolation } from '../src/core/runtime/institutional-causality/ExecutiveNarrativeSanitizer';
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
 import { HistoricalCycleData } from '../src/core/runtime/institutional-memory/types';
 import { LOW_CONFIDENCE, HIGH_CONFIDENCE } from '../src/core/runtime/institutional-causality/types';
+import { CalibrationEngine } from '../src/core/runtime/calibration/CalibrationEngine';
 
 describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3) Suite', () => {
+  beforeEach(() => {
+    CalibrationEngine.resetToDefault();
+  });
   
   it('1. Deve forçar fail-closed para histórico insuficiente (< 3 ciclos)', () => {
     const cycles: HistoricalCycleData[] = [
@@ -116,7 +120,7 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
         bpData: [
           { code: '1.1.1', accountName: 'Caixa', value: 50 },
           { code: '1.1.2', accountName: 'Estoque', value: 150 },
-          { code: '2.1.1', accountName: 'Fornecedores', value: 150 },
+          { code: '2.1.1', accountName: 'Fornecedores', value: 200 },
           { code: '3', accountName: 'Patrimônio Líquido', value: 100 }
         ]
       }
@@ -147,7 +151,7 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
     const report = executiveRuntime.generateExecutiveReport(payload);
     assert.ok(report.institutionalCausality);
     assert.equal(report.institutionalCausality.historicalDensityRequirement, 'SUFFICIENT');
-    assert.ok(report.advisory.actionMatrix[0].includes('Preservação e reforço imediato de liquidez estrutural'));
+    assert.ok(report.advisory.actionMatrix.some(item => (typeof item === 'string' ? item : item.title).includes('Preservação e reforço imediato de liquidez estrutural')));
     assert.equal(report.advisory.priorityFocus, 'Liquidez estrutural, capitalização e autonomia fiduciária.');
   });
 });

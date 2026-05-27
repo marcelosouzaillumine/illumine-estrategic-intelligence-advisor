@@ -25,7 +25,7 @@ export function translateSeverityModulation(
     // Retorno fallback obrigatório por ausência de dados estruturais completos
     return {
       level: 'SENSÍVEL',
-      justification: '[INSUFFICIENT_DATA] Visão limitada. Modulação estrutural de severidade suspensa.'
+      justification: 'Dados insuficientes para análise detalhada. Visão limitada. Modulação estrutural de severidade suspensa.'
     };
   }
 

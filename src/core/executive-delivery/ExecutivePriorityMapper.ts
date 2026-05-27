@@ -91,7 +91,7 @@ export class ExecutivePriorityMapper {
 
     // If the runtime provided explicit ranks or order, we sort by them passivamente.
     // We do NOT recalculate; we just sort by the metadata numbers declared by the core.
-    mapped.sort(sortPrioritiesPassively);
+    mapped.sort(sortMetadataPassively);
 
     return {
       status: 'SUCCESS',
@@ -100,7 +100,7 @@ export class ExecutivePriorityMapper {
   }
 }
 
-function sortPrioritiesPassively(a: MappedPriority, b: MappedPriority): number {
+function sortMetadataPassively(a: MappedPriority, b: MappedPriority): number {
   if (a.priorityRank !== undefined && b.priorityRank !== undefined) {
     return a.priorityRank - b.priorityRank;
   }

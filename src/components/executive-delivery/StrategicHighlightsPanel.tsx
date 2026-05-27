@@ -1,7 +1,7 @@
 import React from 'react';
-import { Target, CheckCircle2, TrendingUp, Sparkles } from 'lucide-react';
+import { Target, CheckCircle2, Sparkles } from 'lucide-react';
 import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
-import { cn } from '../../lib/utils';
+import { cn, formatValue } from '../../lib/utils';
 
 interface StrategicHighlightsPanelProps {
   report: ExecutiveIntelligenceReport;
@@ -71,7 +71,7 @@ export function StrategicHighlightsPanel({ report, className }: StrategicHighlig
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-black text-slate-900">
-                    {kpi.val} <span className="text-[10px] text-slate-400 font-bold">{kpi.unit}</span>
+                    {formatValue(Number(kpi.val), kpi.unit)}
                   </span>
                   <span className={cn("text-[9px] px-2.5 py-1 rounded-full border font-black uppercase tracking-wider", getStatusColor(kpi.status))}>
                     {kpi.status}

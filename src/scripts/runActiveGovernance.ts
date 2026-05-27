@@ -268,6 +268,14 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
+  console.log('\nIniciando Executive Integrity Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runExecutiveIntegrityAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Executive Integrity. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
   console.log('\nIniciando Self-Audit Core...');
 
   const report = runSelfAudit(mockCompliantRuntimeOutput, ['src/components', 'src/lib', 'src/runtime', 'src/services', 'src/core/executive-experience', 'src/core/exporting']);

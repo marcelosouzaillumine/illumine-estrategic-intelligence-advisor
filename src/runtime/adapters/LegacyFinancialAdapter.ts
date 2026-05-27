@@ -1,6 +1,6 @@
 import { EngineDefinition, InstitutionalContext, EngineExecutionResult, InferenceBlock, CausalityChain, AdvisoryNarrative } from '../types';
 import { buildBPHierarchy } from '../../lib/bpEngine';
-const calculateFinancialMetrics = (...args: any[]): any => ({} as any);
+import { calculateFinancialMetrics } from '../../lib/financial-engine';
 import { calculateScores } from '../../lib/score-engine';
 import { generateAdvisory } from '../../lib/advisory-engine';
 import { inferBusinessIdentity } from '../../lib/business-identity-engine';

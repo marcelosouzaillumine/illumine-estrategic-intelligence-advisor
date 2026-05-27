@@ -11,10 +11,10 @@ export interface CapitalStructureOutput {
 export function translateCapitalStructure(bpSummary: BPSummary | undefined, metrics: FinancialMetrics | undefined): CapitalStructureOutput {
   if (!bpSummary || !metrics || !metrics.hasData) {
     return {
-      qualityRating: '[INSUFFICIENT_DATA]',
-      elasticity: '[INSUFFICIENT_DATA]',
-      rolloverRisk: '[INSUFFICIENT_DATA]',
-      operationalDependency: '[INSUFFICIENT_DATA]'
+      qualityRating: 'Dados insuficientes para avaliar a qualidade',
+      elasticity: 'Dados insuficientes para avaliar a elasticidade',
+      rolloverRisk: 'Dados insuficientes para avaliar risco de rollover',
+      operationalDependency: 'Dados insuficientes para avaliar dependência operacional'
     };
   }
 

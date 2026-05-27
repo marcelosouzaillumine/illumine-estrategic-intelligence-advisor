@@ -14,7 +14,7 @@ interface ExecutivePerspectiveSectionProps {
 
 // ── Dicionário de enums → português fluido ─────────────────────────────────
 const ENUM_PT: Record<string, string> = {
-  FIRST_OPERATIONAL_YEAR:          'Primeiro Ano Operacional',
+  FIRST_OPERATIONAL_YEAR:          'Primeiro ciclo financeiro disponível',
   EARLY_STAGE_CONSOLIDATION:       'Consolidação Inicial',
   GROWTH_STAGE:                    'Estágio de Crescimento',
   SCALE_STAGE:                     'Estágio de Escala',
@@ -89,7 +89,7 @@ function inferPriority(idx: number, action: string): { label: string; color: str
   const lower = action.toLowerCase();
   if (lower.includes('imediato') || lower.includes('urgente') || lower.includes('crítico') || lower.includes('risco') || idx === 0)
     return { label: 'Alta', color: 'bg-rose-100 text-rose-700 border-rose-200' };
-  if (idx <= 2)
+  if (idx === 1)
     return { label: 'Média', color: 'bg-amber-100 text-amber-700 border-amber-200' };
   return { label: 'Normal', color: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
 }
@@ -178,14 +178,47 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
 
   const rawActions = intelligenceReport
     ? intelligenceReport.advisory?.actionMatrix || []
-    : report?.actionMatrix?.map((a: any) => typeof a === 'string' ? a : a.acao) || [];
+    : report?.actionMatrix || [];
 
   // ── Action Matrix Expandida com Visão de Gestão ──────────────────────
-  const actionMatrix = rawActions.map((action: string, idx: number) => {
-    const mgmt = inferManagementArea(action);
-    const prio = inferPriority(idx, action);
-    const timeline = inferTimeline(action);
-    return { acao: action, mgmt, prio, timeline };
+  const actionMatrix = rawActions.map((action: any, idx: number) => {
+    if (action && typeof action === 'object') {
+      const title = action.title || action.acao || '';
+      const mgmt = inferManagementArea(title);
+      mgmt.area = action.category || mgmt.area;
+      
+      const prioColor = action.priority === 'Alta' ? 'bg-rose-100 text-rose-700 border-rose-200' :
+                        action.priority === 'Média' ? 'bg-amber-100 text-amber-700 border-amber-200' :
+                        'bg-emerald-100 text-emerald-700 border-emerald-200';
+      const prio = { label: action.priority || 'Normal', color: prioColor };
+      const timeline = action.timeline || 'Longo Prazo';
+      
+      return {
+        acao: title,
+        mgmt,
+        prio,
+        timeline,
+        expectedImpact: action.expectedImpact,
+        executionRisk: action.executionRisk,
+        monitoringKPI: action.monitoringKPI,
+        fiduciaryEvidence: action.fiduciaryEvidence
+      };
+    } else {
+      const title = typeof action === 'string' ? action : (action?.acao || '');
+      const mgmt = inferManagementArea(title);
+      const prio = inferPriority(idx, title);
+      const timeline = inferTimeline(title);
+      return {
+        acao: title,
+        mgmt,
+        prio,
+        timeline,
+        expectedImpact: undefined,
+        executionRisk: undefined,
+        monitoringKPI: undefined,
+        fiduciaryEvidence: undefined
+      };
+    }
   });
 
   const blockedFalsePositives = intelligenceReport ? [] : report?.blockedFalsePositives || [];
@@ -215,7 +248,7 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
 
           <div className={cn("px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-sm flex items-center gap-2 border", confidenceBadgeColor)}>
             <Zap size={14} />
-            Confiabilidade: {confidenceLevel}
+            {confidenceLevel}
           </div>
         </div>
 
@@ -306,7 +339,7 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
               <span>{intelligenceReport?.context?.businessModel?.replace('_', ' ')}</span>
             </div>
             {executivePosture && (
-              <div className="px-3 py-1.5 bg-white/10 rounded-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white text-balance leading-relaxed">
+              <div className="px-3 py-1.5 bg-white/10 rounded-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white text-balance leading-relaxed whitespace-nowrap">
                 Foco: {executivePosture}
               </div>
             )}
@@ -403,6 +436,15 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
                         🕐 {action.timeline}
                       </span>
                     </div>
+
+                    {action.fiduciaryEvidence && (
+                      <div className="mt-4 pt-3 border-t border-slate-100/60 space-y-1 text-[10px] text-slate-500 leading-relaxed">
+                        <div><strong className="text-slate-700">Evidência:</strong> {action.fiduciaryEvidence}</div>
+                        {action.expectedImpact && <div><strong className="text-slate-700">Impacto Esperado:</strong> {action.expectedImpact}</div>}
+                        {action.executionRisk && <div><strong className="text-slate-700">Risco da Não Execução:</strong> {action.executionRisk}</div>}
+                        {action.monitoringKPI && <div><strong className="text-slate-700">KPI de Sucesso:</strong> {action.monitoringKPI}</div>}
+                      </div>
+                    )}
                   </div>
                 );
               })}

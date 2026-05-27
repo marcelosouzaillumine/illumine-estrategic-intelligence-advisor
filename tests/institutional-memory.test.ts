@@ -8,11 +8,13 @@ import { AdvisoryContinuityEngine } from '../src/core/runtime/institutional-memo
 import { GovernanceTimelineEngine } from '../src/core/runtime/institutional-memory/GovernanceTimelineEngine';
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
 import { HistoricalCycleData, InstitutionalMemoryRecord } from '../src/core/runtime/institutional-memory/types';
+import { CalibrationEngine } from '../src/core/runtime/calibration/CalibrationEngine';
 
 describe('Institutional Memory Engine (RC-1.2A) Suite', () => {
   beforeEach(() => {
     HistoricalDecisionLedger.clear();
     InstitutionalMemoryRegistry.clearForTest();
+    CalibrationEngine.resetToDefault();
   });
 
   // 1. Recorrência de caixa (declining cash / cash flow stress via patterns)
@@ -152,7 +154,7 @@ describe('Institutional Memory Engine (RC-1.2A) Suite', () => {
     };
 
     const report = executiveRuntime.generateExecutiveReport(payload);
-    assert.ok(report.advisory.executiveSummary.includes('Histórico insuficiente para inferência evolutiva.'));
+    assert.ok(report.advisory.executiveSummary.includes('Histórico insuficiente para inferência evolutiva'));
   });
 
   // 7. Mudança de padrão operacional

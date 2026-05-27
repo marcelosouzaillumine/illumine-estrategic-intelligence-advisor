@@ -5,7 +5,7 @@ import { evaluateMasterCausality } from '../lib/master-causal-engine';
 import { analyzeOperationalIntelligence, OperationalInput } from '../lib/operational-intelligence-engine';
 import { analyzeCashFlowIntelligence, CashFlowInput } from '../lib/cash-flow-intelligence-engine';
 import { BusinessIdentity, inferBusinessIdentity } from '../lib/business-identity-engine';
-const calculateFinancialMetrics = (...args: any[]): any => ({} as any);
+import { calculateFinancialMetrics } from '../lib/financial-engine';
 
 export function useExecutiveAdvisory(clientId: string, year: number, month: number, rawClientData?: any) {
   const { dbData: dreData, loading: dreLoading } = useFinancialData(clientId, year, month, 'DRE');
@@ -33,14 +33,14 @@ export function useExecutiveAdvisory(clientId: string, year: number, month: numb
     };
 
     // 2. Prepare Metrics
-    // @ts-ignore
-    const metrics = calculateFinancialMetrics(bpData, dreData);
+    const dreEbitda = getVal(dreData, 'EBITDA') || getVal(dreData, 'Lajida') || 0;
+    const dreLucro = getVal(dreData, 'Lucro Líquido') || getVal(dreData, 'Lucro/Prejuízo do Exercício') || 0;
+    const clientSector = rawClientData?.segmentoAtuacao || rawClientData?.segmento || rawClientData?.setor || 'Serviços';
+    const metrics = calculateFinancialMetrics(bpSummary as any, dreEbitda, dreLucro, clientSector);
 
     // 3. Prepare Identity
     const clientName = rawClientData?.razaoSocial || rawClientData?.name || 'Empresa';
-    const clientSector = rawClientData?.setor || 'Serviços';
-    // @ts-ignore
-    const identity: BusinessIdentity = inferBusinessIdentity(clientName, clientSector, bpSummary, metrics);
+    const identity: BusinessIdentity = inferBusinessIdentity(clientSector, 0, bpSummary as any, undefined);
 
     // 4. Generate Master Causal Output
     // @ts-ignore

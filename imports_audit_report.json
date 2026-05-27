@@ -1,7 +1,56 @@
 [
   {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/adapters/historical-series-adapter.ts",
+    "risk": "Import of legacy engine: financial-engine",
+    "severity": "HIGH",
+    "recommendation": "Use the new orchestration layer or consolidated runtime.",
+    "action": "Remove import and migrate logic to Official Contracts."
+  },
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/orchestration/executiveOrchestrationEngine.ts",
+    "risk": "Import of legacy engine: financial-engine",
+    "severity": "HIGH",
+    "recommendation": "Use the new orchestration layer or consolidated runtime.",
+    "action": "Remove import and migrate logic to Official Contracts."
+  },
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/adapters/causality-interpretation-adapter.ts",
+    "risk": "Import of legacy engine: executive-causality-engine",
+    "severity": "HIGH",
+    "recommendation": "Use the new orchestration layer or consolidated runtime.",
+    "action": "Remove import and migrate logic to Official Contracts."
+  },
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/executive-intelligence-runtime.ts",
+    "risk": "Import of legacy engine: financial-engine",
+    "severity": "HIGH",
+    "recommendation": "Use the new orchestration layer or consolidated runtime.",
+    "action": "Remove import and migrate logic to Official Contracts."
+  },
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/hooks/useExecutiveAdvisory.ts",
+    "risk": "Import of legacy engine: financial-engine",
+    "severity": "HIGH",
+    "recommendation": "Use the new orchestration layer or consolidated runtime.",
+    "action": "Remove import and migrate logic to Official Contracts."
+  },
+  {
     "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/hooks/useScenarioSimulation.ts",
     "risk": "Import of legacy engine: scenario-simulation-engine",
+    "severity": "HIGH",
+    "recommendation": "Use the new orchestration layer or consolidated runtime.",
+    "action": "Remove import and migrate logic to Official Contracts."
+  },
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/runtime/adapters/LegacyFinancialAdapter.ts",
+    "risk": "Import of legacy engine: financial-engine",
+    "severity": "HIGH",
+    "recommendation": "Use the new orchestration layer or consolidated runtime.",
+    "action": "Remove import and migrate logic to Official Contracts."
+  },
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/services/aiBoardReportService.ts",
+    "risk": "Import of legacy engine: financial-engine",
     "severity": "HIGH",
     "recommendation": "Use the new orchestration layer or consolidated runtime.",
     "action": "Remove import and migrate logic to Official Contracts."

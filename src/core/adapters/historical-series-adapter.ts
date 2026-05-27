@@ -1,6 +1,6 @@
 import { buildBPHierarchy, BPSummary } from '../../lib/bpEngine';
 import { calculateDreCascade } from '../../lib/dreCascade';
-const calculateFinancialMetrics = (...args: any[]): any => ({} as any);
+import { calculateFinancialMetrics } from '../../lib/financial-engine';
 type FinancialMetrics = any;
 import { HistoricalPeriodData } from '../intelligence/temporal-causality-engine';
 

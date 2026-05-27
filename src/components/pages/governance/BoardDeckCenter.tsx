@@ -1,8 +1,13 @@
 import React from 'react';
 import { Presentation, FileText, History, ShieldCheck, Download, Search } from 'lucide-react';
 import { PageHeader } from '../../Common';
+import type { Page } from '../../../app/navigation';
 
-export function BoardDeckCenter() {
+export interface BoardDeckCenterProps {
+  onNavigate?: (page: Page) => void;
+}
+
+export function BoardDeckCenter({ onNavigate }: BoardDeckCenterProps) {
   return (
     <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
       {/* Cabeçalho */}
@@ -24,18 +29,33 @@ export function BoardDeckCenter() {
         {/* Menu Lateral de Categorias */}
         <div className="space-y-2">
           <h3 className="text-[10px] uppercase tracking-widest font-black text-slate-500 mb-4 px-3">Categorias</h3>
-          {['Board Packs Mensais', 'Fiduciary Snapshots', 'Atas e Reuniões', 'Executive Narratives', 'Decision Attachments', 'Histórico de Auditoria'].map((item, idx) => (
-            <div 
-              key={idx} 
-              className={`px-4 py-3 rounded-xl cursor-pointer text-xs font-bold uppercase tracking-wider transition-all border ${
-                idx === 0 
-                  ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' 
-                  : 'text-slate-400 hover:text-slate-200 bg-transparent border-transparent hover:bg-slate-900/50'
-              }`}
-            >
-              {item}
-            </div>
-          ))}
+          {['Board Packs Mensais', 'Fiduciary Snapshots', 'Atas e Reuniões', 'Executive Narratives', 'Decision Attachments', 'Histórico de Auditoria'].map((item, idx) => {
+            const categoryToPageMap: Record<string, Page> = {
+              'Board Packs Mensais': 'board_deck_center',
+              'Fiduciary Snapshots': 'fiduciary_governance_center',
+              'Atas e Reuniões': 'atas_reuniao',
+              'Histórico de Auditoria': 'observability_console',
+            };
+
+            return (
+              <div 
+                key={idx} 
+                onClick={() => {
+                  const targetPage = categoryToPageMap[item];
+                  if (targetPage && onNavigate) {
+                    onNavigate(targetPage);
+                  }
+                }}
+                className={`px-4 py-3 rounded-xl cursor-pointer text-xs font-bold uppercase tracking-wider transition-all border ${
+                  idx === 0 
+                    ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' 
+                    : 'text-slate-400 hover:text-slate-200 bg-transparent border-transparent hover:bg-slate-900/50'
+                }`}
+              >
+                {item}
+              </div>
+            );
+          })}
         </div>
 
         {/* Área Principal de Arquivos */}

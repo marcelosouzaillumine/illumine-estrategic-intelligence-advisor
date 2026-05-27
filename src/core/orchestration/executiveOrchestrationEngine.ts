@@ -1,6 +1,6 @@
 import { FinancialEntry } from '../../hooks/useHistoricalDemonstracoes';
 import { BoardReportData, generateBoardReportFull } from '../../services/aiBoardReportService';
-const calculateFinancialMetrics = (...args: any[]): any => ({} as any);
+import { calculateFinancialMetrics } from '../../lib/financial-engine';
 import { calculateScores } from '../../lib/score-engine';
 import { generateAdvisory } from '../../lib/advisory-engine';
 import { BPSummary } from '../../lib/bpEngine';

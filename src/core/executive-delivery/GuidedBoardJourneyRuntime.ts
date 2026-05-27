@@ -97,13 +97,13 @@ export class GuidedBoardJourneyRuntime {
       datasetHash: lineage?.datasetHash || 'HASH-N/A',
       tenantId: lineage?.tenantId || 'SANDBOX-TENANT',
       executionId: rMeta?.importId || 'EXEC-N/A',
-      calibrationProfile: this.report.runtimeMetadata?.calibrationProfileId || 'balanced',
+      calibrationProfile: (this.report.runtimeMetadata as any)?.calibrationProfileId || 'balanced',
       confidenceLevel: this.report.compliance?.confidenceLevel || 'MEDIUM_CONFIDENCE',
       dataCompleteness: this.report.compliance?.dataCompleteness || 0,
       auditFlags: this.report.compliance?.auditFlags || [],
       narrativeRestrictions: this.report.compliance?.narrativeRestrictions || [],
       timestamp: rMeta?.timestamp || new Date().toISOString(),
-      reportVersion: this.report.runtimeMetadata?.engineVersion || 'RC-1',
+      reportVersion: (this.report.runtimeMetadata as any)?.engineVersion || 'RC-1',
     };
   }
 

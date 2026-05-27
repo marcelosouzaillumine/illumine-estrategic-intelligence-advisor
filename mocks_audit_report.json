@@ -7,6 +7,13 @@
     "action": "Limpar hardcoded mocks."
   },
   {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/AdvisorWorkspacePage.tsx",
+    "risk": "Variável de mock hardcoded encontrada no código produtivo.",
+    "severity": "HIGH",
+    "recommendation": "Remover dados mockados, usar o Consolidated Runtime via API.",
+    "action": "Limpar hardcoded mocks."
+  },
+  {
     "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/DecisionGovernancePage.tsx",
     "risk": "Variável de mock hardcoded encontrada no código produtivo.",
     "severity": "HIGH",
