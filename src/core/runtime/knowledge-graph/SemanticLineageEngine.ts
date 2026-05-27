@@ -1,5 +1,4 @@
 import { SemanticLineageReference } from './KnowledgeGraphTypes';
-import { createHash } from 'crypto';
 
 export class SemanticLineageEngine {
   static generateLineageReference(

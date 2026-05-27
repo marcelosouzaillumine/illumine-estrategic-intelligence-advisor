@@ -35,7 +35,8 @@ export type OfficialAction =
   | 'IMPORT_DATA'
   | 'APPROVE_DATA'
   | 'CONFIGURE_POLICIES'
-  | 'CREATE_REPORT';
+  | 'CREATE_REPORT'
+  | 'CREATE_NOTE';
 
 export type VisibilityPolicy =
   | 'PUBLIC_WITHIN_TENANT'

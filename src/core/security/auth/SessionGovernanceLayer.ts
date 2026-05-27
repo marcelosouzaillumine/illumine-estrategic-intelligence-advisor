@@ -42,14 +42,16 @@ export class SessionGovernanceLayer {
       });
 
       // Registro legado para compatibilidade operacional do Firebase
-      await addDoc(collection(db, 'audit_session_telemetry'), {
-        eventType,
-        sessionId,
-        actorId,
-        details,
-        timestamp: serverTimestamp(),
-        requestSource: 'SessionGovernanceLayer'
-      });
+      if (typeof process === 'undefined' || (process.env.NODE_ENV !== 'test' && process.env.NODE_TEST_CONTEXT === undefined && !process.argv.some(arg => arg.includes('test')))) {
+        await addDoc(collection(db, 'audit_session_telemetry'), {
+          eventType,
+          sessionId,
+          actorId,
+          details,
+          timestamp: serverTimestamp(),
+          requestSource: 'SessionGovernanceLayer'
+        });
+      }
     } catch (error) {
       console.warn('[SessionGovernance] Failed to emit session telemetry:', error);
     }

@@ -3,9 +3,16 @@ import { ShieldCheck, UserX, Network, FileWarning, AlertTriangle, Scale, BookOpe
 import { PageHeader } from '../../Common';
 import { useExecutiveCognitive } from '../../../context/executive-cognitive/ExecutiveCognitiveProvider';
 import { InstitutionalPrioritySurface, CriticalDecisionSurface, ExecutivePriorityStack } from '../../executive-cognitive';
+import { useInstitutionalMemory } from '../../../context/institutional-memory/InstitutionalMemoryProvider';
+import { 
+  GovernanceHistoryExplorer, 
+  GovernanceRecurrencePanel, 
+  AdvisoryContinuitySurface,
+  MemoryIntegrityBadge
+} from '../../institutional-memory';
 
 export function FiduciaryGovernanceCenter() {
-  const [activeTab, setActiveTab] = useState<'conflitos' | 'relacionadas' | 'decisoes'>('conflitos');
+  const [activeTab, setActiveTab] = useState<'conflitos' | 'relacionadas' | 'decisoes' | 'memoria'>('conflitos');
   const { setSignals } = useExecutiveCognitive();
 
   useEffect(() => {
@@ -84,6 +91,7 @@ export function FiduciaryGovernanceCenter() {
         <TabButton active={activeTab === 'conflitos'} onClick={() => setActiveTab('conflitos')} icon={<FileWarning className="w-4 h-4"/>} label="Conflitos de Interesse" />
         <TabButton active={activeTab === 'relacionadas'} onClick={() => setActiveTab('relacionadas')} icon={<Network className="w-4 h-4"/>} label="Partes Relacionadas" />
         <TabButton active={activeTab === 'decisoes'} onClick={() => setActiveTab('decisoes')} icon={<ShieldCheck className="w-4 h-4"/>} label="Gateway de Decisões" />
+        <TabButton active={activeTab === 'memoria'} onClick={() => setActiveTab('memoria')} icon={<Clock className="w-4 h-4"/>} label="Memória Fiduciária" />
       </div>
 
       {/* Conteúdo das Abas (Mock UI integrado com conceitos fiduciários) */}
@@ -146,6 +154,22 @@ export function FiduciaryGovernanceCenter() {
               hash="LIN-100234-Y"
             />
           </div>
+        </div>
+      )}
+
+      {activeTab === 'memoria' && (
+        <div className="space-y-8 animate-in fade-in duration-300">
+          <div className="flex justify-between items-center bg-slate-950/20 p-4 rounded-xl border border-border/10">
+            <span className="text-xs text-slate-400 uppercase tracking-widest font-semibold flex items-center gap-2">
+              Status da Linhagem Histórica:
+              <MemoryIntegrityBadge />
+            </span>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <GovernanceRecurrencePanel />
+            <AdvisoryContinuitySurface />
+          </div>
+          <GovernanceHistoryExplorer />
         </div>
       )}
 

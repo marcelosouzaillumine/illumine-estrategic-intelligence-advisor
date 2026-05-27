@@ -180,5 +180,69 @@ export const governanceService = {
         return [];
       }
     });
+  },
+
+  async getJobs(context: DataAccessContext, filters: { tenantId?: string, state?: string } = {}): Promise<any[]> {
+    return GovernedRepositoryWrapper.execute(context, async () => {
+      try {
+        const activeTenant = context.tenantId;
+        const isSuperAdmin = context.role === 'SUPER_ADMIN';
+        const targetTenant = isSuperAdmin ? (filters.tenantId || activeTenant) : activeTenant;
+
+        let q;
+        if (isSuperAdmin && !filters.tenantId) {
+          q = query(
+            collection(db, 'institutional_jobs'),
+            orderBy('createdAt', 'desc'),
+            limit(100)
+          );
+        } else {
+          q = query(
+            collection(db, 'institutional_jobs'),
+            where('tenantId', '==', targetTenant),
+            orderBy('createdAt', 'desc'),
+            limit(100)
+          );
+        }
+
+        const snap = await this.getFirestoreDocs(q);
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+        return [];
+      }
+    });
+  },
+
+  async getPressureIncidents(context: DataAccessContext, filters: { tenantId?: string } = {}): Promise<any[]> {
+    return GovernedRepositoryWrapper.execute(context, async () => {
+      try {
+        const activeTenant = context.tenantId;
+        const isSuperAdmin = context.role === 'SUPER_ADMIN';
+        const targetTenant = isSuperAdmin ? (filters.tenantId || activeTenant) : activeTenant;
+
+        let q;
+        if (isSuperAdmin && !filters.tenantId) {
+          q = query(
+            collection(db, 'runtime_pressure'),
+            orderBy('detectedAt', 'desc'),
+            limit(100)
+          );
+        } else {
+          q = query(
+            collection(db, 'runtime_pressure'),
+            where('tenantId', '==', targetTenant),
+            orderBy('detectedAt', 'desc'),
+            limit(100)
+          );
+        }
+
+        const snap = await this.getFirestoreDocs(q);
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch (error) {
+        console.error('Error fetching pressure incidents:', error);
+        return [];
+      }
+    });
   }
 };

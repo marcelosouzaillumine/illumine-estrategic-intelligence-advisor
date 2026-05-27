@@ -3,6 +3,9 @@ import { translateCapitalStructure } from './adapters/capital-structure-adapter'
 import { translateCausalityInterpretation } from './adapters/causality-interpretation-adapter';
 import { translateSeverityModulation } from './adapters/severity-modulator-adapter';
 import { buildBPHierarchy } from '../../lib/bpEngine';
+import { calculateDreCascade } from '../../lib/dreCascade';
+import { generateDreInsights, DreMetrics } from '../../lib/dreInsights';
+import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 const calculateFinancialMetrics = (...args: any[]): any => ({} as any);
 import { inferBusinessIdentity } from '../../lib/business-identity-engine';
 import { evaluateMasterCausality } from '../../lib/master-causal-engine';
@@ -14,6 +17,15 @@ import { RuntimeTraceEngine } from './observability/RuntimeTraceEngine';
 import { InstitutionalContextEngine } from './institutional-context/InstitutionalContextEngine';
 import { InstitutionalContextProfile } from './institutional-context/types';
 import { CalibrationEngine } from './calibration/CalibrationEngine';
+import { InstitutionalMemoryEngine } from './institutional-memory/InstitutionalMemoryEngine';
+import { InstitutionalMemoryProfile } from './institutional-memory/types';
+import { StructuralCapitalOrchestrator } from './structural-capital/StructuralCapitalOrchestrator';
+import { StructuralCapitalProfile } from './structural-capital/types';
+import { InstitutionalCausalityOrchestrator } from './institutional-causality/InstitutionalCausalityOrchestrator';
+import { InstitutionalCausalityProfile } from './institutional-causality/types';
+import { ExecutivePriorityCascadeResolver } from './institutional-causality/ExecutivePriorityCascadeResolver';
+import { ExecutiveNarrativeSanitizer } from './institutional-causality/ExecutiveNarrativeSanitizer';
+import { getIndustryOkrs } from '../../lib/industry-engine';
 
 /**
  * INSTITUTIONAL RUNTIME ENFORCER
@@ -102,6 +114,8 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
     efficiencies: {
       name: string;
       value: number;
+      score?: number;
+      unit?: string;
       desc: string;
       color: string;
     }[];
@@ -132,6 +146,9 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   
   // Observability (Phase 4)
   runtimeMetadata?: RuntimeExecutionTrace;
+  institutionalMemory?: InstitutionalMemoryProfile;
+  institutionalCausality?: InstitutionalCausalityProfile;
+  structuralCapital?: StructuralCapitalProfile;
 }
 
 export class ExecutiveIntelligenceRuntime {
@@ -148,6 +165,73 @@ export class ExecutiveIntelligenceRuntime {
     const traceEngine = new RuntimeTraceEngine('SINGLE_ENTITY');
     traceEngine.Profiler.startEngine('ExecutiveIntelligenceRuntime');
     traceEngine.Lineage.startNode('ExecutiveIntelligenceRuntime', ['rawData']);
+
+    // ── Dicionário de tradução de enums para português fluido ──────────────────────────
+    const enumLabels: Record<string, string> = {
+      // BusinessStage
+      FIRST_OPERATIONAL_YEAR:          'Primeiro Ano Operacional',
+      EARLY_STAGE_CONSOLIDATION:       'Consolidação Inicial',
+      GROWTH_STAGE:                    'Estágio de Crescimento',
+      SCALE_STAGE:                     'Estágio de Escala',
+      MATURE_OPERATION:                'Operação Madura',
+      TURNAROUND_DISTRESS:             'Turnaround / Recuperação',
+      DECLINE_STAGE:                   'Estágio de Declinio',
+      TRANSITION_STAGE:                'Estágio de Transição',
+      // EconomicModel
+      ASSET_HEAVY:                     'Intensivo em Ativos',
+      ASSET_LIGHT:                     'Leve em Ativos',
+      CAPITAL_INTENSIVE:               'Intensivo em Capital',
+      INVENTORY_DEPENDENT:             'Dependente de Estoques',
+      LABOR_INTENSIVE:                 'Intensivo em Mão de Obra',
+      RECURRING_REVENUE:               'Receita Recorrente',
+      SEASONAL_REVENUE:                'Receita Sazonal',
+      SERVICE_BASED:                   'Baseado em Serviços',
+      INDUSTRIAL:                      'Industrial',
+      DISTRIBUTION:                    'Distribuição',
+      SAAS:                            'SaaS',
+      HEALTHCARE:                      'Saúde',
+      HOLDING_STRUCTURE:               'Holding',
+      FINANCIAL_OPERATION:             'Operação Financeira',
+      // HistoricalDensity
+      SINGLE_YEAR_ONLY:                'Apenas um Exercício Disponível',
+      LOW_HISTORICAL_DENSITY:          'Histórico Inicial (< 2 anos)',
+      MODERATE_HISTORY:                'Histórico Moderado (2–3 anos)',
+      STRONG_HISTORICAL_BASE:          'Base Histórica Sólida (4+ anos)',
+      // StrategicConfidence
+      HIGH:                            'Alta',
+      MODERATE:                        'Moderada',
+      LOW:                             'Baixa',
+      LIMITED_CONTEXT:                 'Contexto Limitado',
+      UNVERIFIABLE:                    'Insufiçência de Dados',
+      // GrowthPattern
+      HEALTHY_GROWTH:                  'Crescimento Saudável',
+      ARTIFICIAL_GROWTH:               'Crescimento Artificial',
+      CASHLESS_GROWTH:                 'Crescimento sem Geração de Caixa',
+      DEBT_FINANCED_GROWTH:            'Crescimento Financiado por Dívida',
+      SHAREHOLDER_FINANCED_GROWTH:     'Crescimento Financiado por Sócios',
+      SUSTAINABLE_OPERATIONAL_EXPANSION: 'Expansão Operacional Sustentável',
+      PREMATURE_EXPANSION:             'Expansão Prematura',
+      STAGNATION:                      'Estagnação',
+      CONTRACTION:                     'Contração',
+      // runtimeMode
+      FULL_FINANCIAL_VIEW:             'Visão Financeira Completa',
+      PARTIAL_FINANCIAL_VIEW:          'Visão Financeira Parcial',
+      BALANCE_SHEET_ONLY:              'Apenas Balanço Patrimonial',
+      DRE_ONLY:                        'Apenas DRE',
+      CASHFLOW_ONLY:                   'Apenas Fluxo de Caixa',
+      // confidenceLevel
+      HIGH_CONFIDENCE:                 'Alta Confiabilidade',
+      MEDIUM_CONFIDENCE:               'Confiabilidade Moderada',
+      LOW_CONFIDENCE:                  'Confiabilidade Reduzida',
+    };
+    const pt = (key: string): string => enumLabels[key] || key.replace(/_/g, ' ').toLowerCase().replace(/^./, c => c.toUpperCase());
+
+
+    // Initialize Institutional Memory
+    const memoryProfile = InstitutionalMemoryEngine.buildMemory(rawData.runtimeHistory || []);
+
+    // Initialize Institutional Causality
+    const causalityProfile = InstitutionalCausalityOrchestrator.evaluate(rawData.runtimeHistory || []);
 
     // 0. Runtime Context Awareness
     const hasDRE = !!rawData.dreData && Array.isArray(rawData.dreData) && rawData.dreData.length > 0;
@@ -176,6 +260,10 @@ export class ExecutiveIntelligenceRuntime {
     let confidenceLevel: 'HIGH_CONFIDENCE' | 'MEDIUM_CONFIDENCE' | 'LOW_CONFIDENCE' = 'HIGH_CONFIDENCE';
     let causalDepth: 'SHALLOW' | 'MODERATE' | 'DEEP' = 'DEEP';
     let dataCompleteness = 1.0;
+
+    if (memoryProfile.recurrenceConfidence === 'LOW' && memoryProfile.historicalDensityRequirement === 'SUFFICIENT') {
+      confidenceLevel = 'LOW_CONFIDENCE';
+    }
 
     if (runtimeMode === 'FULL_FINANCIAL_VIEW') {
        confidenceLevel = 'HIGH_CONFIDENCE';
@@ -220,9 +308,9 @@ export class ExecutiveIntelligenceRuntime {
 
     const context = {
       segment: sectorProfile.name, 
-      businessModel: institutionalContext.economicModel,
-      capitalIntensity: institutionalContext.economicModel === 'ASSET_HEAVY' ? 'Asset Heavy' : 'Asset Light',
-      stage: institutionalContext.businessStage,
+      businessModel: pt(institutionalContext.economicModel),
+      capitalIntensity: institutionalContext.economicModel === 'ASSET_HEAVY' ? 'Intensivo em Ativos' : 'Leve em Ativos',
+      stage: pt(institutionalContext.businessStage),
       operationalProfile: institutionalContext.operationalProfile.financialCycle
     };
 
@@ -333,12 +421,29 @@ export class ExecutiveIntelligenceRuntime {
         scoreSolidez * profWeight * 100 +
         scoreEvolucao * evWeight * 100;
 
+      let finalComposite = Math.round((composite / 100) * 10) / 10;
+      let finalStructural = Math.round(scoreEstrutura);
+
+      // Memory penalty: ONLY if sufficient history
+      if (memoryProfile.historicalDensityRequirement === 'SUFFICIENT') {
+        if (memoryProfile.recurrenceSeverity === 'CRITICAL_STRUCTURAL_RECURRENCE') {
+          finalComposite = Math.max(finalComposite - 15, 0);
+          finalStructural = Math.max(finalStructural - 15, 0);
+        } else if (memoryProfile.recurrenceSeverity === 'HIGH_RECURRENCE') {
+          finalComposite = Math.max(finalComposite - 10, 0);
+          finalStructural = Math.max(finalStructural - 10, 0);
+        } else if (memoryProfile.recurrenceSeverity === 'MODERATE_RECURRENCE') {
+          finalComposite = Math.max(finalComposite - 5, 0);
+          finalStructural = Math.max(finalStructural - 5, 0);
+        }
+      }
+
       return {
         financial: Math.round(scoreLiquidez),
         operational: Math.round(scoreCapGiro),
         governance: Math.round(scoreSolidez),
-        structural: Math.round(scoreEstrutura),
-        composite: Math.round((composite / 100) * 10) / 10
+        structural: finalStructural,
+        composite: finalComposite
       };
     };
 
@@ -351,9 +456,15 @@ export class ExecutiveIntelligenceRuntime {
     const baseCausality = translateCausalityInterpretation(metrics, bpSummary, scores, identity);
 
     if (runtimeMode !== 'FULL_FINANCIAL_VIEW') {
-      baseCausality.event = `Sinais de: ${baseCausality.event}`;
-      baseCausality.rootCause = `Indícios apontam para: ${baseCausality.rootCause}`;
-      baseCausality.strategicImpact = `Visão parcial sugere: ${baseCausality.strategicImpact}`;
+      if (!baseCausality.event.includes('INSUFFICIENT_DATA')) {
+        baseCausality.event = `Sinais de: ${baseCausality.event}`;
+      }
+      if (!baseCausality.rootCause.includes('INSUFFICIENT_DATA')) {
+        baseCausality.rootCause = `Indícios apontam para: ${baseCausality.rootCause}`;
+      }
+      if (!baseCausality.strategicImpact.includes('INSUFFICIENT_DATA')) {
+        baseCausality.strategicImpact = `Visão parcial sugere: ${baseCausality.strategicImpact}`;
+      }
     }
 
     const rawCausality = baseCausality;
@@ -365,6 +476,15 @@ export class ExecutiveIntelligenceRuntime {
     const sanitizeNarrative = (text: string): string => {
       if (!text) return text;
       let sanitized = text;
+      
+      // Remove raw tags completely
+      sanitized = sanitized.replace(/\[INSUFFICIENT_DATA\]/g, '')
+                           .replace(/\[NOT_APPLICABLE\]/g, '')
+                           .replace(/\s{2,}/g, ' ')
+                           .trim();
+
+      if (!sanitized) return '';
+
       const isInitialOrLimited = 
         institutionalContext.historicalDensity === 'SINGLE_YEAR_ONLY' || 
         institutionalContext.businessStage === 'FIRST_OPERATIONAL_YEAR' ||
@@ -380,7 +500,7 @@ export class ExecutiveIntelligenceRuntime {
           .replace(/caixa livre/gi, 'saldo de caixa')
           .replace(/análise evolutiva/gi, 'diagnóstico estático');
       }
-      return sanitized;
+      return ExecutiveNarrativeSanitizer.sanitize(sanitized);
     };
 
     // 6. Advisory Engine
@@ -389,10 +509,27 @@ export class ExecutiveIntelligenceRuntime {
     const aggressiveness = calibrationParams.advisoryAggressiveness;
 
     let execSummary = '';
+    const stageLabel = pt(institutionalContext.businessStage);
+    const modelLabel = pt(institutionalContext.economicModel);
+    const growthLabel = pt(institutionalContext.growthPattern);
+    const confidenceLabel = pt(institutionalContext.confidence.strategicConfidence);
+    const dataConfLabel = pt(institutionalContext.confidence.dataConfidence);
+
     if (runtimeMode === 'FULL_FINANCIAL_VIEW') {
-      execSummary = `A operação encontra-se em estágio de ${context.stage} sob o modelo ${context.businessModel}. A confiabilidade dos dados é ${institutionalContext.confidence.dataConfidence} e a suficiência contextual é ${institutionalContext.confidence.strategicConfidence}. Padrão de crescimento: ${institutionalContext.growthPattern}.`;
+      execSummary = `A operação encontra-se no estágio de ${stageLabel}, operando sob o modelo ${modelLabel}. A confiabilidade dos dados é ${dataConfLabel} e a suficiência contextual é ${confidenceLabel}. Padrão de crescimento: ${growthLabel}.`;
     } else {
-      execSummary = `Evidências limitadas sugerem operação em estágio de ${context.stage} sob o modelo ${context.businessModel}. A suficiência contextual é considerada ${institutionalContext.confidence.strategicConfidence}.`;
+      execSummary = `Com base nos dados disponíveis, a operação encontra-se no estágio de ${stageLabel}, sob o modelo ${modelLabel}. A suficiência contextual é considerada ${confidenceLabel}.`;
+    }
+
+    if (memoryProfile.historicalDensityRequirement === 'INSUFFICIENT') {
+      execSummary += ' Histórico insuficiente para inferência evolutiva — as análises de tendência requerem ao menos dois exercícios financeiros.';
+    } else {
+      if (memoryProfile.ignoredRecommendations.length > 0) {
+        execSummary += ' ' + memoryProfile.ignoredRecommendations[0];
+      }
+      if (memoryProfile.recurrencePatterns.length > 0) {
+        execSummary += ' ' + memoryProfile.recurrencePatterns[0];
+      }
     }
 
     // Apply verbosity overrides fiduciarily
@@ -403,6 +540,15 @@ export class ExecutiveIntelligenceRuntime {
     }
 
     let focusAreas = [...institutionalContext.recommendationBoundaries.focusAreas];
+    if (memoryProfile.historicalDensityRequirement === 'SUFFICIENT') {
+      if (memoryProfile.decisionPatterns.length > 0) {
+        focusAreas.push(...memoryProfile.decisionPatterns);
+      }
+      if (memoryProfile.deteriorationSignals.length > 0) {
+        focusAreas.push(...memoryProfile.deteriorationSignals);
+      }
+    }
+
     if (aggressiveness > 1.2) {
       focusAreas.push('Alavancagem estratégica e aumento de produtividade comercial para otimização acelerada.');
     } else if (aggressiveness < 0.8) {
@@ -413,11 +559,14 @@ export class ExecutiveIntelligenceRuntime {
       focusAreas = focusAreas.slice(0, 2);
     }
 
-    const advisory = {
+    let advisory = {
       executiveSummary: sanitizeNarrative(execSummary),
       actionMatrix: focusAreas.map(sanitizeNarrative),
       priorityFocus: sanitizeNarrative(focusAreas[0] || 'Foco em posicionamento inicial')
     };
+
+    // Apply the priority cascade resolver based on causality
+    advisory = ExecutivePriorityCascadeResolver.resolve(advisory, causalityProfile);
 
     const causality = {
       ...rawCausality,
@@ -431,6 +580,26 @@ export class ExecutiveIntelligenceRuntime {
         text: sanitizeNarrative(ins.text)
       })) || []
     };
+
+    // ── Integração Structural Capital (Phase 4) ─────────────────────────
+    const structuralCapital = hasBP 
+      ? StructuralCapitalOrchestrator.analyze(bpSummary, institutionalContext)
+      : undefined;
+
+    if (structuralCapital) {
+      scores.composite = Math.max(
+        Math.round((scores.composite + structuralCapital.scoreAdjustment) * 10) / 10,
+        0
+      );
+      
+      // Reordena o advisory com base nos riscos estruturais detectados
+      advisory.actionMatrix = StructuralCapitalOrchestrator.reprioritizeAdvisory(
+        structuralCapital,
+        advisory.actionMatrix
+      );
+      
+      institutionalContext.structuralCapitalStage = structuralCapital.structuralStage;
+    }
 
     // ── Decomposition: valores reais por dimensão ──────────────────────────
     const getSeverityColor = (v: number) =>
@@ -452,7 +621,17 @@ export class ExecutiveIntelligenceRuntime {
 
     const autonomia2 = at2 > 0 ? (pl2 / at2) * 100 : 0;
     const endivCP2 = pt2 > 0 ? (pc2 / pt2) * 100 : 50;
-    const scoreEstr = Math.min(Math.max(autonomia2 * 0.6, 0) + Math.max((100 - endivCP2) * 0.4, 0), 100);
+    let scoreEstr = Math.min(Math.max(autonomia2 * 0.6, 0) + Math.max((100 - endivCP2) * 0.4, 0), 100);
+
+    if (memoryProfile.historicalDensityRequirement === 'SUFFICIENT') {
+      if (memoryProfile.recurrenceSeverity === 'CRITICAL_STRUCTURAL_RECURRENCE') {
+        scoreEstr = Math.max(scoreEstr - 15, 0);
+      } else if (memoryProfile.recurrenceSeverity === 'HIGH_RECURRENCE') {
+        scoreEstr = Math.max(scoreEstr - 10, 0);
+      } else if (memoryProfile.recurrenceSeverity === 'MODERATE_RECURRENCE') {
+        scoreEstr = Math.max(scoreEstr - 5, 0);
+      }
+    }
 
     const ncg2 = ac2 - pc2;
     const scoreGiro = Math.min(Math.max(50 + (at2 > 0 ? (ncg2 / at2) * 100 * 2 : 0), 0), 100);
@@ -503,24 +682,296 @@ export class ExecutiveIntelligenceRuntime {
       }
     ] : [];
 
-    const metricsPayload = {
-      hasData: !rawData.isMockData,
-      financialMetrics: {
-        receitaBruta: 0, deducoesReceita: 0, recLiquida: 0, custosVar: 0, margemContrib: 0,
-        despesasFixas: 0, pontoEquilibrio: 0, gapEquilibrio: 0, margemSegurancaValor: 0,
-        indiceDeducoes: 0, indiceCoberturaOperacional: 0, indiceMargemContrib: 0, cmvLabel: 'Custos Variáveis'
-      },
-      kpis: [],
-      efficiencies: [
-        { name: 'Comercial', value: 80, desc: 'Gestão de Custos', color: 'emerald' },
-        { name: 'Operacional', value: 75, desc: 'Geração EBITDA', color: 'blue' }
-      ],
-      scaleEfficiency: {
-        category: 'Crescimento Saudável', colorClass: 'text-emerald-500', recGrowth: 15, ebitdaGrowth: 20, description: 'Escala perfeita.'
-      },
-      alerts: [],
-      chartData: []
+    // ── DRE Real Metrics Engine ────────────────────────────────────────────────
+    // When dreData is present, compute ALL real financial metrics via the cascade engine.
+    const buildDreMetricsPayload = () => {
+      if (!hasDRE || !rawData.dreData || rawData.dreData.length === 0) {
+        return {
+          hasData: false,
+          financialMetrics: {
+            receitaBruta: 0, deducoesReceita: 0, recLiquida: 0, custosVar: 0, margemContrib: 0,
+            despesasFixas: 0, pontoEquilibrio: 0, gapEquilibrio: 0, margemSegurancaValor: 0,
+            indiceDeducoes: 0, indiceCoberturaOperacional: 0, indiceMargemContrib: 0, cmvLabel: 'Custos Variáveis',
+            cascadeResult: [],
+          },
+          kpis: [],
+          efficiencies: [
+            { name: 'Comercial', value: 0, desc: 'Gestão de Custos', color: 'slate' },
+            { name: 'Operacional', value: 0, desc: 'Geração EBITDA', color: 'slate' }
+          ],
+          scaleEfficiency: { category: 'Sem Dados', colorClass: 'text-slate-400', recGrowth: 0, ebitdaGrowth: 0, description: 'Aguardando dados financeiros.' },
+          alerts: [],
+          chartData: []
+        };
+      }
+
+      const dreRawData = rawData.dreData;
+      const filterYear = rawData.rawFinancialData?.filterYear || new Date().getFullYear();
+      const segmentoEmpresa = (rawData.rawFinancialData?.segmentoEmpresa || 'Serviços').toLowerCase();
+
+      // Map entries to the cascade format (same logic as LegacyDREAdapter)
+      const yearEntries = dreRawData.filter((d: any) => {
+        const et = (d.entryType || '').toLowerCase();
+        return et !== 'ativo' && et !== 'passivo' && et !== 'patrimônio líquido';
+      });
+
+      const mappedEntries = yearEntries
+        .sort((a: any, b: any) => (a.ordem || 0) - (b.ordem || 0))
+        .map((d: any) => {
+          let parentId = d.parentId;
+          const cat = (d.conta || d.category || '').toLowerCase();
+
+          // Skip calculated totals from legacy flat data
+          if (!parentId && (
+            cat.includes('receita líquida') || cat.includes('receita operacional líquida') ||
+            cat.includes('lucro bruto') || cat.includes('ebitda') || cat === 'ebit' ||
+            cat.includes('resultado operacional líquido') || cat.includes('lajida') ||
+            cat.includes('lucro líquido') || cat.includes('lair') || cat.includes('resultado antes')
+          )) return null;
+
+          if (!parentId) {
+            if (cat.includes('receita operacional bruta') || cat === 'receita bruta' || cat.includes('faturamento') ||
+               (cat.includes('receita') && !cat.includes('líquida') && !cat.includes('financeir') && !cat.includes('outras'))) {
+              parentId = 'ROB';
+            } else if (cat.includes('deduç') || cat.includes('imposto sobre') || cat.includes('abatimento') || cat.includes('devoluç') || cat.includes('cancelamento')) {
+              parentId = 'DED';
+            } else if (cat.includes('custo') || cat.includes('cmv') || cat.includes('cpv') || cat.includes('csv') || cat.includes('csp')) {
+              parentId = 'CUSTOS';
+            } else if (cat.includes('deprecia') || cat.includes('amortiza')) {
+              parentId = 'DEP_AMORT';
+            } else if (cat.includes('financeir') || cat.includes('juros')) {
+              parentId = 'RESULT_FIN';
+            } else if (cat.includes('provisão') || cat.includes('irpj') || cat.includes('csll') || cat.includes('imposto de renda') || cat.includes('contribuição social')) {
+              parentId = 'PROV_IR_CSLL';
+            } else if (cat.includes('outras receitas') || cat.includes('outra receita') || cat.includes('outras despesas operacionais')) {
+              parentId = 'OUTRAS_REC_DESP';
+            } else {
+              parentId = 'DESP_OPER';
+            }
+          }
+          return { ...d, parentId, value: d.val || d.valor || d.value || 0 };
+        })
+        .filter(Boolean);
+
+      const allRows = [
+        ...DRE_OFFICIAL_STRUCTURE.map((account: any) => ({ ...account, value: 0 })),
+        ...mappedEntries
+      ];
+
+      const cascadeResult = calculateDreCascade(allRows);
+
+      const getV = (id: string) => {
+        const row = cascadeResult.find((r: any) => r.id === id);
+        if (!row) return 0;
+        return row.computedValue !== undefined ? row.computedValue : (row.val || row.value || 0);
+      };
+
+      const receitaBruta    = getV('ROB');
+      const deducoesReceita = getV('DED');
+      const recLiquida      = getV('ROL');
+      const custosVar       = getV('CUSTOS');
+      const lucroBruto      = getV('LUCRO_BRUTO');
+      const despesasFixas   = getV('DESP_OPER');
+      const ebitda          = getV('EBITDA');
+      const depreciacao     = getV('DEP_AMORT');
+      const ebitVal         = getV('EBIT');
+      const despFin         = getV('RESULT_FIN');
+      const provisaoIR      = getV('PROV_IR_CSLL');
+      const lucroLiq        = getV('LUCRO_LIQ');
+
+      const cmvRow = cascadeResult.find((r: any) => r.parentId === 'CUSTOS' && r.tipo !== 'SINTETICA') ||
+                     cascadeResult.find((r: any) => r.id === 'CUSTOS');
+      const cmvLabelRaw = cmvRow ? (cmvRow.conta || cmvRow.category || cmvRow.nome || 'Custos Variáveis') : 'Custos Variáveis';
+      const cmvLabel = cmvLabelRaw.replace(/^[(-/+)\s]+/, '').trim();
+
+      const margemContrib     = lucroBruto;
+      const indiceMargemContrib = recLiquida > 0 ? margemContrib / recLiquida : 0;
+      const indiceDeducoes    = receitaBruta > 0 ? (deducoesReceita / receitaBruta) * 100 : 0;
+
+      let pontoEquilibrio = 0;
+      if (indiceMargemContrib > 0) pontoEquilibrio = Math.abs(despesasFixas) / indiceMargemContrib;
+      if (!isFinite(pontoEquilibrio)) pontoEquilibrio = 0;
+
+      const gapEquilibrio         = pontoEquilibrio - recLiquida;
+      const margemSegurancaValor  = recLiquida > pontoEquilibrio ? recLiquida - pontoEquilibrio : -gapEquilibrio;
+      const indiceCoberturaOperacional = pontoEquilibrio > 0 ? (recLiquida / pontoEquilibrio) * 100 : 0;
+
+      const mbVal             = recLiquida > 0 ? (lucroBruto / recLiquida) * 100 : 0;
+      const cmvVal            = recLiquida > 0 ? (custosVar / recLiquida) * 100 : 0;
+      const ebitdaVal         = recLiquida > 0 ? (ebitda / recLiquida) * 100 : 0;
+      const margemOperacional = recLiquida !== 0 ? (ebitVal / recLiquida) * 100 : 0;
+      const margemLiquida     = recLiquida !== 0 ? (lucroLiq / recLiquida) * 100 : 0;
+      const capacidadeAbsorcaoEstrutura = despesasFixas > 0 ? margemContrib / despesasFixas : margemContrib > 0 ? Infinity : 0;
+      const indiceConversaoOperacional  = lucroBruto !== 0 ? (ebitVal / lucroBruto) * 100 : 0;
+      const receitaMediaDiaria = recLiquida / 360;
+      const breakEvenDays     = receitaMediaDiaria > 0 ? pontoEquilibrio / receitaMediaDiaria : 0;
+
+      const despVendas = cascadeResult
+        .filter((r: any) => r.parentId === 'DESP_OPER' && (r.conta || r.category || r.nome || '').toLowerCase().includes('venda'))
+        .reduce((a: any, b: any) => a + (b.computedValue || b.value || b.val || 0), 0);
+      const despAdmin = cascadeResult
+        .filter((r: any) => r.parentId === 'DESP_OPER' && (r.conta || r.category || r.nome || '').toLowerCase().includes('admin'))
+        .reduce((a: any, b: any) => a + (b.computedValue || b.value || b.val || 0), 0);
+
+      const indiceDespesasAdministrativas = recLiquida > 0 ? (despAdmin / recLiquida) * 100 : 0;
+      const indiceDespesasComerciais      = recLiquida > 0 ? (despVendas / recLiquida) * 100 : 0;
+      const indiceDespesasFinanceiras     = recLiquida > 0 ? (despFin / recLiquida) * 100 : 0;
+
+      // Segment-aware CMV thresholds
+      let cmvMin = 0; let cmvMax = 60; let cmvCritical = 75;
+      // Efficiencies (Baseado em OKRs setoriais / Benchmarks de Mercado)
+      const okrs = getIndustryOkrs(segmentoEmpresa);
+      
+      const burdenTributario = receitaBruta > 0 ? (deducoesReceita + Math.abs(provisaoIR)) / receitaBruta : 0;
+      const burdenTributarioPerc = burdenTributario * 100;
+
+      const calcScore = (real: number, target: number, isLowerBetter: boolean) => {
+        if (target === 0) return 100;
+        if (isLowerBetter) {
+          return real <= target ? 100 : Math.max(100 - (((real - target) / target) * 100), 0);
+        } else {
+          return real >= target ? 100 : Math.max((real / target) * 100, 0);
+        }
+      };
+
+      const eficienciaComercial  = calcScore(cmvVal, okrs.targetCmvMax, true);
+      const eficienciaOperacional= calcScore(ebitdaVal, okrs.targetEbitdaMin, false);
+      const eficienciaAdministrativa = calcScore(indiceDespesasAdministrativas, okrs.targetAdminMax, true);
+      const eficienciaFinanceira = calcScore(indiceDespesasFinanceiras, okrs.targetFinMax, true);
+      const eficienciaTributaria = calcScore(burdenTributarioPerc, okrs.targetTribMax, true);
+      const eficienciaEstrutural = calcScore(capacidadeAbsorcaoEstrutura, okrs.targetAbsorcaoMin, false);
+
+      // Chart data (historical trend)
+      const allHistoryData = Array.isArray(rawData.historicalSeries) && rawData.historicalSeries.length > 0 
+        ? rawData.historicalSeries 
+        : dreRawData;
+      const chartData = [5, 4, 3, 2, 1, 0].map(offset => {
+        const y = filterYear - offset;
+        const yearHist = allHistoryData.filter((d: any) =>
+          Number(d.year) === y && (d.type === 'DRE' || !d.type) &&
+          (d.entryType || '').toLowerCase() !== 'ativo' &&
+          (d.entryType || '').toLowerCase() !== 'passivo'
+        );
+        let rl = 0, ebt = 0, ll = 0, cmv = 0;
+        if (yearHist.length > 0) {
+          const m = yearHist.map((d: any) => ({ ...d, value: d.val || d.valor || d.value || 0 }));
+          const res = calculateDreCascade([...DRE_OFFICIAL_STRUCTURE.map((a: any) => ({ ...a, value: 0 })), ...m]);
+          rl  = res.find((r: any) => r.id === 'ROL')?.computedValue || 0;
+          ebt = res.find((r: any) => r.id === 'EBITDA')?.computedValue || 0;
+          ll  = res.find((r: any) => r.id === 'LUCRO_LIQ')?.computedValue || 0;
+          cmv = Math.abs(res.find((r: any) => r.id === 'CUSTOS')?.computedValue || 0);
+        }
+        return { year: y.toString(), receita: rl, cmv, ebitda: ebt, lucro: ll };
+      }).filter((d: any) => d.receita > 0 || d.ebitda > 0 || d.lucro > 0 || d.cmv > 0 || d.year === filterYear.toString());
+
+      // Scale efficiency & trend
+      let recGrowth = 0, ebitdaGrowth = 0, trendNote: any = null;
+      if (chartData.length >= 2) {
+        const current = chartData[chartData.length - 1];
+        const oldest  = chartData.find((d: any) => d.receita > 0) || chartData[0];
+        if (oldest && oldest.year !== current.year) {
+          recGrowth    = oldest.receita  !== 0 ? ((current.receita  / oldest.receita)  - 1) * 100 : 0;
+          ebitdaGrowth = oldest.ebitda   !== 0 ? ((current.ebitda   / oldest.ebitda)   - 1) * 100 : 0;
+          const cmvGrowth   = oldest.cmv   !== 0 ? ((current.cmv   / oldest.cmv)   - 1) * 100 : 0;
+          const lucroGrowth = oldest.lucro !== 0 ? ((current.lucro / oldest.lucro) - 1) * 100 : 0;
+          trendNote = { period: `${oldest.year} a ${current.year}`, receita: recGrowth, ebitda: ebitdaGrowth, cmv: cmvGrowth, lucro: lucroGrowth };
+        }
+      }
+
+      // DRE Insights (alerts + smart insights)
+      const internalAuditErrors: string[] = [];
+      if (recLiquida !== 0) {
+        const calcLB = recLiquida - Math.abs(custosVar);
+        if (lucroBruto !== 0 && Math.abs(calcLB - lucroBruto) > (Math.abs(recLiquida) * 0.01)) {
+          internalAuditErrors.push('Divergência matemática detectada: Lucro Bruto.');
+        }
+      }
+
+      const dreMetrics: DreMetrics = {
+        recLiquida, lucroBruto, pontoEquilibrio, gapEquilibrio, indiceCoberturaOperacional,
+        margemSegurancaValor, cmvVal, cmvCritical, cmvLabel, capacidadeAbsorcaoEstrutura,
+        margemOperacional, margemLiquida, indiceDespesasAdministrativas, indiceDespesasFinanceiras,
+        breakEvenDays, indiceConversaoOperacional, ebitda, recGrowth, ebitdaGrowth, internalAuditErrors
+      };
+      const dreInsights = generateDreInsights(dreMetrics);
+
+      // KPIs
+      const kpis = recLiquida > 0 ? [
+        { name: 'Receita Líquida',       val: recLiquida,          unit: 'currency', status: 'Verde' as const,    trend: 'Operacional',    tooltip: 'Receita após deduções e impostos sobre vendas.' },
+        { name: 'EBITDA',                val: ebitda,              unit: 'currency', status: ebitda >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: ebitda >= 0 ? 'Positivo' : 'Negativo', tooltip: 'Geração de caixa operacional antes de juros, IR, depreciação e amortização.' },
+        { name: 'Lucro Líquido',         val: lucroLiq,            unit: 'currency', status: lucroLiq >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: lucroLiq >= 0 ? 'Lucrativo' : 'Prejuízo', tooltip: 'Resultado líquido após todos os custos, despesas e impostos.' },
+        { name: 'Margem EBITDA',         val: ebitdaVal,           unit: '%',        status: ebitdaVal >= 15 ? 'Verde' as const : ebitdaVal >= 8 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'EBITDA / ROL', tooltip: 'Percentual da receita líquida convertido em EBITDA.' },
+        { name: 'Margem Bruta',          val: mbVal,               unit: '%',        status: mbVal >= 30 ? 'Verde' as const : mbVal >= 15 ? 'Amarelo' as const : 'Vermelho' as const,   trend: 'LB / ROL',    tooltip: 'Percentual da receita líquida restante após os custos diretos.' },
+        { name: 'Margem Líquida',        val: margemLiquida,       unit: '%',        status: margemLiquida >= 5 ? 'Verde' as const : margemLiquida >= 0 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'LL / ROL', tooltip: 'Percentual final de resultado sobre a receita líquida.' },
+        { name: 'Ponto de Equilíbrio',   val: pontoEquilibrio,     unit: 'currency', status: recLiquida >= pontoEquilibrio ? 'Verde' as const : 'Vermelho' as const, trend: recLiquida >= pontoEquilibrio ? 'Coberto' : 'Descoberto', tooltip: 'Receita mínima necessária para cobrir todos os custos e despesas fixas.' },
+        { name: 'Índice de Cobertura',   val: indiceCoberturaOperacional, unit: '%', status: indiceCoberturaOperacional >= 100 ? 'Verde' as const : indiceCoberturaOperacional >= 85 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'ROL / PE', tooltip: 'Quanto da receita atual cobre o ponto de equilíbrio.' }
+      ] : [];
+
+      // Scale efficiency classification
+      let scaleCategory = 'Análise Inicial';
+      let scaleColorClass = 'text-slate-400';
+      if (recGrowth > 0 && ebitdaGrowth > recGrowth)       { scaleCategory = 'Crescimento Saudável';    scaleColorClass = 'text-emerald-500'; }
+      else if (recGrowth > 0 && ebitdaGrowth > 0)          { scaleCategory = 'Absorção de Estrutura';   scaleColorClass = 'text-blue-500'; }
+      else if (recGrowth > 0 && ebitdaGrowth < 0)          { scaleCategory = 'Crescimento Destrutivo';  scaleColorClass = 'text-rose-500'; }
+      else if (recGrowth <= 0 && ebitdaGrowth < 0)         { scaleCategory = 'Destruição de Valor';     scaleColorClass = 'text-red-600'; }
+      else if (recGrowth < 0 && ebitdaGrowth > 0)          { scaleCategory = 'Eficiência sob Retração'; scaleColorClass = 'text-amber-500'; }
+
+      // DRE Health Score (same algorithm as LegacyDREAdapter)
+      let dreHealthScoreBase = 0;
+      if (recLiquida > 0) {
+        const scoreMargemBruta   = Math.min(Math.max((mbVal / 40) * 100, 0), 100) * 0.15;
+        let scoreCMV = 0;
+        if (cmvVal <= cmvMax) scoreCMV = 100;
+        else if (cmvVal >= cmvCritical) scoreCMV = 0;
+        else scoreCMV = 100 - (((cmvVal - cmvMax) / (cmvCritical - cmvMax)) * 100);
+        scoreCMV *= 0.10;
+        const scoreMargemEbitda  = Math.min(Math.max((ebitdaVal / 15) * 100, 0), 100) * 0.15;
+        const scoreMargemOp      = Math.min(Math.max(((margemOperacional + 10) / 25) * 100, 0), 100) * 0.15;
+        const scoreCobertura     = Math.min(Math.max((indiceCoberturaOperacional / 100) * 100, 0), 100) * 0.15;
+        const scoreEstrut        = Math.min(Math.max(capacidadeAbsorcaoEstrutura * 100, 0), 100) * 0.10;
+        const scoreCaixa         = Math.min(Math.max((indiceConversaoOperacional / 80) * 100, 0), 100) * 0.10;
+        const debtRatio          = ebitda > 0 ? despFin / ebitda : despFin > 0 ? 1 : 0;
+        const scoreDivida        = Math.max((1 - debtRatio) * 100, 0) * 0.10;
+        dreHealthScoreBase = scoreMargemBruta + scoreCMV + scoreMargemEbitda + scoreMargemOp + scoreCobertura + scoreEstrut + scoreCaixa + scoreDivida;
+        if (mbVal > 30 && capacidadeAbsorcaoEstrutura < 1) dreHealthScoreBase += 10;
+        if (trendNote && trendNote.receita > 0) dreHealthScoreBase += Math.min((trendNote.receita / 20) * 10, 10);
+        if (ebitda < 0 || margemOperacional < 0 || recLiquida < pontoEquilibrio) dreHealthScoreBase = Math.min(dreHealthScoreBase, 40);
+      }
+      const dreHealthScore = Math.round(Math.min(Math.max(dreHealthScoreBase, 0), 100));
+
+      return {
+        hasData: true,
+        financialMetrics: {
+          cascadeResult,
+          receitaBruta, deducoesReceita, recLiquida, custosVar, margemContrib,
+          despesasFixas, pontoEquilibrio, gapEquilibrio, margemSegurancaValor,
+          indiceDeducoes, indiceCoberturaOperacional, indiceMargemContrib,
+          cmvLabel, mbVal, cmvVal, ebitdaVal, margemOperacional, margemLiquida,
+          indiceConversaoOperacional, capacidadeAbsorcaoEstrutura, breakEvenDays,
+          trendNote, dreHealthScore,
+        },
+        kpis,
+        efficiencies: [
+          { name: 'Comercial',      value: mbVal,                     score: eficienciaComercial,      desc: `Margem Bruta (Meta: >${(100 - okrs.targetCmvMax).toFixed(0)}%)`, color: eficienciaComercial >= 80 ? 'emerald' : eficienciaComercial >= 50 ? 'amber' : 'rose', unit: '%' },
+          { name: 'Operacional',    value: ebitdaVal,                 score: eficienciaOperacional,    desc: `Margem EBITDA (Meta: >${okrs.targetEbitdaMin}%)`, color: eficienciaOperacional >= 80 ? 'emerald' : eficienciaOperacional >= 50 ? 'amber' : 'rose', unit: '%' },
+          { name: 'Administrativa', value: indiceDespesasAdministrativas, score: eficienciaAdministrativa, desc: `Desp. Adm/ROL (Meta: <${okrs.targetAdminMax}%)`,  color: eficienciaAdministrativa >= 80 ? 'emerald' : eficienciaAdministrativa >= 50 ? 'amber' : 'rose', unit: '%' },
+          { name: 'Financeira',     value: indiceDespesasFinanceiras, score: eficienciaFinanceira,     desc: `Desp. Fin/ROL (Meta: <${okrs.targetFinMax}%)`,    color: eficienciaFinanceira >= 80 ? 'emerald' : eficienciaFinanceira >= 50 ? 'amber' : 'rose', unit: '%' },
+          { name: 'Tributária',     value: burdenTributarioPerc,      score: eficienciaTributaria,     desc: `Carga Tributária (Meta: <${okrs.targetTribMax}%)`,   color: eficienciaTributaria >= 80 ? 'emerald' : eficienciaTributaria >= 50 ? 'amber' : 'rose', unit: '%' },
+          { name: 'Estrutural',     value: capacidadeAbsorcaoEstrutura, score: eficienciaEstrutural,   desc: `Absorção Estrutura (Meta: >${okrs.targetAbsorcaoMin}x)`, color: eficienciaEstrutural >= 80 ? 'emerald' : eficienciaEstrutural >= 50 ? 'amber' : 'rose', unit: 'x' },
+        ],
+        scaleEfficiency: {
+          category: scaleCategory,
+          colorClass: scaleColorClass,
+          recGrowth,
+          ebitdaGrowth,
+          description: dreInsights.performanceNote
+        },
+        alerts: dreInsights.systemAlerts as any[],
+        chartData
+      };
     };
+
+    const metricsPayload = buildDreMetricsPayload();
 
     // 7. Consolidação e Auditoria (Confidence Integrity Layer)
     traceEngine.Lineage.endNode('ExecutiveReportGenerated');
@@ -549,7 +1000,10 @@ export class ExecutiveIntelligenceRuntime {
       },
       temporalCausality,
       runtimeMetadata: traceEngine.finalizeTrace(),
-      institutionalContext
+      institutionalContext,
+      institutionalMemory: memoryProfile,
+      institutionalCausality: causalityProfile,
+      structuralCapital
     };
   }
 }

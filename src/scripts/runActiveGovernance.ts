@@ -244,9 +244,33 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
+  console.log('\nIniciando Institutional Memory & Adaptive Governance Layer Audit...');
+  try {
+    execSync('npx tsx src/scripts/runInstitutionalMemoryAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Institutional Memory. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Institutional Causality & Longitudinal Governance Layer Audit...');
+  try {
+    execSync('npx tsx src/scripts/runInstitutionalCausalityAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Institutional Causality. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Production Hardening & Release Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runProductionHardeningAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Production Hardening. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
   console.log('\nIniciando Self-Audit Core...');
 
-  const report = runSelfAudit(mockCompliantRuntimeOutput, ['src/components', 'src/lib', 'src/runtime', 'src/services']);
+  const report = runSelfAudit(mockCompliantRuntimeOutput, ['src/components', 'src/lib', 'src/runtime', 'src/services', 'src/core/executive-experience', 'src/core/exporting']);
 
   const reportPath = path.resolve(process.cwd(), 'governance_self_audit_report.json');
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2), 'utf8');

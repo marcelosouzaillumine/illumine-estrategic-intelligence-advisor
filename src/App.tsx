@@ -88,6 +88,7 @@ import {
   ExecutiveLoadingSurface, 
   GovernanceEscalationBanner 
 } from './components/executive-interaction';
+import { InstitutionalMemoryProvider, useInstitutionalMemory } from './context/institutional-memory/InstitutionalMemoryProvider';
 
 import { useDataTable } from './hooks/useDataTable';
 import { SortableHeader } from './components/SortableHeader';
@@ -427,59 +428,61 @@ export default function App() {
       <TenancyProvider>
         <ExecutiveCognitiveProvider>
           <ExecutiveInteractionProvider>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/empresas" element={<EmpresasPage />} />
-              <Route path="/parceiros" element={<ParceirosPage />} />
-              <Route path="/diagnostico" element={<DiagnosticoPage />} />
-              <Route path="/login" element={user ? <Navigate to="/dashboard/dashboard" replace /> : <LoginPage />} />
-              <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />
-              
-              <Route 
-                path="/dashboard/*" 
-                element={
-                  user ? (
-                    <GovernanceProvider user={user}>
-                      <TooltipProvider>
-                        {requirePasswordChange && <ForcePasswordChangeModal onSuccess={() => setRequirePasswordChange(false)} />}
-                        <AppContent 
-                          user={user}
-                          authLoading={authLoading}
-                          clients={clients}
-                          selectedClient={selectedClient}
-                          setSelectedClient={setSelectedClient}
-                          selectedMonth={selectedMonth}
-                          setSelectedMonth={setSelectedMonth}
-                          selectedYear={selectedYear}
-                          setSelectedYear={setSelectedYear}
-                          setCurrentPage={(page: Page) => navigate(`/dashboard/${page}`)}
-                          setClients={setClients}
-                          currentPage={currentPage}
-                          academyCourseId={academyCourseId}
-                          setAcademyCourseId={setAcademyCourseId}
-                          isSidebarCollapsed={isSidebarCollapsed}
-                          setIsSidebarCollapsed={setIsSidebarCollapsed}
-                          isMobileMenuOpen={isMobileMenuOpen}
-                          setIsMobileMenuOpen={setIsMobileMenuOpen}
-                          openSubmenus={openSubmenus}
-                          toggleSubmenu={toggleSubmenu}
-                          userPermissions={userPermissions}
-                          isPartner={isPartner}
-                          isMaster={isMaster}
-                          userPartnerIds={userPartnerIds}
-                          showWelcome={showWelcome}
-                          setShowWelcome={setShowWelcome}
-                          welcomeText={welcomeText}
-                        />
-                      </TooltipProvider>
-                    </GovernanceProvider>
-                  ) : (
-                    <Navigate to="/login" replace />
-                  )
-                }
-              />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+            <InstitutionalMemoryProvider initialTenantId={selectedClient}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/empresas" element={<EmpresasPage />} />
+                <Route path="/parceiros" element={<ParceirosPage />} />
+                <Route path="/diagnostico" element={<DiagnosticoPage />} />
+                <Route path="/login" element={user ? <Navigate to="/dashboard/dashboard" replace /> : <LoginPage />} />
+                <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />
+                
+                <Route 
+                  path="/dashboard/*" 
+                  element={
+                    user ? (
+                      <GovernanceProvider user={user}>
+                        <TooltipProvider>
+                          {requirePasswordChange && <ForcePasswordChangeModal onSuccess={() => setRequirePasswordChange(false)} />}
+                          <AppContent 
+                            user={user}
+                            authLoading={authLoading}
+                            clients={clients}
+                            selectedClient={selectedClient}
+                            setSelectedClient={setSelectedClient}
+                            selectedMonth={selectedMonth}
+                            setSelectedMonth={setSelectedMonth}
+                            selectedYear={selectedYear}
+                            setSelectedYear={setSelectedYear}
+                            setCurrentPage={(page: Page) => navigate(`/dashboard/${page}`)}
+                            setClients={setClients}
+                            currentPage={currentPage}
+                            academyCourseId={academyCourseId}
+                            setAcademyCourseId={setAcademyCourseId}
+                            isSidebarCollapsed={isSidebarCollapsed}
+                            setIsSidebarCollapsed={setIsSidebarCollapsed}
+                            isMobileMenuOpen={isMobileMenuOpen}
+                            setIsMobileMenuOpen={setIsMobileMenuOpen}
+                            openSubmenus={openSubmenus}
+                            toggleSubmenu={toggleSubmenu}
+                            userPermissions={userPermissions}
+                            isPartner={isPartner}
+                            isMaster={isMaster}
+                            userPartnerIds={userPartnerIds}
+                            showWelcome={showWelcome}
+                            setShowWelcome={setShowWelcome}
+                            welcomeText={welcomeText}
+                          />
+                        </TooltipProvider>
+                      </GovernanceProvider>
+                    ) : (
+                      <Navigate to="/login" replace />
+                    )
+                  }
+                />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </InstitutionalMemoryProvider>
           </ExecutiveInteractionProvider>
         </ExecutiveCognitiveProvider>
       </TenancyProvider>
@@ -517,8 +520,15 @@ function AppContent({
   welcomeText
 }: any) {
   const { isAccepted, setAccepted, role, loading: governanceLoading } = useGovernance();
+  const { loadMemoryForTenant } = useInstitutionalMemory();
   const [showUniversalImport, setShowUniversalImport] = useState(false);
   const [pendingCounts, setPendingCounts] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    if (selectedClient) {
+      loadMemoryForTenant(selectedClient);
+    }
+  }, [selectedClient, loadMemoryForTenant]);
   const totalPending = Object.values(pendingCounts).reduce((acc, curr) => acc + curr, 0);
 
   useEffect(() => {

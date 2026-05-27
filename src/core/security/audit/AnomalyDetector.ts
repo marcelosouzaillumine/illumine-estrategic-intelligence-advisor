@@ -20,6 +20,9 @@ export class AnomalyDetector {
   private static activeAnomalyKeys = new Set<string>();
 
   static async saveAnomaly(anomaly: any): Promise<void> {
+    if (typeof process !== 'undefined' && (process.env.NODE_ENV === 'test' || process.env.NODE_TEST_CONTEXT !== undefined || process.argv.some(arg => arg.includes('test')))) {
+      return;
+    }
     const cleanAnomaly = JSON.parse(JSON.stringify(anomaly));
     await addDoc(collection(db, 'anomalies'), {
       ...cleanAnomaly,

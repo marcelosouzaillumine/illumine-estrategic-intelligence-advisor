@@ -1,6 +1,6 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ShieldCheck, Zap, AlertTriangle, BookOpen, Target, Activity } from 'lucide-react';
+import { motion } from 'motion/react';
+import { ShieldCheck, Zap, AlertTriangle, BookOpen, Target, Activity, TrendingUp, Users, BarChart2, DollarSign, Layers } from 'lucide-react';
 import { ExecutiveAdvisoryReport } from '../lib/executive-advisory-engine';
 import { ExecutiveIntelligenceReport } from '../core/runtime/executive-intelligence-runtime';
 import { cn } from '../lib/utils';
@@ -10,6 +10,99 @@ interface ExecutivePerspectiveSectionProps {
   intelligenceReport?: ExecutiveIntelligenceReport | null;
   loading: boolean;
   className?: string;
+}
+
+// ── Dicionário de enums → português fluido ─────────────────────────────────
+const ENUM_PT: Record<string, string> = {
+  FIRST_OPERATIONAL_YEAR:          'Primeiro Ano Operacional',
+  EARLY_STAGE_CONSOLIDATION:       'Consolidação Inicial',
+  GROWTH_STAGE:                    'Estágio de Crescimento',
+  SCALE_STAGE:                     'Estágio de Escala',
+  MATURE_OPERATION:                'Operação Madura',
+  TURNAROUND_DISTRESS:             'Turnaround / Recuperação',
+  DECLINE_STAGE:                   'Estágio de Declínio',
+  TRANSITION_STAGE:                'Estágio de Transição',
+  ASSET_HEAVY:                     'Intensivo em Ativos',
+  ASSET_LIGHT:                     'Leve em Ativos',
+  CAPITAL_INTENSIVE:               'Intensivo em Capital',
+  INVENTORY_DEPENDENT:             'Dependente de Estoques',
+  LABOR_INTENSIVE:                 'Intensivo em Mão de Obra',
+  RECURRING_REVENUE:               'Receita Recorrente',
+  SEASONAL_REVENUE:                'Receita Sazonal',
+  SERVICE_BASED:                   'Baseado em Serviços',
+  INDUSTRIAL:                      'Industrial',
+  DISTRIBUTION:                    'Distribuição',
+  SAAS:                            'SaaS',
+  HEALTHCARE:                      'Saúde',
+  HOLDING_STRUCTURE:               'Holding',
+  FINANCIAL_OPERATION:             'Operação Financeira',
+  SINGLE_YEAR_ONLY:                'Apenas um Exercício Disponível',
+  LOW_HISTORICAL_DENSITY:          'Histórico Inicial (< 2 anos)',
+  MODERATE_HISTORY:                'Histórico Moderado (2–3 anos)',
+  STRONG_HISTORICAL_BASE:          'Base Histórica Sólida (4+ anos)',
+  HIGH:                            'Alta',
+  MODERATE:                        'Moderada',
+  LOW:                             'Baixa',
+  LIMITED_CONTEXT:                 'Contexto Limitado',
+  UNVERIFIABLE:                    'Insuficiência de Dados',
+  HEALTHY_GROWTH:                  'Crescimento Saudável',
+  ARTIFICIAL_GROWTH:               'Crescimento Artificial',
+  CASHLESS_GROWTH:                 'Crescimento sem Geração de Caixa',
+  DEBT_FINANCED_GROWTH:            'Crescimento Financiado por Dívida',
+  SHAREHOLDER_FINANCED_GROWTH:     'Crescimento Financiado por Sócios',
+  SUSTAINABLE_OPERATIONAL_EXPANSION: 'Expansão Operacional Sustentável',
+  PREMATURE_EXPANSION:             'Expansão Prematura',
+  STAGNATION:                      'Estagnação',
+  CONTRACTION:                     'Contração',
+  HIGH_CONFIDENCE:                 'Alta Confiabilidade',
+  MEDIUM_CONFIDENCE:               'Confiabilidade Moderada',
+  LOW_CONFIDENCE:                  'Confiabilidade Reduzida',
+  FULL_FINANCIAL_VIEW:             'Visão Financeira Completa',
+  PARTIAL_FINANCIAL_VIEW:          'Visão Financeira Parcial',
+  BALANCE_SHEET_ONLY:              'Apenas Balanço Patrimonial',
+  DRE_ONLY:                        'Apenas DRE',
+  CASHFLOW_ONLY:                   'Apenas Fluxo de Caixa',
+  LONG:                            'Longo',
+  MODERATE_CYCLE:                  'Moderado',
+  SHORT:                           'Curto',
+  NEGATIVE:                        'Negativo',
+};
+const pt = (key: string) => ENUM_PT[key] || key.replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
+
+// ── Mapeia ações para áreas de gestão ─────────────────────────────────────
+function inferManagementArea(action: string): { area: string; icon: any; color: string } {
+  const lower = action.toLowerCase();
+  if (lower.includes('receita') || lower.includes('comercial') || lower.includes('venda') || lower.includes('market') || lower.includes('faturamento') || lower.includes('cliente'))
+    return { area: 'Gestão Comercial', icon: TrendingUp, color: 'text-emerald-600 bg-emerald-50 border-emerald-200' };
+  if (lower.includes('pessoa') || lower.includes('equipe') || lower.includes('liderança') || lower.includes('talent') || lower.includes('rh') || lower.includes('humano'))
+    return { area: 'Gestão de Pessoas', icon: Users, color: 'text-blue-600 bg-blue-50 border-blue-200' };
+  if (lower.includes('caixa') || lower.includes('liquid') || lower.includes('financ') || lower.includes('dívida') || lower.includes('cr') || lower.includes('capital') || lower.includes('investimento'))
+    return { area: 'Gestão Financeira', icon: DollarSign, color: 'text-violet-600 bg-violet-50 border-violet-200' };
+  if (lower.includes('operac') || lower.includes('processo') || lower.includes('eficiên') || lower.includes('produt') || lower.includes('estrutura') || lower.includes('escala'))
+    return { area: 'Gestão Operacional', icon: Layers, color: 'text-amber-600 bg-amber-50 border-amber-200' };
+  if (lower.includes('estratég') || lower.includes('posicion') || lower.includes('mercado') || lower.includes('competi') || lower.includes('inovaç'))
+    return { area: 'Gestão Estratégica', icon: Target, color: 'text-indigo-600 bg-indigo-50 border-indigo-200' };
+  return { area: 'Governança Corporativa', icon: BarChart2, color: 'text-slate-600 bg-slate-50 border-slate-200' };
+}
+
+function inferPriority(idx: number, action: string): { label: string; color: string } {
+  const lower = action.toLowerCase();
+  if (lower.includes('imediato') || lower.includes('urgente') || lower.includes('crítico') || lower.includes('risco') || idx === 0)
+    return { label: 'Alta', color: 'bg-rose-100 text-rose-700 border-rose-200' };
+  if (idx <= 2)
+    return { label: 'Média', color: 'bg-amber-100 text-amber-700 border-amber-200' };
+  return { label: 'Normal', color: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+}
+
+function inferTimeline(action: string): string {
+  const lower = action.toLowerCase();
+  if (lower.includes('imediato') || lower.includes('curto') || lower.includes('30 dias') || lower.includes('60 dias'))
+    return 'Curto Prazo';
+  if (lower.includes('médio') || lower.includes('6 meses') || lower.includes('90 dias'))
+    return 'Médio Prazo';
+  if (lower.includes('longo') || lower.includes('anual') || lower.includes('estratég'))
+    return 'Longo Prazo';
+  return 'Contínuo';
 }
 
 export function ExecutivePerspectiveSection({ report, intelligenceReport, loading, className }: ExecutivePerspectiveSectionProps) {
@@ -24,31 +117,90 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
 
   if (!report && !intelligenceReport) return null;
 
-  const confidenceLevel = intelligenceReport ? 'HIGH_CONFIDENCE' : report?.confidenceLevel || '';
-  const executivePosture = intelligenceReport ? intelligenceReport.advisory?.priorityFocus || 'Aguardando' : report?.executivePosture || '';
+  const rawConfidenceLevel = intelligenceReport ? intelligenceReport.compliance?.confidenceLevel || 'HIGH_CONFIDENCE' : report?.confidenceLevel || '';
+  const confidenceLevel = pt(rawConfidenceLevel);
+
+  const executivePosture = intelligenceReport ? intelligenceReport.advisory?.priorityFocus || 'Em análise' : report?.executivePosture || '';
   const executiveSummary = intelligenceReport ? intelligenceReport.advisory?.executiveSummary || '' : report?.executiveSummary || '';
   const institutionalDiagnosis = intelligenceReport ? intelligenceReport.causality?.financialPropagation || '' : report?.institutionalDiagnosis || '';
-  
-  const dominantRisks = intelligenceReport 
-    ? intelligenceReport.causality?.insights?.filter(i => i.bgClass.includes('rose') || i.bgClass.includes('red')).map(i => i.text) || []
-    : report?.dominantRisks || [];
-    
-  const strategicPriorities = intelligenceReport 
+
+  // ── Riscos Dominantes ─────────────────────────────────────────────────
+  // 1. Tenta usar insights de causalidade com tom de risco (rose/red/amber)
+  // 2. Fallback para insights gerais com categoria de risco
+  // 3. Fallback para event/rootCause da causalidade
+  let dominantRisks: string[] = [];
+  if (intelligenceReport) {
+    const insights = intelligenceReport.causality?.insights || [];
+    // Prioridade: insights marcados com cores de risco
+    const riskInsights = insights.filter(i =>
+      (i.bgClass || '').includes('rose') ||
+      (i.bgClass || '').includes('red') ||
+      (i.colorClass || '').includes('rose') ||
+      (i.colorClass || '').includes('red') ||
+      (i.category || '').toLowerCase().includes('risco') ||
+      (i.category || '').toLowerCase().includes('problem')
+    );
+    dominantRisks = riskInsights.map(i => i.text).filter(Boolean);
+
+    // Fallback: outros insights se não houver riscos coloridos
+    if (dominantRisks.length === 0 && insights.length > 0) {
+      dominantRisks = insights.slice(0, 2).map(i => i.text).filter(Boolean);
+    }
+
+    // Fallback final: usa causality.event e rootCause
+    if (dominantRisks.length === 0 && intelligenceReport.causality?.event) {
+      const ev = intelligenceReport.causality.event;
+      const rc = intelligenceReport.causality.rootCause;
+      if (ev && !ev.includes('INSUFFICIENT') && !ev.includes('N/A')) dominantRisks.push(ev);
+      if (rc && !rc.includes('INSUFFICIENT') && !rc.includes('N/A')) dominantRisks.push(rc);
+    }
+
+    // Último fallback: alerta sistêmico baseado no runtimeMode
+    if (dominantRisks.length === 0) {
+      const mode = intelligenceReport.compliance?.runtimeMode;
+      if (mode === 'BALANCE_SHEET_ONLY') {
+        dominantRisks = ['Dados de resultado operacional (DRE) ainda não foram lançados — análise de risco limitada ao Balanço Patrimonial.'];
+      } else if (mode === 'DRE_ONLY') {
+        dominantRisks = ['Dados do Balanço Patrimonial não disponíveis — risco de liquidez e estrutura de capital não podem ser avaliados.'];
+      } else if (mode === 'PARTIAL_FINANCIAL_VIEW') {
+        dominantRisks = ['Visão financeira parcial: complete o lançamento de todos os demonstrativos para identificar riscos dominantes com precisão.'];
+      } else {
+        dominantRisks = ['Nenhum risco estrutural crítico identificado com os dados disponíveis.'];
+      }
+    }
+  } else {
+    dominantRisks = report?.dominantRisks || [];
+  }
+
+  const strategicPriorities = intelligenceReport
     ? intelligenceReport.advisory?.actionMatrix || []
     : report?.strategicPriorities || [];
-    
-  const actionMatrix = intelligenceReport 
-    ? intelligenceReport.advisory?.actionMatrix?.map(action => ({ acao: action, impacto: 'ALTO', prioridade: 'ALTA', velocidade: 'CONTÍNUA' })) || []
-    : report?.actionMatrix || [];
-    
+
+  const rawActions = intelligenceReport
+    ? intelligenceReport.advisory?.actionMatrix || []
+    : report?.actionMatrix?.map((a: any) => typeof a === 'string' ? a : a.acao) || [];
+
+  // ── Action Matrix Expandida com Visão de Gestão ──────────────────────
+  const actionMatrix = rawActions.map((action: string, idx: number) => {
+    const mgmt = inferManagementArea(action);
+    const prio = inferPriority(idx, action);
+    const timeline = inferTimeline(action);
+    return { acao: action, mgmt, prio, timeline };
+  });
+
   const blockedFalsePositives = intelligenceReport ? [] : report?.blockedFalsePositives || [];
   const causalConflicts = intelligenceReport ? [] : report?.causalConflicts || [];
+
+  const confidenceBadgeColor =
+    rawConfidenceLevel === 'HIGH_CONFIDENCE' ? 'bg-emerald-100 text-emerald-800 border-emerald-200' :
+    rawConfidenceLevel === 'MEDIUM_CONFIDENCE' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+    'bg-amber-100 text-amber-800 border-amber-200';
 
   return (
     <div className={cn("bg-white rounded-[48px] border border-slate-200 p-8 md:p-12 overflow-hidden relative shadow-sm", className)}>
       <div className="absolute -left-20 -top-20 w-80 h-80 bg-indigo-50 rounded-full blur-3xl opacity-60" />
       <div className="relative z-10">
-        
+
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-slate-100 pb-8">
           <div className="flex items-center gap-5">
@@ -60,10 +212,10 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Causalidade Integrada: BP + DRE + Caixa</p>
             </div>
           </div>
-          
-          <div className="px-5 py-2.5 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl flex items-center gap-3">
-            <Zap size={16} className="text-indigo-400" />
-            Nível de Confiança: {confidenceLevel}
+
+          <div className={cn("px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-sm flex items-center gap-2 border", confidenceBadgeColor)}>
+            <Zap size={14} />
+            Confiabilidade: {confidenceLevel}
           </div>
         </div>
 
@@ -83,11 +235,11 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
               <div className="space-y-3">
                 <div>
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Estágio da Empresa</p>
-                  <p className="text-sm font-bold text-slate-800">{intelligenceReport.institutionalContext.businessStage.replace(/_/g, ' ')}</p>
+                  <p className="text-sm font-bold text-slate-800">{pt(intelligenceReport.institutionalContext.businessStage)}</p>
                 </div>
                 <div>
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Modelo Econômico</p>
-                  <p className="text-sm font-bold text-slate-800">{intelligenceReport.institutionalContext.economicModel.replace(/_/g, ' ')}</p>
+                  <p className="text-sm font-bold text-slate-800">{pt(intelligenceReport.institutionalContext.economicModel)}</p>
                 </div>
               </div>
 
@@ -95,29 +247,33 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
               <div className="space-y-3">
                 <div>
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Densidade Histórica</p>
-                  <p className="text-sm font-bold text-slate-800">{intelligenceReport.institutionalContext.historicalDensity.replace(/_/g, ' ')}</p>
+                  <p className="text-sm font-bold text-slate-800">{pt(intelligenceReport.institutionalContext.historicalDensity)}</p>
                 </div>
                 <div>
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Confiança Estratégica</p>
                   <span className={cn(
-                    "inline-block px-2.5 py-1 rounded-full text-[10px] font-bold",
-                    intelligenceReport.institutionalContext.confidence.strategicConfidence === 'HIGH' ? "bg-emerald-100 text-emerald-800 border border-emerald-200" :
-                    intelligenceReport.institutionalContext.confidence.strategicConfidence === 'MODERATE' ? "bg-blue-100 text-blue-800 border border-blue-200" :
-                    "bg-amber-100 text-amber-800 border border-amber-200"
+                    "inline-block px-2.5 py-1 rounded-full text-[10px] font-bold border",
+                    intelligenceReport.institutionalContext.confidence.strategicConfidence === 'HIGH' ? "bg-emerald-100 text-emerald-800 border-emerald-200" :
+                    intelligenceReport.institutionalContext.confidence.strategicConfidence === 'MODERATE' ? "bg-blue-100 text-blue-800 border-blue-200" :
+                    "bg-amber-100 text-amber-800 border-amber-200"
                   )}>
-                    {intelligenceReport.institutionalContext.confidence.strategicConfidence}
+                    {pt(intelligenceReport.institutionalContext.confidence.strategicConfidence)}
                   </span>
                 </div>
               </div>
 
-              {/* Limitações e Claims Bloqueados */}
+              {/* Limitações Interpretativas */}
               <div className="space-y-3 col-span-1">
                 <div>
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Limitações Interpretativas</p>
                   <div className="max-h-24 overflow-y-auto space-y-1 mt-1 text-[11px] text-slate-600 font-medium">
-                    {intelligenceReport.compliance.narrativeRestrictions.filter(r => r.includes('NÃO') || r.includes('Diretriz') || r.includes('limitadas')).map((r, i) => (
-                      <p key={i} className="leading-tight">• {r.replace('Diretriz:', '').replace('NÃO reivindicar:', 'NÃO alegar:').trim()}</p>
-                    ))}
+                    {intelligenceReport.compliance.narrativeRestrictions
+                      .filter(r => r.includes('NÃO') || r.includes('Diretriz') || r.includes('limitadas'))
+                      .slice(0, 3)
+                      .map((r, i) => (
+                        <p key={i} className="leading-tight">• {r.replace('Diretriz:', '').replace('NÃO reivindicar:', 'Não alegar:').trim()}</p>
+                      ))
+                    }
                     {intelligenceReport.compliance.narrativeRestrictions.length === 0 && (
                       <p className="italic text-slate-400">Nenhuma limitação ativa.</p>
                     )}
@@ -128,80 +284,131 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
           </motion.div>
         )}
 
-        {/* Executive Summary Block */}
-        <motion.div 
+        {/* Diagnóstico do Board */}
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12 bg-gradient-to-br from-slate-900 to-slate-800 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-          
+
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3 text-indigo-400 font-black uppercase tracking-[0.3em] text-[10px]">
               <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
               Diagnóstico do Board
             </div>
-            <div className="px-3 py-1 bg-white/10 rounded-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white">
-              Postura: {executivePosture}
-            </div>
           </div>
-          
+          {/* Header Metadata */}
+          <div className="flex flex-wrap items-center gap-2 mb-6 pt-2">
+            <div className="px-3 py-1.5 bg-white/10 rounded-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white flex gap-2 items-center">
+              <span className="text-white/60">{intelligenceReport?.context?.segment}</span>
+              <span className="w-1 h-1 bg-white/40 rounded-full"></span>
+              <span>{intelligenceReport?.context?.businessModel?.replace('_', ' ')}</span>
+            </div>
+            {executivePosture && (
+              <div className="px-3 py-1.5 bg-white/10 rounded-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white text-balance leading-relaxed">
+                Foco: {executivePosture}
+              </div>
+            )}
+          </div>
+
           <div className="space-y-6">
             <div className="text-lg md:text-xl font-medium text-slate-200 leading-relaxed italic">
               "{executiveSummary}"
             </div>
-            <div className="text-sm md:text-base font-medium text-slate-400 leading-relaxed border-t border-white/10 pt-6">
-              {institutionalDiagnosis}
-            </div>
+            {institutionalDiagnosis && (
+              <div className="text-sm md:text-base font-medium text-slate-400 leading-relaxed border-t border-white/10 pt-6">
+                {institutionalDiagnosis}
+              </div>
+            )}
           </div>
 
           <div className="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row gap-8">
+            {/* Riscos Dominantes */}
             <div className="flex-1 space-y-4">
               <h4 className="text-[10px] font-black text-rose-400 uppercase tracking-widest flex items-center gap-2">
                 <AlertTriangle size={14} /> Riscos Dominantes
               </h4>
               <ul className="space-y-2">
-                {dominantRisks.map((risk, i) => (
+                {dominantRisks.length > 0 ? dominantRisks.map((risk, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                    <span className="text-rose-400 mt-1">•</span> {risk}
+                    <span className="text-rose-400 mt-1 shrink-0">•</span>
+                    <span>{risk}</span>
                   </li>
-                ))}
+                )) : (
+                  <li className="text-sm text-slate-500 italic">Nenhum risco dominante identificado para o período analisado.</li>
+                )}
               </ul>
             </div>
+
+            {/* Prioridades Estratégicas */}
             <div className="flex-1 space-y-4">
               <h4 className="text-[10px] font-black text-emerald-400 uppercase tracking-widest flex items-center gap-2">
                 <Target size={14} /> Prioridades Estratégicas
               </h4>
               <ul className="space-y-2">
-                {strategicPriorities.map((p, i) => (
+                {strategicPriorities.length > 0 ? strategicPriorities.map((p, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                    <span className="text-emerald-400 mt-1">•</span> {p}
+                    <span className="text-emerald-400 mt-1 shrink-0">•</span>
+                    <span>{p}</span>
                   </li>
-                ))}
+                )) : (
+                  <li className="text-sm text-slate-500 italic">Lance os demonstrativos financeiros para gerar prioridades estratégicas.</li>
+                )}
               </ul>
             </div>
           </div>
         </motion.div>
 
-        {/* Action Matrix */}
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <Activity className="text-indigo-500" size={20} />
-            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Action Matrix Executiva</h4>
+        {/* Matriz de Ação Executiva — Expandida com Visão de Gestão */}
+        {actionMatrix.length > 0 && (
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-2">
+              <Activity className="text-indigo-500" size={20} />
+              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Matriz de Ação Executiva</h4>
+            </div>
+            <p className="text-xs text-slate-400 mb-6 ml-8">Plano de ação priorizado por área de gestão e impacto esperado.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {actionMatrix.map((action, idx) => {
+                const MgmtIcon = action.mgmt.icon;
+                return (
+                  <div key={idx} className={cn(
+                    "rounded-2xl p-5 border hover:shadow-md transition-all group",
+                    action.mgmt.color.includes('emerald') ? 'bg-emerald-50/60 border-emerald-200/70 hover:border-emerald-300' :
+                    action.mgmt.color.includes('blue') ? 'bg-blue-50/60 border-blue-200/70 hover:border-blue-300' :
+                    action.mgmt.color.includes('violet') ? 'bg-violet-50/60 border-violet-200/70 hover:border-violet-300' :
+                    action.mgmt.color.includes('amber') ? 'bg-amber-50/60 border-amber-200/70 hover:border-amber-300' :
+                    action.mgmt.color.includes('indigo') ? 'bg-indigo-50/60 border-indigo-200/70 hover:border-indigo-300' :
+                    'bg-slate-50/60 border-slate-200/70 hover:border-slate-300'
+                  )}>
+                    {/* Header: Área de Gestão */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className={cn("flex items-center gap-2 px-2.5 py-1 rounded-full border text-[9px] font-black uppercase tracking-widest", action.mgmt.color)}>
+                        <MgmtIcon size={11} />
+                        {action.mgmt.area}
+                      </div>
+                      <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black border uppercase tracking-widest", action.prio.color)}>
+                        {action.prio.label}
+                      </span>
+                    </div>
+
+                    {/* Ação Principal */}
+                    <p className="text-sm font-bold text-slate-800 leading-snug mb-3 group-hover:text-slate-900 transition-colors">
+                      {action.acao}
+                    </p>
+
+                    {/* Metadados */}
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <span className="px-2 py-1 bg-white/80 border border-slate-200 rounded-lg text-[9px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                        🕐 {action.timeline}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {actionMatrix.map((action, idx) => (
-              <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:border-indigo-200 transition-colors">
-                <h5 className="text-sm font-black text-slate-900 mb-3">{action.acao}</h5>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 bg-white border border-slate-200 rounded text-[9px] font-bold text-slate-500 uppercase">Impacto: {action.impacto}</span>
-                  <span className="px-2 py-1 bg-white border border-slate-200 rounded text-[9px] font-bold text-slate-500 uppercase">Prioridade: {action.prioridade}</span>
-                  <span className="px-2 py-1 bg-white border border-slate-200 rounded text-[9px] font-bold text-slate-500 uppercase">Tempo: {action.velocidade}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        )}
 
         {/* Causal Moderation */}
         {(blockedFalsePositives.length > 0 || causalConflicts.length > 0) && (
@@ -219,7 +426,7 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
                 </ul>
               </div>
             )}
-            
+
             {causalConflicts.length > 0 && (
               <div className="bg-amber-50 border border-amber-100 rounded-2xl p-6">
                 <div className="flex items-center gap-2 text-amber-600 mb-4">

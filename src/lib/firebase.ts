@@ -2,7 +2,18 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail as fbSendPasswordResetEmail } from 'firebase/auth';
 import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import firebaseConfig from '../../firebase-applet-config.json';
+import firebaseConfigFromJson from '../../firebase-applet-config.json';
+
+const firebaseConfig = {
+  projectId: (import.meta.env?.VITE_FIREBASE_PROJECT_ID as string) || firebaseConfigFromJson.projectId,
+  appId: (import.meta.env?.VITE_FIREBASE_APP_ID as string) || firebaseConfigFromJson.appId,
+  apiKey: (import.meta.env?.VITE_FIREBASE_API_KEY as string) || firebaseConfigFromJson.apiKey,
+  authDomain: (import.meta.env?.VITE_FIREBASE_AUTH_DOMAIN as string) || firebaseConfigFromJson.authDomain,
+  firestoreDatabaseId: (import.meta.env?.VITE_FIREBASE_FIRESTORE_DATABASE_ID as string) || firebaseConfigFromJson.firestoreDatabaseId || "(default)",
+  storageBucket: (import.meta.env?.VITE_FIREBASE_STORAGE_BUCKET as string) || firebaseConfigFromJson.storageBucket,
+  messagingSenderId: (import.meta.env?.VITE_FIREBASE_MESSAGING_SENDER_ID as string) || firebaseConfigFromJson.messagingSenderId,
+  measurementId: (import.meta.env?.VITE_FIREBASE_MEASUREMENT_ID as string) || firebaseConfigFromJson.measurementId || ""
+};
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);

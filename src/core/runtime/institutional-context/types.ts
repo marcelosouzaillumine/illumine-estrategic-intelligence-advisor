@@ -74,6 +74,7 @@ export type NarrativeGovernance = {
 
 export interface InstitutionalContextProfile {
   businessStage: BusinessStage;
+  structuralCapitalStage?: string; // Para compatibilidade
   economicModel: EconomicModel;
   historicalDensity: HistoricalDensity;
   liabilityProfile: LiabilityNature[];

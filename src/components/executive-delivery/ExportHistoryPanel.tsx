@@ -1,0 +1,82 @@
+import React from 'react';
+import { History, Download, ShieldCheck, Hash } from 'lucide-react';
+import { ExportSnapshotMetadata } from '../../core/exporting/ExportTypes';
+import { cn } from '../../lib/utils';
+
+interface ExportHistoryPanelProps {
+  exports: ExportSnapshotMetadata[];
+  onDownloadReport?: (metadata: ExportSnapshotMetadata) => void;
+  className?: string;
+}
+
+export function ExportHistoryPanel({ exports, onDownloadReport, className }: ExportHistoryPanelProps) {
+  return (
+    <div className={cn("bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm", className)}>
+      <div className="flex items-center gap-2 mb-6">
+        <History className="text-slate-400" size={18} />
+        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Histórico de Board Packs Emitidos</span>
+      </div>
+
+      {exports.length === 0 ? (
+        <div className="py-8 text-center text-xs font-medium text-slate-400 italic">
+          Nenhum relatório foi exportado para este tenant até o momento.
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-slate-100 text-[10px] font-black uppercase tracking-wider text-slate-400">
+                <th className="pb-3 font-black">Export ID / Data</th>
+                <th className="pb-3 font-black">Lineage Hash</th>
+                <th className="pb-3 font-black">Calibração</th>
+                <th className="pb-3 font-black">Confiança</th>
+                <th className="pb-3 font-black text-right">Ação</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-xs font-bold text-slate-700">
+              {exports.map((exp) => (
+                <tr key={exp.exportId} className="hover:bg-slate-50/50 transition-colors">
+                  <td className="py-4">
+                    <span className="font-mono text-[11px] block text-slate-900 select-all">{exp.exportId}</span>
+                    <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">
+                      {new Date(exp.timestamp).toLocaleString('pt-BR')}
+                    </span>
+                  </td>
+                  <td className="py-4 font-mono text-[10px] text-slate-500 max-w-[150px] truncate" title={exp.lineageHash}>
+                    {exp.lineageHash}
+                  </td>
+                  <td className="py-4 uppercase text-slate-600">
+                    {exp.calibrationProfile}
+                  </td>
+                  <td className="py-4">
+                    <span className={cn(
+                      "text-[9px] px-2 py-0.5 rounded border uppercase tracking-wider font-black",
+                      exp.confidenceSnapshot === 'HIGH_CONFIDENCE' 
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                        : exp.confidenceSnapshot === 'MEDIUM_CONFIDENCE'
+                        ? "bg-blue-50 text-blue-700 border-blue-100"
+                        : "bg-rose-50 text-rose-700 border-rose-100"
+                    )}>
+                      {exp.confidenceSnapshot.replace('_CONFIDENCE', '')}
+                    </span>
+                  </td>
+                  <td className="py-4 text-right">
+                    {onDownloadReport && (
+                      <button
+                        onClick={() => onDownloadReport(exp)}
+                        className="p-2 rounded-lg bg-indigo-50 border border-indigo-100 text-indigo-600 hover:bg-indigo-100 hover:text-indigo-700 transition-all inline-flex items-center gap-1.5"
+                        title="Baixar Cópia do PDF"
+                      >
+                        <Download size={14} />
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}

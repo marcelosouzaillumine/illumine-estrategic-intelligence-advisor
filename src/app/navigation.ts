@@ -204,7 +204,9 @@ export type Page =
   | 'compliance_integrity_center'
   | 'pilot_monitoring'
   | 'calibration_playground'
-  | 'observability_console';
+  | 'observability_console'
+  | 'advisor_workspace'
+  | 'client_workspace';
 
 export interface NavigationItem {
   id: Page;
@@ -293,6 +295,8 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'pilot_monitoring', label: 'Painel Operacional Piloto', icon: Activity, masterOnly: true },
       { id: 'calibration_playground', label: 'Calibration Playground', icon: Sparkles, masterOnly: true },
       { id: 'observability_console', label: 'Console de Observabilidade', icon: Eye },
+      { id: 'advisor_workspace', label: 'Advisor Workspace', icon: Briefcase, masterOnly: true },
+      { id: 'client_workspace', label: 'Client Executive Workspace', icon: LayoutDashboard, masterOnly: false },
       
       // --- Legacy & Master Only Routes (Preservados internamente) ---
       { id: 'advisor_cockpit', label: 'Advisor Cockpit', icon: BriefcaseBusiness, masterOnly: true },

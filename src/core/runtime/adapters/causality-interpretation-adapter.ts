@@ -1,6 +1,6 @@
 type FinancialMetrics = any;
 import { BPSummary } from '../../../lib/bpEngine';
-const evaluateExecutiveCausality = (...args: any[]): any => ({} as any);
+import { evaluateExecutiveCausality } from '../../../lib/executive-causality-engine';
 import { BusinessIdentity } from '../../../lib/business-identity-engine';
 
 export interface CausalityAdapterOutput {

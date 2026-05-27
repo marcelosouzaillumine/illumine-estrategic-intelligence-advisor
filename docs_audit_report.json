@@ -42,6 +42,13 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/BOARD_PRESENTATION_MODE.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/BOARD_RENDER_ENGINE.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
@@ -57,6 +64,13 @@
   },
   {
     "file": "docs/BUSINESS_MODEL_INTELLIGENCE_ENGINE.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
+    "file": "docs/CALIBRATION_EDGE_CASES.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
     "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
@@ -133,6 +147,13 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/GO_TO_MARKET_ARCHITECTURE.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/INFERENCE_VALIDATION_ENGINE.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
@@ -147,7 +168,21 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/INSTITUTIONAL_MEMORY_ENGINE.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/INSTITUTIONAL_RUNTIME_ENFORCER.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
+    "file": "docs/INTELLIGENCE_CALIBRATION_PROTOCOL.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
     "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
@@ -232,6 +267,20 @@
   },
   {
     "file": "docs/RC1_1A_HARDENING_EXECUTION_PLAN.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
+    "file": "docs/RC1_1_FINAL_RELEASE_CERTIFICATION.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
+    "file": "docs/RC1_2_COMMERCIAL_READINESS.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
     "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",

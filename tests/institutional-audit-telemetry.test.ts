@@ -3,6 +3,7 @@ import assert from 'node:assert';
 import { AuditEventBus, AuditEvent } from '../src/core/security/audit/AuditEventBus';
 import { ImmutableLedger, ImmutableLedgerError } from '../src/core/security/audit/ImmutableLedger';
 import { AnomalyDetector } from '../src/core/security/audit/AnomalyDetector';
+import { DistributedAnomalyAggregator } from '../src/core/runtime/distributed/DistributedAnomalyAggregator';
 import { PermissionEngine } from '../src/core/security/permission-engine';
 import { GovernedRepositoryWrapper } from '../src/core/security/governed-repository';
 import { SessionGovernanceLayer } from '../src/core/security/auth/SessionGovernanceLayer';
@@ -37,6 +38,8 @@ describe('Institutional Audit & Telemetry Layer Tests', () => {
     shouldEventSaveFail = false;
     shouldFailureSaveFail = false;
     eventSaveFailCount = 0;
+    (AnomalyDetector as any).activeAnomalyKeys.clear();
+    (AnomalyDetector as any).recentEvents = [];
 
     AuditEventBus.saveEvent = async (event: any) => {
       if (shouldEventSaveFail) {
@@ -64,6 +67,9 @@ describe('Institutional Audit & Telemetry Layer Tests', () => {
     // Clean AnomalyDetector states
     (AnomalyDetector as any).recentEvents = [];
     (AnomalyDetector as any).activeAnomalyKeys.clear();
+
+    // Enable mock mode for anomaly aggregator
+    DistributedAnomalyAggregator.setMockMode(true);
   });
 
   afterEach(() => {
@@ -72,6 +78,7 @@ describe('Institutional Audit & Telemetry Layer Tests', () => {
     ImmutableLedger.saveLedger = originalSaveLedger;
     AnomalyDetector.saveAnomaly = originalSaveAnomaly;
     governanceService.getFirestoreDocs = originalGetFirestoreDocs;
+    DistributedAnomalyAggregator.setMockMode(false);
   });
 
   it('1. AuditEventBus estrutura evento corretamente.', async () => {

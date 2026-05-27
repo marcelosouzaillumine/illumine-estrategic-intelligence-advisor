@@ -13,7 +13,9 @@ const FORBIDDEN_PATTERNS = [
   { pattern: /FAKE_FALLBACK_ENGANOSO/g, message: 'Fallback genérico não permitido.' },
   { pattern: /if\s*\([^)]*year\s*>\s*prevYear[^)]*\)\s*{[^}]*alta[^}]*}/gi, message: 'Lógica YoY local detectada.' },
   { pattern: /parseBrNumber\([^)]*\)\s*\?\?\s*0/g, message: 'FAIL-SILENT: Uso de zero silencioso detectado. Proibido pela Import Governance.' },
-  { pattern: /from\s+['"]\.\.\/lib\/scenario-simulation-engine['"]/g, message: 'MOTOR LEGADO: Importação do antigo motor de simulação detectada. Use o novo em src/core/runtime/scenario-intelligence/' }
+  { pattern: /from\s+['"]\.\.\/lib\/scenario-simulation-engine['"]/g, message: 'MOTOR LEGADO: Importação do antigo motor de simulação detectada. Use o novo em src/core/runtime/scenario-intelligence/' },
+  { pattern: /CommercialPlanEngine\..*(scores|causality|advisory|severity)\s*=/g, message: 'ComercialPlanEngine não pode alterar outputs financeiros.' },
+  { pattern: /import\s+.*from\s+['"].*\/lib\/(score-engine|financial-engine|bpEngine)['"]/gi, message: 'EXPERIENCE BYPASS: Importação direta de motor matemático nas camadas de visualização ou experiência.' }
 ];
 
 const FORBIDDEN_UI_PATTERNS = [
@@ -65,8 +67,20 @@ export function detectRegressions(directoriesToScan: string[]): RegressionResult
         scanDirectory(fullPath);
       } else if (fullPath.endsWith('.ts') || fullPath.endsWith('.tsx')) {
         const content = fs.readFileSync(fullPath, 'utf8');
+        const isBypassAllowed = [
+          'ImportFinancialModal.tsx',
+          'ManualFinancialModal.tsx',
+          'BalanceSheetPage.tsx',
+          'LegacyFinancialAdapter.ts',
+          'aiBoardReportService.ts',
+          'intelligenceEngine.ts'
+        ].includes(path.basename(fullPath));
+
         FORBIDDEN_PATTERNS.forEach(({ pattern, message }) => {
           if (pattern.test(content)) {
+            if (message.includes('EXPERIENCE BYPASS') && isBypassAllowed) {
+              return;
+            }
             violations.push(`[${fullPath}]: ${message}`);
           }
         });
@@ -83,6 +97,22 @@ export function detectRegressions(directoriesToScan: string[]): RegressionResult
                 // Just log a warning for pages not yet migrated
                 console.warn(`[WARNING] Legacy Component ${path.basename(fullPath)} violou UI rule: ${message}. Será consertado nas próximas etapas.`);
               }
+            }
+          });
+        }
+
+        // Fiduciary Experience & Exporting Hardening (Phase 10)
+        const isExperienceOrExporting = fullPath.includes('src/core/executive-experience') || 
+                                        fullPath.includes('src/core/executive-delivery') ||
+                                        fullPath.includes('src/components/executive-delivery') ||
+                                        fullPath.includes('src/core/exporting') ||
+                                        fullPath.includes('AdvisorWorkspacePage') ||
+                                        fullPath.includes('ClientExecutiveWorkspace');
+                                        
+        if (isExperienceOrExporting) {
+          FORBIDDEN_UI_PATTERNS.forEach(({ pattern, message }) => {
+            if (pattern.test(content)) {
+              violations.push(`[${fullPath}]: Experience/Exporting Layer violou regra: ${message}`);
             }
           });
         }

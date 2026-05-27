@@ -101,6 +101,8 @@ import { EnterpriseValidationPage } from '../components/pages/EnterpriseValidati
 import { RealityValidationPage } from '../components/pages/RealityValidationPage';
 import { PilotMonitoringDashboard } from '../components/pages/PilotMonitoringDashboard';
 import { CalibrationPlayground } from '../components/pages/CalibrationPlayground';
+import { AdvisorWorkspacePage } from '../components/pages/AdvisorWorkspacePage';
+import { ClientExecutiveWorkspace } from '../components/pages/ClientExecutiveWorkspace';
 // Removed missing ObservabilityConsolePage import
 import type { Page } from './navigation';
 
@@ -575,6 +577,12 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'observability_console') {
     return <RuntimeObservabilityPage />;
+  }
+  if (currentPage === 'advisor_workspace') {
+    return <AdvisorWorkspacePage selectedClient={selectedClient} />;
+  }
+  if (currentPage === 'client_workspace') {
+    return <ClientExecutiveWorkspace selectedClient={selectedClient} selectedYear={selectedYear} />;
   }
 
   return null;

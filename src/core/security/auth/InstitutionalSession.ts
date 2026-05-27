@@ -1,4 +1,5 @@
 import { OfficialRole, OfficialAction, VisibilityPolicy } from '../types';
+import { CommercialPlanId } from '../../commercial/CommercialPlanEngine';
 
 export type SessionState = 
   | 'UNAUTHENTICATED'
@@ -30,4 +31,6 @@ export interface InstitutionalSession {
   // Para Multi-Tenant
   selectedTenantId?: string;
   availableTenants: AvailableTenant[];
+  
+  planId?: CommercialPlanId;
 }

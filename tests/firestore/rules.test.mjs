@@ -16,6 +16,13 @@ function nowish() {
 }
 
 async function run() {
+  const hasEmulator = !!process.env.FIRESTORE_EMULATOR_HOST;
+  if (!hasEmulator) {
+    console.warn("⚠️  SKIPPED_EMULATOR_NOT_RUNNING: process.env.FIRESTORE_EMULATOR_HOST is not set.");
+    console.log("rules tests: SKIPPED_EMULATOR_NOT_RUNNING");
+    return;
+  }
+
   const projectId = "demo-illumine-rules";
   const rules = readFileSync("firestore.rules", "utf8");
 

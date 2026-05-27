@@ -4,7 +4,7 @@ service cloud.firestore {
     
     // MASTER ADMIN BYPASS - Full Access
     match /{allPaths=**} {
-      allow read, write: if true || request.auth != null && (
+      allow read, write: if request.auth != null && (
         request.auth.token.email.matches('(?i)marcelo\\.illuminecoaching@gmail\\.com') ||
         request.auth.token.email.matches('(?i)marcelosouza\\.illumine@gmail\\.com') ||
         request.auth.token.email.matches('(?i)avivacolonia@gmail\\.com')
@@ -489,6 +489,37 @@ service cloud.firestore {
 
     match /governance_configs/{document=**} {
       allow read: if isSignedIn();
+    }
+
+    match /audit_events/{eventId} {
+      allow read: if isSignedIn() && (ownsClient(resource.data.tenantId) || isMasterAdmin());
+      allow create: if isSignedIn() && (ownsClient(request.resource.data.tenantId) || isMasterAdmin());
+      allow update, delete: if false;
+    }
+
+    match /anomalies/{anomalyId} {
+      allow read: if isSignedIn() && (ownsClient(resource.data.tenantId) || isMasterAdmin());
+      allow create: if isSignedIn() && (ownsClient(request.resource.data.tenantId) || isMasterAdmin());
+      allow update, delete: if false;
+    }
+
+    match /governance_ledger/{ledgerId} {
+      allow read: if isSignedIn() && (ownsClient(resource.data.tenantId) || isMasterAdmin());
+      allow create: if isSignedIn() && (ownsClient(request.resource.data.tenantId) || isMasterAdmin());
+      allow update, delete: if false;
+    }
+
+    match /institutional_jobs/{jobId} {
+      allow read: if isSignedIn() && (ownsClient(resource.data.tenantId) || isMasterAdmin());
+      allow create: if isSignedIn() && (ownsClient(request.resource.data.tenantId) || isMasterAdmin());
+      allow update: if isSignedIn() && (ownsClient(existing().tenantId) || isMasterAdmin());
+      allow delete: if false;
+    }
+
+    match /runtime_pressure/{pressureId} {
+      allow read: if isSignedIn() && (ownsClient(resource.data.tenantId) || isMasterAdmin());
+      allow create: if isSignedIn() && (ownsClient(request.resource.data.tenantId) || isMasterAdmin());
+      allow update, delete: if false;
     }
 
     // --- Global Safety Net (Moved to End) ---

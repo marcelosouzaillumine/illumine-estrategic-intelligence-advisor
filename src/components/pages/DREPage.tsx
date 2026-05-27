@@ -69,6 +69,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const { dbData: dbDataDRE, docIds: docIdsDRE, loading: loadingDRE, refetch: refetchDRE } =
     useAnnualFinancialData(selectedClient, filterYear, 'DRE');
 
+  const { dbData: dbDataBP } = useAnnualFinancialData(selectedClient, filterYear, 'BP');
+
   // ── Busca histórico (todos os dados do cliente) ──────────────────────────────
   const { dbData: allHistoryData, loading: loadingHistory, historicalFinancialSeries } = useAllFinancialData(selectedClient);
 
@@ -84,10 +86,11 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       if (!dbData) return;
       const input = {
         dreData: dbData,
+        bpData: dbDataBP,
         rawFinancialData: { filterYear, segmentoEmpresa },
         historicalCyclesCount: docIds.length,
         isMockData: dbData.length === 0,
-        historicalSeries: historicalFinancialSeries
+        historicalSeries: allHistoryData
       };
       const report = executiveRuntime.generateExecutiveReport(input);
       setExecutiveReport(report);
@@ -95,7 +98,9 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     runAnalysis();
   }, [dbData, filterYear, segmentoEmpresa, docIds.length]);
 
-  const finalHealthScore = executiveReport?.scores.operational || 0;
+  const finalHealthScore = (executiveReport?.metrics.financialMetrics as any)?.dreHealthScore 
+    ?? executiveReport?.scores.operational 
+    ?? 0;
   
   const {
     receitaBruta = 0, deducoesReceita = 0, recLiquida = 0, custosVar = 0, margemContrib = 0,
@@ -445,12 +450,12 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                       <div className={`text-${eff.color}-600`}>
                         <IconComponent size={14} />
                       </div>
-                      <span className={`text-xs font-black text-${eff.color}-700`}>{eff.value.toFixed(0)}%</span>
+                      <span className={`text-xs font-black text-${eff.color}-700`}>{eff.value.toFixed(1)}{(eff.unit || '%')}</span>
                    </div>
                    <p className="text-xs font-bold text-slate-700">{eff.name}</p>
                    <p className="text-[9px] text-slate-400 uppercase tracking-wider">{eff.desc}</p>
                    <div className="w-full h-1 bg-slate-200 rounded-full mt-2 overflow-hidden">
-                      <div className={`h-full bg-${eff.color}-500 transition-all duration-1000`} style={{ width: `${eff.value}%` }} />
+                      <div className={`h-full bg-${eff.color}-500 transition-all duration-1000`} style={{ width: `${Math.min(100, Math.max(0, eff.score || eff.value))}%` }} />
                    </div>
                 </div>
                 );
@@ -508,17 +513,28 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       <ExecutivePerspectiveSection intelligenceReport={executiveReport} loading={!executiveReport} className="mb-10 shadow-xl" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        {kpis.map((idx, i) => (
-          <KpiCard 
-            key={i}
-            title={idx.name}
-            value={typeof idx.val === 'string' ? idx.val : (idx.unit === 'currency' ? formatValue(idx.val as number, 'currency') : isFinite(idx.val as number) ? (idx.val as number).toFixed(2) : '0.0')}
-            suffix={idx.unit}
-            status={idx.status as any}
-            trend={idx.trend}
-            tooltip={idx.tooltip}
-          />
-        ))}
+        {kpis.map((idx, i) => {
+          const isCurrency = idx.unit === 'currency';
+          const formattedValue = typeof idx.val === 'string'
+            ? idx.val
+            : isCurrency
+              ? formatValue(idx.val as number, 'currency')
+              : isFinite(idx.val as number)
+                ? (idx.val as number).toFixed(2)
+                : '0.0';
+          const displaySuffix = isCurrency ? '' : (idx.unit === '%' ? '%' : idx.unit === 'd' ? ' dias' : idx.unit === 'x' ? 'x' : '');
+          return (
+            <KpiCard
+              key={i}
+              title={idx.name}
+              value={formattedValue}
+              suffix={displaySuffix}
+              status={idx.status as any}
+              trend={idx.trend}
+              tooltip={idx.tooltip}
+            />
+          );
+        })}
       </div>
 
       <div className="grid grid-cols-1 gap-8 mb-10">

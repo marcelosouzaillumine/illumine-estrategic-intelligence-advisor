@@ -2,7 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { 
   Eye, ShieldCheck, ShieldAlert, Users, AlertTriangle, 
   Activity, ArrowRightLeft, FileSpreadsheet, Lock, RefreshCw,
-  Search, ShieldX, Terminal, Calendar, Building, Clock
+  Search, ShieldX, Terminal, Calendar, Building, Clock,
+  Server, Cpu, Layers, PlayCircle, StopCircle
 } from 'lucide-react';
 import { PageHeader } from '../../Common';
 import { useInstitutionalAuth } from '../../../core/security/auth/InstitutionalAuthProvider';
@@ -13,6 +14,9 @@ import {
   CartesianGrid, Tooltip as ChartTooltip, Legend, Bar 
 } from 'recharts';
 import { cn } from '../../../lib/utils';
+import { RuntimePartitionManager } from '../../../core/runtime/distributed/RuntimePartitionManager';
+import { WorkerRegistry } from '../../../core/runtime/distributed/WorkerRegistry';
+import { AsyncJobQueue } from '../../../core/runtime/distributed/AsyncJobQueue';
 
 interface ObservabilityConsolePageProps {
   selectedClient?: string;
@@ -22,10 +26,12 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
   const { session } = useInstitutionalAuth();
   const { buildDataAccessContext, isReady } = useRuntimeContext();
 
-  const [activeTab, setActiveTab] = useState<'metrics' | 'history' | 'anomalies' | 'sessions' | 'integrity'>('metrics');
+  const [activeTab, setActiveTab] = useState<'metrics' | 'history' | 'anomalies' | 'sessions' | 'integrity' | 'cockpit'>('metrics');
   const [selectedTenantFilter, setSelectedTenantFilter] = useState<string>('');
   const [auditEvents, setAuditEvents] = useState<any[]>([]);
   const [anomalies, setAnomalies] = useState<any[]>([]);
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [pressureIncidents, setPressureIncidents] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -56,17 +62,25 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
         targetTenant
       );
 
-      const [eventsData, anomaliesData] = await Promise.all([
+      const [eventsData, anomaliesData, jobsData, pressureData] = await Promise.all([
         governanceService.getAuditEvents(context, { 
           tenantId: tenantFilter === 'GLOBAL' ? undefined : tenantFilter 
         }),
         governanceService.getAnomalies(context, { 
           tenantId: tenantFilter === 'GLOBAL' ? undefined : tenantFilter 
+        }),
+        governanceService.getJobs(context, {
+          tenantId: tenantFilter === 'GLOBAL' ? undefined : tenantFilter
+        }),
+        governanceService.getPressureIncidents(context, {
+          tenantId: tenantFilter === 'GLOBAL' ? undefined : tenantFilter
         })
       ]);
 
       setAuditEvents(eventsData);
       setAnomalies(anomaliesData);
+      setJobs(jobsData);
+      setPressureIncidents(pressureData);
     } catch (err: any) {
       console.error('[ObservabilityConsole] Error loading logs:', err);
       setErrorMsg(err.message || 'Erro ao carregar dados de observabilidade.');
@@ -236,6 +250,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
       <div className="flex gap-2 border-b border-border/10 pb-px overflow-x-auto no-scrollbar">
         <TabButton active={activeTab === 'metrics'} onClick={() => setActiveTab('metrics')} icon={<Activity className="w-4 h-4"/>} label="Painel de Telemetria" />
         <TabButton active={activeTab === 'anomalies'} onClick={() => setActiveTab('anomalies')} icon={<ShieldAlert className="w-4 h-4"/>} label={`Anomalias (${anomalies.length})`} />
+        <TabButton active={activeTab === 'cockpit'} onClick={() => setActiveTab('cockpit')} icon={<Cpu className="w-4 h-4"/>} label="Distributed Cockpit" />
         <TabButton active={activeTab === 'history'} onClick={() => setActiveTab('history')} icon={<Terminal className="w-4 h-4"/>} label="Ledger de Auditoria" />
         <TabButton active={activeTab === 'sessions'} onClick={() => setActiveTab('sessions')} icon={<Users className="w-4 h-4"/>} label="Fluxo de Sessões" />
         <TabButton active={activeTab === 'integrity'} onClick={() => setActiveTab('integrity')} icon={<ShieldCheck className="w-4 h-4"/>} label="Integridade" />
@@ -504,6 +519,234 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                 </div>
               </div>
 
+            </div>
+          )}
+
+          {/* 6. DISTRIBUTED COCKPIT TAB */}
+          {activeTab === 'cockpit' && (
+            <div className="space-y-6">
+              {/* Partições & Health Status */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* Partitions metrics */}
+                <div className="card-premium p-6 space-y-4 bg-slate-950/40">
+                  <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-teal-400" />
+                    Partições de Runtime e Latência
+                  </h3>
+                  
+                  <div className="grid grid-cols-2 gap-3 max-h-[300px] overflow-y-auto pr-2 no-scrollbar">
+                    {Object.entries(RuntimePartitionManager.getMetrics()).map(([name, metrics]) => (
+                      <div key={name} className="p-3 bg-slate-900/60 border border-border/5 rounded-lg space-y-1">
+                        <div className="flex justify-between items-center">
+                          <span className="text-[11px] font-bold text-slate-300 truncate max-w-[120px]">{name.replace(' Runtime', '')}</span>
+                          <span className={cn(
+                            "px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider",
+                            metrics.healthState === 'HEALTHY' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/15' :
+                            metrics.healthState === 'CONGESTED' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/15' :
+                            'bg-red-500/10 text-red-400 border border-red-500/15'
+                          )}>
+                            {metrics.healthState}
+                          </span>
+                        </div>
+                        <div className="flex justify-between text-[10px] text-slate-500">
+                          <span>Latência: {metrics.averageLatency}ms</span>
+                          <span>Fila: {metrics.queueDepth}</span>
+                        </div>
+                        <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+                          <div className={cn(
+                            "h-full rounded-full",
+                            metrics.pressureLevel === 'CRITICAL' ? 'bg-red-500' :
+                            metrics.pressureLevel === 'HIGH' ? 'bg-amber-500' :
+                            metrics.pressureLevel === 'MEDIUM' ? 'bg-indigo-400' : 'bg-emerald-500'
+                          )} style={{ width: `${Math.min(100, Math.max(10, metrics.queueDepth * 10))}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Worker status cockpit */}
+                <div className="card-premium p-6 space-y-4 bg-slate-950/40">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+                      <Cpu className="w-4 h-4 text-indigo-400" />
+                      Status dos Workers Locais (Nó)
+                    </h3>
+                    
+                    <button 
+                      onClick={() => {
+                        const workers = WorkerRegistry.getWorkers();
+                        if (workers.length === 0 && isReady && session) {
+                          const ctx = buildDataAccessContext('VIEW_OBSERVABILITY', 'ObservabilityTelemetry', session.tenantId);
+                          
+                          WorkerRegistry.registerExecutor('Simulation', async () => {
+                            await new Promise(r => setTimeout(r, 800));
+                          });
+                          WorkerRegistry.registerExecutor('Export', async () => {
+                            await new Promise(r => setTimeout(r, 1200));
+                          });
+                          WorkerRegistry.registerExecutor('Telemetry', async () => {
+                            await new Promise(r => setTimeout(r, 400));
+                          });
+
+                          WorkerRegistry.registerWorker('worker-advisory', 'Advisory', 'Advisory Runtime', ctx);
+                          WorkerRegistry.registerWorker('worker-simulation', 'Simulation', 'Simulation Runtime', ctx);
+                          WorkerRegistry.registerWorker('worker-telemetry', 'Telemetry', 'Telemetry Runtime', ctx);
+                          WorkerRegistry.registerWorker('worker-export', 'Export', 'Export Runtime', ctx);
+                          
+                          handleRefresh();
+                        } else {
+                          WorkerRegistry.clear();
+                          handleRefresh();
+                        }
+                      }}
+                      className="px-3 py-1 bg-slate-900 border border-border/10 rounded-lg text-[10px] font-bold uppercase tracking-wider text-indigo-400 hover:text-indigo-300 hover:bg-slate-800 transition-all"
+                    >
+                      {WorkerRegistry.getWorkers().length === 0 ? "Ativar Nó Local" : "Desativar Nó Local"}
+                    </button>
+                  </div>
+
+                  {WorkerRegistry.getWorkers().length === 0 ? (
+                    <div className="text-center py-12 text-slate-500 border border-dashed border-border/10 rounded-xl">
+                      <Server className="w-10 h-10 text-slate-700 mx-auto mb-3" />
+                      <p className="text-[11px] font-bold uppercase tracking-wider">Nenhum worker local rodando nesta janela.</p>
+                      <p className="text-[10px] text-slate-500 mt-1 max-w-[280px] mx-auto">Ative o nó local acima para simular o polling distribuído em background de jobs enfileirados.</p>
+                    </div>
+                  ) : (
+                    <div className="overflow-x-auto max-h-[220px] overflow-y-auto pr-2 no-scrollbar">
+                      <table className="w-full text-left text-[11px] border-collapse">
+                        <thead>
+                          <tr className="bg-slate-950 border-b border-border/10 text-slate-400 font-bold uppercase">
+                            <th className="p-3">Worker ID</th>
+                            <th className="p-3">Tarefa</th>
+                            <th className="p-3">Status</th>
+                            <th className="p-3 text-right">Falhas</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {WorkerRegistry.getWorkers().map(w => (
+                            <tr key={w.workerId} className="border-b border-border/5">
+                              <td className="p-3 font-mono">{w.workerId}</td>
+                              <td className="p-3 font-semibold">{w.jobType}</td>
+                              <td className="p-3">
+                                <span className={cn(
+                                  "px-1.5 py-0.5 rounded text-[9px] font-bold",
+                                  w.status === 'BUSY' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/15' :
+                                  w.status === 'IDLE' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/15' :
+                                  'bg-slate-800 text-slate-400 border border-slate-700'
+                                )}>
+                                  {w.status}
+                                </span>
+                              </td>
+                              <td className="p-3 text-right text-rose-400 font-bold">{w.failuresCount}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+
+              </div>
+
+              {/* Fila de Jobs & DLQ */}
+              <div className="card-premium p-6 space-y-4 bg-slate-950/40">
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-indigo-400" />
+                  Distributed Async Job Queue (`institutional_jobs`)
+                </h3>
+
+                {jobs.length === 0 ? (
+                  <div className="text-center py-16 text-slate-500 border border-dashed border-border/10 rounded-xl">
+                    <p className="text-xs font-bold uppercase tracking-wider">Nenhum job assíncrono na fila deste inquilino.</p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto border border-border/10 rounded-xl">
+                    <table className="w-full text-left text-xs border-collapse">
+                      <thead>
+                        <tr className="bg-slate-950 border-b border-border/10 text-slate-400 font-bold uppercase">
+                          <th className="p-3">Job ID</th>
+                          <th className="p-3">Tipo</th>
+                          <th className="p-3">Estado</th>
+                          <th className="p-3">Prioridade</th>
+                          <th className="p-3">Nó</th>
+                          <th className="p-3">Retries</th>
+                          <th className="p-3 text-right">Ação</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border/5 bg-slate-950/20">
+                        {jobs.map(j => (
+                          <tr key={j.jobId} className="hover:bg-slate-900/30">
+                            <td className="p-3 font-mono text-[10px] text-slate-400">{j.jobId}</td>
+                            <td className="p-3 font-semibold text-slate-200">{j.jobType}</td>
+                            <td className="p-3">
+                              <span className={cn(
+                                "px-2 py-0.5 rounded-lg text-[9px] font-black uppercase border",
+                                j.jobState === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                                j.jobState === 'RUNNING' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20 animate-pulse' :
+                                j.jobState === 'FAILED' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
+                                j.jobState === 'DEAD_LETTER' ? 'bg-rose-500/20 text-rose-300 border-rose-500/30' :
+                                'bg-slate-800 text-slate-400 border-slate-700'
+                              )}>
+                                {j.jobState}
+                              </span>
+                            </td>
+                            <td className="p-3 text-[10px] font-bold text-slate-400">{j.priority}</td>
+                            <td className="p-3 font-mono text-[10px] text-slate-500">{j.processingNode || 'N/A'}</td>
+                            <td className="p-3 text-[10px] text-slate-400">{j.retryCount}/{j.maxRetries}</td>
+                            <td className="p-3 text-right">
+                              {['QUEUED', 'RUNNING'].includes(j.jobState) && (
+                                <button
+                                  onClick={async () => {
+                                    await AsyncJobQueue.cancelJob(j.jobId);
+                                    handleRefresh();
+                                  }}
+                                  className="text-red-400 hover:text-red-300 text-[10px] font-bold uppercase tracking-wider bg-red-500/10 px-2 py-1 rounded"
+                                >
+                                  Cancelar
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              {/* Alertas de Pressão de Runtime */}
+              <div className="card-premium p-6 space-y-4 bg-slate-950/40">
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-500" />
+                  Alertas Ativos de Saturação (`runtime_pressure`)
+                </h3>
+
+                {pressureIncidents.length === 0 ? (
+                  <div className="text-center py-12 text-slate-500 border border-dashed border-border/10 rounded-xl">
+                    <p className="text-xs font-bold uppercase tracking-wider">Nenhum incidente de pressão registrado.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {pressureIncidents.map(i => (
+                      <div key={i.id} className="p-4 bg-slate-950/60 border border-amber-500/10 rounded-xl flex justify-between items-center gap-4">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className={cn(
+                              "px-2 py-0.5 rounded text-[9px] font-black uppercase border",
+                              i.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                            )}>{i.severity}</span>
+                            <span className="text-xs font-bold text-slate-200">{i.runtimeType}</span>
+                          </div>
+                          <p className="text-[11px] text-slate-400"><span className="font-semibold text-slate-300">Ação Recomendada:</span> {i.recommendedAction}</p>
+                        </div>
+                        <span className="text-[10px] text-slate-500">{new Date(i.detectedAt).toLocaleTimeString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           )}
 

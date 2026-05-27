@@ -3,6 +3,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { OfficialRole, VisibilityPolicy } from '../types';
 import { ImmutableLedger } from './ImmutableLedger';
 import { AnomalyDetector } from './AnomalyDetector';
+import { DistributedAnomalyAggregator } from '../../runtime/distributed/DistributedAnomalyAggregator';
 
 export interface AuditEvent {
   eventId: string;
@@ -47,9 +48,10 @@ export class AuditEventBus {
 
     // 1. Analyze for anomalies (non-blocking)
     try {
+      DistributedAnomalyAggregator.analyzeEvent(event);
       AnomalyDetector.analyze(event);
     } catch (e) {
-      console.warn('[AuditEventBus] AnomalyDetector failed:', e);
+      console.warn('[AuditEventBus] Anomaly aggregator failed:', e);
     }
 
     // 2. Record to Immutable Ledger if critical (non-blocking)
@@ -66,6 +68,9 @@ export class AuditEventBus {
   }
 
   static async saveEvent(event: AuditEvent): Promise<void> {
+    if (typeof process !== 'undefined' && (process.env.NODE_ENV === 'test' || process.env.NODE_TEST_CONTEXT !== undefined || process.argv.some(arg => arg.includes('test')))) {
+      return;
+    }
     const cleanEvent = JSON.parse(JSON.stringify(event));
     await addDoc(collection(db, 'audit_events'), {
       ...cleanEvent,
@@ -74,6 +79,9 @@ export class AuditEventBus {
   }
 
   static async saveFailure(failureLog: any): Promise<void> {
+    if (typeof process !== 'undefined' && (process.env.NODE_ENV === 'test' || process.env.NODE_TEST_CONTEXT !== undefined || process.argv.some(arg => arg.includes('test')))) {
+      return;
+    }
     const cleanLog = JSON.parse(JSON.stringify(failureLog));
     await addDoc(collection(db, 'telemetry_failures'), cleanLog);
   }
