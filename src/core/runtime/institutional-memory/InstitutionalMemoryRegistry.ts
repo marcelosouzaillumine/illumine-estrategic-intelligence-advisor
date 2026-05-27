@@ -1,7 +1,8 @@
-import { InstitutionalMemoryRecord } from './types';
+import { InstitutionalMemoryRecord, HistoricalReplayIndexEntry } from './types';
 
 // In-memory static store (append-only)
 const MEMORY_STORE: InstitutionalMemoryRecord[] = [];
+const REPLAY_INDEX_STORE: HistoricalReplayIndexEntry[] = [];
 
 // Seed immutable DEMO records (tagged explicitly, only returned for demo scopes)
 const DEMO_SEEDS: InstitutionalMemoryRecord[] = [
@@ -102,9 +103,31 @@ export class InstitutionalMemoryRegistry {
   }
 
   /**
+   * Armazena um índice leve de replay temporal (Hot Layer / Warm Layer concept).
+   */
+  public static appendReplayIndex(indexEntry: HistoricalReplayIndexEntry): HistoricalReplayIndexEntry {
+    if (!indexEntry.tenantId || !indexEntry.replayId) {
+      throw new Error('VIOLAÇÃO DE REPLAY INDEX: tenantId e replayId são obrigatórios.');
+    }
+    const frozen = Object.freeze({ ...indexEntry });
+    REPLAY_INDEX_STORE.push(frozen);
+    return frozen;
+  }
+
+  /**
+   * Recupera índices de replay de forma segura (tenant isolation).
+   */
+  public static getReplayIndexes(tenantId: string): HistoricalReplayIndexEntry[] {
+    return REPLAY_INDEX_STORE
+      .filter(r => r.tenantId === tenantId)
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  }
+
+  /**
    * Clears in-memory store for testing purposes only.
    */
   public static clearForTest() {
     MEMORY_STORE.length = 0;
+    REPLAY_INDEX_STORE.length = 0;
   }
 }
