@@ -18,6 +18,10 @@ export class ExecutiveActionMatrixEngine {
     causality: any,
     severityLevel: string
   ): ExecutiveActionItem[] {
+    if (!metrics || metrics.hasData === false) {
+      return [];
+    }
+
     if (!actions || actions.length === 0) {
       return [];
     }

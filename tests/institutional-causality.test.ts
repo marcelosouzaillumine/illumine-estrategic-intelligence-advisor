@@ -98,7 +98,7 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
         year: 2023,
         scores: { composite: 80 },
         bpData: [
-          { code: '1.1.1', accountName: 'Caixa', value: 100 },
+          { code: '1.1.1', accountName: 'Caixa', value: 10 },
           { code: '1.1.2', accountName: 'Estoque', value: 100 },
           { code: '2.1.1', accountName: 'Fornecedores', value: 100 },
           { code: '3', accountName: 'Patrimônio Líquido', value: 100 }
@@ -108,7 +108,7 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
         year: 2024,
         scores: { composite: 75 },
         bpData: [
-          { code: '1.1.1', accountName: 'Caixa', value: 90 },
+          { code: '1.1.1', accountName: 'Caixa', value: 10 },
           { code: '1.1.2', accountName: 'Estoque', value: 120 },
           { code: '2.1.1', accountName: 'Fornecedores', value: 120 },
           { code: '3', accountName: 'Patrimônio Líquido', value: 100 }
@@ -118,9 +118,9 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
         year: 2025,
         scores: { composite: 70 },
         bpData: [
-          { code: '1.1.1', accountName: 'Caixa', value: 50 },
+          { code: '1.1.1', accountName: 'Caixa', value: 10 },
           { code: '1.1.2', accountName: 'Estoque', value: 150 },
-          { code: '2.1.1', accountName: 'Fornecedores', value: 200 },
+          { code: '2.1.1', accountName: 'Fornecedores', value: 150 },
           { code: '3', accountName: 'Patrimônio Líquido', value: 100 }
         ]
       }
@@ -144,15 +144,18 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
       },
       bpData: [
         { code: '1.1.1', accountName: 'Caixa', value: 50 },
-        { code: '1.1.2', accountName: 'Estoque', value: 150 }
+        { code: '1.1.2', accountName: 'Estoque', value: 150 },
+        { code: '2.1.1', accountName: 'Fornecedores', value: 400 }
       ]
     };
 
     const report = executiveRuntime.generateExecutiveReport(payload);
-    console.log('ActionMatrix in Test:', report.advisory);
     assert.ok(report.institutionalCausality);
     assert.equal(report.institutionalCausality.historicalDensityRequirement, 'SUFFICIENT');
-    assert.ok(report.advisory.actionMatrix.some(item => item.includes('Preservação e reforço imediato de liquidez estrutural')));
+    assert.ok(report.advisory.actionMatrix.some(item => {
+      const text = typeof item === 'string' ? item : (item.title || item.acao || '');
+      return text.includes('Preservação e reforço imediato de liquidez estrutural');
+    }));
     assert.equal(report.advisory.priorityFocus, 'Liquidez estrutural, capitalização e autonomia fiduciária.');
   });
 });

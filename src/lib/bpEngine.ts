@@ -74,9 +74,20 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
   let hasOrphans = false;
 
   const flatNodes: BPNode[] = rows.map((r, i) => {
-    const rawCategory = (r.category || r.conta || '').trim();
+    const rawCategory = (r.category || r.conta || r.accountName || '').trim();
     const cleanCat = rawCategory.replace(/^[0-9.]+\s*[-]*\s*/, '').replace(/^[()=/\-+.\s]+|[()=/\-+.\s]+$/g, '').trim().toLowerCase();
-    const typeStr = (r.type || r.tipo || '').toLowerCase();
+    let typeStr = (r.type || r.tipo || '').toLowerCase();
+    if (!typeStr) {
+      const code = String(r.code || '');
+      const cat = cleanCat;
+      if (code.startsWith('1') || cat.includes('ativo') || cat === 'caixa' || cat.includes('estoque') || cat.includes('clientes') || cat.includes('banco') || cat.includes('duplicatas')) {
+        typeStr = 'ativo';
+      } else if (code.startsWith('2') || cat.includes('passivo') || cat.includes('fornecedor') || cat.includes('empréstimo') || cat.includes('financiamento')) {
+        typeStr = 'passivo';
+      } else if (code.startsWith('3') || cat.includes('patrimônio') || cat.includes('pl ') || cat === 'pl' || cat.includes('capital social') || cat.includes('lucro') || cat.includes('prejuízo')) {
+        typeStr = 'patrimônio líquido';
+      }
+    }
     
     let inferredLevel = r.level;
     if (!inferredLevel) {

@@ -103,6 +103,7 @@ import { PilotMonitoringDashboard } from '../components/pages/PilotMonitoringDas
 import { CalibrationPlayground } from '../components/pages/CalibrationPlayground';
 import { AdvisorWorkspacePage } from '../components/pages/AdvisorWorkspacePage';
 import { ClientExecutiveWorkspace } from '../components/pages/ClientExecutiveWorkspace';
+import { PilotExperienceDashboard } from '../components/pages/PilotExperienceDashboard';
 // Removed missing ObservabilityConsolePage import
 import type { Page } from './navigation';
 
@@ -583,6 +584,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'client_workspace') {
     return <ClientExecutiveWorkspace selectedClient={selectedClient} selectedYear={selectedYear} />;
+  }
+  if (currentPage === 'pilot_experience') {
+    return <PilotExperienceDashboard selectedClient={selectedClient} />;
   }
 
   return null;

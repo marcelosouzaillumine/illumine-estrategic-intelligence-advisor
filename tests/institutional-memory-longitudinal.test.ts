@@ -27,9 +27,15 @@ describe('Institutional Memory & Longitudinal Intelligence Layer', () => {
   });
 
   test('1. Replay histórico reconstrói advisory corretamente (HistoricalReplayIndex preserva lineage e advisory Hash sem payload gigante)', () => {
-    const index = HistoricalReplayIndex.createIndex(
-      'TENANT-A', 'corr-123', 'lineage-abc', 'advisory-xyz', 85, ['ANOM-1']
-    );
+    const entry = {
+      replayId: 'rep-1', tenantId: 'TENANT-A', entityScope: 'ENT-A',
+      lineageHash: 'lineage-abc', inputHash: 'in-1', advisoryHash: 'advisory-xyz',
+      correlationId: 'corr-123', timestamp: new Date().toISOString(), period: '2023',
+      maturityScore: 85, governanceConsistencyIndex: 100, resilienceTrend: 'STABLE', deteriorationTrend: 'STABLE',
+      anomalyReferences: ['ANOM-1'], recommendationReferences: [], retentionLayer: 'HOT' as any, visibilityPolicy: 'PRIVATE'
+    };
+    HistoricalReplayIndex.registerReplayIndex(entry);
+    const index = HistoricalReplayIndex.buildReplayReference('rep-1')!;
     assert.strictEqual(index.tenantId, 'TENANT-A');
     assert.strictEqual(index.lineageHash, 'lineage-abc');
     assert.strictEqual(index.advisoryHash, 'advisory-xyz');
@@ -118,9 +124,16 @@ describe('Institutional Memory & Longitudinal Intelligence Layer', () => {
   });
 
   test('9. Lineage hashes permanecem consistentes no registry', () => {
-    const entry = HistoricalReplayIndex.createIndex('TENANT-A', 'corr-1', 'lin-hash-1', 'adv-hash-1', 90, []);
-    InstitutionalMemoryRegistry.appendReplayIndex(entry);
-    const retrieved = InstitutionalMemoryRegistry.getReplayIndexes('TENANT-A')[0];
+    const entry = {
+      replayId: 'rep-2', tenantId: 'TENANT-A', entityScope: 'ENT-A',
+      lineageHash: 'lin-hash-1', inputHash: 'in-1', advisoryHash: 'adv-hash-1',
+      correlationId: 'corr-1', timestamp: new Date().toISOString(), period: '2023',
+      maturityScore: 90, governanceConsistencyIndex: 100, resilienceTrend: 'STABLE', deteriorationTrend: 'STABLE',
+      anomalyReferences: [], recommendationReferences: [], retentionLayer: 'HOT' as any, visibilityPolicy: 'PRIVATE'
+    };
+    const ctx = { tenantId: 'TENANT-A', entityScope: ['ENT-A'] };
+    InstitutionalMemoryRegistry.appendReplayIndex(ctx, entry);
+    const retrieved = InstitutionalMemoryRegistry.getReplayIndexes(ctx)[0];
     assert.strictEqual(retrieved.lineageHash, 'lin-hash-1');
   });
 
@@ -133,24 +146,47 @@ describe('Institutional Memory & Longitudinal Intelligence Layer', () => {
   });
 
   test('12. Historical replay funciona sem runtime mutation (Immutability)', () => {
-    const entry = HistoricalReplayIndex.createIndex('TENANT-A', 'corr-1', 'lin-hash-1', 'adv-hash-1', 90, []);
-    const stored = InstitutionalMemoryRegistry.appendReplayIndex(entry);
+    const entry = {
+      replayId: 'rep-3', tenantId: 'TENANT-A', entityScope: 'ENT-A',
+      lineageHash: 'lin-hash-1', inputHash: 'in-1', advisoryHash: 'adv-hash-1',
+      correlationId: 'corr-1', timestamp: new Date().toISOString(), period: '2023',
+      maturityScore: 90, governanceConsistencyIndex: 100, resilienceTrend: 'STABLE', deteriorationTrend: 'STABLE',
+      anomalyReferences: [], recommendationReferences: [], retentionLayer: 'HOT' as any, visibilityPolicy: 'PRIVATE'
+    };
+    const ctx = { tenantId: 'TENANT-A', entityScope: ['ENT-A'] };
+    const stored = InstitutionalMemoryRegistry.appendReplayIndex(ctx, entry);
     assert.throws(() => {
       (stored as any).maturityScore = 100;
     }); // Objeto deve estar congelado (Object.freeze)
   });
 
   test('14. Tenant isolation permanece intacto no Registry', () => {
-    InstitutionalMemoryRegistry.appendReplayIndex(HistoricalReplayIndex.createIndex('TENANT-A', 'c-1', 'l-1', 'a-1', 90, []));
-    InstitutionalMemoryRegistry.appendReplayIndex(HistoricalReplayIndex.createIndex('TENANT-B', 'c-2', 'l-2', 'a-2', 80, []));
+    const ctxA = { tenantId: 'TENANT-A', entityScope: ['ENT-A'] };
+    const ctxB = { tenantId: 'TENANT-B', entityScope: ['ENT-B'] };
+    InstitutionalMemoryRegistry.appendReplayIndex(ctxA, {
+      replayId: 'rep-4', tenantId: 'TENANT-A', entityScope: 'ENT-A', lineageHash: 'l-1', inputHash: 'i-1', advisoryHash: 'a-1',
+      correlationId: 'c-1', timestamp: new Date().toISOString(), period: '2023', maturityScore: 90, governanceConsistencyIndex: 100,
+      resilienceTrend: 'STABLE', deteriorationTrend: 'STABLE', anomalyReferences: [], recommendationReferences: [], retentionLayer: 'HOT', visibilityPolicy: 'PRIVATE'
+    });
+    InstitutionalMemoryRegistry.appendReplayIndex(ctxB, {
+      replayId: 'rep-5', tenantId: 'TENANT-B', entityScope: 'ENT-B', lineageHash: 'l-2', inputHash: 'i-2', advisoryHash: 'a-2',
+      correlationId: 'c-2', timestamp: new Date().toISOString(), period: '2023', maturityScore: 80, governanceConsistencyIndex: 100,
+      resilienceTrend: 'STABLE', deteriorationTrend: 'STABLE', anomalyReferences: [], recommendationReferences: [], retentionLayer: 'HOT', visibilityPolicy: 'PRIVATE'
+    });
 
-    const recordsA = InstitutionalMemoryRegistry.getReplayIndexes('TENANT-A');
+    const recordsA = InstitutionalMemoryRegistry.getReplayIndexes(ctxA);
     assert.strictEqual(recordsA.length, 1);
     assert.strictEqual(recordsA[0].tenantId, 'TENANT-A');
   });
 
   test('15. Replay temporal preserva correlationId', () => {
-    const entry = HistoricalReplayIndex.createIndex('TENANT-A', 'corr-999', 'lin', 'adv', 50, []);
-    assert.strictEqual(entry.correlationId, 'corr-999');
+    const entry = {
+      replayId: 'rep-6', tenantId: 'TENANT-A', entityScope: 'ENT-A', lineageHash: 'lin', inputHash: 'in', advisoryHash: 'adv',
+      correlationId: 'corr-999', timestamp: new Date().toISOString(), period: '2023', maturityScore: 50, governanceConsistencyIndex: 100,
+      resilienceTrend: 'STABLE', deteriorationTrend: 'STABLE', anomalyReferences: [], recommendationReferences: [], retentionLayer: 'HOT' as any, visibilityPolicy: 'PRIVATE'
+    };
+    HistoricalReplayIndex.registerReplayIndex(entry);
+    const retrieved = HistoricalReplayIndex.buildReplayReference('rep-6')!;
+    assert.strictEqual(retrieved.correlationId, 'corr-999');
   });
 });

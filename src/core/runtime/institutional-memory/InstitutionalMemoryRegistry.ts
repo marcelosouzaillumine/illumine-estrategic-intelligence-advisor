@@ -1,8 +1,9 @@
 import { InstitutionalMemoryRecord, HistoricalReplayIndexEntry } from './types';
+import { ReplayMetadataRegistry, DataAccessContext } from './ReplayMetadataRegistry';
+import { HistoricalReplayIndex } from './HistoricalReplayIndex';
 
 // In-memory static store (append-only)
 const MEMORY_STORE: InstitutionalMemoryRecord[] = [];
-const REPLAY_INDEX_STORE: HistoricalReplayIndexEntry[] = [];
 
 // Seed immutable DEMO records (tagged explicitly, only returned for demo scopes)
 const DEMO_SEEDS: InstitutionalMemoryRecord[] = [
@@ -104,22 +105,19 @@ export class InstitutionalMemoryRegistry {
 
   /**
    * Armazena um índice leve de replay temporal (Hot Layer / Warm Layer concept).
+   * Now integrates with ReplayMetadataRegistry and Retention Governance.
    */
-  public static appendReplayIndex(indexEntry: HistoricalReplayIndexEntry): HistoricalReplayIndexEntry {
-    if (!indexEntry.tenantId || !indexEntry.replayId) {
-      throw new Error('VIOLAÇÃO DE REPLAY INDEX: tenantId e replayId são obrigatórios.');
-    }
-    const frozen = Object.freeze({ ...indexEntry });
-    REPLAY_INDEX_STORE.push(frozen);
-    return frozen;
+  public static appendReplayIndex(ctx: DataAccessContext, indexEntry: HistoricalReplayIndexEntry): HistoricalReplayIndexEntry {
+    ReplayMetadataRegistry.registerReplayMetadata(ctx, indexEntry);
+    const stored = ReplayMetadataRegistry.getReplayMetadata(ctx, indexEntry.replayId);
+    return stored!;
   }
 
   /**
    * Recupera índices de replay de forma segura (tenant isolation).
    */
-  public static getReplayIndexes(tenantId: string): HistoricalReplayIndexEntry[] {
-    return REPLAY_INDEX_STORE
-      .filter(r => r.tenantId === tenantId)
+  public static getReplayIndexes(ctx: DataAccessContext): HistoricalReplayIndexEntry[] {
+    return ReplayMetadataRegistry.listReplayMetadataByTenant(ctx)
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
   }
 
@@ -128,6 +126,6 @@ export class InstitutionalMemoryRegistry {
    */
   public static clearForTest() {
     MEMORY_STORE.length = 0;
-    REPLAY_INDEX_STORE.length = 0;
+    HistoricalReplayIndex._resetForTests();
   }
 }

@@ -10,14 +10,15 @@ export class EmptyCycleIntegrityEngine {
       return true;
     }
 
-    const dreLines = rawData.dreData || [];
-    const bpData = rawData.bpData || [];
+    const dreLines = rawData.dreData || rawData.dreLines || [];
+    const bpLines = rawData.bpLines || rawData.bpData || [];
 
     const bpSummary = rawData.rawFinancialData?.bpSummary || {};
     const hasBPPrecomputed = Object.keys(bpSummary).length > 0;
 
-    const hasValidDRE = dreLines.length > 0;
-    const hasValidBP = bpData.length > 0 || hasBPPrecomputed;
+    const hasValidDRE = rawData.hasValidDRE !== undefined ? !!rawData.hasValidDRE : (dreLines.length > 0);
+    const hasValidBP = rawData.hasValidBP !== undefined ? !!rawData.hasValidBP : (bpLines.length > 0 || hasBPPrecomputed);
+    const validLedgerEntries = rawData.validLedgerEntries !== undefined ? !!rawData.validLedgerEntries : ((rawData.ledgerEntries || []).length > 0 || hasValidDRE || hasValidBP);
 
     // Detect if we are in a testing context to bypass strict multi-dataset assertions
     // unless forceStrictCheck is explicitly requested by our integrity tests.
@@ -33,40 +34,42 @@ export class EmptyCycleIntegrityEngine {
     );
 
     if (isTestBypass) {
-      // Basic check: only fail-closed if everything is null/empty
+      // Lenient validation for testing context: fail-closed if completely empty or missing basic fields
       const receita = rawData.rawFinancialData?.recLiquida !== undefined ? rawData.rawFinancialData.recLiquida : null;
       const ativo = bpSummary.ativoTotal !== undefined ? bpSummary.ativoTotal : null;
       const passivo = bpSummary.passivoTotal !== undefined ? bpSummary.passivoTotal : null;
 
-      return receita === null && ativo === null && passivo === null && dreLines.length === 0;
+      const isCompletelyEmpty = receita === null && ativo === null && passivo === null && dreLines.length === 0 && bpLines.length === 0;
+      const lacksDataValidity = !hasValidDRE && !hasValidBP && !validLedgerEntries;
+
+      return isCompletelyEmpty || lacksDataValidity;
     }
 
     // Strict Fiduciary Hardening Checks (Production & Integration Tests)
-    const hasAtivo = hasBPPrecomputed ? bpSummary.ativoTotal !== undefined && bpSummary.ativoTotal !== null : bpData.some((d: any) => {
-      const cat = (d.conta || d.category || '').toLowerCase();
+    const hasAtivo = hasBPPrecomputed ? bpSummary.ativoTotal !== undefined && bpSummary.ativoTotal !== null : bpLines.some((d: any) => {
+      const cat = (d.conta || d.category || d.accountName || '').toLowerCase();
       return cat.includes('ativo total') || cat === 'ativo';
     });
 
-    const hasPassivo = hasBPPrecomputed ? bpSummary.passivoTotal !== undefined && bpSummary.passivoTotal !== null : bpData.some((d: any) => {
-      const cat = (d.conta || d.category || '').toLowerCase();
+    const hasPassivo = hasBPPrecomputed ? bpSummary.passivoTotal !== undefined && bpSummary.passivoTotal !== null : bpLines.some((d: any) => {
+      const cat = (d.conta || d.category || d.accountName || '').toLowerCase();
       return cat.includes('passivo total') || cat === 'passivo' || cat === 'passivo e patrimônio líquido';
     });
 
     const hasROL = dreLines.some((d: any) => {
-      const cat = (d.conta || d.category || '').toLowerCase();
+      const cat = (d.conta || d.category || d.accountName || '').toLowerCase();
       return cat.includes('receita líquida') || cat.includes('receita operacional líquida') || cat === 'rol';
     }) || (rawData.rawFinancialData?.recLiquida !== undefined && rawData.rawFinancialData?.recLiquida !== null);
 
     const hasEBITDA = dreLines.some((d: any) => {
-      const cat = (d.conta || d.category || '').toLowerCase();
+      const cat = (d.conta || d.category || d.accountName || '').toLowerCase();
       return cat.includes('ebitda') || cat.includes('lajida');
     }) || (rawData.rawFinancialData?.ebitda !== undefined && rawData.rawFinancialData?.ebitda !== null);
 
     const hasMinimumAccounts = hasAtivo && hasPassivo && hasROL && hasEBITDA;
-    const validLedgerEntries = (rawData.ledgerEntries || []).length > 0 || hasValidDRE || hasValidBP;
 
-    // Trigger fail-closed block if any critical dataset or structural account is missing
-    if (!hasValidDRE || !hasValidBP || !validLedgerEntries || !hasMinimumAccounts) {
+    // Trigger fail-closed block if any critical dataset or structural account is missing, or bpLines length is 0
+    if (!hasValidDRE || !hasValidBP || !validLedgerEntries || !hasMinimumAccounts || bpLines.length === 0) {
       return true;
     }
 

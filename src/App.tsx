@@ -133,16 +133,16 @@ function Logo({ collapsed }: { collapsed?: boolean }) {
         <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain" />
       </div>
       {!collapsed && (
-        <div className="flex flex-col items-center w-fit">
+        <div className="flex flex-col items-start w-fit">
           <span 
-            className="text-[72px] tracking-[-0.06em] text-foreground leading-[0.8]" 
+            className="text-[72px] tracking-[-0.06em] text-foreground leading-[0.8] block" 
             style={{ fontFamily: '"Tilt Warp", sans-serif' }}
           >
             illumine
           </span>
           <div 
-            className="flex justify-between w-full text-[10.5px] text-secondary uppercase mt-[2px] whitespace-nowrap" 
-            style={{ fontFamily: '"Work Sans", sans-serif' }}
+            className="flex justify-between w-full text-[10.5px] text-foreground uppercase mt-[2px] whitespace-nowrap" 
+            style={{ fontFamily: '"Work Sans", sans-serif', paddingLeft: '4px', paddingRight: '1px' }}
           >
             {"Governance".split('').map((char, i) => (
               <span key={i}>{char === ' ' ? '\u00A0' : char}</span>

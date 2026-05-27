@@ -330,9 +330,15 @@ export class ExecutiveIntelligenceRuntime {
     if (rawData.bpData && Array.isArray(rawData.bpData) && rawData.bpData.length > 0) {
       // Raw entries array: build hierarchy first
       const hierarchy = buildBPHierarchy(rawData.bpData);
+      const cleanHierarchySummary: any = {};
+      for (const [key, value] of Object.entries(hierarchy.summary)) {
+        if (value !== 0 && value !== false && value !== null && value !== undefined && (!Array.isArray(value) || value.length > 0)) {
+          cleanHierarchySummary[key] = value;
+        }
+      }
       bpSummary = {
         ...rawData.rawFinancialData?.bpSummary,
-        ...hierarchy.summary
+        ...cleanHierarchySummary
       };
     } else if (rawData.rawFinancialData?.bpSummary && Object.keys(rawData.rawFinancialData.bpSummary).length > 0) {
       // Pre-computed summary passed directly from the page (BalanceSheetPage)

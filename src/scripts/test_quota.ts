@@ -1,12 +1,7 @@
 import { buildBPHierarchy } from '../lib/bpEngine';
 import { calculateFinancialMetrics } from '../lib/financial-engine';
-import { inferBusinessIdentity } from '../lib/business-identity-engine';
-import { evaluateMasterCausality } from '../lib/master-causal-engine';
 import { InstitutionalContextEngine } from '../core/runtime/institutional-context/InstitutionalContextEngine';
-import { InstitutionalMemoryEngine } from '../core/runtime/institutional-memory/InstitutionalMemoryEngine';
-import { InstitutionalCausalityOrchestrator } from '../core/runtime/institutional-causality/InstitutionalCausalityOrchestrator';
-import { ExecutivePriorityCascadeResolver } from '../core/runtime/institutional-causality/ExecutivePriorityCascadeResolver';
-import { StructuralCapitalOrchestrator } from '../core/runtime/structural-capital/StructuralCapitalOrchestrator';
+import { ExecutiveActionMatrixEngine } from '../core/runtime/integrity/ExecutiveActionMatrixEngine';
 
 const cycles = [
   {
@@ -62,40 +57,25 @@ const payload = {
 
 const hierarchy = buildBPHierarchy(payload.bpData);
 const bpSummary = hierarchy.summary;
-
-const memoryProfile = InstitutionalMemoryEngine.buildMemory(payload.runtimeHistory);
-const causalityProfile = InstitutionalCausalityOrchestrator.evaluate(payload.runtimeHistory);
+const metrics = calculateFinancialMetrics(bpSummary as any, 0, 0, 'Varejo');
 const institutionalContext = InstitutionalContextEngine.resolve(payload);
 
-let focusAreas = [...institutionalContext.recommendationBoundaries.focusAreas];
-console.log('1. Initial focusAreas:', focusAreas);
+const originalActions = [
+  'Preservação e reforço imediato de liquidez estrutural.',
+  'Reforço patrimonial por meio de capitalização proporcional.',
+  'Mitigação e redução da dependência de fornecedores operacionais.',
+  'Otimização do ciclo financeiro e eficiência de capital de giro.',
+  'Garantia de margem de contribuição saudável',
+  'Aceleração comercial',
+  'Otimização de capital de giro',
+  'Crescimento operacional sem reforço proporcional de capital próprio.'
+];
 
-if (memoryProfile.historicalDensityRequirement === 'SUFFICIENT') {
-  if (memoryProfile.decisionPatterns.length > 0) {
-    focusAreas.push(...memoryProfile.decisionPatterns);
-  }
-  if (memoryProfile.deteriorationSignals.length > 0) {
-    focusAreas.push(...memoryProfile.deteriorationSignals);
-  }
+console.log('Building matrix...');
+const matrix = ExecutiveActionMatrixEngine.buildMatrix(originalActions, metrics, bpSummary, {}, 'SENSÍVEL');
+console.log('Matrix returned:', matrix);
+
+for (const act of originalActions) {
+  const item = (ExecutiveActionMatrixEngine as any).mapAction(act, 0, metrics, bpSummary, {}, 'SENSÍVEL');
+  console.log(`Action: "${act}" -> fiduciaryEvidence: "${item?.fiduciaryEvidence}"`);
 }
-console.log('2. FocusAreas after memory:', focusAreas);
-
-let advisory = {
-  executiveSummary: 'Summary',
-  actionMatrix: focusAreas,
-  priorityFocus: focusAreas[0] || 'Focus'
-};
-
-console.log('3. Advisory before Cascade Resolver:', advisory.actionMatrix);
-advisory = ExecutivePriorityCascadeResolver.resolve(advisory, causalityProfile);
-console.log('4. Advisory after Cascade Resolver:', advisory.actionMatrix);
-
-const structuralCapital = StructuralCapitalOrchestrator.analyze(bpSummary, institutionalContext);
-console.log('5. Structural Capital Severity:', structuralCapital.severity);
-console.log('6. Structural Capital Signals:', structuralCapital.signals);
-
-advisory.actionMatrix = StructuralCapitalOrchestrator.reprioritizeAdvisory(
-  structuralCapital,
-  advisory.actionMatrix
-);
-console.log('7. Final Action Matrix:', advisory.actionMatrix);

@@ -137,6 +137,7 @@ describe('Executive Diagnostic Integrity and Fail-Closed Engine (RC-1.3A)', () =
     const genericRes = BenchmarkReferenceEngine.resolve('ebitdaVal', 'Outros', 'Serviço');
     assert.equal(genericRes.confidence, 'LOW_CONFIDENCE');
     assert.ok(genericRes.label.includes('Referencial aproximado'));
+    assert.ok(genericRes.label.includes('não aplicável como meta técnica definitiva'));
   });
 
   it('6. InvalidMetricGuard suppresses Infinity and NaN', () => {

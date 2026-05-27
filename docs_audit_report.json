@@ -126,6 +126,13 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/COMMERCIAL_PILOT_PROTOCOL.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/CONTINUITY_ENGINE.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
@@ -253,6 +260,13 @@
   },
   {
     "file": "docs/PILOT_EDGE_CASES_LOG.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
+    "file": "docs/PILOT_FEEDBACK_LOG.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
     "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",

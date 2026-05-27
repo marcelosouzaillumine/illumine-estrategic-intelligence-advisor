@@ -116,6 +116,29 @@ export function detectRegressions(directoriesToScan: string[]): RegressionResult
             }
           });
         }
+
+        // Commercial and Pilot Dashboard Hardening (Phase 11)
+        const isCommercialOrDashboard = fullPath.includes('src/core/commercial') || 
+                                        fullPath.includes('PilotExperienceDashboard');
+
+        if (isCommercialOrDashboard) {
+          const cleanContentForCheck = content.replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '');
+          const COMMERCIAL_BANS = [
+            { pattern: /score\s*=/gi, message: 'Atribuição ou cálculo local de score proibida na camada comercial/dashboard.' },
+            { pattern: /risk\s*=/gi, message: 'Atribuição ou cálculo local de risco proibida na camada comercial/dashboard.' },
+            { pattern: /advisory\s*=/gi, message: 'Atribuição ou cálculo local de advisory proibida na camada comercial/dashboard.' },
+            { pattern: /causality\s*=/gi, message: 'Atribuição ou cálculo local de causação/causalidade proibida na camada comercial/dashboard.' },
+            { pattern: /severity\s*=/gi, message: 'Atribuição ou cálculo local de severidade proibida na camada comercial/dashboard.' },
+            { pattern: /score-engine|scoreEngine/gi, message: 'Bypass de motor matemático (score-engine) proibido na camada comercial/dashboard.' },
+            { pattern: /causality-orchestrator|causalityOrchestrator|CausalityEngine/gi, message: 'Bypass de motor causal proibido na camada comercial/dashboard.' }
+          ];
+
+          COMMERCIAL_BANS.forEach(({ pattern, message }) => {
+            if (pattern.test(cleanContentForCheck)) {
+              violations.push(`[${fullPath}]: Commercial/Dashboard Layer violou regra: ${message}`);
+            }
+          });
+        }
       }
     }
   };

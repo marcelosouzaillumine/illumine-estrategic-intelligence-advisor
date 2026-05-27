@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ShieldCheck, Zap, AlertTriangle, BookOpen, Target, Activity, TrendingUp, Users, BarChart2, DollarSign, Layers } from 'lucide-react';
+import { ShieldCheck, Zap, AlertTriangle, BookOpen, Target, Activity, TrendingUp, Users, BarChart2, DollarSign, Layers, Lock } from 'lucide-react';
 import { ExecutiveAdvisoryReport } from '../lib/executive-advisory-engine';
 import { ExecutiveIntelligenceReport } from '../core/runtime/executive-intelligence-runtime';
 import { cn } from '../lib/utils';
@@ -380,12 +380,15 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
                 <Target size={14} /> Prioridades Estratégicas
               </h4>
               <ul className="space-y-2">
-                {strategicPriorities.length > 0 ? strategicPriorities.map((p, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                    <span className="text-emerald-400 mt-1 shrink-0">•</span>
-                    <span>{p}</span>
-                  </li>
-                )) : (
+                {strategicPriorities.length > 0 ? strategicPriorities.map((p, i) => {
+                  const priorityText = typeof p === 'string' ? p : (p?.title || p?.acao || '');
+                  return (
+                    <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                      <span className="text-emerald-400 mt-1 shrink-0">•</span>
+                      <span>{priorityText}</span>
+                    </li>
+                  );
+                }) : (
                   <li className="text-sm text-slate-500 italic">Lance os demonstrativos financeiros para gerar prioridades estratégicas.</li>
                 )}
               </ul>
@@ -394,7 +397,7 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
         </motion.div>
 
         {/* Matriz de Ação Executiva — Expandida com Visão de Gestão */}
-        {actionMatrix.length > 0 && (
+        {actionMatrix.length > 0 ? (
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-2">
               <Activity className="text-indigo-500" size={20} />
@@ -448,6 +451,19 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
                   </div>
                 );
               })}
+            </div>
+          </div>
+        ) : (
+          <div className="mb-12 p-8 bg-slate-50 rounded-[32px] border border-dashed border-slate-200 text-center relative overflow-hidden">
+            <div className="absolute -left-10 -top-10 w-40 h-40 bg-slate-100 rounded-full blur-2xl opacity-50" />
+            <div className="relative z-10 flex flex-col items-center">
+              <div className="p-4 rounded-full bg-slate-100 text-slate-400 mb-3 border border-slate-200">
+                <Lock size={24} strokeWidth={2} />
+              </div>
+              <h5 className="text-xs font-black text-slate-700 uppercase tracking-[0.2em] mb-2">Matriz de Ação Executiva Bloqueada</h5>
+              <p className="text-[11px] text-slate-500 font-medium max-w-lg leading-relaxed">
+                Ausência de evidências fiduciárias suficientes ou dados incompletos para a geração de recomendações. Insira lançamentos válidos de balanço e DRE para liberar a matriz de ação executiva.
+              </p>
             </div>
           </div>
         )}

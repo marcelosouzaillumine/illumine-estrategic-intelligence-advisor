@@ -72,14 +72,24 @@ export interface HistoricalDecisionEntry {
 
 export interface HistoricalReplayIndexEntry {
   replayId: string;
+  tenantId: string;
+  entityScope: string;
   lineageHash: string;
+  inputHash: string;
   advisoryHash: string;
   simulationHash?: string;
-  timestamp: string;
-  tenantId: string;
+  workflowHash?: string;
   correlationId: string;
+  timestamp: string;
+  period: string;
   maturityScore: number;
+  governanceConsistencyIndex: number;
+  resilienceTrend: string;
+  deteriorationTrend: string;
   anomalyReferences: string[];
+  recommendationReferences: string[];
+  retentionLayer: 'HOT' | 'WARM' | 'COLD';
+  visibilityPolicy: string;
 }
 
 export interface LongitudinalMaturityProfile {

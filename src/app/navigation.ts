@@ -206,7 +206,8 @@ export type Page =
   | 'calibration_playground'
   | 'observability_console'
   | 'advisor_workspace'
-  | 'client_workspace';
+  | 'client_workspace'
+  | 'pilot_experience';
 
 export interface NavigationItem {
   id: Page;
@@ -297,6 +298,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'observability_console', label: 'Console de Observabilidade', icon: Eye },
       { id: 'advisor_workspace', label: 'Advisor Workspace', icon: Briefcase, masterOnly: true },
       { id: 'client_workspace', label: 'Client Executive Workspace', icon: LayoutDashboard, masterOnly: false },
+      { id: 'pilot_experience', label: 'Pilot Experience Dashboard', icon: BarChart3, masterOnly: true },
       
       // --- Legacy & Master Only Routes (Preservados internamente) ---
       { id: 'advisor_cockpit', label: 'Advisor Cockpit', icon: BriefcaseBusiness, masterOnly: true },

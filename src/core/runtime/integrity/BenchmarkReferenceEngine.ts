@@ -37,7 +37,7 @@ export class BenchmarkReferenceEngine {
       return {
         target,
         origin: 'GENERIC_MODEL',
-        label: `Benchmark: ${benchmark.benchmarkOrigin} (Referencial aproximado para ${modelName})`,
+        label: `Benchmark: ${benchmark.benchmarkOrigin} (Referencial aproximado para ${modelName}, não aplicável como meta técnica definitiva)`,
         confidence: 'LOW_CONFIDENCE'
       };
     }

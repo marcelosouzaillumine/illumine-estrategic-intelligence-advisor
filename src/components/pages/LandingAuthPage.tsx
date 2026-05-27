@@ -1752,11 +1752,11 @@ export function LandingAuthPage({
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="flex items-center gap-4">
             <IllumineMark className="w-16 h-16 shrink-0" />
-            <div className="flex flex-col items-center w-fit">
+            <div className="flex flex-col items-start w-fit">
               <span className="text-[56px] font-normal lowercase leading-[0.85] text-white tracking-[-0.04em] block" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
                 illumine
               </span>
-              <div className="flex justify-between w-full text-[8px] text-white/60 uppercase mt-[6px] font-bold whitespace-nowrap" style={{ fontFamily: '"Work Sans", sans-serif' }}>
+              <div className="flex justify-between w-full text-[8px] text-white uppercase mt-[6px] font-bold whitespace-nowrap" style={{ fontFamily: '"Work Sans", sans-serif', paddingLeft: '3px', paddingRight: '0.8px' }}>
                 {"Governance".split('').map((char, i) => (
                   <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
                 ))}

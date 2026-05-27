@@ -1,105 +1,90 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 import { 
   ShieldCheck, BrainCircuit, Target, Activity, 
   Layers, AlertCircle, Briefcase, Network, CheckCircle2, 
   BarChart3, Database, Shield, MonitorSmartphone, ArrowRight,
-  TrendingDown, Globe, Cpu, Server, Lock, Search, Eye, LayoutDashboard
+  TrendingDown, Globe, Cpu, Server, Lock, Search, Eye, LayoutDashboard,
+  Compass, ChevronRight
 } from 'lucide-react';
 
-// Minimal Animation Variants
-const fadeUp = {
-  hidden: { opacity: 0, y: 15 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-};
+// Quiet, Editorial Causal Topology Watermark (Static & Extremely Understated)
+const CausalTopologyVisual = () => {
+  const nodes = [
+    { id: 1, x: 150, y: 130, label: 'Decisão de Expansão' },
+    { id: 2, x: 420, y: 170, label: 'Pressão Operacional' },
+    { id: 3, x: 280, y: 290, label: 'Necessidade de Capital de Giro' },
+    { id: 4, x: 580, y: 230, label: 'Deterioração de Margem' },
+    { id: 5, x: 740, y: 140, label: 'Risco Fiduciário' },
+    { id: 6, x: 480, y: 370, label: 'Estrutura de Liquidez' },
+    { id: 7, x: 720, y: 340, label: 'Proteção Patrimonial' }
+  ];
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
-};
+  const links = [
+    { from: 1, to: 2 },
+    { from: 1, to: 3 },
+    { from: 2, to: 4 },
+    { from: 3, to: 6 },
+    { from: 4, to: 5 },
+    { from: 6, to: 7 },
+    { from: 4, to: 6 },
+    { from: 2, to: 3 },
+    { from: 5, to: 7 }
+  ];
 
-// Abstracted UI Mockup Component (Simulates a live Enterprise Dashboard - Bloomberg style)
-const LiveDashboardMockup = () => {
   return (
-    <div className="absolute inset-0 pointer-events-none opacity-[0.10] overflow-hidden flex items-center justify-center">
-      <div className="relative w-full h-full max-w-[1400px] flex gap-4 p-8">
-        {/* Left Panel - Navigation / Modules */}
-        <div className="w-64 h-full border-r border-secondary/20 flex flex-col gap-4 pt-10">
-          {[1, 2, 3, 4, 5, 6].map(i => (
-            <div key={i} className="flex items-center gap-3">
-              <div className="w-4 h-4 rounded-sm border border-secondary/30 flex items-center justify-center">
-                <motion.div animate={{ opacity: [0, 1, 0] }} transition={{ duration: 2 + i, repeat: Infinity }} className="w-2 h-2 bg-secondary/50 rounded-sm" />
-              </div>
-              <motion.div 
-                initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: i * 0.1 }}
-                className="w-full h-6 bg-secondary/10 rounded-sm"
-              />
-            </div>
-          ))}
-        </div>
-        {/* Center Canvas - Analytics & Grids */}
-        <div className="flex-1 flex flex-col gap-4 min-w-0">
-          {/* Top Bar - KPIs */}
-          <div className="flex gap-4 h-20">
-            {[1, 2, 3, 4].map(i => (
-              <div key={i} className="flex-1 border border-secondary/20 rounded-md p-3 flex flex-col justify-between min-w-0">
-                <div className="w-1/2 h-2 bg-secondary/20 rounded-sm" />
-                <div className="w-3/4 h-4 bg-secondary/10 rounded-sm flex items-center overflow-hidden">
-                   <motion.div animate={{ x: ['-100%', '100%'] }} transition={{ duration: 3, delay: i*0.5, repeat: Infinity, ease: 'linear' }} className="w-1/2 h-full bg-secondary/20" />
-                </div>
-              </div>
-            ))}
-          </div>
+    <div className="absolute inset-0 pointer-events-none opacity-[0.06] overflow-hidden flex items-center justify-center">
+      <svg className="w-full h-full max-w-[1200px] max-h-[600px] text-white" viewBox="0 0 900 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Connection Lines (Ultra Thin & Subdued) */}
+        {links.map((link, i) => {
+          const fromNode = nodes.find(n => n.id === link.from);
+          const toNode = nodes.find(n => n.id === link.to);
+          if (!fromNode || !toNode) return null;
 
-          {/* Main Chart Area */}
-          <div className="h-48 w-full border border-secondary/20 rounded-lg flex items-end p-4 gap-1 relative overflow-hidden">
-            <div className="absolute top-4 left-4 flex gap-2">
-               <div className="w-16 h-3 bg-secondary/30 rounded-sm" />
-               <div className="w-24 h-3 bg-secondary/10 rounded-sm" />
-            </div>
-            {/* Grid lines */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] -z-10" />
-            {[...Array(40)].map((_, i) => (
-              <motion.div
-                key={i}
-                animate={{ height: ['10%', '70%', '30%', '90%', '40%'][i % 5] }}
-                transition={{ duration: 4 + (i % 3), repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-                className="flex-1 bg-secondary/20 rounded-t-sm min-w-0"
-              />
-            ))}
-          </div>
-          
-          {/* Bottom Grid Data */}
-          <div className="flex gap-4 flex-1 min-w-0">
-            <div className="flex-[2] border border-secondary/20 rounded-lg p-4 flex flex-col gap-3">
-               <div className="w-32 h-3 bg-secondary/20 rounded-sm mb-2" />
-               {[1, 2, 3, 4].map(row => (
-                 <div key={row} className="flex gap-2">
-                   <div className="flex-1 h-4 bg-secondary/5 rounded-sm min-w-0" />
-                   <div className="flex-1 h-4 bg-secondary/10 rounded-sm min-w-0" />
-                   <div className="flex-[2] h-4 bg-secondary/5 rounded-sm" />
-                   <motion.div animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, delay: row * 0.2, repeat: Infinity }} className="w-12 h-4 bg-secondary/20 rounded-sm" />
-                 </div>
-               ))}
-            </div>
-            <div className="flex-1 border border-secondary/20 rounded-lg relative overflow-hidden flex items-center justify-center min-w-0">
-              {/* Radar or circular abstract */}
-              <div className="w-32 h-32 rounded-full border border-secondary/20 flex items-center justify-center relative">
-                 <div className="w-16 h-16 rounded-full border border-secondary/30 flex items-center justify-center">
-                    <motion.div animate={{ scale: [1, 1.5, 1], opacity: [0.8, 0, 0.8] }} transition={{ duration: 3, repeat: Infinity }} className="w-4 h-4 rounded-full bg-secondary" />
-                 </div>
-                 <motion.div animate={{ rotate: -360 }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="absolute inset-0 border-t-2 border-secondary/50 rounded-full" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+          return (
+            <line 
+              key={i}
+              x1={fromNode.x} 
+              y1={fromNode.y} 
+              x2={toNode.x} 
+              y2={toNode.y} 
+              stroke="rgba(255, 255, 255, 0.3)" 
+              strokeWidth="0.75"
+            />
+          );
+        })}
+
+        {/* Static Nodes */}
+        {nodes.map((node) => (
+          <g key={node.id}>
+            <circle
+              cx={node.x}
+              cy={node.y}
+              r="2"
+              fill="#FFFFFF"
+            />
+            <text
+              x={node.x}
+              y={node.y + 20}
+              textAnchor="middle"
+              fill="rgba(255, 255, 255, 0.55)"
+              fontSize="8"
+              letterSpacing="0.08em"
+              className="font-sans font-medium uppercase select-none"
+            >
+              {node.label}
+            </text>
+          </g>
+        ))}
+      </svg>
     </div>
   );
 };
 
 export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
   const [showSticky, setShowSticky] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -120,28 +105,30 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
   };
 
   return (
-    <main className="min-h-screen bg-[#030303] text-white relative overflow-x-hidden font-sans selection:bg-secondary/20 selection:text-secondary">
-      {/* Background Ambient Effects */}
-      <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[140px] pointer-events-none z-0" />
+    <main className="min-h-screen bg-[#03080F] text-white relative overflow-x-hidden font-sans selection:bg-secondary/20 selection:text-secondary">
+      {/* Background Ambient Effects (Sovereign/Private Banking Sophistication) */}
+      <div className="fixed top-[-10%] left-[-5%] w-[45%] h-[45%] rounded-full bg-secondary/2 blur-[160px] pointer-events-none z-0" />
+      <div className="fixed bottom-[-15%] right-[-5%] w-[50%] h-[50%] rounded-full bg-white/1 blur-[180px] pointer-events-none z-0" />
       
-      {/* Navbar Premium Blur */}
-      <nav className="fixed top-0 inset-x-0 h-20 z-50 border-b border-white/5 backdrop-blur-xl bg-[#030303]/80 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 lg:px-6 h-full flex items-center justify-between gap-4">
+      {/* Navbar Premium - Simplified, Minimal Visual Noise */}
+      <nav className="fixed top-0 inset-x-0 h-20 z-50 border-b border-white/5 backdrop-blur-xl bg-[#03080F]/70 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 h-full flex items-center justify-between gap-8">
           
+          {/* Logo Signature (Continuous Official Identity) */}
           <div className="flex items-center gap-0 cursor-pointer group" onClick={() => scrollToSection('hero')}>
-            <div className="w-[52px] h-[52px] flex items-center justify-center relative -translate-y-1">
+            <div className="w-[48px] h-[48px] flex items-center justify-center relative -translate-y-[2px]">
               <img src="/logo.png" alt="Illumine Icon" className="relative z-10 w-full h-full object-contain" />
             </div>
-            <div className="flex flex-col items-center w-fit">
+            <div className="flex flex-col items-start w-fit">
               <span 
-                className="text-[42px] tracking-[-0.06em] text-white leading-[0.8]" 
+                className="text-[38px] tracking-[-0.06em] text-white leading-[0.8] block" 
                 style={{ fontFamily: '"Tilt Warp", sans-serif' }}
               >
                 illumine
               </span>
               <div 
-                className="flex justify-between w-full text-[6px] text-secondary uppercase mt-[2px] whitespace-nowrap font-medium" 
-                style={{ fontFamily: '"Work Sans", sans-serif' }}
+                className="flex justify-between w-full text-[7px] text-white uppercase mt-[2px] whitespace-nowrap font-medium" 
+                style={{ fontFamily: '"Work Sans", sans-serif', paddingLeft: '2px', paddingRight: '0.5px' }}
               >
                 {"Governance".split('').map((char, i) => (
                   <span key={i}>{char === ' ' ? '\u00A0' : char}</span>
@@ -150,279 +137,488 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
             </div>
           </div>
 
-          <div className="hidden lg:flex items-center gap-1 bg-white/5 border border-white/10 p-1 rounded-lg">
-            <button className="px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-white text-black rounded-md shadow-sm pointer-events-none">
-              Empresa
+          {/* Simple Executive Navigation List */}
+          <div className="hidden lg:flex items-center gap-12">
+            <button 
+              onClick={() => scrollToSection('problema')} 
+              className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
+            >
+              O Risco
             </button>
-            <button onClick={() => window.location.href = '/parceiros'} className="px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors rounded-md break-words">
-              Parceiro
+            <button 
+              onClick={() => scrollToSection('deterioracao')} 
+              className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
+            >
+              Deterioração
+            </button>
+            <button 
+              onClick={() => scrollToSection('decisoes')} 
+              className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
+            >
+              Decisões
+            </button>
+            <button 
+              onClick={() => scrollToSection('metodologia')} 
+              className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
+            >
+              Inteligência
+            </button>
+            <button 
+              onClick={() => scrollToSection('plataforma')} 
+              className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
+            >
+              Arquitetura
+            </button>
+            <button 
+              onClick={() => navigate('/parceiros')} 
+              className="text-[11px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors cursor-pointer"
+            >
+              Parceiros
             </button>
           </div>
 
-          <div className="hidden lg:flex items-center gap-8">
-            <button onClick={() => scrollToSection('problema')} className="text-[11px] font-semibold uppercase tracking-widest text-white/80 hover:text-white transition-colors break-words">O Risco</button>
-            <button onClick={() => scrollToSection('plataforma')} className="text-[11px] font-semibold uppercase tracking-widest text-white/80 hover:text-white transition-colors break-words">Infraestrutura</button>
-            <button onClick={() => scrollToSection('causalidade')} className="text-[11px] font-semibold uppercase tracking-widest text-white/80 hover:text-white transition-colors break-words">Causalidade</button>
-          </div>
-
-          <div className="flex items-center gap-4 shrink-0">
-            <button onClick={onLoginClick} className="hidden sm:block text-[11px] font-semibold uppercase tracking-widest text-white/80 hover:text-secondary transition-colors cursor-pointer break-words">
+          {/* Action CTAs */}
+          <div className="flex items-center gap-6 shrink-0">
+            <button 
+              onClick={onLoginClick} 
+              className="hidden sm:block text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-secondary transition-colors cursor-pointer"
+            >
               Área Restrita
             </button>
             <button 
-              onClick={() => handleCTAClick('Gostaria de solicitar uma Apresentação Executiva da Infraestrutura Illumine')}
-              className="h-10 px-6 rounded-md bg-secondary text-secondary-foreground font-bold text-[10px] uppercase tracking-widest hover:bg-secondary/90 transition-all flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(233,111,61,0.2)]"
+              onClick={() => handleCTAClick('Gostaria de agendar uma conversa com os especialistas da Illumine.')}
+              className="h-10 px-5 rounded-md border border-white/20 hover:border-white text-white font-bold text-[9px] uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-2 cursor-pointer"
             >
-              <Briefcase className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Apresentação Executiva</span>
+              <span>Conversar com Especialistas</span>
             </button>
           </div>
+
         </div>
       </nav>
-
-      {/* 1. HERO SECTION */}
-      <section id="hero" className="pt-48 pb-32 px-6 relative overflow-hidden z-10 border-b border-white/5 min-h-[90vh] flex items-center">
-        <LiveDashboardMockup />
-        <div className="max-w-5xl mx-auto text-center space-y-10 relative z-10">
-          <motion.div initial="hidden" animate="show" variants={fadeUp}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-[10px] font-bold uppercase tracking-widest mb-6 backdrop-blur-md">
-              <Database size={14} className="opacity-80" /> Enterprise Intelligence Layer
+       {/* 1. HERO SECTION (High Executive Gravity & Tension) */}
+      <section id="hero" className="pt-48 pb-36 px-6 relative overflow-hidden z-10 border-b border-white/5 min-h-[92vh] flex items-center">
+        <CausalTopologyVisual />
+        <div className="max-w-4xl mx-auto text-center space-y-12 relative z-10">
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6 }}
+            className="space-y-6"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 text-[9px] font-bold uppercase tracking-widest mb-2 backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+              INTELIGÊNCIA INSTITUCIONAL & GOVERNANÇA EXECUTIVA
             </span>
-            <h1 className="text-4xl md:text-6xl lg:text-[76px] font-medium tracking-tight text-white leading-[1.05]" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
-              Infraestrutura Institucional de Inteligência Estratégica para <span className="text-secondary">Operações de Alta Complexidade.</span>
-            </h1>
-          </motion.div>
 
-          <motion.div initial="hidden" animate="show" variants={fadeUp} className="text-lg md:text-xl text-white font-medium max-w-3xl mx-auto space-y-6 leading-relaxed break-words">
-            <p>
-              A Illumine Governance centraliza, correlaciona e estrutura o monitoramento contínuo da operação corporativa, reduzindo a assimetria informacional e estabelecendo previsibilidade decisória sobre riscos operacionais e liquidez.
+            <p className="text-secondary text-xs sm:text-sm font-semibold tracking-widest uppercase max-w-2xl mx-auto leading-relaxed mt-2 select-none">
+              Muitas empresas crescem em faturamento enquanto perdem capacidade de sustentação.
             </p>
-          </motion.div>
-
-          <motion.div initial="hidden" animate="show" variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
-            <button
-              onClick={() => handleCTAClick('Gostaria de Solicitar uma Apresentação Executiva da Infraestrutura')}
-              className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-xl shadow-white/5"
-            >
-              <span>Solicitar Apresentação Executiva</span>
-              <ArrowRight size={16} />
-            </button>
-            <button
-              onClick={() => handleCTAClick('Gostaria de Avaliar minha Estrutura Operacional')}
-              className="w-full sm:w-auto h-14 px-8 rounded-md bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-2"
-            >
-              <Activity size={16} />
-              <span>Avaliar Estrutura Operacional</span>
-            </button>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 2. O PROBLEMA DA COMPLEXIDADE */}
-      <section id="problema" className="py-32 px-6 relative z-10 border-b border-white/5 bg-[#080808]">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
-            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary border-l-2 border-secondary pl-3">
-              O RISCO ESTRUTURAL
-            </h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-white leading-[1.1]" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
-              Operações complexas colapsam quando a inteligência institucional não acompanha o crescimento.
-            </h3>
-            <p className="text-lg text-white font-medium leading-relaxed break-words">
-              O crescimento desgovernado e a tomada de decisões fragmentadas ampliam a assimetria de informação. Sem uma infraestrutura centralizada de governança, o tempo de reação se torna tardio e a capacidade de antecipar pressões de liquidez é anulada.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { icon: Eye, title: 'Assimetria Informacional', desc: 'Silos de dados que impedem a leitura integrada da real saúde da empresa.' },
-              { icon: TrendingDown, title: 'Crescimento sem Governança', desc: 'Aumento de volume operacional que corrói margens e pressiona o capital de giro.' },
-              { title: 'Reação Tardia', desc: 'Atuação baseada em métricas de passado (DREs isolados), anulando a previsibilidade.', icon: AlertCircle },
-              { title: 'Desconexão Operacional', desc: 'Incapacidade de correlacionar eventos de rotina ao risco de sustentabilidade patrimonial.', icon: Network }
-            ].map((item, i) => (
-              <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-xl hover:border-white/20 transition-colors">
-                <item.icon className="text-secondary mb-4" size={20} />
-                <h4 className="text-base font-bold text-white mb-2 break-words">{item.title}</h4>
-                <p className="text-sm text-white/90 font-medium leading-relaxed break-words">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. A INFRAESTRUTURA (Capabilities) */}
-      <section id="plataforma" className="py-32 px-6 relative z-10 border-b border-white/5 bg-[#030303]">
-        <div className="max-w-6xl mx-auto space-y-16">
-          <div className="text-center max-w-3xl mx-auto space-y-6">
-            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary">INSTITUTIONAL INTELLIGENCE ARCHITECTURE</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-white" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
-              Infrastructure Capabilities
-            </h3>
-            <p className="text-lg text-white font-medium leading-relaxed break-words">
-              Illumine Governance é a engine contínua de governança corporativa, desenvolvida para processar o volume de dados e convertê-los em direcionamento estruturado de alto rigor.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { icon: ShieldCheck, title: 'Governance Layer', desc: 'Acompanhamento da maturidade sistêmica e suporte contínuo para atuação de conselhos e diretoria.' },
-              { icon: Target, title: 'Valuation Intelligence', desc: 'Monitoramento pragmático e ininterrupto da evolução do valor intrínseco da empresa.' },
-              { icon: Activity, title: 'Predictive Operational Analysis', desc: 'Análise contínua das pressões de capital de giro exigidas pela operação corrente.' },
-              { icon: LayoutDashboard, title: 'Executive Dashboards', desc: 'Telas executivas que reúnem liquidez, rentabilidade e risco para consumo rápido por C-Levels.' },
-              { icon: Cpu, title: 'Strategic Scoring', desc: 'Índices proprietários que atestam a saúde, robustez e eficiência da máquina organizacional.' },
-              { icon: Network, title: 'Causalidade Financeira', desc: 'Arquitetura matemática que liga a causa (fato gerador operacional) ao efeito (restrição de liquidez).' }
-            ].map((item, i) => (
-              <div key={i} className="p-8 bg-[#080808] border border-white/10 rounded-2xl relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary/0 via-secondary/0 to-secondary/0 group-hover:via-secondary/50 transition-all duration-700" />
-                <item.icon className="text-secondary mb-6" size={24} />
-                <h4 className="text-lg font-bold text-white mb-2 break-words">{item.title}</h4>
-                <p className="text-sm text-white/90 font-medium leading-relaxed break-words">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. O QUE A PLATAFORMA MONITORA (Data Grid Analítico) */}
-      <section className="py-32 px-6 relative z-10 border-b border-white/5 bg-[#050505]">
-        <div className="max-w-6xl mx-auto space-y-16">
-          <div className="text-center max-w-3xl mx-auto space-y-6">
-            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary">EXECUTIVE TRACKING</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-white" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
-              O que a infraestrutura monitora.
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              'Liquidez Estrutural', 'Sustentabilidade Operacional', 'Pressão Operacional', 'Fluxo de Caixa',
-              'Governança Corporativa', 'Eficiência Operacional', 'Performance Estrutural', 'Maturidade Institucional',
-              'Causalidade Financeira', 'Risco Sistêmico', 'Capacidade de Expansão', 'Estrutura Patrimonial'
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col items-center justify-center text-center p-6 bg-white/5 border border-white/10 rounded-xl group hover:border-secondary/30 transition-colors">
-                <Search size={18} className="text-secondary mb-3 group-hover:text-secondary transition-colors" />
-                <span className="text-sm font-bold text-white/90 break-words">{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. INTELIGÊNCIA DE CAUSALIDADE */}
-      <section id="causalidade" className="py-32 px-6 relative z-10 border-b border-white/5 bg-[#080808]">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-6 lg:pr-12">
-            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary border-l-2 border-secondary pl-3">CORE ANALYTICS ENGINE</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-white leading-[1.1]" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
-              A Matemática da Propagação de Risco.
-            </h3>
-            <p className="text-lg text-white font-medium break-words">
-              A diferenciação estrutural da Illumine reside na engenharia analítica de Causalidade. A plataforma entende a correlação multidimensional entre departamentos: se uma meta de vendas é alterada hoje, mapeamos automaticamente o efeito sistêmico e a antecipação de pressão operacional sobre a liquidez de amanhã.
-            </p>
-          </div>
-
-          <div className="border border-white/10 rounded-2xl p-8 bg-[#030303] shadow-2xl relative overflow-hidden">
-            {/* Visual representation of causality */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-secondary/10 via-transparent to-transparent pointer-events-none" />
             
-            <div className="space-y-8 relative z-10">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center"><Activity size={18} className="text-white/80 break-words" /></div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-xs text-secondary font-bold uppercase tracking-widest">Causa Ocorrida</div>
-                  <div className="text-sm text-white font-medium break-words">Expansão de Prazos de Recebimento Comercial</div>
-                </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium tracking-tight text-white leading-[1.15] pt-2">
+              Clareza executiva para organizações que já não podem depender apenas de relatórios operacionais.
+            </h1>
+            
+            <p className="text-lg md:text-xl text-secondary font-medium tracking-tight max-w-3xl mx-auto font-sans leading-relaxed">
+              A Illumine ajuda empresas complexas a crescerem com mais clareza, coerência e segurança institucional.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="text-base md:text-lg text-white/70 max-w-3xl mx-auto leading-relaxed font-sans"
+          >
+            Oferecemos uma infraestrutura proprietária de inteligência executiva e sustentação estratégica projetada para apoiar fundadores, conselhos e sócios a direcionarem a expansão, reduzirem riscos invisíveis e fortalecerem a continuidade dos negócios.
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+          >
+            <button
+              onClick={() => handleCTAClick('Gostaria de iniciar o Diagnóstico Executivo da minha organização.')}
+              className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-xl cursor-pointer"
+            >
+              <span>Iniciar Diagnóstico Executivo</span>
+              <ArrowRight size={14} />
+            </button>
+            <button
+              onClick={() => handleCTAClick('Gostaria de agendar uma Avaliação Institucional da minha empresa.')}
+              className="w-full sm:w-auto h-14 px-8 rounded-md bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Solicitar Avaliação Institucional</span>
+            </button>
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* 2. O PROBLEMA (ERP vs BI vs Illumine) */}
+      <section id="problema" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
+        <div className="max-w-6xl mx-auto space-y-24">
+          
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <div className="space-y-6">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-secondary border-l-2 border-secondary pl-3">
+                O RISCO DA ASSIMETRIA
+              </span>
+              <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
+                O crescimento desacompanhado de clareza estratégica é o maior risco de uma organização.
+              </h2>
+            </div>
+            <div className="space-y-6 text-white/70 text-base md:text-lg leading-relaxed font-sans">
+              <p>
+                À medida que a complexidade da empresa evolui, os desafios operacionais se multiplicam de forma exponencial. O verdadeiro risco não reside na falta de relatórios ou indicadores, mas sim no surgimento de fragilidades estruturais invisíveis que se desenvolvem silenciosamente nos bastidores.
+              </p>
+              <p className="text-white/80 font-medium border-l border-secondary/30 pl-4 mt-4">
+                A infraestrutura de clareza executiva da Illumine ajuda empresas a identificarem desvios estruturais antes que eles comprometam a continuidade, a liquidez e o caixa do negócio.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 pt-8">
+            <div className="p-8 rounded-xl bg-[#060D17] border border-white/5 space-y-4">
+              <div className="text-white/40 text-xs font-bold uppercase tracking-widest">Sistemas de Registro</div>
+              <h3 className="text-xl font-display font-semibold text-white">ERPs</h3>
+              <p className="text-sm text-white/60 leading-relaxed font-sans">
+                Registram e organizam transações operacionais passadas. São cruciais para a contabilidade e o compliance histórico da rotina corporativa.
+              </p>
+            </div>
+            <div className="p-8 rounded-xl bg-[#060D17] border border-white/5 space-y-4">
+              <div className="text-white/40 text-xs font-bold uppercase tracking-widest">Sistemas de Visualização</div>
+              <h3 className="text-xl font-display font-semibold text-white">BI & Dashboards</h3>
+              <p className="text-sm text-white/60 leading-relaxed font-sans">
+                Agrupam indicadores setoriais isolados em telas de visualização passiva. Dependem de interpretação externa para gerar valor decisório.
+              </p>
+            </div>
+            <div className="p-8 rounded-xl bg-[#060D17]/85 border border-secondary/20 space-y-4 relative shadow-[0_0_25px_rgba(255,133,82,0.02)]">
+              <div className="absolute top-0 right-8 -translate-y-1/2 px-2 py-0.5 rounded bg-secondary text-[8px] font-bold text-black uppercase tracking-widest">
+                Resiliência e Crescimento
               </div>
-              <div className="flex justify-center">
-                <motion.div animate={{ opacity: [0.2, 1, 0.2], y: [0, 5, 0] }} transition={{ duration: 2, repeat: Infinity }}><ArrowDown size={20} className="text-secondary" /></motion.div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center"><Network size={18} className="text-white/80 break-words" /></div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-xs text-secondary font-bold uppercase tracking-widest">Propagação do Risco Sistêmico</div>
-                  <div className="text-sm text-white font-medium break-words">Asfixia do Ciclo Financeiro & Elevação da Necessidade de Capital de Giro</div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <motion.div animate={{ opacity: [0.2, 1, 0.2], y: [0, 5, 0] }} transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}><ArrowDown size={20} className="text-secondary" /></motion.div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-secondary/10 border border-secondary/20 flex items-center justify-center"><AlertCircle size={18} className="text-secondary" /></div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-xs text-secondary font-bold uppercase tracking-widest">Impacto sobre Liquidez</div>
-                  <div className="text-sm text-white font-medium break-words">Risco de Ruptura de Caixa detectado com antecedência estrutural.</div>
-                </div>
-              </div>
+              <div className="text-secondary text-xs font-bold uppercase tracking-widest">Infraestrutura Executiva</div>
+              <h3 className="text-xl font-display font-semibold text-white">Illumine Governance</h3>
+              <p className="text-sm text-white/80 leading-relaxed font-sans">
+                A Illumine Governance ajuda empresas a identificarem fragilidades estruturais antes que elas comprometam caixa, crescimento e continuidade.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 3. EXECUTIVE RISK AWARENESS BLOCK (Tension, Urgency & Hidden Fragilities) */}
+      <section id="deterioracao" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
+        <div className="max-w-4xl mx-auto space-y-16">
+          <div className="text-center space-y-4">
+            <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
+              RISCO INSTITUCIONAL & PREVISIBILIDADE
+            </span>
+            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
+              O que normalmente destrói empresas não aparece primeiro no caixa.
+            </h2>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-16 items-center pt-8">
+            <div className="space-y-6 text-white/70 text-base md:text-lg leading-relaxed font-sans">
+              <p>
+                Sua empresa está crescendo com maturidade proporcional ou apenas aumentando complexidade operacional? Muitas organizações continuam crescendo em faturamento e volume físico enquanto sua coerência decisória e capacidade real de sustentação se deterioram de forma invisível.
+              </p>
+              <p className="text-white/90 font-medium border-l-2 border-secondary pl-4 py-1">
+                Quando a deterioração finalmente se reflete no caixa ou no balanço, parte crucial da sua margem de manobra e capacidade de reação estratégica já foi consumida.
+              </p>
+              <p>
+                A Illumine atua como uma camada de inteligência e sustentação, identificando desvios estruturais e riscos ocultos para que sua empresa cresça de forma saudável e estruturada.
+              </p>
+            </div>
+            <div className="p-8 rounded-xl bg-[#060D17] border border-white/5 space-y-6">
+              <div className="text-white/40 text-xs font-bold uppercase tracking-widest border-b border-white/5 pb-2">A deterioração silenciosa começa:</div>
+              <ul className="space-y-4 font-sans text-sm text-white/85">
+                <li className="flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                  <span>Na perda gradual da coerência decisória sob pressão;</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                  <span>Na dependência invisível de pessoas-chave ou prazos críticos;</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                  <span>Na desconexão entre o ritmo da expansão e a estrutura de capital;</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                  <span>No crescimento de faturamento que camufla a perda de margem real;</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                  <span>Na incapacidade de antecipar riscos de governança e societários.</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. RESULTADO ESTRATÉGICO */}
-      <section className="py-32 px-6 relative z-10 border-b border-white/5 bg-[#030303]">
-        <div className="max-w-6xl mx-auto space-y-16">
-          <div className="text-center max-w-3xl mx-auto space-y-6">
-            <h2 className="text-[10px] font-bold uppercase tracking-widest text-secondary">BUSINESS IMPACT</h2>
-            <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-white" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
-              Maturidade Operacional
-            </h3>
-            <p className="text-lg text-white font-medium break-words">
-              O objetivo da infraestrutura Illumine não é relatar o passado. O objetivo é instaurar a governança necessária para reduzir o risco estrutural de decisões futuras.
+      {/* 4. DECISION INTELLIGENCE BLOCK (Strategic Support) */}
+      <section id="decisoes" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
+        <div className="max-w-5xl mx-auto space-y-12 text-center">
+          <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
+            ESTABILIDADE CONTINUADA & ESTRUTURA DE DECISÃO
+          </span>
+          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
+            Decisões críticas não falham por ausência de dados. Falham por ausência de leitura integrada.
+          </h2>
+          <div className="max-w-3xl mx-auto space-y-8 text-left bg-[#060D17] border border-white/5 rounded-2xl p-8 md:p-12 mt-12 relative overflow-hidden">
+            <div className="absolute inset-y-0 left-0 w-[2px] bg-secondary/50" />
+            <p className="text-lg md:text-xl text-white/90 font-medium leading-relaxed font-sans">
+              Muitas organizações continuam crescendo enquanto sua capacidade de sustentação se deteriora de forma invisível. A fragilidade decisória que expõe a empresa ao risco reside:
+            </p>
+            <ul className="space-y-4 text-base text-white/70 font-sans pl-2">
+              <li className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary mt-2.5 shrink-0" />
+                <span>No desalinhamento decisório entre sócios, conselhos e a diretoria executiva;</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary mt-2.5 shrink-0" />
+                <span>Na falta de clareza sobre o limite de endividamento e a estrutura de liquidez necessária;</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary mt-2.5 shrink-0" />
+                <span>Na incapacidade de ler de forma integrada as variáveis financeiras, operacionais e fiduciárias;</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary mt-2.5 shrink-0" />
+                <span>Na tomada de decisões cruciais baseadas em intuição, feeling ou dados passados fragmentados.</span>
+              </li>
+            </ul>
+            <p className="text-lg text-white font-medium pt-4 border-t border-white/5 font-sans">
+              A Illumine fornece uma camada de inteligência que assegura a coerência decisória. Ajudamos a fortalecer a sustentabilidade estrutural do negócio, conectando a estratégia de crescimento com a realidade patrimonial.
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+      {/* 5. WHAT ILLUMINE IS (Structure of Intelligence) */}
+      <section id="metodologia" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <div className="space-y-6">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
+                INFRAESTRUTURA EXECUTIVA
+              </span>
+              <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
+                Uma camada necessária de governança para sustentar o crescimento organizacional.
+              </h2>
+            </div>
+            <div className="space-y-6 text-white/70 text-base md:text-lg leading-relaxed font-sans">
+              <p>
+                A Illumine não é uma consultoria corporativa convencional nem um software de BI. Nós estruturamos e operamos uma infraestrutura de inteligência de governança e sustentação estratégica que assegura a coerência e a sustentação das decisões mais importantes da empresa.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 pt-8">
             {[
-              'Redução de Assimetria',
-              'Clareza Executiva',
-              'Previsibilidade',
-              'Estabilidade Estrutural',
-              'Governança Ativa',
-              'Inteligência Decisória',
-              'Capacidade de Antecipação',
-              'Redução de Risco Estrutural'
+              { 
+                icon: ShieldCheck, 
+                title: 'Infraestrutura de Governança', 
+                desc: 'Suporte decisório continuado e alinhamento estratégico para conselhos de administração, fundadores, sócios e comitês executivos.' 
+              },
+              { 
+                icon: BrainCircuit, 
+                title: 'Continuidade e Mitigação de Riscos', 
+                desc: 'Mapeamento sistemático de dependências e fragilidades estruturais, preservando a estabilidade e a continuidade contra desvios operacionais e societários.' 
+              },
+              { 
+                icon: Target, 
+                title: 'Clareza Executiva Continuada', 
+                desc: 'Tradução contínua de relatórios fragmentados e ruído operacional em clareza executiva, mantendo a consistência do direcionamento estratégico.' 
+              }
             ].map((item, i) => (
-              <div key={i} className="flex flex-col p-6 bg-[#0a0a0a] border border-white/10 rounded-xl">
-                <CheckCircle2 size={18} className="text-secondary mb-3" />
-                <span className="text-white/90 font-bold text-sm leading-snug break-words">{item}</span>
+              <div key={i} className="p-8 bg-[#060D17] border border-white/5 rounded-xl space-y-6">
+                <div className="w-10 h-10 rounded bg-white/5 flex items-center justify-center">
+                  <item.icon className="text-secondary" size={20} />
+                </div>
+                <h3 className="text-lg font-display font-semibold text-white">{item.title}</h3>
+                <p className="text-sm text-white/60 leading-relaxed font-sans">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 7. BLOCO FINAL */}
-      <section className="py-32 px-6 relative overflow-hidden z-10 bg-[#080808]">
-        {/* Subtle grid background to maintain tech aesthetic */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+      {/* 6. THE GOVERNANCE ENGINE (The Interpretation Architecture) */}
+      <section id="plataforma" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-6">
+            <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
+              INFRAESTRUTURA DE SUSTENTAÇÃO
+            </span>
+            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
+              Governance: a infraestrutura de estabilidade e sustentabilidade da sua empresa.
+            </h2>
+            <p className="text-base md:text-lg text-white/70 max-w-2xl mx-auto font-sans leading-relaxed">
+              Uma camada proprietária de inteligência e segurança executiva que consolida variáveis operacionais, financeiras e societárias sob um único mecanismo de preservação da continuidade.
+            </p>
+          </div>
+
+          <div className="bg-[#060D17] border border-white/5 rounded-2xl p-8 max-w-3xl mx-auto text-center space-y-3 mb-10">
+            <p className="text-sm font-semibold text-secondary uppercase tracking-widest">
+              Inteligência Executiva e Resiliência de Ativos
+            </p>
+            <p className="text-base text-white/90 leading-relaxed font-sans max-w-2xl mx-auto">
+              A Governance ajuda empresas a identificarem riscos invisíveis que normalmente só aparecem quando a liquidez já começou a deteriorar.
+            </p>
+          </div>
+
+          {/* Engine Capabilities Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
+            {[
+              {
+                icon: Activity,
+                title: 'Deteriorações Estruturais',
+                desc: 'Mapeia desvios de eficiência operacional e perda de margem antes que eles comprometam o caixa e a tesouraria corporativa.'
+              },
+              {
+                icon: Network,
+                title: 'Dependências Invisíveis',
+                desc: 'Identifica a sensibilidade e o risco associados a prazos de recebimento, fornecedores exclusivos ou concentração de clientes.'
+              },
+              {
+                icon: Shield,
+                title: 'Consistência Decisória',
+                desc: 'Garante a coerência de decisões complexas entre conselhos, sócios e diretoria em cenários de alta pressão e expansão.'
+              },
+              {
+                icon: Database,
+                title: 'Leitura Longitudinal',
+                desc: 'Mapeia tendências estruturais ao longo de múltiplos ciclos de mercado, isolando riscos permanentes de flutuações temporárias.'
+              }
+            ].map((item, i) => (
+              <div key={i} className="p-6 bg-[#060D17] border border-white/5 rounded-xl space-y-6 hover:border-white/10 transition-colors">
+                <item.icon className="text-secondary" size={24} strokeWidth={1.5} />
+                <h4 className="text-base font-display font-bold text-white break-words">{item.title}</h4>
+                <p className="text-xs text-white/60 leading-relaxed font-sans">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 7. WHO IT IS FOR (Target Audiences) */}
+      <section id="segmentos" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="text-center max-w-3xl mx-auto space-y-6">
+            <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
+              ESTABILIDADE E CONTINUIDADE
+            </span>
+            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
+              Desenvolvido para sustentar a continuidade de organizações complexas.
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                segment: 'Grupos Empresariais & Holdings',
+                desc: 'Fortalecimento e alinhamento decisório entre múltiplas unidades de negócios, eliminando pontos cegos informacionais entre sócios e conselhos.'
+              },
+              {
+                segment: 'Empresas Familiares',
+                desc: 'Preservação do patrimônio familiar, transição societária estruturada e mitigação de riscos relacionais na liderança executiva.'
+              },
+              {
+                segment: 'Hospitais & Redes de Saúde',
+                desc: 'Preservação do fluxo de caixa e gestão de capital de giro sob alta pressão operacional e exigências regulatórias complexas.'
+              },
+              {
+                segment: 'Indústrias & Operações Industriais',
+                desc: 'Mitigação de riscos em cadeias produtivas longas, estabilidade do fluxo de caixa operacional e resiliência diante de oscilações de insumos.'
+              },
+              {
+                segment: 'Holdings de Participações & Boards',
+                desc: 'Estrutura para alinhamento e monitoramento pragmático de riscos estratégicos no portfólio de empresas coligadas.'
+              },
+              {
+                segment: 'Empresas sob Reestruturação',
+                desc: 'Diagnóstico preciso de desvios operacionais e societários para resgatar a liquidez e a estabilidade estrutural do negócio.'
+              }
+            ].map((item, i) => (
+              <div key={i} className="p-8 bg-[#060D17] border border-white/5 rounded-xl hover:border-secondary/20 transition-all duration-300 space-y-4">
+                <h3 className="text-lg font-display font-semibold text-white">{item.segment}</h3>
+                <p className="text-sm text-white/60 leading-relaxed font-sans">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 8. EXECUTIVE PHILOSOPHY (Manifesto Worldview) */}
+      <section className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
+        <div className="max-w-4xl mx-auto space-y-10 text-center">
+          <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
+            MATURIDADE E RESILIÊNCIA
+          </span>
+          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
+            Governança executiva como ativo de estabilidade empresarial.
+          </h2>
+          <div className="space-y-6 text-white/70 text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-sans">
+            <p>
+              A verdadeira maturidade de um negócio não reside na criação de relatórios densos ou processos burocráticos. Ela se traduz em disciplina executiva, consistência do fluxo de caixa e preservação antecipada da sustentabilidade institucional da empresa.
+            </p>
+            <p>
+              Empresas são estruturas interdependentes. Quando crescem sem a devida maturidade de governança, geram pontos cegos e riscos societários ou operacionais silenciosos. A Illumine fornece a inteligência e a estabilidade necessárias para assegurar a continuidade das decisões críticas e preservar a estabilidade operacional do negócio.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. PREMIUM CTA (Executive Closing Section) */}
+      <section className="py-36 px-6 relative overflow-hidden z-10 bg-[#03080F]">
+        {/* Understated geometric design texture instead of tech meshes */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/[0.01] via-transparent to-transparent pointer-events-none" />
         
-        <div className="max-w-4xl mx-auto text-center space-y-10 relative z-10">
-          <h3 className="text-4xl md:text-5xl lg:text-[64px] font-medium tracking-tight text-white leading-[1.05]" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>
-            Empresas maduras operam sobre <span className="text-secondary">inteligência institucional contínua.</span>
-          </h3>
-          <p className="text-xl text-white font-medium max-w-2xl mx-auto leading-relaxed">
-            Se a sua operação atingiu um nível de complexidade onde decisões intuitivas já não suportam o volume de risco, avalie a implementação da nossa architecture layer de governança.
+        <div className="max-w-4xl mx-auto text-center space-y-12 relative z-10">
+          <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
+            ESTABILIDADE E CONTINUIDADE
+          </span>
+          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-[1.1]">
+            Sua empresa está crescendo com clareza suficiente para sustentar o próximo ciclo?
+          </h2>
+          
+          <p className="text-base md:text-lg text-white/70 max-w-2xl mx-auto font-sans leading-relaxed">
+            Se a sua organização atingiu um patamar de complexidade onde decisões intuitivas e dados fragmentados trazem riscos para a continuidade da operação ou da sociedade, traga a clareza e a sustentação da governança Illumine para a sua empresa.
           </p>
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-3xl mx-auto">
             <button
-              onClick={() => handleCTAClick('Gostaria de agendar uma Demonstração Institucional da Plataforma Illumine')}
-              className="w-full sm:w-auto h-16 px-10 rounded-md bg-white text-black font-bold text-sm uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.1)] break-words"
+              onClick={() => handleCTAClick('Gostaria de agendar uma Avaliação Institucional para minha organização.')}
+              className="w-full sm:w-auto h-16 px-8 rounded-md bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 cursor-pointer shadow-lg"
             >
-              <span>Agendar Demonstração Institucional</span>
-              <ArrowRight size={20} />
+              <span>Solicitar Avaliação Institucional</span>
             </button>
             <button
-              onClick={() => handleCTAClick('Gostaria de Avaliar a Maturidade Operacional da minha Empresa')}
-              className="w-full sm:w-auto h-16 px-10 rounded-md bg-transparent border border-white/20 text-white font-bold text-sm uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-3 break-words"
+              onClick={() => handleCTAClick('Gostaria de iniciar o Diagnóstico Executivo da minha empresa.')}
+              className="w-full sm:w-auto h-16 px-8 rounded-md bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-3 cursor-pointer"
             >
-              <Shield size={20} />
-              <span>Avaliar Maturidade Operacional</span>
+              <span>Iniciar Diagnóstico Executivo</span>
+            </button>
+            <button
+              onClick={() => handleCTAClick('Gostaria de conversar com os especialistas de Governança da Illumine.')}
+              className="w-full sm:w-auto h-16 px-8 rounded-md bg-transparent border border-white/20 text-white/85 font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:text-white transition-all flex items-center justify-center gap-3 cursor-pointer"
+            >
+              <span>Conversar com Especialistas</span>
             </button>
           </div>
         </div>
       </section>
 
-      {/* STICKY FLOATING CTA */}
+      {/* STICKY FLOATING CTA (Highly Restrained, Minimal Layout) */}
       <AnimatePresence>
         {showSticky && (
           <motion.div 
@@ -432,21 +628,37 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
             className="fixed bottom-6 right-6 z-50 flex items-center"
           >
             <button
-              onClick={() => handleCTAClick('Gostaria de agendar uma Apresentação Executiva')}
-              className="flex items-center gap-3 px-6 h-14 bg-white text-black font-bold text-xs uppercase tracking-widest rounded-full shadow-2xl hover:bg-white/90 transition-all"
+              onClick={() => handleCTAClick('Gostaria de solicitar uma Avaliação Institucional.')}
+              className="flex items-center gap-3 px-6 h-14 bg-white text-black font-bold text-[10px] uppercase tracking-widest rounded-full shadow-2xl hover:bg-white/90 transition-all cursor-pointer"
             >
-              <Briefcase size={18} />
-              <span className="hidden sm:inline">Apresentação Executiva</span>
+              <Briefcase size={14} />
+              <span>Avaliação Institucional</span>
             </button>
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* Footer Minimalist */}
+      <footer className="py-12 border-t border-white/5 bg-[#02050A] text-white/40 text-[10px] tracking-wider uppercase font-semibold">
+        <div className="max-w-7xl mx-auto px-8 flex flex-col sm:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2">
+            <span className="font-display font-medium text-white/80 text-sm tracking-tight" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>illumine</span>
+            <span className="text-[8px] text-white/30">|</span>
+            <span>© 2026 Illumine. Todos os direitos reservados.</span>
+          </div>
+          <div className="flex gap-6">
+            <button onClick={() => scrollToSection('hero')} className="hover:text-white transition-colors">Voltar ao topo</button>
+            <button onClick={() => navigate('/parceiros')} className="hover:text-white transition-colors">Portal de Parceiros</button>
+            <button onClick={onLoginClick} className="hover:text-white transition-colors">Acesso Restrito</button>
+          </div>
+        </div>
+      </footer>
+
     </main>
   );
 }
 
-// Temporary icon for internal component
+// Temporary icon
 const ArrowDown = ({ className, size }: { className?: string, size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size || 24} height={size || 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
 );

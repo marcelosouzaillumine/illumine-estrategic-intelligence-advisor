@@ -63,7 +63,7 @@ export class ExecutiveSummaryComposer {
           role: 'OPERATIONAL',
           focusTitle: 'Foco: Ciclo Financeiro Circulante e Gargalos de Caixa',
           keyMetricHighlight: `Ciclo: ${context.operationalProfile}`,
-          narrativeSummary: `Resumo da Operação: Perfil operacional com foco em capital de giro (NCG). Alertas de staging ativos em fila de validação contábil. Ações sugeridas: ${advisory.actionMatrix.join('; ')}. Foco de mitigação: ${advisory.priorityFocus}.`,
+          narrativeSummary: `Resumo da Operação: Perfil operacional com foco em capital de giro (NCG). Alertas de staging ativos em fila de validação contábil. Ações sugeridas: ${advisory.actionMatrix.map((a: any) => typeof a === 'string' ? a : (a.title || a.acao || '')).join('; ')}. Foco de mitigação: ${advisory.priorityFocus}.`,
           alertCount
         };
 
