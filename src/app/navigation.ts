@@ -90,6 +90,17 @@ import {
 } from 'lucide-react';
 
 export type Page =
+  | 'executive_monitoring_center'
+  | 'governance_maturity_center'
+  | 'fiduciary_validation_center'
+  | 'leadership_dna_center'
+  | 'institutional_structure_center'
+  | 'risk_exposure_center'
+  | 'decision_lifecycle_center'
+  | 'crisis_response_center'
+  | 'runtime_observability_center'
+  | 'product_governance_center'
+  | 'multi_tenant_governance_center'
   | 'advisor_cockpit'
   | 'tenant_governance'
   | 'runtime_performance'
@@ -284,39 +295,33 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     group: 'Governança Corporativa',
     icon: Network,
     items: [
-      // --- Hubs Consolidados (FASE 1, 3 e 4) ---
-      { id: 'strategic_intelligence_center', label: 'Governance Center', icon: Target },
-      { id: 'governance_risk_heatmap', label: 'Enterprise Risk Heatmap', icon: ShieldAlert },
-      { id: 'fiduciary_governance_center', label: 'Governança Fiduciária', icon: Scale },
+      { id: 'executive_monitoring_center', label: 'Executive Monitoring Center', icon: Target },
+      { id: 'governance_maturity_center', label: 'Governance Maturity Center', icon: Target },
+      { id: 'leadership_dna_center', label: 'Leadership DNA Center', icon: Users },
+      { id: 'institutional_structure_center', label: 'Institutional Structure Center', icon: Users },
+      { id: 'board_deck_center', label: 'Board Deck Center', icon: Presentation },
+      { id: 'fiduciary_validation_center', label: 'Fiduciary Validation Center', icon: Scale },
+      { id: 'risk_exposure_center', label: 'Risk Exposure Center', icon: ShieldAlert },
+      { id: 'decision_lifecycle_center', label: 'Decision Lifecycle Center', icon: GitBranchPlus, masterOnly: false },
+      
+      // Adjacent governance module.
+      // Not part of GOVERNANCE_DOMAIN_BOUNDARIES.md core module registry.
+      // Pending future migration to Integrity & Compliance axis.
       { id: 'compliance_integrity_center', label: 'Integridade & Compliance', icon: ShieldCheck },
-      { id: 'board_deck_center', label: 'Central de Relatórios do Conselho', icon: Presentation },
-      { id: 'institutional_observability_center', label: 'Saúde e Continuidade Institucional', icon: Activity },
-      { id: 'governance_structure_center', label: 'Estrutura Institucional', icon: Users },
-      { id: 'decision_governance', label: 'Governança de Decisão', icon: GitBranchPlus },
+
+      // Restricted Modules
+      // TODO: migrar crisis_response_center para restrictedRoles (C-Level/Board) em vez de masterOnly total.
+      { id: 'crisis_response_center', label: 'Crisis Response Center', icon: Siren, masterOnly: true },
+      { id: 'runtime_observability_center', label: 'Runtime Observability Center', icon: Activity, masterOnly: true },
+      { id: 'product_governance_center', label: 'Product Governance Center', icon: PackageCheck, masterOnly: true },
+      { id: 'multi_tenant_governance_center', label: 'Multi-Tenant Governance Center', icon: ShieldCheck, masterOnly: true },
+
+      // Legacy Hubs Temporários (Mantidos ocultos ou para backward compatibility)
       { id: 'pilot_monitoring', label: 'Painel Operacional Piloto', icon: Activity, masterOnly: true },
       { id: 'calibration_playground', label: 'Calibration Playground', icon: Sparkles, masterOnly: true },
-      { id: 'observability_console', label: 'Console de Observabilidade', icon: Eye },
       { id: 'advisor_workspace', label: 'Advisor Workspace', icon: Briefcase, masterOnly: true },
       { id: 'client_workspace', label: 'Client Executive Workspace', icon: LayoutDashboard, masterOnly: false },
       { id: 'pilot_experience', label: 'Pilot Experience Dashboard', icon: BarChart3, masterOnly: true },
-      
-      // --- Legacy & Master Only Routes (Preservados internamente) ---
-      { id: 'advisor_cockpit', label: 'Advisor Cockpit', icon: BriefcaseBusiness, masterOnly: true },
-      { id: 'tenant_governance', label: 'Governança Multi-Tenant', icon: ShieldCheck, masterOnly: true },
-      { id: 'admin_grupos', label: 'Gestão de Grupos Econômicos', icon: Building, masterOnly: true },
-      { id: 'product_governance', label: 'Governança de Produto', icon: PackageCheck, masterOnly: true },
-      { id: 'institutional_knowledge_graph', label: 'Knowledge Graph', icon: GitGraph, masterOnly: true },
-      { id: 'early_warning', label: 'Early Warning System', icon: Siren, masterOnly: true },
-      { id: 'strategic_simulation', label: 'Strategic Simulation', icon: Landmark, masterOnly: true },
-      { id: 'governance_orchestration', label: 'Governance Orchestration', icon: ArrowRightLeft, masterOnly: true },
-      { id: 'institutional_ios', label: 'Institutional Operating System', icon: Cpu, masterOnly: true },
-      { id: 'enterprise_validation', label: 'Enterprise Validation', icon: ShieldCheck, masterOnly: true },
-      { id: 'reality_validation', label: 'Reality Validation Center', icon: Radar, masterOnly: true },
-      { id: 'institutional_copilot', label: 'Copiloto Institucional', icon: Bot, masterOnly: false },
-      { id: 'institutional_integrations', label: 'Integrações Institucionais', icon: PlugZap, masterOnly: false },
-      
-      // As demais páginas antigas (advisory_insights, relatorio_executivo, etc) 
-      // continuam existindo no Page type para não quebrar links diretos.
     ],
   },
   {

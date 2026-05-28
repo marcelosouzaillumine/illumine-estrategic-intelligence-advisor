@@ -1,3 +1,6 @@
+// Adjacent governance module.
+// Not part of GOVERNANCE_DOMAIN_BOUNDARIES.md core module registry.
+// Pending future migration to Integrity & Compliance axis.
 import React, { useState } from 'react';
 import { 
   ShieldAlert, 

@@ -22,5 +22,17 @@
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/components/pages/governance/CrisisResponseCenter.tsx",
+    "src/components/pages/governance/DecisionLifecycleCenter.tsx",
+    "src/components/pages/governance/ExecutiveMonitoringCenter.tsx",
+    "src/components/pages/governance/GovernanceMaturityCenter.tsx",
+    "src/components/pages/governance/LeadershipDNACenter.tsx",
+    "src/components/pages/governance/MultiTenantGovernanceCenter.tsx",
+    "src/components/pages/governance/ProductGovernanceCenter.tsx",
+    "src/components/pages/governance/RuntimeObservabilityCenter.tsx"
+  ]
 }

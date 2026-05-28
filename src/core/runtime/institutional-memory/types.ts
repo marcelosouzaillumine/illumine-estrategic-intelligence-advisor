@@ -161,3 +161,69 @@ export interface InstitutionalMemoryProfile {
   maturityProfile?: LongitudinalMaturityProfile;
   learningSignals?: InstitutionalLearningSignals;
 }
+
+export interface DeteriorationState {
+  deteriorationScore: number;
+  deteriorationVelocity: number;
+  deteriorationSeverity: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
+  deteriorationPersistence: number;
+  institutionalRiskLevel: 'STABLE' | 'ELEVATED' | 'SEVERE' | 'INSUFFICIENT_HISTORY';
+}
+
+export interface FatigueState {
+  fatigueScore: number;
+  fatigueTrend: 'DECREASING' | 'STABLE' | 'INCREASING';
+  governanceExhaustionLevel: 'NONE' | 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
+  operationalPressureLevel: 'NORMAL' | 'ELEVATED' | 'SEVERE';
+}
+
+export interface ResponsivenessMetrics {
+  responsivenessScore: number;
+  governanceReactionTime: number; // in days or cycles
+  advisoryExecutionRate: number; // percentage
+  executionDisciplineIndex: number;
+  workflowCompletionSpeed: number; // percentage or index
+}
+
+export interface PredictiveRecurrenceState {
+  recurrenceScore: number;
+  recurrenceFrequency: number;
+  recurrenceSeverity: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL_STRUCTURAL_RECURRENCE' | 'INSUFFICIENT_RECURRENCE';
+  recurrenceConfidence: 'UNVERIFIED' | 'LOW' | 'MODERATE' | 'HIGH';
+  recurrenceLineage: string[];
+}
+
+export type EscalationLevel = 'MONITOR' | 'MANAGEMENT_ACTION' | 'CFO_INTERVENTION' | 'BOARD_INTERVENTION' | 'CRITICAL_GOVERNANCE_REVIEW';
+
+export interface TemporalEscalationState {
+  currentLevel: EscalationLevel;
+  escalationEvidence: string[];
+  recurrenceLineage: string[];
+  severityProgression: EscalationLevel[];
+  auditReference: string;
+}
+
+export interface TemporalEvidence {
+  timestamp: string;
+  evidenceId: string;
+  sourceContext: string;
+  description: string;
+}
+
+export interface TemporalConfidenceState {
+  level: 'UNVERIFIED' | 'LOW' | 'MODERATE' | 'HIGH';
+  justification: string;
+}
+
+export interface CausalChain {
+  chainId: string;
+  links: string[];
+  rootCauseId?: string;
+}
+
+export interface TemporalLineage {
+  lineageHash: string;
+  correlationId: string;
+  tenantId: string;
+  originTimestamp: string;
+}

@@ -35,6 +35,13 @@
     "action": "Limpar hardcoded mocks."
   },
   {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/components/pages/governance/DecisionLifecycleCenter.tsx",
+    "risk": "Variável de mock hardcoded encontrada no código produtivo.",
+    "severity": "HIGH",
+    "recommendation": "Remover dados mockados, usar o Consolidated Runtime via API.",
+    "action": "Limpar hardcoded mocks."
+  },
+  {
     "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/ai-governance/providers/MockLLMProvider.ts",
     "risk": "Arquivo com nomenclatura de mock fora do diretório de testes: MockLLMProvider.ts",
     "severity": "HIGH",

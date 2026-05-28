@@ -38,6 +38,18 @@ import { HistoricalSeriesIntegrityEngine } from './integrity/HistoricalSeriesInt
 import { ExecutiveEmptyStateResolver } from './integrity/ExecutiveEmptyStateResolver';
 import { ExecutiveDiagnosisComposer } from '../executive-experience/ExecutiveDiagnosisComposer';
 
+// EFOS Engines & Adapters (RC-1.4)
+import { CashFlowAdapter } from './cashflow/cashflow-adapter';
+import { ConsolidatedCashFlowReport } from './cashflow/cashflow-types';
+import { CapitalGovernanceAdapter } from './capital-governance/capital-governance-adapter';
+import { ConsolidatedCapitalGovernanceReport } from './capital-governance/capital-governance-types';
+import { InstitutionalFinancialThesisEngine } from './InstitutionalFinancialThesisEngine';
+import { CrossStatementCausalityEngine, CrossStatementCausalityReport } from './CrossStatementCausalityEngine';
+import { ExecutiveNarrativeOrchestrator, OrchestratedNarrative } from './ExecutiveNarrativeOrchestrator';
+import { ExecutivePriorityConsolidationEngine } from './ExecutivePriorityConsolidationEngine';
+import { ExecutiveExperienceConsistencyEngine, ConsistencyValidationResult } from './ExecutiveExperienceConsistencyEngine';
+import { KPISemanticIntelligenceEngine } from './KPISemanticIntelligenceEngine';
+
 /**
  * INSTITUTIONAL RUNTIME ENFORCER
  * 
@@ -160,6 +172,19 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   institutionalMemory?: InstitutionalMemoryProfile;
   institutionalCausality?: InstitutionalCausalityProfile;
   structuralCapital?: StructuralCapitalProfile;
+
+  // EFOS Fields (RC-1.4)
+  cashFlowReport?: ConsolidatedCashFlowReport;
+  capitalGovernanceReport?: ConsolidatedCapitalGovernanceReport;
+  financialThesis?: {
+    thesis: string;
+    tensions: string[];
+    pressures: string[];
+    structuralRisks: string[];
+  };
+  crossStatementCausality?: CrossStatementCausalityReport;
+  orchestratedNarrative?: OrchestratedNarrative;
+  consistencyReport?: ConsistencyValidationResult;
 }
 
 export class ExecutiveIntelligenceRuntime {
@@ -585,8 +610,7 @@ export class ExecutiveIntelligenceRuntime {
       priorityFocus: sanitizeNarrative(focusAreas[0] || 'Foco em posicionamento inicial')
     };
 
-    // Apply the priority cascade resolver based on causality
-    advisory = ExecutivePriorityCascadeResolver.resolve(advisory, causalityProfile);
+
 
     const causality = {
       ...rawCausality,
@@ -930,7 +954,7 @@ export class ExecutiveIntelligenceRuntime {
       const dreInsights = generateDreInsights(dreMetrics);
 
       // KPIs
-      const kpis = recLiquida > 0 ? [
+      const rawKpis = recLiquida > 0 ? [
         { name: 'Receita Líquida',       val: recLiquida,          unit: 'currency', status: 'Verde' as const,    trend: 'Operacional',    tooltip: 'Receita após deduções e impostos sobre vendas.' },
         { name: 'EBITDA',                val: ebitda,              unit: 'currency', status: ebitda >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: ebitda >= 0 ? 'Positivo' : 'Negativo', tooltip: 'Geração de caixa operacional antes de juros, IR, depreciação e amortização.' },
         { name: 'Lucro Líquido',         val: lucroLiq,            unit: 'currency', status: lucroLiq >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: lucroLiq >= 0 ? 'Lucrativo' : 'Prejuízo', tooltip: 'Resultado líquido após todos os custos, despesas e impostos.' },
@@ -940,6 +964,7 @@ export class ExecutiveIntelligenceRuntime {
         { name: 'Ponto de Equilíbrio',   val: pontoEquilibrio,     unit: 'currency', status: recLiquida >= pontoEquilibrio ? 'Verde' as const : 'Vermelho' as const, trend: recLiquida >= pontoEquilibrio ? 'Coberto' : 'Descoberto', tooltip: 'Receita mínima necessária para cobrir todos os custos e despesas fixas.' },
         { name: 'Índice de Cobertura',   val: indiceCoberturaOperacional, unit: '%', status: indiceCoberturaOperacional >= 100 ? 'Verde' as const : indiceCoberturaOperacional >= 85 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'ROL / PE', tooltip: 'Quanto da receita atual cobre o ponto de equilíbrio.' }
       ] : [];
+      const kpis = rawKpis.map(k => KPISemanticIntelligenceEngine.enrich(k, segment));
 
       // Scale efficiency classification
       let scaleCategory = 'Análise Inicial';
@@ -1007,6 +1032,61 @@ export class ExecutiveIntelligenceRuntime {
 
     const metricsPayload = buildDreMetricsPayload();
 
+    // Process DFC (Trilha 1)
+    const cashFlowReport = CashFlowAdapter.process(
+      rawData,
+      dreEbitda,
+      dreLucro,
+      bpSummary,
+      rawData.dreData
+    );
+
+    // Process DLPA (Trilha 2)
+    const capitalGovernanceReport = CapitalGovernanceAdapter.process(
+      rawData,
+      dreLucro,
+      bpSummary?.patrimonioLiquido || 0,
+      bpSummary?.caixaEquivalentes || 0,
+      bpSummary
+    );
+
+    // Process Thesis (Trilha 3)
+    const financialThesis = InstitutionalFinancialThesisEngine.generate(
+      bpSummary,
+      dreEbitda,
+      dreLucro,
+      cashFlowReport,
+      capitalGovernanceReport,
+      metrics
+    );
+
+    // Process Cross-Statement Causality (Trilha 4)
+    const crossStatementCausality = CrossStatementCausalityEngine.analyze(
+      bpSummary,
+      dreEbitda,
+      dreLucro,
+      cashFlowReport,
+      capitalGovernanceReport
+    );
+
+    // Consolidate priorities (Trilha 7)
+    const consolidatedActions = ExecutivePriorityConsolidationEngine.consolidate(
+      advisory.actionMatrix,
+      [],
+      cashFlowReport,
+      capitalGovernanceReport,
+      metrics
+    );
+    advisory.actionMatrix = consolidatedActions.map(sanitizeNarrative);
+    if (consolidatedActions.length > 0) {
+      advisory.priorityFocus = sanitizeNarrative(consolidatedActions[0]);
+    }
+
+    // Apply the priority cascade resolver based on causality
+    const resolvedAdvisory = ExecutivePriorityCascadeResolver.resolve(advisory, causalityProfile);
+    advisory.actionMatrix = resolvedAdvisory.actionMatrix;
+    advisory.priorityFocus = resolvedAdvisory.priorityFocus;
+
     // 7. Consolidação e Auditoria (Confidence Integrity Layer)
     traceEngine.Lineage.endNode('ExecutiveReportGenerated');
     traceEngine.Profiler.endEngine('ExecutiveIntelligenceRuntime');
@@ -1049,8 +1129,26 @@ export class ExecutiveIntelligenceRuntime {
       institutionalContext,
       institutionalMemory: memoryProfile,
       institutionalCausality: causalityProfile,
-      structuralCapital
+      structuralCapital,
+      cashFlowReport,
+      capitalGovernanceReport,
+      financialThesis,
+      crossStatementCausality
     };
+
+    // Process Narrative Orchestration (Trilha 8)
+    const orchestratedNarrative = ExecutiveNarrativeOrchestrator.orchestrate(
+      initialReport,
+      financialThesis.thesis,
+      financialThesis.tensions,
+      cashFlowReport.overallNarrative,
+      capitalGovernanceReport.overallNarrative
+    );
+    initialReport.orchestratedNarrative = orchestratedNarrative;
+
+    // Process Experience Consistency Check (Trilha 10)
+    const consistencyReport = ExecutiveExperienceConsistencyEngine.validate(initialReport);
+    initialReport.consistencyReport = consistencyReport;
 
     let report = initialReport;
 

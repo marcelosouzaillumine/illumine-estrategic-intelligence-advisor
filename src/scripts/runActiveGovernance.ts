@@ -36,6 +36,14 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
+  console.log('\nIniciando Access Governance Audit...');
+  try {
+    execSync('npx tsx src/scripts/runAccessGovernanceAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Governança de Acesso. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
   console.log('\nIniciando Topology Compliance Audit...');
   try {
     execSync('npx tsx src/scripts/runTopologyAudit.ts', { stdio: 'inherit' });

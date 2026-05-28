@@ -31,14 +31,18 @@ import {
 
 import { cn, formatCurrency } from '../../lib/utils';
 import { DATA } from '../../data';
-import { useAnnualFinancialData } from '../../hooks/useFinancialData';
+import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { useMethodologicalAnalysis } from '../../hooks/useMethodologicalAnalysis';
 import { PageHeader, Semaphore } from '../Common';
-
-
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
+import { getComputedBPSummary, getComputedDreMetrics } from '../../core/orchestration/financial-math-adapter';
+import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 
 export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }: any) {
   const [year, setYear] = useState(selectedYear || new Date().getFullYear());
+  const [cashFlowData, setCashFlowData] = useState<any[]>([]);
+  const [loadingCashFlow, setLoadingCashFlow] = useState(false);
 
   // Sync year from parent
   useEffect(() => {
@@ -51,9 +55,33 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
   // Annual data — fetches all entries for the selected year (no month filter)
   const { dbData: dbDre, loading: loadingDre } = useAnnualFinancialData(selectedClient, year, 'DRE');
   const { dbData: dbBp, loading: loadingBp } = useAnnualFinancialData(selectedClient, year, 'BP');
+  const { dbData: dbDlpa, loading: loadingDlpa } = useAnnualFinancialData(selectedClient, year, 'DLPA');
+  const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient);
+
+  // Load DFC/CashFlow data directly from firestore
+  useEffect(() => {
+    async function fetchCashFlow() {
+      if (!selectedClient) return;
+      setLoadingCashFlow(true);
+      try {
+        const q = query(
+          collection(db, 'cash_flows'),
+          where('clientId', '==', selectedClient)
+        );
+        const snap = await getDocs(q);
+        setCashFlowData(snap.docs.map(d => d.data()));
+      } catch (err) {
+        console.error('Error fetching cash flows in capital intelligence:', err);
+      } finally {
+        setLoadingCashFlow(false);
+      }
+    }
+    fetchCashFlow();
+  }, [selectedClient]);
 
   const currentDre = dbDre.length > 0 ? dbDre : [];
   const currentBp = dbBp.length > 0 ? dbBp : [];
+  const currentDlpa = dbDlpa.length > 0 ? dbDlpa : [];
 
   // month = 0 is the annual sentinel (never conflicts with real months 1-12)
   const { analysis, loading: loadingAnalysis, error: errorAnalysis, reprocessAnalysis, currentVersion } = useMethodologicalAnalysis(
@@ -61,6 +89,74 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
   );
 
   const [showReprocessed, setShowReprocessed] = useState(false);
+  const [executiveReport, setExecutiveReport] = useState<ExecutiveIntelligenceReport | null>(null);
+
+  // Compute BP and DRE values for runtime
+  const bpSummaryForRuntime = useMemo(() => getComputedBPSummary(dbBp), [dbBp]);
+
+  const { ebitdaForRuntime, lucroLiquidoForRuntime } = useMemo(() => {
+    const metrics = getComputedDreMetrics(dbDre);
+    return { ebitdaForRuntime: metrics.ebitda, lucroLiquidoForRuntime: metrics.lucroLiquido };
+  }, [dbDre]);
+
+  useEffect(() => {
+    if (loadingDre || loadingBp || loadingDlpa || loadingHistory || loadingCashFlow) return;
+
+    const clientObj = clients?.find((c: any) => c.id === selectedClient);
+    const segment = clientObj?.segmento || 'Default';
+
+    const historyByYear = allHistoryData.reduce((acc: any, item: any) => {
+      const yr = item.year;
+      if (!acc[yr]) acc[yr] = {};
+      const contaNorm = (item.conta || '').toLowerCase();
+      if (contaNorm.includes('patrimônio líquido') || contaNorm === 'pl') {
+        acc[yr].pl = (acc[yr].pl || 0) + (item.val || 0);
+      }
+      return acc;
+    }, {});
+
+    const prevPl = historyByYear[year - 1]?.pl || 0;
+
+    let calculatedCycles = Object.keys(historyByYear).length || 1;
+    if (clientObj?.dataFundacao) {
+      let fundacaoYear = null;
+      if (clientObj.dataFundacao.includes('/')) {
+        const parts = clientObj.dataFundacao.split('/');
+        if (parts.length === 3) fundacaoYear = parseInt(parts[2]);
+      } else if (clientObj.dataFundacao.includes('-')) {
+        const parts = clientObj.dataFundacao.split('-');
+        if (parts.length >= 1) fundacaoYear = parseInt(parts[0]);
+      }
+      if (fundacaoYear && !isNaN(fundacaoYear)) {
+        calculatedCycles = Math.max(1, year - fundacaoYear);
+      }
+    }
+
+    const payload = {
+      rawFinancialData: {
+        bpSummary: bpSummaryForRuntime,
+        ebitda: ebitdaForRuntime,
+        lucroLiquido: lucroLiquidoForRuntime,
+        segmentoEmpresa: segment,
+        prevPl,
+        dreDataLength: dbDre.length,
+        historicalCyclesCount: calculatedCycles
+      },
+      bpData: dbBp,
+      dreData: dbDre,
+      dlpaData: dbDlpa,
+      cashFlowData: cashFlowData,
+      historicalCyclesCount: calculatedCycles,
+      isMockData: dbBp.length === 0 && dbDre.length === 0
+    };
+
+    try {
+      const report = executiveRuntime.generateExecutiveReport(payload);
+      setExecutiveReport(report);
+    } catch (err) {
+      console.error('Error generating executive report in AnaliseFinanceira:', err);
+    }
+  }, [bpSummaryForRuntime, ebitdaForRuntime, lucroLiquidoForRuntime, dbDre, dbBp, dbDlpa, cashFlowData, year, allHistoryData, clients, selectedClient, loadingDre, loadingBp, loadingDlpa, loadingHistory, loadingCashFlow]);
 
   // Seleciona os dados a exibir (original ou reprocessado se o usuário ativou o toggle)
   const displayData = (showReprocessed && analysis?.reprocessed) 
@@ -171,9 +267,9 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
           </div>
           <div>
             <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight de Capital</h3>
-            <p className="executive-note">
-              {eva !== 0 ? (
-                `"A estrutura de capital atual apresenta um spread de ROIC/WACC de ${(roic - wacc).toFixed(2)}%. Com a criação de valor (EVA) em ${formatCurrency(eva)}, a empresa está gerando riqueza real para os acionistas. Recomendamos avaliar a otimização do perfil da dívida para reduzir o custo médio ponderado e ampliar a margem de segurança financeira."`
+            <p className="executive-note font-semibold text-slate-800 italic leading-relaxed">
+              {executiveReport ? (
+                `"${executiveReport.orchestratedNarrative?.leadParagraph || executiveReport.financialThesis?.thesis}"`
               ) : (
                 "Aguardando dados financeiros consolidados para análise de spread ROIC/WACC e geração de valor econômico (EVA). A análise estratégica será habilitada após a primeira importação de balanço e DRE."
               )}

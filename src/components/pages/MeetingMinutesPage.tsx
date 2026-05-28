@@ -713,12 +713,12 @@ export function MeetingMinutesPage({ clientId }: { clientId: string }) {
                         </div>
                       </motion.div>
                     ) : (
-                      <div className="h-full border border-dashed border-border rounded-md flex flex-col items-center justify-center p-8 text-center bg-surface-container/20">
+                      <div className="w-full h-full border border-dashed border-border rounded-md flex flex-col items-center justify-center p-8 text-center bg-surface-container/20">
                         <Users className="text-muted-foreground/30 mb-3" size={32} />
                         <p className="text-[11px] text-muted-foreground font-semibold uppercase tracking-widest">
                           Ações do Participante
                         </p>
-                        <p className="text-[10px] text-muted-foreground/70 uppercase tracking-widest leading-relaxed mt-2 italic max-w-xs">
+                        <p className="w-full text-xs text-muted-foreground/70 leading-relaxed mt-2 italic max-w-md mx-auto">
                           Selecione um participante ao lado para assinar a ata de reunião ou solicitar alterações.
                         </p>
                       </div>

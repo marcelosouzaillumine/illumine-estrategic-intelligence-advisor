@@ -195,8 +195,8 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
 
         </div>
       </nav>
-       {/* 1. HERO SECTION (High Executive Gravity & Tension) */}
-      <section id="hero" className="pt-48 pb-36 px-6 relative overflow-hidden z-10 border-b border-white/5 min-h-[92vh] flex items-center">
+      {/* 1. HERO SECTION */}
+      <section id="hero" className="pt-48 pb-24 px-6 relative overflow-hidden z-10 border-b border-white/5 min-h-[85vh] flex items-center">
         <CausalTopologyVisual />
         <div className="max-w-4xl mx-auto text-center space-y-12 relative z-10">
           
@@ -208,411 +208,144 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
           >
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 text-[9px] font-bold uppercase tracking-widest mb-2 backdrop-blur-md">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-              INTELIGÊNCIA INSTITUCIONAL & GOVERNANÇA EXECUTIVA
+              INFRAESTRUTURA DE GOVERNANÇA EXECUTIVA
             </span>
-
-            <p className="text-secondary text-xs sm:text-sm font-semibold tracking-widest uppercase max-w-2xl mx-auto leading-relaxed mt-2 select-none">
-              Muitas empresas crescem em faturamento enquanto perdem capacidade de sustentação.
-            </p>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium tracking-tight text-white leading-[1.15] pt-2">
               Clareza executiva para organizações que já não podem depender apenas de relatórios operacionais.
             </h1>
             
             <p className="text-lg md:text-xl text-secondary font-medium tracking-tight max-w-3xl mx-auto font-sans leading-relaxed">
-              A Illumine ajuda empresas complexas a crescerem com mais clareza, coerência e segurança institucional.
+              Muitas empresas crescem em faturamento enquanto perdem capacidade de sustentação.
             </p>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 15 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-base md:text-lg text-white/70 max-w-3xl mx-auto leading-relaxed font-sans"
-          >
-            Oferecemos uma infraestrutura proprietária de inteligência executiva e sustentação estratégica projetada para apoiar fundadores, conselhos e sócios a direcionarem a expansão, reduzirem riscos invisíveis e fortalecerem a continuidade dos negócios.
           </motion.div>
 
           <motion.div 
             initial={{ opacity: 0, y: 15 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8"
           >
             <button
               onClick={() => handleCTAClick('Gostaria de iniciar o Diagnóstico Executivo da minha organização.')}
               className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-xl cursor-pointer"
             >
-              <span>Iniciar Diagnóstico Executivo</span>
+              <span>Diagnóstico Executivo</span>
               <ArrowRight size={14} />
-            </button>
-            <button
-              onClick={() => handleCTAClick('Gostaria de agendar uma Avaliação Institucional da minha empresa.')}
-              className="w-full sm:w-auto h-14 px-8 rounded-md bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <span>Solicitar Avaliação Institucional</span>
             </button>
           </motion.div>
 
         </div>
       </section>
 
-      {/* 2. O PROBLEMA (ERP vs BI vs Illumine) */}
-      <section id="problema" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
-        <div className="max-w-6xl mx-auto space-y-24">
-          
+      {/* 2. THE TENSION */}
+      <section id="problema" className="py-24 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
+        <div className="max-w-4xl mx-auto text-center space-y-10">
+          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
+            O que normalmente destrói empresas não aparece primeiro no caixa.
+          </h2>
+          <div className="w-px h-16 bg-secondary/50 mx-auto" />
+          <p className="text-lg md:text-xl text-white/70 leading-relaxed font-sans max-w-3xl mx-auto">
+            O verdadeiro risco surge quando a complexidade da empresa ultrapassa sua capacidade de leitura executiva. A deterioração começa silenciosamente na perda de coerência decisória e na desconexão entre operação e estratégia.
+          </p>
+        </div>
+      </section>
+
+      {/* 3. DECISION INTELLIGENCE */}
+      <section id="decisoes" className="py-24 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
+        <div className="max-w-5xl mx-auto space-y-16">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-6">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-secondary border-l-2 border-secondary pl-3">
-                O RISCO DA ASSIMETRIA
-              </span>
               <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-                O crescimento desacompanhado de clareza estratégica é o maior risco de uma organização.
+                Decisões críticas não falham por ausência de dados. Falham por ausência de leitura integrada.
               </h2>
             </div>
-            <div className="space-y-6 text-white/70 text-base md:text-lg leading-relaxed font-sans">
+            <div className="space-y-6 text-white/70 text-lg leading-relaxed font-sans">
               <p>
-                À medida que a complexidade da empresa evolui, os desafios operacionais se multiplicam de forma exponencial. O verdadeiro risco não reside na falta de relatórios ou indicadores, mas sim no surgimento de fragilidades estruturais invisíveis que se desenvolvem silenciosamente nos bastidores.
+                Sistemas tradicionais registram transações históricas ou exibem indicadores isolados. Eles não evitam o desalinhamento entre sócios, conselho e diretoria.
               </p>
-              <p className="text-white/80 font-medium border-l border-secondary/30 pl-4 mt-4">
-                A infraestrutura de clareza executiva da Illumine ajuda empresas a identificarem desvios estruturais antes que eles comprometam a continuidade, a liquidez e o caixa do negócio.
+              <p className="text-white/90 font-medium border-l border-secondary/30 pl-4 mt-4">
+                A Illumine atua como uma infraestrutura de inteligência para sustentar decisões críticas, antecipar fragilidades estruturais e proteger o próximo ciclo do negócio.
               </p>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 pt-8">
-            <div className="p-8 rounded-xl bg-[#060D17] border border-white/5 space-y-4">
-              <div className="text-white/40 text-xs font-bold uppercase tracking-widest">Sistemas de Registro</div>
-              <h3 className="text-xl font-display font-semibold text-white">ERPs</h3>
-              <p className="text-sm text-white/60 leading-relaxed font-sans">
-                Registram e organizam transações operacionais passadas. São cruciais para a contabilidade e o compliance histórico da rotina corporativa.
-              </p>
-            </div>
-            <div className="p-8 rounded-xl bg-[#060D17] border border-white/5 space-y-4">
-              <div className="text-white/40 text-xs font-bold uppercase tracking-widest">Sistemas de Visualização</div>
-              <h3 className="text-xl font-display font-semibold text-white">BI & Dashboards</h3>
-              <p className="text-sm text-white/60 leading-relaxed font-sans">
-                Agrupam indicadores setoriais isolados em telas de visualização passiva. Dependem de interpretação externa para gerar valor decisório.
-              </p>
-            </div>
-            <div className="p-8 rounded-xl bg-[#060D17]/85 border border-secondary/20 space-y-4 relative shadow-[0_0_25px_rgba(255,133,82,0.02)]">
-              <div className="absolute top-0 right-8 -translate-y-1/2 px-2 py-0.5 rounded bg-secondary text-[8px] font-bold text-black uppercase tracking-widest">
-                Resiliência e Crescimento
-              </div>
-              <div className="text-secondary text-xs font-bold uppercase tracking-widest">Infraestrutura Executiva</div>
-              <h3 className="text-xl font-display font-semibold text-white">Illumine Governance</h3>
-              <p className="text-sm text-white/80 leading-relaxed font-sans">
-                A Illumine Governance ajuda empresas a identificarem fragilidades estruturais antes que elas comprometam caixa, crescimento e continuidade.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 3. EXECUTIVE RISK AWARENESS BLOCK (Tension, Urgency & Hidden Fragilities) */}
-      <section id="deterioracao" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
-        <div className="max-w-4xl mx-auto space-y-16">
-          <div className="text-center space-y-4">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
-              RISCO INSTITUCIONAL & PREVISIBILIDADE
-            </span>
-            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-              O que normalmente destrói empresas não aparece primeiro no caixa.
-            </h2>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-16 items-center pt-8">
-            <div className="space-y-6 text-white/70 text-base md:text-lg leading-relaxed font-sans">
-              <p>
-                Sua empresa está crescendo com maturidade proporcional ou apenas aumentando complexidade operacional? Muitas organizações continuam crescendo em faturamento e volume físico enquanto sua coerência decisória e capacidade real de sustentação se deterioram de forma invisível.
-              </p>
-              <p className="text-white/90 font-medium border-l-2 border-secondary pl-4 py-1">
-                Quando a deterioração finalmente se reflete no caixa ou no balanço, parte crucial da sua margem de manobra e capacidade de reação estratégica já foi consumida.
-              </p>
-              <p>
-                A Illumine atua como uma camada de inteligência e sustentação, identificando desvios estruturais e riscos ocultos para que sua empresa cresça de forma saudável e estruturada.
-              </p>
-            </div>
-            <div className="p-8 rounded-xl bg-[#060D17] border border-white/5 space-y-6">
-              <div className="text-white/40 text-xs font-bold uppercase tracking-widest border-b border-white/5 pb-2">A deterioração silenciosa começa:</div>
-              <ul className="space-y-4 font-sans text-sm text-white/85">
-                <li className="flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
-                  <span>Na perda gradual da coerência decisória sob pressão;</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
-                  <span>Na dependência invisível de pessoas-chave ou prazos críticos;</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
-                  <span>Na desconexão entre o ritmo da expansão e a estrutura de capital;</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
-                  <span>No crescimento de faturamento que camufla a perda de margem real;</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
-                  <span>Na incapacidade de antecipar riscos de governança e societários.</span>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. DECISION INTELLIGENCE BLOCK (Strategic Support) */}
-      <section id="decisoes" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
-        <div className="max-w-5xl mx-auto space-y-12 text-center">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
-            ESTABILIDADE CONTINUADA & ESTRUTURA DE DECISÃO
-          </span>
-          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-            Decisões críticas não falham por ausência de dados. Falham por ausência de leitura integrada.
-          </h2>
-          <div className="max-w-3xl mx-auto space-y-8 text-left bg-[#060D17] border border-white/5 rounded-2xl p-8 md:p-12 mt-12 relative overflow-hidden">
-            <div className="absolute inset-y-0 left-0 w-[2px] bg-secondary/50" />
-            <p className="text-lg md:text-xl text-white/90 font-medium leading-relaxed font-sans">
-              Muitas organizações continuam crescendo enquanto sua capacidade de sustentação se deteriora de forma invisível. A fragilidade decisória que expõe a empresa ao risco reside:
-            </p>
-            <ul className="space-y-4 text-base text-white/70 font-sans pl-2">
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-secondary mt-2.5 shrink-0" />
-                <span>No desalinhamento decisório entre sócios, conselhos e a diretoria executiva;</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-secondary mt-2.5 shrink-0" />
-                <span>Na falta de clareza sobre o limite de endividamento e a estrutura de liquidez necessária;</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-secondary mt-2.5 shrink-0" />
-                <span>Na incapacidade de ler de forma integrada as variáveis financeiras, operacionais e fiduciárias;</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-secondary mt-2.5 shrink-0" />
-                <span>Na tomada de decisões cruciais baseadas em intuição, feeling ou dados passados fragmentados.</span>
-              </li>
-            </ul>
-            <p className="text-lg text-white font-medium pt-4 border-t border-white/5 font-sans">
-              A Illumine fornece uma camada de inteligência que assegura a coerência decisória. Ajudamos a fortalecer a sustentabilidade estrutural do negócio, conectando a estratégia de crescimento com a realidade patrimonial.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. WHAT ILLUMINE IS (Structure of Intelligence) */}
-      <section id="metodologia" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
-        <div className="max-w-6xl mx-auto space-y-16">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <div className="space-y-6">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
-                INFRAESTRUTURA EXECUTIVA
-              </span>
-              <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-                Uma camada necessária de governança para sustentar o crescimento organizacional.
-              </h2>
-            </div>
-            <div className="space-y-6 text-white/70 text-base md:text-lg leading-relaxed font-sans">
-              <p>
-                A Illumine não é uma consultoria corporativa convencional nem um software de BI. Nós estruturamos e operamos uma infraestrutura de inteligência de governança e sustentação estratégica que assegura a coerência e a sustentação das decisões mais importantes da empresa.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 pt-8">
-            {[
-              { 
-                icon: ShieldCheck, 
-                title: 'Infraestrutura de Governança', 
-                desc: 'Suporte decisório continuado e alinhamento estratégico para conselhos de administração, fundadores, sócios e comitês executivos.' 
-              },
-              { 
-                icon: BrainCircuit, 
-                title: 'Continuidade e Mitigação de Riscos', 
-                desc: 'Mapeamento sistemático de dependências e fragilidades estruturais, preservando a estabilidade e a continuidade contra desvios operacionais e societários.' 
-              },
-              { 
-                icon: Target, 
-                title: 'Clareza Executiva Continuada', 
-                desc: 'Tradução contínua de relatórios fragmentados e ruído operacional em clareza executiva, mantendo a consistência do direcionamento estratégico.' 
-              }
-            ].map((item, i) => (
-              <div key={i} className="p-8 bg-[#060D17] border border-white/5 rounded-xl space-y-6">
-                <div className="w-10 h-10 rounded bg-white/5 flex items-center justify-center">
-                  <item.icon className="text-secondary" size={20} />
-                </div>
-                <h3 className="text-lg font-display font-semibold text-white">{item.title}</h3>
-                <p className="text-sm text-white/60 leading-relaxed font-sans">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 6. THE GOVERNANCE ENGINE (The Interpretation Architecture) */}
-      <section id="plataforma" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
-        <div className="max-w-6xl mx-auto space-y-16">
+      {/* 4. ILLUMINE GOVERNANCE - COMPRESSED */}
+      <section id="plataforma" className="py-24 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
+        <div className="max-w-5xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-6">
             <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
-              INFRAESTRUTURA DE SUSTENTAÇÃO
+              ILLUMINE GOVERNANCE
             </span>
             <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-              Governance: a infraestrutura de estabilidade e sustentabilidade da sua empresa.
+              A infraestrutura de estabilidade da sua empresa.
             </h2>
-            <p className="text-base md:text-lg text-white/70 max-w-2xl mx-auto font-sans leading-relaxed">
-              Uma camada proprietária de inteligência e segurança executiva que consolida variáveis operacionais, financeiras e societárias sob um único mecanismo de preservação da continuidade.
+            <p className="text-lg text-white/70 max-w-2xl mx-auto font-sans leading-relaxed">
+              Uma camada executiva que revela riscos invisíveis antes que eles comprometam:
             </p>
           </div>
 
-          <div className="bg-[#060D17] border border-white/5 rounded-2xl p-8 max-w-3xl mx-auto text-center space-y-3 mb-10">
-            <p className="text-sm font-semibold text-secondary uppercase tracking-widest">
-              Inteligência Executiva e Resiliência de Ativos
-            </p>
-            <p className="text-base text-white/90 leading-relaxed font-sans max-w-2xl mx-auto">
-              A Governance ajuda empresas a identificarem riscos invisíveis que normalmente só aparecem quando a liquidez já começou a deteriorar.
-            </p>
-          </div>
-
-          {/* Engine Capabilities Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
-            {[
-              {
-                icon: Activity,
-                title: 'Deteriorações Estruturais',
-                desc: 'Mapeia desvios de eficiência operacional e perda de margem antes que eles comprometam o caixa e a tesouraria corporativa.'
-              },
-              {
-                icon: Network,
-                title: 'Dependências Invisíveis',
-                desc: 'Identifica a sensibilidade e o risco associados a prazos de recebimento, fornecedores exclusivos ou concentração de clientes.'
-              },
-              {
-                icon: Shield,
-                title: 'Consistência Decisória',
-                desc: 'Garante a coerência de decisões complexas entre conselhos, sócios e diretoria em cenários de alta pressão e expansão.'
-              },
-              {
-                icon: Database,
-                title: 'Leitura Longitudinal',
-                desc: 'Mapeia tendências estruturais ao longo de múltiplos ciclos de mercado, isolando riscos permanentes de flutuações temporárias.'
-              }
-            ].map((item, i) => (
-              <div key={i} className="p-6 bg-[#060D17] border border-white/5 rounded-xl space-y-6 hover:border-white/10 transition-colors">
-                <item.icon className="text-secondary" size={24} strokeWidth={1.5} />
-                <h4 className="text-base font-display font-bold text-white break-words">{item.title}</h4>
-                <p className="text-xs text-white/60 leading-relaxed font-sans">{item.desc}</p>
-              </div>
-            ))}
-          </div>
+          <ul className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 text-sm text-secondary/90 font-medium uppercase tracking-widest max-w-3xl mx-auto">
+            <li>Caixa</li>
+            <li className="text-white/20 text-xs">•</li>
+            <li>Liquidez</li>
+            <li className="text-white/20 text-xs">•</li>
+            <li>Margem</li>
+            <li className="text-white/20 text-xs">•</li>
+            <li>Expansão</li>
+            <li className="text-white/20 text-xs">•</li>
+            <li>Continuidade</li>
+          </ul>
 
         </div>
       </section>
 
-      {/* 7. WHO IT IS FOR (Target Audiences) */}
-      <section id="segmentos" className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
-        <div className="max-w-6xl mx-auto space-y-16">
-          <div className="text-center max-w-3xl mx-auto space-y-6">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
-              ESTABILIDADE E CONTINUIDADE
-            </span>
-            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-              Desenvolvido para sustentar a continuidade de organizações complexas.
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                segment: 'Grupos Empresariais & Holdings',
-                desc: 'Fortalecimento e alinhamento decisório entre múltiplas unidades de negócios, eliminando pontos cegos informacionais entre sócios e conselhos.'
-              },
-              {
-                segment: 'Empresas Familiares',
-                desc: 'Preservação do patrimônio familiar, transição societária estruturada e mitigação de riscos relacionais na liderança executiva.'
-              },
-              {
-                segment: 'Hospitais & Redes de Saúde',
-                desc: 'Preservação do fluxo de caixa e gestão de capital de giro sob alta pressão operacional e exigências regulatórias complexas.'
-              },
-              {
-                segment: 'Indústrias & Operações Industriais',
-                desc: 'Mitigação de riscos em cadeias produtivas longas, estabilidade do fluxo de caixa operacional e resiliência diante de oscilações de insumos.'
-              },
-              {
-                segment: 'Holdings de Participações & Boards',
-                desc: 'Estrutura para alinhamento e monitoramento pragmático de riscos estratégicos no portfólio de empresas coligadas.'
-              },
-              {
-                segment: 'Empresas sob Reestruturação',
-                desc: 'Diagnóstico preciso de desvios operacionais e societários para resgatar a liquidez e a estabilidade estrutural do negócio.'
-              }
-            ].map((item, i) => (
-              <div key={i} className="p-8 bg-[#060D17] border border-white/5 rounded-xl hover:border-secondary/20 transition-all duration-300 space-y-4">
-                <h3 className="text-lg font-display font-semibold text-white">{item.segment}</h3>
-                <p className="text-sm text-white/60 leading-relaxed font-sans">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 8. EXECUTIVE PHILOSOPHY (Manifesto Worldview) */}
-      <section className="py-36 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
-        <div className="max-w-4xl mx-auto space-y-10 text-center">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
-            MATURIDADE E RESILIÊNCIA
-          </span>
-          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-            Governança executiva como ativo de estabilidade empresarial.
+      {/* 5. SEGMENTS - COMPRESSED */}
+      <section id="segmentos" className="py-20 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
+        <div className="max-w-4xl mx-auto text-center space-y-12">
+          <h2 className="text-2xl md:text-4xl font-display font-medium tracking-tight text-white">
+            Desenvolvido para organizações complexas:
           </h2>
-          <div className="space-y-6 text-white/70 text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-sans">
-            <p>
-              A verdadeira maturidade de um negócio não reside na criação de relatórios densos ou processos burocráticos. Ela se traduz em disciplina executiva, consistência do fluxo de caixa e preservação antecipada da sustentabilidade institucional da empresa.
-            </p>
-            <p>
-              Empresas são estruturas interdependentes. Quando crescem sem a devida maturidade de governança, geram pontos cegos e riscos societários ou operacionais silenciosos. A Illumine fornece a inteligência e a estabilidade necessárias para assegurar a continuidade das decisões críticas e preservar a estabilidade operacional do negócio.
-            </p>
+          <div className="grid sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
+            {[
+              'Grupos Empresariais & Holdings',
+              'Empresas Familiares',
+              'Hospitais & Redes de Saúde',
+              'Indústrias & Operações Complexas',
+              'Empresas sob Reestruturação'
+            ].map((segment, i) => (
+              <div key={i} className="p-6 bg-[#060D17] border border-white/5 rounded-xl flex items-center justify-between group">
+                <span className="text-sm font-medium text-white/80">{segment}</span>
+                <ChevronRight size={14} className="text-white/20 group-hover:text-secondary transition-colors" />
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 9. PREMIUM CTA (Executive Closing Section) */}
-      <section className="py-36 px-6 relative overflow-hidden z-10 bg-[#03080F]">
-        {/* Understated geometric design texture instead of tech meshes */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/[0.01] via-transparent to-transparent pointer-events-none" />
+      {/* 6. CTA / EXECUTIVE CLOSING */}
+      <section className="py-28 px-6 relative overflow-hidden z-10 bg-[#02050A]">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/[0.02] via-transparent to-transparent pointer-events-none" />
         
         <div className="max-w-4xl mx-auto text-center space-y-12 relative z-10">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
-            ESTABILIDADE E CONTINUIDADE
-          </span>
-          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-[1.1]">
+          <h2 className="text-4xl md:text-5xl font-display font-medium tracking-tight text-white leading-[1.1]">
             Sua empresa está crescendo com clareza suficiente para sustentar o próximo ciclo?
           </h2>
-          
-          <p className="text-base md:text-lg text-white/70 max-w-2xl mx-auto font-sans leading-relaxed">
-            Se a sua organização atingiu um patamar de complexidade onde decisões intuitivas e dados fragmentados trazem riscos para a continuidade da operação ou da sociedade, traga a clareza e a sustentação da governança Illumine para a sua empresa.
-          </p>
 
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-3xl mx-auto">
+          <div className="pt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-3xl mx-auto">
             <button
               onClick={() => handleCTAClick('Gostaria de agendar uma Avaliação Institucional para minha organização.')}
               className="w-full sm:w-auto h-16 px-8 rounded-md bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 cursor-pointer shadow-lg"
             >
-              <span>Solicitar Avaliação Institucional</span>
-            </button>
-            <button
-              onClick={() => handleCTAClick('Gostaria de iniciar o Diagnóstico Executivo da minha empresa.')}
-              className="w-full sm:w-auto h-16 px-8 rounded-md bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-3 cursor-pointer"
-            >
-              <span>Iniciar Diagnóstico Executivo</span>
+              <span>Avaliação Institucional</span>
             </button>
             <button
               onClick={() => handleCTAClick('Gostaria de conversar com os especialistas de Governança da Illumine.')}
               className="w-full sm:w-auto h-16 px-8 rounded-md bg-transparent border border-white/20 text-white/85 font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:text-white transition-all flex items-center justify-center gap-3 cursor-pointer"
             >
-              <span>Conversar com Especialistas</span>
+              <span>Falar com Especialistas</span>
             </button>
           </div>
         </div>
