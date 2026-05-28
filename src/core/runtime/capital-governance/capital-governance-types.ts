@@ -1,50 +1,41 @@
+// src/core/runtime/capital-governance/capital-governance-types.ts
+
 export interface CapitalRetentionMetrics {
-  retainedEarnings: number;
   netIncome: number;
-  retentionRate: number | null; // retainedEarnings / netIncome
-  retentionEfficiency: 'ALTA' | 'MODERADA' | 'INSUFICIENTE' | 'CRÍTICA' | 'FALTA_DADO';
-  reserveReinforcement: number;
-  narrative: string;
+  retainedEarnings: number;
+  retentionRatio: number;
+  retentionStatus: 'ALTA_RETENÇÃO' | 'RETENÇÃO_MODERADA' | 'DISTRIBUIÇÃO_EXCESSIVA' | 'DESCAPITALIZAÇÃO' | 'NÃO_APLICÁVEL';
 }
 
 export interface ShareholderDistributionMetrics {
-  distributedDividends: number;
-  payoutRatio: number | null; // distributedDividends / netIncome
-  distributionDiscipline: 'DISCIPLINADA' | 'AGRESSIVA' | 'DRENAGEM' | 'SAUDÁVEL' | 'FALTA_DADO';
-  corporateDrainRatio: number | null; // dividends / equity or dividends / cash
-  narrative: string;
+  totalDistributed: number;
+  distributionRatio: number;
+  distributionPressure: 'BAIXA' | 'MODERADA' | 'ALTA' | 'CRÍTICA' | 'NÃO_APLICÁVEL';
 }
 
 export interface EquityPreservationMetrics {
-  equityChange: number;
-  replenishmentIndex: number | null; // equityChange / netIncome (if positive, otherwise measures erosion)
-  equityErosionDetected: boolean;
-  preservationStatus: 'PRESERVADO' | 'ESTÁVEL' | 'EROSÃO_PARCIAL' | 'EROSÃO_SEVERA' | 'FALTA_DADO';
-  narrative: string;
-}
-
-export interface GovernanceCapitalBehaviorMetrics {
-  shareholderLoansVolume: number; // mútuos de sócios
-  capitalDisciplineRating: 'FORTE' | 'SENSÍVEL' | 'DISPLICENTE' | 'CRÍTICA' | 'FALTA_DADO';
-  isShareholderDrainingCompany: boolean;
-  loansToNetIncomeRatio: number | null;
-  narrative: string;
+  startingEquity: number;
+  endingEquity: number;
+  equityPreservationRatio: number; // > 1 means preserved/grown, < 1 means drained
+  preservationStatus: 'PRESERVADO' | 'DRENADO' | 'NEUTRO';
 }
 
 export interface InstitutionalCapitalizationMetrics {
-  capitalSocial: number;
-  lucrosRetidosAcumulados: number;
-  capitalizationIndex: number | null; // (Capital Social + Reservas) / Ativo Total
-  maturityRating: 'MADURA' | 'EM_DESENVOLVIMENTO' | 'FRÁGIL' | 'FALTA_DADO';
-  narrative: string;
+  capitalInjections: number;
+  capitalizationRatio: number; // Ratio of new capital / total equity
+  capitalizationStatus: 'ORGÂNICA' | 'INJEÇÃO_EXTERNA' | 'SEM_CAPITALIZAÇÃO';
 }
 
-export interface ConsolidatedCapitalGovernanceReport {
+export interface GovernanceCapitalBehaviorMetrics {
+  capitalReinforcementIndex: number;
+  governanceMaturity: 'MATURA' | 'EM_DESENVOLVIMENTO' | 'FRÁGIL' | 'DESTRUTIVA';
+}
+
+export interface CapitalGovernanceDiagnostics {
   isAvailable: boolean;
-  retention: CapitalRetentionMetrics;
-  distribution: ShareholderDistributionMetrics;
-  preservation: EquityPreservationMetrics;
-  behavior: GovernanceCapitalBehaviorMetrics;
-  capitalization: InstitutionalCapitalizationMetrics;
-  overallNarrative: string;
+  retention: CapitalRetentionMetrics | null;
+  distribution: ShareholderDistributionMetrics | null;
+  preservation: EquityPreservationMetrics | null;
+  capitalization: InstitutionalCapitalizationMetrics | null;
+  behavior: GovernanceCapitalBehaviorMetrics | null;
 }

@@ -215,9 +215,14 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               Clareza executiva para organizações que já não podem depender apenas de relatórios operacionais.
             </h1>
             
-            <p className="text-lg md:text-xl text-secondary font-medium tracking-tight max-w-3xl mx-auto font-sans leading-relaxed">
-              Muitas empresas crescem em faturamento enquanto perdem capacidade de sustentação.
-            </p>
+            <div className="space-y-4 max-w-3xl mx-auto">
+              <p className="text-lg md:text-xl text-secondary font-medium tracking-tight font-sans leading-relaxed">
+                Muitas empresas crescem em faturamento enquanto perdem capacidade de sustentação.
+              </p>
+              <p className="text-base md:text-lg text-white/60 font-sans leading-relaxed">
+                Suporte estratégico contínuo para fundadores, conselhos e diretoria em ciclos críticos de crescimento.
+              </p>
+            </div>
           </motion.div>
 
           <motion.div 
@@ -262,10 +267,10 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
             </div>
             <div className="space-y-6 text-white/70 text-lg leading-relaxed font-sans">
               <p>
-                Sistemas tradicionais registram transações históricas ou exibem indicadores isolados. Eles não evitam o desalinhamento entre sócios, conselho e diretoria.
+                Sistemas tradicionais registram transações ou exibem indicadores isolados. Eles não sustentam a direção executiva nem evitam o desalinhamento entre sócios e conselho.
               </p>
               <p className="text-white/90 font-medium border-l border-secondary/30 pl-4 mt-4">
-                A Illumine atua como uma infraestrutura de inteligência para sustentar decisões críticas, antecipar fragilidades estruturais e proteger o próximo ciclo do negócio.
+                Por isso, a Illumine atua como uma estrutura de apoio permanente — participando ativamente da realidade executiva para sustentar decisões críticas e manter a coerência durante a expansão.
               </p>
             </div>
           </div>
@@ -277,13 +282,13 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
         <div className="max-w-5xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-6">
             <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
-              ILLUMINE GOVERNANCE
+              ACOMPANHAMENTO EXECUTIVO CONTINUADO
             </span>
             <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
               A infraestrutura de estabilidade da sua empresa.
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto font-sans leading-relaxed">
-              Uma camada executiva que revela riscos invisíveis antes que eles comprometam:
+              Uma estrutura permanente de interpretação organizacional que atua ao lado da liderança, revelando riscos invisíveis antes que comprometam:
             </p>
           </div>
 

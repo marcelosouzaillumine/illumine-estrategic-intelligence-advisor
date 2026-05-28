@@ -60,6 +60,14 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
+  console.log('\nIniciando Institutional Financial Audit (RC-1.5)...');
+  try {
+    execSync('npx tsx src/scripts/runInstitutionalFinancialAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na Institutional Financial Audit. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
   console.log('\nIniciando Consolidated Advisory Audit...');
   try {
     execSync('npx tsx src/scripts/runConsolidatedAdvisoryAudit.ts', { stdio: 'inherit' });

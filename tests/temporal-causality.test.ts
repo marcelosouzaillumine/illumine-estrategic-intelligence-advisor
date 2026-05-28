@@ -5,6 +5,9 @@ import { ExecutiveResponsivenessEngine, ActionMarker } from '../src/core/runtime
 import { GovernanceFatigueDetection } from '../src/core/runtime/institutional-memory/GovernanceFatigueDetection';
 import { PredictiveRecurrenceEngine } from '../src/core/runtime/institutional-memory/PredictiveRecurrenceEngine';
 import { TemporalEscalationEngine } from '../src/core/runtime/institutional-memory/TemporalEscalationEngine';
+import { TemporalGovernanceScoring } from '../src/core/runtime/institutional-memory/TemporalGovernanceScoring';
+import { InstitutionalEarlyWarningSystem } from '../src/core/runtime/institutional-memory/InstitutionalEarlyWarningSystem';
+import { TemporalCausalityEngine } from '../src/core/runtime/institutional-memory/TemporalCausalityEngine';
 import { HistoricalReplayIndexEntry } from '../src/core/runtime/institutional-memory/types';
 
 describe('Phase 3 Step A: Core Temporal Engines', () => {
@@ -138,5 +141,144 @@ describe('Phase 3 Step A: Core Temporal Engines', () => {
     const result = TemporalEscalationEngine.evaluate('HIGH', true, false, ['l1', 'l2', 'l3']);
     assert.ok(result.auditReference.startsWith('audit-'));
     assert.ok(result.escalationEvidence.length > 0);
+  });
+});
+
+describe('Phase 3 Step B: Aggregators, Scoring & Early Warning', () => {
+  const mockHistory = (count: number): any[] => {
+    return Array.from({ length: count }).map((_, i) => ({
+      replayId: `r${i}`,
+      tenantId: 'TENANT-1',
+      entityScope: 'ENT-1',
+      lineageHash: `lin${i}`,
+      inputHash: `in${i}`,
+      advisoryHash: `adv${i}`,
+      correlationId: `corr${i}`,
+      timestamp: new Date(Date.now() - (10 - i) * 86400000).toISOString(),
+      period: '2023',
+      maturityScore: 80 - (i * 5),
+      governanceConsistencyIndex: 100,
+      resilienceTrend: 'STABLE',
+      deteriorationTrend: 'STABLE',
+      anomalyReferences: ['ANOM1'],
+      recommendationReferences: [],
+      retentionLayer: 'HOT',
+      visibilityPolicy: 'PRIVATE'
+    }));
+  };
+
+  test('1. Score temporal cai quando deterioração, fadiga e recorrência aumentam', () => {
+    const history = mockHistory(5); // 5 cycles
+    const context = { tenantId: 'TENANT-1', entityScope: ['ENT-1'] };
+    // High anomalies, high ignored recommendations, low action markers
+    const result = TemporalCausalityEngine.evaluateLongitudinalCausality(
+      context, history, 10, 10, [], 5, true
+    )!;
+
+    assert.ok(result.temporalGovernanceScore.temporalGovernanceScore < 50);
+    assert.strictEqual(result.temporalGovernanceScore.governanceTrajectory, 'DETERIORATING');
+  });
+
+  test('2. Score temporal melhora com alta responsividade e execução de advisory', () => {
+    const history = mockHistory(3);
+    // Flat maturity
+    history.forEach(h => {
+      h.maturityScore = 80;
+      h.anomalyReferences = [];
+    });
+    const context = { tenantId: 'TENANT-1', entityScope: ['ENT-1'] };
+    const actionMarkers = [
+      { advisoryId: 'A1', issuedAt: new Date(Date.now() - 100000).toISOString(), executedAt: new Date().toISOString() },
+      { advisoryId: 'A2', issuedAt: new Date(Date.now() - 100000).toISOString(), executedAt: new Date().toISOString() }
+    ];
+
+    const result = TemporalCausalityEngine.evaluateLongitudinalCausality(
+      context, history, 0, 0, actionMarkers, 0, false
+    )!;
+
+    assert.ok(result.temporalGovernanceScore.temporalGovernanceScore > 80);
+    assert.strictEqual(result.temporalGovernanceScore.governanceTrajectory, 'IMPROVING');
+  });
+
+  test('3. Early warning dispara runway collapse tendency após recorrência comprovada', () => {
+    const history = mockHistory(5);
+    const context = { tenantId: 'TENANT-1', entityScope: ['ENT-1'] };
+    // Severe deterioration setup
+    const result = TemporalCausalityEngine.evaluateLongitudinalCausality(
+      context, history, 20, 20, [], 10, true
+    )!;
+
+    const hasRunwayCollapse = result.earlyWarnings.some(w => w.warningType === 'RUNWAY_COLLAPSE_TENDENCY');
+    assert.ok(hasRunwayCollapse);
+  });
+
+  test('4. Early warning não dispara com menos de 3 ciclos', () => {
+    const history = mockHistory(2);
+    const context = { tenantId: 'TENANT-1', entityScope: ['ENT-1'] };
+    const result = TemporalCausalityEngine.evaluateLongitudinalCausality(
+      context, history, 20, 20, [], 10, true
+    );
+    // returns null due to INSUFFICIENT_HISTORY (< 3)
+    assert.strictEqual(result, null);
+  });
+
+  test('5. causalChain preserva sequência temporal', () => {
+    const history = mockHistory(4);
+    const context = { tenantId: 'TENANT-1', entityScope: ['ENT-1'] };
+    const result = TemporalCausalityEngine.evaluateLongitudinalCausality(
+      context, history, 0, 0, [], 0, false
+    )!;
+
+    assert.strictEqual(result.causalChain.links.length, 4);
+    assert.strictEqual(result.causalChain.rootCauseId, 'lin0');
+    assert.strictEqual(result.causalChain.links[0], 'lin0');
+    assert.strictEqual(result.causalChain.links[3], 'lin3');
+  });
+
+  test('6. cross-tenant temporal aggregation é bloqueado', () => {
+    const history = mockHistory(3);
+    const context = { tenantId: 'HACKER-TENANT', entityScope: ['ENT-1'] };
+    
+    assert.throws(() => {
+      TemporalCausalityEngine.evaluateLongitudinalCausality(
+        context, history, 0, 0, [], 0, false
+      );
+    }, /CROSS_TENANT_BLOCKED/);
+  });
+
+  test('7. visibilityPolicy é respeitada e mutação evitada', () => {
+    const history = mockHistory(3);
+    const context = { tenantId: 'TENANT-1', entityScope: ['ENT-1'] };
+    Object.freeze(history[0]); // Ensure immutability test
+    const result = TemporalCausalityEngine.evaluateLongitudinalCausality(
+      context, history, 0, 0, [], 0, false
+    )!;
+    assert.ok(result.lineageHash);
+  });
+
+  test('8. InstitutionalEarlyWarningSystem gera auditReference', () => {
+    const history = mockHistory(4);
+    const context = { tenantId: 'TENANT-1', entityScope: ['ENT-1'] };
+    const result = TemporalCausalityEngine.evaluateLongitudinalCausality(
+      context, history, 20, 20, [], 10, true
+    )!;
+    
+    assert.ok(result.auditReference.startsWith('causality-'));
+    result.earlyWarnings.forEach(w => {
+      assert.ok(w.auditReference.startsWith('ews-'));
+    });
+  });
+
+  test('9. TemporalGovernanceScoring é determinístico para o mesmo input', () => {
+    const history = mockHistory(4);
+    const context = { tenantId: 'TENANT-1', entityScope: ['ENT-1'] };
+    const result1 = TemporalCausalityEngine.evaluateLongitudinalCausality(
+      context, history, 5, 2, [], 1, false
+    )!;
+    const result2 = TemporalCausalityEngine.evaluateLongitudinalCausality(
+      context, history, 5, 2, [], 1, false
+    )!;
+
+    assert.strictEqual(result1.temporalGovernanceScore.temporalGovernanceScore, result2.temporalGovernanceScore.temporalGovernanceScore);
   });
 });

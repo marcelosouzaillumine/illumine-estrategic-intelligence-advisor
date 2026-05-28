@@ -209,9 +209,9 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             initial={{ opacity: 0, y: 15 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed font-sans"
+            className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed font-sans"
           >
-            A Illumine conecta advisors, consultores e escritórios contábeis à Governance — uma infraestrutura proprietária de inteligência executiva projetada para transformar dados em direcionamento estratégico e ampliar a capacidade consultiva.
+            Uma infraestrutura proprietária que eleva operações contábeis e consultivas ao nível de advisory de conselho.
           </motion.div>
 
           <motion.div 
@@ -245,8 +245,8 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             O problema raramente aparece primeiro nos números.
           </h2>
           <div className="w-px h-16 bg-secondary/50 mx-auto" />
-          <p className="text-lg md:text-xl text-white/70 leading-relaxed font-sans max-w-3xl mx-auto">
-            A maioria dos escritórios possui dados, mas poucos possuem estrutura para interpretação executiva. O crescimento da empresa cliente muitas vezes aumenta a complexidade sem o suporte estratégico necessário.
+          <p className="text-lg md:text-xl text-white/70 leading-relaxed font-sans max-w-2xl mx-auto">
+            Ter acesso aos dados não garante autoridade nas decisões. O mercado exige estruturas capazes de ler os riscos invisíveis antes que eles reflitam no caixa.
           </p>
         </div>
       </section>
@@ -262,10 +262,10 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             </div>
             <div className="space-y-6 text-white/70 text-lg leading-relaxed font-sans">
               <p>
-                Indicadores isolados criam pontos cegos e suprimem desvios silenciosos. A estrutura da Governance amplia seu campo de visão estratégica.
+                Indicadores isolados criam pontos cegos e suprimem desvios organizacionais silenciosos.
               </p>
               <p className="text-white/90 font-medium border-l border-secondary/30 pl-4 mt-4">
-                Antecipe fragilidades organizacionais, riscos silenciosos e identifique se o crescimento do seu cliente possui capacidade real de expansão.
+                A Governance unifica esses sinais, permitindo que o advisor antecipe rupturas e proteja o próximo ciclo de crescimento da organização.
               </p>
             </div>
           </div>
@@ -283,7 +283,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               A estrutura que dá poder ao Advisor.
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto font-sans leading-relaxed">
-              Para atuar no nível estratégico, parceiros precisam de uma estrutura que conecte variáveis financeiras, operacionais e societárias sob uma visão unificada.
+              A estrutura que conecta variáveis financeiras, operacionais e societárias sob uma visão unificada para decisões de alta complexidade.
             </p>
           </div>
         </div>
@@ -306,7 +306,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
           <div className="w-full max-w-3xl bg-[#060D17]/70 border border-white/10 rounded-xl p-8 sm:p-10 shadow-2xl relative mx-auto">
             <div className="absolute -top-px left-12 right-12 h-px bg-gradient-to-r from-transparent via-secondary/40 to-transparent" />
             <p className="text-white/80 text-lg md:text-xl leading-relaxed font-sans text-center">
-              Governance amplia profundidade consultiva, clareza executiva e sustentação estratégica.
+              A base analítica para conduzir conversas de conselho, sucessão e continuidade.
             </p>
           </div>
 
@@ -321,7 +321,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               CAMADAS DE INTELIGÊNCIA APLICADA
             </span>
             <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-              O ecossistema de inteligência
+              Infraestrutura de Inteligência Aplicada
             </h2>
           </div>
 
@@ -330,7 +330,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               {
                 icon: ShieldCheck,
                 title: 'Governança & Advisory',
-                desc: 'Suporte estratégico para alinhamento societário, conselhos e continuidade organizacional.'
+                desc: 'Estruturação executiva, alinhamento societário e suporte à continuidade organizacional.'
               },
               {
                 icon: Scale,
@@ -340,17 +340,17 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               {
                 icon: Activity,
                 title: 'Inteligência Financeira',
-                desc: 'Leitura estratégica de liquidez, crescimento e sustentabilidade financeira.'
+                desc: 'Leitura de liquidez, viabilidade de expansão e sustentabilidade operacional.'
               },
               {
                 icon: Users,
                 title: 'Cultura & Capital Humano',
-                desc: 'Fortalecimento organizacional e alinhamento de liderança.'
+                desc: 'Fortalecimento da liderança e preparação para sucessão.'
               },
               {
                 icon: Landmark,
                 title: 'ESG & Sustentabilidade',
-                desc: 'Continuidade institucional e geração sustentável de valor.'
+                desc: 'Responsabilidade institucional e geração sustentável de valor longo prazo.'
               }
             ].map((item, idx) => (
               <div key={idx} className="p-8 bg-[#060D17] border border-white/5 rounded-xl flex items-start gap-4 hover:border-white/10 transition-colors">
@@ -390,7 +390,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               onClick={() => handleCTAClick('Olá. Gostaria de conversar com a Illumine sobre como a estrutura de inteligência estratégica e governança da Governance pode apoiar nossa atuação.')}
               className="w-full sm:w-auto h-16 px-8 rounded-md bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-3 cursor-pointer"
             >
-              <span>Falar com a Illumine</span>
+              <span>Agendar Conversa Estratégica</span>
             </button>
           </div>
         </div>

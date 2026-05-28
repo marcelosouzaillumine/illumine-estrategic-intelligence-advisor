@@ -227,3 +227,48 @@ export interface TemporalLineage {
   tenantId: string;
   originTimestamp: string;
 }
+
+export interface TemporalGovernanceScore {
+  temporalGovernanceScore: number;
+  governanceTrajectory: 'IMPROVING' | 'STABLE' | 'DETERIORATING';
+  institutionalStabilityIndex: number;
+  recurrenceSeverityWeight: number;
+  responsivenessWeight: number;
+  fatigueWeight: number;
+  deteriorationWeight: number;
+  resilienceWeight: number;
+}
+
+export type EarlyWarningType = 
+  | 'RUNWAY_COLLAPSE_TENDENCY' 
+  | 'GOVERNANCE_BREAKDOWN_TENDENCY' 
+  | 'ANOMALY_ESCALATION_PATTERN' 
+  | 'FATIGUE_THRESHOLD_BREACH' 
+  | 'OPERATIONAL_COLLAPSE_PRECURSOR' 
+  | 'ADVISORY_NEGLECT_ESCALATION';
+
+export interface EarlyWarningSignal {
+  warningType: EarlyWarningType;
+  description: string;
+  recurrenceCycles: number;
+  lineageHash: string;
+  auditReference: string;
+}
+
+export interface TemporalCausalityOutput {
+  temporalGovernanceScore: TemporalGovernanceScore;
+  earlyWarnings: EarlyWarningSignal[];
+  deteriorationState: DeteriorationState;
+  responsivenessMetrics: ResponsivenessMetrics;
+  fatigueState: FatigueState;
+  predictiveRecurrence: PredictiveRecurrenceState;
+  escalationState: TemporalEscalationState;
+  causalChain: CausalChain;
+  lineageHash: string;
+  correlationId: string;
+  tenantId: string;
+  entityScope: string;
+  temporalEvidence: TemporalEvidence[];
+  confidenceState: TemporalConfidenceState;
+  auditReference: string;
+}

@@ -1,141 +1,91 @@
-import { ConsolidatedCashFlowReport } from './cashflow/cashflow-types';
-import { ConsolidatedCapitalGovernanceReport } from './capital-governance/capital-governance-types';
+// src/core/runtime/InstitutionalFinancialThesisEngine.ts
+import { CashFlowDiagnostics } from './cashflow/cashflow-types';
+import { CapitalGovernanceDiagnostics } from './capital-governance/capital-governance-types';
 
-export class InstitutionalFinancialThesisEngine {
-  public static generate(
-    bpSummary: any,
-    ebitda: number,
-    lucroLiquido: number,
-    cashFlowReport: ConsolidatedCashFlowReport,
-    capitalGovernanceReport: ConsolidatedCapitalGovernanceReport,
-    metrics: any
-  ): {
-    thesis: string;
-    tensions: string[];
-    pressures: string[];
-    structuralRisks: string[];
-  } {
-    const tensions: string[] = [];
-    const pressures: string[] = [];
-    const structuralRisks: string[] = [];
+export interface InstitutionalFinancialThesisProfile {
+  thesisId: string;
+  isAvailable: boolean;
+  components: {
+    hasDRE: boolean;
+    hasBP: boolean;
+    hasDFC: boolean;
+    hasDLPA: boolean;
+  };
+  structuralRisks: { id: string; severity: 'ALTA' | 'MODERADA' | 'BAIXA'; component: string }[];
+  pressures: { id: string; severity: 'ALTA' | 'MODERADA' | 'BAIXA'; component: string }[];
+  consolidatedSeverity: 'CRÍTICA' | 'ALTA' | 'MODERADA' | 'SAUDÁVEL' | 'INDISPONÍVEL';
+  sustainabilityStatus: 'SUSTENTÁVEL' | 'VULNERÁVEL' | 'INSUSTENTÁVEL';
+}
 
-    // Evaluate DRE health (Absorção e Margem)
-    const isEbitdaPositive = ebitda > 0;
-    const isNetIncomePositive = lucroLiquido > 0;
-    const margemEbitda = metrics?.margemEbitda ?? 0;
+export function generateInstitutionalFinancialThesisProfile(
+  hasDRE: boolean,
+  hasBP: boolean,
+  dfcDiagnostics: CashFlowDiagnostics,
+  dlpaDiagnostics: CapitalGovernanceDiagnostics,
+  ebitda: number,
+  lucroLiquido: number
+): InstitutionalFinancialThesisProfile {
+  
+  const profile: InstitutionalFinancialThesisProfile = {
+    thesisId: `THESIS-${Date.now()}`,
+    isAvailable: true,
+    components: {
+      hasDRE,
+      hasBP,
+      hasDFC: dfcDiagnostics.isAvailable,
+      hasDLPA: dlpaDiagnostics.isAvailable
+    },
+    structuralRisks: [],
+    pressures: [],
+    consolidatedSeverity: 'INDISPONÍVEL',
+    sustainabilityStatus: 'SUSTENTÁVEL'
+  };
 
-    let dreSummaryText = '';
-    if (isEbitdaPositive) {
-      if (margemEbitda > 0.15) {
-        dreSummaryText = 'viabilidade comercial robusta e boa eficiência de margem';
-      } else {
-        dreSummaryText = 'viabilidade comercial parcial, mas com margens estreitas e baixa absorção estrutural';
-        pressures.push('Estrutura de custos fixos pressionando margem líquida');
-      }
-    } else {
-      dreSummaryText = 'destruição operacional de valor, indicando ausência de absorção da estrutura fixa atual';
-      pressures.push('Prejuízo operacional recorrente');
-      structuralRisks.push('Modelo de negócios operando abaixo do ponto de equilíbrio (breakeven)');
-    }
-
-    // Evaluate BP Health (Capital Structure & Working Capital)
-    let bpSummaryText = '';
-    const at = bpSummary?.ativoTotal || 0;
-    const pl = bpSummary?.patrimonioLiquido || 0;
-    const pc = bpSummary?.passivoCirculante || 0;
-    const autonomy = at > 0 ? pl / at : 0;
-    const currentLiquidity = pc > 0 ? (bpSummary?.ativoCirculante || 0) / pc : 1;
-
-    if (autonomy < 0.2) {
-      bpSummaryText = 'alta dependência de capital de terceiros';
-      structuralRisks.push('Descapitalização estrutural do balanço');
-    } else if (autonomy > 0.5) {
-      bpSummaryText = 'autonomia patrimonial confortável';
-    } else {
-      bpSummaryText = 'alavancagem moderada de capital';
-    }
-
-    if (currentLiquidity < 1.0) {
-      pressures.push('Falta de cobertura de passivos circulantes com ativos circulantes');
-    }
-
-    // Evaluate DFC Health
-    let dfcSummaryText = '';
-    if (cashFlowReport.isAvailable) {
-      const fco = cashFlowReport.operational.operatingCashFlow;
-      const runway = cashFlowReport.treasury.runwayMonths;
-      const dependency = cashFlowReport.funding.dependencyClassification;
-
-      if (fco > 0) {
-        if (runway !== null && runway < 6) {
-          dfcSummaryText = 'geração de caixa operacional positiva, porém com runway financeiro limitado';
-          pressures.push('Runway de caixa curto, exigindo conservação de liquidez');
-        } else {
-          dfcSummaryText = 'geração operacional saudável sustentando a liquidez';
-        }
-      } else {
-        dfcSummaryText = 'consumo operacional de caixa e pressão progressiva de liquidez';
-        pressures.push('Drenagem de liquidez pela operação');
-        if (dependency === 'CRÍTICA' || dependency === 'ELEVADA') {
-          structuralRisks.push('Operação mantida artificialmente por fomento externo');
-        }
-      }
-    } else {
-      dfcSummaryText = 'indisponibilidade de análise de fluxo de caixa';
-    }
-
-    // Evaluate DLPA/DMPL Health
-    let dlpaSummaryText = '';
-    if (capitalGovernanceReport.isAvailable) {
-      const retention = capitalGovernanceReport.retention.retentionEfficiency;
-      const distribution = capitalGovernanceReport.distribution.distributionDiscipline;
-      const preservation = capitalGovernanceReport.preservation.preservationStatus;
-
-      if (preservation === 'EROSÃO_SEVERA' || preservation === 'EROSÃO_PARCIAL') {
-        dlpaSummaryText = 'e erosão patrimonial devido a retiradas desbalanceadas ou prejuízos';
-        structuralRisks.push('Erosão contínua do Patrimônio Líquido');
-      } else if (retention === 'INSUFICIENTE' || retention === 'CRÍTICA') {
-        dlpaSummaryText = 'e retenção insuficiente de capital para fortalecimento de reservas';
-        pressures.push('Distribuição ou drenagem esgotando lucros acumulados');
-      } else {
-        dlpaSummaryText = 'e postura prudente de retenção para fortalecimento institucional';
-      }
-    } else {
-      dlpaSummaryText = 'sem dados de governança societária para consolidar';
-    }
-
-    // Detect Cross-Statement Tensions
-    if (isEbitdaPositive && cashFlowReport.isAvailable && cashFlowReport.operational.operatingCashFlow < 0) {
-      tensions.push('Lucro sem caixa: EBITDA positivo não se traduz em geração operacional de caixa devido ao giro.');
-    }
-    if (isNetIncomePositive && capitalGovernanceReport.isAvailable && capitalGovernanceReport.preservation.equityChange < 0) {
-      tensions.push('Crescimento sem retenção: Lucro positivo acompanhado de descapitalização líquida de reservas.');
-    }
-    if (bpSummary && bpSummary.estoques && cashFlowReport.isAvailable && cashFlowReport.conversion.inventoryDrainImpact !== null && cashFlowReport.conversion.inventoryDrainImpact > 0.25) {
-      tensions.push('Estoques retendo liquidez: Alta concentração de capital de giro imobilizada em inventário.');
-    }
-    if (capitalGovernanceReport.isAvailable && capitalGovernanceReport.distribution.distributionDiscipline === 'DRENAGEM') {
-      tensions.push('Drenagem societária: Saída de dividendos incompatível com lucro do período, reduzindo PL.');
-    }
-
-    // Standardizing Thesis Narrative based on Convergence of Indicators
-    let thesis = '';
-    if (!isEbitdaPositive) {
-      thesis = `A operação apresenta sinais de destruição operacional de valor, sem absorção estrutural da atual despesa fixa, combinada com ${dfcSummaryText} ${dlpaSummaryText}.`;
-    } else {
-      thesis = `A operação apresenta sinais de ${dreSummaryText}, acompanhada de ${dfcSummaryText} ${dlpaSummaryText}, e apresentando ${bpSummaryText}.`;
-    }
-
-    // Clean up duplicates
-    const uniqueTensions = Array.from(new Set(tensions));
-    const uniquePressures = Array.from(new Set(pressures));
-    const uniqueStructuralRisks = Array.from(new Set(structuralRisks));
-
-    return {
-      thesis,
-      tensions: uniqueTensions,
-      pressures: uniquePressures,
-      structuralRisks: uniqueStructuralRisks
-    };
+  if (!hasDRE && !hasBP && !dfcDiagnostics.isAvailable && !dlpaDiagnostics.isAvailable) {
+    profile.isAvailable = false;
+    return profile;
   }
+
+  // Evaluate DRE basic risks
+  if (hasDRE && ebitda <= 0) {
+    profile.structuralRisks.push({ id: 'EBITDA_NEGATIVO', severity: 'ALTA', component: 'DRE' });
+  }
+
+  // Evaluate DFC risks
+  if (dfcDiagnostics.isAvailable && dfcDiagnostics.operational) {
+    if (dfcDiagnostics.operational.pattern === 'OPERACIONAL_DEFICITARIO') {
+      profile.structuralRisks.push({ id: 'QUEIMA_DE_CAIXA_OPERACIONAL', severity: 'ALTA', component: 'DFC' });
+      profile.sustainabilityStatus = 'INSUSTENTÁVEL';
+    } else if (dfcDiagnostics.operational.pattern === 'DEPENDENTE_TERCEIROS') {
+      profile.pressures.push({ id: 'DEPENDÊNCIA_DE_TERCEIROS', severity: 'MODERADA', component: 'DFC' });
+      if (profile.sustainabilityStatus !== 'INSUSTENTÁVEL') profile.sustainabilityStatus = 'VULNERÁVEL';
+    }
+  }
+
+  // Evaluate DLPA risks
+  if (dlpaDiagnostics.isAvailable && dlpaDiagnostics.preservation) {
+    if (dlpaDiagnostics.preservation.preservationStatus === 'DRENADO') {
+      profile.structuralRisks.push({ id: 'DRENAGEM_DE_CAPITAL', severity: 'ALTA', component: 'DLPA' });
+      profile.sustainabilityStatus = 'INSUSTENTÁVEL';
+    }
+    if (dlpaDiagnostics.distribution && dlpaDiagnostics.distribution.distributionPressure === 'CRÍTICA') {
+      profile.pressures.push({ id: 'PRESSÃO_DE_DISTRIBUIÇÃO', severity: 'ALTA', component: 'DLPA' });
+    }
+  }
+
+  // Consolidate Severity
+  const hasHighRisk = profile.structuralRisks.some(r => r.severity === 'ALTA');
+  const hasModerateRisk = profile.structuralRisks.some(r => r.severity === 'MODERADA') || profile.pressures.some(p => p.severity === 'ALTA');
+
+  if (hasHighRisk) {
+    profile.consolidatedSeverity = 'CRÍTICA';
+  } else if (hasModerateRisk) {
+    profile.consolidatedSeverity = 'ALTA';
+  } else if (profile.pressures.length > 0) {
+    profile.consolidatedSeverity = 'MODERADA';
+  } else {
+    profile.consolidatedSeverity = 'SAUDÁVEL';
+  }
+
+  return profile;
 }
