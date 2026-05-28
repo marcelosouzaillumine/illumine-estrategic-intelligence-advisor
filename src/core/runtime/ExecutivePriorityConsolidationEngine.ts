@@ -70,3 +70,27 @@ export function consolidateExecutivePriorities(
   const sortMap = { 'Crítica': 0, 'Alta': 1, 'Moderada': 2 };
   return priorities.sort((a, b) => sortMap[a.priority] - sortMap[b.priority]);
 }
+
+export class ExecutivePriorityConsolidationEngine {
+  public static consolidate(
+    actions: string[],
+    tensionsInput: any[],
+    cashFlowReport: any,
+    capitalGovernanceReport: any,
+    metrics: any
+  ): string[] {
+    const isEroded = capitalGovernanceReport?.isAvailable && 
+                     (capitalGovernanceReport.preservation?.preservationStatus === 'DRENADO' ||
+                      capitalGovernanceReport.behavior?.governanceMaturity === 'DESTRUTIVA');
+
+    return actions.filter(action => {
+      const lower = action.toLowerCase();
+      if (isEroded) {
+        if (lower.includes('distrib') || lower.includes('dividendo') || lower.includes('payout')) {
+          return false; // Block it!
+        }
+      }
+      return true;
+    });
+  }
+}

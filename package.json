@@ -16,6 +16,7 @@
     "executive:cognitive:audit": "tsx src/scripts/runExecutiveCognitiveAudit.ts",
     "institutional:memory:audit": "tsx src/scripts/runInstitutionalMemoryAudit.ts",
     "institutional:causality:audit": "tsx src/scripts/runInstitutionalCausalityAudit.ts",
+    "scenario:simulation:audit": "tsx src/scripts/runScenarioSimulationAudit.ts",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "test": "tsc --noEmit && tsx --test tests/*.test.ts",
@@ -26,7 +27,7 @@
     "docs:audit": "tsx src/scripts/runDocsAudit.ts",
     "audit:structural": "tsx scripts/runStructuralCapitalAudit.ts",
     "production:hardening:audit": "tsx src/scripts/runProductionHardeningAudit.ts",
-    "release:check": "npm run typecheck && npm run test && npm run governance:audit && npm run executive:cognitive:audit && npm run institutional:memory:audit && npm run institutional:causality:audit && npm run production:hardening:audit && npm run architecture:audit && npm run imports:audit && npm run mocks:audit && npm run docs:audit && npm run build"
+    "release:check": "npm run typecheck && npm run test && npm run governance:audit && npm run executive:cognitive:audit && npm run institutional:memory:audit && npm run institutional:causality:audit && npm run scenario:simulation:audit && npm run production:hardening:audit && npm run architecture:audit && npm run imports:audit && npm run mocks:audit && npm run docs:audit && npm run build"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

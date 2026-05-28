@@ -49,3 +49,35 @@ export function translateKPIsToSemantics(
 
   return semantics;
 }
+
+export class KPISemanticIntelligenceEngine {
+  public static enrich(kpi: any, segment: string): any {
+    let semanticInterpretation = '';
+    let fiduciaryJustification = '';
+
+    const name = kpi.name;
+    const val = kpi.val;
+
+    if (name === 'Margem EBITDA') {
+      if (val >= 15) {
+        semanticInterpretation = 'Excelente eficiência operacional de margem.';
+        fiduciaryJustification = `Margem EBITDA de ${val}% indica forte capacidade de geração de caixa operacional para o setor de ${segment}.`;
+      } else if (val >= 8) {
+        semanticInterpretation = 'Eficiência de margem moderada.';
+        fiduciaryJustification = `Margem EBITDA de ${val}% sinaliza rentabilidade operacional média para o setor de ${segment}.`;
+      } else {
+        semanticInterpretation = 'Margem operacional frágil.';
+        fiduciaryJustification = `Margem EBITDA sob pressão de ${val}% indica ineficiência na conversão de receita em caixa operacional.`;
+      }
+    } else {
+      semanticInterpretation = `${name} em nível ${kpi.status.toLowerCase()}.`;
+      fiduciaryJustification = `Análise fiduciária baseada em valor de ${val} ${kpi.unit === 'currency' ? 'R$' : kpi.unit}.`;
+    }
+
+    return {
+      ...kpi,
+      semanticInterpretation,
+      fiduciaryJustification
+    };
+  }
+}

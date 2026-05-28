@@ -5,6 +5,7 @@ export type CausalityStatementNode = 'DRE' | 'BP' | 'DFC' | 'DLPA';
 export interface CausalityPropagationLink {
   source: CausalityStatementNode;
   target: CausalityStatementNode;
+  propagationDirection: string;
   mechanism: string;
   evidence: string;
   severity: 'BAIXA' | 'MODERADA' | 'ALTA' | 'CRÍTICA';
@@ -30,6 +31,7 @@ export function detectCrossStatementCausality(
     tensions.push({
       source: 'DRE',
       target: 'DFC',
+      propagationDirection: 'DRE → DFC',
       mechanism: 'Retenção de Capital de Giro',
       evidence: `EBITDA positivo (${ebitda}) não convertido em Caixa Operacional (${operatingCashFlow}). Possível aprisionamento em giro.`,
       severity: 'ALTA'
@@ -41,6 +43,7 @@ export function detectCrossStatementCausality(
     tensions.push({
       source: 'DFC',
       target: 'BP',
+      propagationDirection: 'DFC → BP',
       mechanism: 'Dependência de Terceiros para Investimento',
       evidence: `Caixa Operacional (${operatingCashFlow}) insuficiente para cobrir CAPEX (${capex}), exigindo passivo (BP).`,
       severity: 'MODERADA'
@@ -52,6 +55,7 @@ export function detectCrossStatementCausality(
     tensions.push({
       source: 'DRE',
       target: 'DLPA',
+      propagationDirection: 'DRE → DLPA',
       mechanism: 'Descapitalização com Déficit Operacional',
       evidence: `Distribuição de dividendos (${totalDistributed}) ocorrendo simultaneamente a um déficit operacional (EBITDA: ${ebitda}).`,
       severity: 'CRÍTICA'
@@ -63,3 +67,47 @@ export function detectCrossStatementCausality(
 
   return { tensions };
 }
+
+export interface CrossStatementCausalityReport {
+  tensions: {
+    id: string;
+    title: string;
+    severity: string;
+    description: string;
+    evidence: string;
+  }[];
+  stressPatterns: string[];
+}
+
+export class CrossStatementCausalityEngine {
+  public static analyze(
+    bpSummary: any,
+    dreEbitda: number,
+    dreLucro: number,
+    cashFlowReport: any,
+    capitalGovernanceReport: any
+  ): CrossStatementCausalityReport {
+    const tensions: any[] = [];
+    const stressPatterns: string[] = [];
+
+    const operatingCashFlow = cashFlowReport?.isAvailable ? (cashFlowReport.operational?.operatingCashFlow ?? 0) : 0;
+    
+    // Case 1: Lucro sem caixa (Profitable DRE but negative Cash Flow)
+    if (dreEbitda > 0 && operatingCashFlow <= 0) {
+      tensions.push({
+        id: 'LUCRO_SEM_CAIXA',
+        title: 'Lucro sem Caixa',
+        severity: 'ALTA',
+        description: 'EBITDA positivo mas fluxo de caixa operacional negativo ou nulo.',
+        evidence: `EBITDA: ${dreEbitda} | FCO: ${operatingCashFlow}`
+      });
+      stressPatterns.push('DESCALAS_GIRO');
+    }
+
+    return {
+      tensions,
+      stressPatterns
+    };
+  }
+}
+

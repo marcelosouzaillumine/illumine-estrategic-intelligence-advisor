@@ -216,7 +216,7 @@ export function InstitutionalFinancialOverviewPage({
         <div className="max-w-4xl relative z-10 space-y-6">
           <div className="flex items-center gap-2 text-amber-500">
             <Target size={20} className="animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Tese Financeira Institucional</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.2em]">InstitutionalFinancialThesis (Tese Financeira)</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight leading-relaxed text-white">
             "{thesis}"

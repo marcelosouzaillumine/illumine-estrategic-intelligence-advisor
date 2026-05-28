@@ -8,26 +8,29 @@ export function calculateCashConversion(
   operatingCashFlow: number
 ): CashConversionMetrics {
   
-  // A conversão de caixa real considera o que sobra da operação (OCF) versus a promessa de caixa (EBITDA)
-  // Mas a reconciliação real passa por subtrair a variação de capital de giro do EBITDA.
+  // Refinamento 2: Reconciliação completa antes de concluir sustentabilidade/qualidade
+  // EBITDA não é proxy primária. Subtraímos variação de giro e capex operacional.
   const theoreticalCashFromOps = ebitda - workingCapitalVariation;
+  const freeCashFlowOperational = operatingCashFlow - capex;
   
-  // Evitar divisão por zero e distorções (EBITDA negativo ou nulo)
+  // Conversão de Caixa: mede o quanto da operação efetivamente vira caixa pós-giro
   let conversionRatio = 0;
-  if (ebitda > 0) {
-    conversionRatio = operatingCashFlow / ebitda;
+  if (theoreticalCashFromOps > 0) {
+    conversionRatio = operatingCashFlow / theoreticalCashFromOps;
+  } else if (operatingCashFlow > 0 && theoreticalCashFromOps <= 0) {
+    conversionRatio = 1; // Geração anômala positiva contra base teórica negativa
   }
 
   let qualityOfEarnings: 'ALTA' | 'MÉDIA' | 'BAIXA' | 'INSUFICIENTE' = 'INSUFICIENTE';
 
-  if (ebitda <= 0) {
-    qualityOfEarnings = 'INSUFICIENTE';
-  } else if (conversionRatio > 0.8) {
+  if (freeCashFlowOperational > 0 && conversionRatio >= 0.8) {
     qualityOfEarnings = 'ALTA';
-  } else if (conversionRatio > 0.5) {
+  } else if (operatingCashFlow > 0 && conversionRatio >= 0.5) {
     qualityOfEarnings = 'MÉDIA';
-  } else {
+  } else if (operatingCashFlow > 0) {
     qualityOfEarnings = 'BAIXA';
+  } else {
+    qualityOfEarnings = 'INSUFICIENTE';
   }
 
   return {

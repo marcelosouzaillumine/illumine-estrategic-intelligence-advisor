@@ -89,3 +89,64 @@ export function generateInstitutionalFinancialThesisProfile(
 
   return profile;
 }
+
+export class InstitutionalFinancialThesisEngine {
+  public static generate(
+    bpSummary: any,
+    ebitda: number,
+    lucroLiquido: number,
+    cashFlowReport: any,
+    capitalGovernanceReport: any,
+    metrics: any
+  ) {
+    const hasDRE = !!metrics;
+    const hasBP = !!bpSummary;
+
+    const dfcDiagnostics = cashFlowReport ? {
+      isAvailable: cashFlowReport.isAvailable,
+      operational: cashFlowReport.operational,
+      conversion: cashFlowReport.conversion,
+      treasury: cashFlowReport.treasury,
+      sustainability: cashFlowReport.sustainability,
+      funding: cashFlowReport.funding
+    } : { isAvailable: false, operational: null, conversion: null, treasury: null, sustainability: null, funding: null };
+
+    const dlpaDiagnostics = capitalGovernanceReport ? {
+      isAvailable: capitalGovernanceReport.isAvailable,
+      retention: capitalGovernanceReport.retention,
+      distribution: capitalGovernanceReport.distribution,
+      preservation: capitalGovernanceReport.preservation,
+      capitalization: capitalGovernanceReport.capitalization,
+      behavior: capitalGovernanceReport.behavior
+    } : { isAvailable: false, retention: null, distribution: null, preservation: null, capitalization: null, behavior: null };
+
+    const profile = generateInstitutionalFinancialThesisProfile(
+      hasDRE,
+      hasBP,
+      dfcDiagnostics,
+      dlpaDiagnostics,
+      ebitda,
+      lucroLiquido
+    );
+
+    let thesis = 'A operação demonstra sólido alinhamento entre rentabilidade, liquidez e preservação patrimonial.';
+    if (profile.consolidatedSeverity === 'CRÍTICA') {
+      thesis = 'A operação enfrenta severas pressões estruturais que ameaçam sua continuidade ou capacidade de geração orgânica de valor.';
+    } else if (profile.consolidatedSeverity === 'ALTA') {
+      thesis = 'O modelo de capital apresenta gargalos estruturais relevantes que limitam a sustentabilidade de longo prazo.';
+    } else if (profile.consolidatedSeverity === 'MODERADA') {
+      thesis = 'A estrutura financeira é funcional, porém existem ineficiências em pontos críticos do ciclo institucional.';
+    }
+
+    if (ebitda >= 0 && profile.consolidatedSeverity !== 'CRÍTICA') {
+      thesis = 'A operação demonstra viabilidade comercial e capacidade de geração de caixa operacional.';
+    }
+
+    return {
+      thesis,
+      tensions: profile.pressures.map(p => p.id),
+      pressures: profile.pressures.map(p => p.id),
+      structuralRisks: profile.structuralRisks.map(r => r.id)
+    };
+  }
+}

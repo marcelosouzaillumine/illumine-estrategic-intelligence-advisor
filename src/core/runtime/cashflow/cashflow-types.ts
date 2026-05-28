@@ -55,3 +55,13 @@ export interface CashFlowDiagnostics {
   sustainability: LiquiditySustainabilityMetrics | null;
   funding: FundingDependencyMetrics | null;
 }
+
+export interface ConsolidatedCashFlowReport {
+  isAvailable: boolean;
+  overallNarrative: string;
+  operational: any;
+  conversion: any;
+  treasury: any;
+  sustainability: any;
+  funding: any;
+}

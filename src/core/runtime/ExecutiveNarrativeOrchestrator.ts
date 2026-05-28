@@ -2,9 +2,12 @@
 import { InstitutionalFinancialThesisProfile } from './InstitutionalFinancialThesisEngine';
 
 export interface OrchestratedNarrative {
-  thesisNarrative: string;
-  executiveSummary: string;
-  riskBriefing: string;
+  title: string;
+  leadParagraph: string;
+  causalFlowSummary: string;
+  thesisNarrative?: string;
+  executiveSummary?: string;
+  riskBriefing?: string;
 }
 
 export function orchestrateNarrative(
@@ -15,6 +18,9 @@ export function orchestrateNarrative(
   
   if (!thesisProfile.isAvailable) {
     return {
+      title: 'Perfil institucional indisponível',
+      leadParagraph: 'A tese institucional não pode ser formulada devido à insuficiência de dados primários.',
+      causalFlowSummary: 'Perfil institucional indisponível.',
       thesisNarrative: 'A tese institucional não pode ser formulada devido à insuficiência de dados primários.',
       executiveSummary: 'Perfil institucional indisponível.',
       riskBriefing: 'Avaliação de risco suspensa por ausência fiduciária.'
@@ -47,8 +53,39 @@ export function orchestrateNarrative(
   }
 
   return {
+    title: 'Análise de Narrativa Orquestrada',
+    leadParagraph: thesis,
+    causalFlowSummary: executiveSummary.trim(),
     thesisNarrative: thesis,
     executiveSummary: executiveSummary.trim(),
     riskBriefing
   };
+}
+
+export class ExecutiveNarrativeOrchestrator {
+  public static orchestrate(
+    report: any,
+    thesisText: string,
+    tensions: string[],
+    dfcNarrative: string,
+    dlpaNarrative: string
+  ): OrchestratedNarrative {
+    const segment = report.context?.segment || 'Geral';
+
+    let title = `Tese de Governança de Capital — Setor: ${segment}`;
+    let leadParagraph = thesisText || 'Tese sob análise estrutural.';
+    let causalFlowSummary = '';
+
+    if (dfcNarrative) causalFlowSummary += `Dinâmica de Caixa: ${dfcNarrative} `;
+    if (dlpaNarrative) causalFlowSummary += `Governança de Capital: ${dlpaNarrative}`;
+
+    return {
+      title,
+      leadParagraph,
+      causalFlowSummary: causalFlowSummary.trim(),
+      thesisNarrative: leadParagraph,
+      executiveSummary: causalFlowSummary.trim(),
+      riskBriefing: tensions.join(', ')
+    };
+  }
 }

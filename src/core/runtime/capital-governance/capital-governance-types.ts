@@ -39,3 +39,13 @@ export interface CapitalGovernanceDiagnostics {
   capitalization: InstitutionalCapitalizationMetrics | null;
   behavior: GovernanceCapitalBehaviorMetrics | null;
 }
+
+export interface ConsolidatedCapitalGovernanceReport {
+  isAvailable: boolean;
+  overallNarrative: string;
+  retention: any;
+  distribution: any;
+  preservation: any;
+  capitalization: any;
+  behavior: any;
+}

@@ -212,6 +212,14 @@ async function executeActiveGovernance() {
     process.exit(1);
   }
 
+  console.log('\nIniciando Scenario Simulation & Predictive Governance Layer Audit...');
+  try {
+    execSync('npx tsx src/scripts/runScenarioSimulationAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Scenario Simulation & Predictive Governance Layer. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
   console.log('\nIniciando Governance Orchestration Audit...');
   try {
     execSync('npx tsx src/scripts/runGovernanceOrchestrationAudit.ts', { stdio: 'inherit' });

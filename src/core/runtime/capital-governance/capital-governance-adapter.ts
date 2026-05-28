@@ -7,15 +7,16 @@ import { calculateInstitutionalCapitalization } from './InstitutionalCapitalizat
 import { calculateGovernanceCapitalBehavior } from './GovernanceCapitalBehaviorEngine';
 import { composeCapitalGovernanceNarrative } from './CapitalGovernanceNarrativeComposer';
 
-export function runCapitalGovernanceRuntime(
-  dlpaData: any[],
-  netIncome: number,
-  retainedEarnings: number,
-  totalDistributed: number,
-  startingEquity: number,
-  endingEquity: number,
-  capitalInjections: number
-): { diagnostics: CapitalGovernanceDiagnostics; narrative: string } {
+export class CapitalGovernanceAdapter {
+  static process(
+    dlpaData: any[],
+    netIncome: number,
+    retainedEarnings: number,
+    totalDistributed: number,
+    startingEquity: number,
+    endingEquity: number,
+    capitalInjections: number
+  ): { diagnostics: CapitalGovernanceDiagnostics; narrative: string } {
   
   if (!dlpaData || dlpaData.length === 0) {
     return {
@@ -49,4 +50,5 @@ export function runCapitalGovernanceRuntime(
   const narrative = composeCapitalGovernanceNarrative(diagnostics);
 
   return { diagnostics, narrative };
+  }
 }

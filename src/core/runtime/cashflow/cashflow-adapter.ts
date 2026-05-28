@@ -7,16 +7,17 @@ import { calculateLiquiditySustainability } from './LiquiditySustainabilityEngin
 import { calculateFundingDependency } from './FundingDependencyEngine';
 import { composeCashFlowNarrative } from './CashFlowNarrativeComposer';
 
-export function runCashFlowRuntime(
-  dfcData: any[],
-  ebitda: number,
-  workingCapitalVariation: number,
-  capex: number,
-  debtService: number,
-  availableCash: number,
-  thirdPartyFunding: number,
-  equityFunding: number
-): { diagnostics: CashFlowDiagnostics; narrative: string } {
+export class CashFlowAdapter {
+  static process(
+    dfcData: any[],
+    ebitda: number,
+    workingCapitalVariation: number,
+    capex: number,
+    debtService: number,
+    availableCash: number,
+    thirdPartyFunding: number,
+    equityFunding: number
+  ): { diagnostics: CashFlowDiagnostics; narrative: string } {
   
   if (!dfcData || dfcData.length === 0) {
     return {
@@ -66,4 +67,5 @@ export function runCashFlowRuntime(
   const narrative = composeCashFlowNarrative(diagnostics);
 
   return { diagnostics, narrative };
+  }
 }

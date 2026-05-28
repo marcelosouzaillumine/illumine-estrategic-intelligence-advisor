@@ -29,8 +29,8 @@ function runAudit() {
   const causalityEngine = path.join(process.cwd(), 'src/core/runtime/CrossStatementCausalityEngine.ts');
   if (fs.existsSync(causalityEngine)) {
     const content = fs.readFileSync(causalityEngine, 'utf8');
-    if (!content.includes('source:') || !content.includes('target:')) {
-      console.error('❌ ERRO: CrossStatementCausalityEngine sem directionality explícita.');
+    if (!content.includes('propagationDirection')) {
+      console.error('❌ ERRO: CrossStatementCausalityEngine sem propagationDirection explícita.');
       hasErrors = true;
     }
   }
