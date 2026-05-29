@@ -21,7 +21,13 @@ import { orchestrateGovernanceNarrative } from '../../core/orchestration/executi
 import { DashboardSkeleton } from '../ui/skeletons';
 import { useHistoricalDemonstracoes } from '../../hooks/useHistoricalDemonstracoes';
 import { useInstitutionalRuntime } from '../../hooks/useInstitutionalRuntime';
-
+import { useTemporalRuntime } from '../../hooks/useTemporalRuntime';
+import { TemporalExecutiveScoreboard } from '../temporal/TemporalExecutiveScoreboard';
+import { TemporalEarlyWarningBanner } from '../temporal/TemporalEarlyWarningBanner';
+import { TemporalAdvisoryCard } from '../temporal/TemporalAdvisoryCard';
+import { GovernanceTrajectoryGraph } from '../temporal/GovernanceTrajectoryGraph';
+import { InstitutionalResilienceTimeline } from '../temporal/InstitutionalResilienceTimeline';
+import { TemporalHeatmapPanel } from '../temporal/TemporalHeatmapPanel';
 interface GovernanceDashboardPageProps {
   clientId: string;
   onNavigate: (page: Page) => void;
@@ -180,6 +186,16 @@ export function GovernanceDashboardPage({
   const { runtimeOutput } = useInstitutionalRuntime({ input: runtimeInput });
   const isBlocked = runtimeOutput?.inferences?.['ExecutiveDecisionEngine']?.metrics?.blockedInferences?.length > 0;
 
+  // Temporal Integration
+  const temporalSession = useMemo(() => ({
+    isReady: true,
+    tenantId: 'TENANT-1', // Placeholder for actual auth context
+    entityScope: ['ENT-1']
+  }), []);
+  
+  const rawTemporalPayload = (runtimeOutput?.inferences?.['TemporalCausality'] as any) || null;
+  const { temporalData } = useTemporalRuntime(temporalSession, rawTemporalPayload);
+
   const triggeredRules = useMemo(() => {
     return evaluateAxisRules(flatMetrics, 'Governança Corporativa', isBlocked);
   }, [flatMetrics, isBlocked]);
@@ -302,6 +318,28 @@ export function GovernanceDashboardPage({
         icon={ShieldCheck}
         transparent
       />
+
+      {temporalData && (
+        <div className="mb-10 flex flex-col gap-8">
+          <TemporalEarlyWarningBanner warnings={temporalData.earlyWarnings} />
+          
+          <TemporalExecutiveScoreboard temporalData={temporalData} />
+
+          {temporalData.trajectorySeries && (
+            <GovernanceTrajectoryGraph series={temporalData.trajectorySeries} />
+          )}
+
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            {temporalData.densityMaps && (
+              <TemporalHeatmapPanel densityMaps={temporalData.densityMaps} />
+            )}
+            
+            {temporalData.historicalEvents && (
+              <InstitutionalResilienceTimeline events={temporalData.historicalEvents} />
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="flex items-center justify-start gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3 flex-wrap">

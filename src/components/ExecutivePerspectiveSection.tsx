@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ShieldCheck, Zap, AlertTriangle, BookOpen, Target, Activity, TrendingUp, Users, BarChart2, DollarSign, Layers, Lock } from 'lucide-react';
 import { ExecutiveAdvisoryReport } from '../lib/executive-advisory-engine';
 import { ExecutiveIntelligenceReport } from '../core/runtime/executive-intelligence-runtime';
+import { InstitutionalLocaleGuard } from '../core/runtime/locale/InstitutionalLocaleGuard';
 import { cn } from '../lib/utils';
 
 interface ExecutivePerspectiveSectionProps {
@@ -25,7 +26,8 @@ const ENUM_PT: Record<string, string> = {
   ASSET_HEAVY:                     'Intensivo em Ativos',
   ASSET_LIGHT:                     'Leve em Ativos',
   CAPITAL_INTENSIVE:               'Intensivo em Capital',
-  INVENTORY_DEPENDENT:             'Dependente de Estoques',
+  INVENTORY_DEPENDENT:             'Operação Intensiva em Estoques',
+  INVENTORY_INTENSIVE:             'Operação Intensiva em Estoques',
   LABOR_INTENSIVE:                 'Intensivo em Mão de Obra',
   RECURRING_REVENUE:               'Receita Recorrente',
   SEASONAL_REVENUE:                'Receita Sazonal',
@@ -43,8 +45,8 @@ const ENUM_PT: Record<string, string> = {
   HIGH:                            'Alta',
   MODERATE:                        'Moderada',
   LOW:                             'Baixa',
-  LIMITED_CONTEXT:                 'Contexto Limitado',
-  UNVERIFIABLE:                    'Insuficiência de Dados',
+  LIMITED_CONTEXT:                 'Contexto Parcial',
+  UNVERIFIABLE:                    'Base Contextual Insuficiente',
   HEALTHY_GROWTH:                  'Crescimento Saudável',
   ARTIFICIAL_GROWTH:               'Crescimento Artificial',
   CASHLESS_GROWTH:                 'Crescimento sem Geração de Caixa',
@@ -105,7 +107,14 @@ function inferTimeline(action: string): string {
   return 'Contínuo';
 }
 
-export function ExecutivePerspectiveSection({ report, intelligenceReport, loading, className }: ExecutivePerspectiveSectionProps) {
+export function ExecutivePerspectiveSection({ 
+  report, 
+  intelligenceReport, 
+  loading,
+  className
+}: ExecutivePerspectiveSectionProps) {
+  const [showPrudencyDetails, setShowPrudencyDetails] = useState(false);
+
   if (loading) {
     return (
       <div className={cn("bg-white rounded-[48px] border border-slate-200 p-12 flex flex-col items-center justify-center min-h-[400px]", className)}>
@@ -121,8 +130,8 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
   const confidenceLevel = pt(rawConfidenceLevel);
 
   const executivePosture = intelligenceReport ? intelligenceReport.advisory?.priorityFocus || 'Em análise' : report?.executivePosture || '';
-  const executiveSummary = intelligenceReport ? intelligenceReport.advisory?.executiveSummary || '' : report?.executiveSummary || '';
-  const institutionalDiagnosis = intelligenceReport ? intelligenceReport.causality?.financialPropagation || '' : report?.institutionalDiagnosis || '';
+  const executiveSummary = intelligenceReport ? (intelligenceReport.institutionalView?.narrative.executiveSummary || intelligenceReport.advisory?.executiveSummary || '') : report?.executiveSummary || '';
+  const institutionalDiagnosis = intelligenceReport ? (intelligenceReport.institutionalView?.causality.executiveInsight || intelligenceReport.causality?.financialPropagation || '') : report?.institutionalDiagnosis || '';
 
   // ── Riscos Dominantes ─────────────────────────────────────────────────
   // 1. Tenta usar insights de causalidade com tom de risco (rose/red/amber)
@@ -130,6 +139,11 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
   // 3. Fallback para event/rootCause da causalidade
   let dominantRisks: string[] = [];
   if (intelligenceReport) {
+    if (intelligenceReport.institutionalView?.disclosures?.primaryDisclosure) {
+      dominantRisks.push(intelligenceReport.institutionalView.disclosures.primaryDisclosure);
+    }
+    intelligenceReport.institutionalView?.disclosures?.secondaryDisclosures?.forEach(d => dominantRisks.push(d));
+
     const insights = intelligenceReport.causality?.insights || [];
     // Prioridade: insights marcados com cores de risco
     const riskInsights = insights.filter(i =>
@@ -263,25 +277,56 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
             <h4 className="text-[10px] font-black text-indigo-700 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
               <Activity size={14} className="text-indigo-500" /> Contexto Institucional Detectado
             </h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
-              {/* Estágio e Modelo */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+              {/* Segmento Operacional */}
               <div className="space-y-3">
                 <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Estágio da Empresa</p>
-                  <p className="text-sm font-bold text-slate-800">{pt(intelligenceReport.institutionalContext.businessStage)}</p>
-                </div>
-                <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Modelo Econômico</p>
-                  <p className="text-sm font-bold text-slate-800">{pt(intelligenceReport.institutionalContext.economicModel)}</p>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Segmento Operacional</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-bold text-slate-800">{pt(intelligenceReport.institutionalContext.operationalSegment.label)}</p>
+                    {intelligenceReport.institutionalContext.segmentConfidence && (
+                      <span className={cn(
+                        "text-[8px] font-bold px-1.5 py-0.5 rounded-sm border uppercase tracking-wider",
+                        intelligenceReport.institutionalContext.segmentConfidence.confidence >= 0.8 ? "bg-emerald-50 text-emerald-600 border-emerald-200" :
+                        intelligenceReport.institutionalContext.segmentConfidence.confidence >= 0.5 ? "bg-amber-50 text-amber-600 border-amber-200" :
+                        "bg-rose-50 text-rose-600 border-rose-200"
+                      )}>
+                        {intelligenceReport.institutionalContext.segmentConfidence.inferenceMode === 'direct' ? 'Exato' : 
+                         intelligenceReport.institutionalContext.segmentConfidence.inferenceMode === 'heuristic' ? 'Inferido' : 'Genérico'}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              {/* Densidade e Confiança */}
+              {/* Modelo Operacional */}
               <div className="space-y-3">
                 <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Densidade Histórica</p>
-                  <p className="text-sm font-bold text-slate-800">{pt(intelligenceReport.institutionalContext.historicalDensity)}</p>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Modelo Operacional</p>
+                  <p className="text-sm font-bold text-slate-800">{pt(intelligenceReport.institutionalContext.operationalModel.label)}</p>
                 </div>
+              </div>
+
+              {/* Perfil Financeiro */}
+              <div className="space-y-3">
+                <div>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Perfil Financeiro</p>
+                  <p className="text-sm font-bold text-slate-800">{InstitutionalLocaleGuard.translateFinancialProfile(intelligenceReport.institutionalContext.financialProfile.code)}</p>
+                </div>
+              </div>
+
+              {/* Maturidade Institucional */}
+              <div className="space-y-3">
+                <div>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Maturidade Institucional</p>
+                  <p className="text-sm font-bold text-slate-800">{InstitutionalLocaleGuard.translateBusinessStage(intelligenceReport.institutionalContext.institutionalMaturity.code)}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 mt-6 pt-6 border-t border-indigo-200/50">
+              {/* Confiança Estratégica */}
+              <div className="space-y-3">
                 <div>
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Confiança Estratégica</p>
                   <span className={cn(
@@ -314,6 +359,58 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
                 </div>
               </div>
             </div>
+
+            {/* Prudência Institucional - Disclosure Premium */}
+            {intelligenceReport.prudency?.prudencyApplied && (
+              <div className="mt-6 pt-6 border-t border-indigo-200/50">
+                <div className="flex flex-col">
+                  <button 
+                    onClick={() => setShowPrudencyDetails(!showPrudencyDetails)}
+                    className="flex items-center justify-between w-full text-left group focus:outline-none"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="text-indigo-600">
+                        <ShieldCheck size={16} />
+                      </div>
+                      <div>
+                        <h5 className="text-[10px] font-black text-indigo-700 uppercase tracking-widest mb-0.5">
+                          Calibração de Prudência Institucional Ativa
+                        </h5>
+                        <span className="text-[10px] text-indigo-500 font-medium group-hover:text-indigo-700 transition-colors">
+                          {showPrudencyDetails ? 'Ocultar critérios utilizados' : '[Ver critérios utilizados]'}
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+
+                  {showPrudencyDetails && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="mt-4 pl-7"
+                    >
+                      <p className="text-[11px] font-bold text-slate-600 mb-2">
+                        A calibração prudencial considerou:
+                      </p>
+                      <ul className="space-y-2.5">
+                        {intelligenceReport.prudency.prudencyReasons.map((reason: any, idx: number) => (
+                          <li key={idx} className="flex items-start gap-2.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                            <span className={cn(
+                              "w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0",
+                              reason.severity === 'high' ? "bg-rose-400" : "bg-amber-400"
+                            )} /> 
+                            <div>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-700 mb-0.5">{reason.title}</p>
+                              <p className="text-[10px] text-slate-500 leading-relaxed font-medium">{reason.description}</p>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
 
@@ -334,9 +431,9 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
           {/* Header Metadata */}
           <div className="flex flex-wrap items-center gap-2 mb-6 pt-2">
             <div className="px-3 py-1.5 bg-white/10 rounded-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white flex gap-2 items-center">
-              <span className="text-white/60">{intelligenceReport?.context?.segment}</span>
+              <span className="text-white/60">{intelligenceReport?.context?.segment || 'Geral'}</span>
               <span className="w-1 h-1 bg-white/40 rounded-full"></span>
-              <span>{intelligenceReport?.context?.businessModel?.replace('_', ' ')}</span>
+              <span>{InstitutionalLocaleGuard.translateOperationalModel(intelligenceReport?.context?.businessModel) || InstitutionalLocaleGuard.translateBusinessStage(intelligenceReport?.context?.stage)}</span>
             </div>
             {executivePosture && (
               <div className="px-3 py-1.5 bg-white/10 rounded-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white text-balance leading-relaxed whitespace-nowrap">
@@ -461,7 +558,7 @@ export function ExecutivePerspectiveSection({ report, intelligenceReport, loadin
                 <Lock size={24} strokeWidth={2} />
               </div>
               <h5 className="text-xs font-black text-slate-700 uppercase tracking-[0.2em] mb-2">Matriz de Ação Executiva Bloqueada</h5>
-              <p className="text-[11px] text-slate-500 font-medium max-w-lg leading-relaxed">
+              <p className="text-[11px] text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto">
                 Ausência de evidências fiduciárias suficientes ou dados incompletos para a geração de recomendações. Insira lançamentos válidos de balanço e DRE para liberar a matriz de ação executiva.
               </p>
             </div>

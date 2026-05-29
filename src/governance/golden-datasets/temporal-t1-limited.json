@@ -4,7 +4,7 @@
     "level": "LOW_CONFIDENCE",
     "explanation": "Histórico insuficiente para inferência temporal robusta. A análise considera apenas sinais direcionais preliminares."
   },
-  "reasonForLimitedConfidence": "Histórico insuficiente para inferência temporal robusta. A análise considera apenas sinais direcionais preliminares.",
+  "reasonForLimitedConfidence": "Apenas um exercício disponível",
   "historicalPeriodsAnalyzed": 1,
   "trajectoryImpact": "NEUTRAL",
   "scoreAdjustment": 0,
@@ -13,17 +13,17 @@
   "isDestructiveGrowth": false,
   "isTurnaroundEmerging": false,
   "insights": {
-    "liquidez": "Sem dados suficientes para inferência direcional.",
-    "estoque": "Sem dados suficientes para inferência direcional.",
-    "margem": "Sem dados suficientes para inferência direcional.",
-    "endividamento": "Sem dados suficientes para inferência direcional.",
-    "capitalDeGiro": "Sem dados suficientes para inferência direcional.",
-    "continuidade": "Série histórica incompleta para detecção de tendência."
+    "liquidez": "Base histórica limítrofe, insuficiente para inferências longitudinais.",
+    "estoque": "Base histórica limítrofe, insuficiente para inferências longitudinais.",
+    "margem": "Base histórica limítrofe, insuficiente para inferências longitudinais.",
+    "endividamento": "Base histórica limítrofe, insuficiente para inferências longitudinais.",
+    "capitalDeGiro": "Base histórica limítrofe, insuficiente para inferências longitudinais.",
+    "continuidade": "Base histórica limítrofe, insuficiente para inferências longitudinais."
   },
   "trendSignals": [],
   "inflectionPoints": [],
   "riskPatterns": [],
   "recoveryPatterns": [],
-  "executiveSummary": "Série histórica insuficiente para estabelecer correlação longitudinal.",
+  "executiveSummary": "Base histórica limítrofe, insuficiente para inferências longitudinais.",
   "confidence": "LOW"
 }

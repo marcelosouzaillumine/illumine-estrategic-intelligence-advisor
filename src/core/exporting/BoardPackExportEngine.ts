@@ -3,6 +3,7 @@ import { ExecutiveIntelligenceReport } from '../runtime/executive-intelligence-r
 import { CalibrationEngine } from '../runtime/calibration/CalibrationEngine';
 import { ExportSnapshotMetadata } from './ExportTypes';
 import { formatValue } from '../../lib/utils';
+import { RuntimeComplianceEngine } from '../runtime/compliance/RuntimeComplianceEngine';
 
 export interface BoardPackExportOutput {
   pdf: jsPDF;
@@ -18,6 +19,9 @@ export class BoardPackExportEngine {
     if (!report) {
       throw new Error('[Board Pack Export] Relatório contábil-financeiro inválido.');
     }
+
+    // Constitutional Compliance Validation (export mode - hard blocks Grade F)
+    RuntimeComplianceEngine.validate(report, 'export');
 
     const { context, scores, severity, advisory, compliance, runtimeMetadata, metrics, temporalCausality } = report;
 
@@ -112,8 +116,8 @@ export class BoardPackExportEngine {
       'HIGH': 'Alta',
       'MODERATE': 'Moderada',
       'LOW': 'Baixa',
-      'LIMITED_CONTEXT': 'Contexto Limitado',
-      'UNVERIFIABLE': 'Insuficiência de Dados'
+      'LIMITED_CONTEXT': 'Contexto Parcial',
+      'UNVERIFIABLE': 'Base Contextual Insuficiente',
     };
 
     const CAUSAL_DEPTH_PT: Record<string, string> = {

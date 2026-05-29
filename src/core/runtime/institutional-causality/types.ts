@@ -142,7 +142,19 @@ export function extractCycleMetrics(cycle: HistoricalCycleData): CycleMetrics {
         summary.ativoTotal += val;
         if (code.startsWith('1.1')) {
           summary.ativoCirculante += val;
-          if (accountName.includes('caixa') || accountName.includes('banco') || accountName.includes('equivalente') || accountName.includes('aplicaç')) {
+          const isDisponivel = [
+            'caixa', 'numerário', 'numerario', 
+            'banco conta movimento', 'bancos conta movimento',
+            'banco conta corrente', 'bancos conta corrente',
+            'banco c/c', 'bancos c/c',
+            'depósitos bancários à vista', 'depósito bancário à vista',
+            'depositos bancarios a vista', 'deposito bancario a vista',
+            'aplicações de liquidez imediata', 'aplicacao de liquidez imediata', 'aplicacoes de liquidez imediata',
+            'equivalentes de caixa', 'equivalente de caixa',
+            'alta conversibilidade', 'resgate imediato'
+          ].some(t => accountName.includes(t)) && !accountName.includes('restrito') && !accountName.includes('vinculado');
+
+          if (isDisponivel) {
             summary.caixaEquivalentes += val;
           }
           if (accountName.includes('estoque') || accountName.includes('inventar') || accountName.includes('mercador')) {

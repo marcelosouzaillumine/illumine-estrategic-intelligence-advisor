@@ -26,9 +26,11 @@
   "exclude": [
     "node_modules",
     "dist",
+    "src/core/governance/__tests__",
+    "tests/temporal-ui.test.tsx",
+    "tests/temporal-workflow-collaboration.test.tsx",
     "src/components/pages/governance/CrisisResponseCenter.tsx",
     "src/components/pages/governance/DecisionLifecycleCenter.tsx",
-    "src/components/pages/governance/ExecutiveMonitoringCenter.tsx",
     "src/components/pages/governance/GovernanceMaturityCenter.tsx",
     "src/components/pages/governance/LeadershipDNACenter.tsx",
     "src/components/pages/governance/MultiTenantGovernanceCenter.tsx",

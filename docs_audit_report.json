@@ -161,6 +161,13 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/GOVERNANCE_OPERATIONS_PROTOCOL.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/GO_TO_MARKET_ARCHITECTURE.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
@@ -176,6 +183,13 @@
   },
   {
     "file": "docs/INSTITUTIONAL_AUTH_TENANT_PROVIDER_LAYER.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
+    "file": "docs/INSTITUTIONAL_BUSINESS_IDENTITY_ARCHITECTURE.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
     "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
@@ -231,6 +245,13 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/MULTI_TENANT_SUPERVISION_GUIDE.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/Master Financial Intelligence Engine.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
@@ -253,6 +274,13 @@
   },
   {
     "file": "docs/OPERATIONAL_INTELLIGENCE_LAYER.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
+    "file": "docs/PHASE_3_EXECUTIVE_GOVERNANCE_EXPERIENCE_LAYER.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",
     "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",

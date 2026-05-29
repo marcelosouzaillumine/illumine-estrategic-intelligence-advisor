@@ -6,22 +6,22 @@ interface ForecastIntegrityBadgeProps {
 }
 
 export const ForecastIntegrityBadge: React.FC<ForecastIntegrityBadgeProps> = ({ state }) => {
-  let badgeStyles = 'bg-emerald-950/40 text-emerald-400 border-emerald-500/30';
+  let badgeStyles = 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20';
   let label = 'VERIFIED LINEAGE';
-  let dotColor = 'bg-emerald-400';
+  let dotColor = 'bg-emerald-500';
 
   if (state === 'DEGRADED') {
-    badgeStyles = 'bg-amber-950/40 text-amber-400 border-amber-500/30';
+    badgeStyles = 'bg-amber-500/10 text-amber-500 border-amber-500/20';
     label = 'DEGRADED INTEGRITY';
-    dotColor = 'bg-amber-400';
+    dotColor = 'bg-amber-500';
   } else if (state === 'FAIL_CLOSED') {
-    badgeStyles = 'bg-rose-950/40 text-rose-400 border-rose-500/30 animate-pulse';
+    badgeStyles = 'bg-rose-500/10 text-rose-500 border-rose-500/20 animate-pulse';
     label = 'FAIL CLOSED LOCK';
-    dotColor = 'bg-rose-400';
+    dotColor = 'bg-rose-500';
   }
 
   return (
-    <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-mono tracking-wider ${badgeStyles}`}>
+    <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-mono tracking-widest font-bold ${badgeStyles}`}>
       <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
       {label}
     </div>

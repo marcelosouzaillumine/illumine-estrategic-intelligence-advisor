@@ -17,9 +17,9 @@ function runAudit() {
       hasErrors = true;
     }
     
-    // Check 2: Must import the InstitutionalFinancialThesisEngine
-    if (!content.includes('InstitutionalFinancialThesis')) {
-      console.warn('⚠️ AVISO: InstitutionalFinancialOverviewPage não está utilizando a Institutional Thesis.');
+    // Check 2: Must utilize the financial thesis
+    if (!content.includes('financialThesis')) {
+      console.warn('⚠️ AVISO: InstitutionalFinancialOverviewPage não está utilizando a financialThesis.');
       // Setting hasErrors to true since RC-1.5 enforces this
       hasErrors = true;
     }
@@ -45,11 +45,21 @@ function runAudit() {
     }
   }
 
+  // Check 5: Observability & Explainability (RC-1.5A)
+  const execRuntime = path.join(process.cwd(), 'src/core/runtime/executive-intelligence-runtime.ts');
+  if (fs.existsSync(execRuntime)) {
+    const content = fs.readFileSync(execRuntime, 'utf8');
+    if (!content.includes('fiduciaryRationale') || !content.includes('propagationChains')) {
+      console.error('❌ ERRO: ExecutiveIntelligenceRuntime sem nó de explicabilidade (fiduciaryRationale) ou (propagationChains).');
+      hasErrors = true;
+    }
+  }
+
   if (hasErrors) {
     console.error('🔴 Institutional Financial Audit FALHOU. Build bloqueado.');
     process.exit(1);
   } else {
-    console.log('✅ Institutional Financial Audit FINALIZADA COM SUCESSO. Plataforma RC-1.5 Compliant.');
+    console.log('✅ Institutional Financial Audit FINALIZADA COM SUCESSO. Plataforma RC-1.5A Compliant.');
   }
 }
 

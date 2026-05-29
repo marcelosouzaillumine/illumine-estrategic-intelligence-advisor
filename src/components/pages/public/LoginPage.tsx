@@ -7,6 +7,7 @@ import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
 import { useDocumentTitle } from '../../../hooks/useDocumentTitle';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 function IllumineMark({ className = 'w-16 h-16' }: { className?: string }) {
   return (
@@ -34,7 +35,8 @@ function IllumineMark({ className = 'w-16 h-16' }: { className?: string }) {
 }
 
 export function LoginPage() {
-  useDocumentTitle('Illumine | Acesso ao Painel');
+  const { t } = useLanguage();
+  useDocumentTitle('Illumine | ' + t('auth.badge.protected_access'));
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -68,8 +70,8 @@ export function LoginPage() {
       console.error('Google sign-in failed:', error);
       setLoginError(
         error?.code === 'auth/popup-closed-by-user'
-          ? 'Login cancelado antes da confirmação.'
-          : 'Não foi possível entrar com Google. Verifique se este domínio está autorizado para acesso.'
+          ? t('auth.error.login_cancelled')
+          : t('auth.error.login_failed_google')
       );
       setIsSigningIn(false);
     }
@@ -80,7 +82,7 @@ export function LoginPage() {
     if (isSubmitting || isSigningIn) return;
     setLoginError('');
     if (!email || !password) {
-      setLoginError('Por favor, preencha todos os campos.');
+      setLoginError(t('auth.error.missing_fields'));
       return;
     }
     setIsSubmitting(true);
@@ -89,13 +91,13 @@ export function LoginPage() {
       // App.tsx handle
     } catch (error: any) {
       console.error('Email authentication error:', error);
-      let errorMsg = 'Ocorreu um erro ao autenticar. Verifique seus dados.';
+      let errorMsg = t('auth.error.invalid_credentials');
       switch (error?.code) {
-        case 'auth/invalid-email':        errorMsg = 'Endereço de e-mail inválido.'; break;
-        case 'auth/user-disabled':        errorMsg = 'Este usuário foi desabilitado.'; break;
-        case 'auth/user-not-found':       errorMsg = 'E-mail não cadastrado. Verifique se digitou corretamente ou utilize o login com Google.'; break;
-        case 'auth/wrong-password':       errorMsg = 'Senha incorreta.'; break;
-        case 'auth/invalid-credential':   errorMsg = 'Credenciais inválidas. Verifique seu e-mail e senha.'; break;
+        case 'auth/invalid-email':        errorMsg = t('auth.error.invalid_email'); break;
+        case 'auth/user-disabled':        errorMsg = t('auth.error.user_disabled'); break;
+        case 'auth/user-not-found':       errorMsg = t('auth.error.user_not_found'); break;
+        case 'auth/wrong-password':       errorMsg = t('auth.error.wrong_password'); break;
+        case 'auth/invalid-credential':   errorMsg = t('auth.error.invalid_credentials'); break;
       }
       setLoginError(errorMsg);
       setIsSubmitting(false);
@@ -104,7 +106,7 @@ export function LoginPage() {
 
   const handlePasswordReset = async () => {
     if (!email) {
-      setResetError('Digite seu e-mail acima para recuperar a senha.');
+      setResetError(t('auth.error.enter_email_recovery'));
       setResetMessage('');
       return;
     }
@@ -113,15 +115,15 @@ export function LoginPage() {
     setResetMessage('');
     try {
       await sendPasswordResetEmail(email.trim());
-      setResetMessage('E-mail de recuperação enviado! Verifique sua caixa de entrada.');
+      setResetMessage(t('auth.success.recovery_email_sent'));
     } catch (error: any) {
       console.error('Password reset error:', error);
       if (error?.code === 'auth/user-not-found') {
-        setResetError('E-mail não cadastrado.');
+        setResetError(t('auth.error.user_not_found_short'));
       } else if (error?.code === 'auth/invalid-email') {
-        setResetError('E-mail inválido.');
+        setResetError(t('auth.error.invalid_email_short'));
       } else {
-        setResetError('Erro ao enviar e-mail de recuperação.');
+        setResetError(t('auth.error.recovery_failed'));
       }
     } finally {
       setIsResetting(false);
@@ -140,7 +142,7 @@ export function LoginPage() {
         onClick={() => navigate('/')}
         className="absolute top-6 left-6 text-sm font-bold text-muted-foreground hover:text-foreground flex items-center gap-2 transition-colors z-50"
       >
-        <span className="text-xl">&larr;</span> Voltar
+        <span className="text-xl">&larr;</span> {t('auth.button.back')}
       </button>
 
       <motion.div
@@ -163,15 +165,15 @@ export function LoginPage() {
             </div>
             <div className="flex items-center gap-[clamp(0.25rem,1vh,0.5rem)] rounded-full bg-success/10 border border-success/20 px-[clamp(0.5rem,1.5vh,0.75rem)] py-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.5rem,1.5vh,0.5625rem)] font-bold uppercase tracking-widest text-success">
               <CheckCircle2 size={10} className="animate-pulse" />
-              Acesso protegido
+              {t('auth.badge.protected_access')}
             </div>
           </div>
 
           <h2 className="text-[clamp(1.25rem,4vh,1.5rem)] font-medium tracking-tight text-foreground leading-tight">
-            Entrar no painel
+            {t('auth.title.login')}
           </h2>
           <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.75rem,2vh,0.875rem)] leading-snug text-muted-foreground font-medium font-sans">
-            Continue com seu e-mail e senha ou conta Google para acessar seu ambiente Illumine.
+            {t('auth.subtitle.login')}
           </p>
         </div>
 
@@ -181,7 +183,7 @@ export function LoginPage() {
             {/* Email */}
             <div className="space-y-[clamp(0.25rem,1vh,0.5rem)]">
               <Label className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground block px-1">
-                E-mail
+                {t('auth.label.email')}
               </Label>
               <div className="relative group">
                 <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
@@ -192,7 +194,7 @@ export function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="seu.nome@empresa.com.br"
+                  placeholder={t('auth.placeholder.email')}
                   className="pl-10 h-[clamp(2.25rem,7vh,3rem)] text-[clamp(0.75rem,2vh,0.875rem)] bg-surface-container/40"
                 />
               </div>
@@ -202,7 +204,7 @@ export function LoginPage() {
             <div className="space-y-[clamp(0.25rem,1vh,0.5rem)]">
               <div className="flex justify-between items-center px-1">
                 <Label className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground block">
-                  Senha
+                  {t('auth.label.password')}
                 </Label>
                 <button
                   type="button"
@@ -210,7 +212,7 @@ export function LoginPage() {
                   disabled={isResetting}
                   className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-primary hover:text-primary/80 disabled:opacity-70 transition-colors cursor-pointer"
                 >
-                  {isResetting ? 'Enviando...' : 'Esqueceu a senha?'}
+                  {isResetting ? t('auth.button.sending') : t('auth.button.forgot_password')}
                 </button>
               </div>
               <div className="relative group">
@@ -222,7 +224,7 @@ export function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Sua senha"
+                  placeholder={t('auth.placeholder.password')}
                   className="pl-10 pr-10 h-[clamp(2.25rem,7vh,3rem)] text-[clamp(0.75rem,2vh,0.875rem)] bg-surface-container/40"
                 />
                 <button
@@ -242,7 +244,7 @@ export function LoginPage() {
               className="w-full h-[clamp(2.25rem,7vh,3rem)] font-bold text-[clamp(0.75rem,2vh,0.875rem)] text-primary-foreground uppercase tracking-widest flex items-center justify-center gap-2"
             >
               {isSubmitting ? <Loader2 className="w-[clamp(0.875rem,2.5vh,1rem)] h-[clamp(0.875rem,2.5vh,1rem)] animate-spin" /> : <LogIn className="w-[clamp(0.875rem,2.5vh,1rem)] h-[clamp(0.875rem,2.5vh,1rem)]" />}
-              Entrar
+              {t('auth.button.login')}
             </Button>
           </form>
 
@@ -250,7 +252,7 @@ export function LoginPage() {
           <div className="relative flex items-center justify-center pt-[clamp(0.25rem,1vh,0.5rem)] pb-[clamp(0.25rem,1vh,0.5rem)]">
             <div className="absolute inset-x-0 h-px bg-border" />
             <span className="relative px-3 bg-card text-[clamp(0.5rem,1.5vh,0.625rem)] font-semibold uppercase tracking-widest text-muted-foreground">
-              ou continue com
+              {t('auth.divider.or_continue_with')}
             </span>
           </div>
 
@@ -272,7 +274,7 @@ export function LoginPage() {
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
               </svg>
             )}
-            {isSigningIn ? 'Conectando...' : 'Entrar com Google'}
+            {isSigningIn ? t('auth.button.connecting') : t('auth.button.login_google')}
           </Button>
 
           {/* Errors/Messages */}
@@ -313,10 +315,10 @@ export function LoginPage() {
           <div className="hidden sm:block rounded-button bg-surface-container/40 border border-border/60 p-[clamp(0.5rem,2vh,0.75rem)] mt-[clamp(0.5rem,2vh,1rem)]">
             <p className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
               <ShieldCheck className="w-[clamp(0.625rem,2vh,0.6875rem)] h-[clamp(0.625rem,2vh,0.6875rem)] text-secondary shrink-0" />
-              Ambiente privado e seguro
+              {t('auth.warning.secure_environment')}
             </p>
             <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.625rem,1.8vh,0.6875rem)] leading-snug text-muted-foreground/75 font-medium font-sans">
-              Suas informações ficam associadas à sua conta corporativa e são acessíveis somente mediante autenticação autorizada.
+              {t('auth.note.secure_environment')}
             </p>
           </div>
         </div>

@@ -23,6 +23,9 @@ class TopLevelErrorBoundary extends Component<{children: ReactNode}, {error: any
 
 import { InstitutionalAuthProvider } from './core/security/auth/InstitutionalAuthProvider';
 import { RuntimeContextProvider } from './core/security/auth/RuntimeContextProvider';
+import { setupRuntimeAdapters } from './runtime/adapters/setup';
+
+setupRuntimeAdapters();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

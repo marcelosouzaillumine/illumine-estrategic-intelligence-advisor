@@ -90,6 +90,7 @@ import {
 } from 'lucide-react';
 
 export type Page =
+  | 'strategic_war_room'
   | 'executive_monitoring_center'
   | 'governance_maturity_center'
   | 'fiduciary_validation_center'
@@ -122,9 +123,14 @@ export type Page =
   | 'runtime_observability'
   | 'admin_grupos'
   | 'consolidated_executive'
+  | 'board_governance'
+  | 'strategic_war_room'
+  | 'war_room'
+  | 'admin'
+  | 'upload'
   | 'cleanup'
   | 'portfolio'
-  | 'dashboard'
+  | 'efos'
   | 'indicadores'
   | 'dre'
   | 'bp'
@@ -206,6 +212,7 @@ export type Page =
   | 'gestao_usuarios'
   | 'executive_scenario_lab'
   | 'lab'
+  | 'pilot_operations_center'
   | 'strategic_intelligence_center'
   | 'board_deck_center'
   | 'institutional_observability_center'
@@ -223,6 +230,7 @@ export type Page =
 export interface NavigationItem {
   id: Page;
   label: string;
+  labelKey: string;
   icon: LucideIcon;
   isNew?: boolean;
   masterOnly?: boolean;
@@ -231,6 +239,7 @@ export interface NavigationItem {
 
 export interface NavigationGroup {
   group: string;
+  groupKey: string;
   icon: LucideIcon;
   items: NavigationItem[];
 }
@@ -267,176 +276,177 @@ const sortNavItems = (items: NavigationItem[]): NavigationItem[] => {
 
 const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
   {
-    group: 'Cockpit de Gestão',
+    group: 'Cockpit de Gestão', groupKey: 'navigation.group.management_cockpit',
     icon: LayoutGrid,
     items: [
-      { id: 'consolidated_executive', label: 'Inteligência Consolidada', icon: Globe },
-      { id: 'portfolio', label: 'Portfólio', icon: Briefcase },
-      { id: 'inteligencia_sistemica', label: 'Inteligência Sistêmica', icon: Cpu },
-      { id: 'dashboard', label: 'Monitoramento Estratégico', icon: LayoutDashboard },
-      { id: 'lab', label: 'Executive Scenario Lab', icon: FlaskConical },
-      { id: 'indicadores', label: 'Análise de KPIs', icon: TrendingUp },
-      { id: 'aprovacoes', label: 'Aprovações de Documentos', icon: CheckSquare, masterOnly: true },
-      { id: 'plano_acao', label: 'Roadmap de Execução', icon: Rocket },
+      { id: 'consolidated_executive', label: 'Inteligência Consolidada', labelKey: 'navigation.page.consolidated_executive', icon: Globe },
+      { id: 'portfolio', label: 'Portfólio', labelKey: 'navigation.page.portfolio', icon: Briefcase },
+      { id: 'inteligencia_sistemica', label: 'Inteligência Sistêmica', labelKey: 'navigation.page.systemic_intelligence', icon: Cpu },
+      { id: 'efos', label: 'EFOS', labelKey: 'navigation.page.efos', icon: LayoutDashboard },
+      { id: 'lab', label: 'Executive Scenario Lab', labelKey: 'navigation.page.lab', icon: FlaskConical },
+      { id: 'indicadores', label: 'Análise de KPIs', labelKey: 'navigation.page.indicadores', icon: TrendingUp },
+      { id: 'aprovacoes', label: 'Aprovações de Documentos', labelKey: 'navigation.page.aprovacoes', icon: CheckSquare, masterOnly: true },
+      { id: 'plano_acao', label: 'Roadmap de Execução', labelKey: 'navigation.page.plano_acao', icon: Rocket },
     ],
   },
   {
-    group: 'Dados de Cadastro',
+    group: 'Dados de Cadastro', groupKey: 'navigation.group.registration_data',
     icon: Database,
     items: [
-      { id: 'clientes', label: 'Empresas', icon: Building2 },
-      { id: 'parceiros', label: 'Parceiros Estratégicos', icon: Handshake, masterOnly: true },
-      { id: 'premissas_economicas', label: 'Premissas do Sistema', icon: Settings2 },
-      { id: 'gestao_usuarios', label: 'Usuários', icon: UserPlus, masterOnly: true },
-      { id: 'dados_historicos', label: 'Central de Coleta de Dados', icon: Database },
+      { id: 'clientes', label: 'Empresas', labelKey: 'navigation.page.clientes', icon: Building2 },
+      { id: 'parceiros', label: 'Parceiros Estratégicos', labelKey: 'navigation.page.parceiros', icon: Handshake, masterOnly: true },
+      { id: 'premissas_economicas', label: 'Premissas do Sistema', labelKey: 'navigation.page.premissas_economicas', icon: Settings2 },
+      { id: 'gestao_usuarios', label: 'Usuários', labelKey: 'navigation.page.gestao_usuarios', icon: UserPlus, masterOnly: true },
+      { id: 'dados_historicos', label: 'Central de Coleta de Dados', labelKey: 'navigation.page.dados_historicos', icon: Database },
     ],
   },
   {
-    group: 'Governança Corporativa',
+    group: 'Governança Corporativa', groupKey: 'navigation.group.corporate_governance',
     icon: Network,
     items: [
-      { id: 'executive_monitoring_center', label: 'Executive Monitoring Center', icon: Target },
-      { id: 'governance_maturity_center', label: 'Governance Maturity Center', icon: Target },
-      { id: 'leadership_dna_center', label: 'Leadership DNA Center', icon: Users },
-      { id: 'institutional_structure_center', label: 'Institutional Structure Center', icon: Users },
-      { id: 'board_deck_center', label: 'Board Deck Center', icon: Presentation },
-      { id: 'fiduciary_validation_center', label: 'Fiduciary Validation Center', icon: Scale },
-      { id: 'risk_exposure_center', label: 'Risk Exposure Center', icon: ShieldAlert },
-      { id: 'decision_lifecycle_center', label: 'Decision Lifecycle Center', icon: GitBranchPlus, masterOnly: false },
+      { id: 'executive_monitoring_center', label: 'Executive Monitoring Center', labelKey: 'navigation.page.executive_monitoring_center', icon: Target },
+      { id: 'governance_maturity_center', label: 'Governance Maturity Center', labelKey: 'navigation.page.governance_maturity_center', icon: Target },
+      { id: 'leadership_dna_center', label: 'Leadership DNA Center', labelKey: 'navigation.page.leadership_dna_center', icon: Users },
+      { id: 'institutional_structure_center', label: 'Institutional Structure Center', labelKey: 'navigation.page.institutional_structure_center', icon: Users },
+      { id: 'board_deck_center', label: 'Board Deck Center', labelKey: 'navigation.page.board_deck_center', icon: Presentation },
+      { id: 'fiduciary_validation_center', label: 'Fiduciary Validation Center', labelKey: 'navigation.page.fiduciary_validation_center', icon: Scale },
+      { id: 'risk_exposure_center', label: 'Risk Exposure Center', labelKey: 'navigation.page.risk_exposure_center', icon: ShieldAlert },
+      { id: 'decision_lifecycle_center', label: 'Decision Lifecycle Center', labelKey: 'navigation.page.decision_lifecycle_center', icon: GitBranchPlus, masterOnly: false },
       
       // Adjacent governance module.
       // Not part of GOVERNANCE_DOMAIN_BOUNDARIES.md core module registry.
       // Pending future migration to Integrity & Compliance axis.
-      { id: 'compliance_integrity_center', label: 'Integridade & Compliance', icon: ShieldCheck },
+      { id: 'compliance_integrity_center', label: 'Integridade & Compliance', labelKey: 'navigation.page.compliance_integrity_center', icon: ShieldCheck },
 
       // Restricted Modules
       // TODO: migrar crisis_response_center para restrictedRoles (C-Level/Board) em vez de masterOnly total.
-      { id: 'crisis_response_center', label: 'Crisis Response Center', icon: Siren, masterOnly: true },
-      { id: 'runtime_observability_center', label: 'Runtime Observability Center', icon: Activity, masterOnly: true },
-      { id: 'product_governance_center', label: 'Product Governance Center', icon: PackageCheck, masterOnly: true },
-      { id: 'multi_tenant_governance_center', label: 'Multi-Tenant Governance Center', icon: ShieldCheck, masterOnly: true },
+      { id: 'crisis_response_center', label: 'Crisis Response Center', labelKey: 'navigation.page.crisis_response_center', icon: Siren, masterOnly: true },
+      { id: 'runtime_observability_center', label: 'Runtime Observability Center', labelKey: 'navigation.page.runtime_observability_center', icon: Activity, masterOnly: true },
+      { id: 'product_governance_center', label: 'Product Governance Center', labelKey: 'navigation.page.product_governance_center', icon: PackageCheck, masterOnly: true },
+      { id: 'multi_tenant_governance_center', label: 'Multi-Tenant Governance Center', labelKey: 'navigation.page.multi_tenant_governance_center', icon: ShieldCheck, masterOnly: true },
 
       // Legacy Hubs Temporários (Mantidos ocultos ou para backward compatibility)
-      { id: 'pilot_monitoring', label: 'Painel Operacional Piloto', icon: Activity, masterOnly: true },
-      { id: 'calibration_playground', label: 'Calibration Playground', icon: Sparkles, masterOnly: true },
-      { id: 'advisor_workspace', label: 'Advisor Workspace', icon: Briefcase, masterOnly: true },
-      { id: 'client_workspace', label: 'Client Executive Workspace', icon: LayoutDashboard, masterOnly: false },
-      { id: 'pilot_experience', label: 'Pilot Experience Dashboard', icon: BarChart3, masterOnly: true },
+      { id: 'pilot_monitoring', label: 'Painel Operacional Piloto', labelKey: 'navigation.page.pilot_monitoring', icon: Activity, masterOnly: true },
+      { id: 'calibration_playground', label: 'Calibration Playground', labelKey: 'navigation.page.calibration_playground', icon: Sparkles, masterOnly: true },
+      { id: 'advisor_workspace', label: 'Advisor Workspace', labelKey: 'navigation.page.advisor_workspace', icon: Briefcase, masterOnly: true },
+      { id: 'client_workspace', label: 'Client Executive Workspace', labelKey: 'navigation.page.client_workspace', icon: LayoutDashboard, masterOnly: false },
+      { id: 'pilot_experience', label: 'Pilot Experience Dashboard', labelKey: 'navigation.page.pilot_experience', icon: BarChart3, masterOnly: true },
+      { id: 'pilot_operations_center', label: 'Pilot Operations Center', labelKey: 'navigation.page.pilot_operations_center', icon: ShieldCheck, masterOnly: true },
     ],
   },
   {
-    group: 'Cultura Organizacional',
+    group: 'Cultura Organizacional', groupKey: 'navigation.group.organizational_culture',
     icon: Users,
     items: [
-      { id: 'dashboard_cultura', label: 'Dashboard de Cultura', icon: PieChart },
-      { id: 'desenvolvimento_humano', label: 'Desenvolvimento Humano', icon: GraduationCap },
-      { id: 'perfil_lideranca', label: 'Perfil de Liderança', icon: Star },
-      { id: 'quadro_pessoal', label: 'Gestão de Pessoas', icon: Users },
-      { id: 'avaliacao_organograma', label: 'Avaliação de Organograma', icon: Boxes },
-      { id: 'cultura_feedback', label: 'Cultura de Feedback', icon: MessageCircle },
+      { id: 'dashboard_cultura', label: 'Dashboard de Cultura', labelKey: 'navigation.page.dashboard_cultura', icon: PieChart },
+      { id: 'desenvolvimento_humano', label: 'Desenvolvimento Humano', labelKey: 'navigation.page.desenvolvimento_humano', icon: GraduationCap },
+      { id: 'perfil_lideranca', label: 'Perfil de Liderança', labelKey: 'navigation.page.perfil_lideranca', icon: Star },
+      { id: 'quadro_pessoal', label: 'Gestão de Pessoas', labelKey: 'navigation.page.quadro_pessoal', icon: Users },
+      { id: 'avaliacao_organograma', label: 'Avaliação de Organograma', labelKey: 'navigation.page.avaliacao_organograma', icon: Boxes },
+      { id: 'cultura_feedback', label: 'Cultura de Feedback', labelKey: 'navigation.page.cultura_feedback', icon: MessageCircle },
     ],
   },
   {
-    group: 'Administração e Finanças',
+    group: 'Administração e Finanças', groupKey: 'navigation.group.administration_finance',
     icon: Landmark,
     items: [
-      { id: 'dashboard_gestao', label: 'Dashboard Adm Fin', icon: LayoutDashboard },
+      { id: 'dashboard_gestao', label: 'Dashboard Adm Fin', labelKey: 'navigation.page.dashboard_gestao', icon: LayoutDashboard },
       { 
         id: 'adm_root' as any,
-        label: 'Administração',
+        label: 'Administração', labelKey: 'navigation.page.adm_root',
         icon: Briefcase,
         children: [
-          { id: 'administrativa_indicadores', label: 'Indicadores Administrativos', icon: BarChart2 },
+          { id: 'administrativa_indicadores', label: 'Indicadores Administrativos', labelKey: 'navigation.page.administrativa_indicadores', icon: BarChart2 },
         ]
       },
       { 
         id: 'contabil_root' as any, 
-        label: 'Contabilidade', 
+        label: 'Contabilidade', labelKey: 'navigation.page.contabil_root', 
         icon: Calculator,
         children: [
-          { id: 'bp', label: 'Balanço Patrimonial', icon: BookOpen },
-          { id: 'dfc', label: 'DFC Contábil', icon: ArrowRightLeft },
-          { id: 'dlpa', label: 'DLPA Contábil', icon: BookOpen },
-          { id: 'dre', label: 'DRE Contábil', icon: FileText },
-          { id: 'plano_contas', label: 'Plano Contas Contabilidade', icon: List },
+          { id: 'bp', label: 'Balanço Patrimonial', labelKey: 'navigation.page.bp', icon: BookOpen },
+          { id: 'dfc', label: 'DFC Contábil', labelKey: 'navigation.page.dfc', icon: ArrowRightLeft },
+          { id: 'dlpa', label: 'DLPA Contábil', labelKey: 'navigation.page.dlpa', icon: BookOpen },
+          { id: 'dre', label: 'DRE Contábil', labelKey: 'navigation.page.dre', icon: FileText },
+          { id: 'plano_contas', label: 'Plano Contas Contabilidade', labelKey: 'navigation.page.plano_contas', icon: List },
         ]
       },
       { 
         id: 'financeira_root' as any, 
-        label: 'Finanças', 
+        label: 'Finanças', labelKey: 'navigation.page.financeira_root', 
         icon: Landmark,
         children: [
-          { id: 'custos_pessoal', label: 'Análise de Custos de Pessoal', icon: CircleDollarSign },
-          { id: 'dre_gerencial', label: 'DRE Gerencial Estratégica', icon: LineChart },
-          { id: 'modelagem', label: 'Engenharia Financeira', icon: LayoutGrid },
-          { id: 'caixa', label: 'Fluxo de Caixa Consolidado', icon: CircleDollarSign },
-          { id: 'contas_pagar', label: 'Fluxo de Contas a Pagar', icon: CreditCard },
-          { id: 'tax_reform_impact', label: 'Simulador de Impacto Tributário', icon: Percent },
-          { id: 'ativos_financeiros', label: 'Gestão de Ativos Financeiros', icon: WalletCards },
-          { id: 'contas_receber', label: 'Gestão de Contas a Receber', icon: ArrowUpRight },
-          { id: 'emprestimos', label: 'Gestão de Passivos', icon: CreditCard },
-          { id: 'analise_financeira', label: 'Inteligência de Capital', icon: Coins },
-          { id: 'plano_contas_gerencial', label: 'Plano de Contas Gerencial', icon: List },
-          { id: 'posicao_financeira', label: 'Posição Financeira', icon: Landmark },
-          { id: 'simulador_capital', label: 'Simulador de Captação', icon: Magnet },
-          { id: 'orcamento', label: 'Orçamento & Budget', icon: PiggyBank },
+          { id: 'custos_pessoal', label: 'Análise de Custos de Pessoal', labelKey: 'navigation.page.custos_pessoal', icon: CircleDollarSign },
+          { id: 'dre_gerencial', label: 'DRE Gerencial Estratégica', labelKey: 'navigation.page.dre_gerencial', icon: LineChart },
+          { id: 'modelagem', label: 'Engenharia Financeira', labelKey: 'navigation.page.modelagem', icon: LayoutGrid },
+          { id: 'caixa', label: 'Fluxo de Caixa Consolidado', labelKey: 'navigation.page.caixa', icon: CircleDollarSign },
+          { id: 'contas_pagar', label: 'Fluxo de Contas a Pagar', labelKey: 'navigation.page.contas_pagar', icon: CreditCard },
+          { id: 'tax_reform_impact', label: 'Simulador de Impacto Tributário', labelKey: 'navigation.page.tax_reform_impact', icon: Percent },
+          { id: 'ativos_financeiros', label: 'Gestão de Ativos Financeiros', labelKey: 'navigation.page.ativos_financeiros', icon: WalletCards },
+          { id: 'contas_receber', label: 'Gestão de Contas a Receber', labelKey: 'navigation.page.contas_receber', icon: ArrowUpRight },
+          { id: 'emprestimos', label: 'Gestão de Passivos', labelKey: 'navigation.page.emprestimos', icon: CreditCard },
+          { id: 'analise_financeira', label: 'Inteligência de Capital', labelKey: 'navigation.page.analise_financeira', icon: Coins },
+          { id: 'plano_contas_gerencial', label: 'Plano de Contas Gerencial', labelKey: 'navigation.page.plano_contas_gerencial', icon: List },
+          { id: 'posicao_financeira', label: 'Posição Financeira', labelKey: 'navigation.page.posicao_financeira', icon: Landmark },
+          { id: 'simulador_capital', label: 'Simulador de Captação', labelKey: 'navigation.page.simulador_capital', icon: Magnet },
+          { id: 'orcamento', label: 'Orçamento & Budget', labelKey: 'navigation.page.orcamento', icon: PiggyBank },
         ]
       },
     ],
   },
   {
-    group: 'Gestão de Inovação',
+    group: 'Gestão de Inovação', groupKey: 'navigation.group.innovation_management',
     icon: Lightbulb,
     items: [
-      { id: 'dashboard_inovacao', label: 'Dashboard de Inovação', icon: Zap },
-      { id: 'viabilidade', label: 'Projetos de Inovação', icon: Rocket },
+      { id: 'dashboard_inovacao', label: 'Dashboard de Inovação', labelKey: 'navigation.page.dashboard_inovacao', icon: Zap },
+      { id: 'viabilidade', label: 'Projetos de Inovação', labelKey: 'navigation.page.viabilidade', icon: Rocket },
     ],
   },
   {
-    group: 'Gestão de Marketing',
+    group: 'Gestão de Marketing', groupKey: 'navigation.group.marketing_management',
     icon: Bell,
     items: [
-      { id: 'dashboard_marketing', label: 'Dashboard de Marketing', icon: LayoutDashboard },
-      { id: 'analise_mercado', label: 'Inteligência Competitiva', icon: Target },
-      { id: 'marketing_estrategico', label: 'Marketing de Posicionamento', icon: Megaphone },
+      { id: 'dashboard_marketing', label: 'Dashboard de Marketing', labelKey: 'navigation.page.dashboard_marketing', icon: LayoutDashboard },
+      { id: 'analise_mercado', label: 'Inteligência Competitiva', labelKey: 'navigation.page.analise_mercado', icon: Target },
+      { id: 'marketing_estrategico', label: 'Marketing de Posicionamento', labelKey: 'navigation.page.marketing_estrategico', icon: Megaphone },
     ],
   },
   {
-    group: 'Gestão Comercial',
+    group: 'Gestão Comercial', groupKey: 'navigation.group.sales_management',
     icon: ShoppingBag,
     items: [
-      { id: 'dashboard_comercial', label: 'Dashboard Comercial', icon: LineChart },
-      { id: 'precificacao', label: 'Precificação & Margem', icon: Tags },
-      { id: 'comercial_estrategico', label: 'Vendas & Mercado', icon: ShoppingCart },
+      { id: 'dashboard_comercial', label: 'Dashboard Comercial', labelKey: 'navigation.page.dashboard_comercial', icon: LineChart },
+      { id: 'precificacao', label: 'Precificação & Margem', labelKey: 'navigation.page.precificacao', icon: Tags },
+      { id: 'comercial_estrategico', label: 'Vendas & Mercado', labelKey: 'navigation.page.comercial_estrategico', icon: ShoppingCart },
     ],
   },
   {
-    group: 'Gestão Operacional',
+    group: 'Gestão Operacional', groupKey: 'navigation.group.operational_management',
     icon: Activity,
     items: [
-      { id: 'dashboard_operacional', label: 'Dashboard Operacional', icon: HardDrive },
-      { id: 'compras', label: 'Gestão de Compras', icon: ShoppingBag },
-      { id: 'logistica', label: 'Eficiência em Logística', icon: Layers },
-      { id: 'producao', label: 'Produção & Processos', icon: Factory },
+      { id: 'dashboard_operacional', label: 'Dashboard Operacional', labelKey: 'navigation.page.dashboard_operacional', icon: HardDrive },
+      { id: 'compras', label: 'Gestão de Compras', labelKey: 'navigation.page.compras', icon: ShoppingBag },
+      { id: 'logistica', label: 'Eficiência em Logística', labelKey: 'navigation.page.logistica', icon: Layers },
+      { id: 'producao', label: 'Produção & Processos', labelKey: 'navigation.page.producao', icon: Factory },
     ],
   },
   {
-    group: 'Academia da Illumine',
+    group: 'Academia da Illumine', groupKey: 'navigation.group.illumine_academy',
     icon: BookOpen,
     items: [
-      { id: 'academy_home', label: 'Trilha do Conhecimento', icon: Presentation },
-      { id: 'academy_admin', label: 'Gestão da Academia', icon: Settings2, masterOnly: true },
+      { id: 'academy_home', label: 'Trilha do Conhecimento', labelKey: 'navigation.page.academy_home', icon: Presentation },
+      { id: 'academy_admin', label: 'Gestão da Academia', labelKey: 'navigation.page.academy_admin', icon: Settings2, masterOnly: true },
     ],
   },
   {
-    group: 'Configurações',
+    group: 'Configurações', groupKey: 'navigation.group.settings',
     icon: Settings,
     items: [
-      { id: 'suporte', label: 'Suporte', icon: LifeBuoy },
-      { id: 'mensagens', label: 'Mensagens e Comunicados', icon: Bell },
-      { id: 'perfil_usuario', label: 'Gestão de Perfil', icon: UserCog },
-      { id: 'maintenance', label: 'Manutenção de Dados', icon: DatabaseBackup },
-      { id: 'configuracoes_sistema', label: 'Preferências do Sistema', icon: Settings },
+      { id: 'suporte', label: 'Suporte', labelKey: 'navigation.page.suporte', icon: LifeBuoy },
+      { id: 'mensagens', label: 'Mensagens e Comunicados', labelKey: 'navigation.page.mensagens', icon: Bell },
+      { id: 'perfil_usuario', label: 'Gestão de Perfil', labelKey: 'navigation.page.perfil_usuario', icon: UserCog },
+      { id: 'maintenance', label: 'Manutenção de Dados', labelKey: 'navigation.page.maintenance', icon: DatabaseBackup },
+      { id: 'configuracoes_sistema', label: 'Preferências do Sistema', labelKey: 'navigation.page.configuracoes_sistema', icon: Settings },
     ],
   },
 ];

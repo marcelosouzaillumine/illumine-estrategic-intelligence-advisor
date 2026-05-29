@@ -6,7 +6,7 @@ export const GovernanceForecastSurface: React.FC = () => {
 
   if (!forecastOutput) {
     return (
-      <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl text-center text-slate-500 font-mono text-xs">
+      <div className="card-premium p-8 text-center text-muted-foreground font-mono text-xs animate-pulse">
         AGUARDANDO PROJEÇÃO DE FORECAST...
       </div>
     );
@@ -21,43 +21,43 @@ export const GovernanceForecastSurface: React.FC = () => {
 
   // Mapear faixas de risco determinísticas
   const riskBand = activeForecast.deterministicRiskBand;
-  let riskColor = 'text-emerald-400';
-  let riskBg = 'bg-emerald-950/20 border-emerald-500/20';
+  let riskColor = 'text-emerald-500';
+  let riskBg = 'bg-emerald-500/10 border-emerald-500/25';
 
   if (riskBand === 'CRITICAL_RISK') {
-    riskColor = 'text-rose-400';
-    riskBg = 'bg-rose-950/20 border-rose-500/20';
+    riskColor = 'text-rose-500';
+    riskBg = 'bg-rose-500/10 border-rose-500/25';
   } else if (riskBand === 'HIGH_RISK') {
-    riskColor = 'text-amber-400';
-    riskBg = 'bg-amber-950/20 border-amber-500/20';
+    riskColor = 'text-amber-500';
+    riskBg = 'bg-amber-500/10 border-amber-500/25';
   } else if (riskBand === 'MODERATE_RISK') {
-    riskColor = 'text-cyan-400';
-    riskBg = 'bg-cyan-950/20 border-cyan-500/20';
+    riskColor = 'text-blue-500';
+    riskBg = 'bg-blue-500/10 border-blue-500/25';
   }
 
   return (
-    <div className="p-6 bg-slate-950/70 border border-slate-800 rounded-xl space-y-6">
-      <div className="flex justify-between items-center border-b border-slate-850 pb-3">
+    <div className="card-premium p-8 space-y-6 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
+      <div className="flex justify-between items-center border-b border-border/40 pb-4">
         <div>
-          <span className="text-[10px] font-mono font-bold tracking-wider text-slate-500 uppercase">SSPGL FORECAST ENGINE</span>
-          <h3 className="text-sm font-bold text-slate-200 font-mono mt-0.5">Projected Governance Exposure</h3>
+          <span className="text-[10px] font-mono font-bold tracking-widest text-secondary uppercase block mb-1">SSPGL FORECAST ENGINE</span>
+          <h3 className="text-base font-medium text-foreground tracking-tight">Projected Governance Exposure</h3>
         </div>
-        <div className={`px-2.5 py-1 rounded border font-mono text-xs ${riskBg} ${riskColor}`}>
+        <div className={`px-3 py-1 rounded-full border font-mono text-[10px] font-bold tracking-widest ${riskBg} ${riskColor}`}>
           {riskBand.replace('_', ' ')}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Velocidade de Deterioração */}
-        <div className="p-4 bg-slate-900/40 border border-slate-850 rounded-xl space-y-2">
-          <span className="text-[10px] font-mono text-slate-500 uppercase block">DETERIORATION VELOCITY</span>
+        <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl space-y-3">
+          <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">DETERIORATION VELOCITY</span>
           <div className="flex items-baseline gap-2">
-            <span className={`text-2xl font-bold font-mono ${isDeclining ? 'text-rose-400' : 'text-emerald-400'}`}>
+            <span className={`text-2xl font-bold font-mono tracking-tight ${isDeclining ? 'text-rose-500' : 'text-emerald-500'}`}>
               {velocity > 0 ? `+${velocity}` : velocity}
             </span>
-            <span className="text-[10px] text-slate-500 font-mono">/ cycle maturity score change</span>
+            <span className="text-[10px] text-muted-foreground font-mono">/ cycle maturity score change</span>
           </div>
-          <p className="text-[11px] text-slate-400 leading-relaxed">
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
             {isDeclining 
               ? 'Métricas de governança em trajetória descendente linear de maturidade fiduciária.'
               : 'Trajetória linear indica estabilização ou progressão de governança.'}
@@ -65,15 +65,15 @@ export const GovernanceForecastSurface: React.FC = () => {
         </div>
 
         {/* Liquidez Crise */}
-        <div className="p-4 bg-slate-900/40 border border-slate-850 rounded-xl space-y-2">
-          <span className="text-[10px] font-mono text-slate-500 uppercase block">LIQUIDITY PRESSURE DAYS</span>
+        <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl space-y-3">
+          <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">LIQUIDITY PRESSURE DAYS</span>
           <div className="flex items-baseline gap-2">
-            <span className={`text-2xl font-bold font-mono ${activeForecast.liquidityDaysToCrisis < 90 ? 'text-rose-400' : activeForecast.liquidityDaysToCrisis < 180 ? 'text-amber-400' : 'text-slate-200'}`}>
+            <span className={`text-2xl font-bold font-mono tracking-tight ${activeForecast.liquidityDaysToCrisis < 90 ? 'text-rose-500' : activeForecast.liquidityDaysToCrisis < 180 ? 'text-amber-500' : 'text-foreground'}`}>
               {activeForecast.liquidityDaysToCrisis === 9999 ? '∞' : `${activeForecast.liquidityDaysToCrisis} Days`}
             </span>
-            <span className="text-[10px] text-slate-500 font-mono">to projected buffer exhaustion</span>
+            <span className="text-[10px] text-muted-foreground font-mono">to projected buffer exhaustion</span>
           </div>
-          <p className="text-[11px] text-slate-400 leading-relaxed">
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
             {activeForecast.liquidityDaysToCrisis < 90
               ? 'Alerta crítico: caixa remanescente insustentável sob as taxas de queima atuais.'
               : activeForecast.liquidityDaysToCrisis === 9999
@@ -83,30 +83,30 @@ export const GovernanceForecastSurface: React.FC = () => {
         </div>
 
         {/* Instabilidade & Fadiga */}
-        <div className="p-4 bg-slate-900/40 border border-slate-850 rounded-xl space-y-3">
+        <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl space-y-4">
           <div>
-            <div className="flex justify-between items-center text-[10px] font-mono mb-1">
-              <span className="text-slate-500">GOVERNANCE INSTABILITY</span>
-              <span className={activeForecast.governanceInstabilityIndex > 50 ? 'text-rose-400' : 'text-slate-300'}>
+            <div className="flex justify-between items-center text-[10px] font-mono font-bold tracking-wider mb-1.5">
+              <span className="text-muted-foreground">GOVERNANCE INSTABILITY</span>
+              <span className={activeForecast.governanceInstabilityIndex > 50 ? 'text-rose-500 font-extrabold' : 'text-foreground font-extrabold'}>
                 {activeForecast.governanceInstabilityIndex}%
               </span>
             </div>
-            <div className="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+            <div className="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
               <div 
-                className={`h-1.5 rounded-full transition-all duration-500 ${activeForecast.governanceInstabilityIndex > 50 ? 'bg-rose-500' : 'bg-cyan-500'}`}
+                className={`h-1.5 rounded-full transition-all duration-500 ${activeForecast.governanceInstabilityIndex > 50 ? 'bg-rose-500' : 'bg-secondary'}`}
                 style={{ width: `${activeForecast.governanceInstabilityIndex}%` }}
               />
             </div>
           </div>
 
           <div>
-            <div className="flex justify-between items-center text-[10px] font-mono mb-1">
-              <span className="text-slate-500">OPERATIONAL FATIGUE INDEX</span>
-              <span className={activeForecast.operationalFatigueIndex > 50 ? 'text-amber-400' : 'text-slate-300'}>
+            <div className="flex justify-between items-center text-[10px] font-mono font-bold tracking-wider mb-1.5">
+              <span className="text-muted-foreground">OPERATIONAL FATIGUE INDEX</span>
+              <span className={activeForecast.operationalFatigueIndex > 50 ? 'text-amber-500 font-extrabold' : 'text-foreground font-extrabold'}>
                 {activeForecast.operationalFatigueIndex}%
               </span>
             </div>
-            <div className="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+            <div className="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
               <div 
                 className={`h-1.5 rounded-full transition-all duration-500 ${activeForecast.operationalFatigueIndex > 50 ? 'bg-amber-500' : 'bg-emerald-500'}`}
                 style={{ width: `${activeForecast.operationalFatigueIndex}%` }}
@@ -116,16 +116,16 @@ export const GovernanceForecastSurface: React.FC = () => {
         </div>
       </div>
 
-      <div className="p-4 bg-slate-900/20 border border-slate-850 rounded-xl font-mono text-xs">
-        <span className="text-slate-500 uppercase tracking-wider block mb-2">PROJECTED ESCALATION TRAJECTORY</span>
+      <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl font-mono text-xs">
+        <span className="text-muted-foreground font-bold uppercase tracking-widest block mb-3">PROJECTED ESCALATION TRAJECTORY</span>
         <div className="flex flex-wrap items-center gap-2">
           {activeForecast.projectedEscalationTrajectory.map((step, idx) => (
             <React.Fragment key={idx}>
-              {idx > 0 && <span className="text-slate-600">➔</span>}
-              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${
+              {idx > 0 && <span className="text-muted-foreground/50">➔</span>}
+              <span className={`px-3 py-1 rounded-full border text-[10px] font-bold tracking-wider ${
                 idx === activeForecast.projectedEscalationTrajectory.length - 1
-                  ? 'bg-rose-950/20 text-rose-400 border-rose-500/30'
-                  : 'bg-slate-900 text-slate-400 border-slate-800'
+                  ? 'bg-rose-500/10 text-rose-500 border-rose-500/25'
+                  : 'bg-card text-muted-foreground border-border'
               }`}>
                 {step}
               </span>

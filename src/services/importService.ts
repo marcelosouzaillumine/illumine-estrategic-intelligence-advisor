@@ -279,7 +279,9 @@ export const parseFinancialExcel = async (
              else value = parseBrNumber(rawVal.toString());
           }
             
-          results.push({ category: fullName, value: value as number });
+          if (value === null) return; // Skip empty or invalid value rows
+          
+          results.push({ category: fullName, value: value });
         });
 
         if (onProgress) onProgress(100);

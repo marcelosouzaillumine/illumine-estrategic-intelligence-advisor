@@ -60,27 +60,27 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
   };
 
   return (
-    <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-850 pb-2">
-        <h4 className="text-slate-400 font-semibold tracking-wider uppercase text-xs font-mono">
+    <div className="card-premium p-8 space-y-6 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
+      <div className="flex justify-between items-center border-b border-border/40 pb-4">
+        <h4 className="text-sm font-medium text-foreground tracking-tight">
           Strategic Decisions Sandbox Controls
         </h4>
         {sandboxActions.length > 0 && (
           <button
             onClick={clearSandbox}
-            className="text-[10px] font-mono text-rose-400 hover:text-rose-300 uppercase border border-rose-500/20 px-2 py-0.5 rounded bg-rose-950/20"
+            className="text-[10px] font-mono text-rose-500 hover:text-rose-600 uppercase border border-rose-500/20 px-3 py-1 rounded-full bg-rose-500/10 cursor-pointer transition-all duration-200"
           >
             Clear All
           </button>
         )}
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* Intensidade */}
-        <div className="flex flex-col gap-1.5 p-3 bg-slate-900/30 border border-slate-850 rounded-lg">
-          <div className="flex justify-between text-[11px] font-mono text-slate-400">
+        <div className="flex flex-col gap-2.5 p-4 bg-surface-container/60 border border-border/60 rounded-xl">
+          <div className="flex justify-between text-[11px] font-mono font-bold tracking-widest text-muted-foreground">
             <span>DECISION INTENSITY / LEVER FORCE</span>
-            <span className="text-cyan-400 font-bold">{(intensity * 100).toFixed(0)}%</span>
+            <span className="text-secondary font-black">{(intensity * 100).toFixed(0)}%</span>
           </div>
           <input
             type="range"
@@ -89,12 +89,12 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
             step="0.05"
             value={intensity}
             onChange={(e) => setIntensity(parseFloat(e.target.value))}
-            className="w-full accent-cyan-500 h-1 bg-slate-950 rounded-lg cursor-pointer"
+            className="w-full accent-secondary h-1.5 bg-surface-container-high rounded-lg cursor-pointer"
           />
         </div>
 
         {/* Grade de Decisões */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {availableActions.map((act) => {
             const activeAction = sandboxActions.find(a => a.actionType === act.type);
             const isActive = !!activeAction;
@@ -103,23 +103,23 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
               <button
                 key={act.type}
                 onClick={() => handleActionToggle(act.type)}
-                className={`p-3.5 border rounded-xl text-left transition-all duration-200 flex flex-col justify-between gap-1.5 active:scale-[0.98] ${
+                className={`p-4 border rounded-xl text-left transition-all duration-300 flex flex-col justify-between gap-2.5 active:scale-[0.98] cursor-pointer ${
                   isActive
-                    ? 'border-cyan-500 bg-cyan-950/30 text-cyan-400 shadow-md shadow-cyan-500/5'
-                    : 'border-slate-850 bg-slate-900/40 text-slate-400 hover:border-slate-700 hover:text-slate-300'
+                    ? 'border-secondary bg-secondary/10 text-secondary shadow-[0_0_12px_rgba(255,133,82,0.12)]'
+                    : 'border-border/60 bg-surface-container/40 text-muted-foreground hover:border-secondary/40 hover:text-foreground'
                 }`}
               >
                 <div>
-                  <span className={`text-xs font-mono font-bold block ${isActive ? 'text-cyan-300' : 'text-slate-300'}`}>
+                  <span className={`text-xs font-semibold tracking-wider uppercase block ${isActive ? 'text-secondary font-bold' : 'text-foreground'}`}>
                     {act.label}
                   </span>
-                  <p className="text-[10px] text-slate-400 leading-normal mt-1">
+                  <p className="text-[10.5px] leading-relaxed mt-1 opacity-90">
                     {act.description}
                   </p>
                 </div>
 
                 {isActive && (
-                  <div className="mt-2 text-[9px] font-mono flex justify-between w-full border-t border-cyan-500/20 pt-1 text-cyan-500">
+                  <div className="mt-2 text-[9px] font-mono tracking-widest font-bold flex justify-between w-full border-t border-secondary/20 pt-2 text-secondary/90">
                     <span>STATUS: SIMULATED</span>
                     <span>INTENSITY: {(activeAction.intensity * 100).toFixed(0)}%</span>
                   </div>
@@ -131,9 +131,9 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
       </div>
 
       {sandboxResult && (
-        <div className="p-3 bg-cyan-950/20 border border-cyan-500/20 rounded-lg flex justify-between items-center font-mono text-xs">
-          <span className="text-slate-400">Sandbox Stress Delta:</span>
-          <span className={`font-bold ${sandboxResult.stressDelta <= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+        <div className="p-4 bg-secondary/5 border border-secondary/20 rounded-xl flex justify-between items-center font-mono text-xs">
+          <span className="text-muted-foreground font-semibold uppercase tracking-wider">Sandbox Stress Delta:</span>
+          <span className={`font-bold tracking-wide ${sandboxResult.stressDelta <= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
             {sandboxResult.stressDelta > 0 ? `+${sandboxResult.stressDelta}` : sandboxResult.stressDelta}% Score Impact
           </span>
         </div>

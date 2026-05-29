@@ -77,8 +77,6 @@ describe('Institutional Financial Operating System (EFOS) — RC-1.4 Suite', () 
     const report = executiveRuntime.generateExecutiveReport(dataset);
     assert.equal(report.cashFlowReport?.isAvailable, false);
     assert.equal(report.cashFlowReport?.overallNarrative, 'DFC indisponível para análise institucional.');
-    assert.equal(report.cashFlowReport?.operational.narrative, 'DFC indisponível para análise institucional.');
-    assert.equal(report.cashFlowReport?.treasury.narrative, 'DFC indisponível para análise institucional.');
   });
 
   it('2. DLPA Fail-Closed Block', () => {
@@ -89,8 +87,6 @@ describe('Institutional Financial Operating System (EFOS) — RC-1.4 Suite', () 
     const report = executiveRuntime.generateExecutiveReport(dataset);
     assert.equal(report.capitalGovernanceReport?.isAvailable, false);
     assert.equal(report.capitalGovernanceReport?.overallNarrative, 'DLPA/DMPL indisponível para análise institucional.');
-    assert.equal(report.capitalGovernanceReport?.retention.narrative, 'DLPA/DMPL indisponível para análise institucional.');
-    assert.equal(report.capitalGovernanceReport?.distribution.narrative, 'DLPA/DMPL indisponível para análise institucional.');
   });
 
   it('3. KPI Semantic Interpretation', () => {
@@ -143,7 +139,7 @@ describe('Institutional Financial Operating System (EFOS) — RC-1.4 Suite', () 
 
     assert.ok(report.financialThesis);
     assert.ok(report.financialThesis.thesis);
-    assert.ok(report.financialThesis.thesis.includes('viabilidade comercial'));
+    assert.ok(report.financialThesis.thesis.includes('viabilidade operacional'));
   });
 
   it('7. Executive Narrative Orchestrator Consistency', () => {

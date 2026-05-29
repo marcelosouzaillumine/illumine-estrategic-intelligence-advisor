@@ -1,5 +1,7 @@
 // src/core/runtime/ExecutiveNarrativeOrchestrator.ts
 import { InstitutionalFinancialThesisProfile } from './InstitutionalFinancialThesisEngine';
+import { GlobalFiduciaryDistributionEnforcementEngine } from './governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
+import { SurvivalConstraintPropagationEngine } from './institutional-survival/SurvivalConstraintPropagationEngine';
 
 export interface OrchestratedNarrative {
   title: string;
@@ -13,7 +15,9 @@ export interface OrchestratedNarrative {
 export function orchestrateNarrative(
   thesisProfile: InstitutionalFinancialThesisProfile,
   dfcNarrative: string,
-  dlpaNarrative: string
+  dlpaNarrative: string,
+  enforcementTriggered?: boolean,
+  survivalActive?: boolean
 ): OrchestratedNarrative {
   
   if (!thesisProfile.isAvailable) {
@@ -52,13 +56,25 @@ export function orchestrateNarrative(
     riskBriefing = 'Ausência de riscos estruturais críticos detectados no escopo validado.';
   }
 
+  const trigger = !!enforcementTriggered;
+  const isSurvival = !!survivalActive || (thesisProfile.consolidatedSeverity === 'CRÍTICA' && trigger);
+
+  let leadParagraphSan = GlobalFiduciaryDistributionEnforcementEngine.sanitizeNarrative(thesis, trigger);
+  leadParagraphSan = SurvivalConstraintPropagationEngine.sanitizeNarrative(leadParagraphSan, isSurvival);
+
+  let causalFlowSummarySan = GlobalFiduciaryDistributionEnforcementEngine.sanitizeNarrative(executiveSummary.trim(), trigger);
+  causalFlowSummarySan = SurvivalConstraintPropagationEngine.sanitizeNarrative(causalFlowSummarySan, isSurvival);
+
+  let riskBriefingSan = GlobalFiduciaryDistributionEnforcementEngine.sanitizeNarrative(riskBriefing, trigger);
+  riskBriefingSan = SurvivalConstraintPropagationEngine.sanitizeNarrative(riskBriefingSan, isSurvival);
+
   return {
     title: 'Análise de Narrativa Orquestrada',
-    leadParagraph: thesis,
-    causalFlowSummary: executiveSummary.trim(),
-    thesisNarrative: thesis,
-    executiveSummary: executiveSummary.trim(),
-    riskBriefing
+    leadParagraph: leadParagraphSan,
+    causalFlowSummary: causalFlowSummarySan,
+    thesisNarrative: leadParagraphSan,
+    executiveSummary: causalFlowSummarySan,
+    riskBriefing: riskBriefingSan
   };
 }
 
@@ -79,13 +95,29 @@ export class ExecutiveNarrativeOrchestrator {
     if (dfcNarrative) causalFlowSummary += `Dinâmica de Caixa: ${dfcNarrative} `;
     if (dlpaNarrative) causalFlowSummary += `Governança de Capital: ${dlpaNarrative}`;
 
+    // Evaluate enforcement status using report's capitalGovernanceReport
+    const fiduciaryOutput = report.capitalGovernanceReport?.fiduciaryOutput;
+    const enforcement = GlobalFiduciaryDistributionEnforcementEngine.evaluate(fiduciaryOutput);
+    const trigger = enforcement.enforcementTriggered;
+    const isSurvivalMode = report.survivalReport?.activeSurvivalMode === 'SURVIVAL_MODE';
+
+    let leadParagraphSan = GlobalFiduciaryDistributionEnforcementEngine.sanitizeNarrative(leadParagraph, trigger);
+    leadParagraphSan = SurvivalConstraintPropagationEngine.sanitizeNarrative(leadParagraphSan, isSurvivalMode);
+
+    let causalFlowSummarySan = GlobalFiduciaryDistributionEnforcementEngine.sanitizeNarrative(causalFlowSummary.trim(), trigger);
+    causalFlowSummarySan = SurvivalConstraintPropagationEngine.sanitizeNarrative(causalFlowSummarySan, isSurvivalMode);
+
+    let riskBriefingSan = tensions.map(t => GlobalFiduciaryDistributionEnforcementEngine.sanitizeNarrative(t, trigger))
+      .map(t => SurvivalConstraintPropagationEngine.sanitizeNarrative(t, isSurvivalMode))
+      .join(', ');
+
     return {
       title,
-      leadParagraph,
-      causalFlowSummary: causalFlowSummary.trim(),
-      thesisNarrative: leadParagraph,
-      executiveSummary: causalFlowSummary.trim(),
-      riskBriefing: tensions.join(', ')
+      leadParagraph: leadParagraphSan,
+      causalFlowSummary: causalFlowSummarySan,
+      thesisNarrative: leadParagraphSan,
+      executiveSummary: causalFlowSummarySan,
+      riskBriefing: riskBriefingSan
     };
   }
 }

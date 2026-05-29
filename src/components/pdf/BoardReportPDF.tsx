@@ -2,11 +2,13 @@ import React, { ForwardedRef, forwardRef } from 'react';
 import { formatCurrency } from '../../lib/utils';
 import { ShieldCheck, Activity, Target, Zap, Layout } from 'lucide-react';
 import { ExecutiveAdvisoryReport } from '../../lib/executive-advisory-engine';
+import { TemporalBoardPackSection } from './TemporalBoardPackSection';
 
 interface BoardReportPDFProps {
   data: ExecutiveAdvisoryReport;
   companyName: string;
   reportDate: string;
+  temporalData?: any;
 }
 
 // A4 proportions: 210 x 297 mm -> ~794 x 1123 px (at 96 DPI)
@@ -35,7 +37,7 @@ export const A4Page = ({ children, isCover = false }: { children: React.ReactNod
   </div>
 );
 
-export const BoardReportPDF = forwardRef(({ data, companyName, reportDate }: BoardReportPDFProps, ref: ForwardedRef<HTMLDivElement>) => {
+export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, temporalData }: BoardReportPDFProps, ref: ForwardedRef<HTMLDivElement>) => {
   return (
     <div ref={ref} className="pdf-container bg-gray-100 p-8 flex flex-col items-center">
       
@@ -210,7 +212,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate }: Boa
              </div>
            )}
 
-           <div className="pt-8 border-t border-gray-200 text-center">
+            <div className="pt-8 border-t border-gray-200 text-center">
              <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full text-gray-400 mb-4">
                 <Target size={20} />
              </div>
@@ -219,6 +221,17 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate }: Boa
            </div>
         </div>
       </A4Page>
+
+      {temporalData && (
+        <A4Page>
+          <div className="mb-8 border-b-2 border-[#0E1C2C] pb-2">
+            <h2 className="text-2xl font-bold text-[#0E1C2C] uppercase tracking-tight">Anexo: Temporal Governance & Causality</h2>
+          </div>
+          <div className="space-y-6">
+            <TemporalBoardPackSection temporalData={temporalData} />
+          </div>
+        </A4Page>
+      )}
 
     </div>
   );

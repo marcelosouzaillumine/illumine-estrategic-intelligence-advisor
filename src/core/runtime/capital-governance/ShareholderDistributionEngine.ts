@@ -1,26 +1,54 @@
 // src/core/runtime/capital-governance/ShareholderDistributionEngine.ts
+//
+// Eixo 2 — Política de Capital (Distribuição)
+// Ref: DLPA_GOVERNANCE_CURATION_PROTOCOL.md
+//
+// REGRA FIDUCIÁRIA:
+// Na ausência de lucro e de distribuição, o payout NÃO é 0%.
+// Deve assumir: "NÃO_APLICÁVEL_SEM_LUCRO"
+//
+// FAIL-CLOSED:
+// "Pressão distributiva baixa" NÃO deve ser emitida quando
+// a ausência de distribuição decorre da ausência de lucro.
+
 import { ShareholderDistributionMetrics } from './capital-governance-types';
 
 export function calculateShareholderDistribution(
   netIncome: number,
   totalDistributed: number
 ): ShareholderDistributionMetrics {
-  
-  let distributionRatio = 0;
-  if (netIncome > 0) {
-    distributionRatio = totalDistributed / netIncome;
+
+  // Evidência distributiva explícita — qualquer valor distribuído
+  const hasDistributiveEvidence = totalDistributed > 0;
+
+  // Sem lucro E sem distribuição → N/A fiduciário
+  // Não inferir "pressão baixa" — a ausência de lucro naturalmente inviabiliza distribuição
+  if (netIncome <= 0 && !hasDistributiveEvidence) {
+    return {
+      totalDistributed,
+      distributionRatio: 0,
+      hasDistributiveEvidence: false,
+      distributionPressure: 'NÃO_APLICÁVEL_SEM_LUCRO'
+    };
   }
 
-  let distributionPressure: 'BAIXA' | 'MODERADA' | 'ALTA' | 'CRÍTICA' | 'NÃO_APLICÁVEL' = 'NÃO_APLICÁVEL';
+  // Sem lucro MAS com distribuição → evidência crítica de extração
+  if (netIncome <= 0 && hasDistributiveEvidence) {
+    return {
+      totalDistributed,
+      distributionRatio: 0, // indefinido matematicamente
+      hasDistributiveEvidence: true,
+      distributionPressure: 'CRÍTICA'
+    };
+  }
 
-  if (totalDistributed <= 0) {
-    distributionPressure = 'BAIXA';
-  } else if (netIncome <= 0 && totalDistributed > 0) {
-    // Distributing capital while having a loss
-    distributionPressure = 'CRÍTICA';
+  const distributionRatio = totalDistributed / netIncome;
+  let distributionPressure: ShareholderDistributionMetrics['distributionPressure'];
+
+  if (!hasDistributiveEvidence) {
+    distributionPressure = 'BAIXA'; // lucro positivo e sem distribuição = conservador
   } else if (distributionRatio > 1) {
-    // Distributing more than the net income
-    distributionPressure = 'CRÍTICA';
+    distributionPressure = 'CRÍTICA'; // distribuindo mais que o lucro
   } else if (distributionRatio > 0.7) {
     distributionPressure = 'ALTA';
   } else if (distributionRatio >= 0.3) {
@@ -32,6 +60,7 @@ export function calculateShareholderDistribution(
   return {
     totalDistributed,
     distributionRatio,
+    hasDistributiveEvidence,
     distributionPressure
   };
 }

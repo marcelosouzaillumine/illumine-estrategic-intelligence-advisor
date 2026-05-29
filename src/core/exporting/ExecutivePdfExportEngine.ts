@@ -2,6 +2,7 @@ import { jsPDF } from 'jspdf';
 import { ExecutiveIntelligenceReport } from '../runtime/executive-intelligence-runtime';
 import { CalibrationEngine } from '../runtime/calibration/CalibrationEngine';
 import { ExportSnapshotMetadata } from './ExportTypes';
+import { RuntimeComplianceEngine } from '../runtime/compliance/RuntimeComplianceEngine';
 
 export interface PdfExportOutput {
   pdf: jsPDF;
@@ -18,6 +19,9 @@ export class ExecutivePdfExportEngine {
     if (!report) {
       throw new Error('[PDF Export] Relatório de entrada inválido.');
     }
+
+    // Constitutional Compliance Validation (export mode - hard blocks Grade F)
+    RuntimeComplianceEngine.validate(report, 'export');
 
     const { context, scores, severity, advisory, compliance, runtimeMetadata } = report;
 

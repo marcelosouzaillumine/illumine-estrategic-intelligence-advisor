@@ -1,5 +1,6 @@
 import { BPSummary } from '../../../lib/bpEngine';
 import { InstitutionalContextProfile } from '../institutional-context/types';
+import { SegmentCode } from '../segment-intelligence/types';
 
 import { InventoryQualityEngine } from './InventoryQualityEngine';
 import { SupplierDependencyEngine } from './SupplierDependencyEngine';
@@ -25,11 +26,12 @@ export class StructuralCapitalOrchestrator {
   static analyze(bpSummary: BPSummary, institutionalContext: InstitutionalContextProfile): StructuralCapitalProfile {
     // 1. Avaliações Individuais (Trilhas)
     const inventoryPenaltyFactor = institutionalContext.scoreCalibrationRules.inventoryPenaltyFactor || 0.5;
+    const segmentCode = (institutionalContext.operationalSegment?.code as SegmentCode) || 'GENERIC_OPERATION';
 
-    const inventory = InventoryQualityEngine.evaluate(bpSummary);
+    const inventory = InventoryQualityEngine.evaluate(bpSummary, segmentCode);
     const supplier = SupplierDependencyEngine.evaluate(bpSummary);
     const shareholder = ShareholderExposureEngine.evaluate(bpSummary);
-    const liquidity = OperationalLiquidityRealityEngine.evaluate(bpSummary, inventoryPenaltyFactor);
+    const liquidity = OperationalLiquidityRealityEngine.evaluate(bpSummary, segmentCode, inventoryPenaltyFactor);
 
     // 2. Consolidação de Sinais
     const signals: StructuralCapitalSignal[] = [

@@ -1,0 +1,17 @@
+// src/components/war-gaming/StrategicResponseComparator.tsx
+
+import React from 'react';
+import { WarGameResult } from '../../core/runtime/war-gaming/war-gaming-types';
+
+export function StrategicResponseComparator({ result }: { result: WarGameResult }) {
+  if (!result) return null;
+
+  return (
+    <div className="bg-white border border-slate-200 p-6 rounded-3xl">
+      <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-6 border-b border-slate-100 pb-2">Comparador de Resposta Estratégica</h3>
+      <div className="flex items-center justify-center h-32 bg-slate-50 rounded-xl border border-slate-100 border-dashed">
+        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Comparador em construção (Módulo Futuro)</span>
+      </div>
+    </div>
+  );
+}

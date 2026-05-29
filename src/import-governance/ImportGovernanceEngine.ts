@@ -54,12 +54,15 @@ export class ImportGovernanceEngine {
    * mas trava a esteira (QUARANTINED). A UI verá uma lista vazia ou não processada, forçando o operador a conferir.
    */
   static getLegacyAdapterData(entries: GovernedFinancialEntry[]): any[] {
-     const hasBlockers = entries.some(e => e.status === 'QUARANTINED' || e.status === 'NEEDS_REVIEW');
+     // Apenas QUARANTINED bloqueia a importação hard no sistema atual.
+     // NEEDS_REVIEW é classificado como soft-warning e será importado.
+     const hasBlockers = entries.some(e => e.status === 'QUARANTINED');
      if (hasBlockers) {
         console.error('[ImportGovernanceEngine] Lote bloqueado pela Governança. Os dados não alimentarão os motores institucionais.');
-        // Retorna array vazio para travar fluxo, ao invés de zeros silenciosos (que corrompem tudo).
-        // Isso obriga a reimportar ou acionar a interface de conciliação no futuro.
-        return [];
+        const reasons = entries.filter(e => e.status === 'QUARANTINED').flatMap(e => e.violations.map(v => `${e.originalCategory}: ${v.message}`));
+        const uniqueReasons = Array.from(new Set(reasons));
+        const summary = uniqueReasons.slice(0, 3).join(' | ');
+        throw new Error(`Importação bloqueada (Governança): ${summary}${uniqueReasons.length > 3 ? '...' : ''}`);
      }
      
      // Removemos os metadados para não quebrar a interface antiga que só espera category e value

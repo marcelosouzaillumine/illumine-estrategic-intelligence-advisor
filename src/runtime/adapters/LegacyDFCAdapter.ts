@@ -13,7 +13,7 @@ export const LegacyDFCAdapter: EngineDefinition = {
       
       // O rawFinancialData deve passar allHistoryData para calcular variação de anos
       const allHistoryData = input.rawFinancialData?.allHistoryData || [];
-      const filterYear = input.rawFinancialData?.filterYear || new Date().getFullYear();
+      const filterYear = Number(input.rawFinancialData?.filterYear || new Date().getFullYear());
 
       if (!allHistoryData || allHistoryData.length === 0) {
         return {
@@ -61,13 +61,13 @@ export const LegacyDFCAdapter: EngineDefinition = {
       };
 
       // Temos dados puramente de DFC oficial nesse ano?
-      const isOfficialDfcAvailable = allHistoryData.some((d: any) => Number(d.year) === filterYear && normalizeString(d.type || '') === 'dfc');
+      const isOfficialDfcAvailable = allHistoryData.some((d: any) => Number(d.year) === filterYear && (normalizeString(d.type || '') === 'dfc' || normalizeString(d.docType || '') === 'dfc'));
 
       // Se não temos DFC Oficial, tentamos inferir por BP/DRE Indireto
       // E verificamos se há DRE/BP no ano atual E no ano anterior
-      const hasDRE = allHistoryData.some((d: any) => Number(d.year) === filterYear && normalizeString(d.type || '') === 'dre');
-      const hasBP_current = allHistoryData.some((d: any) => Number(d.year) === filterYear && ['balanço patrimonial', 'bp', 'balanco patrimonial'].includes(normalizeString(d.type || '')));
-      const hasBP_previous = allHistoryData.some((d: any) => Number(d.year) === filterYear - 1 && ['balanço patrimonial', 'bp', 'balanco patrimonial'].includes(normalizeString(d.type || '')));
+      const hasDRE = allHistoryData.some((d: any) => Number(d.year) === filterYear && (normalizeString(d.type || '') === 'dre' || normalizeString(d.docType || '') === 'dre'));
+      const hasBP_current = allHistoryData.some((d: any) => Number(d.year) === filterYear && ['balanço patrimonial', 'bp', 'balanco patrimonial'].includes(normalizeString(d.type || d.docType || '')));
+      const hasBP_previous = allHistoryData.some((d: any) => Number(d.year) === filterYear - 1 && ['balanço patrimonial', 'bp', 'balanco patrimonial'].includes(normalizeString(d.type || d.docType || '')));
 
       let confidence: 'LOW' | 'MEDIUM' | 'HIGH' = 'HIGH';
       let violations: any[] = [];
@@ -135,16 +135,44 @@ export const LegacyDFCAdapter: EngineDefinition = {
 
       let fcf = varDividas + varCapital - dividendos;
 
+      // Helper to match DFC lines
+      const getDfcValue = (entries: any[], keywords: string[]) => {
+         const matches = entries.filter((s:any) => {
+             const name = normalizeString(s?.conta || s?.category || '');
+             return keywords.some(k => name.includes(k));
+         });
+         
+         if (matches.length === 0) return 0;
+         
+         // Se houver apenas 1 correspondência, assumimos que é a linha de total ou item único
+         if (matches.length === 1) {
+             return matches[0]?.val || matches[0]?.valor || matches[0]?.value || 0;
+         }
+         
+         // Se houver múltiplas correspondências, procuramos uma que pareça ser o subtotal explícito
+         const totalMatch = matches.find((s:any) => {
+             const name = normalizeString(s?.conta || s?.category || '');
+             return name.includes('total') || name.includes('liquido') || name.includes('fluxo de caixa das') || name === 'fco' || name === 'fci' || name === 'fcf';
+         });
+         
+         if (totalMatch) {
+             return totalMatch?.val || totalMatch?.valor || totalMatch?.value || 0;
+         }
+         
+         // Caso contrário, somamos os valores encontrados (útil para listas analíticas importadas de sistemas como Granatum)
+         return matches.reduce((acc, curr) => acc + (curr?.val || curr?.valor || curr?.value || 0), 0);
+      };
+
       // Se tiver DFC oficial, sobrescrevemos o total por lá. Como a DFCPage antes só pegava o valor indireto caso dbData vazio:
       // O código legado usava dbData (DFC real).
       if (isOfficialDfcAvailable) {
         const yearDfcEntries = allHistoryData.filter((d: any) => Number(d.year) === filterYear && normalizeString(d.type || '') === 'dfc');
-        const getValue = (name: string) => yearDfcEntries.find((s:any) => (s.conta || s.category || '').toLowerCase().includes(name.toLowerCase()))?.val || 0;
         
-        // As linhas de subtotal podem existir
-        const realFCO = getValue('Atividades Operacionais');
-        const realFCI = getValue('Atividades de Investimento');
-        const realFCF = getValue('Atividades de Financiamento');
+        // As linhas de subtotal podem existir ou ser linhas analíticas (ex: "Prejuízo líquido", "Capital social")
+        const realFCO = getDfcValue(yearDfcEntries, ['operacional', 'operacionais', 'fco', 'prejuizo', 'lucro', 'resultado', 'receita', 'despesa', 'fornecedor', 'estoque', 'imposto', 'salario']);
+        const realFCI = getDfcValue(yearDfcEntries, ['investimento', 'investimentos', 'fci', 'imobilizado', 'intangivel', 'aquisicao', 'venda', 'equipamento']);
+        const realFCF = getDfcValue(yearDfcEntries, ['financiamento', 'financiamentos', 'fcf', 'capital', 'emprestimo', 'dividendo', 'distribuicao', 'socio', 'banco']);
+        
         if (realFCO !== 0 || realFCI !== 0 || realFCF !== 0) {
             fco = realFCO;
             fci = realFCI;
@@ -157,14 +185,13 @@ export const LegacyDFCAdapter: EngineDefinition = {
       // Gráfico histórico de 5 anos
       const chartData = [5, 4, 3, 2, 1, 0].map(offset => {
         const y = filterYear - offset;
-        const yearEntries = allHistoryData.filter((d: any) => d.year === y && d.type === 'DFC');
+        const yearEntries = allHistoryData.filter((d: any) => Number(d.year) === y && (normalizeString(d.type || '') === 'dfc' || normalizeString(d.docType || '') === 'dfc'));
         let o = 0; let i = 0; let f = 0;
         if (yearEntries.length > 0) {
-          o = yearEntries.filter((d:any) => (d.conta || d.category || '').toLowerCase().includes('operacionais')).reduce((acc:any, d:any) => acc + (d.val || d.valor || d.value || 0), 0);
-          i = yearEntries.filter((d:any) => (d.conta || d.category || '').toLowerCase().includes('investimento')).reduce((acc:any, d:any) => acc + (d.val || d.valor || d.value || 0), 0);
-          f = yearEntries.filter((d:any) => (d.conta || d.category || '').toLowerCase().includes('financiamento')).reduce((acc:any, d:any) => acc + (d.val || d.valor || d.value || 0), 0);
+          o = getDfcValue(yearEntries, ['operacional', 'operacionais', 'fco', 'prejuizo', 'lucro', 'resultado', 'receita', 'despesa', 'fornecedor', 'estoque', 'imposto', 'salario']);
+          i = getDfcValue(yearEntries, ['investimento', 'investimentos', 'fci', 'imobilizado', 'intangivel', 'aquisicao', 'venda', 'equipamento']);
+          f = getDfcValue(yearEntries, ['financiamento', 'financiamentos', 'fcf', 'capital', 'emprestimo', 'dividendo', 'distribuicao', 'socio', 'banco']);
         }
-        // Se quisermos poderíamos calcular método indireto para o passado, mas o legado só fazia se existisse DFC para o gráfico!
         return {
           year: y.toString(),
           operacional: o,
@@ -176,7 +203,7 @@ export const LegacyDFCAdapter: EngineDefinition = {
       // Linhas detalhadas para a tabela (se não tiver DFC oficial, usa as indiretas)
       let tableRows: any[] = [];
       if (isOfficialDfcAvailable) {
-          tableRows = allHistoryData.filter((d: any) => Number(d.year) === filterYear && normalizeString(d.type || '') === 'dfc');
+          tableRows = allHistoryData.filter((d: any) => Number(d.year) === filterYear && (normalizeString(d.type || '') === 'dfc' || normalizeString(d.docType || '') === 'dfc'));
       } else {
           tableRows = [
             { item: 'Fluxo de Caixa das Atividades Operacionais (FCO)', val: fco, isTotal: true },

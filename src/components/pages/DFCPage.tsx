@@ -52,7 +52,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
     useAnnualFinancialData(selectedClient, filterYear, 'DFC');
 
   // ── Busca histórico (todos os dados do cliente) ──────────────────────────────
-  const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient);
+  const { dbData: allHistoryData, loading: loadingHistory, refetch: refetchHistory } = useAllFinancialData(selectedClient);
 
   const loading = loadingDFC;
   const dbData = dbDataDFC;
@@ -341,6 +341,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
           onSuccess={() => {
             setShowImportModal(false);
             refetchDFC();
+            refetchHistory();
             showToast('success', 'Dados importados com sucesso!');
           }}
         />
@@ -355,6 +356,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
           onSuccess={() => {
             setShowManualModal(false);
             refetchDFC();
+            refetchHistory();
             showToast('success', 'Dados salvos com sucesso!');
           }}
         />

@@ -8,6 +8,7 @@ import {
   TrendingDown, Globe, Cpu, Server, Lock, Search, Eye, LayoutDashboard,
   Compass, ChevronRight
 } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 // Quiet, Editorial Causal Topology Watermark (Static & Extremely Understated)
 const CausalTopologyVisual = () => {
@@ -83,6 +84,7 @@ const CausalTopologyVisual = () => {
 };
 
 export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
+  const { t } = useLanguage();
   const [showSticky, setShowSticky] = useState(false);
   const navigate = useNavigate();
 
@@ -143,37 +145,37 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               onClick={() => scrollToSection('problema')} 
               className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
             >
-              O Risco
+              {t('landing.nav.the_risk')}
             </button>
             <button 
               onClick={() => scrollToSection('deterioracao')} 
               className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
             >
-              Deterioração
+              {t('landing.nav.deterioration')}
             </button>
             <button 
               onClick={() => scrollToSection('decisoes')} 
               className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
             >
-              Decisões
+              {t('landing.nav.decisions')}
             </button>
             <button 
               onClick={() => scrollToSection('metodologia')} 
               className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
             >
-              Inteligência
+              {t('landing.nav.intelligence')}
             </button>
             <button 
               onClick={() => scrollToSection('plataforma')} 
               className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
             >
-              Arquitetura
+              {t('landing.nav.architecture')}
             </button>
             <button 
               onClick={() => navigate('/parceiros')} 
               className="text-[11px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors cursor-pointer"
             >
-              Parceiros
+              {t('landing.nav.partners')}
             </button>
           </div>
 
@@ -183,13 +185,13 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               onClick={onLoginClick} 
               className="hidden sm:block text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-secondary transition-colors cursor-pointer"
             >
-              Área Restrita
+              {t('landing.nav.restricted_area')}
             </button>
             <button 
               onClick={() => handleCTAClick('Gostaria de agendar uma conversa com os especialistas da Illumine.')}
               className="h-10 px-5 rounded-md border border-white/20 hover:border-white text-white font-bold text-[9px] uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-2 cursor-pointer"
             >
-              <span>Conversar com Especialistas</span>
+              <span>{t('landing.button.talk_specialists')}</span>
             </button>
           </div>
 
@@ -208,19 +210,19 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
           >
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 text-[9px] font-bold uppercase tracking-widest mb-2 backdrop-blur-md">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-              INFRAESTRUTURA DE GOVERNANÇA EXECUTIVA
+              {t('landing.hero.badge')}
             </span>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium tracking-tight text-white leading-[1.15] pt-2">
-              Clareza executiva para organizações que já não podem depender apenas de relatórios operacionais.
+              {t('landing.hero.title')}
             </h1>
             
             <div className="space-y-4 max-w-3xl mx-auto">
               <p className="text-lg md:text-xl text-secondary font-medium tracking-tight font-sans leading-relaxed">
-                Muitas empresas crescem em faturamento enquanto perdem capacidade de sustentação.
+                {t('landing.hero.subtitle1')}
               </p>
               <p className="text-base md:text-lg text-white/60 font-sans leading-relaxed">
-                Suporte estratégico contínuo para fundadores, conselhos e diretoria em ciclos críticos de crescimento.
+                {t('landing.hero.subtitle2')}
               </p>
             </div>
           </motion.div>
@@ -235,7 +237,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               onClick={() => handleCTAClick('Gostaria de iniciar o Diagnóstico Executivo da minha organização.')}
               className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-xl cursor-pointer"
             >
-              <span>Diagnóstico Executivo</span>
+              <span>{t('landing.button.executive_diagnostic')}</span>
               <ArrowRight size={14} />
             </button>
           </motion.div>
@@ -247,11 +249,11 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
       <section id="problema" className="py-24 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
         <div className="max-w-4xl mx-auto text-center space-y-10">
           <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-            O que normalmente destrói empresas não aparece primeiro no caixa.
+            {t('landing.problem.title')}
           </h2>
           <div className="w-px h-16 bg-secondary/50 mx-auto" />
           <p className="text-lg md:text-xl text-white/70 leading-relaxed font-sans max-w-3xl mx-auto">
-            O verdadeiro risco surge quando a complexidade da empresa ultrapassa sua capacidade de leitura executiva. A deterioração começa silenciosamente na perda de coerência decisória e na desconexão entre operação e estratégia.
+            {t('landing.problem.description')}
           </p>
         </div>
       </section>
@@ -262,15 +264,15 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-6">
               <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-                Decisões críticas não falham por ausência de dados. Falham por ausência de leitura integrada.
+                {t('landing.decisions.title')}
               </h2>
             </div>
             <div className="space-y-6 text-white/70 text-lg leading-relaxed font-sans">
               <p>
-                Sistemas tradicionais registram transações ou exibem indicadores isolados. Eles não sustentam a direção executiva nem evitam o desalinhamento entre sócios e conselho.
+                {t('landing.decisions.desc1')}
               </p>
               <p className="text-white/90 font-medium border-l border-secondary/30 pl-4 mt-4">
-                Por isso, a Illumine atua como uma estrutura de apoio permanente — participando ativamente da realidade executiva para sustentar decisões críticas e manter a coerência durante a expansão.
+                {t('landing.decisions.desc2')}
               </p>
             </div>
           </div>
@@ -282,26 +284,26 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
         <div className="max-w-5xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-6">
             <span className="text-[9px] font-bold uppercase tracking-widest text-secondary">
-              ACOMPANHAMENTO EXECUTIVO CONTINUADO
+              {t('landing.platform.badge')}
             </span>
             <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-              A infraestrutura de estabilidade da sua empresa.
+              {t('landing.platform.title')}
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto font-sans leading-relaxed">
-              Uma estrutura permanente de interpretação organizacional que atua ao lado da liderança, revelando riscos invisíveis antes que comprometam:
+              {t('landing.platform.description')}
             </p>
           </div>
 
           <ul className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 text-sm text-secondary/90 font-medium uppercase tracking-widest max-w-3xl mx-auto">
-            <li>Caixa</li>
+            <li>{t('landing.platform.list.cash')}</li>
             <li className="text-white/20 text-xs">•</li>
-            <li>Liquidez</li>
+            <li>{t('landing.platform.list.liquidity')}</li>
             <li className="text-white/20 text-xs">•</li>
-            <li>Margem</li>
+            <li>{t('landing.platform.list.margin')}</li>
             <li className="text-white/20 text-xs">•</li>
-            <li>Expansão</li>
+            <li>{t('landing.platform.list.expansion')}</li>
             <li className="text-white/20 text-xs">•</li>
-            <li>Continuidade</li>
+            <li>{t('landing.platform.list.continuity')}</li>
           </ul>
 
         </div>
@@ -311,15 +313,15 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
       <section id="segmentos" className="py-20 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
         <div className="max-w-4xl mx-auto text-center space-y-12">
           <h2 className="text-2xl md:text-4xl font-display font-medium tracking-tight text-white">
-            Desenvolvido para organizações complexas:
+            {t('landing.segments.title')}
           </h2>
           <div className="grid sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
             {[
-              'Grupos Empresariais & Holdings',
-              'Empresas Familiares',
-              'Hospitais & Redes de Saúde',
-              'Indústrias & Operações Complexas',
-              'Empresas sob Reestruturação'
+              t('landing.segments.list.holdings'),
+              t('landing.segments.list.family'),
+              t('landing.segments.list.healthcare'),
+              t('landing.segments.list.industrial'),
+              t('landing.segments.list.restructuring')
             ].map((segment, i) => (
               <div key={i} className="p-6 bg-[#060D17] border border-white/5 rounded-xl flex items-center justify-between group">
                 <span className="text-sm font-medium text-white/80">{segment}</span>
@@ -336,7 +338,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
         
         <div className="max-w-4xl mx-auto text-center space-y-12 relative z-10">
           <h2 className="text-4xl md:text-5xl font-display font-medium tracking-tight text-white leading-[1.1]">
-            Sua empresa está crescendo com clareza suficiente para sustentar o próximo ciclo?
+            {t('landing.closing.title')}
           </h2>
 
           <div className="pt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-3xl mx-auto">
@@ -344,13 +346,13 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               onClick={() => handleCTAClick('Gostaria de agendar uma Avaliação Institucional para minha organização.')}
               className="w-full sm:w-auto h-16 px-8 rounded-md bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 cursor-pointer shadow-lg"
             >
-              <span>Avaliação Institucional</span>
+              <span>{t('landing.button.institutional_evaluation')}</span>
             </button>
             <button
               onClick={() => handleCTAClick('Gostaria de conversar com os especialistas de Governança da Illumine.')}
               className="w-full sm:w-auto h-16 px-8 rounded-md bg-transparent border border-white/20 text-white/85 font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:text-white transition-all flex items-center justify-center gap-3 cursor-pointer"
             >
-              <span>Falar com Especialistas</span>
+              <span>{t('landing.button.talk_specialists')}</span>
             </button>
           </div>
         </div>
@@ -370,7 +372,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               className="flex items-center gap-3 px-6 h-14 bg-white text-black font-bold text-[10px] uppercase tracking-widest rounded-full shadow-2xl hover:bg-white/90 transition-all cursor-pointer"
             >
               <Briefcase size={14} />
-              <span>Avaliação Institucional</span>
+              <span>{t('landing.button.institutional_evaluation')}</span>
             </button>
           </motion.div>
         )}
@@ -382,12 +384,12 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
           <div className="flex items-center gap-2">
             <span className="font-display font-medium text-white/80 text-sm tracking-tight" style={{ fontFamily: '"Tilt Warp", sans-serif' }}>illumine</span>
             <span className="text-[8px] text-white/30">|</span>
-            <span>© 2026 Illumine. Todos os direitos reservados.</span>
+            <span>{t('landing.footer.copyright')}</span>
           </div>
           <div className="flex gap-6">
-            <button onClick={() => scrollToSection('hero')} className="hover:text-white transition-colors">Voltar ao topo</button>
-            <button onClick={() => navigate('/parceiros')} className="hover:text-white transition-colors">Portal de Parceiros</button>
-            <button onClick={onLoginClick} className="hover:text-white transition-colors">Acesso Restrito</button>
+            <button onClick={() => scrollToSection('hero')} className="hover:text-white transition-colors">{t('landing.footer.back_to_top')}</button>
+            <button onClick={() => navigate('/parceiros')} className="hover:text-white transition-colors">{t('landing.footer.partners_portal')}</button>
+            <button onClick={onLoginClick} className="hover:text-white transition-colors">{t('landing.footer.restricted_access')}</button>
           </div>
         </div>
       </footer>

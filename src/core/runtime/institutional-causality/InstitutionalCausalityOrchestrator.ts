@@ -9,6 +9,8 @@ import { CausalSequenceEngine } from './CausalSequenceEngine';
 import { StructuralPropagationEngine } from './StructuralPropagationEngine';
 import { LongitudinalRiskEngine } from './LongitudinalRiskEngine';
 import { CausalConfidenceEngine } from './CausalConfidenceEngine';
+import { ActionEvidenceResolver } from '../integrity/ActionEvidenceResolver';
+import { ExecutiveEmptyStateResolver } from '../integrity/ExecutiveEmptyStateResolver';
 import { GovernanceImpactChainEngine } from './GovernanceImpactChainEngine';
 import { ExecutiveCausalNarrativeComposer } from './ExecutiveCausalNarrativeComposer';
 import { InstitutionalGraphBuilder } from './InstitutionalGraphBuilder';
@@ -31,7 +33,7 @@ export class InstitutionalCausalityOrchestrator {
           globalConfidence: LOW_CONFIDENCE
         },
         impactChains: [],
-        narrative: 'Histórico insuficiente para inferência causal longitudinal.',
+        narrative: ExecutiveEmptyStateResolver.INSUFFICIENT_HISTORY,
         lineageHash: 'EMPTY-HASH',
         propagationIntegrityHash: 'EMPTY-HASH',
         evidenceChainHash: 'EMPTY-HASH',

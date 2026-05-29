@@ -1,3 +1,9 @@
+import { ActionEvidenceResolver } from './ActionEvidenceResolver';
+import { InstitutionalNarrativeToneGuard } from '../../enforcement/InstitutionalNarrativeToneGuard';
+import { SegmentCode } from '../segment-intelligence/types';
+import { SegmentNarrativeAdapter } from '../segment-intelligence/SegmentNarrativeAdapter';
+import { GlobalFiduciaryDistributionEnforcementEngine } from '../governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
+
 export interface ExecutiveActionItem {
   title: string;
   category: string;
@@ -16,7 +22,10 @@ export class ExecutiveActionMatrixEngine {
     metrics: any,
     bpSummary: any,
     causality: any,
-    severityLevel: string
+    severityLevel: string,
+    segmentCode: SegmentCode = 'GENERIC_OPERATION',
+    fiduciaryOutput?: any,
+    survivalReport?: any
   ): ExecutiveActionItem[] {
     if (!metrics || metrics.hasData === false) {
       return [];
@@ -26,12 +35,112 @@ export class ExecutiveActionMatrixEngine {
       return [];
     }
 
+    const enforcement = GlobalFiduciaryDistributionEnforcementEngine.evaluate(fiduciaryOutput);
+    const isSurvivalMode = survivalReport && survivalReport.activeSurvivalMode === 'SURVIVAL_MODE';
+
     const bp = bpSummary || {};
     const items: ExecutiveActionItem[] = [];
+    const processedActions: string[] = [];
 
-    for (let i = 0; i < actions.length; i++) {
-      const action = actions[i];
-      const item = this.mapAction(action, i, metrics, bp, causality, severityLevel);
+    let blockedDistributionFound = false;
+    let blockedCapexFound = false;
+
+    // Under survival mode, we prioritize these actions at the top of the matrix
+    if (isSurvivalMode) {
+      processedActions.push(
+        '[ ] CASH_PRESERVATION: Preservação de caixa e foco absoluto em liquidez imediata.',
+        '[ ] COST_CONTAINMENT: Contenção de despesas operacionais discricionárias.',
+        '[ ] TREASURY_STABILIZATION: Medidas emergenciais para estabilização de tesouraria.',
+        '[ ] OPERATIONAL_RECOVERY: Foco em recuperação operacional e saneamento de margens.',
+        '[ ] LIABILITY_PROTECTION: Proteção e renegociação fiduciária de passivos críticos.'
+      );
+    }
+
+    for (const action of actions) {
+      const lower = action.toLowerCase();
+
+      // Check survival mode blocks (Constraint 4 and rules)
+      if (isSurvivalMode) {
+        const isBlockedSurvivalAction =
+          lower.includes('expans') ||
+          lower.includes('crescimento') ||
+          lower.includes('hiring') ||
+          lower.includes('contrat') ||
+          lower.includes('divid') ||
+          lower.includes('distrib') ||
+          lower.includes('payout') ||
+          lower.includes('retirada') ||
+          lower.includes('extração') ||
+          lower.includes('socio') ||
+          lower.includes('capex') ||
+          lower.includes('alavancagem') ||
+          lower.includes('investimento');
+
+        if (isBlockedSurvivalAction) {
+          continue; // Expunge under survival mode
+        }
+      }
+
+      // Check standard distribution block
+      if (enforcement.enforcementTriggered) {
+        const isDistributionAction =
+          lower.includes('distrib') ||
+          lower.includes('dividendo') ||
+          lower.includes('payout') ||
+          lower.includes('retirada') ||
+          lower.includes('extração') ||
+          lower.includes('pró-labore') ||
+          lower.includes('socio');
+        
+        if (isDistributionAction) {
+          blockedDistributionFound = true;
+          continue; // Expunge
+        }
+      }
+
+      // Check standard Capex block under stress
+      if (enforcement.capexEnforcementTriggered) {
+        const isCapexAction =
+          lower.includes('capex') ||
+          lower.includes('expansão') ||
+          lower.includes('alavancagem') ||
+          lower.includes('investimento em expansão');
+
+        if (isCapexAction) {
+          blockedCapexFound = true;
+          continue; // Expunge
+        }
+      }
+
+      processedActions.push(action);
+    }
+
+    // Append replacements if blocked (only if not in survival mode to avoid duplicate recovery actions)
+    if (!isSurvivalMode) {
+      if (blockedDistributionFound) {
+        processedActions.push(
+          '[ ] Preservação de caixa: suspensão de dividendos e retiradas extraordinárias.',
+          '[ ] Reforço de capital: retenção integral dos lucros para recomposição do PL.',
+          '[ ] Estabilização da tesouraria e blindagem do capital de giro.',
+          '[ ] Foco em recuperação operacional para atingimento do break-even.',
+          '[ ] Reestruturação patrimonial e recomposição das reservas exauridas.'
+        );
+      }
+
+      if (blockedCapexFound) {
+        processedActions.push(
+          '[ ] Capex Freeze: suspensão preventiva de novos investimentos não fundados.',
+          '[ ] Capex Rephasing: reprogramação do cronograma de desembolso de investimentos.',
+          '[ ] Captação de funding externo dedicado antes de qualquer expansão.',
+          '[ ] Proteção de tesouraria: preservação de caixa livre mínimo.',
+          '[ ] Prioridade absoluta para recuperação da rentabilidade operacional antes de capex.'
+        );
+      }
+    }
+
+    for (let i = 0; i < processedActions.length; i++) {
+      const action = processedActions[i];
+      const item = this.mapAction(action, i, metrics, bp, causality, severityLevel, segmentCode);
       
       // Mandatory Adjustment 3: Omit action if it has no valid fiduciaryEvidence
       if (item && item.fiduciaryEvidence && item.fiduciaryEvidence.trim().length > 0) {
@@ -48,9 +157,11 @@ export class ExecutiveActionMatrixEngine {
     metrics: any,
     bp: any,
     causality: any,
-    severityLevel: string
+    severityLevel: string,
+    segmentCode: SegmentCode
   ): ExecutiveActionItem | null {
-    const lower = action.toLowerCase();
+    const harmonizedAction = SegmentNarrativeAdapter.harmonizeText(action, segmentCode);
+    const lower = harmonizedAction.toLowerCase();
     
     // Default metadata inference (matching ExecutivePerspectiveSection logic)
     let category = 'Governança Corporativa';
@@ -88,126 +199,32 @@ export class ExecutiveActionMatrixEngine {
       timeline = 'Médio Prazo';
     }
 
-    // Fiduciary Evidence Mapping based on real metrics and account values
-    if (lower.includes('despesas administrativas') || lower.includes('admin')) {
-      const idxAdmin = metrics?.indiceDespesasAdministrativas;
-      if (idxAdmin !== undefined && idxAdmin !== null && idxAdmin > 0) {
-        fiduciaryEvidence = `Despesa administrativa representa ${idxAdmin.toFixed(2)}% da receita líquida`;
-        expectedImpact = 'Melhoria da absorção operacional and elevação do EBITDA';
-        executionRisk = 'Persistência de EBITDA negativo e desajuste no SG&A';
-        monitoringKPI = 'Despesas Administrativas / Receita Líquida';
-      }
-    } else if (lower.includes('transações com partes relacionadas') || lower.includes('sócios')) {
-      const pl = bp.patrimonioLiquido || 0;
-      // We check if we have shareholder current accounts in the bpSummary
-      const transacoes = bp.outrasContasCirculante || bp.contasSocios || 0;
-      if (transacoes > 0) {
-        fiduciaryEvidence = `Transações com sócios/partes relacionadas no montante de R$ ${transacoes.toLocaleString('pt-BR')}`;
-      } else if (pl !== 0) {
-        fiduciaryEvidence = `Estrutura de capital com patrimônio líquido de R$ ${pl.toLocaleString('pt-BR')} exige governança com partes relacionadas`;
-      }
-      expectedImpact = 'Redução de passivos flutuantes e blindagem fiduciária';
-      executionRisk = 'Questionamentos de compliance e drenagem de caixa operacional';
-      monitoringKPI = 'Partes Relacionadas / Ativo Total';
-    } else if (lower.includes('tesouraria') || lower.includes('liquidez') || lower.includes('caixa')) {
-      const cx = bp.caixaEquivalentes || 0;
-      const pc = bp.passivoCirculante || 0;
-      if (cx > 0 && pc > 0) {
-        fiduciaryEvidence = `Saldo de tesouraria de R$ ${cx.toLocaleString('pt-BR')} contra passivo circulante exigível de R$ ${pc.toLocaleString('pt-BR')}`;
-        expectedImpact = 'Melhoria na solvência imediata e redução do risco de default';
-        executionRisk = 'Pressão contínua sobre a folha e ruptura de tesouraria';
-        monitoringKPI = 'Caixa Equivalentes / Passivo Circulante';
-      } else if (metrics?.saldoTesouraria !== undefined && metrics?.saldoTesouraria !== null) {
-        fiduciaryEvidence = `Saldo de tesouraria líquido de R$ ${metrics.saldoTesouraria.toLocaleString('pt-BR')}`;
-        expectedImpact = 'Regularização do caixa tático';
-        executionRisk = 'Ruptura de tesouraria e inadimplência de curto prazo';
-        monitoringKPI = 'Saldo de Tesouraria';
-      }
-    } else if (lower.includes('estoque') || lower.includes('conversão')) {
-      const est = bp.estoques || 0;
-      const ac = bp.ativoCirculante || 0;
-      if (est > 0 && ac > 0) {
-        fiduciaryEvidence = `Estoques imobilizados representam R$ ${est.toLocaleString('pt-BR')} (${((est / ac) * 100).toFixed(1)}% do ativo circulante)`;
-        expectedImpact = 'Monetização de estoques parados e liberação de capital de giro';
-        executionRisk = 'Morosidade na venda e perdas por obsolescência';
-        monitoringKPI = 'Giro de Estoques (Dias)';
-      }
-    } else if (lower.includes('fornecedores') || lower.includes('financiamento operacional')) {
-      const forn = bp.fornecedores || 0;
-      if (forn > 0) {
-        fiduciaryEvidence = `Obrigações com fornecedores totalizam R$ ${forn.toLocaleString('pt-BR')}`;
-        expectedImpact = 'Alongamento de prazos médios de pagamento';
-        executionRisk = 'Perda de crédito comercial ou interrupção de suprimentos';
-        monitoringKPI = 'Prazo Médio de Fornecedores (PMF)';
-      }
-    } else if (lower.includes('capex') || lower.includes('investimento')) {
-      const liqCorr = metrics?.liqCorrente;
-      if (liqCorr !== undefined && liqCorr !== null) {
-        fiduciaryEvidence = `Índice de liquidez corrente em ${liqCorr.toFixed(2)}x demana cautela na alocação de Capex`;
-        expectedImpact = 'Preservação de caixa livre imediato';
-        executionRisk = 'Sucateamento de ativos produtivos ou atraso tecnológico';
-        monitoringKPI = 'Capex / Receita Líquida';
+    // Fiduciary Evidence Mapping based on ActionEvidenceResolver
+    const resolvedEvidence = ActionEvidenceResolver.resolve(action, metrics);
+    if (resolvedEvidence) {
+      fiduciaryEvidence = resolvedEvidence.evidence;
+      monitoringKPI = resolvedEvidence.kpi;
+      expectedImpact = resolvedEvidence.expectedImpact;
+      executionRisk = resolvedEvidence.executionRisk;
+    } else {
+      // General fallbacks se o resolver não capturar (mas evitar PL e Ativos Totais na Economia Unitária)
+      if (lower.includes('economia unitária') || lower.includes('unit economics')) {
+         fiduciaryEvidence = `A estrutura operacional corrente não disponibiliza evidências maduras de tração unitária.`;
+         monitoringKPI = 'Ticket Médio e DRE Operacional';
       } else {
-        const pl = bp.patrimonioLiquido || 0;
-        if (pl > 0) {
-          fiduciaryEvidence = `Estrutura de capital com patrimônio líquido de R$ ${pl.toLocaleString('pt-BR')} exige cautela em Capex`;
-          expectedImpact = 'Preservação de liquidez estrutural';
-          executionRisk = 'Atraso na expansão programada';
-          monitoringKPI = 'Capex / Ativo Total';
-        }
+         fiduciaryEvidence = `O diagnóstico estrutural requer alinhamento das práticas de gestão nesta frente.`;
       }
-    } else if (lower.includes('margem') || lower.includes('ebitda') || lower.includes('rentabilidade')) {
-      const ebitMargin = metrics?.ebitdaVal;
-      if (ebitMargin !== undefined && ebitMargin !== null) {
-        fiduciaryEvidence = `Margem EBITDA atual em ${ebitMargin.toFixed(1)}% exige plano de rentabilização`;
-        expectedImpact = 'Otimização de custos diretos e indiretos';
-        executionRisk = 'Redução de qualidade do produto ou atrito com clientes';
-        monitoringKPI = 'Margem EBITDA (%)';
-      }
-    } else if (lower.includes('receita') || lower.includes('expansão comercial')) {
-      const rec = metrics?.recLiquida;
-      if (rec !== undefined && rec !== null && rec > 0) {
-        fiduciaryEvidence = `Receita líquida atual de R$ ${rec.toLocaleString('pt-BR')} limita capacidade de reinvestimento comercial`;
-        expectedImpact = 'Aumento de ticket médio e otimização do CAC';
-        executionRisk = 'Perda de market share frente a competidores agressivos';
-        monitoringKPI = 'Crescimento de Receita Líquida (%)';
-      }
-    } else if (lower.includes('capital de giro') || lower.includes('ciclo operacional')) {
-      const ncg = metrics?.ncg;
-      if (ncg !== undefined && ncg !== null) {
-        fiduciaryEvidence = `Necessidade de Capital de Giro (NCG) calculada em R$ ${ncg.toLocaleString('pt-BR')}`;
-        expectedImpact = 'Sincronização dos prazos médios operacionais';
-        executionRisk = 'Aumento das captações financeiras de curto prazo';
-        monitoringKPI = 'Ciclo Financeiro (Dias)';
-      }
-    } else if (lower.includes('solvência') || lower.includes('endividamento') || lower.includes('partes relacionadas')) {
-      const pl = bp.patrimonioLiquido || 0;
-      if (pl > 0) {
-        fiduciaryEvidence = `Patrimônio líquido de R$ ${pl.toLocaleString('pt-BR')} suporta estrutura de capital atual`;
-        expectedImpact = 'Melhoria do endividamento sobre recursos próprios';
-        executionRisk = 'Degradação da solvência corporativa e aumento do custo de dívida';
-        monitoringKPI = 'PL / Passivo Total';
-      }
-    }
-
-    // Default general evidence if nothing specific matched but data exists
-    if (!fiduciaryEvidence && bp.ativoTotal > 0) {
-      const pl = bp.patrimonioLiquido || 0;
-      fiduciaryEvidence = `Balanço estruturado com Patrimônio Líquido de R$ ${pl.toLocaleString('pt-BR')}`;
-      expectedImpact = 'Preservação da autonomia financeira e governança do Board';
-      executionRisk = 'Deterioração das garantias estruturais de capital';
-      monitoringKPI = 'Autonomia Financeira (PL / Ativo)';
     }
 
     return {
-      title: action,
-      category,
+      title: InstitutionalNarrativeToneGuard.enforce(harmonizedAction),
+      category: InstitutionalNarrativeToneGuard.enforce(category),
       priority,
       timeline,
-      expectedImpact,
-      executionRisk,
-      monitoringKPI,
-      fiduciaryEvidence,
+      expectedImpact: InstitutionalNarrativeToneGuard.enforce(expectedImpact),
+      executionRisk: InstitutionalNarrativeToneGuard.enforce(executionRisk),
+      monitoringKPI: InstitutionalNarrativeToneGuard.enforce(monitoringKPI),
+      fiduciaryEvidence: InstitutionalNarrativeToneGuard.enforce(fiduciaryEvidence),
       severity: severityLevel
     };
   }

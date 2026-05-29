@@ -5,13 +5,16 @@ import { ConfidencePropagator } from './ConfidencePropagator';
 import { RuntimeEnforcer } from './RuntimeEnforcer';
 
 export class InferencePipeline {
-  static async execute(context: InstitutionalContext): Promise<void> {
+  static async execute(context: InstitutionalContext, engineType?: string): Promise<void> {
     context.executionStatus = 'RUNNING';
 
     // Base evaluation of input confidence
     ConfidencePropagator.evaluateInputConfidence(context);
 
-    const engines = EngineRegistry.getAllEnginesOrdered();
+    let engines = EngineRegistry.getAllEnginesOrdered();
+    if (engineType) {
+        engines = engines.filter(e => e.name === engineType);
+    }
 
     for (const engine of engines) {
       // Check if execution is blocked system-wide

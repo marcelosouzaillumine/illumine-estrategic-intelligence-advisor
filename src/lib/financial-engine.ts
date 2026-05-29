@@ -95,7 +95,7 @@ export function calculateFinancialMetrics(
   
   const capitalGiroMatematico = cgl;
   const capitalGiroOperacional = (cgl === null || ncg === null || ncg === 0) ? null : cgl / ncg;
-  const margemErroOperacional = (saldoTesouraria === null || isMissing(pc) || pc === 0) ? null : saldoTesouraria / pc;
+  const margemErroOperacional = (saldoTesouraria === null || isMissing(pc)) ? null : (pc === 0 ? (saldoTesouraria >= 0 ? 999 : -999) : saldoTesouraria / pc);
 
   // -- Qualidade e Dependência --
   const qualidadeEndividamento = (isMissing(pc) || isMissing(passivoTotal) || passivoTotal === 0) ? null : pc / passivoTotal;
@@ -104,7 +104,7 @@ export function calculateFinancialMetrics(
   // -- Estrutura Patrimonial --
   const indiceCapitalizacao = (isMissing(plValue) || isMissing(ativoTotal) || ativoTotal === 0) ? null : plValue / ativoTotal;
   const indiceDescapitalizacao = (isMissing(valorPrejuizo) || isMissing(capitalSocial) || capitalSocial === 0) ? null : valorPrejuizo / capitalSocial;
-  const protecaoPatrimonial = (isMissing(plValue) || isMissing(pc) || pc === 0) ? null : plValue / pc;
+  const protecaoPatrimonial = (isMissing(plValue) || isMissing(pc)) ? null : (pc === 0 ? (plValue >= 0 ? 999 : -999) : plValue / pc);
   const autonomiaFinanceira = (isMissing(plValue) || isMissing(passivoTotal) || passivoTotal === 0) ? null : plValue / passivoTotal;
   const alavancagemPatrimonial = (isMissing(ativoTotal) || isMissing(plValue) || plValue === 0) ? null : ativoTotal / plValue;
 
@@ -120,12 +120,12 @@ export function calculateFinancialMetrics(
     : Math.max(0, cx * 1.0 + clientes * weights.receivablesConvertibility + est * weights.inventoryConvertibility + (creditosSocios || 0) * 0.20 - creditosBaixaLiquidez);
 
   // -- Liquidez Contextual --
-  const liqCorrente = (isMissing(ac) || isMissing(pc) || pc === 0) ? null : ac / pc;
-  const liqSeca     = (isMissing(ac) || isMissing(est) || isMissing(pc) || pc === 0) ? null : Math.max(0, ac - est) / pc;
-  const liqImediata = (isMissing(cx) || isMissing(pc) || pc === 0) ? null : cx / pc;
-  const liqGeral    = (isMissing(ativoTotal) || isMissing(pc) || isMissing(pnc) || (pc + pnc) === 0) ? null : ativoTotal / (pc + pnc);
-  const liquidezReal = (ativosLiquidosReais === null || isMissing(pc) || pc === 0) ? null : ativosLiquidosReais / pc;
-  const liquidezDependenteEstoque = (isMissing(est) || isMissing(pc) || pc === 0) ? null : (est * weights.inventoryConvertibility) / pc;
+  const liqCorrente = (isMissing(ac) || isMissing(pc)) ? null : (pc === 0 ? 999 : ac / pc);
+  const liqSeca     = (isMissing(ac) || isMissing(est) || isMissing(pc)) ? null : (pc === 0 ? 999 : Math.max(0, ac - est) / pc);
+  const liqImediata = (isMissing(cx) || isMissing(pc)) ? null : (pc === 0 ? 999 : cx / pc);
+  const liqGeral    = (isMissing(ativoTotal) || isMissing(pc) || isMissing(pnc)) ? null : ((pc + pnc) === 0 ? 999 : ativoTotal / (pc + pnc));
+  const liquidezReal = (ativosLiquidosReais === null || isMissing(pc)) ? null : (pc === 0 ? 999 : ativosLiquidosReais / pc);
+  const liquidezDependenteEstoque = (isMissing(est) || isMissing(pc)) ? null : (pc === 0 ? 999 : (est * weights.inventoryConvertibility) / pc);
 
   // Resiliência de Giro: O quão robustos são os ativos líquidos em relação à NCG
   const resilienciaGiro = (ativosLiquidosReais === null || ncg === null || ncg === 0) ? null : ativosLiquidosReais / ncg;

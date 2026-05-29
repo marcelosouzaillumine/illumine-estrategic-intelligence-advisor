@@ -6,7 +6,7 @@ export const GovernanceProjectionTimeline: React.FC = () => {
 
   if (!simulationOutput) {
     return (
-      <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl text-center text-slate-500 font-mono text-xs">
+      <div className="card-premium p-8 text-center text-muted-foreground font-mono text-xs animate-pulse">
         CARREGANDO GRÁFICO DE PROJEÇÃO...
       </div>
     );
@@ -48,19 +48,19 @@ export const GovernanceProjectionTimeline: React.FC = () => {
   const sandLinePath = sandCoords.map((c, idx) => `${idx === 0 ? 'M' : 'L'} ${c.x} ${c.y}`).join(' ');
 
   return (
-    <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-850 pb-2">
-        <h4 className="text-slate-400 font-semibold tracking-wider uppercase text-xs font-mono">
+    <div className="card-premium p-8 space-y-6 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
+      <div className="flex justify-between items-center border-b border-border/40 pb-4">
+        <h4 className="text-sm font-medium text-foreground tracking-tight">
           Governance Deterioration Projection
         </h4>
-        <div className="flex gap-4 font-mono text-[10px]">
+        <div className="flex gap-4 font-mono text-[10px] font-bold tracking-widest">
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-0.5 bg-slate-500 inline-block" />
-            <span className="text-slate-400">BASELINE</span>
+            <span className="w-3 h-1 bg-muted-foreground/50 rounded-full inline-block" />
+            <span className="text-muted-foreground">BASELINE</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-0.5 bg-cyan-400 inline-block" />
-            <span className="text-cyan-400">SANDBOX</span>
+            <span className="w-3 h-1 bg-secondary rounded-full inline-block" />
+            <span className="text-secondary">SANDBOX</span>
           </div>
         </div>
       </div>
@@ -71,9 +71,9 @@ export const GovernanceProjectionTimeline: React.FC = () => {
           {[0, 25, 50, 75, 100].map((gridVal) => {
             const y = height - padding - (gridVal * (height - padding * 2)) / 100;
             return (
-              <g key={gridVal} className="opacity-20">
-                <line x1={padding} y1={y} x2={width - padding} y2={y} stroke="#334155" strokeWidth={1} strokeDasharray="3 3" />
-                <text x={padding - 8} y={y + 3} fill="#94a3b8" fontSize={9} textAnchor="end" fontFamily="monospace">
+              <g key={gridVal} className="opacity-40">
+                <line x1={padding} y1={y} x2={width - padding} y2={y} stroke="currentColor" className="text-border" strokeWidth={1} strokeDasharray="3 3" />
+                <text x={padding - 8} y={y + 3} fill="currentColor" className="text-muted-foreground font-mono text-[9px]" textAnchor="end">
                   {gridVal}
                 </text>
               </g>
@@ -84,34 +84,34 @@ export const GovernanceProjectionTimeline: React.FC = () => {
           {basePoints.map((p, idx) => {
             const x = padding + (idx * (width - padding * 2)) / 3;
             return (
-              <text key={idx} x={x} y={height - padding + 15} fill="#64748b" fontSize={9} textAnchor="middle" fontFamily="monospace">
+              <text key={idx} x={x} y={height - padding + 18} fill="currentColor" className="text-muted-foreground font-mono text-[9px] font-semibold" textAnchor="middle">
                 {p.label}
               </text>
             );
           })}
 
           {/* Linha da Baseline */}
-          <path d={baseLinePath} fill="none" stroke="#64748b" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" opacity={0.6} />
+          <path d={baseLinePath} fill="none" stroke="currentColor" className="text-muted-foreground" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" opacity={0.4} />
           {baseCoords.map((c, idx) => (
-            <circle key={idx} cx={c.x} cy={c.y} r={3} fill="#64748b" />
+            <circle key={idx} cx={c.x} cy={c.y} r={3} fill="currentColor" className="text-muted-foreground" opacity={0.6} />
           ))}
 
           {/* Linha do Sandbox (se houver modificações ativas) */}
           {sandboxResult && (
             <>
-              <path d={sandLinePath} fill="none" stroke="#06b6d4" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
+              <path d={sandLinePath} fill="none" stroke="currentColor" className="text-secondary" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
               {sandCoords.map((c, idx) => (
-                <circle key={idx} cx={c.x} cy={c.y} r={3.5} fill="#06b6d4" className="filter drop-shadow-[0_0_4px_rgba(6,182,212,0.5)]" />
+                <circle key={idx} cx={c.x} cy={c.y} r={3.5} fill="currentColor" className="text-secondary filter drop-shadow-[0_0_4px_rgba(255,133,82,0.4)]" />
               ))}
             </>
           )}
         </svg>
       </div>
 
-      <div className="p-3 bg-slate-900/30 border border-slate-850 rounded-xl flex justify-between font-mono text-[10px] text-slate-400">
-        <div>BASELINE TARGET SCORE: <span className="font-bold text-slate-200">{baseScore}%</span></div>
+      <div className="p-4 bg-surface-container/60 border border-border/60 rounded-xl flex justify-between font-mono text-[10px] text-muted-foreground">
+        <div>BASELINE TARGET SCORE: <span className="font-bold text-foreground">{baseScore}%</span></div>
         {sandboxResult && (
-          <div>SANDBOX TARGET SCORE: <span className="font-bold text-cyan-400">{sandboxScore}%</span></div>
+          <div>SANDBOX TARGET SCORE: <span className="font-bold text-secondary">{sandboxScore}%</span></div>
         )}
       </div>
     </div>

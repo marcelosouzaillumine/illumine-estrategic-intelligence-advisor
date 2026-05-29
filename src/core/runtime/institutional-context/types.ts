@@ -1,11 +1,13 @@
+import { SegmentConfidenceScore } from '../segment-intelligence/types';
+
 export type BusinessStage = 
-  | 'FIRST_OPERATIONAL_YEAR'
-  | 'EARLY_STAGE_CONSOLIDATION'
-  | 'GROWTH_STAGE'
-  | 'SCALE_STAGE'
+  | 'INITIAL_OPERATION'
+  | 'STRUCTURING_OPERATION'
+  | 'EXPANDING_OPERATION'
   | 'MATURE_OPERATION'
-  | 'TURNAROUND_DISTRESS'
-  | 'DECLINE_STAGE'
+  | 'CONSOLIDATED_OPERATION'
+  | 'DECLINE_OPERATION'
+  | 'RESTRUCTURING_OPERATION'
   | 'TRANSITION_STAGE';
 
 export type EconomicModel = 
@@ -25,6 +27,7 @@ export type EconomicModel =
   | 'FINANCIAL_OPERATION';
 
 export type HistoricalDensity = 
+  | 'NO_VALID_HISTORY'
   | 'SINGLE_YEAR_ONLY'
   | 'LOW_HISTORICAL_DENSITY'
   | 'MODERATE_HISTORY'
@@ -72,13 +75,37 @@ export type NarrativeGovernance = {
   evidenceRequiredClaims: Record<string, string[]>;
 };
 
+export interface OperationalSegment {
+  code: string;
+  label: string;
+  source: "client_registry" | "metadata" | "inferred" | "missing";
+}
+
+export interface OperationalModelProfile {
+  code: string;
+  label: string;
+  confidence: "LOW" | "MODERATE" | "HIGH";
+}
+
+export interface FinancialProfileNode {
+  code: string;
+  label: string;
+  drivers: string[];
+}
+
+export interface InstitutionalMaturityNode {
+  code: string;
+  label: string;
+  historicalSupportLevel: string;
+}
+
 export interface InstitutionalContextProfile {
-  businessStage: BusinessStage;
-  structuralCapitalStage?: string; // Para compatibilidade
-  economicModel: EconomicModel;
-  historicalDensity: HistoricalDensity;
-  liabilityProfile: LiabilityNature[];
-  operationalProfile: OperationalProfile;
+  operationalSegment: OperationalSegment;
+  segmentConfidence: SegmentConfidenceScore;
+  operationalModel: OperationalModelProfile;
+  financialProfile: FinancialProfileNode;
+  institutionalMaturity: InstitutionalMaturityNode;
+  
   growthPattern: GrowthPattern;
   confidence: StrategicConfidence;
   narrativeConstraints: NarrativeGovernance;
@@ -92,6 +119,23 @@ export interface InstitutionalContextProfile {
     lossPenaltyFactor: number;
     inventoryPenaltyFactor: number;
   };
+  legacy?: {
+    businessStage: string;
+    economicModel: string;
+    liabilityProfile: string[];
+    historicalDensity: string;
+    operationalProfile?: any;
+  };
+  /** @deprecated Utilizado apenas para retrocompatibilidade com UI e Testes Legados */
+  businessStage?: string;
+  /** @deprecated Utilizado apenas para retrocompatibilidade com UI e Testes Legados */
+  economicModel?: string;
+  /** @deprecated Utilizado apenas para retrocompatibilidade com UI e Testes Legados */
+  liabilityProfile?: string[];
+  /** @deprecated Utilizado apenas para retrocompatibilidade com UI e Testes Legados */
+  historicalDensity?: string;
+  /** @deprecated Utilizado apenas para retrocompatibilidade com UI e Testes Legados */
+  operationalProfile?: any;
 }
 
 export interface IResolverContext {

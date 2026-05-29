@@ -32,6 +32,7 @@ import {
 } from './ui/sidebar';
 import { ClientSelector } from './ClientSelector';
 import { login, logout } from '../lib/firebase';
+import { useLanguage } from '../contexts/LanguageContext';
 
 /* ──────────────────────────── Logo ──────────────────────────── */
 function Logo({ collapsed }: { collapsed?: boolean }) {
@@ -95,9 +96,33 @@ export function AppSidebar({
   setIsMobileMenuOpen,
   totalPending,
 }: AppSidebarProps) {
+  const { t, language } = useLanguage();
   const { state, isMobile, setOpenMobile, setOpen } = useSidebar();
   const isCollapsed = state === 'collapsed';
   const { session } = useInstitutionalAuth();
+
+  const sortNavItems = (items: any[]): any[] => {
+    return [...items]
+      .map(item => ({
+        ...item,
+        children: item.children ? sortNavItems(item.children) : undefined
+      }))
+      .sort((a, b) => {
+        if (a.id === 'consolidated_executive') return -1;
+        if (b.id === 'consolidated_executive') return 1;
+
+        const labelA = t(a.labelKey);
+        const labelB = t(b.labelKey);
+
+        const isADashboard = labelA.toLowerCase().includes('dashboard');
+        const isBDashboard = labelB.toLowerCase().includes('dashboard');
+
+        if (isADashboard && !isBDashboard) return -1;
+        if (!isADashboard && isBDashboard) return 1;
+
+        return labelA.localeCompare(labelB, language);
+      });
+  };
 
   // Filter groups based on permissions
   const filteredGroups = NAVIGATION_GROUPS.filter(group => {
@@ -165,6 +190,8 @@ export function AppSidebar({
 
           if (filteredItems.length === 0) return null;
 
+          const sortedItems = sortNavItems(filteredItems);
+
           return (
             <SidebarGroup key={group.group}>
               {/* Group label — hidden when collapsed */}
@@ -175,13 +202,13 @@ export function AppSidebar({
                 )}
                 onClick={() => toggleSubmenu(group.group)}
               >
-                <span className="flex-1 truncate">{group.group}</span>
+                <span className="flex-1 truncate">{t(group.groupKey)}</span>
                 {isOpen ? <ChevronUp size={10} strokeWidth={1} /> : <ChevronDown size={10} strokeWidth={1} />}
               </SidebarGroupLabel>
 
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {(isCollapsed ? filteredItems : isOpen ? filteredItems : []).map(item => {
+                  {(isCollapsed ? sortedItems : isOpen ? sortedItems : []).map(item => {
                     const hasChildren = item.children && item.children.length > 0;
                     const isChildActive = hasChildren && item.children?.some(child => child.id === currentPage);
                     const isActive = currentPage === item.id || isChildActive;
@@ -190,12 +217,12 @@ export function AppSidebar({
                       <SidebarMenuItem key={item.id}>
                         <SidebarMenuButton
                           isActive={isActive}
-                          tooltip={isCollapsed ? item.label : undefined}
+                          tooltip={isCollapsed ? t(item.labelKey || `navigation.page.${item.id}`) : undefined}
                           onClick={() => {
                             if (isCollapsed && hasChildren) {
-                              setOpen(true);
-                              setCurrentPage(item.id);
-                              return;
+                               setOpen(true);
+                               setCurrentPage(item.id);
+                               return;
                             }
                             setCurrentPage(item.id);
                             if (isMobile) setOpenMobile(false);
@@ -228,7 +255,7 @@ export function AppSidebar({
                             <div className="flex-1 min-w-0 flex items-center justify-between gap-2 overflow-hidden">
                               <div className="flex items-center gap-2 min-w-0">
                                 <span className="sidebar-menu-item-text truncate">
-                                  {item.label}
+                                  {t(item.labelKey || `navigation.page.${item.id}`)}
                                 </span>
                                 {item.id === 'aprovacoes' && totalPending > 0 && (
                                   <span className="flex h-4 min-w-[16px] px-1 items-center justify-center bg-rose-500 text-white text-[9px] font-black rounded-full animate-pulse">
@@ -282,7 +309,7 @@ export function AppSidebar({
                                       'w-1 h-1 rounded-full shrink-0 transition-all',
                                       currentPage === child.id ? 'bg-secondary scale-125' : 'bg-muted/80'
                                     )} />
-                                    <span>{child.label}</span>
+                                    <span>{t(child.labelKey || `navigation.page.${child.id}`)}</span>
                                   </button>
                                 </SidebarMenuSubButton>
                               </SidebarMenuSubItem>
@@ -336,27 +363,27 @@ export function AppSidebar({
             </div>
             <button
               onClick={logout}
-              title={isCollapsed ? 'Sair' : undefined}
+              title={isCollapsed ? t('buttons.logout') : undefined}
               className={cn(
                 'flex items-center justify-center gap-2 py-2 text-xs font-medium uppercase tracking-widest text-destructive hover:bg-destructive/5 rounded-button transition-colors border border-destructive/20',
                 isCollapsed ? 'w-9 h-9 p-0 mx-auto' : 'w-full'
               )}
             >
               <LogOut size={13} />
-              {!isCollapsed && 'Sair'}
+              {!isCollapsed && t('buttons.logout')}
             </button>
           </div>
         ) : (
           <button
             onClick={login}
-            title={isCollapsed ? 'Entrar com Google' : undefined}
+            title={isCollapsed ? t('buttons.login') : undefined}
             className={cn(
               'flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-button text-xs font-medium uppercase tracking-widest hover:bg-primary/90 transition-all shadow-sm',
               isCollapsed ? 'w-9 h-9 p-0 mx-auto' : 'w-full py-3'
             )}
           >
             <LogIn size={isCollapsed ? 18 : 14} />
-            {!isCollapsed && 'Entrar'}
+            {!isCollapsed && t('buttons.login')}
           </button>
         )}
       </SidebarFooter>

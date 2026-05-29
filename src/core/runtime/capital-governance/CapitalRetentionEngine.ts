@@ -1,28 +1,43 @@
 // src/core/runtime/capital-governance/CapitalRetentionEngine.ts
+//
+// Eixo 2 — Política de Capital (Retenção)
+// Ref: DLPA_GOVERNANCE_CURATION_PROTOCOL.md
+//
+// REGRA FIDUCIÁRIA: Na ausência de lucro distribuível,
+// a taxa de retenção NÃO deve ser interpretada como 0%.
+// Deve assumir: "NÃO_APLICÁVEL_SEM_LUCRO"
+
 import { CapitalRetentionMetrics } from './capital-governance-types';
 
 export function calculateCapitalRetention(
   netIncome: number,
   retainedEarnings: number
 ): CapitalRetentionMetrics {
-  
-  let retentionRatio = 0;
-  if (netIncome > 0) {
-    retentionRatio = retainedEarnings / netIncome;
+
+  // Sem base distributiva — não inferir retenção como 0%
+  if (netIncome <= 0) {
+    return {
+      netIncome,
+      retainedEarnings,
+      retentionRatio: 0,
+      retentionStatus: netIncome < 0 ? 'NÃO_APLICÁVEL_SEM_LUCRO' : 'NÃO_APLICÁVEL'
+    };
   }
 
-  let retentionStatus: 'ALTA_RETENÇÃO' | 'RETENÇÃO_MODERADA' | 'DISTRIBUIÇÃO_EXCESSIVA' | 'DESCAPITALIZAÇÃO' | 'NÃO_APLICÁVEL' = 'NÃO_APLICÁVEL';
+  const retentionRatio = retainedEarnings / netIncome;
 
-  if (netIncome <= 0 && retainedEarnings < 0) {
-    retentionStatus = 'DESCAPITALIZAÇÃO';
-  } else if (netIncome <= 0) {
-    retentionStatus = 'NÃO_APLICÁVEL';
-  } else if (retentionRatio > 0.8) {
+  let retentionStatus: CapitalRetentionMetrics['retentionStatus'];
+
+  if (retentionRatio > 0.8) {
     retentionStatus = 'ALTA_RETENÇÃO';
   } else if (retentionRatio >= 0.3) {
     retentionStatus = 'RETENÇÃO_MODERADA';
-  } else {
+  } else if (retentionRatio >= 0) {
     retentionStatus = 'DISTRIBUIÇÃO_EXCESSIVA';
+  } else {
+    // retainedEarnings negativo com lucro positivo (distribuição acima do lucro)
+    // Este é o único caso onde DESCAPITALIZAÇÃO_DELIBERADA pode ser ativada
+    retentionStatus = 'DESCAPITALIZAÇÃO_DELIBERADA';
   }
 
   return {

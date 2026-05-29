@@ -1,69 +1,151 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Calendar, Loader2, Upload, Trash2, Plus, FileText, Database, TrendingUp, TrendingDown, Info, BarChart3, AlertTriangle, ShieldAlert, Zap, Target, Activity, ShieldCheck, PieChart as PieChartIcon, CheckCircle2 } from 'lucide-react';
-import { 
-  ResponsiveContainer, 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Legend, 
-  LineChart, 
-  Line,
-  Cell,
-  PieChart,
-  Pie,
-  AreaChart,
-  Area,
-  ComposedChart
+import { createPortal } from 'react-dom';
+import {
+  Calendar, Loader2, Upload, Trash2, Plus, FileText, Database,
+  TrendingUp, TrendingDown, Info, BarChart3, AlertTriangle,
+  ShieldAlert, Zap, Target, Activity, ShieldCheck, CheckCircle2,
+  BookOpen, Percent, PieChart as PieChartIcon, ArrowUpRight,
+  ArrowDownRight, Minus, BookMarked, Scale
+} from 'lucide-react';
+import {
+  ResponsiveContainer,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  LineChart, Line, Cell, AreaChart, Area, ComposedChart, ReferenceLine
 } from 'recharts';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
-import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
-import {
-  collection,
-  deleteDoc,
-  doc,
-  query,
-  where,
-  getDocs,
-} from 'firebase/firestore';
-import { db, auth } from '../../lib/firebase';
+import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
+import { CapitalGovernanceAdapter } from '../../core/runtime/capital-governance/capital-governance-adapter';
 
 type ToastType = { type: 'success' | 'error'; message: string } | null;
 
-// Helper: Custom Advanced KPI Card
-function AdvancedKpiCard({ title, value, subtitle, status, icon: Icon, colorClass, borderClass }: any) {
+// ── Helpers ─────────────────────────────────────────────────────────────────
+
+function getRetentionLabel(status: string) {
+  const map: Record<string, { label: string; color: string; bg: string; border: string; icon: React.ElementType }> = {
+    'ALTA_RETENÇÃO':              { label: 'Alta Retenção',             color: 'text-emerald-700', bg: 'bg-emerald-50',  border: 'border-emerald-200', icon: ArrowUpRight },
+    'RETENÇÃO_MODERADA':          { label: 'Retenção Moderada',         color: 'text-blue-700',    bg: 'bg-blue-50',     border: 'border-blue-200',    icon: TrendingUp },
+    'DISTRIBUIÇÃO_EXCESSIVA':     { label: 'Distribuição Excessiva',    color: 'text-amber-700',   bg: 'bg-amber-50',    border: 'border-amber-200',   icon: TrendingDown },
+    'DESCAPITALIZAÇÃO_DELIBERADA':{ label: 'Descapitalização Deliberada', color: 'text-rose-700', bg: 'bg-rose-50',     border: 'border-rose-200',    icon: ShieldAlert },
+    'NÃO_APLICÁVEL_SEM_LUCRO':   { label: 'N/A — Sem Lucro',           color: 'text-slate-500',   bg: 'bg-slate-50',    border: 'border-slate-200',   icon: Minus },
+    'NÃO_APLICÁVEL':              { label: 'N/A',                       color: 'text-slate-500',   bg: 'bg-slate-50',    border: 'border-slate-200',   icon: Minus },
+    
+    // New fiduciaries
+    'STRATEGIC_RETENTION':        { label: 'Retenção Estratégica',      color: 'text-emerald-700', bg: 'bg-emerald-50',  border: 'border-emerald-200', icon: ArrowUpRight },
+    'FORCED_RETENTION':           { label: 'Retenção Compulsória',      color: 'text-slate-600',   bg: 'bg-slate-50',    border: 'border-slate-200',   icon: Minus },
+    'EMERGENCY_CAPITAL_PRESERVATION': { label: 'Preservação Emergencial', color: 'text-amber-700', bg: 'bg-amber-50',    border: 'border-amber-200',   icon: ShieldAlert },
+    'SURVIVAL_STAGE_CAPITAL_STRUCTURE': { label: 'Estrutura de Sobrevivência', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200', icon: ShieldAlert },
+    'UNSUSTAINABLE_PRESERVATION': { label: 'Preservação Insustentável', color: 'text-amber-700',   bg: 'bg-amber-50',    border: 'border-amber-200',   icon: TrendingDown },
+    'GOVERNANCE_RETENTION':       { label: 'Retenção de Governança',    color: 'text-blue-700',    bg: 'bg-blue-50',     border: 'border-blue-200',    icon: TrendingUp },
+    'RETENTION_NOT_ELIGIBLE':     { label: 'Inelegível para Retenção',  color: 'text-slate-500',   bg: 'bg-slate-50',    border: 'border-slate-200',   icon: Minus },
+  };
+  return map[status] || map['NÃO_APLICÁVEL'];
+}
+
+function getDistributionLabel(pressure: string) {
+  const map: Record<string, { label: string; color: string; bg: string; border: string }> = {
+    'BAIXA':                   { label: 'Conservadora',              color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+    'MODERADA':                { label: 'Equilibrada',               color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200' },
+    'ALTA':                    { label: 'Agressiva',                  color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200' },
+    'CRÍTICA':                 { label: 'Predatória',                 color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-200' },
+    'NÃO_APLICÁVEL_SEM_LUCRO': { label: 'Sem distribuição no período', color: 'text-slate-500',  bg: 'bg-slate-50',   border: 'border-slate-200' },
+    'NÃO_APLICÁVEL':           { label: 'N/A',                        color: 'text-slate-500',   bg: 'bg-slate-50',   border: 'border-slate-200' },
+  };
+  return map[pressure] || map['NÃO_APLICÁVEL'];
+}
+
+function getPreservationLabel(status: string) {
+  const map: Record<string, { label: string; color: string; bg: string; border: string }> = {
+    'PRESERVAÇÃO_SAUDÁVEL':   { label: 'Preservação Saudável',       color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+    'EROSÃO_MODERADA':        { label: 'Erosão Moderada',             color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200' },
+    'EROSÃO_RELEVANTE':       { label: 'Erosão Relevante',            color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200' },
+    'FRAGILIDADE_PATRIMONIAL':{ label: 'Fragilidade Patrimonial',     color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-200' },
+    'NEUTRO':                 { label: 'Patrimônio Estável',          color: 'text-slate-600',   bg: 'bg-slate-50',   border: 'border-slate-200' },
+    // legado
+    'PRESERVADO':             { label: 'Preservado',                  color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+    'DRENADO':                { label: 'Erosão Relevante',             color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200' },
+    // fiduciários novos
+    'PRESERVED':              { label: 'Preservado',                  color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+    'PRESSURED':              { label: 'Pressionado',                 color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200' },
+    'SEVERELY_ERODED':        { label: 'Erosão Severa',               color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200' },
+    'CAPITAL_COLLAPSE_RISK':  { label: 'Risco de Colapso',            color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-200' },
+  };
+  return map[status] || map['NEUTRO'];
+}
+
+function getMaturityLabel(maturity: string) {
+  const map: Record<string, { label: string; color: string; bg: string; border: string; score: number }> = {
+    'MATURA':           { label: 'Governança Matura',           color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200', score: 90 },
+    'EM_DESENVOLVIMENTO':{ label: 'Em Desenvolvimento',         color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200',    score: 65 },
+    'FRAGILIZADA':      { label: 'Governança Fragilizada',      color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200',   score: 38 },
+    'EM_ESTRUTURAÇÃO':  { label: 'Em Estruturação',             color: 'text-slate-600',   bg: 'bg-slate-50',   border: 'border-slate-200',   score: 28 },
+    'FRÁGIL':           { label: 'Governança Frágil',           color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200',   score: 40 },
+    'DESTRUTIVA':       { label: 'Governança Destrutiva',       color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-200',    score: 10 },
+  };
+  return map[maturity] || map['EM_ESTRUTURAÇÃO'];
+}
+
+// ── KPI Card ─────────────────────────────────────────────────────────────────
+function DlpaKpiCard({ title, value, subtitle, statusLabel, statusBg, statusText, statusBorder, icon: Icon, accentColor }: any) {
   return (
-    <div className={cn("p-6 rounded-[24px] border bg-white shadow-sm flex flex-col relative overflow-hidden group transition-all hover:shadow-md hover:border-slate-300", borderClass)}>
-      <div className={cn("absolute -right-6 -top-6 w-24 h-24 rounded-full opacity-[0.03] pointer-events-none transition-transform duration-500 group-hover:scale-[2]", colorClass)} />
-      <div className="flex items-start justify-between mb-5 relative z-10">
-        <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight w-2/3">{title}</h4>
-        <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", colorClass)}>
-          <Icon size={18} />
+    <div className={cn(
+      'group relative bg-white rounded-[20px] border p-6 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col',
+      statusBorder || 'border-slate-200'
+    )}>
+      <div className={cn('absolute -right-8 -top-8 w-28 h-28 rounded-full opacity-[0.04] pointer-events-none transition-transform duration-500 group-hover:scale-125', accentColor || 'bg-slate-400')} />
+      <div className="flex items-start justify-between mb-4 relative z-10">
+        <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-snug w-3/4">{title}</h4>
+        <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center shrink-0', accentColor || 'bg-slate-100')}>
+          <Icon size={16} />
         </div>
       </div>
       <div className="relative z-10 mt-auto">
-        <div className="w-full [container-type:inline-size] py-1 mb-2">
-           <p className="font-display font-medium text-slate-800 truncate text-[clamp(1.1rem,12cqw,1.75rem)] tracking-tight">
-             {value}
-           </p>
+        <div className="mb-2">
+          <p className="font-display font-semibold text-slate-800 truncate text-xl tracking-tight">
+            {value}
+          </p>
         </div>
-        <div className="flex items-center gap-2">
-           <span className={cn("text-[9px] font-bold uppercase px-2.5 py-1 rounded-full border", status.bgColor, status.textColor, status.borderColor)}>
-             {status.label}
-           </span>
-           <span className="text-[10px] text-slate-400 font-medium line-clamp-1">{subtitle}</span>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className={cn('text-[9px] font-black uppercase px-2.5 py-1 rounded-full border', statusBg, statusText, statusBorder)}>
+            {statusLabel}
+          </span>
+          <span className="text-[10px] text-slate-400 font-medium line-clamp-1">{subtitle}</span>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
+// ── Score Ring ────────────────────────────────────────────────────────────────
+function ScoreRing({ value, label, color }: { value: number; label: string; color: string }) {
+  const r = 40, c = 2 * Math.PI * r;
+  const offset = c - (value / 100) * c;
+  const colorMap: Record<string, string> = {
+    emerald: '#10b981', blue: '#3b82f6', amber: '#f59e0b', rose: '#f43f5e', slate: '#94a3b8'
+  };
+  const stroke = colorMap[color] || colorMap.slate;
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <svg width="96" height="96" viewBox="0 0 96 96">
+        <circle cx="48" cy="48" r={r} fill="none" stroke="#f1f5f9" strokeWidth="8" />
+        <circle cx="48" cy="48" r={r} fill="none" stroke={stroke} strokeWidth="8"
+          strokeDasharray={`${c} ${c}`} strokeDashoffset={offset}
+          strokeLinecap="round" transform="rotate(-90 48 48)" style={{ transition: 'stroke-dashoffset 0.8s ease' }} />
+        <text x="48" y="48" textAnchor="middle" dominantBaseline="central"
+          style={{ fontSize: '16px', fontWeight: 800, fill: stroke }}>
+          {Math.round(value)}
+        </text>
+      </svg>
+      <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 text-center">{label}</p>
+    </div>
+  );
+}
+
+// ── Main Component ────────────────────────────────────────────────────────────
 export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   const [filterYear, setFilterYear] = useState(selectedYear || new Date().getFullYear());
   const [toast, setToast] = useState<ToastType>(null);
@@ -76,72 +158,139 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
     if (selectedYear) setFilterYear(selectedYear);
   }, [selectedYear]);
 
-  // ── Busca de Dados ────────────────────────────────────────────────────────
+  // ── Data Fetching ──────────────────────────────────────────────────────────
   const { dbData: dbDataDLPA, docIds: docIdsDLPA, loading: loadingDLPA, refetch: refetchDLPA } =
     useAnnualFinancialData(selectedClient, filterYear, 'DLPA');
 
   const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient);
 
-  const loading = loadingDLPA;
-  const [executiveReport, setExecutiveReport] = useState<ExecutiveIntelligenceReport | null>(null);
+  // ── Extrai valores reais da DLPA ──────────────────────────────────────────
+  const dlpaMetrics = useMemo(() => {
+    if (dbDataDLPA.length === 0) return null;
 
-  useEffect(() => {
-    if (!loadingHistory && allHistoryData.length > 0) {
-      const input = {
-        rawFinancialData: { segmentoEmpresa: clients?.find((c: any) => c.id === selectedClient)?.segmento || 'Default' },
-        historicalCyclesCount: 1,
-        isMockData: false
-      };
-      setExecutiveReport(executiveRuntime.generateExecutiveReport(input));
-    }
-  }, [allHistoryData, loadingHistory, selectedClient, clients]);
+    const normalize = (s: string) =>
+      (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
+    const findVal = (...terms: string[]) => {
+      const entry = dbDataDLPA.find((e: any) => {
+        const n = normalize(e.conta || e.category || '');
+        return terms.some(t => n.includes(normalize(t)));
+      });
+      return Number(entry?.val || entry?.valor || entry?.value || 0);
+    };
 
+    const lucroLiquido       = findVal('lucro liquido', 'lucro do exercicio', 'resultado liquido');
+    const dividendos         = Math.abs(findVal('dividendo', 'distribuicao', 'jcp', 'juros sobre capital'));
+    const reservaLegal       = findVal('reserva legal');
+    const reservaEstatutaria = findVal('reserva estatutaria', 'outras reservas');
+    const plInicio           = findVal('pl inicio', 'saldo inicial', 'patrimonio inicio');
+    const plFim              = findVal('pl fim', 'saldo final', 'patrimonio fim', 'patrimonio liquido');
+    const aumentoCapital     = findVal('aumento de capital', 'integralizacao');
 
-  // ── Histórico para Gráficos ───────────────────────────────────────────────
+    return {
+      lucroLiquido,
+      dividendos,
+      reservaLegal,
+      reservaEstatutaria,
+      plInicio,
+      plFim,
+      aumentoCapital,
+    };
+  }, [dbDataDLPA]);
+
+  // ── Capital Governance Adapter (local, sem runtime completo) ──────────────
+  const capitalGov = useMemo(() => {
+    if (!dlpaMetrics || dbDataDLPA.length === 0) return null;
+    const { lucroLiquido, dividendos, plInicio, plFim, aumentoCapital } = dlpaMetrics;
+    const retainedEarnings = plFim > 0 ? plFim - (plInicio || plFim) : lucroLiquido - dividendos;
+    return CapitalGovernanceAdapter.process(
+      dbDataDLPA,
+      lucroLiquido,
+      retainedEarnings,
+      dividendos,
+      plInicio || plFim,
+      plFim,
+      aumentoCapital,
+      undefined,
+      allHistoryData
+    );
+  }, [dbDataDLPA, dlpaMetrics, allHistoryData]);
+
+  // ── Dados históricos para gráfico ─────────────────────────────────────────
   const chartData = useMemo(() => {
     return [4, 3, 2, 1, 0].map(offset => {
       const y = filterYear - offset;
-      const yearEntries = allHistoryData.filter((d: any) => d.year === y);
-      
-      const getValY = (docTypes: string[], nameFilters: string[]) => {
-        const normalizedFilters = nameFilters.map(n => n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-        const match = yearEntries.filter((d: any) => docTypes.includes(d.type?.toLowerCase())).find((d: any) => {
-          const c = (d.conta || d.category || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-          return normalizedFilters.some(n => c.includes(n));
-        });
-        return match?.val || match?.valor || match?.value || 0;
+      const yearEntries = allHistoryData.filter((d: any) => Number(d.year) === y);
+
+      const normalize = (s: string) =>
+        (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      const findYearVal = (docTypes: string[], terms: string[]) => {
+        const match = yearEntries
+          .filter((d: any) => docTypes.some(dt => normalize(d.docType || d.type || '') === normalize(dt)))
+          .find((d: any) => terms.some(t => normalize(d.conta || d.category || '').includes(normalize(t))));
+        return Number(match?.val || match?.valor || match?.value || 0);
       };
 
-      const l = getValY(['dre', 'resultado'], ['lucro liquido', 'lucro do exercicio']);
-      const d = Math.abs(getValY(['dlpa', 'dre', 'dfc'], ['dividendos', 'distribuicao']));
-      const f = getValY(['dfc'], ['caixa operacional', 'fco']);
+      const ll    = findYearVal(['dre', 'dre gerencial'], ['lucro liquido', 'lucro do exercicio']);
+      const divid = Math.abs(findYearVal(['dlpa'], ['dividendo', 'distribuicao', 'jcp']));
+      const rl    = findYearVal(['dlpa'], ['reserva legal']);
 
-      return {
-        year: y.toString(),
-        Lucro: l,
-        Dividendos: d,
-        FCO: f
-      };
+      return { year: y.toString(), LucroLíquido: ll, Dividendos: divid, ReservaLegal: rl };
     });
   }, [allHistoryData, filterYear]);
 
-  // ── Handlers & UI Auxiliar ────────────────────────────────────────────────
+  // ── Toast ────────────────────────────────────────────────────────────────
   const showToast = (type: 'success' | 'error', message: string) => {
     setToast({ type, message });
     setTimeout(() => setToast(null), 4000);
   };
 
+  // ── Delete Handler ────────────────────────────────────────────────────────
+  const handleDeleteAll = async () => {
+    if (!selectedClient || docIdsDLPA.length === 0) return;
+    setDeleting(true);
+    try {
+      await Promise.all(docIdsDLPA.map(id => deleteDoc(doc(db, 'financial_entries', id))));
+      showToast('success', 'Dados DLPA excluídos com sucesso.');
+      refetchDLPA();
+    } catch {
+      showToast('error', 'Erro ao excluir dados.');
+    } finally {
+      setDeleting(false);
+      setShowDeleteConfirm(false);
+    }
+  };
+
+  const loading = loadingDLPA || loadingHistory;
+  const hasData = dbDataDLPA.length > 0;
+  const retention    = capitalGov?.diagnostics?.retention;
+  const distribution = capitalGov?.diagnostics?.distribution;
+  const preservation = capitalGov?.diagnostics?.preservation;
+  const behavior     = capitalGov?.diagnostics?.behavior;
+  const fiduciaryOutput = (capitalGov as any)?.diagnostics?.fiduciaryOutput;
+  const narrative    = capitalGov?.narrative || '';
+
+  const retentionStyle    = getRetentionLabel(retention?.retentionStatus || 'NÃO_APLICÁVEL');
+  const distributionStyle = getDistributionLabel(distribution?.distributionPressure || 'NÃO_APLICÁVEL');
+  const preservationStyle = getPreservationLabel(preservation?.preservationStatus || 'NEUTRO');
+  const maturityStyle     = getMaturityLabel(behavior?.governanceMaturity || 'EM_DESENVOLVIMENTO');
+
+  const parsedTaxaRetencao = retention ? retention.retentionRatio * 100 : 0;
+  const parsedTaxaDistribuicao = distribution ? distribution.distributionRatio * 100 : 0;
+  const retentionValue = retention ? retention.retainedEarnings : 0;
+
+  // ── Action Bar ─────────────────────────────────────────────────────────────
   const actionButtons = (
     <div className="flex items-center gap-3">
       <div className="flex bg-card p-1 rounded-md border border-border items-center mr-2 shadow-sm">
         <Calendar size={12} className="ml-2 text-secondary" />
         <select
-          onChange={(e) => setFilterYear(Number(e.target.value))}
+          onChange={e => setFilterYear(Number(e.target.value))}
           value={filterYear}
           className="bg-transparent px-3 py-1 text-[10px] font-medium uppercase tracking-widest outline-none cursor-pointer text-foreground appearance-none pr-1"
         >
-          {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map((y) => (
+          {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map(y => (
             <option key={y} value={y}>{y}</option>
           ))}
         </select>
@@ -160,158 +309,263 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       >
         <Upload size={14} /> Importar
       </button>
+
+      {hasData && (
+        <button
+          onClick={() => setShowDeleteConfirm(true)}
+          className="px-4 py-2 bg-red-50 hover:bg-red-500 text-red-500 hover:text-white border border-red-200 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm"
+        >
+          <Trash2 size={14} /> Excluir
+        </button>
+      )}
     </div>
   );
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
-      <PageHeader 
-        title="Módulo de Inteligência de Capital & Governança" 
-        subtitle="Análise estratégica profunda de distribuição, preservação patrimonial e qualidade do lucro."
-        icon={Target}
+      {/* Toast */}
+      {toast && (
+        <div className={cn(
+          'fixed top-6 right-6 z-50 px-5 py-3 rounded-xl shadow-lg text-sm font-bold text-white animate-executive-fade',
+          toast.type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'
+        )}>
+          {toast.message}
+        </div>
+      )}
+
+      {showDeleteConfirm && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+          <div className="bg-white rounded-2xl p-8 shadow-2xl" style={{ width: '100%', maxWidth: '24rem' }}>
+            <ShieldAlert size={32} className="text-rose-500 mb-4" />
+            <h3 className="text-lg font-black text-slate-900 mb-2">Confirmar Exclusão</h3>
+            <p className="text-sm text-slate-500 mb-6 leading-relaxed">
+              Todos os registros DLPA de <strong>{filterYear}</strong> serão excluídos permanentemente.
+            </p>
+            <div className="flex gap-3">
+              <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50">Cancelar</button>
+              <button onClick={handleDeleteAll} disabled={deleting} className="flex-1 px-4 py-2 bg-rose-500 text-white rounded-xl text-sm font-bold hover:bg-rose-600 disabled:opacity-60">
+                {deleting ? <Loader2 size={16} className="animate-spin mx-auto" /> : 'Excluir'}
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
+      <PageHeader
+        title="DLPA — Demonstração de Lucros e Prejuízos Acumulados"
+        subtitle="Análise estrutural de distribuição de lucros, preservação patrimonial e maturidade de governança de capital."
+        icon={BookOpen}
         color="executive"
       />
-      
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/50 p-4 rounded-2xl border border-slate-200 backdrop-blur-md shadow-sm -mt-6 mb-10">
-        <div className="flex items-center gap-4">
-          <div className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center gap-3">
-            {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
-            <Database size={14} className="text-emerald-500" />
+
+      {/* Control Bar */}
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-2xl border border-slate-200 backdrop-blur-md shadow-sm -mt-6 mb-10">
+        <div className="flex items-center gap-3">
+          {loading && <Loader2 size={14} className="animate-spin text-secondary" />}
+          <div className="px-4 py-2 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center gap-3">
+            <Database size={14} className={hasData ? 'text-emerald-500' : 'text-slate-400'} />
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-700">
-              Cálculo Dinâmico Multi-DRE/BP/DFC
+              {hasData
+                ? `${dbDataDLPA.length} registro${dbDataDLPA.length !== 1 ? 's' : ''} · DLPA ${filterYear}`
+                : `Sem dados DLPA · ${filterYear}`}
             </span>
           </div>
         </div>
         {actionButtons}
       </div>
 
-      {/* Visão de Board e Parecer Automático */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-        <div className="lg:col-span-1 rounded-[32px] p-8 bg-slate-900 border border-slate-800 shadow-2xl relative overflow-hidden flex flex-col justify-between text-white group">
-          <div className={cn("absolute top-0 right-0 w-64 h-64 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none transition-all duration-700 group-hover:scale-110", "bg-blue-500/10")} />
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay pointer-events-none" />
-          
-          <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/10">
-                <ShieldCheck size={24} className="text-white" />
+      {!loading && !hasData && (
+        <div className="bg-white border border-dashed border-slate-300 rounded-[32px] p-16 text-center">
+          <div className="mx-auto w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mb-5">
+            <BookOpen size={28} className="text-slate-400" />
+          </div>
+          <h3 className="text-lg font-black text-slate-700 mb-2">Nenhum dado DLPA encontrado</h3>
+          <p className="text-sm text-slate-400 leading-relaxed mx-auto" style={{ maxWidth: '36rem' }}>
+            Importe ou lance manualmente os dados da Demonstração de Lucros e Prejuízos Acumulados para {filterYear}.
+          </p>
+          <div className="flex gap-3 mt-6 justify-center">
+            <button onClick={() => setShowManualModal(true)} className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors flex items-center gap-2">
+              <Plus size={16} /> Lançar DLPA
+            </button>
+            <button onClick={() => setShowImportModal(true)} className="px-6 py-2.5 bg-slate-100 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors flex items-center gap-2">
+              <Upload size={16} /> Importar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {hasData && (
+        <>
+          {/* ── Narrative + Maturity Board ─────────────────────────────────── */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-2">
+            {/* Parecer de Governança */}
+            <div className="lg:col-span-1 rounded-[32px] p-8 bg-slate-900 border border-slate-800 shadow-2xl relative overflow-hidden flex flex-col text-white">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none" />
+              <div className="relative z-10 flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10">
+                  <Scale size={22} className="text-white" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white/90 uppercase tracking-widest">Maturidade</h3>
+                  <p className="text-[10px] text-white/50 uppercase font-bold tracking-widest mt-0.5">Governança de Capital</p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-sm font-bold text-white/90 uppercase tracking-widest">Health Score</h3>
-                <p className="text-[10px] text-white/50 uppercase font-bold tracking-widest mt-0.5">Visão de Board</p>
+
+              <div className="flex justify-center mb-6 relative z-10">
+                <ScoreRing
+                  value={behavior?.capitalReinforcementIndex ?? 0}
+                  label="Índice de Reforço"
+                  color={
+                    (behavior?.capitalReinforcementIndex ?? 0) >= 80 ? 'emerald' :
+                    (behavior?.capitalReinforcementIndex ?? 0) >= 50 ? 'blue' :
+                    (behavior?.capitalReinforcementIndex ?? 0) >= 30 ? 'amber' : 'rose'
+                  }
+                />
               </div>
+
+              <div className="bg-white/5 p-5 rounded-2xl border border-white/5 relative z-10">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/50 mb-1">Status</p>
+                <p className={cn('text-sm font-black', maturityStyle.color.replace('text-', 'text-white/') || 'text-white/90')}>
+                  {maturityStyle.label}
+                </p>
+              </div>
+            </div>
+
+            {/* Parecer narrativo */}
+            <div className="lg:col-span-2 bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center">
+                  <Zap size={20} className="text-slate-700" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Parecer de Governança</h3>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-0.5">Análise Estrutural DLPA</p>
+                </div>
+              </div>
+
+              <div className={cn('p-5 rounded-2xl border mb-4 flex flex-col gap-3', maturityStyle.bg, maturityStyle.border)}>
+                <div className="flex gap-4">
+                  <div className="shrink-0 mt-0.5">
+                    {behavior?.governanceMaturity === 'MATURA' && <CheckCircle2 size={18} className="text-emerald-600" />}
+                    {behavior?.governanceMaturity === 'EM_DESENVOLVIMENTO' && <Info size={18} className="text-blue-600" />}
+                    {behavior?.governanceMaturity === 'FRÁGIL' && <AlertTriangle size={18} className="text-amber-600" />}
+                    {behavior?.governanceMaturity === 'DESTRUTIVA' && <ShieldAlert size={18} className="text-rose-600" />}
+                    {!behavior && <Info size={18} className="text-slate-400" />}
+                  </div>
+                  <p className={cn('text-sm font-medium leading-relaxed', maturityStyle.color)}>
+                    {narrative || 'Aguardando análise de dados DLPA...'}
+                  </p>
+                </div>
+                {fiduciaryOutput?.fiduciaryWarnings && fiduciaryOutput.fiduciaryWarnings.length > 0 && (
+                  <div className="mt-2 pt-2 border-t border-slate-200/50 flex flex-wrap gap-2">
+                    {fiduciaryOutput.fiduciaryWarnings.map((warning: string, idx: number) => (
+                      <span key={idx} className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded bg-rose-500/10 text-rose-600 border border-rose-500/20">
+                        <AlertTriangle size={10} /> {warning}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Mini-resumo financeiro */}
+              {dlpaMetrics && (
+                <div className="grid grid-cols-2 gap-3 mt-auto">
+                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Taxa de Retenção</p>
+                    <p className={cn('text-lg font-black', parsedTaxaRetencao >= 30 ? 'text-emerald-600' : 'text-rose-600')}>
+                      {parsedTaxaRetencao.toFixed(1)}%
+                    </p>
+                  </div>
+                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Taxa de Distribuição</p>
+                    <p className={cn('text-lg font-black', parsedTaxaDistribuicao > 70 ? 'text-amber-600' : 'text-slate-700')}>
+                      {parsedTaxaDistribuicao.toFixed(1)}%
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="bg-white/5 p-5 rounded-2xl border border-white/5 backdrop-blur-md relative z-10">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-white/50 mb-1">Maturidade do Capital</p>
-            <p className="text-lg font-black text-white/90">{executiveReport?.scores?.governance >= 60 ? 'Distribuição Estratégica' : 'Retenção Recomendada'}</p>
+          {/* ── KPIs de Governança DLPA ────────────────────────────────────── */}
+          <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-5 px-2 flex items-center gap-2">
+            <Activity size={16} className="text-secondary" /> Indicadores de Governança de Capital
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <DlpaKpiCard
+              title="Lucro Líquido do Exercício"
+              value={formatCurrency(dlpaMetrics?.lucroLiquido ?? 0)}
+              subtitle="Base para distribuição"
+              statusLabel={dlpaMetrics && dlpaMetrics.lucroLiquido > 0 ? 'Lucrativo' : dlpaMetrics?.lucroLiquido === 0 ? 'Sem Resultado' : 'Prejuízo'}
+              statusBg={dlpaMetrics && dlpaMetrics.lucroLiquido > 0 ? 'bg-emerald-50' : 'bg-rose-50'}
+              statusText={dlpaMetrics && dlpaMetrics.lucroLiquido > 0 ? 'text-emerald-700' : 'text-rose-700'}
+              statusBorder={dlpaMetrics && dlpaMetrics.lucroLiquido > 0 ? 'border-emerald-200' : 'border-rose-200'}
+              icon={TrendingUp}
+              accentColor="bg-emerald-400 text-emerald-600"
+            />
+            <DlpaKpiCard
+              title="Dividendos / Distribuição"
+              value={formatCurrency(dlpaMetrics?.dividendos ?? 0)}
+              subtitle="Distribuído aos sócios"
+              statusLabel={distributionStyle.label}
+              statusBg={distributionStyle.bg}
+              statusText={distributionStyle.color}
+              statusBorder={distributionStyle.border}
+              icon={Percent}
+              accentColor="bg-blue-400 text-blue-600"
+            />
+            <DlpaKpiCard
+              title="Lucro Retido no Exercício"
+              value={formatCurrency(retentionValue)}
+              subtitle="Reinvestimento / Reservas"
+              statusLabel={retentionStyle.label}
+              statusBg={retentionStyle.bg}
+              statusText={retentionStyle.color}
+              statusBorder={retentionStyle.border}
+              icon={retentionStyle.icon}
+              accentColor="bg-indigo-400 text-indigo-600"
+            />
+            <DlpaKpiCard
+              title="Preservação Patrimonial"
+              value={
+                fiduciaryOutput && fiduciaryOutput.preservationRatioReliability !== 'RELIABLE'
+                  ? (fiduciaryOutput.preservationRatioReliability === 'INSUFFICIENT_PATRIMONIAL_BASE' ? 'Base Insuficiente' : 'Inconfiável')
+                  : (preservation?.equityPreservationRatio != null ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—')
+              }
+              subtitle="PL Fim / PL Início"
+              statusLabel={preservationStyle.label}
+              statusBg={preservationStyle.bg}
+              statusText={preservationStyle.color}
+              statusBorder={preservationStyle.border}
+              icon={ShieldCheck}
+              accentColor="bg-purple-400 text-purple-600"
+            />
           </div>
-        </div>
 
-        <div className="lg:col-span-2 bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm flex flex-col">
-           <div className="flex items-center gap-3 mb-6">
-             <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center">
-               <Zap size={20} className="text-slate-700" />
-             </div>
-             <div>
-               <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Parecer Executivo Automático</h3>
-               <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-0.5">Análise Sistêmica</p>
-             </div>
-           </div>
-
-           <div className="space-y-4 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-             {executiveReport?.causality?.insights?.map((insight, idx) => (
-               <div key={idx} className={cn(
-                 "p-5 rounded-2xl border flex gap-4",
-                 insight.bgClass
-               )}>
-                 <div className="shrink-0 mt-0.5">
-                    {insight.bgClass.includes('rose') ? <ShieldAlert size={18} className="text-rose-500" /> :
-                     insight.bgClass.includes('amber') ? <AlertTriangle size={18} className="text-amber-500" /> :
-                     insight.bgClass.includes('emerald') ? <CheckCircle2 size={18} className="text-emerald-500" /> :
-                     <Info size={18} className="text-blue-500" />}
-                 </div>
-                 <p className={cn(
-                   "text-sm font-medium leading-relaxed text-slate-800"
-                 )}>
-                   {insight.text}
-                 </p>
-               </div>
-             ))}
-           </div>
-        </div>
-      </div>
-
-      {/* Grade de Indicadores */}
-      <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-6 px-2 flex items-center gap-2">
-        <Activity size={16} className="text-secondary" /> Indicadores Estratégicos
-      </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        <AdvancedKpiCard 
-          title="Liquidez Geral" 
-          value={formatValue(executiveReport?.metrics?.financialMetrics?.liqGeral || 0, '')} 
-          subtitle="Ativos / Passivos"
-          status={{ label: 'Mapeado', bgColor: 'bg-slate-100', textColor: 'text-slate-600', borderColor: 'border-slate-200' }}
-          icon={TrendingUp}
-          colorClass="bg-blue-50 text-blue-500"
-          borderClass="border-blue-100"
-        />
-        <AdvancedKpiCard 
-          title="Endividamento" 
-          value={formatValue((executiveReport?.metrics?.financialMetrics?.qualidadeEndividamento || 0) * 100, '') + '%'} 
-          subtitle="Qualidade Passivo"
-          status={{ label: 'Mapeado', bgColor: 'bg-emerald-500/10', textColor: 'text-emerald-600', borderColor: 'border-emerald-500/20' }}
-          icon={Activity}
-          colorClass="bg-emerald-50 text-emerald-500"
-          borderClass="border-emerald-100"
-        />
-        <AdvancedKpiCard 
-          title="Capital de Giro Líq." 
-          value={formatCurrency(executiveReport?.metrics?.financialMetrics?.cgl || 0)} 
-          subtitle="Recursos de Longo Prazo"
-          status={{ label: 'Mapeado', bgColor: 'bg-blue-500/10', textColor: 'text-blue-600', borderColor: 'border-blue-500/20' }}
-          icon={ShieldCheck}
-          colorClass="bg-indigo-50 text-indigo-500"
-          borderClass="border-indigo-100"
-        />
-        <AdvancedKpiCard 
-          title="Saldo Tesouraria" 
-          value={formatCurrency(executiveReport?.metrics?.financialMetrics?.saldoTesouraria || 0)} 
-          subtitle="Margem Segurança"
-          status={{ label: 'Mapeado', bgColor: 'bg-purple-50', textColor: 'text-purple-600', borderColor: 'border-purple-200' }}
-          icon={Database}
-          colorClass="bg-purple-50 text-purple-500"
-          borderClass="border-purple-100"
-        />
-      </div>
-
-      {/* Gráficos Analíticos */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-         <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h3 className="text-lg font-black text-slate-900">Dinâmica de Geração e Distribuição</h3>
-                <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-1">Lucro Líquido vs FCO vs Dividendos</p>
+          {/* ── Gráficos ─────────────────────────────────────────────────── */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+            {/* Gráfico Lucro vs Dividendos */}
+            <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm">
+              <div className="mb-6">
+                <h3 className="text-lg font-black text-slate-900">Lucro vs Distribuição Histórica</h3>
+                <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-1">Evolução dos últimos 5 anos</p>
               </div>
-            </div>
-            
-            <div className="h-[320px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                  <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} dy={10} />
-                  <YAxis hide />
-                  <Tooltip 
-                    cursor={{ fill: '#f8fafc' }}
-                    content={({ active, payload }) => {
-                      if (active && payload && payload.length) {
-                        return (
-                          <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100">
-                            <p className="text-[10px] font-black uppercase tracking-widest mb-3 text-slate-400">{payload[0].payload.year}</p>
-                            <div className="space-y-2">
-                              {payload.map((p: any, idx: number) => (
-                                <div key={idx} className="flex items-center justify-between gap-8">
+              <div className="h-[280px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                    <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} dy={8} />
+                    <YAxis hide />
+                    <Tooltip
+                      cursor={{ fill: '#f8fafc' }}
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100">
+                              <p className="text-[10px] font-black uppercase tracking-widest mb-3 text-slate-400">{payload[0]?.payload?.year}</p>
+                              {payload.map((p: any, i: number) => (
+                                <div key={i} className="flex items-center justify-between gap-6 mb-1">
                                   <div className="flex items-center gap-2">
                                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
                                     <span className="text-[10px] font-bold text-slate-600 uppercase">{p.name}</span>
@@ -320,111 +574,183 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                                 </div>
                               ))}
                             </div>
-                          </div>
-                        );
-                      }
-                      return null;
-                    }}
-                  />
-                  <Bar dataKey="Lucro" name="Lucro Líquido" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={40} />
-                  <Bar dataKey="Dividendos" name="Dividendos" fill="#f43f5e" radius={[4, 4, 0, 0]} maxBarSize={40} />
-                  <Line type="monotone" dataKey="FCO" name="Caixa Operac. (FCO)" stroke="#10b981" strokeWidth={3} dot={{ r: 4, fill: '#10b981', strokeWidth: 2, stroke: '#fff' }} />
-                </ComposedChart>
-              </ResponsiveContainer>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Bar dataKey="LucroLíquido" name="Lucro Líquido" fill="#3b82f6" radius={[5, 5, 0, 0]} maxBarSize={36} />
+                    <Bar dataKey="Dividendos"   name="Dividendos"    fill="#f43f5e" radius={[5, 5, 0, 0]} maxBarSize={36} />
+                    <Line type="monotone" dataKey="ReservaLegal" name="Reserva Legal" stroke="#8b5cf6" strokeWidth={2.5}
+                      dot={{ r: 4, fill: '#8b5cf6', strokeWidth: 2, stroke: '#fff' }} />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-         </div>
 
-         <div className="bg-slate-900 text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden flex flex-col">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
-            
-            <h3 className="text-lg font-black mb-1 relative z-10">Mapeamento de Valor</h3>
-            <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-8 relative z-10">Qualidade e Sustentabilidade</p>
-            
-            <div className="space-y-4 flex-1 relative z-10">
-               <div className="p-5 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between backdrop-blur-sm hover:bg-white/10 transition-colors">
-                  <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Qualidade do Lucro</p>
-                    <p className="text-sm font-bold text-white">
-                      {executiveReport?.scores?.financial >= 70 ? 'Alta' : 'Moderada'}
-                    </p>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
-                    <Database size={16} className="text-white/70" />
-                  </div>
-               </div>
+            {/* Mapa de Governança */}
+            <div className="bg-slate-900 text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden flex flex-col">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
 
-               <div className="p-5 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between backdrop-blur-sm hover:bg-white/10 transition-colors">
-                  <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Impacto Patrimonial</p>
-                    <p className="text-sm font-bold text-white">
-                      {executiveReport?.scores?.composite >= 60 ? 'Preservado' : 'Sob Pressão'}
-                    </p>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
-                    <ShieldCheck size={16} className="text-white/70" />
-                  </div>
-               </div>
+              <h3 className="text-lg font-black mb-1 relative z-10">Radar de Governança</h3>
+              <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-6 relative z-10">Dimensões Institucionais</p>
 
-               <div className="p-5 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between backdrop-blur-sm hover:bg-white/10 transition-colors">
-                  <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Causalidade Temporal</p>
-                    <p className="text-sm font-bold text-white">
-                      Monitorado pelo Runtime
-                    </p>
+              <div className="space-y-3 flex-1 relative z-10">
+                {[
+                  {
+                    label: 'Retenção de Capital',
+                    value: retention?.retentionRatio != null ? `${(retention.retentionRatio * 100).toFixed(1)}%` : '—',
+                    badge: retentionStyle.label,
+                    badgeColor: retention?.retentionStatus === 'ALTA_RETENÇÃO' ? 'text-emerald-400' :
+                      retention?.retentionStatus === 'DESCAPITALIZAÇÃO_DELIBERADA' ? 'text-rose-400' : 'text-blue-400',
+                    icon: BookMarked
+                  },
+                  {
+                    label: 'Pressão Distributiva',
+                    value: distribution?.distributionRatio != null ? `${(distribution.distributionRatio * 100).toFixed(1)}%` : '—',
+                    badge: distributionStyle.label,
+                    badgeColor: distribution?.distributionPressure === 'CRÍTICA' ? 'text-rose-400' :
+                      distribution?.distributionPressure === 'BAIXA' ? 'text-emerald-400' : 'text-amber-400',
+                    icon: PieChartIcon
+                  },
+                  {
+                    label: 'Preservação do PL',
+                    value: preservation ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—',
+                    badge: preservationStyle.label,
+                    badgeColor: preservation?.preservationStatus === 'PRESERVAÇÃO_SAUDÁVEL' ? 'text-emerald-400' :
+                      preservation?.preservationStatus === 'FRAGILIDADE_PATRIMONIAL' ? 'text-rose-400' : 'text-slate-400',
+                    icon: ShieldCheck
+                  },
+                  {
+                    label: 'Maturidade da Governança',
+                    value: `${behavior?.capitalReinforcementIndex ?? 0}/100`,
+                    badge: maturityStyle.label,
+                    badgeColor: behavior?.governanceMaturity === 'MATURA' ? 'text-emerald-400' :
+                      behavior?.governanceMaturity === 'DESTRUTIVA' ? 'text-rose-400' : 'text-blue-400',
+                    icon: Scale
+                  }
+                ].map(({ label, value, badge, badgeColor, icon: Icon }) => (
+                  <div key={label} className="p-4 bg-white/5 rounded-xl border border-white/5 flex items-center justify-between hover:bg-white/10 transition-colors backdrop-blur-sm">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center border border-white/10">
+                        <Icon size={14} className="text-white/70" />
+                      </div>
+                      <div>
+                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
+                        <p className={cn('text-xs font-bold mt-0.5', badgeColor)}>{badge}</p>
+                      </div>
+                    </div>
+                    <p className="text-sm font-black text-white">{value}</p>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
-                    <AlertTriangle size={16} className="text-white/70" />
-                  </div>
-               </div>
+                ))}
+              </div>
             </div>
-         </div>
-      </div>
-
-      {/* Detalhamento da DLPA (Tabela) */}
-      <div className="bg-white border border-slate-200 rounded-[32px] shadow-sm overflow-hidden mb-10">
-        <div className="px-6 md:px-8 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-          <div className="flex items-center gap-3">
-             <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center border border-blue-100">
-               <FileText size={16} className="text-blue-500" />
-             </div>
-             <div>
-               <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Detalhamento da DLPA</h4>
-               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Demonstração Contábil</p>
-             </div>
           </div>
-          <span className="text-[9px] font-black uppercase px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
-            Composição de Lucros
-          </span>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-white border-b border-slate-100">
-                <th className="text-left py-4 px-6 md:px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição da Conta</th>
-                <th className="text-right py-4 px-6 md:px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor (R$)</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {[
-                { conta: 'DLPA Estrutural', val: 0, isTotal: true },
-              ].map((row: any, i: number) => (
-                <tr key={i} className={cn('hover:bg-slate-50 transition-colors group', row.isTotal ? 'bg-slate-50/30' : '')}>
-                  <td className="py-3.5 px-6 md:px-8">
-                    <span className={cn('block', row.isTotal ? 'text-slate-900 font-black' : 'text-slate-500 font-medium pl-4')}>
-                      {row.conta}
-                    </span>
-                  </td>
-                  <td className={cn("py-3.5 px-6 md:px-8 text-right font-mono font-bold", (row.val || 0) < 0 ? "text-rose-500" : "text-slate-700", row.isTotal && "text-slate-900")}>
-                    {formatCurrency(row.val || 0)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
 
+          {/* ── Tabela Detalhada dos Registros DLPA ─────────────────────── */}
+          <div className="bg-white border border-slate-200 rounded-[32px] shadow-sm overflow-hidden">
+            <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
+                  <FileText size={16} className="text-blue-500" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Detalhamento DLPA — {filterYear}</h4>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Demonstração Contábil Importada</p>
+                </div>
+              </div>
+              <span className="text-[9px] font-black uppercase px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
+                {dbDataDLPA.length} lançamentos
+              </span>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-white border-b border-slate-100">
+                    <th className="text-left py-4 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição da Conta</th>
+                    <th className="text-right py-4 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor (R$)</th>
+                    <th className="text-right py-4 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Natureza</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {dbDataDLPA.map((row: any, i: number) => {
+                    const v = Number(row.val || row.valor || row.value || 0);
+                    const isNegative = v < 0;
+                    const conta = row.conta || row.category || row.nome || '—';
+                    const isTotal = conta.toLowerCase().includes('total') ||
+                      conta.toLowerCase().includes('saldo') ||
+                      conta.toLowerCase().includes('lucro liquido') ||
+                      conta.toLowerCase().includes('resultado');
+                    return (
+                      <tr key={row.id || i} className={cn('hover:bg-slate-50 transition-colors', isTotal ? 'bg-slate-50/60' : '')}>
+                        <td className="py-3.5 px-8">
+                          <span className={cn('block', isTotal ? 'text-slate-900 font-black text-sm' : 'text-slate-600 font-medium pl-4 text-sm')}>
+                            {conta}
+                          </span>
+                        </td>
+                        <td className={cn('py-3.5 px-8 text-right font-mono font-bold text-sm',
+                          isNegative ? 'text-rose-600' : 'text-slate-700',
+                          isTotal && 'text-slate-900 font-black')}>
+                          {formatCurrency(v)}
+                        </td>
+                        <td className="py-3.5 px-8 text-right">
+                          <span className={cn('text-[9px] font-black uppercase px-2.5 py-1 rounded-full border',
+                            isNegative ? 'bg-rose-50 text-rose-600 border-rose-200' : v > 0 ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-slate-50 text-slate-400 border-slate-200'
+                          )}>
+                            {isNegative ? 'Redução' : v > 0 ? 'Adição' : 'Neutro'}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+
+                {/* Totalizador: Lucro Retido */}
+                {dlpaMetrics && (
+                  <tfoot>
+                    <tr className="bg-slate-900 text-white">
+                      <td className="py-4 px-8 text-sm font-black uppercase tracking-widest">
+                        Saldo de Lucros Retidos
+                      </td>
+                      <td className={cn('py-4 px-8 text-right font-mono font-black text-sm',
+                        retentionValue >= 0 ? 'text-emerald-400' : 'text-rose-400')}>
+                        {formatCurrency(retentionValue)}
+                      </td>
+                      <td className="py-4 px-8 text-right">
+                        <span className="text-[9px] font-black uppercase px-2.5 py-1 rounded-full bg-white/10 text-white border border-white/20">
+                          Calculado
+                        </span>
+                      </td>
+                    </tr>
+                  </tfoot>
+                )}
+              </table>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Modals */}
+      {showImportModal && (
+        <ImportFinancialModal
+          type="DLPA"
+          clientId={selectedClient}
+          year={filterYear}
+          clients={clients || []}
+          onClose={() => setShowImportModal(false)}
+          onSuccess={() => { setShowImportModal(false); refetchDLPA(); showToast('success', 'DLPA importado com sucesso!'); }}
+        />
+      )}
+      {showManualModal && (
+        <ManualFinancialModal
+          type="DLPA"
+          clientId={selectedClient}
+          year={filterYear}
+          onClose={() => setShowManualModal(false)}
+          onSuccess={() => { setShowManualModal(false); refetchDLPA(); showToast('success', 'DLPA lançado com sucesso!'); }}
+        />
+      )}
     </div>
   );
 }

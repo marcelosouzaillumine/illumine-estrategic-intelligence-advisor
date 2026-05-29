@@ -154,7 +154,7 @@ describe('Institutional Memory Engine (RC-1.2A) Suite', () => {
     };
 
     const report = executiveRuntime.generateExecutiveReport(payload);
-    assert.ok(report.advisory.executiveSummary.includes('Histórico insuficiente'));
+    assert.ok(report.advisory.executiveSummary.includes('A base histórica atual ainda é limitada'), 'Deve apontar histórico insuficiente no summary.');
   });
 
   // 7. Mudança de padrão operacional

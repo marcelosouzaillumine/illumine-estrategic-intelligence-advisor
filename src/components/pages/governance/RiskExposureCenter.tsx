@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { ShieldAlert, AlertTriangle, TrendingUp, Activity, CheckCircle, Users } from 'lucide-react';
-import { enterpriseRiskEngine } from '../../../core/runtime/governance/risk/EnterpriseRiskEngine';
-import { RiskHeatmap } from '../../../core/runtime/governance/risk/types';
+import React, { useMemo } from 'react';
+import { ShieldAlert, AlertTriangle, TrendingUp, Activity, CheckCircle, Users, ActivitySquare } from 'lucide-react';
+import { detectCrossStatementCausality } from '../../../core/runtime/CrossStatementCausalityEngine';
 import { PageHeader } from '../../Common';
 
 export function RiskExposureCenter() {
-  const [heatmapData, setHeatmapData] = useState<RiskHeatmap | null>(null);
-
-  useEffect(() => {
-    // Em produção, o tenantId viria do TenantExecutionContext do usuário logado.
-    // Estamos chamando a engine real que está vazia no momento, 
-    // mas pronta para receber dados reais (sem mocks soltos na engine).
-    const data = enterpriseRiskEngine.generateHeatmap('current-tenant-id');
-    setHeatmapData(data);
+  // Simulação de injeção da engine causal Cross-Domain
+  const causality = useMemo(() => {
+    return detectCrossStatementCausality(4000, -2000, 0, 8000, 0, 0);
   }, []);
 
-  if (!heatmapData) {
-    return <div className="p-8 text-slate-400">Carregando telemetria de riscos institucionais...</div>;
+  if (!causality) {
+    return <div className="p-8 text-slate-400">Carregando telemetria causal institucional...</div>;
   }
 
   return (
@@ -30,80 +24,88 @@ export function RiskExposureCenter() {
         actions={
           <div className="text-right">
             <div className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1">Exposição Residual</div>
-            <div className="text-4xl font-light text-emerald-400">{heatmapData.consolidatedResidualRisk.toLocaleString()}</div>
+            <div className="text-4xl font-light text-emerald-400">Monitoramento Ativo</div>
           </div>
         }
       />
 
-      {/* Cards de Status (Executive Summary) */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      {/* Cards de Status (Causality Summary) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <StatusCard 
-          title="Riscos Críticos" 
-          value={heatmapData.topCriticalRisks.length} 
+          title="Tensões Ativas" 
+          value={causality.tensions.length} 
           icon={<AlertTriangle className="w-5 h-5 text-red-500" />} 
-          trend="Atenção Imediata"
+          trend="Cross-Statement"
         />
         <StatusCard 
-          title="Mitigações Atrasadas" 
-          value={heatmapData.delayedMitigations.length} 
-          icon={<Activity className="w-5 h-5 text-amber-500" />} 
-          trend="Fiduciário"
+          title="Resolução Runtime" 
+          value={causality.resolution.status} 
+          icon={<ActivitySquare className="w-5 h-5 text-amber-500" />} 
+          trend="Status"
         />
         <StatusCard 
-          title="Riscos Sem Owner" 
-          value={heatmapData.risksWithoutOwner.length} 
-          icon={<Users className="w-5 h-5 text-slate-400" />} 
-          trend="Governança"
-        />
-        <StatusCard 
-          title="Tendência de Exposição" 
-          value={heatmapData.exposureTrend} 
+          title="Origem Sistêmica Principal" 
+          value={causality.tensions[0]?.source || 'N/A'} 
           icon={<TrendingUp className="w-5 h-5 text-emerald-500" />} 
-          trend="vs Último Trimestre"
+          trend="Domínio de Risco"
         />
       </div>
 
       {/* Matriz e Listagem (Board-Ready View) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Painel da Matriz Visual (Placeholder para gráfico real) */}
+        {/* Painel da Matriz Visual (Causal Domino Effect) */}
         <div className="lg:col-span-2 card-premium p-8">
           <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
             <Activity className="w-5 h-5 text-slate-400" />
-            Impacto vs Probabilidade
+            Efeito Dominó (Causalidade Sistêmica)
           </h2>
           
-          <div className="aspect-video bg-slate-950/60 rounded-xl border border-border/10 flex items-center justify-center relative overflow-hidden shadow-inner">
-            {/* Aqui entraria a renderização do grid 5x5 do heatmap real baseado em heatmapData.matrix */}
-            <div className="text-center">
-              <ShieldAlert className="w-12 h-12 text-slate-700 mx-auto mb-3" />
-              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider leading-relaxed">
-                Aguardando consolidação do Motor de Risco.<br/>
-                Ambiente multi-tenant seguro e isolado.
-              </p>
-            </div>
+          <div className="aspect-video bg-slate-950/60 rounded-xl border border-border/10 p-6 flex flex-col gap-4 overflow-y-auto">
+            {causality.tensions.length === 0 ? (
+              <div className="text-center my-auto">
+                <ShieldAlert className="w-12 h-12 text-slate-700 mx-auto mb-3" />
+                <p className="text-slate-500 text-xs font-bold uppercase tracking-wider leading-relaxed">
+                  Aguardando consolidação do Motor Causal.<br/>
+                  Nenhuma propagação de tensão detectada.
+                </p>
+              </div>
+            ) : (
+              causality.tensions.map((tension, idx) => (
+                <div key={idx} className="flex flex-col gap-2 p-4 bg-slate-900 border border-slate-800 rounded-lg">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <span className="text-rose-400">{tension.source}</span>
+                    <span>→</span>
+                    <span className="text-amber-400">{tension.target}</span>
+                  </div>
+                  <p className="text-sm text-slate-300">{tension.mechanism}</p>
+                  <p className="text-xs text-slate-500 italic mt-2">Evidência: {tension.evidence}</p>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
-        {/* Top Riscos */}
+        {/* Top Vulnerabilidades */}
         <div className="card-premium p-8">
           <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-red-400" />
-            Top Riscos Críticos
+            Tensões Críticas Escalonadas
           </h2>
           <div className="space-y-4">
-            {heatmapData.topCriticalRisks.length === 0 ? (
-              <div className="text-slate-500 text-xs font-bold uppercase tracking-wider py-8 text-center">Nenhum risco crítico identificado no período.</div>
+            {causality.tensions.filter(t => t.severity === 'CRÍTICA' || t.severity === 'ALTA').length === 0 ? (
+              <div className="text-slate-500 text-xs font-bold uppercase tracking-wider py-8 text-center">Nenhuma tensão crítica identificada no período.</div>
             ) : (
-              heatmapData.topCriticalRisks.map(risk => (
-                <div key={risk.riskId} className="p-4 bg-slate-950/40 border border-border/10 rounded-xl">
+              causality.tensions.filter(t => t.severity === 'CRÍTICA' || t.severity === 'ALTA').map((tension, idx) => (
+                <div key={idx} className="p-4 bg-slate-950/40 border border-border/10 rounded-xl">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-slate-200 font-medium text-sm">{risk.title}</h3>
-                    <span className="px-2.5 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
-                      Crítico
+                    <h3 className="text-slate-200 font-medium text-sm">{tension.source} → {tension.target}</h3>
+                    <span className={`px-2.5 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-full border ${
+                      tension.severity === 'CRÍTICA' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                    }`}>
+                      {tension.severity}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1">{risk.category}</p>
                 </div>
               ))
             )}

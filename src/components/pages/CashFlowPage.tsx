@@ -37,6 +37,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
   const [dbFluxo, setDbFluxo] = useState<any>(null);
   const [executiveReport, setExecutiveReport] = useState<ExecutiveIntelligenceReport | null>(null);
+  const executiveMaturity = executiveReport?.institutionalView?.maturity?.stageLabel || executiveReport?.context?.stage || 'Em Análise';
 
   useEffect(() => {
     refreshData();
@@ -85,9 +86,11 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
       if (!snap.empty) {
         const data = snap.docs[0].data();
         setDbFluxo(data);
+        const clientObj = clients?.find((c: any) => c.id === cleanId);
         const input = {
+          clientProfile: clientObj,
           cashFlowData: [data],
-          rawFinancialData: { segmentoEmpresa: clients?.find((c: any) => c.id === cleanId)?.segmento || 'Default' },
+          rawFinancialData: { segmentoEmpresa: clientObj?.segmento || 'Default' },
           historicalCyclesCount: 1,
           isMockData: false
         };

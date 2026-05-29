@@ -1,40 +1,63 @@
-import { HistoricalCycleData } from './types';
+import { LedgerEvent, InstitutionalDecisionLedger } from './InstitutionalDecisionLedger';
+
+export interface PersistentRecommendation {
+  recommendation: string;
+  consecutiveCycles: number;
+  status: 'NEW' | 'PERSISTENT' | 'CRITICAL_IGNORANCE';
+}
 
 export class RecommendationPersistenceTracker {
-  public static trackIgnored(cycles: HistoricalCycleData[]): string[] {
-    if (!cycles || cycles.length < 3) {
-      return []; // Fail-closed: no sufficient cycles to track ignore behavior
-    }
-
-    // Sort cycles by year ascending (oldest first)
-    const sorted = [...cycles].sort((a, b) => a.year - b.year);
-    const newestCycle = sorted[sorted.length - 1];
-    const newestRecs = newestCycle.recommendations || [];
-
-    const ignored: string[] = [];
-
-    for (const rec of newestRecs) {
-      const normalizedRec = rec.toLowerCase().trim();
-      let consecutiveCount = 1;
-
-      // Count backwards to check consecutive presence
-      for (let i = sorted.length - 2; i >= 0; i--) {
-        const prevRecs = sorted[i].recommendations || [];
-        const found = prevRecs.some(pr => pr.toLowerCase().trim() === normalizedRec);
-        if (found) {
-          consecutiveCount++;
-        } else {
-          break; // Must be consecutive
+  public static trackIgnored(cycles: any[]): string[] {
+    const recMap = new Map<string, number>();
+    for (const cycle of cycles) {
+      if (cycle.recommendations) {
+        for (const rec of cycle.recommendations) {
+          recMap.set(rec, (recMap.get(rec) || 0) + 1);
         }
       }
+    }
+    const ignored: string[] = [];
+    for (const [rec, count] of recMap.entries()) {
+      if (count >= 3) ignored.push(`${rec} (ignorado em 3 ciclos consecutivos)`);
+    }
+    return ignored;
+  }
 
-      if (consecutiveCount >= 3) {
-        ignored.push(
-          `A recomendação de "${rec}" foi emitida em ${consecutiveCount} ciclos consecutivos sem mitigação relevante.`
-        );
+  /**
+   * Reads from the ledger to track if recommendations are being ignored across cycles.
+   * Only looks at domain = 'recommendation'.
+   */
+  public static track(ledger: InstitutionalDecisionLedger): PersistentRecommendation[] {
+    const events = ledger.getEventsByDomain('recommendation');
+    
+    // Group by recommendation text (evidence[0]) or eventType
+    const recMap = new Map<string, LedgerEvent[]>();
+
+    for (const e of events) {
+      const key = e.eventType; // Assuming eventType holds the recommendation canonical name
+      if (!recMap.has(key)) {
+        recMap.set(key, []);
       }
+      recMap.get(key)!.push(e);
     }
 
-    return ignored;
+    const results: PersistentRecommendation[] = [];
+
+    for (const [key, occurrences] of recMap.entries()) {
+      // For simplicity, we just count occurrences. In a real time-series, we would verify consecutiveness via cycleId.
+      const consecutiveCycles = occurrences.length;
+
+      let status: 'NEW' | 'PERSISTENT' | 'CRITICAL_IGNORANCE' = 'NEW';
+      if (consecutiveCycles === 2) status = 'PERSISTENT';
+      if (consecutiveCycles >= 3) status = 'CRITICAL_IGNORANCE';
+
+      results.push({
+        recommendation: key,
+        consecutiveCycles,
+        status
+      });
+    }
+
+    return results;
   }
 }

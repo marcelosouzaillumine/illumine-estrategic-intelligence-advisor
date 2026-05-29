@@ -209,6 +209,9 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
   const getMockInput = () => ({
     isMockData: false,
     historicalCyclesCount: 3,
+    clientProfile: {
+      segmentoAtuacao: 'Tech Corp'
+    },
     rawFinancialData: {
       segmentoEmpresa: 'Tech Corp',
       prevPl: 800,

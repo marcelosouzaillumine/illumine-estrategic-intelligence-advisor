@@ -51,7 +51,10 @@ import {
   Lock,
   Eye,
   EyeOff,
+  Languages,
 } from 'lucide-react';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { LanguageSelector } from './components/shared/LanguageSelector';
 import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
 import { TooltipProvider } from './components/ui/tooltip';
 import { AppSidebar } from './components/AppSidebar';
@@ -346,8 +349,8 @@ export default function App() {
         setCurrentPage(page as Page);
       }
     } else if (location.pathname === '/dashboard') {
-      if (currentPage !== 'dashboard') {
-        setCurrentPage('dashboard' as Page);
+      if (currentPage !== 'efos') {
+        setCurrentPage('efos' as Page);
       }
     }
   }, [location.pathname, currentPage]);
@@ -365,7 +368,7 @@ export default function App() {
         if (isMaster || isPartner) {
           navigate('/dashboard/portfolio', { replace: true });
         } else {
-          navigate('/dashboard/dashboard', { replace: true });
+          navigate('/dashboard/efos', { replace: true });
         }
       }
 
@@ -426,71 +429,74 @@ export default function App() {
   }
 
   return (
-    <GovernanceProvider user={user}>
-      <TenancyProvider>
-        <ExecutiveCognitiveProvider>
-          <ExecutiveInteractionProvider>
-            <InstitutionalMemoryProvider initialTenantId={selectedClient}>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/empresas" element={<EmpresasPage />} />
-                <Route path="/parceiros" element={<ParceirosPage />} />
-                <Route path="/diagnostico" element={<DiagnosticoPage />} />
-                <Route path="/login" element={user ? <Navigate to="/dashboard/dashboard" replace /> : <LoginPage />} />
-                <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />
-                
-                <Route 
-                  path="/dashboard/*" 
-                  element={
-                    user ? (
-                      <GovernanceProvider user={user}>
-                        <TooltipProvider>
-                          {requirePasswordChange && <ForcePasswordChangeModal onSuccess={() => setRequirePasswordChange(false)} />}
-                          <AppContent 
-                            user={user}
-                            authLoading={authLoading}
-                            clients={clients}
-                            selectedClient={selectedClient}
-                            setSelectedClient={setSelectedClient}
-                            selectedMonth={selectedMonth}
-                            setSelectedMonth={setSelectedMonth}
-                            selectedYear={selectedYear}
-                            setSelectedYear={setSelectedYear}
-                            setCurrentPage={(page: Page) => navigate(`/dashboard/${page}`)}
-                            setClients={setClients}
-                            currentPage={currentPage}
-                            academyCourseId={academyCourseId}
-                            setAcademyCourseId={setAcademyCourseId}
-                            isSidebarCollapsed={isSidebarCollapsed}
-                            setIsSidebarCollapsed={setIsSidebarCollapsed}
-                            isMobileMenuOpen={isMobileMenuOpen}
-                            setIsMobileMenuOpen={setIsMobileMenuOpen}
-                            openSubmenus={openSubmenus}
-                            toggleSubmenu={toggleSubmenu}
-                            userPermissions={userPermissions}
-                            isPartner={isPartner}
-                            isMaster={isMaster}
-                            userPartnerIds={userPartnerIds}
-                            showWelcome={showWelcome}
-                            setShowWelcome={setShowWelcome}
-                            welcomeText={welcomeText}
-                          />
-                        </TooltipProvider>
-                      </GovernanceProvider>
-                    ) : (
-                      <Navigate to="/login" replace />
-                    )
-                  }
-                />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </InstitutionalMemoryProvider>
-          </ExecutiveInteractionProvider>
-        </ExecutiveCognitiveProvider>
-      </TenancyProvider>
-    </GovernanceProvider>
+    <LanguageProvider>
+      <GovernanceProvider user={user}>
+        <TenancyProvider>
+          <ExecutiveCognitiveProvider>
+            <ExecutiveInteractionProvider>
+              <InstitutionalMemoryProvider initialTenantId={selectedClient}>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/empresas" element={<EmpresasPage />} />
+                  <Route path="/parceiros" element={<ParceirosPage />} />
+                  <Route path="/diagnostico" element={<DiagnosticoPage />} />
+                  <Route path="/login" element={user ? <Navigate to="/dashboard/efos" replace /> : <LoginPage />} />
+                  <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />
+                  
+                  <Route 
+                    path="/dashboard/*" 
+                    element={
+                      user ? (
+                        <GovernanceProvider user={user}>
+                          <TooltipProvider>
+                            {requirePasswordChange && <ForcePasswordChangeModal onSuccess={() => setRequirePasswordChange(false)} />}
+                            <AppContent 
+                              user={user}
+                              authLoading={authLoading}
+                              clients={clients}
+                              selectedClient={selectedClient}
+                              setSelectedClient={setSelectedClient}
+                              selectedMonth={selectedMonth}
+                              setSelectedMonth={setSelectedMonth}
+                              selectedYear={selectedYear}
+                              setSelectedYear={setSelectedYear}
+                              setCurrentPage={(page: Page) => navigate(`/dashboard/${page}`)}
+                              setClients={setClients}
+                              currentPage={currentPage}
+                              academyCourseId={academyCourseId}
+                              setAcademyCourseId={setAcademyCourseId}
+                              isSidebarCollapsed={isSidebarCollapsed}
+                              setIsSidebarCollapsed={setIsSidebarCollapsed}
+                              isMobileMenuOpen={isMobileMenuOpen}
+                              setIsMobileMenuOpen={setIsMobileMenuOpen}
+                              openSubmenus={openSubmenus}
+                              toggleSubmenu={toggleSubmenu}
+                              userPermissions={userPermissions}
+                              isPartner={isPartner}
+                              isMaster={isMaster}
+                              userPartnerIds={userPartnerIds}
+                              showWelcome={showWelcome}
+                              setShowWelcome={setShowWelcome}
+                              welcomeText={welcomeText}
+                            />
+                          </TooltipProvider>
+                        </GovernanceProvider>
+                      ) : (
+                        <Navigate to="/login" replace />
+                      )
+                    }
+                  />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </InstitutionalMemoryProvider>
+            </ExecutiveInteractionProvider>
+          </ExecutiveCognitiveProvider>
+        </TenancyProvider>
+      </GovernanceProvider>
+    </LanguageProvider>
   );
 }
+
 
 function AppContent({ 
   user, 
@@ -521,6 +527,7 @@ function AppContent({
   setShowWelcome,
   welcomeText
 }: any) {
+  const { t } = useLanguage();
   const { isAccepted, setAccepted, role, loading: governanceLoading } = useGovernance();
   const { loadMemoryForTenant } = useInstitutionalMemory();
   const [showUniversalImport, setShowUniversalImport] = useState(false);
@@ -654,7 +661,7 @@ function AppContent({
             <div className="relative group hidden lg:block">
               <input 
                 type="text" 
-                placeholder="Busca Global de Inteligência..." 
+                placeholder={t('buttons.search_placeholder')} 
                 className="pl-8 pr-4 py-2 bg-surface-container/40 border-b border-border focus:border-secondary transition-all outline-none w-44 xl:w-72 text-xs font-sans text-foreground placeholder:text-neutral focus:bg-background" 
               />
               <Search size={14} strokeWidth={1.25} className="text-neutral absolute left-2 top-1/2 -translate-y-1/2 group-focus-within:text-secondary transition-colors" />
@@ -662,18 +669,19 @@ function AppContent({
           </div>
             
           <div className="flex items-center gap-2 sm:gap-4 md:gap-8 shrink-0">
+            <LanguageSelector />
             <div className="hidden sm:flex items-center gap-1.5 sm:gap-3">
               <button 
                  onClick={() => window.print()}
                  className="p-3 text-muted-foreground hover:text-foreground hover:bg-surface-container rounded-full transition-all"
-                 title="Imprimir Página"
+                 title={t('buttons.print_page')}
               >
                  <FileSpreadsheet size={20} strokeWidth={1} />
               </button>
               <button 
                  onClick={() => setShowUniversalImport(true)}
                  className="p-3 text-text-muted hover:text-accent hover:bg-bg-surface rounded-full transition-all hidden sm:flex group relative"
-                 title="Importar Documentos"
+                 title={t('buttons.import_documents')}
               >
                <UploadCloud size={20} strokeWidth={1} />
                  {totalPending > 0 && isMaster && (
@@ -688,7 +696,7 @@ function AppContent({
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
               <Zap strokeWidth={2.5} className="relative z-10 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300 w-3 h-3 sm:w-3.5 sm:h-3.5" />
               <span className="text-[clamp(8px,2vw,11px)] font-bold uppercase tracking-widest relative z-10">
-                Gerar Análise
+                {t('buttons.generate_analysis')}
               </span>
             </button>
           </div>

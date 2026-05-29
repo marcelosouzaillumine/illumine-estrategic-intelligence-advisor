@@ -18,15 +18,15 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
       { year: 2025, scores: { composite: 75 } }
     ];
 
-    const profile = InstitutionalCausalityOrchestrator.evaluate(cycles);
-    assert.equal(profile.historicalDensityRequirement, 'INSUFFICIENT');
-    assert.equal(profile.confidenceProfile.globalConfidence, LOW_CONFIDENCE);
-    assert.equal(profile.confidenceProfile.temporalConfidence, 0.0);
-    assert.equal(profile.confidenceProfile.evidenceDensityConfidence, 0.0);
-    assert.equal(profile.narrative, 'Histórico insuficiente para inferência causal longitudinal.');
-    assert.deepEqual(profile.sequences, []);
-    assert.deepEqual(profile.propagationVectors, []);
-    assert.deepEqual(profile.graph.nodes, []);
+    const result = InstitutionalCausalityOrchestrator.evaluate(cycles);
+    assert.equal(result.historicalDensityRequirement, 'INSUFFICIENT');
+    assert.equal(result.confidenceProfile.globalConfidence, LOW_CONFIDENCE);
+    assert.equal(result.confidenceProfile.temporalConfidence, 0.0);
+    assert.equal(result.confidenceProfile.evidenceDensityConfidence, 0.0);
+    assert.strictEqual(result.narrative, 'Base histórica limítrofe, insuficiente para inferências longitudinais.');
+    assert.deepEqual(result.sequences, []);
+    assert.deepEqual(result.propagationVectors, []);
+    assert.deepEqual(result.graph.nodes, []);
   });
 
   it('2. Deve lançar FiduciaryNarrativeViolation se termo proibido for detectado', () => {

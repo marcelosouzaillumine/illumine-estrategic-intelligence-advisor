@@ -1,0 +1,215 @@
+// src/core/runtime/governance/dlpa/DLPAFiduciaryInterpretationEngine.ts
+//
+// Ref: Governance Runtime Correction — DLPA Fiduciary Interpretation Refactor
+// Main orchestrator for DLPA Fiduciary Interpretation.
+
+import { FinancialRuntimeContext } from '../../financial-context/FinancialRuntimeContextTypes';
+import { DistributionEligibilityEngine, DistributionEligibilityResult } from './DistributionEligibilityEngine';
+import { PatrimonialIntegrityEngine, PatrimonialIntegrityReport, CapitalPreservationStatus } from './PatrimonialIntegrityEngine';
+import { CapitalRetentionClassificationEngine, CapitalRetentionClassification } from './CapitalRetentionClassificationEngine';
+import { DLPAHistoricalConsistencyEngine, HistoricalCycleMetrics } from './DLPAHistoricalConsistencyEngine';
+
+export interface DLPAFiduciaryOutput {
+  retentionClassification: CapitalRetentionClassification;
+  distributionEligibility: DistributionEligibilityResult;
+  patrimonialIntegrityStatus: CapitalPreservationStatus;
+  preservationRatio: number | null;
+  preservationRatioReliability: 'RELIABLE' | 'PRESERVATION_RATIO_NOT_RELIABLE' | 'INSUFFICIENT_PATRIMONIAL_BASE';
+  fiduciaryWarnings: string[];
+  blockedConclusions: string[];
+  allowedConclusions: string[];
+  causalDrivers: string[];
+  governanceNarrative: string;
+  institutionalStage: 'SURVIVAL_STAGE_CAPITAL_STRUCTURE' | 'EMERGENCY_CAPITAL_PRESERVATION' | 'STABLE_CAPITAL_STRUCTURE' | 'GROWTH_CAPITAL_STRUCTURE';
+  capitalProtectionStatus: 'STRONG_CAPITAL_PROTECTION' | 'MEDIUM_CAPITAL_PROTECTION' | 'WEAK_CAPITAL_PROTECTION' | 'CAPITAL_UNDER_COLLAPSE';
+  lineageHash: string;
+  confidenceLevel: 'HIGH' | 'MODERATE' | 'LOW' | 'RESTRICTED';
+  contextCompleteness: 'FULL' | 'PARTIAL' | 'MISSING';
+  auditTrail: string[];
+}
+
+export class DLPAFiduciaryInterpretationEngine {
+  public static evaluate(params: {
+    context: FinancialRuntimeContext | undefined;
+    dlpaData: any[];
+    netIncome: number;
+    retainedEarnings: number;
+    totalDistributed: number;
+    startingEquity: number;
+    endingEquity: number;
+    capitalInjections: number;
+    operatingCashFlow: number;
+    capitalSocial: number;
+    lucrosPrejuizos: number;
+    historicalCycles: HistoricalCycleMetrics[];
+  }): DLPAFiduciaryOutput {
+    const {
+      context,
+      dlpaData,
+      netIncome,
+      retainedEarnings,
+      totalDistributed,
+      startingEquity,
+      endingEquity,
+      capitalInjections,
+      operatingCashFlow,
+      capitalSocial,
+      lucrosPrejuizos,
+      historicalCycles,
+    } = params;
+
+    const auditTrail: string[] = ['Iniciando avaliação fiduciária da DLPA.'];
+    const fiduciaryWarnings: string[] = [];
+    const blockedConclusions: string[] = [];
+    const allowedConclusions: string[] = [];
+    const causalDrivers: string[] = [];
+
+    // 1. Context Completeness Check
+    let contextCompleteness: 'FULL' | 'PARTIAL' | 'MISSING' = 'FULL';
+    let confidenceLevel: 'HIGH' | 'MODERATE' | 'LOW' | 'RESTRICTED' = 'HIGH';
+
+    if (!context) {
+      contextCompleteness = 'PARTIAL';
+      confidenceLevel = 'LOW';
+      fiduciaryWarnings.push('FinancialRuntimeContext incompleto');
+      auditTrail.push('Aviso: FinancialRuntimeContext ausente. Aplicada degradação fiduciária.');
+    } else {
+      if (context.contextualConfidence === 'LOW' || context.contextualConfidence === 'RESTRICTED') {
+        confidenceLevel = 'LOW';
+        contextCompleteness = 'PARTIAL';
+        fiduciaryWarnings.push('FinancialRuntimeContext incompleto');
+      }
+      auditTrail.push('FinancialRuntimeContext injetado e validado.');
+    }
+
+    // 2. Evaluate Patrimonial Integrity
+    const integrityReport = PatrimonialIntegrityEngine.evaluate({
+      startingEquity,
+      endingEquity,
+      capitalSocial,
+      netIncome,
+      lucrosPrejuizos,
+    });
+    auditTrail.push('Integridade patrimonial avaliada.');
+    fiduciaryWarnings.push(...integrityReport.warnings);
+
+    // 3. Evaluate Distribution Eligibility
+    const lucrosAcumulados = lucrosPrejuizos > 0 ? lucrosPrejuizos : 0;
+    const reservasLucro = endingEquity - capitalSocial - lucrosAcumulados; // Estimate reserves
+    const distributionEligibility = DistributionEligibilityEngine.evaluate({
+      netIncome,
+      lucrosAcumulados,
+      reservasLucro: reservasLucro > 0 ? reservasLucro : 0,
+      startingEquity,
+      endingEquity,
+      operatingCashFlow,
+    });
+    auditTrail.push('Elegibilidade distributiva avaliada.');
+
+    // 4. Evaluate Historical Consistency
+    const consistencyReport = DLPAHistoricalConsistencyEngine.evaluate(historicalCycles);
+    auditTrail.push('Consistência histórica longitudinal avaliada.');
+    fiduciaryWarnings.push(...consistencyReport.warnings);
+
+    // 5. Classify Capital Retention
+    const retentionClassification = CapitalRetentionClassificationEngine.classify({
+      netIncome,
+      distributableBaseExists: lucrosAcumulados > 0 || reservasLucro > 0,
+      operatingCashFlow,
+      preservationStatus: integrityReport.preservationStatus,
+      totalDistributed,
+    });
+    auditTrail.push(`Retenção de capital classificada como: ${retentionClassification}`);
+
+    // 6. Apply Fail-Closed Blocks & Conclusions
+    const isDeteriorated =
+      netIncome <= 0 ||
+      integrityReport.preservationStatus === 'SEVERELY_ERODED' ||
+      integrityReport.preservationStatus === 'CAPITAL_COLLAPSE_RISK' ||
+      operatingCashFlow <= 0 ||
+      !(lucrosAcumulados > 0 || reservasLucro > 0);
+
+    if (isDeteriorated || consistencyReport.persistentStructuralFragility) {
+      blockedConclusions.push(
+        'CONSERVATIVE_GOVERNANCE_INFERENCE',
+        'STRATEGIC_RETENTION_INFERENCE',
+        'HEALTHY_PATRIMONIAL_PRESERVATION_INFERENCE',
+        'DISTRIBUTIVE_MATURITY_INFERENCE'
+      );
+      auditTrail.push('Bloqueio fiduciário ativado devido a fragilidades financeiras/operacionais.');
+    } else {
+      allowedConclusions.push(
+        'STANDARD_RETENTION_INTERPRETATION',
+        'ELIGIBLE_FOR_DISTRIBUTION'
+      );
+    }
+
+    // Causal drivers extraction
+    if (netIncome <= 0) causalDrivers.push('DÉFICIT_LÍQUIDO_OPERACIONAL');
+    if (operatingCashFlow <= 0) causalDrivers.push('FLUXO_CAIXA_OPERACIONAL_NEGATIVO');
+    if (integrityReport.preservationStatus === 'SEVERELY_ERODED' || integrityReport.preservationStatus === 'CAPITAL_COLLAPSE_RISK') {
+      causalDrivers.push('EROSÃO_RELEVANTE_PL');
+    }
+    if (totalDistributed > 0 && netIncome <= 0) causalDrivers.push('DISTRIBUIÇÃO_SEM_LUCRO_GERADOR');
+    if (consistencyReport.persistentStructuralFragility) causalDrivers.push('FRAGILIDADE_LONGITUDINAL_ESTRUTURAL');
+
+    // 7. Resolve institutionalStage
+    let institutionalStage: DLPAFiduciaryOutput['institutionalStage'] = 'STABLE_CAPITAL_STRUCTURE';
+    if (integrityReport.preservationStatus === 'CAPITAL_COLLAPSE_RISK' || endingEquity <= 0 || (integrityReport.preservationStatus === 'SEVERELY_ERODED' && netIncome < 0)) {
+      institutionalStage = 'SURVIVAL_STAGE_CAPITAL_STRUCTURE';
+    } else if (integrityReport.preservationStatus === 'SEVERELY_ERODED') {
+      institutionalStage = 'EMERGENCY_CAPITAL_PRESERVATION';
+    } else if (netIncome > 0 && operatingCashFlow > 0 && integrityReport.preservationStatus === 'PRESERVED') {
+      institutionalStage = 'GROWTH_CAPITAL_STRUCTURE';
+    }
+
+    // 8. Generate Fiduciary-Aware Narrative
+    let governanceNarrative = '';
+    if (retentionClassification === 'STRATEGIC_RETENTION') {
+      governanceNarrative = 'A ausência de distribuição de lucros reflete uma decisão deliberada e planejada de reinvestimento do superávit econômico para fortalecimento da estrutura de capital, amparada por liquidez e geração de caixa operacional saudáveis.';
+    } else if (retentionClassification === 'FORCED_RETENTION') {
+      governanceNarrative = 'A ausência de distribuições está primariamente associada à inexistência de superávit econômico distribuível (lucro acumulado ou reservas), caracterizando uma retenção obrigatória imposta pelas regras fiduciárias e contábeis de governança.';
+    } else if (retentionClassification === 'EMERGENCY_CAPITAL_PRESERVATION') {
+      governanceNarrative = 'A total retenção de recursos decorre da severa fragilidade e erosão patrimonial do período, atuando como medida impositiva de sobrevivência e preservação de capital emergencial diante do esgotamento das reservas.';
+    } else if (retentionClassification === 'SURVIVAL_STAGE_CAPITAL_STRUCTURE') {
+      governanceNarrative = 'A estrutura de capital encontra-se em estágio de sobrevivência devido ao colapso ou exaustão do PL. A retenção total é compulsória e decorre da completa ausência de capacidade econômica, demandando imediato reforço patrimonial externo.';
+    } else if (retentionClassification === 'UNSUSTAINABLE_PRESERVATION') {
+      governanceNarrative = 'A ausência de distribuição decorre de severa fragilidade de liquidez e fluxo de caixa operacional negativo. A preservação de recursos é insustentável no longo prazo, refletindo o aprisionamento de capital na operação para cobrir ineficiências comerciais.';
+    } else {
+      governanceNarrative = 'A política distributiva e de retenção de capital opera em regime moderado, necessitando de formalização e alinhamento de metas estratégicas de governança patrimonial de longo prazo.';
+    }
+
+    // Custom wording from Case Granatum 2022 if applicable
+    if (netIncome < 0 && totalDistributed === 0 && integrityReport.preservationStatus === 'SEVERELY_ERODED') {
+      governanceNarrative = 'A ausência de distribuições parece associada principalmente à falta de superávit econômico distribuível e à fragilidade patrimonial observada, em vez de representar uma retenção estratégica deliberada de capital.';
+    }
+
+    // 9. Lineage Hash
+    const rawLineage = `${startingEquity}_${endingEquity}_${netIncome}_${totalDistributed}_${contextCompleteness}_${blockedConclusions.length}`;
+    let hash = 0;
+    for (let i = 0; i < rawLineage.length; i++) {
+      hash = (hash << 5) - hash + rawLineage.charCodeAt(i);
+      hash = hash & hash;
+    }
+    const lineageHash = `DLPA_FID_${Math.abs(hash).toString(16).toUpperCase()}`;
+
+    return {
+      retentionClassification,
+      distributionEligibility,
+      patrimonialIntegrityStatus: integrityReport.preservationStatus,
+      preservationRatio: integrityReport.capitalPreservationIndex,
+      preservationRatioReliability: integrityReport.preservationRatioReliability,
+      fiduciaryWarnings,
+      blockedConclusions,
+      allowedConclusions,
+      causalDrivers,
+      governanceNarrative,
+      institutionalStage,
+      capitalProtectionStatus: integrityReport.capitalProtectionStatus,
+      lineageHash,
+      confidenceLevel,
+      contextCompleteness,
+      auditTrail,
+    };
+  }
+}

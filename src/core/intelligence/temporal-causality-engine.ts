@@ -56,6 +56,15 @@ export enum TemporalPatternName {
   DESTRUCTIVE_GROWTH = 'DESTRUCTIVE_GROWTH'
 }
 
+import { ExecutiveEmptyStateResolver } from "../runtime/integrity/ExecutiveEmptyStateResolver";
+export type TrendSignal = {
+  indicator: string;
+  direction: TemporalTrendDirection;
+  cagr?: number;
+  isFavorable: boolean;
+  description: string;
+};
+
 export interface TemporalTrendSignal {
   indicator: string;
   direction: TemporalTrendDirection;
@@ -143,6 +152,35 @@ export function evaluateTemporalCausality(
       };
     }
 
+    if (!historicalData || historicalData.length < 2) {
+      return {
+        temporalMode: 'LIMITED_TEMPORAL_MODE',
+        trendConfidence: conf,
+        reasonForLimitedConfidence: 'Apenas um exercício disponível',
+        historicalPeriodsAnalyzed: historicalData ? historicalData.length : 0,
+        trajectoryImpact: 'NEUTRAL',
+        scoreAdjustment: 0,
+        modulationAllowedByTemporal: false,
+        temporalScore: 'Neutral',
+        isDestructiveGrowth: false,
+        isTurnaroundEmerging: false,
+        insights: {
+          liquidez: ExecutiveEmptyStateResolver.INSUFFICIENT_HISTORY,
+          estoque: ExecutiveEmptyStateResolver.INSUFFICIENT_HISTORY,
+          margem: ExecutiveEmptyStateResolver.INSUFFICIENT_HISTORY,
+          endividamento: ExecutiveEmptyStateResolver.INSUFFICIENT_HISTORY,
+          capitalDeGiro: ExecutiveEmptyStateResolver.INSUFFICIENT_HISTORY,
+          continuidade: ExecutiveEmptyStateResolver.INSUFFICIENT_HISTORY
+        },
+        trendSignals: [],
+        inflectionPoints: [],
+        riskPatterns: [],
+        recoveryPatterns: [],
+        executiveSummary: ExecutiveEmptyStateResolver.INSUFFICIENT_HISTORY,
+        confidence: 'LOW'
+      };
+    }
+
     return {
       temporalMode: 'LIMITED_TEMPORAL_MODE',
       trendConfidence: conf,
@@ -155,18 +193,18 @@ export function evaluateTemporalCausality(
       isDestructiveGrowth: false,
       isTurnaroundEmerging: false,
       insights: {
-        liquidez: 'Sem dados suficientes para inferência direcional.',
-        estoque: 'Sem dados suficientes para inferência direcional.',
-        margem: 'Sem dados suficientes para inferência direcional.',
-        endividamento: 'Sem dados suficientes para inferência direcional.',
-        capitalDeGiro: 'Sem dados suficientes para inferência direcional.',
-        continuidade: 'Série histórica incompleta para detecção de tendência.'
+        liquidez: 'Série curta. Sinais limitados de tendência.',
+        estoque: 'Série curta. Sinais limitados de tendência.',
+        margem: 'Série curta. Sinais limitados de tendência.',
+        endividamento: 'Série curta. Sinais limitados de tendência.',
+        capitalDeGiro: 'Série curta. Sinais limitados de tendência.',
+        continuidade: 'Série histórica incompleta para detecção de tendência longa.'
       },
       trendSignals: [],
       inflectionPoints: [],
       riskPatterns: [],
       recoveryPatterns: [],
-      executiveSummary: 'Série histórica insuficiente para estabelecer correlação longitudinal.',
+      executiveSummary: 'Série histórica insuficiente para estabelecer correlação longitudinal com precisão máxima. Análise restrita a dois ciclos.',
       confidence: 'LOW'
     };
   }

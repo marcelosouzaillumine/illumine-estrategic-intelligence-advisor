@@ -5,6 +5,7 @@ import { calculateFinancialMetrics } from '../lib/financial-engine';
 import { calculateScores } from '../lib/score-engine';
 import { enforceInstitutionalRuntime } from '../core/enforcement/institutionalRuntimeEnforcer';
 import { evaluateMasterCausality } from '../lib/master-causal-engine';
+import { RuntimeComplianceEngine } from '../core/runtime/compliance/RuntimeComplianceEngine';
 
 const getAI = () => {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
@@ -305,21 +306,8 @@ export async function generateBoardReportFull(companyName: string, financialData
   }
 
   
-  let calculatedCycles = 1;
-  const filterYear = new Date().getFullYear(); // Ou pegar o maximo do db
-  if (clientData?.dataFundacao) {
-    let fundacaoYear = null;
-    if (clientData.dataFundacao.includes('/')) {
-      const parts = clientData.dataFundacao.split('/');
-      if (parts.length === 3) fundacaoYear = parseInt(parts[2]);
-    } else if (clientData.dataFundacao.includes('-')) {
-      const parts = clientData.dataFundacao.split('-');
-      if (parts.length >= 1) fundacaoYear = parseInt(parts[0]);
-    }
-    if (fundacaoYear && !isNaN(fundacaoYear)) {
-      calculatedCycles = Math.max(1, filterYear - fundacaoYear);
-    }
-  }
+  const filterYear = new Date().getFullYear();
+  let calculatedCycles = years.length || 1; // years already filters unique years from financialData
 
   const businessIdentity = (await import('../lib/business-identity-engine')).inferBusinessIdentity(clientData?.segmentoAtuacao || undefined, calculatedCycles);
   
@@ -419,6 +407,9 @@ ATENÇÃO: Você não pode projetar tendências ou inferir continuidade históri
     businessModel: businessIdentity.modeloDeNegocio,
     score: scores.resilienciaGlobal
   });
+
+  // Apply constitutional advisory validation and sanitization
+  RuntimeComplianceEngine.validate(sanitizedOutput, 'advisory');
 
   return sanitizedOutput;
 }

@@ -1,4 +1,6 @@
 import { BPSummary } from '../../../lib/bpEngine';
+import { SegmentCode } from '../segment-intelligence/types';
+import { SegmentThresholdEngine } from '../segment-intelligence/SegmentThresholdEngine';
 import { InventoryLiquidityProfile, StructuralCapitalSignal } from './types';
 
 export class InventoryQualityEngine {
@@ -7,7 +9,7 @@ export class InventoryQualityEngine {
    * Não emite juízo de valor sobre o estoque (ex: "estratégico" vs "obsoleto"),
    * apenas analisa a pressão estrutural imposta pelo capital imobilizado.
    */
-  static evaluate(bpSummary: BPSummary): InventoryLiquidityProfile {
+  static evaluate(bpSummary: BPSummary, segmentCode: SegmentCode = 'GENERIC_OPERATION'): InventoryLiquidityProfile {
     // Fail-closed: se não há dados de BP, retorna perfil sem pressão (para não penalizar injustamente)
     if (!bpSummary) {
       return {
@@ -53,8 +55,13 @@ export class InventoryQualityEngine {
     const activeSignals: StructuralCapitalSignal[] = [];
     const explanations: string[] = [];
 
-    // Avaliação de Thresholds
-    if (inventoryToCurrentAssetsRatio > 0.55) {
+    // Avaliação de Thresholds Contextuais
+    const thresholds = SegmentThresholdEngine.getThresholdsForSegment(segmentCode);
+    const maxInventoryAssets = thresholds.maxInventoryToAssets; // we map maxInventoryToAssets to total assets usually, but let's use it or derive a current assets threshold.
+    // A better approach is to use the engine directly, but let's map it: maxInventoryToAssets represents inventory / total assets. Let's also use it to scale Current Assets tolerance.
+    const inventoryCurrentAssetsThreshold = maxInventoryAssets * 1.5; // Roughly scale it, or just use evaluateInventoryDependency
+    
+    if (inventoryToCurrentAssetsRatio > inventoryCurrentAssetsThreshold) {
       activeSignals.push('HIGH_INVENTORY_LIQUIDITY_PRESSURE');
       explanations.push(`Indícios de concentração de capital: estoques representam ${(inventoryToCurrentAssetsRatio * 100).toFixed(1)}% do Ativo Circulante.`);
     }

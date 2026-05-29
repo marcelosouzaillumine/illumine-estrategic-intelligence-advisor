@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { X, Plus, Trash2, Save, Loader2, AlertCircle, Database, ArrowUp, ArrowDown } from 'lucide-react';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
@@ -394,7 +395,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         statementVersion: '1.0',
         type: selectedType,
         year,
-        data: computedRows.map(r => {
+        data: computedRows.map((r, idx) => {
           const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
           const rowData: any = {
             id: r.id || crypto.randomUUID(),
@@ -412,14 +413,15 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
             }
           };
 
+          rowData.ordem = r.ordem !== undefined ? r.ordem : idx;
+          if (r.parentId !== undefined) rowData.parentId = r.parentId;
+
           if (isDre) {
             if (r.dreTipo !== undefined) rowData.dreTipo = r.dreTipo;
             if (r.natureza !== undefined) rowData.natureza = r.natureza;
-            if (r.parentId !== undefined) rowData.parentId = r.parentId;
             if (r.aceitaLancamento !== undefined) rowData.aceitaLancamento = r.aceitaLancamento;
             if (r.calculaAutomaticamente !== undefined) rowData.calculaAutomaticamente = r.calculaAutomaticamente;
             if (r.formula !== undefined) rowData.formula = r.formula;
-            if (r.ordem !== undefined) rowData.ordem = r.ordem;
           }
           
           return rowData;
@@ -545,12 +547,12 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
     }
   };
 
-  return (
-    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
+  const modalContent = (
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-2 sm:p-4">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl shadow-2xl flex flex-col h-[95vh] sm:h-[90vh] md:max-h-[85vh] overflow-hidden"
       >
         {/* Header */}
         <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
@@ -564,7 +566,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         </div>
 
         {/* Content */}
-        <div className="p-8 space-y-6 overflow-y-auto flex-1">
+        <div className="p-8 space-y-6 overflow-y-auto flex-1 min-h-0">
           {errorMsg && (
             <div className="bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-xl flex items-start gap-3">
               <AlertCircle size={20} className="shrink-0 mt-0.5" />
@@ -585,15 +587,17 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
             </select>
           </div>
 
-          <div className="flex justify-between items-center">
+          <div className="flex-1 w-full min-w-0">
           {loading ? (
              <div className="flex flex-col items-center justify-center py-20 gap-4">
                 <Loader2 size={32} className="animate-spin text-primary" />
                 <p className="text-sm font-bold text-slate-400">Carregando dados existentes...</p>
              </div>
           ) : (
-            <div className="space-y-4 w-full">
-              <table className="w-full text-sm">
+            <div className="space-y-4 w-full overflow-x-auto">
+                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                  <SortableContext items={computedRows.map(r => r.id)} strategy={verticalListSortingStrategy}>
+              <table className="w-full text-sm min-w-[600px]">
                 <thead className="bg-slate-50/50 border-b border-slate-100">
                   <tr>
                     <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-400 uppercase w-20">Nível</th>
@@ -603,8 +607,6 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                     <th className="w-20"></th>
                   </tr>
                 </thead>
-                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                  <SortableContext items={computedRows.map(r => r.id)} strategy={verticalListSortingStrategy}>
                     <tbody className="divide-y divide-slate-50">
                       {computedRows.map((row, index) => {
                         const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
@@ -752,9 +754,9 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                         );
                       })}
                     </tbody>
+              </table>
                   </SortableContext>
                 </DndContext>
-              </table>
 
               {rows.length === 0 && (
                 <div className="text-center py-12 bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
@@ -795,4 +797,9 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
       </motion.div>
     </div>
   );
+  
+  if (typeof document !== 'undefined') {
+    return createPortal(modalContent, document.body);
+  }
+  return modalContent;
 }

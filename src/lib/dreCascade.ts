@@ -1,15 +1,21 @@
 import { DreAccount, DRE_OFFICIAL_STRUCTURE } from '../constants/dreStructure';
 
-// This function processes a flat array of DRE rows (both the 14 structural ones and the user-added analytic ones)
-// and calculates all sums and formulas based on the exact structure.
+// Helper para garantir conversão correta de números salvos como string (ex: "1.200,50")
+const parseNumeric = (val: any): number => {
+  if (typeof val === 'number') return val;
+  if (!val) return 0;
+  const cleaned = String(val).replace(/[R$\s]/g, '').replace(/\./g, '').replace(',', '.');
+  const parsed = parseFloat(cleaned);
+  return isNaN(parsed) ? 0 : parsed;
+};
+
 export function calculateDreCascade(rows: any[]) {
-  const result = [...rows].map(r => ({ ...r, computedValue: r.value || 0 }));
+  const result = [...rows].map(r => ({ ...r, computedValue: parseNumeric(r.value) || parseNumeric(r.val) || parseNumeric(r.valor) || 0 }));
   
-  // Helper to get the sum of immediate children
   const getChildrenSum = (parentId: string) => {
     return result
       .filter(r => r.parentId === parentId)
-      .reduce((sum, r) => sum + (r.value || 0), 0);
+      .reduce((sum, r) => sum + (parseNumeric(r.value) || parseNumeric(r.val) || parseNumeric(r.valor) || 0), 0);
   };
 
   // Helper to get a calculated value by ID

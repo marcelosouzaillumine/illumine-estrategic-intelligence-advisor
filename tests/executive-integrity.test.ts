@@ -167,7 +167,7 @@ describe('Executive Diagnostic Integrity and Fail-Closed Engine (RC-1.3A)', () =
     // Action 1: "Reduzir despesas administrativas" has evidence and must exist
     assert.ok(matrix.some(a => a.title === 'Reduzir despesas administrativas'));
     const adminAction = matrix.find(a => a.title === 'Reduzir despesas administrativas')!;
-    assert.equal(adminAction.fiduciaryEvidence, 'Despesa administrativa representa 15.50% da receita líquida');
+    assert.equal(adminAction.fiduciaryEvidence, 'Despesas Administrativas representam 15.50% da Receita Líquida.');
   });
 
   it('8. ExecutiveDiagnosisComposer hardens technical terminology', () => {

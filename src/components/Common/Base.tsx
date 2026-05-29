@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { cn } from '../../lib/utils';
 import { FULL_MONTH_LABELS } from '../../constants';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function PageHeader({ 
   title, 
@@ -24,6 +25,7 @@ export function PageHeader({
   transparent?: boolean;
   className?: string;
 }) {
+  const { translateLabel } = useLanguage();
   const renderIcon = (size: number, className?: string) => {
     if (!Icon) return <LayoutGrid size={size} className={className} />;
     if (React.isValidElement(Icon)) {
@@ -46,18 +48,18 @@ export function PageHeader({
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0">
               <h1 className="text-h2 font-display font-medium tracking-tight text-foreground leading-tight truncate">
-                {title}
+                {translateLabel(title)}
               </h1>
               {badge && (
                 <span className="inline-flex w-fit px-3 py-1 bg-surface-container border border-border rounded-full text-[10px] font-medium uppercase tracking-widest text-secondary shrink-0">
-                  {badge}
+                  {translateLabel(badge)}
                 </span>
               )}
             </div>
           </div>
           {subtitle && (
             <p className="text-muted-foreground text-body-md font-medium ml-0 xl:ml-16 leading-relaxed max-w-3xl break-words">
-              {subtitle}
+              {translateLabel(subtitle)}
             </p>
           )}
         </div>
@@ -110,6 +112,7 @@ export function StatusBadge({ status, label, className }: { status: string; labe
 }
 
 export function SectionHeader({ title, subtitle, icon: Icon, tone = 'blue' }: any) {
+    const { translateLabel } = useLanguage();
     const tones: Record<string, string> = {
         blue: 'text-primary border-primary',
         slate: 'text-text-main border-text-main',
@@ -126,8 +129,8 @@ export function SectionHeader({ title, subtitle, icon: Icon, tone = 'blue' }: an
               <div className={cn("h-[1px] flex-1 opacity-20", tone === 'slate' ? 'bg-foreground' : 'bg-primary')} />
             </div>
             <div>
-                <p className="text-body-sm font-medium text-accent uppercase tracking-widest mb-4">{subtitle}</p>
-                <h3 className="text-h3 font-display text-foreground leading-tight">{title}</h3>
+                <p className="text-body-sm font-medium text-accent uppercase tracking-widest mb-4">{translateLabel(subtitle)}</p>
+                <h3 className="text-h3 font-display text-foreground leading-tight">{translateLabel(title)}</h3>
             </div>
         </div>
     );
@@ -200,6 +203,8 @@ export function KpiCard({
     'Pendente': { bg: 'bg-surface-container', text: 'text-muted-foreground', border: 'border-border', glow: '', label: 'Pendente' },
     'N/A': { bg: 'bg-surface-container', text: 'text-muted-foreground', border: 'border-border', glow: '', label: 'N/A' },
   };
+
+  const { translateLabel } = useLanguage();
 
   // Trend-specific color config — each evolution state has its own highlight color
   const trendConfig: Record<string, { bg: string; text: string; border: string; glow: string; dot: string }> = {
@@ -294,7 +299,7 @@ export function KpiCard({
             "w-1.5 h-1.5 rounded-full animate-pulse",
             highlight ? "bg-white" : badgeCfg.dot
           )} />
-          <span>{finalTrend || cfg.label}</span>
+          <span>{translateLabel(finalTrend || cfg.label)}</span>
         </div>
       </div>
 
@@ -305,7 +310,7 @@ export function KpiCard({
           "text-[clamp(8.5px,0.75vw,10.5px)] font-black uppercase tracking-[0.2em] leading-relaxed transition-colors duration-300 line-clamp-2",
           highlight ? "text-secondary/90" : "text-muted-foreground group-hover:text-secondary"
         )}>
-          {title}
+          {translateLabel(title)}
         </p>
         {/* Number value — container-query font scaling, no overflow-hidden, py-1 gives vertical breathing room */}
         <KpiValue 
@@ -327,7 +332,7 @@ export function KpiCard({
           "text-[9px] font-bold uppercase tracking-widest opacity-80",
           highlight ? "text-white/60" : "text-muted-foreground"
         )}>
-          Consolidado
+          {translateLabel('Consolidado')}
         </span>
         <div className="flex items-center gap-1.5">
           <div className={cn("w-1 h-1 rounded-full", highlight ? "bg-secondary" : "bg-success")} />
@@ -335,7 +340,7 @@ export function KpiCard({
             "text-[9px] font-bold uppercase tracking-widest opacity-80",
             highlight ? "text-white/60" : "text-muted-foreground"
           )}>
-            Conforme
+            {translateLabel('Conforme')}
           </span>
         </div>
       </div>
@@ -441,6 +446,7 @@ export function ControlBar({
   periodToggle,
   hideMonth = false
 }: ControlBarProps) {
+  const { translateLabel } = useLanguage();
   const [internalPeriodMode, setInternalPeriodMode] = React.useState<'mensal' | 'anual'>('mensal');
   const isControlled = periodModeProp !== undefined && setPeriodModeProp !== undefined;
   const periodMode = isControlled ? periodModeProp : internalPeriodMode;
@@ -482,7 +488,7 @@ export function ControlBar({
                     : "text-muted-foreground hover:text-secondary"
                 )}
               >
-                Mensal
+                {translateLabel('Mensal')}
               </button>
               <button
                 onClick={() => setPeriodMode('anual')}
@@ -493,7 +499,7 @@ export function ControlBar({
                     : "text-muted-foreground hover:text-secondary"
                 )}
               >
-                Anual
+                {translateLabel('Anual')}
               </button>
             </div>
 
@@ -567,7 +573,7 @@ export function ControlBar({
             badgeColors[statusBadgeColor]
           )}>
             <StatusIcon size={14} className="animate-pulse" />
-            <span className="text-body-sm font-medium uppercase tracking-widest">{statusBadgeLabel}</span>
+            <span className="text-body-sm font-medium uppercase tracking-widest">{translateLabel(statusBadgeLabel)}</span>
           </div>
         )}
       </div>

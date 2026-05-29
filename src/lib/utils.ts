@@ -11,6 +11,15 @@ export function setActiveCurrency(code: string) {
   activeCurrency = code;
 }
 
+function getActiveLocale() {
+  if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+    const saved = localStorage.getItem('illumine-language');
+    if (saved === 'en-US') return 'en-US';
+    if (saved === 'es-ES') return 'es-ES';
+  }
+  return 'pt-BR';
+}
+
 export function formatCurrency(value: number, currencyCode: string = activeCurrency) {
   const symbols: Record<string, string> = {
     'BRL': 'R$',
@@ -19,38 +28,48 @@ export function formatCurrency(value: number, currencyCode: string = activeCurre
     'GBP': '£'
   };
   const symbol = symbols[currencyCode] || currencyCode;
+  const locale = getActiveLocale();
 
-  const formattedNumber = new Intl.NumberFormat('pt-BR', {
+  const formattedNumber = new Intl.NumberFormat(locale, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value);
 
+  if (locale === 'en-US') {
+    return `${symbol}${formattedNumber}`;
+  } else if (locale === 'es-ES') {
+    return `${formattedNumber}\u00A0${symbol}`;
+  }
   return `${symbol}\u00A0${formattedNumber}`;
 }
 
 export function formatDate(date: string | Date) {
   if (!date) return '';
   const d = typeof date === 'string' ? new Date(date) : date;
-  return d.toLocaleDateString('pt-BR');
+  return d.toLocaleDateString(getActiveLocale());
 }
 
 export function formatValue(val: number | string, un: string, currencyCode: string = activeCurrency) {
   if (typeof val === 'string') {
     return val;
   }
+  const locale = getActiveLocale();
   if (un === 'R$' || un === 'BRL' || un === 'USD' || un === 'EUR' || un === 'GBP' || un === 'currency') {
     return formatCurrency(val, currencyCode);
   }
   if (un === '%') {
     // Standardize: if value is < 1 (e.g. 0.242), multiply by 100. If > 1, assume it's already a percentage.
     const displayVal = (val > -1 && val < 1) ? val * 100 : val;
-    return displayVal.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+    return displayVal.toLocaleString(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
   }
-  if (un === 'x') return val.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + 'x';
-  if (un === 'dias') return Math.floor(val).toLocaleString('pt-BR') + '\u00A0dias';
+  if (un === 'x') return val.toLocaleString(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + 'x';
+  if (un === 'dias') {
+    const daysLabel = locale === 'en-US' ? 'days' : locale === 'es-ES' ? 'días' : 'dias';
+    return Math.floor(val).toLocaleString(locale) + `\u00A0${daysLabel}`;
+  }
   
   // Absolute numbers: No decimals
-  return Math.floor(val).toLocaleString('pt-BR');
+  return Math.floor(val).toLocaleString(locale);
 }
 
 export function calculateVPL(flows: number[], rate: number) {

@@ -2,35 +2,62 @@ import { IResolverContext, BusinessStage } from './types';
 
 export class BusinessStageResolver {
   static resolve(ctx: IResolverContext): BusinessStage {
-    // Se a flag explícita existir nos dados brutos (ex: importação manual/override)
+    // Se a flag explícita existir nos dados brutos
     if (ctx.rawData && ctx.rawData.isFirstOperationalYear === true) {
-      return 'FIRST_OPERATIONAL_YEAR';
+      return 'INITIAL_OPERATION';
     }
 
-    // Se o histórico for 1 e tem prejuízo acumulado logo de cara, ou não há histórico anterior
+    // Regra Determinística Obrigatória 1: Menos de 2 exercícios válidos
     if (ctx.historicalCyclesCount <= 1) {
-      return 'FIRST_OPERATIONAL_YEAR';
+      const isLoss = (ctx.dreCascade?.find(d => {
+        const catName = (d.category || d.conta || d.id || '').toLowerCase();
+        return catName.includes('lucro');
+      })?.value ?? ctx.dreCascade?.find(d => {
+        const catName = (d.category || d.conta || d.id || '').toLowerCase();
+        return catName.includes('lucro');
+      })?.val ?? 0) < 0 || (ctx.bpSummary.lucrosPrejuizos || 0) > 0;
+      const hasInventoryFormation = (ctx.bpSummary.estoques || 0) > 0;
+      const hasSupplierDebt = (ctx.bpSummary.fornecedores || 0) > 0;
+      const hasPartnerCapital = (ctx.bpSummary.capitalSocial || 0) > 0 || (ctx.bpSummary.creditosSocios || 0) > 0;
+      const hasACGrowth = (ctx.bpSummary.ativoCirculante || 0) > 0; // Aproximação de expansão de AC
+      
+      // Regra 2: Primeiro Ciclo Operacional - se prejuízo coexistir com estoques, aumento de capital etc.
+      if (isLoss && (hasInventoryFormation || hasPartnerCapital || hasACGrowth || hasSupplierDebt)) {
+        return 'STRUCTURING_OPERATION';
+      }
+
+      return 'INITIAL_OPERATION';
     }
 
     if (ctx.historicalCyclesCount === 2) {
-      return 'EARLY_STAGE_CONSOLIDATION';
+      return 'STRUCTURING_OPERATION';
     }
     
-    const isStruggling = (ctx.bpSummary.patrimonioLiquido || 0) < 0 || (ctx.dreCascade?.find(d => d.category.toLowerCase().includes('lucro'))?.value || 0) < 0;
+    const isStruggling = (ctx.bpSummary.patrimonioLiquido || 0) < 0 || (ctx.dreCascade?.find(d => {
+      const catName = (d.category || d.conta || d.id || '').toLowerCase();
+      return catName.includes('lucro');
+    })?.value ?? ctx.dreCascade?.find(d => {
+      const catName = (d.category || d.conta || d.id || '').toLowerCase();
+      return catName.includes('lucro');
+    })?.val ?? 0) < 0;
     const hasHeavyDebt = (ctx.bpSummary.passivoCirculante || 0) > (ctx.bpSummary.ativoCirculante || 0) * 1.5;
 
     if (isStruggling && hasHeavyDebt) {
-      return 'TURNAROUND_DISTRESS';
+      return 'RESTRUCTURING_OPERATION';
     }
 
-    if (ctx.historicalCyclesCount >= 5) {
-      return 'MATURE_OPERATION';
+    if (isStruggling && !hasHeavyDebt) {
+      return 'DECLINE_OPERATION';
+    }
+
+    if (ctx.historicalCyclesCount >= 6) {
+      return 'CONSOLIDATED_OPERATION';
     }
 
     if (ctx.historicalCyclesCount >= 4) {
-      return 'SCALE_STAGE';
+      return 'MATURE_OPERATION';
     }
 
-    return 'GROWTH_STAGE';
+    return 'EXPANDING_OPERATION';
   }
 }

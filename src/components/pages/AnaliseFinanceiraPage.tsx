@@ -117,22 +117,13 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
 
     const prevPl = historyByYear[year - 1]?.pl || 0;
 
-    let calculatedCycles = Object.keys(historyByYear).length || 1;
-    if (clientObj?.dataFundacao) {
-      let fundacaoYear = null;
-      if (clientObj.dataFundacao.includes('/')) {
-        const parts = clientObj.dataFundacao.split('/');
-        if (parts.length === 3) fundacaoYear = parseInt(parts[2]);
-      } else if (clientObj.dataFundacao.includes('-')) {
-        const parts = clientObj.dataFundacao.split('-');
-        if (parts.length >= 1) fundacaoYear = parseInt(parts[0]);
-      }
-      if (fundacaoYear && !isNaN(fundacaoYear)) {
-        calculatedCycles = Math.max(1, year - fundacaoYear);
-      }
-    }
+    let calculatedCycles = Object.keys(historyByYear ?? {}).filter((year) => {
+      const data = historyByYear[year];
+      return data && data.pl !== undefined; // using pl as an indicator of valid statements in this file's historyByYear
+    }).length || 1;
 
     const payload = {
+      clientProfile: clientObj,
       rawFinancialData: {
         bpSummary: bpSummaryForRuntime,
         ebitda: ebitdaForRuntime,

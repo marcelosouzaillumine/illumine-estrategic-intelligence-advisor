@@ -7,7 +7,7 @@ export const SimulationLineageViewer: React.FC = () => {
 
   if (!simulationOutput) {
     return (
-      <div className="p-4 bg-slate-900/50 border border-slate-800 rounded-xl text-center text-sm text-slate-500 font-mono">
+      <div className="card-premium p-8 text-center text-muted-foreground font-mono text-xs animate-pulse">
         AGUARDANDO SIMULAÇÃO ATIVA...
       </div>
     );
@@ -22,37 +22,37 @@ export const SimulationLineageViewer: React.FC = () => {
   };
 
   return (
-    <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl font-mono text-xs">
-      <div className="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
-        <h4 className="text-slate-400 font-semibold tracking-wider uppercase">Fiduciary Lineage & Trace Audit</h4>
+    <div className="card-premium p-8 font-mono text-xs relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
+      <div className="flex justify-between items-center mb-6 border-b border-border/40 pb-3 flex-wrap gap-2">
+        <h4 className="text-foreground font-semibold tracking-wider uppercase">Fiduciary Lineage & Trace Audit</h4>
         <button
           onClick={copyToClipboard}
-          className="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white transition-all active:scale-95"
+          className="px-3 py-1.5 rounded-full bg-surface-container border border-border hover:border-secondary hover:text-secondary text-muted-foreground transition-all duration-300 active:scale-95 cursor-pointer font-bold tracking-widest text-[9px] uppercase shadow-xs"
         >
           {copied ? 'COPIED!' : 'COPY SCHEMA'}
         </button>
       </div>
 
-      <div className="space-y-3 text-slate-300">
+      <div className="space-y-4 text-foreground">
         <div>
-          <span className="text-slate-500 block mb-1">AUDIT LINEAGE HASH</span>
-          <span className="bg-slate-900 border border-slate-800 px-2 py-1 rounded text-emerald-400 select-all font-semibold block overflow-x-auto whitespace-nowrap">
+          <span className="text-muted-foreground font-bold tracking-wider block mb-1.5 uppercase text-[9px]">AUDIT LINEAGE HASH</span>
+          <span className="bg-surface-container border border-border px-3 py-2 rounded-lg text-emerald-600 dark:text-emerald-400 select-all font-semibold block overflow-x-auto whitespace-nowrap scrollbar-premium">
             {lineageHash}
           </span>
         </div>
 
         <div>
-          <span className="text-slate-500 block mb-1">CORRELATION ID</span>
-          <span className="bg-slate-900 border border-slate-800 px-2 py-1 rounded text-cyan-400 select-all block overflow-x-auto whitespace-nowrap">
+          <span className="text-muted-foreground font-bold tracking-wider block mb-1.5 uppercase text-[9px]">CORRELATION ID</span>
+          <span className="bg-surface-container border border-border px-3 py-2 rounded-lg text-secondary select-all block overflow-x-auto whitespace-nowrap scrollbar-premium font-semibold">
             {correlationId}
           </span>
         </div>
 
         <div>
-          <span className="text-slate-500 block mb-1">SOURCE RUNTIME TRACES</span>
-          <div className="flex flex-wrap gap-1.5 mt-1">
+          <span className="text-muted-foreground font-bold tracking-wider block mb-1.5 uppercase text-[9px]">SOURCE RUNTIME TRACES</span>
+          <div className="flex flex-wrap gap-2 mt-2">
             {sourceRuntimeReferences.map((ref, idx) => (
-              <span key={idx} className="bg-slate-900/60 border border-slate-800/80 px-2 py-0.5 rounded text-[10px] text-slate-400">
+              <span key={idx} className="bg-surface-container border border-border px-2.5 py-1 rounded-md text-[10px] text-muted-foreground font-semibold">
                 {ref}
               </span>
             ))}
@@ -60,9 +60,9 @@ export const SimulationLineageViewer: React.FC = () => {
         </div>
 
         {forecastOutput && (
-          <div className="border-t border-slate-800/80 pt-2 mt-2">
-            <span className="text-slate-500 block mb-1">HISTORICAL BASIS</span>
-            <span className="text-[11px] text-slate-400 leading-relaxed italic block">
+          <div className="border-t border-border/40 pt-4 mt-4">
+            <span className="text-muted-foreground font-bold tracking-wider block mb-1.5 uppercase text-[9px]">HISTORICAL BASIS</span>
+            <span className="text-[11px] text-muted-foreground leading-relaxed italic block pl-1">
               {forecastOutput.historicalBasisSummary}
             </span>
           </div>

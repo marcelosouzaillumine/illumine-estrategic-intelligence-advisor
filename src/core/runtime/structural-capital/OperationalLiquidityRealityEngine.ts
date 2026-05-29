@@ -1,4 +1,6 @@
 import { BPSummary } from '../../../lib/bpEngine';
+import { SegmentCode } from '../segment-intelligence/types';
+import { SegmentThresholdEngine } from '../segment-intelligence/SegmentThresholdEngine';
 import { OperationalLiquidityProfile, StructuralCapitalSignal } from './types';
 
 export class OperationalLiquidityRealityEngine {
@@ -7,7 +9,7 @@ export class OperationalLiquidityRealityEngine {
    * Desconta o peso de estoques que funcionam como aprisionadores estruturais
    * de capital de giro para aferir a verdadeira capacidade de cobertura.
    */
-  static evaluate(bpSummary: BPSummary, inventoryPenaltyFactor: number = 0.5): OperationalLiquidityProfile {
+  static evaluate(bpSummary: BPSummary, segmentCode: SegmentCode = 'GENERIC_OPERATION', inventoryPenaltyFactor: number = 0.5): OperationalLiquidityProfile {
     if (!bpSummary) {
       return {
         realLiquidityStrength: 0,
@@ -55,8 +57,14 @@ export class OperationalLiquidityRealityEngine {
     const activeSignals: StructuralCapitalSignal[] = [];
     const explanations: string[] = [];
 
-    // Avaliação de Thresholds
-    if (realLiquidityStrength < 0.5) {
+    // Avaliação de Thresholds Contextuais
+    const thresholds = SegmentThresholdEngine.getThresholdsForSegment(segmentCode);
+    const minCurrentLiquidity = thresholds.minCurrentLiquidity;
+    
+    // Convert current liquidity (which is traditionally current assets / current liabilities) to real liquidity tolerance
+    const minRealLiquidity = minCurrentLiquidity * 0.4; // rough heuristic to convert standard LC to severe real LC
+    
+    if (realLiquidityStrength < minRealLiquidity) {
       activeSignals.push('LOW_REAL_LIQUIDITY');
       explanations.push(`A liquidez econômica real (descontando prazos e estoques) cobre apenas ${(realLiquidityStrength * 100).toFixed(1)}% das obrigações de curto prazo.`);
     }

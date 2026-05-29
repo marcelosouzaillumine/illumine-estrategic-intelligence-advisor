@@ -98,9 +98,12 @@ import { FiduciaryGovernanceCenter } from '../components/pages/governance/Fiduci
 import { ComplianceIntegrityCenter } from '../components/pages/governance/ComplianceIntegrityCenter';
 import { GovernanceOrchestrationPage } from '../components/pages/GovernanceOrchestrationPage';
 import { InstitutionalIOSPage } from '../components/pages/InstitutionalIOSPage';
+import { StrategicWarRoomPage } from '../components/pages/StrategicWarRoomPage';
 import { EnterpriseValidationPage } from '../components/pages/EnterpriseValidationPage';
 import { RealityValidationPage } from '../components/pages/RealityValidationPage';
 import { PilotMonitoringDashboard } from '../components/pages/PilotMonitoringDashboard';
+import { PilotOperationsCenter } from '../components/pilot-operations/PilotOperationsCenter';
+import { PilotOperationsProvider } from '../context/pilot-operations/PilotOperationsProvider';
 import { CalibrationPlayground } from '../components/pages/CalibrationPlayground';
 import { AdvisorWorkspacePage } from '../components/pages/AdvisorWorkspacePage';
 import { ClientExecutiveWorkspace } from '../components/pages/ClientExecutiveWorkspace';
@@ -117,6 +120,7 @@ import { CrisisResponseCenter } from '../components/pages/governance/CrisisRespo
 import { RuntimeObservabilityCenter } from '../components/pages/governance/RuntimeObservabilityCenter';
 import { ProductGovernanceCenter } from '../components/pages/governance/ProductGovernanceCenter';
 import { MultiTenantGovernanceCenter } from '../components/pages/governance/MultiTenantGovernanceCenter';
+import { InstitutionalWarRoomPage } from '../components/war-gaming/InstitutionalWarRoomPage';
 
 import type { Page } from './navigation';
 
@@ -165,7 +169,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
         clients={clients}
         isPartner={isPartner}
         userPartnerIds={userPartnerIds}
-        onSelectClient={(id: string, targetPage: Page = 'dashboard') => {
+        onSelectClient={(id: string, targetPage: Page = 'efos') => {
           setSelectedClient(id);
           setCurrentPage(targetPage);
         }}
@@ -181,7 +185,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
       </ConsolidatedExecutiveProvider>
     );
   }
-  if (currentPage === 'dashboard') {
+  if (currentPage === 'efos') {
     return (
       <InstitutionalFinancialOverviewPage 
         clients={clients}
@@ -566,6 +570,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'strategic_intelligence_center') {
     return <StrategicIntelligenceCenter />;
   }
+  if (currentPage === 'strategic_war_room') {
+    return <StrategicWarRoomPage selectedClient={selectedClient} contextData={{}} />;
+  }
   if (currentPage === 'board_deck_center') {
     return <BoardDeckCenter onNavigate={setCurrentPage} />;
   }
@@ -586,6 +593,13 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'pilot_monitoring') {
     return <PilotMonitoringDashboard />;
+  }
+  if (currentPage === 'pilot_operations_center' && isMaster) {
+    return (
+      <PilotOperationsProvider>
+        <PilotOperationsCenter />
+      </PilotOperationsProvider>
+    );
   }
   if (currentPage === 'calibration_playground') {
     return <CalibrationPlayground />;

@@ -1,0 +1,7 @@
+
+export type RuntimeResolutionStatus =
+  | 'READY'
+  | 'INSUFFICIENT_SIGNAL_CONTEXT'
+  | 'BLOCKED_BY_MISSING_CAUSALITY'
+  | 'BLOCKED_BY_LOW_CONFIDENCE'
+  | 'SUPPRESSED';

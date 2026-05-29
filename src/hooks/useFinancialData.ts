@@ -28,8 +28,8 @@ export function useFinancialData(clientId: string, year: number, month: number, 
       snap.docs.forEach(doc => {
         const docData = doc.data() as any;
         
-        // Only show approved or legacy (without status) data in dashboards
-        if (docData.status === 'pending' || docData.status === 'rejected' || docData.status === 'archived') return;
+        // Exibe dados pendentes, aprovados ou legados. Apenas ignora rejeitados ou arquivados.
+        if (docData.status === 'rejected' || docData.status === 'archived') return;
 
         // In-memory month filtering for data that has a month
         if (month > 0 && docData.month !== undefined && docData.month !== 0 && docData.month !== month) return;
@@ -101,8 +101,8 @@ export function useAllFinancialData(clientId: string) {
       snap.docs.forEach(doc => {
         const docData = doc.data() as any;
 
-        // Only show approved or legacy (without status) data in dashboards
-        if (docData.status === 'pending' || docData.status === 'rejected') return;
+        // Exibe dados pendentes, aprovados ou legados. Apenas ignora rejeitados ou arquivados.
+        if (docData.status === 'rejected' || docData.status === 'archived') return;
 
         if (Array.isArray(docData.data)) {
           let lastType = 'ativo';
@@ -190,12 +190,14 @@ export function useAnnualFinancialData(
 
       const allEntries: any[] = [];
       const ids: string[] = [];
+      
+      console.log(`[DEBUG USE_ANNUAL_DATA] Fetching ${type} for ${clientId} year ${year}. Found ${snap.docs.length} docs.`);
 
       snap.docs.forEach(docSnap => {
         const docData = docSnap.data() as any;
 
-        // Only show approved or legacy (without status) data in dashboards
-        if (docData.status === 'pending' || docData.status === 'rejected') return;
+        // Exibe dados pendentes, aprovados ou legados. Apenas ignora rejeitados ou arquivados.
+        if (docData.status === 'rejected' || docData.status === 'archived') return;
 
         ids.push(docSnap.id);
         if (Array.isArray(docData.data)) {
@@ -214,7 +216,8 @@ export function useAnnualFinancialData(
               conta: entry.category,
               valor: entry.value,
               val: entry.value,
-              type: entryType.toLowerCase()
+              type: entryType.toLowerCase(),
+              isBatch: true
             });
           });
         } else {
@@ -224,10 +227,11 @@ export function useAnnualFinancialData(
             docId: docSnap.id,
             docType: docData.type,
             createdAt: docData.createdAt,
-            conta: docData.category,
-            valor: docData.value,
-            val: docData.value,
-            type: (docData.type || docData.tipo || 'ativo').toLowerCase()
+            conta: docData.category || docData.conta,
+            valor: docData.value || docData.valor || docData.val,
+            val: docData.value || docData.valor || docData.val,
+            type: (docData.type || docData.tipo || 'ativo').toLowerCase(),
+            isBatch: false
           });
         }
       });
@@ -240,46 +244,85 @@ export function useAnnualFinancialData(
           // If the document is explicitly a BP document, ignore it completely for DRE
           if (docT === 'bp' || docT === 'balanço patrimonial') return false;
           
-          return ['receitas', 'despesas'].includes(t) || (!['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(t) && (entry.docType === 'DRE' || entry.docType === 'DRE Gerencial'));
+          // Accept the entry if: it comes from a DRE or DRE Gerencial document (document-level type)
+          // OR if it has a row-level type of 'receitas'/'despesas'
+          const isFromDREDoc = docT === 'dre' || docT === 'dre gerencial';
+          const isDRERow = ['receitas', 'despesas'].includes(t);
+          return isFromDREDoc || isDRERow;
         } else if (type === 'BP' || type === 'Balanço Patrimonial') {
           // If the document is explicitly a DRE document, ignore it completely for BP
           if (docT === 'dre' || docT === 'dre gerencial') return false;
           
-          return ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(t) || (!['receitas', 'despesas'].includes(t) && (entry.docType === 'BP' || entry.docType === 'Balanço Patrimonial'));
+          const isFromBPDoc = docT === 'bp' || docT === 'balanço patrimonial';
+          const isBPRow = ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(t);
+          return isFromBPDoc || isBPRow;
         }
         return entry.docType === type;
       });
-
+      
       // DEDUPLICAÇÃO DE DOCUMENTOS:
-      // A correção garante que usaremos apenas o documento MAIS RECENTE retornado.
-      const docIdsPresent = [...new Set(filteredEntries.map(e => e.docId))];
-      let finalEntries = filteredEntries;
+      // Se houver documentos do tipo 'batch' (novos salvamentos), pegamos apenas o mais recente.
+      // Se forem linhas 'flat' (legado), mantemos todas. Se houver batch E flat, o batch mais recente vence.
+      const batchEntries = filteredEntries.filter(e => e.isBatch);
+      const flatEntries = filteredEntries.filter(e => !e.isBatch);
+      
+      let finalEntries: any[] = [];
       let finalDocIds = ids;
 
-      if (docIdsPresent.length > 1) {
-        // Encontrar o documento mais recente com base no createdAt (se existir)
-        let latestDocId = docIdsPresent[0];
-        let maxTime = 0;
+      if (batchEntries.length > 0) {
+        const docIdsPresent = [...new Set(batchEntries.map(e => e.docId))];
+        if (docIdsPresent.length > 1) {
+          let latestDocId = docIdsPresent[0];
+          let maxTime = 0;
 
-        docIdsPresent.forEach(docId => {
-          const entry = filteredEntries.find(e => e.docId === docId);
-          if (entry && entry.createdAt && entry.createdAt.toMillis) {
-            const time = entry.createdAt.toMillis();
-            if (time > maxTime) {
-              maxTime = time;
+          docIdsPresent.forEach(docId => {
+            const entry = batchEntries.find(e => e.docId === docId);
+            if (entry && entry.createdAt) {
+              if (typeof entry.createdAt.toMillis === 'function') {
+                const time = entry.createdAt.toMillis();
+                if (time > maxTime) {
+                  maxTime = time;
+                  latestDocId = docId;
+                }
+              } else if (entry.createdAt.seconds) {
+                const time = entry.createdAt.seconds * 1000;
+                if (time > maxTime) {
+                  maxTime = time;
+                  latestDocId = docId;
+                }
+              }
+            } else if (entry) {
+              // Se createdAt for nulo ou ausente, é um Timestamp do servidor pendente, logo é o mais recente.
+              maxTime = Infinity;
               latestDocId = docId;
             }
+          });
+
+          if (maxTime === 0) {
+            latestDocId = docIdsPresent[docIdsPresent.length - 1];
           }
-        });
 
-        // Fallback: se nenhum tiver createdAt, pega o último da lista
-        if (maxTime === 0) {
-          latestDocId = docIdsPresent[docIdsPresent.length - 1];
+          finalEntries = batchEntries.filter(e => e.docId === latestDocId);
+          finalDocIds = [latestDocId];
+        } else {
+          finalEntries = batchEntries;
+          finalDocIds = docIdsPresent;
         }
-
-        finalEntries = filteredEntries.filter(e => e.docId === latestDocId);
-        finalDocIds = [latestDocId];
+        
+        // Verificação Crítica: se o batch mais recente for apenas uma casca vazia (ex: salvo por acidente)
+        // e existirem dados legados (flat), nós restauramos os dados legados.
+        const hasRealData = finalEntries.some(e => (Number(e.value) || Number(e.val) || Number(e.valor) || 0) !== 0);
+        if (!hasRealData && flatEntries.length > 0) {
+          finalEntries = flatEntries;
+          finalDocIds = [...new Set(flatEntries.map(e => e.docId))];
+        }
+      } else {
+        // Se não houver nenhum batch document, o histórico do cliente é feito totalmente de flat rows
+        finalEntries = flatEntries;
+        finalDocIds = [...new Set(flatEntries.map(e => e.docId))];
       }
+
+      console.log(`[DEBUG USE_ANNUAL_DATA] After deduplication for ${type}, kept ${finalEntries.length} entries.`);
 
       setDbData(finalEntries);
       setDocIds(finalDocIds);

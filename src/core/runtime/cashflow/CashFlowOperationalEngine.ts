@@ -1,15 +1,17 @@
 // src/core/runtime/cashflow/CashFlowOperationalEngine.ts
 import { CashFlowOperationalMetrics, CashFlowPatternType } from './cashflow-types';
 
-export function calculateOperationalMetrics(dfcData: any[]): CashFlowOperationalMetrics | null {
-  if (!dfcData || dfcData.length === 0) return null;
+export function calculateOperationalMetrics(dfcData: any): CashFlowOperationalMetrics | null {
+  if (!dfcData) return null;
+  const dataArray = Array.isArray(dfcData) ? dfcData : Object.values(dfcData);
+  if (dataArray.length === 0) return null;
 
   let operatingCashFlow = 0;
   let investingCashFlow = 0;
   let financingCashFlow = 0;
 
   // Assuming dfcData has fields like { grupo: 'Atividades Operacionais', val: 1000 }
-  dfcData.forEach(item => {
+  dataArray.forEach(item => {
     const groupName = (item.grupo || '').toLowerCase();
     const val = Number(item.val) || 0;
     

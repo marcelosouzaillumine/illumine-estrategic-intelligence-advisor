@@ -27,7 +27,7 @@ export function useInstitutionalRuntime({ engineType, input }: UseInstitutionalR
           executionStatus: 'PENDING'
         };
 
-        const result = await runInstitutionalAnalysis(input as import('../runtime/types').RuntimeInput);
+        const result = await runInstitutionalAnalysis(input as import('../runtime/types').RuntimeInput, engineType);
         
         if (isMounted) {
           setRuntimeOutput(result);

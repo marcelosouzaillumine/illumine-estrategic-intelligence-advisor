@@ -13,34 +13,38 @@ import { SimulationLineageViewer } from '../scenario-simulation/SimulationLineag
 export function ExecutiveScenarioLabPage() {
   return (
     <ScenarioSimulationProvider>
-      <div className="space-y-6">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
         <PageHeader 
           title="Executive Scenario Lab" 
           subtitle="Simulação contrafactual e projeções executivas" 
-          icon={<FlaskConical size={24} className="text-primary" />} 
+          icon={FlaskConical} 
+          transparent
         />
         
-        <div className="grid grid-cols-1 gap-6">
+        <div className="space-y-8">
           {/* Seletor do Cenário de Base */}
           <ScenarioSimulationPanel />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Grid Principal: Sandbox e Linha do tempo (Esquerda) vs Confiança e Trilha (Direita) */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Esquerda: Decisões de Sandbox e Linha do Tempo de Projeção */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-8">
               <ExecutiveScenarioNavigator />
               <GovernanceProjectionTimeline />
             </div>
 
-            {/* Direita: Diagnóstico e Linha de Auditoria */}
-            <div className="space-y-6">
-              <GovernanceForecastSurface />
-              <StrategicStressMap />
+            {/* Direita: Diagnóstico de Confiança e Linha de Auditoria */}
+            <div className="space-y-8">
+              <SimulationConfidenceCard />
               <SimulationLineageViewer />
             </div>
           </div>
 
-          {/* Limitações Fiduciárias e Transparência */}
-          <SimulationConfidenceCard />
+          {/* Diagnóstico de Forecast (100% de largura para dar espaço de leitura premium) */}
+          <GovernanceForecastSurface />
+
+          {/* Classificação de Estresse (100% de largura para os 4 níveis brilharem) */}
+          <StrategicStressMap />
         </div>
       </div>
     </ScenarioSimulationProvider>

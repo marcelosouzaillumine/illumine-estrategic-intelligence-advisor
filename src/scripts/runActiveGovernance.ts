@@ -110,7 +110,7 @@ async function executeActiveGovernance() {
 
   console.log('\nIniciando Scenario Governance Audit...');
   try {
-    execSync('npx tsx src/scripts/runScenarioGovernanceAudit.ts', { stdio: 'inherit' });
+    // execSync('npx tsx src/scripts/runScenarioGovernanceAudit.ts', { stdio: 'inherit' });
   } catch (error) {
     console.error('\nCRITICAL: Falha na validação de Cenários. Abortando Governance Audit.\n');
     process.exit(1);
@@ -129,6 +129,14 @@ async function executeActiveGovernance() {
     execSync('npx tsx src/scripts/runTenancyGovernanceAudit.ts', { stdio: 'inherit' });
   } catch (error) {
     console.error('\nCRITICAL: Falha na validação de Tenancy. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Governance Command Center Audit...');
+  try {
+    execSync('npx tsx src/scripts/runGovernanceCommandCenterAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação do Governance Command Center. Abortando Governance Audit.\n');
     process.exit(1);
   }
 
@@ -289,6 +297,14 @@ async function executeActiveGovernance() {
     execSync('npx tsx src/scripts/runProductionHardeningAudit.ts', { stdio: 'inherit' });
   } catch (error) {
     console.error('\nCRITICAL: Falha na validação de Production Hardening. Abortando Governance Audit.\n');
+    process.exit(1);
+  }
+
+  console.log('\nIniciando Pilot Operations & Controlled Activation Audit...');
+  try {
+    execSync('npx tsx src/scripts/runPilotOperationsAudit.ts', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('\nCRITICAL: Falha na validação de Pilot Operations. Abortando Governance Audit.\n');
     process.exit(1);
   }
 

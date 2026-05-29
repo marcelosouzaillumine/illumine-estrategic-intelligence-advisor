@@ -63,6 +63,8 @@ export interface BPSummary {
   duplicateAccounts?: string[];
 }
 
+import { StructuralRootNormalizer } from '../core/runtime/integrity/StructuralRootNormalizer';
+
 /**
  * Constrói a árvore hierárquica e consolida os valores bottom-up rigorosamente.
  */
@@ -225,9 +227,17 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
     if (ativoCirculante !== 0 || ativoNaoCirculante !== 0) {
       ativoTotal = ativoCirculante + ativoNaoCirculante;
     } else {
-      // Fallback: soma todos os nós folhas (não-sintéticos) do tipo ativo
-      ativoTotal = flatNodes.filter(n => n.type === 'ativo' && !n.isSynthetic).reduce((s, n) => s + n.value, 0);
+      ativoTotal = flatNodes.filter(n => (n.type.includes('ativo') || n.type.includes('pendente') || !n.type) && !n.isSynthetic && !n.cleanCategory.includes('passivo') && !n.cleanCategory.includes('patrimônio')).reduce((s, n) => s + n.value, 0);
     }
+  }
+
+  if (!ativoCirculante) {
+    ativoCirculante = flatNodes.filter(n => !n.isSynthetic && (
+      n.cleanCategory.includes('caixa') || n.cleanCategory.includes('banco') || 
+      n.cleanCategory.includes('aplicação') || n.cleanCategory.includes('cliente') || 
+      n.cleanCategory.includes('estoque') || n.cleanCategory.includes('imposto a recuperar') ||
+      n.cleanCategory.includes('duplicata') || n.cleanCategory.includes('adiantamento')
+    )).reduce((s, n) => s + n.value, 0);
   }
 
   if (!ativoCirculante && !ativoNaoCirculante && ativoTotal > 0) {
@@ -242,9 +252,21 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
     if (passivoCirculante !== 0 || passivoNaoCirculante !== 0) {
       passivoTotal = passivoCirculante + passivoNaoCirculante;
     } else {
-      // Fallback: soma todos os nós folhas (não-sintéticos) do tipo passivo, excluindo PL
-      passivoTotal = flatNodes.filter(n => n.type === 'passivo' && !n.isSynthetic && !n.cleanCategory.includes('patrimônio') && !n.cleanCategory.includes('pl ')).reduce((s, n) => s + n.value, 0);
+      passivoTotal = flatNodes.filter(n => (n.type.includes('passivo') || n.type.includes('pendente') || !n.type) && !n.isSynthetic && !n.cleanCategory.includes('patrimônio') && !n.cleanCategory.includes('pl ') && !n.cleanCategory.includes('ativo')).reduce((s, n) => s + n.value, 0);
     }
+  }
+
+  if (!passivoCirculante) {
+    passivoCirculante = flatNodes.filter(n => !n.isSynthetic && (
+      n.cleanCategory.includes('fornecedor') || n.cleanCategory.includes('imposto') || 
+      n.cleanCategory.includes('salário') || n.cleanCategory.includes('encargo') || 
+      n.cleanCategory.includes('obrigação') || n.cleanCategory.includes('curto prazo') ||
+      n.cleanCategory.includes('pagar')
+    )).reduce((s, n) => s + n.value, 0);
+  }
+
+  if (!passivoCirculante && !passivoNaoCirculante && passivoTotal > 0) {
+     passivoCirculante = passivoTotal;
   }
   
   let patrimonioLiquido = extractGroupSum(['patrimônio líquido', 'pl', 'total do patrimônio líquido', 'patrimônio'], 'patrimônio');
@@ -272,8 +294,33 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
 
   const creditosSocios = extractGroupSum(['mútuo', 'sócios', 'partes relacionadas', 'adiantamento a sócios'], 'ativo');
 
-  // Buckets de Conversibilidade
-  const altaConversibilidade = extractGroupSum(['caixa', 'bancos', 'aplicações', 'equivalentes', 'disponibilidade'], 'ativo');
+  // Função rigorosa fiduciária para Disponível Total (Caixa e Equivalentes)
+  const disponivelKeywords = [
+    'caixa',
+    'numerário',
+    'numerario',
+    'banco conta movimento',
+    'bancos conta movimento',
+    'banco conta corrente',
+    'bancos conta corrente',
+    'banco c/c',
+    'bancos c/c',
+    'depósitos bancários à vista',
+    'depósito bancário à vista',
+    'depositos bancarios a vista',
+    'deposito bancario a vista',
+    'aplicações de liquidez imediata',
+    'aplicacao de liquidez imediata',
+    'aplicacoes de liquidez imediata',
+    'equivalentes de caixa',
+    'equivalente de caixa',
+    'alta conversibilidade',
+    'resgate imediato'
+  ];
+
+  const excludeDisponivel = ['restrito', 'vinculado'];
+
+  const altaConversibilidade = extractGroupSum(disponivelKeywords, 'ativo', excludeDisponivel);
   const mediaConversibilidade = clientes + extractGroupSum(['cheques', 'cartões', 'cartão'], 'ativo');
   const baixaConversibilidade = estoques + extractGroupSum(['tributos a recuperar', 'impostos a recuperar', 'impostos diferidos', 'créditos de liquidação', 'pdd', 'adiantamento'], 'ativo');
   const restritaConversibilidade = extractGroupSum(['imobilizado', 'intangível', 'investimentos', 'realizável a longo prazo'], 'ativo');
@@ -305,6 +352,10 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
     orphanAccounts,
     duplicateAccounts
   };
+
+  // --- NORMALIZAÇÃO DA RAIZ ---
+  // Corrige os root nodes ("Ativo", "Passivo") que venham zerados mesmo com filhos populados
+  StructuralRootNormalizer.normalizeRootNodes(flatNodes);
 
   return { nodes: rootNodes, flatNodes, summary };
 }

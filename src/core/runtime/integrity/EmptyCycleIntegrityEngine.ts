@@ -68,8 +68,22 @@ export class EmptyCycleIntegrityEngine {
 
     const hasMinimumAccounts = hasAtivo && hasPassivo && hasROL && hasEBITDA;
 
-    // Trigger fail-closed block if any critical dataset or structural account is missing, or bpLines length is 0
-    if (!hasValidDRE || !hasValidBP || !validLedgerEntries || !hasMinimumAccounts || bpLines.length === 0) {
+    // Trigger fail-closed block if any critical dataset or structural account is missing.
+    // IMPORTANT: hasBPPrecomputed (rawData.rawFinancialData.bpSummary with ativoTotal) counts as valid BP.
+    // We only require bpLines.length > 0 when there is NO pre-computed summary.
+    const bpValidated = hasBPPrecomputed
+      ? (bpSummary.ativoTotal !== undefined && bpSummary.ativoTotal !== null && bpSummary.ativoTotal > 0)
+      : (bpLines.length > 0);
+
+    // Se temos DRE válida (existem lançamentos), o ciclo NÃO é vazio.
+    // ROL e EBITDA são frequentemente calculados em tempo real (runtime) e não precisam estar fisicamente na tabela.
+    const isDreOnlyValid = dreLines.length > 0;
+
+    if (isForceStrict && !hasMinimumAccounts) {
+      return true;
+    }
+
+    if (!isDreOnlyValid && (!hasValidBP || !bpValidated || !validLedgerEntries || !hasAtivo || !hasPassivo)) {
       return true;
     }
 

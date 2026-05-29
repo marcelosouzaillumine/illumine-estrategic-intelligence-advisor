@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { 
   X, Loader2, CheckCircle2, UploadCloud, FileText, Trash2, 
@@ -218,7 +219,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
     }
   };
 
-  return (
+  const modalContent = (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
@@ -375,4 +376,10 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
       </motion.div>
     </div>
   );
+
+  if (typeof document !== 'undefined') {
+    return createPortal(modalContent, document.body);
+  }
+  return modalContent;
 }
+

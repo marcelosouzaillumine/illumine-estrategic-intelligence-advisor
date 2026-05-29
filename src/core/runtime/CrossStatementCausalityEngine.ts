@@ -13,6 +13,9 @@ export interface CausalityPropagationLink {
 
 export interface CrossStatementCausalityProfile {
   tensions: CausalityPropagationLink[];
+  resolution: {
+    status: string;
+  };
 }
 
 export function detectCrossStatementCausality(
@@ -65,7 +68,9 @@ export function detectCrossStatementCausality(
   // BP -> DFC Propagation (Pressão de Dívida)
   // This would require debt data, omitting for now or assuming we have basic inputs.
 
-  return { tensions };
+  const status = tensions.length > 0 ? 'Sob Análise' : 'Estável';
+
+  return { tensions, resolution: { status } };
 }
 
 export interface CrossStatementCausalityReport {

@@ -1,6 +1,7 @@
 // src/core/runtime/ExecutivePriorityConsolidationEngine.ts
 import { InstitutionalFinancialThesisProfile } from './InstitutionalFinancialThesisEngine';
 import { CausalityPropagationLink } from './CrossStatementCausalityEngine';
+import { GlobalFiduciaryDistributionEnforcementEngine } from './governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
 
 export interface ExecutiveAction {
   id: string;
@@ -13,7 +14,8 @@ export interface ExecutiveAction {
 
 export function consolidateExecutivePriorities(
   thesisProfile: InstitutionalFinancialThesisProfile,
-  tensions: CausalityPropagationLink[]
+  tensions: CausalityPropagationLink[],
+  enforcementTriggered?: boolean
 ): ExecutiveAction[] {
   
   const priorities: ExecutiveAction[] = [];
@@ -27,13 +29,18 @@ export function consolidateExecutivePriorities(
   // 1. Process Structural Risks from Thesis Engine
   thesisProfile.structuralRisks.forEach((risk, index) => {
     if (risk.severity === 'ALTA' && !priorities.some(p => p.id === risk.id)) {
+      let priority: 'Crítica' | 'Alta' | 'Moderada' = 'Crítica';
+      if (enforcementTriggered) {
+        // Escalate treasury/resilience priorities under enforcement
+        priority = 'Crítica';
+      }
       priorities.push({
         id: risk.id,
         category: `Risco Estrutural: ${risk.component}`,
         title: `Mitigação Imediata: ${risk.id.replace(/_/g, ' ')}`,
         expectedImpact: 'Prevenção de colapso de liquidez ou drenagem de capital estrutural.',
         fiduciaryEvidence: `Identificado pelo motor institucional na camada ${risk.component}.`,
-        priority: 'Crítica'
+        priority
       });
     }
   });
@@ -66,12 +73,21 @@ export function consolidateExecutivePriorities(
     }
   });
 
+  // Block shareholder return optimization narratives under enforcement
+  const filtered = enforcementTriggered
+    ? priorities.filter(p => !p.title.toLowerCase().includes('shareholder return') && !p.title.toLowerCase().includes('retorno aos acionistas'))
+    : priorities;
+
   // Sort logically: Critical -> Alta -> Moderada
   const sortMap = { 'Crítica': 0, 'Alta': 1, 'Moderada': 2 };
-  return priorities.sort((a, b) => sortMap[a.priority] - sortMap[b.priority]);
+  return filtered.sort((a, b) => sortMap[a.priority] - sortMap[b.priority]);
 }
 
 export class ExecutivePriorityConsolidationEngine {
+  public static optimismWeight = 1.0;
+  public static treasuryPreservationPriority = 'Alta';
+  public static institutionalResiliencePriority = 'Alta';
+
   public static consolidate(
     actions: string[],
     tensionsInput: any[],
@@ -79,14 +95,33 @@ export class ExecutivePriorityConsolidationEngine {
     capitalGovernanceReport: any,
     metrics: any
   ): string[] {
-    const isEroded = capitalGovernanceReport?.isAvailable && 
-                     (capitalGovernanceReport.preservation?.preservationStatus === 'DRENADO' ||
-                      capitalGovernanceReport.behavior?.governanceMaturity === 'DESTRUTIVA');
+    const fiduciaryOutput = capitalGovernanceReport?.fiduciaryOutput;
+    const enforcement = GlobalFiduciaryDistributionEnforcementEngine.evaluate(fiduciaryOutput);
+
+    if (enforcement.enforcementTriggered) {
+      this.optimismWeight = 0.2;
+      this.treasuryPreservationPriority = 'Crítica';
+      this.institutionalResiliencePriority = 'Crítica';
+    } else {
+      this.optimismWeight = 1.0;
+      this.treasuryPreservationPriority = 'Alta';
+      this.institutionalResiliencePriority = 'Alta';
+    }
+
+    const isEroded = enforcement.enforcementTriggered;
 
     return actions.filter(action => {
       const lower = action.toLowerCase();
       if (isEroded) {
-        if (lower.includes('distrib') || lower.includes('dividendo') || lower.includes('payout')) {
+        if (
+          lower.includes('distrib') ||
+          lower.includes('dividendo') ||
+          lower.includes('payout') ||
+          lower.includes('shareholder return') ||
+          lower.includes('retorno ao acionista') ||
+          lower.includes('retirada') ||
+          lower.includes('extração')
+        ) {
           return false; // Block it!
         }
       }

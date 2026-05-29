@@ -61,6 +61,9 @@ export interface ScenarioSimulationResult {
   // Apenas metadados high-level. Não guarda o DRE/BP gigante modificado.
   runtimeVersion: string;
   snapshotHash: string; 
+  fiduciarySeverity?: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
+  fiduciaryViolation?: string;
+  scenarioValidity?: 'VALID' | 'INVALID_SURVIVAL_CONFLICT';
 }
 
 export interface ScenarioExecutionRecord extends ScenarioSimulationResult {

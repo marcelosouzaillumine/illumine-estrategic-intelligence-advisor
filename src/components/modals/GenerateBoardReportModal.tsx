@@ -14,6 +14,7 @@ interface GenerateBoardReportModalProps {
   financialData: any[];
   clientData?: any;
   selectedYear: number;
+  temporalData?: any;
 }
 
 export function GenerateBoardReportModal({
@@ -22,7 +23,8 @@ export function GenerateBoardReportModal({
   clientId,
   companyName,
   selectedYear,
-  clientData
+  clientData,
+  temporalData
 }: GenerateBoardReportModalProps) {
   const [status, setStatus] = useState<'idle' | 'generating_ai' | 'ready' | 'rendering_pdf' | 'error'>('idle');
   const [progressMsg, setProgressMsg] = useState('');
@@ -150,6 +152,7 @@ export function GenerateBoardReportModal({
              data={advisoryReport} 
              companyName={companyName} 
              reportDate={new Date().toLocaleDateString('pt-BR')} 
+             temporalData={temporalData}
           />
         )}
       </div>

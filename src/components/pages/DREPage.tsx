@@ -18,6 +18,7 @@ import {
 } from 'recharts';
 import { cn, formatCurrency, formatValue, getThemeColors } from '../../lib/utils';
 import { PageHeader, KpiCard } from '../Common';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
@@ -41,6 +42,7 @@ import { db, auth } from '../../lib/firebase';
 type ToastType = { type: 'success' | 'error'; message: string } | null;
 
 export function DREPage({ clients, selectedClient, selectedYear }: any) {
+  const { translateLabel } = useLanguage();
   const [filterYear, setFilterYear] = useState(selectedYear || new Date().getFullYear());
   const [toast, setToast] = useState<ToastType>(null);
   const [deleting, setDeleting] = useState(false);
@@ -85,6 +87,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     async function runAnalysis() {
       if (!dbData) return;
       const input = {
+        clientProfile: currentClient,
         dreData: dbData,
         bpData: dbDataBP,
         rawFinancialData: { filterYear, segmentoEmpresa },
@@ -255,7 +258,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
     const getChildren = (parentId: string) => {
       return (cascadeResult as any[])
-        .filter((r: any) => r.parentId === parentId && r.tipo !== 'SINTETICA' && r.tipo !== 'RESULTADO_CALCULADO')
+        .filter((r: any) => r.parentId === parentId && r.tipo !== 'SINTETICA' && r.tipo !== 'RESULTADO_CALCULADO' && r.dreTipo !== 'SINTETICA' && r.dreTipo !== 'RESULTADO_CALCULADO')
         .sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
         .map((r: any) => ({
            name: r.conta || r.category || r.nome,
@@ -379,6 +382,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           ))}
         </div>
       )}
+
 
       {/* SCORE DE SAÚDE */}
       <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between border border-slate-700/50 mb-8">
@@ -696,22 +700,22 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       </div>
 
       <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden mb-10">
-        <div className="px-5 md:px-8 py-3 md:py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
-          <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Detalhamento da DRE</h4>
+        <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+          <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">{translateLabel('Detalhamento da DRE')}</h4>
           <span className="text-[9px] font-black uppercase px-3 py-1 rounded-full bg-blue-50 text-blue-600">
-            Análise Horizontal e Vertical
+            {translateLabel('Análise Horizontal e Vertical')}
           </span>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100">
-                <th className="text-left py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conta</th>
-                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Valor (R$)</th>
-                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AV (%)</th>
-                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (1 Ano)</th>
-                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (2 Anos)</th>
-                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">AH (3 Anos)</th>
+                <th className="text-left py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{translateLabel('Conta')}</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{translateLabel('Valor (R$)')}</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{translateLabel('AV (%)')}</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{translateLabel('AH (1 Ano)')}</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{translateLabel('AH (2 Anos)')}</th>
+                <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{translateLabel('AH (3 Anos)')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -719,6 +723,9 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 // ── Espelho Estrutural: Renderiza a base analítica das 14 linhas com os filhos aninhados ──
                 standardDreRows.map((row: any, i: number) => {
                     const name = row.name || row.conta || row.category || '';
+                    const label = translateLabel(name);
+                    if (!label) return null;
+
                     const val = row.val || 0;
                     const level = row.level ?? 1;
                     
@@ -746,7 +753,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                             {level > 1 && (
                               <span className="inline-block w-2 h-2 border-b border-l border-slate-300 mr-2 mb-0.5" />
                             )}
-                            {name}
+                            {label}
                           </span>
                         </td>
                         <td className={cn("py-2.5 md:py-4 px-5 md:px-8 text-right font-mono", val < 0 ? "text-rose-500" : "text-slate-700")}>

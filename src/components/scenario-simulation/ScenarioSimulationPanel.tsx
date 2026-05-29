@@ -31,52 +31,52 @@ export const ScenarioSimulationPanel: React.FC = () => {
   ];
 
   return (
-    <div className="p-6 bg-slate-950/70 border border-slate-800 rounded-xl space-y-6">
-      <div className="flex justify-between items-center border-b border-slate-850 pb-3 flex-wrap gap-2">
+    <div className="card-premium p-8 space-y-8 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
+      <div className="flex justify-between items-center border-b border-border/40 pb-4 flex-wrap gap-4">
         <div>
-          <span className="text-[10px] font-mono font-bold tracking-wider text-slate-500 uppercase">SSPGL RUNTIME PLATFORM</span>
-          <h3 className="text-sm font-bold text-slate-200 font-mono mt-0.5">Governance Scenario Simulator</h3>
+          <span className="text-[10px] font-mono font-bold tracking-widest text-secondary uppercase block mb-1">SSPGL RUNTIME PLATFORM</span>
+          <h3 className="text-base font-medium text-foreground tracking-tight">Governance Scenario Simulator</h3>
         </div>
         {simulationOutput && (
           <ForecastIntegrityBadge state={simulationOutput.integrityState} />
         )}
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* Escolha do Cenário */}
-        <div>
-          <span className="text-[10px] font-mono text-slate-500 uppercase block mb-2">1. SELECT STRESS SCENARIO</span>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="space-y-3">
+          <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">1. SELECT STRESS SCENARIO</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {scenarios.map((scen) => (
               <button
                 key={scen.type}
                 onClick={() => setScenarioType(scen.type)}
-                className={`p-3 border rounded-xl text-left transition-all hover:border-slate-700 active:scale-[0.98] flex flex-col gap-1 ${
+                className={`p-4 border rounded-xl text-left transition-all duration-300 active:scale-[0.98] flex flex-col gap-1.5 cursor-pointer ${
                   activeScenarioType === scen.type
-                    ? 'border-cyan-500 bg-cyan-950/20 text-cyan-400'
-                    : 'border-slate-850 bg-slate-900/40 text-slate-400 hover:text-slate-350'
+                    ? 'border-secondary bg-secondary/10 text-secondary shadow-[0_0_12px_rgba(255,133,82,0.12)]'
+                    : 'border-border/60 bg-surface-container/40 text-muted-foreground hover:border-secondary/40 hover:text-foreground'
                 }`}
               >
-                <span className="text-xs font-mono font-bold">{scen.label}</span>
-                <span className="text-[10px] opacity-80 leading-normal font-sans">{scen.desc}</span>
+                <span className="text-xs font-semibold tracking-wider uppercase">{scen.label}</span>
+                <span className="text-[10.5px] opacity-80 leading-relaxed font-sans">{scen.desc}</span>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Horizonte Temporal */}
-          <div>
-            <span className="text-[10px] font-mono text-slate-500 uppercase block mb-2">2. TIME HORIZON</span>
-            <div className="flex bg-slate-900/60 border border-slate-850 p-1 rounded-xl gap-1">
+          <div className="space-y-3">
+            <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">2. TIME HORIZON</span>
+            <div className="flex bg-surface-container/60 border border-border/60 p-1 rounded-xl gap-1">
               {horizons.map((hor) => (
                 <button
                   key={hor.value}
                   onClick={() => setHorizon(hor.value)}
-                  className={`flex-1 py-1.5 rounded-lg text-center font-mono text-xs font-bold transition-all ${
+                  className={`flex-1 py-2 rounded-lg text-center font-mono text-xs font-bold transition-all cursor-pointer ${
                     activeHorizon === hor.value
-                      ? 'bg-slate-800 text-cyan-400 border border-slate-700'
-                      : 'text-slate-400 hover:text-slate-300'
+                      ? 'bg-card text-secondary border border-border shadow-xs font-black'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {hor.label}
@@ -86,23 +86,23 @@ export const ScenarioSimulationPanel: React.FC = () => {
           </div>
 
           {/* Ciclos Históricos (Controle de Suficiência) */}
-          <div>
-            <span className="text-[10px] font-mono text-slate-500 uppercase block mb-2">3. HISTORICAL SUFFICIENCY TESTER</span>
-            <div className="flex bg-slate-900/60 border border-slate-850 p-1 rounded-xl gap-1">
+          <div className="space-y-3">
+            <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">3. HISTORICAL SUFFICIENCY TESTER</span>
+            <div className="flex bg-surface-container/60 border border-border/60 p-1 rounded-xl gap-1">
               {[1, 2, 3, 4].map((cycles) => (
                 <button
                   key={cycles}
                   onClick={() => setHistoryCyclesToUse(cycles)}
-                  className={`flex-1 py-1.5 rounded-lg text-center font-mono text-xs font-bold transition-all flex flex-col items-center justify-center ${
+                  className={`flex-1 py-2 rounded-lg text-center font-mono text-xs font-bold transition-all flex flex-col items-center justify-center cursor-pointer ${
                     historyCyclesToUse === cycles
                       ? cycles < 3
-                        ? 'bg-amber-950/40 text-amber-400 border border-amber-800'
-                        : 'bg-slate-800 text-emerald-400 border border-slate-700'
-                      : 'text-slate-400 hover:text-slate-300'
+                        ? 'bg-amber-500/10 text-amber-500 border border-amber-500/35 shadow-sm'
+                        : 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/35 shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <span>{cycles} {cycles === 1 ? 'Ciclo' : 'Ciclos'}</span>
-                  <span className="text-[8px] opacity-60">
+                  <span className="text-[8px] opacity-80 mt-0.5 tracking-wider uppercase font-semibold">
                     {cycles < 3 ? 'WARNING' : 'SUFFICIENT'}
                   </span>
                 </button>
@@ -113,7 +113,7 @@ export const ScenarioSimulationPanel: React.FC = () => {
       </div>
       
       {isRunning && (
-        <div className="p-3 bg-cyan-950/20 border border-cyan-800/20 text-cyan-400 rounded-lg text-center font-mono text-xs animate-pulse">
+        <div className="p-4 bg-secondary/5 border border-secondary/20 text-secondary rounded-xl text-center font-mono text-xs animate-pulse tracking-wide font-medium">
           Executing deterministic forecast calculations...
         </div>
       )}

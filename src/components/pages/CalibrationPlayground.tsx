@@ -30,6 +30,9 @@ import { cn } from '../../lib/utils';
 const MOCK_SANDBOX_DATA = {
   isMockData: false,
   historicalCyclesCount: 3,
+  clientProfile: {
+    segmentoAtuacao: 'Default'
+  },
   rawFinancialData: {
     segmentoEmpresa: 'Default',
     prevPl: 800,

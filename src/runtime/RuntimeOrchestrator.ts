@@ -7,12 +7,12 @@ export class RuntimeOrchestrator {
    * PONTO DE ENTRADA ÚNICO DA PLATAFORMA ILLUMINE
    * Toda inteligência institucional deve passar obrigatoriamente por aqui.
    */
-  static async runInstitutionalAnalysis(input: RuntimeInput): Promise<RuntimeOutput> {
+  static async runInstitutionalAnalysis(input: RuntimeInput, engineType?: string): Promise<RuntimeOutput> {
     // 1. Initialize Context
     const context = InstitutionalExecutionContext.create(input);
 
     // 2. Execute Institutional Pipeline
-    await InferencePipeline.execute(context);
+    await InferencePipeline.execute(context, engineType);
 
     // 3. Consolidate Output
     const hasCriticalViolations = context.violations.some(v => v.severity === 'CRITICAL');
