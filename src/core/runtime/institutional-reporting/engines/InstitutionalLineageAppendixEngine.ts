@@ -10,13 +10,13 @@ export class InstitutionalLineageAppendixEngine {
     return {
       boardPackLineageHash: boardPackHash,
       runtimeHashes: {
-        'EXECUTIVE_REPORT': report.runtimeMetadata?.lineageHash,
+        'EXECUTIVE_REPORT': (report.runtimeMetadata as any)?.lineageHash,
         'STRATEGIC_INTELLIGENCE': report.strategicIntelligence?.explainability.strategicLineage || 'UNAVAILABLE',
-        'OPERATIONAL_GOVERNANCE': report.operationalGovernance?.auditTrail[0] || 'UNAVAILABLE',
-        'CONTINUITY_COCKPIT': report.resilienceReport?.lineageHash || 'UNAVAILABLE',
-        'TREASURY_INTELLIGENCE': report.treasuryIntelligenceReport?.treasuryLineageHash || 'UNAVAILABLE'
+        'OPERATIONAL_GOVERNANCE': (report.operationalGovernance as any)?.auditTrail?.[0] || 'UNAVAILABLE',
+        'CONTINUITY_COCKPIT': (report.resilienceReport as any)?.lineageHash || 'UNAVAILABLE',
+        'TREASURY_INTELLIGENCE': (report.treasuryIntelligenceReport as any)?.treasuryLineageHash || 'UNAVAILABLE'
       },
-      propagationHashes: report.runtimeMetadata?.auditTrail || [] || []
+      propagationHashes: (report.runtimeMetadata as any)?.auditTrail || []
     };
   }
 
