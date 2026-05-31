@@ -11,8 +11,8 @@ export class OperationalGovernanceReportingEngine {
     
     return {
       executionStatus: gov.executionIntegrity.status,
-      operationalFrictions: gov.frictionSignals.map(s => s.description),
-      continuityStrain: gov.continuityAlignment.status
+      operationalFrictions: gov.frictions.map(s => s.description),
+      continuityStrain: gov.continuity.status
     };
   }
 
