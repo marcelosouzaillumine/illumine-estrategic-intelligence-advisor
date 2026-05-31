@@ -54,8 +54,15 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
     ];
   }, [selectedYear]);
 
-  const extractMetric = (data: any[], year: number, keywords: string[], exclude: string[] = []) => {
-    const yearData = data.filter(d => d.year === year);
+  const extractMetric = (data: any[], year: number, keywords: string[], exclude: string[] = [], allowedDocTypes?: string[]) => {
+    const yearData = data.filter(d => {
+      const matchesYear = d.year === year;
+      if (!matchesYear) return false;
+      if (allowedDocTypes && allowedDocTypes.length > 0) {
+        return allowedDocTypes.includes(d.docType);
+      }
+      return true;
+    });
     let total = 0;
     yearData.forEach(item => {
       const contaLower = (item.conta || '').toLowerCase();
@@ -78,20 +85,20 @@ export function RelatorioDemonstracoes5Anos({ clientId, selectedYear }: Relatori
       const yearData = dbData.filter(d => d.year === year);
       
       // DRE Estimations
-      const receitas = extractMetric(yearData, year, ['receita', 'venda', 'faturamento'], ['deduções', 'imposto']);
-      const ebitda = extractMetric(yearData, year, ['ebitda', 'lajida']);
-      const lucroLiquido = extractMetric(yearData, year, ['lucro líquido', 'resultado líquido']);
+      const receitas = extractMetric(yearData, year, ['receita', 'venda', 'faturamento'], ['deduções', 'imposto'], ['DRE', 'DRE Gerencial', 'DRE Contábil']);
+      const ebitda = extractMetric(yearData, year, ['ebitda', 'lajida'], [], ['DRE', 'DRE Gerencial', 'DRE Contábil']);
+      const lucroLiquido = extractMetric(yearData, year, ['lucro líquido', 'resultado líquido'], [], ['DRE', 'DRE Gerencial', 'DRE Contábil']);
       
       // BP Estimations
-      const ativo = extractMetric(yearData, year, ['ativo', 'total do ativo'], ['circulante', 'não circulante']);
-      const passivo = extractMetric(yearData, year, ['passivo', 'total do passivo'], ['circulante', 'não circulante', 'patrimônio', 'pl']);
-      const pl = extractMetric(yearData, year, ['patrimônio líquido', 'pl']);
+      const ativo = extractMetric(yearData, year, ['ativo', 'total do ativo'], ['circulante', 'não circulante'], ['BP', 'Balanço Patrimonial']);
+      const passivo = extractMetric(yearData, year, ['passivo', 'total do passivo'], ['circulante', 'não circulante', 'patrimônio', 'pl'], ['BP', 'Balanço Patrimonial']);
+      const pl = extractMetric(yearData, year, ['patrimônio líquido', 'pl'], [], ['BP', 'Balanço Patrimonial']);
 
       // Se Ativo não foi extraído exatamente, vamos somar tudo do tipo 'ativo' para ter uma ideia, cuidado para não duplicar.
       // O ideal é que o DRE/BP já tenha totais, ou possamos mostrar algo que represente o crescimento.
-      const ativoCalc = ativo > 0 ? ativo : extractMetric(yearData, year, ['ativo']);
-      const plCalc = pl > 0 ? pl : extractMetric(yearData, year, ['patrimônio líquido', 'pl']);
-      const lucroCalc = lucroLiquido !== 0 ? lucroLiquido : extractMetric(yearData, year, ['resultado do exercício']);
+      const ativoCalc = ativo > 0 ? ativo : extractMetric(yearData, year, ['ativo'], [], ['BP', 'Balanço Patrimonial']);
+      const plCalc = pl > 0 ? pl : extractMetric(yearData, year, ['patrimônio líquido', 'pl'], [], ['BP', 'Balanço Patrimonial']);
+      const lucroCalc = lucroLiquido !== 0 ? lucroLiquido : extractMetric(yearData, year, ['resultado do exercício'], [], ['DRE', 'DRE Gerencial', 'DRE Contábil']);
 
       return {
         year: year.toString(),

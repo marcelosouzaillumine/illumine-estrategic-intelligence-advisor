@@ -11,11 +11,13 @@ import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
 import { generateCashFlow } from '../../services/cashFlowService';
 import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell, Legend } from 'recharts';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 import { GovernedRepositoryWrapper } from '../../core/security/governed-repository';
 import { DataAccessContext } from '../../core/security/data-access-context';
 
 export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedYear }: any) {
+   const { translateLabel, t } = useLanguage();
    const [activeTab, setActiveTab] = useState<'dashboard' | 'fluxo' | 'receber' | 'pagar' | 'passivo' | 'inadimplencia'>('dashboard');
    const [searchTerm, setSearchTerm] = useState('');
 
@@ -276,7 +278,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
             <Calculator size={48} className="text-slate-200" />
           </div>
-          <h3 className="text-xl font-black text-slate-900 mb-2">Sem dados de fluxo detalhado</h3>
+          <h3 className="text-xl font-black text-slate-900 mb-2">{t('cf.empty_detailed')}</h3>
           <p className="text-slate-500 max-w-md mb-8 font-medium">Não encontramos o arquivo de projeção de caixa para este cliente.</p>
         </div>
       </div>
@@ -347,7 +349,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
             className="space-y-8"
           >
             <div className="flex justify-between items-center bg-surface-container/60 p-2 rounded-md border border-border">
-              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest ml-4">Janela de Projeção</span>
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest ml-4">{t('cf.projection_window')}</span>
               <div className="flex bg-card p-1 rounded-sm shadow-sm border border-border">
                 {[
                   { label: '30 DIAS', value: 30 },
@@ -369,7 +371,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm col-span-1 md:col-span-2">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">CFO Executive Summary</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">{t('cf.cfo_summary')}</p>
                 <div className="space-y-4">
                   {executiveReport?.metrics?.alerts?.map((alert: any, i: number) => (
                     <div key={i} className={`flex items-start gap-3 p-4 rounded-2xl border ${alert.type === 'danger' ? 'bg-rose-50 border-rose-100' : 'bg-amber-50 border-amber-100'}`}>
@@ -382,14 +384,14 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                   ))}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <p className="text-[9px] font-bold text-slate-400 uppercase">Runway Operacional</p>
+                      <p className="text-[9px] font-bold text-slate-400 uppercase">{t('cf.runway')}</p>
                       <p className="text-lg font-black text-slate-900">{resumo.diasCaixa} dias</p>
                       <div className={cn("mt-1 w-full h-1 bg-slate-200 rounded-full overflow-hidden")}>
                         <div className={cn("h-full", resumo.diasCaixa < 30 ? "bg-rose-500" : "bg-emerald-500")} style={{ width: `${Math.min(resumo.diasCaixa, 100)}%` }} />
                       </div>
                     </div>
                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <p className="text-[9px] font-bold text-slate-400 uppercase">Capacidade de Investimento</p>
+                      <p className="text-[9px] font-bold text-slate-400 uppercase">{t('cf.investment_capacity')}</p>
                       <p className="text-lg font-black text-slate-900">{formatCurrency(Math.max(0, resumo?.saldoFinal - resumo?.passivoVencido))}</p>
                     </div>
                     <div className="p-4 bg-rose-50 rounded-2xl border border-rose-100 col-span-2">
@@ -427,7 +429,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
             <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-slate-900">Curva de Liquidez Projetada</h3>
+                <h3 className="text-xl font-bold text-slate-900">{t('cf.liquidity_curve')}</h3>
                 <p className="text-sm text-slate-500">Saldo acumulado disponível ao longo dos próximos {viewRange} dias.</p>
               </div>
               <div className="h-[300px] w-full">
@@ -484,10 +486,10 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
               <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
                 <div className="mb-6 flex justify-between items-center">
                   <div>
-                    <h3 className="text-xl font-bold text-slate-900">Composição de Gastos</h3>
+                    <h3 className="text-xl font-bold text-slate-900">{t('cf.expenses_composition')}</h3>
                     <p className="text-sm text-slate-500">Distribuição por categoria.</p>
                   </div>
-                  <span className="text-[10px] font-black bg-slate-100 px-3 py-1 rounded-full uppercase tracking-tighter">CFO View</span>
+                  <span className="text-[10px] font-black bg-slate-100 px-3 py-1 rounded-full uppercase tracking-tighter">{t('cf.cfo_view')}</span>
                 </div>
                 <div className="h-[250px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -524,7 +526,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
               <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="mb-8">
-                  <h3 className="text-xl font-bold text-slate-900">Visão Mensal Consolidada</h3>
+                  <h3 className="text-xl font-bold text-slate-900">{t('cf.monthly_consolidated')}</h3>
                   <p className="text-sm text-slate-500">Comparativo de entradas e saídas por competência.</p>
                 </div>
                 <div className="space-y-6">
@@ -553,7 +555,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
             <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
               <div className="p-8 border-b border-slate-100">
-                <h3 className="text-xl font-bold text-slate-900">Extrato Diário Projetado</h3>
+                <h3 className="text-xl font-bold text-slate-900">{t('cf.daily_statement')}</h3>
                 <p className="text-sm text-slate-500">Movimentação esperada para os próximos 180 dias.</p>
               </div>
               <div className="overflow-x-auto max-h-[600px] custom-scrollbar">
@@ -592,7 +594,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
             className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden"
           >
             <div className="p-8 border-b border-slate-100">
-              <h3 className="text-xl font-bold text-slate-900">Extrato Diário Projetado</h3>
+              <h3 className="text-xl font-bold text-slate-900">{t('cf.daily_statement')}</h3>
               <p className="text-sm text-slate-500">Movimentação esperada para os próximos 180 dias.</p>
             </div>
             <div className="overflow-x-auto max-h-[600px] custom-scrollbar">
@@ -649,11 +651,11 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
               <table className="w-full">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Vencimento</th>
+                    <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{t('cf.table.due_date')}</th>
                     <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{activeTab === 'receber' ? 'Cliente' : 'Fornecedor'}</th>
-                    <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor</th>
-                    <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                    {activeTab === 'pagar' && <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Obs</th>}
+                    <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">{t('cf.table.value')}</th>
+                    <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">{t('cf.table.status')}</th>
+                    {activeTab === 'pagar' && <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{t('cf.table.obs')}</th>}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -687,7 +689,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
             className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden"
           >
             <div className="p-8 border-b border-slate-100">
-              <h3 className="text-xl font-bold text-slate-900">Inadimplência de Clientes</h3>
+              <h3 className="text-xl font-bold text-slate-900">{t('cf.default.clients')}</h3>
               <p className="text-sm text-slate-500">Títulos com vencimento anterior a hoje e não recebidos.</p>
             </div>
             <div className="overflow-x-auto">
@@ -706,7 +708,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-slate-600">{formatDate(row.Vencimento)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm text-rose-600">{formatCurrency(row.Valor)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4">
-                        <span className="text-[9px] px-2 py-1 rounded uppercase tracking-tighter bg-rose-100 text-rose-700">Vencido</span>
+                        <span className="text-[9px] px-2 py-1 rounded uppercase tracking-tighter bg-rose-100 text-rose-700">{t('cf.default.overdue')}</span>
                       </td>
                     </tr>
                   ))}
@@ -724,7 +726,7 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
             className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden"
           >
             <div className="p-8 border-b border-slate-100">
-              <h3 className="text-xl font-bold text-slate-900">Passivo Vencido e Exigível</h3>
+              <h3 className="text-xl font-bold text-slate-900">{t('cf.default.liabilities')}</h3>
               <p className="text-sm text-slate-500">Débitos acumulados fora do fluxo operacional corrente.</p>
             </div>
             <div className="overflow-x-auto">

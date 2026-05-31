@@ -12,7 +12,7 @@ import { TemporalEscalationEngine } from './TemporalEscalationEngine';
 import { TemporalGovernanceScoring } from './TemporalGovernanceScoring';
 import { InstitutionalEarlyWarningSystem } from './InstitutionalEarlyWarningSystem';
 import { DataAccessContext } from './ReplayMetadataRegistry';
-import { createHash } from 'crypto';
+import { sha256 } from '../executive/types';
 
 export class TemporalCausalityEngine {
   public static evaluateLongitudinalCausality(
@@ -95,7 +95,7 @@ export class TemporalCausalityEngine {
       rootCauseId: history[0].lineageHash
     };
 
-    const auditReference = `causality-${createHash('sha256').update(lineageHash + correlationId).digest('hex').substring(0, 8)}`;
+    const auditReference = `causality-${sha256(lineageHash + correlationId).substring(0, 8)}`;
 
     return {
       temporalGovernanceScore: scoring,

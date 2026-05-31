@@ -9,6 +9,9 @@ export interface PriorityEvaluationInput {
   hasPredictiveRupture: boolean;
   allocations: { id: string; category: string; amount: number; priority: TreasuryPriorityLevel }[];
   isSurvivalMode?: boolean;
+  activeRecoveryStage?: string;
+  treasuryRegressionStatus?: string;
+  resilienceClassification?: string;
 }
 
 export class TreasuryPriorityMatrixEngine {
@@ -31,7 +34,7 @@ export class TreasuryPriorityMatrixEngine {
     restrictedLayers: string[];
     activeCascadeBlock: boolean;
   } {
-    const { isSurvivabilityDegraded, isRunwayCritical, isFalseStability, hasPredictiveRupture, allocations, isSurvivalMode } = input;
+    const { isSurvivabilityDegraded, isRunwayCritical, isFalseStability, hasPredictiveRupture, allocations, isSurvivalMode, activeRecoveryStage, treasuryRegressionStatus, resilienceClassification } = input;
     
     const restrictedLayers: string[] = [];
     let activeCascadeBlock = false;
@@ -54,7 +57,7 @@ export class TreasuryPriorityMatrixEngine {
         'Controlled Expansion',
         'Capital Distribution'
       );
-    } else if (hasPredictiveRupture || isRunwayCritical) {
+    } else if (hasPredictiveRupture || isRunwayCritical || treasuryRegressionStatus === 'CRITICAL') {
       activeCascadeBlock = true;
       freezeThreshold = 5; // Freeze priorities 5, 6, 7, 8, 9 (Governance Stability down to Distribution)
       degradeThreshold = 4; // Degrade priority 4 (Debt Sustainability)
@@ -68,12 +71,46 @@ export class TreasuryPriorityMatrixEngine {
     } else if (isSurvivabilityDegraded || isFalseStability) {
       activeCascadeBlock = true;
       freezeThreshold = 7; // Freeze priorities 7, 8, 9 (Reinvestment down to Distribution)
-      degradeThreshold = 5; // Degrade priorities 5 and 6
       restrictedLayers.push(
         'Sustainable Reinvestment',
         'Controlled Expansion',
         'Capital Distribution'
       );
+    } else if (activeRecoveryStage && activeRecoveryStage !== 'FULL_REAUTHORIZATION') {
+      activeCascadeBlock = true;
+      if (activeRecoveryStage === 'RECOVERY_MONITORING' || activeRecoveryStage === 'RECOVERY_STAGE_1_PENDING' || activeRecoveryStage === 'RECOVERY_STAGE_1') {
+        freezeThreshold = 7; // Freeze 7, 8, 9
+        degradeThreshold = 6;
+        restrictedLayers.push('Sustainable Reinvestment', 'Controlled Expansion', 'Capital Distribution');
+      } else if (activeRecoveryStage === 'RECOVERY_STAGE_2') {
+        freezeThreshold = 8; // Freeze 8, 9
+        degradeThreshold = 7;
+        restrictedLayers.push('Controlled Expansion', 'Capital Distribution');
+      } else if (activeRecoveryStage === 'RECOVERY_STAGE_3') {
+        activeCascadeBlock = true;
+        freezeThreshold = 9; // Allow controlled expansion, block only distribution
+        restrictedLayers.push('Capital Distribution');
+      }
+    }
+
+    // IRAE Constraint: Resilience Adjustment
+    if (resilienceClassification === 'INSTITUTIONALLY_FRAGILE' && freezeThreshold > 5 && !isSurvivalMode) {
+      activeCascadeBlock = true;
+      freezeThreshold = 5;
+      if (!restrictedLayers.includes('Governance Stability')) restrictedLayers.push('Governance Stability');
+      if (!restrictedLayers.includes('Strategic Resilience')) restrictedLayers.push('Strategic Resilience');
+      if (!restrictedLayers.includes('Sustainable Reinvestment')) restrictedLayers.push('Sustainable Reinvestment');
+      if (!restrictedLayers.includes('Controlled Expansion')) restrictedLayers.push('Controlled Expansion');
+      if (!restrictedLayers.includes('Capital Distribution')) restrictedLayers.push('Capital Distribution');
+    } else if ((resilienceClassification === 'ANTIFRAGILE' || resilienceClassification === 'ADAPTIVE') && !isSurvivalMode && !isRunwayCritical) {
+      if (freezeThreshold === 7) {
+        // Relax constraints for antifragile entities if they are merely degraded
+        freezeThreshold = 9;
+        const idx = restrictedLayers.indexOf('Sustainable Reinvestment');
+        if (idx > -1) restrictedLayers.splice(idx, 1);
+        const idx2 = restrictedLayers.indexOf('Controlled Expansion');
+        if (idx2 > -1) restrictedLayers.splice(idx2, 1);
+      }
     }
 
     const priorities = allocations.map((alloc) => {

@@ -162,14 +162,50 @@ export class ScenarioSimulationEngine {
       const isCapexUnderRunwayCollapse = hasCapexShock && runwayCritico;
       const isHiringUnderLiquidityFragility = hasHiringShock && (isTreasuryStressed || runwayCritico);
 
+      // IRAE Constraint: Resilience Adjustment
+      const isFragile = input.resilienceClassification === 'INSTITUTIONALLY_FRAGILE';
+      const isAntifragile = input.resilienceClassification === 'ANTIFRAGILE' || input.resilienceClassification === 'ADAPTIVE';
+
+      // Faster invalidation for fragile orgs
+      if (isFragile && !fiduciaryViolation) {
+        if (hasExpansionShock || hasCapexShock || hasDistributionShock) {
+          finalConfidence = 'LOW';
+          fiduciarySeverity = 'CRITICAL';
+          fiduciaryViolation = 'INVALID_RESILIENCE_FRAGILITY';
+        }
+      }
+
       if (isSurvivalActive && (hasCapexShock || hasExpansionShock || hasDistributionShock || hasHiringShock)) {
         finalConfidence = 'LOW';
         fiduciarySeverity = 'CRITICAL';
         fiduciaryViolation = 'INVALID_SURVIVAL_CONFLICT';
       } else if (isExpansionUnderSurvival || isDividendUnderTreasury || isCapexUnderRunwayCollapse || isHiringUnderLiquidityFragility) {
-        finalConfidence = 'LOW';
-        fiduciarySeverity = 'CRITICAL';
-        fiduciaryViolation = 'INVALID_SURVIVAL_CONFLICT';
+        // Antifragile entities have broader tolerance for some combinations, but cannot bypass fiduciary blocks (like capex with runway collapse)
+        if (isAntifragile && !isCapexUnderRunwayCollapse && !isDividendUnderTreasury) {
+           // Allow mild shocks like hiring under liquidity fragility if antifragile
+        } else {
+          finalConfidence = 'LOW';
+          fiduciarySeverity = 'CRITICAL';
+          fiduciaryViolation = 'INVALID_SURVIVAL_CONFLICT';
+        }
+      }
+
+      // IRRE Constraint: Premature Recovery Validation
+      if (input.recoveryAuthorized === false && !fiduciaryViolation) {
+        if (hasExpansionShock || hasCapexShock || hasHiringShock) {
+          finalConfidence = 'LOW';
+          fiduciarySeverity = 'CRITICAL';
+          fiduciaryViolation = 'INVALID_PREMATURE_RECOVERY';
+        }
+      }
+
+      // RRG Constraint: Recovery Regression Override
+      if (input.regressionDetected === true && !fiduciaryViolation) {
+        if (hasExpansionShock || hasCapexShock || hasHiringShock || hasDistributionShock) {
+          finalConfidence = 'LOW';
+          fiduciarySeverity = 'CRITICAL';
+          fiduciaryViolation = 'INVALID_RECOVERY_REGRESSION';
+        }
       }
     }
 
@@ -190,7 +226,7 @@ export class ScenarioSimulationEngine {
       snapshotHash,
       fiduciarySeverity,
       fiduciaryViolation,
-      scenarioValidity: fiduciaryViolation === 'INVALID_SURVIVAL_CONFLICT' ? 'INVALID_SURVIVAL_CONFLICT' : 'VALID'
+      scenarioValidity: fiduciaryViolation === 'INVALID_SURVIVAL_CONFLICT' ? 'INVALID_SURVIVAL_CONFLICT' : (fiduciaryViolation === 'INVALID_PREMATURE_RECOVERY' ? 'INVALID_PREMATURE_RECOVERY' : (fiduciaryViolation === 'INVALID_RECOVERY_REGRESSION' ? 'INVALID_RECOVERY_REGRESSION' : (fiduciaryViolation === 'INVALID_RESILIENCE_FRAGILITY' ? 'INVALID_RESILIENCE_FRAGILITY' : 'VALID')))
     };
 
     // 6. Persistência Auditável High-Level

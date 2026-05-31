@@ -25,6 +25,9 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { InstitutionalCausalRootCausesPanel } from '../panels/causal-intelligence/InstitutionalCausalRootCausesPanel';
+import { SurvivabilityDependencyGraphPanel } from '../panels/causal-intelligence/SurvivabilityDependencyGraphPanel';
+import { OperationalStressCascadePanel } from '../panels/causal-intelligence/OperationalStressCascadePanel';
 
 interface OverviewPageProps {
   clients?: any[];
@@ -654,6 +657,54 @@ export function InstitutionalFinancialOverviewPage({
           </>
         )}
       </div>
+
+      {/* Causal Sustainability Intelligence */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Activity size={20} className="text-purple-500" />
+            <h3 className="text-lg font-black text-slate-900 uppercase tracking-wider">Causal Sustainability Intelligence</h3>
+          </div>
+          {executiveReport.causalIntelligenceReport?.lineageHash && (
+            <div className="flex items-center gap-2 text-[9px] text-slate-400 font-mono">
+              <span>Assinatura Fiduciária: {executiveReport.causalIntelligenceReport.lineageHash.substring(0, 16)}...</span>
+              <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 uppercase font-sans font-bold">
+                Confiança: {executiveReport.causalIntelligenceReport.confidenceLevel}
+              </span>
+            </div>
+          )}
+        </div>
+
+        {!executiveReport.causalIntelligenceReport ? (
+          <p className="text-sm text-slate-500 italic">Relatório de Inteligência Causal indisponível neste ciclo.</p>
+        ) : (
+          <>
+            {executiveReport.causalIntelligenceReport.causalOpinion && (
+              <div className="bg-slate-50 border border-slate-200 p-6 rounded-3xl">
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Parecer Causal Executivo</h4>
+                <p className="text-xs text-slate-700 leading-relaxed font-semibold">
+                  {executiveReport.causalIntelligenceReport.causalOpinion}
+                </p>
+              </div>
+            )}
+
+            {executiveReport.causalIntelligenceReport.isAvailable ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <InstitutionalCausalRootCausesPanel rootCauses={executiveReport.causalIntelligenceReport.rootCauses} />
+                <OperationalStressCascadePanel cascadePath={executiveReport.causalIntelligenceReport.stressCascadePath} />
+                <SurvivabilityDependencyGraphPanel graph={executiveReport.causalIntelligenceReport.dependencyGraph} />
+              </div>
+            ) : (
+              <div className="bg-slate-50 border border-slate-200 p-8 rounded-3xl text-center">
+                <p className="text-sm font-medium text-rose-600">
+                  {executiveReport.causalIntelligenceReport.causalOpinion || 'Análise causal retida devido a inconsistências críticas ou histórico insuficiente.'}
+                </p>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
 
       {/* Governança de Capital (DLPA) - Preserved from old Overview */}
       <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">

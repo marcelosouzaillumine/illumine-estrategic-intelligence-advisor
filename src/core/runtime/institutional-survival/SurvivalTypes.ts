@@ -30,10 +30,13 @@ export interface SurvivalEvaluationInput {
   treasuryRuntime?: any;
   cashIntelligenceRuntime?: any;
   patrimonialIntelligenceRuntime?: any;
+  recoveryReport?: any;
   historicalCycles?: any[];
   historicalCyclesCount?: number;
   availableCash?: number;
   fco?: number;
   netIncome?: number;
   memoryProfile?: any;
+  regressionReport?: any;
+  resilienceReport?: any;
 }

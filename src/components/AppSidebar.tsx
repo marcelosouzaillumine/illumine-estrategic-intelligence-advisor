@@ -340,22 +340,22 @@ export function AppSidebar({
                   src={user.photoURL}
                   alt={user.displayName || ''}
                   className="w-6 h-6 rounded-full border border-secondary shrink-0"
-                  title={isCollapsed ? user.displayName || 'Usuário' : undefined}
+                  title={isCollapsed ? user.displayName || t('common.user') : undefined}
                 />
               ) : (
                 <div
                   className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white font-bold text-[9px] shrink-0"
-                  title={isCollapsed ? user.displayName || 'Usuário' : undefined}
+                  title={isCollapsed ? user.displayName || t('common.user') : undefined}
                 >
                   {user.displayName?.split(' ').map(n => n[0]).join('') || 'U'}
                 </div>
               )}
               {!isCollapsed && (
                 <div className="flex-1 min-w-0 text-left">
-                  <p className="text-body-sm font-medium truncate text-foreground">{user.displayName || 'Usuário'}</p>
+                  <p className="text-body-sm font-medium truncate text-foreground">{user.displayName || t('common.user')}</p>
                   {!userPermissions && (
                     <span className="text-[8px] font-medium uppercase text-secondary tracking-widest block">
-                      Master Admin
+                      {t('common.master_admin')}
                     </span>
                   )}
                 </div>

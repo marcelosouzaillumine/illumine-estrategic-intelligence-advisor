@@ -25,6 +25,10 @@ export interface ScenarioSimulationInput {
   baseSnapshot: ConsolidatedFinancialInput;
   shocks: ScenarioShock[];
   horizonMonths: number;
+  recoveryAuthorized?: boolean;
+  isSurvivalMode?: boolean;
+  regressionDetected?: boolean;
+  resilienceClassification?: string;
 }
 
 export type ProjectedConfidence = 'HIGH' | 'MEDIUM' | 'LOW' | 'CRITICAL_STRESS';
@@ -63,7 +67,7 @@ export interface ScenarioSimulationResult {
   snapshotHash: string; 
   fiduciarySeverity?: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
   fiduciaryViolation?: string;
-  scenarioValidity?: 'VALID' | 'INVALID_SURVIVAL_CONFLICT';
+  scenarioValidity?: 'VALID' | 'INVALID_SURVIVAL_CONFLICT' | 'INVALID_PREMATURE_RECOVERY' | 'INVALID_RECOVERY_REGRESSION' | 'INVALID_RESILIENCE_FRAGILITY';
 }
 
 export interface ScenarioExecutionRecord extends ScenarioSimulationResult {

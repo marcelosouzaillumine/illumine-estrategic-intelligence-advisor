@@ -48,12 +48,12 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
 
     it('Deve barrar divisor zero', () => {
       const res = engine.validateDenominator(100, 0);
-      assert.equal(res, 'Base insuficiente para cálculo determinístico.');
+      assert.deepEqual(res, { labelKey: 'runtime.compliance.insufficient_base_for_deterministic_calculation', severity: 'critical' });
     });
 
     it('Deve barrar divisor abaixo do threshold de materialidade', () => {
       const res = engine.validateDenominator(100, 0.005, 0.01);
-      assert.equal(res, 'Base insuficiente para cálculo determinístico.');
+      assert.deepEqual(res, { labelKey: 'runtime.compliance.insufficient_base_for_deterministic_calculation', severity: 'critical' });
     });
 
     it('Deve permitir divisores válidos', () => {
@@ -69,7 +69,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
 
       assert.throws(() => {
         RuntimeComplianceEngine.validate(report, 'export');
-      }, /Métrica Explosiva/);
+      }, /explosive_metric/);
     });
 
     it('Deve aceitar variação percentual explosiva sem lançar erro de ratio', () => {
@@ -88,7 +88,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
 
       assert.throws(() => {
         RuntimeComplianceEngine.validate(report, 'export');
-      }, /NaN/);
+      }, /nan_error/);
     });
 
     it('Deve bloquear scores fora da faixa 0-100', () => {
@@ -97,7 +97,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
 
       assert.throws(() => {
         RuntimeComplianceEngine.validate(report, 'export');
-      }, /limites permitidos/);
+      }, /invalid_score/);
     });
   });
 
@@ -108,7 +108,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
 
       assert.throws(() => {
         RuntimeComplianceEngine.validate(report, 'export');
-      }, /Termo proibido/);
+      }, /forbidden_term/);
     });
 
     it('Deve barrar termo "predatório" se não houver evidência distributiva', () => {
@@ -118,7 +118,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
 
       assert.throws(() => {
         RuntimeComplianceEngine.validate(report, 'export');
-      }, /predatório\/destrutivo/);
+      }, /destructive_term_without_evidence/);
     });
 
     it('Deve emitir warning em caso de linguagem dramática/não-sóbria', () => {
@@ -126,8 +126,8 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
       report.advisory.executiveSummary = 'A situação da liquidez imediata está catastrófica e causou pânico.';
 
       const result = RuntimeComplianceEngine.validate(report, 'render');
-      assert.ok(result.warnings.some(w => w.includes('catastrófica')));
-      assert.ok(result.warnings.some(w => w.includes('pânico')));
+      assert.ok(result.warnings.some(w => w.args?.term === 'catastrófica'));
+      assert.ok(result.warnings.some(w => w.args?.term === 'pânico'));
     });
   });
 
@@ -146,7 +146,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
 
       assert.throws(() => {
         RuntimeComplianceEngine.validate(report, 'export');
-      }, /Governança classificada como DESTRUTIVA sem evidência distributiva/);
+      }, /fiduciary_violation_destructive_without_evidence/);
     });
 
     it('Deve barrar inflação/corrupção de confiança se o composto exceder as partes', () => {
@@ -156,7 +156,7 @@ describe('Institutional Fiduciary Runtime Constitution - Compliance Engine', () 
 
       assert.throws(() => {
         RuntimeComplianceEngine.validate(report, 'export');
-      }, /Corrupção de Confiança/);
+      }, /confidence_corruption/);
     });
   });
 

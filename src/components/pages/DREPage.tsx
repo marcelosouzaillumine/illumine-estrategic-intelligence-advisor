@@ -42,7 +42,7 @@ import { db, auth } from '../../lib/firebase';
 type ToastType = { type: 'success' | 'error'; message: string } | null;
 
 export function DREPage({ clients, selectedClient, selectedYear }: any) {
-  const { translateLabel } = useLanguage();
+  const { translateLabel, t } = useLanguage();
   const [filterYear, setFilterYear] = useState(selectedYear || new Date().getFullYear());
   const [toast, setToast] = useState<ToastType>(null);
   const [deleting, setDeleting] = useState(false);
@@ -390,7 +390,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
         
         <div className="w-full md:w-auto md:flex-1 flex flex-col items-center md:items-start z-10 text-center md:text-left mb-10 md:mb-0 md:mr-10">
-          <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">Health Score Operacional</h3>
+          <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">{t('dre.health.title')}</h3>
           <p className="text-sm md:text-base text-emerald-100/80 font-medium leading-relaxed w-full">
             Métrica consolidada da saúde financeira: avalia margens, conversão de caixa, alavancagem e a capacidade de absorção da estrutura.
           </p>
@@ -440,8 +440,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               <Layers size={20} />
             </div>
             <div>
-              <h4 className="text-lg font-black text-slate-800">Operational Efficiency Intelligence</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Eficiência por Camada de Negócio</p>
+              <h4 className="text-lg font-black text-slate-800">{t('dre.health.subtitle')}</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t('dre.health.desc')}</p>
             </div>
           </div>
           
@@ -474,8 +474,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               <Scale size={20} />
             </div>
             <div>
-              <h4 className="text-lg font-black text-slate-800">Scale Efficiency Intelligence</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Análise Temporal de Escala</p>
+              <h4 className="text-lg font-black text-slate-800">{t('dre.scale.subtitle')}</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t('dre.scale.desc')}</p>
             </div>
           </div>
           
@@ -545,13 +545,13 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         <div className="bg-gradient-to-br from-white to-slate-50 p-8 rounded-[40px] border border-slate-200/60 shadow-xl shadow-slate-200/40 flex flex-col">
           <div className="flex items-center justify-between mb-8 shrink-0 flex-wrap gap-4">
             <div>
-              <h3 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">Evolução de Performance</h3>
+              <h3 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">{t('dre.evolution.title')}</h3>
               <p className="text-[10px] text-slate-400/80 uppercase font-bold tracking-widest mt-1">Receita, EBITDA e Lucro</p>
             </div>
             <div className="flex gap-4">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>Receita Líquida</span>
+                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>{t('dre.metrics.net_revenue')}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
@@ -559,11 +559,11 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>EBITDA</span>
+                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>{t('dre.metrics.ebitda')}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>Resultado Líquido</span>
+                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>{t('dre.metrics.net_result')}</span>
               </div>
             </div>
           </div>
@@ -612,12 +612,12 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
         <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col border border-slate-700/50">
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-          <h3 className="text-xl font-black mb-1 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">Destaques</h3>
-          <p className="text-[10px] text-blue-400/80 uppercase font-bold tracking-widest mb-8">Insights de Resultado</p>
+          <h3 className="text-xl font-black mb-1 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">{t('dre.highlights.title')}</h3>
+          <p className="text-[10px] text-blue-400/80 uppercase font-bold tracking-widest mb-8">{t('dre.highlights.subtitle')}</p>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
             <div className="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-2 relative z-10 h-fit">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4">Composição da Receita</p>
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4">{t('dre.highlights.composition')}</p>
               
               <div className="flex justify-between items-center text-xs text-white/70 mb-2">
                 <span>Receita Operacional Bruta:</span>
@@ -692,8 +692,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 <Database size={18} className="text-white" />
              </div>
              <div>
-               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Inteligência de Dados</p>
-               <p className="text-[10px] font-medium text-white/70 italic">Análise baseada em ciclos históricos</p>
+               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">{t('dre.data.intelligence')}</p>
+               <p className="text-[10px] font-medium text-white/70 italic">{t('dre.data.analysis')}</p>
              </div>
           </div>
         </div>
@@ -849,13 +849,13 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               <TrendingUp size={22} />
             </div>
             <div>
-              <h4 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">Nota Explicativa de Evolução</h4>
+              <h4 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">{t('dre.notes.title')}</h4>
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400/80 mt-1">Tendência Histórica Acumulada ({trendNote.period})</p>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="p-5 bg-white rounded-3xl border border-slate-200/60 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 truncate" title="Crescimento de Receita">Crescimento de Receita</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 truncate" title={t('dre.notes.revenue_growth')}>{t('dre.notes.revenue_growth')}</p>
               <div className="flex items-center gap-2 mt-auto">
                 {trendNote.receita > 0 ? <TrendingUp size={18} className="text-emerald-500" /> : <TrendingDown size={18} className="text-rose-500" />}
                 <p className={cn("text-3xl font-black", trendNote.receita > 0 ? "text-emerald-500" : "text-rose-500")}>
@@ -873,7 +873,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               </div>
             </div>
             <div className="p-5 bg-white rounded-3xl border border-slate-200/60 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 truncate" title="Evolução de EBITDA">Evolução de EBITDA</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 truncate" title={t('dre.notes.ebitda_growth')}>{t('dre.notes.ebitda_growth')}</p>
               <div className="flex items-center gap-2 mt-auto">
                 {trendNote.ebitda > 0 ? <TrendingUp size={18} className="text-emerald-500" /> : <TrendingDown size={18} className="text-rose-500" />}
                 <p className={cn("text-3xl font-black", trendNote.ebitda > 0 ? "text-emerald-500" : "text-rose-500")}>
@@ -882,7 +882,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               </div>
             </div>
             <div className="p-5 bg-white rounded-3xl border border-slate-200/60 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 truncate" title="Evolução do Lucro">Evolução do Lucro</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 truncate" title={t('dre.notes.profit_growth')}>{t('dre.notes.profit_growth')}</p>
               <div className="flex items-center gap-2 mt-auto">
                 {trendNote.lucro > 0 ? <TrendingUp size={18} className="text-emerald-500" /> : <TrendingDown size={18} className="text-rose-500" />}
                 <p className={cn("text-3xl font-black", trendNote.lucro > 0 ? "text-emerald-500" : "text-rose-500")}>

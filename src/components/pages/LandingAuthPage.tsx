@@ -42,6 +42,7 @@ import { sendPasswordResetEmail } from '../../lib/firebase';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 // ─── Brand Helpers ────────────────────────────────────────────────────────────
 
@@ -97,10 +98,11 @@ function LoginModal({
   const [isResetting, setIsResetting] = useState(false);
   const [resetMessage, setResetMessage] = useState('');
   const [resetError, setResetError] = useState('');
+  const { t } = useLanguage();
 
   const handlePasswordReset = async () => {
     if (!email) {
-      setResetError('Digite seu e-mail acima para recuperar a senha.');
+      setResetError(t('auth.login.error.email_required'));
       setResetMessage('');
       return;
     }
@@ -109,15 +111,15 @@ function LoginModal({
     setResetMessage('');
     try {
       await sendPasswordResetEmail(email.trim());
-      setResetMessage('E-mail de recuperação enviado! Verifique sua caixa de entrada.');
+      setResetMessage(t('auth.login.success.reset_sent'));
     } catch (error: any) {
       console.error('Password reset error:', error);
       if (error?.code === 'auth/user-not-found') {
-        setResetError('E-mail não cadastrado.');
+        setResetError(t('auth.login.error.not_found'));
       } else if (error?.code === 'auth/invalid-email') {
-        setResetError('E-mail inválido.');
+        setResetError(t('auth.login.error.invalid_email'));
       } else {
-        setResetError('Erro ao enviar e-mail de recuperação.');
+        setResetError(t('auth.login.error.generic'));
       }
     } finally {
       setIsResetting(false);
@@ -191,15 +193,15 @@ function LoginModal({
                   </div>
                   <div className="flex items-center gap-[clamp(0.25rem,1vh,0.5rem)] rounded-full bg-success/10 border border-success/20 px-[clamp(0.5rem,1.5vh,0.75rem)] py-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.5rem,1.5vh,0.5625rem)] font-bold uppercase tracking-widest text-success">
                     <CheckCircle2 size={10} className="animate-pulse" />
-                    Acesso protegido
+                    {t('auth.login.badge')}
                   </div>
                 </div>
 
                 <h2 className="text-[clamp(1.25rem,4vh,1.5rem)] font-medium tracking-tight text-foreground leading-tight">
-                  Entrar no painel
+                  {t('auth.login.title')}
                 </h2>
                 <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.75rem,2vh,0.875rem)] leading-snug text-muted-foreground font-medium font-sans">
-                  Continue com seu e-mail e senha ou conta Google para acessar seu ambiente Illumine.
+                  {t('auth.login.subtitle')}
                 </p>
               </div>
 
@@ -209,7 +211,7 @@ function LoginModal({
                   {/* Email */}
                   <div className="space-y-[clamp(0.25rem,1vh,0.5rem)]">
                     <Label className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground block px-1">
-                      E-mail
+                      {t('auth.login.email')}
                     </Label>
                     <div className="relative group">
                       <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
@@ -220,7 +222,7 @@ function LoginModal({
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="seu.nome@empresa.com.br"
+                        placeholder={t('auth.login.email_placeholder')}
                         className="pl-10 h-[clamp(2.25rem,7vh,3rem)] text-[clamp(0.75rem,2vh,0.875rem)] bg-surface-container/40"
                       />
                     </div>
@@ -230,7 +232,7 @@ function LoginModal({
                   <div className="space-y-[clamp(0.25rem,1vh,0.5rem)]">
                     <div className="flex justify-between items-center px-1">
                       <Label className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground block">
-                        Senha
+                        {t('auth.login.password')}
                       </Label>
                       <button
                         type="button"
@@ -238,7 +240,7 @@ function LoginModal({
                         disabled={isResetting}
                         className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-primary hover:text-primary/80 disabled:opacity-70 transition-colors cursor-pointer"
                       >
-                        {isResetting ? 'Enviando...' : 'Esqueceu a senha?'}
+                        {isResetting ? t('auth.login.sending') : t('auth.login.forgot_password')}
                       </button>
                     </div>
                     <div className="relative group">
@@ -250,7 +252,7 @@ function LoginModal({
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Sua senha"
+                        placeholder={t('auth.login.password_placeholder')}
                         className="pl-10 pr-10 h-[clamp(2.25rem,7vh,3rem)] text-[clamp(0.75rem,2vh,0.875rem)] bg-surface-container/40"
                       />
                       <button
@@ -270,7 +272,7 @@ function LoginModal({
                     className="w-full h-[clamp(2.25rem,7vh,3rem)] font-bold text-[clamp(0.75rem,2vh,0.875rem)] text-primary-foreground uppercase tracking-widest flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? <Loader2 className="w-[clamp(0.875rem,2.5vh,1rem)] h-[clamp(0.875rem,2.5vh,1rem)] animate-spin" /> : <LogIn className="w-[clamp(0.875rem,2.5vh,1rem)] h-[clamp(0.875rem,2.5vh,1rem)]" />}
-                    Entrar
+                    {t('auth.login.submit')}
                   </Button>
                 </form>
 
@@ -278,7 +280,7 @@ function LoginModal({
                 <div className="relative flex items-center justify-center pt-[clamp(0.25rem,1vh,0.5rem)] pb-[clamp(0.25rem,1vh,0.5rem)]">
                   <div className="absolute inset-x-0 h-px bg-border" />
                   <span className="relative px-3 bg-card text-[clamp(0.5rem,1.5vh,0.625rem)] font-semibold uppercase tracking-widest text-muted-foreground">
-                    ou continue com
+                    {t('auth.login.or_continue_with')}
                   </span>
                 </div>
 
@@ -300,7 +302,7 @@ function LoginModal({
                       <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
                     </svg>
                   )}
-                  {isSigningIn ? 'Conectando...' : 'Entrar com Google'}
+                  {isSigningIn ? t('auth.login.connecting') : t('auth.login.google')}
                 </Button>
 
                 {/* Error */}
@@ -349,10 +351,10 @@ function LoginModal({
                 <div className="hidden sm:block rounded-button bg-surface-container/40 border border-border/60 p-[clamp(0.5rem,2vh,0.75rem)] mt-[clamp(0.5rem,2vh,1rem)]">
                   <p className="text-[clamp(0.5rem,1.5vh,0.625rem)] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
                     <ShieldCheck className="w-[clamp(0.625rem,2vh,0.6875rem)] h-[clamp(0.625rem,2vh,0.6875rem)] text-secondary shrink-0" />
-                    Ambiente privado e seguro
+                    {t('auth.login.security_title')}
                   </p>
                   <p className="mt-[clamp(0.25rem,1vh,0.375rem)] text-[clamp(0.625rem,1.8vh,0.6875rem)] leading-snug text-muted-foreground/75 font-medium font-sans">
-                    Suas informações ficam associadas à sua conta corporativa e são acessíveis somente mediante autenticação autorizada.
+                    {t('auth.login.security_desc')}
                   </p>
                 </div>
               </div>
@@ -368,6 +370,7 @@ function LoginModal({
 
 function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const { t } = useLanguage();
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -401,8 +404,8 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
             className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-foreground leading-[1.08]"
             style={{ fontFamily: "'Tilt Warp', sans-serif" }}
           >
-            Empresas não quebram apenas por falta de faturamento.<br/>
-            <span className="bg-gradient-to-r from-secondary to-[#E96F3D] bg-clip-text text-transparent">Quebram por ausência de leitura estrutural.</span>
+            {t('landing.auth.hero.title_p1')}<br/>
+            <span className="bg-gradient-to-r from-secondary to-[#E96F3D] bg-clip-text text-transparent">{t('landing.auth.hero.title_p2')}</span>
           </motion.h1>
 
           <motion.div
@@ -412,13 +415,13 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
             className="text-lg md:text-xl text-muted-foreground font-medium max-w-4xl mx-auto space-y-4 leading-relaxed"
           >
             <p className="text-xl text-foreground font-semibold">
-              A Illumine é uma arquitetura de inteligência estrutural empresarial desenvolvida para transformar dados, operação, governança e estratégia em clareza decisional para empresas que precisam crescer com sustentabilidade.
+              {t('landing.auth.hero.subtitle_p1')}
             </p>
             <div className="pt-4 space-y-3 text-base text-muted-foreground/80">
-              <p>A maioria das empresas possui informações.<br/>Poucas possuem interpretação estrutural.</p>
-              <p>Quando indicadores deixam de conversar entre si, o crescimento perde sustentação, o caixa perde previsibilidade, a operação se torna reativa e decisões passam a ser tomadas sem contexto real.</p>
-              <p>A Illumine foi concebida para identificar relações invisíveis entre operação, margem, capital de giro, endividamento, governança e sustentabilidade organizacional antes que essas pressões silenciosas se transformem em crise.</p>
-              <p className="text-foreground font-medium pt-2">Não entregamos apenas indicadores.<br/>Entregamos inteligência estrutural para decisões críticas.</p>
+              <p>{t('landing.auth.hero.desc_p1')}<br/>{t('landing.auth.hero.desc_p2')}</p>
+              <p>{t('landing.auth.hero.desc_p3')}</p>
+              <p>{t('landing.auth.hero.desc_p4')}</p>
+              <p className="text-foreground font-medium pt-2">{t('landing.auth.hero.desc_p5')}<br/>{t('landing.auth.hero.desc_p6')}</p>
             </div>
           </motion.div>
 
@@ -432,7 +435,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
               onClick={onConsultant}
               className="w-full sm:w-auto h-14 px-8 rounded-button bg-primary text-primary-foreground font-bold text-sm uppercase tracking-widest hover:bg-primary/95 hover:shadow-xl hover:shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group cursor-pointer"
             >
-              <span>Solicitar Diagnóstico Estrutural</span>
+              <span>{t('landing.auth.hero.btn_diag')}</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button
@@ -440,7 +443,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
               className="w-full sm:w-auto h-14 px-8 rounded-button bg-surface-container border border-border text-foreground font-bold text-sm uppercase tracking-widest hover:bg-surface-container/80 hover:border-muted-foreground/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Target size={16} />
-              <span>Conhecer a Arquitetura Illumine</span>
+              <span>{t('landing.auth.hero.btn_arch')}</span>
             </button>
           </motion.div>
         </div>
@@ -452,24 +455,24 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
           <div className="space-y-6">
             <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
               <div className="w-8 h-px bg-secondary" />
-              A TESE ILLUMINE
+              {t('landing.auth.thesis.badge')}
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              O problema não é falta de dados.<br/>É falta de clareza estrutural.
+              {t('landing.auth.thesis.title_p1')}<br/>{t('landing.auth.thesis.title_p2')}
             </h3>
             <div className="space-y-4 text-lg text-muted-foreground leading-relaxed font-medium">
-              <p>Empresas raramente entram em colapso por um único fator.</p>
-              <p>Na maioria das vezes, a deterioração começa silenciosamente:</p>
+              <p>{t('landing.auth.thesis.desc_p1')}</p>
+              <p>{t('landing.auth.thesis.desc_p2')}</p>
               <ul className="list-none space-y-2 text-base text-muted-foreground/80 font-normal py-2">
                 {[
-                  'crescimento sem sustentação financeira;',
-                  'expansão pressionando o caixa;',
-                  'dependência bancária crescente;',
-                  'margem operacional deteriorando;',
-                  'governança insuficiente;',
-                  'decisões tomadas sem profundidade analítica;',
-                  'excesso de indicadores sem interpretação integrada;',
-                  'baixa previsibilidade estrutural.'
+                  t('landing.auth.thesis.list.item1'),
+                  t('landing.auth.thesis.list.item2'),
+                  t('landing.auth.thesis.list.item3'),
+                  t('landing.auth.thesis.list.item4'),
+                  t('landing.auth.thesis.list.item5'),
+                  t('landing.auth.thesis.list.item6'),
+                  t('landing.auth.thesis.list.item7'),
+                  t('landing.auth.thesis.list.item8')
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-2 shrink-0" />
@@ -477,9 +480,9 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                   </li>
                 ))}
               </ul>
-              <p>O excesso de informação não necessariamente produz inteligência.</p>
-              <p>Sem interpretação causal, dados se tornam apenas ruído operacional.</p>
-              <p className="text-primary font-bold text-xl pt-2">A Illumine foi desenvolvida para transformar complexidade empresarial em direção executiva clara.</p>
+              <p>{t('landing.auth.thesis.desc_p3')}</p>
+              <p>{t('landing.auth.thesis.desc_p4')}</p>
+              <p className="text-primary font-bold text-xl pt-2">{t('landing.auth.thesis.desc_p5')}</p>
             </div>
           </div>
           <div className="relative">
@@ -490,11 +493,11 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
               <div className="relative z-10 flex flex-col justify-center h-full space-y-6">
                 <BrainCircuit size={40} className="text-secondary" />
                 <p className="text-xl sm:text-2xl font-medium leading-relaxed text-foreground tracking-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-                  A inteligência está na conexão.
+                  {t('landing.auth.thesis.card.title')}
                 </p>
                 <div className="w-12 h-px bg-border group-hover:w-24 transition-all duration-500" />
                 <p className="text-lg leading-relaxed font-medium text-muted-foreground">
-                  Mais do que organizar dados, a Illumine cria um modelo causal que explica como cada decisão impacta a sustentabilidade do negócio.
+                  {t('landing.auth.thesis.card.desc')}
                 </p>
               </div>
             </div>
@@ -511,14 +514,14 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
             <div className="relative p-8 sm:p-10 rounded-[32px] bg-background/5 border border-background/10 shadow-2xl overflow-hidden backdrop-blur-sm">
                <ul className="space-y-4">
                 {[
-                  'aumento silencioso da pressão no capital de giro;',
-                  'crescimento consumindo caixa;',
-                  'deterioração progressiva da margem;',
-                  'aumento de dependência financeira;',
-                  'baixa capacidade de absorção operacional;',
-                  'perda de previsibilidade;',
-                  'expansão sem maturidade de gestão;',
-                  'desalinhamento entre operação e estrutura financeira.'
+                  t('landing.auth.collapse.list.item1'),
+                  t('landing.auth.collapse.list.item2'),
+                  t('landing.auth.collapse.list.item3'),
+                  t('landing.auth.collapse.list.item4'),
+                  t('landing.auth.collapse.list.item5'),
+                  t('landing.auth.collapse.list.item6'),
+                  t('landing.auth.collapse.list.item7'),
+                  t('landing.auth.collapse.list.item8')
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3 bg-background/5 p-4 rounded-xl border border-background/10 hover:bg-background/10 transition-colors">
                     <TrendingUp size={20} className="text-secondary shrink-0" />
@@ -531,16 +534,16 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
           <div className="order-1 lg:order-2 space-y-6">
             <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
               <div className="w-8 h-px bg-secondary" />
-              O COLAPSO SILENCIOSO DAS EMPRESAS
+              {t('landing.auth.collapse.badge')}
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Os maiores riscos empresariais normalmente não são visíveis no início.
+              {t('landing.auth.collapse.title')}
             </h3>
             <div className="space-y-4 text-lg text-background/70 leading-relaxed font-medium">
-              <p>Empresas frequentemente aparentam crescimento enquanto perdem sustentabilidade estrutural.</p>
-              <p>Os sinais normalmente surgem antes da crise.</p>
-              <p className="pt-4">Quando esses fatores deixam de ser interpretados, a empresa passa a operar de forma reativa.</p>
-              <p className="text-background font-bold text-xl pt-2">A Illumine existe para antecipar essas relações antes que se tornem irreversíveis.</p>
+              <p>{t('landing.auth.collapse.desc_p1')}</p>
+              <p>{t('landing.auth.collapse.desc_p2')}</p>
+              <p className="pt-4">{t('landing.auth.collapse.desc_p3')}</p>
+              <p className="text-background font-bold text-xl pt-2">{t('landing.auth.collapse.desc_p4')}</p>
             </div>
           </div>
         </div>
@@ -552,25 +555,25 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-2">
               <Compass size={16} className="text-secondary" />
-              <span>O QUE É A ILLUMINE</span>
+              <span>{t('landing.auth.what.badge')}</span>
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Mais do que software. Mais do que consultoria.<br/>Uma arquitetura de inteligência estrutural empresarial.
+              {t('landing.auth.what.title_p1')}<br/>{t('landing.auth.what.title_p2')}
             </h3>
             <div className="text-lg text-muted-foreground leading-relaxed font-medium space-y-2">
-              <p>A Illumine integra:</p>
+              <p>{t('landing.auth.what.desc_p1')}</p>
               <ul className="flex flex-wrap justify-center gap-2 pt-2 pb-2">
                 {[
-                  'inteligência financeira', 'causalidade empresarial', 'governança', 'advisory estratégico',
-                  'interpretação patrimonial', 'análise estrutural', 'maturidade organizacional', 'stress analysis',
-                  'inteligência operacional', 'leitura integrada dos pilares empresariais'
+                  t('landing.auth.what.list.item1'), t('landing.auth.what.list.item2'), t('landing.auth.what.list.item3'), t('landing.auth.what.list.item4'),
+                  t('landing.auth.what.list.item5'), t('landing.auth.what.list.item6'), t('landing.auth.what.list.item7'), t('landing.auth.what.list.item8'),
+                  t('landing.auth.what.list.item9'), t('landing.auth.what.list.item10')
                 ].map((item, i) => (
                   <span key={i} className="px-3 py-1 bg-background rounded-full text-xs font-bold text-foreground border border-border shadow-sm">{item}</span>
                 ))}
               </ul>
-              <p className="pt-4">Tudo conectado em uma arquitetura desenvolvida para apoiar empresas em crescimento, profissionalização e sustentabilidade.</p>
-              <p>A plataforma é apenas a camada operacional dessa inteligência.</p>
-              <p className="text-foreground font-bold text-xl pt-2">O verdadeiro núcleo da Illumine é a interpretação estrutural da realidade empresarial.</p>
+              <p className="pt-4">{t('landing.auth.what.desc_p2')}</p>
+              <p>{t('landing.auth.what.desc_p3')}</p>
+              <p className="text-foreground font-bold text-xl pt-2">{t('landing.auth.what.desc_p4')}</p>
             </div>
           </div>
         </div>
@@ -860,7 +863,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
 }
 
 function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
-
+  const { t } = useLanguage();
   const [openFaq, setOpenFaq] = React.useState<number | null>(null);
 
   const scrollToSection = (id: string) => {
@@ -1288,13 +1291,13 @@ function PartnerContent({ onConsultant }: { onConsultant: () => void }) {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: Building2, title: 'Governança Corporativa', desc: 'Estruturas de liderança, responsabilidade institucional e direção estratégica.' },
-              { icon: Users, title: 'Cultura Organizacional', desc: 'Valores, alinhamento interno e fortalecimento da identidade empresarial.' },
-              { icon: LineChart, title: 'Gestão Financeira', desc: 'Gestão financeira aplicada à sustentabilidade e crescimento estruturado.' },
-              { icon: BrainCircuit, title: 'Gestão de Inovação', desc: 'Capacidade de adaptação, melhoria contínua e desenvolvimento estratégico.' },
-              { icon: Eye, title: 'Gestão de Marketing', desc: 'Posicionamento, percepção de valor e fortalecimento da autoridade.' },
-              { icon: Handshake, title: 'Gestão Comercial', desc: 'Estrutura comercial orientada à performance e previsibilidade.' },
-              { icon: LayoutDashboard, title: 'Gestão Operacional', desc: 'Eficiência operacional, integração de processos e fortalecimento da execução.' }
+              { icon: Building2, title: 'Governance', desc: 'Desc' },
+              { icon: Users, title: 'Culture', desc: 'Desc' },
+              { icon: LineChart, title: 'Finance', desc: 'Desc' },
+              { icon: BrainCircuit, title: 'Innovation', desc: 'Desc' },
+              { icon: Eye, title: 'Marketing', desc: 'Desc' },
+              { icon: Handshake, title: 'Sales', desc: 'Desc' },
+              { icon: LayoutDashboard, title: 'Operations', desc: 'Desc' }
             ].map((item, idx) => (
               <div 
                 key={idx} 

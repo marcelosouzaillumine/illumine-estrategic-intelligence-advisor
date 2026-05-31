@@ -76,7 +76,7 @@ export class InstitutionalSurvivalHierarchyEngine {
     // Check if fiduciary enforcement is active
     const fiduciaryEnforcementTriggered = fidOut.blockedConclusions?.length > 0 || (fidOut.distributionEligibility?.eligible === false);
 
-    const isSurvivalTriggered =
+    let isSurvivalTriggered =
       negativeFCO ||
       runwayCritico ||
       plEroded ||
@@ -88,13 +88,55 @@ export class InstitutionalSurvivalHierarchyEngine {
       capitalProtectionWeak ||
       fiduciaryEnforcementTriggered;
 
+    // IRAE Integration: Resilience tolerance override
+    if (input.resilienceReport && isSurvivalTriggered) {
+      const resilience = input.resilienceReport.resilienceClassification;
+      if (resilience === 'ANTIFRAGILE' || resilience === 'ADAPTIVE') {
+        // Antifragile organizations tolerate minor shocks (like a single negative FCO or fiduciary enforcement trigger that isn't a collapse)
+        // They do NOT tolerate critical collapses like runway < 3, treasury collapse, or severely eroded PL.
+        const criticalCollapseActive = runwayCritico || plEroded || cashOperationalCritical || treasuryCollapseRisk;
+        
+        if (!criticalCollapseActive && negativeFCO) {
+          isSurvivalTriggered = false; // Override minor shock
+          auditTrail.push(`[ISHE] Tolerância adaptativa (IRAE): Sobrevivência seria ativada por fatores menores, mas organização é ${resilience}. Modo sobrevivência evitado.`);
+        }
+      }
+    }
+
     if (isSurvivalTriggered) {
       auditTrail.push(`Gatilhos de sobrevivência ativados. FCO negativo: ${negativeFCO}, Runway crítico: ${runwayCritico}, PL erodido: ${plEroded}, Caixa crítico: ${cashOperationalCritical}`);
     }
 
     // 3. Classify Active Mode & Hierarchical Levels
-    const classification = SurvivalPriorityClassificationEngine.classify(input, isSurvivalTriggered);
-    auditTrail.push(`Modo de sobrevivência classificado como: ${classification.mode} (Nível ${classification.level})`);
+    let classification = SurvivalPriorityClassificationEngine.classify(input, isSurvivalTriggered);
+    auditTrail.push(`Modo de sobrevivência inicialmente classificado como: ${classification.mode} (Nível ${classification.level})`);
+
+    // 3.5. IRRE Veto (Institutional Recovery & Reauthorization Engine)
+    if (input.recoveryReport && input.recoveryReport.recoveryAuthorized === false && classification.mode !== 'SURVIVAL_MODE') {
+      auditTrail.push(`Veto do IRRE ativado: Tentativa de saída do modo de sobrevivência bloqueada. Status de reautorização: ${input.recoveryReport.activeRecoveryStage}`);
+      classification.mode = 'SURVIVAL_MODE';
+      classification.level = 1;
+      classification.blockedLevels = [
+        'LEVEL_2_STRUCTURAL_STABILIZATION',
+        'LEVEL_3_RESILIENCE_REINFORCEMENT',
+        'LEVEL_4_SUSTAINABLE_EXPANSION',
+        'LEVEL_5_SHAREHOLDER_OPTIMIZATION'
+      ];
+    }
+
+    // 3.6. RRG Veto (Recovery Regression Guard Engine)
+    if (input.regressionReport?.survivalModeReactivated === true && classification.mode !== 'SURVIVAL_MODE') {
+      auditTrail.push('Veto do RRG ativado: Regressão severa detectada. Operação forçada de volta ao SURVIVAL_MODE.');
+      classification.mode = 'SURVIVAL_MODE';
+      classification.level = 1;
+      classification.blockedLevels = [
+        'LEVEL_2_STRUCTURAL_STABILIZATION',
+        'LEVEL_3_RESILIENCE_REINFORCEMENT',
+        'LEVEL_4_SUSTAINABLE_EXPANSION',
+        'LEVEL_5_SHAREHOLDER_OPTIMIZATION'
+      ];
+    }
+
 
     // 4. Resolve conflicts via arbitration
     const arbitration = InstitutionalConflictArbitrationEngine.arbitrate(input);

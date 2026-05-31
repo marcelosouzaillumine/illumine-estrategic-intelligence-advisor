@@ -4,7 +4,7 @@ import { db } from '../lib/firebase';
 import { buildHistoricalSeries, HistoricalFinancialSeries } from '../core/adapters/historical-series-adapter';
 
 
-export function useFinancialData(clientId: string, year: number, month: number, type: 'DRE' | 'BP' | 'CAIXA' | 'DRE Gerencial' | 'DFC' | 'DLPA') {
+export function useFinancialData(clientId: string, year: number, month: number, type: 'DRE' | 'BP' | 'CAIXA' | 'DRE Gerencial' | 'DFC' | 'DLPA' | 'Balanço Patrimonial') {
   const [dbData, setDbData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,10 +14,16 @@ export function useFinancialData(clientId: string, year: number, month: number, 
     setLoading(true);
     setError(null);
     try {
+      const queryTypes = ((type as string) === 'BP' || (type as string) === 'Balanço Patrimonial')
+        ? ['BP', 'Balanço Patrimonial']
+        : ((type as string) === 'DRE' || (type as string) === 'DRE Gerencial')
+          ? ['DRE', 'DRE Gerencial']
+          : [type];
+
       const q = query(
         collection(db, 'financial_entries'),
         where('clientId', '==', clientId),
-        where('type', '==', type),
+        where('type', 'in', queryTypes),
         where('year', '==', year)
       );
       const snap = await getDocs(q);
@@ -239,25 +245,30 @@ export function useAnnualFinancialData(
       const filteredEntries = allEntries.filter(entry => {
         const t = (entry.type || '').toLowerCase();
         const docT = (entry.docType || '').toLowerCase();
+        const reqT = type.toLowerCase();
         
-        if (type === 'DRE' || type === 'DRE Gerencial') {
-          // If the document is explicitly a BP document, ignore it completely for DRE
-          if (docT === 'bp' || docT === 'balanço patrimonial') return false;
-          
-          // Accept the entry if: it comes from a DRE or DRE Gerencial document (document-level type)
-          // OR if it has a row-level type of 'receitas'/'despesas'
-          const isFromDREDoc = docT === 'dre' || docT === 'dre gerencial';
-          const isDRERow = ['receitas', 'despesas'].includes(t);
-          return isFromDREDoc || isDRERow;
-        } else if (type === 'BP' || type === 'Balanço Patrimonial') {
-          // If the document is explicitly a DRE document, ignore it completely for BP
-          if (docT === 'dre' || docT === 'dre gerencial') return false;
-          
-          const isFromBPDoc = docT === 'bp' || docT === 'balanço patrimonial';
-          const isBPRow = ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(t);
-          return isFromBPDoc || isBPRow;
+        if (docT) {
+          if (reqT === 'bp' || reqT === 'balanço patrimonial') {
+            return docT === 'bp' || docT === 'balanço patrimonial';
+          }
+          if (reqT === 'dre' || reqT === 'dre gerencial') {
+            return docT === 'dre' || docT === 'dre gerencial';
+          }
+          if (reqT === 'dfc') {
+            return docT === 'dfc';
+          }
+          if (reqT === 'dlpa') {
+            return docT === 'dlpa';
+          }
+          return docT === reqT;
         }
-        return entry.docType === type;
+        
+        if (reqT === 'dre' || reqT === 'dre gerencial') {
+          return ['receitas', 'despesas'].includes(t);
+        } else if (reqT === 'bp' || reqT === 'balanço patrimonial') {
+          return ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(t);
+        }
+        return false;
       });
       
       // DEDUPLICAÇÃO DE DOCUMENTOS:

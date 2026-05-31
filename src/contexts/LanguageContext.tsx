@@ -221,25 +221,17 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       return (activeDict as any)[key];
     }
     
-    // Fail-closed linguistic integrity: fallback to pt-BR
-    const ptDict = dictionaries['pt-BR'];
-    if (ptDict && (ptDict as any)[key] !== undefined) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(`[i18n] Missing key "${key}" for locale "${language}". Falling back to "pt-BR".`);
-      }
-      return (ptDict as any)[key];
-    }
-
     // Try fallback dict if provided
     if (fallbacks && fallbacks[language] !== undefined) {
       return fallbacks[language];
     }
 
     if (process.env.NODE_ENV === 'development') {
-      console.warn(`[i18n] Missing translation key: "${key}" across all locales.`);
+      console.warn(`[i18n] Missing translation key: "${key}" for locale "${language}". No silent fallback permitted.`);
     }
 
-    return key;
+    // Controlled fallback marker instead of silently mixing languages
+    return `[[${key}]]`;
   };
 
   const translateLabel = (label: string): string => {

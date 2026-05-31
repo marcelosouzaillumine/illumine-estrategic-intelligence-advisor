@@ -58,7 +58,7 @@ interface Row {
 }
 
 export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess }: ManualFinancialModalProps) {
-  const [selectedType, setSelectedType] = useState<string>(type);
+  const [selectedType, setSelectedType] = useState<string>(type === 'BP' ? 'Balanço Patrimonial' : type);
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -76,9 +76,9 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
       if (!clientId) return;
       setLoading(true);
       try {
-        const typesToQuery = (type === 'BP' || type === 'Balanço Patrimonial') 
+        const typesToQuery = (selectedType === 'BP' || selectedType === 'Balanço Patrimonial') 
           ? ['Balanço Patrimonial', 'BP'] 
-          : [type];
+          : [selectedType];
         // Simplificamos a query para evitar a necessidade de composite index (clientId, year, type)
         // O filtro de `type` será feito em memória (JavaScript) abaixo.
         const q = query(
@@ -139,7 +139,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
               id: item.id || crypto.randomUUID(),
               category: item.category || item.conta || item.name || '',
               value: item.value || item.valor || item.val || 0,
-              type: (item.type || item.tipo || (type === 'DRE' ? 'receitas' : 'ativo')).toLowerCase(),
+              type: (item.type || item.tipo || ((selectedType === 'DRE' || selectedType === 'DRE Gerencial') ? 'receitas' : 'ativo')).toLowerCase(),
               level: item.level || 1,
               dreTipo: item.dreTipo,
               natureza: item.natureza,
@@ -153,7 +153,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
           });
         }
 
-        if (type === 'DRE') {
+        if (selectedType === 'DRE' || selectedType === 'DRE Gerencial') {
           const hasOfficialStructure = existingData.some(r => r.dreTipo === 'SINTETICA');
           
           if (!hasOfficialStructure && existingData.length > 0) {
@@ -220,14 +220,14 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
       }
     };
     loadData();
-  }, [clientId, year, type]);
+  }, [clientId, year, selectedType]);
 
   const addRow = () => {
     setRows([...rows, { 
       id: crypto.randomUUID(), 
       category: '', 
       value: 0, 
-      type: type === 'DRE' ? 'receitas' : 'ativo',
+      type: (selectedType === 'DRE' || selectedType === 'DRE Gerencial') ? 'receitas' : 'ativo',
       level: 1
     }]);
   };

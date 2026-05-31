@@ -28,7 +28,7 @@ interface ImportFinancialModalProps {
 }
 
 export function ImportFinancialModal({ type, clientId, year, clients, onClose, onSuccess }: ImportFinancialModalProps) {
-  const [selectedType, setSelectedType] = useState<string>(type);
+  const [selectedType, setSelectedType] = useState<string>(type === 'BP' ? 'Balanço Patrimonial' : type);
   const [file, setFile] = useState<File | null>(null);
   const [parsedData, setParsedData] = useState<FinancialEntry[]>([]);
   const [loading, setLoading] = useState(false);
@@ -88,7 +88,14 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
 
     try {
       // 1. Marcar dados existentes como arquivados (Soft Delete / Versionamento)
-      const typesToDelete = [type, type === 'Balanço Patrimonial' ? 'BP' : 'DRE'];
+      let typesToDelete: string[] = [];
+      if (selectedType === 'Balanço Patrimonial' || selectedType === 'BP') {
+        typesToDelete = ['Balanço Patrimonial', 'BP'];
+      } else if (selectedType === 'DRE' || selectedType === 'DRE Gerencial') {
+        typesToDelete = ['DRE', 'DRE Gerencial', 'DRE Contábil'];
+      } else {
+        typesToDelete = [selectedType];
+      }
       
       const q = query(
         collection(db, 'financial_entries'),
@@ -330,7 +337,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
                 <div className="space-y-1">
                   <p className="text-[11px] font-black text-amber-800 uppercase tracking-tight">Atenção: Substituição de Dados</p>
                   <p className="text-[11px] text-amber-700 leading-relaxed">
-                    Ao confirmar, todos os dados de <strong>{type}</strong> existentes para <strong>{year}</strong> deste cliente serão <strong>apagados</strong> e substituídos pelo conteúdo deste arquivo.
+                    Ao confirmar, todos os dados de <strong>{selectedType}</strong> existentes para <strong>{year}</strong> deste cliente serão <strong>apagados</strong> e substituídos pelo conteúdo deste arquivo.
                   </p>
                 </div>
               </div>

@@ -4,6 +4,7 @@ import { ShieldCheck, Zap, Loader2, AlertTriangle, CheckCircle2, BookOpen } from
 import { GovernanceInsightPanel } from './GovernanceInsightPanel';
 import { MarkdownText } from './Common';
 import { cn } from '../lib/utils';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface GovernancePerspectiveSectionProps {
   axis: string;
@@ -27,6 +28,7 @@ export function GovernancePerspectiveSection({
   onGenerateAi,
   className
 }: GovernancePerspectiveSectionProps) {
+  const { t } = useLanguage();
   return (
     <div className={cn("bg-white rounded-[48px] border border-slate-200 p-8 md:p-12 overflow-hidden relative shadow-sm", className)}>
       <div className="absolute -left-20 -top-20 w-80 h-80 bg-indigo-50 rounded-full blur-3xl opacity-60" />
@@ -79,7 +81,11 @@ export function GovernancePerspectiveSection({
                       </p>
                       {auditTrail.warnings?.length > 0 && (
                         <ul className="mt-4 list-disc list-inside text-red-400/80 text-sm">
-                          {auditTrail.warnings.map((w: string, i: number) => <li key={i}>{w}</li>)}
+                          {auditTrail.warnings.map((w: any, i: number) => (
+                            <li key={i}>
+                              {typeof w === 'string' ? w : t(w.labelKey, w.args)}
+                            </li>
+                          ))}
                         </ul>
                       )}
                     </div>

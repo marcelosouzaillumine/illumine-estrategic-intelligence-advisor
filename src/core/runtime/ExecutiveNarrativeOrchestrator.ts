@@ -111,6 +111,69 @@ export class ExecutiveNarrativeOrchestrator {
       .map(t => SurvivalConstraintPropagationEngine.sanitizeNarrative(t, isSurvivalMode))
       .join(', ');
 
+    // IRRE Narrative Sanitization
+    const recoveryReport = report.recoveryReport;
+    const isEarlyRecovery = recoveryReport && recoveryReport.activeRecoveryStage && recoveryReport.activeRecoveryStage !== 'FULL_REAUTHORIZATION';
+    
+    if (isEarlyRecovery) {
+      const sanitizeRecovery = (text: string) => {
+        let san = text;
+        san = san.replace(/empresa plenamente recuperada/gi, 'recuperação em consolidação');
+        san = san.replace(/crescimento acelerado/gi, 'estabilização prioritária');
+        san = san.replace(/expansão agressiva/gi, 'expansão restrita e seletiva');
+        san = san.replace(/retomada total/gi, 'retomada progressiva monitorada');
+        san = san.replace(/excesso de liquidez/gi, 'recomposição de reservas táticas');
+        return san;
+      };
+
+      leadParagraphSan = sanitizeRecovery(leadParagraphSan);
+      causalFlowSummarySan = sanitizeRecovery(causalFlowSummarySan);
+      riskBriefingSan = sanitizeRecovery(riskBriefingSan);
+    }
+
+    // RRG Narrative Sanitization
+    const regressionReport = recoveryReport?.regressionReport;
+    if (regressionReport?.regressionDetected) {
+      const sanitizeRegression = (text: string) => {
+        let san = text;
+        san = san.replace(/recuperação consolidada/gi, 'recuperação fragilizada');
+        san = san.replace(/crescimento sustentável/gi, 'crescimento sob risco de recaída');
+        san = san.replace(/estabilidade restaurada/gi, 'instabilidade institucional detectada');
+        san = san.replace(/fase de expansão/gi, 'fase de contenção fiduciária');
+        return san;
+      };
+
+      leadParagraphSan = sanitizeRegression(leadParagraphSan);
+      causalFlowSummarySan = sanitizeRegression(causalFlowSummarySan);
+      riskBriefingSan = sanitizeRegression(riskBriefingSan);
+      
+      causalFlowSummarySan += `\n[ALERTA RRG]: ${regressionReport.recoveryNarrativeAdjustment}`;
+    }
+
+    // IRAE Narrative Sanitization
+    const resilienceReport = recoveryReport?.resilienceReport;
+    if (resilienceReport) {
+      const resilience = resilienceReport.resilienceClassification;
+      
+      const sanitizeResilience = (text: string) => {
+        let san = text;
+        if (resilience === 'INSTITUTIONALLY_FRAGILE') {
+          san = san.replace(/resiliência( estrutural)?/gi, 'fragilidade estrutural persistente');
+          san = san.replace(/estabilidade( consolidada)?/gi, 'estabilidade precária');
+          san = san.replace(/antifragilidade/gi, 'vulnerabilidade');
+        } else if (resilience === 'ANTIFRAGILE') {
+          // If antifragile, enhance descriptions of recovery to include structural maturity
+          san = san.replace(/recuperação( em consolidação)?/gi, 'recuperação evoluída em antifragilidade institucional');
+          san = san.replace(/resiliência( estrutural)?/gi, 'resiliência estrutural plena e madura');
+        }
+        return san;
+      };
+
+      leadParagraphSan = sanitizeResilience(leadParagraphSan);
+      causalFlowSummarySan = sanitizeResilience(causalFlowSummarySan);
+      riskBriefingSan = sanitizeResilience(riskBriefingSan);
+    }
+
     return {
       title,
       leadParagraph: leadParagraphSan,

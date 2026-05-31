@@ -154,6 +154,13 @@
     "action": "Revisar ou deletar."
   },
   {
+    "file": "docs/DLPA_GOVERNANCE_CURATION_PROTOCOL.md",
+    "risk": "Documentação possivelmente não governada ou morta.",
+    "severity": "LOW",
+    "recommendation": "Verificar se o arquivo ainda é relevante ou se deve ser arquivado/excluído.",
+    "action": "Revisar ou deletar."
+  },
+  {
     "file": "docs/ENTERPRISE_PRODUCTIZATION_LAYER.md",
     "risk": "Documentação possivelmente não governada ou morta.",
     "severity": "LOW",

@@ -25,7 +25,8 @@ export class ExecutiveActionMatrixEngine {
     severityLevel: string,
     segmentCode: SegmentCode = 'GENERIC_OPERATION',
     fiduciaryOutput?: any,
-    survivalReport?: any
+    survivalReport?: any,
+    recoveryReport?: any
   ): ExecutiveActionItem[] {
     if (!metrics || metrics.hasData === false) {
       return [];
@@ -54,6 +55,32 @@ export class ExecutiveActionMatrixEngine {
         '[ ] OPERATIONAL_RECOVERY: Foco em recuperação operacional e saneamento de margens.',
         '[ ] LIABILITY_PROTECTION: Proteção e renegociação fiduciária de passivos críticos.'
       );
+    } else if (recoveryReport && recoveryReport.activeRecoveryStage) {
+      const stage = recoveryReport.activeRecoveryStage;
+      if (recoveryReport.regressionReport?.regressionDetected) {
+        processedActions.push(
+          '[ ] ESTABILIZACAO_CORRETIVA: Recaída institucional detectada. Reativando restrições prudenciais.',
+          '[ ] BLOQUEIO_DE_EXPANSAO: Congelamento imediato de capex, distribuição e agressividade comercial.',
+          '[ ] MONITORAMENTO_DE_RECUPERACAO: Reavaliação estrutural do break-even e tesouraria.'
+        );
+      } else if (stage === 'RECOVERY_MONITORING' || stage === 'RECOVERY_STAGE_1_PENDING') {
+        processedActions.push(
+          '[ ] MONITORAMENTO_DE_RECUPERACAO: Consolidar geração de caixa sustentável antes de retomar crescimento.',
+          '[ ] ESTABILIZACAO_ESTRUTURAL: Manter contenção de despesas enquanto avalia consistência longitudinal.'
+        );
+      } else if (stage === 'RECOVERY_STAGE_1') {
+        processedActions.push(
+          '[ ] CONSOLIDACAO_DE_RECUPERACAO: Primeira fase da recuperação alcançada. Prioridade: manter estabilidade de tesouraria.'
+        );
+      } else if (stage === 'RECOVERY_STAGE_2') {
+        processedActions.push(
+          '[ ] REATIVACAO_SELETIVA: Permitido Capex seletivo e otimização de capital de giro.'
+        );
+      } else if (stage === 'RECOVERY_STAGE_3') {
+        processedActions.push(
+          '[ ] RETOMADA_ESTRATEGICA: Crescimento controlado e investimentos estratégicos autorizados.'
+        );
+      }
     }
 
     for (const action of actions) {
@@ -78,6 +105,23 @@ export class ExecutiveActionMatrixEngine {
 
         if (isBlockedSurvivalAction) {
           continue; // Expunge under survival mode
+        }
+      }
+
+      // Check Regression mode blocks
+      if (recoveryReport && recoveryReport.regressionReport?.regressionDetected) {
+        const isBlockedRegressionAction =
+          lower.includes('expans') ||
+          lower.includes('crescimento') ||
+          lower.includes('hiring') ||
+          lower.includes('divid') ||
+          lower.includes('distrib') ||
+          lower.includes('payout') ||
+          lower.includes('socio') ||
+          lower.includes('capex');
+
+        if (isBlockedRegressionAction) {
+          continue; // Expunge under regression
         }
       }
 
@@ -115,8 +159,13 @@ export class ExecutiveActionMatrixEngine {
       processedActions.push(action);
     }
 
-    // Append replacements if blocked (only if not in survival mode to avoid duplicate recovery actions)
-    if (!isSurvivalMode) {
+    // Append replacements if blocked (only if not in survival mode or early recovery stages)
+    const isEarlyRecovery = recoveryReport && (
+      recoveryReport.activeRecoveryStage === 'RECOVERY_MONITORING' ||
+      recoveryReport.activeRecoveryStage === 'RECOVERY_STAGE_1_PENDING' ||
+      recoveryReport.activeRecoveryStage === 'RECOVERY_STAGE_1'
+    );
+    if (!isSurvivalMode && !isEarlyRecovery) {
       if (blockedDistributionFound) {
         processedActions.push(
           '[ ] Preservação de caixa: suspensão de dividendos e retiradas extraordinárias.',

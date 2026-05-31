@@ -86,6 +86,7 @@ import {
   WalletCards,
   Waypoints,
   Zap,
+  ArrowUpRightSquare,
   type LucideIcon
 } from 'lucide-react';
 
@@ -116,6 +117,14 @@ export type Page =
   | 'strategic_simulation'
   | 'governance_orchestration'
   | 'institutional_ios'
+  | 'executive_command'
+  | 'operational_governance'
+  | 'strategic_intelligence'
+  | 'institutional_board_pack'
+  | 'institutional_continuity'
+  | 'demo_continuity'
+  | 'deployment_readiness'
+  | 'institutional_onboarding'
   | 'enterprise_validation'
   | 'reality_validation'
   | 'institutional_reports'
@@ -225,11 +234,12 @@ export type Page =
   | 'observability_console'
   | 'advisor_workspace'
   | 'client_workspace'
+  | 'operating_pressure'
   | 'pilot_experience';
 
 export interface NavigationItem {
   id: Page;
-  label: string;
+  label?: string; // deprecated: developer reference only
   labelKey: string;
   icon: LucideIcon;
   isNew?: boolean;
@@ -238,13 +248,13 @@ export interface NavigationItem {
 }
 
 export interface NavigationGroup {
-  group: string;
+  group?: string; // deprecated: developer reference only
   groupKey: string;
   icon: LucideIcon;
   items: NavigationItem[];
 }
 
-export const DEFAULT_PAGE: Page = 'consolidated_executive';
+export const DEFAULT_PAGE: Page = 'institutional_continuity';
 
 export const DEFAULT_OPEN_SUBMENUS: Record<string, boolean> = {
   'Governança Corporativa': true,
@@ -264,13 +274,16 @@ const sortNavItems = (items: NavigationItem[]): NavigationItem[] => {
       if (a.id === 'consolidated_executive') return -1;
       if (b.id === 'consolidated_executive') return 1;
 
-      const isADashboard = a.label.toLowerCase().includes('dashboard');
-      const isBDashboard = b.label.toLowerCase().includes('dashboard');
+      const labelA = a.label || a.labelKey;
+      const labelB = b.label || b.labelKey;
+
+      const isADashboard = labelA.toLowerCase().includes('dashboard');
+      const isBDashboard = labelB.toLowerCase().includes('dashboard');
 
       if (isADashboard && !isBDashboard) return -1;
       if (!isADashboard && isBDashboard) return 1;
 
-      return a.label.localeCompare(b.label, 'pt-BR');
+      return labelA.localeCompare(labelB, 'pt-BR');
     });
 };
 
@@ -317,15 +330,26 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       // Not part of GOVERNANCE_DOMAIN_BOUNDARIES.md core module registry.
       // Pending future migration to Integrity & Compliance axis.
       { id: 'compliance_integrity_center', label: 'Integridade & Compliance', labelKey: 'navigation.page.compliance_integrity_center', icon: ShieldCheck },
+      { id: 'operating_pressure', label: 'Pressão Operacional Institucional', labelKey: 'navigation.page.operating_pressure', icon: Activity },
+      { id: 'institutional_continuity', label: 'Institutional Continuity Cockpit', labelKey: 'navigation.page.institutional_continuity', icon: HeartPulse },
+      { id: 'operational_governance', label: 'Operational Governance Center', labelKey: 'navigation.page.operational_governance', icon: ShieldCheck },
+      { id: 'strategic_intelligence', label: 'Strategic Intelligence Center', labelKey: 'navigation.page.strategic_intelligence', icon: Compass },
+      { id: 'institutional_board_pack', label: 'Board Pack Institucional', labelKey: 'navigation.page.institutional_board_pack', icon: FileText },
 
       // Restricted Modules
       // TODO: migrar crisis_response_center para restrictedRoles (C-Level/Board) em vez de masterOnly total.
+      { id: 'institutional_onboarding', label: 'Institutional Onboarding', labelKey: 'navigation.page.institutional_onboarding', icon: Building2, masterOnly: true },
+      { id: 'deployment_readiness', label: 'Deployment Readiness Layer', labelKey: 'navigation.page.deployment_readiness', icon: ShieldCheck, masterOnly: true },
+      { id: 'demo_continuity', label: 'Cockpit de Continuidade (Demo)', labelKey: 'navigation.page.demo_continuity', icon: HeartPulse, masterOnly: true },
       { id: 'crisis_response_center', label: 'Crisis Response Center', labelKey: 'navigation.page.crisis_response_center', icon: Siren, masterOnly: true },
       { id: 'runtime_observability_center', label: 'Runtime Observability Center', labelKey: 'navigation.page.runtime_observability_center', icon: Activity, masterOnly: true },
       { id: 'product_governance_center', label: 'Product Governance Center', labelKey: 'navigation.page.product_governance_center', icon: PackageCheck, masterOnly: true },
       { id: 'multi_tenant_governance_center', label: 'Multi-Tenant Governance Center', labelKey: 'navigation.page.multi_tenant_governance_center', icon: ShieldCheck, masterOnly: true },
 
       // Legacy Hubs Temporários (Mantidos ocultos ou para backward compatibility)
+      { id: 'governance_orchestration', label: 'Governance Orchestration', labelKey: 'navigation.page.governance_orchestration', icon: ArrowUpRightSquare, masterOnly: true },
+      { id: 'executive_command', label: 'Executive Command Center', labelKey: 'navigation.page.executive_command', icon: Target, masterOnly: true },
+      { id: 'institutional_ios', label: 'Institutional iOS', labelKey: 'navigation.page.institutional_ios', icon: Scale, masterOnly: true },
       { id: 'pilot_monitoring', label: 'Painel Operacional Piloto', labelKey: 'navigation.page.pilot_monitoring', icon: Activity, masterOnly: true },
       { id: 'calibration_playground', label: 'Calibration Playground', labelKey: 'navigation.page.calibration_playground', icon: Sparkles, masterOnly: true },
       { id: 'advisor_workspace', label: 'Advisor Workspace', labelKey: 'navigation.page.advisor_workspace', icon: Briefcase, masterOnly: true },

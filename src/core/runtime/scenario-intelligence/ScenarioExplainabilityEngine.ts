@@ -1,5 +1,5 @@
 // src/core/runtime/scenario-intelligence/ScenarioExplainabilityEngine.ts
-import crypto from 'crypto';
+import { sha256 } from '../executive/types';
 import { PropagationSimulationProfile, ScenarioConstraintValidation, ScenarioExplainabilityPayload } from './scenario-types';
 
 export class ScenarioExplainabilityEngine {
@@ -37,18 +37,6 @@ export class ScenarioExplainabilityEngine {
   }
 
   private static createHash(data: string): string {
-    // Para ambientes de browser onde o crypto do node pode não estar disponível perfeitamente,
-    // nós podemos usar um polyfill ou uma string simples em dev.
-    // Usaremos base64 simulação rápida se crypto não estiver presente no browser bundle.
-    try {
-      return crypto.createHash('sha256').update(data).digest('hex').substring(0, 16);
-    } catch {
-      let hash = 0;
-      for (let i = 0; i < data.length; i++) {
-        hash = ((hash << 5) - hash) + data.charCodeAt(i);
-        hash |= 0;
-      }
-      return Math.abs(hash).toString(16);
-    }
+    return sha256(data).substring(0, 16);
   }
 }

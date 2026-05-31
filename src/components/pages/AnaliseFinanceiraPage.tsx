@@ -56,6 +56,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
   const { dbData: dbDre, loading: loadingDre } = useAnnualFinancialData(selectedClient, year, 'DRE');
   const { dbData: dbBp, loading: loadingBp } = useAnnualFinancialData(selectedClient, year, 'BP');
   const { dbData: dbDlpa, loading: loadingDlpa } = useAnnualFinancialData(selectedClient, year, 'DLPA');
+  const { dbData: dbDfc, loading: loadingDfc } = useAnnualFinancialData(selectedClient, year, 'DFC');
   const { dbData: allHistoryData, loading: loadingHistory } = useAllFinancialData(selectedClient);
 
   // Load DFC/CashFlow data directly from firestore
@@ -100,7 +101,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
   }, [dbDre]);
 
   useEffect(() => {
-    if (loadingDre || loadingBp || loadingDlpa || loadingHistory || loadingCashFlow) return;
+    if (loadingDre || loadingBp || loadingDlpa || loadingDfc || loadingHistory || loadingCashFlow) return;
 
     const clientObj = clients?.find((c: any) => c.id === selectedClient);
     const segment = clientObj?.segmento || 'Default';
@@ -131,12 +132,16 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
         segmentoEmpresa: segment,
         prevPl,
         dreDataLength: dbDre.length,
-        historicalCyclesCount: calculatedCycles
+        historicalCyclesCount: calculatedCycles,
+        allHistoryData: allHistoryData,
+        filterYear: year
       },
       bpData: dbBp,
       dreData: dbDre,
       dlpaData: dbDlpa,
+      dfcData: dbDfc,
       cashFlowData: cashFlowData,
+      historicalSeries: allHistoryData,
       historicalCyclesCount: calculatedCycles,
       isMockData: dbBp.length === 0 && dbDre.length === 0
     };
@@ -147,7 +152,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
     } catch (err) {
       console.error('Error generating executive report in AnaliseFinanceira:', err);
     }
-  }, [bpSummaryForRuntime, ebitdaForRuntime, lucroLiquidoForRuntime, dbDre, dbBp, dbDlpa, cashFlowData, year, allHistoryData, clients, selectedClient, loadingDre, loadingBp, loadingDlpa, loadingHistory, loadingCashFlow]);
+  }, [bpSummaryForRuntime, ebitdaForRuntime, lucroLiquidoForRuntime, dbDre, dbBp, dbDlpa, dbDfc, cashFlowData, year, allHistoryData, clients, selectedClient, loadingDre, loadingBp, loadingDlpa, loadingDfc, loadingHistory, loadingCashFlow]);
 
   // Seleciona os dados a exibir (original ou reprocessado se o usuário ativou o toggle)
   const displayData = (showReprocessed && analysis?.reprocessed) 

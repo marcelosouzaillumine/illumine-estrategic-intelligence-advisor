@@ -282,7 +282,7 @@ export async function generateBoardReportFull(companyName: string, financialData
   const latestData = financialData.filter(d => d.year === latestYear);
   const previousData = financialData.filter(d => d.year === previousYear);
 
-  const bpRows = latestData.filter(d => ['BP', 'Balanço Patrimonial'].includes(d.docType) || ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(d.type));
+  const bpRows = latestData.filter(d => ['BP', 'Balanço Patrimonial'].includes(d.docType));
   const dreRows = latestData.filter(d => ['DRE', 'DRE Contábil', 'DRE Gerencial'].includes(d.docType));
 
   const { summary: bpSummary } = buildBPHierarchy(bpRows);
@@ -300,7 +300,7 @@ export async function generateBoardReportFull(companyName: string, financialData
   
   let prevPl = 0;
   if (previousYear) {
-    const prevBpRows = previousData.filter(d => ['BP', 'Balanço Patrimonial'].includes(d.docType) || ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(d.type));
+    const prevBpRows = previousData.filter(d => ['BP', 'Balanço Patrimonial'].includes(d.docType));
     const { summary: prevBpSummary } = buildBPHierarchy(prevBpRows);
     prevPl = prevBpSummary.patrimonioLiquido;
   }

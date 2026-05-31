@@ -22,6 +22,12 @@ export function StrategicWarRoomPage({ selectedClient, contextData }: Props) {
   
   const [resolutionsHistory, setResolutionsHistory] = useState<BoardResolution[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(true);
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const showToast = (type: 'success' | 'error', message: string) => {
+    setToast({ type, message });
+    setTimeout(() => setToast(null), 4000);
+  };
 
   useEffect(() => {
     async function fetchHistory() {
@@ -53,7 +59,7 @@ export function StrategicWarRoomPage({ selectedClient, contextData }: Props) {
   };
 
   const handleApprovalSuccess = () => {
-    alert("Resolução fiduciária registrada com sucesso!");
+    showToast('success', "Resolução fiduciária registrada com sucesso!");
     // Refresh history
     BoardResolutionService.getClientResolutions(selectedClient).then(setResolutionsHistory);
   };
@@ -206,6 +212,12 @@ export function StrategicWarRoomPage({ selectedClient, contextData }: Props) {
         </div>
 
       </div>
+
+      {toast && (
+        <div className="fixed top-6 right-6 z-50 px-5 py-3 rounded-xl shadow-lg text-sm font-bold text-white bg-emerald-600 animate-executive-fade">
+          {toast.message}
+        </div>
+      )}
     </div>
   );
 }

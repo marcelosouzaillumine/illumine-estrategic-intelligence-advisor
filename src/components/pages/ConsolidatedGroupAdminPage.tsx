@@ -9,8 +9,10 @@ import { cn } from '../../lib/utils';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function ConsolidatedGroupAdminPage() {
+  const { t } = useLanguage();
   const [groups, setGroups] = useState<EconomicGroupModel[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<EconomicGroupModel | null>(null);
   const [entities, setEntities] = useState<EconomicGroupEntityModel[]>([]);
@@ -139,11 +141,11 @@ export function ConsolidatedGroupAdminPage() {
                     <AlertTriangle size={16} className={validationErrors.length > 0 ? "text-rose-500" : "text-amber-500"} />
                     Pre-Flight Structural Check
                   </h3>
-                  {validationErrors.map((e, i) => (
-                    <p key={i} className="text-xs text-rose-500 mt-1">• [ERROR] {e}</p>
+                  {validationErrors.map((e: any, i) => (
+                    <p key={i} className="text-xs text-rose-500 mt-1">• [ERROR] {typeof e === 'string' ? e : t(e.labelKey, e.args)}</p>
                   ))}
-                  {validationWarnings.map((w, i) => (
-                    <p key={i} className="text-xs text-amber-500 mt-1">• [WARN] {w}</p>
+                  {validationWarnings.map((w: any, i) => (
+                    <p key={i} className="text-xs text-amber-500 mt-1">• [WARN] {typeof w === 'string' ? w : t(w.labelKey, w.args)}</p>
                   ))}
                 </div>
               )}

@@ -121,6 +121,15 @@ import { RuntimeObservabilityCenter } from '../components/pages/governance/Runti
 import { ProductGovernanceCenter } from '../components/pages/governance/ProductGovernanceCenter';
 import { MultiTenantGovernanceCenter } from '../components/pages/governance/MultiTenantGovernanceCenter';
 import { InstitutionalWarRoomPage } from '../components/war-gaming/InstitutionalWarRoomPage';
+import { InstitutionalPressureDashboard } from '../components/operating-pressure/InstitutionalPressureDashboard';
+import { InstitutionalContinuityCockpitPage } from '../components/pages/InstitutionalContinuityCockpitPage';
+import { InstitutionalDeploymentReadinessPage } from '../components/pages/InstitutionalDeploymentReadinessPage';
+import { DemoContinuityCockpitPage } from '../demo-runtime/DemoContinuityCockpitPage';
+import { DemoScenarioProvider } from '../demo-runtime/DemoScenarioProvider';
+import { InstitutionalExecutiveCommandCenter } from '../components/executive-command/InstitutionalExecutiveCommandCenter';
+import { InstitutionalOnboardingControlCenterPage } from '../components/pages/InstitutionalOnboardingControlCenterPage';
+import { InstitutionalStrategicIntelligencePage } from '../components/pages/InstitutionalStrategicIntelligencePage';
+import { InstitutionalBoardPackPage } from '../components/pages/InstitutionalBoardPackPage';
 
 import type { Page } from './navigation';
 
@@ -590,6 +599,34 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'compliance_integrity_center') {
     return <ComplianceIntegrityCenter />;
+  }
+  if (currentPage === 'operating_pressure') {
+    return <InstitutionalPressureDashboard clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
+  }
+  if (currentPage === 'executive_command') {
+    return <InstitutionalExecutiveCommandCenter clientId={selectedClient} selectedYear={selectedYear} />;
+  }
+  if (currentPage === 'institutional_continuity') {
+    return <InstitutionalContinuityCockpitPage clientId={selectedClient} selectedYear={selectedYear} selectedMonth={selectedMonth} />;
+  }
+  if (currentPage === 'demo_continuity') {
+    return (
+      <DemoScenarioProvider>
+        <DemoContinuityCockpitPage />
+      </DemoScenarioProvider>
+    );
+  }
+  if (currentPage === 'deployment_readiness') {
+    return <InstitutionalDeploymentReadinessPage />;
+  }
+  if (currentPage === 'institutional_onboarding') {
+    return <InstitutionalOnboardingControlCenterPage />;
+  }
+  if (currentPage === 'strategic_intelligence') {
+    return <InstitutionalStrategicIntelligencePage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
+  }
+  if (currentPage === 'institutional_board_pack') {
+    return <InstitutionalBoardPackPage clients={clients} selectedClient={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
   }
   if (currentPage === 'pilot_monitoring') {
     return <PilotMonitoringDashboard />;

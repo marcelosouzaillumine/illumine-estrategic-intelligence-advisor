@@ -12,14 +12,15 @@ import { useLanguage } from '../../contexts/LanguageContext';
 
 // Quiet, Editorial Causal Topology Watermark (Static & Extremely Understated)
 const CausalTopologyVisual = () => {
+  const { t } = useLanguage();
   const nodes = [
-    { id: 1, x: 150, y: 130, label: 'Decisão de Expansão' },
-    { id: 2, x: 420, y: 170, label: 'Pressão Operacional' },
-    { id: 3, x: 280, y: 290, label: 'Necessidade de Capital de Giro' },
-    { id: 4, x: 580, y: 230, label: 'Deterioração de Margem' },
-    { id: 5, x: 740, y: 140, label: 'Risco Fiduciário' },
-    { id: 6, x: 480, y: 370, label: 'Estrutura de Liquidez' },
-    { id: 7, x: 720, y: 340, label: 'Proteção Patrimonial' }
+    { id: 1, x: 150, y: 130, label: t('landing.topology.expansion') },
+    { id: 2, x: 420, y: 170, label: t('landing.topology.pressure') },
+    { id: 3, x: 280, y: 290, label: t('landing.topology.working_capital') },
+    { id: 4, x: 580, y: 230, label: t('landing.topology.margin_deterioration') },
+    { id: 5, x: 740, y: 140, label: t('landing.topology.fiduciary_risk') },
+    { id: 6, x: 480, y: 370, label: t('landing.topology.liquidity_structure') },
+    { id: 7, x: 720, y: 340, label: t('landing.topology.patrimonial_protection') }
   ];
 
   const links = [
@@ -188,7 +189,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
               {t('landing.nav.restricted_area')}
             </button>
             <button 
-              onClick={() => handleCTAClick('Gostaria de agendar uma conversa com os especialistas da Illumine.')}
+              onClick={() => handleCTAClick(t('landing.cta.talk_specialists'))}
               className="h-10 px-5 rounded-md border border-white/20 hover:border-white text-white font-bold text-[9px] uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-2 cursor-pointer"
             >
               <span>{t('landing.button.talk_specialists')}</span>
@@ -234,7 +235,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8"
           >
             <button
-              onClick={() => handleCTAClick('Gostaria de iniciar o Diagnóstico Executivo da minha organização.')}
+              onClick={() => handleCTAClick(t('landing.cta.diagnostic'))}
               className="w-full sm:w-auto h-14 px-8 rounded-md bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-xl cursor-pointer"
             >
               <span>{t('landing.button.executive_diagnostic')}</span>
@@ -343,13 +344,13 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
 
           <div className="pt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-3xl mx-auto">
             <button
-              onClick={() => handleCTAClick('Gostaria de agendar uma Avaliação Institucional para minha organização.')}
+              onClick={() => handleCTAClick(t('landing.cta.institutional_evaluation'))}
               className="w-full sm:w-auto h-16 px-8 rounded-md bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-white/90 transition-all flex items-center justify-center gap-3 cursor-pointer shadow-lg"
             >
               <span>{t('landing.button.institutional_evaluation')}</span>
             </button>
             <button
-              onClick={() => handleCTAClick('Gostaria de conversar com os especialistas de Governança da Illumine.')}
+              onClick={() => handleCTAClick(t('landing.cta.talk_governance_specialists'))}
               className="w-full sm:w-auto h-16 px-8 rounded-md bg-transparent border border-white/20 text-white/85 font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:text-white transition-all flex items-center justify-center gap-3 cursor-pointer"
             >
               <span>{t('landing.button.talk_specialists')}</span>
@@ -368,7 +369,7 @@ export function SalesPage({ onLoginClick }: { onLoginClick: () => void }) {
             className="fixed bottom-6 right-6 z-50 flex items-center"
           >
             <button
-              onClick={() => handleCTAClick('Gostaria de solicitar uma Avaliação Institucional.')}
+              onClick={() => handleCTAClick(t('landing.cta.request_evaluation'))}
               className="flex items-center gap-3 px-6 h-14 bg-white text-black font-bold text-[10px] uppercase tracking-widest rounded-full shadow-2xl hover:bg-white/90 transition-all cursor-pointer"
             >
               <Briefcase size={14} />

@@ -49,7 +49,7 @@ type ToastType = { type: 'success' | 'error'; message: string } | null;
 
 // ─── Component ───────────────────────────────────────────────────────────────
 export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any) {
-  const { translateLabel } = useLanguage();
+  const { translateLabel, t } = useLanguage();
   const [filterYear, setFilterYear] = useState(selectedYear || new Date().getFullYear());
   const [toast, setToast] = useState<ToastType>(null);
   const [deleting, setDeleting] = useState(false);
@@ -499,7 +499,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
           
           <div className="w-full md:w-auto md:flex-1 flex flex-col items-center md:items-start z-10 text-center md:text-left mb-10 md:mb-0 md:mr-10">
-            <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">Score Patrimonial</h3>
+            <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">{t('bp.score.title')}</h3>
             <p className="text-sm md:text-base text-indigo-100/80 font-medium leading-relaxed w-full">
               Métrica consolidada de resiliência e solidez patrimonial: analisa a estrutura de capital, liquidez de curto e longo prazo, autonomia financeira e cobertura de obrigações.
             </p>
@@ -570,7 +570,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               
               {/* Detailed Progress Bars */}
               <div>
-                <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">Decomposição do Score Patrimonial</h3>
+                <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">{t('bp.score.subtitle')}</h3>
                 <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
                   {executiveReport?.decomposition.map((hs, i) => (
                     <div key={i} title={hs.explanation} className={cn("border rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group cursor-help", 
@@ -604,7 +604,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Waterfall: Dinâmica de Capital de Giro */}
                 <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm col-span-1 md:col-span-2 lg:col-span-1 flex flex-col">
-                  <h3 className="text-lg font-black text-slate-900 mb-1">Dinâmica do Capital de Giro</h3>
+                  <h3 className="text-lg font-black text-slate-900 mb-1">{t('bp.working_capital.title')}</h3>
                   <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">{ExecutiveLocaleEnforcer.normalize('Estrutura de Liquidez e Capital de Giro')}</p>
                   
                   <div className="flex-1 min-h-[250px] w-full">
@@ -630,7 +630,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                 {/* Heatmap: Concentração */}
                 <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm flex flex-col">
                   <h3 className="text-lg font-black text-slate-900 mb-1">Mapa de Calor: Concentração</h3>
-                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">Riscos de Exposição</p>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">{t('bp.working_capital.subtitle')}</p>
                   
                   <div className="flex-1 flex flex-col justify-center space-y-6">
                     <div>
@@ -665,8 +665,8 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
                 {/* Composição do Ativo */}
                 <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
-                  <h3 className="text-lg font-black text-slate-900 mb-1">Composição do Ativo</h3>
-                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">Distribuição de Capital Investido</p>
+                  <h3 className="text-lg font-black text-slate-900 mb-1">{t('bp.assets.title')}</h3>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">{t('bp.assets.subtitle')}</p>
                   
                   <div className="flex items-center">
                     <div className="h-64 w-1/2">
@@ -708,8 +708,8 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
                 {/* Composição do Passivo */}
                 <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
-                  <h3 className="text-lg font-black text-slate-900 mb-1">Composição do Passivo</h3>
-                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">Origem de Capital de Terceiros</p>
+                  <h3 className="text-lg font-black text-slate-900 mb-1">{t('bp.liabilities.title')}</h3>
+                  <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mb-6">{t('bp.liabilities.subtitle')}</p>
                   
                   <div className="flex items-center">
                     <div className="h-64 w-1/2">
@@ -756,7 +756,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                    <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 border border-slate-100 text-slate-400">
                      <TrendingDown size={32} />
                    </div>
-                   <h3 className="text-lg font-black text-slate-900 mb-2">Aguardando dados longitudinais</h3>
+                   <h3 className="text-lg font-black text-slate-900 mb-2">{t('bp.empty_longitudinal')}</h3>
                    <p className="text-xs font-medium text-slate-500 max-w-3xl leading-relaxed">
                      Esta demonstração representa apenas um ciclo financeiro e não permite inferências longitudinais sobre estabilidade, deterioração ou consolidação operacional. A inteligência de evolução requer ao menos dois exercícios.
                    </p>
@@ -768,21 +768,21 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                     
                     <div className="flex items-center justify-between mb-8 relative z-10">
                       <div>
-                        <h3 className="text-lg font-black text-slate-900">Evolução Patrimonial</h3>
+                        <h3 className="text-lg font-black text-slate-900">{t('bp.evolution.title')}</h3>
                         <p className="text-[10px] text-slate-400 uppercase font-bold tracking-[0.2em] mt-1">Comparativo de 5 Anos</p>
                       </div>
                       <div className="flex gap-5 bg-slate-50 px-4 py-2 rounded-full border border-slate-100">
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                          <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Ativo</span>
+                          <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{t('bp.metrics.assets')}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-slate-400 shadow-[0_0_8px_rgba(148,163,184,0.5)]" />
-                          <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Passivo</span>
+                          <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{t('bp.metrics.liabilities')}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
-                          <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">PL</span>
+                          <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{t('bp.metrics.equity')}</span>
                         </div>
                       </div>
                     </div>
@@ -848,7 +848,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   <div className="bg-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                     
-                    <h3 className="text-lg font-black mb-1">Destaques da Evolução</h3>
+                    <h3 className="text-lg font-black mb-1">{t('bp.highlights.title')}</h3>
                     <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-8">Variações Significativas (YoY)</p>
                     
                     <div className="space-y-6 flex-1">
@@ -895,8 +895,8 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               <div>
                 <div className="flex items-center justify-between px-2 mb-4">
                   <div>
-                    <h3 className="text-lg font-black text-slate-900">Análise Estrutural Detalhada</h3>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mt-1">Composição Horizontal e Vertical</p>
+                    <h3 className="text-lg font-black text-slate-900">{t('bp.structural.title')}</h3>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mt-1">{t('bp.structural.subtitle')}</p>
                   </div>
                   <div className="flex gap-4">
                      <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-slate-200 shadow-sm">
@@ -915,7 +915,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                     <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
                       <Calendar size={28} className="text-slate-300" />
                     </div>
-                    <p className="text-sm font-black text-slate-500">Nenhum dado encontrado</p>
+                    <p className="text-sm font-black text-slate-500">{t('bp.empty_data')}</p>
                     <p className="text-xs font-medium text-slate-400 mt-2">
                       Importe ou insira manualmente os dados para o ano {filterYear}
                     </p>
@@ -1019,7 +1019,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       {/* ── Comentário Executivo ─────────────────────────────────────────── */}
       {engineError ? (
         <div className="bg-rose-50 border border-rose-200 text-rose-600 px-6 py-4 rounded-xl mt-6">
-          <h4 className="font-bold mb-1">Falha na Engine Executiva</h4>
+          <h4 className="font-bold mb-1">{t('bp.engine_failure')}</h4>
           <p className="text-sm">{engineError}</p>
           <p className="text-xs opacity-80 mt-2">bpSummary exists: {bpSummary ? 'Yes' : 'No'}</p>
         </div>

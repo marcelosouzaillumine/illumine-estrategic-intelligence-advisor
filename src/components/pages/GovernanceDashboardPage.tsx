@@ -28,6 +28,7 @@ import { TemporalAdvisoryCard } from '../temporal/TemporalAdvisoryCard';
 import { GovernanceTrajectoryGraph } from '../temporal/GovernanceTrajectoryGraph';
 import { InstitutionalResilienceTimeline } from '../temporal/InstitutionalResilienceTimeline';
 import { TemporalHeatmapPanel } from '../temporal/TemporalHeatmapPanel';
+import { useLanguage } from '../../contexts/LanguageContext';
 interface GovernanceDashboardPageProps {
   clientId: string;
   onNavigate: (page: Page) => void;
@@ -57,6 +58,7 @@ export function GovernanceDashboardPage({
   // Strategic KPIs - Dynamic
   const [dbIndicators, setDbIndicators] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     if (!clientId) return;
@@ -80,29 +82,29 @@ export function GovernanceDashboardPage({
   };
 
   const strategicKPIs = useMemo(() => [
-    { label: 'Lucratividade Líquida', value: getIndicatorValue('Margem Líquida'), suffix: '%', status: getIndicatorValue('Margem Líquida') > 10 ? 'positive' : 'neutral', icon: BarChart3 },
-    { label: 'EBITDA (Margem)', value: getIndicatorValue('Margem EBITDA'), suffix: '%', status: getIndicatorValue('Margem EBITDA') > 20 ? 'positive' : 'neutral', icon: Zap },
-    { label: 'Índice de Transparência', value: getIndicatorValue('Índice de Transparência', 0), suffix: '%', status: getIndicatorValue('Índice de Transparência') > 80 ? 'positive' : 'neutral', icon: Globe },
-    { label: 'Churn Rate (Fidelidade)', value: getIndicatorValue('Churn Rate', 0), suffix: '%', status: getIndicatorValue('Churn Rate') < 5 ? 'positive' : 'negative', icon: ShieldAlert }
-  ], [dbIndicators]);
+    { label: t('gov.kpi.net_profit'), value: getIndicatorValue('Margem Líquida'), suffix: '%', status: getIndicatorValue('Margem Líquida') > 10 ? 'positive' : 'neutral', icon: BarChart3 },
+    { label: t('gov.kpi.ebitda_margin'), value: getIndicatorValue('Margem EBITDA'), suffix: '%', status: getIndicatorValue('Margem EBITDA') > 20 ? 'positive' : 'neutral', icon: Zap },
+    { label: t('gov.kpi.transparency_index'), value: getIndicatorValue('Índice de Transparência', 0), suffix: '%', status: getIndicatorValue('Índice de Transparência') > 80 ? 'positive' : 'neutral', icon: Globe },
+    { label: t('gov.kpi.churn_rate'), value: getIndicatorValue('Churn Rate', 0), suffix: '%', status: getIndicatorValue('Churn Rate') < 5 ? 'positive' : 'negative', icon: ShieldAlert }
+  ], [dbIndicators, t]);
 
   // Radar Data for Areas - Dynamic
   const radarData = useMemo(() => [
-    { area: 'Governança', score: getIndicatorValue('Maturidade de Governança', 0), target: 85, fullMark: 100 },
-    { area: 'Cultura', score: getIndicatorValue('eNPS', 0), target: 80, fullMark: 100 },
-    { area: 'Finanças', score: getIndicatorValue('Margem EBITDA', 0), target: 75, fullMark: 100 },
-    { area: 'Inovação', score: getIndicatorValue('Índice de Inovação', 0), target: 80, fullMark: 100 },
-    { area: 'Marketing', score: getIndicatorValue('ROI de Marketing', 0) * 10, target: 85, fullMark: 100 },
-    { area: 'Comercial', score: getIndicatorValue('Win Rate', 0), target: 75, fullMark: 100 },
-    { area: 'Operacional', score: getIndicatorValue('Índice de Qualidade', 0), target: 85, fullMark: 100 },
-  ], [dbIndicators]);
+    { area: t('gov.area.governance'), score: getIndicatorValue('Maturidade de Governança', 0), target: 85, fullMark: 100 },
+    { area: t('gov.area.culture'), score: getIndicatorValue('eNPS', 0), target: 80, fullMark: 100 },
+    { area: t('gov.area.finance'), score: getIndicatorValue('Margem EBITDA', 0), target: 75, fullMark: 100 },
+    { area: t('gov.area.innovation'), score: getIndicatorValue('Índice de Inovação', 0), target: 80, fullMark: 100 },
+    { area: t('gov.area.marketing'), score: getIndicatorValue('ROI de Marketing', 0) * 10, target: 85, fullMark: 100 },
+    { area: t('gov.area.commercial'), score: getIndicatorValue('Win Rate', 0), target: 75, fullMark: 100 },
+    { area: t('gov.area.operations'), score: getIndicatorValue('Índice de Qualidade', 0), target: 85, fullMark: 100 },
+  ], [dbIndicators, t]);
 
   // Area Snapshots - Dynamic
   const areaSnapshots = useMemo(() => [
     { 
       id: 'governanca_estrategica' as Page,
-      label: 'Governança Corporativa', 
-      kpi: 'Maturidade', 
+      label: t('gov.snapshot.governance'), 
+      kpi: t('gov.kpi_short.maturity'), 
       value: getIndicatorValue('Maturidade de Governança', 0), 
       suffix: '%', 
       status: getIndicatorValue('Maturidade de Governança') > 70 ? 'positive' : 'neutral', 
@@ -111,8 +113,8 @@ export function GovernanceDashboardPage({
     },
     { 
       id: 'dashboard_cultura' as Page,
-      label: 'Cultura Organizacional', 
-      kpi: 'eNPS', 
+      label: t('gov.snapshot.culture'), 
+      kpi: t('gov.kpi_short.enps'), 
       value: getIndicatorValue('eNPS', 0), 
       status: getIndicatorValue('eNPS') > 50 ? 'positive' : 'neutral', 
       icon: Users,
@@ -120,8 +122,8 @@ export function GovernanceDashboardPage({
     },
     { 
       id: 'dashboard_gestao' as Page,
-      label: 'Administração e Finanças', 
-      kpi: 'EBITDA', 
+      label: t('gov.snapshot.finance'), 
+      kpi: t('gov.kpi_short.ebitda'), 
       value: getIndicatorValue('Margem EBITDA', 0), 
       suffix: '%', 
       status: getIndicatorValue('Margem EBITDA') > 20 ? 'positive' : 'neutral', 
@@ -130,8 +132,8 @@ export function GovernanceDashboardPage({
     },
     { 
       id: 'dashboard_inovacao' as Page,
-      label: 'Gestão de Inovação', 
-      kpi: 'Índice', 
+      label: t('gov.snapshot.innovation'), 
+      kpi: t('gov.kpi_short.index'), 
       value: getIndicatorValue('Índice de Inovação', 0), 
       suffix: '%', 
       status: 'neutral', 
@@ -140,8 +142,8 @@ export function GovernanceDashboardPage({
     },
     { 
       id: 'dashboard_marketing' as Page,
-      label: 'Gestão de Marketing', 
-      kpi: 'CPL', 
+      label: t('gov.snapshot.marketing'), 
+      kpi: t('gov.kpi_short.cpl'), 
       value: getIndicatorValue('CPL', 0), 
       isCur: true, 
       status: 'neutral', 
@@ -150,8 +152,8 @@ export function GovernanceDashboardPage({
     },
     { 
       id: 'dashboard_comercial' as Page,
-      label: 'Gestão Comercial', 
-      kpi: 'Conversão', 
+      label: t('gov.snapshot.commercial'), 
+      kpi: t('gov.kpi_short.conversion'), 
       value: getIndicatorValue('Taxa de Conversão', 0), 
       suffix: '%', 
       status: 'positive', 
@@ -160,15 +162,15 @@ export function GovernanceDashboardPage({
     },
     { 
       id: 'dashboard_operacional' as Page,
-      label: 'Gestão Operacional', 
-      kpi: 'OEE', 
+      label: t('gov.snapshot.operations'), 
+      kpi: t('gov.kpi_short.oee'), 
       value: getIndicatorValue('OEE', 0), 
       suffix: '%', 
       status: 'neutral', 
       icon: Activity,
       color: 'bg-amber-500'
     }
-  ], [dbIndicators]);
+  ], [dbIndicators, t]);
 
   const flatMetrics = useMemo(() => {
     return strategicKPIs.reduce((acc: any, kpi: any) => ({...acc, [kpi.label]: kpi.value}), {});
@@ -239,17 +241,17 @@ export function GovernanceDashboardPage({
          </div>
          
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto px-6">
-            <h2 className="text-4xl font-display font-black text-slate-900 tracking-tight leading-tight">Painel de Governança Silencioso</h2>
+            <h2 className="text-4xl font-display font-black text-slate-900 tracking-tight leading-tight">{t('gov.empty.title')}</h2>
             <p className="text-slate-500 w-full max-w-2xl mx-auto font-medium leading-relaxed">
-              Não identificamos indicadores financeiros ou estratégicos para o período de <strong>{['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][(selectedMonth || 1) - 1]} de {selectedYear}</strong>. 
-              Importe os dados históricos do cliente para ativar o monitoramento de performance.
+              {t('gov.empty.desc_1')} <strong>{t(`common.months.${selectedMonth || 1}`)} {selectedYear}</strong>. 
+              {t('gov.empty.desc_2')}
             </p>
           <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
             <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-2 border border-slate-200 shadow-sm h-[40px]">
               <span className={cn(
                 "text-[10px] font-black uppercase tracking-widest transition-colors",
                 !isYTD ? "text-secondary" : "text-slate-400"
-              )}>Mensal</span>
+              )}>{t('common.monthly')}</span>
               <button 
                 onClick={() => setIsYTD(!isYTD)}
                 className={cn(
@@ -266,7 +268,7 @@ export function GovernanceDashboardPage({
                 "text-[10px] font-black uppercase tracking-widest transition-colors",
                 isYTD ? "text-secondary" : "text-slate-400"
               )}>
-                Anual
+                {t('common.yearly')}
               </span>
             </div>
 
@@ -303,7 +305,7 @@ export function GovernanceDashboardPage({
               onClick={() => onNavigate('maintenance')}
               className="px-5 md:px-8 py-2.5 md:py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary transition-all shadow-xl shadow-slate-900/10"
             >
-              IR PARA IMPORTAÇÃO DE DADOS
+              {t('gov.empty.btn_import')}
             </button>
          </div>
       </div>
@@ -313,8 +315,8 @@ export function GovernanceDashboardPage({
   return (
     <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-16 pb-32 animate-executive-fade">
       <PageHeader 
-        title="Monitoramento Estratégico de Governança"
-        subtitle="Monitoramento estratégico de performance multisetorial para alta gestão e conselho de administração."
+        title={t('gov.dashboard.title')}
+        subtitle={t('gov.dashboard.subtitle')}
         icon={ShieldCheck}
         transparent
       />
@@ -347,7 +349,7 @@ export function GovernanceDashboardPage({
             <span className={cn(
               "text-[10px] font-medium uppercase tracking-widest transition-colors",
               !isYTD ? "text-secondary" : "text-muted-foreground"
-            )}>Mensal</span>
+            )}>{t('common.monthly')}</span>
             <button 
               onClick={() => setIsYTD(!isYTD)}
               className={cn(
@@ -364,7 +366,7 @@ export function GovernanceDashboardPage({
               "text-[10px] font-medium uppercase tracking-widest transition-colors",
               isYTD ? "text-secondary" : "text-muted-foreground"
             )}>
-              Anual
+              {t('common.yearly')}
             </span>
           </div>
 
@@ -408,8 +410,8 @@ export function GovernanceDashboardPage({
             value={formatValue(kpi.value, '')}
             suffix={kpi.suffix || ''}
             icon={kpi.icon}
-            status={kpi.status === 'positive' ? 'Verde' : kpi.status === 'negative' ? 'Vermelho' : 'Amarelo'}
-            trend="Bullish"
+            status={kpi.status === 'positive' ? t('gov.status.positive') : kpi.status === 'negative' ? t('gov.status.negative') : t('gov.status.neutral')}
+            trend={t('gov.trend.bullish')}
             noScroll={true}
           />
         ))}
@@ -420,8 +422,8 @@ export function GovernanceDashboardPage({
         <div className="card-premium p-12 flex flex-col">
           <div className="flex justify-between items-center mb-10">
             <div>
-              <h3 className="text-h3 font-medium text-foreground tracking-tight">Performance Multidimensional</h3>
-              <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">Comparativo entre Pilares de Gestão</p>
+              <h3 className="text-h3 font-medium text-foreground tracking-tight">{t('gov.radar.title')}</h3>
+              <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">{t('gov.radar.subtitle')}</p>
             </div>
             <div className="w-10 h-10 rounded-md bg-surface-container flex items-center justify-center text-muted-foreground">
                <PieIcon size={20} />
@@ -450,9 +452,8 @@ export function GovernanceDashboardPage({
                    />
                    <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
                    
-                   {/* Meta de Gestão - Secondary colorful indicator */}
                    <Radar
-                     name="Meta de Gestão"
+                     name={t('gov.radar.target')}
                      dataKey="target"
                      stroke="#10b981"
                      fill="url(#radarTargetGrad)"
@@ -462,9 +463,8 @@ export function GovernanceDashboardPage({
                      dot={{ r: 3.5, stroke: '#10b981', strokeWidth: 1, fill: '#fff' }}
                    />
                    
-                   {/* Score Real - Highly vibrant multi-colored score */}
                    <Radar
-                     name="Score Real"
+                     name={t('gov.radar.score')}
                      dataKey="score"
                      stroke="#8b5cf6"
                      fill="url(#radarScoreGrad)"
@@ -495,16 +495,16 @@ export function GovernanceDashboardPage({
                     <MessageSquare size={24} />
                  </div>
                  <div>
-                    <h3 className="text-h3 font-medium text-foreground tracking-tight">Insights Estratégicos</h3>
-                    <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">Recomendações de Alta Gestão</p>
+                    <h3 className="text-h3 font-medium text-foreground tracking-tight">{t('gov.insights.title')}</h3>
+                    <p className="text-muted-foreground text-[10px] font-medium uppercase tracking-widest mt-1">{t('gov.insights.subtitle')}</p>
                  </div>
               </div>
 
               <div className="space-y-6">
                  {[
-                   { title: "Otimização de Capital", text: "O ROIC atual de 18.5% sugere oportunidade de realocação de excesso de caixa em projetos de expansão de margem.", icon: Scale },
-                   { title: "Eficiência Operacional", text: "O eixo de Operações apresenta o maior gap de performance. Focar na automação do lead time de produção.", icon: Zap },
-                   { title: "Retenção de Talentos", text: "O eNPS de 72 está acima da média setorial, fortalecendo a marca empregadora para atração de key players.", icon: Users }
+                   { title: t('gov.insights.mock1.title'), text: t('gov.insights.mock1.text'), icon: Scale },
+                   { title: t('gov.insights.mock2.title'), text: t('gov.insights.mock2.text'), icon: Zap },
+                   { title: t('gov.insights.mock3.title'), text: t('gov.insights.mock3.text'), icon: Users }
                  ].map((insight, i) => (
                    <div key={i} className="flex gap-6 p-6 bg-card rounded-md border border-border shadow-sm hover:shadow-md transition-all group cursor-default">
                       <div className="w-12 h-12 rounded-md bg-surface-container flex items-center justify-center text-muted-foreground group-hover:text-primary transition-colors shrink-0">
@@ -523,7 +523,7 @@ export function GovernanceDashboardPage({
            </div>
 
            <button className="btn-executive w-full mt-10">
-              Exportar Relatório Mensal de Governança
+              {t('gov.btn.export_monthly')}
            </button>
         </div>
       </div>
@@ -532,11 +532,11 @@ export function GovernanceDashboardPage({
       <div className="space-y-8">
         <div className="flex justify-between items-end">
            <div>
-              <h3 className="text-h2 font-medium text-foreground tracking-tight">Health Check das Áreas</h3>
-              <p className="text-muted-foreground text-body-sm font-medium uppercase tracking-widest mt-1">Visão 360º da Operação</p>
+              <h3 className="text-h2 font-medium text-foreground tracking-tight">{t('gov.health.title')}</h3>
+              <p className="text-muted-foreground text-body-sm font-medium uppercase tracking-widest mt-1">{t('gov.health.subtitle')}</p>
            </div>
            <button className="btn-ghost flex items-center gap-2">
-              Ver Todos os Indicadores <ChevronRight size={14} />
+              {t('gov.btn.view_all')} <ChevronRight size={14} />
            </button>
         </div>
 
@@ -548,8 +548,8 @@ export function GovernanceDashboardPage({
                value={formatValue(area.value, '')}
                suffix={area.suffix || (area.isCur ? 'R$' : '')}
                icon={area.icon}
-               status={area.status === 'positive' ? 'Verde' : 'Amarelo'}
-               trend={area.status === 'positive' ? 'Saudável' : 'Atenção'}
+               status={area.status === 'positive' ? t('gov.status.positive') : t('gov.status.neutral')}
+               trend={area.status === 'positive' ? t('gov.trend.healthy') : t('gov.trend.attention')}
                onClick={() => onNavigate(area.id)}
                className="group"
              />
@@ -567,8 +567,8 @@ export function GovernanceDashboardPage({
                 <ShieldCheck size={28} strokeWidth={2.5} />
               </div>
               <div>
-                <h3 className="text-h2 font-medium text-foreground tracking-tight leading-none mb-2">Perspectiva de Governança Integrada</h3>
-                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Fundamentos institucionais aplicados aos KPIs</p>
+                <h3 className="text-h2 font-medium text-foreground tracking-tight leading-none mb-2">{t('gov.perspective.title')}</h3>
+                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">{t('gov.perspective.subtitle')}</p>
               </div>
             </div>
             <button 
@@ -577,7 +577,7 @@ export function GovernanceDashboardPage({
               className="btn-executive flex items-center gap-2"
             >
               {loadingAi ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />} 
-              {aiAnalysis ? 'Regerar Análise Integrada' : 'Gerar Análise Integrada (IA)'}
+              {aiAnalysis ? t('gov.btn.regenerate_ai') : t('gov.btn.generate_ai')}
             </button>
           </div>
 
@@ -587,20 +587,24 @@ export function GovernanceDashboardPage({
                 <ShieldCheck size={64} />
               </div>
               <div className="flex items-center gap-2 mb-4 text-primary font-medium uppercase tracking-widest text-[10px]">
-                <Zap size={14} /> Leitura Estratégica AI
+                <Zap size={14} /> {t('gov.ai.strategic_reading')}
               </div>
               <div className="whitespace-pre-wrap relative z-10 text-xs text-muted-foreground font-medium italic">
                 {auditTrail?.complianceStatus === 'non_compliant' ? (
                   <div className="bg-red-500/10 border border-red-500/50 p-6 rounded-md mb-8 flex items-start gap-4 text-left not-italic">
                     <ShieldAlert className="text-red-500 shrink-0" size={24} />
                     <div>
-                      <h3 className="text-red-500 font-bold text-lg mb-2">Bloqueio Institucional</h3>
+                      <h3 className="text-red-500 font-bold text-lg mb-2">{t('gov.ai.blocked_title')}</h3>
                       <p className="text-red-400 font-medium leading-relaxed">
-                        Relatório bloqueado pela governança institucional: inconsistências de causalidade, risco ou dados insuficientes impedem validação executiva.
+                        {t('gov.ai.blocked_desc')}
                       </p>
                       {auditTrail.warnings?.length > 0 && (
                         <ul className="mt-4 list-disc list-inside text-red-400/80 text-sm">
-                          {auditTrail.warnings.map((w: string, i: number) => <li key={i}>{w}</li>)}
+                          {auditTrail.warnings.map((w: any, i: number) => (
+                            <li key={i}>
+                              {typeof w === 'string' ? w : t(w.labelKey, w.args)}
+                            </li>
+                          ))}
                         </ul>
                       )}
                     </div>
@@ -610,7 +614,7 @@ export function GovernanceDashboardPage({
                     {auditTrail?.complianceStatus === 'partially_compliant' && (
                       <div className="bg-yellow-500/10 border border-yellow-500/50 p-4 rounded-md mb-8 flex items-center gap-3 text-left not-italic">
                         <ShieldAlert className="text-yellow-500 shrink-0" size={20} />
-                        <p className="text-yellow-500 font-bold text-sm">Leitura institucional parcial — dados insuficientes para inferência completa.</p>
+                        <p className="text-yellow-500 font-bold text-sm">{t('gov.ai.partial_reading')}</p>
                       </div>
                     )}
                     <MarkdownText text={aiAnalysis} />
@@ -633,8 +637,8 @@ export function GovernanceDashboardPage({
             {triggeredRules.length === 0 && (
               <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center p-12 bg-success/5 border border-success/20 rounded-md text-success">
                 <ShieldCheck size={48} className="mb-4 opacity-50" />
-                <h4 className="text-body-md font-medium tracking-tight mb-1 uppercase">Eixo Saudável e Alinhado</h4>
-                <p className="text-[10px] font-medium opacity-80 text-center w-full max-w-2xl uppercase tracking-widest">Os indicadores atuais não disparam nenhum alerta de desalinhamento com os princípios de Governança.</p>
+                <h4 className="text-body-md font-medium tracking-tight mb-1 uppercase">{t('gov.ai.healthy_axis')}</h4>
+                <p className="text-[10px] font-medium opacity-80 text-center w-full max-w-2xl uppercase tracking-widest">{t('gov.ai.healthy_desc')}</p>
               </div>
             )}
           </div>
