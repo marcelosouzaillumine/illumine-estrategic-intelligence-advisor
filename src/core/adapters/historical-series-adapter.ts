@@ -79,7 +79,7 @@ export function buildHistoricalSeries(clientId: string, allEntries: any[]): Hist
         restritaConversibilidade: 0,
         creditosSocios: 0,
         salariosEncargos: 0
-      } as unknown as BPSummary;
+      } as any as BPSummary;
     }
 
     let ebitda = 0;

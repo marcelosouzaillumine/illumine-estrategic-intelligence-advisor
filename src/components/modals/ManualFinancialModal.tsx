@@ -103,17 +103,27 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
           // Verificação ampla (igual a tela principal)
           const isBp = targetType === 'bp' || targetType === 'balanço patrimonial' || targetType.includes('balan');
           const isDre = targetType === 'dre' || targetType === 'dre gerencial';
+          const isDfc = targetType === 'dfc';
+          const isDlpa = targetType === 'dlpa';
           
           if (isBp) {
              const isDocBp = docType === 'bp' || docType.includes('balanç') || docType.includes('balanc');
+             const isDocOtherExplicit = docType === 'dre' || docType === 'dfc' || docType === 'dlpa' || docType.includes('dre');
+             if (isDocBp) return true;
+             if (isDocOtherExplicit) return false;
+             
              const hasBpRows = Array.isArray(d.data) && d.data.some((r: any) => ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes((r.type || r.tipo || '').toLowerCase().trim()));
-             return isDocBp || hasBpRows;
+             return hasBpRows;
           }
           
           if (isDre) {
              const isDocDre = docType === 'dre' || docType === 'dre gerencial';
+             const isDocOtherExplicit = docType === 'bp' || docType === 'dfc' || docType === 'dlpa' || docType.includes('balanç') || docType.includes('balanc');
+             if (isDocDre) return true;
+             if (isDocOtherExplicit) return false;
+
              const hasDreRows = Array.isArray(d.data) && d.data.some((r: any) => ['receitas', 'despesas'].includes((r.type || r.tipo || '').toLowerCase().trim()));
-             return isDocDre || hasDreRows;
+             return hasDreRows;
           }
           
           return typesToQuery.some(t => t.toLowerCase().trim() === docType);
@@ -397,10 +407,11 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         year,
         data: computedRows.map((r, idx) => {
           const isDre = selectedType === 'DRE' || selectedType === 'DRE Gerencial';
+          const finalValue = r.computedValue !== undefined ? r.computedValue : (r.value || 0);
           const rowData: any = {
             id: r.id || crypto.randomUUID(),
             category: r.category || (r as any).nome || '',
-            value: r.value || 0,
+            value: finalValue,
             type: r.type || '',
             level: r.level || 1,
             explainability: {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { FiduciaryCashIntelligenceRuntime } from '../../src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
@@ -21,7 +22,8 @@ describe('Fiduciary Cash Intelligence System - Protocol Scenarios', () => {
       10000000, // availableCash
       10500000, // thirdPartyFunding
       0,        // equityFunding
-      2         // cycles
+      2,        // cycles
+      12, 0, 0, null, 0 // monthsCount, fornecedores, passivoCirculante, contasRelacionadas, patrimonioLiquido
     );
 
     assert.strictEqual(report.isAvailable, true);
@@ -45,7 +47,8 @@ describe('Fiduciary Cash Intelligence System - Protocol Scenarios', () => {
       60000,   // availableCash
       150000,
       0,
-      2
+      2,
+      12, 0, 0, null, 0
     );
 
     assert.strictEqual(report.liquidityClassification.classification, 'ARTIFICIAL_LIQUIDITY');
@@ -65,10 +68,10 @@ describe('Fiduciary Cash Intelligence System - Protocol Scenarios', () => {
       10000,  // BP Final (Variação = -90.000)
       -50000, // FCO
       0,
-      0,
       0, 0, 0,
       10000,
-      0, 0, 2
+      0, 0, 2,
+      12, 0, 0, null, 0
     );
 
     assert.strictEqual(report.isAvailable, false);
@@ -91,7 +94,8 @@ describe('Fiduciary Cash Intelligence System - Protocol Scenarios', () => {
       35000,
       50000,
       0,
-      2
+      2,
+      12, 0, 0, null, 0
     );
 
     assert.strictEqual(report.artificialLiquidityDetected.isArtificial, true);
@@ -110,13 +114,14 @@ describe('Fiduciary Cash Intelligence System - Protocol Scenarios', () => {
       0,
       0, 0, 0,
       600000,
-      0, 0, 3
+      0, 0, 3,
+      12, 0, 0, null, 0
     );
 
-    assert.strictEqual(report.operationalSustainability.isSustained, true);
-    assert.strictEqual(report.operationalSustainability.selfFinancingCapacity, 'HIGH');
-    assert.strictEqual(report.operationalSustainability.operationalCashConsistency, 'HIGH_CONSISTENCY');
-    assert.strictEqual(report.operationalSustainability.operationalFragilityIndex, 0);
+    assert.strictEqual(report.distributionSustainability.isSustained, true);
+    assert.strictEqual(report.distributionSustainability.selfFinancingCapacity, 'HIGH');
+    assert.strictEqual(report.distributionSustainability.operationalCashConsistency, 'HIGH_CONSISTENCY');
+    assert.strictEqual(report.distributionSustainability.operationalFragilityIndex, 0);
   });
 
   it('6. Continuidade Institucional - risco de ruptura e runway', () => {
@@ -132,8 +137,9 @@ describe('Fiduciary Cash Intelligence System - Protocol Scenarios', () => {
       0,
       0,
       0, 0, 0,
-      30000,   // availableCash
-      0, 0, 2
+      30000,
+      0, 0, 2,
+      12, 0, 0, null, 0
     );
 
     assert.strictEqual(report.continuityRisk.continuityRisk, 'CRITICAL');

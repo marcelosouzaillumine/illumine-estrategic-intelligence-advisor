@@ -1,6 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { AlertTriangle } from 'lucide-react';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 interface HistoricalCycle {
   cycleId: string;
@@ -19,6 +20,7 @@ export function InstitutionalTrajectoryGraph({
   longitudinalRuntimeHistory,
   confidenceLevel
 }: InstitutionalTrajectoryGraphProps) {
+  const { t } = useLanguage();
 
   const isFailClosed = confidenceLevel === 'LOW';
 
@@ -60,10 +62,10 @@ export function InstitutionalTrajectoryGraph({
     return (
       <div className="bg-zinc-900 border border-zinc-700 rounded p-3 font-mono text-xs">
         <p className="text-zinc-300 font-bold mb-1">{label}</p>
-        <p className="text-zinc-400">FCO: <span className={data.fco >= 0 ? 'text-emerald-400' : 'text-red-400'}>{data.fco.toLocaleString()}</span></p>
-        <p className="text-zinc-400">Treasury: <span className="text-zinc-300">{data.severity}</span></p>
+        <p className="text-zinc-400">{t('summary.fco_label')} <span className={data.fco >= 0 ? 'text-emerald-400' : 'text-red-400'}>{data.fco.toLocaleString()}</span></p>
+        <p className="text-zinc-400">{t('summary.treasury_label')} <span className="text-zinc-300">{data.severity}</span></p>
         {data.isSurvival === 1 && (
-          <p className="text-red-400 mt-1 font-bold">⚠ SURVIVAL MODE</p>
+          <p className="text-red-400 mt-1 font-bold">{t('summary.survival_mode_alert')}</p>
         )}
       </div>
     );
@@ -73,10 +75,10 @@ export function InstitutionalTrajectoryGraph({
     return (
       <div className="bg-zinc-950 border border-zinc-800 p-6 rounded-lg w-full font-mono">
         <h3 className="text-zinc-400 text-xs font-semibold tracking-wider uppercase mb-4">
-          Institutional Trajectory
+          {t('summary.institutional_trajectory')}
         </h3>
         <div className="text-center py-8">
-          <p className="text-zinc-600 text-xs">No longitudinal history available.</p>
+          <p className="text-zinc-600 text-xs">{t('summary.no_longitudinal_history')}</p>
         </div>
       </div>
     );
@@ -85,7 +87,7 @@ export function InstitutionalTrajectoryGraph({
   return (
     <div className="bg-zinc-950 border border-zinc-800 p-6 rounded-lg w-full font-mono">
       <h3 className="text-zinc-400 text-xs font-semibold tracking-wider uppercase mb-4">
-        Institutional Trajectory
+        {t('summary.institutional_trajectory')}
       </h3>
 
       <div className={`w-full ${isFailClosed ? 'opacity-40' : ''}`} style={{ height: 220 }}>
@@ -119,26 +121,26 @@ export function InstitutionalTrajectoryGraph({
       <div className="flex items-center gap-4 mt-3 text-[10px] text-zinc-500">
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span>
-          Treasury Stable
+          {t('summary.treasury_stable')}
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 inline-block"></span>
-          Treasury Stressed
+          {t('summary.treasury_stressed')}
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-red-400 inline-block"></span>
-          Treasury Critical
+          {t('summary.treasury_critical')}
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded-full border border-red-500 border-dashed inline-block"></span>
-          Survival Mode
+          {t('summary.survival_mode')}
         </div>
       </div>
 
       {isFailClosed && (
         <div className="mt-3 p-2.5 bg-red-950/40 border border-red-900/40 rounded flex items-start gap-2">
           <AlertTriangle size={14} className="text-red-500 mt-0.5 shrink-0" />
-          <p className="text-[10px] text-red-400">Trajectory visualization constrained. Incomplete longitudinal data.</p>
+          <p className="text-[10px] text-red-400">{t('summary.trajectory_visualization_constrained')}</p>
         </div>
       )}
     </div>

@@ -27,8 +27,8 @@ export interface RiskAuditTrail {
   action: string; // e.g., 'CREATED', 'MITIGATION_UPDATED', 'SEVERITY_CHANGED'
   timestamp: string;
   userId: string;
-  changes: Record<string, any>;
-  governanceContextSnapshot: Record<string, any>;
+  changes: Record<string, unknown>;
+  governanceContextSnapshot: Record<string, unknown>;
 }
 
 export interface RiskMitigationPlan {

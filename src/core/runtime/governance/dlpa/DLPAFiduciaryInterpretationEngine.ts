@@ -14,6 +14,7 @@ export interface DLPAFiduciaryOutput {
   distributionEligibility: DistributionEligibilityResult;
   patrimonialIntegrityStatus: CapitalPreservationStatus;
   preservationRatio: number | null;
+  capitalSupportRatio: number | 'NOT_AVAILABLE';
   preservationRatioReliability: 'RELIABLE' | 'PRESERVATION_RATIO_NOT_RELIABLE' | 'INSUFFICIENT_PATRIMONIAL_BASE';
   fiduciaryWarnings: string[];
   blockedConclusions: string[];
@@ -134,7 +135,11 @@ export class DLPAFiduciaryInterpretationEngine {
         'CONSERVATIVE_GOVERNANCE_INFERENCE',
         'STRATEGIC_RETENTION_INFERENCE',
         'HEALTHY_PATRIMONIAL_PRESERVATION_INFERENCE',
-        'DISTRIBUTIVE_MATURITY_INFERENCE'
+        'DISTRIBUTIVE_MATURITY_INFERENCE',
+        'PAYOUT_RATIO_INFERENCE',
+        'DISTRIBUTIVE_PRESSURE_INFERENCE',
+        'PREDATORY_DISTRIBUTION_INFERENCE',
+        'DIVIDEND_GOVERNANCE_ANALYSIS'
       );
       auditTrail.push('Bloqueio fiduciário ativado devido a fragilidades financeiras/operacionais.');
     } else {
@@ -142,6 +147,12 @@ export class DLPAFiduciaryInterpretationEngine {
         'STANDARD_RETENTION_INTERPRETATION',
         'ELIGIBLE_FOR_DISTRIBUTION'
       );
+    }
+
+    // Integração Cross-Statement DFC (Capitalização vs Fluxo de Financiamento)
+    // Assume que capitalInjections devem vir de atividades de financiamento
+    if (capitalInjections > 0) {
+      auditTrail.push(`Injeção de capital identificada: ${capitalInjections}. Necessita reconciliação com Fluxo de Financiamento (DFC).`);
     }
 
     // Causal drivers extraction
@@ -179,9 +190,16 @@ export class DLPAFiduciaryInterpretationEngine {
       governanceNarrative = 'A política distributiva e de retenção de capital opera em regime moderado, necessitando de formalização e alinhamento de metas estratégicas de governança patrimonial de longo prazo.';
     }
 
-    // Custom wording from Case Granatum 2022 if applicable
-    if (netIncome < 0 && totalDistributed === 0 && integrityReport.preservationStatus === 'SEVERELY_ERODED') {
-      governanceNarrative = 'A ausência de distribuições parece associada principalmente à falta de superávit econômico distribuível e à fragilidade patrimonial observada, em vez de representar uma retenção estratégica deliberada de capital.';
+    // Universal fiduciary principle: se prejuízo e PL preservado através de capitalização
+    if (netIncome < 0 && integrityReport.capitalSupportRatio !== 'NOT_AVAILABLE') {
+      if (integrityReport.capitalSupportRatio >= 1.0) {
+        governanceNarrative = 'A manutenção do patrimônio líquido positivo decorreu predominantemente da capitalização dos sócios e não da geração operacional de resultado econômico. Não houve lucro distribuível no período, impossibilitando retenção estratégica ou distribuição de dividendos.';
+      } else {
+        governanceNarrative = 'A empresa apresentou prejuízo líquido superior às capitalizações realizadas, resultando em erosão patrimonial residual. A ausência de distribuições reflete a completa inexistência de capacidade econômica.';
+      }
+    } else if (netIncome < 0 && totalDistributed === 0 && integrityReport.preservationStatus === 'SEVERELY_ERODED') {
+      // General fall-back for severe erosion during a loss year
+      governanceNarrative = 'A ausência de distribuições decorre exclusivamente da inexistência de superávit econômico e da fragilidade patrimonial observada, caracterizando ausência de capacidade distributiva em vez de retenção estratégica.';
     }
 
     // 9. Lineage Hash
@@ -198,6 +216,7 @@ export class DLPAFiduciaryInterpretationEngine {
       distributionEligibility,
       patrimonialIntegrityStatus: integrityReport.preservationStatus,
       preservationRatio: integrityReport.capitalPreservationIndex,
+      capitalSupportRatio: integrityReport.capitalSupportRatio,
       preservationRatioReliability: integrityReport.preservationRatioReliability,
       fiduciaryWarnings,
       blockedConclusions,

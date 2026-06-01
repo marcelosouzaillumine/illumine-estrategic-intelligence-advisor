@@ -43,8 +43,11 @@ export class InstitutionalExecutiveCommandRuntime {
     };
 
     // 3. Generate persistence delta for external layers (UI/Firebase) to write to Firestore
-    (output as any)._persistenceDelta = ExecutiveCommandMemoryEngine.generatePersistenceDelta(context, output);
+    const persistenceDelta = ExecutiveCommandMemoryEngine.generatePersistenceDelta(context, output);
 
-    return output;
+    return {
+      ...output,
+      _persistenceDelta: persistenceDelta
+    } as unknown as InstitutionalExecutiveCommandOutput;
   }
 }

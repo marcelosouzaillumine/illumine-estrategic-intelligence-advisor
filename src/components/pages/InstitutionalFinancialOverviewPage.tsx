@@ -337,7 +337,8 @@ export function InstitutionalFinancialOverviewPage({
         prevPl,
         dreDataLength: dreEntries.length,
         historicalCyclesCount: calculatedCycles,
-        filterYear: filterYear
+        filterYear: filterYear,
+        allHistoryData: allHistoryData
       },
       bpData: bpEntries,
       dreData: dreEntries,
@@ -645,7 +646,7 @@ export function InstitutionalFinancialOverviewPage({
                 <LiquidityClassificationPanel data={executiveReport.cashSustainabilityReport.liquidityClassification} />
                 <ArtificialLiquidityPanel data={executiveReport.cashSustainabilityReport.artificialLiquidityDetected} />
                 <StructuralReconciliationPanel data={executiveReport.cashSustainabilityReport.reconciliationAlerts} />
-                <OperationalSustainabilityPanel data={executiveReport.cashSustainabilityReport.operationalSustainability} />
+                <OperationalSustainabilityPanel data={executiveReport.cashSustainabilityReport.legacyOperationalSustainabilityAssessment} />
                 <InstitutionalContinuityPanel data={executiveReport.cashSustainabilityReport.continuityRisk} />
                 <FiduciaryAdvisoryPanel data={executiveReport.cashSustainabilityReport.continuityRisk} narrative={executiveReport.cashSustainabilityReport.fiduciaryNarrative} />
               </div>

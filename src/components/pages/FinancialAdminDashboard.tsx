@@ -32,6 +32,7 @@ import { GOVERNANCE_PRINCIPLES, evaluateAxisRules } from '../../lib/governanceIn
 import { getLiquidityIndicators } from '../../lib/master-causal-engine';
 import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
 import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { 
   AreaChart, 
   Area, 
@@ -65,6 +66,7 @@ export function FinancialAdminDashboard({
   setSelectedYear,
   onNavigate
 }: FinancialAdminDashboardProps) {
+  const { t } = useLanguage();
   const [dbIndicators, setDbIndicators] = useState<any[]>([]);
   const [allYearIndicators, setAllYearIndicators] = useState<any[]>([]);
   const [cashFlowData, setCashFlowData] = useState<any>(null);
@@ -142,17 +144,17 @@ export function FinancialAdminDashboard({
 
   const liqCorrenteObj = useMemo(() => liquidityIndices.find(i => i.name === 'Liquidez Corrente') || { status: 'Vermelho' }, [liquidityIndices]);
   const liqStatusMap: Record<string, { text: string; bg: string }> = useMemo(() => ({
-    Verde: { text: 'Excelente', bg: 'bg-success' },
-    Amarelo: { text: 'Preservada', bg: 'bg-warning' },
-    Vermelho: { text: 'Crítica', bg: 'bg-destructive' }
-  }), []);
+    Verde: { text: t('status.excellent'), bg: 'bg-success' },
+    Amarelo: { text: t('status.preserved'), bg: 'bg-warning' },
+    Vermelho: { text: t('status.critical'), bg: 'bg-destructive' }
+  }), [t]);
   const liqInfo = liqStatusMap[liqCorrenteObj.status as keyof typeof liqStatusMap] || liqStatusMap.Vermelho;
 
   const almObj = useMemo(() => liquidityIndices.find(i => i.name === 'Liquidez Geral') || { status: 'Vermelho' }, [liquidityIndices]);
   const almInfo = useMemo(() => ({
-    text: almObj.status === 'Verde' ? 'Consolidada' : 'Em Estruturação',
+    text: almObj.status === 'Verde' ? t('status.consolidated') : t('status.structuring'),
     color: almObj.status === 'Verde' ? 'text-success' : 'text-warning'
-  }), [almObj]);
+  }), [almObj, t]);
 
   const flatMetrics = useMemo(() => {
     return {
@@ -210,54 +212,54 @@ export function FinancialAdminDashboard({
   // 1. Executive Summary Metrics
   const summaryMetrics = useMemo(() => [
     { 
-      label: 'Liquidez Total', 
+      label: t('fin_admin.kpi.total_liquidity'), 
       value: calculatedKPIs.saldoCaixa, 
       isCur: true, 
       icon: WalletCards, 
       color: 'text-emerald-600',
-      description: 'Caixa + Bancos + Ativos Imediatos'
+      description: t('fin_admin.desc.total_liquidity')
     },
     { 
-      label: 'EBITDA Operacional', 
+      label: t('fin_admin.kpi.op_ebitda'), 
       value: calculatedKPIs.ebitda, 
       isCur: true, 
       icon: Zap, 
       color: 'text-amber-600',
-      description: 'Geração de caixa operacional'
+      description: t('fin_admin.desc.op_ebitda')
     },
     { 
-      label: 'Margem Líquida', 
+      label: t('fin_admin.kpi.net_margin'), 
       value: calculatedKPIs.margemLiquida, 
       suffix: '%', 
       icon: TrendingUp, 
       color: 'text-indigo-600',
-      description: 'Lucratividade final sobre a receita'
+      description: t('fin_admin.desc.net_margin')
     },
     { 
-      label: 'Endividamento', 
+      label: t('fin_admin.kpi.debt'), 
       value: (calculatedKPIs.totalLiabilities / (calculatedKPIs.totalAssets || 1)) * 100, 
       suffix: '%', 
       icon: Activity, 
       color: 'text-rose-600',
-      description: 'Relação Passivo / Ativo Total'
+      description: t('fin_admin.desc.debt')
     }
-  ], [calculatedKPIs]);
+  ], [calculatedKPIs, t]);
 
   // 2. Financial Pillars
   const financialPillars = useMemo(() => [
-    { label: 'Liquidez Corrente', value: calculatedKPIs.liquidezCorrente, suffix: 'x', target: 1.5 },
-    { label: 'Giro do Ativo', value: calculatedKPIs.revenue / (calculatedKPIs.totalAssets || 1), suffix: 'x', target: 2.0 },
-    { label: 'Capital de Giro', value: calculatedKPIs.totalAssets - calculatedKPIs.totalLiabilities, isCur: true, target: 0 },
-    { label: 'Margem EBITDA', value: calculatedKPIs.ebitdaMargin, suffix: '%', target: 20 }
-  ], [calculatedKPIs]);
+    { label: t('fin_admin.pillars.current_liquidity'), value: calculatedKPIs.liquidezCorrente, suffix: 'x', target: 1.5 },
+    { label: t('fin_admin.pillars.asset_turnover'), value: calculatedKPIs.revenue / (calculatedKPIs.totalAssets || 1), suffix: 'x', target: 2.0 },
+    { label: t('fin_admin.pillars.working_capital'), value: calculatedKPIs.totalAssets - calculatedKPIs.totalLiabilities, isCur: true, target: 0 },
+    { label: t('fin_admin.pillars.ebitda_margin'), value: calculatedKPIs.ebitdaMargin, suffix: '%', target: 20 }
+  ], [calculatedKPIs, t]);
 
   // 3. Administrative Efficiency
   const adminMetrics = useMemo(() => [
-    { label: 'Overhead Administrativo', value: getVal('Overhead'), suffix: '%', status: 'neutral' },
-    { label: 'Custo G&A / Colab.', value: getVal('Custo G&A'), isCur: true, status: 'positive' },
-    { label: 'Eficiência Processual', value: getVal('Eficiência Proc'), suffix: '%', status: 'positive' },
-    { label: 'Taxa de Inadimplência', value: getVal('Inadimplência'), suffix: '%', status: 'negative' }
-  ], [dbIndicators]);
+    { label: t('fin_admin.admin.overhead'), value: getVal('Overhead'), suffix: '%', status: 'neutral' },
+    { label: t('fin_admin.admin.cost_ga'), value: getVal('Custo G&A'), isCur: true, status: 'positive' },
+    { label: t('fin_admin.admin.process_efficiency'), value: getVal('Eficiência Proc'), suffix: '%', status: 'positive' },
+    { label: t('fin_admin.admin.default_rate'), value: getVal('Inadimplência'), suffix: '%', status: 'negative' }
+  ], [dbIndicators, t]);
 
   if (loading) {
     return <DashboardSkeleton />;
@@ -266,8 +268,8 @@ export function FinancialAdminDashboard({
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       <PageHeader 
-        title="Dashboard Adm Fin"
-        subtitle="Monitoramento integrado de performance econômica, saúde financeira e eficiência administrativa."
+        title={t('fin_admin.main.title')}
+        subtitle={t('fin_admin.main.subtitle')}
         icon={BarChart3}
         color="executive"
       />
@@ -293,8 +295,8 @@ export function FinancialAdminDashboard({
                 onChange={(e) => setSelectedMonth(Number(e.target.value))}
                 className="text-body-sm font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
               >
-                {Object.entries(FULL_MONTH_LABELS).map(([m, label]) => (
-                  <option key={m} value={Number(m)}>{label}</option>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((m) => (
+                  <option key={m} value={m}>{t(`common.months.${m}`)}</option>
                 ))}
               </select>
             </div>
@@ -304,7 +306,7 @@ export function FinancialAdminDashboard({
         <div className="flex items-center gap-4">
            <div className="flex items-center gap-2 px-4 py-2 bg-success/10 text-success rounded-full border border-success/20">
               <CheckCircle2 size={14} />
-              <span className="text-[10px] font-medium uppercase tracking-widest">Sincronização Ativa</span>
+              <span className="text-[10px] font-medium uppercase tracking-widest">{t('fin_admin.status.sync_active')}</span>
            </div>
         </div>
       </div>
@@ -335,17 +337,16 @@ export function FinancialAdminDashboard({
                 <div className="p-3 rounded-md bg-white/10 text-secondary border border-white/5">
                   <Calculator size={24} />
                 </div>
-                <h3 className="text-h2 font-medium tracking-tight">Centro de Discernimento Financeiro</h3>
+                <h3 className="text-h2 font-medium tracking-tight">{t('fin_admin.center.title')}</h3>
               </div>
               <p className="text-white/60 font-medium max-w-2xl leading-relaxed">
-                Análise integrada dos regimes de <span className="text-white">Caixa</span> e <span className="text-white">Competência</span>. 
-                O lucro demonstra viabilidade econômica; o caixa demonstra fôlego vital. A harmonia entre ambos define a perenidade.
+                {t('fin_admin.center.desc_1')}<span className="text-white">{t('fin_admin.center.desc_2')}</span>{t('fin_admin.center.desc_3')}<span className="text-white">{t('fin_admin.center.desc_4')}</span>{t('fin_admin.center.desc_5')}
               </p>
             </div>
             
             <div className="flex items-center gap-4 bg-white/5 p-4 rounded-md border border-white/10 backdrop-blur-md">
               <div className="text-center px-4 border-r border-white/10">
-                <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest mb-1">Status de Liquidez</p>
+                <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest mb-1">{t('fin_admin.center.liquidity_status')}</p>
                 <div className="flex items-center gap-2">
                   <div className={cn("w-2 h-2 rounded-full animate-pulse", liqInfo.bg)} />
                   <span className="text-body-sm font-medium uppercase">
@@ -354,7 +355,7 @@ export function FinancialAdminDashboard({
                 </div>
               </div>
               <div className="text-center px-4">
-                <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest mb-1">Maturidade ALM</p>
+                <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest mb-1">{t('fin_admin.center.alm_maturity')}</p>
                 <div className={cn("px-2 py-0.5 rounded text-[10px] uppercase tracking-wider", almInfo.color, "bg-black/20")}>
                    {almInfo.text}
                 </div>
@@ -367,17 +368,17 @@ export function FinancialAdminDashboard({
             <div className="space-y-6">
               <div className="flex items-center gap-3 mb-2">
                 <TrendingUp size={18} className="text-secondary" />
-                <h4 className="text-[10px] font-medium text-white/60 uppercase tracking-widest">Regime de Competência (DRE)</h4>
+                <h4 className="text-[10px] font-medium text-white/60 uppercase tracking-widest">{t('fin_admin.regime.competence')}</h4>
               </div>
               <div className="bg-white/5 border border-white/10 p-8 rounded-md space-y-6 hover:bg-white/[0.08] transition-all">
                 <div>
-                  <p className="text-[9px] font-medium text-white/50 uppercase tracking-widest mb-1">Lucro Líquido Econômico</p>
+                  <p className="text-[9px] font-medium text-white/50 uppercase tracking-widest mb-1">{t('fin_admin.regime.economic_profit')}</p>
                   <h5 className="text-h2 font-medium text-white">{formatCurrency(calculatedKPIs.netProfit)}</h5>
-                  <p className="text-[10px] text-white/40 mt-2 font-medium">Eficiência econômica da operação</p>
+                  <p className="text-[10px] text-white/40 mt-2 font-medium">{t('fin_admin.regime.economic_efficiency')}</p>
                 </div>
                 <div className="pt-6 border-t border-white/5">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] font-medium text-white/60">Margem Líquida</span>
+                    <span className="text-[10px] font-medium text-white/60">{t('fin_admin.kpi.net_margin')}</span>
                     <span className="text-body-sm font-medium text-secondary">{calculatedKPIs.margemLiquida.toFixed(2)}%</span>
                   </div>
                   <div className="h-1 bg-white/10 rounded-full">
@@ -394,16 +395,16 @@ export function FinancialAdminDashboard({
                     <Activity size={32} />
                   </div>
                   <div>
-                    <h5 className="text-body-md font-medium text-white mb-2">Fator de Conversão de Caixa</h5>
-                    <p className="text-[10px] font-medium text-secondary uppercase tracking-widest">Efficiency Gap</p>
+                    <h5 className="text-body-md font-medium text-white mb-2">{t('fin_admin.efficiency_gap.title')}</h5>
+                    <p className="text-[10px] font-medium text-secondary uppercase tracking-widest">{t('fin_admin.efficiency_gap.subtitle')}</p>
                   </div>
                   <div className="text-h2 font-medium text-white">
                     {calculatedKPIs.netProfit > 0 ? ((calculatedKPIs.saldoCaixa / calculatedKPIs.netProfit) * 100).toFixed(2) : '0'}%
                   </div>
                   <p className="text-body-sm text-white/60 font-medium leading-relaxed italic">
                     {calculatedKPIs.saldoCaixa < calculatedKPIs.netProfit 
-                      ? "Atenção: A lucratividade está retida em ativos não líquidos. Risco de 'Crise de Crescimento'." 
-                      : "Excelente: A geração de caixa supera o lucro contábil, indicando alta liquidez operacional."}
+                      ? t('fin_admin.efficiency_gap.warning')
+                      : t('fin_admin.efficiency_gap.excellent')}
                   </p>
                </div>
             </div>
@@ -412,17 +413,17 @@ export function FinancialAdminDashboard({
             <div className="space-y-6">
               <div className="flex items-center gap-3 mb-2">
                 <WalletCards size={18} className="text-success" />
-                <h4 className="text-[10px] font-medium text-white/60 uppercase tracking-widest">Regime de Caixa (Disponibilidade)</h4>
+                <h4 className="text-[10px] font-medium text-white/60 uppercase tracking-widest">{t('fin_admin.regime.cash')}</h4>
               </div>
               <div className="bg-white/5 border border-white/10 p-8 rounded-md space-y-6 hover:bg-white/[0.08] transition-all">
                 <div>
-                  <p className="text-[9px] font-medium text-white/50 uppercase tracking-widest mb-1">Liquidez Imediata (ALM)</p>
+                  <p className="text-[9px] font-medium text-white/50 uppercase tracking-widest mb-1">{t('fin_admin.regime.immediate_liquidity')}</p>
                   <h5 className="text-h2 font-medium text-success">{formatCurrency(calculatedKPIs.saldoCaixa)}</h5>
-                  <p className="text-[10px] text-white/40 mt-2 font-medium">Poder de fogo para investimentos e segurança</p>
+                  <p className="text-[10px] text-white/40 mt-2 font-medium">{t('fin_admin.regime.firepower')}</p>
                 </div>
                 <div className="pt-6 border-t border-white/5">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] font-medium text-white/60">Cobertura de Curto Prazo</span>
+                    <span className="text-[10px] font-medium text-white/60">{t('fin_admin.regime.short_term_coverage')}</span>
                     <span className="text-body-sm font-medium text-success">{calculatedKPIs.liquidezCorrente.toFixed(2)}x</span>
                   </div>
                   <div className="h-1 bg-white/10 rounded-full">
@@ -441,8 +442,8 @@ export function FinancialAdminDashboard({
           <div className="card-premium relative overflow-hidden">
             <div className="flex items-center justify-between mb-10">
               <div>
-                <h3 className="text-h3 font-medium text-foreground tracking-tight mb-1">Pilares de Performance Financeira</h3>
-                <p className="text-body-sm text-muted-foreground font-medium">Indicadores calculados em tempo real com base no plano de contas.</p>
+                <h3 className="text-h3 font-medium text-foreground tracking-tight mb-1">{t('fin_admin.pillars.title')}</h3>
+                <p className="text-body-sm text-muted-foreground font-medium">{t('fin_admin.pillars.subtitle')}</p>
               </div>
               <div className="flex gap-2">
                  <button className="p-2 rounded-md bg-surface-container text-muted-foreground hover:text-primary transition-colors">
@@ -460,7 +461,7 @@ export function FinancialAdminDashboard({
                       "text-[10px] font-medium px-2 py-0.5 rounded-full",
                       pillar.value >= pillar.target ? "bg-success/10 text-success" : "bg-warning/10 text-warning"
                     )}>
-                      {pillar.value >= pillar.target ? 'Acima da Meta' : 'Abaixo da Meta'}
+                      {pillar.value >= pillar.target ? t('fin_admin.pillars.above_target') : t('fin_admin.pillars.below_target')}
                     </span>
                   </div>
                   <div className="flex items-baseline gap-2">
@@ -468,7 +469,7 @@ export function FinancialAdminDashboard({
                       {formatValue(pillar.value, pillar.isCur ? 'R$' : pillar.suffix || '')}
                     </span>
                     <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">
-                      Meta: {formatValue(pillar.target, pillar.isCur ? 'R$' : pillar.suffix || '')}
+                      {t('fin_admin.pillars.target')}: {formatValue(pillar.target, pillar.isCur ? 'R$' : pillar.suffix || '')}
                     </span>
                   </div>
                   <div className="h-2 bg-background rounded-full overflow-hidden border border-border">
@@ -490,14 +491,14 @@ export function FinancialAdminDashboard({
           <div className="card-premium">
             <div className="flex items-center justify-between mb-10">
               <h3 className="text-h3 font-medium text-foreground tracking-tight flex items-center gap-3">
-                <Activity className="text-secondary" /> Fluxo de Performance Mensal
+                <Activity className="text-secondary" /> {t('fin_admin.flow.title')}
               </h3>
               <div className="flex items-center gap-6 text-[9px] font-medium uppercase tracking-widest text-muted-foreground">
                 <div className="flex items-center gap-2">
-                   <div className="w-2.5 h-2.5 rounded-full bg-foreground" /> Receita
+                   <div className="w-2.5 h-2.5 rounded-full bg-foreground" /> {t('fin_admin.flow.revenue')}
                 </div>
                 <div className="flex items-center gap-2">
-                   <div className="w-2.5 h-2.5 rounded-full bg-secondary" /> EBITDA
+                   <div className="w-2.5 h-2.5 rounded-full bg-secondary" /> {t('fin_admin.flow.ebitda')}
                 </div>
               </div>
             </div>
@@ -542,8 +543,8 @@ export function FinancialAdminDashboard({
                   <Building2 size={24} />
                 </div>
                 <div>
-                   <h3 className="text-body-md font-medium tracking-tight leading-none mb-1">Eficiência Administrativa</h3>
-                   <p className="text-[10px] font-medium text-white/60 uppercase tracking-widest">Back-office & Suporte</p>
+                   <h3 className="text-body-md font-medium tracking-tight leading-none mb-1">{t('fin_admin.admin.title')}</h3>
+                   <p className="text-[10px] font-medium text-white/60 uppercase tracking-widest">{t('fin_admin.admin.subtitle')}</p>
                 </div>
               </div>
 
@@ -567,7 +568,7 @@ export function FinancialAdminDashboard({
                 onClick={() => onNavigate?.('administrativa_indicadores')}
                 className="w-full py-4 bg-white/10 border border-white/20 rounded-md text-[10px] font-medium uppercase tracking-widest hover:bg-white hover:text-executive transition-all flex items-center justify-center gap-2"
               >
-                Detalhar Operação Administrativa <ChevronRight size={14} />
+                {t('fin_admin.admin.btn_detail')} <ChevronRight size={14} />
               </button>
             </div>
           </div>
@@ -579,15 +580,15 @@ export function FinancialAdminDashboard({
                   <Calculator size={24} />
                 </div>
                 <div>
-                   <h3 className="text-body-md font-medium text-foreground tracking-tight leading-none mb-1">Conformidade Contábil</h3>
-                   <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Integridade de Dados</p>
+                   <h3 className="text-body-md font-medium text-foreground tracking-tight leading-none mb-1">{t('fin_admin.accounting.title')}</h3>
+                   <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">{t('fin_admin.accounting.subtitle')}</p>
                 </div>
              </div>
 
              <div className="space-y-6 mb-8">
                 <div className="p-5 rounded-md bg-surface-container border border-border">
                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Saldo Conciliado</span>
+                      <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">{t('fin_admin.accounting.reconciled_balance')}</span>
                       <span className="text-[10px] font-medium text-success uppercase tracking-widest">98.5%</span>
                    </div>
                    <div className="h-1.5 bg-background rounded-full overflow-hidden">
@@ -604,13 +605,13 @@ export function FinancialAdminDashboard({
                       <AlertTriangle size={20} />
                    </div>
                    <div>
-                      <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-1">Alertas Contábeis</p>
-                      <p className="text-body-sm font-medium text-foreground leading-relaxed">Existem {mappingGaps} contas sem classificação no plano de contas.</p>
+                      <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-1">{t('fin_admin.accounting.alerts')}</p>
+                      <p className="text-body-sm font-medium text-foreground leading-relaxed">{t('fin_admin.accounting.alerts_desc_1')}{mappingGaps}{t('fin_admin.accounting.alerts_desc_2')}</p>
                       <button 
                         onClick={() => onNavigate?.('plano_contas')}
                         className="text-[9px] font-medium text-secondary uppercase tracking-widest mt-2 hover:underline"
                       >
-                        Corrigir Mapeamento
+                        {t('fin_admin.accounting.fix_mapping')}
                       </button>
                    </div>
                 </div>
@@ -622,14 +623,14 @@ export function FinancialAdminDashboard({
                   className="flex flex-col items-center gap-2 p-4 rounded-md bg-surface-container border border-border hover:border-secondary/20 transition-all group"
                 >
                    <FileText size={20} className="text-muted-foreground group-hover:text-secondary" />
-                   <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">DRE Contábil</span>
+                   <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">{t('fin_admin.accounting.btn_dre')}</span>
                 </button>
                 <button 
                   onClick={() => onNavigate?.('bp')}
                   className="flex flex-col items-center gap-2 p-4 rounded-md bg-surface-container border border-border hover:border-secondary/20 transition-all group"
                 >
                    <Building2 size={20} className="text-muted-foreground group-hover:text-secondary" />
-                   <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Balanço</span>
+                   <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">{t('fin_admin.accounting.btn_bp')}</span>
                 </button>
              </div>
           </div>

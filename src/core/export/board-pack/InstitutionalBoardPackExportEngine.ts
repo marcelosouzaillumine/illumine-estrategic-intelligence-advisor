@@ -16,7 +16,7 @@ export class InstitutionalBoardPackExportEngine {
 
     const payload = JSON.stringify({
       lineageHash: boardPack.metadata.boardPackLineageHash,
-      timestamp: boardPack.metadata.generationTimestamp,
+      reportGenerationTimestamp: new Date().toISOString(),
       content: 'FIDUCIARY_BOARD_PACK_BINARY_SIMULATION'
     });
 

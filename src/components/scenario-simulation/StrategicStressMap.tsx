@@ -1,14 +1,16 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
 import { StrategicStressLevel } from '../../core/runtime/scenario-simulation/types';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const StrategicStressMap: React.FC = () => {
+  const { t } = useLanguage();
   const { simulationOutput, sandboxResult } = useScenarioSimulation();
 
   if (!simulationOutput) {
     return (
       <div className="card-premium p-8 text-center text-muted-foreground font-mono text-xs animate-pulse">
-        CARREGANDO MAPA DE STRESS...
+        {t('scenario.stress.loading')}
       </div>
     );
   }
@@ -27,32 +29,32 @@ export const StrategicStressMap: React.FC = () => {
   }> = [
     {
       level: 'LIGHT',
-      label: 'Nível 1: LIGHT STRESS',
-      description: 'Métricas fiduciárias estáveis. Sem risco iminente de deterioração ou quebra operacional.',
+      label: t('scenario.stress.levels.light.label'),
+      description: t('scenario.stress.levels.light.desc'),
       bgStyle: 'bg-emerald-500/5 border-border/60 hover:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
       activeBorder: 'border-emerald-500 bg-emerald-500/10 shadow-[0_0_12px_rgba(16,185,129,0.12)] text-emerald-600 dark:text-emerald-400',
       textColor: 'text-emerald-600 dark:text-emerald-400'
     },
     {
       level: 'MODERATE',
-      label: 'Nível 2: MODERATE STRESS',
-      description: 'Deterioração sutil identificada. Recomenda-se acompanhamento e alinhamento de custos.',
+      label: t('scenario.stress.levels.moderate.label'),
+      description: t('scenario.stress.levels.moderate.desc'),
       bgStyle: 'bg-blue-500/5 border-border/60 hover:bg-blue-500/10 text-blue-600 dark:text-blue-400',
       activeBorder: 'border-blue-500 bg-blue-500/10 shadow-[0_0_12px_rgba(59,130,246,0.12)] text-blue-600 dark:text-blue-400',
       textColor: 'text-blue-600 dark:text-blue-400'
     },
     {
       level: 'HIGH',
-      label: 'Nível 3: HIGH STRESS',
-      description: 'Aceleração de custos e queima de liquidez. Ações de contingência e CFO recomendadas.',
+      label: t('scenario.stress.levels.high.label'),
+      description: t('scenario.stress.levels.high.desc'),
       bgStyle: 'bg-amber-500/5 border-border/60 hover:bg-amber-500/10 text-amber-600 dark:text-amber-400',
       activeBorder: 'border-amber-500 bg-amber-500/10 shadow-[0_0_12px_rgba(245,158,11,0.12)] text-amber-600 dark:text-amber-400',
       textColor: 'text-amber-600 dark:text-amber-400'
     },
     {
       level: 'EXTREME',
-      label: 'Nível 4: EXTREME STRESS',
-      description: 'Risco crítico de liquidez negativa e bloqueio societário. Requer intervenção imediata do Board.',
+      label: t('scenario.stress.levels.extreme.label'),
+      description: t('scenario.stress.levels.extreme.desc'),
       bgStyle: 'bg-rose-500/5 border-border/60 hover:bg-rose-500/10 text-rose-600 dark:text-rose-400',
       activeBorder: 'border-rose-500 bg-rose-500/10 shadow-[0_0_12px_rgba(239,68,68,0.12)] text-rose-600 dark:text-rose-400 animate-executive-pulse',
       textColor: 'text-rose-600 dark:text-rose-400'
@@ -63,11 +65,11 @@ export const StrategicStressMap: React.FC = () => {
     <div className="card-premium p-8 space-y-6 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
       <div className="flex justify-between items-center border-b border-border/40 pb-4">
         <h4 className="text-sm font-medium text-foreground tracking-tight">
-          Strategic Stress Classification
+          {t('scenario.stress.title')}
         </h4>
         {sandboxResult && (
           <span className="text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-secondary/10 text-secondary border border-secondary/20 tracking-wider">
-            SANDBOX PROJECTION
+            {t('scenario.stress.sandboxProjection')}
           </span>
         )}
       </div>
@@ -96,8 +98,8 @@ export const StrategicStressMap: React.FC = () => {
 
               {isActive && (
                 <div className="mt-4 pt-3 border-t border-border/30 text-[9px] font-mono tracking-wider text-muted-foreground flex justify-between uppercase font-bold">
-                  <span>STATUS: ACTIVE</span>
-                  <span>SCORE: {activeOutput.projectedDeterioration.score}%</span>
+                  <span>{t('scenario.stress.statusActive')}</span>
+                  <span>{t('scenario.stress.score', { value: String(activeOutput.projectedDeterioration.score) })}</span>
                 </div>
               )}
             </div>

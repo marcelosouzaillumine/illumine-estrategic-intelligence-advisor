@@ -1,5 +1,5 @@
-import { collection, doc, setDoc } from 'firebase/firestore';
-import { db } from '../../../lib/firebase';
+import { RuntimeTelemetrySink } from './RuntimeTelemetrySink';
+import { ConsoleRuntimeTelemetrySink } from './sinks/ConsoleRuntimeTelemetrySink';
 
 export type RuntimeEventName = 
   | 'RUNTIME_STARTED'
@@ -19,22 +19,35 @@ export interface RuntimeLogEvent {
   executionId: string;
   eventName: RuntimeEventName;
   timestamp: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
+  payloadIntegrityHash?: string;
+  latencyMs?: number;
 }
 
 export class RuntimeExecutionLogger {
-  static async logEvent(executionId: string, eventName: RuntimeEventName, metadata?: Record<string, any>): Promise<void> {
+  private static activeSink: RuntimeTelemetrySink = new ConsoleRuntimeTelemetrySink();
+
+  public static setSink(sink: RuntimeTelemetrySink) {
+    this.activeSink = sink;
+  }
+
+  static async logEvent(executionId: string, eventName: RuntimeEventName, metadata?: Record<string, unknown>, latencyMs?: number): Promise<void> {
     try {
-      const id = crypto.randomUUID();
+      let id = `${executionId}_${eventName}_${Date.now()}`;
+      if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        id = crypto.randomUUID();
+      }
+      
       const event: RuntimeLogEvent = {
         id,
         executionId,
         eventName,
         timestamp: new Date().toISOString(),
-        metadata
+        metadata,
+        latencyMs
       };
-      // Em produção massiva, isso deveria ser feito em batch ou em pub/sub. Para o Illumine MVP, usaremos append firestore direto.
-      await setDoc(doc(db, 'runtime_logs', id), event);
+      
+      await this.activeSink.logEvent(event);
     } catch (err) {
       console.error('[RuntimeExecutionLogger] Failed to log event:', err);
     }

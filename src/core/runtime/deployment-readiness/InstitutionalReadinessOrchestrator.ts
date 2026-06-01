@@ -57,7 +57,7 @@ export class InstitutionalReadinessOrchestrator {
 
     // 4. Continuity Readiness
     const contIssues: string[] = [];
-    const historicalCyclesCount = (executiveReport as any).historicalCyclesCount ?? 1;
+    const historicalCyclesCount = (executiveReport as unknown as { historicalCyclesCount?: number }).historicalCyclesCount ?? 1;
     if (historicalCyclesCount < 3) {
       contIssues.push(`Insufficient historical records for longitudinal continuity (Current: ${historicalCyclesCount} cycles, Expected: 3).`);
     }

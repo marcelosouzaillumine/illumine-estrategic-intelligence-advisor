@@ -1,7 +1,7 @@
 // src/core/runtime/institutional-reporting/engines/ExecutiveSnapshotEngine.ts
 
 import { ExecutiveIntelligenceReport } from '../../executive-intelligence-runtime';
-import { ExecutiveSnapshotSection } from '../institutional-reporting-types';
+import { ExecutiveSnapshotSection, FiduciaryRestriction } from '../institutional-reporting-types';
 import { ExecutiveReportNarrativeOrchestrator } from '../ExecutiveReportNarrativeOrchestrator';
 
 export class ExecutiveSnapshotEngine {
@@ -13,11 +13,14 @@ export class ExecutiveSnapshotEngine {
     const treasury = report.treasuryIntelligenceReport;
     const hasSurvivalMode = report.survivalReport?.activeSurvivalMode === 'SURVIVAL_MODE';
 
+    const constitutionalStatus = report.constitutionalEvaluation?.status;
+
     const executiveSummary = ExecutiveReportNarrativeOrchestrator.generateExecutiveSummary({
       strategic,
       governance,
       treasury,
-      hasSurvivalMode
+      hasSurvivalMode,
+      constitutionalStatus
     });
 
     const unifiedThesisStatement = strategic.thesis.unifiedThesisStatement;
@@ -30,13 +33,44 @@ export class ExecutiveSnapshotEngine {
     if (governance.executionIntegrity.status === 'EXECUTION_UNDER_STRAIN') restrictionsCount++;
     if (treasury?.severity === 'CRITICAL') restrictionsCount++;
 
+    const fiduciaryRestrictions: FiduciaryRestriction[] = [];
+    const quarantineMode = restrictionsCount > 0;
+
+    let restrictionReason = '';
+    let restrictionSeverity: 'INFO' | 'WARNING' | 'HIGH' | 'CRITICAL' | 'BLOCKED' = 'INFO';
+
+    if (quarantineMode) {
+      restrictionReason = 'Quarentena Fiduciária Ativa devido a restrições operacionais';
+      restrictionSeverity = 'CRITICAL';
+    }
+
+    const longitudinalOut = report.cashSustainabilityReport?.longitudinalOut;
+    
+    const trajectoryClassification = longitudinalOut?.trajectoryClassification || 'UNVERIFIABLE_TRAJECTORY';
+    const recoveryNarrativeBlocked = longitudinalOut?.recoveryNarrativeBlocked || strategic.posture === 'UNVERIFIABLE_POSTURE';
+    const longitudinalScore = report.cashSustainabilityReport?.longitudinalScore || 'NOT_AVAILABLE';
+    const trajectoryConfidence = report.strategicIntelligence?.vectors?.[0]?.vectorConfidence || 'UNVERIFIABLE';
+
     return {
       executiveSummary,
       unifiedThesisStatement,
       activeSurvivalMode: hasSurvivalMode,
       structuralPressureLevel,
-      fiduciaryRestrictionsActive: restrictionsCount
+      fiduciaryRestrictionsActive: restrictionsCount,
+      periodScore: report.scores.composite,
+      quarantineMode,
+      isRestricted: quarantineMode,
+      restrictionReason,
+      restrictionSeverity,
+      fiduciaryRestrictions,
+      evidenceTrail: [],
+      recoveryNarrativeBlocked,
+      trajectoryClassification,
+      longitudinalTrajectory: trajectoryClassification,
+      trajectoryConfidence,
+      longitudinalScore,
+      accountingIntegrityStatus: report.compliance?.fiduciaryEnforcement?.complianceStatus || 'VALIDATED',
+      timelineIntegrityStatus: report.strategicIntelligence?.posture === 'UNVERIFIABLE_POSTURE' ? 'INSUFFICIENT_HISTORY' : 'VALIDATED'
     };
   }
-
 }

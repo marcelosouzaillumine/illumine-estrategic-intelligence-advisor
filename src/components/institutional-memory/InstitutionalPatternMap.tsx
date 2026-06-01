@@ -2,9 +2,11 @@ import React from 'react';
 import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
 import { ShieldAlert, Compass } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 export function InstitutionalPatternMap() {
   const { recurrenceSignals, lineageIntegrity } = useInstitutionalMemory();
+  const { t } = useLanguage();
 
   if (lineageIntegrity === 'FAIL_CLOSED' || recurrenceSignals.length === 0) {
     return null;
@@ -18,8 +20,8 @@ export function InstitutionalPatternMap() {
             <Compass size={18} />
           </div>
           <div>
-            <h3 className="text-h3 font-display font-medium text-foreground tracking-tight">Mapa de Padrões Cíclicos</h3>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">Categorização histórica de exposições recorrentes</p>
+            <h3 className="text-h3 font-display font-medium text-foreground tracking-tight">{t('summary.mapa_padroes')}</h3>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">{t('summary.categorizacao_historica')}</p>
           </div>
         </div>
       </div>
@@ -43,7 +45,7 @@ export function InstitutionalPatternMap() {
 
             <div className="space-y-1">
               <div className="flex justify-between text-[10px] text-muted-foreground font-semibold">
-                <span>Frequência Histórica</span>
+                <span>{t('summary.frequencia_historica')}</span>
                 <span className="text-foreground">{sig.frequencyCount}x</span>
               </div>
               <div className="h-1 w-full bg-surface-container rounded-full overflow-hidden">

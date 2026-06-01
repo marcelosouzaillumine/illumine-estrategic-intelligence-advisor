@@ -9,7 +9,7 @@ export type ScenarioEventName =
   | 'SCENARIO_FAILED';
 
 export class ScenarioExecutionLogger {
-  static async logEvent(executionId: string, eventName: ScenarioEventName, metadata?: Record<string, any>): Promise<void> {
+  static async logEvent(executionId: string, eventName: ScenarioEventName, metadata?: Record<string, unknown>): Promise<void> {
     try {
       const id = crypto.randomUUID();
       const event = {

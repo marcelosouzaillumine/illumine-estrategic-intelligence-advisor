@@ -28,7 +28,7 @@ export class InstitutionalDecisionLedger {
       await AuditEventBus.emit({
         tenantId: decision.tenantId,
         actorId: decision.approverId,
-        role: decision.approverRole as any,
+        role: decision.approverRole as unknown as "SYSTEM" | "UNAUTHENTICATED",
         sessionId: 'sess-decision',
         eventType: 'DECISION_RECORDED',
         resourceType: 'ExecutiveDecision',

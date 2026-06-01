@@ -99,4 +99,6 @@ export interface ConstitutionalGovernanceMetadata {
   overrideAttempts: ConstitutionalOverrideAttempt[];
   compatibilityStatus: Record<string, boolean>;
   auditRecords: ConstitutionalAuditRecord[];
+  status: 'APPROVED' | 'REJECTED';
 }
+

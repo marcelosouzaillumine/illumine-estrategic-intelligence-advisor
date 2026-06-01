@@ -1,6 +1,7 @@
 // src/core/runtime/treasury-intelligence/TreasuryStressEngine.ts
 
 import { TreasuryStressOutput } from './types';
+import { RuntimeSeverity } from '../shared/runtime-contracts';
 
 export interface StressSimulationInput {
   availableCash: number;
@@ -87,15 +88,15 @@ export class TreasuryStressEngine {
     }
 
     // Determine Stress Severity
-    let stressSeverity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL' = 'LOW';
+    let stressSeverity: RuntimeSeverity = 'STABLE';
     if (cumulativeExhaustionDays < 45 || baselineExhausted) {
       stressSeverity = 'CRITICAL';
     } else if (cumulativeExhaustionDays < 120) {
       stressSeverity = 'HIGH';
     } else if (cumulativeExhaustionDays < 270) {
-      stressSeverity = 'MEDIUM';
+      stressSeverity = 'MODERATE';
     } else {
-      stressSeverity = 'LOW';
+      stressSeverity = 'STABLE';
     }
 
     const simulatedExhaustionProjected = cumulativeExhaustionDays < 120 || baselineExhausted;

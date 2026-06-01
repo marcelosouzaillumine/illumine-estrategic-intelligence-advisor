@@ -138,11 +138,11 @@ export function validateNarrativeOutput<T>(output: T, resilienciaGlobal: number)
   if (output === null || output === undefined) return output;
 
   if (typeof output === 'string') {
-    return applyNarrativeGovernanceToText(output, resilienciaGlobal) as unknown as T;
+    return applyNarrativeGovernanceToText(output, resilienciaGlobal) as any as T;
   }
 
   if (Array.isArray(output)) {
-    return output.map(item => validateNarrativeOutput(item, resilienciaGlobal)) as unknown as T;
+    return output.map(item => validateNarrativeOutput(item, resilienciaGlobal)) as any as T;
   }
 
   if (typeof output === 'object') {

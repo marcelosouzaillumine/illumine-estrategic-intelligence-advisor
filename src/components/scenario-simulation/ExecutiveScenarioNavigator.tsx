@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
 import { SandboxConfig } from '../../core/runtime/scenario-simulation/types';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const ExecutiveScenarioNavigator: React.FC = () => {
+  const { t } = useLanguage();
   const {
     sandboxActions,
     applySandboxAction,
@@ -20,33 +22,33 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
   }> = [
     {
       type: 'HIRING_FREEZE',
-      label: 'Hiring Freeze',
-      description: 'Bloqueio de novas contratações operacionais para redução de custos fixos.'
+      label: t('scenario.actions.hiringFreeze.label'),
+      description: t('scenario.actions.hiringFreeze.desc')
     },
     {
       type: 'DEBT_INCREASE',
-      label: 'Debt Financing',
-      description: 'Aporte de caixa emergencial via captação de passivos de curto prazo.'
+      label: t('scenario.actions.debtIncrease.label'),
+      description: t('scenario.actions.debtIncrease.desc')
     },
     {
       type: 'SUPPLIER_CONCENTRATION',
-      label: 'Supplier Concentration',
-      description: 'Concentração de contratos para obter ganhos de escala nas compras.'
+      label: t('scenario.actions.supplierConcentration.label'),
+      description: t('scenario.actions.supplierConcentration.desc')
     },
     {
       type: 'RESTRUCTURING',
-      label: 'Restructuring Plan',
-      description: 'Reestruturação corporativa profunda para otimização de margens de contribuição.'
+      label: t('scenario.actions.restructuring.label'),
+      description: t('scenario.actions.restructuring.desc')
     },
     {
       type: 'EXPANSION',
-      label: 'Market Expansion',
-      description: 'Investimento em canais de captação de receita circulante rápida.'
+      label: t('scenario.actions.expansion.label'),
+      description: t('scenario.actions.expansion.desc')
     },
     {
       type: 'OPERATIONAL_CONTRACTION',
-      label: 'Operational Contraction',
-      description: 'Redução e encerramento de filiais com margem negativa ou deficitária.'
+      label: t('scenario.actions.operationalContraction.label'),
+      description: t('scenario.actions.operationalContraction.desc')
     }
   ];
 
@@ -63,14 +65,14 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
     <div className="card-premium p-8 space-y-6 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
       <div className="flex justify-between items-center border-b border-border/40 pb-4">
         <h4 className="text-sm font-medium text-foreground tracking-tight">
-          Strategic Decisions Sandbox Controls
+          {t('scenario.sandbox.title')}
         </h4>
         {sandboxActions.length > 0 && (
           <button
             onClick={clearSandbox}
             className="text-[10px] font-mono text-rose-500 hover:text-rose-600 uppercase border border-rose-500/20 px-3 py-1 rounded-full bg-rose-500/10 cursor-pointer transition-all duration-200"
           >
-            Clear All
+            {t('scenario.sandbox.clearAll')}
           </button>
         )}
       </div>
@@ -79,7 +81,7 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
         {/* Intensidade */}
         <div className="flex flex-col gap-2.5 p-4 bg-surface-container/60 border border-border/60 rounded-xl">
           <div className="flex justify-between text-[11px] font-mono font-bold tracking-widest text-muted-foreground">
-            <span>DECISION INTENSITY / LEVER FORCE</span>
+            <span>{t('scenario.sandbox.intensity')}</span>
             <span className="text-secondary font-black">{(intensity * 100).toFixed(0)}%</span>
           </div>
           <input
@@ -120,8 +122,8 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
 
                 {isActive && (
                   <div className="mt-2 text-[9px] font-mono tracking-widest font-bold flex justify-between w-full border-t border-secondary/20 pt-2 text-secondary/90">
-                    <span>STATUS: SIMULATED</span>
-                    <span>INTENSITY: {(activeAction.intensity * 100).toFixed(0)}%</span>
+                    <span>{t('scenario.sandbox.statusSimulated')}</span>
+                    <span>{t('scenario.sandbox.intensityLabel', { value: (activeAction.intensity * 100).toFixed(0) })}</span>
                   </div>
                 )}
               </button>
@@ -132,9 +134,9 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
 
       {sandboxResult && (
         <div className="p-4 bg-secondary/5 border border-secondary/20 rounded-xl flex justify-between items-center font-mono text-xs">
-          <span className="text-muted-foreground font-semibold uppercase tracking-wider">Sandbox Stress Delta:</span>
+          <span className="text-muted-foreground font-semibold uppercase tracking-wider">{t('scenario.sandbox.stressDelta')}</span>
           <span className={`font-bold tracking-wide ${sandboxResult.stressDelta <= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
-            {sandboxResult.stressDelta > 0 ? `+${sandboxResult.stressDelta}` : sandboxResult.stressDelta}% Score Impact
+            {sandboxResult.stressDelta > 0 ? t('scenario.sandbox.scoreImpactPositive', { value: String(sandboxResult.stressDelta) }) : t('scenario.sandbox.scoreImpactNegative', { value: String(sandboxResult.stressDelta) })}
           </span>
         </div>
       )}

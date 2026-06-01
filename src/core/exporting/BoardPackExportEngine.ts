@@ -4,6 +4,7 @@ import { CalibrationEngine } from '../runtime/calibration/CalibrationEngine';
 import { ExportSnapshotMetadata } from './ExportTypes';
 import { formatValue } from '../../lib/utils';
 import { RuntimeComplianceEngine } from '../runtime/compliance/RuntimeComplianceEngine';
+import { ExportMetadataAdapter } from './export-metadata-adapter';
 
 export interface BoardPackExportOutput {
   pdf: jsPDF;
@@ -27,16 +28,14 @@ export class BoardPackExportEngine {
 
     // 1. Compile immutable ExportSnapshotMetadata
     const exportId = `EXP-BPK-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-    const rMeta = runtimeMetadata as any;
-    const lineage = rMeta?.lineage as any;
     const metadata: ExportSnapshotMetadata = {
       exportId,
       timestamp: new Date().toISOString(),
-      tenantId: lineage?.tenantId || 'SANDBOX-TENANT',
-      runtimeExecutionId: rMeta?.importId || 'EXEC-N/A',
+      tenantId: ExportMetadataAdapter.extractTenantId(report),
+      runtimeExecutionId: ExportMetadataAdapter.extractExecutionId(report),
       calibrationProfile: CalibrationEngine.getActiveProfileId(),
       confidenceSnapshot: compliance.confidenceLevel,
-      lineageHash: lineage?.datasetHash || 'HASH-N/A',
+      lineageHash: ExportMetadataAdapter.extractDatasetHash(report),
       reportVersion: CalibrationEngine.getVersion(),
       generatedBy: actorId || 'SYSTEM'
     };

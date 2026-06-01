@@ -1,8 +1,8 @@
-import { InstitutionalCashSignal } from './types';
+import { InstitutionalCashSignal, CashQualityClassification } from './types';
 
 export class DebtDependencyPressureEngine {
   public static evaluate(fco: number, thirdPartyFunding: number): InstitutionalCashSignal {
-    let classification = 'HEALTHY' as any;
+    let classification: CashQualityClassification = 'HEALTHY';
     let narrative = 'Operação autofinanciada ou com baixa dependência de liquidez de terceiros.';
 
     if (fco < 0 && thirdPartyFunding > 0) {

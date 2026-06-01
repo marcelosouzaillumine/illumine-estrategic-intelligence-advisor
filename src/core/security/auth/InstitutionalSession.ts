@@ -14,6 +14,8 @@ export interface AvailableTenant {
   role: OfficialRole;
   segmentoAtuacao?: string;
   segmento?: string;
+  logo?: string;
+  icon?: string;
 }
 
 export interface InstitutionalSession {

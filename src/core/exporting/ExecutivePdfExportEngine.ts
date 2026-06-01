@@ -3,6 +3,7 @@ import { ExecutiveIntelligenceReport } from '../runtime/executive-intelligence-r
 import { CalibrationEngine } from '../runtime/calibration/CalibrationEngine';
 import { ExportSnapshotMetadata } from './ExportTypes';
 import { RuntimeComplianceEngine } from '../runtime/compliance/RuntimeComplianceEngine';
+import { ExportMetadataAdapter } from './export-metadata-adapter';
 
 export interface PdfExportOutput {
   pdf: jsPDF;
@@ -27,16 +28,14 @@ export class ExecutivePdfExportEngine {
 
     // 1. Generate unique fiduciarily auditable ExportSnapshotMetadata
     const exportId = `EXP-PDF-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-    const rMeta = runtimeMetadata as any;
-    const lineage = rMeta?.lineage as any;
     const metadata: ExportSnapshotMetadata = {
       exportId,
       timestamp: new Date().toISOString(),
-      tenantId: lineage?.tenantId || 'SANDBOX-TENANT',
-      runtimeExecutionId: rMeta?.importId || 'EXEC-N/A',
+      tenantId: ExportMetadataAdapter.extractTenantId(report),
+      runtimeExecutionId: ExportMetadataAdapter.extractExecutionId(report),
       calibrationProfile: CalibrationEngine.getActiveProfileId(),
       confidenceSnapshot: compliance.confidenceLevel,
-      lineageHash: lineage?.datasetHash || 'HASH-N/A',
+      lineageHash: ExportMetadataAdapter.extractDatasetHash(report),
       reportVersion: CalibrationEngine.getVersion(),
       generatedBy: actorId || 'SYSTEM'
     };

@@ -50,7 +50,7 @@ export class ConsolidatedFinancialOrchestrator {
       entityLineage,
       accountLineage,
       confidence,
-      violations: violations as any,
+      violations,
       warnings,
       auditTrail: []
     };

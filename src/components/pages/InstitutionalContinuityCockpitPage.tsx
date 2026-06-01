@@ -11,6 +11,7 @@ import { ResilienceAntifragilityRadar } from '../institutional-continuity/Resili
 import { FiduciaryRestrictionOverlay } from '../institutional-continuity/FiduciaryRestrictionOverlay';
 import { InstitutionalTrajectoryGraph } from '../institutional-continuity/InstitutionalTrajectoryGraph';
 import { ExecutiveContinuityNarrativePanel } from '../institutional-continuity/ExecutiveContinuityNarrativePanel';
+import { InstitutionalEvidenceControlCenterPage } from '../evidence-ingestion/InstitutionalEvidenceControlCenterPage';
 
 interface CockpitProps {
   clientId?: string;
@@ -115,6 +116,26 @@ export function InstitutionalContinuityCockpitPage({ clientId, selectedYear, sel
   const auditTrail = rep?.deploymentReadiness?.auditTrail || [];
   const failClosedTriggered = rep?.deploymentReadiness?.deploymentBlocked || false;
   const readinessMatrix = rep?.deploymentReadiness?.readinessMatrix;
+  const evidenceReport = rep?.institutionalEvidence;
+
+  if (evidenceReport?.fiduciaryInterpretationBlocked) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 bg-zinc-950 border border-zinc-800 rounded-3xl p-20 text-center w-full text-zinc-100 font-mono">
+        <div className="w-24 h-24 rounded-full bg-red-950/50 border border-red-900/50 flex items-center justify-center text-red-500 shadow-xl relative">
+          <AlertTriangle size={48} />
+        </div>
+        <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
+          <h2 className="text-2xl font-bold tracking-tight text-red-400">Visão Institucional Indisponível — evidência fiduciária não validada.</h2>
+          <p className="text-zinc-500 text-xs tracking-wider uppercase">
+            A proteção de Fail-Closed está ativa. Os componentes de continuidade institucional estão bloqueados devido a inconsistências ou falta de validação das evidências contábeis primárias.
+          </p>
+        </div>
+        <div className="w-full max-w-4xl text-left mt-8">
+          <InstitutionalEvidenceControlCenterPage evidenceReport={evidenceReport} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6 max-w-[1600px] mx-auto w-full text-zinc-100 pb-12 bg-zinc-950 p-6 rounded-3xl border border-zinc-800 font-mono">

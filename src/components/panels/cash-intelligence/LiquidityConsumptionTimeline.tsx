@@ -3,7 +3,7 @@ import { InstitutionalCashSignal } from '../../../core/runtime/cash-intelligence
 import { cn } from '../../../lib/utils';
 import { Hourglass, AlertCircle } from 'lucide-react';
 
-export function LiquidityConsumptionTimeline({ signal }: { signal?: InstitutionalCashSignal }) {
+function LiquidityConsumptionTimeline({ signal }: { signal?: InstitutionalCashSignal }) {
   if (!signal) return null;
   const isHealthy = signal.classification === 'HEALTHY' || signal.classification === 'ATTENTION';
   return (

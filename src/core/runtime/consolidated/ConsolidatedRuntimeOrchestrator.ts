@@ -38,32 +38,33 @@ export class ConsolidatedRuntimeOrchestrator {
   public runConsolidatedAnalysis(input: any): ExecutiveIntelligenceReport {
     
     // 1. Detectar Single-Entity (Pass-Through)
-    if (!input.entities || !Array.isArray(input.entities) || input.entities.length === 0) {
+    const rawInput = input as Record<string, unknown>;
+    if (!rawInput.entities || !Array.isArray(rawInput.entities) || rawInput.entities.length === 0) {
       console.log('[ConsolidatedRuntimeOrchestrator] Single-Entity Mode detectado. Executando pass-through.');
       
       // Condição 1: Adapter apenas para single-entity legados se o tenantContext não existir
-      let contextToValidate = input.tenantContext;
+      let contextToValidate = rawInput.tenantContext;
       if (!contextToValidate) {
          contextToValidate = LegacyTenantContextAdapter.createLegacyContext(
-           input.entityId || 'legacy_single_entity'
+           (rawInput.entityId as string) || 'legacy_single_entity'
          );
       }
       
       TenantGovernanceEnforcer.enforceConsolidationBoundaries(
-        contextToValidate,
+        contextToValidate as TenantExecutionContext,
         [], // não há entities explícitas aqui
-        { groupId: input.groupId, nodes: [], edges: [], intercompanyOperations: [] }
+        { groupId: (rawInput.groupId as string) || 'default', nodes: [], edges: [], intercompanyOperations: [] }
       );
 
-      return this.legacyRuntime.generateExecutiveReport(input);
+      return this.legacyRuntime.generateExecutiveReport(input as unknown as Record<string, unknown>);
     }
 
-    const typedInput = input as ConsolidatedOrchestratorInput;
+    const typedInput = input as unknown as ConsolidatedOrchestratorInput;
 
     // Fail-Closed Validation
     TenantGovernanceEnforcer.enforceConsolidationBoundaries(
       typedInput.tenantContext,
-      typedInput.entities as any, // Mapeamento top-level validation
+      typedInput.entities as unknown as never[], // Assuming TenantGovernanceEnforcer expects EntityGraphNode[]
       { groupId: typedInput.groupId, nodes: [], edges: [], intercompanyOperations: [] } // Fake topology para satisfazer contrato temporariamente, depois podemos pegar a real
     );
 

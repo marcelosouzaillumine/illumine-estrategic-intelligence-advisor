@@ -2,6 +2,8 @@ import { ConsolidatedFinancialInput } from '../consolidated/types';
 import { ConsolidatedExecutiveAdvisoryReport } from '../consolidated/advisory/advisoryTypes';
 import { ConsolidatedGroupInput } from '../consolidated/data/dataTypes';
 import { ConsolidatedDataModelValidator } from '../consolidated/data/ConsolidatedDataModelValidator';
+import { EconomicGroupModel } from '../consolidated/data/GroupOnboardingRepository';
+import { IntercompanyRelationModel } from '../consolidated/data/IntercompanyRelationRepository';
 import { ConsolidatedDataValidationGateway } from '../consolidated/data/ConsolidatedDataValidationGateway';
 import { ConsolidatedFinancialOrchestrator } from '../consolidated/ConsolidatedFinancialOrchestrator';
 import { ConsolidatedAdvisoryOrchestrator } from '../consolidated/advisory/ConsolidatedAdvisoryOrchestrator';
@@ -29,7 +31,7 @@ export class ObservedConsolidatedRuntimeService {
 
     try {
       // 1. Pre-Flight Check (Validator estrutural)
-      const modelValidation = ConsolidatedDataModelValidator.validate(rawInput as any, [], (rawInput as any).intercompanyRelations || []);
+      const modelValidation = ConsolidatedDataModelValidator.validate(rawInput as unknown as EconomicGroupModel, [], (rawInput as unknown as { intercompanyRelations?: IntercompanyRelationModel[] }).intercompanyRelations || []);
       if (!modelValidation.isValid) {
         await RuntimeExecutionLogger.logEvent(executionId, 'DATA_VALIDATION_FAILED', { errors: modelValidation.errors });
         throw new Error('Data Model estruturalmente inválido. Execução abortada.');
@@ -79,11 +81,11 @@ export class ObservedConsolidatedRuntimeService {
         violationId: crypto.randomUUID(),
         executionId,
         groupId: rawInput.groupId,
-        severity: v.severity as any,
+        severity: v.severity === 'HIGH' ? 'CRITICAL' : v.severity === 'MEDIUM' ? 'WARNING' : 'INFO',
         source: v.sourceEngine || 'UNKNOWN',
         timestamp: new Date().toISOString(),
         message: v.message,
-        affectedEntities: (v as any).affectedEntities || [],
+        affectedEntities: ('affectedEntities' in v) ? (v as unknown as { affectedEntities: string[] }).affectedEntities : [],
         runtimeStage: 'UNKNOWN',
         resolved: false
       }));
@@ -105,7 +107,7 @@ export class ObservedConsolidatedRuntimeService {
         advisoryHash: crypto.randomUUID(), // Hash de integridade simulado
         lineageSnapshot: {
            inputHash: '...',
-           advisoryReport: advisoryReport // O Snapshot integral do report gerado
+           advisoryReport: advisoryReport as unknown // O Snapshot integral do report gerado
         }
       };
 
@@ -129,9 +131,10 @@ export class ObservedConsolidatedRuntimeService {
       return advisoryReport;
 
     } catch (err: any) {
-      trace.endStage('FAILED', { error: err.message });
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+      trace.endStage('FAILED', { error: errorMsg });
       await trace.flushAndSave();
-      await RuntimeExecutionLogger.logEvent(executionId, 'EXECUTION_FAILED', { error: err.message });
+      await RuntimeExecutionLogger.logEvent(executionId, 'EXECUTION_FAILED', { error: errorMsg });
       throw err;
     }
   }

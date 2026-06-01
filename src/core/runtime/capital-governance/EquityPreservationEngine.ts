@@ -17,7 +17,9 @@ import { EquityPreservationMetrics } from './capital-governance-types';
 
 export function calculateEquityPreservation(
   startingEquity: number,
-  endingEquity: number
+  endingEquity: number,
+  netIncome?: number,
+  capitalSocial?: number
 ): EquityPreservationMetrics {
 
   let equityPreservationRatio = 1;
@@ -47,10 +49,25 @@ export function calculateEquityPreservation(
     preservationStatus = 'FRAGILIDADE_PATRIMONIAL';
   }
 
+  let capitalSupportRatio: number | 'NOT_AVAILABLE' = 'NOT_AVAILABLE';
+  if (netIncome !== undefined && netIncome < 0 && capitalSocial !== undefined && capitalSocial > 0) {
+    capitalSupportRatio = capitalSocial / Math.abs(netIncome);
+  }
+
+  // Se houver prejuízo e a empresa depender de capital externo para se manter:
+  if (netIncome !== undefined && netIncome < 0 && capitalSupportRatio !== 'NOT_AVAILABLE') {
+    if (preservationStatus === 'PRESERVAÇÃO_SAUDÁVEL' || preservationStatus === 'EROSÃO_MODERADA') {
+      preservationStatus = 'SUSTENTAÇÃO_PATRIMONIAL_EXTERNA';
+    } else if (preservationStatus === 'EROSÃO_RELEVANTE' || preservationStatus === 'FRAGILIDADE_PATRIMONIAL') {
+      preservationStatus = 'DEPENDÊNCIA_DE_CAPITALIZAÇÃO';
+    }
+  }
+
   return {
     startingEquity,
     endingEquity,
     equityPreservationRatio,
+    capitalSupportRatio,
     preservationStatus
   };
 }

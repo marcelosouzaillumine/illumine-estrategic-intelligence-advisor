@@ -40,9 +40,9 @@ export class InstitutionalOnboardingOrchestrator {
     // The user requested: mock data usage allowed but strict dev/test isolation limits
     if (input.environmentConfiguration.environmentType === 'PRODUCTION') {
        // Mock is blocked in Production via previous deployment readiness layer, but we double-check here
-       if (input.deploymentReadinessReport.deploymentReadiness !== 'FULL_PRODUCTION_READY') {
+       if (input.deploymentReadinessReport.overallStatus !== 'DEPLOYMENT_READY') {
          onboardingBlocked = true;
-         blockedActivationReasons.push('CRITICAL: Deployment readiness is not FULL_PRODUCTION_READY. Tenant cannot be activated for production.');
+         blockedActivationReasons.push('CRITICAL: Deployment readiness is not DEPLOYMENT_READY. Tenant cannot be activated for production.');
        }
     }
 

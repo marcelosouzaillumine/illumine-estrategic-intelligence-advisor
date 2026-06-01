@@ -1,8 +1,8 @@
-import { InstitutionalCashSignal } from './types';
+import { InstitutionalCashSignal, CashQualityClassification } from './types';
 
 export class OperatingCashIntegrityEngine {
   public static evaluate(fco: number, ebitda: number): InstitutionalCashSignal {
-    let classification = 'HEALTHY' as any;
+    let classification: CashQualityClassification = 'HEALTHY';
     let narrative = 'Capacidade robusta de geração operacional de caixa livre.';
 
     if (fco < 0) {

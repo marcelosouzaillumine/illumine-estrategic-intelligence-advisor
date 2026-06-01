@@ -39,6 +39,23 @@ export class InstitutionalOperationalGovernanceRuntime {
     const explainability = OperationalGovernanceExplainabilityEngine.evaluate(context, frictions, dependencies, strategicAlignment);
 
     const output: InstitutionalOperationalGovernanceOutput = {
+      runtimeMetadata: {
+        generatedAt: new Date().toISOString(),
+        runtimeVersion: '1.0.0',
+        contractVersion: 'RC_1_13A',
+        tenantId: context.tenantId || 'UNKNOWN',
+        cycleReference: (context as unknown as { cycleReference?: string }).cycleReference || 'UNKNOWN'
+      },
+      lineage: {
+        lineageHash: context.lineageHash as unknown as import('../shared/lineage-types').LineageHash,
+        parentHashes: []
+      },
+      disclosures: [],
+      compliance: {
+        integrityStatus: 'INTACT',
+        complianceStatus: 'COMPLIANT',
+        complianceBlockers: []
+      },
       executionIntegrity,
       frictions,
       continuity,
@@ -51,6 +68,7 @@ export class InstitutionalOperationalGovernanceRuntime {
 
     // 6. Memory Delta
     output._persistenceDelta = OperationalGovernanceMemoryEngine.generatePersistenceDelta(context, output);
+
 
     return output;
   }

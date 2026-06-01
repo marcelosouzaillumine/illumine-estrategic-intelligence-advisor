@@ -1,11 +1,12 @@
 // src/core/runtime/treasury-intelligence/TreasuryIntelligenceRuntime.ts
 
-import {
+import { 
   TreasuryIntelligenceRuntimeOutput,
-  TreasurySeverity,
   TreasuryAllocationItem,
   TreasuryPriorityLevel
 } from './types';
+import { RuntimeSeverity } from '../shared/runtime-contracts';
+import { LineageHash } from '../shared/lineage-types';
 import { DistributionSustainabilityEngine } from './DistributionSustainabilityEngine';
 import { ReinvestmentIntelligenceEngine } from './ReinvestmentIntelligenceEngine';
 import { TreasuryResilienceEngine } from './TreasuryResilienceEngine';
@@ -219,17 +220,17 @@ export class TreasuryIntelligenceRuntime {
     auditTrail.push(`Treasury governance evaluated. Valid: ${governance.isValid}`);
 
     // 11. Determine Treasury Severity (Constitutional Hierarchy)
-    let severity: TreasurySeverity = 'STABLE';
+    let severity: RuntimeSeverity = 'STABLE';
     if (resilience.reserveSustainabilityDays < 60 || hasRuptureRisk || governance.governanceMaturity === 'DANGEROUS') {
-      severity = 'TREASURY_RUPTURE_RISK';
+      severity = 'RESTRICTED';
     } else if (resilience.reserveSustainabilityDays < 180 || stressSimulations.stressSeverity === 'CRITICAL') {
       severity = 'CRITICAL';
     } else if (resilience.reserveSustainabilityDays < 360 || !governance.isValid) {
-      severity = 'UNSUSTAINABLE';
+      severity = 'HIGH';
     } else if (distribution.isBlocked || fiduciaryEfficiency.survivabilityAdjustedEfficiency < 45) {
-      severity = 'STRESSED';
+      severity = 'ELEVATED';
     } else if (resilience.reserveSustainabilityDays < 720 || governance.governanceMaturity === 'DEVIATING') {
-      severity = 'SENSITIVE';
+      severity = 'MODERATE';
     } else {
       severity = 'STABLE';
     }
@@ -257,7 +258,7 @@ export class TreasuryIntelligenceRuntime {
         'DISCLOSURE_REINVESTMENT_UNCERTAINTY: Retorno operacional esperado é inconsistente ou incapaz de cobrir o custo de capital sob estresse.'
       );
     }
-    if (hasRuptureRisk || severity === 'TREASURY_RUPTURE_RISK') {
+    if (hasRuptureRisk || severity === 'RESTRICTED') {
       fiduciaryDisclosures.push(
         'DISCLOSURE_SURVIVABILITY_CONSTRAINTS: Risco elevado de ruptura financeira impõe bloqueio compulsório imediato de dividendos e Capex discricionário.'
       );
@@ -271,7 +272,7 @@ export class TreasuryIntelligenceRuntime {
     auditTrail.push(`Fiduciary disclosures mapped: ${fiduciaryDisclosures.length}`);
 
     // Apply Fail-Closed Continuity Behavior
-    if (severity === 'TREASURY_RUPTURE_RISK' || severity === 'CRITICAL') {
+    if (severity === 'RESTRICTED' || severity === 'CRITICAL') {
       // Degrade priorities further
       priorityMatrix.priorities.forEach(p => {
         if (p.priority >= 3) {
@@ -282,6 +283,38 @@ export class TreasuryIntelligenceRuntime {
     }
 
     return {
+      runtimeMetadata: {
+        generatedAt: new Date().toISOString(),
+        runtimeVersion: '2.0.0',
+        contractVersion: 'RC_1_13A',
+        tenantId: 'SYSTEM',
+        cycleReference: 'CURRENT'
+      },
+      lineage: {
+        lineageHash: treasuryLineageHash as LineageHash,
+        parentHashes: []
+      },
+      disclosures: fiduciaryDisclosures.map((msg, idx) => ({
+        disclosureId: `TREASURY_DISC_${idx}`,
+        disclosureType: 'LIMITATION',
+        severity: severity,
+        sourceRuntime: 'TreasuryIntelligenceRuntime',
+        restrictionLevel: 'HARD',
+        message: msg
+      })),
+      compliance: {
+        integrityStatus: 'INTACT',
+        complianceStatus: 'COMPLIANT',
+        complianceBlockers: []
+      },
+      explainability: {
+        structuralDrivers: [],
+        propagationChains: [],
+        evidence: [],
+        confidenceDecomposition: {},
+        lineageReferences: [],
+        level: 'DETERMINISTIC'
+      },
       isAvailable: true,
       severity,
       governanceVerdict: governance.verdict,
@@ -292,10 +325,7 @@ export class TreasuryIntelligenceRuntime {
       treasuryResilience: resilience,
       cashPriority,
       stressSimulations,
-      capitalPreservation,
-      treasuryLineageHash,
-      fiduciaryDisclosures,
-      auditTrail
+      capitalPreservation
     };
   }
 

@@ -19,10 +19,10 @@ export class GovernanceReportingEngine {
     const executionIntegrity = gov.executionIntegrity.status;
 
     // A simple governance score based on the absence of frictions
-    const governanceScore = 100 - (gov.frictions.length * 10);
+    const governanceScore = 100 - ((gov.frictions?.length || 0) * 10);
 
     return {
-      complianceStatus: (report.institutionalContext as any).historicalCyclesCount || 2 >= 2 ? 'COMPLIANT' : 'RESTRICTED_MODE',
+      complianceStatus: ((report.institutionalContext as unknown as { historicalCyclesCount?: number }).historicalCyclesCount || 2) >= 2 ? 'COMPLIANT' : 'RESTRICTED_MODE',
       activeGovernanceLocks,
       executionIntegrity,
       governanceScore: Math.max(0, governanceScore)

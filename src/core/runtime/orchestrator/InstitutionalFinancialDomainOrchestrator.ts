@@ -5,7 +5,7 @@ import { InstitutionalConsistencyGuard } from './InstitutionalConsistencyGuard';
 import { InstitutionalViewContract } from './InstitutionalViewContract';
 import { InstitutionalInterpretationBoundary } from './InstitutionalInterpretationBoundary';
 import { InstitutionalDecisionLedger } from '../institutional-memory/InstitutionalDecisionLedger';
-import { InstitutionalContinuityResolver } from '../institutional-memory/InstitutionalContinuityResolver';
+import { InstitutionalContinuityResolver, ContinuityStatus } from '../institutional-memory/InstitutionalContinuityResolver';
 import { RecommendationPersistenceTracker } from '../institutional-memory/RecommendationPersistenceTracker';
 import { InstitutionalBehaviorPatternEngine } from '../institutional-memory/InstitutionalBehaviorPatternEngine';
 import { FiduciaryEvolutionEngine } from '../institutional-memory/FiduciaryEvolutionEngine';
@@ -29,7 +29,7 @@ export class InstitutionalFinancialDomainOrchestrator {
     const historicalCyclesCount = presence.historicalCycles;
     
     // Process Memory
-    let continuityStatus = 'INCONCLUSIVO';
+    let continuityStatus: ContinuityStatus = 'INCONCLUSIVO';
     let continuityNarrative = '';
     let persistentRecommendations: any[] = [];
     let patterns: any[] = [];
@@ -48,7 +48,7 @@ export class InstitutionalFinancialDomainOrchestrator {
       turnaroundReason = turnaround.reason;
       resolutions = ExecutiveResolutionTracker.track(ledger, []); // Assuming currentIssues is passed or inferred
       continuityNarrative = ExecutiveMemoryNarrativeEngine.generateNarrative(
-        continuityStatus as any,
+        continuityStatus,
         isTrueTurnaround,
         turnaroundReason,
         persistentRecommendations.filter(r => r.status === 'CRITICAL_IGNORANCE').length
@@ -58,11 +58,11 @@ export class InstitutionalFinancialDomainOrchestrator {
     const persistentIgnoranceCount = persistentRecommendations.filter(r => r.status === 'CRITICAL_IGNORANCE').length;
 
     // 1. Unified Disclosure Engine
-    const disclosures = UnifiedDisclosureEngine.resolve(presence, ctx, continuityStatus as any, persistentIgnoranceCount);
+    const disclosures = UnifiedDisclosureEngine.resolve(presence, ctx, continuityStatus, persistentIgnoranceCount);
     const isFailClosedActive = disclosures.isCritical;
 
     // 2. Cross Domain Causality
-    const rawCausality = CrossDomainCausalityResolver.resolve(signals, ctx, isFailClosedActive, continuityStatus as any);
+    const rawCausality = CrossDomainCausalityResolver.resolve(signals, ctx, isFailClosedActive, continuityStatus);
 
     // 3. Institutional Consistency Enforcement
     const enforcedInsight = InstitutionalConsistencyGuard.enforce(

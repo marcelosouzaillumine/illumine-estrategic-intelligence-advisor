@@ -224,7 +224,8 @@ export class ExecutiveConstitutionalRuntime {
       axiomViolations: axiomEvaluation.violations,
       overrideAttempts: this.overrideEngine.getOverrideHistory(),
       compatibilityStatus,
-      auditRecords: this.auditEngine.getLogs()
+      auditRecords: this.auditEngine.getLogs(),
+      status: integrityState === 'CONSTITUTIONALLY_STABLE' ? 'APPROVED' : 'REJECTED'
     };
   }
 

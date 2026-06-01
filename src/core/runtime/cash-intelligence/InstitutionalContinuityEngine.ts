@@ -25,6 +25,12 @@ export class InstitutionalContinuityEngine {
       projectedRunwayMonths = Math.round((availableCash / normalizedMonthlyCashBurn) * 10) / 10;
     }
 
+    let runwayClassification: 'HEALTHY' | 'PRESSURED' | 'CRITICAL' | 'SURVIVAL_MODE' = 'HEALTHY';
+    if (projectedRunwayMonths >= 6) runwayClassification = 'HEALTHY';
+    else if (projectedRunwayMonths >= 3) runwayClassification = 'PRESSURED';
+    else if (projectedRunwayMonths >= 1) runwayClassification = 'CRITICAL';
+    else runwayClassification = 'SURVIVAL_MODE';
+
     // 2. Fatores de Distorção do Runway (exclusão de itens não operacionais da liquidez)
     const runwayDistortionFactors: string[] = [];
     if (fcf > 0) {
@@ -141,6 +147,7 @@ export class InstitutionalContinuityEngine {
       continuityRisk,
       hasRuptureRisk,
       projectedRunwayMonths,
+      runwayClassification,
       runwayConfidence,
       runwayDistortionFactors,
       runwayStability,

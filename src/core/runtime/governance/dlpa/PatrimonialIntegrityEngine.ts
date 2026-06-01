@@ -21,6 +21,7 @@ export interface PatrimonialIntegrityReport {
   capitalSocialConsumptionRatio: number | null;
   equityLossResilienceCycles: number | null;
   capitalProtectionStatus: 'STRONG_CAPITAL_PROTECTION' | 'MEDIUM_CAPITAL_PROTECTION' | 'WEAK_CAPITAL_PROTECTION' | 'CAPITAL_UNDER_COLLAPSE';
+  capitalSupportRatio: number | 'NOT_AVAILABLE';
   warnings: string[];
 }
 
@@ -112,6 +113,24 @@ export class PatrimonialIntegrityEngine {
       capitalProtectionStatus = 'STRONG_CAPITAL_PROTECTION';
     }
 
+    // 5. Capital Support Ratio (Dependência de Aportes para Sustentar Prejuízo)
+    let capitalSupportRatio: number | 'NOT_AVAILABLE' = 'NOT_AVAILABLE';
+    if (netIncome < 0 && capitalSocial > 0) {
+      capitalSupportRatio = capitalSocial / Math.abs(netIncome);
+      if (capitalSupportRatio < 1.0) {
+        warnings.push('Erosão patrimonial residual: capitalização insuficiente para absorção integral do prejuízo do período.');
+      }
+    }
+
+    // 6. Integração Cross-Statement Obrigatória (Validação)
+    // BP: PL Final = Capital Social + Lucros/Prejuízos Acumulados
+    const expectedEquity = capitalSocial + lucrosPrejuizos;
+    const diff = Math.abs(endingEquity - expectedEquity);
+    // Considerando uma margem de arredondamento de até 5 (pode variar, mas 5 é seguro)
+    if (diff > 5) {
+      warnings.push(`Inconsistência Cross-Statement: PL Final (${endingEquity}) difere da soma do Capital Social + Lucros/Prejuízos Acumulados (${expectedEquity}).`);
+    }
+
     return {
       capitalPreservationIndex,
       preservationStatus,
@@ -119,6 +138,7 @@ export class PatrimonialIntegrityEngine {
       capitalSocialConsumptionRatio,
       equityLossResilienceCycles,
       capitalProtectionStatus,
+      capitalSupportRatio,
       warnings,
     };
   }

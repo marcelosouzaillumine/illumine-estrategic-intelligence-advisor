@@ -15,7 +15,9 @@ export interface CapitalRetentionMetrics {
     | 'DISTRIBUIÇÃO_EXCESSIVA'
     | 'DESCAPITALIZAÇÃO_DELIBERADA'  // apenas com evidência distributiva
     | 'NÃO_APLICÁVEL_SEM_LUCRO'      // prejuízo — sem base distributiva
-    | 'NÃO_APLICÁVEL';               // dados insuficientes
+    | 'NÃO_APLICÁVEL'                // dados insuficientes
+    | 'AUSÊNCIA_DE_CAPACIDADE_DISTRIBUTIVA'
+    | 'RETENÇÃO_COMPULSÓRIA_POR_PREJUÍZO';
 }
 
 // ── Eixo 2: Política de Capital (Distribuição) ───────────────────────────────
@@ -37,13 +39,17 @@ export interface EquityPreservationMetrics {
   startingEquity: number;
   endingEquity: number;
   equityPreservationRatio: number;
+  capitalSupportRatio: number | 'NOT_AVAILABLE';
   // Classificações granulares — não colapsar em "DRENADO" sem análise
   preservationStatus:
     | 'PRESERVAÇÃO_SAUDÁVEL'   // ratio > 1.0
     | 'EROSÃO_MODERADA'        // ratio 0.85–1.0 (queda até 15%)
     | 'EROSÃO_RELEVANTE'       // ratio 0.50–0.85 (queda 15–50%)
     | 'FRAGILIDADE_PATRIMONIAL'// ratio < 0.50 (queda > 50%)
-    | 'NEUTRO';                // sem variação
+    | 'NEUTRO'                 // sem variação
+    | 'DEPENDÊNCIA_DE_CAPITALIZAÇÃO'
+    | 'SUSTENTAÇÃO_PATRIMONIAL_EXTERNA'
+    | 'EROSÃO_PATRIMONIAL_OPERACIONAL';
 }
 
 // ── Capitalização Institucional ──────────────────────────────────────────────

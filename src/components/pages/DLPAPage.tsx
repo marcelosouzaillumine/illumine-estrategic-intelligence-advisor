@@ -33,6 +33,8 @@ function getRetentionLabel(status: string) {
     'DESCAPITALIZAÇÃO_DELIBERADA':{ label: 'Descapitalização Deliberada', color: 'text-rose-700', bg: 'bg-rose-50',     border: 'border-rose-200',    icon: ShieldAlert },
     'NÃO_APLICÁVEL_SEM_LUCRO':   { label: 'N/A — Sem Lucro',           color: 'text-slate-500',   bg: 'bg-slate-50',    border: 'border-slate-200',   icon: Minus },
     'NÃO_APLICÁVEL':              { label: 'N/A',                       color: 'text-slate-500',   bg: 'bg-slate-50',    border: 'border-slate-200',   icon: Minus },
+    'AUSÊNCIA_DE_CAPACIDADE_DISTRIBUTIVA': { label: 'Sem Capacidade Distributiva', color: 'text-slate-500', bg: 'bg-slate-50', border: 'border-slate-200', icon: Minus },
+    'RETENÇÃO_COMPULSÓRIA_POR_PREJUÍZO':   { label: 'Retenção por Prejuízo', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200', icon: ShieldAlert },
     
     // New fiduciaries
     'STRATEGIC_RETENTION':        { label: 'Retenção Estratégica',      color: 'text-emerald-700', bg: 'bg-emerald-50',  border: 'border-emerald-200', icon: ArrowUpRight },
@@ -65,6 +67,9 @@ function getPreservationLabel(status: string) {
     'EROSÃO_RELEVANTE':       { label: 'Erosão Relevante',            color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200' },
     'FRAGILIDADE_PATRIMONIAL':{ label: 'Fragilidade Patrimonial',     color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-200' },
     'NEUTRO':                 { label: 'Patrimônio Estável',          color: 'text-slate-600',   bg: 'bg-slate-50',   border: 'border-slate-200' },
+    'DEPENDÊNCIA_DE_CAPITALIZAÇÃO':{ label: 'Dependência de Capital', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200' },
+    'SUSTENTAÇÃO_PATRIMONIAL_EXTERNA':{ label: 'Sustentação Externa', color: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-200' },
+    'EROSÃO_PATRIMONIAL_OPERACIONAL':{ label: 'Erosão Operacional', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200' },
     // legado
     'PRESERVADO':             { label: 'Preservado',                  color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200' },
     'DRENADO':                { label: 'Erosão Relevante',             color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200' },
@@ -599,35 +604,38 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               <div className="space-y-3 flex-1 relative z-10">
                 {[
                   {
-                    label: 'Retenção de Capital',
-                    value: retention?.retentionRatio != null ? `${(retention.retentionRatio * 100).toFixed(1)}%` : '—',
-                    badge: retentionStyle.label,
-                    badgeColor: retention?.retentionStatus === 'ALTA_RETENÇÃO' ? 'text-emerald-400' :
-                      retention?.retentionStatus === 'DESCAPITALIZAÇÃO_DELIBERADA' ? 'text-rose-400' : 'text-blue-400',
-                    icon: BookMarked
-                  },
-                  {
-                    label: 'Pressão Distributiva',
-                    value: distribution?.distributionRatio != null ? `${(distribution.distributionRatio * 100).toFixed(1)}%` : '—',
-                    badge: distributionStyle.label,
-                    badgeColor: distribution?.distributionPressure === 'CRÍTICA' ? 'text-rose-400' :
-                      distribution?.distributionPressure === 'BAIXA' ? 'text-emerald-400' : 'text-amber-400',
-                    icon: PieChartIcon
-                  },
-                  {
-                    label: 'Preservação do PL',
-                    value: preservation ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—',
+                    label: 'Sustentabilidade Patrimonial',
+                    value: fiduciaryOutput?.capitalProtectionStatus ? fiduciaryOutput.capitalProtectionStatus.replace(/_/g, ' ') : '—',
                     badge: preservationStyle.label,
-                    badgeColor: preservation?.preservationStatus === 'PRESERVAÇÃO_SAUDÁVEL' ? 'text-emerald-400' :
-                      preservation?.preservationStatus === 'FRAGILIDADE_PATRIMONIAL' ? 'text-rose-400' : 'text-slate-400',
+                    badgeColor: preservationStyle.color,
                     icon: ShieldCheck
                   },
                   {
-                    label: 'Maturidade da Governança',
+                    label: 'Dependência de Capitalização',
+                    value: fiduciaryOutput?.capitalSupportRatio === 'NOT_AVAILABLE' ? 'N/A' : fiduciaryOutput?.capitalSupportRatio != null ? `${(fiduciaryOutput.capitalSupportRatio * 100).toFixed(1)}%` : '—',
+                    badge: retentionStyle.label,
+                    badgeColor: retentionStyle.color,
+                    icon: BookMarked
+                  },
+                  {
+                    label: 'Capacidade Distributiva',
+                    value: distribution?.distributionRatio != null && distribution.distributionRatio > 0 ? `${(distribution.distributionRatio * 100).toFixed(1)}%` : 'Inexistente',
+                    badge: distributionStyle.label,
+                    badgeColor: distributionStyle.color,
+                    icon: PieChartIcon
+                  },
+                  {
+                    label: 'Integridade Patrimonial',
+                    value: preservation ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—',
+                    badge: preservationStyle.label,
+                    badgeColor: preservationStyle.color,
+                    icon: ShieldCheck
+                  },
+                  {
+                    label: 'Resiliência de Capital',
                     value: `${behavior?.capitalReinforcementIndex ?? 0}/100`,
                     badge: maturityStyle.label,
-                    badgeColor: behavior?.governanceMaturity === 'MATURA' ? 'text-emerald-400' :
-                      behavior?.governanceMaturity === 'DESTRUTIVA' ? 'text-rose-400' : 'text-blue-400',
+                    badgeColor: maturityStyle.color,
                     icon: Scale
                   }
                 ].map(({ label, value, badge, badgeColor, icon: Icon }) => (

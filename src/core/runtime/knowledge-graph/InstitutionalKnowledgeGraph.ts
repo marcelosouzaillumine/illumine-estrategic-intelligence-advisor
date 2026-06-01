@@ -7,7 +7,7 @@ export class InstitutionalKnowledgeGraph {
   private static nodes: Map<string, KnowledgeNode> = new Map();
   private static edges: Map<string, KnowledgeEdge> = new Map();
 
-  static addNode(tenantId: string, type: KnowledgeNodeType, label: string, attributes: Record<string, any> = {}): KnowledgeNode | null {
+  static addNode(tenantId: string, type: KnowledgeNodeType, label: string, attributes: Record<string, unknown> = {}): KnowledgeNode | null {
     if (!KnowledgeGraphGovernanceEngine.validateNodeCreation(tenantId)) return null;
 
     const nodeId = `NODE-\${Date.now()}-\${Math.floor(Math.random() * 1000)}`;

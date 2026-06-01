@@ -46,6 +46,7 @@ import { useInstitutionalContext } from '../../hooks/useInstitutionalContext';
 import { DataAccessContext } from '../../core/security/data-access-context';
 import { governanceService } from '../../services/governanceService';
 import { getFinancialEntries } from '../../services/cashFlowService';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const AXIS_DATA = [
   { 
@@ -130,6 +131,7 @@ export function DashboardPage({
   setSelectedYear,
   onNavigate
 }: any) {
+  const { t } = useLanguage();
   const [periodMode, setPeriodMode] = useState<'mensal' | 'anual'>('mensal');
   const [dbIndicators, setDbIndicators] = useState<any[]>([]);
   const [allYearIndicators, setAllYearIndicators] = useState<any[]>([]);
@@ -432,9 +434,9 @@ export function DashboardPage({
             <LayoutDashboard size={48} className="relative z-10 animate-pulse" />
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-h2 font-medium text-foreground tracking-tight">Selecione uma Empresa</h2>
+            <h2 className="text-h2 font-medium text-foreground tracking-tight">{t('gov.empty.title_select_company')}</h2>
             <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
-              Por favor, selecione uma empresa no seletor de cliente ativo no topo da tela para visualizar o painel estratégico de performance.
+              {t('gov.empty.desc_select_company')}
             </p>
          </div>
       </div>
@@ -448,7 +450,7 @@ export function DashboardPage({
             <AlertTriangle size={48} className="relative z-10" />
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-h2 font-medium text-destructive tracking-tight">Acesso Institucional Negado</h2>
+            <h2 className="text-h2 font-medium text-destructive tracking-tight">{t('gov.empty.access_denied_title')}</h2>
             <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
               {denialReason}
             </p>
@@ -464,8 +466,8 @@ export function DashboardPage({
   return (
     <div className="max-w-[1440px] mx-auto space-y-16 pb-32 animate-executive-fade">
       <PageHeader 
-        title="Monitoramento Estratégico de Performance"
-        subtitle="Visão centralizada dos Pilares de Gestão fundamentais para a perenidade e valor de mercado."
+        title={t('dashboard.main.title')}
+        subtitle={t('dashboard.main.subtitle')}
         icon={LayoutDashboard}
         color="executive"
       />
@@ -479,15 +481,15 @@ export function DashboardPage({
         periodMode={periodMode}
         setPeriodMode={setPeriodMode}
         showStatusBadge={true}
-        statusBadgeLabel="Monitoramento Ativo"
+        statusBadgeLabel={t('dashboard.status.active')}
       />
 
       {isMemoryBlocked && (
         <div className="bg-destructive/10 border border-destructive/20 rounded-md p-4 flex items-center gap-3 text-destructive">
           <AlertTriangle size={18} />
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest">Aviso de Inferência</p>
-            <p className="text-sm">Histórico insuficiente para inferência longitudinal. Tendências de eixos estão bloqueadas até a consolidação de pelo menos 3 períodos.</p>
+            <p className="text-xs font-bold uppercase tracking-widest">{t('dashboard.warning.inference_title')}</p>
+            <p className="text-sm">{t('dashboard.warning.inference_desc')}</p>
           </div>
         </div>
       )}
@@ -495,10 +497,10 @@ export function DashboardPage({
       {/* Strategic Summary Bar */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         {[
-          { label: 'Receita Líquida', value: getIndicatorValue('Receita Líquida'), key: 'Receita Líquida', isCur: true, icon: TrendingUp },
-          { label: 'EBITDA', value: getIndicatorValue('EBITDA'), key: 'EBITDA', isCur: true, icon: Zap },
-          { label: 'Lucro Líquido', value: getIndicatorValue('Lucro Líquido'), key: 'Lucro Líquido', isCur: true, icon: PieChartIcon },
-          { label: 'Valor Estimado', value: (getIndicatorValue('EBITDA') * 12 * 6.5), key: 'EBITDA', isCur: true, icon: Target, highlight: true },
+          { label: t('dashboard.kpi.net_revenue'), value: getIndicatorValue('Receita Líquida'), key: 'Receita Líquida', isCur: true, icon: TrendingUp },
+          { label: t('dashboard.kpi.ebitda'), value: getIndicatorValue('EBITDA'), key: 'EBITDA', isCur: true, icon: Zap },
+          { label: t('dashboard.kpi.net_profit'), value: getIndicatorValue('Lucro Líquido'), key: 'Lucro Líquido', isCur: true, icon: PieChartIcon },
+          { label: t('dashboard.kpi.estimated_value'), value: (getIndicatorValue('EBITDA') * 12 * 6.5), key: 'EBITDA', isCur: true, icon: Target, highlight: true },
         ].map((item, idx) => (
           <KpiCard 
             key={idx}
@@ -521,14 +523,14 @@ export function DashboardPage({
               <div className="w-12 h-12 rounded-2xl bg-surface-container border border-border flex items-center justify-center text-secondary">
                 <LayoutDashboard size={24} />
               </div>
-              Hub de Monitoramento dos Pilares de Gestão
+              {t('dashboard.hub.title')}
             </h2>
-            <p className="text-body-sm font-medium text-muted-foreground ml-16">Visão sistêmica e integrada de todos os pilares de gestão.</p>
+            <p className="text-body-sm font-medium text-muted-foreground ml-16">{t('dashboard.hub.subtitle')}</p>
           </div>
           <div className="h-px flex-1 bg-gradient-to-r from-border to-transparent mx-12 hidden lg:block"></div>
           <div className="flex items-center gap-2 px-5 py-2 bg-secondary/5 border border-secondary/10 rounded-full">
             <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-            <p className="text-[10px] font-black text-secondary uppercase tracking-[0.2em]">Visão Executiva</p>
+            <p className="text-[10px] font-black text-secondary uppercase tracking-[0.2em]">{t('dashboard.hub.executive_view')}</p>
           </div>
         </div>
 
@@ -552,17 +554,17 @@ export function DashboardPage({
           <div className="bg-card p-12 rounded-[48px] border border-border shadow-sm relative overflow-hidden">
             <div className="flex items-center justify-between mb-12">
               <div className="space-y-1">
-                <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">Evolução de Performance Consolidada</h3>
-                <p className="text-body-sm text-muted-foreground font-medium">Histórico de Receita e EBITDA dos últimos 12 meses.</p>
+                <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">{t('dashboard.charts.evolution_title')}</h3>
+                <p className="text-body-sm text-muted-foreground font-medium">{t('dashboard.charts.evolution_subtitle')}</p>
               </div>
               <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-primary shadow-lg shadow-primary/20"></div>
-                  <span className="text-muted-foreground">Receita Bruta</span>
+                  <span className="text-muted-foreground">{t('dashboard.charts.legend_gross_revenue')}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-secondary shadow-lg shadow-secondary/20"></div>
-                  <span className="text-muted-foreground">EBITDA Gerencial</span>
+                  <span className="text-muted-foreground">{t('dashboard.charts.legend_ebitda')}</span>
                 </div>
               </div>
             </div>
@@ -643,21 +645,21 @@ export function DashboardPage({
                   <Zap size={24} fill="currentColor" />
                 </div>
                 <div>
-                   <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">Parecer Executivo</h3>
-                   <p className="text-white/60 text-[9px] font-bold uppercase tracking-widest">Inteligência Artificial Ativada</p>
+                   <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{t('dashboard.ai.executive_opinion')}</h3>
+                   <p className="text-white/60 text-[9px] font-bold uppercase tracking-widest">{t('dashboard.ai.activated')}</p>
                 </div>
               </div>
               
               <div className="space-y-8">
                 <h4 className="text-3xl font-display font-medium leading-[1.1] tracking-tight">
-                  {dbIndicators.length > 0 ? "Discernimento Estratégico Consolidado." : "Aguardando fluxos de dados para análise."}
+                  {dbIndicators.length > 0 ? t('dashboard.ai.consolidated_insight') : t('dashboard.ai.waiting_data')}
                 </h4>
                 <div className="relative">
                    <div className="absolute -left-6 top-0 bottom-0 w-1 bg-secondary/30 rounded-full" />
                    <p className="text-primary-foreground/70 text-lg leading-relaxed italic font-light">
                     {dbIndicators.length > 0 
-                      ? "A correlação entre os pilares de gestão indica uma janela de oportunidade para otimização de margens sem comprometer o eNPS corporativo."
-                      : "A inteligência sistêmica requer a importação de dados de pelo menos 3 pilares de gestão para gerar correlações de valor."}
+                      ? t('dashboard.ai.mock_correlation')
+                      : t('dashboard.ai.mock_require_data')}
                    </p>
                 </div>
                 
@@ -668,7 +670,7 @@ export function DashboardPage({
                          <div key={i} className="w-8 h-8 rounded-full border-2 border-primary bg-secondary/20 flex items-center justify-center text-[10px] font-bold">AI</div>
                        ))}
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Baseado em 127 pontos de dados</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">{t('dashboard.ai.based_on_data')}</span>
                   </div>
                 )}
               </div>
@@ -678,7 +680,7 @@ export function DashboardPage({
               onClick={() => onNavigate('advisory_insights')}
               className="mt-12 w-full py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10"
             >
-              Acessar Advisory Hub <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
+              {t('dashboard.btn.access_advisory')} <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
             </Button>
           </div>
         </div>
@@ -688,14 +690,14 @@ export function DashboardPage({
       <div className="bg-card border border-border rounded-2xl p-10 md:p-16 shadow-sm hover:shadow-md transition-shadow">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-16">
           <div className="space-y-1">
-            <h3 className="text-3xl font-display font-medium text-foreground tracking-tight">Direcionamento Estratégico</h3>
-            <p className="text-body-md text-muted-foreground font-medium">Status atual das diretrizes institucionais nos eixos de governança.</p>
+            <h3 className="text-3xl font-display font-medium text-foreground tracking-tight">{t('dashboard.guidance.title')}</h3>
+            <p className="text-body-md text-muted-foreground font-medium">{t('dashboard.guidance.subtitle')}</p>
           </div>
           <Button 
             onClick={() => onNavigate('relatorio_executivo')}
             className="flex items-center gap-3 px-5 md:px-8 py-2.5 md:py-4 bg-surface-container text-foreground rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all border border-border shadow-sm shrink-0"
           >
-            Gerar Relatório Executivo
+            {t('dashboard.btn.generate_report')}
           </Button>
         </div>
 
@@ -720,8 +722,8 @@ export function DashboardPage({
                       className="text-lg font-medium text-foreground tracking-tight"
                     />
                     <div className="flex items-center justify-between gap-2 pt-2 overflow-visible">
-                       <span className="text-[9px] font-bold text-secondary uppercase tracking-widest opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">Analisar</span>
-                       <span className="text-[9px] font-medium text-muted-foreground uppercase break-words leading-normal">{axis.mainKpi}</span>
+                       <span className="text-[9px] font-bold text-secondary uppercase tracking-widest opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">{t('dashboard.btn.analyze')}</span>
+                       <span className="text-[9px] font-medium text-muted-foreground uppercase break-words leading-normal">{t(`gov.area.${axis.id.replace('dashboard_', '').replace('governanca_estrategica', 'governance')}`, axis.name)}</span>
                     </div>
                   </div>
                 </div>
@@ -729,7 +731,7 @@ export function DashboardPage({
             })
           ) : (
             <div className="col-span-3 py-16 text-center bg-surface-container/30 rounded-[32px] border border-dashed border-border">
-              <p className="text-sm text-muted-foreground font-medium italic">Nenhum direcionamento estratégico disponível para o período selecionado.</p>
+              <p className="text-sm text-muted-foreground font-medium italic">{t('dashboard.guidance.empty')}</p>
             </div>
           )}
         </div>

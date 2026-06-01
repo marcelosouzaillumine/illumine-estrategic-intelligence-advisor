@@ -101,7 +101,26 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
       }
     }
 
-    let nodeValue = r.value ?? r.val ?? r.valor ?? 0;
+    let rawVal = r.value ?? r.val ?? r.valor ?? 0;
+    if (typeof rawVal === 'string') {
+      // Remove all non-numeric characters except for comma and period
+      let cleanStr = rawVal.replace(/[^\d.,-]/g, '');
+      // If there are both commas and periods, assume Brazilian format if comma is last separator
+      if (cleanStr.includes(',') && cleanStr.includes('.')) {
+        if (cleanStr.lastIndexOf(',') > cleanStr.lastIndexOf('.')) {
+          cleanStr = cleanStr.replace(/\./g, '').replace(',', '.');
+        } else {
+          cleanStr = cleanStr.replace(/,/g, '');
+        }
+      } else if (cleanStr.includes(',')) {
+        cleanStr = cleanStr.replace(',', '.');
+      }
+      rawVal = parseFloat(cleanStr) || 0;
+    } else {
+      rawVal = Number(rawVal) || 0;
+    }
+    let nodeValue = rawVal;
+    
     if ((rawCategory.includes('(-)') || rawCategory.includes('( - )') || rawCategory.includes('(-) ')) && nodeValue > 0) {
       nodeValue = -nodeValue;
     }
@@ -227,8 +246,16 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
     if (ativoCirculante !== 0 || ativoNaoCirculante !== 0) {
       ativoTotal = ativoCirculante + ativoNaoCirculante;
     } else {
-      ativoTotal = flatNodes.filter(n => (n.type.includes('ativo') || n.type.includes('pendente') || !n.type) && !n.isSynthetic && !n.cleanCategory.includes('passivo') && !n.cleanCategory.includes('patrimônio')).reduce((s, n) => s + n.value, 0);
+      ativoTotal = flatNodes.filter(n => 
+        (n.type.includes('ativo') || n.type.includes('pendente') || !n.type) && 
+        !n.cleanCategory.includes('passivo') && 
+        !n.cleanCategory.includes('patrimônio') &&
+        !n.parentId // Only top level
+      ).reduce((s, n) => s + (n.isSynthetic ? n.computedValue : n.value), 0);
     }
+  }
+  if (ativoTotal === 0) {
+    ativoTotal = flatNodes.filter(n => n.type.includes('ativo') && !n.parentId).reduce((s, n) => s + (n.isSynthetic ? n.computedValue : n.value), 0);
   }
 
   if (!ativoCirculante) {
@@ -252,8 +279,17 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
     if (passivoCirculante !== 0 || passivoNaoCirculante !== 0) {
       passivoTotal = passivoCirculante + passivoNaoCirculante;
     } else {
-      passivoTotal = flatNodes.filter(n => (n.type.includes('passivo') || n.type.includes('pendente') || !n.type) && !n.isSynthetic && !n.cleanCategory.includes('patrimônio') && !n.cleanCategory.includes('pl ') && !n.cleanCategory.includes('ativo')).reduce((s, n) => s + n.value, 0);
+      passivoTotal = flatNodes.filter(n => 
+        (n.type.includes('passivo') || n.type.includes('pendente') || !n.type) && 
+        !n.cleanCategory.includes('patrimônio') && 
+        !n.cleanCategory.includes('pl ') && 
+        !n.cleanCategory.includes('ativo') &&
+        !n.parentId // Only top level
+      ).reduce((s, n) => s + (n.isSynthetic ? n.computedValue : n.value), 0);
     }
+  }
+  if (passivoTotal === 0) {
+    passivoTotal = flatNodes.filter(n => n.type.includes('passivo') && !n.parentId).reduce((s, n) => s + (n.isSynthetic ? n.computedValue : n.value), 0);
   }
 
   if (!passivoCirculante) {
@@ -271,7 +307,13 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
   
   let patrimonioLiquido = extractGroupSum(['patrimônio líquido', 'pl', 'total do patrimônio líquido', 'patrimônio'], 'patrimônio');
   if (!patrimonioLiquido) {
-    patrimonioLiquido = flatNodes.filter(n => (n.type === 'patrimônio líquido' || n.type === 'pl') && !n.isSynthetic).reduce((s, n) => s + n.value, 0);
+    patrimonioLiquido = flatNodes.filter(n => 
+      (n.type === 'patrimônio líquido' || n.type === 'pl') && 
+      !n.parentId // Only top level
+    ).reduce((s, n) => s + (n.isSynthetic ? n.computedValue : n.value), 0);
+  }
+  if (patrimonioLiquido === 0) {
+    patrimonioLiquido = flatNodes.filter(n => (n.type === 'patrimônio líquido' || n.type === 'pl') && !n.parentId).reduce((s, n) => s + (n.isSynthetic ? n.computedValue : n.value), 0);
   }
 
   // Validação Estrutural Rigorosa (Tolerância zero ao invés de 1.0, aceitando apenas erro de ponto flutuante)

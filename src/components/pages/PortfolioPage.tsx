@@ -43,6 +43,12 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { DashboardSkeleton } from '../ui/skeletons';
 
+function ClientImage({ src, alt, fallback }: { src: string; alt: string; fallback: React.ReactNode }) {
+  const [error, setError] = useState(false);
+  if (!src || error) return <>{fallback}</>;
+  return <img src={src} alt={alt} className="w-full h-full object-cover" onError={() => setError(true)} />;
+}
+
 interface ClientPortfolioData {
   id: string;
   name: string;
@@ -637,11 +643,11 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                         (client.logo || client.icon) ? "bg-background border border-border" :
                         client.score > 60 ? "bg-primary" : "bg-destructive"
                       )}>
-                        {client.icon || client.logo ? (
-                          <img src={client.icon || client.logo} alt={client.name} className="w-full h-full object-cover" />
-                        ) : (
-                          client.name.split(' ').map(n => n[0]).join('').slice(0, 2)
-                        )}
+                        <ClientImage
+                          src={client.icon || client.logo || ''}
+                          alt={client.name}
+                          fallback={client.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                        />
                       </div>
                       <div>
                         <p className="text-body-sm font-medium text-foreground group-hover:text-primary transition-colors">
@@ -813,11 +819,11 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                       "w-12 h-12 rounded-button flex items-center justify-center font-medium text-white text-h3 shadow-lg shrink-0",
                       (client.logo || client.icon) ? "bg-background border border-border" : "bg-primary"
                     )}>
-                      {client.icon || client.logo ? (
-                        <img src={client.icon || client.logo} alt={client.name} className="w-full h-full object-cover" />
-                      ) : (
-                        client.name.split(' ').map(n => n[0]).join('').slice(0, 2)
-                      )}
+                      <ClientImage
+                        src={client.icon || client.logo || ''}
+                        alt={client.name}
+                        fallback={client.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                      />
                     </div>
                     <div className="min-w-0">
                       <p className="text-body-md font-medium text-foreground group-hover:text-primary transition-colors">{client.name}</p>
@@ -888,11 +894,11 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                               client.score > 80 ? "bg-success" : 
                               client.score > 60 ? "bg-primary" : "bg-destructive"
                             )}>
-                              {client.icon || client.logo ? (
-                                  <img src={client.icon || client.logo} alt={client.name} className="w-full h-full object-cover" />
-                              ) : (
-                                client.name.split(' ').map(n => n[0]).join('').slice(0, 2)
-                              )}
+                              <ClientImage
+                                src={client.icon || client.logo || ''}
+                                alt={client.name}
+                                fallback={client.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                              />
                             </div>
                             <div className="min-w-0">
                               <p className="text-body-md font-medium text-foreground group-hover:text-primary transition-colors">{client.name}</p>

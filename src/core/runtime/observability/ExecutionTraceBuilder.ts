@@ -1,11 +1,16 @@
-import { collection, doc, setDoc, getDoc } from 'firebase/firestore';
-import { db } from '../../../lib/firebase';
-import { ExecutionTrace } from './observability-types';
+import { ExecutionTrace, RuntimeReplayEnvelope } from './observability-types';
+import { RuntimeTelemetrySink } from './RuntimeTelemetrySink';
+import { ConsoleRuntimeTelemetrySink } from './sinks/ConsoleRuntimeTelemetrySink';
 
 export class ExecutionTraceBuilder {
   private trace: ExecutionTrace;
   private currentStageStart: number = 0;
   private currentStageName: string = '';
+  private static activeSink: RuntimeTelemetrySink = new ConsoleRuntimeTelemetrySink();
+
+  public static setSink(sink: RuntimeTelemetrySink) {
+    this.activeSink = sink;
+  }
 
   constructor(executionId: string) {
     this.trace = {
@@ -15,13 +20,31 @@ export class ExecutionTraceBuilder {
     };
   }
 
-  startStage(stageName: string) {
-    this.currentStageName = stageName;
-    this.currentStageStart = performance.now();
+  setMetadata(metadata: {
+    lineageHash?: string;
+    runtimeVersion?: string;
+    inputFingerprint?: string;
+    outputFingerprint?: string;
+    failClosedTriggered?: boolean;
+    restrictionFlags?: string[];
+    payloadIntegrityStatus?: string;
+    semanticCorruptionFlags?: string[];
+    replayToken?: string;
+  }) {
+    Object.assign(this.trace, metadata);
   }
 
-  endStage(status: 'SUCCESS' | 'FAILED' | 'SKIPPED', metadata?: Record<string, any>) {
-    const end = performance.now();
+  startStage(stageName: string) {
+    this.currentStageName = stageName;
+    if (typeof performance !== 'undefined') {
+      this.currentStageStart = performance.now();
+    } else {
+      this.currentStageStart = Date.now();
+    }
+  }
+
+  endStage(status: 'SUCCESS' | 'FAILED' | 'SKIPPED', metadata?: Record<string, unknown>) {
+    const end = typeof performance !== 'undefined' ? performance.now() : Date.now();
     const duration = end - this.currentStageStart;
     
     this.trace.stages.push({
@@ -34,15 +57,35 @@ export class ExecutionTraceBuilder {
     });
   }
 
+  buildReplayEnvelope(): RuntimeReplayEnvelope | null {
+    if (!this.trace.inputFingerprint || !this.trace.runtimeVersion || !this.trace.lineageHash) {
+      return null;
+    }
+    
+    const triggeredEngines = this.trace.stages.map(s => s.stageName);
+    
+    return {
+      inputFingerprint: this.trace.inputFingerprint,
+      runtimeVersion: this.trace.runtimeVersion,
+      lineageHash: this.trace.lineageHash,
+      traceId: this.trace.executionId,
+      timestamp: new Date().toISOString(),
+      executionPath: triggeredEngines,
+      triggeredEngines,
+      failClosedEvents: this.trace.failClosedTriggered ? ['FAIL_CLOSED_DETECTED'] : []
+    };
+  }
+
   async flushAndSave(): Promise<ExecutionTrace> {
     let total = 0;
     for (const stage of this.trace.stages) {
       total += stage.durationMs;
     }
     this.trace.totalDurationMs = Number(total.toFixed(2));
+    this.trace.latencyMs = this.trace.totalDurationMs; // Align latency
     
     try {
-      await setDoc(doc(db, 'runtime_traces', this.trace.executionId), this.trace);
+      await ExecutionTraceBuilder.activeSink.recordExecutionTrace(this.trace);
     } catch (err) {
       console.error('[ExecutionTraceBuilder] Error saving trace:', err);
     }
@@ -52,10 +95,8 @@ export class ExecutionTraceBuilder {
 
   static async getTrace(executionId: string): Promise<ExecutionTrace | null> {
     try {
-      const snap = await getDoc(doc(db, 'runtime_traces', executionId));
-      if (!snap.exists()) return null;
-      return snap.data() as ExecutionTrace;
-    } catch (err: any) {
+      return await ExecutionTraceBuilder.activeSink.getTrace(executionId);
+    } catch (err: unknown) {
       console.error('[ExecutionTraceBuilder] Error getting trace:', err);
       return null;
     }

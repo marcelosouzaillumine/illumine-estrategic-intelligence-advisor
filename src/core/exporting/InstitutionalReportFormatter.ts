@@ -1,4 +1,5 @@
 import { ExecutiveIntelligenceReport } from '../runtime/executive-intelligence-runtime';
+import { ExportMetadataAdapter } from './export-metadata-adapter';
 
 export class InstitutionalReportFormatter {
   /**
@@ -16,7 +17,7 @@ export class InstitutionalReportFormatter {
 # RELATÓRIO DE INTELIGÊNCIA EXECUTIVA INSTITUCIONAL
 **Data de Emissão**: ${new Date().toLocaleDateString('pt-BR')}
 **Nível de Confiança**: ${compliance.confidenceLevel}
-**Linhagem do Dataset**: ${(runtimeMetadata?.lineage as any)?.datasetHash || 'N/A'}
+**Linhagem do Dataset**: ${ExportMetadataAdapter.extractDatasetHash(report)}
 
 ---
 

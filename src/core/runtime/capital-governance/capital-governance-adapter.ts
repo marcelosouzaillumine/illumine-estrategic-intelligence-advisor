@@ -128,7 +128,8 @@ export class CapitalGovernanceAdapter {
         startingEquity,
         endingEquity,
         equityPreservationRatio: capitalPreservationIndex,
-        preservationStatus: fidOutput.patrimonialIntegrityStatus as any
+        preservationStatus: fidOutput.patrimonialIntegrityStatus as any,
+        capitalSupportRatio: 0
       },
       capitalization: {
         capitalInjections,

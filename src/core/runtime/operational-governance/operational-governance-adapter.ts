@@ -13,6 +13,7 @@ export interface OperationalEvaluationContext {
   operatingPressureSeverity: string;
   historicalCyclesCount: number;
   tenantId: string;
+  cycleReference: string;
   lineageHash: string;
   fcoGrowth: number;
   revenueGrowth: number;
@@ -43,15 +44,16 @@ export class OperationalGovernanceAdapter {
     const revenueGrowth = report.metrics?.scaleEfficiency?.recGrowth || 0;
 
     // Base values
-    const ocf = report.metrics?.financialMetrics?.ocf || 0;
-    const revenue = report.metrics?.financialMetrics?.revenue || 0;
+    const ocf = Number(report.metrics?.financialMetrics?.ocf || 0);
+    const revenue = Number(report.metrics?.financialMetrics?.revenue || 0);
 
     // Executive Command Directives
     const activeExecutiveDirectives = report.executiveCommand?.activeDirectives?.map(d => d.category) || [];
 
     const metadata = (report as any).metadata || {};
     const historicalCyclesCount = metadata.historicalCyclesCount || 0;
-    const lineageHash = metadata.lineageHash || 'unknown-hash';
+    const lineageHash = metadata.lineageHash || 'any-hash';
+    const cycleReference = metadata.cycleReference || 'UNKNOWN';
 
     return {
       activeSurvivalMode,
@@ -60,6 +62,7 @@ export class OperationalGovernanceAdapter {
       operatingPressureSeverity,
       historicalCyclesCount,
       tenantId: 'tenant-placeholder', // In a real scenario, this comes from context
+      cycleReference,
       lineageHash,
       fcoGrowth,
       revenueGrowth,

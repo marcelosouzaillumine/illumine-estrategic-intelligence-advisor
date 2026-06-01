@@ -19,8 +19,8 @@ export function calculateCapitalRetention(
     return {
       netIncome,
       retainedEarnings,
-      retentionRatio: 0,
-      retentionStatus: netIncome < 0 ? 'NÃO_APLICÁVEL_SEM_LUCRO' : 'NÃO_APLICÁVEL'
+      retentionRatio: 0, // Should not be interpreted mathematically when <= 0
+      retentionStatus: netIncome < 0 ? 'RETENÇÃO_COMPULSÓRIA_POR_PREJUÍZO' : 'AUSÊNCIA_DE_CAPACIDADE_DISTRIBUTIVA'
     };
   }
 

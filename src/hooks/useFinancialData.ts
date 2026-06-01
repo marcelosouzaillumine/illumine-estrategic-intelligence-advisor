@@ -263,10 +263,16 @@ export function useAnnualFinancialData(
           return docT === reqT;
         }
         
+        // Se reqT for dfc ou dlpa, eles *sempre* deveriam ter docT nas novas versões.
+        // Evita que fallback os pegue acidentalmente.
+        if (reqT === 'dfc' || reqT === 'dlpa') {
+           return false;
+        }
+
         if (reqT === 'dre' || reqT === 'dre gerencial') {
-          return ['receitas', 'despesas'].includes(t);
+          return ['receitas', 'despesas'].includes(t) || t === 'dre' || t === 'dre gerencial';
         } else if (reqT === 'bp' || reqT === 'balanço patrimonial') {
-          return ['ativo', 'passivo', 'patrimônio líquido', 'pl'].includes(t);
+          return ['ativo', 'passivo', 'patrimônio líquido', 'pl', 'bp', 'balanço patrimonial'].includes(t);
         }
         return false;
       });
@@ -282,48 +288,71 @@ export function useAnnualFinancialData(
 
       if (batchEntries.length > 0) {
         const docIdsPresent = [...new Set(batchEntries.map(e => e.docId))];
-        if (docIdsPresent.length > 1) {
-          let latestDocId = docIdsPresent[0];
-          let maxTime = 0;
+        let latestDocId = docIdsPresent[0];
+        let maxTime = 0;
+        let validDocIds = [...docIdsPresent];
 
-          docIdsPresent.forEach(docId => {
-            const entry = batchEntries.find(e => e.docId === docId);
-            if (entry && entry.createdAt) {
-              if (typeof entry.createdAt.toMillis === 'function') {
-                const time = entry.createdAt.toMillis();
-                if (time > maxTime) {
-                  maxTime = time;
-                  latestDocId = docId;
-                }
-              } else if (entry.createdAt.seconds) {
-                const time = entry.createdAt.seconds * 1000;
-                if (time > maxTime) {
-                  maxTime = time;
-                  latestDocId = docId;
-                }
-              }
-            } else if (entry) {
-              // Se createdAt for nulo ou ausente, é um Timestamp do servidor pendente, logo é o mais recente.
-              maxTime = Infinity;
-              latestDocId = docId;
+        // --- CORRUPTION AUTO-RECOVERY ---
+        // Se estamos buscando BP, verifique se o docId selecionado não contém linhas de DFC por engano
+        if (type === 'BP' || type === 'Balanço Patrimonial') {
+          validDocIds = docIdsPresent.filter(docId => {
+            const entriesForDoc = batchEntries.filter(e => e.docId === docId);
+            const isCorrupted = entriesForDoc.some(e => 
+              ['receitas', 'despesas', 'atividade operacional', 'atividade de financiamento', 'atividade de investimento'].includes((e.type || e.tipo || '').toLowerCase()) ||
+              ['receitas', 'despesas'].includes((e.category || e.conta || '').toLowerCase())
+            );
+            if (isCorrupted) {
+              console.warn(`[CORRUPTION RECOVERY] Documento BP ${docId} descartado pois contém dados de DFC/DRE.`);
+              return false;
             }
+            return true;
           });
+        }
+        // ---------------------------------
 
-          if (maxTime === 0) {
-            latestDocId = docIdsPresent[docIdsPresent.length - 1];
+        if (validDocIds.length > 0) {
+          if (validDocIds.length > 1) {
+            validDocIds.forEach(docId => {
+              const entry = batchEntries.find(e => e.docId === docId);
+              if (entry && entry.createdAt) {
+                if (typeof entry.createdAt.toMillis === 'function') {
+                  const time = entry.createdAt.toMillis();
+                  if (time > maxTime) {
+                    maxTime = time;
+                    latestDocId = docId;
+                  }
+                } else if (entry.createdAt.seconds) {
+                  const time = entry.createdAt.seconds * 1000;
+                  if (time > maxTime) {
+                    maxTime = time;
+                    latestDocId = docId;
+                  }
+                }
+              } else if (entry) {
+                maxTime = Infinity;
+                latestDocId = docId;
+              }
+            });
+
+            if (maxTime === 0) {
+              latestDocId = validDocIds[validDocIds.length - 1];
+            }
+
+            finalEntries = batchEntries.filter(e => e.docId === latestDocId);
+            finalDocIds = [latestDocId];
+          } else {
+            finalEntries = batchEntries.filter(e => e.docId === validDocIds[0]);
+            finalDocIds = validDocIds;
           }
-
-          finalEntries = batchEntries.filter(e => e.docId === latestDocId);
-          finalDocIds = [latestDocId];
         } else {
-          finalEntries = batchEntries;
-          finalDocIds = docIdsPresent;
+           // Se todos os batches estavam corrompidos, tentamos cair para flatEntries
+           finalEntries = [];
         }
         
         // Verificação Crítica: se o batch mais recente for apenas uma casca vazia (ex: salvo por acidente)
         // e existirem dados legados (flat), nós restauramos os dados legados.
         const hasRealData = finalEntries.some(e => (Number(e.value) || Number(e.val) || Number(e.valor) || 0) !== 0);
-        if (!hasRealData && flatEntries.length > 0) {
+        if ((!hasRealData || finalEntries.length === 0) && flatEntries.length > 0) {
           finalEntries = flatEntries;
           finalDocIds = [...new Set(flatEntries.map(e => e.docId))];
         }

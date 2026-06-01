@@ -1,4 +1,4 @@
-import { FiduciaryCashNarrative, FiduciaryLiquidityClassification, CashFlowReconciliationOutput, OperationalSustainabilityAssessment, InstitutionalContinuityAssessment } from './CashIntelligenceTypes';
+import { FiduciaryCashNarrative, FiduciaryLiquidityClassification, CashFlowReconciliationOutput, InstitutionalContinuityAssessment, LegacyOperationalSustainabilityAssessment } from './CashIntelligenceTypes';
 
 export class FiduciaryCashInterpreter {
   /**
@@ -8,7 +8,7 @@ export class FiduciaryCashInterpreter {
     classification: FiduciaryLiquidityClassification,
     isArtificial: boolean,
     reconciliation: CashFlowReconciliationOutput,
-    sustainability: OperationalSustainabilityAssessment,
+    sustainability: LegacyOperationalSustainabilityAssessment,
     continuity: InstitutionalContinuityAssessment
   ): FiduciaryCashNarrative {
     const fiduciaryWarnings: string[] = [

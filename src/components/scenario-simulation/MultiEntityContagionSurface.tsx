@@ -1,13 +1,15 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const MultiEntityContagionSurface: React.FC = () => {
+  const { t } = useLanguage();
   const { simulationOutput, sandboxResult } = useScenarioSimulation();
 
   if (!simulationOutput) {
     return (
       <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl text-center text-slate-500 font-mono text-xs">
-        CARREGANDO MAPA DE RELAÇÕES MULTI-ENTIDADE...
+        {t('scenario.multiEntity.loading')}
       </div>
     );
   }
@@ -17,10 +19,10 @@ export const MultiEntityContagionSurface: React.FC = () => {
 
   // Definir entidades em risco de contágio de forma gráfica
   const entities = [
-    { id: activeOutput.tenantId, name: 'Controladora (Matriz)', role: 'Core', status: currentScore > 60 ? 'CRITICAL' : 'STABLE', score: currentScore },
-    { id: 'SUB-01', name: 'Operações de Varejo', role: 'Subsidiary', status: currentScore > 50 ? 'ELEVATED' : 'STABLE', score: Math.round(currentScore * 0.6) },
-    { id: 'SUB-02', name: 'Logística & Suprimentos', role: 'Supplier Chain', status: currentScore > 75 ? 'CRITICAL' : currentScore > 40 ? 'ELEVATED' : 'STABLE', score: Math.round(currentScore * 0.45) },
-    { id: 'HOLDING-01', name: 'Holding & Shared Services', role: 'Parent Group', status: currentScore > 70 ? 'SYSTEMIC' : currentScore > 50 ? 'ELEVATED' : 'STABLE', score: Math.round(currentScore * 0.75) }
+    { id: activeOutput.tenantId, name: t('scenario.multiEntity.roles.core'), role: t('scenario.multiEntity.roleLabels.core'), status: currentScore > 60 ? 'CRITICAL' : 'STABLE', score: currentScore },
+    { id: 'SUB-01', name: t('scenario.multiEntity.roles.sub1'), role: t('scenario.multiEntity.roleLabels.subsidiary'), status: currentScore > 50 ? 'ELEVATED' : 'STABLE', score: Math.round(currentScore * 0.6) },
+    { id: 'SUB-02', name: t('scenario.multiEntity.roles.sub2'), role: t('scenario.multiEntity.roleLabels.supplierChain'), status: currentScore > 75 ? 'CRITICAL' : currentScore > 40 ? 'ELEVATED' : 'STABLE', score: Math.round(currentScore * 0.45) },
+    { id: 'HOLDING-01', name: t('scenario.multiEntity.roles.holding'), role: t('scenario.multiEntity.roleLabels.parentGroup'), status: currentScore > 70 ? 'SYSTEMIC' : currentScore > 50 ? 'ELEVATED' : 'STABLE', score: Math.round(currentScore * 0.75) }
   ];
 
   const getStatusColor = (status: string) => {
@@ -40,10 +42,10 @@ export const MultiEntityContagionSurface: React.FC = () => {
     <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-4">
       <div className="flex justify-between items-center border-b border-slate-850 pb-2">
         <h4 className="text-slate-400 font-semibold tracking-wider uppercase text-xs font-mono">
-          Multi-Entity Risk Grid
+          {t('scenario.multiEntity.gridTitle')}
         </h4>
         <span className="text-[10px] font-mono text-slate-500 uppercase">
-          TENANT ISOLATED TOPOLOGY
+          {t('scenario.multiEntity.topologyLabel')}
         </span>
       </div>
 
@@ -62,7 +64,7 @@ export const MultiEntityContagionSurface: React.FC = () => {
 
               <div className="space-y-1">
                 <div className="flex justify-between text-[10px] font-mono text-slate-400">
-                  <span>Exposure Progression</span>
+                  <span>{t('scenario.multiEntity.exposureProgression')}</span>
                   <span>{ent.score}%</span>
                 </div>
                 <div className="w-full bg-slate-900/80 rounded-full h-1.5 overflow-hidden">
@@ -74,8 +76,8 @@ export const MultiEntityContagionSurface: React.FC = () => {
               </div>
 
               <div className="text-[10px] font-mono text-slate-400/80 border-t border-slate-800/40 pt-1.5 flex justify-between">
-                <span>ENTITY: {ent.id}</span>
-                <span>LIABILITY SCOPE: TENANT-ONLY</span>
+                <span>{t('scenario.multiEntity.entityLabel')} {ent.id}</span>
+                <span>{t('scenario.multiEntity.liabilityScope')}</span>
               </div>
             </div>
           );
@@ -84,13 +86,13 @@ export const MultiEntityContagionSurface: React.FC = () => {
 
       {/* Relações gráficas de contágio - Setas indicativas */}
       <div className="p-3 bg-slate-900/30 border border-slate-850 rounded-xl space-y-2">
-        <span className="text-[9px] font-mono text-slate-500 uppercase block">INTERCOMPANY CONTAGION FLOW</span>
+        <span className="text-[9px] font-mono text-slate-500 uppercase block">{t('scenario.multiEntity.contagionFlow')}</span>
         <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-slate-400">
-          <span className="text-slate-200">Controladora</span>
-          <span className="text-rose-500">➔ (Recursos e Caixa)</span>
-          <span className="text-slate-200">Holding Group</span>
-          <span className="text-amber-500">➔ (Atrito Operacional)</span>
-          <span className="text-slate-200">Subsidiaries & Logística</span>
+          <span className="text-slate-200">{t('scenario.multiEntity.roles.core')}</span>
+          <span className="text-rose-500">{t('scenario.multiEntity.flow.resources')}</span>
+          <span className="text-slate-200">{t('scenario.multiEntity.roleLabels.parentGroup')}</span>
+          <span className="text-amber-500">{t('scenario.multiEntity.flow.friction')}</span>
+          <span className="text-slate-200">{t('scenario.multiEntity.roles.sub1')}</span>
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
-import { InstitutionalCashSignal } from './types';
+import { InstitutionalCashSignal, CashQualityClassification } from './types';
 
 export class CashConversionStressEngine {
   public static evaluate(fco: number, ebitda: number): InstitutionalCashSignal {
     const conversion = ebitda !== 0 ? (fco / ebitda) * 100 : 0;
-    let classification = 'HEALTHY' as any;
+    let classification: CashQualityClassification = 'HEALTHY';
     let narrative = 'Estresse de conversão baixo. Ciclo flui naturalmente para liquidez.';
 
     if (conversion < 0) {

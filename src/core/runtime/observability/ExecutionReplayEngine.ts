@@ -19,7 +19,7 @@ export class ExecutionReplayEngine {
     // Para simplificar a reconstrução sem ter que salvar a árvore de view layer inteira no firebase:
     // A Fase 4 consome ConsolidatedExecutiveAdvisoryReport. 
     // Como combinamos append-only, vamos buscar do record.lineageSnapshot.advisoryReport.
-    const snapshotReport: ConsolidatedExecutiveAdvisoryReport = record.lineageSnapshot.advisoryReport;
+    const snapshotReport: ConsolidatedExecutiveAdvisoryReport = record.lineageSnapshot.advisoryReport as unknown as ConsolidatedExecutiveAdvisoryReport;
 
     if (!snapshotReport || !trace) {
       console.warn(`[ExecutionReplayEngine] Snapshot incompleto para executionId: ${executionId}`);

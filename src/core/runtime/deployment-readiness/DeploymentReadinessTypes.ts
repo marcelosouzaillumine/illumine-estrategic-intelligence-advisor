@@ -1,19 +1,10 @@
+// src/core/runtime/deployment-readiness/DeploymentReadinessTypes.ts
+
+import { RuntimeOutputBase } from '../shared/runtime-contracts';
 import { ExecutiveIntelligenceReport } from '../executive-intelligence-runtime';
-import { InstitutionalSurvivalOutput } from '../institutional-survival/SurvivalTypes';
-import { InstitutionalRecoveryOutput } from '../institutional-recovery/RecoveryTypes';
-import { InstitutionalResilienceOutput } from '../institutional-resilience/ResilienceTypes';
-import { RecoveryRegressionOutput } from '../recovery-regression/RecoveryRegressionTypes';
 
-export type DeploymentEnvironment = 'LOCAL' | 'DEVELOPMENT' | 'STAGING' | 'PILOT' | 'PRODUCTION';
-export type ExecutiveAccessRole = 'MASTER_SUPERVISOR' | 'TENANT_ADMIN' | 'EXECUTIVE_USER' | 'FIDUCIARY_AUDITOR' | 'PILOT_OPERATOR';
-
-export interface EnvironmentConfiguration {
-  environmentType: DeploymentEnvironment;
-  mockFactoriesEnabled: boolean;
-  debugModeEnabled: boolean;
-  tenantIsolationEnabled: boolean;
-  activeSimulations: boolean;
-}
+export type DeploymentEnvironment = 'PRODUCTION' | 'PILOT' | 'DEVELOPMENT' | 'LOCAL';
+export type ExecutiveAccessRole = 'MASTER_SUPERVISOR' | 'FIDUCIARY_AUDITOR' | 'TENANT_ADMIN' | 'PILOT_OPERATOR' | 'UNAUTHORIZED';
 
 export interface TenantIsolationRuntime {
   tenantId: string;
@@ -22,93 +13,13 @@ export interface TenantIsolationRuntime {
   hasCrossTenantAccess: boolean;
 }
 
-export interface RuntimeHealthMetrics {
-  testsPassed: boolean;
-  typecheckPassed: boolean;
-  buildPassed: boolean;
-  unresolvedAnomalies: number;
-}
-
-export interface DeploymentReadinessInput {
-  executiveReport: ExecutiveIntelligenceReport;
-  environmentConfiguration: EnvironmentConfiguration;
-  tenantIsolationRuntime: TenantIsolationRuntime;
-  runtimeHealthMetrics: RuntimeHealthMetrics;
-  currentUserRole: ExecutiveAccessRole;
-  lineageHash: string;
-  auditTrail: string[];
-}
-
-export interface InstitutionalDeploymentReadinessOutput {
-  deploymentReadiness:
-    | 'NOT_READY'
-    | 'PILOT_READY'
-    | 'LIMITED_PRODUCTION_READY'
-    | 'FULL_PRODUCTION_READY';
-  
-  deploymentBlocked: boolean;
-  
-  runtimeIntegrityStatus:
-    | 'UNSTABLE'
-    | 'STABLE'
-    | 'VALIDATED';
-  
-  failClosedIntegrityStatus:
-    | 'BROKEN'
-    | 'PARTIAL'
-    | 'VALIDATED';
-  
-  lineageValidationStatus:
-    | 'INVALID'
-    | 'PARTIAL'
-    | 'VALIDATED';
-  
-  operationalAssuranceStatus:
-    | 'LOW'
-    | 'MODERATE'
-    | 'HIGH';
-  
-  environmentIntegrityStatus:
-    | 'UNSAFE'
-    | 'ISOLATED'
-    | 'VALIDATED';
-  
-  pilotGovernanceStatus:
-    | 'INACTIVE'
-    | 'ACTIVE'
-    | 'VALIDATED';
-  
-  executiveAccessGovernanceStatus:
-    | 'WEAK'
-    | 'CONTROLLED'
-    | 'VALIDATED';
-  
-  runtimeRegressionRisk:
-    | 'LOW'
-    | 'MODERATE'
-    | 'HIGH'
-    | 'CRITICAL';
-  
-  unresolvedCriticalIssues: string[];
-  deploymentWarnings: string[];
-  blockedDeploymentReasons: string[];
-  operationalRecommendations: string[];
-  readinessNarrative: string;
-  auditTrail: string[];
-  lineageHash: string;
-  
-  confidenceLevel:
-    | 'LOW'
-    | 'MODERATE'
-    | 'HIGH';
-  
-  readinessMatrix?: InstitutionalReadinessMatrix;
-}
-
 export interface ReadinessDimension {
-  status: 'VALIDATED' | 'NOT_READY';
-  issues: string[];
-  description: string;
+  status: 'READY' | 'RESTRICTED' | 'NOT_READY' | 'VALIDATED';
+  confidence?: 'HIGH' | 'MODERATE' | 'LOW';
+  evidence?: string[];
+  blockers?: string[];
+  issues?: string[];
+  description?: string;
 }
 
 export interface InstitutionalReadinessMatrix {
@@ -120,3 +31,54 @@ export interface InstitutionalReadinessMatrix {
   auditabilityReadiness: ReadinessDimension;
 }
 
+export interface DeploymentReadinessInput {
+  executiveReport: ExecutiveIntelligenceReport;
+  environmentConfiguration: {
+    environmentType: 'PRODUCTION' | 'PILOT' | 'DEVELOPMENT';
+    mockFactoriesEnabled: boolean;
+    debugModeEnabled: boolean;
+    tenantIsolationEnabled: boolean;
+    activeSimulations: boolean;
+  };
+  tenantIsolationRuntime: {
+    tenantId: string;
+    isPilotTenant: boolean;
+    isProductionTenant: boolean;
+    hasCrossTenantAccess: boolean;
+  };
+  runtimeHealthMetrics: {
+    testsPassed: boolean;
+    typecheckPassed: boolean;
+    buildPassed: boolean;
+    unresolvedAnomalies: number;
+  };
+  currentUserRole: string;
+  lineageHash: string;
+  auditTrail: string[];
+}
+
+
+export interface InstitutionalDeploymentReadinessOutput extends RuntimeOutputBase {
+  overallStatus: 'DEPLOYMENT_READY' | 'DEPLOYMENT_BLOCKED' | 'DEPLOYMENT_RESTRICTED';
+  productionReadiness: ReadinessDimension | string;
+  fiduciaryReadiness: ReadinessDimension;
+  governanceReadiness: ReadinessDimension;
+  continuityReadiness: ReadinessDimension;
+  observabilityReadiness: ReadinessDimension;
+  auditabilityReadiness: ReadinessDimension;
+
+  // Legacy compatibility fields
+  deploymentReadiness: string;
+  deploymentBlocked: boolean;
+  blockedDeploymentReasons: string[];
+  operationalAssuranceStatus: string;
+  environmentIntegrityStatus: string;
+  pilotGovernanceStatus: string;
+  runtimeIntegrityStatus: string;
+  failClosedIntegrityStatus: string;
+  runtimeRegressionRisk: string;
+  executiveAccessGovernanceStatus: string;
+  operationalRecommendations: string[];
+  deploymentWarnings: string[];
+  readinessNarrative: string;
+}

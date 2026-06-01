@@ -21,9 +21,9 @@ export class FiduciaryReadinessAssessmentEngine {
 
     // 1. Lineage Continuity Check
     const lineageContinuityPassed = 
-      !!(executiveReport as any).metadata?.lineageHash && 
-      (executiveReport as any).metadata.lineageHash !== 'placeholder-hash' &&
-      !(executiveReport as any).metadata.lineageHash.includes('DUMMY');
+      !!executiveReport.runtimeMetadata?.lineageHash && 
+      executiveReport.runtimeMetadata.lineageHash !== 'placeholder-hash' &&
+      !executiveReport.runtimeMetadata.lineageHash.includes('DUMMY');
 
     if (!lineageContinuityPassed) {
       issues.push('FIDUCIARY: Missing or untrusted cryptographic lineage signature.');
@@ -33,7 +33,7 @@ export class FiduciaryReadinessAssessmentEngine {
     // If confidence is low, failClosedTriggered MUST be true.
     const failClosedCoveragePassed = 
       executiveReport.resilienceReport?.confidenceLevel === 'HIGH' || 
-      (executiveReport as any).failClosedTriggered === true;
+      executiveReport.institutionalView?.isFailClosedActivated === true;
 
     if (!failClosedCoveragePassed) {
       issues.push('FIDUCIARY: Fail-closed safety triggers bypassed in degraded confidence states.');

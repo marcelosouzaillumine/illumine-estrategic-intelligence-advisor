@@ -1,13 +1,15 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const HistoricalBasisExplorer: React.FC = () => {
+  const { t } = useLanguage();
   const { simulationInput, historyCyclesToUse } = useScenarioSimulation();
 
   if (!simulationInput) {
     return (
       <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl text-center text-slate-500 font-mono text-xs">
-        CARREGANDO REGISTROS DE MEMÓRIA HISTÓRICA...
+        {t('scenario.historyExplorer.loading')}
       </div>
     );
   }
@@ -18,10 +20,10 @@ export const HistoricalBasisExplorer: React.FC = () => {
     <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-4">
       <div className="flex justify-between items-center border-b border-slate-850 pb-2">
         <h4 className="text-slate-400 font-semibold tracking-wider uppercase text-xs font-mono">
-          Historical Governance Anchors
+          {t('scenario.historyExplorer.title')}
         </h4>
         <span className="text-[10px] font-mono text-slate-500 uppercase">
-          {activeCycles.length} ACTIVE CYCLES IN WORKSPACE
+          {t('scenario.historyExplorer.activeCycles', { count: activeCycles.length.toString() })}
         </span>
       </div>
 
@@ -29,13 +31,13 @@ export const HistoricalBasisExplorer: React.FC = () => {
         <table className="w-full text-left font-mono text-xs border-collapse">
           <thead>
             <tr className="border-b border-slate-800 text-slate-500">
-              <th className="py-2 pr-4 font-normal">CYCLE</th>
-              <th className="py-2 px-4 font-normal text-right">MATURITY</th>
-              <th className="py-2 px-4 font-normal text-right">NET MARGIN</th>
-              <th className="py-2 px-4 font-normal text-right">CASH VALUE</th>
-              <th className="py-2 px-4 font-normal text-center">ANOMALIES</th>
-              <th className="py-2 px-4 font-normal text-center">VIOLATIONS</th>
-              <th className="py-2 pl-4 font-normal text-right">AUDIT LINEAGE</th>
+              <th className="py-2 pr-4 font-normal">{t('scenario.historyExplorer.columns.cycle')}</th>
+              <th className="py-2 px-4 font-normal text-right">{t('scenario.historyExplorer.columns.maturity')}</th>
+              <th className="py-2 px-4 font-normal text-right">{t('scenario.historyExplorer.columns.netMargin')}</th>
+              <th className="py-2 px-4 font-normal text-right">{t('scenario.historyExplorer.columns.cashValue')}</th>
+              <th className="py-2 px-4 font-normal text-center">{t('scenario.historyExplorer.columns.anomalies')}</th>
+              <th className="py-2 px-4 font-normal text-center">{t('scenario.historyExplorer.columns.violations')}</th>
+              <th className="py-2 pl-4 font-normal text-right">{t('scenario.historyExplorer.columns.auditLineage')}</th>
             </tr>
           </thead>
           <tbody>
@@ -74,7 +76,7 @@ export const HistoricalBasisExplorer: React.FC = () => {
         <div className="p-3 bg-amber-950/20 border border-amber-500/20 rounded-lg flex items-start gap-2.5">
           <span className="text-amber-400 text-sm mt-0.5">⚠️</span>
           <p className="text-slate-400 text-xs leading-relaxed">
-            <span className="text-amber-400 font-bold">Aviso de Suficiência</span>: Há menos de 3 ciclos históricos ativos selecionados neste inquilino. Recomenda-se carregar dados adicionais ou reconfigurar o seletor histórico para habilitar forecasts com alta estabilidade.
+            <span className="text-amber-400 font-bold">{t('scenario.historyExplorer.warningTitle')}</span>{t('scenario.historyExplorer.warningDesc')}
           </p>
         </div>
       )}

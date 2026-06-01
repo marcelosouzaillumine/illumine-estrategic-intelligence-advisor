@@ -1,11 +1,13 @@
 import React from 'react';
 import { TemporalEvent } from '../../core/runtime/institutional-memory/types';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 interface ResilienceTimelineProps {
   events: TemporalEvent[];
 }
 
 export const InstitutionalResilienceTimeline: React.FC<ResilienceTimelineProps> = ({ events }) => {
+  const { t } = useLanguage();
   if (!events || events.length === 0) {
     return null; // Dummy Renderer
   }
@@ -28,8 +30,8 @@ export const InstitutionalResilienceTimeline: React.FC<ResilienceTimelineProps> 
   return (
     <div className="institutional-resilience-timeline p-6 bg-slate-900 border border-slate-700 rounded-lg shadow-md text-slate-100">
       <div className="mb-6 border-b border-slate-700 pb-4">
-        <h3 className="text-lg font-semibold text-slate-50">Resilience Evolution Timeline</h3>
-        <p className="text-xs text-slate-400 mt-1">Chronological mapping of institutional recovery and deterioration events</p>
+        <h3 className="text-lg font-semibold text-slate-50">{t('summary.resilience_evolution')}</h3>
+        <p className="text-xs text-slate-400 mt-1">{t('summary.chronological_mapping')}</p>
       </div>
 
       <div className="relative border-l border-slate-700 ml-3 pl-6 space-y-6">
@@ -48,8 +50,8 @@ export const InstitutionalResilienceTimeline: React.FC<ResilienceTimelineProps> 
               </div>
               <p className="text-sm text-slate-300 mt-2">{event.description}</p>
               <div className="flex gap-4 mt-3 pt-2 border-t border-slate-700 text-xs font-mono text-slate-500">
-                <span>Ref: {event.auditReference}</span>
-                <span>Lineage: {event.lineageHash.substring(0, 8)}</span>
+                <span>{t('summary.ref')} {event.auditReference}</span>
+                <span>{t('summary.lineage')} {event.lineageHash.substring(0, 8)}</span>
               </div>
             </div>
           </div>

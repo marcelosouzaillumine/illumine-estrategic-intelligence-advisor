@@ -9,14 +9,16 @@ import { GovernanceForecastSurface } from '../scenario-simulation/GovernanceFore
 import { StrategicStressMap } from '../scenario-simulation/StrategicStressMap';
 import { SimulationConfidenceCard } from '../scenario-simulation/SimulationConfidenceCard';
 import { SimulationLineageViewer } from '../scenario-simulation/SimulationLineageViewer';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function ExecutiveScenarioLabPage() {
+  const { t } = useLanguage();
   return (
     <ScenarioSimulationProvider>
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-12 pb-32 animate-executive-fade">
         <PageHeader 
-          title="Executive Scenario Lab" 
-          subtitle="Simulação contrafactual e projeções executivas" 
+          title={t('scenario.title')} 
+          subtitle={t('scenario.subtitle')} 
           icon={FlaskConical} 
           transparent
         />

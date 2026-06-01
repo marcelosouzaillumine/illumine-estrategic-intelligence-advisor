@@ -5,7 +5,7 @@ import { resolveInstitutionalLabel } from '../core/runtime/i18n/InstitutionalLab
 interface LanguageContextType {
   language: Locale;
   setLanguage: (lang: Locale) => void;
-  t: (key: string, fallbacks?: Record<string, string>) => string;
+  t: (key: string, fallbacks?: string | Record<string, string>) => string;
   safeT: (key: string, fallback?: string) => string;
   translateLabel: (label: string) => string;
 }
@@ -215,15 +215,20 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     window.dispatchEvent(new Event('storage'));
   };
 
-  const t = (key: string, fallbacks?: Record<string, string>): string => {
+  const t = (key: string, fallbacks?: string | Record<string, string>): string => {
     const activeDict = dictionaries[language];
     if (activeDict && (activeDict as any)[key] !== undefined) {
       return (activeDict as any)[key];
     }
     
     // Try fallback dict if provided
-    if (fallbacks && fallbacks[language] !== undefined) {
-      return fallbacks[language];
+    if (fallbacks) {
+      if (typeof fallbacks === 'string') {
+        return fallbacks;
+      }
+      if (fallbacks[language] !== undefined) {
+        return fallbacks[language];
+      }
     }
 
     if (process.env.NODE_ENV === 'development') {

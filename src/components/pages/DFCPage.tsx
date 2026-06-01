@@ -305,12 +305,12 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               {rows.map((row: any, i: number) => (
                 <tr key={i} className={cn('hover:bg-surface-container/50 transition-colors group', (row.isTotal || row.isSubTotal) ? 'bg-surface-container/30 font-bold' : '')}>
                   <td className="py-2.5 md:py-4 px-5 md:px-8">
-                    <span className={cn('block overflow-visible break-words', (row.isTotal || row.isSubTotal) ? 'text-secondary' : 'pl-4 text-muted-foreground font-medium')}>
+                    <span className={cn('block overflow-visible break-words', (row.isTotal || row.isSubTotal || row.level === 1) ? 'text-secondary' : 'pl-4 text-muted-foreground font-medium')}>
                       {row.conta || row.category || row.item}
                     </span>
                   </td>
-                  <td className={cn("py-2.5 md:py-4 px-5 md:px-8 text-right font-mono", (row.val || 0) < 0 ? "text-rose-500" : "text-slate-700")}>
-                    {formatCurrency(row.val || row.valor || 0)}
+                  <td className={cn("py-2.5 md:py-4 px-5 md:px-8 text-right font-mono", (row.val || row.valor || row.value || 0) < 0 ? "text-rose-500" : "text-slate-700")}>
+                    {formatCurrency(row.val || row.valor || row.value || 0)}
                   </td>
                 </tr>
               ))}

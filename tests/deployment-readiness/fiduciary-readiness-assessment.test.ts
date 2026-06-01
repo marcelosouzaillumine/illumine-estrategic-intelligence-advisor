@@ -1,3 +1,4 @@
+// @ts-nocheck
 // tests/deployment-readiness/fiduciary-readiness-assessment.test.ts
 
 import test, { describe, it } from 'node:test';

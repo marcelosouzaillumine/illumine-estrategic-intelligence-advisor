@@ -22,7 +22,7 @@ export interface KnowledgeNode {
   tenantId: string;
   type: KnowledgeNodeType;
   label: string;
-  attributes: Record<string, any>;
+  attributes: Record<string, unknown>;
   createdAt: string;
 }
 

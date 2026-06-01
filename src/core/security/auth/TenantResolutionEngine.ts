@@ -72,7 +72,9 @@ export class TenantResolutionEngine {
         name: doc.data().fantasia || doc.data().razao || doc.id,
         role: 'SUPER_ADMIN',
         segmentoAtuacao: doc.data().segmentoAtuacao || doc.data().segmento,
-        segmento: doc.data().segmento || doc.data().segmentoAtuacao
+        segmento: doc.data().segmento || doc.data().segmentoAtuacao,
+        logo: doc.data().logo,
+        icon: doc.data().icon
       }));
       return this.buildSession(actorId, 'MASTER', 'SUPER_ADMIN', ['*'], ['*'], true, 'READY', undefined, masterAvailableTenants);
     }
@@ -88,7 +90,9 @@ export class TenantResolutionEngine {
         name: doc.data().fantasia || doc.data().razao || doc.id,
         role: 'CFO', // Default owner role
         segmentoAtuacao: doc.data().segmentoAtuacao || doc.data().segmento,
-        segmento: doc.data().segmento || doc.data().segmentoAtuacao
+        segmento: doc.data().segmento || doc.data().segmentoAtuacao,
+        logo: doc.data().logo,
+        icon: doc.data().icon
       });
     });
 
@@ -110,7 +114,9 @@ export class TenantResolutionEngine {
             name: data.clientName || 'Tenant Associado',
             role: (data.role as OfficialRole) || 'OPERATIONAL_USER',
             segmentoAtuacao: data.segmentoAtuacao || data.segmento,
-            segmento: data.segmento || data.segmentoAtuacao
+            segmento: data.segmento || data.segmentoAtuacao,
+            logo: data.logo,
+            icon: data.icon
           });
         }
       }
@@ -127,7 +133,9 @@ export class TenantResolutionEngine {
           name: data.fantasia || data.razao || 'Partner Tenant',
           role: 'TENANT_ADMIN', // Partner acts as Tenant Admin
           segmentoAtuacao: data.segmentoAtuacao || data.segmento,
-          segmento: data.segmento || data.segmentoAtuacao
+          segmento: data.segmento || data.segmentoAtuacao,
+          logo: data.logo,
+          icon: data.icon
         });
       }
     }
@@ -139,8 +147,10 @@ export class TenantResolutionEngine {
           const clientDocSnap = await getDoc(doc(db, 'clients', tenant.tenantId));
           if (clientDocSnap.exists()) {
             const cData = clientDocSnap.data();
-            tenant.segmentoAtuacao = cData.segmentoAtuacao || cData.segmento;
-            tenant.segmento = cData.segmento || cData.segmentoAtuacao;
+            tenant.segmentoAtuacao = tenant.segmentoAtuacao || cData.segmentoAtuacao || cData.segmento;
+            tenant.segmento = tenant.segmento || cData.segmento || cData.segmentoAtuacao;
+            tenant.logo = tenant.logo || cData.logo;
+            tenant.icon = tenant.icon || cData.icon;
           }
         } catch (e) {
           console.error("Failed to enrich tenant with segment data", e);

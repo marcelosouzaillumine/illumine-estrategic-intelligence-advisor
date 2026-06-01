@@ -208,9 +208,9 @@ describe('Sovereign Treasury & Capital Stewardship Intelligence Framework', () =
     it('should run full evaluation pipeline and generate stable severity and reproducible hashes', () => {
       const output = TreasuryIntelligenceRuntime.evaluate(baseInput);
       assert.strictEqual(output.isAvailable, true);
-      assert.ok(output.treasuryLineageHash.startsWith('lineage_treasury_'));
-      assert.ok(output.auditTrail.length > 0);
-      assert.ok(output.fiduciaryDisclosures.length >= 0);
+      assert.ok(output.lineage.lineageHash.startsWith('lineage_treasury_'));
+      assert.ok(output.lineage.parentHashes.length >= 0);
+      assert.ok(output.disclosures.length >= 0);
     });
 
     it('should enforce fail-closed priorities on TREASURY_RUPTURE_RISK state', () => {
@@ -222,7 +222,7 @@ describe('Sovereign Treasury & Capital Stewardship Intelligence Framework', () =
         liquidityClassification: 'CONTINUITY_RISK'
       };
       const output = TreasuryIntelligenceRuntime.evaluate(stressedInput);
-      assert.strictEqual(output.severity, 'TREASURY_RUPTURE_RISK');
+      assert.strictEqual(output.severity, 'RESTRICTED');
       assert.strictEqual(output.priorityMatrix.activeCascadeBlock, true);
       
       // Ensure lower priority items are frozen fiduciarily

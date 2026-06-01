@@ -32,13 +32,14 @@ export function calculateShareholderDistribution(
     };
   }
 
-  // Sem lucro MAS com distribuição → evidência crítica de extração
+  // Sem lucro MAS com distribuição → bloqueia análise de "pressão distributiva", 
+  // que é aplicável apenas à base de lucro. A erosão será tratada em Integridade Patrimonial.
   if (netIncome <= 0 && hasDistributiveEvidence) {
     return {
       totalDistributed,
       distributionRatio: 0, // indefinido matematicamente
       hasDistributiveEvidence: true,
-      distributionPressure: 'CRÍTICA'
+      distributionPressure: 'NÃO_APLICÁVEL_SEM_LUCRO'
     };
   }
 

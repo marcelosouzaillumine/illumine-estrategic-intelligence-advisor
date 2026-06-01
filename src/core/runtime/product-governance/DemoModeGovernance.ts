@@ -14,11 +14,11 @@ export class DemoModeGovernance {
     if (!subscription.isDemo) return;
     
     // Limpa quotas e dados fictícios
-    subscription.quotasState = {} as any;
+    subscription.quotasState = ({ MAX_SCENARIOS: 1, MAX_UPLOADS: 1, MAX_BOARD_PACKS: 1, MAX_MONITORING_CYCLES: 1, MAX_WORKSPACES: 1 } as unknown) as Record<import('./ProductGovernanceTypes').QuotaId, number>;
     
     ProductAccessAuditLogger.logEvent(
       subscription.tenantId,
-      'DEMO_RESET' as any,
+      'DEMO_RESET' as unknown as "DEMO_RESET" | "FEATURE_GRANTED",
       'SYSTEM',
       'Ambiente demonstrativo resetado para estado virgem.'
     );

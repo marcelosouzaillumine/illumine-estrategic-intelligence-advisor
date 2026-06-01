@@ -14,12 +14,12 @@ export class InstitutionalExplainabilityAppendixEngine {
       'STRATEGIC_POSTURE': `Driven by ${strategic.posture} inference engine based on historical efficiency and survival mode signals.`,
       'STRATEGIC_TRAJECTORY': strategic.explainability.trajectoryRationale,
       'EXPANSION_SUSTAINABILITY': strategic.explainability.sustainabilityExplanation,
-      'EXECUTION_INTEGRITY': (gov.executionIntegrity as any).inferenceBasis || 'N/A'
+      'EXECUTION_INTEGRITY': (gov.executionIntegrity as unknown as { inferenceBasis?: string }).inferenceBasis || 'N/A'
     };
 
     const confidenceDecomposition: Record<string, string> = {
       'POSTURE_CONFIDENCE': strategic.vectors[0]?.vectorConfidence || 'UNVERIFIABLE',
-      'EXECUTION_CONFIDENCE': ((gov.executionIntegrity as any).confidenceScore || gov.executionIntegrity.capabilityConfidence).toString()
+      'EXECUTION_CONFIDENCE': ((gov.executionIntegrity as unknown as { confidenceScore?: number }).confidenceScore || gov.executionIntegrity.capabilityConfidence).toString()
     };
 
     return {

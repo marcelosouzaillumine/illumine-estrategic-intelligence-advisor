@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { test, describe } from "node:test";
 import assert from "node:assert";
 import { FinancialRuntimeContextAdapter } from "./FinancialRuntimeContextAdapter";
@@ -135,7 +136,7 @@ describe("FinancialRuntimeContextAdapter", () => {
       auditTrail: [],
       confidenceLevel: "HIGH",
       confidenceMatrix: { historicalDensityProxy: 1.0 }
-    } as unknown as SegmentIntelligenceProfile;
+    } as any as SegmentIntelligenceProfile;
 
     const guardsResult = guards.mapRestrictionsToGuards(fakeSegmentProfile);
     

@@ -10,7 +10,7 @@ import {
   StressProfile,
   ScenarioClassification
 } from './simulation-types';
-import { ExecutiveDecision, SurvivabilityScores } from '../decision-intelligence/decision-types';
+import { ExecutiveDecision, SurvivabilityScores, DecisionDomain } from '../decision-intelligence/decision-types';
 import { BehaviorProfile, FatigueMetrics } from '../behavioral-intelligence/behavioral-types';
 import { ScenarioStressEngine } from './ScenarioStressEngine';
 import { LiquidityTrajectoryEngine } from './LiquidityTrajectoryEngine';
@@ -63,7 +63,7 @@ export class StrategicSimulationEngine {
     }
 
     // Determine category domains for simulated decisions
-    let domains: string[] = ['Capital Preservation'];
+    let domains: DecisionDomain[] = ['Capital Preservation'];
     switch (category) {
       case 'Conservative Preservation':
         domains = ['Capital Preservation', 'Cost Reduction'];
@@ -115,7 +115,7 @@ export class StrategicSimulationEngine {
         decisionId: `sim_decision_${category.replace(/\s+/g, '_')}_cycle_${t}`,
         tenantId: currentReport.tenantId ?? 'default_tenant',
         clientId: currentReport.clientId ?? 'default_client',
-        domains: domains as any,
+        domains,
         motivation: `Simulated decision for step ${t} of ${category}`,
         assumptions: [],
         expectedOutcomes: [],

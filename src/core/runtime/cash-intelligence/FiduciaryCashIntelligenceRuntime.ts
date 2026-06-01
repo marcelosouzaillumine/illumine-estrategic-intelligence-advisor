@@ -1,10 +1,17 @@
-import { CashIntelligenceRuntimeOutput, CashConfidenceLevel } from './CashIntelligenceTypes';
+import { 
+  CashIntelligenceRuntimeOutput, 
+  CashConfidenceLevel,
+  FinancialRuntimeContext,
+  AnalysisPeriodType,
+  UniversalCashIndicators
+} from './CashIntelligenceTypes';
 import { CashFlowReconciliationEngine } from './CashFlowReconciliationEngine';
 import { ArtificialLiquidityDetector } from './ArtificialLiquidityDetector';
 import { LiquidityClassificationEngine } from './LiquidityClassificationEngine';
 import { OperationalSustainabilityRuntime } from './OperationalSustainabilityRuntime';
 import { InstitutionalContinuityEngine } from './InstitutionalContinuityEngine';
 import { FiduciaryCashInterpreter } from './FiduciaryCashInterpreter';
+import { UniversalCashIndicatorsEngine } from './UniversalCashIndicatorsEngine';
 
 export class FiduciaryCashIntelligenceRuntime {
   /**
@@ -25,7 +32,14 @@ export class FiduciaryCashIntelligenceRuntime {
     availableCash: number,
     thirdPartyFunding: number,
     equityFunding: number,
-    historicalCyclesCount: number
+    historicalCyclesCount: number,
+    monthsCount: number,
+    fornecedores: number,
+    passivoCirculante: number,
+    contasRelacionadas: number | null,
+    patrimonioLiquido: number,
+    context?: FinancialRuntimeContext,
+    analysisPeriodType?: AnalysisPeriodType
   ): CashIntelligenceRuntimeOutput {
     const auditTrail: string[] = ['Execution started at FiduciaryCashIntelligenceRuntime'];
 
@@ -42,28 +56,25 @@ export class FiduciaryCashIntelligenceRuntime {
     auditTrail.push(`Reconciliation validated with status: ${reconciliation.reconciliationStatus}`);
 
     const hashInputs = [
-      dreNetIncome,
-      dreEbitda,
-      bpCashEquivalentsStart,
-      bpCashEquivalentsEnd,
-      fco,
-      fci,
-      fcf,
-      workingCapitalVariation,
-      receivables,
-      inventory,
-      availableCash,
-      thirdPartyFunding,
-      equityFunding,
-      historicalCyclesCount
+      dreNetIncome, dreEbitda, bpCashEquivalentsStart, bpCashEquivalentsEnd,
+      fco, fci, fcf, workingCapitalVariation, receivables, inventory,
+      availableCash, thirdPartyFunding, equityFunding, historicalCyclesCount,
+      monthsCount, fornecedores, passivoCirculante, contasRelacionadas, patrimonioLiquido
     ];
     const lineageHash = this.generateLineageHash(hashInputs);
     auditTrail.push(`Lineage hash generated: ${lineageHash}`);
 
     // Se a reconciliação estiver completamente bloqueada (Fail-Closed)
     if (!reconciliation.isReconcilable && reconciliation.reconciliationStatus === 'BLOCKED') {
+      const blockedReconciliationOutput = {
+        ...reconciliation,
+        reconciliationStatus: 'CASH_RECONCILIATION_FAIL_CLOSED' as const
+      };
+      
       const blockedOutput: CashIntelligenceRuntimeOutput = {
         isAvailable: false,
+        contextSegment: context,
+        universalIndicators: {} as unknown as UniversalCashIndicators, // Not computed
         liquidityClassification: {
           classification: 'CONTINUITY_RISK',
           label: 'Inconciliável contábil',
@@ -78,8 +89,8 @@ export class FiduciaryCashIntelligenceRuntime {
           rationale: 'Análise de liquidez artificial bloqueada.',
           blockedConclusions: ['HEALTHY_LIQUIDITY', 'SUSTAINABLE_GROWTH', 'HIGH_CONFIDENCE_ANALYSIS']
         },
-        reconciliationAlerts: reconciliation,
-        operationalSustainability: {
+        reconciliationAlerts: blockedReconciliationOutput,
+        legacyOperationalSustainabilityAssessment: {
           isSustained: false,
           selfFinancingCapacity: 'NONE',
           operationalCashConsistency: 'INSUFFICIENT_HISTORY',
@@ -88,10 +99,17 @@ export class FiduciaryCashIntelligenceRuntime {
           resilienceScore: 0,
           longitudinalConsistency: 'Divergência de reconciliação impede análise de consistência.'
         },
+        fiduciaryOperationalSustainabilityAssessment: {
+          classification: 'STRUCTURAL_CASH_COLLAPSE',
+          resilienceScore: 0,
+          operationalFragilityIndex: 100,
+          longitudinalConsistency: 'Divergência impede análise.'
+        },
         continuityRisk: {
           continuityRisk: 'CRITICAL',
           hasRuptureRisk: true,
           projectedRunwayMonths: 0,
+          runwayClassification: 'SURVIVAL_MODE',
           runwayConfidence: 'BLOCKED',
           runwayDistortionFactors: [],
           runwayStability: 'COLLAPSING',
@@ -120,80 +138,89 @@ export class FiduciaryCashIntelligenceRuntime {
       return blockedOutput;
     }
 
-    // 2. Detecção de Liquidez Artificial
+    // 2. Indicadores Universais Obrigatórios
+    const capitalizacaoExterna = thirdPartyFunding + equityFunding;
+    const universalIndicators = UniversalCashIndicatorsEngine.evaluate(
+      fco, fcf, dreEbitda, capitalizacaoExterna, fornecedores, passivoCirculante,
+      workingCapitalVariation, contasRelacionadas, patrimonioLiquido, monthsCount, availableCash, context
+    );
+    auditTrail.push('Universal Indicators calculated');
+
+    // 3. Detecção de Liquidez Artificial
     const artificial = ArtificialLiquidityDetector.evaluate(
-      fco,
-      fcf,
-      fci,
-      thirdPartyFunding,
-      equityFunding
+      fco, fcf, fci, thirdPartyFunding, equityFunding
     );
     auditTrail.push(`Artificial liquidity checked. Detected: ${artificial.isArtificial}`);
 
-    // 3. Sustentabilidade Operacional
-    const sustainability = OperationalSustainabilityRuntime.evaluate(
-      fco,
-      fcf,
-      dreNetIncome,
-      workingCapitalVariation,
-      historicalCyclesCount
+    // 4. Sustentabilidade Operacional
+    const sustainabilityOutputs = OperationalSustainabilityRuntime.evaluate(
+      fco, fcf, dreNetIncome, workingCapitalVariation, historicalCyclesCount
     );
-    auditTrail.push(`Operational sustainability evaluated. Resilience score: ${sustainability.resilienceScore}`);
+    const legacySust = sustainabilityOutputs.legacy;
+    const fidSust = sustainabilityOutputs.fiduciary;
+    auditTrail.push(`Operational sustainability evaluated. Resilience score: ${legacySust.resilienceScore}`);
 
-    // 4. Continuidade Institucional (Survival Horizon)
+    // 5. Continuidade Institucional (Survival Horizon)
     const continuity = InstitutionalContinuityEngine.evaluate(
-      fco,
-      fci,
-      fcf,
-      availableCash,
-      dreNetIncome,
-      thirdPartyFunding,
-      equityFunding,
-      historicalCyclesCount
+      fco, fci, fcf, availableCash, dreNetIncome, thirdPartyFunding, equityFunding, historicalCyclesCount
     );
+    // Sobrescrever runtime pelo universal calculation (consistência de cálculo)
+    continuity.projectedRunwayMonths = universalIndicators.cashRunwayInstitucional.months;
+    continuity.runwayClassification = universalIndicators.cashRunwayInstitucional.classification;
     auditTrail.push(`Institutional continuity assessed. Continuity risk: ${continuity.continuityRisk}`);
 
-    // 5. Classificação de Liquidez (Reordenada para injetar runway/resilience/rupture na severidade)
+    // 6. Classificação de Liquidez
     const classification = LiquidityClassificationEngine.evaluate(
-      fco,
-      fci,
-      fcf,
-      availableCash,
-      reconciliation.confidence,
-      continuity.projectedRunwayMonths,
-      sustainability.resilienceScore,
-      continuity.hasRuptureRisk,
-      artificial.isArtificial
+      fco, fci, fcf, availableCash, reconciliation.confidence,
+      continuity.projectedRunwayMonths, legacySust.resilienceScore, continuity.hasRuptureRisk, artificial.isArtificial, context
     );
     auditTrail.push(`Liquidity classification: ${classification.classification}`);
 
-    // 6. Parecer e Narrativa Fiduciária
+    // 7. Parecer e Narrativa Fiduciária
     const narrative = FiduciaryCashInterpreter.interpret(
-      classification.classification,
-      artificial.isArtificial,
-      reconciliation,
-      sustainability,
-      continuity
+      classification.classification, artificial.isArtificial, reconciliation, legacySust, continuity
     );
     auditTrail.push('Fiduciary narrative interpreted');
 
-    // Compilação de Conclusões Permitidas e Bloqueadas
-    const blockedConclusions = [...new Set([...artificial.blockedConclusions, ...narrative.blockedInterpretations])];
+    // Compilação de Conclusões Permitidas e Bloqueadas (FAIL-CLOSED)
+    let blockedConclusions = [...new Set([...artificial.blockedConclusions, ...narrative.blockedInterpretations])];
     const allowedConclusions: string[] = [];
 
-    if (fco > 0) {
+    // Bloqueios Fiduciários Específicos
+    if (fco < 0 && continuity.projectedRunwayMonths < 3) {
+      blockedConclusions.push('HEALTHY_LIQUIDITY', 'STRONG_TREASURY', 'SUSTAINABLE_GROWTH', 'REINVESTMENT_CAPACITY');
+    }
+    if (classification.classification === 'ARTIFICIAL_LIQUIDITY' || classification.classification === 'DEPENDENCIA_DE_CAPITALIZACAO') {
+      blockedConclusions.push('HEALTHY_LIQUIDITY', 'STRONG_TREASURY', 'SUSTAINABLE_GROWTH', 'REINVESTMENT_CAPACITY', 'OPERATIONALLY_SUSTAINABLE');
+    }
+    if (universalIndicators.conversaoEbitdaCaixa.alert === 'SYNTHETIC_PROFIT_ALERT') {
+      blockedConclusions.push('STRONG_OPERATIONAL_GENERATION');
+    }
+
+    if (fco > 0 && !blockedConclusions.includes('STRONG_OPERATIONAL_GENERATION')) {
       allowedConclusions.push('OPERATIONAL_GENERATION');
     }
-    if (classification.classification === 'OPERATIONAL_SUSTAINABLE' || classification.classification === 'STRATEGIC_EXPANSION') {
+    if (
+      (classification.classification === 'OPERATIONAL_SUSTAINABLE' || 
+       classification.classification === 'TESOURARIA_ESTRUTURALMENTE_SAUDAVEL' || 
+       classification.classification === 'REINVESTIMENTO_OPERACIONAL_SAUDAVEL') 
+      && !blockedConclusions.includes('HEALTHY_LIQUIDITY')
+    ) {
       allowedConclusions.push('HEALTHY_LIQUIDITY', 'SUSTAINABLE_GROWTH');
     }
 
+    // Remover duplicadas
+    blockedConclusions = [...new Set(blockedConclusions)];
+
     const output: CashIntelligenceRuntimeOutput = {
       isAvailable: true,
+      contextSegment: context,
+      universalIndicators,
       liquidityClassification: classification,
       artificialLiquidityDetected: artificial,
       reconciliationAlerts: reconciliation,
-      operationalSustainability: sustainability,
+      legacyOperationalSustainabilityAssessment: legacySust,
+      fiduciaryOperationalSustainabilityAssessment: fidSust,
       continuityRisk: continuity,
       fiduciaryNarrative: narrative,
       blockedConclusions,
@@ -203,7 +230,7 @@ export class FiduciaryCashIntelligenceRuntime {
       lineageHash,
       cashIntelligenceLineageHash: lineageHash,
       causalReferences: [lineageHash],
-      score: sustainability.resilienceScore
+      score: legacySust.resilienceScore
     };
 
     return output;

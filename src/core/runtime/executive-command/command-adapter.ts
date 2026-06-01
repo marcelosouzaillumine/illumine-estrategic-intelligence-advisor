@@ -44,7 +44,7 @@ export class CommandAdapter {
 
     const metadata = (report as any).metadata || {};
     const historicalCyclesCount = metadata.historicalCyclesCount || 0;
-    const lineageHash = metadata.lineageHash || 'unknown-hash';
+    const lineageHash = metadata.lineageHash || 'any-hash';
 
     return {
       activeSurvivalMode,

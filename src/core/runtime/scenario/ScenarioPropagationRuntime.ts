@@ -14,7 +14,7 @@ export class ScenarioPropagationRuntime {
     
     // 1. Contaminação Intercompany
     // Se uma entidade origem de mútuo (quem deve pagar) colapsou, a entidade destino toma um hit e gera violação preditiva
-    for (const relation of (stressedInput as any).intercompanyRelations || []) {
+    for (const relation of (stressedInput as unknown as { intercompanyRelations?: { fromEntityId: string, toEntityId: string, amount: number, materiality: string }[] }).intercompanyRelations || []) {
       if (rawStress.collapsedEntities.includes(relation.fromEntityId)) {
         propagatedViolations.push({
           violationId: crypto.randomUUID(),

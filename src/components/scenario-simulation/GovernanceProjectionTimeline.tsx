@@ -1,13 +1,16 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
 
+import { useLanguage } from '../../contexts/LanguageContext';
+
 export const GovernanceProjectionTimeline: React.FC = () => {
+  const { t } = useLanguage();
   const { simulationOutput, sandboxResult, activeHorizon } = useScenarioSimulation();
 
   if (!simulationOutput) {
     return (
       <div className="card-premium p-8 text-center text-muted-foreground font-mono text-xs animate-pulse">
-        CARREGANDO GRÁFICO DE PROJEÇÃO...
+        {t('scenario.timeline.loading')}
       </div>
     );
   }
@@ -17,14 +20,14 @@ export const GovernanceProjectionTimeline: React.FC = () => {
 
   // Gerar trajetórias de 4 pontos (ciclo inicial, meio-1, meio-2, fim de horizonte)
   const basePoints = [
-    { label: 'Hoje', value: Math.round(baseScore * 0.25) },
+    { label: t('scenario.timeline.today'), value: Math.round(baseScore * 0.25) },
     { label: 'T + 30%', value: Math.round(baseScore * 0.5) },
     { label: 'T + 60%', value: Math.round(baseScore * 0.75) },
     { label: activeHorizon.replace('_', ' '), value: baseScore }
   ];
 
   const sandPoints = [
-    { label: 'Hoje', value: Math.round(sandboxScore * 0.25) },
+    { label: t('scenario.timeline.today'), value: Math.round(sandboxScore * 0.25) },
     { label: 'T + 30%', value: Math.round(sandboxScore * 0.5) },
     { label: 'T + 60%', value: Math.round(sandboxScore * 0.75) },
     { label: activeHorizon.replace('_', ' '), value: sandboxScore }
@@ -51,16 +54,16 @@ export const GovernanceProjectionTimeline: React.FC = () => {
     <div className="card-premium p-8 space-y-6 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
       <div className="flex justify-between items-center border-b border-border/40 pb-4">
         <h4 className="text-sm font-medium text-foreground tracking-tight">
-          Governance Deterioration Projection
+          {t('scenario.timeline.title')}
         </h4>
         <div className="flex gap-4 font-mono text-[10px] font-bold tracking-widest">
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-1 bg-muted-foreground/50 rounded-full inline-block" />
-            <span className="text-muted-foreground">BASELINE</span>
+            <span className="text-muted-foreground">{t('scenario.timeline.baseline')}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-1 bg-secondary rounded-full inline-block" />
-            <span className="text-secondary">SANDBOX</span>
+            <span className="text-secondary">{t('scenario.timeline.sandbox')}</span>
           </div>
         </div>
       </div>
@@ -109,9 +112,9 @@ export const GovernanceProjectionTimeline: React.FC = () => {
       </div>
 
       <div className="p-4 bg-surface-container/60 border border-border/60 rounded-xl flex justify-between font-mono text-[10px] text-muted-foreground">
-        <div>BASELINE TARGET SCORE: <span className="font-bold text-foreground">{baseScore}%</span></div>
+        <div>{t('scenario.timeline.baselineTarget')} <span className="font-bold text-foreground">{baseScore}%</span></div>
         {sandboxResult && (
-          <div>SANDBOX TARGET SCORE: <span className="font-bold text-secondary">{sandboxScore}%</span></div>
+          <div>{t('scenario.timeline.sandboxTarget')} <span className="font-bold text-secondary">{sandboxScore}%</span></div>
         )}
       </div>
     </div>

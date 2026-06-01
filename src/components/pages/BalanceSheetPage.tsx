@@ -224,6 +224,22 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     creditosSocios
   } = bpSummary || {} as any;
 
+  const parseMetricStr = (val: any) => {
+    if (typeof val === 'number') return val;
+    if (!val) return 0;
+    let s = String(val).replace(/[^\d.,-]/g, '');
+    if (s.includes(',') && s.includes('.')) {
+      if (s.lastIndexOf(',') > s.lastIndexOf('.')) {
+        s = s.replace(/\./g, '').replace(',', '.');
+      } else {
+        s = s.replace(/,/g, '');
+      }
+    } else if (s.includes(',')) {
+      s = s.replace(',', '.');
+    }
+    return parseFloat(s) || 0;
+  };
+
   const { ebitda, lucroLiquido } = useMemo(() => {
     console.log('[DEBUG DRE] selectedClient:', selectedClient, 'filterYear:', filterYear);
     console.log('[DEBUG DRE] dreDbData.length:', dreDbData.length);
@@ -274,7 +290,14 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
     const allRows = [
       ...generateInitialDreState(),
-      ...mappedRows
+      ...mappedRows.map((r: any) => {
+        const val = parseMetricStr(r.value || r.val);
+        return {
+          ...r,
+          val,
+          value: val
+        };
+      })
     ];
 
     const cascadeResult = calculateDreCascade(allRows);
@@ -361,7 +384,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
   const comparativeAnalysis = useMemo(() => {
     return rows.map((row: any) => {
-      const val = row.value !== undefined ? row.value : (row.val || 0);
+      const val = parseMetricStr(row.value !== undefined ? row.value : (row.val || 0));
       const rowName = row.name || row.conta || row.category || '';
       const prevVal = getHistoricalValue(filterYear - 1, rowName);
       

@@ -1,24 +1,26 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const ForecastDependencyPanel: React.FC = () => {
+  const { t } = useLanguage();
   const { simulationOutput, historyCyclesToUse } = useScenarioSimulation();
 
   const dependencies = [
-    { name: 'Institutional Memory Ledger', status: 'VALIDATED', description: 'Conexão e integridade do histórico contábil.' },
-    { name: 'Tenant Isolation Context', status: 'VALIDATED', description: 'Garantia de não-vazamento de dados multi-inquilino.' },
-    { name: 'Baseline Financial Statements', status: 'VALIDATED', description: 'Balanço Patrimonial e DRE importados do Runtime.' },
+    { name: t('scenario.dependency.ledger.name'), status: 'VALIDATED', description: t('scenario.dependency.ledger.desc') },
+    { name: t('scenario.dependency.tenant.name'), status: 'VALIDATED', description: t('scenario.dependency.tenant.desc') },
+    { name: t('scenario.dependency.financial.name'), status: 'VALIDATED', description: t('scenario.dependency.financial.desc') },
     {
-      name: 'Historical Suficiency (3+ Cycles)',
+      name: t('scenario.dependency.history.name'),
       status: historyCyclesToUse >= 3 ? 'VALIDATED' : 'WARNING',
-      description: `Ciclos históricos disponíveis: ${historyCyclesToUse} de 3 mínimos necessários.`
+      description: t('scenario.dependency.history.desc', { count: historyCyclesToUse.toString() })
     }
   ];
 
   return (
     <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl">
       <h4 className="text-slate-400 font-semibold tracking-wider uppercase text-xs font-mono mb-4 border-b border-slate-850 pb-2">
-        Verification & Dependency Checklist
+        {t('scenario.dependency.title')}
       </h4>
 
       <div className="space-y-3.5">
@@ -45,7 +47,7 @@ export const ForecastDependencyPanel: React.FC = () => {
 
       {simulationOutput && (
         <div className="mt-4 pt-3 border-t border-slate-850/80">
-          <span className="text-slate-500 font-mono text-[10px] uppercase block mb-1.5">METADATA AUDIT DEPENDENCIES</span>
+          <span className="text-slate-500 font-mono text-[10px] uppercase block mb-1.5">{t('scenario.dependency.metadata')}</span>
           <div className="flex flex-wrap gap-1.5">
             {simulationOutput.dependencies.map((dep, idx) => (
               <span key={idx} className="text-[10px] font-mono px-2 py-1 rounded bg-slate-900 border border-slate-800 text-slate-400">

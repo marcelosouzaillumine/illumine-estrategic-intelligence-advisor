@@ -1,3 +1,5 @@
+import { ExplainabilityOutput } from '../shared/runtime-contracts';
+
 export type ExecutionStatus = 'STARTED' | 'COMPLETED' | 'FAILED' | 'BLOCKED';
 
 export interface RuntimePerformanceMetrics {
@@ -34,12 +36,6 @@ export interface AdvisoryTraceNode {
   timestamp: string;
 }
 
-export interface ExplainabilityOutput {
-  causalChains: string[][];
-  narrativeLineage: string[];
-  blockedNarratives: string[];
-  stabilityScore: number;
-}
 
 export interface RuntimeExecutionTrace {
   executionId: string;
@@ -53,6 +49,9 @@ export interface RuntimeExecutionTrace {
   status: ExecutionStatus;
   executionLoopsDetected: boolean;
   excessiveExecutionTime: boolean;
+  lineageHash?: string;
+  historicalCyclesAvailable?: number;
+  auditTrail?: string[];
 }
 
 // Retro-compatibility (for files not yet migrated)
@@ -81,15 +80,38 @@ export interface ConfidenceTimelineEntry {
 
 export interface ExecutionTrace {
   executionId: string;
+  lineageHash?: string;
+  runtimeVersion?: string;
+  inputFingerprint?: string;
+  outputFingerprint?: string;
+  latencyMs?: number;
+  failClosedTriggered?: boolean;
+  restrictionFlags?: string[];
+  payloadIntegrityStatus?: string;
+  semanticCorruptionFlags?: string[];
+  replayToken?: string;
+  
   stages: {
     stageName: string;
     startedAt: string;
     completedAt: string;
     durationMs: number;
     status: 'SUCCESS' | 'FAILED' | 'SKIPPED';
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
   }[];
   totalDurationMs: number;
+}
+
+export interface RuntimeReplayEnvelope {
+  inputFingerprint: string;
+  runtimeVersion: string;
+  lineageHash: string;
+  traceId: string;
+  timestamp: string;
+  deterministicSeed?: string;
+  executionPath: string[];
+  triggeredEngines: string[];
+  failClosedEvents: string[];
 }
 
 export interface RuntimeExecutionRecord {
@@ -107,7 +129,7 @@ export interface RuntimeExecutionRecord {
   runtimeDurationMs: number;
   executionStatus: ExecutionStatus;
   advisoryHash: string;
-  lineageSnapshot: Record<string, any>;
+  lineageSnapshot: Record<string, unknown>;
 }
 
 export interface RuntimeHealthSnapshot {

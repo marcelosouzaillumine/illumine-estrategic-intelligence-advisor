@@ -16,7 +16,7 @@ export function GraphPatternAlertPanel({ tenantId }: { tenantId: string }) {
       <div className="space-y-2">
         {anomalies.map((a, i) => (
           <div key={i} className="p-3 bg-background border border-border/50 rounded text-sm text-foreground">
-            {a.metadata.insight}
+            {String(a.metadata.insight)}
           </div>
         ))}
       </div>

@@ -90,7 +90,11 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         clientProfile: currentClient,
         dreData: dbData,
         bpData: dbDataBP,
-        rawFinancialData: { filterYear, segmentoEmpresa },
+        rawFinancialData: { 
+          filterYear, 
+          segmentoEmpresa,
+          allHistoryData 
+        },
         historicalCyclesCount: docIds.length,
         isMockData: dbData.length === 0,
         historicalSeries: allHistoryData
@@ -110,7 +114,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     despesasFixas = 0, pontoEquilibrio = 0, gapEquilibrio = 0, margemSegurancaValor = 0,
     indiceDeducoes = 0, indiceCoberturaOperacional = 0, indiceMargemContrib = 0, cmvLabel = 'Custos Variáveis',
     cascadeResult = [], trendNote = null as any
-  } = executiveReport?.metrics.financialMetrics || {};
+  } = (executiveReport?.metrics.financialMetrics as any) || {};
 
   const efficiencies = executiveReport?.metrics.efficiencies || [];
   const kpis = executiveReport?.metrics.kpis || [];

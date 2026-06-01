@@ -7,10 +7,10 @@ export class StrategicIntelligenceAdapter {
   static extractContext(report: ExecutiveIntelligenceReport): StrategicEvaluationContext {
     return {
       metadata: {
-        lineageHash: (report as any).metadata?.lineageHash || 'UNVERIFIED',
+        lineageHash: (report as any).runtimeMetadata?.lineageHash || (report as any).metadata?.lineageHash || 'UNVERIFIED',
         tenantId: (report as any).metadata?.tenantId || 'UNKNOWN',
         cycleReference: (report as any).metadata?.cycleReference || 'UNKNOWN',
-        historicalCyclesCount: (report as any).metadata?.historicalCyclesCount || 0,
+        historicalCyclesCount: (report as any).runtimeMetadata?.historicalCyclesAvailable || (report as any).metadata?.historicalCyclesCount || 0,
       },
       capitalStructure: {
         fundingDependenceLevel: (report.capitalGovernanceReport as any)?.metrics?.fundingDependenceLevel || 'UNKNOWN',
@@ -18,8 +18,8 @@ export class StrategicIntelligenceAdapter {
       },
       metrics: {
         financialMetrics: {
-          ocf: report.metrics?.financialMetrics?.ocf || 0,
-          revenue: report.metrics?.financialMetrics?.receitaLiquida || report.metrics?.financialMetrics?.revenue || 0,
+          ocf: Number(report.metrics?.financialMetrics?.ocf || 0),
+          revenue: Number(report.metrics?.financialMetrics?.receitaLiquida || report.metrics?.financialMetrics?.revenue || 0),
         },
         scaleEfficiency: {
           recGrowth: report.metrics?.scaleEfficiency?.recGrowth || null,

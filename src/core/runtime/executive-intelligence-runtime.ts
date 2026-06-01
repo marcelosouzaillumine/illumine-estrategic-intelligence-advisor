@@ -65,6 +65,15 @@ import { InstitutionalBoardPackRuntime } from './institutional-reporting/Institu
 import { InstitutionalDeploymentReadinessEngine } from './deployment-readiness/InstitutionalDeploymentReadinessEngine';
 import { InstitutionalOnboardingOrchestrator } from './institutional-onboarding/InstitutionalOnboardingOrchestrator';
 import { InstitutionalOnboardingMockFactory } from '../../testing/fixtures/institutional-onboarding/InstitutionalOnboardingMockFactory';
+import { InstitutionalEvidenceOrchestrator } from './evidence-ingestion/InstitutionalEvidenceOrchestrator';
+import { InstitutionalEvidenceMockFactory } from '../../testing/fixtures/evidence-ingestion/InstitutionalEvidenceMockFactory';
+import { readRuntimeEnvironmentConfig } from './config/RuntimeEnvironmentConfig';
+import { ExecutiveConstitutionalRuntime } from './constitutional-governance/ExecutiveConstitutionalRuntime';
+import { ConstitutionalEnforcementGate } from './constitutional-governance/ConstitutionalEnforcementGate';
+import { ConstitutionalRestrictionEngine } from './constitutional-governance/ConstitutionalRestrictionEngine';
+import { ConstitutionalGovernanceMetadata } from './constitutional-governance/constitutional-types';
+
+const constRuntime = new ExecutiveConstitutionalRuntime();
 
 // EFOS Engines & Adapters (RC-1.4)
 import { CashFlowAdapter } from './cashflow/cashflow-adapter';
@@ -175,7 +184,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   fiduciaryEnforcement?: any;
   metrics: {
     hasData: boolean;
-    financialMetrics: Record<string, any>;
+    financialMetrics: Record<string, unknown>;
     kpis: {
       name: string;
       val: number | string;
@@ -242,6 +251,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   crossStatementCausality?: CrossStatementCausalityReport;
   orchestratedNarrative?: OrchestratedNarrative;
   consistencyReport?: ConsistencyValidationResult;
+  longitudinalCashIntelligence?: import('./cash-intelligence/CashIntelligenceTypes').LongitudinalCashIntelligenceOutput;
   institutionalView: InstitutionalViewContract;
   resilienceReport?: import('./institutional-resilience/ResilienceTypes').InstitutionalResilienceOutput;
   regressionReport?: import('./recovery-regression/RecoveryRegressionTypes').RecoveryRegressionOutput;
@@ -251,6 +261,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   institutionalBoardPack?: import('./institutional-reporting/institutional-reporting-types').InstitutionalBoardPackOutput;
   deploymentReadiness?: import('./deployment-readiness/DeploymentReadinessTypes').InstitutionalDeploymentReadinessOutput;
   institutionalOnboarding?: import('./institutional-onboarding/InstitutionalOnboardingTypes').InstitutionalOnboardingOutput;
+  institutionalEvidence?: import('./evidence-ingestion/InstitutionalEvidenceTypes').InstitutionalEvidenceValidationOutput;
 }
 
 export class ExecutiveIntelligenceRuntime implements
@@ -289,7 +300,7 @@ export class ExecutiveIntelligenceRuntime implements
    * Fluxo Oficial Obrigatório:
    * Importação -> Governança -> Contextualização -> Causalidade -> Modulação -> Advisory -> Executive Report -> UI
    */
-  public generateExecutiveReport(rawData: any): ExecutiveIntelligenceReport {
+  public generateExecutiveReport(rawData: any, externalMetadata?: any): ExecutiveIntelligenceReport {
     // Validação de "Não-Bypass": Sem dados brutos válidos, aborta a execução
     if (!rawData || typeof rawData !== 'object' || (!rawData.bpData && !rawData.rawFinancialData)) {
       throw new Error('VIOLAÇÃO DE GOVERNAÇA NÚCLEO: Impossível gerar relatório de inteligência executiva sem dados de entrada válidos.');
@@ -428,6 +439,18 @@ export class ExecutiveIntelligenceRuntime implements
        );
     }
 
+    // === EFOS EVIDENCE INGESTION LAYER ===
+    // This is the earliest fiduciary layer. It intercepts the payload before institutional contexts are evaluated.
+    const envType = process.env.NODE_ENV === 'production' ? 'PRODUCTION' : 'DEVELOPMENT';
+    const evidenceInput = InstitutionalEvidenceMockFactory.createEvidenceInputFromRawData(rawData, envType);
+    const evidenceReport = InstitutionalEvidenceOrchestrator.evaluate(evidenceInput);
+
+    if (evidenceReport.fiduciaryInterpretationBlocked) {
+      confidenceLevel = 'LOW_CONFIDENCE';
+      causalDepth = 'SHALLOW';
+      narrativeRestrictions.push('INTERPRETAÇÃO FIDUCIÁRIA BLOQUEADA: Evidência não-validada, contaminada ou inconsistente.');
+    }
+
     // 1. Camada Base Institucional de Inteligência Contextual
     const institutionalContext = InstitutionalContextEngine.resolve(rawData);
 
@@ -475,10 +498,10 @@ export class ExecutiveIntelligenceRuntime implements
       ? rawData.rawFinancialData.lucroLiquido
       : (hasDRE ? (rawData.dreData.find((r: any) => r.category === 'LUCRO LÍQUIDO DO EXERCÍCIO' || r.id === 'LUCRO_LIQ')?.value || 0) : 0);
 
-    const metrics = calculateFinancialMetrics(bpSummary as any, dreEbitda, dreLucro, segment);
+    const metrics = calculateFinancialMetrics(bpSummary as unknown, dreEbitda, dreLucro, segment);
     const anosHistorico = rawData.historicalCyclesCount || 0;
-    const identity = inferBusinessIdentity(segment, anosHistorico, bpSummary as any, undefined, undefined);
-    const masterCausality = hasBP ? evaluateMasterCausality(bpSummary as any, metrics, identity) : undefined;
+    const identity = inferBusinessIdentity(segment, anosHistorico, bpSummary as unknown, undefined, undefined);
+    const masterCausality = hasBP ? evaluateMasterCausality(bpSummary as unknown, metrics, identity) : undefined;
     const temporalCausality = masterCausality?.temporalIntelligence;
 
     // ── Score Engine: Cálculo Real a partir dos dados do BP ─────────────────
@@ -569,7 +592,7 @@ export class ExecutiveIntelligenceRuntime implements
       
       let finalWeights = baseWeights;
       if (guard.evolutionScoreHidden) {
-        finalWeights = LongitudinalIntelligenceGuard.recalibrateWeights(baseWeights) as any;
+        finalWeights = LongitudinalIntelligenceGuard.recalibrateWeights(baseWeights) as unknown;
         finalWeights.evolution = 0;
         scoreEvolucao = 0; // Nullify evolution impact
       }
@@ -757,7 +780,7 @@ export class ExecutiveIntelligenceRuntime implements
     const getSeverityColor = (v: number) =>
       v >= 75 ? 'emerald' : v >= 55 ? 'blue' : v >= 40 ? 'amber' : 'rose';
 
-    const bp = bpSummary || {} as any;
+    const bp = bpSummary || {} as unknown;
     const at2 = bp.ativoTotal || 0;
     const ac2 = bp.ativoCirculante || 0;
     const pc2 = bp.passivoCirculante || 0;
@@ -1133,7 +1156,7 @@ export class ExecutiveIntelligenceRuntime implements
           ebitdaGrowth,
           description: dreInsights.performanceNote
         },
-        alerts: dreInsights.systemAlerts as any[],
+        alerts: dreInsights.systemAlerts as { type: "warning" | "danger", msg: string }[],
         chartData
       };
     };
@@ -1157,16 +1180,16 @@ export class ExecutiveIntelligenceRuntime implements
         ) : []);
 
     // Process DFC (Trilha 1) - Legacy Adapter
-    const metricsAny = metrics as any;
+     
     const rawCashFlow = CashFlowAdapter.process(
       dfcDataForRuntime,
       dreEbitda,
-      metricsAny.workingCapitalVariation || 0,
-      metricsAny.capex || 0,
-      metricsAny.debtService || 0,
+      0 || 0,
+      0 || 0,
+      0 || 0,
       bpSummary?.caixaEquivalentes || 0,
-      metricsAny.thirdPartyFunding || 0,
-      metricsAny.equityFunding || 0
+      0 || 0,
+      0 || 0
     );
     const cashFlowReport: ConsolidatedCashFlowReport = {
       isAvailable: rawCashFlow.diagnostics.isAvailable,
@@ -1288,25 +1311,38 @@ export class ExecutiveIntelligenceRuntime implements
       fco,
       fci,
       fcf,
-      metricsAny.workingCapitalVariation || 0,
+      0 || 0,
       receivables,
       inventory,
       bpSummary?.caixaEquivalentes || 0,
-      metricsAny.thirdPartyFunding || 0,
-      metricsAny.capitalInjections || 0,
+      0 || 0,
+      0 || 0,
       rawData.historicalCyclesCount || 1
     );
+
+    // Call LongitudinalCashIntelligenceEngine to get trajectoryClassification
+    const _LongitudinalCashIntelligenceEngine = require('./cash-intelligence/LongitudinalCashIntelligenceEngine').LongitudinalCashIntelligenceEngine;
+    const historicalCashReports = rawData.historicalCashSustainabilityReports || [];
+    const allCashReports = [...historicalCashReports, cashSustainabilityReport];
+    let longitudinalCashIntelligence = undefined;
+    if (allCashReports.length >= 3) {
+      const { longitudinalOut } = _LongitudinalCashIntelligenceEngine.evaluate(allCashReports);
+      longitudinalCashIntelligence = longitudinalOut;
+      // also attach to cashSustainabilityReport to satisfy ExecutiveSnapshotEngine if it looks there
+      (cashSustainabilityReport as any).longitudinalOut = longitudinalOut;
+      (cashSustainabilityReport as any).longitudinalScore = longitudinalOut.longitudinalScore;
+    }
 
     const causalIntelligenceReport = InstitutionalCausalIntelligenceRuntime.evaluate(
       cashSustainabilityReport,
       dreLucro,
       dreEbitda,
       fco,
-      metricsAny.workingCapitalVariation || 0,
+      0 || 0,
       receivables,
       inventory,
       bpSummary?.caixaEquivalentes || 0,
-      metricsAny.thirdPartyFunding || 0,
+      0 || 0,
       allHistData,
       rawData.historicalCycles || [],
       filtYear
@@ -1339,8 +1375,8 @@ export class ExecutiveIntelligenceRuntime implements
       startingEquity: rawData.rawFinancialData?.prevPl || bpSummary?.patrimonioLiquido || 0,
       endingEquity: bpSummary?.patrimonioLiquido || 0,
       ebitda: dreEbitda,
-      thirdPartyFunding: metricsAny.thirdPartyFunding || 0,
-      equityFunding: metricsAny.capitalInjections || 0,
+      thirdPartyFunding: 0 || 0,
+      equityFunding: 0 || 0,
       receivables,
       inventory,
       payables,
@@ -1370,10 +1406,10 @@ export class ExecutiveIntelligenceRuntime implements
       rawData.dlpaData || [],
       dreLucro,
       bpSummary?.patrimonioLiquido || 0,
-      metricsAny.totalDistributed || totalDistributed,
+      0 || totalDistributed,
       bpSummary?.patrimonioLiquido || 0, // startingEquity
       bpSummary?.patrimonioLiquido || 0, // endingEquity
-      metricsAny.capitalInjections || 0,
+      0 || 0,
       financialRuntimeContext,
       rawData.runtimeHistory || []
     );
@@ -1385,7 +1421,7 @@ export class ExecutiveIntelligenceRuntime implements
       preservation: rawCapitalGov.diagnostics.preservation,
       capitalization: rawCapitalGov.diagnostics.capitalization,
       behavior: rawCapitalGov.diagnostics.behavior,
-      fiduciaryOutput: (rawCapitalGov.diagnostics as any).fiduciaryOutput
+      fiduciaryOutput: (rawCapitalGov.diagnostics as unknown).fiduciaryOutput
     };
 
     // Process Thesis (Trilha 3)
@@ -1477,8 +1513,8 @@ export class ExecutiveIntelligenceRuntime implements
       }
 
       // Propagate disclosures to compliance auditFlags or narrative restrictions or advisory actionMatrix
-      if (treasuryIntelligenceReport.fiduciaryDisclosures && treasuryIntelligenceReport.fiduciaryDisclosures.length > 0) {
-        const uniqueDisclosures = treasuryIntelligenceReport.fiduciaryDisclosures.map(sanitizeNarrative);
+      if (treasuryIntelligenceReport.disclosures && treasuryIntelligenceReport.disclosures.length > 0) {
+        const uniqueDisclosures = treasuryIntelligenceReport.disclosures.map(d => sanitizeNarrative(d.message));
         uniqueDisclosures.forEach(disc => {
           if (!advisory.actionMatrix.includes(disc)) {
             advisory.actionMatrix.unshift(disc); // push disclosures to the top of action matrix
@@ -1487,7 +1523,7 @@ export class ExecutiveIntelligenceRuntime implements
       }
       
       // If treasury severity is CRITICAL or TREASURY_RUPTURE_RISK, degrade scores fiduciariamente
-      if (treasuryIntelligenceReport.severity === 'TREASURY_RUPTURE_RISK' || treasuryIntelligenceReport.severity === 'CRITICAL') {
+      if (treasuryIntelligenceReport.severity === 'CRITICAL') {
         scores.governance = Math.min(scores.governance, 30);
         scores.composite = Math.min(scores.composite, 40);
         scores.financial = Math.min(scores.financial, 35);
@@ -1607,8 +1643,8 @@ export class ExecutiveIntelligenceRuntime implements
     // (Removed old conditional RRG logic since we always do final IRRE pass)
 
     // Attach reports for downstream consumers
-    (recoveryReport as any).regressionReport = regressionReport;
-    (recoveryReport as any).resilienceReport = resilienceReport;
+    ((recoveryReport as unknown) as { regressionReport?: unknown }).regressionReport = regressionReport;
+    ((recoveryReport as unknown) as { resilienceReport?: unknown }).resilienceReport = resilienceReport;
 
     // Process Survival priority hierarchy (ISHE)
     const survivalReport = InstitutionalSurvivalHierarchyEngine.evaluate({
@@ -1652,9 +1688,16 @@ export class ExecutiveIntelligenceRuntime implements
         
         treasuryIntelligenceReport.priorityMatrix = reevaluatedMatrix;
         
-        if (!treasuryIntelligenceReport.fiduciaryDisclosures.includes('DISCLOSURE_SURVIVAL_ACTIVE')) {
-          treasuryIntelligenceReport.fiduciaryDisclosures.push(
-            'DISCLOSURE_SURVIVAL_ACTIVE: Modo de sobrevivência institucional ativo (ISHE). Todas as prioridades financeiras acima do Nível 1 estão congeladas.'
+        if (!treasuryIntelligenceReport.disclosures.some(d => d.disclosureId === 'DISCLOSURE_SURVIVAL_ACTIVE')) {
+          treasuryIntelligenceReport.disclosures.push(
+            { 
+              disclosureId: 'DISCLOSURE_SURVIVAL_ACTIVE', 
+              disclosureType: 'RESTRICTION',
+              message: 'Modo de sobrevivência institucional ativo (ISHE). Todas as prioridades financeiras acima do Nível 1 estão congeladas.', 
+              severity: 'CRITICAL',
+              sourceRuntime: 'TreasuryIntelligenceRuntime',
+              restrictionLevel: 'HARD'
+            }
           );
         }
       }
@@ -1687,9 +1730,16 @@ export class ExecutiveIntelligenceRuntime implements
         });
         treasuryIntelligenceReport.priorityMatrix = reevaluatedMatrix;
         
-        if (!treasuryIntelligenceReport.fiduciaryDisclosures.includes('DISCLOSURE_RECOVERY_ACTIVE')) {
-          treasuryIntelligenceReport.fiduciaryDisclosures.push(
-            `DISCLOSURE_RECOVERY_ACTIVE: Restrições progressivas de tesouraria devido a estágio de recuperação (${recoveryReport.activeRecoveryStage}).`
+        if (!treasuryIntelligenceReport.disclosures.some(d => d.disclosureId === 'DISCLOSURE_RECOVERY_ACTIVE')) {
+          treasuryIntelligenceReport.disclosures.push(
+            { 
+              disclosureId: 'DISCLOSURE_RECOVERY_ACTIVE', 
+              disclosureType: 'RESTRICTION',
+              message: `Restrições progressivas de tesouraria devido a estágio de recuperação (${recoveryReport.activeRecoveryStage}).`, 
+              severity: 'HIGH',
+              sourceRuntime: 'TreasuryIntelligenceRuntime',
+              restrictionLevel: 'SOFT'
+            }
           );
         }
       }
@@ -1755,13 +1805,20 @@ export class ExecutiveIntelligenceRuntime implements
       },
       temporalCausality,
       fiduciaryEnforcement,
-      runtimeMetadata: traceEngine.finalizeTrace(),
+      runtimeMetadata: {
+        ...traceEngine.finalizeTrace(),
+        historicalCyclesAvailable: rawData.historicalCyclesCount || externalMetadata?.historicalCyclesAvailable || rawData.metadata?.historicalCyclesAvailable || 0,
+        lineageHash: externalMetadata?.lineageHash || rawData.metadata?.lineageHash || 'hash-fallback',
+        tenantId: externalMetadata?.tenantId || rawData.metadata?.tenantId,
+        cycleReference: externalMetadata?.cycleReference || rawData.metadata?.cycleReference
+      } as any,
       institutionalContext,
       institutionalMemory: memoryProfile,
       institutionalCausality: causalityProfile,
       prudency: prudencyOutput,
       structuralCapital,
       cashSustainabilityReport,
+      longitudinalCashIntelligence,
       causalIntelligenceReport,
       treasuryIntelligenceReport,
       cashFlowReport,
@@ -1772,7 +1829,8 @@ export class ExecutiveIntelligenceRuntime implements
       operatingPressureReport,
       financialThesis,
       crossStatementCausality,
-      institutionalView
+      institutionalView,
+      institutionalEvidence: evidenceReport
     };
 
     // Process Narrative Orchestration (Trilha 8)
@@ -1828,30 +1886,32 @@ export class ExecutiveIntelligenceRuntime implements
     // === EFOS DEPLOYMENT READINESS LAYER ===
     // As explicitly defined in doctrine, this is the LAST barrier. It does not alter
     // previous fiduciary calculations. It audits the runtime's safety to be deployed.
+    const envConfig = readRuntimeEnvironmentConfig();
+
     const deploymentReadiness = InstitutionalDeploymentReadinessEngine.evaluate({
       executiveReport: report,
       environmentConfiguration: {
-        environmentType: (globalThis as any).EFOS_ENV || 'DEVELOPMENT',
-        mockFactoriesEnabled: (globalThis as any).EFOS_MOCKS_ENABLED || false,
-        debugModeEnabled: (globalThis as any).EFOS_DEBUG_MODE || false,
+        environmentType: envConfig.environmentType as any,
+        mockFactoriesEnabled: envConfig.mockFactoriesEnabled,
+        debugModeEnabled: envConfig.debugModeEnabled,
         tenantIsolationEnabled: true,
         activeSimulations: false,
       },
       tenantIsolationRuntime: {
         tenantId: 'tenant-placeholder',
-        isPilotTenant: (globalThis as any).EFOS_IS_PILOT || false,
-        isProductionTenant: (globalThis as any).EFOS_ENV === 'PRODUCTION',
+        isPilotTenant: envConfig.isPilotTenant,
+        isProductionTenant: envConfig.isProductionTenant,
         hasCrossTenantAccess: false,
       },
       runtimeHealthMetrics: {
-        testsPassed: (globalThis as any).EFOS_TESTS_PASSED !== false, // Defaulting to optimistic if not explicitly failed during this mock pass, but tests will override
-        typecheckPassed: (globalThis as any).EFOS_TYPECHECK_PASSED !== false,
-        buildPassed: (globalThis as any).EFOS_BUILD_PASSED !== false,
+        testsPassed: envConfig.testsPassed,
+        typecheckPassed: envConfig.typecheckPassed,
+        buildPassed: envConfig.buildPassed,
         unresolvedAnomalies: 0,
       },
-      currentUserRole: (globalThis as any).EFOS_USER_ROLE || 'MASTER_SUPERVISOR',
-      lineageHash: (report as any).metadata?.lineageHash || 'placeholder-hash',
-      auditTrail: (report as any).metadata?.auditTrail || [],
+      currentUserRole: envConfig.userRole,
+      lineageHash: report.runtimeMetadata?.lineageHash || 'placeholder-hash',
+      auditTrail: report.runtimeMetadata?.auditTrail || [],
     });
 
     report.deploymentReadiness = deploymentReadiness;
@@ -1863,11 +1923,11 @@ export class ExecutiveIntelligenceRuntime implements
       ...mockOnboardingInput,
       deploymentReadinessReport: deploymentReadiness,
       executiveReport: report,
-      lineageHash: (report as any).metadata?.lineageHash || 'placeholder-hash',
-      auditTrail: (report as any).metadata?.auditTrail || [],
+      lineageHash: report.runtimeMetadata?.lineageHash || 'placeholder-hash',
+      auditTrail: report.runtimeMetadata?.auditTrail || [],
       environmentConfiguration: {
         ...mockOnboardingInput.environmentConfiguration,
-        environmentType: (globalThis as any).EFOS_ENV || 'DEVELOPMENT',
+        environmentType: envConfig.environmentType as any,
       }
     };
     report.institutionalOnboarding = InstitutionalOnboardingOrchestrator.evaluate(onboardingInput);

@@ -88,9 +88,9 @@ export class CalibrationEngine {
    * Dynamically adjusts a single calibration parameter.
    * Enforces that suppressed warnings cannot contain NON_SUPPRESSIBLE_WARNINGS.
    */
-  static updateParameter(
-    parameter: keyof CalibrationParameters,
-    value: any,
+  static updateParameter<K extends keyof CalibrationParameters>(
+    parameter: K,
+    value: CalibrationParameters[K],
     actorId: string,
     rationale: string
   ): CalibrationProfileVersion {
@@ -122,7 +122,7 @@ export class CalibrationEngine {
     this.activeProfileId = 'custom';
     
     // Mutate parameter fiduciarily
-    (this.currentParameters as any)[parameter] = value;
+    this.currentParameters[parameter] = value;
 
     const auditEntry: CalibrationProfileVersion = {
       profileId: 'custom',

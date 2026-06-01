@@ -28,8 +28,8 @@ export class HistoricalSeriesIntegrityEngine {
         scaleEfficiency: {
           category: 'NOT_AVAILABLE',
           colorClass: 'text-slate-400',
-          recGrowth: null as any,
-          ebitdaGrowth: null as any,
+          recGrowth: null as unknown as number,
+          ebitdaGrowth: null as unknown as number,
           description: msg
         }
       },

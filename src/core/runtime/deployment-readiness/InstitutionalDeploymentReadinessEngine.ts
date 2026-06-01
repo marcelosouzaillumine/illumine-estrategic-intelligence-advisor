@@ -1,4 +1,5 @@
 import { DeploymentReadinessInput, InstitutionalDeploymentReadinessOutput } from './DeploymentReadinessTypes';
+import { LineageHash } from '../shared/lineage-types';
 import { EnvironmentIntegrityValidationEngine } from './EnvironmentIntegrityValidationEngine';
 import { InstitutionalPilotGovernanceEngine } from './InstitutionalPilotGovernanceEngine';
 import { RuntimeOperationalAssuranceEngine } from './RuntimeOperationalAssuranceEngine';
@@ -90,29 +91,58 @@ export class InstitutionalDeploymentReadinessEngine {
     const readinessMatrix = InstitutionalReadinessOrchestrator.orchestrate(input);
 
     return {
+      runtimeMetadata: {
+        generatedAt: new Date().toISOString(),
+        runtimeVersion: '2.0.0',
+        contractVersion: 'RC_1_13A',
+        tenantId: input.tenantIsolationRuntime.tenantId || 'SYSTEM',
+        cycleReference: 'CURRENT'
+      },
+      lineage: {
+        lineageHash: input.lineageHash as unknown as import('../shared/lineage-types').LineageHash,
+        parentHashes: []
+      },
+      disclosures: blockedDeploymentReasons.map((reason, idx) => ({
+        disclosureId: `DEP_BLOCK_${idx}`,
+        disclosureType: 'RESTRICTION',
+        severity: 'CRITICAL',
+        sourceRuntime: 'DeploymentReadinessEngine',
+        restrictionLevel: 'HARD',
+        message: reason
+      })),
+      compliance: {
+        integrityStatus: envValidation.status === 'VALIDATED' ? 'INTACT' : 'COMPROMISED',
+        complianceStatus: deploymentBlocked ? 'NON_COMPLIANT' : 'COMPLIANT',
+        complianceBlockers: blockedDeploymentReasons
+      },
+      explainability: {
+        structuralDrivers: [],
+        propagationChains: [],
+        evidence: [],
+        confidenceDecomposition: {},
+        lineageReferences: [],
+        level: 'DETERMINISTIC'
+      },
+      overallStatus: deploymentBlocked ? 'DEPLOYMENT_BLOCKED' : (deploymentReadiness === 'FULL_PRODUCTION_READY' ? 'DEPLOYMENT_READY' : 'DEPLOYMENT_RESTRICTED'),
+      productionReadiness: readinessMatrix.productionReadiness,
+      fiduciaryReadiness: readinessMatrix.fiduciaryReadiness,
+      governanceReadiness: readinessMatrix.governanceReadiness,
+      continuityReadiness: readinessMatrix.continuityReadiness,
+      observabilityReadiness: readinessMatrix.observabilityReadiness,
+      auditabilityReadiness: readinessMatrix.auditabilityReadiness,
       deploymentReadiness,
       deploymentBlocked,
-      readinessMatrix,
       runtimeIntegrityStatus: envValidation.status === 'VALIDATED' ? 'VALIDATED' : 'UNSTABLE',
       failClosedIntegrityStatus: envValidation.failClosedStatus,
-      lineageValidationStatus: envValidation.lineageStatus,
       operationalAssuranceStatus: opAssurance.assuranceStatus,
       environmentIntegrityStatus: envValidation.status,
       pilotGovernanceStatus: pilotValidation.status,
       executiveAccessGovernanceStatus: accessGovernance.status,
       runtimeRegressionRisk: opAssurance.regressionRisk,
-      unresolvedCriticalIssues,
       deploymentWarnings,
       blockedDeploymentReasons,
       operationalRecommendations: opAssurance.recommendations,
-      readinessNarrative,
-      auditTrail: [
-        ...input.auditTrail,
-        `[${new Date().toISOString()}] Deployment Readiness Evaluated: ${deploymentReadiness}`,
-        `[${new Date().toISOString()}] Blocked Status: ${deploymentBlocked}`
-      ],
-      lineageHash: input.lineageHash,
-      confidenceLevel
+      readinessNarrative
     };
   }
 }

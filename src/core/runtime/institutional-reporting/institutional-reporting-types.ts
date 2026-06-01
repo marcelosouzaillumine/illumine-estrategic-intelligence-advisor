@@ -5,17 +5,43 @@ import { InstitutionalOperationalGovernanceOutput } from '../operational-governa
 import { InstitutionalStrategicIntelligenceOutput } from '../strategic-intelligence/strategic-intelligence-types';
 import { InstitutionalResilienceOutput } from '../institutional-resilience/ResilienceTypes';
 import { TreasuryIntelligenceRuntimeOutput } from '../treasury-intelligence/types';
+import { RuntimeMetadata, InstitutionalDisclosure } from '../shared/runtime-contracts';
+import { BoardPackLineageHash, RuntimeLineageHash } from '../shared/lineage-types';
+import { RuntimeIntegrityStatus } from '../shared/runtime-constitutional-types';
+import {
+  ConstitutionalOverrideAttempt,
+  ConstitutionalAuditRecord,
+  ConstitutionalIntegrityState
+} from '../constitutional-governance/constitutional-types';
 
-export type ReportGenerationStatus = 'COMPLETE' | 'RESTRICTED' | 'FAILED';
 
-export interface ReportGenerationMetadata {
-  boardPackLineageHash: string;
-  generationTimestamp: string;
+export type ReportGenerationStatus = 'COMPLETE' | 'RESTRICTED' | 'FAILED' | 'CONSTITUTIONAL_QUARANTINE';
+
+export interface ConstitutionalSection {
+  constitutionalStatus: ConstitutionalIntegrityState;
+  doctrineIntegrity: boolean;
+  overrideAttempts: ConstitutionalOverrideAttempt[];
+  compatibilityStatus: Record<string, boolean>;
+  constitutionalConfidence: 'HIGH' | 'MODERATE' | 'LOW' | 'BLOCKED';
+  erosionSignals: string[];
+  migrationSafety: boolean;
+  constitutionalRestrictions: string[];
+  constitutionalLineageHash: string;
+  constitutionalAuditTrail: ConstitutionalAuditRecord[];
+  enforcementActions: string[];
+  quarantineReason: string;
+  affectedRuntimeDomains: string[];
+}
+
+
+export interface BoardPackMetadata extends RuntimeMetadata {
+  boardPackLineageHash: BoardPackLineageHash;
+  reportGenerationTimestamp: string;
   tenantId: string;
   cycleReference: string;
-  isImmutableSnapshot: boolean;
-  confidenceThresholdMet: boolean;
-  historicalCyclesAvailable: number;
+  snapshotIntegrityStatus: RuntimeIntegrityStatus;
+  immutabilityStatus: 'IMMUTABLE' | 'MUTABLE';
+  runtimeSources: string[];
 }
 
 export interface FiduciaryRestriction {
@@ -24,18 +50,50 @@ export interface FiduciaryRestriction {
   affectedRuntimes: string[];
 }
 
-export interface InstitutionalDisclosure {
-  disclosureId: string;
-  statement: string;
-  severity: 'INFO' | 'WARNING' | 'CRITICAL';
-}
-
 export interface ExecutiveSnapshotSection {
   executiveSummary: string; // Deterministic semantic sentence
   unifiedThesisStatement: string;
   activeSurvivalMode: boolean;
   structuralPressureLevel: string;
   fiduciaryRestrictionsActive: number;
+  periodScore?: number;
+  
+  // Novas propriedades Longitudinais
+  longitudinalTrajectory?: string;
+  longitudinalExecutiveNarrative?: string;
+  longitudinalScore?: number | 'NOT_AVAILABLE';
+  fiduciaryRestrictions?: FiduciaryRestriction[];
+  recoveryNarrativeBlocked?: boolean;
+  trajectoryConfidence?: 'HIGH' | 'MODERATE' | 'LOW' | 'BLOCKED';
+
+  // Final Phase: Integration Fields
+  stabilityIndexClassification?: string;
+  earlyWarningLevel?: string;
+  quarantineMode?: boolean;
+  isRestricted?: boolean;
+  restrictionReason?: string;
+  restrictionSeverity?: 'INFO' | 'WARNING' | 'HIGH' | 'CRITICAL' | 'BLOCKED';
+  accountingIntegrityStatus?: string;
+  timelineIntegrityStatus?: 'VALID' | 'BROKEN' | 'INSUFFICIENT_HISTORY' | 'RESTRICTED';
+  continuityRiskLevel?: string;
+  lineageHash?: string;
+  rationale?: string;
+  evidenceTrail?: string[];
+}
+
+export interface FiduciaryTimelineSection {
+  runwayEvolution: number[];
+  burnEvolution: number[];
+  fcoEvolution: number[];
+  fcfEvolution: number[];
+  liquidityQualityEvolution: string[];
+  dependencyRecurrence: number;
+  artificialLiquidityFrequency: number; // Porcentagem ou contagem
+  ebitdaToCashConsistency: boolean;
+  trajectoryMarkers: string[];
+  periodsCovered: number;
+  timelineIntegrityStatus: 'VALID' | 'BROKEN' | 'INSUFFICIENT_HISTORY';
+  fiduciaryWarnings: string[];
 }
 
 export interface GovernanceReportingSection {
@@ -83,8 +141,8 @@ export interface ExplainabilityAppendix {
 }
 
 export interface LineageAppendix {
-  boardPackLineageHash: string;
-  runtimeHashes: Record<string, string>;
+  boardPackLineageHash: BoardPackLineageHash;
+  runtimeHashes: Record<string, RuntimeLineageHash>;
   propagationHashes: string[];
 }
 
@@ -96,8 +154,9 @@ export interface BoardResolutionAppendix {
 
 export interface InstitutionalBoardPackOutput {
   status: ReportGenerationStatus;
-  metadata: ReportGenerationMetadata;
+  metadata: BoardPackMetadata;
   executiveSnapshot: ExecutiveSnapshotSection;
+  fiduciaryTimeline?: FiduciaryTimelineSection; // Nova Seção Fiduciária Longitudinal
   governanceReport: GovernanceReportingSection;
   strategicDirection: StrategicDirectionSection;
   continuityReport: ContinuitySection;
@@ -107,6 +166,8 @@ export interface InstitutionalBoardPackOutput {
   explainabilityAppendix: ExplainabilityAppendix;
   lineageAppendix: LineageAppendix;
   boardResolutionAppendix: BoardResolutionAppendix;
-  disclosures: InstitutionalDisclosure[];
+  disclosureSet: InstitutionalDisclosure[];
   fiduciaryRestrictions: FiduciaryRestriction[];
+  constitutionalSection?: ConstitutionalSection;
 }
+

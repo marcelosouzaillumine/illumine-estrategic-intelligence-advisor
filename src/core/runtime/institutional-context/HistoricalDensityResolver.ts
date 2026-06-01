@@ -3,7 +3,7 @@ import { IResolverContext, HistoricalDensity } from './types';
 export class HistoricalDensityResolver {
   static resolve(ctx: IResolverContext): HistoricalDensity {
     if (ctx.historicalCyclesCount === 0) {
-      return 'NO_VALID_HISTORY' as any; // Type needs to be adjusted in types.ts
+      return 'NO_VALID_HISTORY' as unknown as import("./types").HistoricalDensity; // Type needs to be adjusted in types.ts
     }
     if (ctx.historicalCyclesCount === 1) {
       return 'SINGLE_YEAR_ONLY';

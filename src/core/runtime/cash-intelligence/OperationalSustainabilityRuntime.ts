@@ -1,8 +1,12 @@
-import { OperationalSustainabilityAssessment } from './CashIntelligenceTypes';
+import { 
+  LegacyOperationalSustainabilityAssessment,
+  FiduciaryOperationalSustainabilityAssessment
+} from './CashIntelligenceTypes';
 
 export class OperationalSustainabilityRuntime {
   /**
    * Determina a sustentabilidade operacional real e a consistência da geração de caixa.
+   * Retorna os dois formatos (legacy e fiduciary) para migração segura.
    */
   public static evaluate(
     fco: number,
@@ -10,7 +14,12 @@ export class OperationalSustainabilityRuntime {
     netIncome: number,
     workingCapitalVariation: number,
     historicalCyclesCount: number
-  ): OperationalSustainabilityAssessment {
+  ): { 
+    legacy: LegacyOperationalSustainabilityAssessment; 
+    fiduciary: FiduciaryOperationalSustainabilityAssessment 
+  } {
+    // --- Lógica Base ---
+    
     // 1. Capacidade de Autofinanciamento
     let selfFinancingCapacity: 'HIGH' | 'MODERATE' | 'LOW' | 'NONE' = 'NONE';
     if (fco > 0 && netIncome > 0) {
@@ -44,11 +53,11 @@ export class OperationalSustainabilityRuntime {
       operationalFragilityIndex += 20;
     }
     if (workingCapitalVariation > 0) {
-      // Dreno de capital de giro (variação positiva consome caixa)
+      // Dreno de capital de giro
       operationalFragilityIndex += 20;
     }
     if (fco < 0 && fcf > Math.abs(fco)) {
-      // Liquidez artificial / dependência externa
+      // Liquidez artificial
       operationalFragilityIndex += 20;
     }
     operationalFragilityIndex = Math.min(operationalFragilityIndex, 100);
@@ -68,7 +77,7 @@ export class OperationalSustainabilityRuntime {
     // 5. Score de Resiliência
     const resilienceScore = 100 - operationalFragilityIndex;
 
-    // 6. Consistência Longitudinal (Narrativa descritiva)
+    // 6. Consistência Longitudinal
     let longitudinalConsistency = '';
     if (resilienceScore >= 80) {
       longitudinalConsistency = 'Excelente consistência longitudinal com geração de caixa saudável e baixo risco operacional.';
@@ -80,7 +89,8 @@ export class OperationalSustainabilityRuntime {
 
     const isSustained = fco > 0 && resilienceScore >= 50;
 
-    return {
+    // --- Mapeamento Legacy ---
+    const legacy: LegacyOperationalSustainabilityAssessment = {
       isSustained,
       selfFinancingCapacity,
       operationalCashConsistency,
@@ -89,5 +99,29 @@ export class OperationalSustainabilityRuntime {
       resilienceScore,
       longitudinalConsistency
     };
+
+    // --- Mapeamento Fiduciary Novo ---
+    let fiduciaryClassification: 'OPERATIONALLY_SUSTAINABLE' | 'OPERATIONALLY_PRESSURED' | 'DEPENDENT_ON_EXTERNAL_CAPITAL' | 'STRUCTURAL_CASH_COLLAPSE' = 'OPERATIONALLY_SUSTAINABLE';
+    
+    if (fco < 0 && fcf < 0) {
+      fiduciaryClassification = 'STRUCTURAL_CASH_COLLAPSE';
+    } else if (fco < 0 && fcf > 0) {
+      fiduciaryClassification = 'DEPENDENT_ON_EXTERNAL_CAPITAL';
+    } else if (fco > 0 && resilienceScore < 50) {
+      fiduciaryClassification = 'OPERATIONALLY_PRESSURED';
+    } else if (fco > 0 && fcf > 0 && fcf > fco * 0.5) {
+      fiduciaryClassification = 'OPERATIONALLY_PRESSURED';
+    } else {
+      fiduciaryClassification = 'OPERATIONALLY_SUSTAINABLE';
+    }
+
+    const fiduciary: FiduciaryOperationalSustainabilityAssessment = {
+      classification: fiduciaryClassification,
+      resilienceScore,
+      operationalFragilityIndex,
+      longitudinalConsistency
+    };
+
+    return { legacy, fiduciary };
   }
 }

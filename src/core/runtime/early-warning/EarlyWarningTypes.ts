@@ -48,7 +48,7 @@ export interface PredictiveRiskEvent {
 export interface RiskSignal {
   source: string;
   value: number; // 0 to 1
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 export interface DeteriorationPattern {

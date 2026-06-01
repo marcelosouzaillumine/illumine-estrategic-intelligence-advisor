@@ -44,7 +44,7 @@ export class EliminationEngine {
 
       records.push({
         eliminationId: op.operationId,
-        type: op.type as any,
+        type: op.type as unknown as "MUTUO" | "RECEITA_DESPESA" | "DIVIDENDO" | "INVESTIMENTO",
         sourceEntityId: op.sourceEntityId,
         targetEntityId: op.targetEntityId,
         sourceAccountCategory: op.sourceAccountCategory,

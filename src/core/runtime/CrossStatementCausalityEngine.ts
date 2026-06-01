@@ -90,10 +90,25 @@ export class CrossStatementCausalityEngine {
     dreEbitda: number,
     dreLucro: number,
     cashFlowReport: any,
-    capitalGovernanceReport: any
+    capitalGovernanceReport: any,
+    reconciliationStatus?: 'PASSED' | 'PASSED_WITH_IMMATERIAL_DIFFERENCE' | 'FAILED'
   ): CrossStatementCausalityReport {
     const tensions: any[] = [];
     const stressPatterns: string[] = [];
+
+    // Aborta inferência causal caso a base contábil seja inválida
+    if (reconciliationStatus === 'FAILED') {
+      return {
+        tensions: [{
+          id: 'INCONSISTENCIA_CONTABIL',
+          title: 'Inconsistência Contábil',
+          severity: 'CRÍTICA',
+          description: 'A base de dados apresenta inconsistências estruturais de reconciliação. A interpretação causal foi bloqueada.',
+          evidence: 'Falha no CrossStatementReconciliationEngine.'
+        }],
+        stressPatterns: ['INCONSISTENCIA_CONTABIL_SEVERA']
+      };
+    }
 
     const operatingCashFlow = cashFlowReport?.isAvailable ? (cashFlowReport.operational?.operatingCashFlow ?? 0) : 0;
     

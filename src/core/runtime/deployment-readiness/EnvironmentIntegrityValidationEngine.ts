@@ -28,11 +28,13 @@ export class EnvironmentIntegrityValidationEngine {
 
     // Lineage Validation
     let lineageStatus: 'VALIDATED' | 'PARTIAL' | 'INVALID' = 'VALIDATED';
+    const reportExt = executiveReport as unknown as { metadata?: { lineageHash?: string }, failClosedTriggered?: boolean };
+
     if (!input.lineageHash || input.lineageHash.trim() === '') {
       issues.push('CRITICAL: Missing runtime lineage hash.');
       lineageStatus = 'INVALID';
       isUnsafe = true;
-    } else if ((executiveReport as any).metadata?.lineageHash && input.lineageHash !== (executiveReport as any).metadata?.lineageHash) {
+    } else if (reportExt.metadata?.lineageHash && input.lineageHash !== reportExt.metadata?.lineageHash) {
       issues.push('CRITICAL: Runtime lineage hash mismatch.');
       lineageStatus = 'INVALID';
       isUnsafe = true;
@@ -40,7 +42,7 @@ export class EnvironmentIntegrityValidationEngine {
 
     // Fail-Closed Validation
     let failClosedStatus: 'VALIDATED' | 'PARTIAL' | 'BROKEN' = 'VALIDATED';
-    if (executiveReport.resilienceReport?.confidenceLevel !== 'HIGH' && !(executiveReport as any).failClosedTriggered) {
+    if (executiveReport.resilienceReport?.confidenceLevel !== 'HIGH' && !reportExt.failClosedTriggered) {
        // If confidence is low/moderate but failClosed is not triggered, the fail-closed protection is broken.
        issues.push('CRITICAL: Fail-closed protection bypassed. Confidence is not HIGH but fail-closed was not triggered.');
        failClosedStatus = 'BROKEN';

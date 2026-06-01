@@ -287,7 +287,9 @@ export default function App() {
         fantasia: t.name,
         razao: t.name,
         segmentoAtuacao: t.segmentoAtuacao,
-        segmento: t.segmento
+        segmento: t.segmento,
+        logo: t.logo,
+        icon: t.icon
       })));
       if (session.selectedTenantId) {
         setSelectedClient(session.selectedTenantId);

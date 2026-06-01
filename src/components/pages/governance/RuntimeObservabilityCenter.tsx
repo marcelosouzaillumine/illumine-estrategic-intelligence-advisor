@@ -32,7 +32,7 @@ function ExecutionTraceTree({ trace }: { trace: any }) {
 
 function ExecutionReplayPanel({ replay }: { replay: ReplayExecutionResult | null }) {
   if (!replay) return <div className="text-sm text-muted-foreground">Selecione uma execução para Replay.</div>;
-  const report = replay.snapshotReport;
+  const report = replay.snapshotReport as any as ConsolidatedExecutiveAdvisoryReport;
   
   return (
     <div className="space-y-4">
@@ -53,7 +53,7 @@ function ExecutionReplayPanel({ replay }: { replay: ReplayExecutionResult | null
         
         <div className="p-4 bg-surface-container border border-border rounded-xl">
           <h4 className="text-xs font-medium text-foreground uppercase tracking-widest mb-2">Advisory Severity</h4>
-          <span className="text-lg font-bold text-foreground">{report.advisorySeverity}</span>
+          <span className="text-lg font-bold text-foreground">{report.violations.some(v => v.severity === 'CRITICAL') ? 'CRITICAL' : 'MODERATE'}</span>
         </div>
       </div>
 
@@ -62,10 +62,10 @@ function ExecutionReplayPanel({ replay }: { replay: ReplayExecutionResult | null
           <ShieldAlert size={16} className="text-amber-500"/> Governance Violations
         </h4>
         <ul className="space-y-1">
-          {report.governanceViolations.map((v, i) => (
+          {report.violations.map((v, i) => (
             <li key={i} className="text-xs text-muted-foreground">• [{v.severity}] {v.message}</li>
           ))}
-          {report.governanceViolations.length === 0 && <span className="text-xs text-emerald-500">Nenhuma violação.</span>}
+          {report.violations.length === 0 && <span className="text-xs text-emerald-500">Nenhuma violação.</span>}
         </ul>
       </div>
       

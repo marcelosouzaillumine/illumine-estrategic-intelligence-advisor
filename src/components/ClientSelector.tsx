@@ -11,6 +11,12 @@ import {
 } from 'lucide-react';
 import { cn, formatDoc } from '../lib/utils';
 
+function ClientImage({ src, alt, fallback }: { src: string; alt: string; fallback: React.ReactNode }) {
+  const [error, setError] = useState(false);
+  if (!src || error) return <>{fallback}</>;
+  return <img src={src} alt={alt} className="w-full h-full object-cover" onError={() => setError(true)} />;
+}
+
 interface ClientSelectorProps {
   clients: any[];
   selectedClient: string;
@@ -62,18 +68,16 @@ export function ClientSelector({
             ? "bg-white shadow-sm" 
             : "bg-white shadow-sm"
         )}>
-          {currentClient?.icon || currentClient?.logo ? (
-            <img 
-              src={currentClient.icon || currentClient.logo} 
-              alt={currentClient.fantasia} 
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <Building2 size={16} strokeWidth={1.25} className={cn(
-              "transition-colors sm:w-4 sm:h-4 w-3.5 h-3.5",
-              isOpen ? "text-primary" : "text-neutral group-hover:text-accent"
-            )} />
-          )}
+          <ClientImage 
+            src={currentClient?.icon || currentClient?.logo || ''}
+            alt={currentClient?.fantasia || ''}
+            fallback={
+              <Building2 size={16} strokeWidth={1.25} className={cn(
+                "transition-colors sm:w-4 sm:h-4 w-3.5 h-3.5",
+                isOpen ? "text-primary" : "text-neutral group-hover:text-accent"
+              )} />
+            }
+          />
         </div>
         
         <div className="text-left relative z-10">
@@ -147,15 +151,11 @@ export function ClientSelector({
                         "w-10 h-10 rounded-lg flex items-center justify-center shrink-0 overflow-hidden",
                         selectedClient === client.id ? "bg-white/10" : "bg-background border border-border"
                       )}>
-                        {client.icon || client.logo ? (
-                          <img 
-                            src={client.icon || client.logo} 
-                            alt={client.fantasia} 
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <Building2 size={18} className={selectedClient === client.id ? "text-white" : "text-slate-400"} />
-                        )}
+                        <ClientImage
+                          src={client.icon || client.logo || ''}
+                          alt={client.fantasia || ''}
+                          fallback={<Building2 size={18} className={selectedClient === client.id ? "text-white" : "text-slate-400"} />}
+                        />
                       </div>
                       <div className="text-left flex-1 min-w-0">
                         <p className="text-xs font-bold tracking-tight">{client.fantasia}</p>

@@ -126,6 +126,9 @@ export interface InstitutionalContextProfile {
     historicalDensity: string;
     operationalProfile?: any;
   };
+  historicalCyclesCount?: number;
+  tenantId?: string;
+  currentCycle?: string;
   /** @deprecated Utilizado apenas para retrocompatibilidade com UI e Testes Legados */
   businessStage?: string;
   /** @deprecated Utilizado apenas para retrocompatibilidade com UI e Testes Legados */

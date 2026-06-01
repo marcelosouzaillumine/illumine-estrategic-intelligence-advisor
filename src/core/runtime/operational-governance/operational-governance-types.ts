@@ -1,10 +1,7 @@
 // src/core/runtime/operational-governance/operational-governance-types.ts
 
-/**
- * REPRESENTATION DOMAIN: INSTITUTIONAL OPERATIONAL GOVERNANCE
- * Strict compliance with RC-1.11 fiduciary rules.
- * No subjective human assessment, no psychological inference.
- */
+import { RuntimeOutputBase } from '../shared/runtime-contracts';
+import { GovernanceLineageHash } from '../shared/lineage-types';
 
 export type ExecutionCapabilityConfidence = 'HIGH' | 'MEDIUM' | 'LOW' | 'UNVERIFIABLE';
 
@@ -18,13 +15,15 @@ export interface ExecutionIntegrityState {
   status: ExecutionIntegrityStatus;
   capabilityConfidence: ExecutionCapabilityConfidence;
   strainFactors: string[];
+  inferenceBasis?: string;
+  confidenceScore?: number;
 }
 
 export type FrictionNature = 'TRANSITIONAL' | 'STRUCTURAL' | 'EXPANSION_RELATED' | 'CONTINUITY_RELATED';
 
 export interface OperationalFrictionEvent {
   id: string;
-  description: string; // Neutro: "Observed operational friction..."
+  description: string; 
   nature: FrictionNature;
   causalMetrics: string[];
 }
@@ -37,7 +36,7 @@ export type OperationalContinuityStatus =
 
 export interface OperationalContinuityState {
   status: OperationalContinuityStatus;
-  resilienceScore: number; // 0 a 100
+  resilienceScore: number; 
   stabilityFactors: string[];
 }
 
@@ -61,14 +60,6 @@ export interface OperationalGovernanceThesis {
   lineageHash: string;
 }
 
-export interface OperationalGovernanceExplainability {
-  operationalLineage: string;
-  executionRationale: string;
-  continuityRationale: string;
-  frictionDecomposition: string[];
-  dependencyExplanation: string;
-}
-
 export interface OperationalGovernanceMemoryDelta {
   timestamp: string;
   tenantId: string;
@@ -77,13 +68,12 @@ export interface OperationalGovernanceMemoryDelta {
   frictionEventsRecorded: number;
 }
 
-export interface InstitutionalOperationalGovernanceOutput {
+export interface InstitutionalOperationalGovernanceOutput extends RuntimeOutputBase {
   executionIntegrity: ExecutionIntegrityState;
   frictions: OperationalFrictionEvent[];
   continuity: OperationalContinuityState;
   dependencies: InstitutionalDependencyRisk[];
   strategicAlignment: StrategicExecutionAlignment;
   thesis: OperationalGovernanceThesis;
-  explainability: OperationalGovernanceExplainability;
   _persistenceDelta: OperationalGovernanceMemoryDelta | null;
 }

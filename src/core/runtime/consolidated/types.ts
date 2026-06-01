@@ -70,7 +70,7 @@ export interface ConsolidatedFinancialInput {
   consolidationScope: string[];
   topologySnapshot: EntityGraphData;
   confidenceByEntity: Record<string, RuntimeConfidence>;
-  sourceMetadata: Record<string, any>;
+  sourceMetadata: Record<string, unknown>;
 }
 
 export interface ConsolidatedFinancialOutput {
@@ -84,5 +84,5 @@ export interface ConsolidatedFinancialOutput {
   confidence: RuntimeConfidence;
   violations: RuntimeViolation[];
   warnings: string[];
-  auditTrail: any[];
+  auditTrail: { timestamp: string; action: string; [key: string]: any }[];
 }

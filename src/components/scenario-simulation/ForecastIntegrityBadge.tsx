@@ -1,22 +1,24 @@
 import React from 'react';
 import { SimulationIntegrityState } from '../../core/runtime/scenario-simulation/types';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ForecastIntegrityBadgeProps {
   state: SimulationIntegrityState;
 }
 
 export const ForecastIntegrityBadge: React.FC<ForecastIntegrityBadgeProps> = ({ state }) => {
+  const { t } = useLanguage();
   let badgeStyles = 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20';
-  let label = 'VERIFIED LINEAGE';
+  let label = t('scenario.integrity.verified');
   let dotColor = 'bg-emerald-500';
 
   if (state === 'DEGRADED') {
     badgeStyles = 'bg-amber-500/10 text-amber-500 border-amber-500/20';
-    label = 'DEGRADED INTEGRITY';
+    label = t('scenario.integrity.degraded');
     dotColor = 'bg-amber-500';
   } else if (state === 'FAIL_CLOSED') {
     badgeStyles = 'bg-rose-500/10 text-rose-500 border-rose-500/20 animate-pulse';
-    label = 'FAIL CLOSED LOCK';
+    label = t('scenario.integrity.failClosed');
     dotColor = 'bg-rose-500';
   }
 

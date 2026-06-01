@@ -183,8 +183,8 @@ export function extractCycleMetrics(cycle: HistoricalCycleData): CycleMetrics {
 
   // Handle case where bpSummary pre-computed values exist in rawFinancialData or cycle itself
   // to be robust if bpData is not a list
-  if (summary.ativoTotal === 0 && (cycle as any).rawFinancialData?.bpSummary) {
-    const s = (cycle as any).rawFinancialData.bpSummary;
+  if (summary.ativoTotal === 0 && (cycle as unknown as { rawFinancialData?: { bpSummary?: Record<string, number> } }).rawFinancialData?.bpSummary) {
+    const s = (cycle as unknown as { rawFinancialData?: { bpSummary?: Record<string, number> } }).rawFinancialData!.bpSummary!;
     summary.ativoTotal = s.ativoTotal || 0;
     summary.ativoCirculante = s.ativoCirculante || 0;
     summary.passivoCirculante = s.passivoCirculante || 0;

@@ -14,7 +14,7 @@ export class TreasuryPressureReportingEngine {
       treasuryStressStatus: treasury?.severity || 'UNKNOWN',
       liquidityCompressionLevel: opPressure?.overallPressureLevel || 'UNKNOWN',
       fundingFragility: opPressure?.fundingFragility.fundingDependency || 'UNKNOWN',
-      runwaySustainability: treasury?.severity !== 'CRITICAL' && treasury?.severity !== 'STRESSED'
+      runwaySustainability: treasury?.severity !== 'CRITICAL' && treasury?.severity !== 'HIGH'
     };
   }
 

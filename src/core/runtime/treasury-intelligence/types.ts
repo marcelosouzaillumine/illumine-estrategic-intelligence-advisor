@@ -1,12 +1,7 @@
 // src/core/runtime/treasury-intelligence/types.ts
 
-export type TreasurySeverity =
-  | 'STABLE'
-  | 'SENSITIVE'
-  | 'STRESSED'
-  | 'CRITICAL'
-  | 'UNSUSTAINABLE'
-  | 'TREASURY_RUPTURE_RISK';
+import { RuntimeOutputBase, RuntimeSeverity } from '../shared/runtime-contracts';
+import { TreasuryLineageHash } from '../shared/lineage-types';
 
 export type TreasuryPriorityLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
@@ -46,34 +41,34 @@ export interface TreasuryResilienceOutput {
   reserveSustainabilityDays: number;
   liquidityRedundancyRatio: number;
   resilienceHalfLifeDays: number;
-  reserveDegradationVelocity: number; // queima diária/mensal
+  reserveDegradationVelocity: number; 
   dependencyRecurrenceIntensity: 'NONE' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
   exhaustionProjected: boolean;
 }
 
 export interface CashPriorityOutput {
   escalatedPriorityList: string[];
-  payrollPriorityScore: number; // 0 a 100
-  criticalCapexPriorityScore: number; // 0 a 100
-  reserveProtectionPriorityScore: number; // 0 a 100
+  payrollPriorityScore: number; 
+  criticalCapexPriorityScore: number; 
+  reserveProtectionPriorityScore: number; 
 }
 
 export interface TreasuryStressOutput {
-  stressSeverity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+  stressSeverity: RuntimeSeverity;
   cumulativeExhaustionDays: number;
   activeStressFactors: string[];
   simulatedExhaustionProjected: boolean;
 }
 
 export interface CapitalPreservationOutput {
-  preservationScore: number; // 0 a 100
+  preservationScore: number; 
   preservationDiscipline: 'HIGH' | 'MODERATE' | 'LOW' | 'DEVIATING';
   reserveErosionVelocity: number;
 }
 
-export interface TreasuryIntelligenceRuntimeOutput {
+export interface TreasuryIntelligenceRuntimeOutput extends RuntimeOutputBase {
   isAvailable: boolean;
-  severity: TreasurySeverity;
+  severity: RuntimeSeverity;
   governanceVerdict: string;
   priorityMatrix: {
     priorities: TreasuryAllocationItem[];
@@ -87,7 +82,9 @@ export interface TreasuryIntelligenceRuntimeOutput {
   cashPriority: CashPriorityOutput;
   stressSimulations: TreasuryStressOutput;
   capitalPreservation: CapitalPreservationOutput;
-  treasuryLineageHash: string;
-  fiduciaryDisclosures: string[];
-  auditTrail: string[];
+  
+  // Specific legacy fields removed/mapped:
+  // fiduciaryDisclosures -> now in RuntimeOutputBase.disclosures
+  // auditTrail -> RuntimeOutputBase.lineage
+  // treasuryLineageHash -> RuntimeOutputBase.lineage.lineageHash
 }

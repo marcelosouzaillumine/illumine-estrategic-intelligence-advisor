@@ -31,7 +31,7 @@ export class RuntimeOperationalAssuranceEngine {
     // Evaluate regression risk from ExecutiveReport
     if (executiveReport.regressionReport?.regressionDetected) {
       regressionRisk = 'HIGH';
-      if ((executiveReport.regressionReport as any).activeRecoveryStage === 'COLLAPSE') {
+      if ((executiveReport.regressionReport as unknown as { activeRecoveryStage?: string }).activeRecoveryStage === 'COLLAPSE') {
         regressionRisk = 'CRITICAL';
         issues.push('CRITICAL: Critical runtime regression detected during collapse state.');
         assuranceStatus = 'LOW';

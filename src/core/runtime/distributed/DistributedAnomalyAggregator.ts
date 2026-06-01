@@ -89,7 +89,7 @@ export class DistributedAnomalyAggregator {
       type: string,
       severity: 'MEDIUM' | 'HIGH' | 'CRITICAL',
       recommendedAction: string,
-      details: Record<string, any>
+      details: Record<string, unknown>
     ) => {
       const anomaly = {
         anomalyType: type,

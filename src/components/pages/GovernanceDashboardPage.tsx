@@ -211,8 +211,8 @@ export function GovernanceDashboardPage({
     setLoadingAi(true);
     const axisPrinciples = GOVERNANCE_PRINCIPLES.filter(p => p.axis === 'Governança Corporativa');
     const { narrative, auditTrail } = await orchestrateGovernanceNarrative({
-      clientName: 'Sua Empresa',
-      industry: 'Geral',
+      clientName: t('gov.ai.mock_client'),
+      industry: t('gov.ai.mock_industry'),
       metrics: flatMetrics,
       topPrinciples: axisPrinciples.map(p => p.name),
       scenarios: axisPrinciples.map(p => p.situationalScenario).filter(Boolean) as string[]
@@ -292,8 +292,8 @@ export function GovernanceDashboardPage({
                     onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
                     className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
                   >
-                    {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
-                      <option key={i} value={i + 1} className="bg-white">{label}</option>
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((m) => (
+                      <option key={m} value={m} className="bg-white">{t(`common.months.${m}`)}</option>
                     ))}
                   </select>
                 </div>
@@ -390,8 +390,8 @@ export function GovernanceDashboardPage({
                   onChange={(e) => setSelectedMonth?.(Number(e.target.value))}
                   className="text-[10px] font-medium uppercase tracking-widest outline-none bg-transparent cursor-pointer hover:text-secondary transition-colors"
                 >
-                  {['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'].map((label, i) => (
-                    <option key={i} value={i + 1}>{label}</option>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((m) => (
+                    <option key={m} value={m}>{t(`common.months.${m}`)}</option>
                   ))}
                 </select>
               </div>

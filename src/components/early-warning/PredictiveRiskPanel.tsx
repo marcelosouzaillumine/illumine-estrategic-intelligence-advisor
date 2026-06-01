@@ -17,7 +17,7 @@ export function PredictiveRiskPanel({ tenantId }: { tenantId: string }) {
         {risks.map((r, i) => (
           <div key={i} className="p-3 bg-background border border-border/50 rounded text-sm text-foreground">
             <span className="font-bold text-orange-500 mr-2">[{r.source}]</span>
-            {r.metadata.insight}
+            {String(r.metadata.insight)}
           </div>
         ))}
       </div>

@@ -17,7 +17,7 @@ export interface CashFlowReconciliationReport {
   isReconcilable: boolean;
   variancePercentage: number;
   confidence: CashConfidenceLevel;
-  reconciliationStatus: 'RECONCILED' | 'ALLOWED_WITH_DISCLOSURE' | 'RESTRICTED' | 'BLOCKED';
+  reconciliationStatus: 'RECONCILED' | 'ALLOWED_WITH_DISCLOSURE' | 'RESTRICTED' | 'BLOCKED' | 'CASH_RECONCILIATION_FAIL_CLOSED';
   disclosures: string[];
 }
 

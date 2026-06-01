@@ -2,8 +2,10 @@ import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
 import { SimulationScenarioType, SimulationTimeHorizon } from '../../core/runtime/scenario-simulation/types';
 import { ForecastIntegrityBadge } from './ForecastIntegrityBadge';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const ScenarioSimulationPanel: React.FC = () => {
+  const { t } = useLanguage();
   const {
     activeScenarioType,
     activeHorizon,
@@ -16,26 +18,26 @@ export const ScenarioSimulationPanel: React.FC = () => {
   } = useScenarioSimulation();
 
   const scenarios: Array<{ type: SimulationScenarioType; label: string; desc: string }> = [
-    { type: 'LIQUIDITY_STRESS', label: 'Liquidity Stress', desc: 'Simula choque abrupto nas disponibilidades de caixa.' },
-    { type: 'OPERATIONAL_COLLAPSE', label: 'Operational Collapse', desc: 'Simula quebra de entrega e atraso de processos chaves.' },
-    { type: 'MARGIN_DETERIORATION', label: 'Margin Deterioration', desc: 'Simula compressão drástica de margens financeiras.' },
-    { type: 'GOVERNANCE_BREAKDOWN', label: 'Governance Breakdown', desc: 'Simula falhas de controle e atrito de conselho.' },
-    { type: 'MULTI_ENTITY_CONTAGION', label: 'Multi-Entity Contagion', desc: 'Simula inadimplência cruzada entre subsidiárias.' }
+    { type: 'LIQUIDITY_STRESS', label: t('scenario.types.liquidityStress.label'), desc: t('scenario.types.liquidityStress.desc') },
+    { type: 'OPERATIONAL_COLLAPSE', label: t('scenario.types.operationalCollapse.label'), desc: t('scenario.types.operationalCollapse.desc') },
+    { type: 'MARGIN_DETERIORATION', label: t('scenario.types.marginDeterioration.label'), desc: t('scenario.types.marginDeterioration.desc') },
+    { type: 'GOVERNANCE_BREAKDOWN', label: t('scenario.types.governanceBreakdown.label'), desc: t('scenario.types.governanceBreakdown.desc') },
+    { type: 'MULTI_ENTITY_CONTAGION', label: t('scenario.types.multiEntityContagion.label'), desc: t('scenario.types.multiEntityContagion.desc') }
   ];
 
   const horizons: Array<{ value: SimulationTimeHorizon; label: string }> = [
-    { value: '30_DAYS', label: '30 Dias' },
-    { value: '90_DAYS', label: '90 Dias' },
-    { value: '180_DAYS', label: '180 Dias' },
-    { value: '365_DAYS', label: '365 Dias' }
+    { value: '30_DAYS', label: t('scenario.horizons.days30') },
+    { value: '90_DAYS', label: t('scenario.horizons.days90') },
+    { value: '180_DAYS', label: t('scenario.horizons.days180') },
+    { value: '365_DAYS', label: t('scenario.horizons.days365') }
   ];
 
   return (
     <div className="card-premium p-8 space-y-8 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
       <div className="flex justify-between items-center border-b border-border/40 pb-4 flex-wrap gap-4">
         <div>
-          <span className="text-[10px] font-mono font-bold tracking-widest text-secondary uppercase block mb-1">SSPGL RUNTIME PLATFORM</span>
-          <h3 className="text-base font-medium text-foreground tracking-tight">Governance Scenario Simulator</h3>
+          <span className="text-[10px] font-mono font-bold tracking-widest text-secondary uppercase block mb-1">{t('scenario.panel.platformLabel')}</span>
+          <h3 className="text-base font-medium text-foreground tracking-tight">{t('scenario.panel.simulatorTitle')}</h3>
         </div>
         {simulationOutput && (
           <ForecastIntegrityBadge state={simulationOutput.integrityState} />
@@ -45,7 +47,7 @@ export const ScenarioSimulationPanel: React.FC = () => {
       <div className="space-y-6">
         {/* Escolha do Cenário */}
         <div className="space-y-3">
-          <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">1. SELECT STRESS SCENARIO</span>
+          <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">{t('scenario.panel.step1')}</span>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {scenarios.map((scen) => (
               <button
@@ -67,7 +69,7 @@ export const ScenarioSimulationPanel: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Horizonte Temporal */}
           <div className="space-y-3">
-            <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">2. TIME HORIZON</span>
+            <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">{t('scenario.panel.step2')}</span>
             <div className="flex bg-surface-container/60 border border-border/60 p-1 rounded-xl gap-1">
               {horizons.map((hor) => (
                 <button
@@ -87,7 +89,7 @@ export const ScenarioSimulationPanel: React.FC = () => {
 
           {/* Ciclos Históricos (Controle de Suficiência) */}
           <div className="space-y-3">
-            <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">3. HISTORICAL SUFFICIENCY TESTER</span>
+            <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">{t('scenario.panel.step3')}</span>
             <div className="flex bg-surface-container/60 border border-border/60 p-1 rounded-xl gap-1">
               {[1, 2, 3, 4].map((cycles) => (
                 <button
@@ -101,9 +103,9 @@ export const ScenarioSimulationPanel: React.FC = () => {
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
-                  <span>{cycles} {cycles === 1 ? 'Ciclo' : 'Ciclos'}</span>
+                  <span>{cycles === 1 ? t('scenario.cycles.singular', { count: String(cycles) }) : t('scenario.cycles.plural', { count: String(cycles) })}</span>
                   <span className="text-[8px] opacity-80 mt-0.5 tracking-wider uppercase font-semibold">
-                    {cycles < 3 ? 'WARNING' : 'SUFFICIENT'}
+                    {cycles < 3 ? t('scenario.status.warning') : t('scenario.status.sufficient')}
                   </span>
                 </button>
               ))}
@@ -114,7 +116,7 @@ export const ScenarioSimulationPanel: React.FC = () => {
       
       {isRunning && (
         <div className="p-4 bg-secondary/5 border border-secondary/20 text-secondary rounded-xl text-center font-mono text-xs animate-pulse tracking-wide font-medium">
-          Executing deterministic forecast calculations...
+          {t('scenario.panel.executing')}
         </div>
       )}
     </div>

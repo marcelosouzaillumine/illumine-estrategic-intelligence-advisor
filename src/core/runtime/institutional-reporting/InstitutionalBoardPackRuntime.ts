@@ -1,7 +1,5 @@
-// src/core/runtime/institutional-reporting/InstitutionalBoardPackRuntime.ts
-
 import { ExecutiveIntelligenceReport } from '../executive-intelligence-runtime';
-import { InstitutionalBoardPackOutput, ReportGenerationStatus, ReportGenerationMetadata } from './institutional-reporting-types';
+import { InstitutionalBoardPackOutput, ReportGenerationStatus } from './institutional-reporting-types';
 import { ExecutiveSnapshotEngine } from './engines/ExecutiveSnapshotEngine';
 import { GovernanceReportingEngine } from './engines/GovernanceReportingEngine';
 import { StrategicDirectionReportingEngine } from './engines/StrategicDirectionReportingEngine';
@@ -14,6 +12,7 @@ import { InstitutionalLineageAppendixEngine } from './engines/InstitutionalLinea
 import { InstitutionalDisclosureEngine } from './engines/InstitutionalDisclosureEngine';
 import { BoardResolutionAppendixEngine } from './engines/BoardResolutionAppendixEngine';
 import { RuntimeComplianceEngine } from '../compliance/RuntimeComplianceEngine';
+import { BoardPackMetadata } from './institutional-reporting-types';
 
 export class InstitutionalBoardPackRuntime {
   
@@ -33,24 +32,28 @@ export class InstitutionalBoardPackRuntime {
     const historicalCycles = runtimeMetadataAny.historicalCyclesAvailable || 0;
     const isFailClosed = historicalCycles < 2 || report.strategicIntelligence.posture === 'UNVERIFIABLE_POSTURE';
     
-    // Hash do Board Pack gerado a partir do Hash do Executive Report
+    const contextAny = report.institutionalContext as any;
+    
+    // Hash do Board Pack gerado a partir do Hash do Executive Report de forma estritamente determinística
     const boardPackLineageHash = this.generateHash('BOARD_PACK', {
       sourceHash: runtimeMetadataAny.lineageHash,
-      timestamp: new Date().toISOString()
+      tenantId: contextAny.tenantId || "N/A",
+      cycleReference: contextAny.currentCycle || "N/A"
     });
 
-    const contextAny = report.institutionalContext as any;
-    const metadata: ReportGenerationMetadata = {
-      boardPackLineageHash,
+    const metadata: BoardPackMetadata = {
+      boardPackLineageHash: boardPackLineageHash as any,
       generationTimestamp: new Date().toISOString(),
       tenantId: contextAny.tenantId || "N/A",
       cycleReference: contextAny.currentCycle || "N/A",
-      isImmutableSnapshot: true,
-      confidenceThresholdMet: !isFailClosed,
-      historicalCyclesAvailable: historicalCycles
+      snapshotIntegrityStatus: isFailClosed ? 'COMPROMISED' : 'SECURE',
+      immutabilityStatus: 'IMMUTABLE',
+      runtimeSources: ['ExecutiveSnapshotEngine', 'GovernanceReportingEngine'],
+      reportGenerationTimestamp: new Date().toISOString(),
+      lineageHash: runtimeMetadataAny.lineageHash,
+      executionId: runtimeMetadataAny.executionId || "N/A",
+      timestamp: new Date().toISOString()
     };
-
-    const status: ReportGenerationStatus = isFailClosed ? 'RESTRICTED' : 'COMPLETE';
 
     // 3. Assemble Core Engines
     const executiveSnapshot = ExecutiveSnapshotEngine.generate(report);
@@ -63,15 +66,20 @@ export class InstitutionalBoardPackRuntime {
 
     // 4. Assemble Appendices
     const explainabilityAppendix = InstitutionalExplainabilityAppendixEngine.generate(report);
-    const lineageAppendix = InstitutionalLineageAppendixEngine.generate(report, boardPackLineageHash);
+    const lineageAppendix = InstitutionalLineageAppendixEngine.generate(report, boardPackLineageHash as any);
     const boardResolutionAppendix = BoardResolutionAppendixEngine.generate(report);
     
     const disclosures = InstitutionalDisclosureEngine.generate(report, metadata);
     const fiduciaryRestrictions = InstitutionalDisclosureEngine.generateRestrictions(report, metadata);
 
-    // 5. Final Assembly
-    const boardPack: InstitutionalBoardPackOutput = {
-      status,
+    // 5. Sovereign Status Resolution
+    let finalStatus: ReportGenerationStatus = 'COMPLETE';
+    if (isFailClosed) {
+      finalStatus = 'RESTRICTED';
+    }
+
+    const output: InstitutionalBoardPackOutput = {
+      status: finalStatus,
       metadata,
       executiveSnapshot,
       governanceReport,
@@ -83,49 +91,48 @@ export class InstitutionalBoardPackRuntime {
       explainabilityAppendix,
       lineageAppendix,
       boardResolutionAppendix,
-      disclosures,
+      disclosureSet: disclosures,
       fiduciaryRestrictions
     };
 
-    // 6. Fiduciary Constitution Compliance Check
-    (RuntimeComplianceEngine as any).validateBoardPack(boardPack);
+    // 6. Hard-Fail Audit (Fase 2)
+    RuntimeComplianceEngine.validate(output, 'render');
 
-    return boardPack;
+    return output;
   }
 
   private static createFailedReport(reason: string): InstitutionalBoardPackOutput {
     return {
       status: 'FAILED',
       metadata: {
-        boardPackLineageHash: 'FAILED_GENERATION',
+        boardPackLineageHash: 'FAILED' as any,
         generationTimestamp: new Date().toISOString(),
-        tenantId: 'UNKNOWN',
-        cycleReference: 'UNKNOWN',
-        isImmutableSnapshot: false,
-        confidenceThresholdMet: false,
-        historicalCyclesAvailable: 0
+        tenantId: 'N/A',
+        cycleReference: 'N/A',
+        snapshotIntegrityStatus: 'COMPROMISED',
+        immutabilityStatus: 'MUTABLE',
+        runtimeSources: [],
+        reportGenerationTimestamp: new Date().toISOString(),
+        lineageHash: 'FAILED',
+        executionId: 'FAILED',
+        timestamp: new Date().toISOString()
       },
-      executiveSnapshot: null as any,
-      governanceReport: null as any,
-      strategicDirection: null as any,
-      continuityReport: null as any,
-      treasuryReport: null as any,
-      operationalGovernance: null as any,
-      executiveDirectives: null as any,
-      explainabilityAppendix: null as any,
-      lineageAppendix: null as any,
-      boardResolutionAppendix: null as any,
-      disclosures: [{ disclosureId: 'ERR', statement: `Generation failed: ${reason}`, severity: 'CRITICAL' }],
-      fiduciaryRestrictions: [{ restrictionType: 'FAIL_CLOSED', description: reason, affectedRuntimes: ['ALL'] }]
+      executiveSnapshot: {} as any,
+      governanceReport: {} as any,
+      strategicDirection: {} as any,
+      continuityReport: {} as any,
+      treasuryReport: {} as any,
+      operationalGovernance: {} as any,
+      executiveDirectives: {} as any,
+      explainabilityAppendix: {} as any,
+      lineageAppendix: {} as any,
+      boardResolutionAppendix: {} as any,
+      disclosureSet: [],
+      fiduciaryRestrictions: []
     };
   }
 
-  private static generateHash(prefix: string, payload: any): string {
-    const rawStr = `${prefix}_${JSON.stringify(payload)}`;
-    let hash = 5381;
-    for (let i = 0; i < rawStr.length; i++) {
-      hash = ((hash << 5) + hash) + rawStr.charCodeAt(i);
-    }
-    return `${prefix}_` + Math.abs(hash).toString(16).padStart(8, '0');
+  private static generateHash(prefix: string, data: Record<string, string>): string {
+    return `${prefix}_${Buffer.from(JSON.stringify(data)).toString('base64').substring(0, 16)}`;
   }
 }

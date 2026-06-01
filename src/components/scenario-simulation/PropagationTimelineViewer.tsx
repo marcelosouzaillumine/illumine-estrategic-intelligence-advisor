@@ -1,14 +1,16 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
 import { SimulationPropagationSeverity } from '../../core/runtime/scenario-simulation/types';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const PropagationTimelineViewer: React.FC = () => {
+  const { t } = useLanguage();
   const { simulationOutput, sandboxResult } = useScenarioSimulation();
 
   if (!simulationOutput) {
     return (
       <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl text-center text-slate-500 font-mono text-xs">
-        CARREGANDO TIMELINE DE PROPAGAÇÃO...
+        {t('scenario.propagation.loading')}
       </div>
     );
   }
@@ -33,10 +35,10 @@ export const PropagationTimelineViewer: React.FC = () => {
     <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-4">
       <div className="flex justify-between items-center border-b border-slate-850 pb-2">
         <h4 className="text-slate-400 font-semibold tracking-wider uppercase text-xs font-mono">
-          Contagion Propagation Timeline
+          {t('scenario.propagation.timelineTitle')}
         </h4>
         <span className="text-[10px] font-mono text-slate-500 uppercase">
-          {chain.length} PROPAGATION NODES DETECTED
+          {t('scenario.propagation.nodesDetected', { count: chain.length.toString() })}
         </span>
       </div>
 
@@ -54,7 +56,7 @@ export const PropagationTimelineViewer: React.FC = () => {
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">
-                      STEP {node.step}
+                      {t('scenario.propagation.step', { step: node.step.toString() })}
                     </span>
                     <span className="text-xs font-mono font-bold text-slate-200">
                       {node.contagionType.replace(/_/g, ' ')}
@@ -66,7 +68,7 @@ export const PropagationTimelineViewer: React.FC = () => {
                 </div>
 
                 <div className="flex justify-between text-[10px] font-mono text-slate-500">
-                  <span>TARGET ENTITY: {node.entityId}</span>
+                  <span>{t('scenario.propagation.targetEntity', { id: node.entityId })}</span>
                 </div>
 
                 <p className="text-xs text-slate-400 leading-relaxed font-sans">
@@ -79,7 +81,7 @@ export const PropagationTimelineViewer: React.FC = () => {
 
         {chain.length === 0 && (
           <div className="p-4 bg-slate-900/20 border border-slate-850 rounded-xl text-center text-xs text-slate-500 font-mono">
-            SEM CADEIA DE PROPAGAÇÃO ATIVA PARA O CENÁRIO SELECIONADO.
+            {t('scenario.propagation.empty')}
           </div>
         )}
       </div>

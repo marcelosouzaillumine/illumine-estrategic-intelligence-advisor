@@ -1,5 +1,5 @@
 import { CashIntelligenceThresholds } from './CashIntelligenceThresholds';
-import { InstitutionalCashSignal } from './types';
+import { InstitutionalCashSignal, CashQualityClassification } from './types';
 
 export class EarningsQualityEngine {
   /**
@@ -12,7 +12,7 @@ export class EarningsQualityEngine {
     hasRecurringNegativeFco: boolean = false
   ): InstitutionalCashSignal {
     const { FCO } = CashIntelligenceThresholds;
-    let classification = 'HEALTHY' as any;
+    let classification: CashQualityClassification = 'HEALTHY';
     let narrative = 'Conversão de caixa íntegra.';
     
     if (fco < 0) {

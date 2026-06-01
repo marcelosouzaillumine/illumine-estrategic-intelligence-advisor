@@ -1,14 +1,14 @@
-// src/components/panels/causal-intelligence/InstitutionalCausalRootCausesPanel.tsx
-
 import React from 'react';
 import { AlertTriangle, ShieldCheck, HelpCircle } from 'lucide-react';
 import { CausalFactor, CausalSeverity } from '../../../core/runtime/causal-intelligence/types';
+import { useLanguage } from '../../../i18n/LanguageContext';
 
 interface RootCausesPanelProps {
   rootCauses?: CausalFactor[];
 }
 
 export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> = ({ rootCauses = [] }) => {
+  const { t } = useLanguage();
   const getSeverityStyles = (severity: CausalSeverity) => {
     switch (severity) {
       case 'CRITICAL':
@@ -25,16 +25,16 @@ export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> 
   return (
     <div className="p-6 rounded-3xl border border-slate-200 bg-white shadow-sm flex flex-col gap-4">
       <div className="flex items-center justify-between gap-2 mb-3">
-        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Mapeador de Causas Raiz</h4>
+        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">{t('causal.root_causes')}</h4>
         <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full border bg-purple-50 text-purple-700 border-purple-200">
-          fiduciário
+          {t('causal.fiduciary')}
         </span>
       </div>
 
       <div className="space-y-4">
         {rootCauses.length === 0 ? (
           <div className="text-center py-6 text-xs text-slate-500 italic">
-            Nenhuma causa raiz ou vetor crítico de pressão estrutural foi assinalado.
+            {t('causal.no_causes')}
           </div>
         ) : (
           rootCauses.map((factor, idx) => (
@@ -47,18 +47,18 @@ export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> 
                       {factor.severity}
                     </span>
                     <span className="text-[9px] text-slate-400 font-bold uppercase">
-                      Confiança: {(factor.confidence * 100).toFixed(0)}%
+                      {t('causal.confidence')} {(factor.confidence * 100).toFixed(0)}%
                     </span>
                   </div>
                 </div>
 
                 {factor.isDefinitive ? (
                   <span className="flex items-center gap-1 text-[9px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-black uppercase border border-emerald-200">
-                    <ShieldCheck size={10} /> Confirmado
+                    <ShieldCheck size={10} /> {t('causal.confirmed')}
                   </span>
                 ) : (
                   <span className="flex items-center gap-1 text-[9px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full font-black uppercase border border-amber-200">
-                    <HelpCircle size={10} /> Provável
+                    <HelpCircle size={10} /> {t('causal.probable')}
                   </span>
                 )}
               </div>

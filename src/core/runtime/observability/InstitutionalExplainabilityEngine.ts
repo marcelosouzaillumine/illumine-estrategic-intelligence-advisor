@@ -8,7 +8,7 @@ export interface ExplainabilityLayer {
   items: {
     label: string;
     value: string;
-    severity?: 'BAIXA' | 'MODERADA' | 'ALTA' | 'CRÍTICA';
+    severity?: string;
   }[];
 }
 
@@ -36,7 +36,7 @@ export function generateFiduciaryRationale(
     description: 'Síntese institucional e severidade estrutural consolidada.',
     items: [
       { label: 'Status da Tese', value: profile.isAvailable ? 'Operante' : 'Indisponível' },
-      { label: 'Severidade Consolidada', value: profile.consolidatedSeverity, severity: profile.consolidatedSeverity as any }
+      { label: 'Severidade Consolidada', value: profile.consolidatedSeverity, severity: profile.consolidatedSeverity }
     ]
   };
 
@@ -46,14 +46,14 @@ export function generateFiduciaryRationale(
     driverItems.push({
       label: `Risco: ${risk.component}`,
       value: risk.id.replace(/_/g, ' '),
-      severity: risk.severity as any
+      severity: risk.severity
     });
   });
   tensions.forEach(tension => {
     driverItems.push({
       label: `Tensão: ${tension.propagationDirection}`,
       value: tension.mechanism,
-      severity: tension.severity as any
+      severity: tension.severity
     });
   });
 

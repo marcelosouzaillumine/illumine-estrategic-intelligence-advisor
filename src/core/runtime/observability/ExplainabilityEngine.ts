@@ -1,4 +1,5 @@
-import { ExplainabilityOutput } from './observability-types';
+import { ExplainabilityOutput } from '../shared/runtime-contracts';
+import { ExplainabilityLevel } from '../shared/runtime-constitutional-types';
 
 export class ExplainabilityEngine {
   private causalChains: string[][] = [];
@@ -24,11 +25,17 @@ export class ExplainabilityEngine {
   }
 
   public getOutput(): ExplainabilityOutput {
+    // Semantic Adapter: mapping legacy tracking into the new canonical contract
     return {
-      causalChains: this.causalChains,
-      narrativeLineage: this.narrativeLineage,
-      blockedNarratives: this.blockedNarratives,
-      stabilityScore: this.stabilityScore
+      structuralDrivers: this.causalChains.map(chain => chain[0] || 'Unknown Driver'),
+      propagationChains: this.causalChains.map(chain => chain.join(' -> ')),
+      evidence: [...this.narrativeLineage, ...this.blockedNarratives.map(n => `[BLOCKED] ${n}`)],
+      confidenceDecomposition: {
+        'Stability Score': this.stabilityScore.toString(),
+        'Blocked Nodes': this.blockedNarratives.length.toString()
+      },
+      lineageReferences: [],
+      level: this.stabilityScore > 80 ? 'DETERMINISTIC' : this.stabilityScore > 50 ? 'HEURISTIC' : 'UNVERIFIABLE'
     };
   }
 }

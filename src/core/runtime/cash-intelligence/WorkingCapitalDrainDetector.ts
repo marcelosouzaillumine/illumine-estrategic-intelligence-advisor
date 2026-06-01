@@ -1,8 +1,8 @@
-import { InstitutionalCashSignal } from './types';
+import { InstitutionalCashSignal, CashQualityClassification } from './types';
 
 export class WorkingCapitalDrainDetector {
   public static evaluate(workingCapitalVariation: number, fco: number): InstitutionalCashSignal {
-    let classification = 'HEALTHY' as any;
+    let classification: CashQualityClassification = 'HEALTHY';
     let narrative = 'Dinâmica de capital de giro sob controle.';
 
     if (workingCapitalVariation < 0) {

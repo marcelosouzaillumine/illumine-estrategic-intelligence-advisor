@@ -162,7 +162,7 @@ export function InstitutionalDeploymentReadinessPage() {
               <span className={`text-xs font-bold font-mono ${getStatusColor(readinessData.runtimeRegressionRisk)}`}>{readinessData.runtimeRegressionRisk}</span>
             </div>
             <div className="mt-4 pt-3 border-t border-zinc-800/50">
-              <p className="text-[10px] text-zinc-500 font-mono break-all">Lineage: {readinessData.lineageHash}</p>
+              <p className="text-[10px] text-zinc-500 font-mono break-all">Lineage: {readinessData.lineage?.lineageHash}</p>
             </div>
           </div>
         </div>

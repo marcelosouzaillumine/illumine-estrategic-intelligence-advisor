@@ -41,7 +41,23 @@ export function getComputedDreMetrics(dbDre: any[]) {
       } else {
         parentId = 'DESP_OPER';
       }
-      return { ...r, parentId, value: r.val || r.valor || r.value || 0 };
+      let rawVal = r.val || r.valor || r.value || 0;
+      if (typeof rawVal === 'string') {
+        let cleanStr = rawVal.replace(/[^\d.,-]/g, '');
+        if (cleanStr.includes(',') && cleanStr.includes('.')) {
+          if (cleanStr.lastIndexOf(',') > cleanStr.lastIndexOf('.')) {
+            cleanStr = cleanStr.replace(/\./g, '').replace(',', '.');
+          } else {
+            cleanStr = cleanStr.replace(/,/g, '');
+          }
+        } else if (cleanStr.includes(',')) {
+          cleanStr = cleanStr.replace(',', '.');
+        }
+        rawVal = parseFloat(cleanStr) || 0;
+      } else {
+        rawVal = Number(rawVal) || 0;
+      }
+      return { ...r, parentId, value: rawVal };
     })
     .filter(Boolean);
 

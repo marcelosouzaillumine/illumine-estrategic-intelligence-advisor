@@ -6,13 +6,33 @@ import { SeveritySemanticEngine } from './SeveritySemanticEngine';
 interface ExecutiveSeverityBadgeProps {
   level: ExecutiveSeverityLevel;
   className?: string;
+  trajectoryConfidence?: 'HIGH' | 'MODERATE' | 'LOW' | 'BLOCKED';
+  blocked?: boolean;
+  restrictionActive?: boolean;
+  accountingIntegrityStatus?: string;
 }
 
-export const ExecutiveSeverityBadge: React.FC<ExecutiveSeverityBadgeProps> = ({ level, className = '' }) => {
-  const styles = SeveritySemanticEngine.getSeverityStyle(level);
+export const ExecutiveSeverityBadge: React.FC<ExecutiveSeverityBadgeProps> = ({ 
+  level, 
+  className = '',
+  trajectoryConfidence,
+  blocked,
+  restrictionActive,
+  accountingIntegrityStatus
+}) => {
+  const isFiduciaryRestricted = 
+    blocked || 
+    restrictionActive || 
+    trajectoryConfidence === 'LOW' || 
+    trajectoryConfidence === 'BLOCKED' ||
+    accountingIntegrityStatus === 'RESTRICTED' ||
+    accountingIntegrityStatus === 'BROKEN';
+
+  const effectiveLevel = isFiduciaryRestricted ? 'LOCKED' : level;
+  const styles = SeveritySemanticEngine.getSeverityStyle(effectiveLevel);
   
   const getIcon = () => {
-    switch (level) {
+    switch (effectiveLevel) {
       case 'INFO':
         return <Info className="w-3.5 h-3.5" />;
       case 'ATTENTION':
@@ -33,7 +53,7 @@ export const ExecutiveSeverityBadge: React.FC<ExecutiveSeverityBadgeProps> = ({ 
       title={styles.accessibilityLabel}
     >
       {getIcon()}
-      {level}
+      {isFiduciaryRestricted ? 'RESTRICTED' : level}
     </span>
   );
 };

@@ -5,6 +5,7 @@ import { ShieldCheck, Activity, Loader2 } from 'lucide-react';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { executiveRuntime } from '../../core/runtime/executive-intelligence-runtime';
 import { InstitutionalExecutiveCommandOutput } from '../../core/runtime/executive-command/executive-command-types';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 // Child components
 import { ExecutiveDirectivePanel } from './ExecutiveDirectivePanel';
@@ -20,6 +21,7 @@ interface CommandCenterProps {
 }
 
 export function InstitutionalExecutiveCommandCenter({ clientId, selectedYear }: CommandCenterProps) {
+  const { t } = useLanguage();
   const filterYear = selectedYear || new Date().getFullYear();
 
   const { dbData: dbDataDRE, docIds: docIdsDRE, loading: loadingDRE } = useAnnualFinancialData(clientId || '', filterYear, 'DRE');
@@ -49,9 +51,9 @@ export function InstitutionalExecutiveCommandCenter({ clientId, selectedYear }: 
           <Activity size={48} />
         </div>
         <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold tracking-tight">Institutional Executive Command Center</h2>
+          <h2 className="text-2xl font-bold tracking-tight">{t('cmd.title')}</h2>
           <p className="text-zinc-500 text-xs tracking-wider uppercase">
-            Selecione uma organização fiduciária ativa para orquestração estratégica.
+            {t('cmd.select_org')}
           </p>
         </div>
       </div>
@@ -63,7 +65,7 @@ export function InstitutionalExecutiveCommandCenter({ clientId, selectedYear }: 
       <div className="flex h-[80vh] items-center justify-center font-mono bg-zinc-950 text-zinc-100">
         <div className="flex flex-col items-center gap-4 text-zinc-500">
           <Loader2 className="animate-spin" size={32} />
-          <p className="text-xs uppercase tracking-widest">Processando Orquestração Estratégica...</p>
+          <p className="text-xs uppercase tracking-widest">{t('cmd.processing')}</p>
         </div>
       </div>
     );
@@ -75,9 +77,9 @@ export function InstitutionalExecutiveCommandCenter({ clientId, selectedYear }: 
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] bg-zinc-900 border border-zinc-800 rounded-3xl p-20 text-center shadow-sm font-mono">
         <ShieldCheck size={48} className="text-zinc-600 mb-6" />
-        <h3 className="text-xl font-bold text-zinc-100 mb-2">Orquestração Indisponível</h3>
+        <h3 className="text-xl font-bold text-zinc-100 mb-2">{t('cmd.unavailable')}</h3>
         <p className="text-zinc-500 max-w-md mb-8 text-xs">
-          O pipeline de comando executivo não pôde ser instanciado devido a restrições fiduciárias na linhagem de dados base.
+          {t('cmd.unavailable_desc')}
         </p>
       </div>
     );
@@ -91,15 +93,15 @@ export function InstitutionalExecutiveCommandCenter({ clientId, selectedYear }: 
         <div>
           <div className="flex items-center gap-2 text-zinc-400 mb-1">
             <ShieldCheck size={16} />
-            <span className="text-[10px] uppercase font-bold tracking-widest font-mono">Sovereign Fiduciary Board Room</span>
+            <span className="text-[10px] uppercase font-bold tracking-widest font-mono">{t('cmd.board_room')}</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">Institutional Executive Command</h1>
-          <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">Strategic Orchestration & Governance Alignment</p>
+          <h1 className="text-2xl font-bold tracking-tight">{t('cmd.header_title')}</h1>
+          <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">{t('cmd.header_subtitle')}</p>
         </div>
         
         {executiveCommand.commandThesis.lineageHash && (
           <div className="text-[10px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
-            <span>Command Hash:</span>
+            <span>{t('cmd.hash')}</span>
             <span className="font-bold text-zinc-300">{executiveCommand.commandThesis.lineageHash.substring(0, 16)}...</span>
           </div>
         )}

@@ -37,7 +37,7 @@ export function InstitutionalOperationalGovernanceCenter({ operationalGovernance
             </span>
           </div>
           <span className="text-[9px] text-zinc-600 font-mono mt-2 uppercase tracking-widest">
-            {operationalGovernance.explainability.operationalLineage}
+            {operationalGovernance.thesis?.lineageHash}
           </span>
         </div>
       </div>

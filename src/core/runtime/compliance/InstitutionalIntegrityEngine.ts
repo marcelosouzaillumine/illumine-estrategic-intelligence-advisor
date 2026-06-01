@@ -58,7 +58,7 @@ export class InstitutionalIntegrityEngine {
       openWhistleblowingReports: openReports.length,
       activeViolations: recentDecisions.length,
       esgAlignment,
-      trend: integrityScore >= 80 ? 'Estável' : 'Atenção' as any, // tipagem mockada para trend
+      trend: integrityScore >= 80 ? 'Estável' : 'Atenção' as unknown as "Estável" | "Deteriorando" | "Melhorando", // tipagem mockada para trend
       auditTrail: [{
         auditId: `AUDIT-INT-${Date.now()}`,
         action: 'INTEGRITY_SCORE_GENERATED',

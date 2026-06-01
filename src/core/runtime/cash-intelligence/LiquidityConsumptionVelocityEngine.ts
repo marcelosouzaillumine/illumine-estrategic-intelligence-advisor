@@ -1,8 +1,8 @@
-import { InstitutionalCashSignal } from './types';
+import { InstitutionalCashSignal, CashQualityClassification } from './types';
 
 export class LiquidityConsumptionVelocityEngine {
   public static evaluate(fco: number, availableCash: number): InstitutionalCashSignal {
-    let classification = 'HEALTHY' as any;
+    let classification: CashQualityClassification = 'HEALTHY';
     let narrative = 'A operação não consome seu estoque de liquidez (burn rate neutro/positivo).';
     let months = 999;
 

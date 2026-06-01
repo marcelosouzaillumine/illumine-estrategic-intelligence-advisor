@@ -1,13 +1,15 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const GovernanceForecastSurface: React.FC = () => {
+  const { t } = useLanguage();
   const { forecastOutput, sandboxResult, historyCyclesToUse } = useScenarioSimulation();
 
   if (!forecastOutput) {
     return (
       <div className="card-premium p-8 text-center text-muted-foreground font-mono text-xs animate-pulse">
-        AGUARDANDO PROJEÇÃO DE FORECAST...
+        {t('scenario.forecast.loading')}
       </div>
     );
   }
@@ -39,8 +41,8 @@ export const GovernanceForecastSurface: React.FC = () => {
     <div className="card-premium p-8 space-y-6 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
       <div className="flex justify-between items-center border-b border-border/40 pb-4">
         <div>
-          <span className="text-[10px] font-mono font-bold tracking-widest text-secondary uppercase block mb-1">SSPGL FORECAST ENGINE</span>
-          <h3 className="text-base font-medium text-foreground tracking-tight">Projected Governance Exposure</h3>
+          <span className="text-[10px] font-mono font-bold tracking-widest text-secondary uppercase block mb-1">{t('scenario.forecast.engineLabel')}</span>
+          <h3 className="text-base font-medium text-foreground tracking-tight">{t('scenario.forecast.exposureTitle')}</h3>
         </div>
         <div className={`px-3 py-1 rounded-full border font-mono text-[10px] font-bold tracking-widest ${riskBg} ${riskColor}`}>
           {riskBand.replace('_', ' ')}
@@ -50,35 +52,35 @@ export const GovernanceForecastSurface: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Velocidade de Deterioração */}
         <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl space-y-3">
-          <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">DETERIORATION VELOCITY</span>
+          <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">{t('scenario.forecast.velocityTitle')}</span>
           <div className="flex items-baseline gap-2">
             <span className={`text-2xl font-bold font-mono tracking-tight ${isDeclining ? 'text-rose-500' : 'text-emerald-500'}`}>
               {velocity > 0 ? `+${velocity}` : velocity}
             </span>
-            <span className="text-[10px] text-muted-foreground font-mono">/ cycle maturity score change</span>
+            <span className="text-[10px] text-muted-foreground font-mono">{t('scenario.forecast.velocityUnit')}</span>
           </div>
           <p className="text-[11px] text-muted-foreground leading-relaxed">
             {isDeclining 
-              ? 'Métricas de governança em trajetória descendente linear de maturidade fiduciária.'
-              : 'Trajetória linear indica estabilização ou progressão de governança.'}
+              ? t('scenario.forecast.velocityDescDeclining')
+              : t('scenario.forecast.velocityDescStable')}
           </p>
         </div>
 
         {/* Liquidez Crise */}
         <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl space-y-3">
-          <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">LIQUIDITY PRESSURE DAYS</span>
+          <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">{t('scenario.forecast.liquidityTitle')}</span>
           <div className="flex items-baseline gap-2">
             <span className={`text-2xl font-bold font-mono tracking-tight ${activeForecast.liquidityDaysToCrisis < 90 ? 'text-rose-500' : activeForecast.liquidityDaysToCrisis < 180 ? 'text-amber-500' : 'text-foreground'}`}>
-              {activeForecast.liquidityDaysToCrisis === 9999 ? '∞' : `${activeForecast.liquidityDaysToCrisis} Days`}
+              {activeForecast.liquidityDaysToCrisis === 9999 ? '∞' : `${activeForecast.liquidityDaysToCrisis} ${t('scenario.forecast.days')}`}
             </span>
-            <span className="text-[10px] text-muted-foreground font-mono">to projected buffer exhaustion</span>
+            <span className="text-[10px] text-muted-foreground font-mono">{t('scenario.forecast.liquidityUnit')}</span>
           </div>
           <p className="text-[11px] text-muted-foreground leading-relaxed">
             {activeForecast.liquidityDaysToCrisis < 90
-              ? 'Alerta crítico: caixa remanescente insustentável sob as taxas de queima atuais.'
+              ? t('scenario.forecast.liquidityDescCritical')
               : activeForecast.liquidityDaysToCrisis === 9999
-              ? 'Margem de caixa operacional estável. Sem pressão de queima de caixa identificada.'
-              : 'Acompanhamento recomendado de custos e fluxo de recebíveis nos próximos ciclos.'}
+              ? t('scenario.forecast.liquidityDescStable')
+              : t('scenario.forecast.liquidityDescWarning')}
           </p>
         </div>
 
@@ -86,7 +88,7 @@ export const GovernanceForecastSurface: React.FC = () => {
         <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl space-y-4">
           <div>
             <div className="flex justify-between items-center text-[10px] font-mono font-bold tracking-wider mb-1.5">
-              <span className="text-muted-foreground">GOVERNANCE INSTABILITY</span>
+              <span className="text-muted-foreground">{t('scenario.forecast.instabilityTitle')}</span>
               <span className={activeForecast.governanceInstabilityIndex > 50 ? 'text-rose-500 font-extrabold' : 'text-foreground font-extrabold'}>
                 {activeForecast.governanceInstabilityIndex}%
               </span>
@@ -101,7 +103,7 @@ export const GovernanceForecastSurface: React.FC = () => {
 
           <div>
             <div className="flex justify-between items-center text-[10px] font-mono font-bold tracking-wider mb-1.5">
-              <span className="text-muted-foreground">OPERATIONAL FATIGUE INDEX</span>
+              <span className="text-muted-foreground">{t('scenario.forecast.fatigueTitle')}</span>
               <span className={activeForecast.operationalFatigueIndex > 50 ? 'text-amber-500 font-extrabold' : 'text-foreground font-extrabold'}>
                 {activeForecast.operationalFatigueIndex}%
               </span>
@@ -117,7 +119,7 @@ export const GovernanceForecastSurface: React.FC = () => {
       </div>
 
       <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl font-mono text-xs">
-        <span className="text-muted-foreground font-bold uppercase tracking-widest block mb-3">PROJECTED ESCALATION TRAJECTORY</span>
+        <span className="text-muted-foreground font-bold uppercase tracking-widest block mb-3">{t('scenario.forecast.trajectoryTitle')}</span>
         <div className="flex flex-wrap items-center gap-2">
           {activeForecast.projectedEscalationTrajectory.map((step, idx) => (
             <React.Fragment key={idx}>

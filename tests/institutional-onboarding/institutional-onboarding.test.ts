@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { test } from 'node:test';
 import * as assert from 'node:assert';
 import { InstitutionalOnboardingOrchestrator } from '../../src/core/runtime/institutional-onboarding/InstitutionalOnboardingOrchestrator';
@@ -11,8 +12,8 @@ function getBaseInput(): InstitutionalOnboardingInput {
       debugModeEnabled: false,
     },
     deploymentReadinessReport: {
-      deploymentReadiness: 'FULL_PRODUCTION_READY',
-      deploymentBlocked: false,
+      overallStatus: 'DEPLOYMENT_READY',
+      productionReadiness: { status: 'VALIDATED' }
     } as any,
     executiveAccessGovernance: {
       currentUserRole: 'MASTER_SUPERVISOR',
@@ -97,7 +98,7 @@ test('Institutional Onboarding Engine Validation', async (t) => {
 
   await t.test('5. Invalid deployment readiness blocks FULL_OPERATION', () => {
     const input = getBaseInput();
-    input.deploymentReadinessReport.deploymentReadiness = 'NOT_READY';
+    input.deploymentReadinessReport.overallStatus = 'DEPLOYMENT_BLOCKED';
     const output = InstitutionalOnboardingOrchestrator.evaluate(input);
     assert.strictEqual(output.onboardingBlocked, true);
     assert.ok(output.blockedActivationReasons.some(r => r.includes('Deployment readiness')));

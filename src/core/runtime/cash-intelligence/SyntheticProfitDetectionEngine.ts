@@ -1,4 +1,4 @@
-import { InstitutionalCashSignal } from './types';
+import { InstitutionalCashSignal, CashQualityClassification } from './types';
 
 export class SyntheticProfitDetectionEngine {
   public static evaluate(
@@ -8,7 +8,7 @@ export class SyntheticProfitDetectionEngine {
     receivables: number,
     inventory: number
   ): InstitutionalCashSignal {
-    let classification = 'HEALTHY' as any;
+    let classification: CashQualityClassification = 'HEALTHY';
     let narrative = 'Crescimento e lucro suportados por conversão orgânica sem retenção sintética de giro.';
 
     // This checks for profit without cash, mostly absorbed by receivables or inventory.

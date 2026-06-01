@@ -11,7 +11,7 @@ export class TenantOwnershipValidator {
     RuntimeBoundaryGuard.assertValidContext(context);
     
     for (const entity of entities) {
-      const id = entity.id || (entity as any).entityId;
+      const id = entity.id || (entity as unknown as { entityId?: string }).entityId;
       if (!entity.tenantId) {
         throw new TenantIsolationError(
           TenantViolations.INVALID_TOPOLOGY_SCOPE,
