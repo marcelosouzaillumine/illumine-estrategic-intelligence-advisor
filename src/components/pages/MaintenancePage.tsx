@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { 
   Database, 
   Trash2, 
@@ -21,6 +22,7 @@ import { useGovernance } from '../../lib/governanceContext';
 import { notificationService } from '../../services/notificationService';
 
 export function MaintenancePage({ clients }: { clients: any[] }) {
+  const { translateLabel: t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [status, setStatus] = useState<Record<string, 'idle' | 'loading' | 'success' | 'error'>>({});
   const [logs, setLogs] = useState<string[]>([]);

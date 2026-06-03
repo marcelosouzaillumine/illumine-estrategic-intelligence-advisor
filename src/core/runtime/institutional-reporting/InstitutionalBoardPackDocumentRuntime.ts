@@ -22,6 +22,7 @@ export interface InstitutionalBoardPackDocumentOutput {
     tenantId: string;
     cycleReference: string;
   };
+  temporalAudit?: any;
 }
 
 export class InstitutionalBoardPackDocumentRuntime {
@@ -61,6 +62,15 @@ export class InstitutionalBoardPackDocumentRuntime {
       restrictions.push(...report.compliance.narrativeRestrictions);
     }
 
+    const showTechnicalAudit = !!(
+      (report as any).featureFlags?.showTechnicalAudit || 
+      (report as any).compliance?.featureFlags?.showTechnicalAudit ||
+      (report as any).institutionalContext?.featureFlags?.showTechnicalAudit ||
+      (report as any).context?.input?.featureFlags?.showTechnicalAudit ||
+      (report as any).context?.input?.rawFinancialData?.featureFlags?.showTechnicalAudit ||
+      (report as any).context?.input?.rawFinancialData?.featureFlags?.showTechnicalAudit === true
+    );
+
     return {
       status,
       structuredJson: report,
@@ -76,7 +86,8 @@ export class InstitutionalBoardPackDocumentRuntime {
         variant,
         tenantId: report.institutionalContext?.tenantId || 'UNKNOWN',
         cycleReference: report.institutionalContext?.currentCycle || 'UNKNOWN'
-      }
+      },
+      temporalAudit: showTechnicalAudit ? report.temporalAudit : undefined
     };
   }
 

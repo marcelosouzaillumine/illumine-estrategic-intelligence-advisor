@@ -22,17 +22,22 @@ export function resolveInstitutionalLabel(
 ): string | null {
   if (!key) return null;
 
+  let cleanKey = key.trim();
+  if (cleanKey.startsWith('[[') && cleanKey.endsWith(']]')) {
+    cleanKey = cleanKey.slice(2, -2).trim();
+  }
+
   // 1. Registro Institucional Curado
-  const registered = InstitutionalTerminologyRegistry[key];
+  const registered = InstitutionalTerminologyRegistry[cleanKey];
   if (registered) {
     return registered;
   }
 
   // 2. Tradução via i18n
-  const translated = translator(key);
+  const translated = translator(cleanKey);
   
-  // Se a tradução for válida e diferente da key, usamos ela
-  if (translated && translated !== key) {
+  // Se a tradução for válida, diferente da key, e não for um fallback i18n com colchetes, usamos ela
+  if (translated && translated !== cleanKey && !(translated.startsWith('[[') && translated.endsWith(']]'))) {
     return translated;
   }
 

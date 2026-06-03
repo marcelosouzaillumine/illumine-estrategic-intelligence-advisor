@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { ChevronDown, Wifi, WifiOff, Loader2, RefreshCw } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -34,6 +35,7 @@ export function CurrencySelector({
   lastUpdated,
   rates,
 }: CurrencySelectorProps) {
+  const { translateLabel: t } = useLanguage();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 

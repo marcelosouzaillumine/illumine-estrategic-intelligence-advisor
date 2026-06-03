@@ -28,6 +28,7 @@ import { TemporalAdvisoryCard } from '../temporal/TemporalAdvisoryCard';
 import { GovernanceTrajectoryGraph } from '../temporal/GovernanceTrajectoryGraph';
 import { InstitutionalResilienceTimeline } from '../temporal/InstitutionalResilienceTimeline';
 import { TemporalHeatmapPanel } from '../temporal/TemporalHeatmapPanel';
+import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { useLanguage } from '../../contexts/LanguageContext';
 interface GovernanceDashboardPageProps {
   clientId: string;
@@ -82,10 +83,10 @@ export function GovernanceDashboardPage({
   };
 
   const strategicKPIs = useMemo(() => [
-    { label: t('gov.kpi.net_profit'), value: getIndicatorValue('Margem Líquida'), suffix: '%', status: getIndicatorValue('Margem Líquida') > 10 ? 'positive' : 'neutral', icon: BarChart3 },
-    { label: t('gov.kpi.ebitda_margin'), value: getIndicatorValue('Margem EBITDA'), suffix: '%', status: getIndicatorValue('Margem EBITDA') > 20 ? 'positive' : 'neutral', icon: Zap },
-    { label: t('gov.kpi.transparency_index'), value: getIndicatorValue('Índice de Transparência', 0), suffix: '%', status: getIndicatorValue('Índice de Transparência') > 80 ? 'positive' : 'neutral', icon: Globe },
-    { label: t('gov.kpi.churn_rate'), value: getIndicatorValue('Churn Rate', 0), suffix: '%', status: getIndicatorValue('Churn Rate') < 5 ? 'positive' : 'negative', icon: ShieldAlert }
+    { label: t('gov.kpi.net_profit'), value: getIndicatorValue('Margem Líquida'), suffix: '%', status: (runtimeOutput as any)?.canonicalState?.status === 'HEALTHY' ? 'positive' : 'neutral', icon: BarChart3 },
+    { label: t('gov.kpi.ebitda_margin'), value: getIndicatorValue('Margem EBITDA'), suffix: '%', status: (runtimeOutput as any)?.canonicalState?.status === 'HEALTHY' ? 'positive' : 'neutral', icon: Zap },
+    { label: t('gov.kpi.transparency_index'), value: getIndicatorValue('Índice de Transparência', 0), suffix: '%', status: (runtimeOutput as any)?.canonicalState?.status === 'HEALTHY' ? 'positive' : 'neutral', icon: Globe },
+    { label: t('gov.kpi.churn_rate'), value: getIndicatorValue('Churn Rate', 0), suffix: '%', status: (runtimeOutput as any)?.canonicalState?.status === 'HEALTHY' ? 'positive' : 'negative', icon: ShieldAlert }
   ], [dbIndicators, t]);
 
   // Radar Data for Areas - Dynamic
@@ -107,7 +108,7 @@ export function GovernanceDashboardPage({
       kpi: t('gov.kpi_short.maturity'), 
       value: getIndicatorValue('Maturidade de Governança', 0), 
       suffix: '%', 
-      status: getIndicatorValue('Maturidade de Governança') > 70 ? 'positive' : 'neutral', 
+      status: (runtimeOutput as any)?.canonicalState?.status === 'HEALTHY' ? 'positive' : 'neutral', 
       icon: ShieldCheck,
       color: 'bg-slate-800'
     },
@@ -116,7 +117,7 @@ export function GovernanceDashboardPage({
       label: t('gov.snapshot.culture'), 
       kpi: t('gov.kpi_short.enps'), 
       value: getIndicatorValue('eNPS', 0), 
-      status: getIndicatorValue('eNPS') > 50 ? 'positive' : 'neutral', 
+      status: (runtimeOutput as any)?.canonicalState?.status === 'HEALTHY' ? 'positive' : 'neutral', 
       icon: Users,
       color: 'bg-purple-500'
     },
@@ -126,7 +127,7 @@ export function GovernanceDashboardPage({
       kpi: t('gov.kpi_short.ebitda'), 
       value: getIndicatorValue('Margem EBITDA', 0), 
       suffix: '%', 
-      status: getIndicatorValue('Margem EBITDA') > 20 ? 'positive' : 'neutral', 
+      status: (runtimeOutput as any)?.canonicalState?.status === 'HEALTHY' ? 'positive' : 'neutral', 
       icon: BarChart3,
       color: 'bg-indigo-500'
     },
@@ -186,7 +187,7 @@ export function GovernanceDashboardPage({
   }), [financialData]);
   
   const { runtimeOutput } = useInstitutionalRuntime({ input: runtimeInput });
-  const isBlocked = runtimeOutput?.inferences?.['ExecutiveDecisionEngine']?.metrics?.blockedInferences?.length > 0;
+  const isBlocked = (runtimeOutput as any)?.canonicalState?.restrictions?.length > 0 || (runtimeOutput as any)?.canonicalState?.fiduciaryWarnings?.length > 0;
 
   // Temporal Integration
   const temporalSession = useMemo(() => ({
@@ -209,18 +210,16 @@ export function GovernanceDashboardPage({
 
   const handleGenerateAnalysis = async () => {
     setLoadingAi(true);
-    const axisPrinciples = GOVERNANCE_PRINCIPLES.filter(p => p.axis === 'Governança Corporativa');
-    const { narrative, auditTrail } = await orchestrateGovernanceNarrative({
-      clientName: t('gov.ai.mock_client'),
-      industry: t('gov.ai.mock_industry'),
-      metrics: flatMetrics,
-      topPrinciples: axisPrinciples.map(p => p.name),
-      scenarios: axisPrinciples.map(p => p.situationalScenario).filter(Boolean) as string[]
-    });
-    console.log('Governance Audit Trail:', auditTrail);
-    setAuditTrail(auditTrail);
-    setAiAnalysis(narrative);
-    setLoadingAi(false);
+    setTimeout(() => {
+      // SFFL v1.0: Delegate strictly to runtime
+      if ((runtimeOutput?.advisory as any)?.executiveSummary || (runtimeOutput as any)?.orchestratedNarrative?.narrative) {
+        setAiAnalysis((runtimeOutput?.advisory as any)?.executiveSummary || (runtimeOutput as any)?.orchestratedNarrative?.narrative);
+      } else {
+        setAiAnalysis(t('gov.ai.mock_client'));
+      }
+      setAuditTrail({ complianceStatus: isBlocked ? 'non_compliant' : 'compliant', warnings: (runtimeOutput as any)?.canonicalState?.fiduciaryWarnings || [] });
+      setLoadingAi(false);
+    }, 500);
   };
 
   const [isYTD, setIsYTD] = useState(false);
@@ -314,6 +313,9 @@ export function GovernanceDashboardPage({
 
   return (
     <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-16 pb-32 animate-executive-fade">
+      {((runtimeOutput as any)?.isSandbox || (runtimeOutput as any)?.isDemonstrative) && (
+        <SandboxWarningOverlay type={(runtimeOutput as any).isSandbox ? 'sandbox' : 'demonstrative'} />
+      )}
       <PageHeader 
         title={t('gov.dashboard.title')}
         subtitle={t('gov.dashboard.subtitle')}

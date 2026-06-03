@@ -3,13 +3,15 @@ import { RevenueEconomicStructureOutput } from './RevenueEconomicStructureEngine
 import { BreakEvenAnalysisOutput } from './BreakEvenAnalysisEngine';
 import { OperationalAbsorptionOutput } from './OperationalAbsorptionEngine';
 import { EconomicBurnRateOutput } from './EconomicBurnRateEngine';
+import { ExecutiveMetricResult } from './ExecutiveEmptyStatePolicy';
+import { DRERecoverabilityGovernanceEngine } from './DRERecoverabilityGovernanceEngine';
 
 export interface EconomicDiagnosisInput {
   normalizedDRE: NormalizedDREPayload;
-  revenueEconomicStructure: RevenueEconomicStructureOutput;
-  breakEvenAnalysis: BreakEvenAnalysisOutput;
-  operationalAbsorption: OperationalAbsorptionOutput;
-  economicBurnRate: EconomicBurnRateOutput;
+  revenueEconomicStructure: ExecutiveMetricResult<RevenueEconomicStructureOutput>;
+  breakEvenAnalysis: ExecutiveMetricResult<BreakEvenAnalysisOutput>;
+  operationalAbsorption: ExecutiveMetricResult<OperationalAbsorptionOutput>;
+  economicBurnRate: ExecutiveMetricResult<EconomicBurnRateOutput>;
 }
 
 export interface EconomicDiagnosisOutput {
@@ -32,7 +34,7 @@ export class EconomicDiagnosisEngine {
       };
     }
 
-    const { netProfit, grossMargin, adminExpenses, netRevenue } = input.normalizedDRE;
+    const { netProfit, grossMargin, adminExpenses, netRevenue, breakEvenCoverage } = input.normalizedDRE;
 
     // 1. Gera Valor?
     let valueCreationAssessment = 'Não';
@@ -51,14 +53,11 @@ export class EconomicDiagnosisEngine {
     }
 
     // 3. Recoverability
-    let recoverabilityAssessment = 'Alta';
-    if (netProfit.value < 0) {
-        if (grossMargin.value > 0.4) {
-            recoverabilityAssessment = 'Moderada';
-        } else {
-            recoverabilityAssessment = 'Baixa';
-        }
-    }
+    const coveragePct = (breakEvenCoverage?.value ?? 0) * 100;
+    const recoverabilityAssessment = DRERecoverabilityGovernanceEngine.evaluate(
+      coveragePct,
+      grossMargin.value
+    );
 
     // 4. Strategic Priority
     let strategicPriority = 'Expansão acelerada e ganho de market-share';
@@ -73,7 +72,7 @@ export class EconomicDiagnosisEngine {
     // 5. Board Outlook
     let boardOutlook = 'A empresa está preparada para captar valor ou acelerar crescimento sem risco estrutural iminente.';
     if (netProfit.value < 0) {
-      boardOutlook = 'Se nenhuma ação for tomada, a operação continuará consumindo patrimônio e dependerá de capital externo.';
+      boardOutlook = 'A operação continuará destruindo valor econômico e ampliando a pressão sobre a rentabilidade futura.';
     }
 
     return {

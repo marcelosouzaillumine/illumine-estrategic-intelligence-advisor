@@ -41,17 +41,17 @@ export class DREExecutiveDataMapper {
     return { value: 0, source: `NOT_FOUND[${aliases.join(',')}]` };
   }
 
-  public static map(payload: any): NormalizedDREPayload {
+  public static map(payload: any) {
     const grossRevenue = this.findValue(payload, ['grossRevenue', 'receitaBruta', 'faturamentoBruto']);
-    const netRevenue = this.findValue(payload, ['netRevenue', 'receitaLiquida', 'financial.netRevenue']);
+    const netRevenue = this.findValue(payload, ['netRevenue', 'receitaLiquida', 'financial.netRevenue', 'recLiquida']);
     const deductions = this.findValue(payload, ['deductions', 'deducoes', 'impostosVenda']);
-    const cogs = this.findValue(payload, ['cogs', 'cmv', 'costOfGoodsSold', 'financial.cogs']);
+    const cogs = this.findValue(payload, ['cogs', 'cmv', 'costOfGoodsSold', 'financial.cogs', 'custosVar']);
     const grossProfit = this.findValue(payload, ['grossProfit', 'lucroBruto', 'resultadoBruto']);
-    const adminExpenses = this.findValue(payload, ['adminExpenses', 'fixedExpenses', 'despesasAdministrativas', 'financial.adminExpenses', 'despesasFixas', 'despesasOperacionais']);
+    const adminExpenses = this.findValue(payload, ['adminExpenses', 'fixedExpenses', 'despesasAdministrativas', 'financial.adminExpenses', 'despesasFixas', 'despesasOperacionais', 'despAdmin']);
     const ebitda = this.findValue(payload, ['ebitda', 'financial.ebitda']);
     const financialResult = this.findValue(payload, ['financialResult', 'resultadoFinanceiro', 'despesasFinanceiras']);
     const otherOperatingIncome = this.findValue(payload, ['otherOperatingIncome', 'outrasReceitas', 'outrasDespesas']);
-    const netProfit = this.findValue(payload, ['netProfit', 'lucroLiquido', 'financial.netProfit']);
+    const netProfit = this.findValue(payload, ['netProfit', 'lucroLiquido', 'financial.netProfit', 'lucroLiq']);
 
     // Calcular margens se faltarem, senão usar do payload
     let grossMargin = this.findValue(payload, ['grossMargin', 'margemBruta', 'indiceMargemContrib']);
@@ -85,7 +85,7 @@ export class DREExecutiveDataMapper {
         breakEvenCoverage = { value: netRevenue.value / breakEvenRevenue.value, source: 'CALCULATED_NETREVENUE_DIV_BREAKEVEN' };
     }
 
-    return {
+    const executiveMetrics: NormalizedDREPayload = {
       grossRevenue,
       netRevenue,
       deductions,
@@ -102,6 +102,26 @@ export class DREExecutiveDataMapper {
       breakEvenRevenue,
       breakEvenGap,
       breakEvenCoverage
+    };
+
+    const missingFields: string[] = [];
+    const sourceMetrics: Record<string, string> = {};
+    
+    Object.entries(executiveMetrics).forEach(([key, val]) => {
+      sourceMetrics[key] = val.source;
+      if (val.source.startsWith('MISSING_PAYLOAD') || val.source.startsWith('NOT_FOUND')) {
+        missingFields.push(key);
+      }
+    });
+
+    const totalFields = Object.keys(executiveMetrics).length;
+    const bindingConfidence = ((totalFields - missingFields.length) / totalFields) * 100;
+
+    return {
+      executiveMetrics,
+      missingFields,
+      sourceMetrics,
+      bindingConfidence
     };
   }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 import type { User } from 'firebase/auth';
 import { AdminSupportPanel } from './SupportPage/AdminSupportPanel';
 import { ClientSupportPanel } from './SupportPage/ClientSupportPanel';
@@ -12,6 +13,7 @@ interface SupportPageProps {
 }
 
 export const SupportPage: React.FC<SupportPageProps> = ({ selectedClient, isMaster }) => {
+  const { translateLabel: t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'master' | 'client'>('master');
 
   const switcher = isMaster ? (

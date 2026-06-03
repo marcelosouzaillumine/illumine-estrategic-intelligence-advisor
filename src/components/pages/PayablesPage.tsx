@@ -32,7 +32,7 @@ import {
   writeBatch
 } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
-import { PageHeader } from '../Common';
+import { PageHeader, KpiValue } from '../Common';
 import { SortableHeader } from '../SortableHeader';
 import { DATA } from '../../data';
 import { cn, formatCurrency, formatDate } from '../../lib/utils';
@@ -51,13 +51,18 @@ import {
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
-    <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group">
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
-      <h3 className={cn(
-        "text-2xl tracking-tight leading-[1.2] whitespace-nowrap",
-        tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
-      )}>{value}</h3>
-      {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80">{helper}</p>}
+    <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between min-h-[140px]">
+      <div>
+        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
+        <KpiValue 
+          value={value} 
+          className={cn(
+            "font-semibold tracking-tight",
+            tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
+          )} 
+        />
+      </div>
+      {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80 leading-relaxed">{helper}</p>}
     </div>
   );
 }

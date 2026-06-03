@@ -579,28 +579,28 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
         </div>
       </section>
 
-      {/* 5. COMO A ILLUMINE PENSA */}
+      {/* 5. {t("landing.auth.how_it_thinks.badge")} */}
       <section className="py-24 px-6 bg-transparent relative">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
             <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
               <div className="w-8 h-px bg-secondary" />
-              COMO A ILLUMINE PENSA
+              {t("landing.auth.how_it_thinks.badge")}
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Não analisamos apenas números. Interpretamos relações estruturais.
+              {t("landing.auth.how_it_thinks.title")}
             </h3>
             <div className="space-y-4 text-lg text-muted-foreground leading-relaxed font-medium">
-              <p>A Illumine opera sobre uma lógica de causalidade empresarial.</p>
-              <p>Isso significa compreender que:</p>
+              <p>{t("landing.auth.how_it_thinks.desc1")}</p>
+              <p>{t("landing.auth.how_it_thinks.desc2")}</p>
               <ul className="list-none space-y-2 text-base text-muted-foreground/80 font-normal py-2">
                 {[
-                  'crescimento impacta caixa;',
-                  'margem impacta sustentabilidade;',
-                  'governança impacta previsibilidade;',
-                  'estrutura de capital impacta expansão;',
-                  'eficiência operacional impacta capacidade de sustentação;',
-                  'maturidade decisional impacta continuidade empresarial.'
+                  t('landing.auth.how_it_thinks.item1'),
+                  t('landing.auth.how_it_thinks.item2'),
+                  t('landing.auth.how_it_thinks.item3'),
+                  t('landing.auth.how_it_thinks.item4'),
+                  t('landing.auth.how_it_thinks.item5'),
+                  t('landing.auth.how_it_thinks.item6')
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-2 shrink-0" />
@@ -608,14 +608,14 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                   </li>
                 ))}
               </ul>
-              <p>Nosso objetivo não é apenas mostrar indicadores.</p>
-              <p className="text-primary font-bold text-xl pt-2">É produzir clareza para decisões críticas.</p>
+              <p>{t("landing.auth.how_it_thinks.desc3")}</p>
+              <p className="text-primary font-bold text-xl pt-2">{t("landing.auth.how_it_thinks.desc4")}</p>
             </div>
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2 text-center pb-4">
-              <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Cada análise considera simultaneamente:</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t("landing.auth.how_it_thinks.consider_label")}</span>
             </div>
             {[
               { icon: LineChart, title: 'liquidez' },
@@ -644,10 +644,10 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-2">
               <Layers size={16} className="text-secondary" />
-              <span>INTELLIGENCE LAYERS</span>
+              <span>{t("landing.auth.layers.badge")}</span>
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Uma arquitetura integrada de inteligência empresarial.
+              {t("landing.auth.layers.title")}
             </h3>
           </div>
 
@@ -676,7 +676,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
         </div>
       </section>
 
-      {/* 7. A PLATAFORMA */}
+      {/* 7. {t("landing.auth.platform.badge")} */}
       <section className="py-24 px-6 bg-transparent relative">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div className="order-2 lg:order-1 relative">
@@ -684,7 +684,7 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10" />
                <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary/5 rounded-full blur-3xl -ml-10 -mb-10" />
                
-               <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-6">A plataforma Illumine centraliza:</p>
+               <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-6">{t("landing.auth.platform.centralizes")}</p>
                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
                   'indicadores executivos',
@@ -710,50 +710,50 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
           <div className="order-1 lg:order-2 space-y-6">
             <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
               <div className="w-8 h-px bg-secondary" />
-              A PLATAFORMA
+              {t("landing.auth.platform.badge")}
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              A infraestrutura operacional da inteligência Illumine.
+              {t("landing.auth.platform.title")}
             </h3>
             <div className="space-y-4 text-lg text-muted-foreground leading-relaxed font-medium">
-              <p>A tecnologia existe para organizar, visualizar e sustentar a interpretação estratégica da empresa.</p>
-              <p>Mas tecnologia, sozinha, não produz clareza.</p>
-              <p className="text-primary font-bold text-xl pt-2">É a interpretação integrada que transforma dados em direção.</p>
+              <p>{t("landing.auth.platform.desc1")}</p>
+              <p>{t("landing.auth.platform.desc2")}</p>
+              <p className="text-primary font-bold text-xl pt-2">{t("landing.auth.platform.desc3")}</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 8. GOVERNANÇA E MATURIDADE EMPRESARIAL */}
+      {/* 8. {t("landing.auth.gov.badge")} */}
       <section className="py-24 px-6 bg-foreground text-background relative overflow-hidden">
         <div className="absolute inset-0 bg-primary-soft/10 pointer-events-none" />
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <div className="space-y-6">
             <h2 className="text-sm font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
               <div className="w-8 h-px bg-secondary" />
-              GOVERNANÇA E MATURIDADE EMPRESARIAL
+              {t("landing.auth.gov.badge")}
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-background leading-tight" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Empresas sustentáveis dependem de maturidade decisional.
+              {t("landing.auth.gov.title")}
             </h3>
             <div className="space-y-4 text-lg text-background/70 leading-relaxed font-medium">
-              <p>Crescimento sem governança normalmente produz:</p>
+              <p>{t("landing.auth.gov.desc1")}</p>
               <ul className="list-disc pl-6 space-y-1 text-base text-background/60 font-normal pb-2">
-                <li>perda de previsibilidade;</li>
-                <li>aumento de risco estrutural;</li>
-                <li>baixa capacidade de controle;</li>
-                <li>decisões reativas;</li>
-                <li>desalinhamento operacional;</li>
-                <li>deterioração silenciosa da sustentabilidade empresarial.</li>
+                <li>{t("landing.auth.gov.item1")}</li>
+                <li>{t("landing.auth.gov.item2")}</li>
+                <li>{t("landing.auth.gov.item3")}</li>
+                <li>{t("landing.auth.gov.item4")}</li>
+                <li>{t("landing.auth.gov.item5")}</li>
+                <li>{t("landing.auth.gov.item6")}</li>
               </ul>
-              <p className="text-background font-bold text-xl pt-2">Empresas maduras não operam apenas com informação.<br/>Operam com inteligência integrada.</p>
+              <p className="text-background font-bold text-xl pt-2" dangerouslySetInnerHTML={{ __html: t("landing.auth.gov.desc2") }}></p>
             </div>
           </div>
 
           <div className="relative">
             <div className="absolute -inset-1 bg-gradient-to-r from-secondary/20 to-primary/20 rounded-card blur-lg opacity-30" />
             <div className="relative p-8 sm:p-10 rounded-[32px] bg-background/5 border border-background/10 shadow-2xl overflow-hidden backdrop-blur-sm">
-               <p className="text-sm font-bold uppercase tracking-widest text-background mb-6">A Illumine ajuda empresas a desenvolver:</p>
+               <p className="text-sm font-bold uppercase tracking-widest text-background mb-6">{t("landing.auth.gov.helps")}</p>
                <ul className="space-y-4">
                 {[
                   'disciplina decisional;',
@@ -780,15 +780,15 @@ function CompanyContent({ onConsultant }: { onConsultant: () => void }) {
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-2">
               <Target size={16} className="text-secondary" />
-              <span>PARA QUEM A ILLUMINE EXISTE</span>
+              <span>{t("landing.auth.for_who.badge")}</span>
             </h2>
             <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground" style={{ fontFamily: "'Tilt Warp', sans-serif" }}>
-              Para empresas que precisam crescer com estrutura.
+              {t("landing.auth.for_who.title")}
             </h3>
           </div>
 
           <div className="max-w-4xl mx-auto bg-card border border-border/80 rounded-[32px] p-8 md:p-12 shadow-xl shadow-primary/5">
-            <p className="text-lg font-bold text-foreground mb-6">A Illumine foi desenvolvida para:</p>
+            <p className="text-lg font-bold text-foreground mb-6">{t("landing.auth.for_who.desc")}</p>
             <ul className="grid sm:grid-cols-2 gap-4">
               {[
                 'empresas em expansão;',

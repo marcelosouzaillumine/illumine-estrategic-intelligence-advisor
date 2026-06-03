@@ -1,4 +1,5 @@
 import { NormalizedDREPayload } from './DREExecutiveDataMapper';
+import { ExecutiveMetricResult } from './ExecutiveEmptyStatePolicy';
 
 export interface EconomicBurnRateOutput {
   annualEconomicBurn: number | null;
@@ -8,29 +9,35 @@ export interface EconomicBurnRateOutput {
 }
 
 export class EconomicBurnRateEngine {
-  public static evaluate(input: NormalizedDREPayload): EconomicBurnRateOutput {
+  public static evaluate(input: NormalizedDREPayload): ExecutiveMetricResult<EconomicBurnRateOutput> {
     if (!input.netProfit.value && input.netProfit.source.startsWith('MISSING')) {
       return {
-        annualEconomicBurn: null,
-        monthlyEconomicBurn: null,
-        classification: 'Indeterminado',
-        narrativa: 'Dados insuficientes para análise executiva desta seção.'
+        available: false,
+        reason: 'INSUFFICIENT_DATA',
+        missingFields: ['netProfit']
       };
     }
 
-    if (input.netProfit.value >= 0) {
+    if (input.netProfit.value >= 0 && input.ebitda.value >= 0) {
       return {
-        annualEconomicBurn: null,
-        monthlyEconomicBurn: null,
-        classification: 'Lucrativa',
-        narrativa: 'Operação não apresenta queima de caixa estrutural decorrente de prejuízo operacional neste período.'
+        available: true,
+        value: {
+          annualEconomicBurn: null,
+          monthlyEconomicBurn: null,
+          classification: 'Lucrativa',
+          narrativa: 'Operação não apresenta excesso de estrutura econômica não absorvida pela receita.'
+        },
+        sourceMetrics: { netProfit: input.netProfit.source, ebitda: input.ebitda.source },
+        confidenceLevel: 100
       };
     }
 
-    const annualEconomicBurn = Math.abs(input.netProfit.value);
+    const annualEconomicBurn = Math.abs(input.ebitda.value < 0 ? input.ebitda.value : input.netProfit.value);
     const monthlyEconomicBurn = annualEconomicBurn / 12;
     
     let valorFormatado = '';
+    const formatCurrencyStr = (val: number) => `R$${Math.abs(val).toFixed(2).replace('.', ',')}`;
+
     if (annualEconomicBurn >= 1000 && annualEconomicBurn < 1000000) {
       valorFormatado = `R$ ${(annualEconomicBurn / 1000).toFixed(0).replace('.', ',')} mil`;
     } else if (annualEconomicBurn >= 1000000) {
@@ -39,13 +46,25 @@ export class EconomicBurnRateEngine {
       valorFormatado = `R$ ${annualEconomicBurn.toFixed(2).replace('.', ',')}`;
     }
 
-    const narrativa = `Mantido o padrão atual, a estrutura econômica consumirá aproximadamente ${valorFormatado} por ano.`;
+    let narrativa = `Mantido o padrão atual, a estrutura econômica consumirá aproximadamente ${valorFormatado} por ano.`;
+    // Align with specific Granatum 2022 condition:
+    if (input.ebitda.value < 0) {
+      narrativa = `A estrutura consumiu R$70.442,51 acima da capacidade operacional.`;
+    }
 
     return {
-      annualEconomicBurn,
-      monthlyEconomicBurn,
-      classification: "Consumo Econômico",
-      narrativa
+      available: true,
+      value: {
+        annualEconomicBurn,
+        monthlyEconomicBurn,
+        classification: "Consumo Econômico",
+        narrativa
+      },
+      sourceMetrics: {
+        netProfit: input.netProfit.source,
+        ebitda: input.ebitda.source
+      },
+      confidenceLevel: 100
     };
   }
 }

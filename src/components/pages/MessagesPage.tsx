@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { PageHeader } from '../Common';
 import { 
   Rocket, 
@@ -90,6 +91,7 @@ const CHANGELOG_DATA: ChangelogEntry[] = [
 ];
 
 export function MessagesPage() {
+  const { translateLabel: t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'messages' | 'changelog'>('messages');
   const { notifications, markAsRead } = useNotifications(auth.currentUser?.uid || 'admin_group');
   const { role } = useGovernance();

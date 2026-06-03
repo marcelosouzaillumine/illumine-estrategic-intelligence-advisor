@@ -35,9 +35,12 @@ import { DREBoardAdvisoryEngine } from './dre/DREBoardAdvisoryEngine';
 import { RecoverabilityAssessmentEngine } from './dre/RecoverabilityAssessmentEngine';
 import { BreakEvenAnalysisEngine } from './dre/BreakEvenAnalysisEngine';
 import { OperationalAbsorptionEngine } from './dre/OperationalAbsorptionEngine';
+import { OperationalHealthExplainabilityEngine } from './dre/OperationalHealthExplainabilityEngine';
+import { CrossStatementIsolationValidator } from './dre/CrossStatementIsolationValidator';
 import { EconomicDiagnosisEngine } from './dre/EconomicDiagnosisEngine';
-import { InstitutionalLineageTracer } from './lineage/InstitutionalLineageTracer';
 import { DREExecutiveDataMapper } from './dre/DREExecutiveDataMapper';
+import { DREExecutiveBindingAudit } from './dre/DREExecutiveBindingAudit';
+import { InstitutionalLineageTracer } from './lineage/InstitutionalLineageTracer';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { calculateFinancialMetrics } from '../../lib/financial-engine';
 import { inferBusinessIdentity } from '../../lib/business-identity-engine';
@@ -80,6 +83,7 @@ import { RecoveryRegressionGuardEngine } from './recovery-regression/RecoveryReg
 import { InstitutionalPressureRuntime } from './operating-pressure/InstitutionalPressureRuntime';
 import { PressureAdapter } from './operating-pressure/pressure-adapter';
 import { ExecutiveTimelineEngine } from './executive-timeline/ExecutiveTimelineEngine';
+import { InstitutionalCausalityExplorer } from './causal-intelligence/InstitutionalCausalityExplorer';
 
 // Integrity Engines (RC-1.3A)
 import { EmptyCycleIntegrityEngine } from './integrity/EmptyCycleIntegrityEngine';
@@ -124,6 +128,7 @@ import { InstitutionalFinancialThesisEngine } from './InstitutionalFinancialThes
 import { CrossStatementCausalityEngine, CrossStatementCausalityReport } from './CrossStatementCausalityEngine';
 import { SemanticComplianceAuditRuntime } from './constitutional-governance/SemanticComplianceAuditRuntime';
 import { ConstitutionalGovernanceRuntime } from './constitutional-governance/ConstitutionalGovernanceRuntime';
+import { TemporalEvidenceFilter } from './temporal-governance/TemporalEvidenceFilter';
 import { ConstitutionalDecisionRuntime } from './decision-intelligence/ConstitutionalDecisionRuntime';
 import { ScenarioImpactRuntime } from './scenario-intelligence/ScenarioImpactRuntime';
 import { InstitutionalPrudencyLayer } from './prudency/InstitutionalPrudencyLayer';
@@ -159,6 +164,18 @@ import { RuntimeComplianceEngine } from './compliance/RuntimeComplianceEngine';
  * - Alterar pesos matemáticos ou classificações financeiras.
  */
 export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputExt {
+  isSandbox?: boolean;
+  isDemonstrative?: boolean;
+  fiduciaryWarnings?: string[];
+  canonicalState?: {
+    status: string;
+    trend: string;
+    severity: string;
+    confidence: string;
+    posture: string;
+    restrictions: string[];
+    fiduciaryWarnings: string[];
+  };
   context: {
     segment: string;
     businessModel: string;
@@ -187,18 +204,25 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
     operationalDependency: string;
   };
   causality: {
-    event: string;
-    rootCause: string;
-    financialPropagation: string;
-    absorptionCapacity: string;
-    strategicImpact: string;
-    insights: {
+    event?: string;
+    rootCause?: string;
+    financialPropagation?: string;
+    absorptionCapacity?: string;
+    strategicImpact?: string;
+    insights?: {
       category: string;
       text: string;
       colorClass: string;
       bgClass: string;
       dotClass: string;
     }[];
+    primaryCause?: string;
+    secondaryCauses?: string[];
+    causalChains?: import('./causal-intelligence/causal-types').CausalChain[];
+    confidenceLevel?: import('./causal-intelligence/causal-types').CausalConfidence;
+    supportingEvidence?: import('./causal-intelligence/causal-types').CausalEvidence[];
+    executiveNarrative?: string;
+    lineageHash?: string;
   };
   severity: {
     // Escala oficial da Severity Modulator Engine
@@ -226,6 +250,18 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   fiduciaryEnforcement?: any;
   metrics: {
     hasData: boolean;
+    dreInsights?: {
+      normalizedDRE?: any;
+      revenueEconomicStructure?: any;
+      economicBurnRate?: any;
+      breakEvenAnalysis?: any;
+      operationalAbsorption?: any;
+      economicDiagnosis?: any;
+      dreExecutiveAdvisory?: any;
+      dreBoardDecisionSupport?: any;
+      bindingAudit?: any;
+      [key: string]: any;
+    };
     financialMetrics: Record<string, unknown>;
     kpis: {
       name: string;
@@ -277,7 +313,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   scenarioIntelligence?: import('./scenario-intelligence/InstitutionalScenarioReport').InstitutionalScenarioReport[];
   constitutionalEvaluation?: import("./constitutional-governance/constitutional-types").ConstitutionalGovernanceMetadata;
   institutionalMemory?: InstitutionalMemoryProfile;
-  institutionalCausality?: InstitutionalCausalityProfile;
+  institutionalCausality?: any;
   structuralCapital?: StructuralCapitalProfile;
 
   // EFOS Fields (RC-1.4)
@@ -313,6 +349,9 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   institutionalEvidence?: import('./evidence-ingestion/InstitutionalEvidenceTypes').InstitutionalEvidenceValidationOutput;
   inferences?: Record<string, { metrics: any; narrative?: any; confidence?: string; score?: number }>;
   timeline?: import('./executive-timeline/executive-timeline-types').ExecutiveTimelineOutput;
+  temporalAudit?: any;
+  fiduciaryCausality?: import('./causal-intelligence/causal-types').InstitutionalCausalityOutput;
+  featureFlags?: any;
 }
 
 export class ExecutiveIntelligenceRuntime implements
@@ -357,18 +396,27 @@ export class ExecutiveIntelligenceRuntime implements
       throw new Error('VIOLAÇÃO DE GOVERNAÇA NÚCLEO: Impossível gerar relatório de inteligência executiva sem dados de entrada válidos.');
     }
 
-    // FYSIF v1.0 (Fiscal Year Scope Isolation Framework)
+    // TFIF v1.0 (Temporal Fiduciary Integrity Framework)
     // Prevent future year data from bleeding into analysis of past years
-    const filterYear = Number(rawData.rawFinancialData?.filterYear);
-    if (!isNaN(filterYear) && rawData.rawFinancialData?.allHistoryData) {
-       const allData = rawData.rawFinancialData.allHistoryData;
-       rawData.rawFinancialData.currentYearData = allData.filter((item: any) => Number(item.year) === filterYear);
-       // historicalData strictly blocks anything from year > filterYear
-       rawData.rawFinancialData.allHistoryData = allData.filter((item: any) => Number(item.year) <= filterYear);
-       
-       if (rawData.historicalSeries) {
-         rawData.historicalSeries = rawData.historicalSeries.filter((item: any) => Number(item.year) <= filterYear);
-       }
+    const filterYear = Number(rawData.rawFinancialData?.filterYear || rawData.filterYear || rawData.year);
+    let tempValidation: any = null;
+    if (!isNaN(filterYear)) {
+      const filterRes = TemporalEvidenceFilter.filter(rawData, filterYear);
+      const filtered = filterRes.filteredRawData;
+      tempValidation = filterRes.validationResult;
+
+      // Mutate rawData arrays in-place to ensure backward compatibility/mutations
+      if (filtered.bpData) rawData.bpData = filtered.bpData;
+      if (filtered.dreData) rawData.dreData = filtered.dreData;
+      if (filtered.dfcData) rawData.dfcData = filtered.dfcData;
+      if (filtered.dfcDataForRuntime) rawData.dfcDataForRuntime = filtered.dfcDataForRuntime;
+      if (filtered.dlpaData) rawData.dlpaData = filtered.dlpaData;
+      if (filtered.historicalSeries) rawData.historicalSeries = filtered.historicalSeries;
+      if (filtered.historicalCyclesRaw) rawData.historicalCyclesRaw = filtered.historicalCyclesRaw;
+      if (rawData.rawFinancialData) {
+        if (filtered.rawFinancialData.allHistoryData) rawData.rawFinancialData.allHistoryData = filtered.rawFinancialData.allHistoryData;
+        if (filtered.rawFinancialData.currentYearData) rawData.rawFinancialData.currentYearData = filtered.rawFinancialData.currentYearData;
+      }
     }
 
     const traceEngine = new RuntimeTraceEngine('SINGLE_ENTITY');
@@ -564,6 +612,8 @@ export class ExecutiveIntelligenceRuntime implements
     const dreLucro = rawData.rawFinancialData?.lucroLiquido !== undefined
       ? rawData.rawFinancialData.lucroLiquido
       : (hasDRE ? (rawData.dreData.find((r: any) => r.category === 'LUCRO LÍQUIDO DO EXERCÍCIO' || r.id === 'LUCRO_LIQ')?.value || 0) : 0);
+
+    console.log("DEBUG RUNTIME DRE LUCRO:", dreLucro, "DREDATA:", JSON.stringify(rawData.dreData));
 
     const metrics = calculateFinancialMetrics(bpSummary, dreEbitda, dreLucro, segment);
     const anosHistorico = rawData.historicalCyclesCount || 0;
@@ -1230,7 +1280,7 @@ export class ExecutiveIntelligenceRuntime implements
       });
 
       // --- DRE EXECUTIVE LAYER BINDING FIX ---
-      const normalizedDRE = DREExecutiveDataMapper.map({
+      const mappedData = DREExecutiveDataMapper.map({
         netRevenue: recLiquida,
         cogs: custosVar,
         adminExpenses: despAdmin,
@@ -1240,6 +1290,9 @@ export class ExecutiveIntelligenceRuntime implements
         grossProfit: lucroBruto
       });
 
+      const normalizedDRE = mappedData.executiveMetrics;
+      console.log("DEBUG: normalizedDRE =", JSON.stringify(normalizedDRE));
+
       const revenueEconomicStructure = RevenueEconomicStructureEngine.evaluate(normalizedDRE);
       const economicBurnRate = EconomicBurnRateEngine.evaluate(normalizedDRE);
       const breakEvenAnalysis = BreakEvenAnalysisEngine.evaluate(normalizedDRE);
@@ -1248,12 +1301,40 @@ export class ExecutiveIntelligenceRuntime implements
       const economicDiagnosis = EconomicDiagnosisEngine.evaluate({
         normalizedDRE,
         revenueEconomicStructure,
-        economicBurnRate,
         breakEvenAnalysis,
-        operationalAbsorption
+        operationalAbsorption,
+        economicBurnRate
       });
 
-      const dreBoardAdvisory = DREBoardAdvisoryEngine.generateSynthesis(normalizedDRE, economicDiagnosis);
+      // ENGF v1.0 — Compressed Executive Advisory (replaces dual Síntese + Sumário)
+      const dreExecutiveAdvisoryFull = DREBoardAdvisoryEngine.generateExecutiveAdvisory(normalizedDRE, economicDiagnosis);
+      const dreBoardAdvisory = dreExecutiveAdvisoryFull.fullNarrative;
+
+      // Board Decision Framework with 7 fiduciary questions
+      const dreBoardDecisionSupport = DREBoardDecisionSupportEngine.generateFramework(
+        economicDiagnosis,
+        {
+          breakEvenGap: breakEvenAnalysis.available ? breakEvenAnalysis.value.breakEvenGap : undefined,
+          netRevenue: normalizedDRE.netRevenue.value,
+          breakEvenRevenue: breakEvenAnalysis.available ? breakEvenAnalysis.value.breakEvenRevenue : undefined,
+        }
+      );
+
+      // Health Score Explainability (ENGF v1.0)
+      const healthExplainability = OperationalHealthExplainabilityEngine.explain(
+        Math.round(Math.min(Math.max(0, 0), 100)), // placeholder — will be overridden after score calc
+        {
+          ebitda,
+          breakEvenCoverage: breakEvenAnalysis.available ? breakEvenAnalysis.value.breakEvenCoverage : 0,
+          grossMargin: normalizedDRE.grossMargin.value,
+          netProfit: lucroLiq,
+          adminExpenses: despAdmin,
+          netRevenue: recLiquida
+        }
+      );
+
+      // Cross-statement isolation audit
+      const dreIsolationAudit = CrossStatementIsolationValidator.validateDRERecommendation(dreBoardAdvisory);
 
       // Existing assignments to dreInsights for backward compatibility (but overridden by new ones)
       (dreInsights as any).qualityReport = qualityReport;
@@ -1272,6 +1353,16 @@ export class ExecutiveIntelligenceRuntime implements
       (dreInsights as any).operationalAbsorption = operationalAbsorption;
       (dreInsights as any).economicDiagnosis = economicDiagnosis;
       (dreInsights as any).dreExecutiveAdvisory = dreBoardAdvisory;
+      (dreInsights as any).dreExecutiveAdvisoryFull = dreExecutiveAdvisoryFull;
+      (dreInsights as any).dreBoardDecisionSupport = dreBoardDecisionSupport;
+      (dreInsights as any).healthExplainability = healthExplainability;
+      (dreInsights as any).dreIsolationAudit = dreIsolationAudit;
+      (dreInsights as any).dreBindingAudit = DREExecutiveBindingAudit.audit({
+        revenueEconomicStructure,
+        economicBurnRate,
+        breakEvenAnalysis,
+        operationalAbsorption
+      });
 
       // KPIs
       const rawKpis = recLiquida > 0 ? [
@@ -1280,7 +1371,7 @@ export class ExecutiveIntelligenceRuntime implements
         { name: 'Lucro Líquido',         val: lucroLiq,            unit: 'currency', status: lucroLiq >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: lucroLiq >= 0 ? 'Lucrativo' : 'Prejuízo', tooltip: 'Resultado líquido após todos os custos, despesas e impostos.' },
         { name: 'Margem de Contribuição',val: margemContrib,       unit: 'currency', status: mbVal >= 40 ? 'Verde' as const : mbVal >= 25 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'MC / ROL', tooltip: 'Receita Líquida - Custos Variáveis. Indica a sobra para pagar custos fixos.' },
         { name: 'Margem EBITDA',         val: ebitdaVal,           unit: '%',        status: ebitdaVal >= 15 ? 'Verde' as const : ebitdaVal >= 8 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'EBITDA / ROL', tooltip: 'Percentual da receita líquida convertido em EBITDA.' },
-        { name: 'Receita Nec. Sustentação',val: breakEvenAnalysis.breakEvenGap, unit: 'currency', status: breakEvenAnalysis.breakEvenGap === 0 ? 'Verde' as const : 'Vermelho' as const, trend: 'Gap para Break-even', tooltip: 'Ponto de Equilíbrio - Receita Líquida.' },
+        { name: 'Receita Nec. Sustentação',val: breakEvenAnalysis.available ? breakEvenAnalysis.value.breakEvenGap : 0, unit: 'currency', status: (breakEvenAnalysis.available && breakEvenAnalysis.value.breakEvenGap === 0) ? 'Verde' as const : 'Vermelho' as const, trend: 'Gap para Break-even', tooltip: 'Ponto de Equilíbrio - Receita Líquida.' },
         { name: 'Índice de Cobertura',   val: indiceCoberturaOperacional, unit: '%', status: indiceCoberturaOperacional >= 100 ? 'Verde' as const : indiceCoberturaOperacional >= 85 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'ROL / PE', tooltip: 'Quanto da receita atual cobre o ponto de equilíbrio.' }
       ] : [];
       const kpis = rawKpis.map(k => KPISemanticIntelligenceEngine.enrich(k, segment));
@@ -1345,7 +1436,21 @@ export class ExecutiveIntelligenceRuntime implements
           description: dreInsights.performanceNote
         },
         alerts: dreInsights.systemAlerts as { type: "warning" | "danger", msg: string }[],
-        chartData
+        chartData,
+        dreInsights: {
+          ...dreInsights as any,
+          healthExplainability: OperationalHealthExplainabilityEngine.explain(
+            dreHealthScore,
+            {
+              ebitda,
+              breakEvenCoverage: breakEvenAnalysis.available ? breakEvenAnalysis.value.breakEvenCoverage : 0,
+              grossMargin: normalizedDRE.grossMargin.value,
+              netProfit: lucroLiq,
+              adminExpenses: despAdmin,
+              netRevenue: recLiquida
+            }
+          )
+        }
       };
     };
 
@@ -1730,6 +1835,7 @@ export class ExecutiveIntelligenceRuntime implements
       capitalization: rawCapitalGov.diagnostics.capitalization,
       behavior: rawCapitalGov.diagnostics.behavior,
       fiduciaryOutput: (rawCapitalGov.diagnostics as unknown as { fiduciaryOutput: import('./governance/dlpa/DLPAFiduciaryInterpretationEngine').DLPAFiduciaryOutput }).fiduciaryOutput,
+      executiveLayer: rawCapitalGov.executiveLayer,
       semantic: rawCapitalGov.semantic ? {
         cpiStatus: rawCapitalGov.semantic.rawCapitalStatus || 'NEUTRO',
         resolvedGovernanceStatus: rawCapitalGov.semantic.resolvedGovernanceStatus,
@@ -2307,7 +2413,28 @@ export class ExecutiveIntelligenceRuntime implements
       financialThesis,
       crossStatementCausality,
       institutionalView,
-      institutionalEvidence: evidenceReport
+      institutionalEvidence: evidenceReport,
+      inferences: {
+        'CapitalGovernanceAdapter': {
+          metrics: {
+            patrimonialRecoveryHorizon: capitalGovernanceReport?.executiveLayer?.patrimonialRecoveryHorizon || { value: null, formatted: 'Não Estimável' }
+          }
+        } as any,
+        'LegacyDFCAdapter': {
+          metrics: {
+            fiduciary: cashSustainabilityReport
+          }
+        } as any,
+        'BoardRiskMatrixAdapter': {
+          metrics: {
+            dimensions: {
+              earnings: cashSustainabilityReport?.earningsQuality?.score ?? 70,
+              treasury: cashSustainabilityReport?.cashQuality?.score ?? 70
+            }
+          }
+        } as any
+      },
+      featureFlags: rawData.featureFlags || rawData.rawFinancialData?.featureFlags
     };
 
     if (executivePatrimonialReport?.governanceConsistency?.consistencyStatus === 'FAIL_CLOSED') {
@@ -2319,6 +2446,37 @@ export class ExecutiveIntelligenceRuntime implements
         restrictionType: 'FAIL_CLOSED',
         affectedRuntimes: ['BP_RUNTIME']
       } as any);
+    }
+
+    // TFIF v1.0 (Temporal Fiduciary Integrity Framework) Integration
+    initialReport.temporalAudit = tempValidation;
+    if (tempValidation && (tempValidation.temporalIntegrity === 'FILTERED_WITH_BLOCKED_YEARS' || tempValidation.temporalIntegrity === 'INVALID')) {
+      if (!initialReport.compliance.fiduciaryEnforcement.fiduciaryRestrictions) {
+        initialReport.compliance.fiduciaryEnforcement.fiduciaryRestrictions = [];
+      }
+      initialReport.compliance.fiduciaryEnforcement.complianceStatus = 'FAILED';
+      initialReport.compliance.fiduciaryEnforcement.fiduciaryRestrictions.push({
+        restrictionType: 'FAIL_CLOSED',
+        description: `Contaminação temporal detectada: ${tempValidation.violationCode || 'TEMPORAL_FIDUCIARY_VIOLATION'}`,
+        affectedRuntimes: ['ALL'],
+        violationCode: 'TEMPORAL_FIDUCIARY_VIOLATION'
+      } as any);
+
+      initialReport.compliance.narrativeRestrictions.push(
+        'BLOQUEADO: Conclusão fiduciária suspensa por violação constitucional temporal.',
+        'As conclusões fiduciárias positivas foram suspensas devido a TEMPORAL_FIDUCIARY_VIOLATION.'
+      );
+
+      // Force fail-closed by degrading scores to 0
+      initialReport.scores = {
+        financial: 0,
+        operational: 0,
+        governance: 0,
+        structural: 0,
+        composite: 0
+      };
+
+      initialReport.severity.level = 'COLAPSO';
     }
 
     // Process Narrative Orchestration (Trilha 8)
@@ -2537,7 +2695,74 @@ export class ExecutiveIntelligenceRuntime implements
 
     report.timeline = ExecutiveTimelineEngine.generate(rawData, report);
 
+    // Generate causal explanations (ICE v1.0)
+    if (report.timeline) {
+      // Collect parsed cycles from the timeline run
+      const parsedCycles = report.timeline.lineageHash ? (ExecutiveTimelineEngine as any).generate(rawData, report).timelineEvents : []; // Wait, let's look at how ExecutiveTimelineEngine parses cycles.
+      // Wait, let's check how we can parse the cycles. We can parse rawData.historicalCycles and the current report!
+      // In ExecutiveTimelineEngine, the generate method expects (rawData, currentReport) and returns the full timeline output.
+      // Since ETE already parses cycles and does it internally, can we reconstruct the HistoricalRuntimeCycle[]?
+      // Yes! In ExecutiveTimelineEngine.ts, we have:
+      // parsedCycles.push(this.parseCycle(item))
+      // So we can parse them in the same way, or just invoke a static helper or call generate!
+      // Let's call the ETE static parser or let's look at ETE generate.
+      // Let's see: we can parse cycles by doing:
+      const rawHistory = rawData.historicalCycles || rawData.runtimeHistory || [];
+      const parsedCyclesList = [];
+      for (const item of rawHistory) {
+        try {
+          parsedCyclesList.push(ExecutiveTimelineEngine.parseCycle(item));
+        } catch (e) {}
+      }
+      if (report) {
+        try {
+          parsedCyclesList.push(ExecutiveTimelineEngine.parseCycle(report));
+        } catch (e) {}
+      }
+      // Deduplicate and sort
+      const uniqueCyclesMap: Record<string, any> = {};
+      for (const cycle of parsedCyclesList) {
+        if (cycle.cycleReference) {
+          uniqueCyclesMap[cycle.cycleReference] = cycle;
+        }
+      }
+      const sortedCycles = Object.values(uniqueCyclesMap).sort((a: any, b: any) => 
+        a.cycleReference.localeCompare(b.cycleReference)
+      );
+
+      report.fiduciaryCausality = InstitutionalCausalityExplorer.generate(sortedCycles, report.timeline.confidenceLevel);
+    }
+
+
+    // SFFL v1.0: Canonical State Enforcement
+    report.isSandbox = !!rawData?.isSandbox || !!rawData?.metadata?.isSandbox;
+    report.isDemonstrative = !!rawData?.isDemonstrative || !!rawData?.metadata?.isDemonstrative;
+    
+    let canonicalStatus = 'CRITICAL';
+    if (report.scores?.composite >= 70) canonicalStatus = 'HEALTHY';
+    else if (report.scores?.composite >= 40) canonicalStatus = 'WARNING';
+
+    let canonicalTrend = 'STABLE';
+    if (report.scores?.financialStress?.isStressed || report.severity?.level === 'COLAPSO' || report.severity?.level === 'CRÍTICO') {
+      canonicalTrend = 'DETERIORATING';
+    } else if (report.scores?.composite > 80) {
+      canonicalTrend = 'IMPROVING';
+    }
+
+    report.fiduciaryWarnings = report.compliance?.fiduciaryEnforcement?.fiduciaryRestrictions?.map(r => r.description) || [];
+
+    report.canonicalState = {
+      status: canonicalStatus,
+      trend: canonicalTrend,
+      severity: report.severity?.level || 'UNKNOWN',
+      confidence: report.compliance?.confidenceLevel || 'UNKNOWN',
+      posture: report.advisory?.priorityFocus || 'UNKNOWN',
+      restrictions: report.compliance?.narrativeRestrictions || [],
+      fiduciaryWarnings: report.fiduciaryWarnings
+    };
+
     return report;
+
   }
 }
 

@@ -133,6 +133,81 @@ export interface FiduciaryCashNarrative {
   institutionalImplications: string[];
 }
 
+export interface CashConstraintDiagnosis {
+  primaryConstraint: 'CONSUMO_OPERACIONAL' | 'ESTOQUES' | 'RECEBIVEIS' | 'CAPEX' | 'ENDIVIDAMENTO' | 'PARTES_RELACIONADAS' | 'ESCALA_INSUFICIENTE' | 'MULTIPLAS_RESTRICOES' | 'NENHUMA_RESTRICAO';
+  severity: string;
+  rationale: string;
+  confidenceLevel: CashConfidenceLevel;
+  sourceMetrics: Record<string, number>;
+}
+
+export interface OperationalCashBurn {
+  monthlyBurnRate: number;
+  annualBurnRate: number;
+  cashConsumptionIntensity: 'BAIXA' | 'MODERADA' | 'ALTA' | 'CRITICA' | 'NAO_APLICAVEL';
+  rationale: string;
+  confidenceLevel: CashConfidenceLevel;
+  sourceMetrics: Record<string, number>;
+}
+
+export interface ShareholderDependency {
+  shareholderDependencyRatio: number;
+  capitalizationCoverageRatio: number;
+  classification: 'AUTONOMA' | 'BAIXA_DEPENDENCIA' | 'MODERADA_DEPENDENCIA' | 'ALTA_DEPENDENCIA' | 'DEPENDENCIA_CRITICA';
+  rationale: string;
+  confidenceLevel: CashConfidenceLevel;
+  sourceMetrics: Record<string, number>;
+  autossuficienciaFinanceiraRatio: number | null;
+  autossuficienciaFinanceiraDisplay: string;
+  dependenciaCapitalExternoLabel: string;
+}
+
+export interface CashSustainability {
+  classification: 'AUTOSSUSTENTADA' | 'EM_TRANSICAO' | 'DEPENDENTE_DE_CAPITAL' | 'INSUSTENTAVEL';
+  rationale: string;
+  confidenceLevel: CashConfidenceLevel;
+  sourceMetrics: Record<string, number>;
+}
+
+export interface RevenueCashConversion {
+  cashConversionPer100Revenue: number;
+  classification: 'GERA_CAIXA' | 'EQUILIBRADO' | 'CONSOME_CAIXA' | 'DESTRUI_CAIXA';
+  rationale: string;
+  confidenceLevel: CashConfidenceLevel;
+  sourceMetrics: Record<string, number>;
+}
+
+export interface CashBoardDecision {
+  cashGenerationAssessment: string;
+  primaryConstraint: string;
+  runwayAssessment: string;
+  shareholderDependency: string;
+  boardOutlook: string;
+  immediateAction?: string;
+  confidenceLevel: CashConfidenceLevel;
+  isOperationSelfSustaining: string;
+}
+
+export interface DFCCashAdvisory {
+  situacaoAtual: string;
+  restricaoPrincipal: string;
+  dependenciaCapital: string;
+  sustentabilidade: string;
+  outlook: string;
+  parecerConsolidado: string;
+  confidenceLevel: CashConfidenceLevel;
+  interpretacaoExecutiva?: string;
+}
+
+export interface CashReinvestment {
+  reinvestmentRate: number | null;
+  classification: 'REINVESTIMENTO_SAUDAVEL' | 'NAO_APLICAVEL' | 'BAIXO_REINVESTIMENTO' | 'INSUSTENTAVEL';
+  displayValue: string;
+  rationale: string;
+  confidenceLevel: CashConfidenceLevel;
+  sourceMetrics: Record<string, number>;
+}
+
 export interface CashIntelligenceRuntimeOutput {
   isAvailable: boolean;
   contextSegment?: FinancialRuntimeContext;
@@ -144,6 +219,17 @@ export interface CashIntelligenceRuntimeOutput {
   fiduciaryOperationalSustainabilityAssessment: FiduciaryOperationalSustainabilityAssessment;
   continuityRisk: InstitutionalContinuityAssessment;
   fiduciaryNarrative: FiduciaryCashNarrative;
+  
+  // Executive Intelligence Framework Outputs
+  cashConstraintDiagnosis?: CashConstraintDiagnosis;
+  cashBurnAnalysis?: OperationalCashBurn;
+  shareholderDependencyAnalysis?: ShareholderDependency;
+  cashSustainabilityAnalysis?: CashSustainability;
+  cashConversionAnalysis?: RevenueCashConversion;
+  cashBoardDecisionFramework?: CashBoardDecision;
+  cashExecutiveAdvisory?: DFCCashAdvisory;
+  cashReinvestmentAnalysis?: CashReinvestment;
+
   blockedConclusions: string[];
   allowedConclusions: string[];
   confidenceLevel: CashConfidenceLevel;
@@ -154,6 +240,8 @@ export interface CashIntelligenceRuntimeOutput {
   score: number;
   longitudinalOut?: LongitudinalCashIntelligenceOutput;
   longitudinalScore?: number | 'NOT_AVAILABLE';
+  earningsQuality?: any;
+  cashQuality?: any;
 }
 
 export type LongitudinalTrajectory = 

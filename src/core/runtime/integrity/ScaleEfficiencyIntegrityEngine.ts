@@ -9,14 +9,14 @@ export class ScaleEfficiencyIntegrityEngine {
   public static applyFailClosed(report: ExecutiveIntelligenceReport): ExecutiveIntelligenceReport {
     if (!report.metrics) return report;
 
-    const msg = ExecutiveEmptyStateResolver.resolve('INSUFFICIENT_HISTORY');
+    const msg = "A organização possui apenas um exercício auditável disponível, impossibilitando análises consistentes de crescimento, ganho de escala ou estabilidade operacional.";
 
     return {
       ...report,
       metrics: {
         ...report.metrics,
         scaleEfficiency: {
-          category: 'NOT_AVAILABLE',
+          category: 'Base Histórica Insuficiente',
           colorClass: 'text-slate-400',
           recGrowth: null as unknown as number,
           ebitdaGrowth: null as unknown as number,

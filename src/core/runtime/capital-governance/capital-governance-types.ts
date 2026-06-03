@@ -97,6 +97,7 @@ export interface ConsolidatedCapitalGovernanceReport {
   capitalization: InstitutionalCapitalizationMetrics | null;
   behavior: GovernanceCapitalBehaviorMetrics | null;
   fiduciaryOutput?: DLPAFiduciaryOutput;
+  executiveLayer?: any;
   semantic?: {
     cpiStatus: string;
     resolvedGovernanceStatus: string;

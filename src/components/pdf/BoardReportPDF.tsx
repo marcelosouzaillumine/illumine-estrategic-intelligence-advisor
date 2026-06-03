@@ -11,6 +11,7 @@ interface BoardReportPDFProps {
   companyName: string;
   reportDate: string;
   temporalData?: any;
+  t?: (k: string) => string;
 }
 
 // A4 proportions: 210 x 297 mm -> ~794 x 1123 px (at 96 DPI)
@@ -39,7 +40,7 @@ export const A4Page = ({ children, isCover = false }: { children: React.ReactNod
   </div>
 );
 
-export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, temporalData }: BoardReportPDFProps, ref: ForwardedRef<HTMLDivElement>) => {
+export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, temporalData, t }: BoardReportPDFProps, ref: ForwardedRef<HTMLDivElement>) => {
   return (
     <div ref={ref} className="pdf-container bg-gray-100 p-8 flex flex-col items-center">
       
@@ -100,7 +101,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
               <ul className="space-y-2">
                  {data.strategicPriorities.map((item, i) => (
                     <li key={i} className="text-[10px] text-gray-700 flex gap-2">
-                       <span className="text-[#BAB86C] font-bold">•</span> {ExecutiveLabelResolver.resolve(item)}
+                       <span className="text-[#BAB86C] font-bold">•</span> {ExecutiveLabelResolver.resolve(item, t)}
                     </li>
                  ))}
               </ul>
@@ -133,7 +134,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
                   {data.actionMatrix.map((action, i) => (
                     <div key={i} className="flex flex-col border border-gray-200 rounded overflow-hidden">
                        <div className="bg-[#0E1C2C] text-white px-4 py-2 flex justify-between items-center">
-                          <h4 className="text-[10px] font-bold uppercase">{ExecutiveLabelResolver.resolve(action.acao)}</h4>
+                          <h4 className="text-[10px] font-bold uppercase">{ExecutiveLabelResolver.resolve(action.acao, t)}</h4>
                           <span className="text-[8px] font-bold tracking-widest bg-white/20 px-2 py-0.5 rounded">
                               {action.prioridade}
                           </span>

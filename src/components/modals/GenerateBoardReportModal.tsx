@@ -5,6 +5,7 @@ import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
 import { BoardReportPDF } from '../pdf/BoardReportPDF';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface GenerateBoardReportModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export function GenerateBoardReportModal({
   clientData,
   temporalData
 }: GenerateBoardReportModalProps) {
+  const { t } = useLanguage();
   const [status, setStatus] = useState<'idle' | 'generating_ai' | 'ready' | 'rendering_pdf' | 'error'>('idle');
   const [progressMsg, setProgressMsg] = useState('');
   const pdfRef = useRef<HTMLDivElement>(null);
@@ -153,6 +155,7 @@ export function GenerateBoardReportModal({
              companyName={companyName} 
              reportDate={new Date().toLocaleDateString('pt-BR')} 
              temporalData={temporalData}
+             t={t}
           />
         )}
       </div>

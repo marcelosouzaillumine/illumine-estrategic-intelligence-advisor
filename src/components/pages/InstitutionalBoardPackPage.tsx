@@ -1,52 +1,119 @@
 // src/components/pages/InstitutionalBoardPackPage.tsx
 
-import React from 'react';
-import { InstitutionalBoardPackCenter } from '../institutional-reporting/InstitutionalBoardPackCenter';
+import React, { useMemo } from 'react';
+import { Loader2 } from 'lucide-react';
+import { useBoardPackDataLoader } from './governance/BoardPackDataLoader';
+import { executiveRuntime } from '../../core/runtime/executive-intelligence-runtime';
 import { InstitutionalBoardPackRuntime } from '../../core/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
+import { SovereignBoardPackPage } from './governance/SovereignBoardPackPage';
 
-// Dummy wrapper para simular a injeção do ExecutiveIntelligenceReport
-export function InstitutionalBoardPackPage({ clients, selectedClient, selectedMonth, selectedYear }: any) {
-  
-  // Fake Report Simulation to test the pure UI Board Pack Renderer
-  const dummyReport: any = {
-    metadata: { lineageHash: 'BD-PACK-TEST-HASH', historicalCyclesCount: 4, auditTrail: ['EXEC-001', 'STR-002'] },
-    institutionalContext: { tenantId: 'sandbox', currentCycle: '2026-05' },
-    capitalStructure: { fundingDependenceLevel: 'MODERATE' },
-    metrics: {
-      financialMetrics: { ocf: 450, revenue: 15000 },
-      scaleEfficiency: { recGrowth: 0.12, ebitdaGrowth: 0.15 }
-    },
-    resilienceReport: { status: 'SAFE', antifragilityScore: 85, metadata: { lineageHash: 'RES-HASH' } },
-    treasuryIntelligenceReport: { stressStatus: 'STABLE', metadata: { lineageHash: 'TRS-HASH' } },
-    operatingPressureReport: { structuralPressureSeverity: 'LOW' },
-    survivalReport: { activeSurvivalMode: null, forbiddenInstitutionalPriorities: [], activeFiduciaryLocks: [] },
-    strategicIntelligence: {
-      posture: 'EXPANSION_POSTURE',
-      vectors: [{ direction: 'RECURRENT_GROWTH', vectorConfidence: 'HIGH' }],
-      trajectory: 'TRAJECTORY_STABLE',
-      expansionSustainability: { isSustainable: true },
-      contradictions: [],
-      explainability: {
-        strategicLineage: 'STR-HASH-123',
-        trajectoryRationale: 'Stable recurrent growth with high ocf generation.',
-        sustainabilityExplanation: 'Expansion is strictly funded by operational cash flow.'
-      },
-      thesis: { unifiedThesisStatement: 'Sustainable structural growth directed by strong operational cash flow.' }
-    },
-    executiveCommand: { activeDirectives: [{ action: 'MAINTAIN', type: 'GOVERNANCE', description: 'Maintain current structural expansion safely.' }] },
-    operationalGovernance: {
-      executionIntegrity: { status: 'EXECUTION_STABLE', confidence: 'HIGH', rationale: 'No critical operational frictions detected.' },
-      operationalFriction: { frictions: [] },
-      operationalContinuity: { status: 'SUSTAINED_CONTINUITY' },
-      auditTrail: ['GOV-HASH-456']
+interface InstitutionalBoardPackPageProps {
+  clients?: any[];
+  selectedClient?: string;
+  selectedMonth?: number;
+  selectedYear?: number;
+}
+
+// Isolated mock dataset for sandbox simulations (Demo / Sandbox mode)
+const MOCK_SANDBOX_DATA = {
+  isMockData: true,
+  historicalCyclesCount: 3,
+  clientProfile: {
+    id: 'sandbox-company-id',
+    name: 'Empresa Sandbox S/A',
+    segmentoAtuacao: 'Default'
+  },
+  rawFinancialData: {
+    segmentoEmpresa: 'Default',
+    prevPl: 800000,
+    bpSummary: {
+      ativoTotal: 1000000,
+      ativoCirculante: 600000,
+      passivoCirculante: 600000,
+      passivoTotal: 600000,
+      patrimonioLiquido: 400000,
+      caixaEquivalentes: 20000,
+      estoques: 300000,
     }
-  };
+  },
+  bpData: [
+    { accountId: '1', value: 1000000 },
+    { accountId: '1.1', value: 600000 },
+    { accountId: '1.1.1', value: 20000 },
+    { accountId: '1.1.2', value: 300000 },
+    { accountId: '2', value: 600000 },
+    { accountId: '2.1', value: 600000 },
+    { accountId: '3', value: 400000 }
+  ],
+  dreData: [
+    { category: 'RECEITA BRUTA', value: 1200000 },
+    { category: 'DEDUÇÕES', value: -200000 },
+    { category: 'RECEITA LÍQUIDA', value: 1000000 },
+    { category: 'CUSTOS VARIÁVEIS', value: -500000 },
+    { category: 'EBITDA', value: 300000 },
+    { category: 'LUCRO LÍQUIDO DO EXERCÍCIO', value: -100000 }
+  ],
+  cashFlowData: [
+    { initialCash: 120000, finalCash: 20000, operatingFlow: -100000, investingFlow: 0, financingFlow: 0 }
+  ],
+  historicalSeries: []
+};
 
-  const boardPack = InstitutionalBoardPackRuntime.generate(dummyReport);
+export function InstitutionalBoardPackPage({ clients, selectedClient, selectedMonth, selectedYear }: InstitutionalBoardPackPageProps) {
+  const filterYear = selectedYear || new Date().getFullYear();
+
+  // 1. Load data via Firestore adapter hook
+  const { payload, loading } = useBoardPackDataLoader(selectedClient || '', filterYear, clients);
+
+  // 2. Compute/Retrieve the correct Board Pack Output fiduciarily
+  const result = useMemo(() => {
+    if (loading) return null;
+
+    try {
+      // If we have real data from the database, use it
+      if (payload && !payload.isMockData) {
+        const report = executiveRuntime.generateExecutiveReport(payload);
+        const boardPack = InstitutionalBoardPackRuntime.generate(report);
+        return {
+          boardPack,
+          dataMode: 'REAL' as const
+        };
+      }
+      
+      // Fallback: If no real data or client not selected, run sandbox simulation
+      const mockReport = executiveRuntime.generateExecutiveReport(MOCK_SANDBOX_DATA);
+      const boardPack = InstitutionalBoardPackRuntime.generate(mockReport);
+      
+      return {
+        boardPack,
+        dataMode: 'MOCK' as const
+      };
+    } catch (error) {
+      console.error('[InstitutionalBoardPackPage] Compilation error:', error);
+      return {
+        boardPack: null,
+        dataMode: 'ERROR' as const
+      };
+    }
+  }, [payload, loading]);
+
+  if (loading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center font-mono bg-zinc-950 text-zinc-100">
+        <div className="flex flex-col items-center gap-4 text-zinc-500">
+          <Loader2 className="animate-spin text-indigo-400" size={32} />
+          <p className="text-xs uppercase tracking-widest">Compilando Fiduciary Board Pack...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const { boardPack, dataMode } = result || { boardPack: null, dataMode: 'ERROR' as const };
 
   return (
-    <div className="p-6">
-      <InstitutionalBoardPackCenter boardPack={boardPack} />
-    </div>
+    <SovereignBoardPackPage 
+      boardPack={boardPack} 
+      dataMode={dataMode} 
+    />
   );
 }

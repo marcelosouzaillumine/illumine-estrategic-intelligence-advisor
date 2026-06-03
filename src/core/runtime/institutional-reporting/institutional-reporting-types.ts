@@ -244,5 +244,21 @@ export interface InstitutionalBoardPackOutput {
   governanceIntegrityReview?: GovernanceIntegrityReviewSection;
   fiduciaryStructuralRestrictions?: FiduciaryStructuralRestrictionsSection;
   structuralLiquidityRisk?: StructuralLiquidityRiskSection;
+  timeline?: import('../executive-timeline/executive-timeline-types').ExecutiveTimelineOutput;
+  causality?: import('../causal-intelligence/causal-types').InstitutionalCausalityOutput;
+  executiveView?: {
+    contextoEmpresarial: string;
+    principaisRiscos: string[];
+    prioridades: string[];
+    decisoesConstitucionais: string[];
+  };
+  technicalAppendix?: {
+    cqs: any;
+    eqs: any;
+    dlpaTechnicalLayer: any;
+    dfcTechnicalLayer: any;
+    lineage: string;
+    constitutionalAudit: any[];
+  };
+  temporalAudit?: any;
 }
-

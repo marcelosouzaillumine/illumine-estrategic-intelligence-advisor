@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon, AlertTriangle, Sparkles, Bug, Target, Shield, Activity, Layers, Scale, Zap, Building2, Coins, Receipt, Briefcase } from 'lucide-react';
+import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon, AlertTriangle, Sparkles, Bug, Target, Shield, Activity, Layers, Scale, Zap, Building2, Coins, Receipt, Briefcase, CheckCircle, AlertCircle, RefreshCw, BarChart2, Eye, ShieldAlert, Cpu } from 'lucide-react';
 import { DATA } from '../../data';
 import { 
   ResponsiveContainer, 
@@ -22,11 +22,16 @@ import { PageHeader, KpiCard } from '../Common';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
-import { ExecutiveCommentary } from '../ExecutiveCommentary';
+// ExecutiveCommentary deliberately not imported — retired from DRE in ENGF v1.1.
+// Executive Advisory (ENGF) is now the single official narrative source for DRE.
+import { ExecutiveEmptyStatePolicy } from '../../core/runtime/dre/ExecutiveEmptyStatePolicy';
 
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
+import { useInstitutionalAuth } from '../../core/security/auth/InstitutionalAuthProvider';
+import { getProfile, mapOfficialRoleToProfileId, PresentationLayer } from '../../core/runtime/presentation-governance/ExecutiveAudienceProfile';
+import { ExecutiveInformationDensityFramework } from '../../core/runtime/presentation-governance/ExecutiveInformationDensityFramework';
 
 import {
   collection,
@@ -50,6 +55,25 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showTechnicalLayer, setShowTechnicalLayer] = useState(false);
   const [, setThemeTrigger] = useState(0);
+
+  const { session } = useInstitutionalAuth();
+  const userRole = session?.role || 'BOARD_MEMBER';
+  const profile = useMemo(() => getProfile(mapOfficialRoleToProfileId(userRole)), [userRole]);
+  const [densityLevel, setDensityLevel] = useState<PresentationLayer>(profile.defaultDensity);  
+  
+  useEffect(() => {
+    setDensityLevel(profile.defaultDensity);
+  }, [userRole, profile]);
+
+  useEffect(() => {
+    if (densityLevel !== 'TECHNICAL') {
+      setShowTechnicalLayer(false);
+    }
+  }, [densityLevel]);
+
+  const isSectionVisible = (sectionName: string) => {
+    return ExecutiveInformationDensityFramework.isSectionVisible(sectionName, densityLevel);
+  };
 
   const currentClient = clients?.find((c: any) => c.id === selectedClient);
   const segmentoEmpresa = (currentClient?.segmentoAtuacao || currentClient?.segmento || 'Serviços').toLowerCase();
@@ -130,18 +154,16 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const confidenceAssessment = (executiveReport?.metrics as any)?.dreInsights?.confidenceAssessment;
   const managementDiscussion = (executiveReport?.metrics as any)?.dreInsights?.managementDiscussion;
   
-  // Novas variáveis da reestruturação executiva
   const revenueEconomicStructure = (executiveReport?.metrics as any)?.dreInsights?.revenueEconomicStructure;
   const economicBurnRate = (executiveReport?.metrics as any)?.dreInsights?.economicBurnRate;
   const breakEvenAnalysis = (executiveReport?.metrics as any)?.dreInsights?.breakEvenAnalysis;
   const operationalAbsorption = (executiveReport?.metrics as any)?.dreInsights?.operationalAbsorption;
   const economicDiagnosis = (executiveReport?.metrics as any)?.dreInsights?.economicDiagnosis;
   const dreExecutiveAdvisory = (executiveReport?.metrics as any)?.dreInsights?.dreExecutiveAdvisory;
+  const dreExecutiveAdvisoryFull = (executiveReport?.metrics as any)?.dreInsights?.dreExecutiveAdvisoryFull;
+  const dreBoardDecisionSupport = (executiveReport?.metrics as any)?.dreInsights?.dreBoardDecisionSupport;
+  const healthExplainability = (executiveReport?.metrics as any)?.dreInsights?.healthExplainability;
 
-  const employeeCount = (dbDataBP[0] as any)?.employeeCount || (dbDataBP[0] as any)?.numeroFuncionarios || 0;
-  const recPorColaborador = employeeCount > 0 ? recLiquida / employeeCount : null;
-
-  const efficiencies = executiveReport?.metrics.efficiencies || [];
   const kpis = executiveReport?.metrics.kpis || [];
   const scaleEfficiency = executiveReport?.metrics.scaleEfficiency;
   const smartInsights = executiveReport?.causality.insights || [];
@@ -399,109 +421,67 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
 
 
-      {/* ALERTAS INTELIGENTES */}
-      {systemAlerts.length > 0 && (
-        <div className="flex flex-col gap-3 mb-8">
-          {systemAlerts.map((alert, idx) => (
-            <div key={idx} className={cn("px-4 py-4 rounded-2xl border flex items-center gap-3 text-sm font-bold shadow-sm", 
-              alert.type === 'danger' ? "bg-rose-50 border-rose-200 text-rose-700" : "bg-amber-50 border-amber-200 text-amber-700")}>
-              <AlertTriangle size={20} className={alert.type === 'danger' ? 'text-rose-500' : 'text-amber-500'} />
-              {alert.msg}
-            </div>
-          ))}
-        </div>
-      )}
 
-
-      {/* SCORE DE SAÚDE */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between border border-slate-700/50 mb-8">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none transition-all duration-500" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
-        
-        <div className="w-full md:w-auto md:flex-1 flex flex-col items-center md:items-start z-10 text-center md:text-left mb-10 md:mb-0 md:mr-10">
-          <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">{t('dre.health.title')}</h3>
-          <p className="text-sm md:text-base text-emerald-100/80 font-medium leading-relaxed w-full">
-            Métrica consolidada da saúde financeira: avalia margens, conversão de caixa, alavancagem e a capacidade de absorção da estrutura.
-          </p>
-          
-          <div className={cn("px-6 py-3 mt-8 rounded-full border shadow-inner backdrop-blur-sm text-xs font-bold uppercase tracking-wider inline-flex", 
-            finalHealthScore >= 81 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 
-            finalHealthScore >= 61 ? 'bg-emerald-500/5 text-emerald-300 border-emerald-500/10' : 
-            finalHealthScore >= 41 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 
-            finalHealthScore >= 21 ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-red-600/20 text-red-400 border-red-500/30')}>
-            {executiveReport?.severity.level || 'PENDENTE'}
-          </div>
-        </div>
-
-        <div className="relative w-48 h-48 flex items-center justify-center shrink-0 z-10">
-          {/* SVG Gradients */}
-          <svg width="0" height="0">
-            <defs>
-              <linearGradient id="score-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor={finalHealthScore >= 80 ? "#10b981" : finalHealthScore >= 50 ? "#f59e0b" : "#ef4444"} />
-                <stop offset="100%" stopColor={finalHealthScore >= 80 ? "#34d399" : finalHealthScore >= 50 ? "#fbbf24" : "#f87171"} />
-              </linearGradient>
-            </defs>
-          </svg>
-          <svg className="w-full h-full transform -rotate-90 filter drop-shadow-[0_0_12px_rgba(0,0,0,0.5)]" viewBox="0 0 192 192">
-            <circle cx="96" cy="96" r="84" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-800/80" />
-            <circle cx="96" cy="96" r="84" stroke="url(#score-gradient)" strokeWidth="12" fill="transparent" 
-              strokeDasharray="528" 
-              strokeDashoffset={528 - (528 * finalHealthScore) / 100}
-              strokeLinecap="round" 
-              className="transition-all duration-1000 ease-out"
-            />
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-             <span className="text-6xl font-black text-white filter drop-shadow-sm leading-none absolute">{finalHealthScore.toFixed(0)}</span>
-             <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest absolute bottom-9">/ 100</span>
-          </div>
-        </div>
-      </div>
       
       {/* 2. DIAGNÓSTICO ECONÔMICO E BOARD DECISION FRAMEWORK */}
-      {economicDiagnosis && (
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl flex flex-col mb-10 text-white">
-          <div className="flex items-center gap-3 mb-6 border-b border-slate-700 pb-4">
-            <div className="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+      {isSectionVisible('DRE_DIAGNOSTICO') && economicDiagnosis && (
+        <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex flex-col mb-10">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+            <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600">
               <Activity size={20} />
             </div>
             <div>
-              <h4 className="text-xl font-black">Diagnóstico Econômico & Decision Framework</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-300">Posicionamento Estrutural</p>
+              <h4 className="text-xl font-black text-slate-900">{t('dre.diagnosis.title')}</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t('dre.diagnosis.subtitle')}</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-            <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
-              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Gera Valor?</span>
-              <span className="text-sm font-black text-indigo-300">{economicDiagnosis.valueCreationAssessment}</span>
+          <div className="flex flex-col xl:flex-row gap-6 items-stretch">
+            {/* Core Metrics Grid */}
+            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
+                <span className="text-[10px] uppercase font-black text-slate-400 block mb-2 tracking-[0.2em]">{t('dre.diagnosis.value_creation')}</span>
+                <span className="text-base font-bold text-slate-800 leading-snug">{economicDiagnosis.valueCreationAssessment}</span>
+              </div>
+              <div className="bg-rose-50/50 p-6 rounded-3xl border border-rose-100/50 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
+                <span className="text-[10px] uppercase font-black text-rose-400 block mb-2 tracking-[0.2em]">{t('dre.diagnosis.primary_constraint')}</span>
+                <span className="text-base font-bold text-rose-700 leading-snug">{economicDiagnosis.primaryConstraint}</span>
+              </div>
+              <div className="bg-amber-50/50 p-6 rounded-3xl border border-amber-100/50 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
+                <span className="text-[10px] uppercase font-black text-amber-500 block mb-2 tracking-[0.2em]">{t('dre.diagnosis.recoverability')}</span>
+                <span className="text-base font-bold text-amber-700 leading-snug">{economicDiagnosis.recoverabilityAssessment}</span>
+              </div>
+              <div className="bg-emerald-50/50 p-6 rounded-3xl border border-emerald-100/50 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
+                <span className="text-[10px] uppercase font-black text-emerald-500 block mb-2 tracking-[0.2em]">{t('dre.diagnosis.strategic_priority')}</span>
+                <span className="text-base font-bold text-emerald-700 leading-snug">{economicDiagnosis.strategicPriority}</span>
+              </div>
             </div>
-            <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
-              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Restrição Principal</span>
-              <span className="text-sm font-black text-rose-300">{economicDiagnosis.primaryConstraint}</span>
-            </div>
-            <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
-              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Recuperabilidade</span>
-              <span className="text-sm font-black text-amber-300">{economicDiagnosis.recoverabilityAssessment}</span>
-            </div>
-            <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
-              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Prioridade Estratégica</span>
-              <span className="text-sm font-black text-emerald-300">{economicDiagnosis.strategicPriority}</span>
-            </div>
-            <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
-              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Outlook</span>
-              <span className="text-sm font-black text-slate-300">{economicDiagnosis.boardOutlook}</span>
+            
+            {/* Featured Outlook Panel */}
+            <div className="w-full xl:w-[420px] bg-gradient-to-br from-blue-50/80 to-indigo-50/30 p-8 rounded-[32px] border border-blue-100 flex flex-col justify-center shadow-sm relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
+                <Activity size={120} className="text-blue-600 transform -rotate-12" />
+              </div>
+              <div className="relative z-10 flex flex-col h-full justify-center">
+                <span className="text-[10px] uppercase font-black text-blue-500 block mb-4 tracking-[0.2em]">
+                  {t('dre.diagnosis.outlook_directional')}
+                </span>
+                <p className="text-lg font-bold text-blue-900/90 leading-relaxed">
+                  {economicDiagnosis.boardOutlook}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       )}
 
       {/* 3 & 4 & 5. ESTRUTURA ECONÔMICA, CONSUMO E COBERTURA */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+      {(isSectionVisible('DRE_ESTRUTURA_ECONOMICA') || isSectionVisible('DRE_CONSUMO_ECONOMICO') || isSectionVisible('DRE_BREAK_EVEN')) && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
         
         {/* ESTRUTURA ECONÔMICA DA RECEITA */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+        {isSectionVisible('DRE_ESTRUTURA_ECONOMICA') && (
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
           <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
             <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
               <Layers size={20} />
@@ -513,61 +493,67 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           </div>
           
             <div className="flex-1 flex flex-col justify-center">
-              {revenueEconomicStructure ? (
+              {revenueEconomicStructure?.available ? (
                  <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center shadow-inner h-full flex items-center">
                     <p className="text-sm font-medium text-slate-700 leading-relaxed whitespace-pre-line w-full">
-                      {revenueEconomicStructure.narrativa}
+                      {revenueEconomicStructure.value.narrativa}
                     </p>
                  </div>
               ) : (
-                 <p className="text-sm font-medium text-slate-500 text-center">Dados insuficientes para análise executiva desta seção.</p>
+                 <p className="text-sm font-medium text-slate-500 text-center">{ExecutiveEmptyStatePolicy.getFallbackMessage(revenueEconomicStructure?.reason || 'INSUFFICIENT_DATA')}</p>
               )}
           </div>
         </div>
+        )}
 
         {/* CONSUMO ECONÔMICO (BURN RATE) */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+        {isSectionVisible('DRE_CONSUMO_ECONOMICO') && (
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
           <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
             <div className="w-10 h-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600">
               <AlertTriangle size={20} />
             </div>
             <div>
               <h4 className="text-lg font-black text-slate-800">Consumo Econômico</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Burn Rate Operacional</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Consumo Econômico do Resultado</p>
             </div>
           </div>
           
            <div className="flex-1 flex flex-col justify-center">
-              {economicBurnRate && economicBurnRate.monthlyEconomicBurn !== null ? (
+              {economicBurnRate?.available ? (
+                economicBurnRate.value.monthlyEconomicBurn !== null ? (
                  <div className="bg-rose-50/50 border border-rose-100 rounded-2xl p-6 text-center shadow-inner h-full flex flex-col items-center justify-center">
                     <p className="text-sm font-medium text-rose-800 leading-relaxed whitespace-pre-line mb-4">
-                      {economicBurnRate.narrativa}
+                      {economicBurnRate.value.narrativa}
                     </p>
                     <div className="w-full flex justify-between px-4">
                        <div className="text-center">
-                          <p className="text-[9px] font-bold uppercase text-rose-400/80 mb-1">Consumo Mensal</p>
-                          <p className="font-black text-rose-600">{formatCurrency(economicBurnRate.monthlyEconomicBurn)}</p>
+                          <p className="text-[9px] font-bold uppercase text-rose-400/80 mb-1">Déficit Econômico Mensalizado</p>
+                          <p className="font-black text-rose-600">{formatCurrency(economicBurnRate.value.monthlyEconomicBurn)}</p>
                        </div>
                        <div className="text-center">
-                          <p className="text-[9px] font-bold uppercase text-rose-400/80 mb-1">Consumo Anual</p>
-                          <p className="font-black text-rose-600">{formatCurrency(economicBurnRate.annualEconomicBurn)}</p>
+                          <p className="text-[9px] font-bold uppercase text-rose-400/80 mb-1">Déficit Econômico do Exercício</p>
+                          <p className="font-black text-rose-600">{formatCurrency(economicBurnRate.value.annualEconomicBurn)}</p>
                        </div>
                     </div>
                  </div>
-              ) : economicBurnRate ? (
+                ) : (
                  <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-6 text-center shadow-inner h-full flex items-center justify-center">
                     <p className="text-sm font-bold text-emerald-700 leading-relaxed w-full">
-                      {economicBurnRate.narrativa}
+                      {economicBurnRate.value.narrativa}
                     </p>
                  </div>
+                )
               ) : (
-                 <p className="text-sm font-medium text-slate-500 text-center">Dados insuficientes para análise executiva desta seção.</p>
+                 <p className="text-sm font-medium text-slate-500 text-center">{ExecutiveEmptyStatePolicy.getFallbackMessage(economicBurnRate?.reason || 'INSUFFICIENT_DATA')}</p>
               )}
           </div>
         </div>
+        )}
 
         {/* PONTO DE EQUILÍBRIO E COBERTURA */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+        {isSectionVisible('DRE_BREAK_EVEN') && (
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
           <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
             <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
               <Target size={20} />
@@ -579,67 +565,193 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           </div>
           
            <div className="flex-1 flex flex-col justify-center">
-              {breakEvenAnalysis && breakEvenAnalysis.breakEvenRevenue > 0 ? (
+              {breakEvenAnalysis?.available && breakEvenAnalysis.value.breakEvenRevenue > 0 ? (
                  <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center shadow-inner h-full flex items-center justify-center flex-col">
                     <p className="text-sm font-medium text-slate-700 leading-relaxed whitespace-pre-line mb-3">
-                      {breakEvenAnalysis.narrativa}
+                      {breakEvenAnalysis.value.narrativa}
                     </p>
-                    {operationalAbsorption && operationalAbsorption.classificacao !== 'Indeterminada' && (
+                    {operationalAbsorption?.available && (
                         <span className={cn("text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border mt-2", 
-                        operationalAbsorption.classificacao === 'Plena' || operationalAbsorption.classificacao === 'Adequada' ? "bg-emerald-50 text-emerald-600 border-emerald-200" :
-                        operationalAbsorption.classificacao === 'Parcial' ? "bg-amber-50 text-amber-600 border-amber-200" : "bg-rose-50 text-rose-600 border-rose-200"
+                        operationalAbsorption.value.classificacao === 'Plena' || operationalAbsorption.value.classificacao === 'Adequada' ? "bg-emerald-50 text-emerald-600 border-emerald-200" :
+                        operationalAbsorption.value.classificacao === 'Parcial' ? "bg-amber-50 text-amber-600 border-amber-200" : "bg-rose-50 text-rose-600 border-rose-200"
                         )}>
-                        Absorção {operationalAbsorption.classificacao}
+                        Absorção {operationalAbsorption.value.classificacao}
                         </span>
                     )}
                  </div>
               ) : (
-                 <p className="text-sm font-medium text-slate-500 text-center">Dados insuficientes para análise executiva desta seção.</p>
+                 <p className="text-sm font-medium text-slate-500 text-center">{ExecutiveEmptyStatePolicy.getFallbackMessage(breakEvenAnalysis?.reason || 'INSUFFICIENT_DATA')}</p>
               )}
           </div>
         </div>
+        )}
 
       </div>
+      )}
 
-      {/* 6. SÍNTESE EXECUTIVA PARA TOMADA DE DECISÃO */}
-      {(dreExecutiveAdvisory || managementDiscussion) && (
+      {/* 5.5 BOARD DECISION SUPPORT FRAMEWORK */}
+      {isSectionVisible('DRE_DECISION_SUPPORT') && dreBoardDecisionSupport && (
         <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex flex-col mb-10">
           <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-            <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-white">
-              <Briefcase size={20} />
+            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white">
+              <ShieldAlert size={20} />
             </div>
             <div>
-              <h4 className="text-xl font-black text-slate-800">Síntese Executiva para Tomada de Decisão</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Direcionamento Corporativo</p>
+              <h4 className="text-xl font-black text-slate-900">DRE Board Decision Support Framework</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Diagnóstico Executivo Diretivo</p>
             </div>
           </div>
           
-          {dreExecutiveAdvisory && (
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-8">
-              <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2 border-l-2 border-indigo-500 pl-2">Sumário de Conselho</h5>
-              <p className="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-line">{dreExecutiveAdvisory}</p>
-            </div>
-          )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {/* P1 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">P1 — Criação de Valor</p>
+                <h5 className="text-xs font-bold text-slate-800 mb-2">A empresa cria ou destrói valor?</h5>
+                <p className={cn("text-xs font-medium leading-relaxed", dreBoardDecisionSupport.geraValor === 'Sim' ? 'text-emerald-600' : 'text-rose-600')}>
+                  {dreBoardDecisionSupport.criacaoDeValor || dreBoardDecisionSupport.geraValor}
+                </p>
+              </div>
 
-          {managementDiscussion && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {managementDiscussion.blocks.map((block: any, i: number) => (
-                <div key={i} className="flex flex-col gap-2">
-                  <h5 className="text-xs font-black uppercase tracking-widest text-slate-800 border-l-2 border-slate-400 pl-2">
-                    {block.title}
-                  </h5>
-                  <p className="text-[11px] font-medium leading-relaxed text-slate-600 whitespace-pre-line">
-                    {block.content}
-                  </p>
-                </div>
-              ))}
+              {/* P2 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">P2 — Sustentação</p>
+                <h5 className="text-xs font-bold text-slate-800 mb-2">O faturamento sustenta a estrutura?</h5>
+                <p className="text-xs font-medium text-slate-700 leading-relaxed">
+                  {dreBoardDecisionSupport.faturamentoSustaenta || dreBoardDecisionSupport.problemaPrincipal}
+                </p>
+              </div>
+
+              {/* P3 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">P3 — Equilíbrio</p>
+                <h5 className="text-xs font-bold text-slate-800 mb-2">Quanto falta para o equilíbrio?</h5>
+                <p className="text-xs font-medium text-slate-700 leading-relaxed">
+                  {dreBoardDecisionSupport.lacunaEquilibrio || '—'}
+                </p>
+              </div>
+
+              {/* P4 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">P4 — Restrição</p>
+                <h5 className="text-xs font-bold text-slate-800 mb-2">Qual é a principal restrição econômica?</h5>
+                <p className="text-xs font-medium text-slate-700 leading-relaxed">
+                  {dreBoardDecisionSupport.restricaoPrincipal || dreBoardDecisionSupport.problemaPrincipal}
+                </p>
+              </div>
+
+              {/* P5 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">P5 — Oportunidade</p>
+                <h5 className="text-xs font-bold text-slate-800 mb-2">Qual é a principal oportunidade econômica?</h5>
+                <p className="text-xs font-medium text-emerald-700 leading-relaxed">
+                  {dreBoardDecisionSupport.oportunidadePrincipal || '—'}
+                </p>
+              </div>
+
+              {/* P6 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">P6 — Inação</p>
+                <h5 className="text-xs font-bold text-slate-800 mb-2">Se nada for feito, o que acontece?</h5>
+                <p className={cn("text-xs font-medium leading-relaxed", dreBoardDecisionSupport.geraValor === 'Sim' ? 'text-emerald-600' : 'text-rose-600')}>
+                  {dreBoardDecisionSupport.consequenciaDaInacao || dreBoardDecisionSupport.risco}
+                </p>
+              </div>
+
+              {/* P7 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 xl:col-span-2">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">P7 — Prioridade do Conselho</p>
+                <h5 className="text-xs font-bold text-slate-800 mb-2">Qual é a prioridade estratégica?</h5>
+                <p className="text-xs font-medium text-blue-700 leading-relaxed">
+                  {dreBoardDecisionSupport.prioridadeConselho || dreBoardDecisionSupport.prioridade}
+                </p>
+              </div>
+            </div>
+        </div>
+      )}
+
+      {/* 5.6 HEALTH SCORE EXPLAINABILITY */}
+      {isSectionVisible('DRE_HEALTH_SCORE') && healthExplainability && (
+        <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex flex-col mb-10">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4 flex-wrap gap-y-4">
+            <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 shrink-0">
+              <Activity size={20} />
+            </div>
+            <div className="flex-1">
+              <h4 className="text-xl font-black text-slate-900">{t('dre.health.title')}</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t('dre.health.economics_diagnosis')}</p>
+            </div>
+            <div className="flex items-center gap-3 ml-auto">
+              <span className={cn(
+                "text-2xl font-black",
+                healthExplainability.classificationColor === 'emerald' ? 'text-emerald-600' :
+                healthExplainability.classificationColor === 'amber' ? 'text-amber-500' :
+                healthExplainability.classificationColor === 'orange' ? 'text-orange-500' :
+                healthExplainability.classificationColor === 'rose' ? 'text-rose-600' : 'text-red-700'
+              )}>{healthExplainability.score}/100</span>
+              <span className={cn(
+                "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border",
+                healthExplainability.classificationColor === 'emerald' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                healthExplainability.classificationColor === 'amber' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                healthExplainability.classificationColor === 'orange' ? 'bg-orange-50 text-orange-700 border-orange-200' :
+                healthExplainability.classificationColor === 'rose' ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-red-50 text-red-700 border-red-200'
+              )}>{healthExplainability.classification}</span>
+            </div>
+          </div>
+          {healthExplainability.drivers.length > 0 && (
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Principais Determinantes</p>
+              <ul className="space-y-2">
+                {healthExplainability.drivers.map((driver: string, i: number) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-slate-700 font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2 shrink-0" />
+                    {driver}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </div>
       )}
 
+      {/* 6. EXECUTIVE ADVISORY — Bloco unificado (substitui Síntese + Sumário duplicados) */}
+      {isSectionVisible('DRE_ADVISORY') && (dreExecutiveAdvisoryFull || dreExecutiveAdvisory || managementDiscussion) && (
+        <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex flex-col mb-10">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white">
+              <Briefcase size={20} />
+            </div>
+            <div>
+              <h4 className="text-xl font-black text-slate-900">{t('dre.advisory.title')}</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t('dre.advisory.subtitle')}</p>
+            </div>
+          </div>
+
+          {dreExecutiveAdvisoryFull ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+              {[
+                { label: 'Situação Atual', content: dreExecutiveAdvisoryFull.situacaoAtual, color: 'border-l-slate-400' },
+                { label: 'Principal Restrição', content: dreExecutiveAdvisoryFull.restricaoPrincipal, color: 'border-l-rose-400' },
+                { label: 'Principal Oportunidade', content: dreExecutiveAdvisoryFull.oportunidadePrincipal, color: 'border-l-emerald-400' },
+                { label: 'Prioridade Estratégica', content: dreExecutiveAdvisoryFull.prioridadeEstrategica, color: 'border-l-blue-400' },
+                { label: 'Outlook', content: dreExecutiveAdvisoryFull.outlook, color: 'border-l-indigo-400' },
+              ].map((item, i) => (
+                <div key={i} className={cn('bg-slate-50 rounded-2xl p-5 border border-slate-100 border-l-4', item.color)}>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">{item.label}</p>
+                  <p className="text-sm text-slate-700 font-medium leading-relaxed">{item.content}</p>
+                </div>
+              ))}
+            </div>
+          ) : dreExecutiveAdvisory ? (
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+              <p className="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-line">{dreExecutiveAdvisory}</p>
+            </div>
+          ) : null}
+        </div>
+      )}
+
       {/* 7. CAMADA TÉCNICA (COLAPSADA) */}
-      <div className="mb-10">
+      {isSectionVisible('DRE_TECHNICAL_LAYER') && (
+        <div className="mb-10">
         <button 
           onClick={() => setShowTechnicalLayer(!showTechnicalLayer)}
           className="w-full bg-slate-100 hover:bg-slate-200 transition-colors border border-slate-200 rounded-2xl p-4 flex items-center justify-between group"
@@ -717,13 +829,13 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     
                     <div className="flex items-center justify-between gap-4">
                         <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Growth (Receita)</p>
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Crescimento de Receita</p>
                           <p className={cn("text-3xl font-black", (scaleEfficiency.recGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
                             {scaleEfficiency.recGrowth === null ? 'N/A' : `${scaleEfficiency.recGrowth > 0 ? '+' : ''}${scaleEfficiency.recGrowth.toFixed(2)}%`}
                           </p>
                         </div>
                         <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Profitability (EBITDA)</p>
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Crescimento de EBITDA</p>
                           <p className={cn("text-3xl font-black", (scaleEfficiency.ebitdaGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
                             {scaleEfficiency.ebitdaGrowth === null ? 'N/A' : `${scaleEfficiency.ebitdaGrowth > 0 ? '+' : ''}${scaleEfficiency.ebitdaGrowth.toFixed(2)}%`}
                           </p>
@@ -1108,18 +1220,13 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           </p>
         </div>
       )}
-
         </div>
       )}
-      </div>
+        </div>
+      )}
 
 
-      <ExecutiveCommentary
-        reportType="DRE"
-        clientId={selectedClient}
-        year={filterYear}
-        month={1}
-      />
+      {/* ExecutiveCommentary retired in ENGF v1.1 — Executive Advisory is the single narrative source */}
 
       {showImportModal && (
         <ImportFinancialModal

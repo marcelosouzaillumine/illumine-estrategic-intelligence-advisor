@@ -1,6 +1,25 @@
 import { EconomicDiagnosisOutput } from './EconomicDiagnosisEngine';
+import { CrossStatementIsolationValidator } from './CrossStatementIsolationValidator';
 
+/**
+ * BoardDecisionFramework — 7 perguntas fiduciárias obrigatórias do Conselho
+ */
 export interface BoardDecisionFramework {
+  // P1: A empresa cria ou destrói valor?
+  criacaoDeValor: string;
+  // P2: O faturamento sustenta a estrutura?
+  faturamentoSustaenta: string;
+  // P3: Quanto falta para atingir o equilíbrio?
+  lacunaEquilibrio: string;
+  // P4: Qual é a principal restrição econômica?
+  restricaoPrincipal: string;
+  // P5: Qual é a principal oportunidade econômica?
+  oportunidadePrincipal: string;
+  // P6: Se nada for feito, o que acontece?
+  consequenciaDaInacao: string;
+  // P7: Qual é a prioridade do Conselho?
+  prioridadeConselho: string;
+  // Campos legados (backward compat)
   geraValor: string;
   problemaPrincipal: string;
   recuperavel: string;
@@ -9,13 +28,69 @@ export interface BoardDecisionFramework {
 }
 
 export class DREBoardDecisionSupportEngine {
-  public static generateFramework(diagnosis: EconomicDiagnosisOutput): BoardDecisionFramework {
+  public static generateFramework(
+    diagnosis: EconomicDiagnosisOutput,
+    context?: { breakEvenGap?: number; netRevenue?: number; breakEvenRevenue?: number }
+  ): BoardDecisionFramework {
+    const { valueCreationAssessment, primaryConstraint, recoverabilityAssessment, strategicPriority, boardOutlook } = diagnosis;
+
+    // P1 — Criação de Valor
+    const criacaoDeValor = valueCreationAssessment === 'Sim'
+      ? 'Sim — a operação gera resultado positivo neste exercício.'
+      : 'Não — a operação consome mais recursos do que gera. Há destruição de valor econômico.';
+
+    // P2 — O faturamento sustenta a estrutura?
+    let faturamentoSustaenta = 'O faturamento atual é insuficiente para cobrir a estrutura operacional instalada.';
+    if (valueCreationAssessment === 'Sim') {
+      faturamentoSustaenta = 'Sim — o faturamento supera os custos da estrutura operacional.';
+    }
+
+    // P3 — Quanto falta para atingir o equilíbrio?
+    let lacunaEquilibrio = 'Análise indisponível — dados de break-even não calculados.';
+    if (context?.breakEvenGap !== undefined && context?.breakEvenRevenue !== undefined && context?.netRevenue !== undefined) {
+      if (context.breakEvenGap <= 0) {
+        lacunaEquilibrio = 'A operação já superou o ponto de equilíbrio. A receita atual é suficiente.';
+      } else {
+        const gapFormatted = context.breakEvenGap.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        lacunaEquilibrio = `Faltam ${gapFormatted} adicionais de receita para atingir o ponto de equilíbrio operacional.`;
+      }
+    }
+
+    // P4 — Principal Restrição Econômica
+    const restricaoPrincipal = CrossStatementIsolationValidator.isWithinDREDomain(primaryConstraint)
+      ? primaryConstraint
+      : 'Estrutura operacional incompatível com o nível de receita atual.';
+
+    // P5 — Principal Oportunidade Econômica
+    let oportunidadePrincipal = 'Expansão da receita e revisão da estrutura de custos fixos.';
+    if (primaryConstraint.toLowerCase().includes('escala')) {
+      oportunidadePrincipal = 'Alavancagem de volume — a estrutura existente permite absorver mais receita sem crescimento proporcional dos custos.';
+    } else if (primaryConstraint.toLowerCase().includes('margem')) {
+      oportunidadePrincipal = 'Otimização de precificação e revisão de custos diretos para ampliar a margem de contribuição.';
+    } else if (primaryConstraint.toLowerCase().includes('custo')) {
+      oportunidadePrincipal = 'Redimensionamento da estrutura fixa para torná-la compatível com o volume atual de receita.';
+    }
+
+    // P6 — Se nada for feito
+    const consequenciaDaInacao = boardOutlook;
+
+    // P7 — Prioridade do Conselho
+    const prioridadeConselho = strategicPriority;
+
     return {
-      geraValor: diagnosis.valueCreationAssessment,
-      problemaPrincipal: diagnosis.primaryConstraint,
-      recuperavel: diagnosis.recoverabilityAssessment,
-      prioridade: diagnosis.strategicPriority,
-      risco: diagnosis.boardOutlook
+      criacaoDeValor,
+      faturamentoSustaenta,
+      lacunaEquilibrio,
+      restricaoPrincipal,
+      oportunidadePrincipal,
+      consequenciaDaInacao,
+      prioridadeConselho,
+      // backward compat
+      geraValor: valueCreationAssessment,
+      problemaPrincipal: primaryConstraint,
+      recuperavel: recoverabilityAssessment,
+      prioridade: strategicPriority,
+      risco: boardOutlook,
     };
   }
 }

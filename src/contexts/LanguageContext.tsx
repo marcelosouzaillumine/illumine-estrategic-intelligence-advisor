@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { dictionaries, Locale } from '../i18n';
-import { resolveInstitutionalLabel } from '../core/runtime/i18n/InstitutionalLabelResolver';
+import { resolveInstitutionalLabel, humanizeInstitutionalKey } from '../core/runtime/i18n/InstitutionalLabelResolver';
 
 interface LanguageContextType {
   language: Locale;
@@ -47,20 +47,20 @@ const mapLabelToKey = (label: string): string => {
     'passivo': 'financial.liabilities',
     'patrimonio': 'financial.netEquity',
     'patrimonio liquido': 'financial.netEquity',
-    'conta': 'common.account',
-    'conta contabil': 'common.account_billing',
+    'conta': 'tables.column.account',
+    'conta contabil': 'tables.column.account_billing',
     'valor': 'common.value',
-    'valor (r$)': 'common.value_brl',
+    'valor (r$)': 'tables.column.value_brl',
     'saldo': 'common.balance',
-    'saldo (r$)': 'common.balance_brl',
-    'av (%)': 'common.av',
-    'ah (%)': 'common.ah',
-    'ah (1 ano)': 'common.ah_1y',
-    'ah (2 anos)': 'common.ah_2y',
-    'ah (3 anos)': 'common.ah_3y',
-    'detalhamento da dre': 'common.dre_details',
-    'analise horizontal e vertical': 'common.horizontal_vertical_analysis',
-    'detalhamento estrutural': 'common.structural_details',
+    'saldo (r$)': 'tables.column.balance_brl',
+    'av (%)': 'tables.column.vertical_analysis',
+    'ah (%)': 'tables.column.horizontal_analysis',
+    'ah (1 ano)': 'tables.column.horizontal_analysis_1y',
+    'ah (2 anos)': 'tables.column.horizontal_analysis_2y',
+    'ah (3 anos)': 'tables.column.horizontal_analysis_3y',
+    'detalhamento da dre': 'tables.dre_details',
+    'analise horizontal e vertical': 'tables.horizontal_vertical_analysis',
+    'detalhamento estrutural': 'tables.structural_details',
 
     // Pages
     'inteligencia consolidada': 'navigation.page.consolidated_executive',
@@ -230,12 +230,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   const t = (key: string, fallbacks?: string | Record<string, string>): string => {
+    // 1. Try active dictionary
     const activeDict = dictionaries[language];
     if (activeDict && (activeDict as any)[key] !== undefined) {
       return (activeDict as any)[key];
     }
     
-    // Try fallback dict if provided
+    // 2. Try fallback dict if provided
     if (fallbacks) {
       if (typeof fallbacks === 'string') {
         return fallbacks;
@@ -245,12 +246,26 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    if (process.env.NODE_ENV === 'development') {
-      console.warn(`[i18n] Missing translation key: "${key}" for locale "${language}". No silent fallback permitted.`);
+    // 3. Try default dictionary (pt-BR)
+    const defaultDict = dictionaries['pt-BR'];
+    if (language !== 'pt-BR' && defaultDict && (defaultDict as any)[key] !== undefined) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`[i18n] Fallback to default pt-BR for key: "${key}" (requested locale "${language}").`);
+      }
+      return (defaultDict as any)[key];
     }
 
-    // Controlled fallback marker instead of silently mixing languages
-    return `[[${key}]]`;
+    // Emit warning for missing key
+    console.warn(`[i18n] Missing translation key: "${key}" for locale "${language}".`);
+
+    // 4. Last resort fallback / UI Shield
+    if (process.env.NODE_ENV === 'development') {
+      return `[[${key}]]`;
+    }
+
+    // In production or test, shield UI with humanized key
+    const humanized = humanizeInstitutionalKey(key);
+    return humanized || key.replace(/^.*\./, "").replace(/_/g, " ");
   };
 
   const translateLabel = (label: string): string => {
@@ -260,6 +275,26 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       const prefix = prefixMatch ? prefixMatch[0] : '';
       return `${prefix}${safeT(key)}`;
     }
+
+    // Try active dictionary directly for cleaned label
+    const cleanLabel = label.replace(/^[\s(\-+)=/]+/g, '').trim();
+    if (cleanLabel) {
+      const activeDict = dictionaries[language];
+      if (activeDict && (activeDict as any)[cleanLabel] !== undefined) {
+        const prefixMatch = label.match(/^[\s(\-+)=/]+/);
+        const prefix = prefixMatch ? prefixMatch[0] : '';
+        return `${prefix}${(activeDict as any)[cleanLabel]}`;
+      }
+
+      // Check fallback dict (pt-BR) if the active language doesn't have it
+      const defaultDict = dictionaries['pt-BR'];
+      if (defaultDict && (defaultDict as any)[cleanLabel] !== undefined) {
+        const prefixMatch = label.match(/^[\s(\-+)=/]+/);
+        const prefix = prefixMatch ? prefixMatch[0] : '';
+        return `${prefix}${(defaultDict as any)[cleanLabel]}`;
+      }
+    }
+
     return label;
   };
 
@@ -269,10 +304,16 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     
     // 2. Se retornou null (humanização falhou, ou não havia nada),
     // retornamos uma string vazia (silencioso) para que o componente não renderize o item.
-    // Se quiser o fallback antigo, usaríamos o argumento fallback, mas o prompt exigiu
-    // fallback silencioso (retornar string vazia/null que oculte).
-    // O UI já lida com vazio. Para garantir o contrato de `string`:
     if (!resolved) return '';
+
+    // Sanitize in case double brackets leaked
+    if (resolved.startsWith('[[') && resolved.endsWith(']]')) {
+      if (process.env.NODE_ENV === 'development') {
+        return resolved;
+      }
+      const innerKey = resolved.slice(2, -2);
+      return humanizeInstitutionalKey(innerKey) || innerKey.replace(/^.*\./, "").replace(/_/g, " ");
+    }
 
     return resolved;
   };

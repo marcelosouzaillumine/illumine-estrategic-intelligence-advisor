@@ -28,18 +28,18 @@ describe('DRE Executive Binding Integration', () => {
     const mapped = DREExecutiveDataMapper.map(payload);
 
     // Baseline validation
-    assert.strictEqual(mapped.netRevenue.value, 156969.54);
-    assert.strictEqual(mapped.cogs.value, -70026.22);
-    assert.strictEqual(mapped.adminExpenses.value, -157385.83);
-    assert.strictEqual(mapped.netProfit.value, -68548.88);
-    assert.strictEqual(mapped.breakEvenRevenue.value, 284148.12);
+    assert.strictEqual(mapped.executiveMetrics.netRevenue.value, 156969.54);
+    assert.strictEqual(mapped.executiveMetrics.cogs.value, -70026.22);
+    assert.strictEqual(mapped.executiveMetrics.adminExpenses.value, -157385.83);
+    assert.strictEqual(mapped.executiveMetrics.netProfit.value, -68548.88);
+    assert.strictEqual(mapped.executiveMetrics.breakEvenRevenue.value, 284148.12);
 
     // Derived values validation
     const breakEvenGap = 284148.12 - 156969.54;
-    assert.ok(Math.abs(mapped.breakEvenGap.value - 127178.58) < 0.01);
+    assert.ok(Math.abs(mapped.executiveMetrics.breakEvenGap.value - 127178.58) < 0.01);
 
     // Tracking verification
-    assert.strictEqual(mapped.netRevenue.source, 'payload.netRevenue');
+    assert.strictEqual(mapped.executiveMetrics.netRevenue.source, 'payload.netRevenue');
   });
 
   test('should process the mapped payload correctly through engines', () => {
@@ -64,15 +64,17 @@ describe('DRE Executive Binding Integration', () => {
     const mapped = DREExecutiveDataMapper.map(payload);
 
     // Call engines directly to bypass runtime governance quarantine (which requires full lineage/metadata)
-    const economicBurnRate = EconomicBurnRateEngine.evaluate(mapped);
-    const breakEvenAnalysis = BreakEvenAnalysisEngine.evaluate(mapped);
+    const economicBurnRate = EconomicBurnRateEngine.evaluate(mapped.executiveMetrics);
+    const breakEvenAnalysis = BreakEvenAnalysisEngine.evaluate(mapped.executiveMetrics);
     
     // Ensure engines were executed correctly
-    assert.ok(economicBurnRate);
-    assert.ok(Math.abs(economicBurnRate.annualEconomicBurn - 68548.88) < 0.01);
-    assert.ok(Math.abs(economicBurnRate.monthlyEconomicBurn - 5712.41) < 0.01);
+    assert.ok(economicBurnRate.available);
+    assert.ok(economicBurnRate.value);
+    assert.ok(Math.abs(economicBurnRate.value.annualEconomicBurn - 68548.88) < 0.01);
+    assert.ok(Math.abs(economicBurnRate.value.monthlyEconomicBurn - 5712.41) < 0.01);
     
-    assert.ok(breakEvenAnalysis);
-    assert.ok(Math.abs(breakEvenAnalysis.breakEvenGap - 127178.58) < 0.01);
+    assert.ok(breakEvenAnalysis.available);
+    assert.ok(breakEvenAnalysis.value);
+    assert.ok(Math.abs(breakEvenAnalysis.value.breakEvenGap - 127178.58) < 0.01);
   });
 });

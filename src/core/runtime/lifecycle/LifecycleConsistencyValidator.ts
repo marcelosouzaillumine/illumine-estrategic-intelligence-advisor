@@ -20,7 +20,7 @@ export class LifecycleConsistencyValidator {
     const violations: ConsistencyValidationResult['violations'] = [];
     const isEarly = profile.lifecycleStage === 'INITIAL_CAPITALIZATION' || profile.lifecycleStage === 'EARLY_GROWTH';
 
-    if (isEarly && profile.forbiddenLabels.length > 0) {
+    if (isEarly && profile.forbiddenLabels && profile.forbiddenLabels.length > 0) {
       for (const text of textsToValidate) {
         if (!text) continue;
         const normalizedText = text.toLowerCase();

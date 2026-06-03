@@ -110,4 +110,5 @@ export interface RuntimeOutput {
     originEntityId: string;
     computationPath: string[];
   }[];
+  cashSustainabilityReport?: any;
 }

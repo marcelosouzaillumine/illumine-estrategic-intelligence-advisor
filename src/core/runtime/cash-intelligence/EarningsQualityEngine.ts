@@ -42,9 +42,11 @@ export class EarningsQualityEngine {
       }
     }
 
+    const displayLabel = netIncome <= 0 ? 'Qualidade da Geração Econômica' : 'Qualidade do Lucro (Earnings Quality)';
+
     return {
       id: 'earningsCashConversion',
-      label: 'Qualidade do Lucro (Earnings Quality)',
+      label: displayLabel,
       classification,
       confidence: 'HIGH',
       value: fco,

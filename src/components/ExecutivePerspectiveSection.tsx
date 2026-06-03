@@ -8,6 +8,7 @@ import { cn } from '../lib/utils';
 import { ExecutiveLabelResolver } from '../core/runtime/executive-presentation/ExecutiveLabelResolver';
 import { ExecutiveDisclosureResolver } from '../core/runtime/executive-presentation/ExecutiveDisclosureResolver';
 import { ExecutiveNarrativeDeduplicationEngine } from '../core/runtime/executive-presentation/ExecutiveNarrativeDeduplicationEngine';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface ExecutivePerspectiveSectionProps {
   report?: ExecutiveAdvisoryReport | null;
@@ -116,6 +117,7 @@ export function ExecutivePerspectiveSection({
   loading,
   className
 }: ExecutivePerspectiveSectionProps) {
+  const { t } = useLanguage();
   const [showPrudencyDetails, setShowPrudencyDetails] = useState(false);
 
   if (loading) {
@@ -203,7 +205,7 @@ export function ExecutivePerspectiveSection({
   const actionMatrix = rawActions.map((action: any, idx: number) => {
     if (action && typeof action === 'object') {
       const originalTitle = action.title || action.acao || '';
-      const title = ExecutiveLabelResolver.resolve(originalTitle);
+      const title = ExecutiveLabelResolver.resolve(originalTitle, t);
       const mgmt = inferManagementArea(title);
       mgmt.area = action.category || mgmt.area;
       
@@ -225,7 +227,7 @@ export function ExecutivePerspectiveSection({
       };
     } else {
       const originalTitle = typeof action === 'string' ? action : (action?.acao || '');
-      const title = ExecutiveLabelResolver.resolve(originalTitle);
+      const title = ExecutiveLabelResolver.resolve(originalTitle, t);
       const mgmt = inferManagementArea(title);
       const prio = inferPriority(idx, title);
       const timeline = inferTimeline(title);
@@ -486,7 +488,7 @@ export function ExecutivePerspectiveSection({
               <ul className="space-y-2">
                 {strategicPriorities.length > 0 ? strategicPriorities.map((p, i) => {
                   const rawText = typeof p === 'string' ? p : (p?.title || p?.acao || '');
-                  const priorityText = ExecutiveLabelResolver.resolve(rawText);
+                  const priorityText = ExecutiveLabelResolver.resolve(rawText, t);
                   return (
                     <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
                       <span className="text-emerald-400 mt-1 shrink-0">•</span>

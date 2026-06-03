@@ -1,4 +1,5 @@
 import { NormalizedDREPayload } from './DREExecutiveDataMapper';
+import { ExecutiveMetricResult } from './ExecutiveEmptyStatePolicy';
 
 export interface OperationalAbsorptionOutput {
   indice: number;
@@ -7,12 +8,12 @@ export interface OperationalAbsorptionOutput {
 }
 
 export class OperationalAbsorptionEngine {
-  public static evaluate(input: NormalizedDREPayload): OperationalAbsorptionOutput {
+  public static evaluate(input: NormalizedDREPayload): ExecutiveMetricResult<OperationalAbsorptionOutput> {
     if (!input.breakEvenRevenue.value && input.breakEvenRevenue.source.startsWith('MISSING')) {
       return {
-        indice: 0,
-        classificacao: 'Indeterminada',
-        narrativa: 'Dados insuficientes para análise executiva desta seção.'
+        available: false,
+        reason: 'INSUFFICIENT_DATA',
+        missingFields: ['breakEvenRevenue']
       };
     }
 
@@ -28,9 +29,16 @@ export class OperationalAbsorptionEngine {
     const narrativa = `A operação gera apenas ${indice.toFixed(2).replace('.', ',')}% da receita necessária para sustentar sua estrutura atual.`;
 
     return {
-      indice,
-      classificacao,
-      narrativa: (indice >= 100) ? `A operação gera ${indice.toFixed(2).replace('.', ',')}% da receita necessária para sustentar a estrutura atual.` : narrativa
+      available: true,
+      value: {
+        indice,
+        classificacao,
+        narrativa: (indice >= 100) ? `A operação gera ${indice.toFixed(2).replace('.', ',')}% da receita necessária para sustentar a estrutura atual.` : narrativa
+      },
+      sourceMetrics: {
+        breakEvenCoverage: input.breakEvenCoverage.source
+      },
+      confidenceLevel: 100
     };
   }
 }

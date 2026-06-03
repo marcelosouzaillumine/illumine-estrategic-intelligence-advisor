@@ -1,5 +1,7 @@
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
+import { InstitutionalCausalityExplorer } from '../src/core/runtime/causal-intelligence/InstitutionalCausalityExplorer';
+import { HistoricalRuntimeCycle } from '../src/core/runtime/executive-timeline/executive-timeline-types';
 import { InstitutionalCausalityOrchestrator } from '../src/core/runtime/institutional-causality/InstitutionalCausalityOrchestrator';
 import { ExecutiveNarrativeSanitizer, FiduciaryNarrativeViolation } from '../src/core/runtime/institutional-causality/ExecutiveNarrativeSanitizer';
 import { executiveRuntime } from '../src/core/runtime/executive-intelligence-runtime';
@@ -168,5 +170,105 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
       return text.includes('Preservação e reforço imediato de liquidez estrutural');
     }));
     assert.equal(report.advisory.priorityFocus, 'Liquidez estrutural, capitalização e autonomia fiduciária.');
+  });
+});
+
+describe('Institutional Causality Explorer (ICE) v1.0 Tests', () => {
+
+  const getBaseCycle = (ref: string): HistoricalRuntimeCycle => ({
+    cycleReference: ref,
+    compositeScore: 70,
+    ebitda: 200000,
+    netIncome: 100000,
+    ocf: 150000,
+    cashEquivalents: 300000,
+    equity: 1000000,
+    totalDebt: 500000,
+    workingCapital: 100000,
+    fiduciaryClassification: 'HEALTHY',
+    lineageHash: `hash_${ref}`,
+    isQuarantined: false,
+    isRestricted: false
+  });
+
+  it('Test 1: Operational chain - EBITDA decline and net income compression', () => {
+    const c1 = { ...getBaseCycle('2025-Q1'), ebitda: 200000, netIncome: 100000 };
+    const c2 = { ...getBaseCycle('2025-Q2'), ebitda: 80000, netIncome: 30000 }; // decline > 15% and net income drop
+
+    const output = InstitutionalCausalityExplorer.generate([c1, c2], 'MEDIUM_CONFIDENCE');
+
+    assert.strictEqual(output.confidenceLevel, 'LOW'); // 2 cycles
+    assert.ok(output.causalChains.length > 0);
+    
+    const opChain = output.causalChains.find(c => c.category === 'OPERATIONAL');
+    assert.ok(opChain);
+    assert.strictEqual(opChain.cause, 'AUMENTO_DE_DESPESAS_ADMINISTRATIVAS');
+    assert.strictEqual(opChain.driver, 'COMPRESSÃO_DE_MARGEM_LÍQUIDA');
+    assert.strictEqual(opChain.effect, 'EROSÃO_DE_EBITDA');
+    assert.strictEqual(opChain.severity, 'WARNING');
+  });
+
+  it('Test 2: Working Capital chain - Cycle pressure and FCO reduction', () => {
+    const c1 = { ...getBaseCycle('2025-Q1'), workingCapital: 100000 };
+    const c2 = { ...getBaseCycle('2025-Q2'), workingCapital: 50000 }; // wc decline
+
+    const output = InstitutionalCausalityExplorer.generate([c1, c2], 'MEDIUM_CONFIDENCE');
+
+    const wcChain = output.causalChains.find(c => c.category === 'WORKING_CAPITAL');
+    assert.ok(wcChain);
+    assert.strictEqual(wcChain.cause, 'DILATAÇÃO_DE_PRAZOS_DE_RECEBIMENTO');
+    assert.strictEqual(wcChain.driver, 'PRESSÃO_DE_CAPITAL_DE_GIRO');
+    assert.strictEqual(wcChain.effect, 'CONSUMO_DE_FLUXO_DE_CAIXA');
+  });
+
+  it('Test 3: Treasury chain - Cash depletion and operational burn', () => {
+    const c1 = { ...getBaseCycle('2025-Q1'), cashEquivalents: 400000, ocf: 150000 };
+    const c2 = { ...getBaseCycle('2025-Q2'), cashEquivalents: 100000, ocf: -50000 }; // Cash depleted & negative ocf
+
+    const output = InstitutionalCausalityExplorer.generate([c1, c2], 'MEDIUM_CONFIDENCE');
+
+    const treasChain = output.causalChains.find(c => c.category === 'TREASURY');
+    assert.ok(treasChain);
+    assert.strictEqual(treasChain.cause, 'INSUFICIÊNCIA_OPERACIONAL_DE_CAIXA');
+    assert.strictEqual(treasChain.driver, 'QUEIMA_DE_CAIXA_OPERACIONAL');
+    assert.strictEqual(treasChain.effect, 'RETRAÇÃO_DE_RESERVAS_DE_LIQUIDEZ');
+  });
+
+  it('Test 4: Fail closed - Quarantine state enforces restrictiveness', () => {
+    const c1 = getBaseCycle('2025-Q1');
+    const c2 = { ...getBaseCycle('2025-Q2'), isQuarantined: true };
+
+    const output = InstitutionalCausalityExplorer.generate([c1, c2], 'MEDIUM_CONFIDENCE');
+
+    assert.strictEqual(output.confidenceLevel, 'CAUSALITY_RESTRICTED');
+    assert.strictEqual(output.primaryCause, 'CONTAMINACAO_OU_INSUFICIENCIA_DE_DADOS');
+    assert.ok(output.causalChains.some(c => c.severity === 'RESTRICTIVE'));
+  });
+
+  it('Test 5: Root Cause Prioritization - Constitutional/Treasury weights override operational', () => {
+    const c1 = { ...getBaseCycle('2025-Q1'), ebitda: 200000, cashEquivalents: 400000, ocf: 100000 };
+    const c2 = { 
+      ...getBaseCycle('2025-Q2'), 
+      ebitda: 50000, // operational triggered
+      netIncome: 1000, 
+      cashEquivalents: 100000, // treasury triggered
+      ocf: -50000
+    };
+
+    const output = InstitutionalCausalityExplorer.generate([c1, c2], 'MEDIUM_CONFIDENCE');
+
+    assert.strictEqual(output.primaryCause, 'INSUFICIÊNCIA_OPERACIONAL_DE_CAIXA');
+    assert.ok(output.secondaryCauses.includes('AUMENTO_DE_DESPESAS_ADMINISTRATIVAS'));
+  });
+
+  it('Test 6: Check multiple causal chains are populated', () => {
+    const c1 = { ...getBaseCycle('2025-Q1'), ebitda: 200000, workingCapital: 100000 };
+    const c2 = { ...getBaseCycle('2025-Q2'), ebitda: 50000, netIncome: 1000, workingCapital: 20000 };
+
+    const output = InstitutionalCausalityExplorer.generate([c1, c2], 'MEDIUM_CONFIDENCE');
+
+    assert.ok(output.causalChains.length >= 2);
+    assert.ok(output.causalChains.some(c => c.category === 'OPERATIONAL'));
+    assert.ok(output.causalChains.some(c => c.category === 'WORKING_CAPITAL'));
   });
 });

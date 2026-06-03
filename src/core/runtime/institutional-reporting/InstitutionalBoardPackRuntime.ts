@@ -15,6 +15,7 @@ import { RuntimeComplianceEngine } from '../compliance/RuntimeComplianceEngine';
 import { BoardPackMetadata } from './institutional-reporting-types';
 
 import { BoardPackExecutiveRenderingGuard } from '../lifecycle/BoardPackExecutiveRenderingGuard';
+import { ExecutivePriorityResolver } from '../decision-intelligence/ExecutivePriorityResolver';
 
 export class InstitutionalBoardPackRuntime {
   
@@ -161,6 +162,14 @@ export class InstitutionalBoardPackRuntime {
       disclosureSet: disclosures,
       fiduciaryRestrictions,
       constitutionalSection,
+      temporalAudit: (
+        (report as any)?.featureFlags?.showTechnicalAudit || 
+        (report as any).compliance?.featureFlags?.showTechnicalAudit ||
+        (report as any).institutionalContext?.featureFlags?.showTechnicalAudit ||
+        (report as any).context?.input?.featureFlags?.showTechnicalAudit ||
+        (report as any).context?.input?.rawFinancialData?.featureFlags?.showTechnicalAudit ||
+        (report as any).context?.input?.rawFinancialData?.featureFlags?.showTechnicalAudit === true
+      ) ? report.temporalAudit : undefined,
       constitutionalGovernanceCompliance: report.constitutionalCompliance ? {
         authority: report.constitutionalCompliance.constitutionalAuthority,
         protocols: {
@@ -202,7 +211,23 @@ export class InstitutionalBoardPackRuntime {
       } : undefined,
       governanceIntegrityReview,
       fiduciaryStructuralRestrictions,
-      structuralLiquidityRisk
+      structuralLiquidityRisk,
+      timeline: report.timeline,
+      causality: report.fiduciaryCausality,
+      executiveView: {
+        contextoEmpresarial: report.context?.stage || 'ESTABLISHED_ANALYSIS',
+        principaisRiscos: report.scores?.financialStress?.stressFactors || [],
+        prioridades: ExecutivePriorityResolver.resolve(report).map(p => p.title),
+        decisoesConstitucionais: report.constitutionalCompliance?.constitutionalIntegrity === 'VALID' ? ['COMPLIANT'] : ['NON_COMPLIANT']
+      },
+      technicalAppendix: {
+        cqs: (report.capitalGovernanceReport as any)?.diagnostics?.behavior?.capitalReinforcementIndex ?? report.scores?.governance ?? 0,
+        eqs: (report.metrics as any)?.fiduciary?.earningsQuality ?? null,
+        dlpaTechnicalLayer: (report.capitalGovernanceReport as any)?.diagnostics ?? null,
+        dfcTechnicalLayer: (report.metrics as any)?.fiduciary ?? null,
+        lineage: report.runtimeMetadata?.lineageHash ?? 'N/A',
+        constitutionalAudit: (report.constitutionalEvaluation as any)?.constitutionalAuditTrail ?? (report.constitutionalEvaluation as any)?.auditRecords ?? []
+      }
     };
 
     // 6. Hard-Fail Audit (Fase 2)

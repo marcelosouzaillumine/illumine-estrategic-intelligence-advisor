@@ -1,3 +1,5 @@
+import { DRELabelSanitizationRegistry } from '../presentation-governance/DRELabelSanitizationRegistry';
+
 export class ExecutiveLabelResolver {
   private static readonly LABEL_MAP: Record<string, string> = {
     // Structures
@@ -100,7 +102,7 @@ export class ExecutiveLabelResolver {
 
   };
 
-  public static resolve(key: string): string {
+  public static resolve(key: string, t?: (k: string) => string): string {
     if (!key) return '';
     let cleanKey = key.trim();
     
@@ -109,6 +111,20 @@ export class ExecutiveLabelResolver {
     cleanKey = cleanKey.replace(/\[SOVEREIGN TREASURY NOTICE:.*?\]\s*/g, '').trim();
     
     if (!cleanKey) return '';
+
+    // Check if translator is provided and has translation
+    if (t) {
+      const translated = t(cleanKey);
+      if (translated && translated !== cleanKey && !(translated.startsWith('[[') && translated.endsWith(']]'))) {
+        return translated;
+      }
+    }
+
+    // Try DRE sanitization dictionary first
+    const sanitized = DRELabelSanitizationRegistry.sanitize(cleanKey);
+    if (sanitized !== cleanKey) {
+      return sanitized;
+    }
 
     // Check if the original key was purely a bracketed string
     if (key.trim().startsWith('[[') && key.trim().endsWith(']]')) {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../../../contexts/LanguageContext';
 import { collection, query, getDocs, orderBy, Timestamp } from 'firebase/firestore';
 import { db, auth, sendPasswordResetEmail, MASTER_ADMINS } from '../../../lib/firebase';
 import { PageHeader } from '../../Common';
@@ -19,6 +20,7 @@ interface AppUser {
 }
 
 export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
+  const { translateLabel: t } = useLanguage();
   const [users, setUsers] = useState<AppUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -151,8 +153,8 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <PageHeader 
-          title="Gestão de Usuários da Plataforma"
-          subtitle="Controle global de acessos e monitoramento de atividades"
+          title={t("admin.users.title")}
+          subtitle={t("admin.users.subtitle")}
           icon={Users}
         />
 
@@ -163,7 +165,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
             </span>
             <input
               type="text"
-              placeholder="Buscar por nome ou e-mail..."
+              placeholder={t("admin.users.search")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-11 pr-4 py-3 bg-surface-container/40 border border-border rounded-button text-sm font-bold text-foreground focus:border-secondary transition-all w-full md:w-80 outline-none placeholder:text-muted-foreground placeholder:font-medium"
@@ -184,11 +186,11 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
           <table className="w-full text-left">
             <thead className="bg-bg-surface border-b border-border-main">
               <tr>
-                <th className="px-5 md:px-8 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">Identificação do Usuário</th>
+                <th className="px-5 md:px-8 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">{t("admin.users.col.id")}</th>
                 <th className="px-5 md:px-8 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">E-mail de Acesso</th>
-                <th className="px-5 md:px-8 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">Tipo de Acesso</th>
-                <th className="px-5 md:px-8 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">Empresas Vinculadas</th>
-                <th className="px-5 md:px-8 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">Último Acesso</th>
+                <th className="px-5 md:px-8 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">{t("admin.users.col.type")}</th>
+                <th className="px-5 md:px-8 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">{t("admin.users.col.companies")}</th>
+                <th className="px-5 md:px-8 py-4 text-[10px] font-black text-text-dim uppercase tracking-widest">{t("admin.users.col.last_login")}</th>
                 <th className="px-5 md:px-8 py-4 text-right text-[10px] font-black text-text-dim uppercase tracking-widest">Ações de Segurança</th>
               </tr>
             </thead>
@@ -197,14 +199,14 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
                 <tr>
                   <td colSpan={4} className="px-8 py-24 text-center">
                     <Loader2 size={32} className="mx-auto text-secondary animate-spin opacity-50" />
-                    <p className="text-[11px] text-text-dim font-medium uppercase tracking-widest mt-4">Sincronizando registros...</p>
+                    <p className="text-[11px] text-text-dim font-medium uppercase tracking-widest mt-4">{t("admin.users.syncing")}</p>
                   </td>
                 </tr>
               ) : filteredUsers.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="px-8 py-24 text-center">
-                    <p className="text-sm font-black text-text-main uppercase tracking-widest">Nenhum registro localizado</p>
-                    <p className="text-[11px] text-text-dim font-medium uppercase tracking-widest mt-1">Refine os termos de busca ou aguarde novos acessos na plataforma.</p>
+                    <p className="text-sm font-black text-text-main uppercase tracking-widest">{t("admin.users.empty_title")}</p>
+                    <p className="text-[11px] text-text-dim font-medium uppercase tracking-widest mt-1">{t("admin.users.empty_subtitle")}</p>
                   </td>
                 </tr>
               ) : (
@@ -221,7 +223,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
                         )}
                         <div>
                           <p className="text-sm font-black text-text-main group-hover:text-primary transition-colors">
-                            {u.displayName || 'Usuário Indefinido'}
+                            {u.displayName || t('admin.users.undefined_user') || 'Usuário Indefinido'}
                           </p>
                           <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest mt-0.5">ID: {u.uid.substring(0, 8)}...</p>
                         </div>
@@ -262,7 +264,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
                             </span>
                           ))
                         ) : (
-                          <span className="text-[10px] font-medium text-text-muted italic">Nenhuma empresa</span>
+                          <span className="text-[10px] font-medium text-text-muted italic">{t("admin.users.no_company")}</span>
                         )}
                       </div>
                     </td>
@@ -272,7 +274,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
                         <span className="text-[11px] font-bold text-text-main">
                           {u.lastAccess 
                             ? format(u.lastAccess.toDate(), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
-                            : 'Nunca acessou'}
+                            : t('admin.users.never_accessed') || 'Nunca acessou'}
                         </span>
                       </div>
                     </td>

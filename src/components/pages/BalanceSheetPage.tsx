@@ -662,7 +662,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                     
                     return (
                       <div key={idx} className={cn("rounded-2xl p-6 shadow-sm border-l-4 transition-all hover:shadow-md flex flex-col", isCrit ? 'bg-rose-50 border-rose-500' : isWarn ? 'bg-amber-50 border-amber-500' : 'bg-slate-50 border-slate-300')}>
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4">{ExecutiveLabelResolver.resolve(metric)}</h4>
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
                         <div className="text-3xl font-black text-slate-900 mb-2">
                           {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : 
                            ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : 
@@ -679,7 +679,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                             <span className={cn("text-[8px] font-bold uppercase tracking-widest px-2 py-1 rounded-full inline-block border", 
                               isCrit ? 'bg-rose-100 text-rose-700 border-rose-200' : isWarn ? 'bg-amber-100 text-amber-700 border-amber-200' : 'bg-emerald-100 text-emerald-700 border-emerald-200'
                             )}>
-                              {ExecutiveLabelResolver.resolve(ind.classification)}
+                              {ExecutiveLabelResolver.resolve(ind.classification, t)}
                             </span>
                           </div>
                         )}
@@ -717,7 +717,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                     if (!ind) return null;
                     return (
                       <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-6 shadow-sm flex flex-col gap-2">
-                        <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-500 mb-2">{ExecutiveLabelResolver.resolve(metric)}</h4>
+                        <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-500 mb-2">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
                         <span className="text-3xl font-black text-slate-800 mb-2 block">
                           {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : Number(ind.value).toFixed(2)}
                         </span>
@@ -737,7 +737,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                     if (!ind) return null;
                     return (
                       <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-6 shadow-sm flex flex-col">
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4">{ExecutiveLabelResolver.resolve(metric)}</h4>
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4">{ExecutiveLabelResolver.resolve(metric, t)}</h4>
                         <div className="text-2xl font-black text-slate-800 mb-2">
                           {ind.format === 'percentage' ? (Number(ind.value)*100).toFixed(1)+'%' : ind.format === 'multiplier' ? Number(ind.value).toFixed(2)+'x' : ind.format === 'decimal' ? Number(ind.value).toFixed(2) : ind.value}
                         </div>
@@ -789,7 +789,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                            patrimonialIntelligenceReport.patrimonialClassification.includes('STABLE') ? 'text-emerald-600 font-black text-lg' :
                            patrimonialIntelligenceReport.patrimonialClassification.includes('VULNERABLE') ? 'text-amber-600 font-black text-lg' :
                            'text-rose-600 font-black text-lg'}>
-                          {ExecutiveLabelResolver.resolve(patrimonialIntelligenceReport.patrimonialClassification)}
+                          {ExecutiveLabelResolver.resolve(patrimonialIntelligenceReport.patrimonialClassification, t)}
                         </span>
                       </div>
                       <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
@@ -819,11 +819,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                           <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-rose-100 shadow-sm hover:shadow-md hover:border-rose-300 transition-all group">
                             <div className="flex items-center gap-4 w-full sm:w-[35%]">
                               <div className="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]"></div>
-                              <span className="text-[13px] font-black text-slate-800">{ExecutiveLabelResolver.resolve(ind.metricName)}</span>
+                              <span className="text-[13px] font-black text-slate-800">{ExecutiveLabelResolver.resolve(ind.metricName, t)}</span>
                             </div>
                             <div className="w-full sm:w-[20%]">
                               <span className="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-rose-50 text-rose-700 text-[10px] font-black uppercase tracking-widest border border-rose-100/50 group-hover:bg-rose-500 group-hover:text-white group-hover:border-rose-500 transition-all duration-300">
-                                {ExecutiveLabelResolver.resolve(ind.classification)}
+                                {ExecutiveLabelResolver.resolve(ind.classification, t)}
                               </span>
                             </div>
                             <div className="w-full sm:w-[45%] flex items-center justify-between gap-4 pl-4 sm:border-l border-slate-100">
@@ -865,7 +865,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                         {indicators.filter(ind => !['Liquidez Real', 'Liquidez Instantânea Real', 'Liquidez Seca'].includes(ind.metricName)).map((ind, idx) => (
                           <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 hover:shadow-md transition-all group relative cursor-help flex flex-col justify-between" title={`Rationale: ${ind.rationale}`}>
                             <div className="flex justify-between items-start mb-4">
-                              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 w-2/3 leading-relaxed">{ExecutiveLabelResolver.resolve(ind.metricName)}</span>
+                              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 w-2/3 leading-relaxed">{ExecutiveLabelResolver.resolve(ind.metricName, t)}</span>
                               <span className={cn(
                                 "text-[8px] font-black uppercase px-2 py-1 rounded-full tracking-wider border whitespace-nowrap",
                                 ind.classification === 'INSUFFICIENT_DATA' ? 'bg-slate-100 text-slate-400 border-slate-200' :
@@ -874,7 +874,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                                 'CAPITAL_IDLE_WARNING' === ind.severity ? 'bg-blue-50 text-blue-500 border-blue-200' :
                                 'bg-emerald-50 text-emerald-500 border-emerald-200'
                               )}>
-                                {ExecutiveLabelResolver.resolve(ind.classification).replace(/_/g, ' ')}
+                                {ExecutiveLabelResolver.resolve(ind.classification, t).replace(/_/g, ' ')}
                               </span>
                             </div>
                             <div className="flex items-end justify-between">
@@ -921,11 +921,11 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                           if (!isActive) return null;
                           return (
                             <div key={idx} className={cn("border rounded-xl p-3 flex items-center justify-between", isActive ? 'bg-rose-50/50 border-rose-200' : 'bg-slate-50 border-slate-100 opacity-60')}>
-                              <span className="text-[9px] font-black uppercase tracking-widest text-slate-600">{ExecutiveLabelResolver.resolve(overrideName)}</span>
+                              <span className="text-[9px] font-black uppercase tracking-widest text-slate-600">{ExecutiveLabelResolver.resolve(overrideName, t)}</span>
                               <div className="flex items-center gap-2">
                                 {isActive && (
                                   <span className="text-[8px] font-bold text-rose-500 border border-rose-200 bg-rose-100 px-2 py-0.5 rounded-full uppercase">
-                                    {ExecutiveLabelResolver.resolve(activeOverride.severity)}
+                                    {ExecutiveLabelResolver.resolve(activeOverride.severity, t)}
                                   </span>
                                 )}
                                 <span className={cn("text-[10px] font-black uppercase tracking-wider", isActive ? 'text-rose-600' : 'text-slate-400')}>{isActive ? 'Em vigor' : 'Inativo'}</span>
@@ -938,12 +938,12 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                       <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between bg-slate-50 p-3 rounded-xl">
                         <div className="text-center">
                           <span className="text-[8px] font-black uppercase tracking-widest text-slate-500 block mb-1">Score Matemático</span>
-                          <span className="text-sm font-black text-slate-400">{ExecutiveLabelResolver.resolve(executiveReport.patrimonialStructuralRestrictions.originalClassification)}</span>
+                          <span className="text-sm font-black text-slate-400">{ExecutiveLabelResolver.resolve(executiveReport.patrimonialStructuralRestrictions.originalClassification, t)}</span>
                         </div>
                         <div className="text-slate-300">→</div>
                         <div className="text-center">
                           <span className="text-[8px] font-black uppercase tracking-widest text-rose-500 block mb-1">Teto Aplicado</span>
-                          <span className="text-sm font-black text-rose-600">{executiveReport.patrimonialStructuralRestrictions.classificationCeiling ? ExecutiveLabelResolver.resolve(executiveReport.patrimonialStructuralRestrictions.classificationCeiling) : 'NENHUM'}</span>
+                          <span className="text-sm font-black text-rose-600">{executiveReport.patrimonialStructuralRestrictions.classificationCeiling ? ExecutiveLabelResolver.resolve(executiveReport.patrimonialStructuralRestrictions.classificationCeiling, t) : 'NENHUM'}</span>
                         </div>
                       </div>
                     </div>
@@ -959,7 +959,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                           patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'FAIL_CLOSED' ? 'bg-rose-50 text-rose-600 border-rose-200' :
                           'bg-amber-50 text-amber-600 border-amber-200'
                         )}>
-                          Status: {ExecutiveLabelResolver.resolve(patrimonialIntelligenceReport.governanceConsistency.consistencyStatus)}
+                          Status: {ExecutiveLabelResolver.resolve(patrimonialIntelligenceReport.governanceConsistency.consistencyStatus, t)}
                         </div>
                       </div>
                       

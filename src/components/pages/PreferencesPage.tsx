@@ -23,7 +23,7 @@ import { cn, getThemeColors } from '../../lib/utils';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export function PreferencesPage() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, translateLabel: trans } = useLanguage();
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>(() => {
     return (localStorage.getItem('app-theme') as 'light' | 'dark' | 'system') || 'light';
   });
@@ -54,8 +54,8 @@ export function PreferencesPage() {
   return (
     <div className="max-w-[1440px] mx-auto space-y-16 pb-32 animate-executive-fade">
       <PageHeader 
-        title={t('common.preferences_title')} 
-        subtitle={t('common.preferences_subtitle')} 
+        title={trans('common.preferences_title')} 
+        subtitle={trans('common.preferences_subtitle')} 
         icon={Settings2}
         color="executive"
       />
@@ -68,8 +68,8 @@ export function PreferencesPage() {
               <Palette size={24} />
             </div>
             <div>
-              <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">{t('common.appearance')}</h3>
-              <p className="text-body-sm text-muted-foreground font-medium">{t('common.appearance_sub')}</p>
+              <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">{trans('common.appearance')}</h3>
+              <p className="text-body-sm text-muted-foreground font-medium">{trans('common.appearance_sub')}</p>
             </div>
           </div>
 
@@ -80,11 +80,11 @@ export function PreferencesPage() {
             
             <div className="space-y-8 relative z-10">
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{t('common.protocol_visual')}</label>
+                <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{trans('common.protocol_visual')}</label>
                 <div className="grid grid-cols-1 gap-4">
                   {[
-                    { id: 'light', label: t('common.mode_light'), icon: Sun },
-                    { id: 'dark', label: t('common.mode_dark'), icon: Moon },
+                    { id: 'light', label: trans('common.mode_light'), icon: Sun },
+                    { id: 'dark', label: trans('common.mode_dark'), icon: Moon },
                   ].map((item) => (
                     <button
                       key={item.id}
@@ -114,7 +114,7 @@ export function PreferencesPage() {
               </div>
 
               <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{t('common.lang_location')}</label>
+                <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{trans('common.lang_location')}</label>
                 <div className="flex items-center gap-4 px-5 py-4 bg-surface-container border border-border rounded-[20px] transition-all focus-within:border-secondary">
                   <Globe size={18} className="text-muted-foreground" />
                   <select 
@@ -133,8 +133,8 @@ export function PreferencesPage() {
             <div className="space-y-6 pt-10 border-t border-border/40 relative z-10">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-foreground">{t('common.compact_mode')}</h4>
-                  <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mt-1">{t('common.compact_mode_sub')}</p>
+                  <h4 className="text-sm font-semibold text-foreground">{trans('common.compact_mode')}</h4>
+                  <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mt-1">{trans('common.compact_mode_sub')}</p>
                 </div>
                 <button className="w-12 h-6 bg-border rounded-full relative transition-all group/toggle overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 to-transparent translate-x-[-100%] group-hover/toggle:translate-x-0 transition-transform" />
@@ -143,8 +143,8 @@ export function PreferencesPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-foreground">{t('common.transitions')}</h4>
-                  <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mt-1">{t('common.transitions_sub')}</p>
+                  <h4 className="text-sm font-semibold text-foreground">{trans('common.transitions')}</h4>
+                  <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mt-1">{trans('common.transitions_sub')}</p>
                 </div>
                 <button className="w-12 h-6 bg-secondary rounded-full relative transition-all">
                   <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-all" />
@@ -161,8 +161,8 @@ export function PreferencesPage() {
               <Bell size={24} />
             </div>
             <div>
-              <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">{t('common.communication')}</h3>
-              <p className="text-body-sm text-muted-foreground font-medium">{t('common.communication_sub')}</p>
+              <h3 className="text-2xl font-display font-medium text-foreground tracking-tight">{trans('common.communication')}</h3>
+              <p className="text-body-sm text-muted-foreground font-medium">{trans('common.communication_sub')}</p>
             </div>
           </div>
 
@@ -172,13 +172,13 @@ export function PreferencesPage() {
             </div>
             
             <div className="space-y-6 relative z-10">
-              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{t('common.channels')}</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{trans('common.channels')}</label>
               <div className="space-y-4">
                 {[
-                  { id: 'email', label: t('preferences.notifications.email.label'), desc: t('preferences.notifications.email.desc') },
-                  { id: 'push', label: t('preferences.notifications.push.label'), desc: t('preferences.notifications.push.desc') },
-                  { id: 'updates', label: t('preferences.notifications.updates.label'), desc: t('preferences.notifications.updates.desc') },
-                  { id: 'marketing', label: t('preferences.notifications.marketing.label'), desc: t('preferences.notifications.marketing.desc') },
+                  { id: 'email', label: trans('preferences.notifications.email.label'), desc: trans('preferences.notifications.email.desc') },
+                  { id: 'push', label: trans('preferences.notifications.push.label'), desc: trans('preferences.notifications.push.desc') },
+                  { id: 'updates', label: trans('preferences.notifications.updates.label'), desc: trans('preferences.notifications.updates.desc') },
+                  { id: 'marketing', label: trans('preferences.notifications.marketing.label'), desc: trans('preferences.notifications.marketing.desc') },
                 ].map((item) => (
                   <div key={item.id} className="flex items-center justify-between gap-6 p-6 rounded-2xl hover:bg-surface-container/30 transition-all border border-transparent hover:border-border">
                     <div className="space-y-1">
@@ -209,12 +209,12 @@ export function PreferencesPage() {
                   <Clock size={20} className="text-secondary" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold">{t('common.agenda_focus')}</h4>
+                  <h4 className="text-sm font-semibold">{trans('common.agenda_focus')}</h4>
                   <p className="text-[11px] font-light text-primary-foreground/75 mt-2 mb-4 leading-relaxed">
-                    {t('common.agenda_focus_sub')}
+                    {trans('common.agenda_focus_sub')}
                   </p>
                   <button className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary hover:text-white transition-colors">
-                    {t('common.configure_schedule')}
+                    {trans('common.configure_schedule')}
                   </button>
                 </div>
               </div>
@@ -226,9 +226,9 @@ export function PreferencesPage() {
       {/* System Summary */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12">
         {[
-          { label: t('preferences.system.storage.label'), val: t('preferences.system.storage.val'), icon: Database, color: 'text-primary' },
-          { label: t('preferences.system.crypto.label'), val: t('preferences.system.crypto.val'), icon: Lock, color: 'text-secondary' },
-          { label: t('preferences.system.engine.label'), val: t('preferences.system.engine.val'), icon: CheckCircle2, color: 'text-tertiary' },
+          { label: trans('preferences.system.storage.label'), val: trans('preferences.system.storage.val'), icon: Database, color: 'text-primary' },
+          { label: trans('preferences.system.crypto.label'), val: trans('preferences.system.crypto.val'), icon: Lock, color: 'text-secondary' },
+          { label: trans('preferences.system.engine.label'), val: trans('preferences.system.engine.val'), icon: CheckCircle2, color: 'text-tertiary' },
         ].map((item, idx) => (
           <div key={idx} className="bg-card p-8 border border-border shadow-xs flex items-center gap-6 relative overflow-hidden rounded-2xl group hover:border-secondary/20 transition-all">
             <div className="absolute left-0 top-0 bottom-0 w-1 bg-secondary opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -248,7 +248,7 @@ export function PreferencesPage() {
 
       <div className="flex justify-end pt-12">
         <button className="px-4 md:px-6 md:px-12 py-2 md:py-3.5 md:py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10">
-          {t('buttons.saveSettings')} <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
+          {trans('buttons.saveSettings')} <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
         </button>
       </div>
     </div>

@@ -12,6 +12,24 @@ import { LifecycleFallbackReasons, LifecycleFallbackReason } from '../lifecycle/
 import { LifecyclePropagationAudit } from '../lifecycle/LifecyclePropagationAudit';
 import { CapitalGovernanceSemanticEngine } from '../../../runtime/governance/capital/CapitalGovernanceSemanticEngine';
 
+import { DLPAMetricsEngine } from '../governance/dlpa/DLPAMetricsEngine';
+import { DLPACapitalConsumptionEngine } from '../governance/dlpa/DLPACapitalConsumptionEngine';
+import { DLPAShareholderCapitalDependencyEngine } from '../governance/dlpa/DLPAShareholderCapitalDependencyEngine';
+import { DLPAEquityFormationQualityEngine } from '../governance/dlpa/DLPAEquityFormationQualityEngine';
+import { DLPADistributionCapacityEngine } from '../governance/dlpa/DLPADistributionCapacityEngine';
+import { DLPARetentionEngine } from '../governance/dlpa/DLPARetentionEngine';
+import { DLPAGovernanceInterpretationEngine } from '../governance/dlpa/DLPAGovernanceInterpretationEngine';
+import { DLPABoardDecisionSupportEngine } from '../governance/dlpa/DLPABoardDecisionSupportEngine';
+import { DLPABoardAdvisoryEngine } from '../governance/dlpa/DLPABoardAdvisoryEngine';
+import { CapitalRecoveryEngine } from '../governance/dlpa/CapitalRecoveryEngine';
+import { CapitalErosionRiskEngine } from '../governance/dlpa/CapitalErosionRiskEngine';
+import { CapitalPreservationStatusEngine } from '../governance/dlpa/CapitalPreservationStatusEngine';
+import { ShareholderDependencyNarrativeEngine } from '../governance/dlpa/ShareholderDependencyNarrativeEngine';
+import { CapitalRecoveryRequirementEngine } from '../governance/dlpa/CapitalRecoveryRequirementEngine';
+import { PatrimonialRecoveryHorizonEngine } from '../governance/dlpa/PatrimonialRecoveryHorizonEngine';
+import { CapitalRecoverabilityEngine } from '../governance/dlpa/CapitalRecoverabilityEngine';
+import { CapitalPreservationScoreEngine } from '../governance/dlpa/CapitalPreservationScoreEngine';
+
 export interface HistoricalCycleMetrics {
   year: number;
   netIncome: number;
@@ -42,6 +60,25 @@ export class CapitalGovernanceAdapter {
     resolvedCapitalStatus?: string;
     resolvedNarrativeProfile?: string;
     semanticSource?: string;
+    executiveLayer?: {
+      preservedCapital: any;
+      consumedCapital: any;
+      capitalRecovery?: any;
+      capitalErosionRisk?: any;
+      capitalDependency: any;
+      formationQuality: any;
+      distributionCapacity: any;
+      retention: any;
+      governanceInterpretation: any;
+      boardDecisionSupport: any;
+      boardAdvisory: any;
+      capitalPreservationStatus?: any;
+      shareholderDependencyNarrative?: any;
+      capitalRecoveryRequirement?: any;
+      patrimonialRecoveryHorizon?: any;
+      capitalRecoverability?: any;
+      capitalPreservationScore?: any;
+    };
     lifecycleAudit?: LifecyclePropagationAudit;
     semantic?: {
       semanticSource: 'ELSA' | 'LEGACY';
@@ -282,6 +319,82 @@ export class CapitalGovernanceAdapter {
       fiduciaryOutput: fidOutput
     };
 
+    // 6. Execute the new Executive Capital Governance Layer
+    const preservedCapital = DLPAMetricsEngine.evaluate(endingEquity, capitalSocial);
+    const consumedCapital = DLPACapitalConsumptionEngine.evaluate(lucrosPrejuizos, capitalSocial);
+    const capitalRecovery = CapitalRecoveryEngine.evaluate(endingEquity, capitalSocial);
+    const capitalErosionRisk = CapitalErosionRiskEngine.evaluate(lucrosPrejuizos, capitalSocial);
+    const capitalDependency = DLPAShareholderCapitalDependencyEngine.evaluate(capitalSocial, endingEquity);
+    
+    // Evaluate if there are actual accumulated losses
+    const hasLosses = lucrosPrejuizos < 0;
+    const formationQuality = DLPAEquityFormationQualityEngine.evaluate(capitalDependency.value as number, hasLosses);
+    const distributionCapacity = DLPADistributionCapacityEngine.evaluate(netIncome, lucrosPrejuizos);
+    const retention = DLPARetentionEngine.evaluate(netIncome, retainedEarnings, lucrosPrejuizos);
+    
+    const governanceInterpretation = DLPAGovernanceInterpretationEngine.evaluate(
+      capitalDependency.value as number,
+      formationQuality.classification,
+      distributionCapacity.classification,
+      lucrosPrejuizos
+    );
+
+    const capitalPreservationStatus = CapitalPreservationStatusEngine.evaluate(endingEquity, capitalSocial);
+    const shareholderDependencyNarrative = ShareholderDependencyNarrativeEngine.evaluate(capitalSocial, endingEquity);
+    const capitalRecoveryRequirement = CapitalRecoveryRequirementEngine.evaluate(lucrosPrejuizos, capitalSocial);
+    const patrimonialRecoveryHorizon = PatrimonialRecoveryHorizonEngine.evaluate(lucrosPrejuizos, netIncome, historicalCycles, filterYear);
+    const capitalRecoverability = CapitalRecoverabilityEngine.evaluate(endingEquity, patrimonialRecoveryHorizon.value);
+    const capitalPreservationScore = CapitalPreservationScoreEngine.evaluate(
+      capitalPreservationStatus.value,
+      shareholderDependencyNarrative.value,
+      distributionCapacity.classification,
+      patrimonialRecoveryHorizon.formatted,
+      patrimonialRecoveryHorizon.value,
+      endingEquity
+    );
+
+    const boardDecisionSupport = DLPABoardDecisionSupportEngine.evaluate(
+      formationQuality.classification,
+      netIncome,
+      capitalPreservationStatus.value,
+      capitalErosionRisk.value as number,
+      capitalRecoveryRequirement.capitalRecoveryRequired,
+      distributionCapacity.classification,
+      shareholderDependencyNarrative.classification,
+      shareholderDependencyNarrative.value as number,
+      endingEquity
+    );
+
+    const boardAdvisory = DLPABoardAdvisoryEngine.evaluate(
+      endingEquity,
+      formationQuality.classification,
+      capitalErosionRisk.value as number,
+      netIncome,
+      distributionCapacity.classification,
+      capitalPreservationStatus.value,
+      governanceInterpretation.shareholderCapitalProtection
+    );
+
+    const executiveLayer = {
+      preservedCapital,
+      consumedCapital,
+      capitalRecovery,
+      capitalErosionRisk,
+      capitalDependency,
+      formationQuality,
+      distributionCapacity,
+      retention,
+      governanceInterpretation,
+      boardDecisionSupport,
+      boardAdvisory,
+      capitalPreservationStatus,
+      shareholderDependencyNarrative,
+      capitalRecoveryRequirement,
+      patrimonialRecoveryHorizon,
+      capitalRecoverability,
+      capitalPreservationScore
+    };
+
     const lifecycleAudit: LifecyclePropagationAudit = {
       clientFound: true,
       foundationYearFound: true,
@@ -303,6 +416,7 @@ export class CapitalGovernanceAdapter {
       resolvedCapitalStatus: runtimeContext?.lifecycleProfile?.capitalStatus?.semanticLabel || (fidOutput.patrimonialIntegrityStatus as any),
       resolvedNarrativeProfile: runtimeContext?.lifecycleProfile?.narrativeProfile || 'UNKNOWN',
       semanticSource: runtimeContext?.lifecycleProfile ? 'ELSA' : 'LEGACY',
+      executiveLayer,
       lifecycleAudit,
       semantic: {
         semanticSource: runtimeContext?.lifecycleProfile ? 'ELSA' : 'LEGACY',

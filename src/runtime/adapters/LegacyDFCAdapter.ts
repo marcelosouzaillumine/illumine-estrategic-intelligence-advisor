@@ -6,6 +6,7 @@ import { RunwayAuditEngine } from '../../core/runtime/semantic/RunwayAuditEngine
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { DFCSemanticCanonicalRootResolver } from '../../core/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
 import { ExecutiveLifecycleContextResolver } from '../../core/runtime/lifecycle/ExecutiveLifecycleContextResolver';
+import { FiduciaryCashIntelligenceRuntime } from '../../core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
 
 const localNormalizeString = (s: string) => 
   s.toLowerCase()
@@ -1613,6 +1614,39 @@ export const LegacyDFCAdapter: EngineDefinition = {
 
       const reinvestmentCapacity = fco > 0 ? ((Math.abs(fci) / fco) * 100).toFixed(1) : '0';
 
+      const resolvedThirdPartyFunding = varDividas > 0 ? varDividas : 0;
+      const resolvedEquityFunding = varCapital > 0 ? varCapital : 0;
+      const patrimonioLiquido = bpSummary.patrimonioLiquido || 0;
+      const dfcDataEntries = isOfficialDfcAvailable 
+        ? allHistoryData.filter((d: any) => Number(d.year) === filterYear && matchDocType(d, ['dfc']))
+        : [];
+
+      const cashSustainabilityReport = FiduciaryCashIntelligenceRuntime.evaluate(
+        dfcDataEntries,
+        lucroLiquido,
+        ebitda,
+        caixaInicialReal,
+        caixaFinalReal,
+        fco,
+        fci,
+        fcf,
+        varClientes + varEstoque + varFornecedores,
+        clientesAtual,
+        estoqueAtual,
+        caixaFinalReal,
+        resolvedThirdPartyFunding,
+        resolvedEquityFunding,
+        historicalCyclesCount,
+        12,
+        fornecedoresAtual,
+        passivoCirculante,
+        creditosSociosTotais,
+        patrimonioLiquido,
+        undefined,
+        undefined,
+        receitaLiquida
+      );
+
       const metrics = {
           fco,
           fci,
@@ -1625,6 +1659,15 @@ export const LegacyDFCAdapter: EngineDefinition = {
           lucroLiquido: netIncome,
           ebitda,
           receitaLiquida,
+          
+          cashConstraintDiagnosis: cashSustainabilityReport.cashConstraintDiagnosis,
+          cashBurnAnalysis: cashSustainabilityReport.cashBurnAnalysis,
+          shareholderDependencyAnalysis: cashSustainabilityReport.shareholderDependencyAnalysis,
+          cashSustainabilityAnalysis: cashSustainabilityReport.cashSustainabilityAnalysis,
+          cashConversionAnalysis: cashSustainabilityReport.cashConversionAnalysis,
+          cashBoardDecisionFramework: cashSustainabilityReport.cashBoardDecisionFramework,
+          cashExecutiveAdvisory: cashSustainabilityReport.cashExecutiveAdvisory,
+          cashReinvestmentAnalysis: cashSustainabilityReport.cashReinvestmentAnalysis,
           
           // Métricas Fiduciárias acopladas no mesmo bloco
           fiduciary: {
@@ -1663,6 +1706,15 @@ export const LegacyDFCAdapter: EngineDefinition = {
             netIncome,
             lifecycleProfile: profile,
             bpSourceStatus: (caixaFinalReal === 0) ? 'Inconsistente' : (bpEntriesPrevYear.length === 0 ? 'Limitada' : 'Consistente'),
+            
+            cashConstraintDiagnosis: cashSustainabilityReport.cashConstraintDiagnosis,
+            cashBurnAnalysis: cashSustainabilityReport.cashBurnAnalysis,
+            shareholderDependencyAnalysis: cashSustainabilityReport.shareholderDependencyAnalysis,
+            cashSustainabilityAnalysis: cashSustainabilityReport.cashSustainabilityAnalysis,
+            cashConversionAnalysis: cashSustainabilityReport.cashConversionAnalysis,
+            cashBoardDecisionFramework: cashSustainabilityReport.cashBoardDecisionFramework,
+            cashExecutiveAdvisory: cashSustainabilityReport.cashExecutiveAdvisory,
+            cashReinvestmentAnalysis: cashSustainabilityReport.cashReinvestmentAnalysis,
             cashQuality: {
               score: cashQualityScore,
               level: cqsLevel,

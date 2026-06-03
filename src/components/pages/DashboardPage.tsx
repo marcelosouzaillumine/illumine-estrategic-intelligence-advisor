@@ -33,6 +33,7 @@ import { calculateDreCascade } from '../../lib/dreCascade';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { DashboardSkeleton } from '../ui/skeletons';
+import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { PageHeader, Semaphore, KpiCard, KpiValue, ControlBar } from '../Common';
 import { formatCurrency, formatValue, cn, getThemeColors } from '../../lib/utils';
 import { db } from '../../lib/firebase';
@@ -158,7 +159,7 @@ export function DashboardPage({
   const { runtimeOutput } = useInstitutionalRuntime({ input: runtimeInput });
 
   const memoryInference = runtimeOutput?.inferences['InstitutionalMemoryEngine'];
-  const isMemoryBlocked = memoryInference?.metrics?.memoryType === 'STRUCTURAL_SNAPSHOT' || memoryInference?.metrics?.memoryType === 'LIMITED_COMPARISON' || memoryInference?.metrics?.memoryType === 'BLOCKED_INSUFFICIENT_HISTORY';
+  const isMemoryBlocked = (runtimeOutput as any)?.canonicalState?.restrictions?.length > 0;
 
   const { kpis: calculatedKPIs } = useRealIndicatorData(selectedClient, periodMode === 'anual' ? 0 : selectedMonth, selectedYear);
 
@@ -296,9 +297,7 @@ export function DashboardPage({
     if (isMemoryBlocked) return 'Pendente'; // Bloqueado pelo Institutional Memory
 
     const diff = currentValue - prevInd.val;
-    if (diff > 0.001) return 'Em Alta';
-    if (diff < -0.001) return 'Em Queda';
-    return 'Estável';
+    return (runtimeOutput as any)?.canonicalState?.trend === 'DETERIORATING' ? 'Em Queda' : (runtimeOutput as any)?.canonicalState?.trend === 'IMPROVING' ? 'Em Alta' : 'Estável';
   }, [dbIndicators, allYearIndicators, selectedMonth, selectedYear, getIndicatorValue, isMemoryBlocked]);
 
   const getIndicatorStatus = useCallback((name: string) => {
@@ -307,9 +306,7 @@ export function DashboardPage({
 
     const trend = getIndicatorTrend(name);
     if (trend === 'Pendente') return 'Pendente';
-    if (trend === 'Em Queda') return 'Vermelho';
-    if (trend === 'Em Alta') return 'Verde';
-    return 'Verde';
+    return (runtimeOutput as any)?.canonicalState?.status === 'HEALTHY' ? 'Verde' : (runtimeOutput as any)?.canonicalState?.status === 'WARNING' ? 'Amarelo' : 'Vermelho';
   }, [dbIndicators, getIndicatorTrend]);
 
   const evolData = useMemo(() => {
@@ -466,6 +463,9 @@ export function DashboardPage({
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-16 pb-32 animate-executive-fade">
+      {((runtimeOutput as any)?.isSandbox || (runtimeOutput as any)?.isDemonstrative) && (
+        <SandboxWarningOverlay type={(runtimeOutput as any).isSandbox ? 'sandbox' : 'demonstrative'} />
+      )}
       <PageHeader 
         title={t('dashboard.main.title')}
         subtitle={t('dashboard.main.subtitle')}

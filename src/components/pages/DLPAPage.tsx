@@ -13,7 +13,7 @@ import {
   LineChart, Line, Cell, AreaChart, Area, ComposedChart, ReferenceLine
 } from 'recharts';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
-import { PageHeader } from '../Common';
+import { PageHeader, KpiValue } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
@@ -76,7 +76,7 @@ function getPreservationLabel(status: string) {
     'EROSÃO_MODERADA':        { label: 'Erosão Moderada',             color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200' },
     'EROSÃO_RELEVANTE':       { label: 'Erosão Relevante',            color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200' },
     'FRAGILIDADE_PATRIMONIAL':{ label: 'Fragilidade Patrimonial',     color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-200' },
-    'NEUTRO':                 { label: 'Patrimônio Estável',          color: 'text-slate-600',   bg: 'bg-slate-50',   border: 'border-slate-200' },
+    'NEUTRO':                 { label: 'Patrimônio Preservado',       color: 'text-slate-600',   bg: 'bg-slate-50',   border: 'border-slate-200' },
     'DEPENDÊNCIA_DE_CAPITALIZAÇÃO':{ label: 'Dependência de Capital', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200' },
     'SUSTENTAÇÃO_PATRIMONIAL_EXTERNA':{ label: 'Sustentação Externa', color: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-200' },
     'EROSÃO_PATRIMONIAL_OPERACIONAL':{ label: 'Erosão Operacional', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200' },
@@ -138,9 +138,10 @@ function DlpaKpiCard({ title, value, subtitle, statusLabel, statusBg, statusText
       </div>
       <div className="relative z-10 mt-auto">
         <div className="mb-2">
-          <p className="font-display font-semibold text-slate-800 truncate text-xl tracking-tight">
-            {value}
-          </p>
+          <KpiValue
+            value={value}
+            className="font-semibold tracking-tight text-slate-800"
+          />
           {formula && (
             <p className="text-[9px] font-mono text-slate-400 mt-1 bg-slate-50 p-1.5 rounded border border-slate-100 whitespace-pre-wrap leading-relaxed">
               {formula}
@@ -192,6 +193,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   const [showImportModal, setShowImportModal] = useState(false);
   const [showManualModal, setShowManualModal] = useState(false);
   const [showElsaPanel, setShowElsaPanel] = useState(false);
+  const [showTechnicalLayer, setShowTechnicalLayer] = useState(false);
 
   useEffect(() => {
     if (selectedYear) setFilterYear(selectedYear);
@@ -515,6 +517,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   const semanticSource = isValidLifecycleContext ? lifecycleContext.semanticSource : ((capitalGov as any)?.semanticSource || 'LEGACY');
   const lifecycleStage = isValidLifecycleContext ? lifecycleContext.lifecycleStage : ((capitalGov as any)?.diagnostics?.fiduciaryOutput?.lifecycleStage || (capitalGov as any)?.lifecycleStage || 'ESTABLISHED_ANALYSIS');
 
+  const executiveLayer = (capitalGov as any)?.executiveLayer;
+
   const capitalSocialValue = dlpaMetrics?.capitalSocial ?? 0;
 
   const cpi = useMemo(() => {
@@ -789,284 +793,504 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
       {hasData && (
         <div className="space-y-6 mb-12">
-          {/* --- 1. PREMIUM SCORE HERO BANNER --- */}
-          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between border border-slate-700/50">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
-            
-            <div className="w-full md:w-auto md:flex-1 flex flex-col items-center md:items-start z-10 text-center md:text-left mb-10 md:mb-0 md:mr-10">
-              <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">Governança de Capital</h3>
-              <p className="text-sm md:text-base text-indigo-100/80 font-medium leading-relaxed max-w-2xl w-full">
-                {narrative || 'Análise estrutural do comportamento fiduciário e destinação de lucros.'}
-              </p>
+          {/* --- 2. EXECUTIVE LAYER UI --- */}
+          {executiveLayer && (
+            <div className="space-y-6">
               
-              <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
-                <div className="px-6 py-3 rounded-full border shadow-inner backdrop-blur-sm z-10 bg-white/10 text-white border-white/20">
-                  <span className="text-sm font-black uppercase tracking-widest">{maturityStyle.label}</span>
-                </div>
-                {cpiStatus && cpiStatus !== 'NEUTRO' && (
-                  <div className="flex items-center gap-2 px-6 py-3 rounded-full border border-slate-700/50 bg-slate-800/50 backdrop-blur-sm z-10 text-xs font-bold uppercase tracking-widest text-slate-300">
-                    <span>Estrutura:</span>
-                    <span className={cn(
-                      cpiStatus.includes('Erosão') || cpiStatus.includes('Colapso') ? 'text-rose-400' :
-                      cpiStatus.includes('Preservad') ? 'text-emerald-400' : 'text-blue-400'
-                    )}>
-                      {cpiStatus}
+              {/* Capital Preservation Score (CPS) Header Block */}
+              {executiveLayer.capitalPreservationScore && (
+                <div className="bg-slate-900 text-white rounded-[40px] p-8 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
+                  
+                  <div className="relative z-10 flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <ShieldCheck size={24} className="text-indigo-400 animate-pulse" />
+                      <h3 className="text-xl font-black tracking-wide text-white">Capital Preservation Score (CPS)</h3>
+                    </div>
+                    <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-widest mb-4">Métrica Principal de Governança Fiduciária</p>
+                    <p className="text-sm text-slate-300 leading-relaxed font-medium max-w-2xl">
+                      {executiveLayer.capitalPreservationScore.rationale}
+                    </p>
+                  </div>
+
+                  <div className="relative z-10 flex flex-col items-center justify-center shrink-0 bg-white/[0.04] backdrop-blur-md border border-white/10 rounded-3xl p-6 min-w-[200px]">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2">Preservação Geral</span>
+                    <div className="text-5xl font-black text-indigo-400 tracking-tight mb-2">
+                      {executiveLayer.capitalPreservationScore.value}<span className="text-lg text-slate-400">/100</span>
+                    </div>
+                    <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border border-indigo-500/30 bg-indigo-500/10 text-indigo-300">
+                      {executiveLayer.capitalPreservationScore.classification}
                     </span>
                   </div>
-                )}
-              </div>
-            </div>
+                </div>
+              )}
 
-            <div className="relative w-48 h-48 flex items-center justify-center shrink-0 z-10">
-              <svg width="0" height="0">
-                <defs>
-                  <linearGradient id="dlpa-score-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor={(behavior?.capitalReinforcementIndex ?? 0) >= 80 ? "#10b981" : (behavior?.capitalReinforcementIndex ?? 0) >= 50 ? "#3b82f6" : (behavior?.capitalReinforcementIndex ?? 0) >= 30 ? "#f59e0b" : "#f43f5e"} />
-                    <stop offset="100%" stopColor={(behavior?.capitalReinforcementIndex ?? 0) >= 80 ? "#34d399" : (behavior?.capitalReinforcementIndex ?? 0) >= 50 ? "#60a5fa" : (behavior?.capitalReinforcementIndex ?? 0) >= 30 ? "#fbbf24" : "#fb7185"} />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <svg className="w-full h-full transform -rotate-90 filter drop-shadow-[0_0_12px_rgba(0,0,0,0.5)]" viewBox="0 0 192 192">
-                <circle cx="96" cy="96" r="84" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-800/80" />
-                <circle cx="96" cy="96" r="84" stroke="url(#dlpa-score-gradient)" strokeWidth="12" fill="transparent" 
-                  strokeDasharray="528" 
-                  strokeDashoffset={528 - (528 * (behavior?.capitalReinforcementIndex ?? 0)) / 100}
-                  strokeLinecap="round" 
-                  className="transition-all duration-1000 ease-out"
-                />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-6xl font-black text-white filter drop-shadow-sm leading-none absolute">{hasData ? (behavior?.capitalReinforcementIndex ?? 0).toFixed(0) : '—'}</span>
-                <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest absolute bottom-8">Reforço Fiduciário</span>
-              </div>
-            </div>
-          </div>
-
-          {/* --- 2. DECOMPOSIÇÃO EXECUTIVA (KPIs) --- */}
-          <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col justify-center relative overflow-hidden">
-            <h3 className="text-2xl font-black text-slate-900 mb-6 relative z-10">Decomposição de Indicadores</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 relative z-10">
-              <div className="border-l-4 rounded-r-3xl rounded-l-md p-6 flex flex-col shadow-sm transition-all hover:shadow-md bg-slate-50 border-emerald-500">
-                <div className="flex items-start justify-between mb-4">
-                  <h4 className="text-[11px] font-black uppercase tracking-widest text-emerald-900">Lucro Líquido</h4>
-                </div>
-                <p className="text-sm font-medium text-slate-700 leading-relaxed flex-1 mb-6">Resultado do exercício operado como base para distribuição fiduciária.</p>
-                <div className="flex items-end justify-between mt-auto pt-4 border-t border-slate-200/60">
-                  <span className="text-3xl font-black text-slate-800 tracking-tight">{formatCurrency(dlpaMetrics?.lucroLiquido ?? 0)}</span>
-                </div>
-              </div>
-
-              <div className="border-l-4 rounded-r-3xl rounded-l-md p-6 flex flex-col shadow-sm transition-all hover:shadow-md bg-slate-50 border-blue-500">
-                <div className="flex items-start justify-between mb-4">
-                  <h4 className="text-[11px] font-black uppercase tracking-widest text-blue-900">Dividendos / Distribuição</h4>
-                </div>
-                <p className="text-sm font-medium text-slate-700 leading-relaxed flex-1 mb-6">Capital distribuído aos sócios, impactando diretamente a retenção.</p>
-                <div className="flex items-end justify-between mt-auto pt-4 border-t border-slate-200/60">
-                  <span className="text-3xl font-black text-slate-800 tracking-tight">{formatCurrency(dlpaMetrics?.dividendos ?? 0)}</span>
-                  <span className="text-[9px] font-bold text-slate-400">TAXA {(distribution ? distribution.distributionRatio * 100 : 0).toFixed(1)}%</span>
-                </div>
-              </div>
-
-              <div className="border-l-4 rounded-r-3xl rounded-l-md p-6 flex flex-col shadow-sm transition-all hover:shadow-md bg-slate-50 border-indigo-500">
-                <div className="flex items-start justify-between mb-4">
-                  <h4 className="text-[11px] font-black uppercase tracking-widest text-indigo-900">Lucro Retido</h4>
-                </div>
-                <p className="text-sm font-medium text-slate-700 leading-relaxed flex-1 mb-6">Reinvestimento e reservas para fortalecimento da estrutura de capital.</p>
-                <div className="flex items-end justify-between mt-auto pt-4 border-t border-slate-200/60">
-                  <span className="text-3xl font-black text-slate-800 tracking-tight">{formatCurrency(retentionValue)}</span>
-                  <span className="text-[9px] font-bold text-slate-400">TAXA {(retention ? retention.retentionRatio * 100 : 0).toFixed(1)}%</span>
-                </div>
-              </div>
-
-              <div className="border-l-4 rounded-r-3xl rounded-l-md p-6 flex flex-col shadow-sm transition-all hover:shadow-md bg-slate-50 border-purple-500">
-                <div className="flex items-start justify-between mb-4">
-                  <h4 className="text-[11px] font-black uppercase tracking-widest text-purple-900">Preservação Patrimonial</h4>
-                </div>
-                <p className="text-sm font-medium text-slate-700 leading-relaxed flex-1 mb-6">Relação direta entre PL Final e o Capital Social (CPI).</p>
-                <div className="flex items-end justify-between mt-auto pt-4 border-t border-slate-200/60">
-                  <span className="text-3xl font-black text-slate-800 tracking-tight">{(cpi * 100).toFixed(1)}%</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Mensagens Fiduciárias */}
-            {fiduciaryOutput?.fiduciaryWarnings && fiduciaryOutput.fiduciaryWarnings.length > 0 && (
-              <div className="mt-8 pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-4">
-                {fiduciaryOutput.fiduciaryWarnings.map((warning: string, idx: number) => (
-                  <div key={idx} className="p-4 bg-rose-50/50 border-l-4 border-rose-500 rounded-r-xl flex gap-3">
-                    <AlertTriangle size={16} className="text-rose-500 shrink-0 mt-0.5" />
-                    <span className="text-xs font-bold text-rose-900 leading-relaxed">{warning}</span>
+              {/* 1. Tese de Governança & 8. Síntese Executiva */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100 flex flex-col justify-center relative overflow-hidden">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Target size={20} className="text-indigo-500" />
+                    <h3 className="text-xl font-black text-slate-900">Tese de Governança de Capital</h3>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* --- 3. GRÁFICOS & MAPA DE GOVERNANÇA --- */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            
-            <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col">
-              <h3 className="text-xl font-black text-slate-900 mb-2">Lucro vs Distribuição Histórica</h3>
-              <p className="text-sm text-slate-500 font-medium leading-relaxed max-w-3xl mb-8">
-                Evolução dos últimos 5 anos de destinação de resultados.
-              </p>
-              <div className="h-[300px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                    <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} dy={8} />
-                    <YAxis hide />
-                    <Tooltip
-                      cursor={{ fill: '#f8fafc' }}
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          return (
-                            <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100">
-                              <p className="text-[10px] font-black uppercase tracking-widest mb-3 text-slate-400">{payload[0]?.payload?.year}</p>
-                              {payload.map((p: any, i: number) => (
-                                <div key={i} className="flex items-center justify-between gap-6 mb-1">
-                                  <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
-                                    <span className="text-[10px] font-bold text-slate-600 uppercase">{p.name}</span>
-                                  </div>
-                                  <span className="text-xs font-black text-slate-900">{formatCurrency(p.value)}</span>
-                                </div>
-                              ))}
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <Bar dataKey="LucroLíquido" name="Lucro Líquido" fill="#3b82f6" radius={[5, 5, 0, 0]} maxBarSize={40} />
-                    <Bar dataKey="Dividendos"   name="Dividendos"    fill="#f43f5e" radius={[5, 5, 0, 0]} maxBarSize={40} />
-                    <Line type="monotone" dataKey="ReservaLegal" name="Reserva Legal" stroke="#8b5cf6" strokeWidth={3}
-                      dot={{ r: 4, fill: '#8b5cf6', strokeWidth: 2, stroke: '#fff' }} />
-                  </ComposedChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Radar de Governança Integrado */}
-            <div className="bg-slate-900 text-white rounded-[40px] p-10 shadow-2xl relative overflow-hidden flex flex-col">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
-
-              <h3 className="text-xl font-black text-white mb-2 relative z-10">Radar de Governança</h3>
-              <p className="text-sm text-slate-400 font-medium leading-relaxed mb-8 relative z-10">Dimensões Institucionais de Retenção de Capital.</p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 relative z-10">
-                {[
-                  { label: 'Sustentabilidade Patrimonial', value: cpiStatus !== 'NEUTRO' ? cpiStatus : '—', badge: preservationStyle.label, badgeColor: preservationStyle.color, icon: ShieldCheck },
-                  { label: 'Dependência de Capitalização', value: fiduciaryOutput?.capitalSupportRatio === 'NOT_AVAILABLE' ? 'N/A' : fiduciaryOutput?.capitalSupportRatio != null ? `${(fiduciaryOutput.capitalSupportRatio * 100).toFixed(1)}%` : '—', badge: retentionStyle.label, badgeColor: retentionStyle.color, icon: BookMarked },
-                  { label: 'Capacidade Distributiva', value: distribution?.distributionRatio != null && distribution.distributionRatio > 0 ? `${(distribution.distributionRatio * 100).toFixed(1)}%` : 'Inexistente', badge: distributionStyle.label, badgeColor: distributionStyle.color, icon: PieChartIcon },
-                  { label: 'Integridade Patrimonial', value: preservation ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—', badge: preservationStyle.label, badgeColor: preservationStyle.color, icon: ShieldCheck }
-                ].map(({ label, value, badge, badgeColor, icon: Icon }) => {
-                  const darkBadgeColor = badgeColor.replace('700', '400').replace('600', '400').replace(/bg-[a-z]+-50/g, 'bg-white/5').replace(/border-[a-z]+-200/g, 'border-white/10').replace(/border-[a-z]+-100/g, 'border-white/10');
-                  return (
-                  <div key={label} className="p-5 bg-white/[0.03] rounded-2xl border border-white/10 flex flex-col gap-3 hover:bg-white/[0.08] transition-all duration-300 backdrop-blur-md shadow-lg group">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform">
-                          <Icon size={18} className="text-white/80" />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-white/50 uppercase tracking-[0.15em] mb-0.5">{label}</p>
-                          <p className={cn('text-xs font-bold px-2 py-0.5 rounded border inline-block mt-1', darkBadgeColor)}>{badge}</p>
-                        </div>
-                      </div>
+                  <p className="text-sm font-black text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full self-start mb-4 uppercase tracking-widest">
+                    {executiveLayer.governanceInterpretation?.classification}
+                  </p>
+                  <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                    {executiveLayer.governanceInterpretation?.narrative}
+                  </p>
+                  {executiveLayer.governanceInterpretation?.riskToShareholders && (
+                    <div className="mt-4 pt-4 border-t border-slate-100">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-rose-500 mb-1">Risco ao Capital dos Sócios</p>
+                      <p className="text-xs font-bold text-slate-600 leading-relaxed">
+                        {executiveLayer.governanceInterpretation.riskToShareholders}
+                      </p>
                     </div>
-                    <p className="text-lg font-black text-white tracking-tight text-right">{value}</p>
+                  )}
+                </div>
+
+                <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100 flex flex-col justify-center relative overflow-hidden">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Activity size={20} className="text-emerald-500" />
+                    <h3 className="text-xl font-black text-slate-900">Síntese Executiva Advisory</h3>
                   </div>
-                  );
-                })}
-              </div>
-            </div>
-
-          </div>
-
-          {/* --- 4. TABELA DETALHADA --- */}
-          <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden">
-            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
-                  <FileText size={20} className="text-blue-500" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-black text-slate-900 uppercase tracking-widest">Detalhamento DLPA — {filterYear}</h4>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Demonstração Contábil Importada</p>
+                  <p className="text-sm text-slate-600 leading-relaxed font-medium whitespace-pre-line">
+                    {executiveLayer.boardAdvisory?.narrative}
+                  </p>
                 </div>
               </div>
-              <span className="text-[10px] font-black uppercase px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
-                {dbDataDLPA.length} lançamentos
-              </span>
-            </div>
-            <div className="overflow-x-auto p-2">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-slate-100">
-                    <th className="text-left py-5 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição da Conta</th>
-                    <th className="text-right py-5 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor (R$)</th>
-                    <th className="text-right py-5 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Natureza</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-50">
-                  {dbDataDLPA.map((row: any, i: number) => {
-                    const v = Number(row.val || row.valor || row.value || 0);
-                    const isNegative = v < 0;
-                    const conta = row.conta || row.category || row.nome || '—';
-                    const isTotal = conta.toLowerCase().includes('total') ||
-                      conta.toLowerCase().includes('saldo') ||
-                      conta.toLowerCase().includes('lucro liquido') ||
-                      conta.toLowerCase().includes('resultado');
+
+              {/* 2. Framework de Governança de Capital */}
+              <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <CheckCircle2 size={20} className="text-blue-500" />
+                  <h3 className="text-xl font-black text-slate-900">Framework de Decisão do Conselho</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {executiveLayer.boardDecisionSupport?.value?.map((item: any, idx: number) => (
+                    <div key={idx} className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                      <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">{item.question}</p>
+                      <p className="text-sm font-bold text-slate-800 leading-relaxed">{item.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 3, 4, 5, 6. Inteligência de Preservação de Capital */}
+              <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <TrendingUp size={20} className="text-indigo-500" />
+                  <h3 className="text-xl font-black text-slate-900">Inteligência de Preservação de Capital</h3>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {/* Card 1: Capital Remanescente */}
+                  {(() => {
+                    const val = executiveLayer.capitalPreservationStatus?.value ?? 0;
+                    const classification = executiveLayer.capitalPreservationStatus?.classification || 'Capital Erodido';
+                    const badgeColor = val >= 0.90 
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200/80' 
+                      : val >= 0.75
+                        ? 'bg-blue-50 text-blue-700 border-blue-200/80'
+                        : val >= 0.50 
+                          ? 'bg-amber-50 text-amber-700 border-amber-200/80' 
+                          : val >= 0.25
+                            ? 'bg-rose-50/50 text-rose-600 border-rose-200/50'
+                            : 'bg-rose-50 text-rose-700 border-rose-200/80';
+                    
                     return (
-                      <tr key={row.id || i} className={cn('hover:bg-slate-50 transition-colors', isTotal ? 'bg-slate-50/60' : '')}>
-                        <td className="py-4 px-8">
-                          <span className={cn('block', isTotal ? 'text-slate-900 font-black text-sm' : 'text-slate-600 font-medium pl-4 text-sm')}>
-                            {conta}
-                          </span>
-                        </td>
-                        <td className={cn('py-4 px-8 text-right font-mono font-bold text-sm',
-                          isNegative ? 'text-rose-600' : 'text-slate-700',
-                          isTotal && 'text-slate-900 font-black')}>
-                          {formatCurrency(v)}
-                        </td>
-                        <td className="py-4 px-8 text-right">
-                          <span className={cn('text-[9px] font-black uppercase px-3 py-1 rounded-full border',
-                            isNegative ? 'bg-rose-50 text-rose-600 border-rose-200' : v > 0 ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-slate-50 text-slate-400 border-slate-200'
-                          )}>
-                            {isNegative ? 'Redução' : v > 0 ? 'Adição' : 'Neutro'}
-                          </span>
-                        </td>
-                      </tr>
+                      <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-3">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Capital Remanescente</span>
+                            <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border shrink-0", badgeColor)}>
+                              {classification}
+                            </span>
+                          </div>
+                          <div className="text-3xl font-black text-slate-800 tracking-tight">
+                            {(val * 100).toFixed(1).replace('.', ',')}%
+                          </div>
+                          <p className="text-[10px] text-slate-500 font-semibold leading-relaxed mt-2">
+                            {executiveLayer.capitalPreservationStatus?.narrative}
+                          </p>
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40">
+                          {executiveLayer.capitalPreservationStatus?.rationale}
+                        </p>
+                      </div>
                     );
-                  })}
-                </tbody>
-                {dlpaMetrics && (
-                  <tfoot>
-                    <tr className="bg-slate-900 text-white rounded-b-3xl overflow-hidden">
-                      <td className="py-6 px-8 text-sm font-black uppercase tracking-widest rounded-bl-[32px]">
-                        {dlpaMetrics.lucroLiquido < 0 ? "Prejuízo Acumulado" : "Saldo de Lucros Retidos"}
-                      </td>
-                      <td className={cn('py-6 px-8 text-right font-mono font-black text-lg',
-                        retentionValue >= 0 ? 'text-emerald-400' : 'text-rose-400')}>
-                        {formatCurrency(retentionValue)}
-                      </td>
-                      <td className="py-6 px-8 text-right rounded-br-[32px]">
-                        <span className="text-[10px] font-black uppercase px-3 py-1.5 rounded-full bg-white/10 text-white border border-white/20">
-                          Calculado
-                        </span>
-                      </td>
-                    </tr>
-                  </tfoot>
-                )}
-              </table>
+                  })()}
+
+                  {/* Card 2: Capital Consumido */}
+                  {(() => {
+                    const val = executiveLayer.capitalErosionRisk?.value ?? 0;
+                    const consumedAmount = executiveLayer.capitalErosionRisk?.capitalConsumedAmount ?? 0;
+                    const classification = executiveLayer.capitalErosionRisk?.classification || 'Baixo';
+                    const badgeColor = val >= 0.50 
+                      ? 'bg-rose-50 text-rose-700 border-rose-200/80' 
+                      : val >= 0.25 
+                        ? 'bg-amber-50 text-amber-700 border-amber-200/80' 
+                        : 'bg-emerald-50 text-emerald-700 border-emerald-200/80';
+                    
+                    return (
+                      <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-3">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Capital Consumido</span>
+                            <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border shrink-0", badgeColor)}>
+                              Risco: {classification}
+                            </span>
+                          </div>
+                          <div className="text-3xl font-black text-slate-800 tracking-tight">
+                            {formatCurrency(consumedAmount)}
+                          </div>
+                          <p className="text-[10px] text-slate-500 font-semibold leading-relaxed mt-2">
+                            {executiveLayer.capitalErosionRisk?.narrative}
+                          </p>
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40">
+                          {executiveLayer.capitalErosionRisk?.rationale}
+                        </p>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Card 3: Recomposição Requerida */}
+                  {(() => {
+                    const val = executiveLayer.capitalRecoveryRequirement?.value ?? 0;
+                    const requiredAmount = executiveLayer.capitalRecoveryRequirement?.capitalRecoveryRequired ?? 0;
+                    const classification = executiveLayer.capitalRecoveryRequirement?.classification || 'Patrimônio Íntegro';
+                    const badgeColor = val > 0 
+                      ? 'bg-rose-50 text-rose-700 border-rose-200/80' 
+                      : 'bg-emerald-50 text-emerald-700 border-emerald-200/80';
+                    
+                    return (
+                      <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-3">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Recomposição Requerida</span>
+                            <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border shrink-0", badgeColor)}>
+                              {classification}
+                            </span>
+                          </div>
+                          <div className="text-3xl font-black text-slate-800 tracking-tight">
+                            {formatCurrency(requiredAmount)}
+                          </div>
+                          <p className="text-[10px] text-slate-500 font-semibold leading-relaxed mt-2">
+                            {executiveLayer.capitalRecoveryRequirement?.narrative}
+                          </p>
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40">
+                          {executiveLayer.capitalRecoveryRequirement?.rationale}
+                        </p>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Card 4: Horizonte de Recuperação Patrimonial */}
+                  {(() => {
+                    const formatted = executiveLayer.patrimonialRecoveryHorizon?.formatted || 'Não Estimável';
+                    const value = executiveLayer.patrimonialRecoveryHorizon?.value;
+                    const classification = executiveLayer.capitalRecoverability?.classification || 'Não Estimável';
+                    const badgeColor = classification === 'Alta'
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200/80'
+                      : classification === 'Moderada'
+                        ? 'bg-blue-50 text-blue-700 border-blue-200/80'
+                        : classification === 'Baixa'
+                          ? 'bg-amber-50 text-amber-700 border-amber-200/80'
+                          : 'bg-rose-50 text-rose-700 border-rose-200/80';
+                    
+                    return (
+                      <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-3">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Horizonte de Recuperação</span>
+                            <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border shrink-0", badgeColor)}>
+                              {classification}
+                            </span>
+                          </div>
+                          <div className="text-3xl font-black text-slate-800 tracking-tight">
+                            {formatted}
+                          </div>
+                          <p className="text-[10px] text-slate-500 font-semibold leading-relaxed mt-2">
+                            {executiveLayer.capitalRecoverability?.narrative}
+                          </p>
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40">
+                          {executiveLayer.patrimonialRecoveryHorizon?.rationale}
+                        </p>
+                      </div>
+                    );
+                  })()}
+                </div>
+              </div>
+
+              {/* 7. Proteção ao Capital dos Sócios */}
+              <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <ShieldCheck size={20} className="text-emerald-500" />
+                  <h3 className="text-xl font-black text-slate-900">Proteção ao Capital dos Sócios</h3>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Card 1: Dependência dos Sócios */}
+                  {(() => {
+                    const val = executiveLayer.shareholderDependencyNarrative?.value ?? 1;
+                    const classification = executiveLayer.shareholderDependencyNarrative?.classification || 'Baixa';
+                    const badgeColor = classification === 'Crítica' || classification === 'Alta'
+                      ? 'bg-rose-50 text-rose-700 border-rose-200/80'
+                      : classification === 'Moderada'
+                        ? 'bg-amber-50 text-amber-700 border-amber-200/80'
+                        : 'bg-emerald-50 text-emerald-700 border-emerald-200/80';
+                    
+                    const formattedValue = val === Infinity ? 'Insolvência' : `${val.toFixed(2).replace('.', ',')}x`;
+
+                    return (
+                      <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-3">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Dependência de Aportes</span>
+                            <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border shrink-0", badgeColor)}>
+                              Grau: {classification}
+                            </span>
+                          </div>
+                          <div className="text-3xl font-black text-slate-800 tracking-tight">
+                            {formattedValue}
+                          </div>
+                          <p className="text-[10px] text-slate-500 font-semibold leading-relaxed mt-2">
+                            {executiveLayer.shareholderDependencyNarrative?.narrative}
+                          </p>
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40">
+                          {executiveLayer.shareholderDependencyNarrative?.rationale}
+                        </p>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Card 2: Proteção do Capital dos Sócios */}
+                  <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-3">Salvaguarda Patrimonial</span>
+                      <h4 className="text-base font-black text-slate-800 mb-2">Narrativa de Risco</h4>
+                      <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
+                        {executiveLayer.governanceInterpretation?.shareholderCapitalProtection}
+                      </p>
+                    </div>
+                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40">
+                      Comunicação de Diretoria Executiva
+                    </p>
+                  </div>
+
+                  {/* Card 3: Tese de Recuperação Patrimonial */}
+                  <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-3">Diretriz de Recomposição</span>
+                      <h4 className="text-base font-black text-indigo-700 mb-2">Recovery Thesis</h4>
+                      <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
+                        {executiveLayer.governanceInterpretation?.recoveryThesis}
+                      </p>
+                    </div>
+                    <p className="text-[9px] text-indigo-400 font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40">
+                      Tese de Governança Fiduciária
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Aviso de Retenção Compulsória */}
+              {executiveLayer.retention?.classification === 'Retenção Compulsória' && (
+                <div className="bg-amber-50 border border-amber-200 text-amber-900 rounded-[24px] p-6 flex items-start gap-4 shadow-sm mt-6 animate-executive-fade">
+                  <AlertTriangle className="text-amber-600 shrink-0 mt-0.5" size={20} />
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-wider text-amber-700 mb-1">Aviso de Governança Patrimonial: Retenção Compulsória</p>
+                    <p className="text-xs font-bold leading-relaxed">
+                      Todo lucro futuro deverá ser destinado prioritariamente à absorção dos prejuízos acumulados antes da retomada de distribuições aos sócios.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
+          )}
+
+          <div className="flex justify-center mt-8">
+            <button 
+              onClick={() => setShowTechnicalLayer(!showTechnicalLayer)}
+              className="px-6 py-2 rounded-full border border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-widest hover:bg-slate-50 transition-colors"
+            >
+              {showTechnicalLayer ? 'Ocultar Camada Técnica (Contábil)' : 'Exibir Camada Técnica (Contábil)'}
+            </button>
           </div>
+
+          {/* --- 9. CAMADA TÉCNICA (Oculta por padrão) --- */}
+          {showTechnicalLayer && (
+            <>
+              {/* --- 3. GRÁFICOS & MAPA DE GOVERNANÇA (Originalmente 1. Lucro vs Distribuição e 2. Radar) --- */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+                
+                <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col">
+                  <h3 className="text-xl font-black text-slate-900 mb-2">Lucro vs Distribuição Histórica</h3>
+                  <p className="text-sm text-slate-500 font-medium leading-relaxed max-w-3xl mb-8">
+                    Evolução dos últimos 5 anos de destinação de resultados.
+                  </p>
+                  <div className="h-[300px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                        <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} dy={8} />
+                        <YAxis hide />
+                        <Tooltip
+                          cursor={{ fill: '#f8fafc' }}
+                          content={({ active, payload }) => {
+                            if (active && payload && payload.length) {
+                              return (
+                                <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100">
+                                  <p className="text-[10px] font-black uppercase tracking-widest mb-3 text-slate-400">{payload[0]?.payload?.year}</p>
+                                  {payload.map((p: any, i: number) => (
+                                    <div key={i} className="flex items-center justify-between gap-6 mb-1">
+                                      <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
+                                        <span className="text-[10px] font-bold text-slate-600 uppercase">{p.name}</span>
+                                      </div>
+                                      <span className="text-xs font-black text-slate-900">{formatCurrency(p.value)}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                        <Bar dataKey="LucroLíquido" name="Lucro Líquido" fill="#3b82f6" radius={[5, 5, 0, 0]} maxBarSize={40} />
+                        <Bar dataKey="Dividendos"   name="Dividendos"    fill="#f43f5e" radius={[5, 5, 0, 0]} maxBarSize={40} />
+                        <Line type="monotone" dataKey="ReservaLegal" name="Reserva Legal" stroke="#8b5cf6" strokeWidth={3}
+                          dot={{ r: 4, fill: '#8b5cf6', strokeWidth: 2, stroke: '#fff' }} />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Radar de Governança Integrado */}
+                <div className="bg-slate-900 text-white rounded-[40px] p-10 shadow-2xl relative overflow-hidden flex flex-col">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
+
+                  <h3 className="text-xl font-black text-white mb-2 relative z-10">Radar de Governança</h3>
+                  <p className="text-sm text-slate-400 font-medium leading-relaxed mb-8 relative z-10">Dimensões Institucionais de Retenção de Capital.</p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 relative z-10">
+                    {[
+                      { label: 'Sustentabilidade Patrimonial', value: cpiStatus !== 'NEUTRO' ? cpiStatus : '—', badge: preservationStyle.label, badgeColor: preservationStyle.color, icon: ShieldCheck },
+                      { label: 'Dependência de Capitalização', value: fiduciaryOutput?.capitalSupportRatio === 'NOT_AVAILABLE' ? 'N/A' : fiduciaryOutput?.capitalSupportRatio != null ? `${(fiduciaryOutput.capitalSupportRatio * 100).toFixed(1)}%` : '—', badge: retentionStyle.label, badgeColor: retentionStyle.color, icon: BookMarked },
+                      { label: 'Capacidade Distributiva', value: distribution?.distributionRatio != null && distribution.distributionRatio > 0 ? `${(distribution.distributionRatio * 100).toFixed(1)}%` : 'Inexistente', badge: distributionStyle.label, badgeColor: distributionStyle.color, icon: PieChartIcon },
+                      { label: 'Integridade Patrimonial', value: preservation ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—', badge: preservationStyle.label, badgeColor: preservationStyle.color, icon: ShieldCheck }
+                    ].map(({ label, value, badge, badgeColor, icon: Icon }) => {
+                      const darkBadgeColor = badgeColor.replace('700', '400').replace('600', '400').replace(/bg-[a-z]+-50/g, 'bg-white/5').replace(/border-[a-z]+-200/g, 'border-white/10').replace(/border-[a-z]+-100/g, 'border-white/10');
+                      return (
+                      <div key={label} className="p-5 bg-white/[0.03] rounded-2xl border border-white/10 flex flex-col gap-3 hover:bg-white/[0.08] transition-all duration-300 backdrop-blur-md shadow-lg group">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform">
+                              <Icon size={18} className="text-white/80" />
+                            </div>
+                            <div>
+                              <p className="text-[10px] font-black text-white/50 uppercase tracking-[0.15em] mb-0.5">{label}</p>
+                              <p className={cn('text-xs font-bold px-2 py-0.5 rounded border inline-block mt-1', darkBadgeColor)}>{badge}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-xl font-black text-white tracking-tight text-right">{value}</p>
+                      </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* --- 4. TABELA DETALHADA --- */}
+              <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden">
+                <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
+                      <FileText size={20} className="text-blue-500" />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-black text-slate-900 uppercase tracking-widest">Detalhamento DLPA — {filterYear}</h4>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Demonstração Contábil Importada</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-black uppercase px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
+                    {dbDataDLPA.length} lançamentos
+                  </span>
+                </div>
+                <div className="overflow-x-auto p-2">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-slate-100">
+                        <th className="text-left py-5 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição da Conta</th>
+                        <th className="text-right py-5 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor (R$)</th>
+                        <th className="text-right py-5 px-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">Natureza</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-50">
+                      {dbDataDLPA.map((row: any, i: number) => {
+                        const v = Number(row.val || row.valor || row.value || 0);
+                        const isNegative = v < 0;
+                        const conta = row.conta || row.category || row.nome || '—';
+                        const isTotal = conta.toLowerCase().includes('total') ||
+                          conta.toLowerCase().includes('saldo') ||
+                          conta.toLowerCase().includes('lucro liquido') ||
+                          conta.toLowerCase().includes('resultado');
+                        return (
+                          <tr key={row.id || i} className={cn('hover:bg-slate-50 transition-colors', isTotal ? 'bg-slate-50/60' : '')}>
+                            <td className="py-4 px-8">
+                              <span className={cn('block', isTotal ? 'text-slate-900 font-black text-sm' : 'text-slate-600 font-medium pl-4 text-sm')}>
+                                {conta}
+                              </span>
+                            </td>
+                            <td className={cn('py-4 px-8 text-right font-mono font-bold text-sm',
+                              isNegative ? 'text-rose-600' : 'text-slate-700',
+                              isTotal && 'text-slate-900 font-black')}>
+                              {formatCurrency(v)}
+                            </td>
+                            <td className="py-4 px-8 text-right">
+                              <span className={cn('text-[9px] font-black uppercase px-3 py-1 rounded-full border',
+                                isNegative ? 'bg-rose-50 text-rose-600 border-rose-200' : v > 0 ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-slate-50 text-slate-400 border-slate-200'
+                              )}>
+                                {isNegative ? 'Redução' : v > 0 ? 'Adição' : 'Neutro'}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                    {dlpaMetrics && (
+                      <tfoot>
+                        <tr className="bg-slate-900 text-white rounded-b-3xl overflow-hidden">
+                          <td className="py-6 px-8 text-sm font-black uppercase tracking-widest rounded-bl-[32px]">
+                            {lucrosPrejuizosFinal < 0 ? "Prejuízo Acumulado" : "Saldo de Lucros Acumulados"}
+                          </td>
+                          <td className={cn('py-6 px-8 text-right font-mono font-black text-lg',
+                            lucrosPrejuizosFinal >= 0 ? 'text-emerald-400' : 'text-rose-400')}>
+                            {formatCurrency(lucrosPrejuizosFinal)}
+                          </td>
+                          <td className="py-6 px-8 text-right rounded-br-[32px]">
+                            <span className="text-[10px] font-black uppercase px-3 py-1.5 rounded-full bg-white/10 text-white border border-white/20">
+                              Calculado
+                            </span>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    )}
+                  </table>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       )}
+
 
       {/* Modals */}
       {showImportModal && (

@@ -12,6 +12,14 @@ import { OperationalSustainabilityRuntime } from './OperationalSustainabilityRun
 import { InstitutionalContinuityEngine } from './InstitutionalContinuityEngine';
 import { FiduciaryCashInterpreter } from './FiduciaryCashInterpreter';
 import { UniversalCashIndicatorsEngine } from './UniversalCashIndicatorsEngine';
+import { CashConstraintDiagnosisEngine } from './CashConstraintDiagnosisEngine';
+import { OperationalCashBurnEngine } from './OperationalCashBurnEngine';
+import { ShareholderDependencyEngine } from './ShareholderDependencyEngine';
+import { CashSustainabilityEngine } from './CashSustainabilityEngine';
+import { RevenueCashConversionEngine } from './RevenueCashConversionEngine';
+import { CashBoardDecisionSupportEngine } from './CashBoardDecisionSupportEngine';
+import { DFCCashAdvisoryEngine } from './DFCCashAdvisoryEngine';
+import { CashReinvestmentEngine } from './CashReinvestmentEngine';
 
 export class FiduciaryCashIntelligenceRuntime {
   /**
@@ -39,7 +47,8 @@ export class FiduciaryCashIntelligenceRuntime {
     contasRelacionadas: number | null,
     patrimonioLiquido: number,
     context?: FinancialRuntimeContext,
-    analysisPeriodType?: AnalysisPeriodType
+    analysisPeriodType?: AnalysisPeriodType,
+    netRevenue?: number
   ): CashIntelligenceRuntimeOutput {
     const auditTrail: string[] = ['Execution started at FiduciaryCashIntelligenceRuntime'];
 
@@ -217,6 +226,23 @@ export class FiduciaryCashIntelligenceRuntime {
     // Remover duplicadas
     blockedConclusions = [...new Set(blockedConclusions)];
 
+    // Executive Intelligence Framework
+    const confidence = reconciliation.confidence;
+    const cashConstraintDiagnosis = CashConstraintDiagnosisEngine.evaluate(fco, fci, fcf, receivables, inventory, workingCapitalVariation, contasRelacionadas, confidence, dreNetIncome, dreEbitda);
+    const cashBurnAnalysis = OperationalCashBurnEngine.evaluate(fco, monthsCount, confidence);
+    const shareholderDependencyAnalysis = ShareholderDependencyEngine.evaluate(fco, equityFunding, confidence);
+    
+    // Note: liquidezOperacionalReal could be fco / abs(passivoCirculante) or derived, but for now we pass a placeholder 1.0 or derived from BP (universalIndicators handles it, but let's pass fco / workingCapitalVariation or something. Wait, UniversalIndicators doesn't export liquidezOperacionalReal directly. I will approximate it as universalIndicators.burnRateOperacional is there. Let's use 1.0 as fallback).
+    const liquidezOperacionalReal = passivoCirculante > 0 ? (fco / passivoCirculante) : 1.0; 
+    
+    const cashSustainabilityAnalysis = CashSustainabilityEngine.evaluate(fco, continuity.projectedRunwayMonths, equityFunding, thirdPartyFunding, liquidezOperacionalReal, confidence);
+    
+    const cashConversionAnalysis = RevenueCashConversionEngine.evaluate(fco, netRevenue || 0, confidence);
+    
+    const cashBoardDecisionFramework = CashBoardDecisionSupportEngine.evaluate(fco, cashConstraintDiagnosis, cashBurnAnalysis, shareholderDependencyAnalysis, cashSustainabilityAnalysis, continuity.projectedRunwayMonths, confidence);
+    const cashExecutiveAdvisory = DFCCashAdvisoryEngine.evaluate(fco, cashBoardDecisionFramework, cashSustainabilityAnalysis, confidence);
+    const cashReinvestmentAnalysis = CashReinvestmentEngine.evaluate(fco, fci, confidence);
+
     const output: CashIntelligenceRuntimeOutput = {
       isAvailable: true,
       contextSegment: context,
@@ -228,6 +254,16 @@ export class FiduciaryCashIntelligenceRuntime {
       fiduciaryOperationalSustainabilityAssessment: fidSust,
       continuityRisk: continuity,
       fiduciaryNarrative: narrative,
+      
+      cashConstraintDiagnosis,
+      cashBurnAnalysis,
+      shareholderDependencyAnalysis,
+      cashSustainabilityAnalysis,
+      cashConversionAnalysis,
+      cashBoardDecisionFramework,
+      cashExecutiveAdvisory,
+      cashReinvestmentAnalysis,
+
       blockedConclusions,
       allowedConclusions,
       confidenceLevel: reconciliation.confidence,

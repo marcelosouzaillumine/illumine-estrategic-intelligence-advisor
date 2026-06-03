@@ -143,22 +143,39 @@ export function KpiValue({
   noScroll = false
 }: { 
   value: string | number; 
-  suffix?: string;
+  suffix?: string; 
   className?: string;
   noScroll?: boolean;
 }) {
   const cleanSuffix = suffix.replace(/\s+/g, '\u00A0');
   const isCurrency = ['R$', 'BRL', 'USD', 'EUR', 'GBP', '$'].includes(cleanSuffix.trim());
-  const isLongText = typeof value === 'string' && isNaN(Number(value)) && value.length > 15;
+  const valStr = isCurrency ? `${cleanSuffix.trim()}\u00A0${value}` : `${value}${cleanSuffix}`;
+  
+  // Differentiate between number-like text and long descriptive/narrative texts
+  const isNumberLike = typeof value === 'number' || (typeof value === 'string' && /\d/.test(value));
+  const isLongText = !isNumberLike && typeof value === 'string' && value.length > 15;
+
+  // For numbers or standard labels, we compute a dynamic clamp based on character length 
+  // so the text scales down fluidly relative to container width (using cqw) and never overflows/wraps.
+  const charCount = Math.max(valStr.length, 5);
+  const dynamicCqw = Math.min(10, 140 / charCount);
+  const minRem = Math.max(0.6, Math.min(0.9, 10 / charCount));
+  const maxRem = Math.max(1.2, Math.min(2.5, 25 / charCount));
+  const dynamicFontSize = `clamp(${minRem}rem, ${dynamicCqw}cqw, ${maxRem}rem)`;
 
   return (
     <div className="w-full [container-type:inline-size] py-1 overflow-hidden">
-      <div className={cn(
-        "font-display max-w-full overflow-hidden text-ellipsis",
-        isLongText ? "whitespace-normal break-words text-balance leading-tight text-[clamp(0.75rem,5cqw,1.25rem)]" : "whitespace-nowrap tabular-nums leading-[1.15] min-w-0 text-[clamp(0.9rem,9cqw,2.2rem)]",
-        className
-      )}>
-        {isCurrency ? `${cleanSuffix.trim()}\u00A0${value}` : `${value}${cleanSuffix}`}
+      <div 
+        className={cn(
+          "font-display max-w-full overflow-hidden text-ellipsis",
+          isLongText 
+            ? "whitespace-normal break-words text-balance leading-tight text-[clamp(0.75rem,5cqw,1.25rem)]" 
+            : "whitespace-nowrap tabular-nums leading-[1.15] min-w-0",
+          className
+        )}
+        style={!isLongText ? { fontSize: dynamicFontSize } : undefined}
+      >
+        {valStr}
       </div>
     </div>
   );
