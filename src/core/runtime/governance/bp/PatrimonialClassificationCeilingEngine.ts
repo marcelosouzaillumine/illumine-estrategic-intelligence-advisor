@@ -121,7 +121,7 @@ export class PatrimonialClassificationCeilingEngine {
         ceilingReasons.push(`${o.name} atingiu teto ${o.ceilingImpact}.`);
       }
       if (o.mandatoryDisclosure) {
-        fiduciaryRestrictions.push(`DISCLOSURE OBRIGATÓRIO: ${o.mandatoryDisclosure}`);
+        fiduciaryRestrictions.push(o.mandatoryDisclosure);
       }
     });
 

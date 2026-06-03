@@ -19,7 +19,7 @@ export const GovernanceTrajectoryGraph: React.FC<GovernanceTrajectoryGraphProps>
 
   // Extrair o lineage mais recente para o Audit Reference
   const latestLineage = series[series.length - 1].lineageHash.substring(0, 8);
-  const confidence = series[series.length - 1].confidenceState.level;
+  const currentConfidence = series[series.length - 1].confidenceState.level;
 
   return (
     <div className="governance-trajectory-graph p-6 bg-slate-900 border border-slate-700 rounded-lg shadow-md text-slate-100">
@@ -30,7 +30,7 @@ export const GovernanceTrajectoryGraph: React.FC<GovernanceTrajectoryGraphProps>
         </div>
         <div className="text-right">
           <div className="text-xs font-mono text-slate-400">Ref Lineage: {latestLineage}</div>
-          <div className="text-xs font-mono text-slate-400">Confidence: {confidence}</div>
+          <div className="text-xs font-mono text-slate-400">Confidence: {currentConfidence}</div>
         </div>
       </div>
 

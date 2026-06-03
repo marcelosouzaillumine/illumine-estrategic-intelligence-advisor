@@ -13,7 +13,7 @@ export function CollapsePropagationGraph({ propagation }: { propagation: CrisisP
       
       <div className="space-y-4">
         {propagation.map((node, i) => {
-          const isRupture = node.severity === 'RUPTURA' || node.severity === 'CRÍTICA';
+          const isRupture = ['RUPTURA', 'CRÍTICA'].includes(node.severity);
           return (
             <div key={node.nodeId} className="flex flex-col gap-2 relative">
               {i !== 0 && (

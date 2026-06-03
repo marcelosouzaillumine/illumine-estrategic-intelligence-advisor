@@ -2,7 +2,7 @@ import { BPSummary } from '../../../../lib/bpEngine';
 
 export interface PatrimonialIndicator {
   metricName: string;
-  value: number | 'INSUFFICIENT_DATA';
+  value: number | string | 'INSUFFICIENT_DATA';
   classification: string;
   severity: string; // 'CRITICAL' | 'ATTENTION' | 'HEALTHY' | 'NEUTRAL' | 'CAPITAL_IDLE_WARNING' | 'POSITIVE_TREASURY' | 'TREASURY_STRESS' | 'SHORT_TERM_PRESSURE'
   confidence: number;
@@ -10,7 +10,7 @@ export interface PatrimonialIndicator {
   rationale: string;
   lineageHash: string;
   family: string;
-  format: 'percentage' | 'currency' | 'decimal';
+  format: 'percentage' | 'currency' | 'decimal' | 'string' | 'multiplier';
 }
 
 function generateHash(seed: string) {
@@ -108,8 +108,16 @@ export class BalanceSheetFinancialMetricsEngine {
     {
       const family = 'Liquidez';
       const metricName = 'Liquidez Geral';
-      if (summary.realizavelLongoPrazo !== null && (summary.passivoCirculante + summary.passivoNaoCirculante) > 0) {
-        const val = (summary.ativoCirculante + summary.realizavelLongoPrazo) / (summary.passivoCirculante + summary.passivoNaoCirculante);
+      const rlp = summary.realizavelLongoPrazo || 0;
+      if ((summary.passivoCirculante + summary.passivoNaoCirculante) > 0) {
+        const val = (summary.ativoCirculante + rlp) / (summary.passivoCirculante + summary.passivoNaoCirculante);
+        const valLC = summary.passivoCirculante > 0 ? summary.ativoCirculante / summary.passivoCirculante : 0;
+        
+        let rationale = 'Solvência estrutural de longo prazo.';
+        if (Math.abs(val - valLC) < 0.0001 && rlp === 0 && summary.passivoNaoCirculante === 0) {
+          rationale = 'A Liquidez Geral coincide com a Liquidez Corrente devido à ausência de ativos e passivos de longo prazo documentados. A avaliação estrutural permanece restrita ao horizonte de curto prazo.';
+        }
+
         const classification = val >= 1.0 ? 'HEALTHY' : 'ATTENTION';
         indicators.push({
           metricName,
@@ -117,14 +125,14 @@ export class BalanceSheetFinancialMetricsEngine {
           classification,
           severity: classification,
           confidence: 90,
-          evidence: { AC: summary.ativoCirculante, RLP: summary.realizavelLongoPrazo, PC: summary.passivoCirculante, PNC: summary.passivoNaoCirculante },
-          rationale: 'Solvência estrutural de longo prazo.',
+          evidence: { AC: summary.ativoCirculante, RLP: rlp, PC: summary.passivoCirculante, PNC: summary.passivoNaoCirculante, hasLongTermData: rlp > 0 || summary.passivoNaoCirculante > 0 },
+          rationale,
           lineageHash: generateHash(`${metricName}-${val}`),
           family,
           format: 'decimal'
         });
       } else {
-        indicators.push(this.insufficientData(metricName, family, 'Realizável a Longo Prazo não extraído com segurança'));
+        indicators.push(this.insufficientData(metricName, family, 'Falta de Passivos Exigíveis (PC e PNC)'));
       }
     }
 
@@ -228,10 +236,10 @@ export class BalanceSheetFinancialMetricsEngine {
       }
     }
 
-    // 9. Participação de Capital de Terceiros
+    // 9. Dependência de Capital de Terceiros
     {
       const family = 'Estrutura de Capital';
-      const metricName = 'Participação de Capital de Terceiros';
+      const metricName = 'Dependência de Capital de Terceiros';
       if (summary.patrimonioLiquido > 0) {
         const val = summary.passivoTotal / summary.patrimonioLiquido;
         const classification = val > 2.0 ? 'CRITICAL' : (val > 1.0 ? 'ATTENTION' : 'HEALTHY');
@@ -242,10 +250,10 @@ export class BalanceSheetFinancialMetricsEngine {
           severity: classification,
           confidence: 95,
           evidence: { PassivoTotal: summary.passivoTotal, PL: summary.patrimonioLiquido },
-          rationale: 'Mensure alavancagem estrutural sobre capital próprio.',
+          rationale: `Para cada R$ 1,00 de capital próprio, a empresa utiliza R$ ${val.toFixed(2).replace('.', ',')} de recursos de terceiros.`,
           lineageHash: generateHash(`${metricName}-${val}`),
           family,
-          format: 'percentage'
+          format: 'multiplier'
         });
       } else {
         indicators.push(this.insufficientData(metricName, family, 'PL ausente ou negativo'));
@@ -329,28 +337,44 @@ export class BalanceSheetFinancialMetricsEngine {
       }
     }
 
-    // 13. Dependência de Capital de Terceiros
+    // 13. Debt-to-Equity (Oneroso)
     {
-      const family = 'Imobilização';
-      const metricName = 'Dependência de Capital de Terceiros';
-      if (summary.passivoTotal > 0 || summary.patrimonioLiquido > 0) {
-        const denom = summary.passivoTotal + summary.patrimonioLiquido;
-        const val = summary.passivoTotal / denom;
-        const classification = val > 0.8 ? 'CRITICAL' : (val > 0.6 ? 'ATTENTION' : 'HEALTHY');
-        indicators.push({
-          metricName,
-          value: val,
-          classification,
-          severity: classification,
-          confidence: 95,
-          evidence: { PassivoTotal: summary.passivoTotal, PL: summary.patrimonioLiquido },
-          rationale: 'Dependência estrutural de recursos externos no financiamento total.',
-          lineageHash: generateHash(`${metricName}-${val}`),
-          family,
-          format: 'percentage'
-        });
+      const family = 'Estrutura de Capital';
+      const metricName = 'Debt-to-Equity';
+      if (summary.patrimonioLiquido > 0) {
+        const passivoOneroso = summary.passivosFinanceiros || 0;
+        
+        if (passivoOneroso === 0) {
+          indicators.push({
+            metricName,
+            value: 'N/A',
+            classification: 'HEALTHY',
+            severity: 'HEALTHY',
+            confidence: 100,
+            evidence: { PassivosFinanceiros: 0, PL: summary.patrimonioLiquido },
+            rationale: 'A organização não possui dívida onerosa financeira ativa estruturada.',
+            lineageHash: generateHash(`${metricName}-NA`),
+            family,
+            format: 'string'
+          });
+        } else {
+          const val = passivoOneroso / summary.patrimonioLiquido;
+          const classification = val > 1.5 ? 'CRITICAL' : (val > 0.8 ? 'ATTENTION' : 'HEALTHY');
+          indicators.push({
+            metricName: 'Financial Debt-to-Equity',
+            value: val,
+            classification,
+            severity: classification,
+            confidence: 95,
+            evidence: { PassivosFinanceiros: passivoOneroso, PL: summary.patrimonioLiquido },
+            rationale: 'Alavancagem financeira sobre capital próprio (apenas dívida onerosa).',
+            lineageHash: generateHash(`FinDebtToEquity-${val}`),
+            family,
+            format: 'decimal'
+          });
+        }
       } else {
-        indicators.push(this.insufficientData(metricName, family, 'Falta Passivo Total e PL'));
+        indicators.push(this.insufficientData(metricName, family, 'Falta PL para Debt-to-Equity'));
       }
     }
 

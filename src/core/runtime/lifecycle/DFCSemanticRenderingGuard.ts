@@ -27,26 +27,27 @@ export class DFCSemanticRenderingGuard {
     }
   }
 
-  static auditSemanticRoot(
-    semanticSource: string,
-    cqsSemantic: any,
-    eqsSemantic: any,
-    executiveNarrative: string | null
-  ): any | null {
-    if (semanticSource === 'LEGACY') {
-      const isElsaCqs = cqsSemantic?.lifecycleStage === 'INITIAL_CAPITALIZATION';
-      const isElsaEqs = eqsSemantic?.lifecycleStage === 'INITIAL_CAPITALIZATION';
-      const isElsaNarrative = executiveNarrative?.toLowerCase().includes('fase inicial de capitalização');
+  static auditSemanticRoot(audit: any, renderedSource: string): any | null {
+    if (!audit) return null;
 
-      if (isElsaCqs || isElsaEqs || isElsaNarrative) {
-        return {
-          code: 'DFC_SEMANTIC_ROOT_MISMATCH',
-          severity: 'CRITICAL',
-          blocked: false,
-          message: 'DFC context panel is rendering LEGACY while ELSA semantic evidence exists.'
-        };
-      }
+    if (audit.root !== audit.canonicalRoot) {
+      return {
+        code: 'DFC_NON_CANONICAL_ROOT',
+        severity: 'WARNING',
+        blocked: false,
+        message: `Semantic root mismatch: root is ${audit.root} but canonicalRoot is ${audit.canonicalRoot}`
+      };
     }
+
+    if (audit.canonicalRoot === 'ELSA' && renderedSource === 'LEGACY') {
+      return {
+        code: 'DFC_CANONICAL_ROOT_RENDER_MISMATCH',
+        severity: 'CRITICAL',
+        blocked: true,
+        message: 'UI rendered LEGACY while canonical semantic root is ELSA.'
+      };
+    }
+
     return null;
   }
 }

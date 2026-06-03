@@ -16,7 +16,7 @@ export interface ConsistencyEngineInputs {
   bpIndicators: PatrimonialIndicator[];
   scoreBreakdown: PatrimonialScoreBreakdown;
   classification: { label: string; rationale: string };
-  interpretations: { narratives: { family: string; narrative: string }[] };
+  interpretations: { patrimonialThesis: string; executivePlan: string; dominantRiskFamily: string; };
   patrimonialTrend: any;
   ceilingApplied: boolean;
   efosContext: {
@@ -46,7 +46,7 @@ export class PatrimonialGovernanceConsistencyEngine {
     } = inputs;
 
     // Helper
-    const getNarrative = (family: string) => interpretations.narratives.find(n => n.family === family)?.narrative || '';
+    const getNarrative = (family: string) => interpretations.executivePlan || '';
     const getIndicatorValue = (metric: string) => {
       const ind = bpIndicators.find(i => i.metricName === metric);
       return ind && typeof ind.value === 'number' ? ind.value : null;
@@ -64,26 +64,23 @@ export class PatrimonialGovernanceConsistencyEngine {
     // RESILIENT STRUCTURE, STABLE STRUCTURE, VULNERABLE STRUCTURE, FRAGILE STRUCTURE, CRITICAL STRUCTURE
     const normalizedClass = classification.label.replace(' STRUCTURE', '');
     if (!ceilingApplied && normalizedClass !== expectedLabel) {
-      issues.push(`[Domain 1] CONSISTENCY_FAILURE: Score ${score} should be mapped to ${expectedLabel}, but got ${normalizedClass}.`);
+      issues.push(`Falha de Consistência: O score matemático (${score}) deveria corresponder a classificação ${expectedLabel}, mas a interface reporta ${normalizedClass}.`);
       isFailClosed = true;
     }
     
-    if (ceilingApplied) {
-      warnings.push(`[Domain 1] CLASSIFICATION_OVERRIDE_APPLIED: Fiduciary classification ceiling overrides the mathematical score.`);
-      
+    if (ceilingApplied) {      
       if (finalClassification && normalizedClass !== finalClassification.replace(' STRUCTURE', '')) {
-        issues.push(`[Domain 1] FINAL_CLASSIFICATION_ALIGNMENT: Override active but UI classification (${normalizedClass}) does not match final fiduciary classification (${finalClassification}).`);
+        issues.push(`Alinhamento Fiduciário: A classificação de exibição (${normalizedClass}) difere do veredito fiduciário final (${finalClassification}).`);
         isFailClosed = true;
       }
     }
 
     // ── Domain 2: Classification vs Narratives ─────────────────────────────
-    const hasPositiveTone = interpretations.narratives.some(n => 
-      n.narrative.includes('sólid') || n.narrative.includes('confort') || 
-      n.narrative.includes('resilien') || n.narrative.includes('excelent')
-    );
+    const combinedText = (interpretations.patrimonialThesis + ' ' + interpretations.executivePlan).toLowerCase();
+    const hasPositiveTone = combinedText.includes('sólid') || combinedText.includes('confort') || 
+                            combinedText.includes('resilien') || combinedText.includes('excelent');
     if ((normalizedClass === 'CRITICAL' || normalizedClass === 'FRAGILE') && hasPositiveTone) {
-      issues.push(`[Domain 2] NARRATIVE_CONTRADICTION: Positive narratives found despite ${normalizedClass} classification.`);
+      issues.push(`Contradição Narrativa: Termos otimistas encontrados na tese executiva apesar da classificação de risco ${normalizedClass}.`);
       isFailClosed = true;
     }
 
@@ -91,14 +88,14 @@ export class PatrimonialGovernanceConsistencyEngine {
     const lc = getIndicatorValue('Liquidez Corrente');
     const liqNarrative = getNarrative('Liquidez');
     if (lc !== null && lc < 1 && (liqNarrative.includes('confort') || liqNarrative.includes('sólid') || liqNarrative.includes('elevad'))) {
-      issues.push(`[Domain 3] LIQUIDITY_CONTRADICTION: Liquidez Corrente is ${lc.toFixed(2)}, but narrative expresses comfort.`);
+      issues.push(`Contradição de Liquidez: Liquidez Corrente estruturalmente baixa (${lc.toFixed(2)}), porém o parecer do conselho ignora a fragilidade.`);
       isFailClosed = true;
     }
 
     const af = getIndicatorValue('Autonomia Financeira');
     const capNarrative = getNarrative('Estrutura de Capital');
     if (af !== null && af < 0.20 && (capNarrative.includes('independência') || capNarrative.includes('confort') || capNarrative.includes('sólid'))) {
-      issues.push(`[Domain 3] CAPITAL_STRUCTURE_CONTRADICTION: Autonomia Financeira is low, but narrative implies structural independence.`);
+      issues.push(`Contradição de Capital: Elevada dependência de capital de terceiros, divergindo de uma narrativa de independência estrutural.`);
       isFailClosed = true;
     }
 
@@ -126,7 +123,7 @@ export class PatrimonialGovernanceConsistencyEngine {
       if (familyTrends.length > 0 && deterioratingCount > familyTrends.length / 2) {
         const narrative = getNarrative(family);
         if (narrative.includes('fortalec') || narrative.includes('resiliên') || narrative.includes('confort') || narrative.includes('avanço')) {
-          issues.push(`[Domain 4] TREND_CONTRADICTION: Majority of ${family} indicators are DETERIORATING, but narrative uses positive language without caveats.`);
+          issues.push(`Contradição de Tendência Histórica: A família ${family} apresenta deterioração progressiva, mas a narrativa ignora os riscos.`);
           isFailClosed = true;
         }
       }
@@ -137,13 +134,13 @@ export class PatrimonialGovernanceConsistencyEngine {
     const totalTrends = patrimonialTrend?.trends?.length || 0;
     
     if (normalizedClass === 'RESILIENT' && totalTrends > 0 && (allDeteriorating / totalTrends) > 0.5) {
-      warnings.push(`[Domain 5] TREND_RISK_WARNING: Classification is RESILIENT but majority of trends are DETERIORATING.`);
+      warnings.push(`Risco de Tendência: A estrutura é considerada Resiliente, porém a maioria dos indicadores históricos aponta deterioração estrutural.`);
     }
 
     // ── Domain 6: Patrimonial Score vs EFOS ────────────────────────────────
     const efosDiff = score - efosContext.compositeScore;
     if (Math.abs(efosDiff) > 40) {
-      warnings.push(`[Domain 6] EFOS_ALIGNMENT_WARNING: High discrepancy between Patrimonial Score (${score}) and EFOS Composite Score (${efosContext.compositeScore}).`);
+      warnings.push(`Alerta de Alinhamento Multidimensional: Forte discrepância entre a vitalidade patrimonial (${score}) e a performance global do EFOS (${efosContext.compositeScore}).`);
     }
     
     // ── Domain 7: Critical Indicator Override ──────────────────────────────
@@ -152,28 +149,28 @@ export class PatrimonialGovernanceConsistencyEngine {
     const ce = getIndicatorValue('Composição do Endividamento');
 
     if (lc !== null && lc < 1.00) {
-      forcedDisclosures.push('FORCED_CAUTION_DISCLOSURE: Liquidez Corrente is below 1.00 indicating structural short-term pressure.');
+      forcedDisclosures.push('Divulgação Prudencial Obrigatória: Liquidez Corrente inferior a 1.00, indicando pressão estrutural de curto prazo.');
       criticalOverrides++;
     }
     if (ls !== null && ls < 0.70) {
-      forcedDisclosures.push('FORCED_CAUTION_DISCLOSURE: Liquidez Seca is critically low.');
+      forcedDisclosures.push('Divulgação Prudencial Obrigatória: Liquidez Seca em patamar crítico.');
       criticalOverrides++;
     }
     if (st !== null && st < 0) {
-      forcedDisclosures.push('TREASURY_PRESSURE_DISCLOSURE: Negative Treasury Balance implies dependence on external funding for operations.');
+      forcedDisclosures.push('Pressão de Tesouraria: Saldo Negativo de Tesouraria implica dependência de recursos externos para giro operacional.');
       criticalOverrides++;
     }
     if (af !== null && af < 0.20) {
-      forcedDisclosures.push('CAPITAL_DEPENDENCY_DISCLOSURE: High dependence on third-party capital (Autonomia Financeira < 20%).');
+      forcedDisclosures.push('Dependência Estrutural de Capital: Elevada dependência de capital de terceiros (Autonomia Financeira < 20%).');
       criticalOverrides++;
     }
     if (ce !== null && ce > 0.70) {
-      forcedDisclosures.push('SHORT_TERM_LIABILITY_PRESSURE: Debt profile is highly concentrated in the short term.');
+      forcedDisclosures.push('Concentração de Obrigações no Curto Prazo: Perfil de endividamento fortemente concentrado no curto prazo.');
       criticalOverrides++;
     }
 
     if (forcedDisclosures.length > 0 && !forcedDisclosures.some(d => d.includes('Apesar dos avanços'))) {
-      forcedDisclosures.push('DISCLOSURE OBRIGATÓRIO: Apesar de potenciais avanços observados em determinadas dimensões, a estrutura patrimonial apresenta riscos relevantes que exigem monitoramento contínuo.');
+      forcedDisclosures.push('Apesar de potenciais avanços observados em determinadas dimensões, a estrutura patrimonial apresenta riscos relevantes que exigem monitoramento contínuo.');
     }
 
     if (criticalOverrides >= 3) {

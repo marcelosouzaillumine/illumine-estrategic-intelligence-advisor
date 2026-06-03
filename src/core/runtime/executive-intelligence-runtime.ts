@@ -5,6 +5,14 @@ import { PatrimonialExecutiveInterpretationEngine } from "./governance/bp/Patrim
 import { PatrimonialTrendEngine } from "./governance/bp/PatrimonialTrendEngine";
 import { PatrimonialGovernanceConsistencyEngine } from "./governance/bp/PatrimonialGovernanceConsistencyEngine";
 import { PatrimonialClassificationCeilingEngine } from "./governance/bp/PatrimonialClassificationCeilingEngine";
+import { BalanceSheetQualityEngine } from "./governance/bp/BalanceSheetQualityEngine";
+import { WorkingCapitalIntelligenceEngine } from "./governance/bp/WorkingCapitalIntelligenceEngine";
+import { CapitalStructureIntelligenceEngine } from "./governance/bp/CapitalStructureIntelligenceEngine";
+import { CapitalPreservationEngine } from "./governance/bp/CapitalPreservationEngine";
+import { LiquidityRealityEngine } from "./governance/bp/LiquidityRealityEngine";
+import { EquityQualityEngine } from "./governance/bp/EquityQualityEngine";
+import { BoardPatrimonialAdvisoryEngine } from "./governance/bp/BoardPatrimonialAdvisoryEngine";
+import { BoardConsistencyEngine } from "./governance/bp/BoardConsistencyEngine";
 import { getSectorProfile } from '../intelligence/sector-behavior-profiles';
 import { translateCapitalStructure } from './adapters/capital-structure-adapter';
 import { translateCausalityInterpretation } from './adapters/causality-interpretation-adapter';
@@ -977,7 +985,8 @@ export class ExecutiveIntelligenceRuntime implements
           let parentId = d.parentId;
           const cat = (d.conta || d.category || '').toLowerCase();
 
-          // Skip calculated totals from legacy flat data
+          // Skip calculated totals from legacy flat data OR explicit SINTETICA rows to prevent double-counting
+          if (d.dreTipo === 'SINTETICA' || d.dreTipo === 'RESULTADO_CALCULADO') return null;
           if (!parentId && (
             cat.includes('receita líquida') || cat.includes('receita operacional líquida') ||
             cat.includes('lucro bruto') || cat.includes('ebitda') || cat === 'ebit' ||
@@ -1961,6 +1970,20 @@ export class ExecutiveIntelligenceRuntime implements
     let ceilingOutput = undefined;
     if (hasBP) {
       const bpIndicators = BalanceSheetFinancialMetricsEngine.calculateIndicators(bpSummary);
+      const dreDataArray = rawData.dreData || [];
+      bpIndicators.push(...BalanceSheetQualityEngine.analyze(bpSummary));
+      bpIndicators.push(...WorkingCapitalIntelligenceEngine.analyze(bpSummary, dreDataArray));
+      bpIndicators.push(...CapitalPreservationEngine.analyze(bpSummary, dreDataArray));
+      
+      const lrOutput = LiquidityRealityEngine.evaluate(bpSummary);
+      bpIndicators.push(...lrOutput.indicators);
+      
+      const eqOutput = EquityQualityEngine.evaluate(bpSummary);
+      bpIndicators.push(...eqOutput.indicators);
+      
+      const lossAbsorption = bpIndicators.find((i: any) => i.metricName === 'Loss Absorption Capacity')?.value as number | 'INSUFFICIENT_DATA';
+      bpIndicators.push(...CapitalStructureIntelligenceEngine.analyze(bpSummary, lrOutput.liquidezReal, lossAbsorption));
+
       const scoreBreakdown = PatrimonialScoreExplainabilityEngine.calculateScore(bpIndicators);
       const classification = InstitutionalPatrimonialClassificationEngine.classify(scoreBreakdown.globalScore);
       
@@ -2000,7 +2023,41 @@ export class ExecutiveIntelligenceRuntime implements
       }
 
       const patrimonialTrend = PatrimonialTrendEngine.analyzeTrend(bpHistoryArray);
-      const getFamilyNarrative = (family: string) => interpretations.narratives.find(n => n.family === family)?.narrative || '';
+
+      const rawAdvisory = BoardPatrimonialAdvisoryEngine.generate(bpIndicators, interpretations);
+      
+      const consistencyPatrimonial = BoardConsistencyEngine.validate(interpretations.patrimonialThesis, bpIndicators);
+      interpretations.patrimonialThesis = consistencyPatrimonial.scrubbedText;
+      
+      const consistencyPlan = BoardConsistencyEngine.validate(interpretations.executivePlan, bpIndicators);
+      interpretations.executivePlan = consistencyPlan.scrubbedText;
+      
+      const consistencyAdvisory = BoardConsistencyEngine.validate(rawAdvisory.fullText, bpIndicators);
+      rawAdvisory.fullText = consistencyAdvisory.scrubbedText;
+
+      const cSituacao = BoardConsistencyEngine.validate(rawAdvisory.boardAssessment.patrimonialSituation, bpIndicators);
+      rawAdvisory.boardAssessment.patrimonialSituation = cSituacao.scrubbedText;
+
+      const cLiquidez = BoardConsistencyEngine.validate(rawAdvisory.boardAssessment.liquidityAssessment, bpIndicators);
+      rawAdvisory.boardAssessment.liquidityAssessment = cLiquidez.scrubbedText;
+
+      const cPreservacao = BoardConsistencyEngine.validate(rawAdvisory.boardAssessment.capitalPreservationAssessment, bpIndicators);
+      rawAdvisory.boardAssessment.capitalPreservationAssessment = cPreservacao.scrubbedText;
+
+      const cEstrutura = BoardConsistencyEngine.validate(rawAdvisory.boardAssessment.capitalStructureAssessment, bpIndicators);
+      rawAdvisory.boardAssessment.capitalStructureAssessment = cEstrutura.scrubbedText;
+
+      const cRec = BoardConsistencyEngine.validate(rawAdvisory.boardAssessment.boardRecommendation, bpIndicators);
+      rawAdvisory.boardAssessment.boardRecommendation = cRec.scrubbedText;
+
+      const allAdvisoryAudits = Array.from(new Set([
+        ...consistencyAdvisory.auditTrail,
+        ...cSituacao.auditTrail,
+        ...cLiquidez.auditTrail,
+        ...cPreservacao.auditTrail,
+        ...cEstrutura.auditTrail,
+        ...cRec.auditTrail
+      ]));
 
       const inventoryDependency = InventoryDependencyEngine.evaluate(
         bpSummary?.estoques || bpSummary?.estoque || 0,
@@ -2009,16 +2066,21 @@ export class ExecutiveIntelligenceRuntime implements
       );
 
       executivePatrimonialReport = {
-        patrimonialHealth: classification.rationale,
-        liquidityHealth: getFamilyNarrative('Liquidez'),
-        workingCapitalHealth: getFamilyNarrative('Capital de Giro'),
-        capitalStructureHealth: getFamilyNarrative('Estrutura de Capital'),
-        assetImmobilizationHealth: getFamilyNarrative('Imobilização'),
+        patrimonialHealth: interpretations.patrimonialThesis,
+        executivePlan: interpretations.executivePlan,
+        dominantRiskFamily: interpretations.dominantRiskFamily,
+        liquidityHealth: undefined,
+        workingCapitalHealth: undefined,
+        capitalStructureHealth: undefined,
+        assetImmobilizationHealth: undefined,
         inventoryDependency,
         patrimonialClassification: ceilingOutput.finalClassification,
         patrimonialTrend: patrimonialTrend,
         scoreBreakdown: scoreBreakdown,
         executiveInterpretation: interpretations,
+        boardAdvisory: rawAdvisory,
+        consistencyAudit: [...consistencyPatrimonial.auditTrail, ...consistencyPlan.auditTrail, ...allAdvisoryAudits],
+        indicators: bpIndicators,
         sourceRuntime: 'BP_RUNTIME' as const,
         confidenceScore: 100, // Default start
         governanceConsistency: undefined as any
@@ -2146,10 +2208,16 @@ export class ExecutiveIntelligenceRuntime implements
 
     const semanticSource = capitalGovernanceReport?.semantic?.semanticContext?.semanticSource || 'LEGACY';
 
+    const renderedContentForAudit = [
+      rawCapitalGov.resolvedGovernanceStatus,
+      rawCapitalGov.resolvedCapitalStatus,
+      rawCapitalGov.narrative
+    ].filter(Boolean).join(' ');
+
     // The SemanticComplianceReport acts as the payload for the SCCF protocol.
     const semanticCompliance = SemanticComplianceAuditRuntime.evaluate(
       semanticSource,
-      JSON.stringify(capitalGovernanceReport),
+      renderedContentForAudit,
       contextHashPayload,
       semanticSource === 'ELSA' ? 'EXECUTIVE' : 'TECHNICAL_AUDIT'
     );
@@ -2299,11 +2367,7 @@ export class ExecutiveIntelligenceRuntime implements
       analysisYear: analysisYear || null
     };
 
-    const renderedContent = [
-      rawCapitalGov.resolvedGovernanceStatus,
-      rawCapitalGov.resolvedCapitalStatus,
-      rawCapitalGov.narrative
-    ].filter(Boolean).join(' ');
+    const renderedContent = renderedContentForAudit;
 
     // Evaluate Constitutional Governance
     report.constitutionalEvaluation = constRuntime.evaluateRuntimeState({

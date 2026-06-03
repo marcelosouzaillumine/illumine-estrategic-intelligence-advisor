@@ -40,6 +40,7 @@ export interface InferenceBlock {
   eqsSemantic?: string | null;
   executiveNarrative?: string;
   semanticAudit?: any;
+  executiveLifecycleContext?: import('../core/runtime/lifecycle/ExecutiveLifecycleContextResolver').ExecutiveLifecycleContext;
   metrics: Record<string, any>;
   causality: CausalityChain[];
   narrative: AdvisoryNarrative | null;

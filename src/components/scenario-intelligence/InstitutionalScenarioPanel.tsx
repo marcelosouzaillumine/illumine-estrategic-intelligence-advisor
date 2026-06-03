@@ -26,7 +26,7 @@ export function InstitutionalScenarioPanel({ contextData }: Props) {
   const handleSimulate = () => {
     const inputs = ScenarioAdapter.adaptFormInputs(formState);
     if (inputs.length === 0) return;
-    const result = InstitutionalScenarioEngine.simulateScenario(inputs, contextData);
+    const result = InstitutionalScenarioEngine.evaluateScenario(inputs, contextData);
     setScenarioResult(result);
   };
 

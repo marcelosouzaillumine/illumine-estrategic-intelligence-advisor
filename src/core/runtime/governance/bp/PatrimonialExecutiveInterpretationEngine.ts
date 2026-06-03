@@ -1,14 +1,15 @@
 import { PatrimonialIndicator } from './BalanceSheetFinancialMetricsEngine';
 import { PatrimonialScoreBreakdown } from './PatrimonialScoreExplainabilityEngine';
-import { CrossStatementLiquidityInterpreter } from '../../cross-statement/CrossStatementLiquidityInterpreter';
-
-export interface PatrimonialNarrative {
-  family: string;
-  narrative: string;
-}
 
 export interface PatrimonialInterpretationOutput {
-  narratives: PatrimonialNarrative[];
+  patrimonialThesis: string;
+  executivePlan: string;
+  planFinanceiro: { prazo: string; acao: string };
+  planOperacional: { prazo: string; acao: string };
+  planGovernanca: { prazo: string; acao: string };
+  dominantRiskFamily: string;
+  strategicSeverity: 'CRITICAL' | 'HIGH' | 'MODERATE' | 'MONITORING';
+  strategicSeverityReason: string;
   overallDisclaimer: string | null;
   rationale: string;
   confidence: number;
@@ -24,120 +25,140 @@ export class PatrimonialExecutiveInterpretationEngine {
     hasValidatedCashFlowEvidence: boolean = false,
     isOperationalCashFlowPositive: boolean = false
   ): PatrimonialInterpretationOutput {
-    const narratives: PatrimonialNarrative[] = [];
+    
+    // Extracted values for evaluation
+    const score = breakdown.globalScore ?? 0;
+    const liqReal = indicators.find(i => i.metricName === 'Liquidez Real')?.value as number | 'INSUFFICIENT_DATA';
+    const liqSeca = indicators.find(i => i.metricName === 'Liquidez Seca')?.value as number | 'INSUFFICIENT_DATA';
+    const lossAbsorption = indicators.find(i => i.metricName === 'Loss Absorption Capacity')?.value as number | 'INSUFFICIENT_DATA';
+    const endivGeral = indicators.find(i => i.metricName === 'Endividamento Geral')?.value as number | 'INSUFFICIENT_DATA';
+    const compEndiv = indicators.find(i => i.metricName === 'Composição do Endividamento')?.value as number | 'INSUFFICIENT_DATA';
+    const equityQuality = indicators.find(i => i.metricName === 'Equity Quality Index')?.classification || '';
+    const estoqueConc = indicators.find(i => i.metricName === 'Ativo - Estoques %')?.value as number | 'INSUFFICIENT_DATA';
+    const debtCapacity = indicators.find(i => i.metricName === 'Debt Capacity Score')?.value as number | 'INSUFFICIENT_DATA';
+    const fundingCapacityVal = indicators.find(i => i.metricName === 'Funding Capacity Ratio')?.value as number | 'INSUFFICIENT_DATA';
 
-    // --- LIQUIDEZ ---
-    {
-      let narrative = '';
-      const liqScore = breakdown.liquidityScore ?? 0;
-      const liqSeca = indicators.find(i => i.metricName === 'Liquidez Seca')?.severity || 'INSUFFICIENT_DATA';
-      const liqImediata = indicators.find(i => i.metricName === 'Liquidez Imediata')?.severity || 'INSUFFICIENT_DATA';
-      const liqCorrente = indicators.find(i => i.metricName === 'Liquidez Corrente')?.severity || 'INSUFFICIENT_DATA';
-      const hasLiquidityRisk = liqCorrente === 'CRITICAL' || liqSeca === 'CRITICAL' || breakdown.liquidityCriticalRiskDriver === true;
+    // Strategic Severity Logic
+    let strategicSeverity: 'CRITICAL' | 'HIGH' | 'MODERATE' | 'MONITORING' = 'MONITORING';
+    let strategicSeverityReason = 'Sem vulnerabilidades críticas identificadas';
 
-      if (hasValidatedCashFlowEvidence) {
-        narrative = CrossStatementLiquidityInterpreter.interpret(
-          hasLiquidityRisk || liqScore < 50,
-          hasValidatedCashFlowEvidence,
-          isOperationalCashFlowPositive
-        );
-      } else {
-        if (liqSeca === 'CRITICAL' && liqImediata === 'CRITICAL') {
-          narrative = 'Embora a liquidez corrente permaneça superior a 1,0, a baixa liquidez seca e imediata indicam dependência relevante da conversão de estoques e recebíveis para cumprimento das obrigações de curto prazo.';
-        } else if (liqScore >= 80) {
-          narrative = 'A organização apresenta estrutura de liquidez resiliente e folgada, garantindo o cumprimento de obrigações sem pressionar o caixa ou depender exclusivamente da venda de estoques.';
-        } else if (liqScore < 50 && liqSeca === 'CRITICAL') {
-          narrative = 'A estrutura de liquidez apresenta fragilidade relevante, com baixa capacidade de cobertura sem forte dependência da conversão de estoques para cumprir compromissos de curto prazo.';
-        } else if (liqCorrente === 'ATTENTION') {
-          narrative = 'A liquidez corrente está em nível de atenção, exigindo rigor no descasamento de prazos entre recebimentos operacionais e o vencimento do passivo exigível.';
-        } else if (liqScore >= 50) {
-          narrative = 'O perfil de liquidez é estável, suportando as obrigações imediatas, mas sem folgas estruturais expressivas que permitam grandes desvios no ciclo operacional.';
-        } else {
-          narrative = 'Dados insuficientes ou mistos para inferir a solidez estrutural de liquidez de curto prazo.';
-        }
-      }
-
-      narratives.push({ family: 'Liquidez', narrative });
+    if (typeof liqReal === 'number' && liqReal < 0.50) {
+      strategicSeverity = 'CRITICAL';
+      strategicSeverityReason = `Liquidez Real Crítica (${liqReal.toFixed(2)})`;
+    } else if (typeof lossAbsorption === 'number' && lossAbsorption < 2.0) {
+      strategicSeverity = 'CRITICAL';
+      strategicSeverityReason = `Loss Absorption Crítico (${lossAbsorption.toFixed(1)}x)`;
+    } else if (typeof debtCapacity === 'number' && debtCapacity < 50) {
+      strategicSeverity = 'HIGH';
+      strategicSeverityReason = `Debt Capacity Reduzido (${debtCapacity})`;
+    } else if (typeof fundingCapacityVal === 'number' && fundingCapacityVal < 60) {
+      strategicSeverity = 'HIGH';
+      strategicSeverityReason = `Funding Capacity Limitado (${fundingCapacityVal})`;
+    } else if (score < 50) {
+      strategicSeverity = 'MODERATE';
+      strategicSeverityReason = 'Múltiplos indicadores em alerta (Score Vulnerável)';
     }
 
-    // --- CAPITAL DE GIRO ---
-    {
-      let narrative = '';
-      const wcScore = breakdown.workingCapitalScore ?? 0;
-      const cgl = indicators.find(i => i.metricName === 'Capital de Giro Líquido');
-      const tesouraria = indicators.find(i => i.metricName === 'Saldo de Tesouraria');
+    // 1. Tese Patrimonial Hierárquica (Continuidade > Liquidez > Solvência > Preservação > Estrutura > Score)
+    let patrimonialThesis = '';
+    
+    const isLRFragil = typeof liqReal === 'number' && liqReal < 0.75;
+    const isLSCritica = typeof liqSeca === 'number' && liqSeca < 1.0;
+    const isLACritica = typeof lossAbsorption === 'number' && lossAbsorption < 2.0;
+    const isEndivAlto = typeof endivGeral === 'number' && endivGeral > 0.8;
+    const isConsumoCap = equityQuality === 'Consumo de Capital' || equityQuality === 'Erosão Patrimonial';
 
-      const isCglNegative = cgl?.value !== 'INSUFFICIENT_DATA' && (cgl?.value as number) < 0;
-      const isTesourariaNegative = tesouraria?.value !== 'INSUFFICIENT_DATA' && (tesouraria?.value as number) < 0;
-      const liqSeca = indicators.find(i => i.metricName === 'Liquidez Seca')?.severity || 'INSUFFICIENT_DATA';
-      const liqImediata = indicators.find(i => i.metricName === 'Liquidez Imediata')?.severity || 'INSUFFICIENT_DATA';
-      const hasLiquidityRisk = liqSeca === 'CRITICAL' || liqImediata === 'CRITICAL';
+    if (isLRFragil || isLSCritica || isLACritica || isConsumoCap) {
+      const issues: string[] = [];
+      if (isLRFragil || isLSCritica) issues.push('fragilidade crítica de liquidez');
+      if (typeof estoqueConc === 'number' && estoqueConc > 0.4) issues.push('elevado aprisionamento de capital em estoques');
+      if (isConsumoCap) issues.push('consumo material do capital originalmente aportado pelos sócios');
+      if (isLACritica && !isConsumoCap) issues.push('baixa margem de absorção contra perdas');
 
-      if (isTesourariaNegative && isCglNegative) {
-        narrative = 'A operação demanda capital superior à capacidade de autofinanciamento, pressionando severamente a tesouraria e configurando quadro de stress operacional de curto prazo.';
-      } else if (isTesourariaNegative) {
-        narrative = 'A necessidade de capital de giro supera a folga operacional (CGL), exigindo alavancagem adicional ou supressão de caixa para sustentar o ciclo atual.';
-      } else if (hasLiquidityRisk) {
-        narrative = 'O capital de giro líquido permanece positivo e oferece suporte à operação. Entretanto, a concentração relevante dos recursos em estoques reduz a velocidade de conversão em liquidez imediata.';
-      } else if (wcScore >= 80) {
-        narrative = 'O capital de giro líquido financia confortavelmente a operação, gerando saldo positivo de tesouraria e protegendo o caixa contra oscilações de mercado.';
-      } else if (wcScore >= 50) {
-        narrative = 'O capital de giro sustenta a operação sem sobras significativas, indicando equilíbrio sensível a atrasos de recebimento ou lentidão de estoques.';
+      let joinedIssues = '';
+      if (issues.includes('fragilidade crítica de liquidez') && issues.includes('consumo material do capital originalmente aportado pelos sócios')) {
+        joinedIssues = 'fragilidade crítica de liquidez e consumo material do capital originalmente aportado pelos sócios';
       } else {
-        narrative = 'Relação de capital de giro não apresenta margens claras, exigindo monitoramento ativo do ciclo financeiro.';
+        joinedIssues = issues.length > 1 
+          ? issues.slice(0, -1).join(', ') + ' e ' + issues[issues.length - 1]
+          : issues[0] || 'vulnerabilidades estruturais';
       }
 
-      narratives.push({ family: 'Capital de Giro', narrative });
+      patrimonialThesis = `A estrutura patrimonial permanece formalmente solvente, porém apresenta ${joinedIssues}.`;
+    } else if (isEndivAlto) {
+      patrimonialThesis = `A estrutura patrimonial apresenta solvência de curto prazo preservada, mas a elevada alavancagem limita a capacidade de financiar crescimento operacional.`;
+    } else {
+      if (score >= 80) {
+        patrimonialThesis = `A estrutura patrimonial é forte e resiliente, suportando crescimento sustentável com robusta margem de absorção contra choques.`;
+      } else if (score >= 60) {
+        patrimonialThesis = `A estrutura patrimonial é estável e equilibrada, apresentando indicadores controlados sem exposição severa no curto prazo.`;
+      } else {
+        patrimonialThesis = `A estrutura patrimonial requer otimização do giro e da estrutura de capital, apesar de não apresentar rompimento imediato de liquidez.`;
+      }
     }
 
-    // --- ESTRUTURA DE CAPITAL ---
-    {
-      let narrative = '';
-      const capScore = breakdown.capitalStructureScore ?? 0;
-      const endividamento = indicators.find(i => i.metricName === 'Endividamento Geral');
-      const compEndiv = indicators.find(i => i.metricName === 'Composição do Endividamento');
+    // 2. Plano Executivo (Risco Dominante)
+    let executivePlan = '';
+    let dominantRiskFamily = '';
+    
+    let planFinanceiro = { prazo: 'Curto Prazo', acao: 'Manter liquidez de segurança e monitorar covenants.' };
+    let planOperacional = { prazo: 'Médio Prazo', acao: 'Otimizar ciclo de conversão de caixa.' };
+    let planGovernanca = { prazo: 'Longo Prazo', acao: 'Garantir retenção de lucros compatível com o crescimento sustentável.' };
 
-      const isEndivHigh = endividamento?.severity === 'CRITICAL';
-      const isCompShortTerm = compEndiv?.severity === 'CRITICAL';
-
-      if (isEndivHigh && isCompShortTerm) {
-        narrative = 'A estrutura de capital apresenta alto risco, com forte dependência de recursos de terceiros concentrados no curto prazo, limitando a capacidade de investimento e aumentando o risco de insolvência.';
-      } else if (isEndivHigh) {
-        narrative = 'A companhia opera com alavancagem estrutural elevada, aumentando o perfil de risco fiduciário e a sensibilidade a choques nos custos de captação.';
-      } else if (isCompShortTerm) {
-        narrative = 'Apesar do volume global de dívida, há concentração perigosa de obrigações no curto prazo (pressão de rolagem ou liquidação imediata).';
-      } else if (capScore >= 80) {
-        narrative = 'A estrutura de capital é sólida, com alta autonomia financeira e baixa dependência estrutural de passivos onerosos ou de terceiros.';
-      } else {
-        narrative = 'A estrutura de capital é moderada, mantendo o equilíbrio de longo prazo, embora possua dependência habitual de capitais de terceiros.';
+    // Hierarchy of dominance:
+    if (isLRFragil || isLSCritica) {
+      dominantRiskFamily = 'Liquidez';
+      let causa = 'Descasamento severo entre recebimentos operacionais e obrigações de curto prazo.';
+      if (typeof estoqueConc === 'number' && estoqueConc > 0.4) {
+        causa = `${(estoqueConc * 100).toFixed(1)}% do ativo concentrado em estoques e obrigações concentradas no curto prazo.`;
       }
-
-      narratives.push({ family: 'Estrutura de Capital', narrative });
-    }
-
-    // --- IMOBILIZAÇÃO ---
-    {
-      let narrative = '';
-      const immobScore = breakdown.assetImmobilizationScore ?? 0;
-      const ipl = indicators.find(i => i.metricName === 'Imobilização do Patrimônio Líquido');
-
-      if (ipl?.severity === 'CRITICAL') {
-        narrative = 'A imobilização do capital próprio atingiu níveis críticos, significando que recursos de terceiros estão sendo usados para financiar ativos permanentes.';
-      } else if (immobScore >= 80) {
-        narrative = 'Baixa imobilização do capital próprio, garantindo alta flexibilidade estrutural e deixando o patrimônio livre para girar a operação.';
-      } else if (immobScore >= 50) {
-        narrative = 'Índice de imobilização adequado, com capital próprio suficiente para cobrir os ativos permanentes e apoiar marginalmente o capital de giro.';
-      } else {
-        narrative = 'Nível de imobilização em atenção, reduzindo a flexibilidade patrimonial em cenários de stress.';
-      }
-
-      narratives.push({ family: 'Imobilização', narrative });
+      executivePlan = `Risco Dominante: Fragilidade de liquidez estrutural. | Causa Raiz: ${causa} | Ação Estratégica: Reduzir capital aprisionado e alongar passivos operacionais. | KPI: Liquidez Real > 0.75.`;
+      
+      planFinanceiro = { prazo: 'Curto Prazo', acao: 'Alongar passivos, renegociar dívidas curtas e reforçar posição imediata de liquidez.' };
+      planOperacional = { prazo: 'Médio Prazo', acao: 'Reduzir aprisionamento em estoques e acelerar giro de recebíveis.' };
+      planGovernanca = { prazo: 'Longo Prazo', acao: 'Estabelecer política restritiva de capital de giro e tesouraria.' };
+      
+    } else if (isLACritica || isConsumoCap) {
+      dominantRiskFamily = 'Preservação de Capital';
+      executivePlan = `Risco Dominante: Erosão Patrimonial. | Causa Raiz: Operação consumindo caixa e recursos aportados ao longo do tempo. | Ação Estratégica: Revisão radical do modelo de margem e estancamento da queima de caixa. | KPI: Lucro Líquido e Loss Absorption > 3 anos.`;
+      
+      planFinanceiro = { prazo: 'Curto Prazo', acao: 'Suspender distribuição de dividendos e novos Capex não-essenciais.' };
+      planOperacional = { prazo: 'Médio Prazo', acao: 'Revisão drástica do modelo de margens para estancar a queima de caixa.' };
+      planGovernanca = { prazo: 'Longo Prazo', acao: 'Monitorar consumo de capital e elaborar plano formal de recomposição patrimonial.' };
+      
+    } else if (isEndivAlto) {
+      dominantRiskFamily = 'Estrutura de Capital';
+      const c = typeof compEndiv === 'number' && compEndiv > 0.6 ? 'Alta concentração de dívida onerosa no curto prazo.' : 'Nível geral de endividamento superior à capacidade de geração de valor.';
+      executivePlan = `Risco Dominante: Alavancagem Excessiva. | Causa Raiz: ${c} | Ação Estratégica: Desalavancagem através de retenção de lucros ou troca de dívida curta por longa. | KPI: Debt Capacity Score.`;
+      
+      planFinanceiro = { prazo: 'Curto Prazo', acao: 'Refinanciar dívidas onerosas e buscar troca de passivo curto por longo.' };
+      planOperacional = { prazo: 'Médio Prazo', acao: 'Garantir geração de caixa livre superior ao serviço da dívida.' };
+      planGovernanca = { prazo: 'Longo Prazo', acao: 'Definir teto de alavancagem estrutural e política estrita de funding.' };
+      
+    } else if (breakdown.workingCapitalScore !== null && breakdown.workingCapitalScore < 50) {
+      dominantRiskFamily = 'Capital de Giro';
+      executivePlan = `Risco Dominante: Estagnação no ciclo financeiro. | Causa Raiz: Prazo médio de recebimento dilatado e/ou giro de estoques lento. | Ação Estratégica: Revisão da política de concessão de crédito e aceleração de recebíveis. | KPI: Necessidade de Capital de Giro (NCG).`;
+      
+      planFinanceiro = { prazo: 'Curto Prazo', acao: 'Antecipar recebíveis apenas em janelas de oportunidade de custo, sem depender estruturalmente.' };
+      planOperacional = { prazo: 'Curto Prazo', acao: 'Acelerar cobrança e restringir política de concessão de crédito.' };
+      planGovernanca = { prazo: 'Médio Prazo', acao: 'Auditar políticas de vendas a prazo e giro comercial.' };
+      
+    } else {
+      dominantRiskFamily = 'Otimização Estratégica';
+      executivePlan = `Risco Dominante: Não identificado. | Situação: Estrutura equilibrada. | Ação Estratégica: Focar em maximização de retorno sobre o capital investido (ROIC) e eficiência tributária. | KPI: ROIC e EVA.`;
     }
 
     return {
-      narratives,
-      overallDisclaimer: ceilingApplied ? 'Apesar da pontuação agregada indicar determinada estabilidade estrutural, riscos patrimoniais específicos limitam a classificação fiduciária final da organização.' : null,
-      rationale: 'Narrativas determinísticas geradas com base na severidade dos indicadores e nas métricas críticas fiduciárias.',
+      patrimonialThesis,
+      executivePlan,
+      planFinanceiro,
+      planOperacional,
+      planGovernanca,
+      dominantRiskFamily,
+      strategicSeverity,
+      strategicSeverityReason,
+      overallDisclaimer: ceilingApplied ? 'Classificação final limitada por travas fiduciárias protetivas.' : null,
+      rationale: 'Interpretação executiva baseada em risco dominante e priorização de conselho.',
       confidence: 100,
       lineageHash: 'PEIE-' + Date.now().toString(16).toUpperCase(),
       sourceRuntime: 'BP_RUNTIME'

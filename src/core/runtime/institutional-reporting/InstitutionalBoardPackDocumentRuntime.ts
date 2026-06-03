@@ -942,7 +942,7 @@ export class InstitutionalBoardPackDocumentRuntime {
         `- Status: ${preservationMetric?.lineageStatus === 'CONSISTENT' ? 'Consistente' : (preservationMetric?.lineageStatus === 'NOT_RENDERED' ? 'Não Renderizado' : 'Inconsistente')}\n\n` +
         `### Status de Governança\n` +
         `- Score: ${cgeMetrics.cgs}\n` +
-        `- Status: ${cgeMetrics.cgsStatus}\n` +
+        `- Status: ${finalCgsStatus}\n` +
         `- Validação: Consistente\n`;
 
       const translateCpiStatusLocal = (status: string) => {
@@ -959,7 +959,7 @@ export class InstitutionalBoardPackDocumentRuntime {
       const capitalSocialVal = cgeMetrics.capitalSocial ?? 0;
       const patrimonioLiquidoFinalVal = cgeMetrics.patrimonioLiquido ?? 0;
       const capitalErosionPct = cgeMetrics.capitalErosion ?? 0;
-      const cpiStatusLabel = translateCpiStatusLocal(cgeMetrics.cpiStatus || '');
+      const cpiStatusLabel = translateCpiStatusLocal(finalCpiStatus || '');
 
       sections.patrimonialIntegrityValidation = `## Validação de Integridade Patrimonial\n` +
         `Capital Social:\n` +

@@ -44,7 +44,7 @@ export function useFinancialData(clientId: string, year: number, month: number, 
           docData.data.forEach((entry: any) => {
             allEntries.push({
               ...entry,
-              id: `${doc.id}_${entry.category}`,
+              id: entry.id ? entry.id : `${doc.id}_${entry.category}`,
               conta: entry.category,
               valor: entry.value,
               val: entry.value
@@ -117,7 +117,7 @@ export function useAllFinancialData(clientId: string) {
             lastType = innerType;
             allEntries.push({
               ...entry,
-              id: `${doc.id}_${entry.category}`,
+              id: entry.id ? entry.id : `${doc.id}_${entry.category}`,
               clientId: docData.clientId,
               type: docData.type,
               docType: docData.type,
@@ -217,7 +217,7 @@ export function useAnnualFinancialData(
 
             allEntries.push({
               ...entry,
-              id: `${docSnap.id}_${entry.category}`,
+              id: entry.id ? entry.id : `${docSnap.id}_${entry.category}`,
               docId: docSnap.id,
               docType: docData.type,
               createdAt: docData.createdAt,

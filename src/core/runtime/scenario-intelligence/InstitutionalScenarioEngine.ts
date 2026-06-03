@@ -7,7 +7,7 @@ import { ScenarioExplainabilityEngine } from './ScenarioExplainabilityEngine';
 import { ScenarioStabilityEngine } from './ScenarioStabilityEngine';
 
 export class InstitutionalScenarioEngine {
-  public static simulateScenario(inputs: ScenarioInput[], contextData: any): InstitutionalScenarioResult {
+  public static evaluateScenario(inputs: ScenarioInput[], contextData: any): InstitutionalScenarioResult {
     const id = `SCENARIO_${Date.now()}`;
     
     // 1. Constraint Enforcement (Fail-Closed)

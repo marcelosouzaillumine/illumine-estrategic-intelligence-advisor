@@ -38,7 +38,7 @@ export function StrategicContradictionSurface({ contradictions }: StrategicContr
                   {c.description}
                 </p>
               </div>
-              <span className={`px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest rounded ${c.severity === 'CRITICAL' ? 'bg-rose-500/20 text-rose-300' : 'bg-orange-500/20 text-orange-300'}`}>
+              <span className={`px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest rounded ${['CRITICAL'].includes(c.severity) ? 'bg-rose-500/20 text-rose-300' : 'bg-orange-500/20 text-orange-300'}`}>
                 {c.severity}
               </span>
             </div>

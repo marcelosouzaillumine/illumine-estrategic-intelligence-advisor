@@ -4,6 +4,8 @@ import { buildBPHierarchy } from '../../lib/bpEngine';
 import { calculateDreCascade } from '../../lib/dreCascade';
 import { RunwayAuditEngine } from '../../core/runtime/semantic/RunwayAuditEngine';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
+import { DFCSemanticCanonicalRootResolver } from '../../core/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
+import { ExecutiveLifecycleContextResolver } from '../../core/runtime/lifecycle/ExecutiveLifecycleContextResolver';
 
 const localNormalizeString = (s: string) => 
   s.toLowerCase()
@@ -1833,6 +1835,15 @@ export const LegacyDFCAdapter: EngineDefinition = {
         strategicMovement: 'Conformidade fiduciária e contenção de saídas não operacionais.'
       };
 
+      const semanticRoot = DFCSemanticCanonicalRootResolver.resolve({
+        semanticSource: profile ? 'ELSA' : 'LEGACY',
+        lifecycleProfile: profile,
+        semanticContext: runtimeCtx?.semanticContext || null,
+        cqsSemantic: profile?.cashStatus?.semanticLabel || null,
+        eqsSemantic: profile?.earningsStatus?.semanticLabel || null,
+        executiveNarrative
+      });
+
       return {
         engineName: 'LegacyDFCAdapter',
         success: true,
@@ -1840,18 +1851,22 @@ export const LegacyDFCAdapter: EngineDefinition = {
         violations,
         inference: {
           domain: 'Inteligência de Caixa (DFC)',
-          semanticSource: profile ? 'ELSA' : 'LEGACY',
+          semanticSource: semanticRoot.canonicalRoot,
           lifecycleProfile: profile,
-          semanticContext: runtimeCtx?.semanticContext || null,
+          semanticContext: {
+            ...runtimeCtx?.semanticContext,
+            semanticSource: semanticRoot.canonicalRoot,
+            lifecycleStage: semanticRoot.lifecycleStage,
+            lifecycleLabel: semanticRoot.lifecycleLabel
+          },
+          executiveLifecycleContext: ExecutiveLifecycleContextResolver.resolve(
+            semanticRoot.lifecycleStage,
+            semanticRoot.lifecycleLabel
+          ),
           executiveNarrative,
           cqsSemantic: profile?.cashStatus?.semanticLabel || null,
           eqsSemantic: profile?.earningsStatus?.semanticLabel || null,
-          semanticAudit: {
-            source: profile ? 'ELSA' : 'LEGACY',
-            lifecycleStage,
-            contextPresent: !!(runtimeCtx?.semanticContext),
-            profilePresent: !!profile
-          },
+          semanticAudit: semanticRoot,
           metrics: {
             ...metrics,
             semanticDisplays: {

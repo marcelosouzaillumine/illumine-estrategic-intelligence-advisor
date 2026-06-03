@@ -171,59 +171,24 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
     ?? dfcInference?.metrics?.fiduciary?.lifecycleProfile
     ?? null;
 
-  const rawSemanticSource =
-    semanticContext?.semanticSource
-    ?? dfcInference?.semanticSource
-    ?? 'LEGACY';
-
-  const rawLifecycleStage = semanticContext?.lifecycleStage ?? outputAny?.institutionalContext?.lifecycleStage ?? 'ESTABLISHED_ANALYSIS';
+  const semanticAudit = dfcInference?.semanticAudit;
+  const semanticSource = semanticAudit?.canonicalRoot ?? dfcInference?.semanticSource ?? 'LEGACY';
+  const lifecycleStage = semanticAudit?.lifecycleStage ?? semanticContext?.lifecycleStage ?? outputAny?.institutionalContext?.lifecycleStage ?? 'ESTABLISHED_ANALYSIS';
+  const lifecycleLabel = semanticAudit?.lifecycleLabel ?? semanticContext?.lifecycleLabel ?? (lifecycleStage === 'INITIAL_CAPITALIZATION' ? 'Fase Inicial de Capitalização' : lifecycleStage);
+  
   const executiveDisplay = metrics.semanticDisplays?.executiveDisplay;
-  
-  const cqsSemantic = dfcInference?.cqsSemantic;
-  const eqsSemantic = dfcInference?.eqsSemantic;
-  const executiveNarrative = dfcInference?.executiveNarrative;
-
-  const semanticEvidenceIsElsa =
-    (cqsSemantic as any)?.lifecycleStage === 'INITIAL_CAPITALIZATION' ||
-    cqsSemantic === 'Estrutura de Caixa Dependente de Capitalização Inicial' ||
-    (eqsSemantic as any)?.lifecycleStage === 'INITIAL_CAPITALIZATION' ||
-    eqsSemantic === 'Risco de Resultado em Fase Inicial de Capitalização' ||
-    executiveNarrative?.toLowerCase().includes('fase inicial de capitalização');
-
-  const semanticSource = semanticEvidenceIsElsa ? 'ELSA' : rawSemanticSource;
-  const lifecycleStage = semanticEvidenceIsElsa ? 'INITIAL_CAPITALIZATION' : rawLifecycleStage;
-  
-  const debugSemanticSource = {
-    root: dfcInference?.semanticSource,
-    semanticContext: dfcInference?.semanticContext?.semanticSource,
-    lifecycleProfile: dfcInference?.lifecycleProfile?.semanticSource,
-    fiduciary: dfcInference?.metrics?.fiduciary?.semanticSource,
-    resolvedRoot: semanticSource
-  };
 
   const featureFlags = { showSemanticAudit: process.env.NODE_ENV !== 'production' };
 
   useEffect(() => {
-    if (featureFlags.showSemanticAudit) {
-      const violation = DFCSemanticRenderingGuard.auditSemanticRoot(
-        rawSemanticSource,
-        cqsSemantic,
-        eqsSemantic,
-        executiveNarrative
-      );
+    if (featureFlags.showSemanticAudit && semanticAudit) {
+      const violation = DFCSemanticRenderingGuard.auditSemanticRoot(semanticAudit, semanticSource);
       if (violation) {
-        console.error('DFC_SEMANTIC_ROOT_MISMATCH:', violation);
+        console.error(violation.code, violation);
       }
-      console.table({
-        semanticSource,
-        lifecycleProfile: dfcInference?.lifecycleProfile,
-        semanticContext,
-        cqsSemantic,
-        eqsSemantic,
-        advisoryNarrative: executiveNarrative
-      });
+      console.table(semanticAudit);
     }
-  }, [rawSemanticSource, semanticSource, dfcInference, semanticContext, cqsSemantic, eqsSemantic, executiveNarrative]);
+  }, [semanticAudit, semanticSource]);
   
   // Guard for Executive Semantic Rendering
   useEffect(() => {
@@ -336,20 +301,6 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               {dbData.length > 0 ? 'Dados Reais' : isGenerated ? 'Cálculo Dinâmico (BP/DRE)' : 'Amostra'}
             </span>
           </div>
-          
-          <div className="bg-indigo-50 border border-indigo-100 rounded-md px-4 py-2 flex flex-col items-start gap-0.5 shadow-sm">
-            <span className="text-[8px] font-black uppercase tracking-widest text-indigo-400">Contexto Empresarial</span>
-            <span className="text-[10px] font-bold text-indigo-700">
-              Estágio: {lifecycleStage === 'INITIAL_CAPITALIZATION' ? 'Fase Inicial de Capitalização' : lifecycleStage}
-              <span className="mx-2">|</span>
-              Fonte: {semanticSource}
-            </span>
-            {process.env.NODE_ENV !== 'production' && (
-              <div className="mt-1 text-[8px] bg-black/5 p-1 rounded font-mono w-full">
-                Audit: {JSON.stringify(debugSemanticSource)}
-              </div>
-            )}
-          </div>
 
           <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
             <Calendar size={12} className="ml-2 text-secondary" />
@@ -387,7 +338,25 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
         </div>
       </div>
 
-
+      {/* Contexto Empresarial Block */}
+      <div className="bg-white p-8 rounded-[32px] mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm border border-slate-100">
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border border-indigo-100/50 shadow-sm">
+              {dfcInference?.executiveLifecycleContext?.executiveTitle || 'Contexto Empresarial'}
+            </span>
+          </div>
+          <h3 className="text-2xl font-black text-slate-900 tracking-tight mb-2">
+            {dfcInference?.executiveLifecycleContext?.executiveBadge || 'Contexto empresarial não classificado'}
+          </h3>
+          <p className="text-slate-500 font-medium text-sm max-w-3xl leading-relaxed">
+            {dfcInference?.executiveLifecycleContext?.executiveDescription || 'Os dados disponíveis não permitem determinar com segurança o estágio empresarial.'}
+          </p>
+        </div>
+        <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center border border-slate-100 shrink-0">
+          <Database className="text-slate-400 w-8 h-8" />
+        </div>
+      </div>
 
       {/* Toggle Premium para DFC Fiduciária Ajustada */}
       <div className="flex justify-center mb-8">

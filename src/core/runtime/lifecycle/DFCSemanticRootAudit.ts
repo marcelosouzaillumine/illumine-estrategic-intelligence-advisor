@@ -1,10 +1,18 @@
+export interface SemanticRootEvidence {
+  hasSemanticContext: boolean;
+  hasLifecycleProfile: boolean;
+  hasCqsElsaEvidence: boolean;
+  hasEqsElsaEvidence: boolean;
+  hasNarrativeElsaEvidence: boolean;
+}
+
 export interface SemanticRootAudit {
-  rootSource: string;
-  lifecycleStage: string;
-  semanticSource: string;
-  semanticContextPresent: boolean;
-  lifecycleProfilePresent: boolean;
-  advisorySourcePresent: boolean;
-  cqsSemanticPresent: boolean;
-  eqsSemanticPresent: boolean;
+  root: string;
+  originalRoot?: string;
+  canonicalRoot: string;
+  resolvedRoot: string;
+  canonicalized: boolean;
+  lifecycleStage?: string;
+  lifecycleLabel?: string;
+  evidence: SemanticRootEvidence;
 }

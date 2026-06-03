@@ -23,7 +23,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
-import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
+
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
@@ -73,6 +73,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     useAnnualFinancialData(selectedClient, filterYear, 'DRE');
 
   const { dbData: dbDataBP } = useAnnualFinancialData(selectedClient, filterYear, 'BP');
+  const { dbData: dbDataDLPA } = useAnnualFinancialData(selectedClient, filterYear, 'DLPA');
+  const { dbData: dbDataDFC } = useAnnualFinancialData(selectedClient, filterYear, 'DFC');
 
   // ── Busca histórico (todos os dados do cliente) ──────────────────────────────
   const { dbData: allHistoryData, loading: loadingHistory, historicalFinancialSeries } = useAllFinancialData(selectedClient);
@@ -91,6 +93,8 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         clientProfile: currentClient,
         dreData: dbData,
         bpData: dbDataBP,
+        dlpaData: dbDataDLPA,
+        cashFlowData: dbDataDFC,
         rawFinancialData: { 
           filterYear, 
           segmentoEmpresa,
@@ -104,7 +108,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       setExecutiveReport(report);
     }
     runAnalysis();
-  }, [dbData, dbDataBP, allHistoryData, filterYear, segmentoEmpresa, docIds.length]);
+  }, [dbData, dbDataBP, dbDataDLPA, dbDataDFC, allHistoryData, filterYear, segmentoEmpresa, docIds.length]);
 
   const finalHealthScore = (executiveReport?.metrics.financialMetrics as any)?.dreHealthScore 
     ?? executiveReport?.scores.operational 
@@ -447,7 +451,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       </div>
       
       {/* EFFICIENCY INTELLIGENCE PANELS */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
         
         {/* OPERATIONAL EFFICIENCY INTELLIGENCE */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
@@ -461,20 +465,21 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             </div>
           </div>
           
-           <div className="grid grid-cols-2 gap-4">
+           <div className="grid grid-cols-2 gap-4 flex-1 content-start">
              {efficiencies.map((eff, i) => {
                 const IconComponent = Target;
                 return (
-                <div key={i} className="flex flex-col gap-1 p-3 rounded-2xl bg-slate-50 border border-slate-100">
-                   <div className="flex items-center justify-between mb-1">
-                      <div className={`text-${eff.color}-600`}>
-                        <IconComponent size={14} />
+                <div key={i} className="flex flex-col justify-center gap-2 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-md transition-all">
+                   <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                         <div className={`text-${eff.color}-600 bg-${eff.color}-100 p-1.5 rounded-lg`}>
+                           <IconComponent size={14} />
+                         </div>
+                         <p className="text-xs font-bold text-slate-700">{eff.name}</p>
                       </div>
-                      <span className={`text-xs font-black text-${eff.color}-700`}>{eff.value.toFixed(1)}{(eff.unit || '%')}</span>
+                      <span className={`text-sm font-black text-${eff.color}-700`}>{eff.value.toFixed(1)}{(eff.unit || '%')}</span>
                    </div>
-                   <p className="text-xs font-bold text-slate-700">{eff.name}</p>
-                   <p className="text-[9px] text-slate-400 uppercase tracking-wider">{eff.desc}</p>
-                   <div className="w-full h-1 bg-slate-200 rounded-full mt-2 overflow-hidden">
+                   <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden mt-1">
                       <div className={`h-full bg-${eff.color}-500 transition-all duration-1000`} style={{ width: `${Math.min(100, Math.max(0, eff.score || eff.value))}%` }} />
                    </div>
                 </div>
@@ -508,21 +513,21 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
              </div>
              
              <div className="flex items-center justify-between gap-4">
-                <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-4 text-center">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Growth (Receita)</p>
-                   <p className={cn("text-2xl font-black", (scaleEfficiency?.recGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center hover:shadow-md transition-all">
+                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Growth (Receita)</p>
+                   <p className={cn("text-3xl font-black", (scaleEfficiency?.recGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
                      {(scaleEfficiency?.recGrowth || 0) > 0 ? '+' : ''}{(scaleEfficiency?.recGrowth || 0).toFixed(2)}%
                    </p>
                 </div>
-                <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-4 text-center">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Profitability (EBITDA)</p>
-                   <p className={cn("text-2xl font-black", (scaleEfficiency?.ebitdaGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center hover:shadow-md transition-all">
+                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Profitability (EBITDA)</p>
+                   <p className={cn("text-3xl font-black", (scaleEfficiency?.ebitdaGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
                      {(scaleEfficiency?.ebitdaGrowth || 0) > 0 ? '+' : ''}{(scaleEfficiency?.ebitdaGrowth || 0).toFixed(2)}%
                    </p>
                 </div>
              </div>
              
-             <p className="text-xs font-medium text-slate-500 mt-6 text-center leading-relaxed">
+             <p className="text-sm font-medium text-slate-500 mt-8 text-center leading-relaxed">
                {scaleEfficiency?.description || "Aguardando histórico financeiro consolidado para gerar análise temporal de eficiência de escala."}
              </p>
           </div>
@@ -628,7 +633,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       )}
 
 
-      <ExecutivePerspectiveSection intelligenceReport={executiveReport} loading={!executiveReport} className="mb-10 shadow-xl" />
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {kpis.map((idx, i) => {

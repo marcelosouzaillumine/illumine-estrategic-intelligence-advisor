@@ -269,7 +269,9 @@ export class DLPAFiduciaryInterpretationEngine {
       confidenceLevel,
       contextCompleteness,
       auditTrail,
-      rawCapitalStatus: integrityReport.capitalProtectionStatus === 'WEAK_CAPITAL_PROTECTION' ? 'High Capital Erosion' : 'Strong Capital Protection',
+      rawCapitalStatus: semanticSource === 'ELSA'
+        ? (integrityReport.capitalProtectionStatus === 'WEAK_CAPITAL_PROTECTION' ? 'Erosão Patrimonial' : 'Proteção de Capital')
+        : (integrityReport.capitalProtectionStatus === 'WEAK_CAPITAL_PROTECTION' ? 'High Capital Erosion' : 'Strong Capital Protection'),
       semanticCapitalStatus: context?.lifecycleProfile?.capitalStatus?.semanticLabel || 'Capitalização em Consolidação',
       resolvedGovernanceStatus: context?.lifecycleProfile?.governanceStatus?.semanticLabel || 'Governança em Estruturação',
       semanticSource: context?.lifecycleProfile ? 'ELSA' : undefined
