@@ -40,6 +40,7 @@ export class ExecutiveLabelResolver {
     'CRITICAL': 'Crítico',
     'ATTENTION': 'Atenção',
     'INSUFFICIENT_DATA': 'Dados Insuficientes',
+    'NOT_AVAILABLE': 'Base Histórica Insuficiente',
     'HEALTHY': 'Saudável',
     'POSITIVE_TREASURY': 'Tesouraria Positiva',
     
@@ -85,33 +86,93 @@ export class ExecutiveLabelResolver {
     'Short Term Pressure': 'Concentração no Curto Prazo',
     'Score': 'Indicador de Síntese',
     'Proxy Nível 2': 'Estimativa Indireta — Nível 2',
+    
+    // DRE Data Binding / Technical Leaks Sanitization
+    'FINANCIAL.NETREVENUE': 'Receita Líquida',
+    'FINANCIAL.EBITDA': 'EBITDA',
+    'FINANCIAL.NETPROFIT': 'Lucro Líquido',
+    'FINANCIAL.COGS': 'Custo dos Produtos Vendidos',
+    'FINANCIAL.ADMINEXPENSES': 'Despesas Administrativas',
+    'COMMON.DRE_DETAILS': 'Detalhamento da DRE',
+    'COMMON.HORIZONTAL_VERTICAL_ANALYSIS': 'Análise Horizontal e Vertical',
+    'COMMON.ACCOUNT': 'Conta Contábil',
+    'COMMON.VALUE_BRL': 'Valor',
 
   };
 
   public static resolve(key: string): string {
     if (!key) return '';
-    const cleanKey = key.trim().toUpperCase();
+    let cleanKey = key.trim();
+    
+    // Remove technical leakages like [[financial.*]] or [SOVEREIGN TREASURY NOTICE: ...]
+    cleanKey = cleanKey.replace(/\[\[.*?\]\]/g, '').trim();
+    cleanKey = cleanKey.replace(/\[SOVEREIGN TREASURY NOTICE:.*?\]\s*/g, '').trim();
+    
+    if (!cleanKey) return '';
+
+    // Check if the original key was purely a bracketed string
+    if (key.trim().startsWith('[[') && key.trim().endsWith(']]')) {
+      const inner = key.trim().slice(2, -2).trim();
+      const resolvedInner = this.resolve(inner);
+      if (resolvedInner && resolvedInner !== inner) {
+        return resolvedInner;
+      }
+      // If it resolved to itself, it's missing, so humanize it
+      const humanized = inner
+        .replace(/^.*\./, "")
+        .replace(/_/g, " ")
+        .replace(/([A-Z])/g, " $1")
+        .trim();
+      return humanized
+        .split(" ")
+        .filter(word => word.length > 0)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ");
+    }
+
+    const upperKey = cleanKey.toUpperCase();
+    
+    if (this.LABEL_MAP[upperKey]) {
+      return this.LABEL_MAP[upperKey];
+    }
     if (this.LABEL_MAP[cleanKey]) {
       return this.LABEL_MAP[cleanKey];
     }
-    if (this.LABEL_MAP[key.trim()]) {
-      return this.LABEL_MAP[key.trim()];
-    }
     
     // If not found, check if it's a snake_case key
-    if (key.includes('_')) {
-      const snakeToWords = key.toLowerCase().replace(/_/g, ' ').replace(/(?:^|\s)\S/g, l => l.toUpperCase());
+    if (cleanKey.includes('_')) {
+      const snakeToWords = cleanKey.toLowerCase().replace(/_/g, ' ').replace(/(?:^|\s)\S/g, l => l.toUpperCase());
       if (this.LABEL_MAP[snakeToWords]) return this.LABEL_MAP[snakeToWords];
       if (this.LABEL_MAP[snakeToWords.toUpperCase()]) return this.LABEL_MAP[snakeToWords.toUpperCase()];
     }
     
+    // Check if it's a technical key path (contains dots)
+    if (cleanKey.includes('.')) {
+      const humanized = cleanKey
+        .replace(/^.*\./, "")
+        .replace(/_/g, " ")
+        .replace(/([A-Z])/g, " $1")
+        .trim();
+      return humanized
+        .split(" ")
+        .filter(word => word.length > 0)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ");
+    }
+
+    // Detect Firebase document IDs or raw hex/technical hashes
+    const isTechnicalId = /^[a-zA-Z0-9]{20}$/.test(cleanKey) || /^[a-fA-F0-9]{24,32}$/.test(cleanKey);
+    if (isTechnicalId) {
+      return 'Identificador Fiduciário';
+    }
+    
     // Fallback: se for um código interno (ALL CAPS ou snake_case) não mapeado, blindamos a UI retornando neutro
-    if (key === key.toUpperCase() || key.includes('_')) {
+    if (cleanKey === cleanKey.toUpperCase() || cleanKey.includes('_')) {
       return 'Avaliação Neutra';
     }
     
     // Retorna a própria string caso seja um nome de métrica normal em português (ex: "Liquidez Corrente")    
-    return key;
+    return cleanKey;
   }
 
   public static resolveImpact(metricName: string): string {

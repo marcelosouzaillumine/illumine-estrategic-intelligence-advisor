@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon, AlertTriangle, Sparkles, Bug, Target, Shield, Activity, Layers, Scale, Zap, Building2, Coins, Receipt } from 'lucide-react';
+import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon, AlertTriangle, Sparkles, Bug, Target, Shield, Activity, Layers, Scale, Zap, Building2, Coins, Receipt, Briefcase } from 'lucide-react';
 import { DATA } from '../../data';
 import { 
   ResponsiveContainer, 
@@ -48,6 +48,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const [toast, setToast] = useState<ToastType>(null);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showTechnicalLayer, setShowTechnicalLayer] = useState(false);
   const [, setThemeTrigger] = useState(0);
 
   const currentClient = clients?.find((c: any) => c.id === selectedClient);
@@ -128,6 +129,14 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const earningsQualityAssessment = (executiveReport?.metrics as any)?.dreInsights?.earningsQualityAssessment;
   const confidenceAssessment = (executiveReport?.metrics as any)?.dreInsights?.confidenceAssessment;
   const managementDiscussion = (executiveReport?.metrics as any)?.dreInsights?.managementDiscussion;
+  
+  // Novas variáveis da reestruturação executiva
+  const revenueEconomicStructure = (executiveReport?.metrics as any)?.dreInsights?.revenueEconomicStructure;
+  const economicBurnRate = (executiveReport?.metrics as any)?.dreInsights?.economicBurnRate;
+  const breakEvenAnalysis = (executiveReport?.metrics as any)?.dreInsights?.breakEvenAnalysis;
+  const operationalAbsorption = (executiveReport?.metrics as any)?.dreInsights?.operationalAbsorption;
+  const economicDiagnosis = (executiveReport?.metrics as any)?.dreInsights?.economicDiagnosis;
+  const dreExecutiveAdvisory = (executiveReport?.metrics as any)?.dreInsights?.dreExecutiveAdvisory;
 
   const employeeCount = (dbDataBP[0] as any)?.employeeCount || (dbDataBP[0] as any)?.numeroFuncionarios || 0;
   const recPorColaborador = employeeCount > 0 ? recLiquida / employeeCount : null;
@@ -450,373 +459,454 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         </div>
       </div>
       
-      {/* EFFICIENCY INTELLIGENCE PANELS */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+      {/* 2. DIAGNÓSTICO ECONÔMICO E BOARD DECISION FRAMEWORK */}
+      {economicDiagnosis && (
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl flex flex-col mb-10 text-white">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-700 pb-4">
+            <div className="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+              <Activity size={20} />
+            </div>
+            <div>
+              <h4 className="text-xl font-black">Diagnóstico Econômico & Decision Framework</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-300">Posicionamento Estrutural</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
+              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Gera Valor?</span>
+              <span className="text-sm font-black text-indigo-300">{economicDiagnosis.valueCreationAssessment}</span>
+            </div>
+            <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
+              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Restrição Principal</span>
+              <span className="text-sm font-black text-rose-300">{economicDiagnosis.primaryConstraint}</span>
+            </div>
+            <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
+              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Recuperabilidade</span>
+              <span className="text-sm font-black text-amber-300">{economicDiagnosis.recoverabilityAssessment}</span>
+            </div>
+            <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
+              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Prioridade Estratégica</span>
+              <span className="text-sm font-black text-emerald-300">{economicDiagnosis.strategicPriority}</span>
+            </div>
+            <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
+              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Outlook</span>
+              <span className="text-sm font-black text-slate-300">{economicDiagnosis.boardOutlook}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 3 & 4 & 5. ESTRUTURA ECONÔMICA, CONSUMO E COBERTURA */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
         
-        {/* OPERATIONAL EFFICIENCY INTELLIGENCE */}
+        {/* ESTRUTURA ECONÔMICA DA RECEITA */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
           <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
             <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
               <Layers size={20} />
             </div>
             <div>
-              <h4 className="text-lg font-black text-slate-800">{t('dre.health.subtitle')}</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t('dre.health.desc')}</p>
+              <h4 className="text-lg font-black text-slate-800">Estrutura Econômica</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Para cada R$ 100 vendidos</p>
             </div>
           </div>
           
-           <div className="grid grid-cols-2 gap-4 flex-1 content-start">
-             {efficiencies.map((eff, i) => {
-                const IconComponent = Target;
-                return (
-                <div key={i} className="flex flex-col justify-center gap-2 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-md transition-all">
-                   <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                         <div className={`text-${eff.color}-600 bg-${eff.color}-100 p-1.5 rounded-lg`}>
-                           <IconComponent size={14} />
-                         </div>
-                         <p className="text-xs font-bold text-slate-700">{eff.name}</p>
-                      </div>
-                      <span className={`text-sm font-black text-${eff.color}-700`}>{eff.value.toFixed(1)}{(eff.unit || '%')}</span>
-                   </div>
-                   <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden mt-1">
-                      <div className={`h-full bg-${eff.color}-500 transition-all duration-1000`} style={{ width: `${Math.min(100, Math.max(0, eff.score || eff.value))}%` }} />
-                   </div>
-                </div>
-                );
-             })}
+            <div className="flex-1 flex flex-col justify-center">
+              {revenueEconomicStructure ? (
+                 <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center shadow-inner h-full flex items-center">
+                    <p className="text-sm font-medium text-slate-700 leading-relaxed whitespace-pre-line w-full">
+                      {revenueEconomicStructure.narrativa}
+                    </p>
+                 </div>
+              ) : (
+                 <p className="text-sm font-medium text-slate-500 text-center">Dados insuficientes para análise executiva desta seção.</p>
+              )}
           </div>
         </div>
 
-        {/* SCALE EFFICIENCY INTELLIGENCE */}
+        {/* CONSUMO ECONÔMICO (BURN RATE) */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
           <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
-              <Scale size={20} />
+            <div className="w-10 h-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600">
+              <AlertTriangle size={20} />
             </div>
             <div>
-              <h4 className="text-lg font-black text-slate-800">{t('dre.scale.subtitle')}</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t('dre.scale.desc')}</p>
+              <h4 className="text-lg font-black text-slate-800">Consumo Econômico</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Burn Rate Operacional</p>
             </div>
           </div>
           
-          <div className="flex flex-col flex-1 justify-center">
-             <div className="text-center mb-8">
-                <span className={cn("inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-black uppercase tracking-wider",
-                  scaleEfficiency?.colorClass?.replace('text-', 'bg-').replace('400', '50/50').replace('500', '50/50'),
-                  scaleEfficiency?.colorClass?.replace('text-', 'border-').replace('400', '200').replace('500', '200'),
-                  scaleEfficiency?.colorClass
-                )}>
-                   <Zap size={16} />
-                   {scaleEfficiency?.category}
-                </span>
-             </div>
-             
-             <div className="flex items-center justify-between gap-4">
-                <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center hover:shadow-md transition-all">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Growth (Receita)</p>
-                   <p className={cn("text-3xl font-black", (scaleEfficiency?.recGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
-                     {(scaleEfficiency?.recGrowth || 0) > 0 ? '+' : ''}{(scaleEfficiency?.recGrowth || 0).toFixed(2)}%
-                   </p>
-                </div>
-                <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center hover:shadow-md transition-all">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Profitability (EBITDA)</p>
-                   <p className={cn("text-3xl font-black", (scaleEfficiency?.ebitdaGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
-                     {(scaleEfficiency?.ebitdaGrowth || 0) > 0 ? '+' : ''}{(scaleEfficiency?.ebitdaGrowth || 0).toFixed(2)}%
-                   </p>
-                </div>
-             </div>
-             
-             <p className="text-sm font-medium text-slate-500 mt-8 text-center leading-relaxed">
-               {scaleEfficiency?.description || "Aguardando histórico financeiro consolidado para gerar análise temporal de eficiência de escala."}
-             </p>
+           <div className="flex-1 flex flex-col justify-center">
+              {economicBurnRate && economicBurnRate.monthlyEconomicBurn !== null ? (
+                 <div className="bg-rose-50/50 border border-rose-100 rounded-2xl p-6 text-center shadow-inner h-full flex flex-col items-center justify-center">
+                    <p className="text-sm font-medium text-rose-800 leading-relaxed whitespace-pre-line mb-4">
+                      {economicBurnRate.narrativa}
+                    </p>
+                    <div className="w-full flex justify-between px-4">
+                       <div className="text-center">
+                          <p className="text-[9px] font-bold uppercase text-rose-400/80 mb-1">Consumo Mensal</p>
+                          <p className="font-black text-rose-600">{formatCurrency(economicBurnRate.monthlyEconomicBurn)}</p>
+                       </div>
+                       <div className="text-center">
+                          <p className="text-[9px] font-bold uppercase text-rose-400/80 mb-1">Consumo Anual</p>
+                          <p className="font-black text-rose-600">{formatCurrency(economicBurnRate.annualEconomicBurn)}</p>
+                       </div>
+                    </div>
+                 </div>
+              ) : economicBurnRate ? (
+                 <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-6 text-center shadow-inner h-full flex items-center justify-center">
+                    <p className="text-sm font-bold text-emerald-700 leading-relaxed w-full">
+                      {economicBurnRate.narrativa}
+                    </p>
+                 </div>
+              ) : (
+                 <p className="text-sm font-medium text-slate-500 text-center">Dados insuficientes para análise executiva desta seção.</p>
+              )}
+          </div>
+        </div>
+
+        {/* PONTO DE EQUILÍBRIO E COBERTURA */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
+              <Target size={20} />
+            </div>
+            <div>
+              <h4 className="text-lg font-black text-slate-800">Ponto de Equilíbrio</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Absorção & Cobertura</p>
+            </div>
+          </div>
+          
+           <div className="flex-1 flex flex-col justify-center">
+              {breakEvenAnalysis && breakEvenAnalysis.breakEvenRevenue > 0 ? (
+                 <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center shadow-inner h-full flex items-center justify-center flex-col">
+                    <p className="text-sm font-medium text-slate-700 leading-relaxed whitespace-pre-line mb-3">
+                      {breakEvenAnalysis.narrativa}
+                    </p>
+                    {operationalAbsorption && operationalAbsorption.classificacao !== 'Indeterminada' && (
+                        <span className={cn("text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border mt-2", 
+                        operationalAbsorption.classificacao === 'Plena' || operationalAbsorption.classificacao === 'Adequada' ? "bg-emerald-50 text-emerald-600 border-emerald-200" :
+                        operationalAbsorption.classificacao === 'Parcial' ? "bg-amber-50 text-amber-600 border-amber-200" : "bg-rose-50 text-rose-600 border-rose-200"
+                        )}>
+                        Absorção {operationalAbsorption.classificacao}
+                        </span>
+                    )}
+                 </div>
+              ) : (
+                 <p className="text-sm font-medium text-slate-500 text-center">Dados insuficientes para análise executiva desta seção.</p>
+              )}
           </div>
         </div>
 
       </div>
 
-      {/* EXECUTIVE INTELLIGENCE PACK (NEW PANELS) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-        {/* ECONOMIC VALUE */}
-        {economicValueAssessment && (
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
-            <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Criação de Valor</h4>
-            <h3 className={cn("text-lg font-black mb-2", 
-              economicValueAssessment.classification === 'VALUE_CREATING' ? 'text-emerald-600' :
-              economicValueAssessment.classification === 'VALUE_DESTROYING' ? 'text-rose-600' : 'text-amber-500'
-            )}>
-              {economicValueAssessment.classification === 'VALUE_CREATING' ? 'Criação de Valor Econômico' :
-               economicValueAssessment.classification === 'VALUE_DESTROYING' ? 'Valor Econômico em Deterioração' : 'Criação de Valor Neutra'}
-            </h3>
-            <p className="text-xs text-slate-600 mb-4">{economicValueAssessment.rationale}</p>
-            <div className="mt-auto bg-slate-50 p-3 rounded-xl border border-slate-100">
-              <p className="text-[10px] font-bold text-slate-500 mb-1">Evidência Fiduciária</p>
-              <p className="text-[10px] text-slate-700 font-medium">{economicValueAssessment.evidence}</p>
-            </div>
-          </div>
-        )}
-
-        {/* EARNINGS QUALITY */}
-        {earningsQualityAssessment && (
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
-            <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Qualidade do Resultado</h4>
-            <h3 className={cn("text-lg font-black mb-2", 
-              earningsQualityAssessment.classification === 'HIGH_QUALITY_EARNINGS' ? 'text-emerald-600' :
-              earningsQualityAssessment.classification === 'LOW_QUALITY_EARNINGS' ? 'text-rose-600' : 
-              earningsQualityAssessment.classification === 'UNDETERMINED_EARNINGS_QUALITY' ? 'text-slate-400' : 'text-amber-500'
-            )}>
-              {earningsQualityAssessment.classification === 'HIGH_QUALITY_EARNINGS' ? 'Alta Qualidade (Operacional)' :
-               earningsQualityAssessment.classification === 'LOW_QUALITY_EARNINGS' ? 'Baixa Qualidade (Extraordinário)' : 
-               earningsQualityAssessment.classification === 'UNDETERMINED_EARNINGS_QUALITY' ? 'Qualidade Indeterminada' : 'Qualidade Média'}
-            </h3>
-            <p className="text-xs text-slate-600 mb-4">{earningsQualityAssessment.rationale}</p>
-            {earningsQualityAssessment.classification !== 'UNDETERMINED_EARNINGS_QUALITY' && (
-              <div className="mt-auto flex flex-col gap-2">
-                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden flex">
-                  <div className="h-full bg-emerald-500" style={{ width: `${earningsQualityAssessment.recurringRevenueWeight}%` }} />
-                  <div className="h-full bg-rose-400" style={{ width: `${earningsQualityAssessment.nonRecurringWeight}%` }} />
-                </div>
-                <div className="flex justify-between text-[9px] font-bold uppercase text-slate-400">
-                  <span>Operacional: {earningsQualityAssessment.recurringRevenueWeight.toFixed(0)}%</span>
-                  <span>Extraordinário: {earningsQualityAssessment.nonRecurringWeight.toFixed(0)}%</span>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* CONFIDENCE SCORE */}
-        {confidenceAssessment && (
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
-            <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Nível de Confiança</h4>
-            <div className="flex items-center gap-3 mb-2">
-              <h3 className={cn("text-lg font-black", 
-                confidenceAssessment.classification === 'HIGH_CONFIDENCE' ? 'text-emerald-600' :
-                confidenceAssessment.classification === 'LOW_CONFIDENCE' ? 'text-rose-600' : 'text-amber-500'
-              )}>
-                {confidenceAssessment.classification === 'HIGH_CONFIDENCE' ? 'Confiança Alta' :
-                 confidenceAssessment.classification === 'LOW_CONFIDENCE' ? 'Confiança Baixa' : 'Confiança Moderada'}
-              </h3>
-              <span className="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-xs font-bold">{confidenceAssessment.score}/100</span>
-            </div>
-            <p className="text-xs text-slate-600 mb-4">{confidenceAssessment.rationale}</p>
-          </div>
-        )}
-      </div>
-
-      {/* MANAGEMENT DISCUSSION & ANALYSIS */}
-      {managementDiscussion && (
+      {/* 6. SÍNTESE EXECUTIVA PARA TOMADA DE DECISÃO */}
+      {(dreExecutiveAdvisory || managementDiscussion) && (
         <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex flex-col mb-10">
           <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
             <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-white">
-              <Layers size={20} />
+              <Briefcase size={20} />
             </div>
             <div>
-              <h4 className="text-xl font-black text-slate-800">Management Discussion & Analysis</h4>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Síntese Executiva Corporativa</p>
+              <h4 className="text-xl font-black text-slate-800">Síntese Executiva para Tomada de Decisão</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Direcionamento Corporativo</p>
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {managementDiscussion.blocks.map((block: any, i: number) => (
-              <div key={i} className="flex flex-col gap-2">
-                <h5 className="text-xs font-black uppercase tracking-widest text-slate-800 border-l-2 border-indigo-500 pl-2">
-                  {block.title}
-                </h5>
-                <p className="text-[11px] font-medium leading-relaxed text-slate-600 whitespace-pre-line">
-                  {block.content}
-                </p>
-              </div>
-            ))}
-          </div>
+          {dreExecutiveAdvisory && (
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-8">
+              <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2 border-l-2 border-indigo-500 pl-2">Sumário de Conselho</h5>
+              <p className="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-line">{dreExecutiveAdvisory}</p>
+            </div>
+          )}
+
+          {managementDiscussion && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {managementDiscussion.blocks.map((block: any, i: number) => (
+                <div key={i} className="flex flex-col gap-2">
+                  <h5 className="text-xs font-black uppercase tracking-widest text-slate-800 border-l-2 border-slate-400 pl-2">
+                    {block.title}
+                  </h5>
+                  <p className="text-[11px] font-medium leading-relaxed text-slate-600 whitespace-pre-line">
+                    {block.content}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
-
-
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        {kpis.map((idx, i) => {
-          const isCurrency = idx.unit === 'currency';
-          const formattedValue = typeof idx.val === 'string'
-            ? idx.val
-            : isCurrency
-              ? formatValue(idx.val as number, 'currency')
-              : isFinite(idx.val as number)
-                ? (idx.val as number).toFixed(2)
-                : '0.0';
-          const displaySuffix = isCurrency ? '' : (idx.unit === '%' ? '%' : idx.unit === 'd' ? ' dias' : idx.unit === 'x' ? 'x' : '');
-          return (
-            <KpiCard
-              key={i}
-              title={idx.name}
-              value={formattedValue}
-              suffix={displaySuffix}
-              status={idx.status as any}
-              trend={idx.trend}
-              tooltip={idx.tooltip}
-            />
-          );
-        })}
-      </div>
-
-      <div className="grid grid-cols-1 gap-8 mb-10">
-        <div className="bg-gradient-to-br from-white to-slate-50 p-8 rounded-[40px] border border-slate-200/60 shadow-xl shadow-slate-200/40 flex flex-col">
-          <div className="flex items-center justify-between mb-8 shrink-0 flex-wrap gap-4">
-            <div>
-              <h3 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">{t('dre.evolution.title')}</h3>
-              <p className="text-[10px] text-slate-400/80 uppercase font-bold tracking-widest mt-1">Receita, EBITDA e Lucro</p>
+      {/* 7. CAMADA TÉCNICA (COLAPSADA) */}
+      <div className="mb-10">
+        <button 
+          onClick={() => setShowTechnicalLayer(!showTechnicalLayer)}
+          className="w-full bg-slate-100 hover:bg-slate-200 transition-colors border border-slate-200 rounded-2xl p-4 flex items-center justify-between group"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-slate-500 group-hover:text-slate-700 transition-colors">
+              <Database size={16} />
             </div>
-            <div className="flex gap-4">
-              <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>{t('dre.metrics.net_revenue')}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>{cmvLabel}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>{t('dre.metrics.ebitda')}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                <span className="text-[9px] font-bold uppercase" style={{ color: colors.mutedForeground }}>{t('dre.metrics.net_result')}</span>
-              </div>
+            <div className="text-left">
+              <h4 className="text-sm font-black text-slate-700">Camada Técnica & KPIs</h4>
+              <p className="text-[10px] font-bold uppercase text-slate-400 tracking-widest">Métricas Contábeis, Gráficos e Tabelas</p>
             </div>
           </div>
-          
-          <div className="flex-1 w-full min-h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
-                <XAxis 
-                  dataKey="year" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fontSize: 10, fontWeight: 700, fill: colors.mutedForeground }} 
-                  dy={10}
-                />
-                <YAxis hide />
-                <Tooltip 
-                  cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }}
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      return (
-                        <div className="bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-md">
-                          <p className="text-[10px] font-black uppercase tracking-widest mb-2 text-white/50">{payload[0].payload.year}</p>
-                          <div className="space-y-1.5">
-                            {payload.map((p: any, idx: number) => (
-                              <div key={idx} className="flex items-center justify-between gap-8">
-                                <span className="text-[10px] font-bold text-white/70 uppercase">{p.name}</span>
-                                <span className="text-xs font-black">{formatCurrency(p.value)}</span>
-                              </div>
-                            ))}
-                          </div>
+          <div className="text-slate-400 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+            {showTechnicalLayer ? 'Ocultar Detalhes' : 'Expandir Detalhes'}
+            <div className={cn("transform transition-transform", showTechnicalLayer ? "rotate-180" : "rotate-0")}>
+              ▼
+            </div>
+          </div>
+        </button>
+
+        {showTechnicalLayer && (
+          <div className="mt-8 space-y-10 animate-in fade-in slide-in-from-top-4 duration-300">
+            {/* KPIs */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {kpis.map((idx, i) => {
+                const isCurrency = idx.unit === 'currency';
+                const formattedValue = typeof idx.val === 'string'
+                  ? idx.val
+                  : isCurrency
+                    ? formatValue(idx.val as number, 'currency')
+                    : isFinite(idx.val as number)
+                      ? (idx.val as number).toFixed(2)
+                      : '0.0';
+                const displaySuffix = isCurrency ? '' : (idx.unit === '%' ? '%' : idx.unit === 'd' ? ' dias' : idx.unit === 'x' ? 'x' : '');
+                return (
+                  <KpiCard
+                    key={i}
+                    title={idx.name}
+                    value={formattedValue}
+                    suffix={displaySuffix}
+                    status={idx.status as any}
+                    trend={idx.trend}
+                    tooltip={idx.tooltip}
+                  />
+                );
+              })}
+            </div>
+
+            {/* SCALE EFFICIENCY E QUALIDADE */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {scaleEfficiency && (
+                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+                  <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                    <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600">
+                      <Scale size={20} />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-black text-slate-800">{t('dre.scale.subtitle')}</h4>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t('dre.scale.desc')}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col flex-1 justify-center">
+                    <div className="text-center mb-8">
+                        <span className={cn("inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-black uppercase tracking-wider",
+                          scaleEfficiency.colorClass?.replace('text-', 'bg-').replace('400', '50/50').replace('500', '50/50'),
+                          scaleEfficiency.colorClass?.replace('text-', 'border-').replace('400', '200').replace('500', '200'),
+                          scaleEfficiency.colorClass
+                        )}>
+                          <Zap size={16} />
+                          {scaleEfficiency.category}
+                        </span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Growth (Receita)</p>
+                          <p className={cn("text-3xl font-black", (scaleEfficiency.recGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                            {scaleEfficiency.recGrowth === null ? 'N/A' : `${scaleEfficiency.recGrowth > 0 ? '+' : ''}${scaleEfficiency.recGrowth.toFixed(2)}%`}
+                          </p>
                         </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                <Bar dataKey="receita" name="Receita Líquida" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="cmv" name={cmvLabel} fill="#f43f5e" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="ebitda" name="EBITDA" fill="#10b981" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="lucro" name="Resultado Líquido" fill="#a855f7" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+                        <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Profitability (EBITDA)</p>
+                          <p className={cn("text-3xl font-black", (scaleEfficiency.ebitdaGrowth || 0) >= 0 ? "text-emerald-600" : "text-rose-600")}>
+                            {scaleEfficiency.ebitdaGrowth === null ? 'N/A' : `${scaleEfficiency.ebitdaGrowth > 0 ? '+' : ''}${scaleEfficiency.ebitdaGrowth.toFixed(2)}%`}
+                          </p>
+                        </div>
+                    </div>
+                    
+                    <p className="text-sm font-medium text-slate-500 mt-8 text-center leading-relaxed">
+                      {scaleEfficiency.description}
+                    </p>
+                  </div>
+                </div>
+              )}
 
-        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col border border-slate-700/50">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-          <h3 className="text-xl font-black mb-1 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">{t('dre.highlights.title')}</h3>
-          <p className="text-[10px] text-blue-400/80 uppercase font-bold tracking-widest mb-8">{t('dre.highlights.subtitle')}</p>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
-            <div className="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-2 relative z-10 h-fit">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4">{t('dre.highlights.composition')}</p>
-              
-              <div className="flex justify-between items-center text-xs text-white/70 mb-2">
-                <span>Receita Operacional Bruta:</span>
-                <span className="font-bold">{formatCurrency(receitaBruta)}</span>
-              </div>
-              <div className="flex justify-between items-center text-xs text-white/70 mb-3">
-                <span>(-) Deduções da Receita:</span>
-                <span className="font-bold text-rose-300">{formatCurrency(deducoesReceita)}</span>
-              </div>
-              <div className="flex justify-between items-center text-sm text-white font-bold border-t border-white/10 pt-3 mt-2">
-                <span>(=) Receita Operacional Líquida:</span>
-                <span className="text-emerald-400">{formatCurrency(recLiquida)}</span>
-              </div>
-              
-              <p className="text-xs text-white/50 font-medium mt-6 italic leading-relaxed">
-                A empresa apresentou Receita Operacional Bruta de {formatCurrency(receitaBruta)}, com deduções operacionais e tributárias de {formatCurrency(deducoesReceita)}, equivalentes a {indiceDeducoes.toFixed(2)}% da receita bruta, resultando em Receita Operacional Líquida de {formatCurrency(recLiquida)}.
-              </p>
-            </div>
-            
-            <div className="p-6 bg-white/5 rounded-2xl border border-white/5 relative z-10 h-fit flex flex-col justify-between">
-              <div>
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4">Ponto de Equilíbrio & Cobertura</p>
+              {earningsQualityAssessment && (
+                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+                  <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Qualidade Contábil do Resultado</h4>
+                  <h3 className={cn("text-lg font-black mb-2", 
+                    earningsQualityAssessment.classification === 'HIGH_QUALITY_EARNINGS' ? 'text-emerald-600' :
+                    earningsQualityAssessment.classification === 'LOW_QUALITY_EARNINGS' ? 'text-rose-600' : 
+                    earningsQualityAssessment.classification === 'UNDETERMINED_EARNINGS_QUALITY' ? 'text-slate-400' : 'text-amber-500'
+                  )}>
+                    {earningsQualityAssessment.classification === 'HIGH_QUALITY_EARNINGS' ? 'Alta Qualidade (Operacional)' :
+                    earningsQualityAssessment.classification === 'LOW_QUALITY_EARNINGS' ? 'Baixa Qualidade (Extraordinário)' : 
+                    earningsQualityAssessment.classification === 'UNDETERMINED_EARNINGS_QUALITY' ? 'Qualidade Indeterminada' : 'Qualidade Média'}
+                  </h3>
+                  <p className="text-xs text-slate-600 mb-4">{earningsQualityAssessment.rationale}</p>
+                  {earningsQualityAssessment.classification !== 'UNDETERMINED_EARNINGS_QUALITY' && (
+                    <div className="mt-auto flex flex-col gap-2">
+                      <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden flex">
+                        <div className="h-full bg-emerald-500" style={{ width: `${earningsQualityAssessment.recurringRevenueWeight}%` }} />
+                        <div className="h-full bg-rose-400" style={{ width: `${earningsQualityAssessment.nonRecurringWeight}%` }} />
+                      </div>
+                      <div className="flex justify-between text-[9px] font-bold uppercase text-slate-400">
+                        <span>Operacional: {earningsQualityAssessment.recurringRevenueWeight.toFixed(0)}%</span>
+                        <span>Extraordinário: {earningsQualityAssessment.nonRecurringWeight.toFixed(0)}%</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>            {/* CHARTS E HIGHLIGHTS */}
+            <div className="grid grid-cols-1 gap-8">
+              <div className="bg-gradient-to-br from-white to-slate-50 p-8 rounded-[40px] border border-slate-200/60 shadow-xl shadow-slate-200/40 flex flex-col">
+                <div className="flex items-center justify-between mb-8 shrink-0 flex-wrap gap-4">
+                  <div>
+                    <h3 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">{t('dre.evolution.title')}</h3>
+                    <p className="text-[10px] text-slate-400/80 uppercase font-bold tracking-widest mt-1">Receita, EBITDA e Lucro</p>
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                      <span className="text-[9px] font-bold uppercase text-slate-500">{t('dre.metrics.net_revenue')}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+                      <span className="text-[9px] font-bold uppercase text-slate-500">{cmvLabel}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                      <span className="text-[9px] font-bold uppercase text-slate-500">{t('dre.metrics.ebitda')}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                      <span className="text-[9px] font-bold uppercase text-slate-500">{t('dre.metrics.net_result')}</span>
+                    </div>
+                  </div>
+                </div>
                 
-                <div className="flex justify-between items-center text-xs text-white/70 mb-2">
-                  <span>Receita Operacional Líquida:</span>
-                  <span className="font-bold">{formatCurrency(recLiquida)}</span>
-                </div>
-                <div className="flex justify-between items-center text-xs text-white/70 mb-3">
-                  <span>(-) {cmvLabel}:</span>
-                  <span className="font-bold text-rose-300">{formatCurrency(custosVar)}</span>
-                </div>
-                <div className="flex justify-between items-center text-sm text-white font-bold border-t border-white/10 pt-3 mt-2">
-                  <span>(=) Margem de Contribuição ({ (indiceMargemContrib * 100).toFixed(2) }%):</span>
-                  <span className="text-emerald-400">{formatCurrency(margemContrib)}</span>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-white/10 flex flex-col gap-2">
-                  <div className="flex justify-between items-center text-xs text-white/70">
-                    <span>Despesas Fixas:</span>
-                    <span className="font-bold text-rose-300">{formatCurrency(despesasFixas)}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs text-white font-bold bg-white/5 p-3 rounded-xl mt-2 border border-white/5">
-                    <span>Ponto de Equilíbrio (Absoluto):</span>
-                    <span className="text-blue-400">{dbData.length > 0 ? formatCurrency(pontoEquilibrio) : '---'}</span>
-                  </div>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-white/10 flex flex-col gap-3">
-                  <div className="flex justify-between items-center text-xs text-white/70">
-                    <span>Gap para Equilíbrio:</span>
-                    <span className="font-bold text-rose-300">{dbData.length > 0 ? formatCurrency(gapEquilibrio) : '---'}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs text-white/70">
-                    <span>Margem de Segurança:</span>
-                    <span className="font-bold text-emerald-400">{dbData.length > 0 ? formatCurrency(margemSegurancaValor) : '---'}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs text-white/70">
-                    <span>Índice de Cobertura Operacional:</span>
-                    <span className={cn("font-bold text-sm", indiceCoberturaOperacional >= 100 ? "text-emerald-400" : indiceCoberturaOperacional >= 85 ? "text-blue-400" : indiceCoberturaOperacional >= 60 ? "text-amber-400" : "text-rose-400")}>
-                      {dbData.length > 0 ? `${indiceCoberturaOperacional.toFixed(2)}%` : '---'}
-                    </span>
-                  </div>
+                <div className="flex-1 w-full min-h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={colors.border} />
+                      <XAxis 
+                        dataKey="year" 
+                        axisLine={false} 
+                        tickLine={false} 
+                        tick={{ fontSize: 10, fontWeight: 700, fill: colors.mutedForeground }} 
+                        dy={10}
+                      />
+                      <YAxis hide />
+                      <Tooltip 
+                        cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+                        content={({ active, payload }) => {
+                          if (active && payload && payload.length) {
+                            return (
+                              <div className="bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-md">
+                                <p className="text-[10px] font-black uppercase tracking-widest mb-2 text-white/50">{payload[0].payload.year}</p>
+                                <div className="space-y-1.5">
+                                  {payload.map((p: any, idx: number) => (
+                                    <div key={idx} className="flex items-center justify-between gap-8">
+                                      <span className="text-[10px] font-bold text-white/70 uppercase">{p.name}</span>
+                                      <span className="text-xs font-black">{formatCurrency(p.value)}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                      <Bar dataKey="receita" name="Receita Líquida" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="cmv" name={cmvLabel} fill="#f43f5e" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="ebitda" name="EBITDA" fill="#10b981" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="lucro" name="Resultado Líquido" fill="#a855f7" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </div>
 
-              <p className="text-xs text-white/60 font-medium mt-6 italic leading-relaxed whitespace-pre-line border-t border-white/10 pt-4">{dbData.length > 0 ? performanceNote : 'Aguardando dados estruturados para análise operacional.'}</p>
-            </div>
-          </div>
+              <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col border border-slate-700/50">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+                <h3 className="text-xl font-black mb-1 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">{t('dre.highlights.title')}</h3>
+                <p className="text-[10px] text-blue-400/80 uppercase font-bold tracking-widest mb-8">{t('dre.highlights.subtitle')}</p>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-2 relative z-10 h-fit">
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4">{t('dre.highlights.composition')}</p>
+                    
+                    <div className="flex justify-between items-center text-xs text-white/70 mb-2">
+                      <span>Receita Operacional Bruta:</span>
+                      <span className="font-bold">{formatCurrency(receitaBruta)}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs text-white/70 mb-3">
+                      <span>(-) Deduções da Receita:</span>
+                      <span className="font-bold text-rose-300">{formatCurrency(deducoesReceita)}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm text-white font-bold border-t border-white/10 pt-3 mt-2">
+                      <span>(=) Receita Operacional Líquida:</span>
+                      <span className="text-emerald-400">{formatCurrency(recLiquida)}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/5 relative z-10 h-fit flex flex-col justify-between">
+                    <div>
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4">Ponto de Equilíbrio & Cobertura</p>
+                      
+                      <div className="flex justify-between items-center text-xs text-white/70 mb-2">
+                        <span>Receita Operacional Líquida:</span>
+                        <span className="font-bold">{formatCurrency(recLiquida)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs text-white/70 mb-3">
+                        <span>(-) {cmvLabel}:</span>
+                        <span className="font-bold text-rose-300">{formatCurrency(custosVar)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm text-white font-bold border-t border-white/10 pt-3 mt-2">
+                        <span>(=) Margem de Contribuição ({ (indiceMargemContrib * 100).toFixed(2) }%):</span>
+                        <span className="text-emerald-400">{formatCurrency(margemContrib)}</span>
+                      </div>
 
-          <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-3">
-             <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
-                <Database size={18} className="text-white" />
-             </div>
-             <div>
-               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">{t('dre.data.intelligence')}</p>
-               <p className="text-[10px] font-medium text-white/70 italic">{t('dre.data.analysis')}</p>
-             </div>
-          </div>
-        </div>
-      </div>
+                      <div className="mt-6 pt-4 border-t border-white/10 flex flex-col gap-2">
+                        <div className="flex justify-between items-center text-xs text-white/70">
+                          <span>Despesas Fixas:</span>
+                          <span className="font-bold text-rose-300">{formatCurrency(despesasFixas)}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-xs text-white font-bold bg-white/5 p-3 rounded-xl mt-2 border border-white/5">
+                          <span>Ponto de Equilíbrio (Absoluto):</span>
+                          <span className="text-blue-400">{dbData.length > 0 ? formatCurrency(pontoEquilibrio) : '---'}</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-6 pt-4 border-t border-white/10 flex flex-col gap-3">
+                        <div className="flex justify-between items-center text-xs text-white/70">
+                          <span>Gap para Equilíbrio:</span>
+                          <span className="font-bold text-rose-300">{dbData.length > 0 ? formatCurrency(gapEquilibrio) : '---'}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-xs text-white/70">
+                          <span>Margem de Segurança:</span>
+                          <span className="font-bold text-emerald-400">{dbData.length > 0 ? formatCurrency(margemSegurancaValor) : '---'}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-xs text-white/70">
+                          <span>Índice de Cobertura Operacional:</span>
+                          <span className={cn("font-bold text-sm", indiceCoberturaOperacional >= 100 ? "text-emerald-400" : indiceCoberturaOperacional >= 85 ? "text-blue-400" : indiceCoberturaOperacional >= 60 ? "text-amber-400" : "text-rose-400")}>
+                            {dbData.length > 0 ? `${indiceCoberturaOperacional.toFixed(2)}%` : '---'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
 
       <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden mb-10">
         <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
@@ -1018,6 +1108,11 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           </p>
         </div>
       )}
+
+        </div>
+      )}
+      </div>
+
 
       <ExecutiveCommentary
         reportType="DRE"

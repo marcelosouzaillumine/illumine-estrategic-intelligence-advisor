@@ -26,7 +26,18 @@ import { EconomicValueIntelligenceEngine } from './governance/dre/EconomicValueI
 import { EarningsQualityEngine } from './governance/dre/EarningsQualityEngine';
 import { InstitutionalConfidenceEngine } from './confidence/InstitutionalConfidenceEngine';
 import { ManagementDiscussionAnalysisEngine } from './governance/dre/ManagementDiscussionAnalysisEngine';
+import { DREExecutiveInterpretationEngine } from './dre/DREExecutiveInterpretationEngine';
+import { EconomicValueNarrativeEngine } from './dre/EconomicValueNarrativeEngine';
+import { RevenueEconomicStructureEngine } from './dre/RevenueEconomicStructureEngine';
+import { EconomicBurnRateEngine } from './dre/EconomicBurnRateEngine';
+import { DREBoardDecisionSupportEngine } from './dre/DREBoardDecisionSupportEngine';
+import { DREBoardAdvisoryEngine } from './dre/DREBoardAdvisoryEngine';
+import { RecoverabilityAssessmentEngine } from './dre/RecoverabilityAssessmentEngine';
+import { BreakEvenAnalysisEngine } from './dre/BreakEvenAnalysisEngine';
+import { OperationalAbsorptionEngine } from './dre/OperationalAbsorptionEngine';
+import { EconomicDiagnosisEngine } from './dre/EconomicDiagnosisEngine';
 import { InstitutionalLineageTracer } from './lineage/InstitutionalLineageTracer';
+import { DREExecutiveDataMapper } from './dre/DREExecutiveDataMapper';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { calculateFinancialMetrics } from '../../lib/financial-engine';
 import { inferBusinessIdentity } from '../../lib/business-identity-engine';
@@ -68,6 +79,7 @@ import { InstitutionalResilienceEngine } from './institutional-resilience/Instit
 import { RecoveryRegressionGuardEngine } from './recovery-regression/RecoveryRegressionGuardEngine';
 import { InstitutionalPressureRuntime } from './operating-pressure/InstitutionalPressureRuntime';
 import { PressureAdapter } from './operating-pressure/pressure-adapter';
+import { ExecutiveTimelineEngine } from './executive-timeline/ExecutiveTimelineEngine';
 
 // Integrity Engines (RC-1.3A)
 import { EmptyCycleIntegrityEngine } from './integrity/EmptyCycleIntegrityEngine';
@@ -300,6 +312,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   institutionalOnboarding?: import('./institutional-onboarding/InstitutionalOnboardingTypes').InstitutionalOnboardingOutput;
   institutionalEvidence?: import('./evidence-ingestion/InstitutionalEvidenceTypes').InstitutionalEvidenceValidationOutput;
   inferences?: Record<string, { metrics: any; narrative?: any; confidence?: string; score?: number }>;
+  timeline?: import('./executive-timeline/executive-timeline-types').ExecutiveTimelineOutput;
 }
 
 export class ExecutiveIntelligenceRuntime implements
@@ -1206,17 +1219,59 @@ export class ExecutiveIntelligenceRuntime implements
         false, 
         internalAuditErrors.length > 0
       );
-
       const managementDiscussion = ManagementDiscussionAnalysisEngine.evaluate(
         recLiquida, lucroLiq, ebitda, pontoEquilibrio, despesasFixas, recGrowth, ebitdaGrowth, advisory.actionMatrix, hasBP ? ['DRE', 'BP'] : ['DRE']
       );
 
+      const executiveInterpretation = DREExecutiveInterpretationEngine.evaluate({
+        economicValueInput: { receitaLiquida: recLiquida, lucroBruto, ebitda, lucroLiquido: lucroLiq, despesasFixas },
+        recoverabilityInput: { receitaLiquida: recLiquida, lucroBruto, pontoEquilibrio, ebitda },
+        recGrowth
+      });
+
+      // --- DRE EXECUTIVE LAYER BINDING FIX ---
+      const normalizedDRE = DREExecutiveDataMapper.map({
+        netRevenue: recLiquida,
+        cogs: custosVar,
+        adminExpenses: despAdmin,
+        ebitda: ebitda,
+        netProfit: lucroLiq,
+        breakEvenRevenue: pontoEquilibrio,
+        grossProfit: lucroBruto
+      });
+
+      const revenueEconomicStructure = RevenueEconomicStructureEngine.evaluate(normalizedDRE);
+      const economicBurnRate = EconomicBurnRateEngine.evaluate(normalizedDRE);
+      const breakEvenAnalysis = BreakEvenAnalysisEngine.evaluate(normalizedDRE);
+      const operationalAbsorption = OperationalAbsorptionEngine.evaluate(normalizedDRE);
+
+      const economicDiagnosis = EconomicDiagnosisEngine.evaluate({
+        normalizedDRE,
+        revenueEconomicStructure,
+        economicBurnRate,
+        breakEvenAnalysis,
+        operationalAbsorption
+      });
+
+      const dreBoardAdvisory = DREBoardAdvisoryEngine.generateSynthesis(normalizedDRE, economicDiagnosis);
+
+      // Existing assignments to dreInsights for backward compatibility (but overridden by new ones)
       (dreInsights as any).qualityReport = qualityReport;
       (dreInsights as any).rootCauseReport = rootCauseReport;
       (dreInsights as any).economicValueAssessment = economicValueAssessment;
       (dreInsights as any).earningsQualityAssessment = earningsQualityAssessment;
       (dreInsights as any).confidenceAssessment = confidenceAssessment;
       (dreInsights as any).managementDiscussion = managementDiscussion;
+      (dreInsights as any).executiveInterpretation = executiveInterpretation;
+      
+      // New executive properties
+      (dreInsights as any).normalizedDRE = normalizedDRE;
+      (dreInsights as any).revenueEconomicStructure = revenueEconomicStructure;
+      (dreInsights as any).economicBurnRate = economicBurnRate;
+      (dreInsights as any).breakEvenAnalysis = breakEvenAnalysis;
+      (dreInsights as any).operationalAbsorption = operationalAbsorption;
+      (dreInsights as any).economicDiagnosis = economicDiagnosis;
+      (dreInsights as any).dreExecutiveAdvisory = dreBoardAdvisory;
 
       // KPIs
       const rawKpis = recLiquida > 0 ? [
@@ -1224,9 +1279,8 @@ export class ExecutiveIntelligenceRuntime implements
         { name: 'EBITDA',                val: ebitda,              unit: 'currency', status: ebitda >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: ebitda >= 0 ? 'Positivo' : 'Negativo', tooltip: 'Geração de caixa operacional antes de juros, IR, depreciação e amortização.' },
         { name: 'Lucro Líquido',         val: lucroLiq,            unit: 'currency', status: lucroLiq >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: lucroLiq >= 0 ? 'Lucrativo' : 'Prejuízo', tooltip: 'Resultado líquido após todos os custos, despesas e impostos.' },
         { name: 'Margem de Contribuição',val: margemContrib,       unit: 'currency', status: mbVal >= 40 ? 'Verde' as const : mbVal >= 25 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'MC / ROL', tooltip: 'Receita Líquida - Custos Variáveis. Indica a sobra para pagar custos fixos.' },
-        { name: 'Índice de Absorção',    val: capacidadeAbsorcaoEstrutura, unit: 'x', status: capacidadeAbsorcaoEstrutura >= 1.5 ? 'Verde' as const : capacidadeAbsorcaoEstrutura >= 1.0 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'Absorção', tooltip: 'Lucro Bruto / Despesas Operacionais.' },
         { name: 'Margem EBITDA',         val: ebitdaVal,           unit: '%',        status: ebitdaVal >= 15 ? 'Verde' as const : ebitdaVal >= 8 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'EBITDA / ROL', tooltip: 'Percentual da receita líquida convertido em EBITDA.' },
-        { name: 'Receita Nec. Sustentação',val: gapEquilibrio < 0 ? gapEquilibrio : 0, unit: 'currency', status: gapEquilibrio >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: 'Gap para Break-even', tooltip: 'Ponto de Equilíbrio - Receita Líquida.' },
+        { name: 'Receita Nec. Sustentação',val: breakEvenAnalysis.breakEvenGap, unit: 'currency', status: breakEvenAnalysis.breakEvenGap === 0 ? 'Verde' as const : 'Vermelho' as const, trend: 'Gap para Break-even', tooltip: 'Ponto de Equilíbrio - Receita Líquida.' },
         { name: 'Índice de Cobertura',   val: indiceCoberturaOperacional, unit: '%', status: indiceCoberturaOperacional >= 100 ? 'Verde' as const : indiceCoberturaOperacional >= 85 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'ROL / PE', tooltip: 'Quanto da receita atual cobre o ponto de equilíbrio.' }
       ] : [];
       const kpis = rawKpis.map(k => KPISemanticIntelligenceEngine.enrich(k, segment));
@@ -1432,12 +1486,91 @@ export class ExecutiveIntelligenceRuntime implements
     const receivables = bpSummary?.contasReceber || bpSummary?.clientes || 0;
     const inventory = bpSummary?.estoques || bpSummary?.estoque || 0;
     
-    // Sobrescrever se dfcDataForRuntime explícito foi fornecido
+    // Helper to get historical values safely in this scope
+    const getHistVal = (y: number, docTypes: string[], nameFilters: string[]) => {
+      const yearEntries = allHistData.filter((d: any) => 
+        Number(d.year) === y && docTypes.some(t => (d.type || d.docType || '').toLowerCase() === t.toLowerCase())
+      );
+      const normalizedFilters = nameFilters.map(n => n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+      const match = yearEntries.find((d: any) => {
+        const c = (d.conta || d.category || d.name || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        return normalizedFilters.some(n => c.includes(n) || n.includes(c));
+      });
+      return match?.val || match?.valor || match?.value || 0;
+    };
+
+    let resolvedEquityFunding = 0;
+    let resolvedThirdPartyFunding = 0;
+    let resolvedContasRelacionadas: number | null = null;
+
     if (dfcDataForRuntime && dfcDataForRuntime.length > 0) {
+      // 1. Extract from DFC
       fco = dfcDataForRuntime.filter((d: any) => d.category === 'Atividades Operacionais').reduce((acc: number, curr: any) => acc + curr.amount, 0);
       fci = dfcDataForRuntime.filter((d: any) => d.category === 'Atividades de Investimento').reduce((acc: number, curr: any) => acc + curr.amount, 0);
       fcf = dfcDataForRuntime.filter((d: any) => d.category === 'Atividades de Financiamento').reduce((acc: number, curr: any) => acc + curr.amount, 0);
+
+      resolvedEquityFunding = dfcDataForRuntime
+        .filter((d: any) => {
+          const cat = (d.category || d.conta || d.name || '').toLowerCase();
+          const name = (d.name || '').toLowerCase();
+          const isFin = d.category === 'Atividades de Financiamento' || d.type === 'DFC' || d.docType === 'DFC';
+          return isFin && (
+            cat.includes('aporte') || cat.includes('integraliz') || cat.includes('capital') || cat.includes('socio') || cat.includes('sócio') ||
+            name.includes('aporte') || name.includes('integraliz') || name.includes('capital') || name.includes('socio') || name.includes('sócio')
+          );
+        })
+        .reduce((acc: number, curr: any) => acc + Math.abs(curr.amount || curr.val || curr.valor || curr.value || 0), 0);
+
+      resolvedThirdPartyFunding = dfcDataForRuntime
+        .filter((d: any) => {
+          const cat = (d.category || d.conta || d.name || '').toLowerCase();
+          const name = (d.name || '').toLowerCase();
+          const isFin = d.category === 'Atividades de Financiamento' || d.type === 'DFC' || d.docType === 'DFC';
+          return isFin && (
+            cat.includes('emprestimo') || cat.includes('financiamento') || cat.includes('debenture') || cat.includes('banco') ||
+            name.includes('emprestimo') || name.includes('financiamento') || name.includes('debenture') || name.includes('banco')
+          ) && !(
+            cat.includes('socio') || cat.includes('sócio') || name.includes('socio') || name.includes('sócio')
+          );
+        })
+        .reduce((acc: number, curr: any) => acc + Math.abs(curr.amount || curr.val || curr.valor || curr.value || 0), 0);
+
+      const relEntries = dfcDataForRuntime.filter((d: any) => {
+        const cat = (d.category || d.conta || d.name || '').toLowerCase();
+        return cat.includes('socio') || cat.includes('sócio') || cat.includes('mutuo') || cat.includes('mútuo') || cat.includes('partes relacionadas');
+      });
+      if (relEntries.length > 0) {
+        resolvedContasRelacionadas = relEntries.reduce((acc: number, curr: any) => acc + (curr.amount || curr.val || curr.valor || curr.value || 0), 0);
+      }
     }
+
+    // 2. Fallbacks from BP / DRE
+    if (resolvedEquityFunding === 0) {
+      const currentCap = getHistVal(filtYear, ['bp', 'balanço patrimonial', 'balanco'], ['capital social', 'capital integralizado', 'capital subscrito']);
+      const prevCap = getHistVal(filtYear - 1, ['bp', 'balanço patrimonial', 'balanco'], ['capital social', 'capital integralizado', 'capital subscrito']);
+      const varCap = currentCap - prevCap;
+      if (varCap > 0) {
+        resolvedEquityFunding = varCap;
+      }
+    }
+
+    if (resolvedThirdPartyFunding === 0) {
+      const currentDebt = getHistVal(filtYear, ['bp', 'balanço patrimonial', 'balanco'], ['emprestimo', 'financiamento', 'debentures']);
+      const prevDebt = getHistVal(filtYear - 1, ['bp', 'balanço patrimonial', 'balanco'], ['emprestimo', 'financiamento', 'debentures']);
+      const varDebt = currentDebt - prevDebt;
+      if (varDebt > 0) {
+        resolvedThirdPartyFunding = varDebt;
+      }
+    }
+
+    if (resolvedContasRelacionadas === null) {
+      const currentRel = getHistVal(filtYear, ['bp', 'balanço patrimonial', 'balanco'], ['mutuo', 'socio', 'sócio', 'partes relacionadas']);
+      if (currentRel !== 0) {
+        resolvedContasRelacionadas = currentRel;
+      }
+    }
+
+    const netRevenue = metricsPayload?.financialMetrics?.recLiquida || 0;
 
     const cashSustainabilityReport = FiduciaryCashIntelligenceRuntime.evaluate(
       dfcDataForRuntime,
@@ -1448,18 +1581,21 @@ export class ExecutiveIntelligenceRuntime implements
       fco,
       fci,
       fcf,
-      0 || 0,
+      0 || 0, // workingCapitalVariation
       receivables,
       inventory,
-      bpSummary?.caixaEquivalentes || 0,
-      0 || 0,
-      0 || 0,
+      bpSummary?.caixaEquivalentes || 0, // availableCash
+      resolvedThirdPartyFunding,
+      resolvedEquityFunding,
       rawData.historicalCyclesCount || 1,
-      12,
+      12, // monthsCount
       bpSummary?.fornecedores || 0,
       bpSummary?.passivoCirculante || 0,
-      null,
-      bpSummary?.patrimonioLiquido || 0
+      resolvedContasRelacionadas,
+      bpSummary?.patrimonioLiquido || 0,
+      undefined,
+      undefined,
+      netRevenue
     );
 
     // Call LongitudinalCashIntelligenceEngine to get trajectoryClassification
@@ -1708,7 +1844,7 @@ export class ExecutiveIntelligenceRuntime implements
       }
 
       if (treasuryIntelligenceReport.severity !== 'STABLE') {
-        advisory.executiveSummary = `[SOVEREIGN TREASURY NOTICE: ${sanitizeNarrative(treasuryIntelligenceReport.governanceVerdict)}] ${advisory.executiveSummary}`;
+        advisory.executiveSummary = `${sanitizeNarrative(treasuryIntelligenceReport.governanceVerdict)} ${advisory.executiveSummary}`;
       }
     }
 
@@ -2398,6 +2534,8 @@ export class ExecutiveIntelligenceRuntime implements
       semanticLineagePayload,
       semanticScope: 'EXECUTIVE'
     });
+
+    report.timeline = ExecutiveTimelineEngine.generate(rawData, report);
 
     return report;
   }

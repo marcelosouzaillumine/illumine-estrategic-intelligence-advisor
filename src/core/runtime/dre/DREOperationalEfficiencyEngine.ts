@@ -5,7 +5,7 @@ export interface OperationalEfficiencyMetrics {
 }
 
 export interface EfficiencyInsight {
-  status: 'CRITICAL' | 'WARNING' | 'HEALTHY' | 'NOT_AVAILABLE';
+  status: 'CRITICAL' | 'WARNING' | 'HEALTHY' | 'INSUFFICIENT_DATA';
   narrative: string;
 }
 
