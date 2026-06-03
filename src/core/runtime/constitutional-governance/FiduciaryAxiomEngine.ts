@@ -131,6 +131,13 @@ export class FiduciaryAxiomEngine {
       report.compliance?.runtimeMode === 'FAIL_CLOSED';
 
     if (isConfidenceLow && !isFailClosedActive) {
+      console.log('FAIL-CLOSED DOCTRINE TRIGGERED:', {
+        complianceConf: report.compliance?.confidenceLevel,
+        resilienceConf: report.resilienceReport?.confidenceLevel,
+        failClosedTriggered: report.failClosedTriggered,
+        deploymentBlocked: report.deploymentReadiness?.deploymentBlocked,
+        runtimeMode: report.compliance?.runtimeMode
+      });
       violations.push('VIOLAÇÃO DE AXIOMA [fail-closed doctrine]: Confiança fiduciária baixa sem ativação do travamento fail-closed.');
     }
 
@@ -145,12 +152,15 @@ export class FiduciaryAxiomEngine {
 
     // 3. Survivability Supremacy check
     if (report.survivalReport?.activeSurvivalMode === 'SURVIVAL_MODE') {
-      const blocked = report.survivalReport.blockedActions || [];
+      const blocked = report.survivalReport.forbiddenInstitutionalPriorities || report.survivalReport.blockedActions || [];
       if (blocked.length === 0) {
         violations.push('VIOLAÇÃO DE AXIOMA [survivability supremacy]: Modo sobrevivência ativado sem imposição de restrições fiduciárias.');
       }
     }
 
+    if (violations.length > 0) {
+      console.log('AXIOM VIOLATIONS:', violations);
+    }
     return {
       isViolated: violations.length > 0,
       violations

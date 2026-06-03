@@ -1,8 +1,10 @@
 import React from 'react';
 import { useExecutiveInteraction } from '../../context/executive-interaction/ExecutiveInteractionProvider';
 import { Database, CheckCircle2, AlertOctagon, HelpCircle } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const GovernanceDataDependencyPanel: React.FC = () => {
+  const { t } = useLanguage();
   const { dependencies } = useExecutiveInteraction();
 
   if (!dependencies || dependencies.length === 0) {
@@ -36,13 +38,13 @@ export const GovernanceDataDependencyPanel: React.FC = () => {
                   </span>
                 </div>
                 {dep.lineageHash && (
-                  <p className="text-[10px] font-mono text-slate-500">Lineage Hash: {dep.lineageHash}</p>
+                  <p className="text-[10px] font-mono text-slate-500">{t("overlays.lineage_hash")} {dep.lineageHash}</p>
                 )}
               </div>
 
               <div className="flex items-center gap-3">
                 {dep.updatedAt && (
-                  <span className="text-[10px] text-slate-500 font-mono">Sync: {dep.updatedAt}</span>
+                  <span className="text-[10px] text-slate-500 font-mono">{t("overlays.sync")} {dep.updatedAt}</span>
                 )}
                 {isAvailable ? (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">

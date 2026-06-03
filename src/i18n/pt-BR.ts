@@ -31,8 +31,15 @@ const translations = {
   'navigation.page.institutional_structure_center': 'Institutional Structure Center',
   'navigation.page.board_deck_center': 'Board Deck Center',
   'navigation.page.fiduciary_validation_center': 'Fiduciary Validation Center',
+  'navigation.page.economic_normalization_center': 'Centro de Normalização Econômica',
+  'navigation.page.capital_governance_center': 'Centro de Governança de Capital (CGE)',
+  'navigation.page.financial_lineage_center': 'Linhagem Fiduciária (FLIF)',
+  'navigation.page.credit_committee_center': 'Simulador de Comitê de Crédito',
+  'navigation.page.institutional_memory_center': 'Centro de Memória Institucional',
   'navigation.page.risk_exposure_center': 'Risk Exposure Center',
   'navigation.page.decision_lifecycle_center': 'Decision Lifecycle Center',
+  'navigation.page.sovereign_decision_center': 'Centro de Decisão Soberana',
+  'navigation.page.executive_execution_center': 'Centro de Execução Executiva',
   'navigation.page.compliance_integrity_center': 'Integridade & Compliance',
   'navigation.page.crisis_response_center': 'Crisis Response Center',
   'navigation.page.runtime_observability_center': 'Runtime Observability Center',
@@ -569,6 +576,38 @@ const translations = {
   'modal.unavailable_subtitle': 'Fail-Closed Enforcement Active',
   'modal.code': 'Code:',
   'modal.contact_admin': 'Fale com o Master Admin'
+,
+
+  // Part 4: Overlays
+  'overlay.vector_title': 'Vetor Institucional',
+  'overlay.primary_direction': 'Direção Primária',
+  'overlay.persistence': 'Persistência',
+  'overlay.stability': 'Estabilidade',
+  'overlay.heatmap_title': 'Matriz de Convergência Direcional',
+  'overlay.posture_expansion': 'EXPANSÃO',
+  'overlay.posture_preservation': 'PRESERVAÇÃO',
+  'overlay.posture_stabilization': 'ESTABILIZAÇÃO',
+  'overlay.posture_restriction': 'RESTRIÇÃO',
+  'overlay.posture_continuity': 'CONTINUIDADE',
+
+  // Early Stage Semantic Governance Framework
+  'earlyStage.phase': 'Fase Inicial de Capitalização',
+  'earlyStage.cqsRisk': 'Estrutura de Caixa Dependente de Capitalização Inicial',
+  'earlyStage.eqsRisk': 'Risco de Resultado em Fase Inicial de Capitalização',
+
+  // ELSA Lifecycle Stage translations
+  'lifecycle.stage.initial_capitalization': 'Fase Inicial de Capitalização',
+  'lifecycle.stage.early_growth': 'Crescimento Inicial',
+  'lifecycle.stage.unknown_lifecycle': 'Ciclo de Vida Indeterminado',
+  'semantic.label.governance.structuring': 'Governança em Estruturação',
+  'semantic.label.capital.formation': 'Estrutura de Capital em Formação',
+  'semantic.label.cash.dependent': 'Estrutura de Caixa Dependente de Capitalização Inicial',
+  'semantic.label.earnings.costing': 'Fase de Custeio Operacional Inicial',
+  'semantic.label.capital.consolidation': 'Capitalização em Consolidação',
+  'semantic.label.patrimonial.formation': 'Estrutura Patrimonial em Formação',
+  'semantic.label.source.elsa': 'Fonte Semântica: ELSA'
 };
+
+
 
 export default translations;

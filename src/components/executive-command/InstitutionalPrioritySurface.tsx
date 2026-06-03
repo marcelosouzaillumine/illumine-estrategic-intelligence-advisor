@@ -1,7 +1,7 @@
 import React from 'react';
 import { Target, Flag, Layers } from 'lucide-react';
 import { StrategicOrchestration, ExecutiveCommandThesis } from '../../core/runtime/executive-command/executive-command-types';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface InstitutionalPrioritySurfaceProps {
   orchestration: StrategicOrchestration;

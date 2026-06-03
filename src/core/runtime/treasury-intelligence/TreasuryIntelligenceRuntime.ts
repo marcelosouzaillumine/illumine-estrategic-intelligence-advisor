@@ -158,6 +158,18 @@ export class TreasuryIntelligenceRuntime {
       payables,
       shortTermDebt
     });
+
+    if (fco > 0 && fcf === 0) { // basic heuristic for Cenário A
+      console.log('TREASURY DEBUG', {
+        resilienceDays: resilience.reserveSustainabilityDays,
+        stressSeverity: stressSimulations.stressSeverity,
+        availableCash,
+        normalizedMonthlyCashBurn,
+        shortTermDebt,
+        payables,
+        receivables
+      });
+    }
     auditTrail.push(`Treasury stress simulated. simulatedExhaustionProjected: ${stressSimulations.simulatedExhaustionProjected}`);
 
     // 7. Evaluate Capital Preservation Engine

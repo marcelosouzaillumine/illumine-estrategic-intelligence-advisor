@@ -1,5 +1,6 @@
 import React from 'react';
 import { History, ShieldCheck, Database, FileText } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface RuntimeLineageViewerProps {
   lineageHash?: string;
@@ -16,6 +17,7 @@ export const RuntimeLineageViewer: React.FC<RuntimeLineageViewerProps> = ({
     { action: 'Homologação e Congelamento de Causalidade', timestamp: '26/05/2026 15:48', hash: 'SHA256-ee882d' }
   ]
 }) => {
+  const { translateLabel: t } = useLanguage();
   return (
     <div className="card-premium p-8 space-y-6">
       <div className="flex justify-between items-start">
@@ -35,8 +37,8 @@ export const RuntimeLineageViewer: React.FC<RuntimeLineageViewerProps> = ({
 
       <div className="p-4 bg-slate-950/40 border border-border/10 rounded-xl space-y-2">
         <div className="flex justify-between items-center text-xs font-mono text-slate-400">
-          <span>Origem: {sourceDataset}</span>
-          <span>Hash Raiz: {lineageHash.substring(0, 16)}...</span>
+          <span>{t("overlays.origin")} {sourceDataset}</span>
+          <span>{t("overlays.root_hash")} {lineageHash.substring(0, 16)}...</span>
         </div>
       </div>
 
@@ -51,7 +53,7 @@ export const RuntimeLineageViewer: React.FC<RuntimeLineageViewerProps> = ({
                   <p className="text-xs font-bold text-slate-200 uppercase tracking-wider">{item.action}</p>
                   <span className="text-[10px] text-slate-500 font-mono">{item.timestamp}</span>
                 </div>
-                <p className="text-[10px] font-mono text-slate-500">Node Hash: {item.hash}</p>
+                <p className="text-[10px] font-mono text-slate-500">{t("overlays.node_hash")} {item.hash}</p>
               </div>
             </div>
           ))}

@@ -2,7 +2,7 @@ import React from 'react';
 import { useInstitutionalMemory } from '../../context/institutional-memory/InstitutionalMemoryProvider';
 import { ShieldAlert, Compass } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function InstitutionalPatternMap() {
   const { recurrenceSignals, lineageIntegrity } = useInstitutionalMemory();

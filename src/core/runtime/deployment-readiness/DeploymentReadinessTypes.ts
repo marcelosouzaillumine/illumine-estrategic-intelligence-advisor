@@ -34,7 +34,7 @@ export interface InstitutionalReadinessMatrix {
 export interface DeploymentReadinessInput {
   executiveReport: ExecutiveIntelligenceReport;
   environmentConfiguration: {
-    environmentType: 'PRODUCTION' | 'PILOT' | 'DEVELOPMENT';
+    environmentType: DeploymentEnvironment;
     mockFactoriesEnabled: boolean;
     debugModeEnabled: boolean;
     tenantIsolationEnabled: boolean;

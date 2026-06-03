@@ -1,3 +1,10 @@
+import { BalanceSheetFinancialMetricsEngine } from "./governance/bp/BalanceSheetFinancialMetricsEngine";
+import { PatrimonialScoreExplainabilityEngine } from "./governance/bp/PatrimonialScoreExplainabilityEngine";
+import { InstitutionalPatrimonialClassificationEngine } from "./governance/bp/InstitutionalPatrimonialClassificationEngine";
+import { PatrimonialExecutiveInterpretationEngine } from "./governance/bp/PatrimonialExecutiveInterpretationEngine";
+import { PatrimonialTrendEngine } from "./governance/bp/PatrimonialTrendEngine";
+import { PatrimonialGovernanceConsistencyEngine } from "./governance/bp/PatrimonialGovernanceConsistencyEngine";
+import { PatrimonialClassificationCeilingEngine } from "./governance/bp/PatrimonialClassificationCeilingEngine";
 import { getSectorProfile } from '../intelligence/sector-behavior-profiles';
 import { translateCapitalStructure } from './adapters/capital-structure-adapter';
 import { translateCausalityInterpretation } from './adapters/causality-interpretation-adapter';
@@ -5,6 +12,13 @@ import { translateSeverityModulation } from './adapters/severity-modulator-adapt
 import { buildBPHierarchy } from '../../lib/bpEngine';
 import { calculateDreCascade } from '../../lib/dreCascade';
 import { generateDreInsights, DreMetrics } from '../../lib/dreInsights';
+import { ExecutiveEconomicQualityEngine } from './governance/dre/ExecutiveEconomicQualityEngine';
+import { EBITDARootCauseEngine } from './governance/dre/EBITDARootCauseEngine';
+import { EconomicValueIntelligenceEngine } from './governance/dre/EconomicValueIntelligenceEngine';
+import { EarningsQualityEngine } from './governance/dre/EarningsQualityEngine';
+import { InstitutionalConfidenceEngine } from './confidence/InstitutionalConfidenceEngine';
+import { ManagementDiscussionAnalysisEngine } from './governance/dre/ManagementDiscussionAnalysisEngine';
+import { InstitutionalLineageTracer } from './lineage/InstitutionalLineageTracer';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { calculateFinancialMetrics } from '../../lib/financial-engine';
 import { inferBusinessIdentity } from '../../lib/business-identity-engine';
@@ -15,6 +29,7 @@ import { RuntimeExecutionTrace } from './observability/observability-types';
 import { RuntimeTraceEngine } from './observability/RuntimeTraceEngine';
 import { InstitutionalContextEngine } from './institutional-context/InstitutionalContextEngine';
 import { InstitutionalContextProfile } from './institutional-context/types';
+import { InventoryDependencyEngine } from './governance/bp/InventoryDependencyEngine';
 import { CalibrationEngine } from './calibration/CalibrationEngine';
 import { SegmentCode } from './segment-intelligence/types';
 import { SegmentRiskProfileEngine } from './segment-intelligence/SegmentRiskProfileEngine';
@@ -63,6 +78,7 @@ import { InstitutionalOperationalGovernanceRuntime } from './operational-governa
 import { InstitutionalStrategicIntelligenceRuntime } from './strategic-intelligence/InstitutionalStrategicIntelligenceRuntime';
 import { InstitutionalBoardPackRuntime } from './institutional-reporting/InstitutionalBoardPackRuntime';
 import { InstitutionalDeploymentReadinessEngine } from './deployment-readiness/InstitutionalDeploymentReadinessEngine';
+import { DeploymentEnvironment } from './deployment-readiness/DeploymentReadinessTypes';
 import { InstitutionalOnboardingOrchestrator } from './institutional-onboarding/InstitutionalOnboardingOrchestrator';
 import { InstitutionalOnboardingMockFactory } from '../../testing/fixtures/institutional-onboarding/InstitutionalOnboardingMockFactory';
 import { InstitutionalEvidenceOrchestrator } from './evidence-ingestion/InstitutionalEvidenceOrchestrator';
@@ -77,6 +93,7 @@ const constRuntime = new ExecutiveConstitutionalRuntime();
 
 // EFOS Engines & Adapters (RC-1.4)
 import { CashFlowAdapter } from './cashflow/cashflow-adapter';
+import { LongitudinalCashIntelligenceEngine } from './cash-intelligence/LongitudinalCashIntelligenceEngine';
 import { GlobalFiduciaryDistributionEnforcementEngine } from './governance/fiduciary-enforcement/GlobalFiduciaryDistributionEnforcementEngine';
 import { ConsolidatedCashFlowReport } from './cashflow/cashflow-types';
 import { CapitalGovernanceAdapter } from './capital-governance/capital-governance-adapter';
@@ -84,8 +101,12 @@ import { ConsolidatedCapitalGovernanceReport } from './capital-governance/capita
 import { FinancialRuntimeContextAdapter } from './financial-context/FinancialRuntimeContextAdapter';
 import { InstitutionalBusinessProfile } from './institutional-identity/InstitutionalBusinessProfile';
 import { InstitutionalFinancialThesisEngine } from './InstitutionalFinancialThesisEngine';
-import { InstitutionalPrudencyLayer } from './prudency/InstitutionalPrudencyLayer';
 import { CrossStatementCausalityEngine, CrossStatementCausalityReport } from './CrossStatementCausalityEngine';
+import { SemanticComplianceAuditRuntime } from './constitutional-governance/SemanticComplianceAuditRuntime';
+import { ConstitutionalGovernanceRuntime } from './constitutional-governance/ConstitutionalGovernanceRuntime';
+import { ConstitutionalDecisionRuntime } from './decision-intelligence/ConstitutionalDecisionRuntime';
+import { ScenarioImpactRuntime } from './scenario-intelligence/ScenarioImpactRuntime';
+import { InstitutionalPrudencyLayer } from './prudency/InstitutionalPrudencyLayer';
 import { ExecutiveNarrativeOrchestrator, OrchestratedNarrative } from './ExecutiveNarrativeOrchestrator';
 import { ExecutiveNarrativeHarmonizer } from './narrative/ExecutiveNarrativeHarmonizer';
 import { ExecutivePriorityConsolidationEngine } from './ExecutivePriorityConsolidationEngine';
@@ -168,6 +189,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
     executiveSummary: string;
     actionMatrix: any[];
     priorityFocus: string;
+    fiduciaryEnforcement?: any;
   };
   decomposition: {
     label: string;
@@ -221,6 +243,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
     causalDepth: 'SHALLOW' | 'MODERATE' | 'DEEP';
     narrativeRestrictions: string[];
     auditFlags: string[];
+    fiduciaryEnforcement?: any;
   };
   temporalCausality?: TemporalCausalityOutput;
   // Scenario Simulation
@@ -228,6 +251,11 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   
   // Observability (Phase 4)
   runtimeMetadata?: RuntimeExecutionTrace;
+  semanticCompliance?: import('./constitutional-governance/SemanticComplianceAuditRuntime').SemanticComplianceReport;
+  constitutionalCompliance?: import('./constitutional-governance/ConstitutionalComplianceReport').ConstitutionalComplianceReport;
+  decisionIntelligence?: import('./decision-intelligence/ExecutiveDecisionReport').ExecutiveDecisionReport | { status: 'CDIL_BLOCKED_BY_CGL' };
+  scenarioIntelligence?: import('./scenario-intelligence/InstitutionalScenarioReport').InstitutionalScenarioReport[];
+  constitutionalEvaluation?: import("./constitutional-governance/constitutional-types").ConstitutionalGovernanceMetadata;
   institutionalMemory?: InstitutionalMemoryProfile;
   institutionalCausality?: InstitutionalCausalityProfile;
   structuralCapital?: StructuralCapitalProfile;
@@ -241,6 +269,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   survivalReport?: InstitutionalSurvivalOutput;
   recoveryReport?: InstitutionalRecoveryOutput;
   patrimonialIntelligenceReport?: any;
+  patrimonialStructuralRestrictions?: import('./governance/bp/PatrimonialClassificationCeilingEngine').PatrimonialClassificationCeilingOutput;
   operatingPressureReport?: import('./operating-pressure/operating-pressure-types').InstitutionalPressureRuntimeOutput;
   financialThesis?: {
     thesis: string;
@@ -262,6 +291,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   deploymentReadiness?: import('./deployment-readiness/DeploymentReadinessTypes').InstitutionalDeploymentReadinessOutput;
   institutionalOnboarding?: import('./institutional-onboarding/InstitutionalOnboardingTypes').InstitutionalOnboardingOutput;
   institutionalEvidence?: import('./evidence-ingestion/InstitutionalEvidenceTypes').InstitutionalEvidenceValidationOutput;
+  inferences?: Record<string, { metrics: any; narrative?: any; confidence?: string; score?: number }>;
 }
 
 export class ExecutiveIntelligenceRuntime implements
@@ -304,6 +334,20 @@ export class ExecutiveIntelligenceRuntime implements
     // Validação de "Não-Bypass": Sem dados brutos válidos, aborta a execução
     if (!rawData || typeof rawData !== 'object' || (!rawData.bpData && !rawData.rawFinancialData)) {
       throw new Error('VIOLAÇÃO DE GOVERNAÇA NÚCLEO: Impossível gerar relatório de inteligência executiva sem dados de entrada válidos.');
+    }
+
+    // FYSIF v1.0 (Fiscal Year Scope Isolation Framework)
+    // Prevent future year data from bleeding into analysis of past years
+    const filterYear = Number(rawData.rawFinancialData?.filterYear);
+    if (!isNaN(filterYear) && rawData.rawFinancialData?.allHistoryData) {
+       const allData = rawData.rawFinancialData.allHistoryData;
+       rawData.rawFinancialData.currentYearData = allData.filter((item: any) => Number(item.year) === filterYear);
+       // historicalData strictly blocks anything from year > filterYear
+       rawData.rawFinancialData.allHistoryData = allData.filter((item: any) => Number(item.year) <= filterYear);
+       
+       if (rawData.historicalSeries) {
+         rawData.historicalSeries = rawData.historicalSeries.filter((item: any) => Number(item.year) <= filterYear);
+       }
     }
 
     const traceEngine = new RuntimeTraceEngine('SINGLE_ENTITY');
@@ -458,6 +502,9 @@ export class ExecutiveIntelligenceRuntime implements
       throw new Error('VIOLAÇÃO DE GOVERNAÇA NÚCLEO: Impossível gerar relatório de inteligência executiva sem um InstitutionalContextProfile válido.');
     }
 
+    let bpSummary: any = rawData.rawFinancialData?.bpSummary || rawData.bpSummary || {};
+    console.log('BP SUMMARY DEBUG:', bpSummary);
+
     // Contextualização (Segment Intelligence Matrix integrada ao Perfil Institucional)
     const segment = rawData.rawFinancialData?.segmentoEmpresa || 'Default';
     const sectorProfile = getSectorProfile(segment);
@@ -471,7 +518,6 @@ export class ExecutiveIntelligenceRuntime implements
     };
 
     // 2. Data Initialization for Core Engines
-    let bpSummary: any = undefined;
     if (rawData.bpData && Array.isArray(rawData.bpData) && rawData.bpData.length > 0) {
       // Raw entries array: build hierarchy first
       const hierarchy = buildBPHierarchy(rawData.bpData);
@@ -498,10 +544,10 @@ export class ExecutiveIntelligenceRuntime implements
       ? rawData.rawFinancialData.lucroLiquido
       : (hasDRE ? (rawData.dreData.find((r: any) => r.category === 'LUCRO LÍQUIDO DO EXERCÍCIO' || r.id === 'LUCRO_LIQ')?.value || 0) : 0);
 
-    const metrics = calculateFinancialMetrics(bpSummary as unknown, dreEbitda, dreLucro, segment);
+    const metrics = calculateFinancialMetrics(bpSummary, dreEbitda, dreLucro, segment);
     const anosHistorico = rawData.historicalCyclesCount || 0;
-    const identity = inferBusinessIdentity(segment, anosHistorico, bpSummary as unknown, undefined, undefined);
-    const masterCausality = hasBP ? evaluateMasterCausality(bpSummary as unknown, metrics, identity) : undefined;
+    const identity = inferBusinessIdentity(segment, anosHistorico, bpSummary, undefined, undefined);
+    const masterCausality = hasBP ? evaluateMasterCausality(bpSummary, metrics, identity) : undefined;
     const temporalCausality = masterCausality?.temporalIntelligence;
 
     // ── Score Engine: Cálculo Real a partir dos dados do BP ─────────────────
@@ -590,10 +636,16 @@ export class ExecutiveIntelligenceRuntime implements
       const cycles = rawData.historicalCyclesCount || 1;
       const guard = LongitudinalIntelligenceGuard.evaluate(cycles);
       
-      let finalWeights = baseWeights;
+      let finalWeights: any = baseWeights;
       if (guard.evolutionScoreHidden) {
-        finalWeights = LongitudinalIntelligenceGuard.recalibrateWeights(baseWeights) as unknown;
-        finalWeights.evolution = 0;
+        const recalibrated = LongitudinalIntelligenceGuard.recalibrateWeights(baseWeights as unknown as Record<string, number>);
+        finalWeights = {
+          liquidez: recalibrated.liquidez || 0,
+          estrutura: recalibrated.estrutura || 0,
+          giro: recalibrated.giro || 0,
+          solidez: recalibrated.solidez || 0,
+          evolution: 0
+        };
         scoreEvolucao = 0; // Nullify evolution impact
       }
 
@@ -731,13 +783,29 @@ export class ExecutiveIntelligenceRuntime implements
       focusAreas.push('Preservação máxima de liquidez e suspensão preventiva de novos Capex operacionais.');
     }
 
-    if (verbosity === 'low' && focusAreas.length > 2) {
-      focusAreas = focusAreas.slice(0, 2);
+    const categorizeAction = (actionText: string): string => {
+      const lower = actionText.toLowerCase();
+      if (lower.includes('caixa') || lower.includes('liquidez') || lower.includes('sobrevivência') || lower.includes('colapso') || lower.includes('corte')) return 'SURVIVAL';
+      if (lower.includes('ponto de equilíbrio') || lower.includes('break-even') || lower.includes('estabilidade') || lower.includes('dívida') || lower.includes('renegocia')) return 'STABILIZATION';
+      if (lower.includes('otimiza') || lower.includes('eficiência') || lower.includes('produtividade') || lower.includes('margem')) return 'OPTIMIZATION';
+      return 'GROWTH';
+    };
+
+    if (focusAreas.length > 5) {
+      focusAreas = focusAreas.slice(0, 5);
     }
 
+    const lineageSummary = InstitutionalLineageTracer.traceAssertion(
+      sanitizeNarrative(execSummary),
+      hasBP ? ['DRE', 'BP'] : ['DRE']
+    );
+
     let advisory = {
-      executiveSummary: sanitizeNarrative(execSummary),
-      actionMatrix: focusAreas.map(sanitizeNarrative),
+      executiveSummary: `${lineageSummary.text}\n\n${lineageSummary.lineage}`,
+      actionMatrix: focusAreas.map(a => {
+        const sanitized = sanitizeNarrative(a);
+        return `[${categorizeAction(sanitized)}] ${sanitized}`;
+      }),
       priorityFocus: sanitizeNarrative(focusAreas[0] || 'Foco em posicionamento inicial')
     };
 
@@ -859,6 +927,19 @@ export class ExecutiveIntelligenceRuntime implements
 
     // ── DRE Real Metrics Engine ────────────────────────────────────────────────
     // When dreData is present, compute ALL real financial metrics via the cascade engine.
+    const normStr = (s: string) => 
+      (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/^[0-9.]+\s*[-]\s*/, '').replace(/^[()=/\-+.\s]+|[()=/\-+.\s]+$/g, '').trim();
+
+    const filtYear = Number(rawData.rawFinancialData?.filterYear || new Date().getFullYear());
+    const allHistData = rawData.rawFinancialData?.allHistoryData || [];
+
+    const isOfficialDfcAvailable = allHistData.some((d: any) => {
+      const t = normStr(d.type || '');
+      const dt = normStr(d.docType || '');
+      const isDfc = t === 'dfc' || dt === 'dfc' || dt === 'dfc contabil' || t === 'dfc contabil' || t === 'demonstracao dos fluxos de caixa' || dt === 'demonstracao dos fluxos de caixa';
+      return Number(d.year) === filtYear && isDfc;
+    });
+
     const buildDreMetricsPayload = () => {
       if (!hasDRE || !rawData.dreData || rawData.dreData.length === 0) {
         return {
@@ -1076,23 +1157,67 @@ export class ExecutiveIntelligenceRuntime implements
         }
       }
 
+      const receitaPorOpex = despesasFixas > 0 ? recLiquida / despesasFixas : 0;
+
       const dreMetrics: DreMetrics = {
         recLiquida, lucroBruto, pontoEquilibrio, gapEquilibrio, indiceCoberturaOperacional,
         margemSegurancaValor, cmvVal, cmvCritical, cmvLabel, capacidadeAbsorcaoEstrutura,
         margemOperacional, margemLiquida, indiceDespesasAdministrativas, indiceDespesasFinanceiras,
-        breakEvenDays, indiceConversaoOperacional, ebitda, recGrowth, ebitdaGrowth, internalAuditErrors
+        breakEvenDays, indiceConversaoOperacional, ebitda, recGrowth, ebitdaGrowth, internalAuditErrors,
+        margemContrib, receitaPorOpex
       };
       const dreInsights = generateDreInsights(dreMetrics);
+
+      // Run new Engines (Governance / Economic Intelligence)
+      const qualityReport = ExecutiveEconomicQualityEngine.evaluate(
+        recLiquida, lucroBruto, ebitda, lucroLiq, pontoEquilibrio, despesasFixas, rawData.historicalCyclesCount || 1
+      );
+      
+      const rootCauseReport = EBITDARootCauseEngine.evaluate(
+        recLiquida, lucroBruto, ebitda, despesasFixas, pontoEquilibrio
+      );
+
+      const economicValueAssessment = EconomicValueIntelligenceEngine.evaluate(
+        recLiquida, lucroLiq, ebitda, pontoEquilibrio
+      );
+
+      const earningsQualityAssessment = EarningsQualityEngine.evaluate(
+        recLiquida, 
+        getV('OUTRAS_REC_DESP'), 
+        despFin, 
+        lucroLiq, 
+        lucroBruto, 
+        false // We could pass isChartOfAccountsSimplified here, assuming false for now unless we have that info
+      );
+
+      const confidenceAssessment = InstitutionalConfidenceEngine.evaluate(
+        hasBP, 
+        isOfficialDfcAvailable, 
+        rawData.historicalCyclesCount || 1, 
+        false, 
+        internalAuditErrors.length > 0
+      );
+
+      const managementDiscussion = ManagementDiscussionAnalysisEngine.evaluate(
+        recLiquida, lucroLiq, ebitda, pontoEquilibrio, despesasFixas, recGrowth, ebitdaGrowth, advisory.actionMatrix, hasBP ? ['DRE', 'BP'] : ['DRE']
+      );
+
+      (dreInsights as any).qualityReport = qualityReport;
+      (dreInsights as any).rootCauseReport = rootCauseReport;
+      (dreInsights as any).economicValueAssessment = economicValueAssessment;
+      (dreInsights as any).earningsQualityAssessment = earningsQualityAssessment;
+      (dreInsights as any).confidenceAssessment = confidenceAssessment;
+      (dreInsights as any).managementDiscussion = managementDiscussion;
 
       // KPIs
       const rawKpis = recLiquida > 0 ? [
         { name: 'Receita Líquida',       val: recLiquida,          unit: 'currency', status: 'Verde' as const,    trend: 'Operacional',    tooltip: 'Receita após deduções e impostos sobre vendas.' },
         { name: 'EBITDA',                val: ebitda,              unit: 'currency', status: ebitda >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: ebitda >= 0 ? 'Positivo' : 'Negativo', tooltip: 'Geração de caixa operacional antes de juros, IR, depreciação e amortização.' },
         { name: 'Lucro Líquido',         val: lucroLiq,            unit: 'currency', status: lucroLiq >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: lucroLiq >= 0 ? 'Lucrativo' : 'Prejuízo', tooltip: 'Resultado líquido após todos os custos, despesas e impostos.' },
+        { name: 'Margem de Contribuição',val: margemContrib,       unit: 'currency', status: mbVal >= 40 ? 'Verde' as const : mbVal >= 25 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'MC / ROL', tooltip: 'Receita Líquida - Custos Variáveis. Indica a sobra para pagar custos fixos.' },
+        { name: 'Índice de Absorção',    val: capacidadeAbsorcaoEstrutura, unit: 'x', status: capacidadeAbsorcaoEstrutura >= 1.5 ? 'Verde' as const : capacidadeAbsorcaoEstrutura >= 1.0 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'Absorção', tooltip: 'Lucro Bruto / Despesas Operacionais.' },
         { name: 'Margem EBITDA',         val: ebitdaVal,           unit: '%',        status: ebitdaVal >= 15 ? 'Verde' as const : ebitdaVal >= 8 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'EBITDA / ROL', tooltip: 'Percentual da receita líquida convertido em EBITDA.' },
-        { name: 'Margem Bruta',          val: mbVal,               unit: '%',        status: mbVal >= 30 ? 'Verde' as const : mbVal >= 15 ? 'Amarelo' as const : 'Vermelho' as const,   trend: 'LB / ROL',    tooltip: 'Percentual da receita líquida restante após os custos diretos.' },
-        { name: 'Margem Líquida',        val: margemLiquida,       unit: '%',        status: margemLiquida >= 5 ? 'Verde' as const : margemLiquida >= 0 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'LL / ROL', tooltip: 'Percentual final de resultado sobre a receita líquida.' },
-        { name: 'Ponto de Equilíbrio',   val: pontoEquilibrio,     unit: 'currency', status: recLiquida >= pontoEquilibrio ? 'Verde' as const : 'Vermelho' as const, trend: recLiquida >= pontoEquilibrio ? 'Coberto' : 'Descoberto', tooltip: 'Receita mínima necessária para cobrir todos os custos e despesas fixas.' },
+        { name: 'Receita Nec. Sustentação',val: gapEquilibrio < 0 ? gapEquilibrio : 0, unit: 'currency', status: gapEquilibrio >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: 'Gap para Break-even', tooltip: 'Ponto de Equilíbrio - Receita Líquida.' },
         { name: 'Índice de Cobertura',   val: indiceCoberturaOperacional, unit: '%', status: indiceCoberturaOperacional >= 100 ? 'Verde' as const : indiceCoberturaOperacional >= 85 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'ROL / PE', tooltip: 'Quanto da receita atual cobre o ponto de equilíbrio.' }
       ] : [];
       const kpis = rawKpis.map(k => KPISemanticIntelligenceEngine.enrich(k, segment));
@@ -1163,21 +1288,17 @@ export class ExecutiveIntelligenceRuntime implements
 
     const metricsPayload = buildDreMetricsPayload();
 
-    const normStr = (s: string) => 
-      (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/^[0-9.]+\s*[-]\s*/, '').replace(/^[()=/\-+.\s]+|[()=/\-+.\s]+$/g, '').trim();
 
-    const filtYear = Number(rawData.rawFinancialData?.filterYear || new Date().getFullYear());
-    const allHistData = rawData.rawFinancialData?.allHistoryData || [];
-
-    const isOfficialDfcAvailable = allHistData.some((d: any) => 
-      Number(d.year) === filtYear && (normStr(d.type || '') === 'dfc' || normStr(d.docType || '') === 'dfc')
-    );
-
-    const dfcDataForRuntime = (rawData.dfcData && rawData.dfcData.length > 0)
-      ? rawData.dfcData
-      : (isOfficialDfcAvailable ? allHistData.filter((d: any) => 
-          Number(d.year) === filtYear && (normStr(d.type || '') === 'dfc' || normStr(d.docType || '') === 'dfc')
-        ) : []);
+    const dfcDataForRuntime = (rawData.dfcDataForRuntime && rawData.dfcDataForRuntime.length > 0) 
+      ? rawData.dfcDataForRuntime 
+      : ((rawData.dfcData && rawData.dfcData.length > 0)
+        ? rawData.dfcData
+        : (isOfficialDfcAvailable ? allHistData.filter((d: any) => {
+            const t = normStr(d.type || '');
+            const dt = normStr(d.docType || '');
+            const isDfc = t === 'dfc' || dt === 'dfc' || dt === 'dfc contabil' || t === 'dfc contabil' || t === 'demonstracao dos fluxos de caixa' || dt === 'demonstracao dos fluxos de caixa';
+            return Number(d.year) === filtYear && isDfc;
+          }) : []));
 
     // Process DFC (Trilha 1) - Legacy Adapter
      
@@ -1302,6 +1423,13 @@ export class ExecutiveIntelligenceRuntime implements
     const receivables = bpSummary?.contasReceber || bpSummary?.clientes || 0;
     const inventory = bpSummary?.estoques || bpSummary?.estoque || 0;
     
+    // Sobrescrever se dfcDataForRuntime explícito foi fornecido
+    if (dfcDataForRuntime && dfcDataForRuntime.length > 0) {
+      fco = dfcDataForRuntime.filter((d: any) => d.category === 'Atividades Operacionais').reduce((acc: number, curr: any) => acc + curr.amount, 0);
+      fci = dfcDataForRuntime.filter((d: any) => d.category === 'Atividades de Investimento').reduce((acc: number, curr: any) => acc + curr.amount, 0);
+      fcf = dfcDataForRuntime.filter((d: any) => d.category === 'Atividades de Financiamento').reduce((acc: number, curr: any) => acc + curr.amount, 0);
+    }
+
     const cashSustainabilityReport = FiduciaryCashIntelligenceRuntime.evaluate(
       dfcDataForRuntime,
       dreLucro,
@@ -1317,20 +1445,24 @@ export class ExecutiveIntelligenceRuntime implements
       bpSummary?.caixaEquivalentes || 0,
       0 || 0,
       0 || 0,
-      rawData.historicalCyclesCount || 1
+      rawData.historicalCyclesCount || 1,
+      12,
+      bpSummary?.fornecedores || 0,
+      bpSummary?.passivoCirculante || 0,
+      null,
+      bpSummary?.patrimonioLiquido || 0
     );
 
     // Call LongitudinalCashIntelligenceEngine to get trajectoryClassification
-    const _LongitudinalCashIntelligenceEngine = require('./cash-intelligence/LongitudinalCashIntelligenceEngine').LongitudinalCashIntelligenceEngine;
     const historicalCashReports = rawData.historicalCashSustainabilityReports || [];
     const allCashReports = [...historicalCashReports, cashSustainabilityReport];
     let longitudinalCashIntelligence = undefined;
     if (allCashReports.length >= 3) {
-      const { longitudinalOut } = _LongitudinalCashIntelligenceEngine.evaluate(allCashReports);
+      const { longitudinalOut } = LongitudinalCashIntelligenceEngine.evaluate(allCashReports);
       longitudinalCashIntelligence = longitudinalOut;
       // also attach to cashSustainabilityReport to satisfy ExecutiveSnapshotEngine if it looks there
-      (cashSustainabilityReport as any).longitudinalOut = longitudinalOut;
-      (cashSustainabilityReport as any).longitudinalScore = longitudinalOut.longitudinalScore;
+      cashSustainabilityReport.longitudinalOut = longitudinalOut;
+      cashSustainabilityReport.longitudinalScore = longitudinalOut.longitudinalScore;
     }
 
     const causalIntelligenceReport = InstitutionalCausalIntelligenceRuntime.evaluate(
@@ -1400,7 +1532,38 @@ export class ExecutiveIntelligenceRuntime implements
       modeloOperacional: rawData.rawFinancialData?.modeloOperacional,
       intensidadeCapital: rawData.rawFinancialData?.intensidadeCapital,
     };
-    const financialRuntimeContext = contextAdapter.createContext(businessProfile);
+
+    const foundationYear = rawData.rawFinancialData?.foundationYear !== undefined 
+      ? Number(rawData.rawFinancialData.foundationYear) 
+      : (rawData.foundationYear !== undefined ? Number(rawData.foundationYear) : undefined);
+    
+    const analysisYear = Number(rawData.rawFinancialData?.filterYear || rawData.filterYear || rawData.year || new Date().getFullYear());
+    const historicalCycles = rawData.historicalCyclesCount || anosHistorico || 1;
+    
+    // Extract capital social
+    const bpCapitalSocial = bpSummary?.capitalSocial || bpSummary?.capitalIntegralizado || 0;
+    const dlpaCapSocialEntry = (rawData.dlpaData || []).find((e: any) => {
+      const n = (e.conta || e.category || '').toLowerCase();
+      return n.includes('capital social') || n.includes('capital integralizado');
+    });
+    const capitalSocial = bpCapitalSocial > 0
+      ? bpCapitalSocial
+      : (dlpaCapSocialEntry
+        ? Math.abs(Number(dlpaCapSocialEntry.val ?? dlpaCapSocialEntry.valor ?? dlpaCapSocialEntry.value ?? 0))
+        : (bpSummary?.patrimonioLiquido || 0));
+
+    const revenue = metricsPayload?.financialMetrics?.recLiquida || 0;
+    const netIncomeVal = dreLucro !== undefined ? dreLucro : 0;
+
+    const financialRuntimeContext = contextAdapter.createContext(businessProfile, {
+      foundationYear,
+      analysisYear,
+      historicalCycles,
+      capitalSocial,
+      revenue,
+      netIncome: netIncomeVal
+    });
+
 
     const rawCapitalGov = CapitalGovernanceAdapter.process(
       rawData.dlpaData || [],
@@ -1411,7 +1574,7 @@ export class ExecutiveIntelligenceRuntime implements
       bpSummary?.patrimonioLiquido || 0, // endingEquity
       0 || 0,
       financialRuntimeContext,
-      rawData.runtimeHistory || []
+      rawData.historicalCycles || rawData.runtimeHistory || []
     );
     const capitalGovernanceReport: ConsolidatedCapitalGovernanceReport = {
       isAvailable: rawCapitalGov.diagnostics.isAvailable,
@@ -1421,7 +1584,13 @@ export class ExecutiveIntelligenceRuntime implements
       preservation: rawCapitalGov.diagnostics.preservation,
       capitalization: rawCapitalGov.diagnostics.capitalization,
       behavior: rawCapitalGov.diagnostics.behavior,
-      fiduciaryOutput: (rawCapitalGov.diagnostics as unknown).fiduciaryOutput
+      fiduciaryOutput: (rawCapitalGov.diagnostics as unknown as { fiduciaryOutput: import('./governance/dlpa/DLPAFiduciaryInterpretationEngine').DLPAFiduciaryOutput }).fiduciaryOutput,
+      semantic: rawCapitalGov.semantic ? {
+        cpiStatus: rawCapitalGov.semantic.rawCapitalStatus || 'NEUTRO',
+        resolvedGovernanceStatus: rawCapitalGov.semantic.resolvedGovernanceStatus,
+        resolvedCapitalStatus: rawCapitalGov.semantic.resolvedCapitalStatus,
+        semanticContext: rawCapitalGov.semantic.semanticContext
+      } : undefined
     };
 
     // Process Thesis (Trilha 3)
@@ -1569,6 +1738,12 @@ export class ExecutiveIntelligenceRuntime implements
     const operatingPressureReport = InstitutionalPressureRuntime.evaluate(pressureInput);
 
     // Process Institutional Recovery Authorization (IRRE) - Provisional Pass
+    console.log('RECOVERY ENGINE CALL 1 DEBUG:', {
+      cashReportExists: !!cashSustainabilityReport,
+      cashLineage: cashSustainabilityReport?.lineageHash,
+      cashHash: cashSustainabilityReport?.lineageHash,
+    });
+    
     let recoveryReport = InstitutionalRecoveryEngine.evaluate({
       fiduciaryOutput: capitalGovernanceReport.fiduciaryOutput,
       treasuryRuntime: treasuryIntelligenceReport,
@@ -1647,6 +1822,12 @@ export class ExecutiveIntelligenceRuntime implements
     ((recoveryReport as unknown) as { resilienceReport?: unknown }).resilienceReport = resilienceReport;
 
     // Process Survival priority hierarchy (ISHE)
+    console.log('EXECUTIVE DEBUG CASH REPORT:', {
+      cashReportExists: !!cashSustainabilityReport,
+      keys: cashSustainabilityReport ? Object.keys(cashSustainabilityReport) : [],
+      lineageHash: cashSustainabilityReport?.lineageHash,
+    });
+
     const survivalReport = InstitutionalSurvivalHierarchyEngine.evaluate({
       fiduciaryOutput: capitalGovernanceReport.fiduciaryOutput,
       treasuryRuntime: treasuryIntelligenceReport,
@@ -1703,15 +1884,15 @@ export class ExecutiveIntelligenceRuntime implements
       }
 
       if (capitalGovernanceReport && capitalGovernanceReport.fiduciaryOutput) {
-        capitalGovernanceReport.fiduciaryOutput.patrimonialIntegrityStatus = 'SEVERELY_ERODED';
-        capitalGovernanceReport.fiduciaryOutput.capitalProtectionStatus = 'WEAK_CAPITAL_PROTECTION';
-        capitalGovernanceReport.fiduciaryOutput.distributionEligibility = {
+        (capitalGovernanceReport as unknown as { fiduciaryOutput: Record<string, unknown> }).fiduciaryOutput.patrimonialIntegrityStatus = 'SEVERELY_ERODED';
+        (capitalGovernanceReport as unknown as { fiduciaryOutput: Record<string, unknown> }).fiduciaryOutput.capitalProtectionStatus = 'WEAK_CAPITAL_PROTECTION';
+        (capitalGovernanceReport as unknown as { fiduciaryOutput: Record<string, unknown> }).fiduciaryOutput.distributionEligibility = {
           eligible: false,
           reason: 'Bloqueio de Sobrevivência Institucional (ISHE)',
-          warnings: ['Operação em modo de sobrevivência de caixa e capital']
+          failedCriteria: []
         };
-        capitalGovernanceReport.fiduciaryOutput.retentionClassification = 'FORCED_RETENTION';
-        capitalGovernanceReport.fiduciaryOutput.institutionalStage = 'SURVIVAL_STAGE_CAPITAL_STRUCTURE';
+        (capitalGovernanceReport as unknown as { fiduciaryOutput: Record<string, unknown> }).fiduciaryOutput.retentionClassification = 'FORCED_RETENTION';
+        (capitalGovernanceReport as unknown as { fiduciaryOutput: Record<string, unknown> }).fiduciaryOutput.institutionalStage = 'SURVIVAL_STAGE_CAPITAL_STRUCTURE';
       }
 
       advisory.executiveSummary = SurvivalConstraintPropagationEngine.sanitizeNarrative(advisory.executiveSummary, true);
@@ -1775,6 +1956,95 @@ export class ExecutiveIntelligenceRuntime implements
         bpHighLeverage: (capitalGovernanceReport.isAvailable && Array.isArray(capitalGovernanceReport.behavior) && capitalGovernanceReport.behavior.some((b: any) => b.includes('alavanca')))
       }
     });
+    // ── Integração Patrimonial Intelligence Layer v2.0 ──────────────────────
+    let executivePatrimonialReport = undefined;
+    let ceilingOutput = undefined;
+    if (hasBP) {
+      const bpIndicators = BalanceSheetFinancialMetricsEngine.calculateIndicators(bpSummary);
+      const scoreBreakdown = PatrimonialScoreExplainabilityEngine.calculateScore(bpIndicators);
+      const classification = InstitutionalPatrimonialClassificationEngine.classify(scoreBreakdown.globalScore);
+      
+      const hasValidatedCashFlowEvidence = cashFlowReport.isAvailable && Math.abs(cashFlowReport.operational?.operatingCashFlow || 0) > 0;
+
+      ceilingOutput = PatrimonialClassificationCeilingEngine.evaluate(
+        classification.label,
+        bpIndicators,
+        {
+          hasValidatedCashFlowEvidence: hasValidatedCashFlowEvidence,
+          netIncome: dreLucro || 0,
+          fco: fco
+        }
+      );
+      
+      const interpretations = PatrimonialExecutiveInterpretationEngine.generateInterpretations(
+        bpIndicators, 
+        scoreBreakdown,
+        ceilingOutput.classificationCeiling !== null,
+        hasValidatedCashFlowEvidence,
+        fco > 0
+      );
+      
+      const bpHistoryArray: { year: number; summary: any }[] = [];
+      const historySource = rawData.rawFinancialData?.allHistoryData || [];
+      const uniqueYears = [...new Set(historySource.map((h: any) => h.year))] as number[];
+      
+      uniqueYears.forEach(year => {
+        const yearEntries = historySource.filter((d: any) => d.year === year && (d.type === 'Balanço Patrimonial' || d.type === 'BP' || d.tipo === 'BP'));
+        if (yearEntries.length > 0) {
+          const hierarchy = buildBPHierarchy(yearEntries);
+          bpHistoryArray.push({ year, summary: hierarchy.summary });
+        }
+      });
+      if (!bpHistoryArray.some(h => h.year === Number(rawData.rawFinancialData?.filterYear))) {
+        bpHistoryArray.push({ year: Number(rawData.rawFinancialData?.filterYear || new Date().getFullYear()), summary: bpSummary });
+      }
+
+      const patrimonialTrend = PatrimonialTrendEngine.analyzeTrend(bpHistoryArray);
+      const getFamilyNarrative = (family: string) => interpretations.narratives.find(n => n.family === family)?.narrative || '';
+
+      const inventoryDependency = InventoryDependencyEngine.evaluate(
+        bpSummary?.estoques || bpSummary?.estoque || 0,
+        bpSummary?.passivoCirculante || 0,
+        sectorProfile.expectedInventoryIntensity === 'High'
+      );
+
+      executivePatrimonialReport = {
+        patrimonialHealth: classification.rationale,
+        liquidityHealth: getFamilyNarrative('Liquidez'),
+        workingCapitalHealth: getFamilyNarrative('Capital de Giro'),
+        capitalStructureHealth: getFamilyNarrative('Estrutura de Capital'),
+        assetImmobilizationHealth: getFamilyNarrative('Imobilização'),
+        inventoryDependency,
+        patrimonialClassification: ceilingOutput.finalClassification,
+        patrimonialTrend: patrimonialTrend,
+        scoreBreakdown: scoreBreakdown,
+        executiveInterpretation: interpretations,
+        sourceRuntime: 'BP_RUNTIME' as const,
+        confidenceScore: 100, // Default start
+        governanceConsistency: undefined as any
+      };
+
+      const consistency = PatrimonialGovernanceConsistencyEngine.evaluate({
+        bpIndicators,
+        scoreBreakdown,
+        classification: { label: ceilingOutput.finalClassification, rationale: classification.rationale },
+        interpretations,
+        patrimonialTrend,
+        ceilingApplied: ceilingOutput.classificationCeiling !== null,
+        finalClassification: ceilingOutput.finalClassification,
+        efosContext: {
+          compositeScore: scores.composite,
+          institutionalHealth: context.stage
+        }
+      });
+
+      executivePatrimonialReport.governanceConsistency = consistency;
+      executivePatrimonialReport.confidenceScore = consistency.confidenceScore;
+
+      if (consistency.consistencyStatus === 'FAIL_CLOSED') {
+        executivePatrimonialReport.confidenceScore = Math.min(executivePatrimonialReport.confidenceScore, 60);
+      }
+    }
 
     const initialReport: ExecutiveIntelligenceReport = {
       context,
@@ -1801,7 +2071,15 @@ export class ExecutiveIntelligenceRuntime implements
           ...institutionalContext.narrativeConstraints.blockedNarrativeClaims.map(c => `NÃO reivindicar: ${c}`),
           ...institutionalContext.narrativeConstraints.allowedNarrativeFrame.map(f => `Diretriz: ${f}`)
         ],
-        auditFlags: []
+        auditFlags: [],
+        fiduciaryEnforcement: {
+          complianceStatus: fiduciaryEnforcement?.enforcementTriggered ? 'FAILED' : 'PASSED',
+          fiduciaryRestrictions: (fiduciaryEnforcement?.governanceRestrictions || []).map((desc: string) => ({
+            restrictionType: (fiduciaryEnforcement?.fiduciarySeverityLevel === 'CRITICAL' || fiduciaryEnforcement?.fiduciarySeverityLevel === 'HIGH') ? 'FAIL_CLOSED' : 'RESTRICTED_ACCESS' as const,
+            description: desc,
+            affectedRuntimes: ['ALL']
+          }))
+        }
       },
       temporalCausality,
       fiduciaryEnforcement,
@@ -1811,7 +2089,7 @@ export class ExecutiveIntelligenceRuntime implements
         lineageHash: externalMetadata?.lineageHash || rawData.metadata?.lineageHash || 'hash-fallback',
         tenantId: externalMetadata?.tenantId || rawData.metadata?.tenantId,
         cycleReference: externalMetadata?.cycleReference || rawData.metadata?.cycleReference
-      } as any,
+      } as unknown as RuntimeExecutionTrace,
       institutionalContext,
       institutionalMemory: memoryProfile,
       institutionalCausality: causalityProfile,
@@ -1825,13 +2103,25 @@ export class ExecutiveIntelligenceRuntime implements
       capitalGovernanceReport,
       survivalReport,
       recoveryReport,
-      patrimonialIntelligenceReport,
+      patrimonialIntelligenceReport: executivePatrimonialReport,
+      patrimonialStructuralRestrictions: ceilingOutput,
       operatingPressureReport,
       financialThesis,
       crossStatementCausality,
       institutionalView,
       institutionalEvidence: evidenceReport
     };
+
+    if (executivePatrimonialReport?.governanceConsistency?.consistencyStatus === 'FAIL_CLOSED') {
+      initialReport.compliance.fiduciaryEnforcement.fiduciaryRestrictions.push({
+        scope: 'PATRIMONIAL_INTELLIGENCE',
+        reason: 'PATRIMONIAL_GOVERNANCE_FAIL_CLOSED',
+        confidenceCap: 60,
+        description: 'Inconsistências materiais exigem revisão executiva.',
+        restrictionType: 'FAIL_CLOSED',
+        affectedRuntimes: ['BP_RUNTIME']
+      } as any);
+    }
 
     // Process Narrative Orchestration (Trilha 8)
     const orchestratedNarrative = ExecutiveNarrativeOrchestrator.orchestrate(
@@ -1842,6 +2132,70 @@ export class ExecutiveIntelligenceRuntime implements
       capitalGovernanceReport.overallNarrative
     );
     initialReport.orchestratedNarrative = orchestratedNarrative;
+    const contextHashPayload = {
+      authority: 'ELSA',
+      semanticProtocolVersion: 'ELSA-2.0',
+      lifecycleStage: capitalGovernanceReport?.semantic?.semanticContext?.lifecycleStage || 'N/A',
+      resolvedLabels: [
+        capitalGovernanceReport?.semantic?.resolvedGovernanceStatus || '',
+        capitalGovernanceReport?.semantic?.resolvedCapitalStatus || ''
+      ],
+      foundationYear: capitalGovernanceReport?.semantic?.semanticContext?.foundationYear || null,
+      analysisYear: capitalGovernanceReport?.semantic?.semanticContext?.analysisYear || null
+    };
+
+    const semanticSource = capitalGovernanceReport?.semantic?.semanticContext?.semanticSource || 'LEGACY';
+
+    // The SemanticComplianceReport acts as the payload for the SCCF protocol.
+    const semanticCompliance = SemanticComplianceAuditRuntime.evaluate(
+      semanticSource,
+      JSON.stringify(capitalGovernanceReport),
+      contextHashPayload,
+      semanticSource === 'ELSA' ? 'EXECUTIVE' : 'TECHNICAL_AUDIT'
+    );
+    
+    initialReport.semanticCompliance = semanticCompliance;
+
+    // Evaluate Constitutional Governance Layer (CGL v1.0)
+    const constitutionalContext = {
+      semanticSource,
+      renderedContent: JSON.stringify(capitalGovernanceReport),
+      semanticLineagePayload: contextHashPayload,
+      semanticScope: semanticSource === 'ELSA' ? 'EXECUTIVE' : 'TECHNICAL_AUDIT',
+      
+      fiduciaryConclusion: capitalGovernanceReport?.overallNarrative?.includes('Healthy Liquidity') ? 'HEALTHY_LIQUIDITY' : 'UNKNOWN',
+      fiduciaryEvidenceStatus: cashFlowReport?.isAvailable ? (cashFlowReport.operational.fco < 0 ? 'CRITICAL' : 'STABLE') : 'STABLE',
+      
+      treasuryConclusion: 'UNKNOWN',
+      operationalCashFlow: fco,
+      
+      hasExecutiveConclusion: !!initialReport.orchestratedNarrative,
+      causalChainPresent: !!initialReport.causality?.rootCause,
+      
+      executiveMetricsPresent: !!initialReport.scores?.composite,
+      lineageHash: contextHashPayload.analysisYear?.toString() || 'hash',
+      
+      isAIGenerated: false
+    };
+
+    const constitutionalCompliance = ConstitutionalGovernanceRuntime.evaluate(constitutionalContext);
+    initialReport.constitutionalCompliance = constitutionalCompliance;
+
+    // Evaluate Constitutional Decision Intelligence Layer (CDIL v1.1)
+    const decisionIntelligence = ConstitutionalDecisionRuntime.evaluate(
+      constitutionalCompliance.constitutionalIntegrity,
+      constitutionalContext
+    );
+    initialReport.decisionIntelligence = decisionIntelligence;
+
+    // Evaluate Institutional Scenario Engine (ISE v1.1)
+    if (decisionIntelligence && !('status' in decisionIntelligence) && decisionIntelligence.constitutionalStatus === 'VALID') {
+      const scenarioIntelligence = ScenarioImpactRuntime.evaluate(
+        constitutionalContext,
+        decisionIntelligence.executiveDecisions
+      );
+      initialReport.scenarioIntelligence = scenarioIntelligence;
+    }
 
     // Process Experience Consistency Check (Trilha 10)
     const consistencyReport = ExecutiveExperienceConsistencyEngine.validate(initialReport);
@@ -1891,7 +2245,7 @@ export class ExecutiveIntelligenceRuntime implements
     const deploymentReadiness = InstitutionalDeploymentReadinessEngine.evaluate({
       executiveReport: report,
       environmentConfiguration: {
-        environmentType: envConfig.environmentType as any,
+        environmentType: envConfig.environmentType as unknown as DeploymentEnvironment,
         mockFactoriesEnabled: envConfig.mockFactoriesEnabled,
         debugModeEnabled: envConfig.debugModeEnabled,
         tenantIsolationEnabled: true,
@@ -1927,10 +2281,59 @@ export class ExecutiveIntelligenceRuntime implements
       auditTrail: report.runtimeMetadata?.auditTrail || [],
       environmentConfiguration: {
         ...mockOnboardingInput.environmentConfiguration,
-        environmentType: envConfig.environmentType as any,
+        environmentType: envConfig.environmentType as unknown as DeploymentEnvironment,
       }
     };
     report.institutionalOnboarding = InstitutionalOnboardingOrchestrator.evaluate(onboardingInput);
+
+    // Compile Semantic Lineage Payload (excluding long narratives to avoid false drift)
+    const semanticLineagePayload = {
+      authority: 'ELSA',
+      semanticProtocolVersion: 'ELSA-2.0',
+      lifecycleStage: rawCapitalGov.semantic?.lifecycleStage || 'ESTABLISHED_ANALYSIS',
+      resolvedLabels: [
+        rawCapitalGov.resolvedGovernanceStatus || '',
+        rawCapitalGov.resolvedCapitalStatus || ''
+      ].filter(Boolean),
+      foundationYear: foundationYear || null,
+      analysisYear: analysisYear || null
+    };
+
+    const renderedContent = [
+      rawCapitalGov.resolvedGovernanceStatus,
+      rawCapitalGov.resolvedCapitalStatus,
+      rawCapitalGov.narrative
+    ].filter(Boolean).join(' ');
+
+    // Evaluate Constitutional Governance
+    report.constitutionalEvaluation = constRuntime.evaluateRuntimeState({
+      availableCash: bpSummary?.caixaEquivalentes || 0,
+      leverageRatio: bpSummary?.passivoTotal ? (bpSummary.passivoCirculanteEmprestimos || 0) / bpSummary.passivoTotal : 0,
+      projectedRunwayMonths: report.cashSustainabilityReport?.continuityRisk?.projectedRunwayMonths || 12,
+      hasBrokenLineage: !report.runtimeMetadata?.lineageHash || report.runtimeMetadata.lineageHash === 'hash-fallback',
+      hasTamperedSignature: false,
+      compliance: {
+        confidenceLevel: report.compliance?.confidenceLevel,
+        runtimeMode: report.compliance?.runtimeMode
+      },
+      resilienceReport: {
+        confidenceLevel: report.resilienceReport?.confidenceLevel
+      },
+      failClosedTriggered: report.runtimeMetadata?.status === 'BLOCKED',
+      deploymentReadiness: {
+        deploymentBlocked: report.deploymentReadiness?.deploymentBlocked
+      },
+      survivalReport: {
+        activeSurvivalMode: report.survivalReport?.activeSurvivalMode ? 'ACTIVE' : 'INACTIVE',
+        blockedActions: fiduciaryEnforcement?.blockedActions || []
+      },
+      lineageHash: report.runtimeMetadata?.lineageHash || 'placeholder-hash',
+      executionId: report.runtimeMetadata?.executionId || 'exec-id',
+      semanticSource: rawCapitalGov.semanticSource,
+      renderedContent,
+      semanticLineagePayload,
+      semanticScope: 'EXECUTIVE'
+    });
 
     return report;
   }

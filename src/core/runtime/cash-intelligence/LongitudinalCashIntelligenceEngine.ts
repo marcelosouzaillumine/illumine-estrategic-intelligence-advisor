@@ -124,7 +124,8 @@ export class LongitudinalCashIntelligenceEngine {
       'CHRONIC_DEPENDENCY', 
       'ARTIFICIAL_TURNAROUND', 
       'PROGRESSIVE_DETERIORATION', 
-      'STRUCTURAL_CASH_COLLAPSE'
+      'STRUCTURAL_CASH_COLLAPSE',
+      'UNSTABLE_CASH_PROFILE'
     ].includes(trajectoryClassification);
 
     const timeline: FiduciaryTimelineSection = {

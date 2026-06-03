@@ -15,7 +15,7 @@ describe('Institutional Strategic Intelligence Runtime', () => {
       financialMetrics: { ocf: 500, revenue: 10000 },
       scaleEfficiency: { recGrowth: 0.10, ebitdaGrowth: 0.12 }
     },
-    resilienceReport: { status: 'SAFE' },
+    resilienceReport: { status: 'SAFE', continuityResilienceStatus: 'SAFE' },
     treasuryIntelligenceReport: { stressStatus: 'STABLE' },
     operatingPressureReport: { structuralPressureSeverity: 'LOW' },
     executiveCommand: { activeDirectives: [] },

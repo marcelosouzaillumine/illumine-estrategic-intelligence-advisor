@@ -2,9 +2,11 @@
 
 import React from 'react';
 import { ShieldCheck, Lock } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { GovernanceReportingSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
 
 export function GovernanceReportingSurface({ data }: { data: GovernanceReportingSection }) {
+  const { translateLabel: t } = useLanguage();
   const isCompliant = data.complianceStatus === 'COMPLIANT';
 
   return (
@@ -15,18 +17,18 @@ export function GovernanceReportingSurface({ data }: { data: GovernanceReporting
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-1">Compliance Status</span>
+          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-1">{t("panels.compliance_status")}</span>
           <span className={`text-lg font-bold uppercase tracking-widest ${isCompliant ? 'text-emerald-400' : 'text-orange-400'}`}>
             {data.complianceStatus}
           </span>
-          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest mt-4 block mb-1">Execution Integrity</span>
+          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest mt-4 block mb-1">{t("panels.execution_integrity")}</span>
           <span className="text-xs text-zinc-300 font-bold uppercase tracking-widest">
             {data.executionIntegrity}
           </span>
         </div>
 
         <div>
-          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-1">Active Governance Locks</span>
+          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-1">{t("panels.active_governance_locks")}</span>
           {data.activeGovernanceLocks.length > 0 ? (
             <div className="space-y-2">
               {data.activeGovernanceLocks.map((lock, idx) => (

@@ -8,6 +8,7 @@ export interface CapitalRetentionMetrics {
   netIncome: number;
   retainedEarnings: number;
   retentionRatio: number;
+  lucrosPrejuizos?: number;
   // NÃO_APLICÁVEL_SEM_LUCRO: ausência de base distributiva — não inferir 0%
   retentionStatus:
     | 'ALTA_RETENÇÃO'
@@ -19,6 +20,7 @@ export interface CapitalRetentionMetrics {
     | 'AUSÊNCIA_DE_CAPACIDADE_DISTRIBUTIVA'
     | 'RETENÇÃO_COMPULSÓRIA_POR_PREJUÍZO';
 }
+
 
 // ── Eixo 2: Política de Capital (Distribuição) ───────────────────────────────
 export interface ShareholderDistributionMetrics {
@@ -70,7 +72,8 @@ export interface GovernanceCapitalBehaviorMetrics {
     | 'FRAGILIZADA'              // deterioração sem evidência distributiva
     | 'EM_ESTRUTURAÇÃO'          // início / sem histórico
     | 'FRÁGIL'                   // legado
-    | 'DESTRUTIVA';              // SOMENTE com evidência distributiva comprovada
+    | 'DESTRUTIVA'              // SOMENTE com evidência distributiva comprovada
+    | string;
 }
 
 // ── Diagnóstico Consolidado ───────────────────────────────────────────────────
@@ -83,14 +86,29 @@ export interface CapitalGovernanceDiagnostics {
   behavior: GovernanceCapitalBehaviorMetrics | null;
 }
 
-// ── Relatório Consolidado ─────────────────────────────────────────────────────
+import { DLPAFiduciaryOutput } from '../governance/dlpa/DLPAFiduciaryInterpretationEngine';
+
 export interface ConsolidatedCapitalGovernanceReport {
   isAvailable: boolean;
   overallNarrative: string;
-  retention: any;
-  distribution: any;
-  preservation: any;
-  capitalization: any;
-  behavior: any;
-  fiduciaryOutput?: any;
+  retention: CapitalRetentionMetrics | null;
+  distribution: ShareholderDistributionMetrics | null;
+  preservation: EquityPreservationMetrics | null;
+  capitalization: InstitutionalCapitalizationMetrics | null;
+  behavior: GovernanceCapitalBehaviorMetrics | null;
+  fiduciaryOutput?: DLPAFiduciaryOutput;
+  semantic?: {
+    cpiStatus: string;
+    resolvedGovernanceStatus: string;
+    resolvedCapitalStatus: string;
+    semanticContext: {
+      semanticSource: string;
+      lifecycleStage: string;
+      lifecycleLabel: string;
+      foundationYear: number | null;
+      analysisYear: number | null;
+      companyAge: number | null;
+      lifecycleConfidence: string;
+    };
+  };
 }

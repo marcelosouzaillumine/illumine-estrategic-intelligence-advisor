@@ -76,6 +76,9 @@ export class PatrimonialIntegrityEngine {
         preservationStatus = 'PRESSURED';
       } else if (capitalPreservationIndex >= 0.20) {
         preservationStatus = 'SEVERELY_ERODED';
+      } else if (endingEquity > 0) {
+        // Block collapse risk classification if PL > 0
+        preservationStatus = 'SEVERELY_ERODED';
       } else {
         preservationStatus = 'CAPITAL_COLLAPSE_RISK';
       }
@@ -103,7 +106,8 @@ export class PatrimonialIntegrityEngine {
     // 4. Capital Protection Status
     let capitalProtectionStatus: PatrimonialIntegrityReport['capitalProtectionStatus'] = 'STRONG_CAPITAL_PROTECTION';
 
-    if (endingEquity <= 0 || preservationStatus === 'CAPITAL_COLLAPSE_RISK') {
+    if (endingEquity <= 0) {
+      // Block collapse classification if PL > 0
       capitalProtectionStatus = 'CAPITAL_UNDER_COLLAPSE';
     } else if (preservationStatus === 'SEVERELY_ERODED' || (capitalSocialConsumptionRatio !== null && capitalSocialConsumptionRatio > 0.5)) {
       capitalProtectionStatus = 'WEAK_CAPITAL_PROTECTION';

@@ -33,6 +33,8 @@ export class TreasuryStressEngine {
       payables,
       shortTermDebt
     } = input;
+    
+    console.log('STRESS ENGINE INPUT:', input);
 
     const activeStressFactors: string[] = [
       'receivables_delay',
@@ -100,6 +102,14 @@ export class TreasuryStressEngine {
     }
 
     const simulatedExhaustionProjected = cumulativeExhaustionDays < 120 || baselineExhausted;
+
+    console.log('STRESS ENGINE OUTPUT:', {
+      simulatedCash,
+      dailySimulatedBurn,
+      stressSeverity,
+      cumulativeExhaustionDays,
+      simulatedExhaustionProjected
+    });
 
     return {
       stressSeverity,

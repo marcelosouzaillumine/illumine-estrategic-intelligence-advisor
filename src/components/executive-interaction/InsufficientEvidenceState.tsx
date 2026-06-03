@@ -1,5 +1,6 @@
 import React from 'react';
 import { Database, TrendingUp } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface InsufficientEvidenceStateProps {
   title?: string;
@@ -7,9 +8,12 @@ interface InsufficientEvidenceStateProps {
 }
 
 export const InsufficientEvidenceState: React.FC<InsufficientEvidenceStateProps> = ({
-  title = 'Histórico de Dados Insuficiente',
-  description = 'O motor analítico requer ao menos 3 meses de lançamentos contábeis e transações homologadas para computar tendências causais e score de exposição de risco.'
+  title,
+  description
 }) => {
+  const { t } = useLanguage();
+  const displayTitle = title || t('overlays.insufficient_data_history') || 'Histórico de Dados Insuficiente';
+  const displayDescription = description || 'O motor analítico requer ao menos 3 meses de lançamentos contábeis e transações homologadas para computar tendências causais e score de exposição de risco.';
   return (
     <div className="card-premium p-10 text-center max-w-xl mx-auto space-y-6">
       <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mx-auto border border-indigo-500/20 shadow-inner">
@@ -17,12 +21,12 @@ export const InsufficientEvidenceState: React.FC<InsufficientEvidenceStateProps>
       </div>
 
       <div className="space-y-1">
-        <h4 className="text-base font-bold text-slate-200 uppercase tracking-wider">{title}</h4>
-        <p className="text-[10px] text-indigo-400 uppercase tracking-widest font-mono font-bold">Aguardando Volume Transacional</p>
+        <h4 className="text-base font-bold text-slate-200 uppercase tracking-wider">{displayTitle}</h4>
+        <p className="text-[10px] text-indigo-400 uppercase tracking-widest font-mono font-bold">{t("overlays.awaiting_transactional_volume")}</p>
       </div>
 
       <p className="text-xs text-slate-400 leading-relaxed font-medium">
-        {description}
+        {displayDescription}
       </p>
 
       <div className="pt-4 border-t border-border/10 flex justify-center gap-6 text-[10px] text-slate-500 font-mono">

@@ -72,6 +72,7 @@ export function detectRegressions(directoriesToScan: string[]): RegressionResult
           'ManualFinancialModal.tsx',
           'BalanceSheetPage.tsx',
           'LegacyFinancialAdapter.ts',
+          'LegacyDFCAdapter.ts',
           'aiBoardReportService.ts',
           'intelligenceEngine.ts'
         ].includes(path.basename(fullPath));

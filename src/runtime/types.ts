@@ -22,6 +22,7 @@ export interface CausalityChain {
 
 export interface AdvisoryNarrative {
   diagnostic: string;
+  executiveNarrative?: string;
   cause: string;
   consequence: string;
   sensitivity: string;
@@ -32,6 +33,13 @@ export interface AdvisoryNarrative {
 
 export interface InferenceBlock {
   domain: string;
+  semanticSource?: string;
+  lifecycleProfile?: any;
+  semanticContext?: any;
+  cqsSemantic?: string | null;
+  eqsSemantic?: string | null;
+  executiveNarrative?: string;
+  semanticAudit?: any;
   metrics: Record<string, any>;
   causality: CausalityChain[];
   narrative: AdvisoryNarrative | null;
@@ -55,7 +63,9 @@ export interface RuntimeInput {
   entityPath?: string[];
   consolidationScope?: string[];
   reportingBoundary?: 'LEGAL' | 'MANAGERIAL' | 'EQUITY';
+  financialRuntimeContext?: any;
 }
+
 
 export interface InstitutionalContext {
   input: RuntimeInput;

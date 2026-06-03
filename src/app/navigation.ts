@@ -95,10 +95,17 @@ export type Page =
   | 'executive_monitoring_center'
   | 'governance_maturity_center'
   | 'fiduciary_validation_center'
+  | 'economic_normalization_center'
+  | 'capital_governance_center'
+  | 'financial_lineage_center'
+  | 'credit_committee_center'
+  | 'institutional_memory_center'
   | 'leadership_dna_center'
   | 'institutional_structure_center'
   | 'risk_exposure_center'
   | 'decision_lifecycle_center'
+  | 'sovereign_decision_center'
+  | 'executive_execution_center'
   | 'crisis_response_center'
   | 'runtime_observability_center'
   | 'product_governance_center'
@@ -323,8 +330,15 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
       { id: 'institutional_structure_center', label: 'Institutional Structure Center', labelKey: 'navigation.page.institutional_structure_center', icon: Users },
       { id: 'board_deck_center', label: 'Board Deck Center', labelKey: 'navigation.page.board_deck_center', icon: Presentation },
       { id: 'fiduciary_validation_center', label: 'Fiduciary Validation Center', labelKey: 'navigation.page.fiduciary_validation_center', icon: Scale },
+      { id: 'economic_normalization_center', label: 'Economic Normalization Center', labelKey: 'navigation.page.economic_normalization_center', icon: Scale },
+      { id: 'capital_governance_center', label: 'Capital Governance Center', labelKey: 'navigation.page.capital_governance_center', icon: Scale },
+      { id: 'financial_lineage_center', label: 'Linhagem Fiduciária', labelKey: 'navigation.page.financial_lineage_center', icon: GitBranchPlus },
+      { id: 'credit_committee_center', label: 'Credit Committee Simulator', labelKey: 'navigation.page.credit_committee_center', icon: Landmark },
+      { id: 'institutional_memory_center', label: 'Institutional Memory Center', labelKey: 'navigation.page.institutional_memory_center', icon: History },
       { id: 'risk_exposure_center', label: 'Risk Exposure Center', labelKey: 'navigation.page.risk_exposure_center', icon: ShieldAlert },
       { id: 'decision_lifecycle_center', label: 'Decision Lifecycle Center', labelKey: 'navigation.page.decision_lifecycle_center', icon: GitBranchPlus, masterOnly: false },
+      { id: 'sovereign_decision_center', label: 'Sovereign Decision Center', labelKey: 'navigation.page.sovereign_decision_center', icon: Activity, masterOnly: false },
+      { id: 'executive_execution_center', label: 'Executive Execution Center', labelKey: 'navigation.page.executive_execution_center', icon: Activity, masterOnly: false },
       
       // Adjacent governance module.
       // Not part of GOVERNANCE_DOMAIN_BOUNDARIES.md core module registry.

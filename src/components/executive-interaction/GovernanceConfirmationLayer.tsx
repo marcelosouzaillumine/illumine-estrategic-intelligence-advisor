@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AlertTriangle, CheckCircle } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface GovernanceConfirmationLayerProps {
   actionLabel: string;
@@ -14,6 +15,7 @@ export const GovernanceConfirmationLayer: React.FC<GovernanceConfirmationLayerPr
   onConfirm,
   onCancel
 }) => {
+  const { translateLabel: t } = useLanguage();
   const [isChecked, setIsChecked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -32,7 +34,7 @@ export const GovernanceConfirmationLayer: React.FC<GovernanceConfirmationLayerPr
       <div className="flex gap-3 text-amber-400">
         <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
         <div className="space-y-1">
-          <h4 className="text-xs font-black uppercase tracking-widest">Confirmação de Ação Crítica</h4>
+          <h4 className="text-xs font-black uppercase tracking-widest">{t("overlays.critical_action_confirmation")}</h4>
           <p className="text-xs text-slate-400 leading-relaxed">{implications}</p>
         </div>
       </div>
@@ -68,7 +70,7 @@ export const GovernanceConfirmationLayer: React.FC<GovernanceConfirmationLayerPr
               : 'bg-slate-900 text-slate-600 border border-border/5 cursor-not-allowed'
           }`}
         >
-          {isSubmitting ? 'Confirmando...' : actionLabel}
+          {isSubmitting ? t('overlays.confirming') || 'Confirmando...' : actionLabel}
         </button>
       </div>
     </div>

@@ -49,7 +49,7 @@ export class RuntimeEnforcer {
     // Pass violations from engine internally
     if (result.violations) {
       result.violations.forEach(v => {
-        InstitutionalExecutionContext.addViolation(context, v.rule, v.severity, v.message, result.engineName);
+        InstitutionalExecutionContext.addViolation(context, v.rule, v.severity, v.message, result.engineName, v.blocked);
       });
     }
   }

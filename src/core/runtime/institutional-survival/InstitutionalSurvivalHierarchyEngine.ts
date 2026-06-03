@@ -19,10 +19,17 @@ export class InstitutionalSurvivalHierarchyEngine {
 
     const isLineageIncomplete = 
       !input.fiduciaryOutput?.lineageHash ||
-      !input.treasuryRuntime?.treasuryLineageHash ||
+      !(input.treasuryRuntime?.lineage?.lineageHash || input.treasuryRuntime?.treasuryLineageHash) ||
       !input.cashIntelligenceRuntime?.lineageHash;
 
     if (isMissingRuntimes || isLowConfidence || isLineageIncomplete) {
+      console.log('ISHE FAIL CLOSED:', { 
+        fiduciaryOutput: input.fiduciaryOutput?.confidenceLevel, 
+        treasuryRuntime: input.treasuryRuntime?.confidenceLevel, 
+        cashIntelligenceRuntime: input.cashIntelligenceRuntime?.confidenceLevel, 
+        patrimonialIntelligenceRuntime: input.patrimonialIntelligenceRuntime?.confidenceLevel, 
+        isLineageIncomplete 
+      });
       auditTrail.push(`Modo fail-closed ativado. Insumos ausentes: ${isMissingRuntimes}, Confiança baixa: ${isLowConfidence}, Lineage incompleto: ${isLineageIncomplete}`);
       return {
         activeSurvivalMode: 'SURVIVAL_MODE',
@@ -103,8 +110,22 @@ export class InstitutionalSurvivalHierarchyEngine {
       }
     }
 
-    if (isSurvivalTriggered) {
-      auditTrail.push(`Gatilhos de sobrevivência ativados. FCO negativo: ${negativeFCO}, Runway crítico: ${runwayCritico}, PL erodido: ${plEroded}, Caixa crítico: ${cashOperationalCritical}`);
+    const cond1 = fidOut.retentionClassification === 'EMERGENCY_RETENTION';
+    const cond2 = cashInt.continuityRisk?.continuityRisk === 'CRITICAL';
+    const cond3 = fidOut.capitalProtectionStatus === 'CAPITAL_UNDER_COLLAPSE';
+
+    if (isSurvivalTriggered || true) { // Force print
+      console.log('ISHE TRIGGERED:', {
+        isSurvivalTriggered,
+        cond1, cond2, cond3,
+        retentionClassification: fidOut.retentionClassification,
+        continuityRisk: cashInt.continuityRisk?.continuityRisk,
+        capitalProtectionStatus: fidOut.capitalProtectionStatus,
+        negativeFCO, runwayCritico, plEroded, cashOperationalCritical, passivosCriticosSemCobertura,
+        recurringLosses, persistentStructuralFragility, treasuryCollapseRisk, capitalProtectionWeak,
+        fiduciaryEnforcementTriggered,
+      });
+      auditTrail.push(`Gatilhos de sobrevivência avaliados. isSurvivalTriggered: ${isSurvivalTriggered}`);
     }
 
     // 3. Classify Active Mode & Hierarchical Levels
@@ -197,7 +218,7 @@ export class InstitutionalSurvivalHierarchyEngine {
     }
 
     // Compute Lineage Hash
-    const rawLineage = `${fidOut.lineageHash}_${treasury.treasuryLineageHash}_${cashInt.lineageHash}_${classification.mode}`;
+    const rawLineage = `${fidOut.lineageHash}_${treasury.lineage?.lineageHash || treasury.treasuryLineageHash}_${cashInt.lineageHash}_${classification.mode}`;
     let hash = 0;
     for (let i = 0; i < rawLineage.length; i++) {
       hash = (hash << 5) - hash + rawLineage.charCodeAt(i);

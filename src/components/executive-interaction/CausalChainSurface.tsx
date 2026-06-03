@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, Activity, Network, ShieldCheck } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { CausalEdge } from '../../core/runtime/executive-interaction/types';
 
 interface CausalChainSurfaceProps {
@@ -9,6 +10,7 @@ interface CausalChainSurfaceProps {
 export const CausalChainSurface: React.FC<CausalChainSurfaceProps> = ({
   chains = []
 }) => {
+  const { translateLabel: t } = useLanguage();
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
 
   const defaultChains: CausalEdge[] = [
@@ -53,7 +55,7 @@ export const CausalChainSurface: React.FC<CausalChainSurfaceProps> = ({
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] text-slate-500 font-mono">Impacto Estimado</span>
+                  <span className="text-[10px] text-slate-500 font-mono">{t("overlays.estimated_impact")}</span>
                   <span className={`text-xs font-bold px-2.5 py-1 rounded-lg border ${
                     edge.impactScore >= 80 
                       ? 'bg-red-500/10 text-red-400 border-red-500/20' 

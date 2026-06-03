@@ -95,8 +95,7 @@ export function InstitutionalBoardPackCenter({ boardPack }: { boardPack: Institu
           {isQuarantined ? (
             <QuarantineModeSurface 
               reason={quarantineReason} 
-              accountingIntegrityStatus={boardPack.executiveSnapshot?.accountingIntegrityStatus}
-              evidenceTrail={boardPack.executiveSnapshot?.evidenceTrail}
+              isAccountingFailure={isAccountingBroken}
               onViewRawData={() => window.scrollTo(0, document.body.scrollHeight)} 
             />
           ) : (

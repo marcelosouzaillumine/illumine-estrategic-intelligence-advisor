@@ -14,6 +14,7 @@ import {
   parseFinancialExcel, parseFinancialPdf, parseFinancialTxt, 
   FinancialEntry, inferType 
 } from '../../services/importService';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { cn, formatCurrency } from '../../lib/utils';
 import { DOCUMENT_TYPES } from '../../constants/documents';
 import { buildBPHierarchy } from '../../lib/bpEngine';
@@ -28,6 +29,7 @@ interface ImportFinancialModalProps {
 }
 
 export function ImportFinancialModal({ type, clientId, year, clients, onClose, onSuccess }: ImportFinancialModalProps) {
+  const { translateLabel, t } = useLanguage();
   const [selectedType, setSelectedType] = useState<string>(type === 'BP' ? 'Balanço Patrimonial' : type);
   const [file, setFile] = useState<File | null>(null);
   const [parsedData, setParsedData] = useState<FinancialEntry[]>([]);
@@ -46,32 +48,32 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
     setLoading(true);
     setError('');
     setProgress(10);
-    setStatus('Lendo arquivo...');
+    setStatus(t("modals.import_financial.reading_file"));
 
     try {
       let data: FinancialEntry[] = [];
       const ext = selectedFile.name.split('.').pop()?.toLowerCase();
       
       if (ext === 'xlsx' || ext === 'xls' || ext === 'csv') {
-        setStatus('Processando Excel...');
+        setStatus(t("modals.import_financial.processing_excel"));
         data = await parseFinancialExcel(selectedFile, setProgress);
       } else if (ext === 'pdf') {
-        setStatus('Lendo PDF (OCR básico)...');
+        setStatus(t("modals.import_financial.reading_pdf"));
         data = await parseFinancialPdf(selectedFile, setProgress);
       } else if (ext === 'txt') {
-        setStatus('Lendo TXT...');
+        setStatus(t("modals.import_financial.reading_txt"));
         data = await parseFinancialTxt(selectedFile, setProgress);
       } else {
-        throw new Error('Formato não suportado. Use Excel, PDF ou TXT.');
+        throw new Error(t("modals.import_financial.unsupported_format"));
       }
 
-      if (data.length === 0) throw new Error('Nenhum dado financeiro identificado no arquivo.');
+      if (data.length === 0) throw new Error(t("modals.import_financial.no_data"));
       
       setParsedData(data);
       setProgress(100);
-      setStatus('Arquivo carregado com sucesso!');
+      setStatus(t("modals.import_financial.success_loaded"));
     } catch (err: any) {
-      setError(err.message || 'Erro ao processar arquivo.');
+      setError(err.message || t("modals.import_financial.error_processing"));
       setFile(null);
       setParsedData([]);
     } finally {
@@ -84,7 +86,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
     setLoading(true);
     setError('');
     setProgress(10);
-    setStatus('Preparando banco de dados...');
+    setStatus(t("modals.import_financial.preparing_db"));
 
     try {
       // 1. Marcar dados existentes como arquivados (Soft Delete / Versionamento)
@@ -116,7 +118,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
       }
 
       setProgress(40);
-      setStatus('Classificando e salvando novos dados...');
+      setStatus(t("modals.import_financial.saving_data"));
 
       // 2. Classificar e Salvar
       let lastType = 'Ativo';
@@ -213,14 +215,14 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
       setProgress(100);
       
       if (hasWarnings) {
-        setStatus('Importação concluída com ressalvas! Ajuste no Lançamento Manual.');
+        setStatus(t("modals.import_financial.success_warnings"));
         setTimeout(() => onSuccess(), 3500);
       } else {
-        setStatus('Importação concluída!');
+        setStatus(t("modals.import_financial.success"));
         setTimeout(() => onSuccess(), 1500);
       }
     } catch (err: any) {
-      setError(err.message || 'Erro ao salvar no banco de dados.');
+      setError(err.message || t("modals.import_financial.error_saving"));
     } finally {
       setLoading(false);
     }
@@ -236,7 +238,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         {/* Header */}
         <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-lg font-black text-slate-900">Importar {selectedType}</h3>
+            <h3 className="text-lg font-black text-slate-900">{t("modals.import_financial.title")} {selectedType}</h3>
             <p className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-widest font-bold">
               {clientName} · {year}
             </p>
@@ -249,7 +251,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         {/* Content */}
         <div className="p-8 space-y-6 overflow-y-auto flex-1">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tipo de Documento</label>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">{t("modals.import_financial.doc_type")}</label>
             <select 
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
@@ -278,7 +280,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
               <div className="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center">
                 <CheckCircle2 size={40} />
               </div>
-              <h4 className="text-xl font-bold text-slate-900">Sucesso!</h4>
+              <h4 className="text-xl font-bold text-slate-900">{t("modals.import_financial.success_title")}</h4>
               <p className="text-sm text-slate-500">{importResult} contas importadas para o ano {year}.</p>
             </div>
           ) : !file ? (
@@ -290,8 +292,8 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
                 onChange={handleFileChange}
               />
               <UploadCloud size={48} className="text-slate-300 mx-auto mb-4 group-hover:text-blue-500 transition-colors" />
-              <p className="text-sm font-bold text-slate-600">Arraste seu arquivo ou clique para selecionar</p>
-              <p className="text-xs text-slate-400 mt-2">Suportamos Excel, PDF e TXT extraídos de sistemas contábeis.</p>
+              <p className="text-sm font-bold text-slate-600">{t("modals.import_financial.drag_drop")}</p>
+              <p className="text-xs text-slate-400 mt-2">{t("modals.import_financial.supported_formats")}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -311,8 +313,8 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
               {/* Preview Table */}
               <div className="border border-slate-100 rounded-2xl overflow-hidden bg-white">
                 <div className="bg-slate-50 px-4 py-2 border-b border-slate-100 flex justify-between items-center">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Prévia dos Dados</span>
-                  <span className="text-[10px] font-bold text-slate-400 italic">Exibindo primeiros 15 itens</span>
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t("modals.import_financial.data_preview")}</span>
+                  <span className="text-[10px] font-bold text-slate-400 italic">{t("modals.import_financial.showing_items")}</span>
                 </div>
                 <table className="w-full text-left text-[11px]">
                   <thead className="bg-slate-50/50">
@@ -335,7 +337,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
               <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex gap-3">
                 <AlertTriangle size={18} className="text-amber-500 shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <p className="text-[11px] font-black text-amber-800 uppercase tracking-tight">Atenção: Substituição de Dados</p>
+                  <p className="text-[11px] font-black text-amber-800 uppercase tracking-tight">{t("modals.import_financial.warning_replace")}</p>
                   <p className="text-[11px] text-amber-700 leading-relaxed">
                     Ao confirmar, todos os dados de <strong>{selectedType}</strong> existentes para <strong>{year}</strong> deste cliente serão <strong>apagados</strong> e substituídos pelo conteúdo deste arquivo.
                   </p>
@@ -354,7 +356,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
                 <div className="bg-slate-50 p-4 rounded-2xl flex gap-3 items-center">
                   <Info size={16} className="text-blue-500" />
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Dica: Certifique-se de que o arquivo contém pelo menos as colunas de <strong>Nome da Conta</strong> e <strong>Saldo/Valor</strong>.
+                    {t("modals.import_financial.tip")} <strong>{t("modals.import_financial.account_name")}</strong> {t("modals.import_financial.and")} <strong>{t("modals.import_financial.balance")}</strong>.
                   </p>
                 </div>
              )
@@ -376,7 +378,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
               className="flex-1 py-3.5 bg-secondary hover:bg-secondary/90 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-secondary/20 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {loading ? <Loader2 size={18} className="animate-spin" /> : <Database size={18} />}
-              {loading ? 'Importando...' : 'Confirmar Importação'}
+              {loading ? t("modals.import_financial.importing") : t("modals.import_financial.confirm")}
             </button>
           </div>
         )}

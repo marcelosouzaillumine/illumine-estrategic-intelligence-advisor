@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useExecutiveInteraction } from '../../context/executive-interaction/ExecutiveInteractionProvider';
 import { Search, Eye, History, FileText, ClipboardList } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface Evidence {
   id: string;
@@ -17,6 +18,7 @@ interface ExecutiveEvidenceExplorerProps {
 export const ExecutiveEvidenceExplorer: React.FC<ExecutiveEvidenceExplorerProps> = ({
   evidences = []
 }) => {
+  const { translateLabel: t } = useLanguage();
   const { evidenceVisibility, setEvidenceVisibility } = useExecutiveInteraction();
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -73,7 +75,7 @@ export const ExecutiveEvidenceExplorer: React.FC<ExecutiveEvidenceExplorerProps>
         </span>
         <input 
           type="text" 
-          placeholder="Buscar por fonte, detalhe ou hash..." 
+          placeholder={t("overlays.search_placeholder")} 
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full pl-10 pr-4 py-2.5 bg-surface-container/30 border border-border/10 rounded-button text-xs font-bold text-foreground focus:border-secondary transition-all outline-none placeholder:text-muted-foreground/30 placeholder:font-bold placeholder:uppercase placeholder:tracking-wider"

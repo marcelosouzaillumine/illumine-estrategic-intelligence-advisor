@@ -38,6 +38,10 @@ const createValidMockReport = (): any => ({
   capitalGovernanceReport: { isAvailable: true, confidence: 'HIGH_CONFIDENCE' },
   institutionalContext: {
     confidence: { strategicConfidence: 'HIGH_CONFIDENCE' }
+  },
+  institutionalEvidence: {
+    validationStatus: 'VALIDATED',
+    evidenceTrail: []
   }
 });
 

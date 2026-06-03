@@ -148,6 +148,9 @@ export class RuntimeComplianceEngine implements
     // 6. Hardening Payload Checks (Telemetry Integration)
     const payloadViolations = engine.checkPayloadIntegrity(report);
     if (payloadViolations.length > 0) {
+      console.log('PAYLOAD VIOLATIONS DETECTED:', payloadViolations, 'for mode:', mode);
+    }
+    if (payloadViolations.length > 0) {
       payloadViolations.forEach(v => violations.push({ labelKey: 'runtime.compliance.payload_integrity_violation', severity: 'critical', args: { detail: v } }));
     }
 

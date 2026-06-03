@@ -31,7 +31,9 @@ import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { buildBPHierarchy } from '../../lib/bpEngine';
 import { calculateDreCascade, generateInitialDreState } from '../../lib/dreCascade';
 import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { BalanceSheetFinancialMetricsEngine } from '../../core/runtime/governance/bp/BalanceSheetFinancialMetricsEngine';
 import { ExecutiveLocaleEnforcer } from '../../core/enforcement/ExecutiveLocaleEnforcer';
+import { ExecutiveLabelResolver } from '../../core/runtime/executive-presentation/ExecutiveLabelResolver';
 import {
   collection,
   deleteDoc,
@@ -224,6 +226,26 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     creditosSocios
   } = bpSummary || {} as any;
 
+  const financialIndicators = useMemo(() => {
+    if (!bpSummary) return [];
+    return BalanceSheetFinancialMetricsEngine.calculateIndicators(bpSummary);
+  }, [bpSummary]);
+
+  const indicatorsByFamily = useMemo(() => {
+    const families: Record<string, any[]> = {
+      'Liquidez': [],
+      'Capital de Giro': [],
+      'Estrutura de Capital': [],
+      'Imobilização': []
+    };
+    financialIndicators.forEach(ind => {
+      if (families[ind.family]) {
+        families[ind.family].push(ind);
+      }
+    });
+    return families;
+  }, [financialIndicators]);
+
   const parseMetricStr = (val: any) => {
     if (typeof val === 'number') return val;
     if (!val) return 0;
@@ -369,6 +391,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
   const hasData = financialEntries.length > 0;
   const resilienciaGlobal = executiveReport?.scores.composite || 0;
+  const patrimonialIntelligenceReport = executiveReport?.patrimonialIntelligenceReport;
   const maturidade = executiveReport?.institutionalView?.maturity?.stageLabel || executiveReport?.context.stage || 'Pendente';
 
   function getHistoricalValue(y: number, accountName: string) {
@@ -517,57 +540,294 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
       </div>
 
       <div className="space-y-6 mb-12">
-        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between border border-slate-700/50">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
-          
-          <div className="w-full md:w-auto md:flex-1 flex flex-col items-center md:items-start z-10 text-center md:text-left mb-10 md:mb-0 md:mr-10">
-            <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">{t('bp.score.title')}</h3>
-            <p className="text-sm md:text-base text-indigo-100/80 font-medium leading-relaxed w-full">
-              Métrica consolidada de resiliência e solidez patrimonial: analisa a estrutura de capital, liquidez de curto e longo prazo, autonomia financeira e cobertura de obrigações.
-            </p>
-            
-            <div className={cn("px-6 py-3 mt-8 rounded-full border shadow-inner backdrop-blur-sm text-xs font-bold uppercase tracking-wider inline-flex z-10", 
-              resilienciaGlobal >= 81 ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' : 
-              resilienciaGlobal >= 61 ? 'bg-indigo-500/5 text-indigo-300 border-indigo-500/10' : 
-              resilienciaGlobal >= 41 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 
-              resilienciaGlobal >= 21 ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-red-600/20 text-red-400 border-red-500/30')}>
-              Nível {maturidade}
-            </div>
-          </div>
+        {hasData && patrimonialIntelligenceReport ? (
+          <>
+            {/* --- 1. PREMIUM SCORE HERO BANNER --- */}
+            <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-10 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between border border-slate-700/50">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
+              
+              <div className="w-full md:w-auto md:flex-1 flex flex-col items-center md:items-start z-10 text-center md:text-left mb-10 md:mb-0 md:mr-10">
+                <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">Score Patrimonial</h3>
+                <p className="text-sm md:text-base text-indigo-100/80 font-medium leading-relaxed max-w-2xl w-full">
+                  Métrica consolidada de resiliência e solidez patrimonial: analisa a estrutura de capital, liquidez de curto e longo prazo, autonomia financeira e cobertura de obrigações.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
+                  <div className={cn(
+                    "px-6 py-3 rounded-full border shadow-inner backdrop-blur-sm z-10",
+                    patrimonialIntelligenceReport.patrimonialClassification.includes('RESILIENT') ? 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20' :
+                    patrimonialIntelligenceReport.patrimonialClassification.includes('STABLE') ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20' :
+                    patrimonialIntelligenceReport.patrimonialClassification.includes('VULNERABLE') ? 'bg-amber-500/10 text-amber-300 border-amber-500/20' :
+                    'bg-rose-500/10 text-rose-300 border-rose-500/20'
+                  )}>
+                    <span className="text-sm font-black uppercase tracking-widest">{ExecutiveLabelResolver.resolve(patrimonialIntelligenceReport.patrimonialClassification)}</span>
+                  </div>
 
-          <div className="relative w-48 h-48 flex items-center justify-center shrink-0 z-10">
-            <svg width="0" height="0">
-              <defs>
-                <linearGradient id="score-gradient-patrimonial" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor={resilienciaGlobal >= 80 ? "#6366f1" : resilienciaGlobal >= 50 ? "#f59e0b" : "#ef4444"} />
-                  <stop offset="100%" stopColor={resilienciaGlobal >= 80 ? "#818cf8" : resilienciaGlobal >= 50 ? "#fbbf24" : "#f87171"} />
-                </linearGradient>
-              </defs>
-            </svg>
-            <svg className="w-full h-full transform -rotate-90 filter drop-shadow-[0_0_12px_rgba(0,0,0,0.5)]" viewBox="0 0 192 192">
-              <circle cx="96" cy="96" r="84" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-800/80" />
-              <circle cx="96" cy="96" r="84" stroke="url(#score-gradient-patrimonial)" strokeWidth="12" fill="transparent" 
-                strokeDasharray="528" 
-                strokeDashoffset={528 - (528 * resilienciaGlobal) / 100}
-                strokeLinecap="round" 
-                className="transition-all duration-1000 ease-out"
-              />
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-               <span className="text-6xl font-black text-white filter drop-shadow-sm leading-none absolute">{hasData ? resilienciaGlobal.toFixed(0) : '—'}</span>
-               <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest absolute bottom-9">/ 100</span>
+                  {patrimonialIntelligenceReport?.governanceConsistency && (
+                    <div className="flex items-center gap-2 px-6 py-3 rounded-full border border-slate-700/50 bg-slate-800/50 backdrop-blur-sm z-10 text-xs font-bold uppercase tracking-widest text-slate-300">
+                      <span>Governance:</span>
+                      <span className={cn(
+                        patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'CONSISTENT' ? 'text-emerald-400' :
+                        patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'FAIL_CLOSED' ? 'text-rose-400' :
+                        'text-amber-400'
+                      )}>
+                        {patrimonialIntelligenceReport.governanceConsistency.consistencyStatus.replace(/_/g, ' ')}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="relative w-48 h-48 flex items-center justify-center shrink-0 z-10">
+                <svg width="0" height="0">
+                  <defs>
+                    <linearGradient id="score-gradient-hero" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor={resilienciaGlobal >= 80 ? "#6366f1" : resilienciaGlobal >= 50 ? "#f59e0b" : "#ef4444"} />
+                      <stop offset="100%" stopColor={resilienciaGlobal >= 80 ? "#818cf8" : resilienciaGlobal >= 50 ? "#fbbf24" : "#f87171"} />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <svg className="w-full h-full transform -rotate-90 filter drop-shadow-[0_0_12px_rgba(0,0,0,0.5)]" viewBox="0 0 192 192">
+                  <circle cx="96" cy="96" r="84" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-800/80" />
+                  <circle cx="96" cy="96" r="84" stroke="url(#score-gradient-hero)" strokeWidth="12" fill="transparent" 
+                    strokeDasharray="528" 
+                    strokeDashoffset={528 - (528 * (patrimonialIntelligenceReport?.scoreBreakdown?.globalScore ?? resilienciaGlobal)) / 100}
+                    strokeLinecap="round" 
+                    className="transition-all duration-1000 ease-out"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-6xl font-black text-white filter drop-shadow-sm leading-none absolute">{hasData ? (patrimonialIntelligenceReport?.scoreBreakdown?.globalScore ?? resilienciaGlobal.toFixed(0)) : '—'}</span>
+                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest absolute bottom-8">/ 100</span>
+                </div>
+              </div>
             </div>
+
+            {/* --- 2. DECOMPOSIÇÃO EXECUTIVA DO SCORE (Merged Narratives + Math) --- */}
+            <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col justify-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+              <h3 className="text-2xl font-black text-slate-900 mb-6 relative z-10">Decomposição Executiva do Score</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 relative z-10">
+                {[
+                  { label: 'Liquidez', score: patrimonialIntelligenceReport.scoreBreakdown?.liquidityScore, weight: '30%', isCriticalRisk: patrimonialIntelligenceReport.scoreBreakdown?.liquidityCriticalRiskDriver, desc: patrimonialIntelligenceReport.liquidityHealth, color: 'indigo' },
+                  { label: 'Capital de Giro', score: patrimonialIntelligenceReport.scoreBreakdown?.workingCapitalScore, weight: '25%', isCriticalRisk: false, desc: patrimonialIntelligenceReport.workingCapitalHealth, color: 'blue' },
+                  { label: 'Estrutura de Capital', score: patrimonialIntelligenceReport.scoreBreakdown?.capitalStructureScore, weight: '30%', isCriticalRisk: false, desc: patrimonialIntelligenceReport.capitalStructureHealth, color: 'emerald' },
+                  { label: 'Imobilização', score: patrimonialIntelligenceReport.scoreBreakdown?.assetImmobilizationScore, weight: '15%', isCriticalRisk: false, desc: patrimonialIntelligenceReport.assetImmobilizationHealth, color: 'amber' }
+                ].map((item, idx) => (
+                  <div key={idx} className={cn("border-l-4 rounded-r-3xl rounded-l-md p-6 flex flex-col shadow-sm transition-all hover:shadow-md", 
+                    item.isCriticalRisk ? `bg-rose-50/50 border-rose-500` : `bg-slate-50 border-${item.color}-500`)}>
+                    
+                    <div className="flex items-start justify-between mb-4">
+                      <h4 className={cn("text-[11px] font-black uppercase tracking-widest", item.isCriticalRisk ? 'text-rose-900' : `text-${item.color}-900`)}>{item.label}</h4>
+                      {item.isCriticalRisk && (
+                        <span className="text-[8px] font-bold text-rose-600 border border-rose-200 bg-rose-100 px-1.5 py-0.5 rounded-full flex items-center whitespace-nowrap">
+                          ⚠ CRITICAL
+                        </span>
+                      )}
+                    </div>
+                    
+                    <p className="text-sm font-medium text-slate-700 leading-relaxed flex-1 mb-6">{item.desc}</p>
+                    
+                    <div className="flex items-end justify-between mt-auto pt-4 border-t border-slate-200/60">
+                      <span className={cn("text-3xl font-black", item.isCriticalRisk ? 'text-rose-600' : 'text-slate-800')}>{item.score !== null ? item.score : '—'}</span>
+                      <span className="text-[9px] font-bold text-slate-400">PESO {item.weight}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* --- 3. ADVISORY & PERSPECTIVES --- */}
+            <ExecutivePerspectiveSection intelligenceReport={executiveReport} loading={!executiveReport} className="w-full border-none shadow-xl" />
+
+            {/* --- 4. GOVERNANCE & STRUCTURAL RISKS --- */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              
+              {/* Structural Risks */}
+              {executiveReport?.patrimonialStructuralRestrictions && (
+                <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col">
+                  <h3 className="text-xl font-black text-slate-900 border-b border-slate-100 pb-4 mb-6">Restrições Fiduciárias & Teto de Classificação</h3>
+                  <div className="space-y-3 flex-1">
+                    {['Liquidity Fragility Override', 'Treasury Stress Override', 'Short-Term Debt Concentration Override', 'Capital Dependency Override', 'Earnings Quality Override'].map((overrideName, idx) => {
+                      const activeOverride = executiveReport.patrimonialStructuralRestrictions?.appliedOverrides?.find((o: any) => o.name === overrideName);
+                      const isActive = !!activeOverride;
+                      if (!isActive) return null;
+                      return (
+                        <div key={idx} className={cn("border rounded-2xl p-4 flex items-center justify-between", isActive ? 'bg-rose-50/50 border-rose-200' : 'bg-slate-50 border-slate-100 opacity-60')}>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{overrideName}</span>
+                          <div className="flex items-center gap-2">
+                            {isActive && (
+                              <span className="text-[9px] font-bold text-rose-500 border border-rose-200 bg-rose-100 px-2 py-0.5 rounded-full uppercase">
+                                {activeOverride.severity}
+                              </span>
+                            )}
+                            <span className={cn("text-xs font-black", isActive ? 'text-rose-600' : 'text-slate-400')}>{isActive ? 'ACTIVE' : 'INACTIVE'}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  
+                  <div className="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between bg-slate-50/50 p-4 rounded-2xl">
+                    <div className="text-center">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block mb-1">Math Score</span>
+                      <span className="text-lg font-black text-slate-400">{executiveReport.patrimonialStructuralRestrictions.originalClassification}</span>
+                    </div>
+                    <div className="text-slate-300">→</div>
+                    <div className="text-center">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-rose-500 block mb-1">Ceiling Applied</span>
+                      <span className="text-lg font-black text-rose-600">{executiveReport.patrimonialStructuralRestrictions.classificationCeiling || 'NONE'}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Governance Consistency */}
+              {patrimonialIntelligenceReport?.governanceConsistency && (
+                <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-4 mb-6 gap-4">
+                    <h3 className="text-xl font-black text-slate-900">Validação de Consistência Institucional</h3>
+                    <div className={cn("px-4 py-1.5 rounded-full border text-xs font-bold tracking-widest whitespace-nowrap", 
+                      patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'CONSISTENT' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' :
+                      patrimonialIntelligenceReport.governanceConsistency.consistencyStatus === 'FAIL_CLOSED' ? 'bg-rose-50 text-rose-600 border-rose-200' :
+                      'bg-amber-50 text-amber-600 border-amber-200'
+                    )}>
+                      STATUS: {patrimonialIntelligenceReport.governanceConsistency.consistencyStatus.replace(/_/g, ' ')}
+                    </div>
+                  </div>
+                  
+                  {(patrimonialIntelligenceReport.governanceConsistency.detectedIssues.length > 0 || 
+                    patrimonialIntelligenceReport.governanceConsistency.warnings.length > 0 || 
+                    patrimonialIntelligenceReport.governanceConsistency.forcedDisclosures.length > 0) ? (
+                    <div className="flex flex-col gap-3 flex-1 overflow-y-auto max-h-[300px] pr-2">
+                      {patrimonialIntelligenceReport.governanceConsistency.detectedIssues.map((issue: string, idx: number) => (
+                        <div key={`issue-${idx}`} className="p-4 bg-rose-50/50 border-l-4 border-rose-500 rounded-r-xl">
+                          <span className="text-[10px] font-black uppercase text-rose-400 tracking-widest block mb-1">Issue</span>
+                          <span className="text-xs font-bold text-rose-900 leading-relaxed">{issue}</span>
+                        </div>
+                      ))}
+                      {patrimonialIntelligenceReport.governanceConsistency.warnings.map((warning: string, idx: number) => (
+                        <div key={`warn-${idx}`} className="p-4 bg-amber-50/50 border-l-4 border-amber-500 rounded-r-xl">
+                          <span className="text-[10px] font-black uppercase text-amber-500 tracking-widest block mb-1">Warning</span>
+                          <span className="text-xs font-bold text-amber-900 leading-relaxed">{warning}</span>
+                        </div>
+                      ))}
+                      {patrimonialIntelligenceReport.governanceConsistency.forcedDisclosures.map((disc: string, idx: number) => (
+                        <div key={`disc-${idx}`} className="p-4 bg-indigo-50/50 border-l-4 border-indigo-500 rounded-r-xl">
+                          <span className="text-[10px] font-black uppercase text-indigo-400 tracking-widest block mb-1">Disclosure</span>
+                          <span className="text-xs font-bold text-indigo-900 leading-relaxed">{disc}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex-1 flex items-center justify-center p-6 bg-slate-50 border border-slate-100 rounded-2xl text-center">
+                      <p className="text-sm font-bold text-slate-500">Nenhuma inconsistência fiduciária detectada.</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* --- PATRIMONIAL FINANCIAL INDICATORS --- */}
+            <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col space-y-8">
+              <div className="flex flex-col mb-2">
+                <h3 className="text-xl font-black text-slate-900 mb-2">Indicadores Financeiros Patrimoniais</h3>
+                <p className="text-sm text-slate-500 font-medium leading-relaxed max-w-3xl">
+                  Métricas quantitativas subjacentes para avaliação estrutural.
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
+                {Object.entries(indicatorsByFamily).map(([family, indicators]) => (
+                  <div key={family} className="space-y-4">
+                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2">{family}</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {indicators.map((ind, idx) => (
+                        <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 hover:shadow-md transition-all group relative cursor-help flex flex-col justify-between" title={`Rationale: ${ind.rationale}`}>
+                          <div className="flex justify-between items-start mb-4">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 w-2/3 leading-relaxed">{ind.metricName}</span>
+                            <span className={cn(
+                              "text-[8px] font-black uppercase px-2 py-1 rounded-full tracking-wider border whitespace-nowrap",
+                              ind.classification === 'INSUFFICIENT_DATA' ? 'bg-slate-100 text-slate-400 border-slate-200' :
+                              'CRITICAL' === ind.severity ? 'bg-rose-50 text-rose-500 border-rose-200' :
+                              'ATTENTION' === ind.severity ? 'bg-amber-50 text-amber-500 border-amber-200' :
+                              'CAPITAL_IDLE_WARNING' === ind.severity ? 'bg-blue-50 text-blue-500 border-blue-200' :
+                              'bg-emerald-50 text-emerald-500 border-emerald-200'
+                            )}>{ind.classification.replace(/_/g, ' ')}</span>
+                          </div>
+                          <span className={cn("text-2xl font-black tracking-tight", ind.value === 'INSUFFICIENT_DATA' ? 'text-slate-300' : 'text-slate-800')}>
+                            {ind.value === 'INSUFFICIENT_DATA' ? '—' : 
+                              ind.format === 'percentage' ? `${(ind.value * 100).toFixed(1)}%` :
+                              ind.format === 'currency' ? formatCurrency(ind.value) :
+                              ind.value.toFixed(2)
+                            }
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* --- HISTORICAL EVOLUTION --- */}
+            {patrimonialIntelligenceReport?.patrimonialTrend && patrimonialIntelligenceReport.patrimonialTrend.trends.length > 0 && (
+              <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col space-y-6 overflow-hidden">
+                <h3 className="text-xl font-black text-slate-900">Evolução Histórica Patrimonial</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-slate-100">
+                        <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Indicador</th>
+                        {patrimonialIntelligenceReport.patrimonialTrend.trends[0]?.history.map((h: any) => (
+                          <th key={h.year} className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">{h.year}</th>
+                        ))}
+                        <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Tendência</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {patrimonialIntelligenceReport.patrimonialTrend.trends.map((t: any, idx: number) => (
+                        <tr key={idx} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors">
+                          <td className="py-4 text-xs font-bold text-slate-700">{t.metricName}</td>
+                          {t.history.map((h: any) => (
+                            <td key={h.year} className="py-4 text-sm font-medium text-slate-600">
+                              {h.value === 'INSUFFICIENT_DATA' ? '—' : 
+                                (t.metricName.includes('Giro Líquido') || t.metricName.includes('Necessidade') || t.metricName.includes('Tesouraria'))
+                                ? formatCurrency(h.value) 
+                                : typeof h.value === 'number' && h.value > 5 ? `${(h.value * 100).toFixed(1)}%` : h.value.toFixed(2)
+                              }
+                            </td>
+                          ))}
+                          <td className="py-4 text-right">
+                            <span className={cn(
+                              "text-[9px] font-black uppercase px-2.5 py-1 rounded-full tracking-wider border inline-block min-w-[80px] text-center",
+                              t.trend === 'IMPROVING' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' :
+                              t.trend === 'DETERIORATING' ? 'bg-rose-50 text-rose-600 border-rose-200' :
+                              t.trend === 'STABLE' ? 'bg-indigo-50 text-indigo-600 border-indigo-200' :
+                              'bg-slate-100 text-slate-500 border-slate-200'
+                            )}>{t.trend.replace(/_/g, ' ')}</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-[40px] p-12 text-center shadow-2xl relative overflow-hidden">
+             <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+             <div className="relative z-10 flex flex-col items-center justify-center w-full">
+               <h3 className="text-3xl font-black mb-4">Patrimonial Intelligence</h3>
+               <p className="text-indigo-200/80 max-w-[600px] w-full mx-auto font-medium leading-relaxed">Não há dados suficientes ou relatórios gerados para exibir o dashboard patrimonial no momento.</p>
+             </div>
           </div>
-        </div>
-        
-        {/* Diagnóstico Executivo Consolidado e Tendências */}
-        <ExecutivePerspectiveSection intelligenceReport={executiveReport} loading={!executiveReport} className="w-full border-none shadow-xl" />
+        )}
       </div>
-
-
-
-      {/* =========================================================
+{/* =========================================================
           CAMADA 3: {ExecutiveLocaleEnforcer.normalize('Executive Financial Analytics').toUpperCase()}
           Detalhamento granular, gráficos e tabelas
       ========================================================= */}
@@ -591,38 +851,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
           {showCamada3 && (
             <div className="space-y-12 mt-8 animate-in fade-in slide-in-from-top-4 duration-500">
               
-              {/* Detailed Progress Bars */}
-              <div>
-                <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.2em] mb-4 pl-1">{t('bp.score.subtitle')}</h3>
-                <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-                  {executiveReport?.decomposition.map((hs, i) => (
-                    <div key={i} title={hs.explanation} className={cn("border rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group cursor-help", 
-                      "bg-white border-slate-200 shadow-sm hover:shadow-md transition-all",
-                      hs.disabled ? "opacity-60 grayscale bg-slate-50" : ""
-                    )}>
-                      {hs.disabled && hs.badge && (
-                        <div className="absolute top-0 right-0 bg-slate-200 text-slate-500 text-[8px] font-black uppercase px-2 py-1 rounded-bl-xl tracking-wider">
-                          {hs.badge}
-                        </div>
-                      )}
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 block text-slate-500">{hs.label}</span>
-                      <div>
-                        <span className="text-3xl font-black tracking-tighter text-slate-800">
-                          {hs.displayValue || (typeof hs.value === 'number' ? hs.value.toFixed(0) : hs.value)}
-                        </span>
-                        <div className="w-full h-1.5 rounded-full mt-3 overflow-hidden bg-slate-100">
-                          {hs.disabled ? (
-                            <div className="h-full rounded-full bg-slate-300 w-full" />
-                          ) : (
-                            <div className={cn("h-full rounded-full transition-all duration-1000 ease-out", `bg-${hs.severityColor}-500`)} style={{ width: `${hs.value}%` }} />
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* ── Gráficos Adicionais Executivos ── */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Waterfall: Dinâmica de Capital de Giro */}

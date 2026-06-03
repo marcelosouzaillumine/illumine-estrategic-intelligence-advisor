@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, ShieldAlert, History } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface RuntimeResolutionIndicatorProps {
   lineageHash?: string;
@@ -10,10 +11,13 @@ interface RuntimeResolutionIndicatorProps {
 
 export const RuntimeResolutionIndicator: React.FC<RuntimeResolutionIndicatorProps> = ({
   lineageHash,
-  confidenceLabel = 'Alta',
+  confidenceLabel,
   lineageIntegrity = true,
   className = ''
 }) => {
+  const { t } = useLanguage();
+  const finalConfidence = confidenceLabel || t('overlays.high_confidence') || 'Alta';
+  
   return (
     <div className={`inline-flex items-center gap-3 bg-slate-950/40 border border-border/10 rounded-xl px-4 py-2 text-[10px] font-mono uppercase tracking-widest ${className}`}>
       {lineageIntegrity ? (
@@ -36,7 +40,7 @@ export const RuntimeResolutionIndicator: React.FC<RuntimeResolutionIndicatorProp
       )}
 
       <span className="text-slate-500 border-l border-border/10 pl-3">
-        Confiança: <strong className="text-slate-350">{confidenceLabel}</strong>
+        Confiança: <strong className="text-slate-350">{finalConfidence}</strong>
       </span>
     </div>
   );

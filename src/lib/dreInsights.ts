@@ -21,6 +21,9 @@ export interface DreMetrics {
   recGrowth: number;
   ebitdaGrowth: number;
   internalAuditErrors: string[];
+  // Novos KPIs
+  margemContrib: number;
+  receitaPorOpex: number;
 }
 
 export function generateDreInsights(metrics: DreMetrics) {

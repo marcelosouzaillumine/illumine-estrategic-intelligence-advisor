@@ -9,7 +9,8 @@ export class FiduciaryCashInterpreter {
     isArtificial: boolean,
     reconciliation: CashFlowReconciliationOutput,
     sustainability: LegacyOperationalSustainabilityAssessment,
-    continuity: InstitutionalContinuityAssessment
+    continuity: InstitutionalContinuityAssessment,
+    isEarlyStage?: boolean
   ): FiduciaryCashNarrative {
     const fiduciaryWarnings: string[] = [
       'Projeções de runway representam estimativas de sobrevivência institucional sob condições históricas e não oferecem garantia de continuidade futura.'
@@ -17,6 +18,34 @@ export class FiduciaryCashInterpreter {
     const blockedInterpretations: string[] = [];
     const causalFindings: string[] = [];
     const institutionalImplications: string[] = [];
+
+    // Helper de limpeza de termos proibidos e restrições early-stage
+    const cleanText = (text: string): string => {
+      if (!text) return '';
+      let cleaned = text;
+      
+      // Regra: Impedir termos proibidos
+      cleaned = cleaned.replace(/colapso irreversivel/gi, 'estresse de liquidez relevante');
+      cleaned = cleaned.replace(/colapso irreversível/gi, 'estresse de liquidez relevante');
+      cleaned = cleaned.replace(/insolvencia definitiva/gi, 'elevado risco de continuidade');
+      cleaned = cleaned.replace(/insolvência definitiva/gi, 'elevado risco de continuidade');
+      cleaned = cleaned.replace(/liquidez confortavel/gi, 'liquidez momentaneamente estável');
+      cleaned = cleaned.replace(/liquidez confortável/gi, 'liquidez momentaneamente estável');
+      
+      // Regra: Proteção para Early-Stage
+      if (isEarlyStage) {
+        cleaned = cleaned.replace(/diagnóstico de colapso/gi, 'curva de escala em maturação');
+        cleaned = cleaned.replace(/diagnostico de colapso/gi, 'curva de escala em maturação');
+        cleaned = cleaned.replace(/colapso de/gi, 'fase de scale-up de');
+        cleaned = cleaned.replace(/colapso/gi, 'maturação de escala');
+        cleaned = cleaned.replace(/insolvência estrutural/gi, 'necessidade de aporte complementar para formação de escala');
+        cleaned = cleaned.replace(/insolvencia estrutural/gi, 'necessidade de aporte complementar para formação de escala');
+        cleaned = cleaned.replace(/deterioração irreversível/gi, 'intensidade de capital típica do estágio operacional');
+        cleaned = cleaned.replace(/deterioracao irreversivel/gi, 'intensidade de capital típica do estágio operacional');
+      }
+      
+      return cleaned;
+    };
 
     // 1. Reconciliação e Integridade Contábil (Fatos vs Limitações)
     if (!reconciliation.isReconcilable) {
@@ -87,12 +116,12 @@ export class FiduciaryCashInterpreter {
     }
 
     return {
-      executiveNarrative,
-      fiduciaryOpinion,
-      fiduciaryWarnings,
+      executiveNarrative: cleanText(executiveNarrative),
+      fiduciaryOpinion: cleanText(fiduciaryOpinion),
+      fiduciaryWarnings: fiduciaryWarnings.map(cleanText),
       blockedInterpretations: Array.from(new Set(blockedInterpretations)),
-      causalFindings,
-      institutionalImplications
+      causalFindings: causalFindings.map(cleanText),
+      institutionalImplications: institutionalImplications.map(cleanText)
     };
   }
 }

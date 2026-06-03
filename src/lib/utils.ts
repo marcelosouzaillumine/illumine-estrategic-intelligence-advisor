@@ -30,17 +30,19 @@ export function formatCurrency(value: number, currencyCode: string = activeCurre
   const symbol = symbols[currencyCode] || currencyCode;
   const locale = getActiveLocale();
 
+  const sign = value < 0 ? '-' : '';
+  const absVal = Math.abs(value);
   const formattedNumber = new Intl.NumberFormat(locale, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(value);
+  }).format(absVal);
 
   if (locale === 'en-US') {
-    return `${symbol}${formattedNumber}`;
+    return `${sign}${symbol}${formattedNumber}`;
   } else if (locale === 'es-ES') {
-    return `${formattedNumber}\u00A0${symbol}`;
+    return `${sign}${formattedNumber}\u00A0${symbol}`;
   }
-  return `${symbol}\u00A0${formattedNumber}`;
+  return `${sign}${symbol}\u00A0${formattedNumber}`;
 }
 
 export function formatDate(date: string | Date) {

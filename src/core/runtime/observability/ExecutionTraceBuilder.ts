@@ -31,7 +31,7 @@ export class ExecutionTraceBuilder {
     semanticCorruptionFlags?: string[];
     replayToken?: string;
   }) {
-    Object.assign(this.trace, metadata);
+    this.trace = { ...this.trace, ...metadata };
   }
 
   startStage(stageName: string) {
@@ -96,7 +96,7 @@ export class ExecutionTraceBuilder {
   static async getTrace(executionId: string): Promise<ExecutionTrace | null> {
     try {
       return await ExecutionTraceBuilder.activeSink.getTrace(executionId);
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error('[ExecutionTraceBuilder] Error getting trace:', err);
       return null;
     }

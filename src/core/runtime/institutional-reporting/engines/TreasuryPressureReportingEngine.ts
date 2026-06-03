@@ -13,7 +13,7 @@ export class TreasuryPressureReportingEngine {
     return {
       treasuryStressStatus: treasury?.severity || 'UNKNOWN',
       liquidityCompressionLevel: opPressure?.overallPressureLevel || 'UNKNOWN',
-      fundingFragility: opPressure?.fundingFragility.fundingDependency || 'UNKNOWN',
+      fundingFragility: opPressure?.fundingFragility?.fundingDependency || 'UNKNOWN',
       runwaySustainability: treasury?.severity !== 'CRITICAL' && treasury?.severity !== 'HIGH'
     };
   }

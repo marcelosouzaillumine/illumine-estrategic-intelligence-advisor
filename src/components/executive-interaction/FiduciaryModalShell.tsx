@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { X, ShieldAlert, History, AlertTriangle } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { ExecutiveModalPriority } from '../../core/runtime/executive-interaction/types';
 
 interface FiduciaryModalShellProps {
@@ -21,6 +22,7 @@ export const FiduciaryModalShell: React.FC<FiduciaryModalShellProps> = ({
   onConfirm,
   children
 }) => {
+  const { translateLabel: t } = useLanguage();
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -89,7 +91,7 @@ export const FiduciaryModalShell: React.FC<FiduciaryModalShellProps> = ({
             <button 
               onClick={onClose} 
               className="p-1 rounded-lg text-slate-500 hover:text-slate-250 hover:bg-slate-900/40 transition-colors"
-              aria-label="Close"
+              aria-label={t('overlays.close') || 'Close'}
             >
               <X className="w-5 h-5" />
             </button>
@@ -102,7 +104,7 @@ export const FiduciaryModalShell: React.FC<FiduciaryModalShellProps> = ({
             <div className="p-4 bg-red-500/5 border border-red-500/25 rounded-xl text-red-400 text-xs flex gap-3">
               <AlertTriangle className="w-5 h-5 flex-shrink-0" />
               <div>
-                <span className="font-bold uppercase tracking-wider block">Aviso Legal de Auditoria:</span>
+                <span className="font-bold uppercase tracking-wider block">{t("overlays.audit_legal_notice")}</span>
                 Esta deliberação fiduciária é registrada no audit trail com criptografia irreversível. Ação irrevogável.
               </div>
             </div>

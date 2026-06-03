@@ -221,6 +221,14 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
             </span>
           </div>
 
+          {/* Temporal Scope Indicator (FYSIF) */}
+          <div className="flex items-center gap-2 px-4 py-2 border border-amber-200 bg-amber-50 rounded-xl shadow-sm">
+            <Calendar size={14} className="text-amber-600" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-amber-800">
+              Escopo Estrito: Até {year}
+            </span>
+          </div>
+
           {analysis?.reprocessed && (
             <button 
               onClick={() => setShowReprocessed(!showReprocessed)}

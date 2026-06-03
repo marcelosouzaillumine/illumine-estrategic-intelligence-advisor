@@ -20,10 +20,20 @@ import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { CapitalGovernanceAdapter } from '../../core/runtime/capital-governance/capital-governance-adapter';
+import { LifecycleContextBuilder } from '../../core/runtime/lifecycle/LifecycleContextBuilder';
+import { LifecycleSemanticAuthority } from '../../core/runtime/lifecycle/LifecycleSemanticAuthority';
+import { LifecycleRenderAudit } from '../../core/runtime/lifecycle/LifecycleRenderAudit';
+import { DLPAExecutiveRenderingGuard, DLPAViolation } from '../../core/runtime/lifecycle/DLPAExecutiveRenderingGuard';
+import { DLPALegacyLabelScanner } from '../../core/runtime/lifecycle/DLPALegacyLabelScanner';
 
 type ToastType = { type: 'success' | 'error'; message: string } | null;
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
+
+function resolveDisplayLabel(semanticSource: string, resolvedValue: string | undefined, rawValue: string, fallback: string) {
+  if (semanticSource === 'ELSA' && resolvedValue) return resolvedValue;
+  return rawValue ?? fallback;
+}
 
 function getRetentionLabel(status: string) {
   const map: Record<string, { label: string; color: string; bg: string; border: string; icon: React.ElementType }> = {
@@ -78,6 +88,16 @@ function getPreservationLabel(status: string) {
     'PRESSURED':              { label: 'Pressionado',                 color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200' },
     'SEVERELY_ERODED':        { label: 'Erosão Severa',               color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200' },
     'CAPITAL_COLLAPSE_RISK':  { label: 'Risco de Colapso',            color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-200' },
+    // CPI classifications
+    'CAPITAL_EXPANSION':      { label: 'Expansão de Capital',         color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+    'CAPITAL_PRESERVED':      { label: 'Capital Preservado',          color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+    'MODERATE_EROSION':       { label: 'Erosão Moderada',             color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-200' },
+    'HIGH_EROSION':           { label: 'High Capital Erosion',        color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200' },
+    'CRITICAL_EROSION':       { label: 'Erosão Crítica',              color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-200' },
+    'CAPITAL_COLLAPSE':       { label: 'Colapso de Capital',          color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-200' },
+    'Capitalização em Consolidação': { label: 'Capitalização em Consolidação', color: 'text-blue-700', bg: 'bg-blue-50 border-blue-100', border: 'border-blue-200' },
+    'Estrutura de Capital em Formação': { label: 'Estrutura de Capital em Formação', color: 'text-slate-700', bg: 'bg-slate-50 border-slate-100', border: 'border-slate-200' },
+    'Estrutura Patrimonial em Formação': { label: 'Estrutura Patrimonial em Formação', color: 'text-slate-700', bg: 'bg-slate-50 border-slate-100', border: 'border-slate-200' }
   };
   return map[status] || map['NEUTRO'];
 }
@@ -90,12 +110,20 @@ function getMaturityLabel(maturity: string) {
     'EM_ESTRUTURAÇÃO':  { label: 'Em Estruturação',             color: 'text-slate-600',   bg: 'bg-slate-50',   border: 'border-slate-200',   score: 28 },
     'FRÁGIL':           { label: 'Governança Frágil',           color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-200',   score: 40 },
     'DESTRUTIVA':       { label: 'Governança Destrutiva',       color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-200',    score: 10 },
+    
+    // Modern CGE statuses mapping
+    'Governança Estruturada': { label: 'Governança Estruturada', color: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-100', border: 'border-emerald-200', score: 90 },
+    'Governança Estruturada com Risco de Capital': { label: 'Governança Estruturada com Risco de Capital', color: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-100', border: 'border-emerald-200', score: 85 },
+    'Governança em Consolidação': { label: 'Governança em Consolidação', color: 'text-blue-700', bg: 'bg-blue-50 border-blue-100', border: 'border-blue-200', score: 70 },
+    'Governança Fragilizada': { label: 'Governança Fragilizada', color: 'text-amber-700', bg: 'bg-amber-50 border-amber-100', border: 'border-amber-200', score: 50 },
+    'Governança Crítica': { label: 'Governança Crítica', color: 'text-rose-700', bg: 'bg-rose-50 border-rose-100', border: 'border-rose-200', score: 30 },
+    'Governança em Estruturação': { label: 'Governança em Estruturação', color: 'text-blue-700', bg: 'bg-blue-50 border-blue-100', border: 'border-blue-200', score: 50 }
   };
-  return map[maturity] || map['EM_ESTRUTURAÇÃO'];
+  return map[maturity] || { label: maturity, color: 'text-slate-600', bg: 'bg-slate-50 border-slate-100', border: 'border-slate-200', score: 50 };
 }
 
 // ── KPI Card ─────────────────────────────────────────────────────────────────
-function DlpaKpiCard({ title, value, subtitle, statusLabel, statusBg, statusText, statusBorder, icon: Icon, accentColor }: any) {
+function DlpaKpiCard({ title, value, subtitle, statusLabel, statusBg, statusText, statusBorder, icon: Icon, accentColor, formula }: any) {
   return (
     <div className={cn(
       'group relative bg-white rounded-[20px] border p-6 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col',
@@ -113,6 +141,11 @@ function DlpaKpiCard({ title, value, subtitle, statusLabel, statusBg, statusText
           <p className="font-display font-semibold text-slate-800 truncate text-xl tracking-tight">
             {value}
           </p>
+          {formula && (
+            <p className="text-[9px] font-mono text-slate-400 mt-1 bg-slate-50 p-1.5 rounded border border-slate-100 whitespace-pre-wrap leading-relaxed">
+              {formula}
+            </p>
+          )}
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <span className={cn('text-[9px] font-black uppercase px-2.5 py-1 rounded-full border', statusBg, statusText, statusBorder)}>
@@ -176,6 +209,40 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
     const normalize = (s: string) =>
       (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
+    // First, try to get the real PL values from the Balance Sheet (BP) for this year in allHistoryData
+    const bpEntries = allHistoryData.filter((d: any) =>
+      Number(d.year) === filterYear &&
+      ['bp', 'balanço patrimonial', 'balanco patrimonial', 'balanco'].includes(normalize(d.docType || d.type || ''))
+    );
+
+    let bpPlFim = 0;
+    if (bpEntries.length > 0) {
+      const plEntry = bpEntries.find((e: any) => {
+        const n = normalize(e.conta || e.category || '');
+        return (n === 'patrimonio liquido' || n === 'pl' || n === 'total do patrimonio liquido') && e.type === 'pl';
+      });
+      if (plEntry) {
+        bpPlFim = Number(plEntry.val || plEntry.valor || plEntry.value || 0);
+      }
+    }
+
+    // Also get the BP PL for the previous year (starting equity)
+    const bpEntriesPrev = allHistoryData.filter((d: any) =>
+      Number(d.year) === (filterYear - 1) &&
+      ['bp', 'balanço patrimonial', 'balanco patrimonial', 'balanco'].includes(normalize(d.docType || d.type || ''))
+    );
+
+    let bpPlInicio = 0;
+    if (bpEntriesPrev.length > 0) {
+      const plEntry = bpEntriesPrev.find((e: any) => {
+        const n = normalize(e.conta || e.category || '');
+        return (n === 'patrimonio liquido' || n === 'pl' || n === 'total do patrimonio liquido') && e.type === 'pl';
+      });
+      if (plEntry) {
+        bpPlInicio = Number(plEntry.val || plEntry.valor || plEntry.value || 0);
+      }
+    }
+
     const findVal = (...terms: string[]) => {
       const entry = dbDataDLPA.find((e: any) => {
         const n = normalize(e.conta || e.category || '');
@@ -184,30 +251,186 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       return Number(entry?.val || entry?.valor || entry?.value || 0);
     };
 
-    const lucroLiquido       = findVal('lucro liquido', 'lucro do exercicio', 'resultado liquido');
+    // Lucro Líquido extraction that also matches Prejuízo (excluding carryover/accumulated balances)
+    const getNetIncomeValue = () => {
+      const entry = dbDataDLPA.find((e: any) => {
+        const n = normalize(e.conta || e.category || '');
+        if (n.includes('acumulado') || n.includes('saldo inicial') || n.includes('saldo final') || n.includes('saldo anterior') || n.includes('periodo anterior') || n.includes('inicio') || n.includes('fim')) {
+          return false;
+        }
+        return [
+          'lucro liquido', 'lucro do exercicio', 'resultado liquido',
+          'prejuizo liquido', 'prejuizo do exercicio', 'prejuizo liquido do exercicio',
+          'resultado do exercicio', 'resultado liquido do exercicio', 'prejuizo do periodo', 'lucro do periodo',
+          'lucro/prejuizo do exercicio', 'lucro ou prejuizo do exercicio'
+        ].some(term => n.includes(normalize(term))) || (n.includes('lucro') || n.includes('prejuizo') || n.includes('resultado do exercicio'));
+      });
+      if (!entry) return 0;
+      let val = Number(entry.val ?? entry.valor ?? entry.value ?? 0);
+      const n = normalize(entry.conta || entry.category || '');
+      if ((n.includes('prejuizo') || n.includes('(-)')) && val > 0) {
+        val = -val;
+      }
+      return val;
+    };
+
+    const getPlInicioValue = () => {
+      if (bpPlInicio > 0) return bpPlInicio;
+      
+      const entry = dbDataDLPA.find((e: any) => {
+        const n = normalize(e.conta || e.category || '');
+        const isSubAccount = n.includes('lucro') || n.includes('prejuizo') || n.includes('reserva');
+        if (isSubAccount) return false;
+        
+        return [
+          'pl inicio', 'saldo inicial', 'patrimonio inicio',
+          'saldo no inicio', 'saldo anterior', 'saldo no inicio do periodo',
+          'saldo de abertura'
+        ].some(term => n.includes(normalize(term))) || (n.includes('saldo') && n.includes('inicio'));
+      });
+      return Number(entry?.val || entry?.valor || entry?.value || 0);
+    };
+
+    const getPlFimValue = () => {
+      if (bpPlFim > 0) return bpPlFim;
+
+      const entry = dbDataDLPA.find((e: any) => {
+        const n = normalize(e.conta || e.category || '');
+        const isSubAccount = n.includes('lucro') || n.includes('prejuizo') || n.includes('reserva');
+        if (isSubAccount) return false;
+
+        return [
+          'pl fim', 'saldo final', 'patrimonio fim', 'patrimonio liquido',
+          'saldo no fim', 'saldo atual', 'saldo no fim do periodo',
+          'saldo de encerramento'
+        ].some(term => n.includes(normalize(term))) || (n.includes('saldo') && n.includes('fim'));
+      });
+
+      return Number(entry?.val || entry?.valor || entry?.value || 0);
+    };
+
+    const getCapitalSocial = () => {
+      const bpEntries = allHistoryData.filter((d: any) =>
+        Number(d.year) === filterYear &&
+        ['bp', 'balanço patrimonial', 'balanco patrimonial', 'balanco'].includes(normalize(d.docType || d.type || ''))
+      );
+      const bpCapitalSocialEntry = bpEntries.find((e: any) => {
+        const n = normalize(e.conta || e.category || '');
+        return n === 'capital social' || n === 'capital social integralizado' || n === 'capital integralizado' || n === 'capital subscrito';
+      });
+      if (bpCapitalSocialEntry) {
+        return Math.abs(Number(bpCapitalSocialEntry.val || bpCapitalSocialEntry.valor || bpCapitalSocialEntry.value || 0));
+      }
+
+      const entry = dbDataDLPA.find((e: any) => {
+        const n = normalize(e.conta || e.category || '');
+        return n.includes('capital social') || n.includes('capital integralizado');
+      });
+      return Number(entry?.val || entry?.valor || entry?.value || bpPlFim || 0);
+    };
+
+    const getStartingLucrosPrejuizos = () => {
+      const entry = dbDataDLPA.find((e: any) => {
+        const n = normalize(e.conta || e.category || '');
+        return (n.includes('saldo anterior') || n.includes('saldo inicial') || n.includes('inicio') || n.includes('abertura') || n.includes('anterior')) && 
+               (n.includes('lucros') || n.includes('prejuizos') || n.includes('acumulados') || n.includes('lucros/prejuizos') || n.includes('lucros ou prejuizos'));
+      });
+      let val = Number(entry?.val ?? entry?.valor ?? entry?.value ?? 0);
+      if (entry) {
+        const nameNorm = normalize(entry.conta || entry.category || '');
+        if ((nameNorm.includes('prejuizo') || nameNorm.includes('(-)')) && val > 0) {
+          val = -val;
+        }
+      }
+      return val;
+    };
+
+    const lucroLiquido       = getNetIncomeValue();
     const dividendos         = Math.abs(findVal('dividendo', 'distribuicao', 'jcp', 'juros sobre capital'));
     const reservaLegal       = findVal('reserva legal');
     const reservaEstatutaria = findVal('reserva estatutaria', 'outras reservas');
-    const plInicio           = findVal('pl inicio', 'saldo inicial', 'patrimonio inicio');
-    const plFim              = findVal('pl fim', 'saldo final', 'patrimonio fim', 'patrimonio liquido');
+    const plInicio           = getPlInicioValue();
+    const plFim              = getPlFimValue();
     const aumentoCapital     = findVal('aumento de capital', 'integralizacao');
+    const lucrosPrejuizosInicio = getStartingLucrosPrejuizos();
+    const capitalSocial = getCapitalSocial();
 
     return {
       lucroLiquido,
       dividendos,
       reservaLegal,
       reservaEstatutaria,
-      plInicio,
-      plFim,
+      plInicio: plInicio || plFim,
+      plFim: plFim || plInicio,
       aumentoCapital,
+      lucrosPrejuizosInicio,
+      capitalSocial
     };
-  }, [dbDataDLPA]);
+  }, [dbDataDLPA, allHistoryData, filterYear]);
 
   // ── Capital Governance Adapter (local, sem runtime completo) ──────────────
   const capitalGov = useMemo(() => {
     if (!dlpaMetrics || dbDataDLPA.length === 0) return null;
-    const { lucroLiquido, dividendos, plInicio, plFim, aumentoCapital } = dlpaMetrics;
+    const { lucroLiquido, dividendos, plInicio, plFim, aumentoCapital, capitalSocial } = dlpaMetrics;
     const retainedEarnings = plFim > 0 ? plFim - (plInicio || plFim) : lucroLiquido - dividendos;
+
+    const currentClient = clients?.find((c: any) => c.id === selectedClient);
+
+    let foundationYear: number | undefined = undefined;
+    if (currentClient?.dataFundacao) {
+      const parts = currentClient.dataFundacao.split('/');
+      if (parts.length === 3) {
+        const yearPart = Number(parts[2]);
+        if (!isNaN(yearPart)) foundationYear = yearPart;
+      } else {
+        const yearPart = Number(currentClient.dataFundacao);
+        if (!isNaN(yearPart)) {
+          foundationYear = yearPart;
+        } else {
+          const dateObj = new Date(currentClient.dataFundacao);
+          if (!isNaN(dateObj.getFullYear())) {
+            foundationYear = dateObj.getFullYear();
+          }
+        }
+      }
+    }
+    if (foundationYear === undefined && typeof currentClient?.foundationYear === 'number') {
+      foundationYear = currentClient.foundationYear;
+    }
+
+    const uniqueYears = Array.from(new Set(allHistoryData.map((d: any) => Number(d.year)).filter(Boolean)));
+    const historicalCycles = uniqueYears.filter(y => y <= filterYear).length;
+
+    const normalize = (s: string) =>
+      (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const dreEntries = allHistoryData.filter((d: any) =>
+      Number(d.year) === filterYear &&
+      ['dre', 'dre gerencial', 'resultado'].includes(normalize(d.docType || d.type || ''))
+    );
+    const revEntry = dreEntries.find((d: any) => {
+      const name = normalize(d.conta || d.category || d.item || '');
+      return name.includes('receita') || name.includes('faturamento') || name.includes('vendas');
+    });
+    const revenue = revEntry ? Number(revEntry.val ?? revEntry.valor ?? revEntry.value ?? 0) : 0;
+
+    const lContext = LifecycleContextBuilder.build({
+      foundationYear,
+      analysisYear: filterYear,
+      historicalCycles,
+      capitalSocial,
+      revenue,
+      netIncome: lucroLiquido
+    });
+    const lifecycleProfile = LifecycleSemanticAuthority.getSemanticProfile(lContext);
+
+    const financialRuntimeContext = {
+      lifecycleProfile,
+      contextualConfidence: 'HIGH' as const,
+      interpretationWarnings: [] as string[],
+      requiredDisclosures: [] as string[],
+      auditTrail: [] as string[]
+    };
+
     return CapitalGovernanceAdapter.process(
       dbDataDLPA,
       lucroLiquido,
@@ -216,10 +439,10 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       plInicio || plFim,
       plFim,
       aumentoCapital,
-      undefined,
+      financialRuntimeContext,
       allHistoryData
     );
-  }, [dbDataDLPA, dlpaMetrics, allHistoryData]);
+  }, [dbDataDLPA, dlpaMetrics, allHistoryData, clients, selectedClient, filterYear]);
 
   // ── Dados históricos para gráfico ─────────────────────────────────────────
   const chartData = useMemo(() => {
@@ -275,11 +498,86 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   const behavior     = capitalGov?.diagnostics?.behavior;
   const fiduciaryOutput = (capitalGov as any)?.diagnostics?.fiduciaryOutput;
   const narrative    = capitalGov?.narrative || '';
+  const lifecycleContext = (capitalGov as any)?.semantic?.semanticContext || {};
+  const isValidLifecycleContext = lifecycleContext?.semanticSource && lifecycleContext?.lifecycleStage;
+
+  const semanticSource = isValidLifecycleContext ? lifecycleContext.semanticSource : ((capitalGov as any)?.semanticSource || 'LEGACY');
+  const lifecycleStage = isValidLifecycleContext ? lifecycleContext.lifecycleStage : ((capitalGov as any)?.diagnostics?.fiduciaryOutput?.lifecycleStage || (capitalGov as any)?.lifecycleStage || 'ESTABLISHED_ANALYSIS');
+
+  const capitalSocialValue = dlpaMetrics?.capitalSocial ?? 0;
+
+  const cpi = useMemo(() => {
+    if (!dlpaMetrics || capitalSocialValue === 0) return 1;
+    return (dlpaMetrics.plFim ?? 0) / capitalSocialValue;
+  }, [dlpaMetrics, capitalSocialValue]);
+
+  const cpiStatus = useMemo(() => {
+    const raw = preservation?.preservationStatus || 'NEUTRO';
+    const resolved = (capitalGov as any)?.semantic?.resolvedCapitalStatus || (capitalGov as any)?.resolvedCapitalStatus;
+    return resolveDisplayLabel(semanticSource, resolved, raw, 'NEUTRO');
+  }, [capitalGov, preservation, semanticSource]);
 
   const retentionStyle    = getRetentionLabel(retention?.retentionStatus || 'NÃO_APLICÁVEL');
   const distributionStyle = getDistributionLabel(distribution?.distributionPressure || 'NÃO_APLICÁVEL');
-  const preservationStyle = getPreservationLabel(preservation?.preservationStatus || 'NEUTRO');
-  const maturityStyle     = getMaturityLabel(behavior?.governanceMaturity || 'EM_DESENVOLVIMENTO');
+  const preservationStyle = getPreservationLabel(cpiStatus || 'NEUTRO');
+
+  const alignedMaturity = useMemo(() => {
+    const raw = behavior?.governanceMaturity || 'Governança Crítica';
+    const resolved = (capitalGov as any)?.semantic?.resolvedGovernanceStatus || (capitalGov as any)?.resolvedGovernanceStatus;
+    return resolveDisplayLabel(semanticSource, resolved, raw, 'Governança Crítica');
+  }, [capitalGov, behavior, semanticSource]);
+
+  const [renderingViolations, setRenderingViolations] = useState<DLPAViolation[]>([]);
+  const featureFlags = useMemo(() => ({
+    showSemanticAudit: true
+  }), []);
+
+  // Execute UI Rendering Audit
+  useEffect(() => {
+    if (capitalGov && process.env.NODE_ENV !== 'production') {
+      LifecycleRenderAudit.validate({
+        governanceStatus: behavior?.governanceMaturity,
+        resolvedGovernanceStatus: (capitalGov as any)?.resolvedGovernanceStatus,
+        capitalStatus: preservation?.preservationStatus,
+        resolvedCapitalStatus: (capitalGov as any)?.resolvedCapitalStatus,
+        semanticSource: (capitalGov as any)?.semanticSource,
+        resolvedSemanticSource: (capitalGov as any)?.semanticSource
+      });
+    }
+  }, [capitalGov, behavior, preservation]);
+
+  const maturityStyle     = getMaturityLabel(alignedMaturity);
+
+  // Hook DLPAExecutiveRenderingGuard into DLPAPage.tsx via useEffect
+  useEffect(() => {
+    if (capitalGov) {
+      const renderedTerms = [
+        maturityStyle.label,
+        preservationStyle.label,
+        narrative,
+        cpiStatus
+      ];
+      
+      if (semanticSource === 'ELSA') {
+        try {
+          DLPALegacyLabelScanner.scanRenderedLabels(semanticSource, renderedTerms);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      const viols = DLPAExecutiveRenderingGuard.validateExecutiveDisplay(semanticSource, lifecycleStage, renderedTerms);
+      setRenderingViolations(viols);
+    }
+  }, [semanticSource, lifecycleStage, maturityStyle.label, preservationStyle.label, narrative, capitalGov, cpiStatus]);
+
+  const lucrosPrejuizosFinal = useMemo(() => {
+    if (!dlpaMetrics) return 0;
+    if (retention?.lucrosPrejuizos != null && retention.lucrosPrejuizos !== 0) {
+      return retention.lucrosPrejuizos;
+    }
+    return (dlpaMetrics.lucrosPrejuizosInicio || 0) + (dlpaMetrics.lucroLiquido || 0);
+  }, [dlpaMetrics, retention]);
 
   const parsedTaxaRetencao = retention ? retention.retentionRatio * 100 : 0;
   const parsedTaxaDistribuicao = distribution ? distribution.distributionRatio * 100 : 0;
@@ -329,13 +627,14 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
       {/* Toast */}
-      {toast && (
+      {toast && typeof document !== 'undefined' && createPortal(
         <div className={cn(
           'fixed top-6 right-6 z-50 px-5 py-3 rounded-xl shadow-lg text-sm font-bold text-white animate-executive-fade',
           toast.type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'
         )}>
           {toast.message}
-        </div>
+        </div>,
+        document.body
       )}
 
       {showDeleteConfirm && createPortal(
@@ -363,6 +662,83 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
         icon={BookOpen}
         color="executive"
       />
+
+      {lifecycleStage === 'INITIAL_CAPITALIZATION' && (
+        <div className="flex justify-start -mt-6 -mb-6">
+          <span className="px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-600 border border-blue-500/20 shadow-sm">
+            Fase Inicial de Capitalização
+          </span>
+        </div>
+      )}
+
+      {/* Temporário: Auditoria de Propagação ELSA */}
+      {(featureFlags.showSemanticAudit || process.env.NODE_ENV !== 'production') && (capitalGov as any)?.lifecycleAudit && (
+        <div className="bg-slate-900 border border-slate-700 p-4 rounded-xl mb-6 flex flex-col gap-2">
+          <h4 className="text-xs font-black uppercase text-white mb-2 flex items-center gap-2">
+            <ShieldCheck size={14} className="text-emerald-400" /> Auditoria de Propagação ELSA (Painel Técnico)
+          </h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px] uppercase font-mono text-slate-300">
+            <div>
+              <span className="block text-slate-500 mb-1">Semantic Source:</span>
+              <strong className={(capitalGov as any).lifecycleAudit.semanticSource === 'ELSA' ? 'text-emerald-400' : 'text-amber-400'}>
+                {(capitalGov as any).lifecycleAudit.semanticSource}
+              </strong>
+            </div>
+            <div>
+              <span className="block text-slate-500 mb-1">Raw Governance Status:</span>
+              <strong className="text-amber-400">
+                {behavior?.governanceMaturity || 'N/A'}
+              </strong>
+            </div>
+            <div>
+              <span className="block text-slate-500 mb-1">Resolved Governance:</span>
+              <strong className="text-emerald-400">
+                {(capitalGov as any)?.resolvedGovernanceStatus || 'N/A'}
+              </strong>
+            </div>
+            <div>
+              <span className="block text-slate-500 mb-1">Raw Capital Status:</span>
+              <strong className="text-amber-400">
+                {preservation?.preservationStatus || 'N/A'}
+              </strong>
+            </div>
+            <div>
+              <span className="block text-slate-500 mb-1">Resolved Capital:</span>
+              <strong className="text-emerald-400">
+                {(capitalGov as any)?.resolvedCapitalStatus || 'N/A'}
+              </strong>
+            </div>
+            <div>
+              <span className="block text-slate-500 mb-1">Fallback Activated:</span>
+              <strong className={(capitalGov as any).lifecycleAudit.fallbackActivated ? 'text-rose-400' : 'text-emerald-400'}>
+                {(capitalGov as any).lifecycleAudit.fallbackActivated ? 'YES' : 'NO'}
+              </strong>
+            </div>
+            <div>
+              <span className="block text-slate-500 mb-1">Fallback Reason:</span>
+              <strong className="text-rose-400">
+                {(capitalGov as any).lifecycleAudit.fallbackReason || 'N/A'}
+              </strong>
+            </div>
+            <div>
+              <span className="block text-slate-500 mb-1">UI Rendering Match:</span>
+              <strong className={alignedMaturity === (capitalGov as any)?.resolvedGovernanceStatus ? 'text-emerald-400' : 'text-rose-400'}>
+                {alignedMaturity === (capitalGov as any)?.resolvedGovernanceStatus ? 'VALID' : 'LEGACY_FIELD_RENDERED'}
+              </strong>
+            </div>
+          </div>
+          {renderingViolations.length > 0 && (
+            <div className="mt-2 pt-2 border-t border-slate-700">
+              <span className="block text-rose-400 font-bold text-[9px] mb-1">Controlled Rendering Violations:</span>
+              {renderingViolations.map((v, i) => (
+                <div key={i} className="text-[9px] text-rose-300 font-mono">
+                  [{v.code}] {v.message}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Control Bar */}
       <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-2xl border border-slate-200 backdrop-blur-md shadow-sm -mt-6 mb-10">
@@ -478,14 +854,14 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 <div className="grid grid-cols-2 gap-3 mt-auto">
                   <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                     <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Taxa de Retenção</p>
-                    <p className={cn('text-lg font-black', parsedTaxaRetencao >= 30 ? 'text-emerald-600' : 'text-rose-600')}>
-                      {parsedTaxaRetencao.toFixed(1)}%
+                    <p className={cn('text-lg font-black', dlpaMetrics.lucroLiquido <= 0 ? 'text-slate-500' : (parsedTaxaRetencao >= 30 ? 'text-emerald-600' : 'text-rose-600'))}>
+                      {dlpaMetrics.lucroLiquido <= 0 ? 'Não Aplicável' : `${parsedTaxaRetencao.toFixed(1)}%`}
                     </p>
                   </div>
                   <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                     <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Taxa de Distribuição</p>
-                    <p className={cn('text-lg font-black', parsedTaxaDistribuicao > 70 ? 'text-amber-600' : 'text-slate-700')}>
-                      {parsedTaxaDistribuicao.toFixed(1)}%
+                    <p className={cn('text-lg font-black', dlpaMetrics.lucroLiquido <= 0 ? 'text-slate-500' : (parsedTaxaDistribuicao > 70 ? 'text-amber-600' : 'text-slate-700'))}>
+                      {dlpaMetrics.lucroLiquido <= 0 ? 'Não Aplicável' : `${parsedTaxaDistribuicao.toFixed(1)}%`}
                     </p>
                   </div>
                 </div>
@@ -521,30 +897,28 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               accentColor="bg-blue-400 text-blue-600"
             />
             <DlpaKpiCard
-              title="Lucro Retido no Exercício"
-              value={formatCurrency(retentionValue)}
-              subtitle="Reinvestimento / Reservas"
+              title={dlpaMetrics && dlpaMetrics.lucroLiquido < 0 ? "Prejuízo Acumulado Final" : "Lucro Retido no Exercício"}
+              value={dlpaMetrics && dlpaMetrics.lucroLiquido < 0 ? formatCurrency(lucrosPrejuizosFinal) : formatCurrency(retentionValue)}
+              subtitle={dlpaMetrics && dlpaMetrics.lucroLiquido < 0 ? "Saldo acumulado ao final do exercício" : "Reinvestimento / Reservas"}
               statusLabel={retentionStyle.label}
               statusBg={retentionStyle.bg}
               statusText={retentionStyle.color}
               statusBorder={retentionStyle.border}
               icon={retentionStyle.icon}
               accentColor="bg-indigo-400 text-indigo-600"
+              formula={dlpaMetrics && dlpaMetrics.lucroLiquido < 0 ? `Fórmula: Saldo Inicial + Prejuízo (${formatCurrency((dlpaMetrics.lucrosPrejuizosInicio || 0))} + ${formatCurrency(dlpaMetrics.lucroLiquido)}) = ${formatCurrency(lucrosPrejuizosFinal)}` : undefined}
             />
             <DlpaKpiCard
               title="Preservação Patrimonial"
-              value={
-                fiduciaryOutput && fiduciaryOutput.preservationRatioReliability !== 'RELIABLE'
-                  ? (fiduciaryOutput.preservationRatioReliability === 'INSUFFICIENT_PATRIMONIAL_BASE' ? 'Base Insuficiente' : 'Inconfiável')
-                  : (preservation?.equityPreservationRatio != null ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—')
-              }
-              subtitle="PL Fim / PL Início"
+              value={dlpaMetrics ? `${(cpi * 100).toFixed(2)}%` : '—'}
+              subtitle="PL Final / Capital Social"
               statusLabel={preservationStyle.label}
               statusBg={preservationStyle.bg}
               statusText={preservationStyle.color}
               statusBorder={preservationStyle.border}
               icon={ShieldCheck}
               accentColor="bg-purple-400 text-purple-600"
+              formula={`Fórmula: PL Fim / Cap. Social (${formatCurrency(dlpaMetrics?.plFim ?? 0)} ÷ ${formatCurrency(capitalSocialValue)})`}
             />
           </div>
 
@@ -605,53 +979,74 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                 {[
                   {
                     label: 'Sustentabilidade Patrimonial',
-                    value: fiduciaryOutput?.capitalProtectionStatus ? fiduciaryOutput.capitalProtectionStatus.replace(/_/g, ' ') : '—',
+                    value: cpiStatus !== 'NEUTRO' ? cpiStatus : '—',
                     badge: preservationStyle.label,
                     badgeColor: preservationStyle.color,
-                    icon: ShieldCheck
+                    icon: ShieldCheck,
+                    formula: `Classificação: ${cpiStatus || 'NEUTRO'}`
                   },
                   {
                     label: 'Dependência de Capitalização',
                     value: fiduciaryOutput?.capitalSupportRatio === 'NOT_AVAILABLE' ? 'N/A' : fiduciaryOutput?.capitalSupportRatio != null ? `${(fiduciaryOutput.capitalSupportRatio * 100).toFixed(1)}%` : '—',
                     badge: retentionStyle.label,
                     badgeColor: retentionStyle.color,
-                    icon: BookMarked
+                    icon: BookMarked,
+                    formula: fiduciaryOutput?.capitalSupportRatio !== 'NOT_AVAILABLE' && fiduciaryOutput?.capitalSupportRatio != null
+                      ? `Fórmula: Capital Social / |Prejuízo Líquido| (${formatCurrency(capitalSocialValue)} ÷ ${formatCurrency(Math.abs(dlpaMetrics?.lucroLiquido ?? 0))}) = ${(fiduciaryOutput.capitalSupportRatio * 100).toFixed(1)}%`
+                      : 'Fórmula: Capital Social / |Prejuízo Líquido| (Indisponível sem Prejuízo)'
                   },
                   {
                     label: 'Capacidade Distributiva',
                     value: distribution?.distributionRatio != null && distribution.distributionRatio > 0 ? `${(distribution.distributionRatio * 100).toFixed(1)}%` : 'Inexistente',
                     badge: distributionStyle.label,
                     badgeColor: distributionStyle.color,
-                    icon: PieChartIcon
+                    icon: PieChartIcon,
+                    formula: `Fórmula: Distribuições / Lucro Líquido (${formatCurrency(dlpaMetrics?.dividendos ?? 0)} ÷ ${formatCurrency(dlpaMetrics?.lucroLiquido ?? 0)})`
                   },
                   {
                     label: 'Integridade Patrimonial',
                     value: preservation ? `${(preservation.equityPreservationRatio * 100).toFixed(1)}%` : '—',
                     badge: preservationStyle.label,
                     badgeColor: preservationStyle.color,
-                    icon: ShieldCheck
+                    icon: ShieldCheck,
+                    formula: `Fórmula: PL Final / Capital Social (${formatCurrency(dlpaMetrics?.plFim ?? 0)} ÷ ${formatCurrency(capitalSocialValue)}) = ${(preservation ? preservation.equityPreservationRatio * 100 : 0).toFixed(1)}%`
                   },
                   {
                     label: 'Resiliência de Capital',
                     value: `${behavior?.capitalReinforcementIndex ?? 0}/100`,
                     badge: maturityStyle.label,
                     badgeColor: maturityStyle.color,
-                    icon: Scale
+                    icon: Scale,
+                    formula: `Score de Reforço Fiduciário base: ${behavior?.capitalReinforcementIndex ?? 0}/100`
                   }
-                ].map(({ label, value, badge, badgeColor, icon: Icon }) => (
-                  <div key={label} className="p-4 bg-white/5 rounded-xl border border-white/5 flex items-center justify-between hover:bg-white/10 transition-colors backdrop-blur-sm">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center border border-white/10">
-                        <Icon size={14} className="text-white/70" />
+                ].map(({ label, value, badge, badgeColor, icon: Icon, formula }) => (
+                  <div key={label} className="p-4 bg-white/5 rounded-xl border border-white/5 flex flex-col gap-2 hover:bg-white/10 transition-colors backdrop-blur-sm">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center border border-white/10">
+                          <Icon size={14} className="text-white/70" />
+                        </div>
+                        <div>
+                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
+                          <p className={cn('text-xs font-bold mt-0.5', badgeColor)}>{badge}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
-                        <p className={cn('text-xs font-bold mt-0.5', badgeColor)}>{badge}</p>
-                      </div>
+                      <p className="text-sm font-black text-white">{value}</p>
                     </div>
-                    <p className="text-sm font-black text-white">{value}</p>
+                    {formula && (
+                      <p className="text-[9px] font-mono text-white/55 bg-white/5 p-2 rounded border border-white/10 leading-normal whitespace-pre-wrap">
+                        {formula}
+                      </p>
+                    )}
                   </div>
                 ))}
+                {semanticSource && (
+                  <div className="mt-4 pt-3 border-t border-white/10 text-center">
+                    <span className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                      Fonte Semântica: {semanticSource}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -719,7 +1114,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   <tfoot>
                     <tr className="bg-slate-900 text-white">
                       <td className="py-4 px-8 text-sm font-black uppercase tracking-widest">
-                        Saldo de Lucros Retidos
+                        {dlpaMetrics.lucroLiquido < 0 ? "Prejuízo Acumulado" : "Saldo de Lucros Retidos"}
                       </td>
                       <td className={cn('py-4 px-8 text-right font-mono font-black text-sm',
                         retentionValue >= 0 ? 'text-emerald-400' : 'text-rose-400')}>

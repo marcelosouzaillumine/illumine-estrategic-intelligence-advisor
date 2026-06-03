@@ -178,7 +178,12 @@ export class FiduciaryCashIntelligenceRuntime {
 
     // 7. Parecer e Narrativa Fiduciária
     const narrative = FiduciaryCashInterpreter.interpret(
-      classification.classification, artificial.isArtificial, reconciliation, legacySust, continuity
+      classification.classification, 
+      artificial.isArtificial, 
+      reconciliation, 
+      legacySust, 
+      continuity,
+      historicalCyclesCount < 3
     );
     auditTrail.push('Fiduciary narrative interpreted');
 

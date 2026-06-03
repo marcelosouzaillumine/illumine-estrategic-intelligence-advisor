@@ -13,7 +13,7 @@ export interface RuntimeEnvironmentConfig {
 }
 
 export function readRuntimeEnvironmentConfig(): RuntimeEnvironmentConfig {
-  const globalEnv = globalThis as unknown as Record<string, any>;
+  const globalEnv = globalThis as unknown as Record<string, unknown>;
   
   const envType = (globalEnv.EFOS_ENV as string) || 'DEVELOPMENT';
   

@@ -47,4 +47,12 @@ export interface FinancialRuntimeContext {
     passedPropagationIntegrityCheck: boolean;
     failClosedTriggered: boolean;
   };
+  lifecycle?: import('../lifecycle/LifecycleContextBuilder').LifecycleContext;
+  lifecycleProfile?: import('../lifecycle/LifecycleSemanticAuthority').SemanticLifecycleProfile;
+  runtimeAudit?: {
+    lifecycleProfilePresent: boolean;
+    lifecycleStage: string;
+    semanticSource: string;
+  };
 }
+

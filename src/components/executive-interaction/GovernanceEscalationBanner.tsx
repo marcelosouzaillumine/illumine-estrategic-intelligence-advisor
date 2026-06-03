@@ -2,8 +2,10 @@ import React from 'react';
 import { useExecutiveInteraction } from '../../context/executive-interaction/ExecutiveInteractionProvider';
 import { SeveritySemanticEngine } from './SeveritySemanticEngine';
 import { ShieldAlert, AlertTriangle, AlertOctagon } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const GovernanceEscalationBanner: React.FC = () => {
+  const { t } = useLanguage();
   const { escalationLevel } = useExecutiveInteraction();
 
   if (escalationLevel === 'NORMAL') {
@@ -28,9 +30,9 @@ export const GovernanceEscalationBanner: React.FC = () => {
   const getMessage = () => {
     switch (escalationLevel) {
       case 'SUPERVISION_REQUIRED':
-        return 'Alerta: Supervisão fiduciária requerida para esta sessão de trabalho.';
+        return t('overlays.fiduciary_supervision_required') || 'Alerta: Supervisão fiduciária requerida para esta sessão de trabalho.';
       case 'EXECUTIVE_ATTENTION':
-        return 'Importante: Esta pauta requer atenção imediata do comitê executivo.';
+        return t('overlays.executive_committee_attention') || 'Importante: Esta pauta requer atenção imediata do comitê executivo.';
       case 'BOARD_CRITICAL':
         return 'Crítico: Convocada intervenção e revisão mandatória pelo Conselho de Administração.';
       default:

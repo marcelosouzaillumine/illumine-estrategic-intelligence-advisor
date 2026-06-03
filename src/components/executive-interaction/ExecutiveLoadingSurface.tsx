@@ -1,8 +1,10 @@
 import React from 'react';
 import { useExecutiveInteraction } from '../../context/executive-interaction/ExecutiveInteractionProvider';
 import { ShieldAlert, CheckCircle2, Loader2, Database, ShieldCheck, History } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const ExecutiveLoadingSurface: React.FC = () => {
+  const { t } = useLanguage();
   const { loadingSemantics, interactionState } = useExecutiveInteraction();
 
   if (interactionState !== 'LOADING' && loadingSemantics.phase === 'ready') {
@@ -12,11 +14,11 @@ export const ExecutiveLoadingSurface: React.FC = () => {
   const { phase, message, progress, completedChecks } = loadingSemantics;
 
   const phases = [
-    { key: 'validating', label: 'Validação de Contexto', icon: ShieldAlert },
-    { key: 'dependencies', label: 'Verificação de Dependências', icon: Database },
+    { key: 'validating', label: t('overlays.context_validation') || 'Validação de Contexto', icon: ShieldAlert },
+    { key: 'dependencies', label: t('overlays.dependency_verification') || 'Verificação de Dependências', icon: Database },
     { key: 'confidence', label: 'Cálculo de Confiança', icon: CheckCircle2 },
-    { key: 'lineage', label: 'Integridade de Lineage', icon: History },
-    { key: 'sync', label: 'Sincronização de Governança', icon: ShieldCheck }
+    { key: 'lineage', label: t('overlays.lineage_integrity') || 'Integridade de Lineage', icon: History },
+    { key: 'sync', label: t('overlays.governance_sync') || 'Sincronização de Governança', icon: ShieldCheck }
   ];
 
   return (
@@ -27,8 +29,8 @@ export const ExecutiveLoadingSurface: React.FC = () => {
             <Loader2 className="w-8 h-8 animate-spin" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-slate-200 uppercase tracking-wider">Verificando Assinatura do Runtime</h3>
-            <p className="text-xs text-slate-400 mt-1 uppercase tracking-widest font-mono">Fiduciary Verification Protocol Active</p>
+            <h3 className="text-lg font-bold text-slate-200 uppercase tracking-wider">{t("overlays.verifying_runtime_signature")}</h3>
+            <p className="text-xs text-slate-400 mt-1 uppercase tracking-widest font-mono">{t("overlays.fiduciary_protocol_active")}</p>
           </div>
         </div>
 

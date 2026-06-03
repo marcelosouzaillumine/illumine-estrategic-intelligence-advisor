@@ -1,6 +1,6 @@
 import React from 'react';
 import { TemporalEvent } from '../../core/runtime/institutional-memory/types';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ResilienceTimelineProps {
   events: TemporalEvent[];

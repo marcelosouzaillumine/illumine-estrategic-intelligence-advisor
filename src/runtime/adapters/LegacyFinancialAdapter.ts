@@ -108,6 +108,7 @@ export const LegacyFinancialAdapter: EngineDefinition = {
       };
 
     } catch (error: any) {
+      console.error('LEGACY FINANCIAL ADAPTER ERROR STACK:', error);
       return {
         engineName: 'LegacyFinancialAdapter',
         success: false,

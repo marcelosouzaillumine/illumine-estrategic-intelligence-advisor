@@ -5,6 +5,9 @@ import { ExecutiveAdvisoryReport } from '../lib/executive-advisory-engine';
 import { ExecutiveIntelligenceReport } from '../core/runtime/executive-intelligence-runtime';
 import { InstitutionalLocaleGuard } from '../core/runtime/locale/InstitutionalLocaleGuard';
 import { cn } from '../lib/utils';
+import { ExecutiveLabelResolver } from '../core/runtime/executive-presentation/ExecutiveLabelResolver';
+import { ExecutiveDisclosureResolver } from '../core/runtime/executive-presentation/ExecutiveDisclosureResolver';
+import { ExecutiveNarrativeDeduplicationEngine } from '../core/runtime/executive-presentation/ExecutiveNarrativeDeduplicationEngine';
 
 interface ExecutivePerspectiveSectionProps {
   report?: ExecutiveAdvisoryReport | null;
@@ -140,9 +143,9 @@ export function ExecutivePerspectiveSection({
   let dominantRisks: string[] = [];
   if (intelligenceReport) {
     if (intelligenceReport.institutionalView?.disclosures?.primaryDisclosure) {
-      dominantRisks.push(intelligenceReport.institutionalView.disclosures.primaryDisclosure);
+      dominantRisks.push(ExecutiveDisclosureResolver.resolve(intelligenceReport.institutionalView.disclosures.primaryDisclosure));
     }
-    intelligenceReport.institutionalView?.disclosures?.secondaryDisclosures?.forEach(d => dominantRisks.push(d));
+    intelligenceReport.institutionalView?.disclosures?.secondaryDisclosures?.forEach(d => dominantRisks.push(ExecutiveDisclosureResolver.resolve(d)));
 
     const insights = intelligenceReport.causality?.insights || [];
     // Prioridade: insights marcados com cores de risco
@@ -185,10 +188,12 @@ export function ExecutivePerspectiveSection({
   } else {
     dominantRisks = report?.dominantRisks || [];
   }
+  
+  dominantRisks = ExecutiveNarrativeDeduplicationEngine.deduplicate(dominantRisks).slice(0, 3);
 
-  const strategicPriorities = intelligenceReport
+  const strategicPriorities = (intelligenceReport
     ? intelligenceReport.advisory?.actionMatrix || []
-    : report?.strategicPriorities || [];
+    : report?.strategicPriorities || []).slice(0, 3);
 
   const rawActions = intelligenceReport
     ? intelligenceReport.advisory?.actionMatrix || []
@@ -197,7 +202,8 @@ export function ExecutivePerspectiveSection({
   // ── Action Matrix Expandida com Visão de Gestão ──────────────────────
   const actionMatrix = rawActions.map((action: any, idx: number) => {
     if (action && typeof action === 'object') {
-      const title = action.title || action.acao || '';
+      const originalTitle = action.title || action.acao || '';
+      const title = ExecutiveLabelResolver.resolve(originalTitle);
       const mgmt = inferManagementArea(title);
       mgmt.area = action.category || mgmt.area;
       
@@ -218,7 +224,8 @@ export function ExecutivePerspectiveSection({
         fiduciaryEvidence: action.fiduciaryEvidence
       };
     } else {
-      const title = typeof action === 'string' ? action : (action?.acao || '');
+      const originalTitle = typeof action === 'string' ? action : (action?.acao || '');
+      const title = ExecutiveLabelResolver.resolve(originalTitle);
       const mgmt = inferManagementArea(title);
       const prio = inferPriority(idx, title);
       const timeline = inferTimeline(title);
@@ -478,7 +485,8 @@ export function ExecutivePerspectiveSection({
               </h4>
               <ul className="space-y-2">
                 {strategicPriorities.length > 0 ? strategicPriorities.map((p, i) => {
-                  const priorityText = typeof p === 'string' ? p : (p?.title || p?.acao || '');
+                  const rawText = typeof p === 'string' ? p : (p?.title || p?.acao || '');
+                  const priorityText = ExecutiveLabelResolver.resolve(rawText);
                   return (
                     <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
                       <span className="text-emerald-400 mt-1 shrink-0">•</span>

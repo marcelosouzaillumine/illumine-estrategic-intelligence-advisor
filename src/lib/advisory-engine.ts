@@ -4,7 +4,7 @@ import { BusinessIdentity, inferBusinessIdentity } from './business-identity-eng
 import { ScoreMetrics } from './score-engine';
 import { getIndustryWeights } from './industry-engine';
 import { validateNarrativeOutput } from './narrative-governance';
-const evaluateExecutiveCausality = (...args: any[]): any => ({} as any);
+import { evaluateExecutiveCausality } from './executive-causality-engine';
 type ExecutiveCausalityOutput = any;
 import { enforceInstitutionalRuntime } from '../core/enforcement/institutionalRuntimeEnforcer';
 import { MasterCausalOutput } from './master-causal-engine';

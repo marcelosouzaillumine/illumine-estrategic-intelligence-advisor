@@ -63,6 +63,20 @@
     "action": "Limpar hardcoded mocks."
   },
   {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/institutional-reporting/InstitutionalBoardPackDocumentRuntime.test.ts",
+    "risk": "Variável de mock hardcoded encontrada no código produtivo.",
+    "severity": "HIGH",
+    "recommendation": "Remover dados mockados, usar o Consolidated Runtime via API.",
+    "action": "Limpar hardcoded mocks."
+  },
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/institutional-reporting/engines/ExecutiveLongitudinalIntegration.spec.ts",
+    "risk": "Variável de mock hardcoded encontrada no código produtivo.",
+    "severity": "HIGH",
+    "recommendation": "Remover dados mockados, usar o Consolidated Runtime via API.",
+    "action": "Limpar hardcoded mocks."
+  },
+  {
     "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/patrimonial-intelligence/PatrimonialIntelligenceRuntime.test.ts",
     "risk": "Variável de mock hardcoded encontrada no código produtivo.",
     "severity": "HIGH",
@@ -84,8 +98,29 @@
     "action": "Limpar hardcoded mocks."
   },
   {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/validation/MockBoardPackScenarios.ts",
+    "risk": "Arquivo com nomenclatura de mock fora do diretório de testes: MockBoardPackScenarios.ts",
+    "severity": "HIGH",
+    "recommendation": "Remover o arquivo de mock da branch de produção ou movê-lo para tests/.",
+    "action": "Deletar arquivo ou isolar escopo."
+  },
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/core/runtime/validation/RealWorldValidationSuite.spec.ts",
+    "risk": "Variável de mock hardcoded encontrada no código produtivo.",
+    "severity": "HIGH",
+    "recommendation": "Remover dados mockados, usar o Consolidated Runtime via API.",
+    "action": "Limpar hardcoded mocks."
+  },
+  {
     "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/demo-runtime/DemoMockFactory.ts",
     "risk": "Arquivo com nomenclatura de mock fora do diretório de testes: DemoMockFactory.ts",
+    "severity": "HIGH",
+    "recommendation": "Remover o arquivo de mock da branch de produção ou movê-lo para tests/.",
+    "action": "Deletar arquivo ou isolar escopo."
+  },
+  {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/testing/fixtures/evidence-ingestion/InstitutionalEvidenceMockFactory.ts",
+    "risk": "Arquivo com nomenclatura de mock fora do diretório de testes: InstitutionalEvidenceMockFactory.ts",
     "severity": "HIGH",
     "recommendation": "Remover o arquivo de mock da branch de produção ou movê-lo para tests/.",
     "action": "Deletar arquivo ou isolar escopo."

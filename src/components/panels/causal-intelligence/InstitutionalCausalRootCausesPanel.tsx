@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlertTriangle, ShieldCheck, HelpCircle } from 'lucide-react';
 import { CausalFactor, CausalSeverity } from '../../../core/runtime/causal-intelligence/types';
-import { useLanguage } from '../../../i18n/LanguageContext';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 interface RootCausesPanelProps {
   rootCauses?: CausalFactor[];

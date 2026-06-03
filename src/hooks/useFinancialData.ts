@@ -142,6 +142,8 @@ export function useAllFinancialData(clientId: string) {
         }
       });
       setDbData(allEntries);
+      const series = buildHistoricalSeries(clientId, allEntries);
+      setHistoricalFinancialSeries(series);
     } catch (e: any) {
       if (!isCancelled.current) {
         console.error(e);
@@ -254,8 +256,8 @@ export function useAnnualFinancialData(
           if (reqT === 'dre' || reqT === 'dre gerencial') {
             return docT === 'dre' || docT === 'dre gerencial';
           }
-          if (reqT === 'dfc') {
-            return docT === 'dfc';
+          if (reqT === 'dfc' || reqT === 'dfc contabil' || reqT === 'demonstração dos fluxos de caixa' || reqT === 'fluxo de caixa') {
+            return docT === 'dfc' || docT === 'dfc contabil' || docT === 'demonstracao dos fluxos de caixa' || docT === 'demonstração dos fluxos de caixa';
           }
           if (reqT === 'dlpa') {
             return docT === 'dlpa';

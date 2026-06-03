@@ -23,6 +23,9 @@ import { RuntimeCompatibilityEngine } from './RuntimeCompatibilityEngine';
 import { ConstitutionalAuditEngine } from './ConstitutionalAuditEngine';
 import { ConstitutionalGovernanceEngine } from './ConstitutionalGovernanceEngine';
 import { sha256 } from '../executive/types';
+import { RuntimeExecutionLogger } from '../observability/RuntimeExecutionLogger';
+import { SemanticComplianceAuditRuntime } from './SemanticComplianceAuditRuntime';
+import { SemanticLineagePayload } from './SemanticLineageReport';
 
 export class ExecutiveConstitutionalRuntime {
   public readonly axiomEngine = new FiduciaryAxiomEngine();
@@ -61,6 +64,7 @@ export class ExecutiveConstitutionalRuntime {
     reason: string;
     target: string;
     affectedDoctrineOrPolicy: string;
+    executionId?: string;
   }): boolean {
     const currentLineageHash = this.computeLineageHash();
     const result = this.overrideEngine.evaluateOverrideAttempt({
@@ -69,6 +73,18 @@ export class ExecutiveConstitutionalRuntime {
     });
 
     this.auditEngine.logRecord(result.auditRecord);
+
+    // Log Telemetry Event
+    const execId = params.executionId || 'override-exec-id';
+    RuntimeExecutionLogger.logEvent(
+      execId,
+      'CONSTITUTIONAL_OVERRIDE_ATTEMPT',
+      { actor: params.actor, target: params.target, authorizationStatus: result.attempt.authorizationStatus }
+    );
+
+    if (result.attempt.authorizationStatus === 'ATTEMPTED_FORBIDDEN') {
+      RuntimeExecutionLogger.logEvent(execId, 'CONSTITUTIONAL_FORBIDDEN_ACTION', { actor: params.actor, target: params.target });
+    }
 
     if (result.isApproved) {
       // If a policy threshold was overridden, we could apply runtime configurations here.
@@ -87,10 +103,12 @@ export class ExecutiveConstitutionalRuntime {
     proposedDoctrine: FiduciaryDoctrine,
     proposedPolicy: RuntimePolicy,
     actor: string,
-    role: string
+    role: string,
+    executionId?: string
   ): { isSuccess: boolean; reasons: string[] } {
     const currentDoctrine = this.doctrineEngine.getActiveDoctrine();
     const currentPolicy = this.policyEngine.getActivePolicy();
+    const execId = executionId || 'migration-exec-id';
 
     // 1. Verify that the axioms are not being altered or weakened during this transition (Axiom Supremacy)
     const axiomIntegrity = this.axiomEngine.validateAxiomIntegrity(this.axiomEngine.getAxioms());
@@ -104,6 +122,9 @@ export class ExecutiveConstitutionalRuntime {
         role,
         constitutionalLineageHash: this.computeLineageHash()
       });
+
+      RuntimeExecutionLogger.logEvent(execId, 'CONSTITUTIONAL_FORBIDDEN_ACTION', { action: 'weaken_axioms', actor });
+
       return { isSuccess: false, reasons: axiomIntegrity.violations };
     }
 
@@ -125,6 +146,9 @@ export class ExecutiveConstitutionalRuntime {
         role,
         constitutionalLineageHash: this.computeLineageHash()
       });
+
+      RuntimeExecutionLogger.logEvent(execId, 'CONSTITUTIONAL_MIGRATION_EVENT', { actor, success: false, proposedVersion: proposedDoctrine.doctrineVersion, reasons: safety.blockReasons });
+
       return { isSuccess: false, reasons: safety.blockReasons };
     }
 
@@ -142,6 +166,8 @@ export class ExecutiveConstitutionalRuntime {
       role,
       constitutionalLineageHash: this.computeLineageHash()
     });
+
+    RuntimeExecutionLogger.logEvent(execId, 'CONSTITUTIONAL_MIGRATION_EVENT', { actor, success: true, proposedVersion: proposedDoctrine.doctrineVersion });
 
     return { isSuccess: true, reasons: [] };
   }
@@ -171,6 +197,11 @@ export class ExecutiveConstitutionalRuntime {
       blockedActions?: string[];
     };
     lineageHash?: string;
+    executionId?: string;
+    semanticSource?: string;
+    renderedContent?: string;
+    semanticLineagePayload?: import('./SemanticLineageReport').SemanticLineagePayload;
+    semanticScope?: 'EXECUTIVE' | 'TECHNICAL_AUDIT';
   }): ConstitutionalGovernanceMetadata {
     const activeDoctrine = this.doctrineEngine.getActiveDoctrine();
     const activePolicy = this.policyEngine.getActivePolicy();
@@ -193,9 +224,39 @@ export class ExecutiveConstitutionalRuntime {
     // 6. Check doctrine version compatibility with system version (e.g., active doctrine version)
     const isCompatible = this.doctrineEngine.isCompatible(activeDoctrine.doctrineVersion);
 
-    // 7. Resolve the final integrity state
+    // 7. Evaluate Semantic Constitutional Compliance (SCCF v1.0)
+    let hasSemanticViolation = false;
+    const semanticViolations: string[] = [];
+    if (payload.semanticSource && payload.semanticLineagePayload) {
+      try {
+        const semanticReport = SemanticComplianceAuditRuntime.evaluate(
+          payload.semanticSource,
+          payload.renderedContent || '',
+          payload.semanticLineagePayload,
+          payload.semanticScope || 'EXECUTIVE'
+        );
+        if (semanticReport.complianceStatus === 'NON_COMPLIANT') {
+          hasSemanticViolation = true;
+          semanticViolations.push(...semanticReport.violations);
+        }
+      } catch (err: any) {
+        hasSemanticViolation = true;
+        semanticViolations.push(err.message || String(err));
+        this.auditEngine.logRecord({
+          recordId: `AUD-SEM-ERR-${Date.now()}`,
+          timestamp: new Date().toISOString(),
+          type: 'AXIOM_AUDIT',
+          details: `Falha crítica na conformidade semântica: ${err.message || err}`,
+          actor: 'SYSTEM',
+          role: 'SovereignKernel',
+          constitutionalLineageHash: this.computeLineageHash()
+        });
+      }
+    }
+
+    // 8. Resolve the final integrity state
     const integrityState = this.governanceEngine.resolveIntegrityState({
-      hasAxiomViolation: axiomEvaluation.isViolated,
+      hasAxiomViolation: axiomEvaluation.isViolated || hasSemanticViolation,
       hasVetoTriggered: policyEvaluation.vetoTriggered,
       hasConflict: !consistency.isConsistent,
       hasPolicyViolation: policyEvaluation.isViolated,
@@ -204,6 +265,23 @@ export class ExecutiveConstitutionalRuntime {
     });
 
     const lineageHash = this.computeLineageHash();
+
+    // Log Telemetry Events
+    const execId = payload.executionId || 'eval-exec-id';
+    if (axiomEvaluation.isViolated || hasSemanticViolation) {
+      RuntimeExecutionLogger.logEvent(execId, 'CONSTITUTIONAL_QUARANTINE_ACTIVATION', { reason: 'axiom_violation' });
+      RuntimeExecutionLogger.logEvent(execId, 'CONSTITUTIONAL_FORBIDDEN_ACTION', { violation: 'axiom_violation' });
+    }
+    if (integrityState === 'CONSTITUTIONAL_FAIL_CLOSED') {
+      RuntimeExecutionLogger.logEvent(execId, 'CONSTITUTIONAL_QUARANTINE_ACTIVATION', { reason: 'fail_closed' });
+    }
+    if (consistency.conflicts.length > 0) {
+      RuntimeExecutionLogger.logEvent(execId, 'CONSTITUTIONAL_DOCTRINE_DRIFT', { conflicts: consistency.conflicts });
+    }
+    if (erosion.erosionDetected) {
+      RuntimeExecutionLogger.logEvent(execId, 'CONSTITUTIONAL_EROSION_PATTERN', { warnings: erosion.warnings });
+    }
+
 
     // Construct the compatibility status map for all 10 core domains
     const compMatrix = this.compatibilityEngine.getCompatibilityMatrix();
@@ -221,7 +299,7 @@ export class ExecutiveConstitutionalRuntime {
       constitutionalLineageHash: lineageHash,
       integrityState,
       detectedConflicts: consistency.conflicts,
-      axiomViolations: axiomEvaluation.violations,
+      axiomViolations: [...axiomEvaluation.violations, ...semanticViolations],
       overrideAttempts: this.overrideEngine.getOverrideHistory(),
       compatibilityStatus,
       auditRecords: this.auditEngine.getLogs(),

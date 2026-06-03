@@ -39,6 +39,9 @@ export class InstitutionalEvidenceOrchestrator {
     let fiduciaryInterpretationBlocked = false;
     let confidenceLevel: 'LOW' | 'MODERATE' | 'HIGH' = 'HIGH';
 
+    if (unresolvedIssues.length > 0) {
+      console.log('EVIDENCE ISSUES:', unresolvedIssues);
+    }
     if (unresolvedIssues.some(i => i.startsWith('CRITICAL:'))) {
       fiduciaryInterpretationBlocked = true;
       evidenceStatus = 'UNVALIDATED';

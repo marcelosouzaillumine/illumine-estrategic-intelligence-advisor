@@ -7,6 +7,7 @@ import { db, auth } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
 import { useGovernance } from '../../lib/governanceContext';
 import { cn } from '../../lib/utils';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { DOCUMENT_TYPES } from '../../constants/documents';
 
 interface ManualFinancialModalProps {
@@ -58,6 +59,7 @@ interface Row {
 }
 
 export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess }: ManualFinancialModalProps) {
+  const { translateLabel: t } = useLanguage();
   const [selectedType, setSelectedType] = useState<string>(type === 'BP' ? 'Balanço Patrimonial' : type);
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(false);

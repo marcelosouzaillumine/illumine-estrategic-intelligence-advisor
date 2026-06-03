@@ -1,0 +1,226 @@
+{
+  "status": "CONSTITUTIONAL_QUARANTINE",
+  "metadata": {
+    "boardPackLineageHash": "BOARD_PACK_eyJzb3VyY2VIYXNo",
+    "reportGenerationTimestamp": "2026-06-01T20:04:46.109Z",
+    "generatedAt": "2026-06-01T20:04:46.109Z",
+    "runtimeVersion": "1.0.0",
+    "contractVersion": "1.0",
+    "tenantId": "N/A",
+    "cycleReference": "N/A",
+    "snapshotIntegrityStatus": "UNVERIFIABLE",
+    "immutabilityStatus": "IMMUTABLE",
+    "runtimeSources": [
+      "ExecutiveSnapshotEngine",
+      "GovernanceReportingEngine"
+    ],
+    "runtimeMetadata": {
+      "contractVersion": false
+    }
+  },
+  "executiveSnapshot": {
+    "executiveSummary": "Institutional direction unverifiable due to insufficient longitudinal data. Operating in fail-closed defensive mode.",
+    "unifiedThesisStatement": "Base longitudinal insuficiente para formulação de tese estratégica estrutural. Aguardando consolidação histórica.",
+    "activeSurvivalMode": true,
+    "structuralPressureLevel": "STABLE",
+    "fiduciaryRestrictionsActive": 4,
+    "periodScore": 3,
+    "quarantineMode": true,
+    "isRestricted": true,
+    "restrictionReason": "Quarentena Fiduciária Ativa devido a restrições operacionais",
+    "restrictionSeverity": "CRITICAL",
+    "fiduciaryRestrictions": [],
+    "evidenceTrail": [],
+    "recoveryNarrativeBlocked": true,
+    "longitudinalTrajectory": "UNVERIFIABLE_TRAJECTORY",
+    "trajectoryConfidence": "BLOCKED",
+    "longitudinalScore": "NOT_AVAILABLE",
+    "accountingIntegrityStatus": "FAILED",
+    "timelineIntegrityStatus": "INSUFFICIENT_HISTORY"
+  },
+  "governanceReport": {
+    "complianceStatus": "COMPLIANT",
+    "activeGovernanceLocks": [
+      "SURVIVAL_RESTRICTION_LOCK"
+    ],
+    "executionIntegrity": "EXECUTION_STABLE",
+    "governanceScore": 100
+  },
+  "strategicDirection": {
+    "strategicPosture": "UNVERIFIABLE_POSTURE",
+    "primaryVector": "NEUTRAL",
+    "trajectoryContinuity": "TRAJECTORY_STABLE",
+    "expansionSustainability": true,
+    "strategicContradictions": []
+  },
+  "continuityReport": {
+    "resilienceStatus": "UNKNOWN",
+    "antifragilityScore": 0,
+    "survivalOverlays": [
+      "FORBIDDEN_EXPANSION",
+      "FORBIDDEN_AGGRESSIVE_HIRING",
+      "FORBIDDEN_SHAREHOLDER_RETURN",
+      "FORBIDDEN_DIVIDEND",
+      "FORBIDDEN_OWNER_WITHDRAWAL",
+      "FORBIDDEN_AGGRESSIVE_CAPEX"
+    ]
+  },
+  "treasuryReport": {
+    "treasuryStressStatus": "CRITICAL",
+    "liquidityCompressionLevel": "STABLE",
+    "fundingFragility": "NONE",
+    "runwaySustainability": false
+  },
+  "operationalGovernance": {
+    "executionStatus": "EXECUTION_STABLE",
+    "operationalFrictions": [],
+    "continuityStrain": "CONTINUITY_STABLE"
+  },
+  "executiveDirectives": {
+    "activeDirectives": [],
+    "boardResolutions": []
+  },
+  "explainabilityAppendix": {
+    "rationaleMap": {
+      "STRATEGIC_POSTURE": "Driven by UNVERIFIABLE_POSTURE inference engine based on historical efficiency and survival mode signals.",
+      "STRATEGIC_TRAJECTORY": "A trajetória foi classificada como TRAJECTORY STABLE em função das restrições ativas e histórico longitudinal (0 ciclos).",
+      "EXPANSION_SUSTAINABILITY": "Dados insuficientes para validar a sustentabilidade estrutural observável.",
+      "EXECUTION_INTEGRITY": "N/A"
+    },
+    "confidenceDecomposition": {
+      "POSTURE_CONFIDENCE": "UNVERIFIABLE",
+      "EXECUTION_CONFIDENCE": "UNVERIFIABLE"
+    }
+  },
+  "lineageAppendix": {
+    "boardPackLineageHash": "BOARD_PACK_eyJzb3VyY2VIYXNo",
+    "runtimeHashes": {
+      "EXECUTIVE_REPORT": "hash-fallback",
+      "STRATEGIC_INTELLIGENCE": "hash-fallback",
+      "OPERATIONAL_GOVERNANCE": "UNAVAILABLE",
+      "CONTINUITY_COCKPIT": "UNAVAILABLE",
+      "TREASURY_INTELLIGENCE": "UNAVAILABLE"
+    },
+    "propagationHashes": []
+  },
+  "boardResolutionAppendix": {
+    "resolutionIds": [],
+    "approvals": [],
+    "readOnlyHistoricalMemory": true
+  },
+  "disclosureSet": [
+    {
+      "disclosureId": "DISC_IMMUTABLE_SNAPSHOT",
+      "message": "This document represents a frozen, immutable snapshot of the institutional runtime. Future dynamic recalibrations will not alter this artifact.",
+      "severity": "MODERATE",
+      "disclosureType": "LIMITATION",
+      "sourceRuntime": "InstitutionalReporting",
+      "restrictionLevel": "NONE"
+    }
+  ],
+  "fiduciaryRestrictions": [
+    {
+      "restrictionType": "FAIL_CLOSED",
+      "description": "FiduciaryOutput ausente. Bloqueio distributivo total aplicado.",
+      "affectedRuntimes": [
+        "ALL"
+      ]
+    }
+  ],
+  "constitutionalSection": {
+    "constitutionalStatus": "CONSTITUTIONAL_FAIL_CLOSED",
+    "doctrineIntegrity": true,
+    "overrideAttempts": [],
+    "compatibilityStatus": {
+      "compliance": true,
+      "decision_intelligence": true,
+      "policy_materiality": true,
+      "behavioral_intelligence": true,
+      "predictive_intelligence": true,
+      "strategic_simulation": true,
+      "advisory_narrative": true,
+      "publication_governance": true,
+      "audit_assurance": true,
+      "treasury_intelligence": true
+    },
+    "constitutionalConfidence": "BLOCKED",
+    "erosionSignals": [],
+    "migrationSafety": true,
+    "constitutionalRestrictions": [],
+    "constitutionalLineageHash": "CONST-SHA256-4FFF3A93-6982CF30-1F2D3E243696EA",
+    "constitutionalAuditTrail": [
+      {
+        "recordId": "AUD-INIT-001",
+        "timestamp": "2026-06-01T20:04:45.904Z",
+        "type": "AXIOM_AUDIT",
+        "details": "Constitutional Governance Runtime inicializado com axiomas fundamentais.",
+        "actor": "SYSTEM",
+        "role": "SovereignKernel",
+        "constitutionalLineageHash": "SEED-CONSTITUTIONAL-LINEAGE-HASH"
+      }
+    ],
+    "enforcementActions": [],
+    "quarantineReason": "",
+    "affectedRuntimeDomains": [
+      "all"
+    ]
+  },
+  "compliance": {
+    "auditFlags": [
+      "NON_COMPLIANT_RENDER_DEGRADED"
+    ],
+    "complianceGrade": "F",
+    "isCertified": false,
+    "validationErrors": [
+      {
+        "labelKey": "runtime.lineage.missing_field",
+        "severity": "critical",
+        "args": {
+          "field": "runtimeMetadata"
+        }
+      },
+      {
+        "labelKey": "runtime.lineage.missing_field",
+        "severity": "critical",
+        "args": {
+          "field": "runtimeMetadata.lineage"
+        }
+      },
+      {
+        "labelKey": "runtime.compliance.payload_integrity_violation",
+        "severity": "critical",
+        "args": {
+          "detail": "Metadata faltante"
+        }
+      },
+      {
+        "labelKey": "runtime.compliance.payload_integrity_violation",
+        "severity": "critical",
+        "args": {
+          "detail": "Lineage ausente"
+        }
+      },
+      {
+        "labelKey": "runtime.compliance.payload_integrity_violation",
+        "severity": "critical",
+        "args": {
+          "detail": "Output sem confidence"
+        }
+      },
+      {
+        "labelKey": "runtime.compliance.payload_integrity_violation",
+        "severity": "critical",
+        "args": {
+          "detail": "Output sem evidenceTrail"
+        }
+      },
+      {
+        "labelKey": "runtime.compliance.payload_integrity_violation",
+        "severity": "critical",
+        "args": {
+          "detail": "Narrativa sem Narrative Guard"
+        }
+      }
+    ]
+  }
+}

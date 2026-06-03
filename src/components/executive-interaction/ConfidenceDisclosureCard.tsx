@@ -1,8 +1,10 @@
 import React from 'react';
 import { useExecutiveInteraction } from '../../context/executive-interaction/ExecutiveInteractionProvider';
 import { BrainCircuit, ShieldCheck, ShieldAlert, Cpu, Layers } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const ConfidenceDisclosureCard: React.FC = () => {
+  const { t } = useLanguage();
   const { confidenceDisclosure } = useExecutiveInteraction();
 
   const {
@@ -27,7 +29,7 @@ export const ConfidenceDisclosureCard: React.FC = () => {
           </p>
         </div>
         <div className="text-right">
-          <div className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1">Score Resumido</div>
+          <div className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1">{t("overlays.summary_score")}</div>
           <div className="text-3xl font-light text-indigo-400 flex items-center gap-1">
             {confidenceScore}%
           </div>
@@ -86,7 +88,7 @@ export const ConfidenceDisclosureCard: React.FC = () => {
 
       {missingDependencies.length > 0 && (
         <div className="p-4 bg-amber-500/5 border border-amber-500/15 rounded-xl space-y-2">
-          <p className="text-xs font-bold text-amber-450 uppercase tracking-wider">Dependências Faltantes no Contexto:</p>
+          <p className="text-xs font-bold text-amber-450 uppercase tracking-wider">{t("overlays.missing_context_dependencies")}</p>
           <ul className="list-disc list-inside text-[11px] text-amber-550 space-y-1">
             {missingDependencies.map((dep, idx) => (
               <li key={idx}>{dep}</li>

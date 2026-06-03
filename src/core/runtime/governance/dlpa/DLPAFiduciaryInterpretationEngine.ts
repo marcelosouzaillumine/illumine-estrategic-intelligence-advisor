@@ -8,6 +8,8 @@ import { DistributionEligibilityEngine, DistributionEligibilityResult } from './
 import { PatrimonialIntegrityEngine, PatrimonialIntegrityReport, CapitalPreservationStatus } from './PatrimonialIntegrityEngine';
 import { CapitalRetentionClassificationEngine, CapitalRetentionClassification } from './CapitalRetentionClassificationEngine';
 import { DLPAHistoricalConsistencyEngine, HistoricalCycleMetrics } from './DLPAHistoricalConsistencyEngine';
+import { LifecycleConsistencyValidator } from '../../lifecycle/LifecycleConsistencyValidator';
+
 
 export interface DLPAFiduciaryOutput {
   retentionClassification: CapitalRetentionClassification;
@@ -27,7 +29,12 @@ export interface DLPAFiduciaryOutput {
   confidenceLevel: 'HIGH' | 'MODERATE' | 'LOW' | 'RESTRICTED';
   contextCompleteness: 'FULL' | 'PARTIAL' | 'MISSING';
   auditTrail: string[];
+  rawCapitalStatus?: string;
+  semanticCapitalStatus?: string;
+  resolvedGovernanceStatus?: string;
+  semanticSource?: string;
 }
+
 
 export class DLPAFiduciaryInterpretationEngine {
   public static evaluate(params: {
@@ -43,6 +50,7 @@ export class DLPAFiduciaryInterpretationEngine {
     capitalSocial: number;
     lucrosPrejuizos: number;
     historicalCycles: HistoricalCycleMetrics[];
+    semanticSource?: string;
   }): DLPAFiduciaryOutput {
     const {
       context,
@@ -57,7 +65,12 @@ export class DLPAFiduciaryInterpretationEngine {
       capitalSocial,
       lucrosPrejuizos,
       historicalCycles,
+      semanticSource,
     } = params;
+
+    if (context?.lifecycleProfile && semanticSource === 'LEGACY') {
+      console.error(`[SEMANTIC_SOURCE_CONTRADICTION] CRITICAL: lifecycleProfile is present but semanticSource is LEGACY`);
+    }
 
     const auditTrail: string[] = ['Iniciando avaliação fiduciária da DLPA.'];
     const fiduciaryWarnings: string[] = [];
@@ -104,6 +117,11 @@ export class DLPAFiduciaryInterpretationEngine {
       startingEquity,
       endingEquity,
       operatingCashFlow,
+    });
+    
+    console.log('DLPA ELIGIBILITY DEBUG:', {
+      netIncome, lucrosAcumulados, reservasLucro, startingEquity, endingEquity, operatingCashFlow,
+      distributionEligibility
     });
     auditTrail.push('Elegibilidade distributiva avaliada.');
 
@@ -183,7 +201,11 @@ export class DLPAFiduciaryInterpretationEngine {
     } else if (retentionClassification === 'EMERGENCY_CAPITAL_PRESERVATION') {
       governanceNarrative = 'A total retenção de recursos decorre da severa fragilidade e erosão patrimonial do período, atuando como medida impositiva de sobrevivência e preservação de capital emergencial diante do esgotamento das reservas.';
     } else if (retentionClassification === 'SURVIVAL_STAGE_CAPITAL_STRUCTURE') {
-      governanceNarrative = 'A estrutura de capital encontra-se em estágio de sobrevivência devido ao colapso ou exaustão do PL. A retenção total é compulsória e decorre da completa ausência de capacidade econômica, demandando imediato reforço patrimonial externo.';
+      if (endingEquity > 0) {
+        governanceNarrative = 'A companhia encontra-se em fase inicial de capitalização, apresentando erosão patrimonial relevante decorrente dos investimentos necessários para estruturação operacional. Apesar do prejuízo do exercício, o patrimônio líquido permanece positivo, preservando a continuidade patrimonial da organização.';
+      } else {
+        governanceNarrative = 'A estrutura de capital encontra-se em estágio de sobrevivência devido ao colapso ou exaustão do PL. A retenção total é compulsória e decorre da completa ausência de capacidade econômica, demandando imediato reforço patrimonial externo.';
+      }
     } else if (retentionClassification === 'UNSUSTAINABLE_PRESERVATION') {
       governanceNarrative = 'A ausência de distribuição decorre de severa fragilidade de liquidez e fluxo de caixa operacional negativo. A preservação de recursos é insustentável no longo prazo, refletindo o aprisionamento de capital na operação para cobrir ineficiências comerciais.';
     } else {
@@ -200,6 +222,24 @@ export class DLPAFiduciaryInterpretationEngine {
     } else if (netIncome < 0 && totalDistributed === 0 && integrityReport.preservationStatus === 'SEVERELY_ERODED') {
       // General fall-back for severe erosion during a loss year
       governanceNarrative = 'A ausência de distribuições decorre exclusivamente da inexistência de superávit econômico e da fragilidade patrimonial observada, caracterizando ausência de capacidade distributiva em vez de retenção estratégica.';
+    }
+
+    // ELSA Early Stage Narrative Override
+    const isEarly = context?.lifecycleProfile?.lifecycleStage === 'INITIAL_CAPITALIZATION' || context?.lifecycleProfile?.lifecycleStage === 'EARLY_GROWTH';
+    if (isEarly) {
+      governanceNarrative = 'A companhia encontra-se em fase inicial de capitalização, apresentando erosão patrimonial relevante decorrente dos investimentos necessários para estruturação operacional. Apesar do prejuízo do exercício, o patrimônio líquido permanece positivo, preservando a continuidade patrimonial da organização.';
+    }
+
+    // ELSA Semantic Protection Consistency Check
+    if (context?.lifecycleProfile) {
+      const validation = LifecycleConsistencyValidator.validate(context.lifecycleProfile, [
+        governanceNarrative,
+        integrityReport.preservationStatus,
+        integrityReport.capitalProtectionStatus,
+      ]);
+      if (!validation.isValid) {
+        throw new Error(`EARLY_STAGE_SEMANTIC_CONTRADICTION: ${validation.violations[0].message}`);
+      }
     }
 
     // 9. Lineage Hash
@@ -229,6 +269,12 @@ export class DLPAFiduciaryInterpretationEngine {
       confidenceLevel,
       contextCompleteness,
       auditTrail,
+      rawCapitalStatus: integrityReport.capitalProtectionStatus === 'WEAK_CAPITAL_PROTECTION' ? 'High Capital Erosion' : 'Strong Capital Protection',
+      semanticCapitalStatus: context?.lifecycleProfile?.capitalStatus?.semanticLabel || 'Capitalização em Consolidação',
+      resolvedGovernanceStatus: context?.lifecycleProfile?.governanceStatus?.semanticLabel || 'Governança em Estruturação',
+      semanticSource: context?.lifecycleProfile ? 'ELSA' : undefined
     };
   }
 }
+
+

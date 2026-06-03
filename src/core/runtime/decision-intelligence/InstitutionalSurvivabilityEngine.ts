@@ -53,6 +53,37 @@ export class InstitutionalSurvivabilityEngine {
     if (ebitda < 0) {
       operational = Math.max(10, operational - operationalPenalty);
     }
+
+    // EQE / EQS Integration Calibration
+    const eqsScore = 
+      report.earningsQualityScore ??
+      report.eqs ??
+      report.inferences?.['LegacyDFCAdapter']?.metrics?.fiduciary?.earningsQuality?.score ??
+      report.inferences?.['LegacyDFCAdapter']?.inference?.metrics?.fiduciary?.earningsQuality?.score ??
+      report.cashFlowReport?.earningsQuality?.score ??
+      null;
+
+    if (eqsScore !== null && eqsScore < 50) {
+      // Calibrated triggers: negative FCO real, runway < 6, shareholder dependency > 25%, EBITDA margin < 0
+      const fcoReal = report.inferences?.['LegacyDFCAdapter']?.metrics?.fiduciary?.fcoOperacionalReal ?? 
+                      report.inferences?.['LegacyDFCAdapter']?.inference?.metrics?.fiduciary?.fcoOperacionalReal ?? 
+                      report.fcoOperacionalReal ?? null;
+      const runway = report.inferences?.['LegacyDFCAdapter']?.metrics?.fiduciary?.runway ?? 
+                     report.inferences?.['LegacyDFCAdapter']?.inference?.metrics?.fiduciary?.runway ?? 
+                     report.runway ?? null;
+      const shareholderDependency = report.inferences?.['LegacyDFCAdapter']?.metrics?.fiduciary?.intensidadePartesRelacionadas ?? 
+                                    report.inferences?.['LegacyDFCAdapter']?.inference?.metrics?.fiduciary?.intensidadePartesRelacionadas ?? 
+                                    null;
+      
+      const isFcoRealNegative = fcoReal !== null && fcoReal < 0;
+      const isRunwayCompressed = runway !== null && runway < 6;
+      const isShareholderDepHigh = shareholderDependency !== null && shareholderDependency > 0.25;
+      const isEbitdaNegative = ebitda < 0;
+
+      if (isFcoRealNegative || isRunwayCompressed || isShareholderDepHigh || isEbitdaNegative) {
+        operational = Math.max(10, operational - 15);
+      }
+    }
     
     // 3. Governance Survivability (maturity level, behavior flags)
     let governance = governanceScore;

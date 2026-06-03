@@ -1,6 +1,6 @@
 import React from 'react';
 import { Target } from 'lucide-react';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function ConsolidatedExecutiveSummaryCard({ narrative }: { narrative: string }) {
   const { t } = useLanguage();

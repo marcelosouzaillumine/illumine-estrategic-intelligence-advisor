@@ -3,6 +3,8 @@ import { formatCurrency } from '../../lib/utils';
 import { ShieldCheck, Activity, Target, Zap, Layout } from 'lucide-react';
 import { ExecutiveAdvisoryReport } from '../../lib/executive-advisory-engine';
 import { TemporalBoardPackSection } from './TemporalBoardPackSection';
+import { ExecutiveLabelResolver } from '../../core/runtime/executive-presentation/ExecutiveLabelResolver';
+import { ExecutiveDisclosureResolver } from '../../core/runtime/executive-presentation/ExecutiveDisclosureResolver';
 
 interface BoardReportPDFProps {
   data: ExecutiveAdvisoryReport;
@@ -57,6 +59,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
             
             <div className="mt-12 space-y-2 border-l-2 border-[#BAB86C] pl-6">
               <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">Data de Emissão: <span className="text-white">{reportDate}</span></p>
+              <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">Escopo Temporal Analisado: <span className="text-[#BAB86C]">Isolamento Ativo (Exercício Selecionado)</span></p>
               <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">Confiança da Inferência: <span className="text-white">{data.confidenceLevel}</span></p>
               <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">Postura Executiva Recomendada: <span className="text-white">{data.executivePosture}</span></p>
             </div>
@@ -97,7 +100,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
               <ul className="space-y-2">
                  {data.strategicPriorities.map((item, i) => (
                     <li key={i} className="text-[10px] text-gray-700 flex gap-2">
-                       <span className="text-[#BAB86C] font-bold">•</span> {item}
+                       <span className="text-[#BAB86C] font-bold">•</span> {ExecutiveLabelResolver.resolve(item)}
                     </li>
                  ))}
               </ul>
@@ -109,7 +112,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
               <ul className="space-y-2">
                  {data.dominantRisks.map((item, i) => (
                     <li key={i} className="text-[10px] text-gray-700 flex gap-2">
-                       <span className="text-[#FF8552] font-bold">!</span> {item}
+                       <span className="text-[#FF8552] font-bold">!</span> {ExecutiveDisclosureResolver.resolve(item)}
                     </li>
                  ))}
               </ul>
@@ -127,10 +130,10 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
            <div>
               <h3 className="text-[11px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-4">Plano de Ação Executivo</h3>
               <div className="space-y-3">
-                 {data.actionMatrix.map((action, i) => (
+                  {data.actionMatrix.map((action, i) => (
                     <div key={i} className="flex flex-col border border-gray-200 rounded overflow-hidden">
                        <div className="bg-[#0E1C2C] text-white px-4 py-2 flex justify-between items-center">
-                          <h4 className="text-[10px] font-bold uppercase">{action.acao}</h4>
+                          <h4 className="text-[10px] font-bold uppercase">{ExecutiveLabelResolver.resolve(action.acao)}</h4>
                           <span className="text-[8px] font-bold tracking-widest bg-white/20 px-2 py-0.5 rounded">
                               {action.prioridade}
                           </span>

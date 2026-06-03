@@ -2,9 +2,11 @@
 
 import React from 'react';
 import { Activity, AlertOctagon } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { OperationalGovernanceSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
 
 export function OperationalGovernanceSurface({ data }: { data: OperationalGovernanceSection }) {
+  const { translateLabel: t } = useLanguage();
   return (
     <div className="bg-zinc-950 border border-zinc-800 p-6 rounded-lg font-mono">
       <h2 className="text-zinc-400 text-[10px] font-bold tracking-widest uppercase mb-6 flex items-center gap-2 border-b border-zinc-800 pb-2">
@@ -13,13 +15,13 @@ export function OperationalGovernanceSurface({ data }: { data: OperationalGovern
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
-          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-1">Execution Status</span>
+          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-1">{t("panels.execution_status")}</span>
           <span className={`text-sm font-bold uppercase tracking-widest ${data.executionStatus === 'EXECUTION_UNSTABLE' ? 'text-rose-400' : 'text-emerald-400'}`}>
             {data.executionStatus.replace(/_/g, ' ')}
           </span>
         </div>
         <div>
-          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-1">Continuity Strain</span>
+          <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest block mb-1">{t("panels.continuity_strain")}</span>
           <span className="text-sm font-bold uppercase tracking-widest text-zinc-300">
             {data.continuityStrain.replace(/_/g, ' ')}
           </span>

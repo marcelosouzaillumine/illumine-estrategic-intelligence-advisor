@@ -56,6 +56,11 @@ export interface BPSummary {
   // Mútuos/Partes relacionadas
   creditosSocios: number;
 
+  // Custom advanced extractors for Patrimonial Indicators
+  obrigacoesOperacionais: number | null;
+  realizavelLongoPrazo: number | null;
+  ativoPermanente: number | null;
+
   // Hardening validations
   hasOrphans: boolean;
   hasDuplicates: boolean;
@@ -222,19 +227,28 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
     
     if (foundNodes.length === 0) return 0;
 
-    // Filter top level nodes among the found ones to prevent double counting
-    const topLevelNodes = foundNodes.filter(n => {
-      let current = n.parentId;
-      while (current) {
-        if (foundNodes.some(fn => fn.id === current)) return false;
-        const parentNode = flatNodes.find(p => p.id === current);
-        if (!parentNode) break;
-        current = parentNode.parentId;
+    // To prevent double counting between parent and children (Safeguard 2):
+    // If a node is synthetic (has children) and any of its descendants is also matched in foundNodes,
+    // we discard the parent node in favor of the children.
+    const nodesToSum = foundNodes.filter(n => {
+      if (n.isSynthetic && n.children.length > 0) {
+        const hasMatchedDescendant = foundNodes.some(other => {
+          if (other.id === n.id) return false;
+          let current = other.parentId;
+          while (current) {
+            if (current === n.id) return true;
+            const parentNode = flatNodes.find(p => p.id === current);
+            if (!parentNode) break;
+            current = parentNode.parentId;
+          }
+          return false;
+        });
+        if (hasMatchedDescendant) return false;
       }
       return true;
     });
 
-    return topLevelNodes.reduce((sum, n) => sum + (n.isSynthetic && n.children.length > 0 ? n.computedValue : n.value), 0);
+    return nodesToSum.reduce((sum, n) => sum + (n.isSynthetic && n.children.length > 0 ? n.computedValue : n.value), 0);
   }
 
   // Sums
@@ -336,24 +350,61 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
 
   const creditosSocios = extractGroupSum(['mútuo', 'sócios', 'partes relacionadas', 'adiantamento a sócios'], 'ativo');
 
+  // Advanced Extractors with Fail Closed logic
+  const obrigacoesOperacionaisRaw = extractGroupSum([
+    'fornecedores', 'fornecedor',
+    'salários', 'salario', 'encargos',
+    'trabalhistas',
+    'sociais',
+    'fiscais', 'impostos a recolher', 'tributos a recolher',
+    'adiantamento de clientes',
+    'contas a pagar'
+  ], 'passivo', [
+    'empréstimo', 'emprestimo', 'financiamento',
+    'parcelamento',
+    'mútuo', 'mutuo', 'sócios', 'socios',
+    'dividendos', 'jcp',
+    'judicial', 'judiciais'
+  ]);
+  const obrigacoesOperacionais = obrigacoesOperacionaisRaw > 0 ? obrigacoesOperacionaisRaw : null;
+
+  const realizavelLongoPrazoRaw = extractGroupSum([
+    'realizável a longo prazo', 'realizavel a longo prazo',
+    'contas a receber de longo prazo',
+    'partes relacionadas',
+    'depósitos judiciais', 'depositos judiciais',
+    'ativos fiscais diferidos', 'impostos diferidos'
+  ], 'ativo');
+  const realizavelLongoPrazo = realizavelLongoPrazoRaw > 0 ? realizavelLongoPrazoRaw : null;
+
+  const ativoPermanenteRaw = extractGroupSum([
+    'imobilizado',
+    'intangível', 'intangivel',
+    'investimentos'
+  ], 'ativo', [
+    'realizável', 'realizavel', 'fiscal', 'fiscais', 'depósito', 'deposito', 'contas a receber'
+  ]);
+  const ativoPermanente = ativoPermanenteRaw > 0 ? ativoPermanenteRaw : null;
+
   // Função rigorosa fiduciária para Disponível Total (Caixa e Equivalentes)
   const disponivelKeywords = [
+    'disponivel',
+    'disponíveis',
+    'disponiveis',
     'caixa',
-    'numerário',
-    'numerario',
-    'banco conta movimento',
-    'bancos conta movimento',
-    'banco conta corrente',
-    'bancos conta corrente',
-    'banco c/c',
-    'bancos c/c',
+    'banco',
+    'bancos',
     'depósitos bancários à vista',
     'depósito bancário à vista',
     'depositos bancarios a vista',
     'deposito bancario a vista',
     'aplicações de liquidez imediata',
     'aplicacao de liquidez imediata',
+    'aplicações de liquidez imediata',
+    'aplicação de liquidez imediata',
     'aplicacoes de liquidez imediata',
+    'numerário',
+    'numerario',
     'equivalentes de caixa',
     'equivalente de caixa',
     'alta conversibilidade',
@@ -389,6 +440,9 @@ export function buildBPHierarchy(rows: any[]): { nodes: BPNode[], flatNodes: BPN
     baixaConversibilidade,
     restritaConversibilidade,
     creditosSocios,
+    obrigacoesOperacionais,
+    realizavelLongoPrazo,
+    ativoPermanente,
     hasOrphans,
     hasDuplicates,
     orphanAccounts,

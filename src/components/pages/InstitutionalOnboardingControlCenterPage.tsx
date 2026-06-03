@@ -1,3 +1,4 @@
+import { useLanguage } from '../../contexts/LanguageContext';
 import React, { useState, useEffect } from 'react';
 import { 
   Building2, Users, FileSignature, Server, AlertOctagon, 
@@ -7,6 +8,7 @@ import { executiveRuntime } from '../../core/runtime/executive-intelligence-runt
 import { InstitutionalOnboardingOutput } from '../../core/runtime/institutional-onboarding/InstitutionalOnboardingTypes';
 
 export function InstitutionalOnboardingControlCenterPage() {
+  const { translateLabel: t } = useLanguage();
   const [onboardingData, setOnboardingData] = useState<InstitutionalOnboardingOutput | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -42,7 +44,7 @@ export function InstitutionalOnboardingControlCenterPage() {
       <div className="flex h-[80vh] items-center justify-center font-mono">
         <div className="flex flex-col items-center gap-4 text-zinc-500">
           <Activity className="animate-spin" size={32} />
-          <p className="text-xs uppercase tracking-widest">Avaliando Onboarding...</p>
+          <p className="text-xs uppercase tracking-widest">{t("onboarding.evaluating")}</p>
         </div>
       </div>
     );
@@ -52,8 +54,8 @@ export function InstitutionalOnboardingControlCenterPage() {
     return (
       <div className="flex flex-col items-center justify-center h-[80vh] font-mono text-red-500">
         <AlertOctagon size={48} className="mb-4" />
-        <h2 className="text-xl font-bold uppercase">Onboarding Data Missing</h2>
-        <p className="text-sm mt-2 text-red-400">O runtime não gerou a camada de onboarding institucional.</p>
+        <h2 className="text-xl font-bold uppercase">{t("onboarding.data_missing")}</h2>
+        <p className="text-sm mt-2 text-red-400">{t("onboarding.no_runtime_data")}</p>
       </div>
     );
   }
@@ -121,12 +123,12 @@ export function InstitutionalOnboardingControlCenterPage() {
             <Building2 size={16} />
             <span className="text-[10px] uppercase font-bold tracking-widest font-mono">Client Activation Control</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">Institutional Onboarding Center</h1>
-          <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">Sovereign Tenant Lifecycle & Governance Validation</p>
+          <h1 className="text-2xl font-bold tracking-tight">{t("onboarding.control_center")}</h1>
+          <p className="text-xs text-zinc-500 font-mono mt-1 uppercase tracking-widest">{t("onboarding.subtitle")}</p>
         </div>
         {lineageHash && (
           <div className="text-[10px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
-            <span>Audit Lineage:</span>
+            <span>{t("onboarding.audit_lineage")}</span>
             <span className="font-bold text-zinc-300">{lineageHash.substring(0, 16)}...</span>
           </div>
         )}
@@ -136,7 +138,7 @@ export function InstitutionalOnboardingControlCenterPage() {
       <div className={`p-6 rounded-2xl border ${onboardingBlocked ? 'bg-red-950/40 border-red-900/50' : isFullOperation ? 'bg-emerald-950/20 border-emerald-900/50' : 'bg-zinc-900 border-zinc-800'}`}>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-mono mb-2">Current Lifecycle Stage</p>
+            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-mono mb-2">{t("onboarding.current_stage")}</p>
             <h2 className={`text-4xl font-black tracking-tight mb-4 ${onboardingBlocked ? 'text-red-500' : isFullOperation ? 'text-emerald-400' : 'text-blue-400'}`}>
               {onboardingStage.replace(/_/g, ' ')}
             </h2>
@@ -180,7 +182,7 @@ export function InstitutionalOnboardingControlCenterPage() {
         <div className="p-5 bg-red-950/50 border border-red-900/70 rounded-xl">
           <div className="flex items-center gap-2 mb-3">
             <AlertOctagon className="text-red-500" size={18} />
-            <h3 className="font-bold text-red-400 uppercase tracking-wide text-xs">Fail-Closed Blockers</h3>
+            <h3 className="font-bold text-red-400 uppercase tracking-wide text-xs">{t("onboarding.blockers")}</h3>
           </div>
           <ul className="space-y-2">
             {blockedActivationReasons.map((reason, idx) => (
@@ -199,19 +201,19 @@ export function InstitutionalOnboardingControlCenterPage() {
         {/* Tenant Provisioning Surface */}
         <div className="bg-zinc-900/60 p-5 rounded-2xl border border-zinc-800 space-y-4">
           <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 flex items-center gap-2">
-            <Server size={14} /> Tenant Provisioning
+            <Server size={14} /> {t("onboarding.tenant_provisioning")}
           </h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">Provisioning Status</span>
+              <span className="text-xs text-zinc-400">{t("onboarding.provisioning_status")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(tenantProvisioningStatus)}`}>{tenantProvisioningStatus}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">Tenant Isolation</span>
+              <span className="text-xs text-zinc-400">{t("onboarding.tenant_isolation")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(tenantIsolationStatus)}`}>{tenantIsolationStatus}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">Deployment Inheritance</span>
+              <span className="text-xs text-zinc-400">{t("onboarding.deployment_inheritance")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(deploymentInheritanceStatus)}`}>{deploymentInheritanceStatus}</span>
             </div>
           </div>
@@ -220,19 +222,19 @@ export function InstitutionalOnboardingControlCenterPage() {
         {/* Fiduciary Validation Panel */}
         <div className="bg-zinc-900/60 p-5 rounded-2xl border border-zinc-800 space-y-4">
           <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 flex items-center gap-2">
-            <FileSignature size={14} /> Documentation & Governance
+            <FileSignature size={14} /> {t("onboarding.doc_governance")}
           </h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">Organizational Readiness</span>
+              <span className="text-xs text-zinc-400">{t("onboarding.org_readiness")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(organizationalReadinessStatus)}`}>{organizationalReadinessStatus}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">Fiduciary Sign-off</span>
+              <span className="text-xs text-zinc-400">{t("onboarding.fiduciary_signoff")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(fiduciaryValidationStatus)}`}>{fiduciaryValidationStatus}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-zinc-400">Activation Governance</span>
+              <span className="text-xs text-zinc-400">{t("onboarding.activation_gov")}</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border border-zinc-800 bg-zinc-950 ${getStatusColor(activationGovernanceStatus)}`}>{activationGovernanceStatus}</span>
             </div>
           </div>
@@ -241,12 +243,12 @@ export function InstitutionalOnboardingControlCenterPage() {
         {/* Unresolved Issues */}
         <div className="bg-zinc-900/60 p-5 rounded-2xl border border-zinc-800 space-y-4">
           <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 flex items-center gap-2">
-            <Fingerprint size={14} /> Audit Trail & Issues
+            <Fingerprint size={14} /> {t("onboarding.audit_trail")}
           </h3>
           <div className="space-y-2 max-h-32 overflow-y-auto pr-2 custom-scrollbar">
             {unresolvedSetupIssues.length === 0 ? (
               <p className="text-xs text-emerald-500 flex items-center gap-2">
-                <CheckCircle2 size={12} /> No critical setup issues.
+                <CheckCircle2 size={12} /> {t("onboarding.no_critical_issues")}
               </p>
             ) : (
               unresolvedSetupIssues.map((issue, i) => (

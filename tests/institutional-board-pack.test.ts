@@ -10,6 +10,7 @@ describe('Institutional Board Pack Runtime', () => {
 
   const createBaseReport = (): any => ({
     runtimeMetadata: { lineageHash: 'BD-PACK-TEST-HASH', historicalCyclesAvailable: 5, auditTrail: ['EXEC-001', 'STR-002'] },
+    scores: { composite: 85, financial: 80, operational: 85, governance: 90, structural: 85 },
     institutionalContext: { tenantId: 'test-tenant', currentCycle: '2026-05' },
     capitalStructure: { fundingDependenceLevel: 'MODERATE', rolloverRisk: 'LOW' },
     metrics: {
@@ -70,7 +71,7 @@ describe('Institutional Board Pack Runtime', () => {
     const result = InstitutionalBoardPackRuntime.generate(report);
 
     assert.strictEqual(result.status, 'FAILED');
-    assert.ok(result.disclosureSet[0].statement.includes('MISSING_LINEAGE_HASH'));
+    assert.ok(result.disclosureSet[0].message.includes('MISSING_LINEAGE_HASH'));
   });
 
 });

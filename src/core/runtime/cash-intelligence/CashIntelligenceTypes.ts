@@ -152,6 +152,8 @@ export interface CashIntelligenceRuntimeOutput {
   cashIntelligenceLineageHash: string;
   causalReferences: string[];
   score: number;
+  longitudinalOut?: LongitudinalCashIntelligenceOutput;
+  longitudinalScore?: number | 'NOT_AVAILABLE';
 }
 
 export type LongitudinalTrajectory = 

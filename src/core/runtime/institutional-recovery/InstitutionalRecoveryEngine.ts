@@ -11,11 +11,21 @@ export class InstitutionalRecoveryEngine {
     const auditTrail: string[] = ['Iniciando avaliação fiduciária de recuperação institucional (IRRE).'];
 
     // 1. Validation of Lineage and Input Integrity
+    // 1. Validation of Lineage and Input Integrity
     const isLineageIncomplete = 
       !input.fiduciaryOutput?.lineageHash ||
-      !input.treasuryRuntime?.treasuryLineageHash ||
+      !(input.treasuryRuntime?.lineage?.lineageHash || input.treasuryRuntime?.treasuryLineageHash) ||
       !input.cashIntelligenceRuntime?.lineageHash;
     
+    console.log('RECOVERY ENGINE LINEAGE DEBUG:', {
+      isLineageIncomplete,
+      fidOutHash: input.fiduciaryOutput?.lineageHash,
+      treasuryHash1: input.treasuryRuntime?.lineage?.lineageHash,
+      treasuryHash2: input.treasuryRuntime?.treasuryLineageHash,
+      cashHash: input.cashIntelligenceRuntime?.lineageHash,
+      cashInputKeys: input.cashIntelligenceRuntime ? Object.keys(input.cashIntelligenceRuntime) : null
+    });
+
     // Fail-closed block
     if (isLineageIncomplete) {
       auditTrail.push('Modo fail-closed ativado: Insumos ou lineage ausentes/inválidos.');
@@ -120,7 +130,7 @@ export class InstitutionalRecoveryEngine {
     }
 
     // Lineage Hash
-    const rawLineage = `${input.fiduciaryOutput.lineageHash}_${input.treasuryRuntime.treasuryLineageHash}_${reauthorization.activeRecoveryStage}_${consistency.consistencyScore}`;
+    const rawLineage = `${input.fiduciaryOutput.lineageHash}_${input.treasuryRuntime.lineage?.lineageHash || input.treasuryRuntime.treasuryLineageHash}_${reauthorization.activeRecoveryStage}_${consistency.consistencyScore}`;
     let hash = 0;
     for (let i = 0; i < rawLineage.length; i++) {
       hash = (hash << 5) - hash + rawLineage.charCodeAt(i);

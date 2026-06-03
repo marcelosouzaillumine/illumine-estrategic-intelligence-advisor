@@ -42,18 +42,7 @@ export function InstitutionalBoardPackPage({ clients, selectedClient, selectedMo
     }
   };
 
-  const boardPack = InstitutionalBoardPackRuntime.generate(dummyReport, {
-    generatedAt: new Date().toISOString(),
-    runtimeVersion: '1.0',
-    contractVersion: 'RC_1_13A',
-    tenantId: 'fake',
-    cycleReference: 'fake-cycle',
-    boardPackLineageHash: 'fake' as any,
-    reportGenerationTimestamp: new Date().toISOString(),
-    snapshotIntegrityStatus: 'INTACT',
-    immutabilityStatus: 'MUTABLE',
-    runtimeSources: []
-  });
+  const boardPack = InstitutionalBoardPackRuntime.generate(dummyReport);
 
   return (
     <div className="p-6">

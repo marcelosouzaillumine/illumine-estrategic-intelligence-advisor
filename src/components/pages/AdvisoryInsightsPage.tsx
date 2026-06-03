@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../Common';
 import { cn } from '../../lib/utils';
 import { useExecutiveAdvisory } from '../../hooks/useExecutiveAdvisory';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
   const tones: any = {
@@ -41,12 +42,13 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
   const client = clients.find((c: any) => c.id === selectedClient);
 
   const { advisoryReport, loading } = useExecutiveAdvisory(selectedClient, year, month, client);
+  const { translateLabel: t } = useLanguage();
 
   return (
     <div className="space-y-12 pb-32 animate-executive-fade">
       <PageHeader 
-        title="Síntese Executiva Institucional"
-        subtitle="Inteligência integrada para análise da geração de valor e saúde financeira proativa."
+        title={t("advisory.title")}
+        subtitle={t("advisory.subtitle")}
         icon={Presentation}
         color="executive"
       />
@@ -56,7 +58,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20">
           <div className="w-16 h-16 rounded-full border-4 border-secondary/20 border-t-secondary animate-spin" />
-          <p className="text-[10px] font-medium uppercase tracking-widest mt-6 text-muted-foreground animate-pulse">Sintetizando Dados...</p>
+          <p className="text-[10px] font-medium uppercase tracking-widest mt-6 text-muted-foreground animate-pulse">{t("advisory.loading_synthesis")}</p>
         </div>
       ) : advisoryReport ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -65,26 +67,26 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
             <div className="flex items-center justify-between">
               <SectionHeader 
                 icon={Activity} 
-                title="Diagnóstico Estrutural Integrado" 
-                subtitle="Alertas proativos baseados no motor causal institucional" 
+                title={t("advisory.structural_diagnosis_title")} 
+                subtitle={t("advisory.structural_diagnosis_subtitle")} 
                 tone="blue"
               />
               <div className="flex bg-surface-container p-1 rounded-md border border-border">
-                 <span className="px-4 py-1.5 text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Real-Time Audit</span>
+                 <span className="px-4 py-1.5 text-[9px] font-medium text-muted-foreground uppercase tracking-widest">{t("advisory.real_time_audit")}</span>
               </div>
             </div>
             
             <div className="card-premium p-8 space-y-8">
               <div className="space-y-4">
                 <h4 className="text-[10px] font-medium text-primary uppercase tracking-widest mb-2 flex items-center gap-2">
-                  <BookOpen size={14} /> Resumo Executivo
+                  <BookOpen size={14} /> {t("advisory.executive_summary")}
                 </h4>
                 <p className="text-body-lg text-foreground font-medium italic">"{advisoryReport.executiveSummary}"</p>
               </div>
 
               <div className="space-y-4 border-t border-border pt-6">
                 <h4 className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-2 flex items-center gap-2">
-                  <Activity size={14} /> Diagnóstico Institucional
+                  <Activity size={14} /> {t("advisory.institutional_diagnosis")}
                 </h4>
                 <p className="text-body text-muted-foreground leading-relaxed">{advisoryReport.institutionalDiagnosis}</p>
               </div>
@@ -92,7 +94,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border pt-6">
                 <div className="space-y-4">
                   <h4 className="text-[10px] font-medium text-destructive uppercase tracking-widest flex items-center gap-2">
-                    <AlertTriangle size={14} /> Riscos Dominantes
+                    <AlertTriangle size={14} /> {t("advisory.dominant_risks")}
                   </h4>
                   <ul className="space-y-2">
                     {advisoryReport.dominantRisks.map((risk, i) => (
@@ -104,7 +106,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                 </div>
                 <div className="space-y-4">
                   <h4 className="text-[10px] font-medium text-success uppercase tracking-widest flex items-center gap-2">
-                    <Target size={14} /> Prioridades Estratégicas
+                    <Target size={14} /> {t("advisory.strategic_priorities")}
                   </h4>
                   <ul className="space-y-2">
                     {advisoryReport.strategicPriorities.map((p, i) => (
@@ -120,8 +122,8 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
             <div className="flex items-center justify-between">
               <SectionHeader 
                 icon={Zap} 
-                title="Action Matrix" 
-                subtitle="Recomendações prescritivas de alto impacto" 
+                title={t("advisory.action_matrix_title")} 
+                subtitle={t("advisory.action_matrix_subtitle")} 
                 tone="emerald"
               />
             </div>
@@ -139,8 +141,8 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
                     <div>
                       <h4 className="text-h5 font-medium text-foreground">{action.acao}</h4>
                       <div className="flex gap-4 mt-2">
-                        <span className="text-[10px] font-medium uppercase text-muted-foreground tracking-widest">Impacto: {action.impacto}</span>
-                        <span className="text-[10px] font-medium uppercase text-muted-foreground tracking-widest">Tempo: {action.velocidade}</span>
+                        <span className="text-[10px] font-medium uppercase text-muted-foreground tracking-widest">{t("advisory.impact")}: {action.impacto}</span>
+                        <span className="text-[10px] font-medium uppercase text-muted-foreground tracking-widest">{t("advisory.time")}: {action.velocidade}</span>
                       </div>
                     </div>
                     <div className="px-4 py-2 bg-secondary/10 text-secondary rounded-full text-xs font-medium uppercase tracking-widest text-center whitespace-nowrap">
@@ -158,7 +160,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
               <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
               <div className="flex items-center justify-between relative z-10">
-                <span className="text-[10px] font-medium uppercase tracking-widest text-secondary">Nível de Confiança</span>
+                <span className="text-[10px] font-medium uppercase tracking-widest text-secondary">{t("advisory.confidence_level")}</span>
                 <ShieldCheck size={18} className="text-secondary" />
               </div>
 
@@ -170,7 +172,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
 
               <div className="space-y-3 relative z-10">
                 <p className="text-[10px] font-medium text-white/60 uppercase tracking-widest flex justify-between">
-                  <span>Postura Executiva Recomendada</span>
+                  <span>{t("advisory.recommended_posture")}</span>
                 </p>
                 <div className="p-3 bg-white/10 rounded-md border border-white/20">
                   <p className="text-sm font-medium text-white">{advisoryReport.executivePosture}</p>
@@ -180,7 +182,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
 
             <div className="card-premium p-6 space-y-4">
               <h4 className="text-[10px] font-medium text-warning uppercase tracking-widest mb-2">
-                 Decisão de Board
+                 {t("advisory.board_decision")}
               </h4>
               <p className="text-body-sm text-foreground font-medium italic border-l-2 border-warning pl-3">{advisoryReport.recommendedBoardDecision}</p>
             </div>
@@ -188,7 +190,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
             {advisoryReport.blockedFalsePositives.length > 0 && (
               <div className="bg-destructive/10 border border-destructive/20 p-6 rounded-md space-y-4">
                 <h4 className="text-[10px] font-medium text-destructive uppercase tracking-widest flex items-center gap-2">
-                  <AlertTriangle size={14} /> Moderação Causal (Falsos Positivos Bloqueados)
+                  <AlertTriangle size={14} /> {t("advisory.causal_moderation_title")}
                 </h4>
                 <ul className="space-y-2">
                   {advisoryReport.blockedFalsePositives.map((fp, i) => (
@@ -201,7 +203,7 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
             {advisoryReport.narrativeModeration.length > 0 && (
               <div className="bg-primary/5 border border-primary/10 p-6 rounded-md space-y-4">
                 <h4 className="text-[10px] font-medium text-primary uppercase tracking-widest">
-                  Contexto de Moderação
+                  {t("advisory.moderation_context_title")}
                 </h4>
                 <ul className="space-y-2">
                   {advisoryReport.narrativeModeration.map((nm, i) => (
@@ -215,8 +217,8 @@ export function AdvisoryInsightsPage({ clients, selectedClient, selectedYear, se
       ) : (
         <div className="card-premium bg-surface-container p-20 text-center">
           <Sparkles size={64} className="mx-auto mb-6 text-muted-foreground/20" />
-          <h4 className="text-h4 font-medium text-foreground mb-2 tracking-tight">Aguardando Dados</h4>
-          <p className="text-muted-foreground font-medium">Importe as demonstrações financeiras para gerar a Síntese Executiva.</p>
+          <h4 className="text-h4 font-medium text-foreground mb-2 tracking-tight">{t("advisory.waiting_data_title")}</h4>
+          <p className="text-muted-foreground font-medium">{t("advisory.waiting_data_subtitle")}</p>
         </div>
       )}
     </div>

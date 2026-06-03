@@ -1,7 +1,7 @@
 import React from 'react';
 import { useExecutiveInteraction } from '../../context/executive-interaction/ExecutiveInteractionProvider';
 import { ShieldAlert, AlertOctagon, Lock } from 'lucide-react';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const InstitutionalBlockingDialog: React.FC = () => {
   const { interactionState } = useExecutiveInteraction();

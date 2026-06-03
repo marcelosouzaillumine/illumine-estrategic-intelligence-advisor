@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react';
 import { query, collection, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { buildBPHierarchy } from '../lib/bpEngine';
+import { 
+  matchFinancialKey, 
+  isDocTypeBP, 
+  isDocTypeDRE, 
+  isDocTypeDFC, 
+  isDocTypeDLPA 
+} from '../utils/financialKeyNormalizer';
 
 export interface RealKPIs {
   margemLiquida: number;
@@ -36,14 +43,67 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
 
     // Define standard mappings for heuristic fallback
     const standardMappings: Record<string, string[]> = {
-      revenue: ['Receita Líquida', 'Receita Operacional Bruta', 'Faturamento', 'Receita de Vendas'],
-      ebitda: ['EBITDA', 'LAJIDA'],
-      netProfit: ['Lucro Líquido', 'Resultado Líquido'],
-      liquidezCorrente: ['Liquidez Corrente'],
-      saldoCaixa: ['Saldo em Caixa', 'Caixa e Equivalentes', 'Disponibilidades', 'Bancos', 'Conta Corrente'],
-      totalAssets: ['Ativo', 'Ativo Total', 'Total de Ativos'],
-      totalLiabilities: ['Passivo', 'Passivo Total', 'Total de Passivos', 'Total do Passivo'],
-      equity: ['Patrimônio Líquido', 'PL', 'Patrimônio'],
+      revenue: [
+        'Receita Líquida', 
+        'Receita Operacional Bruta', 
+        'Faturamento', 
+        'Receita de Vendas',
+        'Receita Operacional Líquida',
+        'Receita Operacional Liquida'
+      ],
+      ebitda: [
+        'EBITDA', 
+        'LAJIDA'
+      ],
+      netProfit: [
+        'Lucro Líquido', 
+        'Resultado Líquido',
+        'Lucro Líquido do Exercício',
+        'Lucro Liquido do Exercício',
+        'Lucro Liquido do Exercicio',
+        'Resultado do Exercício',
+        'Resultado do Exercicio',
+        'Lucro/Prejuízo do Exercício',
+        'Lucro ou Prejuízo do Exercício',
+        'Prejuízo do Exercício',
+        'Prejuizo do Exercicio',
+        'Prejuízo Líquido do Exercício',
+        'Prejuizo Liquido do Exercicio'
+      ],
+      liquidezCorrente: [
+        'Liquidez Corrente'
+      ],
+      saldoCaixa: [
+        'Saldo em Caixa', 
+        'Caixa e Equivalentes', 
+        'Disponibilidades', 
+        'Bancos', 
+        'Conta Corrente',
+        'Caixa e Equivalentes de Caixa',
+        'Bens Numerários',
+        'Bens Numerarios',
+        'Depósitos Bancários',
+        'Depositos Bancarios',
+        'Aplicações',
+        'Aplicacoes'
+      ],
+      totalAssets: [
+        'Ativo', 
+        'Ativo Total', 
+        'Total de Ativos'
+      ],
+      totalLiabilities: [
+        'Passivo', 
+        'Passivo Total', 
+        'Total de Passivos', 
+        'Total do Passivo'
+      ],
+      equity: [
+        'Patrimônio Líquido', 
+        'PL', 
+        'Patrimônio',
+        'Patrimonio Liquido'
+      ],
     };
 
     const rates = { USD: 5.10, EUR: 5.50, BRL: 1 };
@@ -93,14 +153,32 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
       if (calculated.ativo_circulante) calculated.totalAssets = calculated.ativo_circulante;
       if (calculated.passivo_circulante) calculated.totalLiabilities = calculated.passivo_circulante;
 
-      // B. Process via standard names heuristic
+      // B. Process via standard names heuristic with normalized matching and context checks
       Object.entries(standardMappings).forEach(([kpi, names]) => {
         if (calculated[kpi] === 0) {
-          const lowerNames = names.map(n => n.toLowerCase());
           const sum = allEntries
             .filter((e: any) => {
-              const cat = (e.category || e.conta || '').toLowerCase();
-              return lowerNames.includes(cat);
+              const docType = e.docType || '';
+              // 3. Separar aliases por demonstração
+              if (kpi === 'revenue' || kpi === 'ebitda') {
+                if (!isDocTypeDRE(docType)) return false;
+              } else if (kpi === 'netProfit') {
+                if (!isDocTypeDRE(docType) && !isDocTypeDLPA(docType)) return false;
+              } else if (kpi === 'saldoCaixa') {
+                if (!isDocTypeBP(docType) && !isDocTypeDFC(docType)) return false;
+              } else if (['totalAssets', 'totalLiabilities', 'equity', 'liquidezCorrente'].includes(kpi)) {
+                if (!isDocTypeBP(docType)) return false;
+              }
+
+              // Also enforce row type check for BP to prevent false positives:
+              if (isDocTypeBP(docType)) {
+                const rowType = (e.type || '').toLowerCase();
+                if (kpi === 'totalAssets' && rowType !== 'ativo') return false;
+                if (kpi === 'totalLiabilities' && rowType !== 'passivo') return false;
+                if (kpi === 'equity' && !['patrimônio líquido', 'pl', 'patrimonio liquido'].includes(rowType)) return false;
+              }
+
+              return matchFinancialKey(e.category || e.conta || '', names);
             })
             .reduce((s: number, e: any) => s + (Number(e.value || e.valor || e.val) || 0), 0);
           calculated[kpi] = sum;
@@ -135,7 +213,11 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
         .reduce((s, p) => s + (Number(p.valor) || Number(p.Valor) || 0), 0);
 
       // BP Engine Processing (Reliable asset extraction from manual entries)
-      const bpEntries = allEntries.filter((e: any) => e.type === 'ativo' || e.type === 'passivo' || e.type === 'patrimônio líquido' || e.type === 'pl');
+      const bpEntries = allEntries.filter((e: any) => {
+        const docType = e.docType || '';
+        if (!isDocTypeBP(docType)) return false;
+        return e.type === 'ativo' || e.type === 'passivo' || e.type === 'patrimônio líquido' || e.type === 'pl';
+      });
       const bpSummary = bpEntries.length > 0 ? buildBPHierarchy(bpEntries).summary : null;
 
       // Final Indicators
@@ -168,8 +250,19 @@ export function useRealIndicatorData(clientId: string, month: number, year: numb
           const data = doc.data();
           if (data.status === 'archived' || data.status === 'rejected') return;
           if (month > 0 && data.month !== undefined && data.month !== 0 && data.month !== month) return;
-          if (Array.isArray(data.data)) allEntries.push(...data.data);
-          else if (data.category && data.value !== undefined) allEntries.push(data);
+          if (Array.isArray(data.data)) {
+            data.data.forEach((entry: any) => {
+              allEntries.push({
+                ...entry,
+                docType: data.type
+              });
+            });
+          } else if (data.category && data.value !== undefined) {
+            allEntries.push({
+              ...data,
+              docType: data.type
+            });
+          }
         });
         calculateAll();
       }),

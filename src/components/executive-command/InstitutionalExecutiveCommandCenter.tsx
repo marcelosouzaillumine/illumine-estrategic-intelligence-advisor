@@ -5,7 +5,7 @@ import { ShieldCheck, Activity, Loader2 } from 'lucide-react';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { executiveRuntime } from '../../core/runtime/executive-intelligence-runtime';
 import { InstitutionalExecutiveCommandOutput } from '../../core/runtime/executive-command/executive-command-types';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 // Child components
 import { ExecutiveDirectivePanel } from './ExecutiveDirectivePanel';

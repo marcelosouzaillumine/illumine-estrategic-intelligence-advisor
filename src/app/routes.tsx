@@ -112,10 +112,17 @@ import { PilotExperienceDashboard } from '../components/pages/PilotExperienceDas
 import { ExecutiveMonitoringCenter } from '../components/pages/governance/ExecutiveMonitoringCenter';
 import { GovernanceMaturityCenter } from '../components/pages/governance/GovernanceMaturityCenter';
 import { FiduciaryValidationCenter } from '../components/pages/governance/FiduciaryValidationCenter';
+import { EconomicNormalizationCenter } from '../components/pages/governance/EconomicNormalizationCenter';
+import { CapitalGovernanceCenter } from '../components/pages/governance/CapitalGovernanceCenter';
+import { FinancialLineageCenter } from '../components/pages/governance/FinancialLineageCenter';
+import { CreditCommitteeCenter } from '../components/pages/governance/CreditCommitteeCenter';
+import { InstitutionalMemoryCenter } from '../components/pages/governance/InstitutionalMemoryCenter';
 import { LeadershipDNACenter } from '../components/pages/governance/LeadershipDNACenter';
 import { InstitutionalStructureCenter } from '../components/pages/governance/InstitutionalStructureCenter';
 import { RiskExposureCenter } from '../components/pages/governance/RiskExposureCenter';
 import { DecisionLifecycleCenter } from '../components/pages/governance/DecisionLifecycleCenter';
+import { SovereignDecisionCenter } from '../components/pages/governance/SovereignDecisionCenter';
+import { ExecutiveExecutionCenter } from '../components/pages/governance/ExecutiveExecutionCenter';
 import { CrisisResponseCenter } from '../components/pages/governance/CrisisResponseCenter';
 import { RuntimeObservabilityCenter } from '../components/pages/governance/RuntimeObservabilityCenter';
 import { ProductGovernanceCenter } from '../components/pages/governance/ProductGovernanceCenter';
@@ -661,8 +668,20 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'governance_maturity_center') {
     return <GovernanceMaturityCenter clientId={selectedClient} />;
   }
+  if (currentPage === 'capital_governance_center') {
+    return <CapitalGovernanceCenter clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} />;
+  }
   if (currentPage === 'fiduciary_validation_center') {
     return <FiduciaryValidationCenter />;
+  }
+  if (currentPage === 'economic_normalization_center') {
+    return <EconomicNormalizationCenter clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} />;
+  }
+  if (currentPage === 'credit_committee_center') {
+    return <CreditCommitteeCenter clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} />;
+  }
+  if (currentPage === 'institutional_memory_center') {
+    return <InstitutionalMemoryCenter clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} />;
   }
   if (currentPage === 'leadership_dna_center') {
     return <LeadershipDNACenter clientId={selectedClient} />;
@@ -671,10 +690,19 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
     return <InstitutionalStructureCenter />;
   }
   if (currentPage === 'risk_exposure_center') {
-    return <RiskExposureCenter />;
+    return <RiskExposureCenter clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} />;
   }
   if (currentPage === 'decision_lifecycle_center') {
     return <DecisionLifecycleCenter />;
+  }
+  if (currentPage === 'sovereign_decision_center') {
+    return <SovereignDecisionCenter clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} />;
+  }
+  if (currentPage === 'financial_lineage_center') {
+    return <FinancialLineageCenter selectedClient={selectedClient} selectedYear={selectedYear} />;
+  }
+  if (currentPage === 'executive_execution_center') {
+    return <ExecutiveExecutionCenter clients={clients} selectedClient={selectedClient} selectedYear={selectedYear} />;
   }
   if (currentPage === 'crisis_response_center' && isMaster) {
     return <CrisisResponseCenter />;

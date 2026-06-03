@@ -1,5 +1,6 @@
 // src/components/pages/StrategicWarRoomPage.tsx
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Layers3, AlertTriangle, Scale, ShieldAlert, History } from 'lucide-react';
 import { PageHeader } from '../Common';
 import { InstitutionalScenarioResult } from '../../core/runtime/scenario-intelligence/scenario-types';
@@ -213,10 +214,11 @@ export function StrategicWarRoomPage({ selectedClient, contextData }: Props) {
 
       </div>
 
-      {toast && (
+      {toast && typeof document !== 'undefined' && createPortal(
         <div className="fixed top-6 right-6 z-50 px-5 py-3 rounded-xl shadow-lg text-sm font-bold text-white bg-emerald-600 animate-executive-fade">
           {toast.message}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

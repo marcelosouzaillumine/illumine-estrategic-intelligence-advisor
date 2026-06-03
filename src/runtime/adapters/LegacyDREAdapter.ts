@@ -5,7 +5,7 @@ import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 
 export const LegacyDREAdapter: EngineDefinition = {
   name: 'LegacyDREAdapter',
-  priority: 20, // Executa depois ou junto do FinancialAdapter
+  priority: 11, // Executa depois ou junto do FinancialAdapter
   dependencies: [],
   requiredData: ['dreData'],
   inferenceScope: 'Inteligência Operacional, Escala e Eficiência',
@@ -34,7 +34,11 @@ export const LegacyDREAdapter: EngineDefinition = {
       const segmentoEmpresa = (input.rawFinancialData?.segmentoEmpresa || 'Serviços').toLowerCase();
 
       // 1. Map current year data
-      const yearEntries = allHistoryData.filter((d: any) => Number(d.year) === filterYear && (d.entryType || '').toLowerCase() !== 'ativo' && (d.entryType || '').toLowerCase() !== 'passivo' && (d.entryType || '').toLowerCase() !== 'patrimônio líquido');
+      const yearEntries = allHistoryData.filter((d: any) => {
+        const typeNorm = (d.type || d.docType || '').toLowerCase();
+        const isDRE = typeNorm.includes('dre') || typeNorm === 'resultado';
+        return isDRE && Number(d.year) === filterYear && (d.entryType || '').toLowerCase() !== 'ativo' && (d.entryType || '').toLowerCase() !== 'passivo' && (d.entryType || '').toLowerCase() !== 'patrimônio líquido';
+      });
 
       if (yearEntries.length === 0) {
         return {
@@ -262,7 +266,8 @@ export const LegacyDREAdapter: EngineDefinition = {
         recLiquida, lucroBruto, pontoEquilibrio, gapEquilibrio, indiceCoberturaOperacional,
         margemSegurancaValor, cmvVal, cmvCritical, cmvLabel, capacidadeAbsorcaoEstrutura,
         margemOperacional, margemLiquida, indiceDespesasAdministrativas, indiceDespesasFinanceiras,
-        breakEvenDays, indiceConversaoOperacional, ebitda, recGrowth, ebitdaGrowth, internalAuditErrors
+        breakEvenDays, indiceConversaoOperacional, ebitda, recGrowth, ebitdaGrowth, internalAuditErrors,
+        margemContrib, receitaPorOpex: Math.abs(despesasFixas) > 0 ? recLiquida / Math.abs(despesasFixas) : 0
       };
 
       const insights = generateDreInsights(metrics);

@@ -72,6 +72,10 @@ describe('Phase 10: PDF & Export Infrastructure Tests', () => {
       performance: {
         warnings: ['SLOW_EXECUTION']
       }
+    },
+    institutionalEvidence: {
+      validationStatus: 'VALIDATED',
+      evidenceTrail: []
     }
   } as any;
 

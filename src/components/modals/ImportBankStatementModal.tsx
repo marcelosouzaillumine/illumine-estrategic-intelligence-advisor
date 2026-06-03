@@ -16,6 +16,7 @@ import {
   BankTransaction 
 } from '../../services/importService';
 import { cn, formatCurrency } from '../../lib/utils';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 type ImportStrategy = 'add_new' | 'replace_all';
 
@@ -40,6 +41,7 @@ interface ImportBankStatementModalProps {
 }
 
 export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }: ImportBankStatementModalProps) {
+  const { translateLabel, t } = useLanguage();
   const [accounts, setAccounts] = useState<any[]>([]);
   const [selectedAccountId, setSelectedAccountId] = useState('');
   const [file, setFile] = useState<File | null>(null);
@@ -359,7 +361,7 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
 
         {!importResult && (
           <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3">
-            <button onClick={onClose} className="flex-1 py-3 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all">Cancelar</button>
+            <button onClick={onClose} className="flex-1 py-3 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all">{t("modals.cancel")}</button>
             <button 
               onClick={handleConfirmImport}
               disabled={loading || !file || !selectedAccountId}

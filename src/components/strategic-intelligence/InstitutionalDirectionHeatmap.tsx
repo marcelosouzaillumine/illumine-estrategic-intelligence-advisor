@@ -1,27 +1,27 @@
-// src/components/strategic-intelligence/InstitutionalDirectionHeatmap.tsx
-
 import React from 'react';
 import { Network } from 'lucide-react';
 import { InstitutionalStrategicIntelligenceOutput } from '../../core/runtime/strategic-intelligence/strategic-intelligence-types';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface InstitutionalDirectionHeatmapProps {
   strategicOutput: InstitutionalStrategicIntelligenceOutput;
 }
 
 export function InstitutionalDirectionHeatmap({ strategicOutput }: InstitutionalDirectionHeatmapProps) {
+  const { t } = useLanguage();
   
   const cells = [
-    { label: 'EXPANSION', active: strategicOutput.posture === 'EXPANSION_POSTURE' },
-    { label: 'PRESERVATION', active: strategicOutput.posture === 'PRESERVATION_POSTURE' },
-    { label: 'STABILIZATION', active: strategicOutput.posture === 'STABILIZATION_POSTURE' },
-    { label: 'RESTRICTION', active: strategicOutput.posture === 'RESTRICTION_POSTURE' },
-    { label: 'CONTINUITY', active: strategicOutput.posture === 'CONTINUITY_POSTURE' }
+    { label: t('overlay.posture_expansion'), active: strategicOutput.posture === 'EXPANSION_POSTURE' },
+    { label: t('overlay.posture_preservation'), active: strategicOutput.posture === 'PRESERVATION_POSTURE' },
+    { label: t('overlay.posture_stabilization'), active: strategicOutput.posture === 'STABILIZATION_POSTURE' },
+    { label: t('overlay.posture_restriction'), active: strategicOutput.posture === 'RESTRICTION_POSTURE' },
+    { label: t('overlay.posture_continuity'), active: strategicOutput.posture === 'CONTINUITY_POSTURE' }
   ];
 
   return (
     <div className="bg-zinc-950 border border-zinc-800 p-6 rounded-lg font-mono">
       <h3 className="text-zinc-400 text-[10px] font-bold tracking-widest uppercase mb-4 flex items-center gap-2">
-        <Network size={14} /> Directional Convergence Matrix
+        <Network size={14} /> {t('overlay.heatmap_title')}
       </h3>
 
       <div className="grid grid-cols-5 gap-2">

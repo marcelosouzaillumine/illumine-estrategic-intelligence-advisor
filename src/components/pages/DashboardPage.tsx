@@ -47,6 +47,7 @@ import { DataAccessContext } from '../../core/security/data-access-context';
 import { governanceService } from '../../services/governanceService';
 import { getFinancialEntries } from '../../services/cashFlowService';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { matchFinancialKey } from '../../utils/financialKeyNormalizer';
 
 const AXIS_DATA = [
   { 
@@ -396,23 +397,23 @@ export function DashboardPage({
         // Soma também o que tiver mensal, se houver
         if (flattenedMonthEntries.length > 0) {
            const rolEntries = flattenedMonthEntries.filter((e: any) => {
-             const name = (e.category || e.conta || '').toLowerCase();
              const id = (e.id || '').toUpperCase();
-             return id === 'ROL' || name.includes('receita operacional líquida') || name.includes('receita líquida');
+             if (id === 'ROL') return true;
+             return matchFinancialKey(e.category || e.conta || '', ['receita operacional líquida', 'receita líquida', 'receita operacional liquida', 'receita liquida']);
            });
            const robEntries = flattenedMonthEntries.filter((e: any) => {
-             const name = (e.category || e.category || '').toLowerCase();
              const id = (e.id || '').toUpperCase();
-             return id === 'ROB' || name.includes('receita operacional bruta') || name.includes('faturamento bruto') || name.includes('faturamento');
+             if (id === 'ROB') return true;
+             return matchFinancialKey(e.category || e.conta || '', ['receita operacional bruta', 'faturamento bruto', 'faturamento', 'receita operacional bruta']);
            });
 
            rec += (rolEntries.length > 0 ? rolEntries : robEntries).reduce((sum: number, e: any) => sum + (Number(e.computedValue !== undefined ? e.computedValue : (e.value || e.valor || e.val)) || 0), 0);
              
            ebitda += flattenedMonthEntries
              .filter((e: any) => {
-               const name = (e.category || e.conta || '').toLowerCase();
                const id = (e.id || '').toUpperCase();
-               return id === 'EBITDA' || name === 'ebitda' || name.includes('ebitda') || name === 'lajida';
+               if (id === 'EBITDA') return true;
+               return matchFinancialKey(e.category || e.conta || '', ['ebitda', 'lajida']);
              })
              .reduce((sum: number, e: any) => sum + (Number(e.computedValue !== undefined ? e.computedValue : (e.value || e.valor || e.val)) || 0), 0);
         }

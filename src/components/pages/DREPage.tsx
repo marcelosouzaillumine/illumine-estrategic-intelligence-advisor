@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, BarChart3, Database, TrendingUp, TrendingDown, Info, PieChart as PieChartIcon, AlertTriangle, Sparkles, Bug, Target, Shield, Activity, Layers, Scale, Zap, Building2, Coins, Receipt } from 'lucide-react';
 import { DATA } from '../../data';
 import { 
@@ -113,8 +114,19 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
     receitaBruta = 0, deducoesReceita = 0, recLiquida = 0, custosVar = 0, margemContrib = 0,
     despesasFixas = 0, pontoEquilibrio = 0, gapEquilibrio = 0, margemSegurancaValor = 0,
     indiceDeducoes = 0, indiceCoberturaOperacional = 0, indiceMargemContrib = 0, cmvLabel = 'Custos Variáveis',
+    capacidadeAbsorcaoEstrutura = 0, receitaPorOpex = 0, ebitdaVal = 0, margemLiquida = 0, ebitda = 0, lucroLiq = 0,
     cascadeResult = [], trendNote = null as any
   } = (executiveReport?.metrics.financialMetrics as any) || {};
+
+  const qualityReport = (executiveReport?.metrics as any)?.dreInsights?.qualityReport;
+  const rootCauseReport = (executiveReport?.metrics as any)?.dreInsights?.rootCauseReport;
+  const economicValueAssessment = (executiveReport?.metrics as any)?.dreInsights?.economicValueAssessment;
+  const earningsQualityAssessment = (executiveReport?.metrics as any)?.dreInsights?.earningsQualityAssessment;
+  const confidenceAssessment = (executiveReport?.metrics as any)?.dreInsights?.confidenceAssessment;
+  const managementDiscussion = (executiveReport?.metrics as any)?.dreInsights?.managementDiscussion;
+
+  const employeeCount = (dbDataBP[0] as any)?.employeeCount || (dbDataBP[0] as any)?.numeroFuncionarios || 0;
+  const recPorColaborador = employeeCount > 0 ? recLiquida / employeeCount : null;
 
   const efficiencies = executiveReport?.metrics.efficiencies || [];
   const kpis = executiveReport?.metrics.kpis || [];
@@ -435,7 +447,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
       </div>
       
       {/* EFFICIENCY INTELLIGENCE PANELS */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
         
         {/* OPERATIONAL EFFICIENCY INTELLIGENCE */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
@@ -515,9 +527,107 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
              </p>
           </div>
         </div>
+
       </div>
 
-      {/* AI ADVISORY INSIGHTS */}
+      {/* EXECUTIVE INTELLIGENCE PACK (NEW PANELS) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+        {/* ECONOMIC VALUE */}
+        {economicValueAssessment && (
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+            <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Criação de Valor</h4>
+            <h3 className={cn("text-lg font-black mb-2", 
+              economicValueAssessment.classification === 'VALUE_CREATING' ? 'text-emerald-600' :
+              economicValueAssessment.classification === 'VALUE_DESTROYING' ? 'text-rose-600' : 'text-amber-500'
+            )}>
+              {economicValueAssessment.classification === 'VALUE_CREATING' ? 'Criação de Valor Econômico' :
+               economicValueAssessment.classification === 'VALUE_DESTROYING' ? 'Valor Econômico em Deterioração' : 'Criação de Valor Neutra'}
+            </h3>
+            <p className="text-xs text-slate-600 mb-4">{economicValueAssessment.rationale}</p>
+            <div className="mt-auto bg-slate-50 p-3 rounded-xl border border-slate-100">
+              <p className="text-[10px] font-bold text-slate-500 mb-1">Evidência Fiduciária</p>
+              <p className="text-[10px] text-slate-700 font-medium">{economicValueAssessment.evidence}</p>
+            </div>
+          </div>
+        )}
+
+        {/* EARNINGS QUALITY */}
+        {earningsQualityAssessment && (
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+            <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Qualidade do Resultado</h4>
+            <h3 className={cn("text-lg font-black mb-2", 
+              earningsQualityAssessment.classification === 'HIGH_QUALITY_EARNINGS' ? 'text-emerald-600' :
+              earningsQualityAssessment.classification === 'LOW_QUALITY_EARNINGS' ? 'text-rose-600' : 
+              earningsQualityAssessment.classification === 'UNDETERMINED_EARNINGS_QUALITY' ? 'text-slate-400' : 'text-amber-500'
+            )}>
+              {earningsQualityAssessment.classification === 'HIGH_QUALITY_EARNINGS' ? 'Alta Qualidade (Operacional)' :
+               earningsQualityAssessment.classification === 'LOW_QUALITY_EARNINGS' ? 'Baixa Qualidade (Extraordinário)' : 
+               earningsQualityAssessment.classification === 'UNDETERMINED_EARNINGS_QUALITY' ? 'Qualidade Indeterminada' : 'Qualidade Média'}
+            </h3>
+            <p className="text-xs text-slate-600 mb-4">{earningsQualityAssessment.rationale}</p>
+            {earningsQualityAssessment.classification !== 'UNDETERMINED_EARNINGS_QUALITY' && (
+              <div className="mt-auto flex flex-col gap-2">
+                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden flex">
+                  <div className="h-full bg-emerald-500" style={{ width: `${earningsQualityAssessment.recurringRevenueWeight}%` }} />
+                  <div className="h-full bg-rose-400" style={{ width: `${earningsQualityAssessment.nonRecurringWeight}%` }} />
+                </div>
+                <div className="flex justify-between text-[9px] font-bold uppercase text-slate-400">
+                  <span>Operacional: {earningsQualityAssessment.recurringRevenueWeight.toFixed(0)}%</span>
+                  <span>Extraordinário: {earningsQualityAssessment.nonRecurringWeight.toFixed(0)}%</span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* CONFIDENCE SCORE */}
+        {confidenceAssessment && (
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
+            <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Nível de Confiança</h4>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className={cn("text-lg font-black", 
+                confidenceAssessment.classification === 'HIGH_CONFIDENCE' ? 'text-emerald-600' :
+                confidenceAssessment.classification === 'LOW_CONFIDENCE' ? 'text-rose-600' : 'text-amber-500'
+              )}>
+                {confidenceAssessment.classification === 'HIGH_CONFIDENCE' ? 'Confiança Alta' :
+                 confidenceAssessment.classification === 'LOW_CONFIDENCE' ? 'Confiança Baixa' : 'Confiança Moderada'}
+              </h3>
+              <span className="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-xs font-bold">{confidenceAssessment.score}/100</span>
+            </div>
+            <p className="text-xs text-slate-600 mb-4">{confidenceAssessment.rationale}</p>
+          </div>
+        )}
+      </div>
+
+      {/* MANAGEMENT DISCUSSION & ANALYSIS */}
+      {managementDiscussion && (
+        <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex flex-col mb-10">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+            <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-white">
+              <Layers size={20} />
+            </div>
+            <div>
+              <h4 className="text-xl font-black text-slate-800">Management Discussion & Analysis</h4>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Síntese Executiva Corporativa</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {managementDiscussion.blocks.map((block: any, i: number) => (
+              <div key={i} className="flex flex-col gap-2">
+                <h5 className="text-xs font-black uppercase tracking-widest text-slate-800 border-l-2 border-indigo-500 pl-2">
+                  {block.title}
+                </h5>
+                <p className="text-[11px] font-medium leading-relaxed text-slate-600 whitespace-pre-line">
+                  {block.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+
       <ExecutivePerspectiveSection intelligenceReport={executiveReport} loading={!executiveReport} className="mb-10 shadow-xl" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
@@ -940,9 +1050,9 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         />
       )}
 
-      {showDeleteConfirm && (
+      {showDeleteConfirm && typeof document !== 'undefined' && createPortal(
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-[32px] p-8 max-w-md w-full shadow-2xl">
+          <div className="bg-white rounded-[32px] p-8 w-full max-w-md min-w-[300px] md:min-w-[400px] shadow-2xl shrink-0">
             <h3 className="text-xl font-black text-slate-900 mb-2">Excluir Dados?</h3>
             <p className="text-sm text-slate-500 mb-8 font-medium">
               Esta ação removerá todos os registros da DRE para o ano <strong>{filterYear}</strong> deste cliente. Esta ação não pode ser desfeita.
@@ -962,16 +1072,18 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {toast && (
+      {toast && typeof document !== 'undefined' && createPortal(
         <div className={cn(
           'fixed bottom-8 right-8 px-5 md:px-8 py-2.5 md:py-4 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-bottom-4 transition-all',
           toast.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'
         )}>
           <p className="text-xs font-black uppercase tracking-widest">{toast.message}</p>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

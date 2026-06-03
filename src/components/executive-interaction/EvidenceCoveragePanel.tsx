@@ -1,8 +1,10 @@
 import React from 'react';
 import { useExecutiveInteraction } from '../../context/executive-interaction/ExecutiveInteractionProvider';
 import { Layers, CheckCircle2, AlertOctagon } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const EvidenceCoveragePanel: React.FC = () => {
+  const { t } = useLanguage();
   const { confidenceDisclosure } = useExecutiveInteraction();
   const { evidenceCoverage } = confidenceDisclosure;
 
@@ -32,7 +34,7 @@ export const EvidenceCoveragePanel: React.FC = () => {
             <div key={idx} className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex items-center justify-between gap-4">
               <div className="space-y-1">
                 <p className="text-xs font-bold text-slate-200 uppercase tracking-wider">{cat.name}</p>
-                <p className="text-[10px] text-slate-500">Peso no Score: {(cat.weight * 100).toFixed(0)}%</p>
+                <p className="text-[10px] text-slate-500">{t("overlays.score_weight")} {(cat.weight * 100).toFixed(0)}%</p>
               </div>
               <div>
                 {isComplete ? (

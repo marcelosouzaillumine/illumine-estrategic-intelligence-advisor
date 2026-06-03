@@ -7,6 +7,7 @@ import { InstitutionalResilienceOutput } from '../institutional-resilience/Resil
 import { TreasuryIntelligenceRuntimeOutput } from '../treasury-intelligence/types';
 import { RuntimeMetadata, InstitutionalDisclosure } from '../shared/runtime-contracts';
 import { BoardPackLineageHash, RuntimeLineageHash } from '../shared/lineage-types';
+export type { BoardPackLineageHash, RuntimeLineageHash };
 import { RuntimeIntegrityStatus } from '../shared/runtime-constitutional-types';
 import {
   ConstitutionalOverrideAttempt,
@@ -14,6 +15,7 @@ import {
   ConstitutionalIntegrityState
 } from '../constitutional-governance/constitutional-types';
 
+export type ReportVariant = 'BANKING' | 'INVESTOR' | 'AUDIT' | 'TURNAROUND' | 'BOARD' | 'MANAGEMENT';
 
 export type ReportGenerationStatus = 'COMPLETE' | 'RESTRICTED' | 'FAILED' | 'CONSTITUTIONAL_QUARANTINE';
 
@@ -42,6 +44,8 @@ export interface BoardPackMetadata extends RuntimeMetadata {
   snapshotIntegrityStatus: RuntimeIntegrityStatus;
   immutabilityStatus: 'IMMUTABLE' | 'MUTABLE';
   runtimeSources: string[];
+  reportId?: string;
+  environment?: string;
 }
 
 export interface FiduciaryRestriction {
@@ -152,6 +156,29 @@ export interface BoardResolutionAppendix {
   readOnlyHistoricalMemory: boolean;
 }
 
+export interface GovernanceIntegrityReviewSection {
+  consistencyStatus: string;
+  confidenceScore: number;
+  warnings: string[];
+  forcedDisclosures: string[];
+}
+
+export interface FiduciaryStructuralRestrictionsSection {
+  originalClassification: string;
+  classificationCeiling: string | null;
+  finalClassification: string;
+  ceilingReasons: string[];
+  confidenceImpact: number;
+  appliedOverrides: any[];
+}
+
+export interface StructuralLiquidityRiskSection {
+  liquidityFragilityOverride: boolean;
+  inventoryDependency: any;
+  shortTermDebtConcentrationOverride: boolean;
+  finalFiduciaryClassification: string;
+}
+
 export interface InstitutionalBoardPackOutput {
   status: ReportGenerationStatus;
   metadata: BoardPackMetadata;
@@ -169,5 +196,53 @@ export interface InstitutionalBoardPackOutput {
   disclosureSet: InstitutionalDisclosure[];
   fiduciaryRestrictions: FiduciaryRestriction[];
   constitutionalSection?: ConstitutionalSection;
+  constitutionalGovernanceCompliance?: {
+    authority: string;
+    protocols: {
+      SCCF: string;
+      FCF: string;
+      TCF: string;
+      CCF: string;
+      LCF: string;
+      ACF: string;
+    };
+    compliance: string;
+    constitutionalIntegrity: string;
+    lineage: string;
+  };
+  constitutionalDecisionIntelligence?: {
+    priorities: Array<{
+      priorityLevel: number;
+      action: string;
+      category: string;
+    }>;
+    constitutionalStatus: string;
+    decisionLineage: string;
+  };
+  constitutionalScenarioIntelligence?: {
+    authority: string;
+    scenarioProtocol: string;
+    baselineIntegrity: string;
+    determinism: string;
+    lineage: string;
+    simulationStatus: string;
+    allScenarioHashes: string[];
+    topScenarios: Array<{
+      scenarioName: string;
+      constitutionalStatus: string;
+      survivabilityStatus: string;
+      scenarioHash: string;
+      impactMatrix: Array<{
+        metric: string;
+        baselineValue: number;
+        scenarioValue: number;
+        variance: number;
+        variancePercent: number;
+      }>;
+    }>;
+  };
+  governanceIntegrityReview?: GovernanceIntegrityReviewSection;
+  fiduciaryStructuralRestrictions?: FiduciaryStructuralRestrictionsSection;
+  structuralLiquidityRisk?: StructuralLiquidityRiskSection;
 }
 

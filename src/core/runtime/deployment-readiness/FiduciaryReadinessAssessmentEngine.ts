@@ -33,7 +33,7 @@ export class FiduciaryReadinessAssessmentEngine {
     // If confidence is low, failClosedTriggered MUST be true.
     const failClosedCoveragePassed = 
       executiveReport.resilienceReport?.confidenceLevel === 'HIGH' || 
-      executiveReport.institutionalView?.isFailClosedActivated === true;
+      (executiveReport.institutionalView as unknown as Record<string, unknown>)?.isFailClosedActivated === true;
 
     if (!failClosedCoveragePassed) {
       issues.push('FIDUCIARY: Fail-closed safety triggers bypassed in degraded confidence states.');

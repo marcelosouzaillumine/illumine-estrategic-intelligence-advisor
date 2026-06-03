@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { describe, it } from 'vitest';
+import { describe, it } from 'node:test';
 import * as assert from 'node:assert/strict';
 import { ExecutiveIntelligenceRuntime } from '../../executive-intelligence-runtime';
 import { InstitutionalBoardPackRuntime } from '../InstitutionalBoardPackRuntime';
@@ -75,11 +75,16 @@ function createCanonicalExecutiveInputData(overrides: Partial<ExecutiveInputData
     companyName: 'Canonical Corp',
     industrySegment: 'SAAS',
     businessModel: 'B2B',
+    segmentoEmpresa: 'SAAS',
+    modeloOperacional: 'B2B',
+    intensidadeCapital: 'ASSET_LIGHT',
     maturityStage: 'GROWTH_STAGE',
     analysisPeriod: '2023',
     periodStart: '2023-01-01',
     periodEnd: '2023-12-31',
     monthsCount: 12,
+    prevCaixa: 400000, // Reconciles with caixaEquivalentes 500000 and DFC fco 100000
+    prevDivida: 50000,
     
     // DRE Data
     receitaBruta: 1000000,
@@ -109,8 +114,23 @@ function createCanonicalExecutiveInputData(overrides: Partial<ExecutiveInputData
 
   return {
     rawFinancialData: { ...baseRawFinancialData, ...(overrides.rawFinancialData || {}) },
-    dreData: overrides.dreData || [],
+    dreData: overrides.dreData || [{
+      year: 2023,
+      receitaBruta: 1000000,
+      receitaLiquida: 900000,
+      custos: 400000,
+      lucroLiquido: 100000
+    }],
     dfcDataForRuntime: overrides.dfcDataForRuntime || baseDfcData,
+    dlpaData: overrides.dlpaData || [{
+      year: 2023,
+      lucrosPrejuizos: 500000,
+      distributedDividends: 0,
+      capitalSocial: 500000
+    }],
+    allocations: overrides.allocations || [
+      { id: 'payroll', category: 'Folha de Pagamento', amount: 50000, priority: 1, strategicNecessityScore: 95 }
+    ],
     metadata: {
       tenantId: 'test-tenant',
       cycleReference: '2023-Q4',
@@ -126,10 +146,17 @@ function createCanonicalExecutiveInputData(overrides: Partial<ExecutiveInputData
       auditTrail: [],
       ...(overrides.metadata || {})
     },
-    bpData: overrides.bpData || [],
+    bpData: overrides.bpData !== undefined ? overrides.bpData : [],
     bpSummary: { ...baseBpSummary, ...(overrides.bpSummary || {}) },
     historicalCyclesCount: overrides.historicalCyclesCount !== undefined ? overrides.historicalCyclesCount : 4,
+    historicalCycles: overrides.historicalCycles || [
+      { year: 2020, netIncome: 100000, operatingCashFlow: 150000 },
+      { year: 2021, netIncome: 110000, operatingCashFlow: 160000 },
+      { year: 2022, netIncome: 120000, operatingCashFlow: 170000 },
+      { year: 2023, netIncome: 130000, operatingCashFlow: 200000 }
+    ],
     historicalCashSustainabilityReports: overrides.historicalCashSustainabilityReports || createCanonicalRuntimeHistory(overrides.historicalCyclesCount !== undefined ? overrides.historicalCyclesCount : 4),
+
     
     // Strategic Intelligence inputs (garantindo que não dê UNVERIFIABLE_POSTURE se o Adapter puxar)
     strategicIntelligenceInputs: {
@@ -248,7 +275,7 @@ function createSustainableGrowthPayload() {
     dfcDataForRuntime: [
       { id: '1', category: 'Atividades Operacionais', amount: 500000, type: 'INFLOW', priority: 1, periodicity: 'RECURRING', description: 'Recebimentos' },
       { id: '2', category: 'Atividades Operacionais', amount: -100000, type: 'OUTFLOW', priority: 1, periodicity: 'RECURRING', description: 'Pagamentos' },
-      { id: '3', category: 'Atividades de Investimento', amount: -200000, type: 'OUTFLOW', priority: 2, periodicity: 'OCCASIONAL', description: 'Investimento CAPEX' }
+      { id: '3', category: 'Atividades de Investimento', amount: -300000, type: 'OUTFLOW', priority: 2, periodicity: 'OCCASIONAL', description: 'Investimento CAPEX' }
     ]
   });
 }
@@ -287,6 +314,14 @@ describe('InstitutionalBoardPack End-to-End Tests', () => {
 
   it('Canonical factory produces a fully trusted base payload', () => {
     const { report, boardPack } = runScenario(createHealthyCompanyPayload());
+    if (boardPack.status === 'RESTRICTED') {
+      console.log('CANONICAL IS RESTRICTED:', {
+        accounting: boardPack.executiveSnapshot.accountingIntegrityStatus,
+        quarantine: boardPack.executiveSnapshot.quarantineMode,
+        restrictions: boardPack.executiveSnapshot.fiduciaryRestrictions,
+        timeline: boardPack.fiduciaryTimeline?.timelineIntegrityStatus
+      });
+    }
     
     // Check strategic posture
     assert.notEqual(report.strategicIntelligence?.posture, 'UNVERIFIABLE_POSTURE');
@@ -344,6 +379,10 @@ describe('InstitutionalBoardPack End-to-End Tests', () => {
   it('Cenário E: FCO negativo + FCF positivo', () => {
     const { boardPack } = runScenario(createNegativeFcoPositiveFcfPayload());
     
+    console.log('E Trajectory:', boardPack.executiveSnapshot.longitudinalTrajectory);
+    console.log('E Narrative Blocked:', boardPack.executiveSnapshot.recoveryNarrativeBlocked);
+    console.log('E Quarantine:', boardPack.executiveSnapshot.quarantineMode);
+
     assert.equal(boardPack.executiveSnapshot.recoveryNarrativeBlocked, true);
     const restrictedTerms = ['robusta', 'saudável', 'crescimento sustentável', 'tesouraria forte'];
     const summaryLower = boardPack.executiveSnapshot.executiveSummary.toLowerCase();
@@ -356,9 +395,9 @@ describe('InstitutionalBoardPack End-to-End Tests', () => {
   it('Cenário F: Turnaround Artificial / Granatum-like', () => {
     const { boardPack } = runScenario(createArtificialTurnaroundPayload());
 
-    if (!boardPack.executiveSnapshot.recoveryNarrativeBlocked) {
-      console.log('F Trajectory:', boardPack.executiveSnapshot.longitudinalTrajectory);
-    }
+    console.log('F Trajectory:', boardPack.executiveSnapshot.longitudinalTrajectory);
+    console.log('F Narrative Blocked:', boardPack.executiveSnapshot.recoveryNarrativeBlocked);
+    console.log('F Quarantine:', boardPack.executiveSnapshot.quarantineMode);
 
     assert.equal(boardPack.executiveSnapshot.recoveryNarrativeBlocked, true);
     

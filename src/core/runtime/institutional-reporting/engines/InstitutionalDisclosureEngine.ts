@@ -24,13 +24,29 @@ export class InstitutionalDisclosureEngine {
   public static generateRestrictions(report: ExecutiveIntelligenceReport, metadata: BoardPackMetadata): FiduciaryRestriction[] {
     const restrictions: FiduciaryRestriction[] = [];
 
-    const runtimeMetadataAny = report.runtimeMetadata as unknown as { lineageHash?: string };
+    const runtimeMetadataAny = report.runtimeMetadata as unknown as { lineageHash?: string, historicalCyclesAvailable?: number };
     if (!report.runtimeMetadata || !runtimeMetadataAny.lineageHash) {
       restrictions.push({
         restrictionType: 'UNVERIFIABLE_LINEAGE',
         description: 'Missing cryptographic lineage trace.',
         affectedRuntimes: ['ALL']
       });
+    }
+
+    // Append restrictions from the compliance/fiduciary enforcement layer
+    if (report.compliance?.fiduciaryEnforcement?.fiduciaryRestrictions) {
+      restrictions.push(...(report.advisory?.fiduciaryEnforcement?.fiduciaryRestrictions || report.compliance?.fiduciaryEnforcement?.fiduciaryRestrictions || []));
+    }
+
+    const historicalCycles = runtimeMetadataAny.historicalCyclesAvailable || 0;
+    if (historicalCycles > 0 && historicalCycles < 2) {
+      if (!restrictions.some(r => r.restrictionType === 'INSUFFICIENT_HISTORY')) {
+        restrictions.push({
+          restrictionType: 'INSUFFICIENT_HISTORY',
+          description: 'Insuficiência de histórico operacional e ciclos fiduciários.',
+          affectedRuntimes: ['all']
+        });
+      }
     }
 
     return restrictions;

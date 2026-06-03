@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, ShieldCheck, FileText, ChevronRight } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface TimelineEvent {
   id: string;
@@ -11,6 +12,7 @@ interface TimelineEvent {
 }
 
 export const InstitutionalTimelineNavigator: React.FC = () => {
+  const { t } = useLanguage();
   const [selectedId, setSelectedId] = useState<string>('ev-1');
 
   const events: TimelineEvent[] = [
@@ -54,8 +56,8 @@ export const InstitutionalTimelineNavigator: React.FC = () => {
               
               {isSelected && (
                 <div className="mt-4 pt-4 border-t border-indigo-500/10 space-y-2 text-[10px] text-slate-400 font-mono">
-                  <p>Autor: {ev.author}</p>
-                  <p>Lineage Hash: {ev.hash}</p>
+                  <p>{t("overlays.author")} {ev.author}</p>
+                  <p>{t("overlays.lineage_hash")} {ev.hash}</p>
                 </div>
               )}
             </div>

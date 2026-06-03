@@ -83,8 +83,8 @@ export class InstitutionalEvidenceMockFactory {
       });
     }
 
-    // If no raw arrays but we have bpSummary, simulate minimal BP document
-    if (documents.length === 0 && rawData.rawFinancialData?.bpSummary) {
+    // If no raw BP array but we have bpSummary, simulate minimal BP document
+    if (!documents.some(d => d.type === 'BP') && rawData.rawFinancialData?.bpSummary) {
        documents.push({
         id: 'doc-bp-summary-505',
         type: 'BP',

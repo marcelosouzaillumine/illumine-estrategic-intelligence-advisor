@@ -49,36 +49,36 @@ export class ExecutiveActionMatrixEngine {
     // Under survival mode, we prioritize these actions at the top of the matrix
     if (isSurvivalMode) {
       processedActions.push(
-        '[ ] CASH_PRESERVATION: Preservação de caixa e foco absoluto em liquidez imediata.',
-        '[ ] COST_CONTAINMENT: Contenção de despesas operacionais discricionárias.',
-        '[ ] TREASURY_STABILIZATION: Medidas emergenciais para estabilização de tesouraria.',
-        '[ ] OPERATIONAL_RECOVERY: Foco em recuperação operacional e saneamento de margens.',
-        '[ ] LIABILITY_PROTECTION: Proteção e renegociação fiduciária de passivos críticos.'
+        'Preservação de caixa e foco absoluto em liquidez imediata.',
+        'Contenção de despesas operacionais discricionárias.',
+        'Medidas emergenciais para estabilização de tesouraria.',
+        'Foco em recuperação operacional e saneamento de margens.',
+        'Proteção e renegociação fiduciária de passivos críticos.'
       );
     } else if (recoveryReport && recoveryReport.activeRecoveryStage) {
       const stage = recoveryReport.activeRecoveryStage;
       if (recoveryReport.regressionReport?.regressionDetected) {
         processedActions.push(
-          '[ ] ESTABILIZACAO_CORRETIVA: Recaída institucional detectada. Reativando restrições prudenciais.',
-          '[ ] BLOQUEIO_DE_EXPANSAO: Congelamento imediato de capex, distribuição e agressividade comercial.',
-          '[ ] MONITORAMENTO_DE_RECUPERACAO: Reavaliação estrutural do break-even e tesouraria.'
+          'Recaída institucional detectada. Reativando restrições prudenciais.',
+          'Congelamento imediato de capex, distribuição e agressividade comercial.',
+          'Reavaliação estrutural do break-even e tesouraria.'
         );
       } else if (stage === 'RECOVERY_MONITORING' || stage === 'RECOVERY_STAGE_1_PENDING') {
         processedActions.push(
-          '[ ] MONITORAMENTO_DE_RECUPERACAO: Consolidar geração de caixa sustentável antes de retomar crescimento.',
-          '[ ] ESTABILIZACAO_ESTRUTURAL: Manter contenção de despesas enquanto avalia consistência longitudinal.'
+          'Consolidar geração de caixa sustentável antes de retomar crescimento.',
+          'Manter contenção de despesas enquanto avalia consistência longitudinal.'
         );
       } else if (stage === 'RECOVERY_STAGE_1') {
         processedActions.push(
-          '[ ] CONSOLIDACAO_DE_RECUPERACAO: Primeira fase da recuperação alcançada. Prioridade: manter estabilidade de tesouraria.'
+          'Primeira fase da recuperação alcançada. Prioridade: manter estabilidade de tesouraria.'
         );
       } else if (stage === 'RECOVERY_STAGE_2') {
         processedActions.push(
-          '[ ] REATIVACAO_SELETIVA: Permitido Capex seletivo e otimização de capital de giro.'
+          'Permitido Capex seletivo e otimização de capital de giro.'
         );
       } else if (stage === 'RECOVERY_STAGE_3') {
         processedActions.push(
-          '[ ] RETOMADA_ESTRATEGICA: Crescimento controlado e investimentos estratégicos autorizados.'
+          'Crescimento controlado e investimentos estratégicos autorizados.'
         );
       }
     }
@@ -168,21 +168,21 @@ export class ExecutiveActionMatrixEngine {
     if (!isSurvivalMode && !isEarlyRecovery) {
       if (blockedDistributionFound) {
         processedActions.push(
-          '[ ] Preservação de caixa: suspensão de dividendos e retiradas extraordinárias.',
-          '[ ] Reforço de capital: retenção integral dos lucros para recomposição do PL.',
-          '[ ] Estabilização da tesouraria e blindagem do capital de giro.',
-          '[ ] Foco em recuperação operacional para atingimento do break-even.',
-          '[ ] Reestruturação patrimonial e recomposição das reservas exauridas.'
+          'Preservação de caixa: suspensão de dividendos e retiradas extraordinárias.',
+          'Reforço de capital: retenção integral dos lucros para recomposição do PL.',
+          'Estabilização da tesouraria e blindagem do capital de giro.',
+          'Foco em recuperação operacional para atingimento do break-even.',
+          'Reestruturação patrimonial e recomposição das reservas exauridas.'
         );
       }
 
       if (blockedCapexFound) {
         processedActions.push(
-          '[ ] Capex Freeze: suspensão preventiva de novos investimentos não fundados.',
-          '[ ] Capex Rephasing: reprogramação do cronograma de desembolso de investimentos.',
-          '[ ] Captação de funding externo dedicado antes de qualquer expansão.',
-          '[ ] Proteção de tesouraria: preservação de caixa livre mínimo.',
-          '[ ] Prioridade absoluta para recuperação da rentabilidade operacional antes de capex.'
+          'Capex Freeze: suspensão preventiva de novos investimentos não fundados.',
+          'Capex Rephasing: reprogramação do cronograma de desembolso de investimentos.',
+          'Captação de funding externo dedicado antes de qualquer expansão.',
+          'Proteção de tesouraria: preservação de caixa livre mínimo.',
+          'Prioridade absoluta para recuperação da rentabilidade operacional antes de capex.'
         );
       }
     }

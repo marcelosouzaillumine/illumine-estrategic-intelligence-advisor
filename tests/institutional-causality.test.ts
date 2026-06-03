@@ -130,6 +130,12 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
       isMockData: false,
       historicalCyclesCount: 3,
       runtimeHistory: cycles,
+      metadata: {
+        lineageHash: 'VALID-CAUSALITY-TEST-HASH'
+      },
+      compliance: {
+        confidenceLevel: 'HIGH_CONFIDENCE'
+      },
       rawFinancialData: {
         segmentoEmpresa: 'Varejo',
         bpSummary: {
@@ -146,6 +152,11 @@ describe('Institutional Causality Graph & Longitudinal Governance Layer (RC-1.3)
         { code: '1.1.1', accountName: 'Caixa', value: 50 },
         { code: '1.1.2', accountName: 'Estoque', value: 150 },
         { code: '2.1.1', accountName: 'Fornecedores', value: 400 }
+      ],
+      dreData: [
+        { category: 'receitaLiquida', type: 'dre', value: 100000, val: 100000 },
+        { category: 'ebitda', type: 'dre', value: 20000, val: 20000 },
+        { category: 'lucroLiquido', type: 'dre', value: 10000, val: 10000 }
       ]
     };
 

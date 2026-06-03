@@ -1,12 +1,14 @@
 import React from 'react';
 import { FiduciaryTimelineSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
 import { ShieldAlert, AlertTriangle, Info, Clock, Activity, Target } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface FiduciaryTimelineSurfaceProps {
   timeline?: FiduciaryTimelineSection;
 }
 
 export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> = ({ timeline }) => {
+  const { translateLabel: t } = useLanguage();
   if (!timeline) {
     return null;
   }
@@ -15,7 +17,7 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
     return (
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6 text-center">
         <Clock className="w-8 h-8 text-slate-500 mx-auto mb-3" />
-        <h3 className="text-slate-300 font-medium mb-1">Histórico Insuficiente</h3>
+        <h3 className="text-slate-300 font-medium mb-1">{t("panels.insufficient_history")}</h3>
         <p className="text-slate-500 text-sm">
           A Timeline Fiduciária requer múltiplos ciclos consolidados para aferir sustentabilidade longitudinal.
         </p>
@@ -27,7 +29,7 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
     return (
       <div className="bg-red-950/20 border border-red-900/50 rounded-xl p-6 text-center">
         <ShieldAlert className="w-8 h-8 text-red-500 mx-auto mb-3" />
-        <h3 className="text-red-400 font-medium mb-1">Quebra de Integridade Temporal</h3>
+        <h3 className="text-red-400 font-medium mb-1">{t("panels.temporal_integrity_break")}</h3>
         <p className="text-red-500/70 text-sm">
           A leitura longitudinal foi bloqueada devido a falhas de reconciliação em ciclos anteriores. A continuidade da trajetória não pôde ser atestada fiduciariamente.
         </p>
@@ -74,7 +76,7 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Activity className="w-4 h-4 text-slate-400" />
-            <h3 className="text-slate-200 font-medium text-sm">Evolução Fiduciária do Caixa</h3>
+            <h3 className="text-slate-200 font-medium text-sm">{t("panels.fiduciary_cash_evolution")}</h3>
           </div>
           <span className="text-xs text-slate-500 font-mono">{periodsCovered} CICLOS ANALISADOS</span>
         </div>
@@ -85,7 +87,7 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
             {renderTimelineBlocks(fcoEvolution, 'NUMBER')}
           </div>
           <div>
-            <div className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">Qualidade da Liquidez</div>
+            <div className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">{t("panels.liquidity_quality")}</div>
             {renderTimelineBlocks(liquidityQualityEvolution, 'QUALITY')}
           </div>
           <div>
@@ -99,7 +101,7 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
         <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-5">
           <div className="flex items-center gap-2 mb-3">
             <AlertTriangle className="w-4 h-4 text-amber-500" />
-            <h3 className="text-amber-500 font-medium text-sm">Marcadores de Trajetória</h3>
+            <h3 className="text-amber-500 font-medium text-sm">{t("panels.trajectory_markers")}</h3>
           </div>
           <ul className="space-y-2">
             {timeline.dependencyRecurrence > 0 && (

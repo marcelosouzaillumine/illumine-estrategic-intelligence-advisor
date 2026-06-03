@@ -7,6 +7,7 @@ import { ExecutiveBoardPack } from '../../core/runtime/reporting/ReportingTypes'
 import { GovernedRepositoryWrapper } from '../../core/security/governed-repository';
 import { DataAccessContext } from '../../core/security/data-access-context';
 import { auth } from '../../lib/firebase';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 // Estilo auxiliar interno para lidar com CSS Print
 const PrintStyles = () => (
@@ -39,9 +40,10 @@ const PrintStyles = () => (
 // Removed mockBoardPack per Phase 5 directives
 
 function LineageStamp({ lineage }: { lineage: any }) {
+  const { translateLabel: t } = useLanguage();
   return (
     <div className="bg-secondary/10 border border-secondary/30 p-3 rounded-lg text-[10px] font-mono text-secondary-foreground space-y-1 mt-6 no-print">
-      <div className="flex items-center gap-2 font-bold mb-2 uppercase tracking-widest"><ShieldCheck size={14}/> Fiduciary Lineage Stamp</div>
+      <div className="flex items-center gap-2 font-bold mb-2 uppercase tracking-widest"><ShieldCheck size={14}/> {t("reports.fiduciary_lineage_stamp") || "Fiduciary Lineage Stamp"}</div>
       <div className="grid grid-cols-2 gap-2">
         <div><span className="opacity-50">Execution ID:</span> {lineage.executionId}</div>
         <div><span className="opacity-50">Report Ver:</span> v{lineage.reportVersion}</div>
@@ -53,6 +55,7 @@ function LineageStamp({ lineage }: { lineage: any }) {
 }
 
 export function InstitutionalReportsPage() {
+  const { translateLabel: t } = useLanguage();
   const [groups, setGroups] = useState<EconomicGroupModel[]>([]);
   const [selectedGroupId, setSelectedGroupId] = useState<string>('');
   const [pack, setPack] = useState<ExecutiveBoardPack | null>(null);
@@ -127,8 +130,8 @@ export function InstitutionalReportsPage() {
       
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 no-print">
         <PageHeader
-          title="Relatórios Institucionais"
-          subtitle="Formalização Fiduciária Imutável. Exportação Zero-Dependency para Conselhos e Auditores."
+          title={t("reports.title")}
+          subtitle={t("reports.subtitle")}
           icon={FileText}
           transparent
         />
@@ -138,14 +141,14 @@ export function InstitutionalReportsPage() {
             value={selectedGroupId} 
             onChange={(e) => setSelectedGroupId(e.target.value)}
           >
-            <option value="">Selecionar Grupo Alvo...</option>
+            <option value="">{t("reports.select_group")}</option>
             {groups.map(g => <option key={g.id} value={g.id}>{g.groupName}</option>)}
           </select>
           <button 
             onClick={handleLoadReport}
             className="btn-executive"
           >
-            Carregar Relatório
+            {t("reports.load_report")}
           </button>
         </div>
       </div>
@@ -155,7 +158,7 @@ export function InstitutionalReportsPage() {
           <div className="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center">
             <FileText size={32} className="opacity-30" />
           </div>
-          <p className="text-body-sm font-medium text-muted-foreground/60 uppercase tracking-widest">Selecione um grupo para visualizar os pacotes executivos formalizados.</p>
+          <p className="text-body-sm font-medium text-muted-foreground/60 uppercase tracking-widest">{t("reports.empty_state")}</p>
         </div>
       )}
 
@@ -164,23 +167,23 @@ export function InstitutionalReportsPage() {
           {/* Controls Panel (No Print) */}
           <div className="col-span-3 space-y-4 no-print">
             <div className="card-premium p-6 space-y-4">
-              <h3 className="text-h3 font-medium text-foreground tracking-tight flex items-center gap-2"><Clock size={16}/> Histórico de Versões</h3>
+              <h3 className="text-h3 font-medium text-foreground tracking-tight flex items-center gap-2"><Clock size={16}/> {t("reports.version_history")}</h3>
               <div className="p-3 bg-secondary/5 border border-secondary/20 rounded-md flex items-center justify-between text-[10px] font-bold text-secondary uppercase tracking-widest">
-                <span>Versão Atual (v{pack.version})</span>
+                <span>{t("reports.current_version")} (v{pack.version})</span>
                 <span>{new Date(pack.timestamp).toLocaleDateString()}</span>
               </div>
               <button className="w-full text-[10px] font-medium text-muted-foreground p-2.5 border border-border border-dashed rounded-md hover:bg-surface-container transition-colors uppercase tracking-widest">
-                Ver Versões Anteriores...
+                {t("reports.view_past_versions")}
               </button>
             </div>
 
             <div className="card-premium p-6 space-y-4">
-              <h3 className="text-h3 font-medium text-foreground tracking-tight flex items-center gap-2"><Activity size={16}/> Exportação Formal</h3>
+              <h3 className="text-h3 font-medium text-foreground tracking-tight flex items-center gap-2"><Activity size={16}/> {t("reports.formal_export")}</h3>
               <button onClick={handlePrint} className="w-full btn-ghost flex items-center justify-center gap-2">
-                <Printer size={15}/> Gerar PDF (Imprimir)
+                <Printer size={15}/> {t("reports.generate_pdf")}
               </button>
               <button onClick={handleExportJSON} className="w-full btn-ghost flex items-center justify-center gap-2">
-                <Download size={15}/> Exportar Snapshot JSON
+                <Download size={15}/> {t("reports.export_json")}
               </button>
             </div>
           </div>

@@ -1,8 +1,10 @@
 import React from 'react';
 import { AlertOctagon } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { useExecutiveInteraction } from '../../context/executive-interaction/ExecutiveInteractionProvider';
 
 export const MissingDependencyAlert: React.FC = () => {
+  const { t } = useLanguage();
   const { confidenceDisclosure } = useExecutiveInteraction();
   const { missingDependencies } = confidenceDisclosure;
 
@@ -16,7 +18,7 @@ export const MissingDependencyAlert: React.FC = () => {
         <AlertOctagon className="w-5 h-5 animate-pulse" />
       </div>
       <div className="space-y-1">
-        <h4 className="text-xs font-black text-red-400 uppercase tracking-widest">Dependências do Runtime Indisponíveis</h4>
+        <h4 className="text-xs font-black text-red-400 uppercase tracking-widest">{t("overlays.missing_runtime_dependencies")}</h4>
         <p className="text-xs text-slate-400 leading-relaxed">
           Os seguintes datasets fiduciários estão ausentes ou corrompidos, impedindo o processamento completo:
         </p>

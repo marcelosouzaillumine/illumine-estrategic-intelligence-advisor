@@ -33,8 +33,7 @@ export class ValidationDatasetFactory {
       consolidationScope: 'FULL',
       reportingBoundary: 'IFRS',
       entityPath: [],
-      entities: []
-    } as unknown;
+    } as unknown as ConsolidatedRuntimeInputExt;
   }
 
   public static getScenarioExpectedOutputs(scenario: RealWorldScenario): {

@@ -5,39 +5,44 @@ import { StrategicEvaluationContext } from './strategic-intelligence-types';
 
 export class StrategicIntelligenceAdapter {
   static extractContext(report: ExecutiveIntelligenceReport): StrategicEvaluationContext {
+    const financialMetrics = report.metrics?.financialMetrics as Record<string, number> | undefined;
+
     return {
       metadata: {
-        lineageHash: (report as any).runtimeMetadata?.lineageHash || (report as any).metadata?.lineageHash || 'UNVERIFIED',
-        tenantId: (report as any).metadata?.tenantId || 'UNKNOWN',
-        cycleReference: (report as any).metadata?.cycleReference || 'UNKNOWN',
-        historicalCyclesCount: (report as any).runtimeMetadata?.historicalCyclesAvailable || (report as any).metadata?.historicalCyclesCount || 0,
+        lineageHash: report.runtimeMetadata?.lineageHash || (report as any).metadata?.lineageHash || 'UNVERIFIED',
+        tenantId: report.institutionalContext?.tenantId || (report as any).metadata?.tenantId || 'UNKNOWN',
+        cycleReference: report.institutionalContext?.currentCycle || (report as any).metadata?.cycleReference || 'UNKNOWN',
+        historicalCyclesCount: report.runtimeMetadata?.historicalCyclesAvailable || (report as any).metadata?.historicalCyclesCount || 0,
       },
       capitalStructure: {
-        fundingDependenceLevel: (report.capitalGovernanceReport as any)?.metrics?.fundingDependenceLevel || 'UNKNOWN',
+        fundingDependenceLevel: (report.capitalGovernanceReport as unknown as { metrics?: { fundingDependenceLevel?: string } })?.metrics?.fundingDependenceLevel || 'UNKNOWN',
         rolloverRisk: report.capitalStructure?.rolloverRisk || 'UNKNOWN'
       },
       metrics: {
         financialMetrics: {
-          ocf: Number(report.metrics?.financialMetrics?.ocf || 0),
-          revenue: Number(report.metrics?.financialMetrics?.receitaLiquida || report.metrics?.financialMetrics?.revenue || 0),
+          ocf: Number(financialMetrics?.fco || financialMetrics?.ocf || 0),
+          revenue: Number(financialMetrics?.receitaLiquida || financialMetrics?.revenue || 0),
         },
         scaleEfficiency: {
-          recGrowth: report.metrics?.scaleEfficiency?.recGrowth || null,
-          ebitdaGrowth: report.metrics?.scaleEfficiency?.ebitdaGrowth || null,
+          recGrowth: report.metrics?.scaleEfficiency?.recGrowth ?? null,
+          ebitdaGrowth: report.metrics?.scaleEfficiency?.ebitdaGrowth ?? null,
         }
       },
       survivalReport: report.survivalReport ? {
         activeSurvivalMode: report.survivalReport.activeSurvivalMode
       } : undefined,
       treasuryReport: report.treasuryIntelligenceReport ? {
-        directives: (report.treasuryIntelligenceReport as any).directives || [],
-        stressStatus: (report.treasuryIntelligenceReport as any).stressStatus || 'UNKNOWN'
+        directives: (report.treasuryIntelligenceReport as unknown as { directives?: string[] }).directives || 
+                    report.treasuryIntelligenceReport.priorityMatrix?.priorities?.map(p => p.category) || [],
+        stressStatus: (report.treasuryIntelligenceReport as unknown as { stressStatus?: string }).stressStatus || 
+                      report.treasuryIntelligenceReport.severity || 'UNKNOWN'
       } : undefined,
       operatingPressureReport: report.operatingPressureReport ? {
-        structuralPressureSeverity: (report.operatingPressureReport as any).structuralPressureSeverity || 'UNKNOWN'
+        structuralPressureSeverity: (report.operatingPressureReport as unknown as { structuralPressureSeverity?: string }).structuralPressureSeverity || 
+                                    report.operatingPressureReport.overallPressureLevel || 'UNKNOWN'
       } : undefined,
       continuityReport: report.resilienceReport ? {
-        status: (report.resilienceReport as any).status || 'UNKNOWN'
+        status: report.resilienceReport.continuityResilienceStatus || 'UNKNOWN'
       } : undefined,
       executiveCommand: report.executiveCommand ? {
         activeDirectives: report.executiveCommand.activeDirectives?.map(d => ({ category: d.category })) || []

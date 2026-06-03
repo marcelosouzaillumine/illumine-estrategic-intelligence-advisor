@@ -27,11 +27,16 @@ export class ExecutiveSnapshotEngine {
     const structuralPressureLevel = report.operatingPressureReport?.overallPressureLevel || 'UNKNOWN';
 
     // Calcula restrições fiduciárias
+    const longitudinalOut = report.cashSustainabilityReport?.longitudinalOut;
+    const trajectoryClassification = longitudinalOut?.trajectoryClassification || 'UNVERIFIABLE_TRAJECTORY';
+    const recoveryNarrativeBlocked = longitudinalOut?.recoveryNarrativeBlocked || strategic.posture === 'UNVERIFIABLE_POSTURE';
+
     let restrictionsCount = 0;
     if (strategic.posture === 'UNVERIFIABLE_POSTURE') restrictionsCount++;
     if (hasSurvivalMode) restrictionsCount++;
     if (governance.executionIntegrity.status === 'EXECUTION_UNDER_STRAIN') restrictionsCount++;
     if (treasury?.severity === 'CRITICAL') restrictionsCount++;
+    if (recoveryNarrativeBlocked) restrictionsCount++;
 
     const fiduciaryRestrictions: FiduciaryRestriction[] = [];
     const quarantineMode = restrictionsCount > 0;
@@ -44,12 +49,12 @@ export class ExecutiveSnapshotEngine {
       restrictionSeverity = 'CRITICAL';
     }
 
-    const longitudinalOut = report.cashSustainabilityReport?.longitudinalOut;
-    
-    const trajectoryClassification = longitudinalOut?.trajectoryClassification || 'UNVERIFIABLE_TRAJECTORY';
-    const recoveryNarrativeBlocked = longitudinalOut?.recoveryNarrativeBlocked || strategic.posture === 'UNVERIFIABLE_POSTURE';
     const longitudinalScore = report.cashSustainabilityReport?.longitudinalScore || 'NOT_AVAILABLE';
     const trajectoryConfidence = report.strategicIntelligence?.vectors?.[0]?.vectorConfidence || 'UNVERIFIABLE';
+    const mappedConfidence = trajectoryConfidence === 'HIGH' ? 'HIGH' as const
+      : trajectoryConfidence === 'LOW' ? 'LOW' as const
+      : trajectoryConfidence === 'MEDIUM' ? 'MODERATE' as const
+      : 'BLOCKED' as const;
 
     return {
       executiveSummary,
@@ -57,7 +62,7 @@ export class ExecutiveSnapshotEngine {
       activeSurvivalMode: hasSurvivalMode,
       structuralPressureLevel,
       fiduciaryRestrictionsActive: restrictionsCount,
-      periodScore: report.scores.composite,
+      periodScore: report.scores?.composite ?? 0,
       quarantineMode,
       isRestricted: quarantineMode,
       restrictionReason,
@@ -65,12 +70,11 @@ export class ExecutiveSnapshotEngine {
       fiduciaryRestrictions,
       evidenceTrail: [],
       recoveryNarrativeBlocked,
-      trajectoryClassification,
       longitudinalTrajectory: trajectoryClassification,
-      trajectoryConfidence,
+      trajectoryConfidence: mappedConfidence,
       longitudinalScore,
-      accountingIntegrityStatus: report.compliance?.fiduciaryEnforcement?.complianceStatus || 'VALIDATED',
-      timelineIntegrityStatus: report.strategicIntelligence?.posture === 'UNVERIFIABLE_POSTURE' ? 'INSUFFICIENT_HISTORY' : 'VALIDATED'
+      accountingIntegrityStatus: report.compliance?.fiduciaryEnforcement?.complianceStatus === 'FAILED' ? 'FAILED' : 'VALID',
+      timelineIntegrityStatus: report.strategicIntelligence?.posture === 'UNVERIFIABLE_POSTURE' ? 'INSUFFICIENT_HISTORY' : 'VALID'
     };
   }
 }

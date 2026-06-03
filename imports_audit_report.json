@@ -42,6 +42,13 @@
     "action": "Remove import and migrate logic to Official Contracts."
   },
   {
+    "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/lib/advisory-engine.ts",
+    "risk": "Import of legacy engine: executive-causality-engine",
+    "severity": "HIGH",
+    "recommendation": "Use the new orchestration layer or consolidated runtime.",
+    "action": "Remove import and migrate logic to Official Contracts."
+  },
+  {
     "file": "/Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/src/runtime/adapters/LegacyFinancialAdapter.ts",
     "risk": "Import of legacy engine: financial-engine",
     "severity": "HIGH",

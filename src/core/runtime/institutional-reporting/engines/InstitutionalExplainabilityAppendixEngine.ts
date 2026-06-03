@@ -19,7 +19,7 @@ export class InstitutionalExplainabilityAppendixEngine {
 
     const confidenceDecomposition: Record<string, string> = {
       'POSTURE_CONFIDENCE': strategic.vectors[0]?.vectorConfidence || 'UNVERIFIABLE',
-      'EXECUTION_CONFIDENCE': ((gov.executionIntegrity as unknown as { confidenceScore?: number }).confidenceScore || gov.executionIntegrity.capabilityConfidence).toString()
+      'EXECUTION_CONFIDENCE': String(gov?.executionIntegrity?.confidenceScore || gov?.executionIntegrity?.capabilityConfidence || 'UNKNOWN')
     };
 
     return {

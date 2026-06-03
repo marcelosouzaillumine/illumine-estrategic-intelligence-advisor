@@ -4,22 +4,23 @@ import { useLanguage } from '../../contexts/LanguageContext';
 
 interface QuarantineModeSurfaceProps {
   reason: string;
-  accountingIntegrityStatus?: string;
-  affectedStatements?: string[];
-  recommendedCorrection?: string;
-  evidenceTrail?: string[];
+  isAccountingFailure: boolean;
   onViewRawData?: () => void;
+  mode?: 'STANDARD_QUARANTINE' | 'CONSTITUTIONAL_QUARANTINE';
 }
 
 export const QuarantineModeSurface: React.FC<QuarantineModeSurfaceProps> = ({ 
   reason, 
-  accountingIntegrityStatus, 
-  affectedStatements,
-  recommendedCorrection,
-  evidenceTrail,
-  onViewRawData 
+  isAccountingFailure, 
+  onViewRawData,
+  mode = 'STANDARD_QUARANTINE'
 }) => {
   const { t } = useLanguage();
+  const isConstitutional = mode === 'CONSTITUTIONAL_QUARANTINE';
+  const title = isConstitutional ? 'Quarentena Constitucional Ativa' : 'Quarentena Fiduciária Ativa';
+  const subtitle = isConstitutional 
+    ? 'O ambiente foi colocado em quarentena constitucional devido à violação das diretrizes fiduciárias soberanas.'
+    : 'A renderização do Executive Snapshot e de abas de interpretação foi bloqueada pelo Governance Runtime devido a uma falha crítica de integridade estrutural.';
 
   return (
     <div className="min-h-[400px] flex flex-col items-center justify-center bg-zinc-950 border border-red-900/50 rounded-xl p-8 font-mono relative overflow-hidden">
@@ -34,9 +35,13 @@ export const QuarantineModeSurface: React.FC<QuarantineModeSurfaceProps> = ({
           <ShieldAlert className="w-8 h-8 text-red-500" />
         </div>
         
-        <h2 className="text-xl font-bold text-red-500 uppercase tracking-widest mb-6">
-          {t('snapshot.quarantine_mode_title') || 'Quarentena Fiduciária Ativa'}
+        <h2 className="text-xl font-bold text-red-500 uppercase tracking-widest mb-2">
+          {title}
         </h2>
+        
+        <p className="text-red-400/80 mb-6 text-sm">
+          {subtitle}
+        </p>
 
         <div className="bg-red-950/30 border border-red-900/30 rounded-lg p-4 mb-8 w-full text-left">
           <div className="flex items-center gap-2 mb-2">
@@ -49,32 +54,9 @@ export const QuarantineModeSurface: React.FC<QuarantineModeSurfaceProps> = ({
             {reason}
           </p>
           
-          {accountingIntegrityStatus === 'FAILED' && (
+          {isAccountingFailure && (
             <div className="mt-4 pt-4 border-t border-red-900/20 text-xs text-red-400/70 pl-6">
               {t('snapshot.accounting_integrity_failed') || 'Bloqueado por Inconsistência Contábil Estrutural'}
-            </div>
-          )}
-
-          {affectedStatements && affectedStatements.length > 0 && (
-             <div className="mt-4 text-xs text-zinc-400 pl-6">
-               <span className="font-bold text-red-400 uppercase tracking-widest">{t('snapshot.affected_statements') || 'Demonstrativos Afetados'}:</span> {affectedStatements.join(', ')}
-             </div>
-          )}
-
-          {recommendedCorrection && (
-             <div className="mt-4 text-xs text-zinc-400 pl-6">
-               <span className="font-bold text-emerald-400 uppercase tracking-widest">{t('snapshot.recommended_correction') || 'Correção Recomendada'}:</span> {recommendedCorrection}
-             </div>
-          )}
-
-          {evidenceTrail && evidenceTrail.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-red-900/20 pl-6">
-              <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest block mb-2">{t('snapshot.evidence_trail') || 'Trilha de Evidências'}</span>
-              <ul className="space-y-1">
-                {evidenceTrail.map((ev, i) => (
-                  <li key={i} className="text-[10px] text-zinc-500 border-l border-zinc-800 pl-2">{ev}</li>
-                ))}
-              </ul>
             </div>
           )}
         </div>
