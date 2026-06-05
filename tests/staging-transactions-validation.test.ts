@@ -3,7 +3,7 @@ import * as assert from 'node:assert';
 import { StagingValidationEngine } from '../src/core/runtime/integrations/StagingValidationEngine';
 import { ImportedDataset } from '../src/core/runtime/integrations/IntegrationGovernanceTypes';
 
-test('Transactional Staging Validation Engine', async (t) => {
+describe('Transactional Staging Validation Engine', () => {
   let validPayablesDataset: ImportedDataset;
 
   beforeEach(() => {
@@ -39,14 +39,14 @@ test('Transactional Staging Validation Engine', async (t) => {
     };
   });
 
-  t.test('deve passar um dataset de payables válido (payable válido passa)', () => {
+  test('deve passar um dataset de payables válido (payable válido passa)', () => {
     StagingValidationEngine.validateDataset(validPayablesDataset);
     
     assert.deepStrictEqual(validPayablesDataset.blockingWarnings, []);
     assert.strictEqual(validPayablesDataset.stagingValidationPassed, true);
   });
 
-  t.test('deve passar um dataset de receivables válido (receivable válido passa)', () => {
+  test('deve passar um dataset de receivables válido (receivable válido passa)', () => {
     const receivableDataset = { ...validPayablesDataset, datasetType: 'TRANSACTIONS_RECEIVABLES' as const };
     StagingValidationEngine.validateDataset(receivableDataset);
     
@@ -54,7 +54,7 @@ test('Transactional Staging Validation Engine', async (t) => {
     assert.strictEqual(receivableDataset.stagingValidationPassed, true);
   });
 
-  t.test('deve bloquear se o valor for zero ou inválido (valor inválido bloqueia)', () => {
+  test('deve bloquear se o valor for zero ou inválido (valor inválido bloqueia)', () => {
     validPayablesDataset.parsedData.transactions[0].valor = 0;
     validPayablesDataset.parsedData.transactions[1].valor = "not-a-number";
 
@@ -64,7 +64,7 @@ test('Transactional Staging Validation Engine', async (t) => {
     assert.strictEqual(validPayablesDataset.stagingValidationPassed, false);
   });
 
-  t.test('deve gerar warning para vencimento ausente (vencimento ausente gera warning/bloqueio)', () => {
+  test('deve gerar warning para vencimento ausente (vencimento ausente gera warning/bloqueio)', () => {
     validPayablesDataset.parsedData.transactions[0].vencimento = undefined;
 
     StagingValidationEngine.validateDataset(validPayablesDataset);
@@ -73,7 +73,7 @@ test('Transactional Staging Validation Engine', async (t) => {
     assert.strictEqual(validPayablesDataset.stagingValidationPassed, true);
   });
 
-  t.test('deve bloquear entidade ausente (entidade ausente bloqueia)', () => {
+  test('deve bloquear entidade ausente (entidade ausente bloqueia)', () => {
     validPayablesDataset.parsedData.transactions[0].entidade = '';
 
     StagingValidationEngine.validateDataset(validPayablesDataset);
@@ -82,7 +82,7 @@ test('Transactional Staging Validation Engine', async (t) => {
     assert.strictEqual(validPayablesDataset.stagingValidationPassed, false);
   });
 
-  t.test('deve bloquear ou alertar sobre duplicidade (duplicidade bloqueia)', () => {
+  test('deve bloquear ou alertar sobre duplicidade (duplicidade bloqueia)', () => {
     validPayablesDataset.parsedData.transactions.push({
       ...validPayablesDataset.parsedData.transactions[0]
     });
@@ -93,7 +93,7 @@ test('Transactional Staging Validation Engine', async (t) => {
     assert.strictEqual(validPayablesDataset.stagingValidationPassed, false);
   });
 
-  t.test('ausência de BP/DRE/DFC não bloqueia dataset transacional', () => {
+  test('ausência de BP/DRE/DFC não bloqueia dataset transacional', () => {
     assert.strictEqual(validPayablesDataset.parsedData.bp, undefined);
     assert.strictEqual(validPayablesDataset.parsedData.dre, undefined);
     assert.strictEqual(validPayablesDataset.parsedData.dfc, undefined);
@@ -104,7 +104,7 @@ test('Transactional Staging Validation Engine', async (t) => {
     assert.strictEqual(validPayablesDataset.stagingValidationPassed, true);
   });
 
-  t.test('ImportTransactionsModal não publica direto no Runtime', () => {
+  test('ImportTransactionsModal não publica direto no Runtime', () => {
     StagingValidationEngine.validateDataset(validPayablesDataset);
     assert.strictEqual(validPayablesDataset.promotedToRuntime, false);
     

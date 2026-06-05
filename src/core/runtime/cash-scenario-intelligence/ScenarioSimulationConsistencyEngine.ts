@@ -25,10 +25,10 @@ export class ScenarioSimulationConsistencyEngine {
       hasConflict,
       severity: hasConflict ? 'HIGH' : 'LOW',
       narrative: hasConflict
-        ? 'Aviso Técnico: A simulação indica melhoria de caixa/runway no curto prazo devido à liberação de capital de giro, porém com deterioração do Fluxo de Caixa Operacional (FCO) estrutural.'
+        ? 'Alerta de Interpretação: A melhora observada no caixa decorre de liberação temporária de capital de giro. A geração operacional estrutural permanece deteriorada. O cenário melhora a liquidez de curto prazo, mas não resolve a causa econômica do problema.'
         : 'A simulação não apresenta conflitos estruturais de consistência fiduciária.',
       executiveInterpretation: hasConflict
-        ? 'A melhoria observada no caixa e no runway decorre principalmente da liberação temporária de capital de giro. Apesar do ganho de liquidez de curto prazo, a capacidade estrutural de geração operacional deteriorou-se. O cenário melhora a sobrevivência imediata, mas reduz a sustentabilidade econômica de longo prazo.'
+        ? 'A melhora observada no caixa decorre de liberação temporária de capital de giro. A geração operacional estrutural permanece deteriorada. O cenário melhora a liquidez de curto prazo, mas não resolve a causa econômica do problema.'
         : 'A simulação não apresenta conflitos estruturais de consistência fiduciária.'
     };
   }

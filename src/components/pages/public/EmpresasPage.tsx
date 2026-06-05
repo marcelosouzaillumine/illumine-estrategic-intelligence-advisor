@@ -99,7 +99,19 @@ export function EmpresasPage() {
     }
     metaDesc.setAttribute('content', 'Illumine Governance™ é a plataforma e infraestrutura de inteligência institucional para decisões executivas de empresas complexas.');
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Enable dark theme and matching body/html background to prevent white borders/scrollbar tracks
+    document.documentElement.classList.add('dark');
+    const originalHtmlBg = document.documentElement.style.backgroundColor;
+    const originalBodyBg = document.body.style.backgroundColor;
+    document.documentElement.style.backgroundColor = '#03080F';
+    document.body.style.backgroundColor = '#03080F';
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.documentElement.classList.remove('dark');
+      document.documentElement.style.backgroundColor = originalHtmlBg;
+      document.body.style.backgroundColor = originalBodyBg;
+    };
   }, []);
 
   const handleCTAClick = (message: string) => {

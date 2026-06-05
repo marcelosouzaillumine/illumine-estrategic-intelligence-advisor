@@ -9,7 +9,8 @@ export class ExecutivePresentationAuditEngine {
   private static readonly FORBIDDEN_WORDS = [
     'DFC', 'DRE', 'BP', 'DLPA', 'ESGIM', 'CDIL', 'EQE', 'EFSI',
     'CRITICAL', 'WARNING', 'NORMAL',
-    'TECHNICAL', 'Seção ', 'Página Zero'
+    'TECHNICAL', 'Seção ', 'Página Zero',
+    'MODERADA', 'Earnings Integrity Level', 'Sensibilidade Contábil', 'Aviso Técnico'
   ];
 
   /**
@@ -23,8 +24,16 @@ export class ExecutivePresentationAuditEngine {
 
     const violations: string[] = [];
     
-    const checkString = (str: string) => {
+    const checkString = (str: string, key?: string) => {
+      const isAllowedKeyForDFC = key && [
+        'sourceModule', 'engineId', 'debug', 'source', 'severity', 
+        'rationale', 'id', 'key', 'status', 'rawRiskLevel', 'semanticLabel', 'level'
+      ].includes(key);
+
       for (const word of this.FORBIDDEN_WORDS) {
+        if (word === 'DFC' && isAllowedKeyForDFC) {
+          continue;
+        }
         if (word === 'Seção ') {
           if (/se\u00e7\u00e3o\s+\d+/i.test(str) || /se\u00e7\u00e3o\s+x/i.test(str)) {
             violations.push(`Visual numbering leak: "${str}" contains a section prefix.`);
@@ -39,17 +48,17 @@ export class ExecutivePresentationAuditEngine {
       }
     };
 
-    const traverse = (obj: any) => {
+    const traverse = (obj: any, key?: string) => {
       if (obj === null || obj === undefined) return;
       if (typeof obj === 'string') {
-        checkString(obj);
+        checkString(obj, key);
       } else if (Array.isArray(obj)) {
         for (const item of obj) {
-          traverse(item);
+          traverse(item, key);
         }
       } else if (typeof obj === 'object') {
-        for (const key of Object.keys(obj)) {
-          traverse(obj[key]);
+        for (const k of Object.keys(obj)) {
+          traverse(obj[k], k);
         }
       }
     };

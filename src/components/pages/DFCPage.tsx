@@ -44,6 +44,14 @@ import { db, auth } from '../../lib/firebase';
 
 type ToastType = { type: 'success' | 'error'; message: string } | null;
 
+type RawPriorityLike = {
+  sourceModule?: string;
+  severity?: string;
+  rationale?: string;
+  [key: string]: any;
+};
+
+
 const renderPolarAngleAxisTick = (props: any) => {
   const { x, y, cx, cy, payload } = props;
   const value = payload?.value || '';
@@ -739,50 +747,34 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                   </div>
                   <div className="space-y-4">
-                    {densityLevel === 'TECHNICAL' ? (
-                      rawPriorities.slice(0, 3).map((d: any, idx: number) => (
-                        <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
-                          <span className={cn(
-                            "w-6 h-6 rounded-full text-white flex items-center justify-center text-xs font-black shrink-0",
-                            d.severity === 'CRITICAL' ? 'bg-rose-600' :
-                            d.severity === 'HIGH' ? 'bg-amber-600' :
-                            d.severity === 'MODERATE' ? 'bg-blue-600' : 'bg-slate-600'
-                          )}>
-                            {idx + 1}
-                          </span>
-                          <div>
-                            <div className="flex items-center gap-2 mb-0.5">
-                              <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">{d.sourceModule}</span>
-                              <span className={cn(
-                                "text-[7px] font-black uppercase tracking-widest px-1 rounded",
-                                d.severity === 'CRITICAL' ? 'bg-rose-100 text-rose-800' :
-                                d.severity === 'HIGH' ? 'bg-amber-100 text-amber-800' :
-                                d.severity === 'MODERATE' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-800'
-                              )}>{d.severity}</span>
-                            </div>
-                            <p className="text-xs font-bold text-slate-800 leading-normal">{d.title}</p>
-                            <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-0.5">{d.rationale}</p>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      adaptedPriorities.slice(0, 3).map((d: any, idx: number) => (
-                        <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
-                          <span className="w-6 h-6 rounded-full text-white flex items-center justify-center text-xs font-black shrink-0 bg-indigo-600">
-                            {idx + 1}
-                          </span>
-                          <div>
-                            <div className="flex items-center gap-2 mb-0.5">
+                    {adaptedPriorities.slice(0, 3).map((d: any, idx: number) => {
+                      const raw = (rawPriorities[idx] || {}) as RawPriorityLike;
+                      return (
+                        <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl flex-col md:flex-row md:items-start">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
                               <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">{d.theme}</span>
                               <span className="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">
                                 {d.impact}
                               </span>
                             </div>
                             <p className="text-xs font-bold text-slate-800 leading-normal">{d.recommendation}</p>
+                            
+                            {/* Collapse debug section for technical profile */}
+                            {densityLevel === 'TECHNICAL' && (
+                              <details className="mt-2 text-[8px] font-mono text-slate-400 cursor-pointer select-none">
+                                <summary className="hover:text-slate-600 font-bold uppercase tracking-wider">Auditoria Técnica (Debug)</summary>
+                                <div className="mt-1 p-2 bg-slate-100 border border-slate-200 rounded-lg space-y-1 text-[8.5px]">
+                                  <p><strong>Source Module:</strong> {raw.sourceModule}</p>
+                                  <p><strong>Severity Code:</strong> {raw.severity}</p>
+                                  <p><strong>Rationale:</strong> {raw.rationale}</p>
+                                </div>
+                              </details>
+                            )}
                           </div>
                         </div>
-                      ))
-                    )}
+                      );
+                    })}
                   </div>
                 </div>
               );
@@ -1230,8 +1222,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                           <div>
                             <span className={cn(
                               "inline-block px-2.5 py-1 rounded text-[8px] font-black uppercase tracking-wider",
-                              consequence.reversibility === 'ALTA' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
-                              consequence.reversibility === 'MODERADA' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                              consequence.reversibility.startsWith('Alta') ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
+                              consequence.reversibility.startsWith('Recuperação possível') ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
                               'bg-rose-500/20 text-rose-300 border border-rose-500/30'
                             )}>
                               {consequence.reversibility}
@@ -1419,7 +1411,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                   <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden h-full min-h-[300px]">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6">Earnings Integrity Level</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6">Nível de Sustentabilidade dos Resultados</span>
                     <div className="relative w-36 h-36 flex items-center justify-center">
                       <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                         <circle cx="50" cy="50" r="40" fill="transparent" stroke="#e2e8f0" strokeWidth="8" />
@@ -1490,7 +1482,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                               <AlertTriangle size={14} />
                             </div>
                             <div className="text-left">
-                              <p className="text-xs font-bold text-amber-800">Sensibilidade Contábil</p>
+                              <p className="text-xs font-bold text-amber-800">Ponto de Atenção</p>
                               <p className="text-[10px] text-amber-700 font-semibold mt-0.5 leading-relaxed">{alert}</p>
                             </div>
                           </div>
@@ -1543,7 +1535,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                         else if (key === 'recurrence') { title = 'Recorrência Econômica'; colorClass = 'text-blue-600'; bgClass = 'bg-blue-50'; }
                         else if (key === 'sustainability') { title = 'Sustentabilidade da Margem'; colorClass = 'text-indigo-600'; bgClass = 'bg-indigo-50'; }
                         else if (key === 'shareholderSupport') { title = 'Suporte dos Sócios'; colorClass = 'text-purple-600'; bgClass = 'bg-purple-50'; }
-                        else if (key === 'accountingAggressiveness') { title = 'Sensibilidade Contábil'; colorClass = 'text-amber-600'; bgClass = 'bg-amber-50'; }
+                        else if (key === 'accountingAggressiveness') { title = 'Ponto de Atenção'; colorClass = 'text-amber-600'; bgClass = 'bg-amber-50'; }
                         else { title = 'Estabilidade Longitudinal'; colorClass = 'text-rose-600'; bgClass = 'bg-rose-50'; }
 
                         return (

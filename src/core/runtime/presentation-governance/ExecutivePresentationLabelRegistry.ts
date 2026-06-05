@@ -18,7 +18,7 @@ export class ExecutivePresentationLabelRegistry {
     'DFC_SCENARIO_SIMULATION_TITLE': 'Mecanismo de Simulação de Cenários',
     'DFC_TECHNICAL_LAYER_TITLE': 'Camada Técnica',
     'DFC_EQE_SUMMARY_EXECUTIVE': 'Qualidade da Geração Econômica',
-    'DFC_EQE_SUMMARY_TECHNICAL': 'Qualidade do Lucro — Camada Técnica EQE',
+    'DFC_EQE_SUMMARY_TECHNICAL': 'Qualidade dos Resultados — Camada Técnica',
     'DFC_CONTEXT_TITLE': 'Contexto Empresarial',
     'DFC_CQS_SUMMARY_TITLE': 'Health Score de Caixa (CQS)',
     'DFC_REVENUE_CASH_CONVERSION_TITLE': 'Conversão Receita → Caixa',

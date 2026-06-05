@@ -34,6 +34,27 @@ describe('DFC Executive Production Hardening & Final Structural Alignment v1.3 T
     assert.strictEqual(boardAudit.status, 'PASS');
   });
 
+  it('2.5. ExecutivePresentationAuditEngine allows DFC acronym inside technical keys but blocks in visual fields', () => {
+    const technicalKeyData = {
+      title: 'Resumo de Caixa',
+      sourceModule: 'DFC',
+      engineId: 'DFC_ENGINE_1',
+      debug: 'DFC trace logs'
+    };
+
+    const boardAudit = FiduciaryRuntimeAdapter.ExecutivePresentationAuditEngine.audit(technicalKeyData, 'BOARD');
+    assert.strictEqual(boardAudit.status, 'PASS');
+
+    const visualKeyData = {
+      title: 'Resumo da DFC',
+      sourceModule: 'DFC'
+    };
+
+    const boardAuditVisual = FiduciaryRuntimeAdapter.ExecutivePresentationAuditEngine.audit(visualKeyData, 'BOARD');
+    assert.strictEqual(boardAuditVisual.status, 'DFC_EXECUTIVE_PRESENTATION_VIOLATION');
+    assert.ok(boardAuditVisual.violations.some(v => v.includes('Resumo da DFC')));
+  });
+
   it('3. DFCBoardPriorityPresentationAdapter maps and normalizes raw ExecutivePriorities correctly', () => {
     const rawPriorities = [
       {
@@ -90,7 +111,7 @@ describe('DFC Executive Production Hardening & Final Structural Alignment v1.3 T
     // Critical state
     const criticalProfile = FiduciaryRuntimeAdapter.ExecutiveConsequenceIntelligenceLayer.evaluate(-50000, 2, -120000);
     assert.strictEqual(criticalProfile.impactHorizon, 'Imediato (0-3 meses)');
-    assert.strictEqual(criticalProfile.reversibility, 'MODERADA');
+    assert.strictEqual(criticalProfile.reversibility, 'Recuperação difícil sem mudanças estruturais');
     assert.strictEqual(
       criticalProfile.consequenceOfInaction,
       'Se nenhuma ação for tomada, a instituição poderá ampliar sua dependência de capital externo, reduzir sua capacidade de investimento e aumentar sua exposição a riscos de continuidade operacional.'
@@ -99,7 +120,7 @@ describe('DFC Executive Production Hardening & Final Structural Alignment v1.3 T
     // Let's also verify moderate state
     const moderateProfile = FiduciaryRuntimeAdapter.ExecutiveConsequenceIntelligenceLayer.evaluate(100, 4, -5000);
     assert.strictEqual(moderateProfile.impactHorizon, 'Curto Prazo (3-6 meses)');
-    assert.strictEqual(moderateProfile.reversibility, 'ALTA');
+    assert.strictEqual(moderateProfile.reversibility, 'Recuperação possível mediante ação rápida');
   });
 
   it('6. TreasurySustainabilityNarrativeEngine compiles consequence-oriented narratives', () => {
@@ -122,6 +143,7 @@ describe('DFC Executive Production Hardening & Final Structural Alignment v1.3 T
 
     assert.strictEqual(conflictResult.hasConflict, true);
     assert.strictEqual(conflictResult.severity, 'HIGH');
+    assert.ok(conflictResult.narrative.includes('Alerta de Interpretação:'));
     assert.ok(conflictResult.executiveInterpretation.includes('liberação temporária de capital de giro'));
   });
 });

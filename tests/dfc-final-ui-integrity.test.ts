@@ -201,15 +201,15 @@ describe('DFC Final UI Integrity & Executive Language Patch v1.1', () => {
     assert.strictEqual(isLineageVisible, false);
     
     // In EXECUTIVE mode, the title mapped will be 'Qualidade da Geração Econômica'
-    const getTitle = (lineageVisible: boolean) => lineageVisible ? 'Qualidade do Lucro — Camada Técnica EQE' : 'Qualidade da Geração Econômica';
+    const getTitle = (lineageVisible: boolean) => lineageVisible ? 'Qualidade dos Resultados — Camada Técnica' : 'Qualidade da Geração Econômica';
     assert.strictEqual(getTitle(isLineageVisible), 'Qualidade da Geração Econômica');
   });
 
-  it('14. EQE name is Qualidade do Lucro — Camada Técnica EQE in TECHNICAL mode', () => {
+  it('14. EQE name is Qualidade dos Resultados — Camada Técnica in TECHNICAL mode', () => {
     const isLineageVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_EQE_LINEAGE', 'TECHNICAL');
     assert.strictEqual(isLineageVisible, true);
     
-    const getTitle = (lineageVisible: boolean) => lineageVisible ? 'Qualidade do Lucro — Camada Técnica EQE' : 'Qualidade da Geração Econômica';
-    assert.strictEqual(getTitle(isLineageVisible), 'Qualidade do Lucro — Camada Técnica EQE');
+    const getTitle = (lineageVisible: boolean) => lineageVisible ? 'Qualidade dos Resultados — Camada Técnica' : 'Qualidade da Geração Econômica';
+    assert.strictEqual(getTitle(isLineageVisible), 'Qualidade dos Resultados — Camada Técnica');
   });
 });

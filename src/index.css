@@ -177,6 +177,8 @@ html, body {
 
   html {
     scroll-behavior: smooth;
+    scrollbar-color: rgba(107, 114, 128, 0.3) transparent !important;
+    background-color: var(--color-background);
   }
 
   body {
@@ -197,6 +199,8 @@ html, body {
     font-size: clamp(32px, 5.5vw, 56px);
     @apply font-display font-medium tracking-[-0.02em] leading-[1.1];
   }
+
+  /* Landing page brand colors are overridden outside of layer base for highest specificity */
 
   /* Landing pages: proportional heading hierarchy (h1 = 56px desktop) */
   main.min-h-screen h1 {
@@ -297,7 +301,9 @@ html, body {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-background;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -769,5 +775,16 @@ div[class*="bg-white"][class*="border-slate-"] {
 
 .animate-executive-pulse {
   animation: executive-pulse 3s ease-in-out infinite;
+}
+
+/* Ensure public landing pages preserve their brand colors (orange secondary/accent) even under dark class */
+.dark main.min-h-screen,
+main.min-h-screen,
+body main.min-h-screen {
+  --color-secondary: #FF8552 !important;
+  --color-secondary-foreground: #0E1C2C !important;
+  --color-accent: #FF8552 !important;
+  --color-accent-foreground: #0E1C2C !important;
+  --color-ring: #FF8552 !important;
 }
 

@@ -103,7 +103,19 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
     }
     metaDesc.setAttribute('content', 'Illumine Advisors: Uma infraestrutura de Governança Institucional Inteligente que amplia a capacidade diagnóstica e de aconselhamento de advisors estratégicos.');
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Enable dark theme and matching body/html background to prevent white borders/scrollbar tracks
+    document.documentElement.classList.add('dark');
+    const originalHtmlBg = document.documentElement.style.backgroundColor;
+    const originalBodyBg = document.body.style.backgroundColor;
+    document.documentElement.style.backgroundColor = '#03080F';
+    document.body.style.backgroundColor = '#03080F';
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.documentElement.classList.remove('dark');
+      document.documentElement.style.backgroundColor = originalHtmlBg;
+      document.body.style.backgroundColor = originalBodyBg;
+    };
   }, []);
 
   const handleCTAClick = (message: string) => {
@@ -310,7 +322,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               
               <div className="py-4 px-6 bg-[#060D17]/40 border border-white/5 rounded-xl max-w-2xl mx-auto">
                 <p className="text-sm italic text-secondary font-medium font-sans">
-                  "Sua experiência continua sendo essencial. Mas agora ela pode ser ampliada por uma camada de Governança Institucional Inteligente."
+                  Sua experiência continua sendo essencial. Mas agora ela pode ser ampliada por uma camada de Governança Institucional Inteligente.
                 </p>
               </div>
             </div>
@@ -365,9 +377,14 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             ))}
           </div>
 
-          <p className="text-lg md:text-xl text-white/80 leading-relaxed font-sans max-w-3xl mx-auto pt-6">
-            O diferencial surge quando esse conhecimento é capaz de revelar aquilo que ainda não está visível para a liderança.
-          </p>
+          <div className="max-w-3xl mx-auto pt-10">
+            <div className="relative p-8 md:p-10 bg-[#060D17]/65 border border-secondary/20 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm group">
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-secondary/40 to-transparent" />
+              <p className="text-xl md:text-2xl font-display font-medium text-white leading-relaxed max-w-2xl mx-auto text-center italic">
+                “O diferencial surge quando esse conhecimento é capaz de revelar aquilo que ainda não está visível para a liderança.”
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -436,7 +453,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
                 O <span className="text-white font-semibold">Illumine Governance™</span> não substitui sua experiência, sua especialidade e muito menos seu relacionamento de confiança com seus clientes.
               </p>
               <p>
-                Ele atua como uma infraestrutura adicional que amplia sua capacidade de interpretação fiduciária e de governança.
+                Ele atua como uma camada adicional de inteligência que amplia sua capacidade de interpretação fiduciária e de governança.
               </p>
               <p className="text-white/80 font-medium">
                 Transformando dados dispersos em clareza executiva para decisões críticas em conselhos e diretorias.
@@ -832,10 +849,10 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
 
           <div className="space-y-4">
             <h5 className="text-sm font-mono uppercase tracking-widest text-white/40">
-              O futuro do aconselhamento
+              Advisors que enxergam além dos relatórios
             </h5>
             <p className="text-2xl sm:text-3xl md:text-4xl font-display font-medium text-white leading-tight max-w-3xl mx-auto">
-              O futuro do aconselhamento não pertence a quem possui mais dados. Pertence a quem consegue transformar dados em discernimento.
+              Os melhores advisors não são definidos apenas pelo que sabem. São definidos pela capacidade de enxergar aquilo que seus clientes ainda não conseguem ver.
             </p>
             <p className="text-sm md:text-base text-white/75 max-w-2xl mx-auto leading-relaxed font-sans">
               Amplie sua capacidade diagnóstica. Amplie sua influência. Amplie o impacto que você gera nas organizações que atende.
