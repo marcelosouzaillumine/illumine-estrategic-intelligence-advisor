@@ -8,6 +8,18 @@ import { governanceRoadmapEngine } from '../core/runtime/roadmap/GovernanceRoadm
 import { governanceMonitoringEngine } from '../core/runtime/monitoring/GovernanceMonitoringEngine';
 import { executiveBoardReportEngine } from '../core/runtime/reports/ExecutiveBoardReportEngine';
 import { ExecutiveBoardReportPDF } from '../core/runtime/reports/ExecutiveBoardReportPDF';
+import { boardPackGeneratorEngine } from '../core/runtime/board-pack/BoardPackGeneratorEngine';
+import { BoardPackPPTXGenerator } from '../core/runtime/board-pack/BoardPackPPTXGenerator';
+import { BoardPackPDFGenerator } from '../core/runtime/board-pack/BoardPackPDFGenerator';
+import { decisionRegistryEngine } from '../core/runtime/execution/DecisionRegistryEngine';
+import { boardMeetingEngine } from '../core/runtime/board-meeting/BoardMeetingEngine';
+import { meetingMinutesEngine } from '../core/runtime/board-meeting/MeetingMinutesEngine';
+import { InstitutionalWisdomLibrary } from '../core/runtime/knowledge/InstitutionalWisdomLibrary';
+import { governanceKnowledgeEngine } from '../core/runtime/knowledge/GovernanceKnowledgeEngine';
+import { benchmarkReadinessEngine } from '../core/runtime/benchmark/BenchmarkReadinessEngine';
+import { benchmarkComparativeEngine } from '../core/runtime/benchmark/BenchmarkComparativeEngine';
+import { benchmarkAdvisoryEngine } from '../core/runtime/benchmark/BenchmarkAdvisoryEngine';
+import { governanceLearningEngine } from '../core/runtime/learning/GovernanceLearningEngine';
 import { InstitutionalBoardPackOutput, LineageAppendix } from '../core/runtime/institutional-reporting/institutional-reporting-types';
 import { ExecutiveAssuranceRuntime } from '../core/runtime/audit-assurance/ExecutiveAssuranceRuntime';
 import { InstitutionalAuditEngine } from '../core/runtime/audit-assurance/InstitutionalAuditEngine';
@@ -44,9 +56,17 @@ import { InstitutionalScenarioEngine } from '../core/runtime/scenario-intelligen
 import { InstitutionalScenarioResult } from '../core/runtime/scenario-intelligence/scenario-types';
 import { ScenarioNarrativeComposer } from '../core/runtime/scenario-intelligence/ScenarioNarrativeComposer';
 import { DFCCausalDriverPresentationAudit } from '../core/runtime/cash-causal-intelligence/DFCCausalDriverPresentationAudit';
+import { ExecutivePresentationLabelRegistry } from '../core/runtime/presentation-governance/ExecutivePresentationLabelRegistry';
+import { DFCDensityComplianceAudit } from '../core/runtime/presentation-governance/DFCDensityComplianceAudit';
+import { ScenarioSimulationConsistencyEngine } from '../core/runtime/cash-scenario-intelligence/ScenarioSimulationConsistencyEngine';
+import { ExecutiveNumericPresentationGuard } from '../core/runtime/presentation-governance/ExecutiveNumericPresentationGuard';
 
 export const FiduciaryRuntimeAdapter = {
   DFCCausalDriverPresentationAudit,
+  ExecutivePresentationLabelRegistry,
+  DFCDensityComplianceAudit,
+  ScenarioSimulationConsistencyEngine,
+  ExecutiveNumericPresentationGuard,
   getProfile,
   mapOfficialRoleToProfileId,
   ExecutiveInformationDensityFramework,
@@ -59,6 +79,18 @@ export const FiduciaryRuntimeAdapter = {
   governanceMonitoringEngine,
   executiveBoardReportEngine,
   ExecutiveBoardReportPDF,
+  boardPackGeneratorEngine,
+  BoardPackPPTXGenerator,
+  BoardPackPDFGenerator,
+  decisionRegistryEngine,
+  boardMeetingEngine,
+  meetingMinutesEngine,
+  InstitutionalWisdomLibrary,
+  governanceKnowledgeEngine,
+  benchmarkReadinessEngine,
+  benchmarkComparativeEngine,
+  benchmarkAdvisoryEngine,
+  governanceLearningEngine,
   BalanceSheetFinancialMetricsEngine,
   DFCSemanticRenderingGuard,
   ExecutivePriorityResolver,
@@ -243,4 +275,5 @@ export type { PresentationLayer } from '../core/runtime/presentation-governance/
 export type { InstitutionalDisclosure } from '../core/runtime/shared/runtime-contracts';
 export type { ExecutiveRecommendation } from '../core/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
 export type { GovernanceCoordinationResult } from '../core/runtime/governance-orchestration/GovernanceOrchestrationTypes';
-export type { ESGIMDimension, ESGIMMode, ESGIMScenario, IRILevel, BoardPriority, BoardExecutiveBrief, GovernanceRoadmap, GovernanceRoadmapPhase, GovernanceMonitoringSnapshot, GovernanceMonitoringResult, MonitoringAlert as GMLMonitoringAlert, ExecutiveBoardReport } from '../core/runtime/esgim/esgimTypes';
+export type { ESGIMDimension, ESGIMMode, ESGIMScenario, IRILevel, BoardPriority, BoardExecutiveBrief, GovernanceRoadmap, GovernanceRoadmapPhase, GovernanceMonitoringSnapshot, GovernanceMonitoringResult, MonitoringAlert as GMLMonitoringAlert, ExecutiveBoardReport, BoardPack, BoardPackSlide, RecommendedDecisionEntry, BoardPackSlideTemplate, SlideMeetingCriticality, GovernanceDecision, GovernanceDecisionType, CognitiveOriginEngine, DecisionExecutionRisk, MeetingAgendaItem, BoardResolution as MeetingBoardResolution, BoardMeeting, MeetingMinutes, PrincipleMatch, GovernanceKnowledgeResult, BenchmarkReadinessLevel, BenchmarkReadinessResult, BenchmarkPosition, BenchmarkGap, ComparativeDimension, BenchmarkComparativeResult, BenchmarkTargetTier, AdvisoryInitiative, BenchmarkAdvancementGap, BenchmarkAdvisoryResult, LearningObservation, GovernanceLearningResult } from '../core/runtime/esgim/esgimTypes';
+export type { IWLPrinciple } from '../core/runtime/knowledge/InstitutionalWisdomLibrary';

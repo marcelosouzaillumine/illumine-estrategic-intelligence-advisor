@@ -87,6 +87,10 @@ export interface BoardPriority {
   constitutionalDriver: "CONSTITUTIONAL" | "FIDUCIARY" | "INSTITUTIONAL" | "MISSION" | "PROSPECTIVE";
   estimatedWindow: string;
   expectedImpactArea: string[];
+  supportingPrinciples?: string[];
+  principleCategories?: string[];
+  executiveRationale?: string;
+  benchmarkImpact?: number;
 }
 
 export interface GovernanceRoadmapPhase {
@@ -99,6 +103,10 @@ export interface GovernanceRoadmapPhase {
   dependencies: string[];
   riskReductionAreas: string[];
   completionCriteria: string[];
+  relatedPrinciples?: string[];
+  governanceRationale?: string;
+  benchmarkAlignment?: string;
+  benchmarkTierImpact?: string;
 }
 
 export interface GovernanceRoadmap {
@@ -124,6 +132,10 @@ export interface GovernanceMonitoringSnapshot {
   roadmapProgress: number;
   priorityExecutionIndex: number;
   institutionalRiskIndex: number;
+  geiSimpleScore: number;
+  geiWeightedScore: number;
+  gaiScore: number;
+  overdueRate: number;
 }
 
 export interface MonitoringAlert {
@@ -164,4 +176,331 @@ export interface ExecutiveBoardReport {
   explainability: string[];
   lineageHash: string;
   timelineMode: "LIVE_HISTORY" | "DEMO_TIMELINE";
+  executionStatus?: string;
+  principlesApplied?: string[];
+  benchmarkReadinessStatus?: "CERTIFIED" | "CONDITIONALLY_CERTIFIED" | "NOT_CERTIFIED";
+  benchmarkReadinessScore?: number;
+  benchmarkPosition?: string;
+  bpsScore?: number;
+  apsScore?: number;
+  advisoryConfidenceScore?: number;
+  learningResult?: GovernanceLearningResult;
 }
+
+export type BoardPackSlideTemplate = "STANDARD_BOARD" | "FAMILY_BUSINESS" | "BAM" | "INVESTOR";
+
+export type SlideMeetingCriticality = "LOW" | "MODERATE" | "HIGH" | "CRITICAL";
+
+export interface BoardPackSlide {
+  slideNumber: number;
+  title: string;
+  objective: string;
+  content: string[];
+  visualType: "SUMMARY" | "SCORECARD" | "RISK_MATRIX" | "ROADMAP" | "TREND" | "DECISION";
+  meetingCriticality: SlideMeetingCriticality;
+}
+
+export interface RecommendedDecisionEntry {
+  decision: string;
+  urgency: string;
+  expectedBenefit: string;
+}
+
+export interface BoardPack {
+  packId: string;
+  generatedAt: string;
+  title: string;
+  executiveHeadline: string;
+  slideTemplate: BoardPackSlideTemplate;
+  decisionReadinessScore: number;
+  slides: BoardPackSlide[];
+  recommendedDecisionRegister: RecommendedDecisionEntry[];
+  lineageHash: string;
+  scenario: ESGIMScenario;
+  timelineMode: "LIVE_HISTORY" | "DEMO_TIMELINE";
+  geiScore?: number;
+}
+
+export type GovernanceDecisionType = 
+  | "BOARD_RESOLUTION" 
+  | "MANAGEMENT_ACTION" 
+  | "CORRECTIVE_ACTION" 
+  | "STRATEGIC_INITIATIVE";
+
+export type CognitiveOriginEngine = "ESGIM" | "IRI" | "BPE" | "GRE" | "GML" | "BOARD";
+
+export type DecisionExecutionRisk = "LOW" | "MODERATE" | "HIGH" | "CRITICAL";
+
+export interface GovernanceDecision {
+  id: string;
+  title: string;
+  description: string;
+  source: "BPE" | "GRE" | "BOARD";
+  category: "FIDUCIARY" | "GOVERNANCE" | "MISSION" | "INSTITUTIONAL" | "STRATEGIC";
+  decisionType: GovernanceDecisionType;
+  originEngine: CognitiveOriginEngine;
+  executionRisk: DecisionExecutionRisk;
+  assignedTo?: string;
+  createdAt: string;
+  dueDate?: string;
+  status: "OPEN" | "IN_PROGRESS" | "COMPLETED" | "OVERDUE" | "CANCELLED";
+  expectedBenefit: string;
+  evidence: string[];
+  lineageHash: string;
+  approvedByBoard: boolean;
+  approvedAt?: string;
+  relatedDecisionIds?: string[];
+  meetingId?: string;
+  principleMatches?: PrincipleMatch[];
+}
+
+export interface MeetingAgendaItem {
+  id: string;
+  title: string;
+  category: "RISK" | "PRIORITY" | "ROADMAP" | "EXECUTION" | "MISSION";
+  criticality: "LOW" | "MODERATE" | "HIGH" | "CRITICAL";
+  recommendedDiscussion: string;
+}
+
+export interface BoardResolution {
+  id: string;
+  title: string;
+  description: string;
+  decision: "APPROVED" | "REJECTED" | "POSTPONED";
+  approvedAt?: string;
+  linkedDecisionIds: string[];
+  decidedBy?: string;
+  decisionReason?: string;
+}
+
+export interface BoardMeeting {
+  meetingId: string;
+  title: string;
+  createdAt: string;
+  scenario: ESGIMScenario;
+  readinessScore: number;
+  agendaItems: MeetingAgendaItem[];
+  resolutions: BoardResolution[];
+  status: "PREPARING" | "ACTIVE" | "COMPLETED";
+}
+
+export interface MeetingMinutes {
+  meetingId: string;
+  generatedAt: string;
+  participants: string[];
+  discussedTopics: string[];
+  approvedResolutions: string[];
+  rejectedResolutions: string[];
+  postponedResolutions: string[];
+  actionItems: string[];
+  executiveSummary: string;
+  status: "DRAFT" | "APPROVED";
+}
+
+export interface PrincipleMatch {
+  principleId: string;
+  title: string;
+  category:
+    | "GOVERNANCE"
+    | "LEADERSHIP"
+    | "STRATEGIC"
+    | "ETHICAL"
+    | "ESG"
+    | "INSTITUTIONAL"
+    | "BAM"
+    | "BIBLICAL";
+  explanation: string;
+  relevanceScore: number;
+}
+
+export interface GovernanceKnowledgeResult {
+  sourceId: string;
+  sourceType:
+    | "ESGIM"
+    | "IRI"
+    | "BPE"
+    | "GRE"
+    | "GDTL"
+    | "BMM";
+  principleMatches: PrincipleMatch[];
+  executiveRationale: string;
+  lineageHash: string;
+}
+
+export type BenchmarkReadinessLevel =
+  | "EXCELLENT"
+  | "MATURE"
+  | "DEVELOPING"
+  | "CONCERN"
+  | "CRITICAL";
+
+export interface BenchmarkReadinessResult {
+  score: number;
+  level: BenchmarkReadinessLevel;
+  benchmarkEligible: boolean;
+  dataReadiness: number;
+  governanceReadiness: number;
+  institutionalReadiness: number;
+  comparativeReadiness: number;
+  strengths: string[];
+  vulnerabilities: string[];
+  executiveSummary: string;
+  certificationStatus:
+    | "CERTIFIED"
+    | "CONDITIONALLY_CERTIFIED"
+    | "NOT_CERTIFIED";
+  explainability: string[];
+  lineageHash: string;
+  createdAt: string;
+  benchmarkBlockedReason?: string;
+  requiredBeforeBenchmark?: string[];
+}
+
+export type BenchmarkPosition =
+  | "TOP_10"
+  | "TOP_25"
+  | "TOP_50"
+  | "BOTTOM_50"
+  | "BOTTOM_25";
+
+export interface BenchmarkGap {
+  metric: string;
+  currentScore: number;
+  targetScore: number;
+  gap: number;
+}
+
+export interface ComparativeDimension {
+  dimension: string;
+  currentScore: number;
+  benchmarkScore: number;
+  delta: number;
+  position: BenchmarkPosition;
+}
+
+export interface BenchmarkComparativeResult {
+  bpsScore: number;
+  benchmarkPosition: BenchmarkPosition;
+  benchmarkEligible: boolean;
+  cohortId: string;
+  cohortName: string;
+  cohortDataMode: "SYNTHETIC_COHORT" | "INTERNAL_ANONYMIZED" | "EXTERNAL_VERIFIED";
+  comparativeDimensions: ComparativeDimension[];
+  strengths: string[];
+  vulnerabilities: string[];
+  benchmarkGaps: BenchmarkGap[];
+  executiveSummary: string;
+  recommendations: string[];
+  lineageHash: string;
+  benchmarkLimitations: string[];
+  advisoryWarnings: string[];
+}
+
+export type BenchmarkTargetTier =
+  | "TOP_10"
+  | "TOP_25"
+  | "TOP_50";
+
+export interface AdvisoryInitiative {
+  id: string;
+  title: string;
+  category:
+    | "FIDUCIARY"
+    | "GOVERNANCE"
+    | "MISSION"
+    | "INSTITUTIONAL"
+    | "EXECUTION";
+  currentScore: number;
+  targetScore: number;
+  expectedImpact: number;
+  difficulty:
+    | "LOW"
+    | "MODERATE"
+    | "HIGH";
+  horizon:
+    | "SHORT_TERM"
+    | "MEDIUM_TERM"
+    | "LONG_TERM";
+  rationale: string;
+  initiativeType:
+    | "QUICK_WIN"
+    | "FOUNDATIONAL"
+    | "TRANSFORMATIONAL";
+  simulatedBpsImpact: number;
+  simulatedTargetPosition: BenchmarkPosition;
+}
+
+export interface BenchmarkAdvancementGap {
+  metric: string;
+  currentValue: number;
+  nextTierTarget: number;
+  leaderTarget: number;
+  improvementRequired: number;
+}
+
+export interface BenchmarkAdvisoryResult {
+  apsScore: number;
+  currentPosition: BenchmarkPosition;
+  targetPosition: BenchmarkTargetTier;
+  benchmarkReady: boolean;
+  advancementGaps: BenchmarkAdvancementGap[];
+  initiatives: AdvisoryInitiative[];
+  executiveSummary: string;
+  expectedAdvancementImpact: string;
+  strengthsToProtect: string[];
+  weaknessesToImprove: string[];
+  roadmapRecommendations: string[];
+  lineageHash: string;
+  advisoryConfidenceScore: number;
+  confidenceDrivers: string[];
+  confidenceWarnings: string[];
+  advisoryLimitations: string[];
+}
+
+export interface LearningObservation {
+  id: string;
+  title: string;
+  source:
+    | "BPE"
+    | "GRE"
+    | "GDTL"
+    | "BOARD"
+    | "BAI";
+  expectedOutcome: string;
+  actualOutcome: string;
+  effectivenessScore: number;
+  status:
+    | "EXCEEDED"
+    | "ACHIEVED"
+    | "PARTIALLY_ACHIEVED"
+    | "FAILED";
+  lessonsLearned: string[];
+  recommendations: string[];
+  variance?: number;
+  expectedImpact?: number;
+  actualImpact?: number;
+}
+
+export interface GovernanceLearningResult {
+  gliScore: number;
+  learningMaturity:
+    | "HIGH"
+    | "MODERATE"
+    | "LOW"
+    | "CRITICAL";
+  observations: LearningObservation[];
+  institutionalStrengths: string[];
+  recurringFailures: string[];
+  executiveSummary: string;
+  lineageHash: string;
+  aaiScore: number;
+  aaiLevel:
+    | "HIGHLY_ACCURATE"
+    | "RELIABLE"
+    | "NEEDS_CALIBRATION"
+    | "WEAK_PREDICTIVE_ACCURACY";
+  feedbackMode: "LIVE_OUTCOME" | "SIMULATED_FEEDBACK";
+}
+
+
+

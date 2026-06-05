@@ -8,6 +8,7 @@ import {
 } from '../esgim/esgimTypes';
 import { esgimAssessmentEngine } from '../esgim/ESGIMAssessmentEngine';
 import { institutionalResilienceIndexEngine } from '../esgim/InstitutionalResilienceIndexEngine';
+import { governanceKnowledgeEngine } from '../knowledge/GovernanceKnowledgeEngine';
 
 export class BoardPrioritiesEngine {
   private static instance: BoardPrioritiesEngine;
@@ -374,9 +375,27 @@ export class BoardPrioritiesEngine {
       }
     }
 
+    const enrichedPriorities = selected.map(p => {
+      const gklResult = governanceKnowledgeEngine.matchFinding(p.id, 'BPE', `${p.title} ${p.description}`);
+      let benchmarkImpact = 4;
+      if (p.id.includes('FID')) benchmarkImpact = 6;
+      else if (p.id.includes('GOV')) benchmarkImpact = 5;
+      else if (p.id.includes('INS')) benchmarkImpact = 6;
+      else if (p.id.includes('STR')) benchmarkImpact = 8;
+      else if (p.id.includes('MIS')) benchmarkImpact = 4;
+
+      return {
+        ...p,
+        supportingPrinciples: gklResult.principleMatches.map(pm => pm.title),
+        principleCategories: gklResult.principleMatches.map(pm => pm.category),
+        executiveRationale: gklResult.executiveRationale,
+        benchmarkImpact
+      };
+    });
+
     return {
       brief,
-      priorities: selected
+      priorities: enrichedPriorities
     };
   }
 

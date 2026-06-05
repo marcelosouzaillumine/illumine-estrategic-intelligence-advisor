@@ -146,6 +146,46 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   const isBoardMode = densityLevel === 'BOARD';
 
   const [technicalTableOpen, setTechnicalTableOpen] = useState(false);
+  const [selectedScenarioIndex, setSelectedScenarioIndex] = useState<number>(0);
+  const [selectedSimulationIndex, setSelectedSimulationIndex] = useState<number>(0);
+
+  const numberedSections = useMemo(() => [
+    'DFC_CONTEXT',
+    'DFC_CQS_SUMMARY',
+    'DFC_EXECUTIVE_DIAGNOSIS',
+    'DFC_CAUSAL_INTELLIGENCE',
+    'DFC_EARLY_WARNING',
+    'DFC_REVENUE_CASH_CONVERSION',
+    'DFC_SHAREHOLDER_DEPENDENCY',
+    'DFC_RUNWAY',
+    'DFC_SCENARIO_SIMULATION',
+    'DFC_EFSI',
+    'DFC_BOARD_ADVISORY',
+    'DFC_RECONCILIATION_SUMMARY',
+    'DFC_TECHNICAL_LAYER',
+    'DFC_EQE_SUMMARY'
+  ], []);
+
+  const visibleNumberedSections = useMemo(() => {
+    return numberedSections.filter(id => isSectionVisible(id));
+  }, [densityLevel, isSectionVisible, numberedSections]);
+
+  const totalVisibleSections = visibleNumberedSections.length;
+
+  const getSectionHeader = (sectionId: string, labelKey: string) => {
+    const title = FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel(labelKey);
+    if (densityLevel === 'TECHNICAL') {
+      const idx = visibleNumberedSections.indexOf(sectionId);
+      const prefix = idx !== -1 ? `Seção ${idx + 1} de ${totalVisibleSections}: ` : '';
+      return `${prefix}${title}`;
+    }
+    return title;
+  };
+
+  const getEQETitle = () => {
+    const labelKey = isSectionVisible('DFC_EQE_LINEAGE') ? 'DFC_EQE_SUMMARY_TECHNICAL' : 'DFC_EQE_SUMMARY_EXECUTIVE';
+    return getSectionHeader('DFC_EQE_SUMMARY', labelKey);
+  };
 
   useEffect(() => {
     if (selectedYear) setFilterYear(selectedYear);
@@ -358,7 +398,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       </div>
 
       {/* Contexto Empresarial Block */}
-      <div className="bg-white p-8 rounded-[32px] mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm border border-slate-100">
+      {!(viewMode === 'fiduciario' && densityLevel === 'BOARD') && (
+        <div className="bg-white p-8 rounded-[32px] mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm border border-slate-100">
         <div>
           <div className="flex items-center gap-2 mb-3">
             <span className="bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border border-indigo-100/50 shadow-sm">
@@ -376,6 +417,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
           <Database className="text-slate-400 w-8 h-8" />
         </div>
       </div>
+      )}
 
       {/* Toggle Premium para DFC Fiduciária Ajustada */}
       <div className="flex justify-center mb-8">
@@ -406,17 +448,6 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 Early
               </span>
             )}
-          </button>
-          <button
-            onClick={() => setViewMode('lucro')}
-            className={cn(
-              "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-2",
-              viewMode === 'lucro'
-                ? "bg-indigo-950 text-white shadow-lg scale-105"
-                : "text-slate-500 hover:text-slate-800 hover:bg-white/50"
-            )}
-          >
-            <span>Qualidade do Lucro (EQE)</span>
           </button>
         </div>
       </div>
@@ -532,1076 +563,859 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
         </div>
       )}
       
-      {viewMode === 'fiduciario' && (
-        <div className="space-y-10 animate-in fade-in duration-500">
-          {/* Seção 1: Contexto Empresarial */}
-          {isSectionVisible('DFC_CONTEXTO') && (
-            <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg">
-                  Seção 1 de 9
-                </span>
-                <h3 className="text-xl font-black text-slate-900 mt-2">Contexto Empresarial</h3>
-              </div>
-              <div className="bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border border-indigo-100/50 shadow-sm">
-                {dfcInference?.executiveLifecycleContext?.executiveTitle || 'Análise de Estágio'}
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-              <div className="flex flex-col">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Estágio de Ciclo de Vida</span>
-                <span className="text-base font-black text-slate-800">{lifecycleLabel}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Ano de Fundação</span>
-                <span className="text-base font-black text-slate-800">{metrics.fiduciary?.lifecycleProfile?.foundationYear || 'N/A'}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Idade Empresarial</span>
-                <span className="text-base font-black text-slate-800">
-                  {metrics.fiduciary?.lifecycleProfile?.foundationYear ? `${filterYear - metrics.fiduciary.lifecycleProfile.foundationYear} ano(s)` : 'N/A'}
-                </span>
-              </div>
-            </div>
-            <p className="text-slate-600 font-medium text-sm leading-relaxed">
-              {dfcInference?.executiveLifecycleContext?.executiveDescription || 'Descrição não disponível.'}
-            </p>
-            </div>
-          )}
+      {viewMode === 'fiduciario' && (() => {
+        // Execute EIDF Density compliance audit
+        const densityAudit = FiduciaryRuntimeAdapter.DFCDensityComplianceAudit.audit(
+          visibleNumberedSections,
+          densityLevel
+        );
 
-          {/* Seção 2: Health Score de Caixa */}
-          {isSectionVisible('DFC_HEALTH_SCORE') && (
-            <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg">
-                  Seção 2 de 9
-                </span>
-                <h3 className="text-xl font-black text-slate-900 mt-2">Health Score de Caixa (CQS)</h3>
-              </div>
-              <span className={cn(
-                "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm text-center",
-                cashQuality?.score >= 85 ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" :
-                cashQuality?.score >= 70 ? "bg-blue-500/10 text-blue-600 border border-blue-500/20" :
-                cashQuality?.score >= 50 ? "bg-amber-500/10 text-amber-600 border border-amber-500/20" :
-                "bg-rose-500/10 text-rose-600 border border-rose-500/20"
-              )}>
-                {cashQuality?.semanticLabel || cashQuality?.level}
-              </span>
+        if (densityAudit.status === 'DFC_DENSITY_VIOLATION') {
+          console.error('EIDF Density Violation detected:', densityAudit.details);
+          return (
+            <div className="max-w-[1440px] mx-auto p-8 text-center bg-rose-50 border border-rose-200 rounded-[32px] my-10">
+              <h3 className="text-xl font-black text-rose-800">Visualização Bloqueada</h3>
+              <p className="text-sm text-rose-700 mt-2 font-medium">
+                A visualização executiva foi bloqueada por inconsistência de densidade informacional. Reprocessar o relatório antes de deliberação.
+              </p>
             </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-              <div className="bg-slate-50 border border-slate-100 rounded-[24px] p-6 flex flex-col items-center justify-center text-center min-h-[250px]">
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Pontuação de Integridade</span>
-                <div className="relative w-32 h-32 flex items-center justify-center">
-                  <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" fill="transparent" stroke="#e2e8f0" strokeWidth="8" />
-                    <circle 
-                      cx="50" cy="50" r="40" 
-                      fill="transparent" 
-                      stroke={
-                        cashQuality?.score >= 85 ? '#10b981' :
-                        cashQuality?.score >= 70 ? '#3b82f6' :
-                        cashQuality?.score >= 50 ? '#f59e0b' :
-                        '#ef4444'
-                      } 
-                      strokeWidth="8"
-                      strokeDasharray="251.2"
-                      strokeDashoffset={251.2 - (251.2 * (cashQuality?.score || 0)) / 100}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <div className="text-center z-10">
-                    <span className="text-3xl font-black text-slate-900 tracking-tighter">{cashQuality?.score}</span>
-                    <span className="text-xs font-bold text-slate-400">/100</span>
+          );
+        }
+
+        return (
+          <div className="space-y-10 animate-in fade-in duration-500">
+            {/* DFC_SNAPSHOT Section */}
+            {isSectionVisible('DFC_SNAPSHOT') && (() => {
+              const snapshot = metrics.fiduciary?.dfcExecutiveSnapshot || { geraCaixa: false, runway: 'Não Disponível', dependenteSocios: 'Não Disponível' };
+              return (
+                <div className="bg-slate-950 p-8 rounded-[32px] shadow-2xl border border-slate-800 space-y-6 text-left relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                    <div>
+                      <h3 className="text-xl font-black text-white mt-2">
+                        {FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel('DFC_SNAPSHOT_TITLE')}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800/50">
+                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Geração de Caixa</span>
+                      <p className={cn("text-lg font-black mt-1", snapshot.geraCaixa ? "text-emerald-400" : "text-rose-400")}>
+                        {snapshot.geraCaixa ? 'Gera Caixa Operacional' : 'Consome Caixa Operacional'}
+                      </p>
+                    </div>
+                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800/50">
+                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Runway Fiduciário</span>
+                      <p className="text-lg font-black text-white mt-1">{snapshot.runway}</p>
+                    </div>
+                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800/50">
+                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Dependência de Aportes</span>
+                      <p className="text-lg font-black text-white mt-1">{snapshot.dependenteSocios}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              );
+            })()}
 
-              <div className="bg-slate-50 border border-slate-100 rounded-[24px] p-4 flex items-center justify-center min-h-[250px]">
-                <div className="w-full h-[230px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart cx="50%" cy="50%" outerRadius="60%" data={radarData}>
-                      <PolarGrid stroke="#e2e8f0" />
-                      <PolarAngleAxis dataKey="subject" tick={renderPolarAngleAxisTick} />
-                      <PolarRadiusAxis angle={30} domain={[0, 25]} tick={false} axisLine={false} />
-                      <Radar name="Score" dataKey="A" stroke="#0f172a" fill="#0f172a" fillOpacity={0.15} strokeWidth={2} />
-                    </RadarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-3 justify-center min-h-[250px]">
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Alertas de Caixa</span>
-                {cashQuality?.alerts.length === 0 ? (
-                  <div className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl flex items-center gap-2">
-                    <ShieldCheck size={16} className="text-emerald-600 shrink-0" />
-                    <p className="text-xs font-bold text-emerald-800">Conformidade Plena</p>
+            {/* DFC_BOARD_PRIORITIES Section */}
+            {isSectionVisible('DFC_BOARD_PRIORITIES') && (() => {
+              const priorities = FiduciaryRuntimeAdapter.ExecutivePriorityResolver.resolve(runtimeOutput);
+              return (
+                <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div>
+                      <h3 className="text-xl font-black text-slate-900 mt-2">
+                        {getSectionHeader('DFC_BOARD_PRIORITIES', 'DFC_BOARD_PRIORITIES_TITLE')}
+                      </h3>
+                    </div>
                   </div>
-                ) : (
-                  <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
-                    {cashQuality?.alerts.map((alert: string, idx: number) => (
-                      <div key={idx} className="bg-rose-50 border border-rose-100 p-3 rounded-xl flex items-start gap-2">
-                        <AlertTriangle size={14} className="text-rose-500 shrink-0 mt-0.5" />
-                        <p className="text-[10px] text-rose-700 font-semibold leading-normal">{alert}</p>
+                  <div className="space-y-4">
+                    {priorities.slice(0, 3).map((d: any, idx: number) => (
+                      <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                        <span className={cn(
+                          "w-6 h-6 rounded-full text-white flex items-center justify-center text-xs font-black shrink-0",
+                          d.severity === 'CRITICAL' ? 'bg-rose-600' :
+                          d.severity === 'HIGH' ? 'bg-amber-600' :
+                          d.severity === 'MODERATE' ? 'bg-blue-600' : 'bg-slate-600'
+                        )}>
+                          {idx + 1}
+                        </span>
+                        <div>
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">{d.sourceModule}</span>
+                            <span className={cn(
+                              "text-[7px] font-black uppercase tracking-widest px-1 rounded",
+                              d.severity === 'CRITICAL' ? 'bg-rose-100 text-rose-800' :
+                              d.severity === 'HIGH' ? 'bg-amber-100 text-amber-800' :
+                              d.severity === 'MODERATE' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-800'
+                            )}>{d.severity}</span>
+                          </div>
+                          <p className="text-xs font-bold text-slate-800 leading-normal">{d.title}</p>
+                          <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-0.5">{d.rationale}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
-                )}
-              </div>
-            </div>
-            </div>
-          )}
-
-          {/* Seção 3: Diagnóstico Executivo */}
-          {isSectionVisible('DFC_DIAGNOSTICO_EXECUTIVO') && (
-            <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-900 bg-slate-100 px-3 py-1.5 rounded-lg">
-                  Seção 3 de 9
-                </span>
-                <h3 className="text-xl font-black text-slate-900 mt-2">Diagnóstico Executivo</h3>
-              </div>
-            </div>
-
-            <div className="bg-slate-950 text-white rounded-3xl p-6 border border-slate-800 shadow-md">
-              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Questão Principal</p>
-              <p className="text-sm font-bold text-slate-200">A operação é autossustentável?</p>
-              <p className="text-base font-black text-emerald-400 mt-2 leading-relaxed">
-                {metrics.fiduciary?.cashBoardDecisionFramework?.isOperationSelfSustaining}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-              <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
-                <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">A operação gera caixa operacional?</span>
-                <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.cashGenerationAssessment}</p>
-              </div>
-              <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
-                <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual a restrição principal de caixa?</span>
-                <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.primaryConstraint}</p>
-              </div>
-              <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
-                <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual o horizonte de sobrevivência (runway)?</span>
-                <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.runwayAssessment}</p>
-              </div>
-              <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
-                <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual a dependência dos sócios?</span>
-                <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.shareholderDependency}</p>
-              </div>
-              <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50 col-span-1 md:col-span-2">
-                <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual a perspectiva (outlook) de continuidade?</span>
-                <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.boardOutlook}</p>
-              </div>
-              <div className="border border-amber-200/60 bg-amber-500/5 rounded-2xl p-5 space-y-1 col-span-1 md:col-span-2">
-                <span className="text-[9px] font-black uppercase text-amber-600 tracking-wider">Ação imediata recomendada?</span>
-                <p className="text-xs font-bold text-amber-800">{metrics.fiduciary?.cashBoardDecisionFramework?.immediateAction}</p>
-              </div>
-            </div>
-            </div>
-          )}
-
-          {/* Seção: Top 3 Prioridades */}
-          {isSectionVisible('DFC_TOP_3_PRIORITIES') && (
-            <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg">
-                    Prioridades do Conselho
-                  </span>
-                  <h3 className="text-xl font-black text-slate-900 mt-2">Top 3 Prioridades</h3>
                 </div>
-              </div>
-              <div className="space-y-4">
-                {FiduciaryRuntimeAdapter.ExecutivePriorityResolver.resolve(runtimeOutput).map((d: any, idx: number) => (
-                  <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
-                    <span className={cn(
-                      "w-6 h-6 rounded-full text-white flex items-center justify-center text-xs font-black shrink-0",
-                      d.severity === 'CRITICAL' ? 'bg-rose-600' :
-                      d.severity === 'HIGH' ? 'bg-amber-600' :
-                      d.severity === 'MODERATE' ? 'bg-blue-600' : 'bg-slate-600'
-                    )}>
-                      {idx + 1}
-                    </span>
-                    <div>
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">{d.sourceModule}</span>
-                        <span className={cn(
-                          "text-[7px] font-black uppercase tracking-widest px-1 rounded",
-                          d.severity === 'CRITICAL' ? 'bg-rose-100 text-rose-800' :
-                          d.severity === 'HIGH' ? 'bg-amber-100 text-amber-800' :
-                          d.severity === 'MODERATE' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-800'
-                        )}>{d.severity}</span>
-                      </div>
-                      <p className="text-xs font-bold text-slate-800 leading-normal">{d.title}</p>
-                      <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-0.5">{d.rationale}</p>
-                    </div>
+              );
+            })()}
+
+            {/* DFC_EXECUTIVE_DIAGNOSIS Section */}
+            {isSectionVisible('DFC_EXECUTIVE_DIAGNOSIS') && (
+              <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 mt-2">
+                      {getSectionHeader('DFC_EXECUTIVE_DIAGNOSIS', 'DFC_DIAGNOSIS_TITLE')}
+                    </h3>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Seção 4: Conversão Receita → Caixa */}
-          {isSectionVisible('DFC_REVENUE_CONVERSION') && (
-            <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg">
-                  Seção 4 de 9
-                </span>
-                <h3 className="text-xl font-black text-slate-900 mt-2">Conversão Receita → Caixa</h3>
-              </div>
-              <span className={cn(
-                "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider",
-                metrics.fiduciary?.cashConversionAnalysis?.classification === 'GERA_CAIXA' ? 'bg-emerald-500/10 text-emerald-600' :
-                metrics.fiduciary?.cashConversionAnalysis?.classification === 'EQUILIBRADO' ? 'bg-slate-500/10 text-slate-600' :
-                'bg-rose-500/10 text-rose-600'
-              )}>
-                {metrics.fiduciary?.cashConversionAnalysis?.classification === 'GERA_CAIXA' ? 'Gera Caixa' :
-                 metrics.fiduciary?.cashConversionAnalysis?.classification === 'EQUILIBRADO' ? 'Equilibrado' :
-                 'Consome/Destrói Caixa'}
-              </span>
-            </div>
-            
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-              <div className="text-left space-y-2">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conversão Financeira por Venda</span>
-                <p className="text-2xl font-black text-slate-900 leading-tight">
-                  {metrics.fiduciary?.cashConversionAnalysis?.cashConversionPer100Revenue < 0 ? '-' : ''}
-                  R$ {Math.abs(metrics.fiduciary?.cashConversionAnalysis?.cashConversionPer100Revenue || 0)}
-                </p>
-                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">A cada R$ 100 faturados</p>
-              </div>
-              <p className="text-sm font-semibold text-slate-700 max-w-xl text-left md:text-right leading-relaxed">
-                {metrics.fiduciary?.cashConversionAnalysis?.rationale}
-              </p>
-            </div>
-            </div>
-          )}
-
-          {/* Seção 5: Dependência dos Sócios */}
-          {isSectionVisible('DFC_SHAREHOLDER_DEPENDENCY') && (
-            <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-purple-600 bg-purple-50 px-3 py-1.5 rounded-lg">
-                  Seção 5 de 9
-                </span>
-                <h3 className="text-xl font-black text-slate-900 mt-2">Dependência dos Sócios</h3>
-              </div>
-              <span className={cn(
-                "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider",
-                metrics.fiduciary?.shareholderDependencyAnalysis?.classification === 'AUTONOMA' ? 'bg-emerald-500/10 text-emerald-600' :
-                metrics.fiduciary?.shareholderDependencyAnalysis?.classification === 'BAIXA_DEPENDENCIA' ? 'bg-blue-500/10 text-blue-600' :
-                'bg-rose-500/10 text-rose-600'
-              )}>
-                {metrics.fiduciary?.shareholderDependencyAnalysis?.classification === 'AUTONOMA' ? 'Autônoma' :
-                 metrics.fiduciary?.shareholderDependencyAnalysis?.classification === 'BAIXA_DEPENDENCIA' ? 'Baixa Dependência' :
-                 metrics.fiduciary?.shareholderDependencyAnalysis?.classification === 'MODERADA_DEPENDENCIA' ? 'Mod. Dependência' :
-                 'Alta/Crítica Dependência'}
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50">
-                <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Índice de Autossuficiência Financeira</span>
-                <p className="text-lg font-black text-slate-800">
-                  {metrics.fiduciary?.shareholderDependencyAnalysis?.autossuficienciaFinanceiraDisplay}
-                </p>
-                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Aportes dos Sócios / |FCO Operacional|</p>
-              </div>
-              <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50">
-                <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Dependência de Capital Externo</span>
-                <p className="text-lg font-black text-slate-800">
-                  {metrics.fiduciary?.shareholderDependencyAnalysis?.dependenciaCapitalExternoLabel}
-                </p>
-                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Classificação fiduciária da dependência de funding</p>
-              </div>
-            </div>
-
-            <p className="text-sm font-semibold text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100 leading-relaxed">
-              {metrics.fiduciary?.shareholderDependencyAnalysis?.rationale}
-            </p>
-            </div>
-          )}
-
-          {/* Seção 6: Runway Fiduciário */}
-          {isSectionVisible('DFC_RUNWAY') && (
-            <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg">
-                  Seção 6 de 9
-                </span>
-                <h3 className="text-xl font-black text-slate-900 mt-2">Runway Fiduciário</h3>
-              </div>
-              <span className={cn(
-                "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider",
-                (metrics.fiduciary?.runway || 0) < 3 ? 'bg-rose-500/10 text-rose-600 border border-rose-500/20' :
-                (metrics.fiduciary?.runway || 0) < 6 ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' :
-                'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20'
-              )}>
-                {(metrics.fiduciary?.runway || 0) < 3 ? 'Crítico' : (metrics.fiduciary?.runway || 0) < 6 ? 'Atenção' : 'Estável'}
-              </span>
-            </div>
-
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-              <div className="text-left">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Horizonte de Sobrevivência</span>
-                <p className="text-2xl font-black text-slate-900 mt-1">
-                  {(metrics.fiduciary?.runway || 0) >= 99 ? '99+' : (metrics.fiduciary?.runway || 0).toFixed(1)} meses
-                </p>
-              </div>
-              
-              <div className="text-left md:text-right max-w-xl">
-                {((metrics.fiduciary?.runway || 0) < 3) ? (
-                  <p className="text-sm font-bold text-rose-600 bg-rose-500/5 border border-rose-200/50 p-4 rounded-xl leading-relaxed">
-                    A organização possui menos de um trimestre de cobertura operacional caso a atual taxa de consumo de caixa permaneça inalterada.
+                </div>
+                <div className="bg-slate-950 text-white rounded-3xl p-6 border border-slate-800 shadow-md">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Questão Principal</p>
+                  <p className="text-sm font-bold text-slate-200">A operação é autossustentável?</p>
+                  <p className="text-base font-black text-emerald-400 mt-2 leading-relaxed">
+                    {metrics.fiduciary?.cashBoardDecisionFramework?.isOperationSelfSustaining}
                   </p>
-                ) : (
-                  <p className="text-xs font-semibold text-slate-500 leading-relaxed">
-                    A companhia apresenta runway confortável para sustentar a queima de caixa operacional.
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-              <div className="border border-slate-100 rounded-xl p-4 bg-slate-50/50 text-xs">
-                <span className="text-slate-400 font-bold block mb-1">Caixa Disponível</span>
-                <span className="font-bold text-slate-800">{formatCurrency(metrics.fiduciary?.runwayAudit?.caixaDisponivel || 0)}</span>
-              </div>
-              <div className="border border-slate-100 rounded-xl p-4 bg-slate-50/50 text-xs">
-                <span className="text-slate-400 font-bold block mb-1">FCO Operacional</span>
-                <span className="font-bold text-slate-800">{formatCurrency(metrics.fiduciary?.runwayAudit?.fcoUsado || 0)}</span>
-              </div>
-              <div className="border border-slate-100 rounded-xl p-4 bg-slate-50/50 text-xs">
-                <span className="text-slate-400 font-bold block mb-1">Consumo Mensal Médio</span>
-                <span className="font-bold text-slate-800">{formatCurrency(metrics.fiduciary?.runwayAudit?.consumoMensalMedio || 0)}</span>
-              </div>
-            </div>
-            </div>
-          )}
-
-          {/* Seção 7: Advisory do Conselho */}
-          {isSectionVisible('DFC_ADVISORY') && (
-            <div className="bg-slate-900 text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden space-y-6 text-left">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1.5 rounded-lg border border-indigo-500/20">
-                  Seção 7 de 9
-                </span>
-                <h3 className="text-xl font-black">Advisory do Conselho</h3>
-              </div>
-              {metrics.fiduciary?.isEarlyStage && (
-                <span className="bg-amber-500/20 text-amber-400 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shrink-0">
-                  Maturidade de Early-Stage
-                </span>
-              )}
-            </div>
-            
-            <div className="space-y-4">
-              <div>
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Interpretação Executiva</p>
-                <p className="text-sm font-bold text-slate-200 leading-relaxed">
-                  {metrics.fiduciary?.cashExecutiveAdvisory?.interpretacaoExecutiva}
-                </p>
-              </div>
-              <div className="pt-4 border-t border-white/10">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Parecer Consolidado</p>
-                <p className="text-xs font-semibold leading-relaxed text-slate-300">
-                  {metrics.fiduciary?.cashExecutiveAdvisory?.parecerConsolidado}
-                </p>
-              </div>
-            </div>
-            </div>
-          )}
-
-          {/* Seção 8: Reconciliação BP × DFC */}
-          {isSectionVisible('DFC_RECONCILIATION_DETAIL') && (
-            <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg">
-                  Seção 8 de 9
-                </span>
-                <h3 className="text-xl font-black text-slate-900 mt-2">Reconciliação BP × DFC</h3>
-              </div>
-              <span className={cn(
-                "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider",
-                metrics.fiduciary?.reconciliationMismatch 
-                  ? "bg-rose-500/10 text-rose-600 border border-rose-500/20" 
-                  : "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
-              )}>
-                {metrics.fiduciary?.reconciliationMismatch ? "Divergência Detectada" : "Conciliado (Diferença R$ 0)"}
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-              <div className="space-y-3">
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Cálculo DFC</span>
-                <div className="flex justify-between text-xs font-medium">
-                  <span className="text-slate-500">Caixa Inicial DFC:</span>
-                  <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.caixaInicialDFC || 0)}</span>
                 </div>
-                <div className="flex justify-between text-xs font-medium">
-                  <span className="text-slate-500">Variação DFC:</span>
-                  <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.variacaoDFC || 0)}</span>
-                </div>
-                <div className="flex justify-between text-xs font-bold border-t border-slate-200/60 pt-2">
-                  <span className="text-slate-700">Caixa Final Estimado:</span>
-                  <span className="text-slate-900">{formatCurrency(metrics.fiduciary?.caixaFinalEstimadoDFC || 0)}</span>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Valores BP (Real)</span>
-                <div className="flex justify-between text-xs font-medium">
-                  <span className="text-slate-500">Caixa Inicial Real (BP):</span>
-                  <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.caixaInicialBP || 0)}</span>
-                </div>
-                <div className="flex justify-between text-xs font-medium">
-                  <span className="text-slate-500">Variação Real (BP):</span>
-                  <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.variacaoLiquidaConciliada || 0)}</span>
-                </div>
-                <div className="flex justify-between text-xs font-bold border-t border-slate-200/60 pt-2">
-                  <span className="text-slate-700">Caixa Final Real (BP):</span>
-                  <span className="text-slate-900">{formatCurrency(metrics.fiduciary?.caixaFinalBP || 0)}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center border-t border-slate-100 pt-4 text-xs font-bold">
-              <span className="text-slate-600">Reconciliation Gap:</span>
-              <span className={cn(
-                "text-sm font-black",
-                metrics.fiduciary?.reconciliationMismatch ? "text-rose-600" : "text-emerald-600"
-              )}>
-                {formatCurrency(metrics.fiduciary?.reconciliationGap || 0)}
-              </span>
-            </div>
-            </div>
-          )}
-
-          {/* Seção 9: Camada Técnica */}
-          {isSectionVisible('DFC_CQS_COMPONENTS') && (
-            <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-4 text-left">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg">
-                  Seção 9 de 9
-                </span>
-                <h3 className="text-xl font-black text-slate-900 mt-2">Camada Técnica</h3>
-              </div>
-              <button
-                onClick={() => setTechnicalTableOpen(!technicalTableOpen)}
-                className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all select-none"
-              >
-                {technicalTableOpen ? 'Ocultar Detalhes' : 'Visualizar Detalhes'}
-              </button>
-            </div>
-
-            {technicalTableOpen && (
-              <div className="space-y-8 animate-in fade-in duration-300">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {Object.entries(cashQuality?.dimensions || {}).map(([key, dim]: [string, any]) => {
-                    let title = '';
-                    if (key === 'conversion') title = 'Conversão Operacional';
-                    else if (key === 'dependency') title = 'Independência dos Sócios';
-                    else if (key === 'liquidity') title = 'Integridade da Liquidez';
-                    else if (key === 'stress') title = 'Resiliência de Tesouraria';
-                    else if (key === 'workingCapital') title = 'Giro Operacional';
-                    else title = 'Sustentabilidade do Caixa';
-
-                    return (
-                      <div key={key} className="border border-slate-100 rounded-xl p-4 bg-slate-50 text-xs space-y-2">
-                        <span className="font-bold text-slate-800 block border-b border-slate-200 pb-1">{title}</span>
-                        <div className="space-y-1">
-                          <p className="text-[10px] text-slate-500"><strong>Score:</strong> {dim.score}</p>
-                          <p className="text-[10px] text-slate-500"><strong>Fórmula:</strong> {dim.formula}</p>
-                          <p className="text-[10px] text-slate-500"><strong>Linhagem:</strong> {dim.lineage}</p>
-                          <p className="text-[10px] text-slate-500"><strong>Racional:</strong> {dim.rationale}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div className="border border-slate-200 rounded-2xl overflow-hidden">
-                  <div className="bg-slate-50 px-6 py-3 border-b border-slate-200">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Tabela de Reclassificação Fiduciária</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
+                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">A operação gera caixa operacional?</span>
+                    <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.cashGenerationAssessment}</p>
                   </div>
-                  <table className="w-full text-xs">
-                    <thead>
-                      <tr className="bg-slate-100/50 border-b border-slate-200">
-                        <th className="text-left py-3 px-6 font-bold text-slate-400 uppercase tracking-wider">Descrição</th>
-                        <th className="text-right py-3 px-6 font-bold text-slate-400 uppercase tracking-wider">Valor (R$)</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100">
-                      {rows.map((row: any, idx: number) => {
-                        const cleanItemName = (row.conta || row.category || row.item || '');
-                        const isIndented = cleanItemName.startsWith('  ');
-                        const hasBullet = cleanItemName.startsWith('  * ');
-                        const displayItemName = cleanItemName.replace(/^  \* |^  /, '');
-
-                        const isReclassified = row.item && (
-                          row.item.includes('Relacionada') || 
-                          row.item.includes('Partes Relacionadas') || 
-                          row.item.includes('Societário') || 
-                          row.item.includes('Capitalização') ||
-                          row.item.includes('Capitalizacao') ||
-                          row.item.includes('Artificial')
-                        );
-
-                        return (
-                          <tr 
-                            key={idx} 
-                            className={cn(
-                              'hover:bg-slate-50 transition-colors', 
-                              (row.isTotal || row.isSubTotal) ? 'bg-slate-50/50 font-bold' : '',
-                              isReclassified ? 'bg-amber-500/5 font-bold' : ''
-                            )}
-                          >
-                            <td className="py-3 px-6">
-                              <span className={cn(
-                                'block flex items-center gap-1.5 flex-wrap',
-                                isIndented ? (hasBullet ? 'pl-6' : 'pl-4') : '',
-                                isReclassified ? 'text-amber-700' : 'text-slate-600'
-                              )}>
-                                {hasBullet && <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />}
-                                <span>{displayItemName}</span>
-                              </span>
-                            </td>
-                            <td className={cn(
-                              "py-3 px-6 text-right font-mono", 
-                              (row.val || row.valor || row.value || 0) < 0 
-                                ? "text-rose-500" 
-                                : (isReclassified ? "text-amber-600" : "text-slate-700")
-                            )}>
-                              {formatCurrency(row.val || row.valor || row.value || 0)}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
+                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual a restrição principal de caixa?</span>
+                    <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.primaryConstraint}</p>
+                  </div>
+                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
+                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual o horizonte de sobrevivência (runway)?</span>
+                    <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.runwayAssessment}</p>
+                  </div>
+                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
+                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual a dependência dos sócios?</span>
+                    <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.shareholderDependency}</p>
+                  </div>
+                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50 col-span-1 md:col-span-2">
+                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual a perspectiva (outlook) de continuidade?</span>
+                    <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.boardOutlook}</p>
+                  </div>
+                  <div className="border border-amber-200/60 bg-amber-500/5 rounded-2xl p-5 space-y-1 col-span-1 md:col-span-2">
+                    <span className="text-[9px] font-black uppercase text-amber-600 tracking-wider">Ação imediata recomendada?</span>
+                    <p className="text-xs font-bold text-amber-800">{metrics.fiduciary?.cashBoardDecisionFramework?.immediateAction}</p>
+                  </div>
                 </div>
               </div>
             )}
-            </div>
-          )}
-        </div>
-      )}
 
-      {viewMode === 'lucro' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-          <KpiCard 
-            title="Lucro Líquido Contábil"
-            value={lucroLiquidoRender === null ? 'Não identificado na DRE' : formatValue(lucroLiquidoRender, '')}
-            suffix={lucroLiquidoRender === null ? '' : 'R$'}
-            icon={WalletCards}
-            status={lucroLiquidoRender === null ? 'Amarelo' : (lucroLiquidoRender >= 0 ? 'Verde' : 'Vermelho')}
-          />
-          <KpiCard 
-            title="EBITDA Ajustado"
-            value={formatValue(ebitda || 0, '')}
-            suffix="R$"
-            icon={TrendingUp}
-            status={(ebitda || 0) >= 0 ? 'Verde' : 'Vermelho'}
-          />
-          <KpiCard 
-            title="FCO Operacional Real"
-            value={formatValue(metrics.fiduciary?.fcoOperacionalReal || 0, '')}
-            suffix="R$"
-            icon={WalletCards}
-            status={(metrics.fiduciary?.fcoOperacionalReal || 0) >= 0 ? 'Verde' : 'Vermelho'}
-          />
-          <KpiCard 
-            title="Score Qualidade Lucro"
-            value={(earningsQuality?.score || 0).toFixed(0)}
-            suffix="/100"
-            icon={Info}
-            status={(earningsQuality?.score || 0) >= 70 ? 'Verde' : (earningsQuality?.score || 0) >= 50 ? 'Amarelo' : 'Vermelho'}
-          />
-        </div>
-      )}
-
-      {viewMode !== 'fiduciario' && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-          <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h3 className="text-lg font-black text-slate-900">
-                  {viewMode === 'lucro' ? 'Conversão e Geração de Lucro' : 'Origens e Aplicações'}
-                </h3>
-                <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-1">
-                  {viewMode === 'lucro' ? 'Comparativo Histórico de Resultados e Caixa' : 'Comparativo Histórico de Fluxos'}
-                </p>
-              </div>
-              {viewMode === 'lucro' ? (
-                <div className="flex gap-4">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-indigo-500" />
-                    <span className="text-[9px] font-bold text-slate-500 uppercase">Lucro Líq.</span>
+            {/* DFC_CAUSAL_INTELLIGENCE Section */}
+            {isSectionVisible('DFC_CAUSAL_INTELLIGENCE') && (() => {
+              const audit = FiduciaryRuntimeAdapter.DFCCausalDriverPresentationAudit.audit(
+                metrics.fiduciary?.causalIntelligence?.drivers || []
+              );
+              return (
+                <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div>
+                      <h3 className="text-xl font-black text-slate-900 mt-2">
+                        {getSectionHeader('DFC_CAUSAL_INTELLIGENCE', 'DFC_CAUSAL_INTELLIGENCE_TITLE')}
+                      </h3>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                    <span className="text-[9px] font-bold text-slate-500 uppercase">EBITDA</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    <span className="text-[9px] font-bold text-slate-500 uppercase">FCO Real</span>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex gap-4">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    <span className="text-[9px] font-bold text-slate-500 uppercase">F.O.</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                    <span className="text-[9px] font-bold text-slate-500 uppercase">F.I.</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                    <span className="text-[9px] font-bold text-slate-500 uppercase">F.F.</span>
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            <div className="h-[300px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                  <XAxis 
-                    dataKey="year" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} 
-                    dy={10}
-                  />
-                  <YAxis hide />
-                  <Tooltip 
-                    cursor={{ fill: '#f8fafc' }}
-                    content={({ active, payload }) => {
-                      if (active && payload && payload.length) {
-                        return (
-                          <div className="bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-md">
-                            <p className="text-[10px] font-black uppercase tracking-widest mb-2 text-white/50">{payload[0].payload.year}</p>
-                            <div className="space-y-1.5">
-                              {payload.map((p: any, idx: number) => (
-                                <div key={idx} className="flex items-center justify-between gap-8">
-                                  <span className="text-[10px] font-bold text-white/70 uppercase">{p.name}</span>
-                                  <span className="text-xs font-black">{formatCurrency(p.value)}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      }
-                      return null;
-                    }}
-                  />
-                  {viewMode === 'lucro' ? (
-                    <>
-                      <Bar dataKey="lucroLiquido" name="Lucro Líquido" fill="#6366f1" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="ebitda" name="EBITDA Ajustado" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="operacionalReal" name="FCO Operacional Real" fill="#10b981" radius={[4, 4, 0, 0]} />
-                    </>
+                  {audit.validDrivers.length === 0 ? (
+                    <div className="p-6 bg-slate-50 border border-slate-200 rounded-2xl text-center text-xs font-semibold text-slate-500">
+                      Nenhum causador de variação de caixa válido identificado para o período.
+                    </div>
                   ) : (
-                    <>
-                      <Bar dataKey={viewMode === 'oficial' ? "operacional" : "operacionalReal"} name={viewMode === 'oficial' ? "Operacional" : "Operacional Real"} fill="#10b981" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="investimento" name="Investimento" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="financiamento" name="Financiamento" fill="#a855f7" radius={[4, 4, 0, 0]} />
-                    </>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {audit.validDrivers.map((driver: any, idx: number) => (
+                        <div key={idx} className="border border-slate-100 rounded-2xl p-5 space-y-2 bg-slate-50">
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs font-bold text-slate-800">{driver.label}</span>
+                            <span className={cn(
+                              "px-2 py-0.5 rounded text-[8px] font-black uppercase",
+                              driver.type === 'DESTROYER' ? 'bg-rose-100 text-rose-800' : 'bg-emerald-100 text-emerald-800'
+                            )}>
+                              {driver.type === 'DESTROYER' ? 'Drenagem' : 'Geração'}
+                            </span>
+                          </div>
+                          <div>
+                            <p className="text-lg font-black text-slate-800">
+                              {formatCurrency(driver.amount)}
+                            </p>
+                            <p className="text-[9px] text-slate-400 font-bold uppercase mt-1">
+                              Impacto: {FiduciaryRuntimeAdapter.ExecutiveNumericPresentationGuard.formatSafe(driver.contributionPercent, (val) => `${val.toFixed(1)}%`)}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   )}
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          <div className="bg-slate-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-            <h3 className="text-lg font-black mb-1">Destaques</h3>
-            <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-8">
-              {viewMode === 'lucro' ? 'Análise do Resultado' : 'Análise de Liquidez'}
-            </p>
-            
-            {viewMode === 'oficial' ? (
-              <div className="space-y-6 flex-1">
-                 <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Saldo Final Estimado</p>
-                    <p className="text-sm font-bold">{formatCurrency(variacao)}</p>
-                    <p className="text-[9px] text-white/30 font-medium mt-1 italic">Fluxo líquido do período</p>
-                 </div>
-                 
-                 <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Capacidade de Reinvestimento</p>
-                    <p className="text-sm font-bold">{fco > 0 ? ((Math.abs(fci || 0) / fco) * 100).toFixed(1) : 0}%</p>
-                    <p className="text-[9px] text-white/30 font-medium mt-1 italic">% do FCO aplicado em Investimentos</p>
-                 </div>
-              </div>
-            ) : (
-              <div className="space-y-4 flex-1">
-                 <div className="p-3 bg-white/5 rounded-xl border border-white/5">
-                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Conversão (FCO Real / Lucro Líquido)</p>
-                    <p className="text-sm font-bold">
-                      {lucroLiquido > 0 ? `${((metrics.fiduciary?.fcoOperacionalReal || 0) / lucroLiquido * 100).toFixed(1)}%` : 'N/A'}
-                    </p>
-                    <p className="text-[8px] text-white/30 font-medium mt-0.5 italic">Rescaldo financeiro do resultado de competência</p>
-                 </div>
-                 <div className="p-3 bg-white/5 rounded-xl border border-white/5 flex justify-between items-center">
-                    <div>
-                      <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Confiança Longitudinal</p>
-                      <p className="text-[8px] text-white/30 font-medium mt-0.5 italic">Baseado em ciclos históricos</p>
-                    </div>
-                    <span className={cn(
-                      "px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider",
-                      semanticSource === 'ELSA' && lifecycleStage === 'INITIAL_CAPITALIZATION' ? 'bg-indigo-500/20 text-indigo-400' :
-                      earningsQuality?.confidence === 'HIGH_CONFIDENCE' ? 'bg-emerald-500/20 text-emerald-400' :
-                      earningsQuality?.confidence === 'MODERATE_CONFIDENCE' ? 'bg-amber-500/20 text-amber-400' :
-                      'bg-rose-500/20 text-rose-400'
-                    )}>
-                      {semanticSource === 'ELSA' && lifecycleStage === 'INITIAL_CAPITALIZATION' ? executiveDisplay?.confidenceStatus :
-                       earningsQuality?.confidence === 'HIGH_CONFIDENCE' ? 'Alta (>3 ciclos)' :
-                       earningsQuality?.confidence === 'MODERATE_CONFIDENCE' ? 'Média (2-3 ciclos)' :
-                       'Baixa (<2 ciclos)'}
-                    </span>
-                 </div>
-                 <div className="p-3 bg-white/5 rounded-xl border border-white/5 flex justify-between items-center">
-                    <div>
-                      <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Qualidade da Geração</p>
-                      <p className="text-[8px] text-white/30 font-medium mt-0.5 italic">Relação entre EBITDA e Lucro</p>
-                    </div>
-                    <span className={cn(
-                      "px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider",
-                      (earningsQuality?.score || 0) >= 70 ? 'bg-emerald-500/20 text-emerald-400' :
-                      (earningsQuality?.score || 0) >= 50 ? 'bg-amber-500/20 text-amber-400' :
-                      'bg-rose-500/20 text-rose-400'
-                    )}>
-                      {(earningsQuality?.score || 0) >= 85 ? 'Excelente' :
-                       (earningsQuality?.score || 0) >= 70 ? 'Saudável' :
-                       (earningsQuality?.score || 0) >= 50 ? 'Regular' :
-                       'Crítica'}
-                    </span>
-                 </div>
-              </div>
-            )}
-
-            <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-3">
-               <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
-                  <Database size={18} className="text-white" />
-               </div>
-               <div>
-                 <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Inteligência de Dados</p>
-                 <p className="text-[10px] font-medium text-white/70 italic">Análise baseada em ciclos históricos</p>
-               </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-
-      {/* Bloco Earnings Quality Engine (EQE) */}
-      {viewMode === 'lucro' && earningsQuality && (
-        <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm p-8 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 mb-10">
-          <div>
-            <h3 className="text-xl font-black text-slate-900 uppercase tracking-wider">Qualidade do Lucro (Earnings Quality Score - EQS)</h3>
-            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">
-              Avaliação fiduciária de integridade, sustentabilidade e recorrência da lucratividade operacional
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-            {/* Esquerda: Gauge Card & Alertas */}
-            <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden h-full min-h-[300px]">
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6">Earnings Integrity Level</p>
-              
-              {/* Circular score display */}
-              <div className="relative w-36 h-36 flex items-center justify-center">
-                <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                  {/* Background track */}
-                  <circle 
-                    cx="50" cy="50" r="40" 
-                    fill="transparent" 
-                    stroke="#e2e8f0" 
-                    strokeWidth="8"
-                  />
-                  {/* Score arc */}
-                  <circle 
-                    cx="50" cy="50" r="40" 
-                    fill="transparent" 
-                    stroke={
-                      earningsQuality.score >= 85 ? '#10b981' :
-                      earningsQuality.score >= 70 ? '#3b82f6' :
-                      earningsQuality.score >= 50 ? '#f59e0b' :
-                      '#ef4444'
-                    } 
-                    strokeWidth="8"
-                    strokeDasharray="251.2"
-                    strokeDashoffset={251.2 - (251.2 * earningsQuality.score) / 100}
-                    strokeLinecap="round"
-                    className="transition-all duration-1000 ease-out"
-                  />
-                </svg>
-                <div className="text-center z-10">
-                  <span className="text-4xl font-black text-slate-900 tracking-tighter">{earningsQuality.score}</span>
-                  <span className="text-sm font-bold text-slate-400">/100</span>
                 </div>
-              </div>
+              );
+            })()}
 
-              {/* Status Badge */}
-              <div className="mt-6 flex flex-col items-center gap-2">
-                <span className={cn(
-                  "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm text-center",
-                  earningsQuality.score >= 85 ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" :
-                  earningsQuality.score >= 70 ? "bg-blue-500/10 text-blue-600 border border-blue-500/20" :
-                  earningsQuality.score >= 50 ? "bg-amber-500/10 text-amber-600 border border-amber-500/20" :
-                  "bg-rose-500/10 text-rose-600 border border-rose-500/20"
-                )}>
-                  {earningsQuality.semanticLabel || earningsQuality.level}
-                </span>
-                {(earningsQuality.rawRiskLevel && earningsQuality.rawRiskLevel !== earningsQuality.semanticLabel) && (
-                  <span className="text-[10px] text-slate-500 font-medium">
-                    Severidade matemática: {earningsQuality.rawRiskLevel}
-                  </span>
-                )}
-              </div>
-
-              {/* Confidence Badge */}
-              <span className={cn(
-                "mt-3 px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-wider",
-                earningsQuality.confidence === 'HIGH_CONFIDENCE' ? "bg-emerald-500/10 text-emerald-500" :
-                earningsQuality.confidence === 'MODERATE_CONFIDENCE' ? "bg-amber-500/10 text-amber-500" :
-                "bg-rose-500/10 text-rose-500"
-              )}>
-                {earningsQuality.confidence === 'HIGH_CONFIDENCE' ? 'Confiança Longitudinal: Alta (>3 ciclos)' :
-                 earningsQuality.confidence === 'MODERATE_CONFIDENCE' ? 'Confiança Longitudinal: Média (2-3 ciclos)' :
-                 'Confiança Longitudinal: Baixa (<2 ciclos)'}
-              </span>
-            </div>
-
-            {/* Centro: Radar Chart */}
-            <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-4 flex items-center justify-center h-full min-h-[300px]">
-              <div className="w-full h-[280px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart cx="50%" cy="50%" outerRadius="65%" data={earningsRadarData}>
-                    <PolarGrid stroke="#e2e8f0" />
-                    <PolarAngleAxis 
-                      dataKey="subject" 
-                      tick={renderPolarAngleAxisTick}
-                    />
-                    <PolarRadiusAxis 
-                      angle={30} 
-                      domain={[0, 25]} 
-                      tick={false}
-                      axisLine={false}
-                    />
-                    <Radar
-                      name="Score"
-                      dataKey="A"
-                      stroke="#4f46e5"
-                      fill="#4f46e5"
-                      fillOpacity={0.15}
-                      strokeWidth={2}
-                    />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Direita: Alertas Relacionados */}
-            <div className="flex flex-col gap-4 justify-center h-full">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Alertas de Qualidade do Lucro</h4>
-              {earningsQuality.alerts.length === 0 ? (
-                <div className="bg-emerald-50 border border-emerald-100 p-5 rounded-2xl flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
-                    <Info size={16} />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-xs font-bold text-emerald-800">Conformidade de Lucro</p>
-                    <p className="text-[10px] text-emerald-600 font-semibold mt-0.5">Nenhum risco de integridade ou descompasso contábil relevante detectado.</p>
+            {/* DFC_EARLY_WARNING Section */}
+            {isSectionVisible('DFC_EARLY_WARNING') && metrics.fiduciary?.earlyWarning && (
+              <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 mt-2">
+                      {getSectionHeader('DFC_EARLY_WARNING', 'DFC_EARLY_WARNING_TITLE')}
+                    </h3>
                   </div>
                 </div>
-              ) : (
-                <div className="space-y-3 max-h-[250px] overflow-y-auto pr-1">
-                  {earningsQuality.alerts.filter((alert: string) => !['LOSS_WITH_CASH_CONSUMPTION', 'PROFIT_WITHOUT_CASH', 'NET_INCOME_SOURCE_MISSING', 'PREJUIZO_OPERACIONAL'].includes(alert)).map((alert: string, idx: number) => (
-                    <div key={idx} className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0 mt-0.5">
-                        <AlertTriangle size={14} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {metrics.fiduciary.earlyWarning.alerts?.map((alert: any, idx: number) => (
+                    <div key={idx} className={cn(
+                      "p-5 rounded-2xl border flex items-start gap-4",
+                      alert.status === 'CRITICAL' ? 'bg-rose-50 border-rose-200' :
+                      alert.status === 'WARNING' ? 'bg-amber-50 border-amber-200' :
+                      'bg-slate-50 border-slate-100'
+                    )}>
+                      <div className={cn(
+                        "w-8 h-8 rounded-full flex items-center justify-center shrink-0",
+                        alert.status === 'CRITICAL' ? 'bg-rose-500/10 text-rose-600' :
+                        alert.status === 'WARNING' ? 'bg-amber-500/10 text-amber-600' :
+                        'bg-slate-500/10 text-slate-600'
+                      )}>
+                        <AlertTriangle size={16} />
                       </div>
-                      <div className="text-left">
-                        <p className="text-xs font-bold text-amber-800">Sensibilidade Contábil</p>
-                        <p className="text-[10px] text-amber-700 font-semibold mt-0.5 leading-relaxed">{alert}</p>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-bold text-slate-800">{alert.metric}</span>
+                          <span className={cn(
+                            "text-[8px] font-black uppercase px-1.5 py-0.5 rounded",
+                            alert.status === 'CRITICAL' ? 'bg-rose-200 text-rose-800' :
+                            alert.status === 'WARNING' ? 'bg-amber-200 text-amber-800' :
+                            'bg-slate-200 text-slate-800'
+                          )}>{alert.status}</span>
+                        </div>
+                        <p className="text-[10px] text-slate-500 mt-1 font-semibold leading-relaxed">{alert.message}</p>
                       </div>
                     </div>
                   ))}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+            )}
 
-          {/* Seção Explainability & Auditability */}
-          <div className="border-t border-slate-100 pt-8 space-y-4">
-            <div>
-              <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Explicabilidade & Rastreabilidade do Lucro (EQE)</h4>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Clique em cada dimensão para ver a fórmula, linhagem contábil, racional e triggers de proteção de maturidade</p>
-            </div>
-
-            {/* Bloco de Mini-Auditoria de Linhagem do Lucro */}
-            {earningsQuality?.netIncomeTrace && (
-              <div className="bg-slate-50/80 border border-slate-100 rounded-3xl p-5 mt-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
-                <div>
-                  <h5 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Auditoria de Linhagem do Lucro Líquido</h5>
-                  <p className="text-[11px] text-slate-500 font-semibold mt-1">
-                    Comparação e conformidade entre a DRE soberana e o consumo pelo EQE.
+            {/* DFC_REVENUE_CASH_CONVERSION Section */}
+            {isSectionVisible('DFC_REVENUE_CASH_CONVERSION') && (
+              <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 mt-2">
+                      {getSectionHeader('DFC_REVENUE_CASH_CONVERSION', 'DFC_REVENUE_CASH_CONVERSION_TITLE')}
+                    </h3>
+                  </div>
+                </div>
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                  <div className="text-left space-y-2">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conversão de Faturamento em Caixa</span>
+                    <p className="text-2xl font-black text-slate-900 leading-tight">
+                      {FiduciaryRuntimeAdapter.ExecutiveNumericPresentationGuard.formatSafe(
+                        metrics.fiduciary?.cashConversionAnalysis?.cashConversionPer100Revenue,
+                        (val) => `R$ ${val.toFixed(2)}`
+                      )}
+                    </p>
+                    <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">A cada R$ 100 faturados</p>
+                  </div>
+                  <p className="text-sm font-semibold text-slate-700 max-w-xl text-left md:text-right leading-relaxed">
+                    {metrics.fiduciary?.cashConversionAnalysis?.rationale}
                   </p>
                 </div>
-                <div className="flex flex-wrap items-center gap-6 text-[11px] font-bold text-slate-600">
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Fonte</span>
-                    <span className="text-slate-800">{earningsQuality.netIncomeTrace.source}</span>
+              </div>
+            )}
+
+            {/* DFC_SHAREHOLDER_DEPENDENCY Section */}
+            {isSectionVisible('DFC_SHAREHOLDER_DEPENDENCY') && (
+              <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 mt-2">
+                      {getSectionHeader('DFC_SHAREHOLDER_DEPENDENCY', 'DFC_SHAREHOLDER_DEPENDENCY_TITLE')}
+                    </h3>
                   </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Valor na DRE</span>
-                    <span className="text-slate-800">
-                      {earningsQuality.netIncomeTrace.sourceValue !== null 
-                        ? formatCurrency(earningsQuality.netIncomeTrace.sourceValue) 
-                        : 'Não identificado na DRE'}
-                    </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50">
+                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Índice de Autossuficiência Financeira</span>
+                    <p className="text-lg font-black text-slate-800">
+                      {metrics.fiduciary?.shareholderDependencyAnalysis?.autossuficienciaFinanceiraDisplay}
+                    </p>
                   </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Valor usado pelo EQE</span>
-                    <span className="text-slate-800">
-                      {earningsQuality.netIncomeTrace.consumedByEQE !== null 
-                        ? formatCurrency(earningsQuality.netIncomeTrace.consumedByEQE) 
-                        : 'Não identificado na DRE'}
-                    </span>
+                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50">
+                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Dependência de Capital Externo</span>
+                    <p className="text-lg font-black text-slate-800">
+                      {metrics.fiduciary?.shareholderDependencyAnalysis?.dependenciaCapitalExternoLabel}
+                    </p>
                   </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Valor renderizado</span>
-                    <span className="text-slate-800">
-                      {lucroLiquidoRender !== null 
-                        ? formatCurrency(lucroLiquidoRender) 
-                        : 'Não identificado na DRE'}
-                    </span>
+                </div>
+                <p className="text-sm font-semibold text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100 leading-relaxed">
+                  {metrics.fiduciary?.shareholderDependencyAnalysis?.rationale}
+                </p>
+              </div>
+            )}
+
+            {/* DFC_RUNWAY Section */}
+            {isSectionVisible('DFC_RUNWAY') && (
+              <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 mt-2">
+                      {getSectionHeader('DFC_RUNWAY', 'DFC_RUNWAY_TITLE')}
+                    </h3>
                   </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Status da Linhagem</span>
-                    <span className={cn(
-                      "px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider",
-                      earningsQuality.netIncomeTrace.status === 'CONSISTENT' || earningsQuality.netIncomeTrace.status === 'NOT_RENDERED'
-                        ? 'bg-emerald-500/10 text-emerald-600'
-                        : (earningsQuality.netIncomeTrace.status === 'MISSING_SOURCE'
-                            ? 'bg-amber-500/10 text-amber-600'
-                            : 'bg-rose-500/10 text-rose-600')
-                    )}>
-                      {earningsQuality.netIncomeTrace.status === 'CONSISTENT' || earningsQuality.netIncomeTrace.status === 'NOT_RENDERED' ? 'Consistente' :
-                       earningsQuality.netIncomeTrace.status === 'MISSING_SOURCE' ? 'Fonte Ausente' : 'Inconsistente'}
-                    </span>
+                </div>
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                  <div className="text-left">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Cobertura Projetada</span>
+                    <p className="text-2xl font-black text-slate-900 mt-1">
+                      {FiduciaryRuntimeAdapter.ExecutiveNumericPresentationGuard.formatSafe(
+                        metrics.fiduciary?.runway,
+                        (val) => val >= 99 ? '99+ meses' : `${val.toFixed(1)} meses`
+                      )}
+                    </p>
+                  </div>
+                  <div className="text-left md:text-right max-w-xl">
+                    <p className="text-xs font-semibold text-slate-500 leading-relaxed">
+                      {metrics.fiduciary?.cashBoardDecisionFramework?.runwayAssessment}
+                    </p>
                   </div>
                 </div>
               </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Object.entries(earningsQuality?.dimensions || {}).map(([key, dim]: [string, any]) => {
-                const isExpanded = expandedDimension === key;
-                let title = '';
-                let colorClass = '';
-                let bgClass = '';
-                
-                if (key === 'cashBacked') { title = 'Conversão em Caixa (Cash-Backed)'; colorClass = 'text-emerald-600'; bgClass = 'bg-emerald-50'; }
-                else if (key === 'recurrence') { title = 'Recorrência Econômica'; colorClass = 'text-blue-600'; bgClass = 'bg-blue-50'; }
-                else if (key === 'sustainability') { title = 'Sustentabilidade da Margem'; colorClass = 'text-indigo-600'; bgClass = 'bg-indigo-50'; }
-                else if (key === 'shareholderSupport') { title = 'Suporte dos Sócios (RP/Aporte)'; colorClass = 'text-purple-600'; bgClass = 'bg-purple-50'; }
-                else if (key === 'accountingAggressiveness') { title = 'Sensibilidade / Postura Contábil'; colorClass = 'text-amber-600'; bgClass = 'bg-amber-50'; }
-                else { title = 'Estabilidade Longitudinal'; colorClass = 'text-rose-600'; bgClass = 'bg-rose-50'; }
+            {/* DFC_SCENARIO_SIMULATION Section */}
+            {isSectionVisible('DFC_SCENARIO_SIMULATION') && metrics.fiduciary?.scenarioIntelligence && (() => {
+              const group = metrics.fiduciary.scenarioIntelligence.scenarios[selectedScenarioIndex];
+              const sim = group.simulations[selectedSimulationIndex];
+              
+              const currentRunway = metrics.fiduciary.scenarioIntelligence.currentRunway || 0;
+              const currentCash = metrics.fiduciary?.caixaFinalBP || 0;
+              const currentFco = metrics.fco || 0;
 
-                return (
-                  <div 
-                    key={key}
-                    onClick={() => setExpandedDimension(isExpanded ? null : key)}
-                    className={cn(
-                      "border rounded-2xl p-5 cursor-pointer transition-all duration-300 select-none text-left",
-                      isExpanded 
-                        ? "border-slate-800 bg-slate-900 text-white shadow-lg" 
-                        : "border-slate-100 bg-slate-50 hover:bg-slate-100/50 hover:border-slate-200"
-                    )}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className={cn("text-[9px] font-black uppercase tracking-wider", isExpanded ? "text-slate-400" : colorClass)}>{title}</p>
-                        <p className={cn("text-[10px] font-medium mt-1 font-semibold", isExpanded ? "text-white/70" : "text-slate-500")}>
-                          {key === 'cashBacked' ? `Valor: ${((dim?.value ?? 0) * 100).toFixed(1)}%` :
-                           key === 'recurrence' ? `Recorrência: ${((dim?.value ?? 0) * 100).toFixed(1)}%` :
-                           key === 'sustainability' ? `Margem Bruta: ${((dim?.value ?? 0) * 100).toFixed(1)}%` :
-                           key === 'shareholderSupport' ? `Suporte/EBITDA: ${((dim?.value ?? 0) * 100).toFixed(1)}%` :
-                           key === 'accountingAggressiveness' ? `Depreciação: ${((dim?.value ?? 0) * 100).toFixed(2)}%` :
-                           `Ciclos Históricos: ${dim?.value ?? 0}`}
-                        </p>
-                      </div>
-                      <div className={cn(
-                        "w-10 h-10 rounded-full flex items-center justify-center text-xs font-black shrink-0",
-                        isExpanded ? "bg-white/10 text-white" : `${bgClass} ${colorClass}`
-                      )}>
-                        {dim.score}/{key === 'cashBacked' ? 25 : key === 'recurrence' ? 20 : key === 'sustainability' ? 20 : key === 'shareholderSupport' ? 15 : 10}
-                      </div>
+              const consistency = FiduciaryRuntimeAdapter.ScenarioSimulationConsistencyEngine.evaluate(
+                sim.runwaySimulated,
+                currentRunway,
+                sim.cashSimulated,
+                currentCash,
+                sim.fcoSimulated,
+                currentFco
+              );
+
+              return (
+                <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between border-b border-slate-100 pb-4 gap-4">
+                    <div>
+                      <h3 className="text-xl font-black text-slate-900 mt-2">
+                        {getSectionHeader('DFC_SCENARIO_SIMULATION', 'DFC_SCENARIO_SIMULATION_TITLE')}
+                      </h3>
                     </div>
-
-                    {isExpanded && (
-                      <div className="mt-4 pt-4 border-t border-white/10 space-y-3.5 text-xs animate-in fade-in duration-300">
-                        {!isBoardMode && (
-                          <>
-                            <div>
-                              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Fórmula Econômica</p>
-                              <code className="block bg-black/30 p-2 rounded-lg mt-1 font-mono text-[10px] text-indigo-400 break-all">{dim.formula}</code>
-                            </div>
-                            <div>
-                              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Linhagem de Contas (Lineage)</p>
-                              <p className="text-[10px] font-medium text-white/80 mt-1">{dim.lineage}</p>
-                            </div>
-                          </>
-                        )}
-                        <div>
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Ajuste Fiduciário / Proteção de Maturidade</p>
-                          <p className="text-[10px] font-medium text-white/80 mt-1">{dim.adjustments}</p>
-                        </div>
-                        <div>
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Racional de Governança</p>
-                          <p className="text-[10px] font-medium text-slate-400 leading-relaxed mt-1">{dim.rationale}</p>
-                        </div>
+                    {densityLevel === 'TECHNICAL' && (
+                      <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-widest bg-slate-100 text-slate-500 px-3 py-1.5 rounded-lg border border-slate-200">
+                        <span>Historical Data: Immutable</span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-indigo-600">Scenario Data: Hypothetical / Decision Support Only</span>
                       </div>
                     )}
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      )}
 
-      {viewMode !== 'fiduciario' && (
+                  <div className="flex border-b border-slate-100">
+                    {metrics.fiduciary.scenarioIntelligence.scenarios.map((g: any, idx: number) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setSelectedScenarioIndex(idx);
+                          setSelectedSimulationIndex(2); // default to max parameter
+                        }}
+                        className={cn(
+                          "pb-3 px-4 text-xs font-black uppercase tracking-wider transition-all border-b-2",
+                          selectedScenarioIndex === idx
+                            ? "border-slate-900 text-slate-950"
+                            : "border-transparent text-slate-400 hover:text-slate-600"
+                        )}
+                      >
+                        {g.scenarioName}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Intensidade:</span>
+                    <div className="flex gap-2 bg-slate-100 p-1 rounded-xl">
+                      {group.simulations.map((s: any, idx: number) => (
+                        <button
+                          key={idx}
+                          onClick={() => setSelectedSimulationIndex(idx)}
+                          className={cn(
+                            "px-4 py-1.5 rounded-lg text-xs font-bold",
+                            selectedSimulationIndex === idx
+                              ? "bg-slate-900 text-white shadow-md"
+                              : "text-slate-500 hover:text-slate-700"
+                          )}
+                        >
+                          {s.parameter}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Caixa Disponível</span>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-slate-500">Atual: {formatCurrency(currentCash)}</span>
+                        <span className="font-bold text-slate-900">Simulado: {formatCurrency(sim.cashSimulated)}</span>
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Runway Estimado</span>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-slate-500">Atual: {currentRunway >= 99 ? '99+' : currentRunway.toFixed(1)} meses</span>
+                        <span className="font-bold text-slate-900">Simulado: {sim.runwayDisplay}</span>
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Fluxo Operacional (FCO)</span>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-slate-500">Atual: {formatCurrency(currentFco)}</span>
+                        <span className="font-bold text-slate-900">Simulado: {formatCurrency(sim.fcoSimulated)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {consistency.hasConflict && (
+                    <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3">
+                      <AlertTriangle className="text-amber-500 shrink-0 mt-0.5" size={16} />
+                      <p className="text-xs font-semibold text-amber-800 leading-normal">
+                        {consistency.narrative}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* DFC_EFSI Section */}
+            {isSectionVisible('DFC_EFSI') && (
+              <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 mt-2">
+                      {getSectionHeader('DFC_EFSI', 'DFC_EFSI_TITLE')}
+                    </h3>
+                  </div>
+                </div>
+                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-xs text-slate-600 leading-relaxed font-semibold">
+                  A fiduciabilidade da tesouraria indica estabilidade e sustentabilidade longitudinal do caixa operacional.
+                </div>
+              </div>
+            )}
+
+            {/* DFC_BOARD_ADVISORY Section */}
+            {isSectionVisible('DFC_BOARD_ADVISORY') && (() => {
+              const advisory = metrics.fiduciary?.compressedAdvisory || { situacaoAtual: 'Não Disponível', restricaoPrincipal: 'Não Disponível', prioridadeEstrategica: 'Não Disponível', outlook: 'Não Disponível' };
+              return (
+                <div className="bg-slate-900 text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden space-y-6 text-left">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-xl font-black">
+                        {getSectionHeader('DFC_BOARD_ADVISORY', 'DFC_BOARD_ADVISORY_TITLE')}
+                      </h3>
+                    </div>
+                    {metrics.fiduciary?.isEarlyStage && (
+                      <span className="bg-amber-500/20 text-amber-400 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shrink-0">
+                        Maturidade de Early-Stage
+                      </span>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Situação Atual</p>
+                        <p className="text-sm font-bold text-slate-200 leading-relaxed">
+                          {advisory.situacaoAtual}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] font-black uppercase tracking-widest text-rose-400 mb-1">Restrição Principal</p>
+                        <p className="text-sm font-bold text-rose-200 leading-relaxed">
+                          {advisory.restricaoPrincipal}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-[9px] font-black uppercase tracking-widest text-blue-400 mb-1">Prioridade Estratégica</p>
+                        <p className="text-sm font-bold text-blue-200 leading-relaxed">
+                          {advisory.prioridadeEstrategica}
+                        </p>
+                      </div>
+                      <div className="p-4 bg-slate-800/50 rounded-2xl border border-slate-700/50 mt-2">
+                        <p className="text-[9px] font-black uppercase tracking-widest text-emerald-400 mb-1">Outlook Fiduciário</p>
+                        <p className="text-xs font-semibold leading-relaxed text-emerald-100">
+                          {advisory.outlook}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* DFC_RECONCILIATION_SUMMARY Section */}
+            {isSectionVisible('DFC_RECONCILIATION_SUMMARY') && (
+              <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 mt-2">
+                      {getSectionHeader('DFC_RECONCILIATION_SUMMARY', 'DFC_RECONCILIATION_SUMMARY_TITLE')}
+                    </h3>
+                  </div>
+                  <span className={cn(
+                    "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider",
+                    metrics.fiduciary?.reconciliationMismatch 
+                      ? "bg-rose-500/10 text-rose-600 border border-rose-500/20" 
+                      : "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
+                  )}>
+                    {metrics.fiduciary?.reconciliationMismatch ? "Divergência Detectada" : "Conciliado (Diferença R$ 0)"}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                  <div className="space-y-3">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Cálculo DFC</span>
+                    <div className="flex justify-between text-xs font-medium">
+                      <span className="text-slate-500">Caixa Inicial DFC:</span>
+                      <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.caixaInicialDFC || 0)}</span>
+                    </div>
+                    <div className="flex justify-between text-xs font-medium">
+                      <span className="text-slate-500">Variação DFC:</span>
+                      <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.variacaoDFC || 0)}</span>
+                    </div>
+                    <div className="flex justify-between text-xs font-bold border-t border-slate-200/60 pt-2">
+                      <span className="text-slate-700">Caixa Final Estimado:</span>
+                      <span className="text-slate-900">{formatCurrency(metrics.fiduciary?.caixaFinalEstimadoDFC || 0)}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Valores BP (Real)</span>
+                    <div className="flex justify-between text-xs font-medium">
+                      <span className="text-slate-500">Caixa Inicial Real (BP):</span>
+                      <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.caixaInicialBP || 0)}</span>
+                    </div>
+                    <div className="flex justify-between text-xs font-medium">
+                      <span className="text-slate-500">Variação Real (BP):</span>
+                      <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.variacaoLiquidaConciliada || 0)}</span>
+                    </div>
+                    <div className="flex justify-between text-xs font-bold border-t border-slate-200/60 pt-2">
+                      <span className="text-slate-700">Caixa Final Real (BP):</span>
+                      <span className="text-slate-900">{formatCurrency(metrics.fiduciary?.caixaFinalBP || 0)}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* DFC_TECHNICAL_LAYER Section */}
+            {isSectionVisible('DFC_TECHNICAL_LAYER') && (
+              <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-4 text-left">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900 mt-2">
+                      {getSectionHeader('DFC_TECHNICAL_LAYER', 'DFC_TECHNICAL_LAYER_TITLE')}
+                    </h3>
+                  </div>
+                  <button
+                    onClick={() => setTechnicalTableOpen(!technicalTableOpen)}
+                    className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all select-none"
+                  >
+                    {technicalTableOpen ? 'Ocultar Detalhes' : 'Visualizar Detalhes'}
+                  </button>
+                </div>
+
+                {technicalTableOpen && (
+                  <div className="space-y-8 animate-in fade-in duration-300">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {Object.entries(cashQuality?.dimensions || {}).map(([key, dim]: [string, any]) => {
+                        let title = '';
+                        if (key === 'conversion') title = 'Conversão Operacional';
+                        else if (key === 'dependency') title = 'Independência dos Sócios';
+                        else if (key === 'liquidity') title = 'Integridade da Liquidez';
+                        else if (key === 'stress') title = 'Resiliência de Tesouraria';
+                        else if (key === 'workingCapital') title = 'Giro Operacional';
+                        else title = 'Sustentabilidade do Caixa';
+
+                        return (
+                          <div key={key} className="border border-slate-100 rounded-xl p-4 bg-slate-50 text-xs space-y-2">
+                            <span className="font-bold text-slate-800 block border-b border-slate-200 pb-1">{title}</span>
+                            <div className="space-y-1">
+                              <p className="text-[10px] text-slate-500"><strong>Score:</strong> {dim.score}</p>
+                              <p className="text-[10px] text-slate-500"><strong>Fórmula:</strong> {dim.formula}</p>
+                              <p className="text-[10px] text-slate-500"><strong>Linhagem:</strong> {dim.lineage}</p>
+                              <p className="text-[10px] text-slate-500"><strong>Racional:</strong> {dim.rationale}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="border border-slate-200 rounded-2xl overflow-hidden">
+                      <div className="bg-slate-50 px-6 py-3 border-b border-slate-200">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Tabela de Reclassificação Fiduciária</span>
+                      </div>
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="bg-slate-100/50 border-b border-slate-200">
+                            <th className="text-left py-3 px-6 font-bold text-slate-400 uppercase tracking-wider">Descrição</th>
+                            <th className="text-right py-3 px-6 font-bold text-slate-400 uppercase tracking-wider">Valor (R$)</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                          {rows.map((row: any, idx: number) => {
+                            const cleanItemName = (row.conta || row.category || row.item || '');
+                            const isIndented = cleanItemName.startsWith('  ');
+                            const hasBullet = cleanItemName.startsWith('  * ');
+                            const displayItemName = cleanItemName.replace(/^  * |^  /, '');
+
+                            const isReclassified = row.item && (
+                              row.item.includes('Relacionada') || 
+                              row.item.includes('Partes Relacionadas') || 
+                              row.item.includes('Societário') || 
+                              row.item.includes('Capitalização') ||
+                              row.item.includes('Capitalizacao') ||
+                              row.item.includes('Artificial')
+                            );
+
+                            return (
+                              <tr 
+                                key={idx} 
+                                className={cn(
+                                  'hover:bg-slate-50 transition-colors', 
+                                  (row.isTotal || row.isSubTotal) ? 'bg-slate-50/50 font-bold' : '',
+                                  isReclassified ? 'bg-amber-500/5 font-bold' : ''
+                                )}
+                              >
+                                <td className="py-3 px-6">
+                                  <span className={cn(
+                                    'block flex items-center gap-1.5 flex-wrap',
+                                    isIndented ? (hasBullet ? 'pl-6' : 'pl-4') : '',
+                                    isReclassified ? 'text-amber-700' : 'text-slate-600'
+                                  )}>
+                                    {hasBullet && <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />}
+                                    <span>{displayItemName}</span>
+                                  </span>
+                                </td>
+                                <td className={cn(
+                                  "py-3 px-6 text-right font-mono", 
+                                  (row.val || row.valor || row.value || 0) < 0 
+                                    ? "text-rose-500" 
+                                    : (isReclassified ? "text-amber-600" : "text-slate-700")
+                                )}>
+                                  {formatCurrency(row.val || row.valor || row.value || 0)}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* DFC_EQE_SUMMARY Section (Earnings Quality Engine subordinate block) */}
+            {isSectionVisible('DFC_EQE_SUMMARY') && earningsQuality && (
+              <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm p-8 space-y-8 mb-10">
+                <div>
+                  <h3 className="text-xl font-black text-slate-900 uppercase tracking-wider">
+                    {getEQETitle()}
+                  </h3>
+                  <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">
+                    Avaliação fiduciária de integridade, sustentabilidade e recorrência da lucratividade operacional
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                  <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden h-full min-h-[300px]">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6">Earnings Integrity Level</span>
+                    <div className="relative w-36 h-36 flex items-center justify-center">
+                      <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#e2e8f0" strokeWidth="8" />
+                        <circle 
+                          cx="50" cy="50" r="40" 
+                          fill="transparent" 
+                          stroke={
+                            earningsQuality.score >= 85 ? '#10b981' :
+                            earningsQuality.score >= 70 ? '#3b82f6' :
+                            earningsQuality.score >= 50 ? '#f59e0b' :
+                            '#ef4444'
+                          } 
+                          strokeWidth="8"
+                          strokeDasharray="251.2"
+                          strokeDashoffset={251.2 - (251.2 * earningsQuality.score) / 100}
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      <div className="text-center z-10">
+                        <span className="text-4xl font-black text-slate-900 tracking-tighter">{earningsQuality.score}</span>
+                        <span className="text-sm font-bold text-slate-400">/100</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 flex flex-col items-center gap-2">
+                      <span className={cn(
+                        "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm text-center",
+                        earningsQuality.score >= 85 ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" :
+                        earningsQuality.score >= 70 ? "bg-blue-500/10 text-blue-600 border border-blue-500/20" :
+                        earningsQuality.score >= 50 ? "bg-amber-500/10 text-amber-600 border border-amber-500/20" :
+                        "bg-rose-500/10 text-rose-600 border border-rose-500/20"
+                      )}>
+                        {earningsQuality.semanticLabel || earningsQuality.level}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-4 flex items-center justify-center h-full min-h-[300px]">
+                    <div className="w-full h-[280px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RadarChart cx="50%" cy="50%" outerRadius="65%" data={earningsRadarData}>
+                          <PolarGrid stroke="#e2e8f0" />
+                          <PolarAngleAxis dataKey="subject" tick={renderPolarAngleAxisTick} />
+                          <PolarRadiusAxis angle={30} domain={[0, 25]} tick={false} axisLine={false} />
+                          <Radar name="Score" dataKey="A" stroke="#4f46e5" fill="#4f46e5" fillOpacity={0.15} strokeWidth={2} />
+                        </RadarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-4 justify-center h-full">
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Alertas de Qualidade do Lucro</h4>
+                    {earningsQuality.alerts.length === 0 ? (
+                      <div className="bg-emerald-50 border border-emerald-100 p-5 rounded-2xl flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
+                          <Info size={16} />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-xs font-bold text-emerald-800">Conformidade de Lucro</p>
+                          <p className="text-[10px] text-emerald-600 font-semibold mt-0.5">Nenhum risco de integridade ou descompasso contábil relevante detectado.</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-3 max-h-[250px] overflow-y-auto pr-1">
+                        {earningsQuality.alerts.filter((alert: string) => !['LOSS_WITH_CASH_CONSUMPTION', 'PROFIT_WITHOUT_CASH', 'NET_INCOME_SOURCE_MISSING', 'PREJUIZO_OPERACIONAL'].includes(alert)).map((alert: string, idx: number) => (
+                          <div key={idx} className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0 mt-0.5">
+                              <AlertTriangle size={14} />
+                            </div>
+                            <div className="text-left">
+                              <p className="text-xs font-bold text-amber-800">Sensibilidade Contábil</p>
+                              <p className="text-[10px] text-amber-700 font-semibold mt-0.5 leading-relaxed">{alert}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {isSectionVisible('DFC_EQE_LINEAGE') && (
+                  <div className="border-t border-slate-100 pt-8 space-y-4">
+                    <div>
+                      <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Explicabilidade & Rastreabilidade do Lucro (EQE)</h4>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Fórmula, linhagem contábil, racional e triggers de proteção de maturidade</p>
+                    </div>
+
+                    {earningsQuality?.netIncomeTrace && (
+                      <div className="bg-slate-50/80 border border-slate-100 rounded-3xl p-5 mt-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
+                        <div>
+                          <h5 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Auditoria de Linhagem do Lucro Líquido</h5>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-6 text-[11px] font-bold text-slate-600">
+                          <div className="flex flex-col gap-0.5">
+                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Fonte</span>
+                            <span className="text-slate-800">{earningsQuality.netIncomeTrace.source}</span>
+                          </div>
+                          <div className="flex flex-col gap-0.5">
+                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Valor na DRE</span>
+                            <span className="text-slate-800">
+                              {earningsQuality.netIncomeTrace.sourceValue !== null 
+                                ? formatCurrency(earningsQuality.netIncomeTrace.sourceValue) 
+                                : 'Não identificado na DRE'}
+                            </span>
+                          </div>
+                          <div className="flex flex-col gap-0.5">
+                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Valor usado pelo EQE</span>
+                            <span className="text-slate-800">{formatCurrency(earningsQuality.netIncomeTrace.consumedByEQE)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {Object.entries(earningsQuality?.dimensions || {}).map(([key, dim]: [string, any]) => {
+                        const isExpanded = expandedDimension === key;
+                        let title = '';
+                        let colorClass = '';
+                        let bgClass = '';
+                        if (key === 'cashBacked') { title = 'Conversão em Caixa (Cash-Backed)'; colorClass = 'text-emerald-600'; bgClass = 'bg-emerald-50'; }
+                        else if (key === 'recurrence') { title = 'Recorrência Econômica'; colorClass = 'text-blue-600'; bgClass = 'bg-blue-50'; }
+                        else if (key === 'sustainability') { title = 'Sustentabilidade da Margem'; colorClass = 'text-indigo-600'; bgClass = 'bg-indigo-50'; }
+                        else if (key === 'shareholderSupport') { title = 'Suporte dos Sócios'; colorClass = 'text-purple-600'; bgClass = 'bg-purple-50'; }
+                        else if (key === 'accountingAggressiveness') { title = 'Sensibilidade Contábil'; colorClass = 'text-amber-600'; bgClass = 'bg-amber-50'; }
+                        else { title = 'Estabilidade Longitudinal'; colorClass = 'text-rose-600'; bgClass = 'bg-rose-50'; }
+
+                        return (
+                          <div 
+                            key={key}
+                            onClick={() => setExpandedDimension(isExpanded ? null : key)}
+                            className={cn(
+                              "border rounded-2xl p-5 cursor-pointer transition-all duration-300 select-none text-left",
+                              isExpanded 
+                                ? "border-slate-800 bg-slate-900 text-white shadow-lg" 
+                                : "border-slate-100 bg-slate-50 hover:bg-slate-100/50 hover:border-slate-200"
+                            )}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className={cn("text-[9px] font-black uppercase tracking-wider", isExpanded ? "text-slate-400" : colorClass)}>{title}</p>
+                                <p className="text-[10px] font-semibold text-slate-500 mt-1">Score: {dim.score}</p>
+                              </div>
+                            </div>
+                            {isExpanded && (
+                              <div className="mt-4 pt-4 border-t border-white/10 space-y-3.5 text-xs animate-in fade-in duration-300">
+                                <div>
+                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Fórmula Econômica</p>
+                                  <code className="block bg-black/30 p-2 rounded-lg mt-1 font-mono text-[10px] text-indigo-400 break-all">{dim.formula}</code>
+                                </div>
+                                <div>
+                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Linhagem de Contas (Lineage)</p>
+                                  <p className="text-[10px] font-medium text-white/80 mt-1">{dim.lineage}</p>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
+      {viewMode === 'oficial' && (
         <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden mb-10">
           <div className="px-5 md:px-8 py-3 md:py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
             <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">
-              {viewMode === 'oficial' ? 'Detalhamento da DFC' : 'Reconstrução e Fluxos do Resultado (EQE)'}
+              Detalhamento da DFC
             </h4>
-            <span className={cn(
-              "text-[9px] font-black uppercase px-3 py-1 rounded-full",
-              viewMode === 'oficial' ? "bg-blue-50 text-blue-600" : "bg-indigo-950 text-white"
-            )}>
-              {viewMode === 'oficial' ? 'Fluxo de Caixa Indireto' : 'Reconciliação e Qualidade do Lucro'}
+            <span className="text-[9px] font-black uppercase px-3 py-1 rounded-full bg-blue-50 text-blue-600">
+              Fluxo de Caixa Indireto
             </span>
           </div>
-          {viewMode === 'oficial' && metrics.fiduciary?.tableRows?.some((r: any) => r.isReconstructed) && (
+          {metrics.fiduciary?.tableRows?.some((r: any) => r.isReconstructed) && (
             <div className="mx-5 md:mx-8 mt-4 p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3">
               <AlertTriangle className="text-amber-600 shrink-0 mt-0.5" size={16} />
               <div>
@@ -1625,8 +1439,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                    const cleanItemName = (row.conta || row.category || row.item || '');
                    const isIndented = cleanItemName.startsWith('  ');
                    const hasBullet = cleanItemName.startsWith('  * ');
-                   const displayItemName = cleanItemName.replace(/^  \* |^  /, '');
-
+                   const displayItemName = cleanItemName.replace(/^  * |^  /, '');
                    const isReclassified = false;
 
                    return (
@@ -1672,7 +1485,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       )}
 
       {/* Advisory Institutions Layer */}
-      {viewMode !== 'fiduciario' && dfcInference?.narrative && (
+      {viewMode === 'oficial' && dfcInference?.narrative && (
         <div className="bg-slate-900 text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden mb-10">
           <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
             <div className="flex items-center gap-3">

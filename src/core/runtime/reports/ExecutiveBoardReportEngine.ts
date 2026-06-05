@@ -10,6 +10,12 @@ import { institutionalResilienceIndexEngine } from '../esgim/InstitutionalResili
 import { boardPrioritiesEngine } from '../board/BoardPrioritiesEngine';
 import { governanceRoadmapEngine } from '../roadmap/GovernanceRoadmapEngine';
 import { governanceMonitoringEngine } from '../monitoring/GovernanceMonitoringEngine';
+import { decisionRegistryEngine } from '../execution/DecisionRegistryEngine';
+import { governanceKnowledgeEngine } from '../knowledge/GovernanceKnowledgeEngine';
+import { benchmarkReadinessEngine } from '../benchmark/BenchmarkReadinessEngine';
+import { benchmarkComparativeEngine } from '../benchmark/BenchmarkComparativeEngine';
+import { benchmarkAdvisoryEngine } from '../benchmark/BenchmarkAdvisoryEngine';
+import { governanceLearningEngine } from '../learning/GovernanceLearningEngine';
 
 export class ExecutiveBoardReportEngine {
   private static instance: ExecutiveBoardReportEngine;
@@ -344,6 +350,31 @@ export class ExecutiveBoardReportEngine {
 
     const lineageHash = `LIN-EBRG-${clientId || 'GLOBAL'}-${mode}-${scenario}-${Date.now()}`;
 
+    const geiSimple = decisionRegistryEngine.calculateGeiSimpleScore(scenario);
+    const geiWeighted = decisionRegistryEngine.calculateGeiWeightedScore(scenario);
+    const gai = decisionRegistryEngine.calculateGaiScore(scenario);
+    const overdueRate = decisionRegistryEngine.calculateOverdueRate(scenario);
+    const aging = decisionRegistryEngine.calculateAgingBuckets(scenario);
+
+    const executionStatus = 
+      `GEI™ Simple: ${geiSimple}% | GEI™ Weighted: ${geiWeighted}% | GAI™: ${gai}% | ` +
+      `Overdue Rate: ${overdueRate}% | Aging (0-30d: ${aging.bucket30}, 31-90d: ${aging.bucket90}, 91-180d: ${aging.bucket180}, 180d+: ${aging.bucket180Plus})`;
+
+    const matchedSet = new Set<string>();
+    recommendedDecisions.forEach((dec, idx) => {
+      const gklResult = governanceKnowledgeEngine.matchFinding(`REC-DEC-${idx}`, 'ESGIM', dec);
+      gklResult.principleMatches.forEach(pm => {
+        matchedSet.add(`${pm.title} (${pm.category})`);
+      });
+    });
+    const principlesApplied = Array.from(matchedSet);
+
+    const readiness = benchmarkReadinessEngine.evaluateReadiness(clientId || 'GLOBAL', scenario);
+    const comparison = benchmarkComparativeEngine.calculateComparison(clientId || 'GLOBAL', mode, scenario);
+    const advisory = benchmarkAdvisoryEngine.evaluateAdvisory(clientId || 'GLOBAL', mode, scenario);
+
+    const learningResult = governanceLearningEngine.calculateLearning(clientId || 'GLOBAL', mode, scenario);
+
     return {
       reportId,
       generatedAt,
@@ -363,7 +394,16 @@ export class ExecutiveBoardReportEngine {
       recommendedDecisions,
       explainability,
       lineageHash,
-      timelineMode: monitoring.timelineMode
+      timelineMode: monitoring.timelineMode,
+      executionStatus,
+      principlesApplied,
+      benchmarkReadinessStatus: readiness.certificationStatus,
+      benchmarkReadinessScore: readiness.score,
+      benchmarkPosition: comparison.benchmarkPosition,
+      bpsScore: comparison.bpsScore,
+      apsScore: advisory.apsScore,
+      advisoryConfidenceScore: advisory.advisoryConfidenceScore,
+      learningResult
     };
   }
 }

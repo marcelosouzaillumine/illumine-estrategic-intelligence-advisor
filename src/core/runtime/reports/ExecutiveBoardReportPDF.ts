@@ -52,7 +52,7 @@ export class ExecutiveBoardReportPDF {
       doc.setFontSize(8);
       doc.setTextColor(120, 120, 120);
       doc.text('CONSELHO DE ADMINISTRAÇÃO | CONFIDENCIAL', margin, pageHeight - 10);
-      doc.text(`Página ${pageNum} de 6`, pageWidth - margin - 20, pageHeight - 10);
+      doc.text(`Página ${pageNum} de 7`, pageWidth - margin - 20, pageHeight - 10);
     };
 
     // ==========================================
@@ -341,13 +341,74 @@ export class ExecutiveBoardReportPDF {
       monitoringY += 15;
     });
 
+    // BRL/BCI/BAI Summary Card
+    doc.setFillColor(lightGrey.r, lightGrey.g, lightGrey.b);
+    doc.rect(margin, 120, contentWidth, 22, 'F');
+    doc.setDrawColor(borderGrey.r, borderGrey.g, borderGrey.b);
+    doc.rect(margin, 120, contentWidth, 22, 'S');
+
+    doc.setFillColor(sage.r, sage.g, sage.b);
+    doc.rect(margin, 120, 3, 22, 'F');
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+    doc.text('BENCHMARKING & EVOLUÇÃO ESTRATÉGICA (BRL™ / BCI™ / BAI™)', margin + 6, 125);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
+    
+    const readinessStr = report.benchmarkReadinessStatus 
+      ? `${report.benchmarkReadinessStatus.replace('_', ' ')} (${report.benchmarkReadinessScore}/100)`
+      : 'N/A';
+    const positionStr = report.benchmarkPosition 
+      ? `${report.benchmarkPosition.replace('_', ' ')} (BPS™: ${report.bpsScore}/100)`
+      : 'N/A';
+    const apsStr = report.apsScore !== undefined ? `${report.apsScore}/100` : 'N/A';
+    const acsStr = report.advisoryConfidenceScore !== undefined ? `${report.advisoryConfidenceScore}/100` : 'N/A';
+    
+    doc.text(`Prontidão (BRL™): ${readinessStr}  |  Posicionamento Cohort (BCI™): ${positionStr}`, margin + 6, 131);
+    doc.text(`Potencial de Avanço (APS™): ${apsStr}  |  Confiança Advisory (ACS™): ${acsStr}`, margin + 6, 136);
+    
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(7);
+    doc.setTextColor(100, 100, 100);
+    doc.text('Nota: Este roadmap representa recomendação fiduciária metodológica e não substitui a deliberação do conselho ou parecer jurídico.', margin + 6, 140);
+
+    // Governance Execution Status (GDTL)
+    let decHeaderY = 155;
+    let decY = 163;
+
+    if (report.executionStatus) {
+      doc.setFillColor(lightGrey.r, lightGrey.g, lightGrey.b);
+      doc.rect(margin, 148, contentWidth, 18, 'F');
+      doc.setDrawColor(sage.r, sage.g, sage.b);
+      doc.rect(margin, 148, contentWidth, 18, 'S');
+
+      doc.setFillColor(sage.r, sage.g, sage.b);
+      doc.rect(margin, 148, 3, 18, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+      doc.text('GOVERNANCE EXECUTION STATUS (GDTL™)', margin + 6, 153);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
+      doc.text(report.executionStatus, margin + 6, 160);
+
+      decHeaderY = 175;
+      decY = 183;
+    }
+
     // Recommended Decisions
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
-    doc.text('RECOMENDAÇÕES PARA TOMADA DE DECISÃO IMEDIATA', margin, 155);
+    doc.text('RECOMENDAÇÕES PARA TOMADA DE DECISÃO IMEDIATA', margin, decHeaderY);
 
-    let decY = 163;
     report.recommendedDecisions.forEach((dec) => {
       doc.setFillColor(lightGrey.r, lightGrey.g, lightGrey.b);
       doc.rect(margin, decY, contentWidth, 22, 'F');
@@ -384,10 +445,114 @@ export class ExecutiveBoardReportPDF {
     });
 
     // ==========================================
-    // PAGE 6: EXPLAINABILITY APPENDIX (CONCISE)
+    // PAGE 6: INSTITUTIONAL LEARNING REVIEW (GLL™)
     // ==========================================
     doc.addPage();
     drawHeaderFooter(6);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+    doc.text('5. REVISÃO DE APRENDIZADO INSTITUCIONAL (GLL™)', margin, 35);
+
+    const learning = report.learningResult;
+    if (learning) {
+      // Draw GLI / AAI scores block
+      doc.setFillColor(lightGrey.r, lightGrey.g, lightGrey.b);
+      doc.rect(margin, 43, contentWidth, 24, 'F');
+      doc.setDrawColor(borderGrey.r, borderGrey.g, borderGrey.b);
+      doc.rect(margin, 43, contentWidth, 24, 'S');
+      
+      doc.setFillColor(sage.r, sage.g, sage.b);
+      doc.rect(margin, 43, 3, 24, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+      doc.text(`ÍNDICE DE APRENDIZADO (GLI™): ${learning.gliScore}/100 | MATURIDADE: ${learning.learningMaturity}`, margin + 6, 50);
+      
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
+      doc.text(`Acurácia Consultiva (AAI™): ${learning.aaiScore}% (${learning.aaiLevel.replace(/_/g, ' ')}) | Modo: ${learning.feedbackMode}`, margin + 6, 56);
+      
+      doc.setFont('helvetica', 'italic');
+      doc.setFontSize(8);
+      doc.setTextColor(120, 120, 120);
+      const sumLines = doc.splitTextToSize(`Sumário: ${learning.executiveSummary}`, contentWidth - 15);
+      doc.text(sumLines, margin + 6, 62);
+
+      // Learning observations
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+      doc.text('OBSERVAÇÕES E LIÇÕES APRENDIDAS', margin, 77);
+
+      let obsY = 83;
+      learning.observations.slice(0, 3).forEach((obs) => {
+        doc.setFillColor(lightGrey.r, lightGrey.g, lightGrey.b);
+        doc.rect(margin, obsY, contentWidth, 20, 'F');
+        doc.setDrawColor(borderGrey.r, borderGrey.g, borderGrey.b);
+        doc.rect(margin, obsY, contentWidth, 20, 'S');
+
+        const isFailed = obs.status === 'FAILED';
+        doc.setFillColor(isFailed ? coral.r : sage.r, isFailed ? coral.g : sage.g, isFailed ? coral.b : sage.b);
+        doc.rect(margin, obsY, 2.5, 20, 'F');
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+        doc.text(`[${obs.source}] ${obs.title} (${obs.status})`, margin + 6, obsY + 5);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
+        doc.text(`Resultado: Esperado: ${obs.expectedOutcome.substring(0, 95)}... / Real: ${obs.actualOutcome.substring(0, 95)}...`, margin + 6, obsY + 10);
+        
+        const impactStr = obs.expectedImpact !== undefined 
+          ? ` | Impacto Projetado: ${obs.expectedImpact} BPS (Real: ${obs.actualImpact} BPS, Var: ${obs.variance} BPS)` 
+          : '';
+        doc.text(`Lição Aprendida: ${obs.lessonsLearned[0]?.substring(0, 95) || 'N/A'}${impactStr}`, margin + 6, obsY + 14);
+
+        obsY += 23;
+      });
+
+      // Strengths & Recurring failures
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+      doc.text('CAPACIDADES FORTALECIDAS & OBSTÁCULOS RECORRENTES', margin, 160);
+
+      doc.setFillColor(lightGrey.r, lightGrey.g, lightGrey.b);
+      doc.rect(margin, 166, contentWidth, 28, 'F');
+      doc.setDrawColor(borderGrey.r, borderGrey.g, borderGrey.b);
+      doc.rect(margin, 166, contentWidth, 28, 'S');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8.5);
+      doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+      doc.text('CAPACIDADES EM CONSOLIDAÇÃO:', margin + 6, 172);
+      doc.setFont('helvetica', 'normal');
+      doc.text(learning.institutionalStrengths.join(' | ') || 'Nenhuma capacidade recorrente mapeada no ciclo.', margin + 6, 177);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(coral.r, coral.g, coral.b);
+      doc.text('OBSTÁCULOS RECORRENTES DETECTADOS:', margin + 6, 184);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
+      doc.text(learning.recurringFailures.join(' | ') || 'Nenhuma falha recorrente detectada nos ciclos avaliados.', margin + 6, 189);
+    } else {
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
+      doc.text('Métricas de aprendizado indisponíveis.', margin, 45);
+    }
+
+    // ==========================================
+    // PAGE 7: EXPLAINABILITY APPENDIX (CONCISE)
+    // ==========================================
+    doc.addPage();
+    drawHeaderFooter(7);
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(16);
@@ -416,54 +581,77 @@ export class ExecutiveBoardReportPDF {
       expY += 15;
     });
 
+    // Applied Principles (GKL)
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+    doc.text('PRINCÍPIOS INSTITUCIONAIS VINCULADOS (IWL™)', margin, 120);
+
+    doc.setFillColor(lightGrey.r, lightGrey.g, lightGrey.b);
+    doc.rect(margin, 126, contentWidth, 20, 'F');
+    doc.setDrawColor(borderGrey.r, borderGrey.g, borderGrey.b);
+    doc.rect(margin, 126, contentWidth, 20, 'S');
+
+    doc.setFillColor(sage.r, sage.g, sage.b);
+    doc.rect(margin, 126, 3, 20, 'F');
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
+    const principlesText = report.principlesApplied && report.principlesApplied.length > 0
+      ? report.principlesApplied.join(' | ')
+      : 'Nenhum princípio explicitamente mapeado para esta diretriz de baseline.';
+    const principlesLines = doc.splitTextToSize(principlesText, contentWidth - 10);
+    doc.text(principlesLines, margin + 6, 132);
+
     // Cripto Hashes (Lineage Hash)
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
-    doc.text('ASSINATURA CRIPTOGRÁFICA DO RELATÓRIO (LINEAGE HASH)', margin, 125);
+    doc.text('ASSINATURA CRIPTOGRÁFICA DO RELATÓRIO (LINEAGE HASH)', margin, 155);
 
     doc.setFillColor(lightGrey.r, lightGrey.g, lightGrey.b);
-    doc.rect(margin, 133, contentWidth, 18, 'F');
+    doc.rect(margin, 161, contentWidth, 18, 'F');
     doc.setDrawColor(borderGrey.r, borderGrey.g, borderGrey.b);
-    doc.rect(margin, 133, contentWidth, 18, 'S');
+    doc.rect(margin, 161, contentWidth, 18, 'S');
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
     doc.setTextColor(sage.r, sage.g, sage.b);
-    doc.text('LINEAGE HASH FIDUCIÁRIO:', margin + 6, 140);
+    doc.text('LINEAGE HASH FIDUCIÁRIO:', margin + 6, 168);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
-    doc.text(report.lineageHash, margin + 6, 147);
+    doc.text(report.lineageHash, margin + 6, 175);
 
     // Signatures
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
-    doc.text('ASSINATURAS E HOMOLOGAÇÃO', margin, 175);
+    doc.text('ASSINATURAS E HOMOLOGAÇÃO', margin, 195);
 
     doc.setDrawColor(borderGrey.r, borderGrey.g, borderGrey.b);
-    doc.line(margin + 10, 215, margin + 70, 215);
-    doc.line(pageWidth - margin - 70, 215, pageWidth - margin - 10, 215);
+    doc.line(margin + 10, 230, margin + 70, 230);
+    doc.line(pageWidth - margin - 70, 230, pageWidth - margin - 10, 230);
 
     doc.setFontSize(8);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
-    doc.text('CONSELHO DE ADMINISTRAÇÃO', margin + 20, 220);
-    doc.text('AUDITOR DE COMPLIANCE', pageWidth - margin - 58, 220);
+    doc.text('CONSELHO DE ADMINISTRAÇÃO', margin + 20, 235);
+    doc.text('AUDITOR DE COMPLIANCE', pageWidth - margin - 58, 235);
 
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(120, 120, 120);
-    doc.text('Presidente do Board', margin + 27, 224);
-    doc.text('Illumine Cognitive System', pageWidth - margin - 56, 224);
+    doc.text('Presidente do Board', margin + 27, 239);
+    doc.text('Illumine Cognitive System', pageWidth - margin - 56, 239);
 
     // End of Document marker
     doc.setDrawColor(darkNavy.r, darkNavy.g, darkNavy.b);
-    doc.line(margin + 50, 255, pageWidth - margin - 50, 255);
+    doc.line(margin + 50, 260, pageWidth - margin - 50, 260);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
     doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
-    doc.text('FIM DO RELATÓRIO EXECUTIVO', pageWidth / 2 - 25, 262);
+    doc.text('FIM DO RELATÓRIO EXECUTIVO', pageWidth / 2 - 25, 267);
 
     return doc;
   }

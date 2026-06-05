@@ -7,6 +7,7 @@ import {
   ESGIMScenario 
 } from '../esgim/esgimTypes';
 import { boardPrioritiesEngine } from '../board/BoardPrioritiesEngine';
+import { governanceKnowledgeEngine } from '../knowledge/GovernanceKnowledgeEngine';
 
 export class GovernanceRoadmapEngine {
   private static instance: GovernanceRoadmapEngine;
@@ -234,10 +235,42 @@ export class GovernanceRoadmapEngine {
       'Estabilidade decisória multigeração.'
     ];
 
+    const enrichedPhases = phases.map(phase => {
+      const gklResult = governanceKnowledgeEngine.matchFinding(phase.phaseId, 'GRE', `${phase.title} ${phase.objective}`);
+      
+      let benchmarkAlignment = "Evolução Contínua de Governança";
+      let benchmarkTierImpact = "Melhoria contínua do índice de potencial de avanço (APS™).";
+      
+      if (phase.phaseId === 'PH-01') {
+        benchmarkAlignment = "Estruturação de Fundamentos BRL™";
+        benchmarkTierImpact = "Pré-requisito crítico para ingresso em processos comparativos BCI™.";
+      } else if (phase.phaseId === 'PH-02') {
+        benchmarkAlignment = "Alinhamento a Cohort de Referência";
+        benchmarkTierImpact = "Projeção de ascensão para o Quadrante TOP 50% em 6 meses.";
+      } else if (phase.phaseId === 'PH-03') {
+        benchmarkAlignment = "Certificação de Prontidão BRL™ Completa";
+        benchmarkTierImpact = "Qualificação fiduciária com Advisory Confidence Score (ACS™) de alta confiança.";
+      } else if (phase.phaseId === 'PH-04') {
+        benchmarkAlignment = "Simulação de Impacto Fiduciário BCI™";
+        benchmarkTierImpact = "Potencial de ascensão ao Quadrante TOP 25% com mitigação de riscos de legado.";
+      } else if (phase.phaseId === 'PH-05') {
+        benchmarkAlignment = "Liderança Setorial Governança Integrada";
+        benchmarkTierImpact = "Posicionamento definitivo no TOP 10% do cohort.";
+      }
+
+      return {
+        ...phase,
+        relatedPrinciples: gklResult.principleMatches.map(pm => pm.title),
+        governanceRationale: gklResult.executiveRationale,
+        benchmarkAlignment,
+        benchmarkTierImpact
+      };
+    });
+
     return {
       maturityStage,
       executiveSummary: this.generateRoadmapSummary(maturityStage, scenario),
-      phases,
+      phases: enrichedPhases,
       estimatedDurationMonths,
       expectedOutcomes,
       explainability,

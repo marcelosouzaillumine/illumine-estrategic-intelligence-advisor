@@ -79,7 +79,7 @@ export function EmpresasPage() {
   useDocumentTitle('Illumine | Governança Institucional Inteligente');
   const navigate = useNavigate();
   const [showSticky, setShowSticky] = useState(false);
-  const [activeTab, setActiveTab] = useState<number>(-1);
+  const [activeTab, setActiveTab] = useState<number>(0);
   const [manifestoChecked, setManifestoChecked] = useState<boolean[]>([false, false, false, false, false, false, false]);
 
   useEffect(() => {
@@ -117,6 +117,16 @@ export function EmpresasPage() {
       return next;
     });
   };
+
+  const eixos = [
+    { name: 'Financeiro', desc: 'Análise de liquidez, estrutura de capital e custos ocultos.', impact: 'Fiduciário' },
+    { name: 'Operacional', desc: 'Mapeamento de gargalos, capacidade produtiva e dependências.', impact: 'Eficiência' },
+    { name: 'Pessoas', desc: 'Avaliação de liderança, planos de sucessão e dependência de pessoal.', impact: 'Continuidade' },
+    { name: 'Mercado', desc: 'Estudo de posicionamento competitivo e resiliência a choques.', impact: 'Sistêmico' },
+    { name: 'Governança', desc: 'Auditoria de alçadas, governança de dados e acordos corporativos.', impact: 'Decisório' },
+    { name: 'Estratégia', desc: 'Alinhamento do modelo operacional às metas de longo prazo.', impact: 'Direcionamento' },
+    { name: 'Institucional', desc: 'Preservação de reputação, legado e conformidade legal.', impact: 'Reputacional' }
+  ];
 
   const intelligences = [
     {
@@ -257,7 +267,7 @@ export function EmpresasPage() {
             </button>
             <button 
               id="nav-link-lideranca"
-              onClick={() => scrollToSection('mesa-lideranca')} 
+              onClick={() => scrollToSection('lideranca')} 
               className="text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors cursor-pointer"
             >
               Liderança
@@ -329,10 +339,10 @@ export function EmpresasPage() {
             </button>
             <button
               id="hero-btn-receber-diagnostico"
-              onClick={() => handleCTAClick("Olá, gostaria de receber os detalhes do diagnóstico institucional da nossa empresa.")}
+              onClick={() => scrollToSection('inteligencias')}
               className="w-full sm:w-auto h-14 px-8 rounded-md bg-transparent border border-white/20 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 hover:border-white transition-all flex items-center justify-center gap-3 cursor-pointer"
             >
-              <span>Receber Diagnóstico Institucional</span>
+              <span>Conhecer a Metodologia</span>
             </button>
           </motion.div>
 
@@ -365,7 +375,7 @@ export function EmpresasPage() {
       <section id="diagnosticos" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <span className="text-[10px] font-bold tracking-widest uppercase text-secondary">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
               Diagnósticos Reais
             </span>
             <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
@@ -413,32 +423,30 @@ export function EmpresasPage() {
                 title: "Estruturas que geram lucro mas fragilizam o futuro",
                 desc: "Resultados aparentemente positivos obtidos à custa do esgotamento humano, da deterioração dos processos ou da destruição de capacidades futuras."
               }
-            ].map((item, idx) => (
-              <motion.div 
-                key={idx}
-                whileHover={{ y: -4 }}
-                className="p-8 bg-[#060D17] border border-white/5 rounded-xl hover:border-white/10 transition-all flex flex-col justify-between"
-              >
-                <div className="space-y-4">
-                  <div className="inline-block px-2.5 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] uppercase tracking-widest font-semibold text-secondary">
-                    {item.intel}
+            ].map((item, idx) => {
+              const isLast = idx === 6;
+              return (
+                <motion.div 
+                  key={idx}
+                  whileHover={{ y: -4 }}
+                  className={`p-6 bg-[#060D17] border border-white/5 rounded-xl hover:border-white/10 transition-all ${
+                    isLast ? "lg:col-span-3 md:col-span-2" : ""
+                  }`}
+                >
+                  <div className="space-y-4">
+                    <div className="inline-block px-2.5 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] uppercase tracking-widest font-semibold text-secondary">
+                      {item.intel}
+                    </div>
+                    <h5 className={`font-display font-medium text-white ${isLast ? "text-lg sm:text-xl" : "text-base sm:text-lg"}`}>
+                      {item.title}
+                    </h5>
+                    <p className={`text-[13px] sm:text-sm text-white/60 leading-relaxed ${isLast ? "max-w-3xl" : ""}`}>
+                      {item.desc}
+                    </p>
                   </div>
-                  <h3 className="text-lg font-display font-medium text-white">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-white/50 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-                <div 
-                     id={`risk-card-btn-${idx}`}
-                     className="pt-6 flex items-center text-[10px] uppercase font-bold tracking-widest text-secondary hover:text-white transition-colors cursor-pointer gap-1"
-                     onClick={() => handleCTAClick(`Olá! Vejo riscos de "${item.title}" (${item.intel}) na minha empresa e quero avaliá-la pelo Illumine Governance™.`)}>
-                  <span>Diagnosticar este risco</span>
-                  <ArrowUpRight size={10} />
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -506,8 +514,7 @@ export function EmpresasPage() {
                 A capacidade de enxergar o que normalmente permanece invisível até que se transforme em crise.
               </p>
             </div>
-
-            <div className="lg:col-span-7 space-y-5 text-white/60 text-sm leading-relaxed font-sans border-l border-white/5 pl-8">
+            <div className="lg:col-span-7 space-y-5 text-white/60 text-sm leading-relaxed font-sans lg:border-l lg:border-white/5 pl-0 lg:pl-8 border-l-0">
               <p>
                 Organizações complexas não fracassam apenas por problemas financeiros. Elas perdem sua continuidade porque deixam de interpretar corretamente os sinais que surgem na intersecção entre estratégia, governança, operação e propósito.
               </p>
@@ -517,30 +524,58 @@ export function EmpresasPage() {
             </div>
           </div>
 
-          <div className="bg-[#060D17] border border-white/10 rounded-2xl p-8 sm:p-12 space-y-8">
-            <div className="text-center max-w-xl mx-auto">
-              <p className="text-sm text-white/60">
-                A plataforma analisa e integra continuamente sete dimensões de valor crítico:
+          <div className="bg-[#060D17]/40 border border-white/10 rounded-2xl p-8 sm:p-12 space-y-10">
+            <div className="text-center max-w-[576px] mx-auto space-y-2">
+              <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-secondary block">
+                Escopo de Cobertura
+              </span>
+              <h5 className="text-xl sm:text-2xl font-display font-medium text-white tracking-tight mt-1">
+                Integração Sistêmica de Valor
+              </h5>
+              <p className="text-xs text-white/50 leading-relaxed font-sans">
+                O Illumine Governance™ analisa e integra continuamente sete dimensões de valor crítico para subsidiar decisões estratégicas da liderança:
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
               {[
-                "geração de valor",
-                "proteção de valor",
-                "continuidade institucional",
-                "causas dos resultados",
-                "aderência aos princípios",
-                "cumprimento da missão",
-                "preparação para o futuro"
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5">
-                  <div className="w-5 h-5 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
-                    <CheckCircle2 size={12} className="stroke-[3]" />
+                { title: "geração de valor", desc: "Eficiência, ROIC e retorno real sobre o capital." },
+                { title: "proteção de valor", desc: "Mitigação ativa de riscos, contingências e salvaguardas." },
+                { title: "continuidade institucional", desc: "Estruturação fiduciária, governança de marcas e legado." },
+                { title: "causas dos resultados", desc: "Mapeamento causal de indicadores operacionais e financeiros." },
+                { title: "aderência aos princípios", desc: "Conformidade com acordos societários, regras e limites de alçada." },
+                { title: "cumprimento da missão", desc: "Alinhamento das atividades operacionais aos objetivos fundadores." },
+                { title: "preparação para o futuro", desc: "Stress tests e preparação para volatilidades e novos ciclos." }
+              ].map((item, idx) => {
+                const isLast = idx === 6;
+                return (
+                  <div 
+                    key={idx} 
+                    className={`group relative p-5 bg-[#03080F] border border-white/5 hover:border-white/15 rounded-xl transition-all duration-300 flex flex-col justify-between min-h-[120px] ${
+                      isLast 
+                        ? "sm:col-span-2 lg:col-span-2" 
+                        : ""
+                    }`}
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono text-white/30 tracking-wider">
+                          0{idx + 1}
+                        </span>
+                        <div className="w-1.5 h-1.5 rounded-full bg-secondary/80 group-hover:scale-125 transition-transform" />
+                      </div>
+                      <div className="space-y-1">
+                        <h5 className="text-xs font-bold uppercase tracking-wider text-white">
+                          {item.title}
+                        </h5>
+                        <p className="text-[11px] text-white/50 leading-relaxed font-sans">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-white/90">{item}</span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -572,9 +607,9 @@ export function EmpresasPage() {
               { letter: 'I', name: 'Institutional', desc: 'Salvaguarda de marca, resiliência organizacional e preservação do legado.' },
               { letter: 'M', name: 'Mission', desc: 'Alinhamento dos processos e decisões estratégicas com a missão fundadora.' }
             ].map((dim, i) => (
-              <div key={i} className="group relative p-6 bg-[#060D17] border border-white/5 rounded-xl flex flex-col items-center justify-center text-center hover:border-white/20 transition-all duration-300 min-h-[140px] overflow-hidden cursor-help">
-                <span className="text-4xl font-display font-bold text-secondary transition-transform duration-300 group-hover:-translate-y-2">{dim.letter}</span>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-white mt-2">{dim.name}</h3>
+              <div key={i} className={`group relative p-6 bg-[#060D17] border border-white/5 rounded-xl flex flex-col items-center justify-center text-center hover:border-white/20 transition-all duration-300 min-h-[155px] overflow-hidden cursor-help ${i === 4 ? 'sm:col-span-2 lg:col-span-1' : ''}`}>
+                <span className="text-4xl font-display font-bold text-secondary transition-all duration-300 group-hover:scale-95 group-hover:opacity-0">{dim.letter}</span>
+                <h5 className="text-xs font-bold uppercase tracking-wider text-white mt-2 transition-all duration-300 group-hover:opacity-0">{dim.name}</h5>
                 
                 {/* Hover overlay description */}
                 <div className="absolute inset-0 bg-[#070F1A]/98 p-4 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
@@ -585,10 +620,55 @@ export function EmpresasPage() {
           </div>
         </div>
       </section>
+
+      {/* AUTORIDADE INSTITUCIONAL: Assinatura Metodológica (Reposicionamento Premium) */}
+      <section className="py-20 px-6 relative z-10 bg-[#02050A] border-b border-white/5">
+        <div className="max-w-5xl mx-auto">
+          <div className="relative p-8 md:p-12 bg-[#040911]/45 border border-white/5 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm group">
+            {/* Glowing accents */}
+            <div className="absolute -top-12 -right-12 w-64 h-64 bg-secondary/[0.02] rounded-full blur-3xl pointer-events-none group-hover:bg-secondary/[0.04] transition-colors duration-500" />
+            <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-white/[0.01] rounded-full blur-3xl pointer-events-none" />
+            
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
+              
+              {/* Left Side: Brand Signature / Seal */}
+              <div className="md:col-span-4 flex flex-col items-center md:items-start gap-4">
+                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center relative shadow-xl hover:border-white/20 transition-all duration-300">
+                  <img src="/logo.png" alt="Illumine Signature Logo" className="w-10 h-10 object-contain" />
+                  <div className="absolute -inset-0.5 rounded-2xl border border-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                </div>
+                <div className="space-y-1 text-center md:text-left">
+                  <span className="text-[9px] font-mono font-bold tracking-[0.2em] text-secondary uppercase block">
+                    Assinatura Metodológica
+                  </span>
+                  <h5 className="text-xl font-display font-medium text-white tracking-tight">
+                    Desenvolvido pela Illumine
+                  </h5>
+                </div>
+              </div>
+
+              {/* Center Divider line */}
+              <div className="hidden md:block md:col-span-1 justify-self-center">
+                <div className="w-px h-16 bg-white/10" />
+              </div>
+
+              {/* Right Side: Editorial Statement */}
+              <div className="md:col-span-7 text-center md:text-left">
+                <p className="text-sm text-white/70 leading-relaxed font-sans font-light">
+                  Solução fiduciária concebida pela <span className="text-white font-medium">Illumine Consultoria e Mentoria Empresarial</span>. 
+                  Nossa atuação une governança de precisão e diagnóstico causal para blindar a saúde financeira, acelerar a clareza decisória de conselhos e consolidar a longevidade institucional de organizações de alta complexidade.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="inteligencias" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
-        <div className="max-w-4xl mx-auto space-y-16">
+        <div className="max-w-6xl mx-auto space-y-16">
           
-          {/* Eixos Section */}
+          {/* Eixos Section Header */}
           <div className="space-y-6 text-center">
             <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
               Escopo de Análise & Interpretação
@@ -596,117 +676,226 @@ export function EmpresasPage() {
             <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
               Onde observamos e como interpretamos
             </h2>
-            <p className="text-sm text-white/60 max-w-2xl mx-auto">
+            <p className="text-sm text-white/60 max-w-2xl mx-auto leading-relaxed">
               Toda organização deixa sinais. Buscamos evidências em 7 Eixos críticos e aplicamos 7 Inteligências para interpretar o que esses dados significam para o futuro do negócio.
             </p>
-
-            <div className="flex flex-wrap justify-center gap-2 pt-2">
-              {['Financeiro', 'Operacional', 'Pessoas', 'Mercado', 'Governança', 'Estratégia', 'Institucional'].map((eixo, idx) => (
-                <div 
-                  key={idx}
-                  className="px-4 py-2 bg-[#060D17] border border-white/5 rounded-full text-[10px] font-semibold uppercase tracking-widest text-white/80 flex items-center gap-2 cursor-default"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                  {eixo}
-                </div>
-              ))}
-            </div>
           </div>
 
-          <div className="w-12 h-px bg-white/5 mx-auto" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch pt-4">
+            
+            {/* ONDE OBSERVAMOS: 7 Eixos (Esquerda) */}
+            <div className="lg:col-span-5 flex flex-col h-full space-y-4">
+              {/* Header aligned on desktop */}
+              <div className="hidden lg:flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-secondary tracking-widest">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+                Onde Observamos
+              </div>
 
-          {/* Accordion das 7 Inteligências */}
-          <div className="space-y-3">
-            {intelligences.map((intel, idx) => {
-              const isOpen = activeTab === idx;
-              return (
-                <div 
-                  key={idx}
-                  className={`border rounded-xl transition-all duration-300 ${
-                    isOpen 
-                      ? 'bg-[#060D17] border-white/20 shadow-lg' 
-                      : 'bg-transparent border-white/5 hover:border-white/10'
-                  }`}
-                >
-                  {/* Header/Trigger */}
-                  <button
-                    id={`intel-tab-btn-${idx}`}
-                    onClick={() => setActiveTab(isOpen ? -1 : idx)}
-                    className="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer"
-                  >
-                    <div className="flex items-center gap-4">
-                      <span className={`p-2.5 rounded transition-colors ${isOpen ? 'bg-secondary/10 text-secondary' : 'bg-white/5 text-white/70'}`}>
-                        {intel.icon}
-                      </span>
-                      <div>
-                        <h4 className={`text-sm font-bold uppercase tracking-wider ${isOpen ? 'text-white' : 'text-white/70'}`}>
-                          {intel.title}
-                        </h4>
-                        <p className="text-[10px] text-white/40 font-mono mt-0.5">{intel.question}</p>
-                      </div>
-                    </div>
-                    <ChevronRight 
-                      size={14} 
-                      className={`text-white/35 transition-transform duration-300 ${isOpen ? 'rotate-90 text-secondary' : ''}`} 
-                    />
-                  </button>
-
-                  {/* Body (Expanded Details) */}
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25 }}
-                        className="overflow-hidden"
+              <div className="bg-[#050B13]/60 border border-white/5 rounded-2xl p-6 sm:p-8 backdrop-blur-sm relative overflow-hidden flex-1 flex flex-col justify-between">
+                <div className="absolute -top-12 -left-12 w-24 h-24 bg-secondary/5 rounded-full blur-2xl pointer-events-none" />
+                
+                {/* Mobile Title */}
+                <div className="lg:hidden flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-secondary tracking-widest mb-4">
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+                  Onde Observamos
+                </div>
+                
+                {/* Mobile / Tablet Eixos (Horizontal scrollable pill grid) */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 lg:hidden gap-2">
+                  {eixos.map((eixo, idx) => {
+                    const isSelected = activeTab === idx;
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => setActiveTab(idx)}
+                        className={`px-3 py-2 text-left border rounded-lg transition-all duration-300 ${
+                          isSelected
+                            ? 'bg-[#081220] border-secondary/40 text-white shadow-md shadow-secondary/5'
+                            : 'bg-[#060D17]/40 border-white/5 text-white/50 hover:border-white/12 hover:text-white/80'
+                        }`}
                       >
-                        <div className="px-6 pb-6 pt-2 border-t border-white/5 space-y-4">
-                          <p className="text-xs text-white/70 leading-relaxed max-w-2xl">
-                            {intel.desc}
-                          </p>
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center gap-1.5">
+                            <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-secondary animate-pulse' : 'bg-white/20'}`} />
+                            <span className="text-[9px] font-mono uppercase tracking-wider font-semibold">{eixo.name}</span>
+                          </div>
+                          <span className="text-[7px] font-mono text-white/40 uppercase tracking-widest pl-2.5">
+                            {eixo.impact}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
 
-                          <div className="space-y-2">
-                            <span className="text-[9px] font-mono uppercase text-white/40 tracking-wider">Mapeamento de Sinais:</span>
-                            <div className="flex flex-wrap gap-2">
-                              {intel.insights.map((insight, i) => (
-                                <span key={i} className="px-2.5 py-1 bg-white/5 rounded border border-white/5 text-[10px] text-white/80">
-                                  {insight}
-                                </span>
-                              ))}
+                {/* Desktop Eixos (Vertical dashboard timeline layout) - flex-1 and justify-between for dynamic height equalizing */}
+                <div className="hidden lg:flex flex-col flex-1 justify-between relative py-2 gap-4">
+                  <div className="absolute left-[17px] top-4 bottom-4 w-[1px] bg-white/5 pointer-events-none" />
+                  
+                  {eixos.map((eixo, idx) => {
+                    const isSelected = activeTab === idx;
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => setActiveTab(idx)}
+                        className={`relative pl-10 pr-4 py-2.5 rounded-xl border transition-all duration-300 cursor-pointer ${
+                          isSelected
+                            ? 'bg-[#081220]/80 border-white/10 text-white shadow-lg'
+                            : 'bg-transparent border-transparent text-white/40 hover:text-white/70'
+                        }`}
+                      >
+                        {/* Dot indicator over timeline */}
+                        <div className="absolute left-[17px] top-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center z-10">
+                          <div className={`w-2.5 h-2.5 rounded-full border transition-all duration-300 ${
+                            isSelected 
+                              ? 'bg-secondary border-secondary scale-110 shadow-lg shadow-secondary/50' 
+                              : 'bg-[#03080F] border-white/20 hover:border-white/45'
+                          }`} />
+                        </div>
+
+                        <div className="space-y-0.5">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h5 className={`text-xs font-bold uppercase tracking-wider ${isSelected ? 'text-white font-semibold' : 'text-white/60'}`}>
+                              {eixo.name}
+                            </h5>
+                            <span className={`px-1.5 py-0.5 rounded text-[8px] font-mono uppercase tracking-wider ${
+                              isSelected ? 'bg-secondary/15 text-secondary font-medium' : 'bg-white/5 text-white/30'
+                            }`}>
+                              Impacto: {eixo.impact}
+                            </span>
+                          </div>
+                          <p className={`text-[11px] leading-normal transition-opacity duration-300 font-sans ${isSelected ? 'text-white/75' : 'text-white/35'}`}>
+                            {eixo.desc}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* COMO INTERPRETAMOS: 7 Inteligências Accordion (Direita) */}
+            <div className="lg:col-span-7 flex flex-col space-y-4">
+              {/* Header aligned on desktop */}
+              <div className="hidden lg:flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-white/50 tracking-widest">
+                <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                Como Interpretamos
+              </div>
+
+              <div className="space-y-3 flex-1 flex flex-col justify-start">
+                {/* Mobile Title */}
+                <div className="lg:hidden flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-white/50 tracking-widest mb-4">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                  Como Interpretamos
+                </div>
+                
+                <div className="space-y-3">
+                  {intelligences.map((intel, idx) => {
+                    const isOpen = activeTab === idx;
+                    return (
+                      <div 
+                        key={idx}
+                        className={`border transition-all duration-300 rounded-xl overflow-hidden ${
+                          isOpen 
+                            ? 'bg-[#060D17]/90 border-white/10 shadow-2xl backdrop-blur-md' 
+                            : 'bg-[#040910]/40 border-white/5 hover:border-white/12 hover:bg-[#060D17]/20'
+                        }`}
+                      >
+                        {/* Header/Trigger */}
+                        <button
+                          id={`intel-tab-btn-${idx}`}
+                          onClick={() => setActiveTab(isOpen ? -1 : idx)}
+                          className="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer"
+                        >
+                          <div className="flex items-center gap-4">
+                            <span className={`p-3 rounded-xl transition-all duration-300 ${
+                              isOpen 
+                                ? 'bg-secondary/10 text-secondary scale-110 shadow-lg shadow-secondary/5' 
+                                : 'bg-white/5 text-white/70'
+                            }`}>
+                              {intel.icon}
+                            </span>
+                            <div>
+                              <h5 className={`text-sm sm:text-base font-bold uppercase tracking-wider transition-colors duration-300 ${
+                                isOpen ? 'text-white' : 'text-white/75'
+                              }`}>
+                                {intel.title}
+                              </h5>
+                              <p className={`text-[10px] font-mono mt-0.5 transition-colors duration-300 ${
+                                isOpen ? 'text-secondary/90' : 'text-white/40'
+                              }`}>
+                                {intel.question}
+                              </p>
                             </div>
                           </div>
+                          <ChevronRight 
+                            size={16} 
+                            className={`text-white/35 transition-transform duration-300 ${isOpen ? 'rotate-90 text-secondary' : ''}`} 
+                          />
+                        </button>
 
-                          <div className="pt-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                            <p className="text-[9px] text-white/40 font-mono">Avaliação baseada no framework do Illumine Governance™.</p>
-                            <button
-                              id={`intel-detail-btn-diagnosticar-${idx}`}
-                              onClick={() => handleCTAClick(`Olá! Desejo receber informações sobre como avaliar a "${intel.title}" da minha empresa.`)}
-                              className="px-4 py-2 bg-white text-[#03080F] text-[9px] font-bold uppercase tracking-widest rounded hover:bg-white/90 transition-colors cursor-pointer"
+                        {/* Body (Expanded Details) */}
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="overflow-hidden"
                             >
-                              Diagnosticar Inteligência
-                            </button>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                              <div className="px-6 pb-6 pt-2 border-t border-white/5 space-y-6">
+                                <p className="text-xs sm:text-sm text-white/70 leading-relaxed max-w-2xl font-sans">
+                                  {intel.desc}
+                                </p>
+
+                                <div className="space-y-3">
+                                  <span className="text-[9px] font-mono uppercase text-secondary/80 tracking-wider block font-semibold">
+                                    Mapeamento de Sinais:
+                                  </span>
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    {intel.insights.map((insight, i) => (
+                                      <div 
+                                        key={i} 
+                                        className="px-3 py-2 bg-[#03080F]/60 border border-white/5 text-[10px] text-white/80 transition-all duration-200 rounded-lg flex items-center gap-2 cursor-default hover:bg-[#03080F]/95 hover:border-white/10"
+                                      >
+                                        <span className="w-1.5 h-1.5 rounded-full bg-secondary/80 flex-shrink-0 animate-pulse" />
+                                        <span className="font-sans leading-tight">{insight}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div className="pt-4 border-t border-white/5">
+                                  <p className="text-[9px] text-white/30 font-mono text-right">
+                                    Avaliação de resiliência corporativa sob o framework Illumine™.
+                                  </p>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
+              </div>
+            </div>
+
           </div>
 
           {/* Compact Architecture Flow */}
-          <div className="pt-8 border-t border-white/5 mt-12 max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[10px] font-bold tracking-widest text-white/40 uppercase">
-            <span className="text-white/80 hover:text-white transition-colors">Dados</span>
-            <ArrowRight size={10} className="text-secondary" />
-            <span className="text-white/80 hover:text-white transition-colors">ESGIM™</span>
-            <ArrowRight size={10} className="text-secondary" />
-            <span className="text-white/80 hover:text-white transition-colors">7 Eixos</span>
-            <ArrowRight size={10} className="text-secondary" />
-            <span className="text-white/80 hover:text-white transition-colors">7 Inteligências</span>
-            <ArrowRight size={10} className="text-secondary" />
-            <span className="text-secondary font-bold">Decisão Executiva</span>
+          <div className="pt-8 border-t border-white/5 mt-12 max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[9px] font-mono tracking-widest text-white/30 uppercase">
+            <span className="text-white/70 hover:text-white transition-colors">Dados</span>
+            <ArrowRight size={10} className="text-secondary/70" />
+            <span className="text-white/70 hover:text-white transition-colors">ESGIM™</span>
+            <ArrowRight size={10} className="text-secondary/70" />
+            <span className="text-white/70 hover:text-white transition-colors">7 Eixos</span>
+            <ArrowRight size={10} className="text-secondary/70" />
+            <span className="text-white/70 hover:text-white transition-colors">7 Inteligências</span>
+            <ArrowRight size={10} className="text-secondary/70" />
+            <span className="text-secondary font-semibold">Decisão Executiva</span>
           </div>
 
         </div>
@@ -742,8 +931,8 @@ export function EmpresasPage() {
                 "recomendações fundamentadas em evidências",
                 "alertas sobre o próximo ciclo organizacional"
               ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <div className="text-secondary flex-shrink-0">
+                <div key={idx} className="flex items-start gap-3">
+                  <div className="text-secondary flex-shrink-0 mt-[3px]">
                     <CheckCircle2 size={12} className="stroke-[3]" />
                   </div>
                   <span className="text-xs sm:text-sm text-white/80">{item}</span>
@@ -763,7 +952,7 @@ export function EmpresasPage() {
             <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
               Desenvolvido para organizações complexas
             </h2>
-            <p className="text-sm text-white/50 max-w-xl mx-auto">
+            <p className="text-sm text-white/50 max-w-[576px] mx-auto">
               Soluções direcionadas para estruturas que exigem clareza fiduciária e governança robusta.
             </p>
           </div>
@@ -778,9 +967,9 @@ export function EmpresasPage() {
               { title: "Organizações orientadas por propósito", desc: "Alinhamento de princípios fundadores à realidade de mercado." }
             ].map((target, idx) => (
               <div key={idx} className="p-5 bg-[#060D17] border border-white/5 rounded-xl flex flex-col justify-center">
-                <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-1">
+                <h5 className="text-sm font-semibold text-white uppercase tracking-wider mb-1">
                   {target.title}
-                </h3>
+                </h5>
                 <p className="text-[11px] text-white/50 leading-relaxed">
                   {target.desc}
                 </p>
@@ -788,40 +977,6 @@ export function EmpresasPage() {
             ))}
           </div>
 
-          <div className="text-center pt-4">
-            <button 
-              id="publico-btn-segmentos"
-              onClick={() => navigate('/segmentos')} 
-              className="text-[10px] font-bold uppercase tracking-widest text-secondary hover:text-white transition-colors cursor-pointer"
-            >
-              Ver detalhamento em /segmentos →
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* 10. DESENVOLVIDO PELA ILLUMINE (Reforço da Autoridade) */}
-      <section className="py-16 px-6 relative z-10 bg-[#02050A] border-t border-white/5">
-        <div className="max-w-4xl mx-auto">
-          <div className="p-8 bg-[#060D17] border border-white/10 rounded-2xl relative overflow-hidden flex flex-col md:flex-row items-center gap-8 shadow-2xl">
-            <div className="absolute top-0 left-0 w-48 h-48 bg-secondary/5 rounded-full blur-3xl pointer-events-none" />
-            
-            <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center relative">
-               <img src="/logo.png" alt="Illumine Signature Logo" className="w-10 h-10 object-contain" />
-            </div>
-
-            <div className="space-y-2 text-center md:text-left">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-secondary block">
-                Autoridade Institucional
-              </span>
-              <h3 className="text-lg font-display font-medium text-white">
-                Desenvolvido pela Illumine
-              </h3>
-              <p className="text-xs text-white/60 leading-relaxed font-sans">
-                Solução proprietária desenvolvida pela <span className="text-white font-semibold">Illumine Consultoria e Mentoria Empresarial</span> para apoiar organizações complexas na construção de sustentabilidade institucional, clareza executiva e capacidade de prosperar no longo prazo.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -834,9 +989,9 @@ export function EmpresasPage() {
             Perpetuidade e Legado
           </span>
           <div className="space-y-4">
-            <h3 className="text-sm font-mono uppercase tracking-widest text-white/40">
+            <h5 className="text-sm font-mono uppercase tracking-widest text-white/40">
               Robustez Institucional
-            </h3>
+            </h5>
             <p className="text-xl sm:text-2xl md:text-3xl font-display font-medium text-white leading-tight max-w-3xl mx-auto">
               As decisões que preservam o futuro começam com clareza.
             </p>
@@ -873,14 +1028,16 @@ export function EmpresasPage() {
             exit={{ y: 100, opacity: 0 }}
             className="fixed bottom-6 right-6 z-50 flex items-center"
           >
-            <button
+            <a
               id="sticky-cta-btn"
-              onClick={() => handleCTAClick("Olá! Gostaria de agendar a avaliação de robustez institucional pelo Illumine Governance™.")}
-              className="flex items-center gap-3 px-6 h-14 bg-white text-[#03080F] font-bold text-[10px] uppercase tracking-widest rounded-full shadow-2xl hover:bg-white/90 transition-all cursor-pointer border border-white/10"
+              href={`https://wa.me/554131514537?text=${encodeURIComponent("Olá! Gostaria de agendar a avaliação de robustez institucional pelo Illumine Governance™.")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 px-6 h-14 bg-white text-[#03080F] font-bold text-[10px] uppercase tracking-widest rounded-full shadow-2xl hover:bg-white/90 transition-all cursor-pointer border border-white/10 no-underline"
             >
               <Briefcase size={14} className="text-secondary" />
               <span>Avaliar Robustez</span>
-            </button>
+            </a>
           </motion.div>
         )}
       </AnimatePresence>

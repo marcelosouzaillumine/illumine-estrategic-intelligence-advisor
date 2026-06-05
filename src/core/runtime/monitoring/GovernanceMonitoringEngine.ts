@@ -12,6 +12,7 @@ import { esgimAssessmentEngine } from '../esgim/ESGIMAssessmentEngine';
 import { institutionalResilienceIndexEngine } from '../esgim/InstitutionalResilienceIndexEngine';
 import { boardPrioritiesEngine } from '../board/BoardPrioritiesEngine';
 import { governanceRoadmapEngine } from '../roadmap/GovernanceRoadmapEngine';
+import { decisionRegistryEngine } from '../execution/DecisionRegistryEngine';
 
 export class GovernanceMonitoringEngine {
   private static instance: GovernanceMonitoringEngine;
@@ -42,21 +43,8 @@ export class GovernanceMonitoringEngine {
     // Present Roadmap Progress Index (RPI) from GRE
     const presentRpi = roadmapResult.roadmapProgress;
 
-    // Calculate Present Priority Execution Index (PEI)
-    let presentPei = 85; 
-    if (scenario === 'STANDARD') {
-      presentPei = 92; // Excellent
-    } else if (scenario === 'CONSTITUTIONAL_BREACH') {
-      presentPei = 30; // Critical
-    } else if (scenario === 'LIQUIDITY_SHOCK') {
-      presentPei = 25; // Critical
-    } else if (scenario === 'MISSION_STRESS') {
-      presentPei = 52; // Weak
-    } else if (scenario === 'FOUNDER_EXIT') {
-      presentPei = 68; // Moderate
-    } else if (scenario === 'MARKET_DISRUPTION') {
-      presentPei = 72; // Moderate
-    }
+    // Calculate Present Priority Execution Index (PEI) mapped directly to GEI™ Weighted
+    const presentPei = decisionRegistryEngine.calculateGeiWeightedScore(scenario);
 
     // Calculate Institutional Risk Index based on active scenario and resilience score
     let presentRiskIndex = 100 - iriResult.score;
@@ -78,9 +66,9 @@ export class GovernanceMonitoringEngine {
     const timelineMode = (mode === 'LIVE_DATA') ? 'LIVE_HISTORY' : 'DEMO_TIMELINE';
 
     // Baseline historical states
-    const t36 = { esgim: 68, iri: 58, progress: 20, pei: 70, risk: 45 };
-    const t24 = { esgim: 74, iri: 64, progress: 45, pei: 80, risk: 35 };
-    const t12 = { esgim: 81, iri: 69, progress: 65, pei: 88, risk: 25 };
+    const t36 = { esgim: 68, iri: 58, progress: 20, pei: 55, risk: 45, geiSimple: 60, geiWeighted: 55, gai: 50, overdue: 30 };
+    const t24 = { esgim: 74, iri: 64, progress: 45, pei: 68, risk: 35, geiSimple: 70, geiWeighted: 68, gai: 65, overdue: 20 };
+    const t12 = { esgim: 81, iri: 69, progress: 65, pei: 82, risk: 25, geiSimple: 85, geiWeighted: 82, gai: 80, overdue: 10 };
 
     const snapshots: GovernanceMonitoringSnapshot[] = [
       {
@@ -90,6 +78,10 @@ export class GovernanceMonitoringEngine {
         roadmapProgress: t36.progress,
         priorityExecutionIndex: t36.pei,
         institutionalRiskIndex: t36.risk,
+        geiSimpleScore: t36.geiSimple,
+        geiWeightedScore: t36.geiWeighted,
+        gaiScore: t36.gai,
+        overdueRate: t36.overdue
       },
       {
         timestamp: new Date(Date.now() - 24 * 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -98,6 +90,10 @@ export class GovernanceMonitoringEngine {
         roadmapProgress: t24.progress,
         priorityExecutionIndex: t24.pei,
         institutionalRiskIndex: t24.risk,
+        geiSimpleScore: t24.geiSimple,
+        geiWeightedScore: t24.geiWeighted,
+        gaiScore: t24.gai,
+        overdueRate: t24.overdue
       },
       {
         timestamp: new Date(Date.now() - 12 * 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -106,6 +102,10 @@ export class GovernanceMonitoringEngine {
         roadmapProgress: t12.progress,
         priorityExecutionIndex: t12.pei,
         institutionalRiskIndex: t12.risk,
+        geiSimpleScore: t12.geiSimple,
+        geiWeightedScore: t12.geiWeighted,
+        gaiScore: t12.gai,
+        overdueRate: t12.overdue
       },
       {
         timestamp,
@@ -114,6 +114,10 @@ export class GovernanceMonitoringEngine {
         roadmapProgress: presentRpi,
         priorityExecutionIndex: presentPei,
         institutionalRiskIndex: presentRiskIndex,
+        geiSimpleScore: decisionRegistryEngine.calculateGeiSimpleScore(scenario),
+        geiWeightedScore: presentPei,
+        gaiScore: decisionRegistryEngine.calculateGaiScore(scenario),
+        overdueRate: decisionRegistryEngine.calculateOverdueRate(scenario)
       }
     ];
 

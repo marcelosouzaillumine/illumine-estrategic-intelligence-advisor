@@ -34,8 +34,16 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../../Common';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { useInstitutionalAuth } from '../../../core/security/auth/InstitutionalAuthProvider';
-import { FiduciaryRuntimeAdapter, ESGIMDimension, ESGIMMode, ESGIMScenario, IRILevel, BoardPriority, BoardExecutiveBrief, GovernanceMonitoringSnapshot, GovernanceMonitoringResult } from '../../../services/FiduciaryRuntimeAdapter';
+import { FiduciaryRuntimeAdapter, ESGIMDimension, ESGIMMode, ESGIMScenario, IRILevel, BoardPriority, BoardExecutiveBrief, GovernanceMonitoringSnapshot, GovernanceMonitoringResult, DecisionExecutionRisk } from '../../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveBoardReportModal } from '../../modals/ExecutiveBoardReportModal';
+import { BoardPackPreviewModal } from '../../modals/BoardPackPreviewModal';
+import { GovernanceExecutionPanel } from './GovernanceExecutionPanel';
+import { BoardMeetingMode } from './BoardMeetingMode';
+import { GovernanceKnowledgePanel } from './GovernanceKnowledgePanel';
+import { BenchmarkReadinessPanel } from './BenchmarkReadinessPanel';
+import { BenchmarkComparativePanel } from './BenchmarkComparativePanel';
+import { BenchmarkAdvisoryPanel } from './BenchmarkAdvisoryPanel';
+import { GovernanceLearningPanel } from './GovernanceLearningPanel';
 
 export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
   const { translateLabel: t } = useLanguage();
@@ -62,6 +70,51 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
   // Track expanded priority card IDs
   const [expandedPriorities, setExpandedPriorities] = useState<Record<string, boolean>>({});
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isBoardPackModalOpen, setIsBoardPackModalOpen] = useState(false);
+  const [activeMainTab, setActiveMainTab] = useState<'maturity' | 'execution' | 'meeting'>('maturity');
+
+  const handleTransformPriorityToDecision = (priority: BoardPriority) => {
+    const baseTime = Date.now();
+    let daysToAdd = 30;
+    const windowStr = priority.estimatedWindow.toLowerCase();
+    if (windowStr.includes('24h') || windowStr.includes('1 dia')) daysToAdd = 1;
+    else if (windowStr.includes('2 dias')) daysToAdd = 2;
+    else if (windowStr.includes('7 dias') || windowStr.includes('1 semana')) daysToAdd = 7;
+    else if (windowStr.includes('15 dias')) daysToAdd = 15;
+    else if (windowStr.includes('30 dias') || windowStr.includes('1 mês')) daysToAdd = 30;
+    else if (windowStr.includes('90 dias') || windowStr.includes('3 meses')) daysToAdd = 90;
+    else if (windowStr.includes('180 dias') || windowStr.includes('6 meses')) daysToAdd = 180;
+    else if (windowStr.includes('ano')) daysToAdd = 365;
+
+    const dueDate = new Date(baseTime + daysToAdd * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+    let executionRisk: DecisionExecutionRisk = 'LOW';
+    if (priority.impact === 'CRITICAL') executionRisk = 'CRITICAL';
+    else if (priority.impact === 'HIGH') executionRisk = 'HIGH';
+    else if (priority.impact === 'MODERATE') executionRisk = 'MODERATE';
+
+    const newDec = {
+      id: `DEC-BPE-${priority.id}-${baseTime}`,
+      title: priority.title,
+      description: priority.description,
+      source: 'BPE' as const,
+      category: priority.category,
+      decisionType: 'STRATEGIC_INITIATIVE' as const,
+      originEngine: 'BPE' as const,
+      executionRisk,
+      assignedTo: undefined,
+      createdAt: new Date().toISOString(),
+      dueDate,
+      status: 'OPEN' as const,
+      expectedBenefit: priority.expectedBenefit,
+      evidence: priority.evidence,
+      lineageHash: `LIN-GDTL-BPE-${priority.id}-${baseTime}`,
+      approvedByBoard: false
+    };
+
+    FiduciaryRuntimeAdapter.decisionRegistryEngine.addDecision(newDec);
+    setActiveMainTab('execution');
+  };
 
   // 3. Engine calculation triggers
   const assessment = useMemo(() => {
@@ -364,13 +417,21 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             </div>
           )}
 
-          {/* EBRG Report Button */}
           <button
             onClick={() => setIsReportModalOpen(true)}
             className="flex items-center gap-2 px-5 py-2.5 bg-[#FF8552] hover:bg-[#FF8552]/90 border border-transparent rounded-xl text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-[#FF8552]/10 hover:shadow-[#FF8552]/20 hover:-translate-y-0.5 transition-all duration-200"
           >
             <ShieldCheck size={14} className="animate-pulse" />
             Gerar Relatório Executivo
+          </button>
+
+          {/* BPG Board Pack Button */}
+          <button
+            onClick={() => setIsBoardPackModalOpen(true)}
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#BAB86C] hover:bg-[#BAB86C]/90 border border-transparent rounded-xl text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-[#BAB86C]/10 hover:shadow-[#BAB86C]/20 hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <Activity size={14} className="animate-pulse" />
+            Gerar Board Pack
           </button>
         </div>
       </div>
@@ -385,8 +446,46 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         </div>
       )}
 
-      {/* 3. Main Grid layout: Heatmaps & Circular Gauges */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      {/* Cockpit Tabs selector */}
+      <div className="flex border-b border-white/5 bg-slate-950/20 rounded-xl p-1 max-w-xl">
+        <button
+          onClick={() => setActiveMainTab('maturity')}
+          className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all ${
+            activeMainTab === 'maturity'
+              ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
+              : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          Maturidade e Resiliência
+        </button>
+        <button
+          onClick={() => setActiveMainTab('execution')}
+          className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 ${
+            activeMainTab === 'execution'
+              ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
+              : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          <Activity size={12} />
+          Execução (GDTL™)
+        </button>
+        <button
+          onClick={() => setActiveMainTab('meeting')}
+          className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 ${
+            activeMainTab === 'meeting'
+              ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
+              : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          <Users size={12} />
+          Entrar em Reunião (BMM™)
+        </button>
+      </div>
+
+      {activeMainTab === 'maturity' && (
+        <>
+          {/* 3. Main Grid layout: Heatmaps & Circular Gauges */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Side: Heatmaps (lg:col-span-8) */}
         <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -795,6 +894,19 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                             </div>
                           </div>
 
+                        </div>
+
+                        <div className="flex justify-end pt-4 border-t border-white/5">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleTransformPriorityToDecision(priority);
+                            }}
+                            className="flex items-center gap-2 px-4 py-2 bg-indigo-650/25 hover:bg-indigo-650/40 border border-indigo-500/30 hover:border-indigo-500/50 text-indigo-300 hover:text-white rounded-xl text-[10px] font-black uppercase tracking-wider transition-all"
+                          >
+                            <Activity size={12} />
+                            Transformar em Plano de Ação (GDTL™)
+                          </button>
                         </div>
 
                       </div>
@@ -1318,6 +1430,47 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
       </div>
 
+      {/* 8. Governance Knowledge Layer Panel (GKL™) */}
+      <div className="my-8">
+        <GovernanceKnowledgePanel 
+          clientId={clientId} 
+          scenario={demoScenario} 
+          executiveSummary={assessment.executiveSummary || ''} 
+        />
+      </div>
+
+      {/* 9. Benchmark Readiness Layer Panel (BRL™) */}
+      <div className="my-8">
+        <BenchmarkReadinessPanel 
+          clientId={clientId} 
+          scenario={demoScenario} 
+        />
+      </div>
+
+      {/* 10. Benchmark Comparative Intelligence Panel (BCI™) */}
+      <div className="my-8">
+        <BenchmarkComparativePanel 
+          clientId={clientId} 
+          scenario={demoScenario} 
+        />
+      </div>
+
+      {/* 11. Benchmark Advisory Intelligence Panel (BAI™) */}
+      <div className="my-8">
+        <BenchmarkAdvisoryPanel 
+          clientId={clientId} 
+          scenario={demoScenario} 
+        />
+      </div>
+
+      {/* 12. Governance Learning Layer Panel (GLL™) */}
+      <div className="my-8">
+        <GovernanceLearningPanel 
+          clientId={clientId} 
+          scenario={demoScenario} 
+        />
+      </div>
+
       {/* 7. Explainability & Traceability Panel */}
       <div className="card-premium p-0 border border-white/5 bg-[#060D17] rounded-2xl overflow-hidden">
         <div className="flex border-b border-white/5 bg-slate-950/40">
@@ -1559,11 +1712,35 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           </AnimatePresence>
         </div>
       </div>
+      </>
+      )}
+
+      {activeMainTab === 'execution' && (
+        <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl">
+          <GovernanceExecutionPanel clientId={clientId} scenario={demoScenario} mode={mode} />
+        </div>
+      )}
+
+      {activeMainTab === 'meeting' && (
+        <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl">
+          <BoardMeetingMode clientId={clientId} scenario={demoScenario} />
+        </div>
+      )}
 
       {/* EBRG Modal */}
       <ExecutiveBoardReportModal 
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
+        clientId={clientId}
+        mode={mode}
+        scenario={demoScenario}
+        companyName="Holding Illumine S/A"
+      />
+
+      {/* BPG Modal */}
+      <BoardPackPreviewModal 
+        isOpen={isBoardPackModalOpen}
+        onClose={() => setIsBoardPackModalOpen(false)}
         clientId={clientId}
         mode={mode}
         scenario={demoScenario}

@@ -4,7 +4,7 @@ import { useDocumentTitle } from '../../../hooks/useDocumentTitle';
 import { PartnerSalesPage } from '../PartnerSalesPage';
 
 export function ParceirosPage() {
-  useDocumentTitle('Illumine | Estrutura para Advisors');
+  useDocumentTitle('Illumine | Advisors');
   const navigate = useNavigate();
 
   return (
