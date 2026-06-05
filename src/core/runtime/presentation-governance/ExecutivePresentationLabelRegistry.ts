@@ -11,7 +11,7 @@ export class ExecutivePresentationLabelRegistry {
     'DFC_DIAGNOSIS_TITLE': 'Diagnóstico Executivo',
     'DFC_RUNWAY_TITLE': 'Horizonte de Sobrevivência',
     'DFC_BOARD_ADVISORY_TITLE': 'Advisory do Conselho',
-    'DFC_RECONCILIATION_SUMMARY_TITLE': 'Reconciliação BP × DFC',
+    'DFC_RECONCILIATION_SUMMARY_TITLE': 'Reconciliação Balanço × Caixa',
     'DFC_BOARD_PRIORITIES_TITLE': 'Prioridades do Conselho',
     'DFC_CAUSAL_INTELLIGENCE_TITLE': 'Inteligência Causal de Caixa',
     'DFC_EARLY_WARNING_TITLE': 'Painel de Alertas Prévios',
@@ -24,6 +24,12 @@ export class ExecutivePresentationLabelRegistry {
     'DFC_REVENUE_CASH_CONVERSION_TITLE': 'Conversão Receita → Caixa',
     'DFC_SHAREHOLDER_DEPENDENCY_TITLE': 'Dependência dos Sócios',
     'DFC_EFSI_TITLE': 'Sustentabilidade da Tesouraria',
+    'DFC_PRIORITY_LIQUIDITY_PRESERVATION': 'Preservação de Liquidez',
+    'DFC_PRIORITY_CASH_CONVERSION': 'Conversão de Receita em Caixa',
+    'DFC_PRIORITY_CAPITAL_INDEPENDENCE': 'Autonomia de Capital',
+    'IMPACT_VERY_HIGH': 'Impacto Muito Alto',
+    'IMPACT_HIGH': 'Impacto Alto',
+    'IMPACT_MODERATE': 'Impacto Moderado',
   };
 
   /**

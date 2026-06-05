@@ -173,13 +173,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   const totalVisibleSections = visibleNumberedSections.length;
 
   const getSectionHeader = (sectionId: string, labelKey: string) => {
-    const title = FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel(labelKey);
-    if (densityLevel === 'TECHNICAL') {
-      const idx = visibleNumberedSections.indexOf(sectionId);
-      const prefix = idx !== -1 ? `Seção ${idx + 1} de ${totalVisibleSections}: ` : '';
-      return `${prefix}${title}`;
-    }
-    return title;
+    return FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel(labelKey);
   };
 
   const getEQETitle = () => {
@@ -564,7 +558,70 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       )}
       
       {viewMode === 'fiduciario' && (() => {
-        // Execute EIDF Density compliance audit
+        // 1. Audit and assign fallbacks for the snapshot
+        const rawSnapshot = metrics.fiduciary?.dfcExecutiveSnapshot || {};
+        const auditTarget = {
+          cashGenerationStatus: rawSnapshot.geraCaixa !== undefined && rawSnapshot.geraCaixa !== null ? (rawSnapshot.geraCaixa ? 'Gera Caixa' : 'Consome Caixa') : undefined,
+          runwayStatus: rawSnapshot.runway,
+          shareholderDependencyStatus: rawSnapshot.dependenciaSocietaria || rawSnapshot.dependenteSocios,
+          primaryRisk: rawSnapshot.maiorRisco,
+          recommendedAction: rawSnapshot.acaoPrioritaria
+        };
+        const snapshotAudit = FiduciaryRuntimeAdapter.DFCSnapshotBindingAudit.audit(auditTarget);
+        
+        const safeSnapshot = {
+          geraCaixa: rawSnapshot.geraCaixa ?? false,
+          runway: rawSnapshot.runway || 'Não Disponível',
+          dependenteSocios: (rawSnapshot.dependenciaSocietaria || rawSnapshot.dependenteSocios) || 'Não Disponível',
+          maiorRisco: rawSnapshot.maiorRisco || 'Não Disponível',
+          acaoPrioritaria: rawSnapshot.acaoPrioritaria || 'Não Disponível'
+        };
+
+        // 2. Resolve and adapt priorities
+        const rawPriorities = FiduciaryRuntimeAdapter.ExecutivePriorityResolver.resolve(runtimeOutput);
+        const adaptedPriorities = FiduciaryRuntimeAdapter.DFCBoardPriorityPresentationAdapter.adapt(rawPriorities);
+
+        // 3. Compute consequence profile (ECIL)
+        const consequence = FiduciaryRuntimeAdapter.ExecutiveConsequenceIntelligenceLayer.evaluate(
+          fco,
+          metrics.fiduciary?.runway || 0,
+          lucroLiquidoRender || lucroLiquido || 0
+        );
+
+        // 4. Audit visual presentation layout for technical leakage
+        const auditData = {
+          snapshot: safeSnapshot,
+          decisionFramework: metrics.fiduciary?.cashBoardDecisionFramework,
+          drivers: metrics.fiduciary?.causalIntelligence?.drivers,
+          earlyWarning: metrics.fiduciary?.earlyWarning,
+          compressedAdvisory: metrics.fiduciary?.compressedAdvisory,
+          consequenceProfile: consequence,
+          priorities: adaptedPriorities
+        };
+        
+        const presentationAudit = FiduciaryRuntimeAdapter.ExecutivePresentationAuditEngine.audit(auditData, densityLevel);
+
+        if (densityLevel !== 'TECHNICAL' && presentationAudit.status === 'DFC_EXECUTIVE_PRESENTATION_VIOLATION') {
+          console.error('Executive Presentation Violation detected:', presentationAudit.violations);
+          return (
+            <div className="max-w-[1440px] mx-auto p-8 text-center bg-rose-50 border border-rose-200 rounded-[32px] my-10">
+              <h3 className="text-xl font-black text-rose-800">Visualização Bloqueada</h3>
+              <p className="text-sm text-rose-700 mt-2 font-medium">
+                A visualização executiva foi bloqueada por inconsistência de densidade informacional. Reprocessar o relatório antes de deliberação.
+              </p>
+              {process.env.NODE_ENV !== 'production' && (
+                <div className="mt-4 p-4 bg-slate-900 text-white rounded-2xl text-left font-mono text-[10px] overflow-auto max-h-48">
+                  <p className="font-bold text-rose-400">Presentation violations detected:</p>
+                  {presentationAudit.violations.map((v: string, i: number) => (
+                    <p key={i}>- {v}</p>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        }
+
+        // 5. Execute EIDF Density compliance audit
         const densityAudit = FiduciaryRuntimeAdapter.DFCDensityComplianceAudit.audit(
           visibleNumberedSections,
           densityLevel
@@ -586,7 +643,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
           <div className="space-y-10 animate-in fade-in duration-500">
             {/* DFC_SNAPSHOT Section */}
             {isSectionVisible('DFC_SNAPSHOT') && (() => {
-              const snapshot = metrics.fiduciary?.dfcExecutiveSnapshot || { geraCaixa: false, runway: 'Não Disponível', dependenteSocios: 'Não Disponível' };
+              const snapshot = safeSnapshot;
               return (
                 <div className="bg-slate-950 p-8 rounded-[32px] shadow-2xl border border-slate-800 space-y-6 text-left relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
@@ -613,13 +670,22 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       <p className="text-lg font-black text-white mt-1">{snapshot.dependenteSocios}</p>
                     </div>
                   </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 border-t border-white/5 pt-4">
+                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800/50">
+                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Maior Risco Detectado</span>
+                      <p className="text-sm font-bold text-slate-200 mt-1">{snapshot.maiorRisco}</p>
+                    </div>
+                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800/50">
+                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Ação Recomendada</span>
+                      <p className="text-sm font-bold text-amber-400 mt-1">{snapshot.acaoPrioritaria}</p>
+                    </div>
+                  </div>
                 </div>
               );
             })()}
 
             {/* DFC_BOARD_PRIORITIES Section */}
             {isSectionVisible('DFC_BOARD_PRIORITIES') && (() => {
-              const priorities = FiduciaryRuntimeAdapter.ExecutivePriorityResolver.resolve(runtimeOutput);
               return (
                 <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-4">
@@ -630,31 +696,50 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                   </div>
                   <div className="space-y-4">
-                    {priorities.slice(0, 3).map((d: any, idx: number) => (
-                      <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
-                        <span className={cn(
-                          "w-6 h-6 rounded-full text-white flex items-center justify-center text-xs font-black shrink-0",
-                          d.severity === 'CRITICAL' ? 'bg-rose-600' :
-                          d.severity === 'HIGH' ? 'bg-amber-600' :
-                          d.severity === 'MODERATE' ? 'bg-blue-600' : 'bg-slate-600'
-                        )}>
-                          {idx + 1}
-                        </span>
-                        <div>
-                          <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">{d.sourceModule}</span>
-                            <span className={cn(
-                              "text-[7px] font-black uppercase tracking-widest px-1 rounded",
-                              d.severity === 'CRITICAL' ? 'bg-rose-100 text-rose-800' :
-                              d.severity === 'HIGH' ? 'bg-amber-100 text-amber-800' :
-                              d.severity === 'MODERATE' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-800'
-                            )}>{d.severity}</span>
+                    {densityLevel === 'TECHNICAL' ? (
+                      rawPriorities.slice(0, 3).map((d: any, idx: number) => (
+                        <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                          <span className={cn(
+                            "w-6 h-6 rounded-full text-white flex items-center justify-center text-xs font-black shrink-0",
+                            d.severity === 'CRITICAL' ? 'bg-rose-600' :
+                            d.severity === 'HIGH' ? 'bg-amber-600' :
+                            d.severity === 'MODERATE' ? 'bg-blue-600' : 'bg-slate-600'
+                          )}>
+                            {idx + 1}
+                          </span>
+                          <div>
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">{d.sourceModule}</span>
+                              <span className={cn(
+                                "text-[7px] font-black uppercase tracking-widest px-1 rounded",
+                                d.severity === 'CRITICAL' ? 'bg-rose-100 text-rose-800' :
+                                d.severity === 'HIGH' ? 'bg-amber-100 text-amber-800' :
+                                d.severity === 'MODERATE' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-800'
+                              )}>{d.severity}</span>
+                            </div>
+                            <p className="text-xs font-bold text-slate-800 leading-normal">{d.title}</p>
+                            <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-0.5">{d.rationale}</p>
                           </div>
-                          <p className="text-xs font-bold text-slate-800 leading-normal">{d.title}</p>
-                          <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-0.5">{d.rationale}</p>
                         </div>
-                      </div>
-                    ))}
+                      ))
+                    ) : (
+                      adaptedPriorities.slice(0, 3).map((d: any, idx: number) => (
+                        <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                          <span className="w-6 h-6 rounded-full text-white flex items-center justify-center text-xs font-black shrink-0 bg-indigo-600">
+                            {idx + 1}
+                          </span>
+                          <div>
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">{d.theme}</span>
+                              <span className="text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                {d.impact}
+                              </span>
+                            </div>
+                            <p className="text-xs font-bold text-slate-800 leading-normal">{d.recommendation}</p>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               );
@@ -987,7 +1072,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3">
                       <AlertTriangle className="text-amber-500 shrink-0 mt-0.5" size={16} />
                       <p className="text-xs font-semibold text-amber-800 leading-normal">
-                        {consistency.narrative}
+                        {densityLevel === 'TECHNICAL' ? consistency.narrative : consistency.executiveInterpretation}
                       </p>
                     </div>
                   )}
@@ -996,20 +1081,29 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             })()}
 
             {/* DFC_EFSI Section */}
-            {isSectionVisible('DFC_EFSI') && (
-              <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                  <div>
-                    <h3 className="text-xl font-black text-slate-900 mt-2">
-                      {getSectionHeader('DFC_EFSI', 'DFC_EFSI_TITLE')}
-                    </h3>
+            {isSectionVisible('DFC_EFSI') && (() => {
+              const efsiScore = metrics.fiduciary?.efsiScore || 0;
+              const runwayVal = metrics.fiduciary?.runway || 0;
+              const narrative = FiduciaryRuntimeAdapter.TreasurySustainabilityNarrativeEngine.evaluate(
+                efsiScore,
+                fco,
+                runwayVal
+              );
+              return (
+                <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div>
+                      <h3 className="text-xl font-black text-slate-900 mt-2">
+                        {getSectionHeader('DFC_EFSI', 'DFC_EFSI_TITLE')}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-xs text-slate-600 leading-relaxed font-semibold">
+                    {narrative}
                   </div>
                 </div>
-                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-xs text-slate-600 leading-relaxed font-semibold">
-                  A fiduciabilidade da tesouraria indica estabilidade e sustentabilidade longitudinal do caixa operacional.
-                </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* DFC_BOARD_ADVISORY Section */}
             {isSectionVisible('DFC_BOARD_ADVISORY') && (() => {
@@ -1056,6 +1150,45 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                         <p className="text-xs font-semibold leading-relaxed text-emerald-100">
                           {advisory.outlook}
                         </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Executive Consequence Intelligence Layer (ECIL) */}
+                  <div className="border-t border-white/10 pt-6 mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-[9px] font-black uppercase tracking-widest text-emerald-400 mb-1">Consequência da Ação</p>
+                        <p className="text-xs font-bold text-slate-200 leading-relaxed">
+                          {consequence.consequenceOfAction}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] font-black uppercase tracking-widest text-rose-400 mb-1">Consequência da Inação</p>
+                        <p className="text-xs font-bold text-rose-200 leading-relaxed">
+                          {consequence.consequenceOfInaction}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Horizonte do Impacto</p>
+                          <p className="text-xs font-bold text-slate-200">{consequence.impactHorizon}</p>
+                        </div>
+                        <div>
+                          <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Reversibilidade</p>
+                          <div>
+                            <span className={cn(
+                              "inline-block px-2.5 py-1 rounded text-[8px] font-black uppercase tracking-wider",
+                              consequence.reversibility === 'ALTA' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
+                              consequence.reversibility === 'MODERADA' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                              'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                            )}>
+                              {consequence.reversibility}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -339,9 +339,13 @@ export interface BenchmarkReadinessResult {
   level: BenchmarkReadinessLevel;
   benchmarkEligible: boolean;
   dataReadiness: number;
+  dataReadinessStatus: 'CRITICAL' | 'WARNING' | 'OPTIMAL';
   governanceReadiness: number;
+  governanceReadinessStatus: 'CRITICAL' | 'WARNING' | 'OPTIMAL';
   institutionalReadiness: number;
+  institutionalReadinessStatus: 'CRITICAL' | 'WARNING' | 'OPTIMAL';
   comparativeReadiness: number;
+  comparativeReadinessStatus: 'CRITICAL' | 'WARNING' | 'OPTIMAL';
   strengths: string[];
   vulnerabilities: string[];
   executiveSummary: string;

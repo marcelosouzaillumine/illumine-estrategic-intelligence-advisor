@@ -211,14 +211,29 @@ export class BenchmarkReadinessEngine {
       explainability.push(`Teto constitucional aplicado ativamente devido ao cenário de ${scenario}.`);
     }
 
+    const getDimensionStatus = (s: number): 'CRITICAL' | 'WARNING' | 'OPTIMAL' => {
+      if (s < 60) return 'CRITICAL';
+      if (s < 75) return 'WARNING';
+      return 'OPTIMAL';
+    };
+
+    const dataReadinessStatus = getDimensionStatus(dataReadiness);
+    const governanceReadinessStatus = getDimensionStatus(governanceReadiness);
+    const institutionalReadinessStatus = getDimensionStatus(institutionalReadiness);
+    const comparativeReadinessStatus = getDimensionStatus(comparativeReadiness);
+
     return {
       score,
       level,
       benchmarkEligible,
       dataReadiness,
+      dataReadinessStatus,
       governanceReadiness,
+      governanceReadinessStatus,
       institutionalReadiness,
+      institutionalReadinessStatus,
       comparativeReadiness,
+      comparativeReadinessStatus,
       strengths,
       vulnerabilities,
       executiveSummary,

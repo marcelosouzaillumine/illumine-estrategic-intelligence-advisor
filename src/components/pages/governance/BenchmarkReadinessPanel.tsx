@@ -61,13 +61,13 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
   const theme = getStatusTheme(readiness.certificationStatus);
 
   // Dimension details helper
-  const renderDimension = (label: string, score: number, icon: React.ReactNode) => {
+  const renderDimension = (label: string, score: number, status: 'CRITICAL' | 'WARNING' | 'OPTIMAL', icon: React.ReactNode) => {
     let scoreColor = 'text-emerald-450';
     let barColor = 'bg-emerald-500';
-    if (score < 60) {
+    if (status === 'CRITICAL') {
       scoreColor = 'text-red-450';
       barColor = 'bg-red-500';
-    } else if (score < 75) {
+    } else if (status === 'WARNING') {
       scoreColor = 'text-amber-450';
       barColor = 'bg-amber-500';
     }
@@ -237,10 +237,10 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {renderDimension('Dados & Auditoria', readiness.dataReadiness, <Compass className="w-4 h-4 text-teal-400" />)}
-          {renderDimension('Governança Fiduciária', readiness.governanceReadiness, <Activity className="w-4 h-4 text-indigo-400" />)}
-          {renderDimension('Alinhamento Institucional', readiness.institutionalReadiness, <CheckCircle2 className="w-4 h-4 text-emerald-400" />)}
-          {renderDimension('Integridade Comparativa', readiness.comparativeReadiness, <TrendingUp className="w-4 h-4 text-sky-400" />)}
+          {renderDimension('Dados & Auditoria', readiness.dataReadiness, readiness.dataReadinessStatus, <Compass className="w-4 h-4 text-teal-400" />)}
+          {renderDimension('Governança Fiduciária', readiness.governanceReadiness, readiness.governanceReadinessStatus, <Activity className="w-4 h-4 text-indigo-400" />)}
+          {renderDimension('Alinhamento Institucional', readiness.institutionalReadiness, readiness.institutionalReadinessStatus, <CheckCircle2 className="w-4 h-4 text-emerald-400" />)}
+          {renderDimension('Integridade Comparativa', readiness.comparativeReadiness, readiness.comparativeReadinessStatus, <TrendingUp className="w-4 h-4 text-sky-400" />)}
         </div>
       </div>
 

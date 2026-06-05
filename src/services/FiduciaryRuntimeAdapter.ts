@@ -60,6 +60,11 @@ import { ExecutivePresentationLabelRegistry } from '../core/runtime/presentation
 import { DFCDensityComplianceAudit } from '../core/runtime/presentation-governance/DFCDensityComplianceAudit';
 import { ScenarioSimulationConsistencyEngine } from '../core/runtime/cash-scenario-intelligence/ScenarioSimulationConsistencyEngine';
 import { ExecutiveNumericPresentationGuard } from '../core/runtime/presentation-governance/ExecutiveNumericPresentationGuard';
+import { ExecutivePresentationAuditEngine } from '../core/runtime/presentation-governance/ExecutivePresentationAuditEngine';
+import { DFCBoardPriorityPresentationAdapter } from '../core/runtime/decision-intelligence/DFCBoardPriorityPresentationAdapter';
+import { DFCSnapshotBindingAudit } from '../core/runtime/presentation-governance/DFCSnapshotBindingAudit';
+import { ExecutiveConsequenceIntelligenceLayer } from '../core/runtime/decision-intelligence/ExecutiveConsequenceIntelligenceLayer';
+import { TreasurySustainabilityNarrativeEngine } from '../core/runtime/treasury-sustainability/TreasurySustainabilityNarrativeEngine';
 
 export const FiduciaryRuntimeAdapter = {
   DFCCausalDriverPresentationAudit,
@@ -67,6 +72,11 @@ export const FiduciaryRuntimeAdapter = {
   DFCDensityComplianceAudit,
   ScenarioSimulationConsistencyEngine,
   ExecutiveNumericPresentationGuard,
+  ExecutivePresentationAuditEngine,
+  DFCBoardPriorityPresentationAdapter,
+  DFCSnapshotBindingAudit,
+  ExecutiveConsequenceIntelligenceLayer,
+  TreasurySustainabilityNarrativeEngine,
   getProfile,
   mapOfficialRoleToProfileId,
   ExecutiveInformationDensityFramework,

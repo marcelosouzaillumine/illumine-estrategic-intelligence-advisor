@@ -21,6 +21,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { FiduciaryRuntimeAdapter } from '../../../services/FiduciaryRuntimeAdapter';
 import { BoardMeeting, MeetingBoardResolution, MeetingMinutes, ESGIMScenario } from '../../../services/FiduciaryRuntimeAdapter';
+import { FiduciaryModalShell } from '../../executive-interaction/FiduciaryModalShell';
 
 interface BoardMeetingModeProps {
   clientId: string;
@@ -36,6 +37,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
   // Resolution inputs state
   const [voterNames, setVoterNames] = useState<Record<string, string>>({});
   const [decisionReasons, setDecisionReasons] = useState<Record<string, string>>({});
+  const [warningMessage, setWarningMessage] = useState<string | null>(null);
   
   // Tracking confirmation dialog states
   const [confirmingResolution, setConfirmingResolution] = useState<{
@@ -64,7 +66,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
 
   const handleStartMeeting = () => {
     if (!participantsInput.trim()) {
-      alert('Por favor, informe os participantes da reunião.');
+      setWarningMessage('Por favor, informe os participantes da reunião.');
       return;
     }
     const meeting = FiduciaryRuntimeAdapter.boardMeetingEngine.startMeeting(clientId, scenario, companyName);
@@ -77,7 +79,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
       const voter = voterNames[resolutionId]?.trim();
       const reason = decisionReasons[resolutionId]?.trim();
       if (!voter || !reason) {
-        alert('Por favor, preencha o campo "Decidido por" e a "Justificativa da Decisão" antes de aprovar.');
+        setWarningMessage('Por favor, preencha o campo "Decidido por" e a "Justificativa da Decisão" antes de aprovar.');
         return;
       }
     }
@@ -206,6 +208,19 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             </div>
           </div>
         </div>
+        {warningMessage && (
+          <FiduciaryModalShell
+            isOpen={!!warningMessage}
+            title="Aviso de Validação"
+            priority="HIGH"
+            onClose={() => setWarningMessage(null)}
+            onConfirm={() => setWarningMessage(null)}
+          >
+            <div className="space-y-3 py-2">
+              <p className="text-sm text-slate-350">{warningMessage}</p>
+            </div>
+          </FiduciaryModalShell>
+        )}
       </div>
     );
   }
@@ -524,6 +539,19 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             </div>
           </div>
         )}
+        {warningMessage && (
+          <FiduciaryModalShell
+            isOpen={!!warningMessage}
+            title="Aviso de Validação"
+            priority="HIGH"
+            onClose={() => setWarningMessage(null)}
+            onConfirm={() => setWarningMessage(null)}
+          >
+            <div className="space-y-3 py-2">
+              <p className="text-sm text-slate-350">{warningMessage}</p>
+            </div>
+          </FiduciaryModalShell>
+        )}
       </div>
     );
   }
@@ -669,6 +697,19 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             </button>
           </div>
         </div>
+        {warningMessage && (
+          <FiduciaryModalShell
+            isOpen={!!warningMessage}
+            title="Aviso de Validação"
+            priority="HIGH"
+            onClose={() => setWarningMessage(null)}
+            onConfirm={() => setWarningMessage(null)}
+          >
+            <div className="space-y-3 py-2">
+              <p className="text-sm text-slate-350">{warningMessage}</p>
+            </div>
+          </FiduciaryModalShell>
+        )}
       </div>
     );
   }
