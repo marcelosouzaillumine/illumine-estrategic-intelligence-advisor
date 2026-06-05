@@ -1,0 +1,184 @@
+import { describe, it } from 'node:test';
+import assert from 'node:assert/strict';
+import { FiduciaryCashIntelligenceRuntime } from '../src/core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
+import { ExecutivePriorityResolver } from '../src/core/runtime/decision-intelligence/ExecutivePriorityResolver';
+import { ExecutiveInformationDensityFramework } from '../src/core/runtime/presentation-governance/ExecutiveInformationDensityFramework';
+import { ExecutiveLabelResolver } from '../src/core/runtime/executive-presentation/ExecutiveLabelResolver';
+import { DFCExecutiveBindingAudit } from '../src/core/runtime/cash-intelligence/DFCExecutiveBindingAudit';
+
+describe('DFC Executive Intelligence Calibration & Presentation Governance (DFC-FINAL v1.0)', () => {
+  // Set up mock inputs for Granatum 2022:
+  // Receita: R$ 156.969,54
+  // FCO Contábil: -R$ 113.736,08
+  // Contas Relacionadas (Partes Relacionadas): -R$ 38.202,92
+  // FCO Operacional Real: FCO Contábil - Contas Relacionadas = -R$ 75.533,16
+  // Caixa Final/Disponível: R$ 14.038,00
+  // Months: 12
+  // Burn Rate Mensal: Math.abs(-75533.16) / 12 = 6294.43
+  // Runway: 14038 / 6294.43 = 2.23 (rounds to 2.2)
+  // Equity Funding: R$ 200.918,20 (to produce exact 2.66x dependency on Operational Real)
+  const dfcDataMock = [{ id: 1 }];
+  const netRevenue = 156969.54;
+  const dreNetIncome = -68548.88;
+  const dreEbitda = -50000;
+  const bpCashEquivalentsStart = 6541.00;
+  const bpCashEquivalentsEnd = 92723.12;
+  const fco = -113736.08;
+  const fci = -1000;
+  const fcf = 122233.08;
+  const workingCapitalVariation = -10000;
+  const receivables = 20000;
+  const inventory = 15000;
+  const availableCash = 14038.00;
+  const thirdPartyFunding = 0;
+  const equityFunding = 200918.20;
+  const historicalCyclesCount = 3;
+  const monthsCount = 12;
+  const fornecedores = 15000;
+  const passivoCirculante = 100000;
+  const contasRelacionadas = -38202.92;
+  const patrimonioLiquido = 500000;
+
+  const output = FiduciaryCashIntelligenceRuntime.evaluate(
+    dfcDataMock,
+    dreNetIncome,
+    dreEbitda,
+    bpCashEquivalentsStart,
+    bpCashEquivalentsEnd,
+    fco,
+    fci,
+    fcf,
+    workingCapitalVariation,
+    receivables,
+    inventory,
+    availableCash,
+    thirdPartyFunding,
+    equityFunding,
+    historicalCyclesCount,
+    monthsCount,
+    fornecedores,
+    passivoCirculante,
+    contasRelacionadas,
+    patrimonioLiquido,
+    undefined,
+    undefined,
+    netRevenue
+  );
+
+  it('Test 1: Conversão usa FCO Operacional Real (Granatum 2022: -48%)', () => {
+    assert.strictEqual(output.cashConversionAnalysis?.cashConversionPer100Revenue, -48);
+  });
+
+  it('Test 2: Narrativa da Conversão: Para cada R$100 vendidos, R$48 foram consumidos.', () => {
+    assert.strictEqual(output.cashConversionAnalysis?.rationale, 'Para cada R$100 vendidos, R$48 foram consumidos.');
+  });
+
+  it('Test 3: Runway único de 2.2 meses em todos os componentes', () => {
+    assert.strictEqual(output.runwayMonths, 2.2);
+    assert.strictEqual(output.universalIndicators.cashRunwayInstitucional.months, 2.2);
+    assert.strictEqual(output.continuityRisk.projectedRunwayMonths, 2.2);
+    assert.strictEqual(output.cashBoardDecisionFramework?.runwayAssessment, 'Runway reduzido.');
+    assert.strictEqual(output.cashExecutiveAdvisory?.sustentabilidade, 'Runway reduzido.');
+  });
+
+  it('Test 4: Top prioridade: DFC CRÍTICA', () => {
+    const priorities = ExecutivePriorityResolver.resolve({
+      metrics: {
+        fiduciary: {
+          runway: output.runwayMonths,
+          shareholderDependencyAnalysis: {
+            classification: output.shareholderDependencyAnalysis?.classification,
+            dependenciaCapitalExternoLabel: output.shareholderDependencyAnalysis?.dependenciaCapitalExternoLabel
+          }
+        }
+      },
+      cashSustainabilityReport: output
+    });
+    
+    assert.ok(priorities.length > 0);
+    const top = priorities[0];
+    assert.strictEqual(top.sourceModule, 'DFC');
+    assert.strictEqual(top.severity, 'CRITICAL');
+    assert.strictEqual(top.title, 'Reduzir a queima operacional de caixa e restaurar a autonomia financeira.');
+  });
+
+  it('Test 5: BOARD não exibe Reconciliação', () => {
+    const isVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECONCILIATION', 'BOARD');
+    assert.strictEqual(isVisible, false);
+  });
+
+  it('Test 6: BOARD não exibe Lineage', () => {
+    const isVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_LINEAGE', 'BOARD');
+    assert.strictEqual(isVisible, false);
+  });
+
+  it('Test 7: BOARD não exibe Tabela de Reclassificação', () => {
+    const isReclassVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECLASSIFIED_FCO', 'BOARD');
+    const isAdjustedVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_ADJUSTED_FLOWS', 'BOARD');
+    assert.strictEqual(isReclassVisible, false);
+    assert.strictEqual(isAdjustedVisible, false);
+  });
+
+  it('Test 8: EXECUTIVE exibe indicadores intermediários e reconciliação resumida', () => {
+    const isIntermVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_INTERMEDIATE_INDICATORS', 'EXECUTIVE');
+    const isReconVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECONCILIATION', 'EXECUTIVE');
+    assert.strictEqual(isIntermVisible, true);
+    assert.strictEqual(isReconVisible, true);
+  });
+
+  it('Test 9: TECHNICAL exibe tudo', () => {
+    const sections = [
+      'DFC_CONTEXTO',
+      'DFC_HEALTH_SCORE',
+      'DFC_DIAGNOSTICO_EXECUTIVO',
+      'DFC_RUNWAY',
+      'DFC_ADVISORY',
+      'DFC_TOP_3_PRIORITIES',
+      'DFC_SHAREHOLDER_DEPENDENCY',
+      'DFC_REVENUE_CONVERSION',
+      'DFC_INTERMEDIATE_INDICATORS',
+      'DFC_LIQUIDITY_STRESS',
+      'DFC_RECONCILIATION',
+      'DFC_RECONCILIATION_DETAIL',
+      'DFC_LINEAGE',
+      'DFC_FORMULAS',
+      'DFC_RECLASSIFIED_FCO',
+      'DFC_ADJUSTED_FLOWS',
+      'DFC_CQS_COMPONENTS',
+      'DFC_AUDIT'
+    ];
+    for (const sec of sections) {
+      assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible(sec, 'TECHNICAL'), true);
+    }
+  });
+
+  it('Test 10: Capacidade de Reinvestimento: Não Aplicável quando FCO <= 0', () => {
+    assert.strictEqual(output.cashReinvestmentAnalysis?.available, false);
+    assert.strictEqual(output.cashReinvestmentAnalysis?.classification, 'NAO_APLICAVEL');
+    assert.strictEqual(output.cashReinvestmentAnalysis?.displayValue, 'Não Aplicável');
+    assert.strictEqual(output.cashReinvestmentAnalysis?.rationale, 'A operação consumiu caixa e não gerou excedente financeiro para reinvestimento.');
+  });
+
+  it('Test 11: Não existe LOW, HIGH, Funding, EQE, EQS em modo BOARD', () => {
+    const lowRes = ExecutiveLabelResolver.resolve('LOW', undefined, 'BOARD');
+    const highRes = ExecutiveLabelResolver.resolve('HIGH', undefined, 'BOARD');
+    const fundingRes = ExecutiveLabelResolver.resolve('Funding', undefined, 'BOARD');
+    const eqeRes = ExecutiveLabelResolver.resolve('EQE', undefined, 'BOARD');
+    const eqsRes = ExecutiveLabelResolver.resolve('EQS', undefined, 'BOARD');
+    const scoreRes = ExecutiveLabelResolver.resolve('Score', undefined, 'BOARD');
+    const gapRes = ExecutiveLabelResolver.resolve('Reconciliation Gap', undefined, 'BOARD');
+    
+    assert.strictEqual(lowRes, 'Baixa');
+    assert.strictEqual(highRes, 'Alta');
+    assert.strictEqual(fundingRes, 'Capitalização');
+    assert.strictEqual(eqeRes, 'Qualidade da Geração Econômica');
+    assert.strictEqual(eqsRes, 'Qualidade da Geração Econômica');
+    assert.strictEqual(scoreRes, 'Pontuação');
+    assert.strictEqual(gapRes, 'Diferença de Reconciliação');
+  });
+
+  it('Test 12: Binding Audit: PASS', () => {
+    const auditResult = DFCExecutiveBindingAudit.audit(output);
+    assert.strictEqual(auditResult.success, true);
+  });
+});
