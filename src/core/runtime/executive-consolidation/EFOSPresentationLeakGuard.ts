@@ -13,7 +13,7 @@ export class EFOSPresentationLeakGuard {
     
     if (leakPattern.test(text)) {
       const isProduction = (typeof process !== 'undefined' && process.env.NODE_ENV === 'production') || 
-                           (typeof import.meta !== 'undefined' && (import.meta as any).env && (import.meta as any).env.PROD);
+                           (typeof import.meta !== 'undefined' && (import.meta as unknown as { env?: { PROD?: boolean } }).env && (import.meta as unknown as { env?: { PROD?: boolean } }).env?.PROD);
       if (!isProduction) {
         console.warn('[LEAK GUARD] Vazamento técnico interceptado antes da renderização:', text);
       }

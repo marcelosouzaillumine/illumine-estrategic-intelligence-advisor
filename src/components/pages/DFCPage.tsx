@@ -588,12 +588,55 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
           lucroLiquidoRender || lucroLiquido || 0
         );
 
-        // 4. Audit visual presentation layout for technical leakage
+        // 4. Map early warnings and causal drivers to safe presentation models
+        const rawEarlyWarning = metrics.fiduciary?.earlyWarning || {};
+        const safeEarlyWarningAlerts = (rawEarlyWarning.alerts || []).map((alert: any) => {
+          let safeStatus = alert.status;
+          if (alert.status === 'CRITICAL') safeStatus = 'Crítico';
+          else if (alert.status === 'WARNING') safeStatus = 'Atenção';
+          else if (alert.status === 'ALERT') safeStatus = 'Alerta';
+          else if (alert.status === 'WATCH') safeStatus = 'Monitoramento';
+          else if (alert.status === 'NORMAL') safeStatus = 'Saudável';
+
+          let safeMessage = alert.message || '';
+          safeMessage = safeMessage
+            .replace(/\bCRITICAL\b/g, 'Crítico')
+            .replace(/\bWARNING\b/g, 'Atenção')
+            .replace(/\bNORMAL\b/g, 'Saudável')
+            .replace(/\bTECHNICAL\b/g, 'Técnico');
+
+          return {
+            metric: alert.metric,
+            value: alert.value,
+            status: safeStatus,
+            message: safeMessage
+          };
+        });
+
+        const rawDrivers = metrics.fiduciary?.causalIntelligence?.drivers || [];
+        const safeDrivers = rawDrivers.map((driver: any) => ({
+          label: driver.label,
+          type: driver.type === 'DESTROYER' ? 'Drenagem' : 'Geração',
+          amount: driver.amount,
+          contributionPercent: driver.contributionPercent
+        }));
+
         const auditData = {
           snapshot: safeSnapshot,
-          decisionFramework: metrics.fiduciary?.cashBoardDecisionFramework,
-          drivers: metrics.fiduciary?.causalIntelligence?.drivers,
-          earlyWarning: metrics.fiduciary?.earlyWarning,
+          decisionFramework: {
+            cashGenerationAssessment: metrics.fiduciary?.cashBoardDecisionFramework?.cashGenerationAssessment,
+            primaryConstraint: metrics.fiduciary?.cashBoardDecisionFramework?.primaryConstraint,
+            runwayAssessment: metrics.fiduciary?.cashBoardDecisionFramework?.runwayAssessment,
+            shareholderDependency: metrics.fiduciary?.cashBoardDecisionFramework?.shareholderDependency,
+            boardOutlook: metrics.fiduciary?.cashBoardDecisionFramework?.boardOutlook,
+            immediateAction: metrics.fiduciary?.cashBoardDecisionFramework?.immediateAction,
+            isOperationSelfSustaining: metrics.fiduciary?.cashBoardDecisionFramework?.isOperationSelfSustaining,
+            revenueConversionAssessment: metrics.fiduciary?.cashBoardDecisionFramework?.revenueConversionAssessment
+          },
+          drivers: safeDrivers,
+          earlyWarning: {
+            alerts: safeEarlyWarningAlerts
+          },
           compressedAdvisory: metrics.fiduciary?.compressedAdvisory,
           consequenceProfile: consequence,
           priorities: adaptedPriorities
@@ -849,35 +892,41 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {metrics.fiduciary.earlyWarning.alerts?.map((alert: any, idx: number) => (
-                    <div key={idx} className={cn(
-                      "p-5 rounded-2xl border flex items-start gap-4",
-                      alert.status === 'CRITICAL' ? 'bg-rose-50 border-rose-200' :
-                      alert.status === 'WARNING' ? 'bg-amber-50 border-amber-200' :
-                      'bg-slate-50 border-slate-100'
-                    )}>
-                      <div className={cn(
-                        "w-8 h-8 rounded-full flex items-center justify-center shrink-0",
-                        alert.status === 'CRITICAL' ? 'bg-rose-500/10 text-rose-600' :
-                        alert.status === 'WARNING' ? 'bg-amber-500/10 text-amber-600' :
-                        'bg-slate-500/10 text-slate-600'
+                  {((densityLevel === 'TECHNICAL' ? rawEarlyWarning.alerts : safeEarlyWarningAlerts) || []).map((alert: any, idx: number) => {
+                    const isCritical = alert.status === 'CRITICAL' || alert.status === 'Crítico';
+                    const isWarning = alert.status === 'WARNING' || alert.status === 'Atenção';
+                    const isAlert = alert.status === 'ALERT' || alert.status === 'Alerta';
+
+                    return (
+                      <div key={idx} className={cn(
+                        "p-5 rounded-2xl border flex items-start gap-4",
+                        isCritical ? 'bg-rose-50 border-rose-200' :
+                        isWarning ? 'bg-amber-50 border-amber-200' :
+                        'bg-slate-50 border-slate-100'
                       )}>
-                        <AlertTriangle size={16} />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-slate-800">{alert.metric}</span>
-                          <span className={cn(
-                            "text-[8px] font-black uppercase px-1.5 py-0.5 rounded",
-                            alert.status === 'CRITICAL' ? 'bg-rose-200 text-rose-800' :
-                            alert.status === 'WARNING' ? 'bg-amber-200 text-amber-800' :
-                            'bg-slate-200 text-slate-800'
-                          )}>{alert.status}</span>
+                        <div className={cn(
+                          "w-8 h-8 rounded-full flex items-center justify-center shrink-0",
+                          isCritical ? 'bg-rose-500/10 text-rose-600' :
+                          isWarning ? 'bg-amber-500/10 text-amber-600' :
+                          'bg-slate-500/10 text-slate-600'
+                        )}>
+                          <AlertTriangle size={16} />
                         </div>
-                        <p className="text-[10px] text-slate-500 mt-1 font-semibold leading-relaxed">{alert.message}</p>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-slate-800">{alert.metric}</span>
+                            <span className={cn(
+                              "text-[8px] font-black uppercase px-1.5 py-0.5 rounded",
+                              isCritical ? 'bg-rose-200 text-rose-800' :
+                              isWarning ? 'bg-amber-200 text-amber-800' :
+                              'bg-slate-200 text-slate-800'
+                            )}>{alert.status}</span>
+                          </div>
+                          <p className="text-[10px] text-slate-500 mt-1 font-semibold leading-relaxed">{alert.message}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}

@@ -3,6 +3,10 @@ import { ExecutiveRecommendation } from './ExecutiveRecommendationDeduplicationE
 import { ExecutiveNarrativeSanitizer } from './ExecutiveNarrativeSanitizer';
 import { CrossStatementTension } from './CrossStatementPropagationEngine';
 
+export type CrossStatementChain = CrossStatementTension['chain'];
+export type CrossStatementCategory = CrossStatementTension['category'];
+export type CrossStatementSeverity = CrossStatementTension['severity'];
+
 export interface ConsistencyAuditInput {
   badiScore: number;
   boardTop3: BoardDecision[];
@@ -17,6 +21,11 @@ export interface ConsistencyAuditInput {
   dlpaCapitalStatus?: string;
   snapshotCapitalProtectionStatus?: string;
   executiveTop5: ExecutiveRecommendation[];
+  hasCrossStatementTension?: boolean;
+  tensionChain?: CrossStatementChain;
+  tensionCategory?: CrossStatementCategory;
+  tensionSeverity?: CrossStatementSeverity;
+  tensionNarrative?: string;
 }
 
 export interface ConsistencyAuditResult {
@@ -30,17 +39,17 @@ export class EFOSExecutiveConsistencyAuditEngine {
     
     // Fallbacks for test retrocompatibility
     const tensions = input.tensions || [];
-    if (tensions.length === 0 && (input as any).hasCrossStatementTension) {
+    if (tensions.length === 0 && input.hasCrossStatementTension) {
       tensions.push({
-        chain: (input as any).tensionChain || 'DRE_DFC_DLPA',
-        category: (input as any).tensionCategory || 'VALUE_DESTRUCTION_CHAIN',
-        severity: (input as any).tensionSeverity || 'CRITICAL',
+        chain: input.tensionChain || 'DRE_DFC_DLPA',
+        category: input.tensionCategory || 'VALUE_DESTRUCTION_CHAIN',
+        severity: input.tensionSeverity || 'CRITICAL',
         evidence: {
           netIncome: input.lucroLiquido,
           fco: input.fco,
           capitalConsumed: input.capitalConsumido
         },
-        narrative: (input as any).tensionNarrative || 'Tensão cross-statement gerada para avaliação institucional de riscos estruturais.',
+        narrative: input.tensionNarrative || 'Tensão cross-statement gerada para avaliação institucional de riscos estruturais.',
         source: 'CANONICAL_PROPAGATION'
       });
     }

@@ -298,7 +298,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             </span>
             
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium tracking-tight text-white leading-[1.1] max-w-4xl mx-auto">
-              Sua experiência está evoluindo na mesma velocidade que a complexidade dos seus clientes?
+              Você consegue enxergar aquilo que seus clientes ainda não conseguem ver?
             </h1>
             
             <div className="max-w-3xl mx-auto pt-4 space-y-6">
@@ -347,7 +347,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             O Novo Cenário
           </span>
           <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight text-white leading-tight">
-            O conhecimento deixou de ser o diferencial.
+            O desafio já não é apenas conhecer
           </h2>
           <div className="w-12 h-[1px] bg-secondary/60 mx-auto" />
           
@@ -359,14 +359,14 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               { role: "Conselheiros", desc: "possuem conhecimento." }
             ].map((item, idx) => (
               <div key={idx} className="p-5 bg-[#060D17]/40 border border-white/5 rounded-lg text-center">
-                <span className="block text-white font-bold uppercase tracking-wider text-xs mb-1">{item.role}</span>
-                <span className="text-xs text-white/50 font-sans">{item.desc}</span>
+                <span className="block text-white font-bold uppercase tracking-wider text-sm sm:text-base mb-1.5">{item.role}</span>
+                <span className="text-xs sm:text-sm text-white/50 font-sans">{item.desc}</span>
               </div>
             ))}
           </div>
 
-          <p className="text-lg md:text-xl text-white/80 leading-relaxed font-sans max-w-2xl mx-auto pt-6">
-            O mercado está saturado de especialistas. O diferencial agora é a <span className="text-white font-semibold">capacidade de transformar informação em discernimento estratégico</span>.
+          <p className="text-lg md:text-xl text-white/80 leading-relaxed font-sans max-w-3xl mx-auto pt-6">
+            O diferencial surge quando esse conhecimento é capaz de revelar aquilo que ainda não está visível para a liderança.
           </p>
         </div>
       </section>
@@ -381,7 +381,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
               O advisor moderno precisa responder perguntas mais difíceis
             </h2>
-            <p className="text-sm text-white/50 max-w-xl mx-auto font-sans leading-relaxed">
+            <p className="text-sm text-white/50 max-w-2xl mx-auto font-sans leading-relaxed">
               Responder essas perguntas exige mais do que experiência operacional. Exige uma nova camada de inteligência institucional.
             </p>
           </div>
@@ -419,14 +419,14 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             
             <div className="lg:col-span-6 space-y-6">
               <span className="text-[10px] font-bold uppercase tracking-widest text-secondary block">
-                Uma camada adicional de inteligência
+                Quando experiência encontra inteligência institucional
               </span>
               <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white leading-tight">
                 Amplie sua capacidade diagnóstica sem substituir sua autoridade.
               </h2>
               <div className="p-6 border-l-2 border-secondary bg-[#060D17]/35 rounded-r-xl">
                 <p className="text-sm md:text-base italic text-white/90 leading-relaxed font-sans">
-                  "Sua experiência continua sendo essencial. Mas agora ela pode ser ampliada por uma camada de Governança Institucional Inteligente."
+                  O desafio não é substituir a experiência do advisor. É ampliar sua capacidade de interpretação diante de organizações cada vez mais complexas.
                 </p>
               </div>
             </div>
@@ -456,10 +456,10 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               Visão Expandida
             </span>
             <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
-              Amplie sua capacidade diagnóstica
+              O que passa a ser visível
             </h2>
             <p className="text-base text-white/70 max-w-2xl mx-auto font-sans">
-              Com o Illumine Governance™ você passa a identificar com precisão cirúrgica:
+              Com o Illumine Governance™, sinais dispersos passam a revelar padrões que normalmente permanecem invisíveis à liderança.
             </p>
           </div>
 
@@ -499,7 +499,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
               Infraestrutura de Interpretação
             </span>
             <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white">
-              As 7 Inteligências ampliam sua capacidade de aconselhamento
+              As 7 Inteligências ajudam você a enxergar além dos indicadores
             </h2>
             <p className="text-sm text-white/60 max-w-2xl mx-auto leading-relaxed">
               Enquanto muitos profissionais analisam indicadores isolados, o Illumine Governance™ interpreta o impacto desses indicadores sobre o futuro e a continuidade da organização.
@@ -760,11 +760,11 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
           </h2>
           <div className="w-12 h-[1px] bg-secondary/60 mx-auto" />
           <p className="text-xl md:text-2xl text-white/95 leading-relaxed font-sans max-w-3xl mx-auto">
-            Estamos desenvolvendo uma <span className="text-secondary font-medium">comunidade de advisors</span> capazes de interpretar organizações complexas com maior profundidade.
+            Estamos desenvolvendo uma <span className="text-secondary font-medium">comunidade de advisors</span> comprometidos em elevar o padrão de interpretação, aconselhamento e tomada de decisão nas organizações que atendem.
           </p>
           <div className="pt-2 max-w-2xl mx-auto">
             <p className="text-sm text-white/50 leading-relaxed font-sans">
-              O objetivo não é vender tecnologia. O objetivo é ampliar a capacidade de aconselhamento de profissionais qualificados que influenciam decisões importantes no topo das organizações.
+              O objetivo não é ampliar o acesso a ferramentas. O objetivo é ampliar a capacidade de aconselhamento de profissionais que influenciam decisões importantes.
             </p>
           </div>
         </div>
@@ -822,15 +822,26 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
           <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
             Nova Geração de Aconselhamento
           </span>
+          
+          <div className="space-y-4 py-4">
+            <p className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-white leading-[1.1] max-w-4xl mx-auto italic tracking-tight">
+              “Você consegue enxergar aquilo que seus clientes ainda não conseguem ver?”
+            </p>
+            <div className="w-12 h-[1px] bg-secondary/50 mx-auto" />
+          </div>
+
           <div className="space-y-4">
             <h5 className="text-sm font-mono uppercase tracking-widest text-white/40">
               O futuro do aconselhamento
             </h5>
             <p className="text-2xl sm:text-3xl md:text-4xl font-display font-medium text-white leading-tight max-w-3xl mx-auto">
-              O futuro do aconselhamento não pertence a quem possui mais dados. Pertence a quem consegue interpretá-los melhor.
+              O futuro do aconselhamento não pertence a quem possui mais dados. Pertence a quem consegue transformar dados em discernimento.
             </p>
             <p className="text-sm md:text-base text-white/75 max-w-2xl mx-auto leading-relaxed font-sans">
-              Amplie sua capacidade diagnóstica. Amplie sua capacidade de influência. Amplie o valor fiduciário e estratégico que você entrega aos seus clientes.
+              Amplie sua capacidade diagnóstica. Amplie sua influência. Amplie o impacto que você gera nas organizações que atende.
+            </p>
+            <p className="text-[13px] text-secondary font-semibold uppercase tracking-widest pt-6 max-w-2xl mx-auto">
+              Porque organizações complexas precisam de advisors capazes de enxergar além dos relatórios.
             </p>
           </div>
 

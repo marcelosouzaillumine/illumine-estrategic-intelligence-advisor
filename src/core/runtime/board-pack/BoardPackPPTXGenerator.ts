@@ -8,13 +8,16 @@ export class BoardPackPPTXGenerator {
    * Builds and exports a widescreen (16:9) PPTX presentation using pptxgenjs.
    * Works in both browser downloads and Node.js environments.
    */
-  public static async generatePPTX(pack: BoardPack, saveToFile: boolean = false): Promise<pptxgen> {
+  public static async generatePPTX(pack: BoardPack, saveToFile: boolean = false): Promise<any> {
     if (!pack) {
       throw new Error('[PPTX Export] Board Pack inválido.');
     }
 
-    const PptxConstructor = typeof pptxgen === 'function' ? pptxgen : (pptxgen as any).default;
-    const pptx = new PptxConstructor();
+    const PptxConstructor = typeof pptxgen === 'function' 
+      ? pptxgen 
+      : (pptxgen as unknown as { default: typeof pptxgen }).default;
+      
+    const pptx: any = new PptxConstructor();
     pptx.layout = 'LAYOUT_16x9';
 
     // Palette Colors
@@ -33,7 +36,7 @@ export class BoardPackPPTXGenerator {
     coverSlide.background = { fill: darkNavy };
 
     // Decorative Coral Bar on the right
-    coverSlide.addShape(pptx.shapes.RECTANGLE, {
+    coverSlide.addShape(pptx.ShapeType.rect, {
       x: 12.8,
       y: 0,
       w: 0.53,
@@ -42,7 +45,7 @@ export class BoardPackPPTXGenerator {
     });
 
     // Sage accent bar top left
-    coverSlide.addShape(pptx.shapes.RECTANGLE, {
+    coverSlide.addShape(pptx.ShapeType.rect, {
       x: 0.8,
       y: 1.0,
       w: 0.5,
@@ -75,7 +78,7 @@ export class BoardPackPPTXGenerator {
     });
 
     // Badge: Cognitive Certification Level 5
-    coverSlide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+    coverSlide.addShape(pptx.ShapeType.roundRect, {
       x: 0.8,
       y: 4.8,
       w: 4.2,
@@ -174,7 +177,7 @@ export class BoardPackPPTXGenerator {
         pptxSlide.background = { fill: white };
 
         // Header rectangle top border
-        pptxSlide.addShape(pptx.shapes.RECTANGLE, {
+        pptxSlide.addShape(pptx.ShapeType.rect, {
           x: 0.8,
           y: 0.4,
           w: 11.7,
@@ -202,7 +205,7 @@ export class BoardPackPPTXGenerator {
                            slide.meetingCriticality === 'HIGH' ? 'E67E22' : 
                            slide.meetingCriticality === 'MODERATE' ? '2980B9' : '7F8C8D';
 
-        pptxSlide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+        pptxSlide.addShape(pptx.ShapeType.roundRect, {
           x: 10.3,
           y: 0.6,
           w: 2.2,
@@ -246,7 +249,7 @@ export class BoardPackPPTXGenerator {
             const cardX = 0.8 + (index % 2) * 6.0;
             const cardY = 1.8 + Math.floor(index / 2) * 1.4;
 
-            pptxSlide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+            pptxSlide.addShape(pptx.ShapeType.roundRect, {
               x: cardX,
               y: cardY,
               w: 5.6,
@@ -255,7 +258,7 @@ export class BoardPackPPTXGenerator {
               line: { color: borderGrey, width: 1 }
             });
 
-            pptxSlide.addShape(pptx.shapes.RECTANGLE, {
+            pptxSlide.addShape(pptx.ShapeType.rect, {
               x: cardX,
               y: cardY,
               w: 0.1,
@@ -278,7 +281,7 @@ export class BoardPackPPTXGenerator {
           slide.content.forEach((bullet, index) => {
             const cardY = 1.7 + index * 0.9;
 
-            pptxSlide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+            pptxSlide.addShape(pptx.ShapeType.roundRect, {
               x: 0.8,
               y: cardY,
               w: 11.7,
@@ -288,7 +291,7 @@ export class BoardPackPPTXGenerator {
             });
 
             const isCritical = bullet.includes('[CRITICAL]') || bullet.includes('[Curto Prazo]') || bullet.includes('Violação') || bullet.includes('Caixa');
-            pptxSlide.addShape(pptx.shapes.RECTANGLE, {
+            pptxSlide.addShape(pptx.ShapeType.rect, {
               x: 0.8,
               y: cardY,
               w: 0.08,
@@ -311,7 +314,7 @@ export class BoardPackPPTXGenerator {
           slide.content.forEach((bullet, index) => {
             const cardY = 1.7 + index * 2.1;
 
-            pptxSlide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+            pptxSlide.addShape(pptx.ShapeType.roundRect, {
               x: 0.8,
               y: cardY,
               w: 11.7,
@@ -320,7 +323,7 @@ export class BoardPackPPTXGenerator {
               line: { color: borderGrey, width: 1 }
             });
 
-            pptxSlide.addShape(pptx.shapes.RECTANGLE, {
+            pptxSlide.addShape(pptx.ShapeType.rect, {
               x: 0.8,
               y: cardY,
               w: 0.1,
@@ -372,7 +375,7 @@ export class BoardPackPPTXGenerator {
         // ==========================================
         // CORPORATE BRANDING FOOTERS (Content Slides)
         // ==========================================
-        pptxSlide.addShape(pptx.shapes.RECTANGLE, {
+        pptxSlide.addShape(pptx.ShapeType.rect, {
           x: 0.8,
           y: 6.4,
           w: 11.7,
