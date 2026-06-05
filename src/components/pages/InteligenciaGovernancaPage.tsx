@@ -252,7 +252,7 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
               {filteredPrinciples.map(principle => (
                 <motion.div
@@ -489,9 +489,9 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
           ) : (
               <div className="space-y-12 animate-in fade-in zoom-in-95 duration-1000">
                  {/* Dashboard de Resultados */}
-                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                 <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
                     {/* Radar Chart Section */}
-                    <div className="lg:col-span-8 card-premium p-12 flex flex-col">
+                    <div className="xl:col-span-8 card-premium p-12 flex flex-col">
                       <div className="flex justify-between items-start mb-12">
                         <div>
                           <h3 className="text-h2 font-medium text-foreground tracking-tight">Mapa de Maturidade Organizacional</h3>
@@ -553,7 +553,7 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
                     </div>
 
                     {/* Classification Card */}
-                    <div className="lg:col-span-4 space-y-8">
+                    <div className="xl:col-span-4 space-y-8">
                       <div className={cn("p-10 rounded-md border shadow-premium flex flex-col items-center text-center space-y-6", classification.bg, classification.border)}>
                           <div className={cn("w-20 h-20 rounded-md flex items-center justify-center shadow-sm", classification.bg, "border border-current opacity-30")}>
                             <ShieldCheck size={40} className={classification.color} />
@@ -623,7 +623,7 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
 
                  {/* AI Intelligence Detailed Report */}
                  {!loadingDiagnosis && aiDiagnosis && (
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-8 mt-8">
                       <div className="card-premium p-10 space-y-6">
                          <h4 className="text-body-md font-medium text-foreground flex items-center gap-3 uppercase tracking-widest">
                             <AlertTriangle className="text-destructive" size={20} />
@@ -692,7 +692,7 @@ export function InteligenciaGovernancaPage({ clientId }: { clientId: string }) {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-4">
                       {GOVERNANCE_PRINCIPLES.map(p => {
                         const score = finalResponses[p.id] ?? 0;
                         const isAdjusted = responses[p.id] !== undefined && finalResponses[p.id] !== responses[p.id];

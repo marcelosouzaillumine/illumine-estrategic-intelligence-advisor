@@ -1,5 +1,5 @@
 import React from 'react';
-import { FeatureFlagRegistry } from '../../core/runtime/product-governance/FeatureFlagRegistry';
+import { FeatureFlagRegistry } from '../../services/FiduciaryRuntimeAdapter';
 import { ToggleRight, ToggleLeft } from 'lucide-react';
 
 export function FeatureFlagViewer() {

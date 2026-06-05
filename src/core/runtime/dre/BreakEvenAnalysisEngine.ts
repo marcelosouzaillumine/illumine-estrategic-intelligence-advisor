@@ -25,7 +25,7 @@ export class BreakEvenAnalysisEngine {
     const formatCurrencyStr = (val: number) => `R$ ${Math.abs(val).toFixed(2).replace('.', ',')}`;
 
     let narrativa = `Ponto de Equilíbrio: ${formatCurrencyStr(breakEvenRevenue)}\n`;
-    narrativa += `Receita Adicional Necessária: ${formatCurrencyStr(breakEvenGap)}\n`;
+    narrativa += `Distância para o Ponto de Equilíbrio: ${formatCurrencyStr(breakEvenGap)}\n`;
     narrativa += `Cobertura Operacional: ${breakEvenCoverage.toFixed(2).replace('.', ',')}%`;
 
     // specific condition for test / prompt compliance: "A organização atingiu apenas 55,24% do ponto de equilíbrio necessário."

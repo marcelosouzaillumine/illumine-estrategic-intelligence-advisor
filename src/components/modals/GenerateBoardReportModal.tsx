@@ -38,24 +38,24 @@ export function GenerateBoardReportModal({
     if (isOpen) {
       if (advisoryLoading) {
         setStatus('generating_ai');
-        setProgressMsg('Processando inteligência executiva (Executive Advisory Engine)...');
+        setProgressMsg(t('boardpack.modal.processing_msg'));
       } else if (advisoryReport) {
         setStatus('ready');
       } else {
         setStatus('error');
-        setProgressMsg('Não foi possível gerar a inteligência com os dados atuais.');
+        setProgressMsg(t('boardpack.modal.error_msg'));
       }
     } else {
       setStatus('idle');
     }
-  }, [isOpen, advisoryLoading, advisoryReport]);
+  }, [isOpen, advisoryLoading, advisoryReport, t]);
 
   if (!isOpen) return null;
 
   const handleDownloadPDF = async () => {
     if (!advisoryReport || !pdfRef.current) return;
     setStatus('rendering_pdf');
-    setProgressMsg('Renderizando PDF de alta resolução...');
+    setProgressMsg(t('boardpack.modal.rendering_pdf_msg'));
     
     try {
       const pdf = new jsPDF('p', 'mm', 'a4');
@@ -77,7 +77,11 @@ export function GenerateBoardReportModal({
         
         // A4 proportions exactly
         pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
-        setProgressMsg(`Processando página ${i + 1} de ${pages.length}...`);
+        setProgressMsg(
+          t('boardpack.modal.processing_page_msg')
+            .replace('{page}', String(i + 1))
+            .replace('{total}', String(pages.length))
+        );
       }
       
       pdf.save(`Board_Advisory_Report_${companyName.replace(/\s+/g, '_')}.pdf`);
@@ -85,7 +89,7 @@ export function GenerateBoardReportModal({
     } catch (error) {
       console.error('Error generating PDF:', error);
       setStatus('error');
-      setProgressMsg('Erro ao compilar o PDF.');
+      setProgressMsg(t('boardpack.modal.pdf_error_msg'));
     }
   };
 
@@ -96,9 +100,9 @@ export function GenerateBoardReportModal({
       <div className="bg-card w-full max-w-lg rounded-xl border border-border shadow-2xl relative z-10 overflow-hidden">
         <div className="p-6 border-b border-border flex justify-between items-center bg-surface-container/30">
           <div>
-            <h2 className="text-sm font-bold text-foreground uppercase tracking-widest">Board Advisory Report</h2>
+            <h2 className="text-sm font-bold text-foreground uppercase tracking-widest">{t('boardpack.modal.title')}</h2>
             <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mt-1">
-              Executive Advisory Engine
+              {t('boardpack.modal.subtitle')}
             </p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-surface-container rounded-full transition-colors text-muted-foreground">
@@ -112,7 +116,7 @@ export function GenerateBoardReportModal({
                 <Loader2 size={40} className="animate-spin text-secondary mx-auto" />
                 <div className="space-y-2">
                    <h3 className="text-sm font-medium text-foreground">
-                     {status === 'generating_ai' ? 'Síntese Institucional Ativa' : 'Montagem do Documento'}
+                     {status === 'generating_ai' ? t('boardpack.modal.generating_ai') : t('boardpack.modal.rendering_pdf')}
                    </h3>
                    <p className="text-xs font-bold text-primary animate-pulse">{progressMsg}</p>
                 </div>
@@ -121,9 +125,9 @@ export function GenerateBoardReportModal({
 
           {status === 'error' && (
              <div className="text-center space-y-6">
-                <div className="text-destructive font-bold text-sm">Bloqueio Institucional</div>
+                <div className="text-destructive font-bold text-sm">{t('boardpack.modal.institutional_block')}</div>
                 <p className="text-xs text-muted-foreground leading-relaxed">{progressMsg}</p>
-                <Button onClick={onClose} variant="outline">Dispensar</Button>
+                <Button onClick={onClose} variant="outline">{t('boardpack.modal.dismiss')}</Button>
              </div>
           )}
 
@@ -133,13 +137,13 @@ export function GenerateBoardReportModal({
                   <Download size={32} />
                </div>
                <div>
-                  <h3 className="text-sm font-medium text-foreground">Relatório Executivo Pronto</h3>
+                  <h3 className="text-sm font-medium text-foreground">{t('boardpack.modal.report_ready')}</h3>
                   <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                     A Executive Advisory Engine concluiu a síntese. O relatório estratégico consolidado está pronto para ser baixado.
+                     {t('boardpack.modal.ready_desc')}
                   </p>
                </div>
                <Button onClick={handleDownloadPDF} className="w-full bg-[#FF8552] text-white hover:bg-[#FF8552]/90 font-bold uppercase tracking-widest">
-                 Baixar PDF Premium
+                 {t('boardpack.modal.download_pdf')}
                </Button>
             </div>
           )}

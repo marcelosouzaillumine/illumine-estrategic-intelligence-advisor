@@ -18,21 +18,15 @@ import {
   Pie
 } from 'recharts';
 import { cn, formatCurrency, formatValue, getThemeColors } from '../../lib/utils';
+import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { PageHeader, KpiCard } from '../Common';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
-import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
-// ExecutiveCommentary deliberately not imported — retired from DRE in ENGF v1.1.
-// Executive Advisory (ENGF) is now the single official narrative source for DRE.
-import { ExecutiveEmptyStatePolicy } from '../../core/runtime/dre/ExecutiveEmptyStatePolicy';
-
+import { FiduciaryRuntimeAdapter, PresentationLayer, ExecutiveIntelligenceReport, ExecutiveLabelResolver } from '../../services/FiduciaryRuntimeAdapter';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { useInstitutionalAuth } from '../../core/security/auth/InstitutionalAuthProvider';
-import { getProfile, mapOfficialRoleToProfileId, PresentationLayer } from '../../core/runtime/presentation-governance/ExecutiveAudienceProfile';
-import { ExecutiveInformationDensityFramework } from '../../core/runtime/presentation-governance/ExecutiveInformationDensityFramework';
-
 import {
   collection,
   deleteDoc,
@@ -49,7 +43,7 @@ type ToastType = { type: 'success' | 'error'; message: string } | null;
 
 export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const { translateLabel, t } = useLanguage();
-  const [filterYear, setFilterYear] = useState(selectedYear || new Date().getFullYear());
+  const [filterYear, setFilterYear] = useState<number>(Number(selectedYear) || new Date().getFullYear());
   const [toast, setToast] = useState<ToastType>(null);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -58,7 +52,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
   const { session } = useInstitutionalAuth();
   const userRole = session?.role || 'BOARD_MEMBER';
-  const profile = useMemo(() => getProfile(mapOfficialRoleToProfileId(userRole)), [userRole]);
+  const profile = useMemo(() => FiduciaryRuntimeAdapter.getProfile(FiduciaryRuntimeAdapter.mapOfficialRoleToProfileId(userRole)), [userRole]);
   const [densityLevel, setDensityLevel] = useState<PresentationLayer>(profile.defaultDensity);  
   
   useEffect(() => {
@@ -72,7 +66,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   }, [densityLevel]);
 
   const isSectionVisible = (sectionName: string) => {
-    return ExecutiveInformationDensityFramework.isSectionVisible(sectionName, densityLevel);
+    return FiduciaryRuntimeAdapter.ExecutiveInformationDensityFramework.isSectionVisible(sectionName, densityLevel);
   };
 
   const currentClient = clients?.find((c: any) => c.id === selectedClient);
@@ -89,7 +83,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
   const [showManualModal, setShowManualModal] = useState(false);
 
   useEffect(() => {
-    if (selectedYear) setFilterYear(selectedYear);
+    if (selectedYear) setFilterYear(Number(selectedYear));
   }, [selectedYear]);
 
 
@@ -129,7 +123,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         isMockData: dbData.length === 0,
         historicalSeries: allHistoryData
       };
-      const report = executiveRuntime.generateExecutiveReport(input);
+      const report = FiduciaryRuntimeAdapter.generateExecutiveReport(input);
       setExecutiveReport(report);
     }
     runAnalysis();
@@ -365,6 +359,9 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
+      {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
+        <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
+      )}
       <PageHeader 
         title="Demonstração do Resultado (DRE)" 
         subtitle="Análise de performance operacional, lucratividade e rentabilidade do exercício contábil."
@@ -436,9 +433,9 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             </div>
           </div>
 
-          <div className="flex flex-col xl:flex-row gap-6 items-stretch">
+          <div className="flex flex-col 2xl:flex-row gap-6 items-stretch">
             {/* Core Metrics Grid */}
-            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100 flex flex-col items-start justify-start shadow-sm transition-all hover:shadow-md">
                 <span className="text-[10px] uppercase font-black text-slate-400 block mb-2 tracking-[0.2em]">{t('dre.diagnosis.value_creation')}</span>
                 <span className="text-base font-bold text-slate-800 leading-snug">{economicDiagnosis.valueCreationAssessment}</span>
@@ -458,7 +455,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             </div>
             
             {/* Featured Outlook Panel */}
-            <div className="w-full xl:w-[420px] bg-gradient-to-br from-blue-50/80 to-indigo-50/30 p-8 rounded-[32px] border border-blue-100 flex flex-col justify-center shadow-sm relative overflow-hidden group">
+            <div className="w-full 2xl:w-[420px] bg-gradient-to-br from-blue-50/80 to-indigo-50/30 p-8 rounded-[32px] border border-blue-100 flex flex-col justify-center shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
               <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
                 <Activity size={120} className="text-blue-600 transform -rotate-12" />
               </div>
@@ -477,7 +474,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* 3 & 4 & 5. ESTRUTURA ECONÔMICA, CONSUMO E COBERTURA */}
       {(isSectionVisible('DRE_ESTRUTURA_ECONOMICA') || isSectionVisible('DRE_CONSUMO_ECONOMICO') || isSectionVisible('DRE_BREAK_EVEN')) && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 mb-10">
         
         {/* ESTRUTURA ECONÔMICA DA RECEITA */}
         {isSectionVisible('DRE_ESTRUTURA_ECONOMICA') && (
@@ -500,7 +497,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     </p>
                  </div>
               ) : (
-                 <p className="text-sm font-medium text-slate-500 text-center">{ExecutiveEmptyStatePolicy.getFallbackMessage(revenueEconomicStructure?.reason || 'INSUFFICIENT_DATA')}</p>
+                 <p className="text-sm font-medium text-slate-500 text-center">{FiduciaryRuntimeAdapter.ExecutiveEmptyStatePolicy.getFallbackMessage(revenueEconomicStructure?.reason || 'INSUFFICIENT_DATA')}</p>
               )}
           </div>
         </div>
@@ -528,7 +525,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     </p>
                     <div className="w-full flex justify-between px-4">
                        <div className="text-center">
-                          <p className="text-[9px] font-bold uppercase text-rose-400/80 mb-1">Déficit Econômico Mensalizado</p>
+                          <p className="text-[9px] font-bold uppercase text-rose-400/80 mb-1">Déficit Econômico Mensal</p>
                           <p className="font-black text-rose-600">{formatCurrency(economicBurnRate.value.monthlyEconomicBurn)}</p>
                        </div>
                        <div className="text-center">
@@ -545,7 +542,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                  </div>
                 )
               ) : (
-                 <p className="text-sm font-medium text-slate-500 text-center">{ExecutiveEmptyStatePolicy.getFallbackMessage(economicBurnRate?.reason || 'INSUFFICIENT_DATA')}</p>
+                 <p className="text-sm font-medium text-slate-500 text-center">{FiduciaryRuntimeAdapter.ExecutiveEmptyStatePolicy.getFallbackMessage(economicBurnRate?.reason || 'INSUFFICIENT_DATA')}</p>
               )}
           </div>
         </div>
@@ -580,7 +577,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                     )}
                  </div>
               ) : (
-                 <p className="text-sm font-medium text-slate-500 text-center">{ExecutiveEmptyStatePolicy.getFallbackMessage(breakEvenAnalysis?.reason || 'INSUFFICIENT_DATA')}</p>
+                 <p className="text-sm font-medium text-slate-500 text-center">{FiduciaryRuntimeAdapter.ExecutiveEmptyStatePolicy.getFallbackMessage(breakEvenAnalysis?.reason || 'INSUFFICIENT_DATA')}</p>
               )}
           </div>
         </div>
@@ -602,7 +599,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             </div>
           </div>
           
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
               {/* P1 */}
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">P1 — Criação de Valor</p>
@@ -689,7 +686,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                 healthExplainability.classificationColor === 'rose' ? 'text-rose-600' : 'text-red-700'
               )}>{healthExplainability.score}/100</span>
               <span className={cn(
-                "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border",
+                "text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-2xl border text-center break-words whitespace-normal leading-snug",
                 healthExplainability.classificationColor === 'emerald' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
                 healthExplainability.classificationColor === 'amber' ? 'bg-amber-50 text-amber-700 border-amber-200' :
                 healthExplainability.classificationColor === 'orange' ? 'bg-orange-50 text-orange-700 border-orange-200' :
@@ -727,7 +724,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
           </div>
 
           {dreExecutiveAdvisoryFull ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-6">
               {[
                 { label: 'Situação Atual', content: dreExecutiveAdvisoryFull.situacaoAtual, color: 'border-l-slate-400' },
                 { label: 'Principal Restrição', content: dreExecutiveAdvisoryFull.restricaoPrincipal, color: 'border-l-rose-400' },
@@ -776,7 +773,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
         {showTechnicalLayer && (
           <div className="mt-8 space-y-10 animate-in fade-in slide-in-from-top-4 duration-300">
             {/* KPIs */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
               {kpis.map((idx, i) => {
                 const isCurrency = idx.unit === 'currency';
                 const formattedValue = typeof idx.val === 'string'
@@ -802,7 +799,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
             </div>
 
             {/* SCALE EFFICIENCY E QUALIDADE */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
               {scaleEfficiency && (
                 <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
                   <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
@@ -817,13 +814,13 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                   
                   <div className="flex flex-col flex-1 justify-center">
                     <div className="text-center mb-8">
-                        <span className={cn("inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-black uppercase tracking-wider",
+                        <span className={cn("inline-flex items-center gap-2 px-4 py-2 rounded-2xl border text-sm font-black uppercase tracking-wider text-center break-words whitespace-normal leading-snug",
                           scaleEfficiency.colorClass?.replace('text-', 'bg-').replace('400', '50/50').replace('500', '50/50'),
                           scaleEfficiency.colorClass?.replace('text-', 'border-').replace('400', '200').replace('500', '200'),
                           scaleEfficiency.colorClass
                         )}>
                           <Zap size={16} />
-                          {scaleEfficiency.category}
+                          {ExecutiveLabelResolver.resolve(scaleEfficiency.category, t)}
                         </span>
                     </div>
                     

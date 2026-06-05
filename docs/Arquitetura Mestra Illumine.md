@@ -17,6 +17,49 @@
 > **Status:** Referência Conceitual e Diretriz Arquitetural
 > **Objetivo:** Orientar futuras implementações, decisões de design e evolução da plataforma Illumine sem aprofundar em código no momento.
 
+## PRINCÍPIO DE CONTINUIDADE ARQUITETURAL (V3.0)
+
+**PRINCIPLE_OF_ARCHITECTURAL_CONTINUITY**
+
+**Definition:**
+"A evolução da plataforma Illumine deve ocorrer por expansão constitucional e não por substituição estrutural. Toda nova capacidade deverá preservar a validade dos ativos fiduciários, causais, econômicos, institucionais e constitucionais previamente homologados."
+
+### Cláusula de Preservação (Preservation Clause)
+
+Fica registrado formalmente que permanecem inalterados e não poderão ser substituídos por esta expansão:
+* EFOS Framework
+* DRE Runtime
+* BP Runtime
+* DFC Runtime
+* DLPA Intelligence
+* Master Causal Engine
+* Institutional Intelligence
+* Economic Intelligence
+* Governance Intelligence
+* Systemic Intelligence
+* Anthropological Intelligence
+* Engine Central de Correlação
+* Engine de Priorização
+* Explainability Global
+* Executive Advisory Layer
+* Narrative Intelligence
+* Executive Workspace
+* Executive AI Layer
+* Constitutional Governance
+
+### Limites Arquiteturais (Architectural Boundaries)
+
+É terminantemente **PROIBIDO**:
+* Recalcular indicadores existentes
+* Substituir inteligências existentes
+* Alterar contratos certificados
+* Alterar scores homologados
+* Alterar engines certificadas
+* Alterar lineage
+* Alterar causalidade homologada
+
+Toda evolução deverá ocorrer por extensão constitucional.
+
 ## GOVERNANÇA DA INTELIGÊNCIA CAUSAL
 
 A plataforma Illumine passa a operar sobre uma arquitetura institucional baseada em causalidade financeira, comportamento estrutural e inferência dinâmica.
@@ -216,13 +259,112 @@ Os 7 domínios são:
 
 ## 4. Inteligências Estruturantes (Camadas Interpretativas)
 
-Atravessando transversalmente os 7 domínios oficiais, a plataforma Illumine é alicerçada em 5 inteligências estruturantes. Estas inteligências não atuam como dashboards ou páginas individuais, mas sim como **camadas interpretativas** que guiam a análise, a geração de advisory e a formação de planos de ação sistêmicos:
+Atravessando transversalmente os 7 domínios oficiais, a plataforma Illumine passa a reconhecer oficialmente 7 inteligências estruturantes. Estas inteligências não atuam como dashboards ou páginas individuais, mas sim como **camadas interpretativas** que guiam a análise, a geração de advisory e a formação de planos de ação sistêmicos:
+
+> **Constituição Cognitiva:** O framework oficial de interação, arbitragem e precedência destas 7 inteligências está registrado em: [SEVEN_INTELLIGENCES_INTERACTION_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/SEVEN_INTELLIGENCES_INTERACTION_FRAMEWORK.md).
 
 1. **Inteligência de Governança:** Avalia o alinhamento estratégico, a sucessão, os mecanismos de controle, o nível de *compliance* e a mitigação de riscos estruturais nas práticas da empresa.
 2. **Inteligência Sistêmica:** Analisa como as diferentes áreas e processos interagem e dependem uns dos outros, identificando gargalos, redundâncias e oportunidades de otimização no fluxo de valor organizacional.
 3. **Inteligência Institucional:** Compreende o legado da organização, sua imagem perante o mercado, o impacto gerado na sociedade e o alinhamento de seu posicionamento com os valores de longo prazo.
 4. **Inteligência Econômica:** Interpreta a saúde financeira corporativa sob o aspecto da geração de valor sustentável, viabilidade de negócios e eficiência pragmática na alocação de capital e recursos.
 5. **Inteligência Antropológica:** Foca nas dinâmicas de comportamento humano, nas crenças, nos rituais corporativos, na coerência entre a cultura declarada e a cultura vivida, e no tecido relacional dos colaboradores.
+6. **Inteligência Missional:** ([MISSIONAL_INTELLIGENCE_ENGINE.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/MISSIONAL_INTELLIGENCE_ENGINE.md)) Avalia a coerência entre missão declarada e missão praticada; o alinhamento entre propósito, estratégia e operação; monitora *Mission Drift* e *Mission Integrity*; e mede o impacto transformacional gerado pela organização. A pergunta central é: *"A organização está cumprindo sua razão de existir?"*.
+7. **Inteligência Prospectiva:** ([PROSPECTIVE_INTELLIGENCE_ENGINE.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/PROSPECTIVE_INTELLIGENCE_ENGINE.md)) Avalia a adaptabilidade organizacional, capacidade de inovação, capacidade de sucessão, preparação para riscos futuros, sustentabilidade de longo prazo e resiliência estratégica. A pergunta central é: *"Esta organização está preparada para prosperar no futuro sem comprometer sua identidade, sua missão e sua capacidade de gerar valor?"*.
+
+### 4.1. ESGIM Framework
+
+Fica registrado oficialmente o **ESGIM™** como framework transversal da plataforma.
+
+**ESGIM significa:**
+* **E**nvironmental
+* **S**ocial
+* **G**overnance
+* **I**nstitutional
+* **M**ission
+
+**Definition:**
+"ESGIM™ representa o framework oficial de avaliação da sustentabilidade organizacional, governança, impacto institucional e alinhamento de missão."
+
+> **Importante:**
+> ESGIM não substitui inteligências. ESGIM não substitui domínios. ESGIM atua como framework transversal de avaliação.
+
+### 4.2. Institutional Wisdom Library (IWL)
+
+Fica registrada oficialmente a Institutional Wisdom Library. O framework detalhado e as regras de governança cognitiva encontram-se em:
+* [INSTITUTIONAL_WISDOM_LIBRARY_RUNTIME.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/INSTITUTIONAL_WISDOM_LIBRARY_RUNTIME.md)
+
+**Definition:**
+"A Institutional Wisdom Library representa a base epistemológica utilizada pelas Inteligências Estruturantes para interpretar evidências, tensões, riscos e oportunidades institucionais."
+
+**Coleções Iniciais:**
+* **Governance Principles:** Governança Corporativa, IBGC, OCDE, COSO.
+* **Leadership Principles:** Liderança, Desenvolvimento humano, Liderança servidora.
+* **Strategic Principles:** Estratégia, Competitividade, Sustentabilidade organizacional.
+* **Ethical Principles:** Integridade, Compliance, Accountability.
+* **ESG Principles:** Sustentabilidade, Responsabilidade socioambiental.
+* **BAM Principles:** Business as Mission, Integração fé e trabalho, Vocação organizacional.
+* **Biblical Principles:** Mordomia, Justiça, Integridade, Serviço, Trabalho, Vocação, Sabedoria.
+* **Institutional Principles:** Legado, Continuidade, Sucessão, Impacto.
+
+### 4.3. Mission Alignment Doctrine
+
+Fica registrada oficialmente a doutrina de alinhamento missional.
+
+**Definition:**
+"A plataforma deverá evoluir para avaliar a coerência entre propósito declarado, estratégia, cultura, operação, governança e impacto institucional."
+
+**Capacidades futuras:**
+* Mission Alignment
+* Mission Integrity
+* Mission Drift Detection
+* Mission Impact Assessment
+* Mission Sustainability
+
+*(Nota: Nenhuma implementação técnica deverá ocorrer nesta fase. Apenas registrar a doutrina.)*
+
+### Requisito de Explicabilidade (Explainability Requirement)
+
+Fica registrado que todas as futuras capacidades de **ESGIM**, **Inteligência Missional**, **Inteligência Prospectiva** e **Mission Alignment** deverão obedecer integralmente:
+* Explainability Global
+* Engine Central de Correlação
+* Engine de Priorização
+* Narrative Intelligence
+* Executive Advisory Layer
+
+Nenhuma nova capacidade poderá gerar conclusões sem rastreabilidade.
+
+### 4.4. Composite Intelligence Engines
+
+Fica registrada oficialmente uma nova categoria arquitetural na plataforma: **Composite Intelligence Engines**.
+Estas são engines de interpretação executiva que consomem múltiplas Inteligências Estruturantes para responder perguntas organizacionais de ordem superior.
+
+O membro inaugural desta categoria é o **Mission Alignment Engine**. Os detalhes de sua orquestração, consumo (Missional, Constitutional, Institutional e Prospective Intelligence) e regras de arbitragem estão registrados em:
+* [MISSION_ALIGNMENT_ENGINE.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/MISSION_ALIGNMENT_ENGINE.md)
+
+### 4.5. Governance Assessment Runtimes
+
+Fica registrada oficialmente a categoria de **Governance Assessment Runtimes**, atuando como a camada que produz avaliações executivas institucionais integradas. O membro inaugural desta categoria é o **ESGIM Governance Assessment Runtime**, cujas regras consolidadas estão documentadas em:
+* [ESGIM_RUNTIME_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ESGIM_RUNTIME_FRAMEWORK.md)
+
+### 4.6. Board Intelligence Layers
+
+Fica registrada oficialmente a categoria de **Board Intelligence Layers**, responsável por transformar avaliações institucionais em suporte direto à tomada de decisão para Conselhos e Investidores. O membro inaugural é o **ESGIM Board Intelligence Layer**, detalhado em:
+* [ESGIM_BOARD_INTELLIGENCE_LAYER.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ESGIM_BOARD_INTELLIGENCE_LAYER.md)
+
+### 4.7. Cognitive Validation Framework
+
+Fica registrado oficialmente o framework responsável pela validação, auditoria e certificação do comportamento cognitivo da arquitetura, submetendo todo o fluxo de orquestração a Stress Tests obrigatórios para garantir tolerância zero a falsos positivos fiduciários e institucionais. O documento de referência é:
+* [ESGIM_COGNITIVE_VALIDATION_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ESGIM_COGNITIVE_VALIDATION_FRAMEWORK.md)
+
+### 4.8. Cognitive Assurance & Certification Frameworks
+
+Fica registrada oficialmente a categoria de **Cognitive Assurance & Certification Frameworks**, atuando como a autoridade máxima de governança da qualidade cognitiva da plataforma. Esta camada é responsável por auditar, certificar e revogar certificações (baseadas em Rules estritas) garantindo confiabilidade institucional. O framework oficial está documentado em:
+* [GOVERNANCE_COGNITIVE_ASSURANCE_FRAMEWORK.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/GOVERNANCE_COGNITIVE_ASSURANCE_FRAMEWORK.md)
+
+### 4.9. Cognitive Audit & Certification Execution Packs
+
+Ficam registrados oficialmente os artefatos de execução das auditorias cognitivas. Eles contêm os escopos de testes práticos, modelos de pontuação, limiares de certificação e as regras rígidas de escalada (Failure Escalation). O primeiro execution pack oficial que inaugura a certificação da plataforma está em:
+* [ESGIM_COGNITIVE_AUDIT_EXECUTION_PACK.md](file:///Users/marcelosouza/Documents/illumine-strategic-intelligence-advisor/docs/ESGIM_COGNITIVE_AUDIT_EXECUTION_PACK.md)
 
 ## 5. Módulos Técnicos (Subsistemas)
 

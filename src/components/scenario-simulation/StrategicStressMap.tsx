@@ -1,6 +1,6 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
-import { StrategicStressLevel } from '../../core/runtime/scenario-simulation/types';
+import { StrategicStressLevel } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const StrategicStressMap: React.FC = () => {

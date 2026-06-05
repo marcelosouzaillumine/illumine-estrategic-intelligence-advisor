@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ShieldCheck, Loader2, Milestone, Server, Shield, CheckCircle2, AlertTriangle, AlertOctagon, HeartPulse } from 'lucide-react';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
-import { executiveRuntime } from '../../core/runtime/executive-intelligence-runtime';
+import { executiveRuntime } from '../../services/FiduciaryRuntimeAdapter';
 import { InstitutionalLifecycleSurface } from '../institutional-continuity/InstitutionalLifecycleSurface';
 import { FiduciaryContinuityPanel } from '../institutional-continuity/FiduciaryContinuityPanel';
 import { RecoveryRegressionTimeline } from '../institutional-continuity/RecoveryRegressionTimeline';

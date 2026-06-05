@@ -1,5 +1,5 @@
 import React from 'react';
-import { RiskCorrelationEngine } from '../../core/runtime/knowledge-graph/RiskCorrelationEngine';
+import { RiskCorrelationEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { ShieldAlert } from 'lucide-react';
 
 export function RiskCorrelationPanel({ tenantId }: { tenantId: string }) {

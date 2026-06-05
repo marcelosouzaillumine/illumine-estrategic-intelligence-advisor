@@ -1,6 +1,6 @@
 import React from 'react';
 import { Activity } from 'lucide-react';
-import { ContagionEdge } from '../../core/runtime/consolidated/stress/stress-types';
+import { ContagionEdge } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
 
 export function SystemicStressGrid({ stressMap }: { stressMap: ContagionEdge[] }) {

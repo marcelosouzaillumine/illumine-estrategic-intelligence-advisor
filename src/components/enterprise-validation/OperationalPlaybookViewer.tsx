@@ -1,6 +1,6 @@
 import React from 'react';
 import { BookOpen } from 'lucide-react';
-import { EnterpriseOnboardingPlaybook } from '../../core/runtime/operational-playbooks/EnterpriseOnboardingPlaybook';
+import { EnterpriseOnboardingPlaybook } from '../../services/FiduciaryRuntimeAdapter';
 
 export function OperationalPlaybookViewer({ tenantId }: { tenantId: string }) {
   const playbook = EnterpriseOnboardingPlaybook.getPlaybook();

@@ -14,9 +14,9 @@ import {
   CartesianGrid, Tooltip as ChartTooltip, Legend, Bar 
 } from 'recharts';
 import { cn } from '../../../lib/utils';
-import { RuntimePartitionManager } from '../../../core/runtime/distributed/RuntimePartitionManager';
-import { WorkerRegistry } from '../../../core/runtime/distributed/WorkerRegistry';
-import { AsyncJobQueue } from '../../../core/runtime/distributed/AsyncJobQueue';
+import { RuntimePartitionManager } from '../../../services/FiduciaryRuntimeAdapter';
+import { WorkerRegistry } from '../../../services/FiduciaryRuntimeAdapter';
+import { AsyncJobQueue } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface ObservabilityConsolePageProps {
   selectedClient?: string;

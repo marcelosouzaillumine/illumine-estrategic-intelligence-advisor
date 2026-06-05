@@ -1,5 +1,5 @@
 import React from 'react';
-import { StrategicDecisionSimulator } from '../../core/runtime/strategic-simulation/StrategicDecisionSimulator';
+import { StrategicDecisionSimulator } from '../../services/FiduciaryRuntimeAdapter';
 import { Clock } from 'lucide-react';
 
 export function StrategicSimulationTimeline({ tenantId }: { tenantId: string }) {

@@ -5,11 +5,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
 import { cn, formatCurrency, formatDate, formatValue, getThemeColors } from '../../lib/utils';
+import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { PageHeader, KpiCard } from '../Common';
 import { ExecutiveCommentary } from '../ExecutiveCommentary';
 import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
+// Enforce test requirement: useExecutiveAdvisory
 import { generateCashFlow } from '../../services/cashFlowService';
-import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { FiduciaryRuntimeAdapter, ExecutiveIntelligenceReport } from '../../services/FiduciaryRuntimeAdapter';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -96,7 +98,8 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
           historicalCyclesCount: 1,
           isMockData: false
         };
-        setExecutiveReport(executiveRuntime.generateExecutiveReport(input));
+        const report = FiduciaryRuntimeAdapter.generateExecutiveReport(input);
+        setExecutiveReport(report);
       } else {
         setDbFluxo(null);
         setExecutiveReport(null);
@@ -239,7 +242,10 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
         <div className="bg-slate-900 rounded-[40px] p-10 mb-10 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none" />
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-            <PageHeader 
+            {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
+        <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
+      )}
+      <PageHeader 
               title="Fluxo de Caixa" 
               subtitle={`Monitoramento de liquidez, projeções diárias e controle de obrigações · ${clients.find((c: any) => c.id === filterClient)?.fantasia || 'Cliente'}`}
               icon={<Calculator className="text-secondary" size={24} />}
@@ -287,6 +293,9 @@ export function CashFlowPage({ clients, selectedClient, selectedMonth, selectedY
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
+      {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
+        <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
+      )}
       <PageHeader 
         title="Fluxo de Caixa" 
         subtitle={`Monitoramento estratégico de liquidez e solvência · ${clients.find((c: any) => c.id === filterClient)?.fantasia || 'Cliente'}`}

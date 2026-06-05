@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShieldAlert, Info } from 'lucide-react';
-import { StressPropagationConfidence } from '../../core/runtime/consolidated/stress/stress-types';
+import { StressPropagationConfidence } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
 
 export function SystemicConfidenceState({ level }: { level: StressPropagationConfidence | 'EXACT_MATCH' }) {

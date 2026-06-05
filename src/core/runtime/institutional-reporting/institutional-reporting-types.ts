@@ -261,4 +261,65 @@ export interface InstitutionalBoardPackOutput {
     constitutionalAudit: any[];
   };
   temporalAudit?: any;
+  constitutionalDashboard?: import('../constitutional-governance/constitutional-dashboard-types').ConstitutionalGovernanceDashboardOutput;
+  executiveDecisionPrioritization?: {
+    top3BoardDecisions: Array<{
+      titulo: string;
+      problema: string;
+      impactoEsperado: string;
+      prazoRecomendadoLabel: string;
+      consequenciaInacao: string;
+      impactLabel: string;
+      urgencyLabel: string;
+      origin: string;
+      evidence: string[];
+    }>;
+    top5ExecutiveActions: Array<{
+      acao: string;
+      responsavel: string;
+      prazo: string;
+      impactoEsperado: string;
+      origin: string;
+      evidence: string[];
+    }>;
+    priorityMatrix: Array<{
+      area: string;
+      impacto: string;
+      urgencia: string;
+      esforco: string;
+    }>;
+    badi: {
+      liquidez: number;
+      rentabilidade: number;
+      capital: number;
+      governanca: number;
+      compliance: number;
+    };
+    maturity: {
+      stage: string;
+      label: string;
+      description: string;
+      severitySofteningFactor: number;
+    };
+    economicReturn: {
+      returnRate: number;
+      capitalEmployed: number;
+      ebit: number;
+      classification: string;
+      confidence: string;
+      confidenceReason: string;
+      narrative: string;
+    };
+    thesis: string;
+    pageZero: {
+      sobrevivendo: string;
+      sobrevivendoJustificativa: string;
+      criandoValor: string;
+      criandoValorConfidence: string;
+      capitalPreservado: string;
+      capitalPreservadoJustificativa: string;
+      maiorRisco: string;
+      decisaoMaisImportante: string;
+    };
+  };
 }

@@ -1,4 +1,5 @@
 import { DRELabelSanitizationRegistry } from '../presentation-governance/DRELabelSanitizationRegistry';
+import { PresentationLayer } from '../presentation-governance/ExecutiveAudienceProfile';
 
 export class ExecutiveLabelResolver {
   private static readonly LABEL_MAP: Record<string, string> = {
@@ -70,7 +71,8 @@ export class ExecutiveLabelResolver {
     'IMPROVING': 'Em Evolução',
     'DETERIORATING': 'Em Deterioração',
     // User additions
-    'Funding': 'Financiamento',
+    'Funding': 'Capitalização',
+    'FUNDING': 'Capitalização',
     'Funding Capacity': 'Capacidade de Sustentar Crescimento',
     'Debt Capacity': 'Capacidade de Endividamento',
     'Asset Concentration Risk': 'Risco de Concentração de Ativos',
@@ -81,12 +83,16 @@ export class ExecutiveLabelResolver {
     'Funding Restriction': 'Restrição de Financiamento',
     'Funding Pressure': 'Pressão de Financiamento',
     'NEUTRAL': 'Neutro',
-    'HIGH': 'Alto',
-    'LOW': 'Baixo',
+    'HIGH': 'Alta',
+    'LOW': 'Baixa',
+    'MEDIUM': 'Moderada',
+    'MODERATE': 'Moderada',
+    'Reconciliation Gap': 'Diferença de Reconciliação',
+    'RECONCILIATION GAP': 'Diferença de Reconciliação',
     'ACTIVE': 'Ativo',
     'STATUS': 'Status',
     'Short Term Pressure': 'Concentração no Curto Prazo',
-    'Score': 'Indicador de Síntese',
+    'Score': 'Pontuação',
     'Proxy Nível 2': 'Estimativa Indireta — Nível 2',
     
     // DRE Data Binding / Technical Leaks Sanitization
@@ -102,7 +108,7 @@ export class ExecutiveLabelResolver {
 
   };
 
-  public static resolve(key: string, t?: (k: string) => string): string {
+  public static resolve(key: string, t?: (k: string) => string, density?: PresentationLayer): string {
     if (!key) return '';
     let cleanKey = key.trim();
     
@@ -112,83 +118,142 @@ export class ExecutiveLabelResolver {
     
     if (!cleanKey) return '';
 
+    // Direct overrides for EIDF semantic normalization
+    if (density !== 'TECHNICAL') {
+      const upperClean = cleanKey.toUpperCase();
+      if (upperClean === 'EQE' || upperClean === 'EQS') {
+        return 'Qualidade da Geração Econômica';
+      }
+      if (upperClean === 'LOW') {
+        return 'Baixa';
+      }
+      if (upperClean === 'HIGH') {
+        return 'Alta';
+      }
+      if (upperClean === 'MEDIUM' || upperClean === 'MODERATE') {
+        return 'Moderada';
+      }
+      if (upperClean === 'SCORE' && (density === 'BOARD' || density === 'EXECUTIVE')) {
+        return 'Pontuação';
+      }
+      if (upperClean === 'FUNDING') {
+        return 'Capitalização';
+      }
+      if (upperClean === 'RECONCILIATION GAP') {
+        return 'Diferença de Reconciliação';
+      }
+    }
+
+    let resolved = '';
+
     // Check if translator is provided and has translation
     if (t) {
       const translated = t(cleanKey);
       if (translated && translated !== cleanKey && !(translated.startsWith('[[') && translated.endsWith(']]'))) {
-        return translated;
+        resolved = translated;
       }
     }
 
-    // Try DRE sanitization dictionary first
-    const sanitized = DRELabelSanitizationRegistry.sanitize(cleanKey);
-    if (sanitized !== cleanKey) {
-      return sanitized;
-    }
-
-    // Check if the original key was purely a bracketed string
-    if (key.trim().startsWith('[[') && key.trim().endsWith(']]')) {
-      const inner = key.trim().slice(2, -2).trim();
-      const resolvedInner = this.resolve(inner);
-      if (resolvedInner && resolvedInner !== inner) {
-        return resolvedInner;
+    if (!resolved) {
+      // Try DRE sanitization dictionary first
+      const sanitized = DRELabelSanitizationRegistry.sanitize(cleanKey);
+      if (sanitized !== cleanKey) {
+        resolved = sanitized;
       }
-      // If it resolved to itself, it's missing, so humanize it
-      const humanized = inner
-        .replace(/^.*\./, "")
-        .replace(/_/g, " ")
-        .replace(/([A-Z])/g, " $1")
-        .trim();
-      return humanized
-        .split(" ")
-        .filter(word => word.length > 0)
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(" ");
     }
 
-    const upperKey = cleanKey.toUpperCase();
-    
-    if (this.LABEL_MAP[upperKey]) {
-      return this.LABEL_MAP[upperKey];
+    if (!resolved) {
+      // Check if the original key was purely a bracketed string
+      if (key.trim().startsWith('[[') && key.trim().endsWith(']]')) {
+        const inner = key.trim().slice(2, -2).trim();
+        const resolvedInner = this.resolve(inner, t, density);
+        if (resolvedInner && resolvedInner !== inner) {
+          resolved = resolvedInner;
+        } else {
+          // If it resolved to itself, it's missing, so humanize it
+          const humanized = inner
+            .replace(/^.*\./, "")
+            .replace(/_/g, " ")
+            .replace(/([A-Z])/g, " $1")
+            .trim();
+          resolved = humanized
+            .split(" ")
+            .filter(word => word.length > 0)
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(" ");
+        }
+      }
     }
-    if (this.LABEL_MAP[cleanKey]) {
-      return this.LABEL_MAP[cleanKey];
+
+    if (!resolved) {
+      const upperKey = cleanKey.toUpperCase();
+      if (this.LABEL_MAP[upperKey]) {
+        resolved = this.LABEL_MAP[upperKey];
+      } else if (this.LABEL_MAP[cleanKey]) {
+        resolved = this.LABEL_MAP[cleanKey];
+      } else if (cleanKey.includes('_')) {
+        const snakeToWords = cleanKey.toLowerCase().replace(/_/g, ' ').replace(/(?:^|\s)\S/g, l => l.toUpperCase());
+        if (this.LABEL_MAP[snakeToWords]) resolved = this.LABEL_MAP[snakeToWords];
+        else if (this.LABEL_MAP[snakeToWords.toUpperCase()]) resolved = this.LABEL_MAP[snakeToWords.toUpperCase()];
+      }
     }
-    
-    // If not found, check if it's a snake_case key
-    if (cleanKey.includes('_')) {
-      const snakeToWords = cleanKey.toLowerCase().replace(/_/g, ' ').replace(/(?:^|\s)\S/g, l => l.toUpperCase());
-      if (this.LABEL_MAP[snakeToWords]) return this.LABEL_MAP[snakeToWords];
-      if (this.LABEL_MAP[snakeToWords.toUpperCase()]) return this.LABEL_MAP[snakeToWords.toUpperCase()];
-    }
-    
-    // Check if it's a technical key path (contains dots)
-    if (cleanKey.includes('.')) {
+
+    if (!resolved && cleanKey.includes('.')) {
       const humanized = cleanKey
         .replace(/^.*\./, "")
         .replace(/_/g, " ")
         .replace(/([A-Z])/g, " $1")
         .trim();
-      return humanized
+      resolved = humanized
         .split(" ")
         .filter(word => word.length > 0)
         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
         .join(" ");
     }
 
-    // Detect Firebase document IDs or raw hex/technical hashes
-    const isTechnicalId = /^[a-zA-Z0-9]{20}$/.test(cleanKey) || /^[a-fA-F0-9]{24,32}$/.test(cleanKey);
-    if (isTechnicalId) {
-      return 'Identificador Fiduciário';
+    if (!resolved) {
+      const isTechnicalId = /^[a-zA-Z0-9]{20}$/.test(cleanKey) || /^[a-fA-F0-9]{24,32}$/.test(cleanKey);
+      if (isTechnicalId) {
+        resolved = 'Identificador Fiduciário';
+      }
     }
-    
-    // Fallback: se for um código interno (ALL CAPS ou snake_case) não mapeado, blindamos a UI retornando neutro
-    if (cleanKey === cleanKey.toUpperCase() || cleanKey.includes('_')) {
-      return 'Avaliação Neutra';
+
+    if (!resolved) {
+      if (cleanKey === cleanKey.toUpperCase() || cleanKey.includes('_')) {
+        const isReplacedTerm = ['EQE', 'EQS', 'LOW', 'HIGH', 'MEDIUM', 'MODERATE', 'FUNDING', 'RECONCILIATION GAP', 'RECONCILIATION_GAP'].includes(cleanKey.toUpperCase());
+        if (!(density !== 'TECHNICAL' && isReplacedTerm)) {
+          resolved = 'Avaliação Neutra';
+        }
+      }
     }
-    
-    // Retorna a própria string caso seja um nome de métrica normal em português (ex: "Liquidez Corrente")    
-    return cleanKey;
+
+    if (!resolved) {
+      resolved = cleanKey;
+    }
+
+    // Apply EIDF Semantic Normalization Layer replacements
+    if (density !== 'TECHNICAL') {
+      resolved = resolved
+        .replace(/\bLOW\b/gi, 'Baixa')
+        .replace(/\bHIGH\b/gi, 'Alta')
+        .replace(/\bMEDIUM\b/gi, 'Moderada')
+        .replace(/\bFunding\b/gi, 'Capitalização')
+        .replace(/\bReconciliation Gap\b/gi, 'Diferença de Reconciliação')
+        .replace(/\bF\.O\.\b/gi, 'Operações')
+        .replace(/\bF\.I\.\b/gi, 'Investimentos')
+        .replace(/\bF\.F\.\b/gi, 'Financiamentos')
+        .replace(/\bF\.O\b/gi, 'Operações')
+        .replace(/\bF\.I\b/gi, 'Investimentos')
+        .replace(/\bF\.F\b/gi, 'Financiamentos')
+        .replace(/\bEQE\b/g, 'Qualidade da Geração Econômica')
+        .replace(/\bEQS\b/g, 'Qualidade da Geração Econômica');
+
+      if (density === 'BOARD' || density === 'EXECUTIVE') {
+        resolved = resolved.replace(/\bScore\b/gi, 'Pontuação');
+      }
+    }
+
+    return resolved;
   }
 
   public static resolveImpact(metricName: string): string {

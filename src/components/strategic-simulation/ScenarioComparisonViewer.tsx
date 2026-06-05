@@ -1,14 +1,13 @@
 import React from 'react';
-import { StrategicDecisionSimulator } from '../../core/runtime/strategic-simulation/StrategicDecisionSimulator';
-import { MultiScenarioComparisonEngine } from '../../core/runtime/strategic-simulation/MultiScenarioComparisonEngine';
+import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
 import { GitCompare } from 'lucide-react';
 
 export function ScenarioComparisonViewer({ tenantId }: { tenantId: string }) {
-  const sims = StrategicDecisionSimulator.getSimulations(tenantId);
+  const sims = FiduciaryRuntimeAdapter.StrategicDecisionSimulator.getSimulations(tenantId);
   // Requereria 2 sims para comparar. No mock temos 1, então mockamos a comparação contra a 'base atual'.
   if (sims.length === 0) return null;
 
-  const comparison = MultiScenarioComparisonEngine.compare(sims[0], sims[0]);
+  const comparison = FiduciaryRuntimeAdapter.MultiScenarioComparisonEngine.compare(sims[0], sims[0]);
 
   return (
     <div className="bg-surface-container border border-border rounded-lg p-6">

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Radar, Loader2, Database } from 'lucide-react';
 import { PageHeader } from '../Common';
-import { GoldenDatasetRegistry } from '../../core/runtime/reality-validation/GoldenDatasetRegistry';
-import { GoldenDatasetIsolationEngine } from '../../core/runtime/reality-validation/GoldenDatasetIsolationEngine';
-import { GoldenDatasetProfile } from '../../core/runtime/reality-validation/RealityValidationTypes';
+import { GoldenDatasetRegistry } from '../../services/FiduciaryRuntimeAdapter';
+import { GoldenDatasetIsolationEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { GoldenDatasetProfile } from '../../services/FiduciaryRuntimeAdapter';
 import { GoldenDatasetExplorer } from '../reality-validation/GoldenDatasetExplorer';
 import { OperationalStressDashboard } from '../reality-validation/OperationalStressDashboard';
 import { InstitutionalComplexityViewer } from '../reality-validation/InstitutionalComplexityViewer';

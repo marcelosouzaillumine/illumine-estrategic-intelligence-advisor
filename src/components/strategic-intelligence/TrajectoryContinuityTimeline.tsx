@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Route } from 'lucide-react';
-import { LongitudinalTrajectoryStatus } from '../../core/runtime/strategic-intelligence/strategic-intelligence-types';
+import { LongitudinalTrajectoryStatus } from '../../services/FiduciaryRuntimeAdapter';
 
 interface TrajectoryContinuityTimelineProps {
   status: LongitudinalTrajectoryStatus;

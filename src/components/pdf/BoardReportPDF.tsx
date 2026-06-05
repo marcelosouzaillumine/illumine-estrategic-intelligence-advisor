@@ -3,8 +3,8 @@ import { formatCurrency } from '../../lib/utils';
 import { ShieldCheck, Activity, Target, Zap, Layout } from 'lucide-react';
 import { ExecutiveAdvisoryReport } from '../../lib/executive-advisory-engine';
 import { TemporalBoardPackSection } from './TemporalBoardPackSection';
-import { ExecutiveLabelResolver } from '../../core/runtime/executive-presentation/ExecutiveLabelResolver';
-import { ExecutiveDisclosureResolver } from '../../core/runtime/executive-presentation/ExecutiveDisclosureResolver';
+import { ExecutiveLabelResolver } from '../../services/FiduciaryRuntimeAdapter';
+import { ExecutiveDisclosureResolver } from '../../services/FiduciaryRuntimeAdapter';
 
 interface BoardReportPDFProps {
   data: ExecutiveAdvisoryReport;
@@ -34,13 +34,15 @@ export const A4Page = ({ children, isCover = false }: { children: React.ReactNod
     {!isCover && (
       <div className="absolute bottom-6 left-10 right-10 flex justify-between items-center border-t border-gray-200 pt-2">
         <span className="text-[9px] font-bold text-[#BAB86C] tracking-widest uppercase">Illumine Corporate Intelligence</span>
-        <span className="text-[8px] text-gray-400">BOARD ADVISORY REPORT</span>
+        <span className="text-[8px] text-gray-400 uppercase">BOARD ADVISORY REPORT</span>
       </div>
     )}
   </div>
 );
 
 export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, temporalData, t }: BoardReportPDFProps, ref: ForwardedRef<HTMLDivElement>) => {
+  const translate = t || ((k: string) => k);
+
   return (
     <div ref={ref} className="pdf-container bg-gray-100 p-8 flex flex-col items-center">
       
@@ -55,20 +57,20 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
                <ShieldCheck size={40} />
             </div>
             
-            <h3 className="text-sm font-medium text-[#FF8552] tracking-widest uppercase mb-2">Relatório Executivo Institucional</h3>
+            <h3 className="text-sm font-medium text-[#FF8552] tracking-widest uppercase mb-2">{translate('boardpack.title')}</h3>
             <h1 className="text-5xl font-bold tracking-tighter leading-tight">{companyName}</h1>
             
             <div className="mt-12 space-y-2 border-l-2 border-[#BAB86C] pl-6">
-              <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">Data de Emissão: <span className="text-white">{reportDate}</span></p>
-              <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">Escopo Temporal Analisado: <span className="text-[#BAB86C]">Isolamento Ativo (Exercício Selecionado)</span></p>
-              <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">Confiança da Inferência: <span className="text-white">{data.confidenceLevel}</span></p>
-              <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">Postura Executiva Recomendada: <span className="text-white">{data.executivePosture}</span></p>
+              <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">{translate('boardpack.pdf.issue_date')}: <span className="text-white">{reportDate}</span></p>
+              <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">{translate('boardpack.pdf.temporal_scope')}: <span className="text-[#BAB86C]">{translate('boardpack.pdf.active_isolation')}</span></p>
+              <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">{translate('boardpack.pdf.inference_confidence')}: <span className="text-white">{data.confidenceLevel}</span></p>
+              <p className="text-xs text-gray-300 font-medium uppercase tracking-widest">{translate('boardpack.pdf.executive_posture')}: <span className="text-white">{data.executivePosture}</span></p>
             </div>
           </div>
 
           <div className="z-10 pt-10 border-t border-white/10">
              <h2 className="text-2xl font-bold tracking-tight">Illumine Corporate Intelligence</h2>
-             <p className="text-xs text-gray-400 font-medium mt-1">Sustentado pela Executive Advisory Engine</p>
+             <p className="text-xs text-gray-400 font-medium mt-1">{translate('boardpack.pdf.powered_by')}</p>
           </div>
         </div>
       </A4Page>
@@ -76,19 +78,19 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
       {/* PAGE 2: SUMÁRIO EXECUTIVO & DIAGNÓSTICO */}
       <A4Page>
         <div className="mb-8 border-b-2 border-[#0E1C2C] pb-2">
-           <h2 className="text-2xl font-bold text-[#0E1C2C] uppercase tracking-tight">Síntese Executiva Institucional</h2>
+           <h2 className="text-2xl font-bold text-[#0E1C2C] uppercase tracking-tight">{translate('boardpack.pdf.executive_synthesis')}</h2>
         </div>
 
         <div className="space-y-6 mb-8">
            <div className="bg-[#f8f9fa] p-5 rounded-md border border-gray-200">
-              <h3 className="text-[10px] font-bold text-[#FF8552] uppercase tracking-widest mb-3">Sumário Executivo</h3>
+              <h3 className="text-[10px] font-bold text-[#FF8552] uppercase tracking-widest mb-3">{translate('boardpack.pdf.executive_summary')}</h3>
               <p className="text-xs text-gray-800 leading-relaxed text-justify font-medium">{data.executiveSummary}</p>
            </div>
         </div>
 
         <div className="space-y-4">
             <div>
-                <h3 className="text-[10px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-1 border-b border-gray-200 pb-1">Diagnóstico Institucional</h3>
+                <h3 className="text-[10px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-1 border-b border-gray-200 pb-1">{translate('boardpack.pdf.institutional_diagnosis')}</h3>
                 <p className="text-xs text-gray-700 leading-relaxed text-justify mt-2">{data.institutionalDiagnosis}</p>
             </div>
         </div>
@@ -96,7 +98,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
         <div className="grid grid-cols-2 gap-8 mt-8">
            <div>
               <h3 className="text-[10px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-3 border-b border-gray-200 pb-1 flex items-center gap-2">
-                 <Target size={12} className="text-[#BAB86C]"/> Prioridades Estratégicas
+                 <Target size={12} className="text-[#BAB86C]"/> {translate('boardpack.pdf.strategic_priorities')}
               </h3>
               <ul className="space-y-2">
                  {data.strategicPriorities.map((item, i) => (
@@ -108,7 +110,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
            </div>
            <div>
               <h3 className="text-[10px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-3 border-b border-gray-200 pb-1 flex items-center gap-2">
-                 <Activity size={12} className="text-[#FF8552]"/> Riscos Dominantes
+                 <Activity size={12} className="text-[#FF8552]"/> {translate('boardpack.pdf.dominant_risks')}
               </h3>
               <ul className="space-y-2">
                  {data.dominantRisks.map((item, i) => (
@@ -124,12 +126,12 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
       {/* PAGE 3: ACTION MATRIX */}
       <A4Page>
         <div className="mb-8 border-b-2 border-[#0E1C2C] pb-2">
-           <h2 className="text-2xl font-bold text-[#0E1C2C] uppercase tracking-tight">Action Matrix</h2>
+           <h2 className="text-2xl font-bold text-[#0E1C2C] uppercase tracking-tight">{translate('boardpack.pdf.action_matrix')}</h2>
         </div>
 
         <div className="space-y-6">
            <div>
-              <h3 className="text-[11px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-4">Plano de Ação Executivo</h3>
+              <h3 className="text-[11px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-4">{translate('boardpack.pdf.executive_action_plan')}</h3>
               <div className="space-y-3">
                   {data.actionMatrix.map((action, i) => (
                     <div key={i} className="flex flex-col border border-gray-200 rounded overflow-hidden">
@@ -141,15 +143,15 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
                        </div>
                        <div className="grid grid-cols-3 p-3 gap-4 bg-gray-50">
                           <div>
-                             <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Impacto</p>
+                             <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">{translate('boardpack.pdf.impact')}</p>
                              <p className="text-[9px] text-gray-800 font-bold">{action.impacto}</p>
                           </div>
                           <div>
-                             <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Velocidade</p>
+                             <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">{translate('boardpack.pdf.speed')}</p>
                              <p className="text-[9px] text-gray-800 font-bold">{action.velocidade}</p>
                           </div>
                           <div>
-                             <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Complexidade</p>
+                             <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">{translate('boardpack.pdf.complexity')}</p>
                              <p className="text-[9px] text-gray-800 font-bold">{action.complexidade}</p>
                           </div>
                        </div>
@@ -163,13 +165,13 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
       {/* PAGE 4: GOVERNANÇA & MODERAÇÃO */}
       <A4Page>
         <div className="mb-8 border-b-2 border-[#0E1C2C] pb-2">
-           <h2 className="text-2xl font-bold text-[#0E1C2C] uppercase tracking-tight">Governança Institucional</h2>
+           <h2 className="text-2xl font-bold text-[#0E1C2C] uppercase tracking-tight">{translate('boardpack.pdf.institutional_governance')}</h2>
         </div>
 
         <div className="space-y-6">
            <div className="bg-[#0E1C2C] p-6 rounded-md text-white shadow-xl">
               <h3 className="text-[12px] font-bold text-[#BAB86C] uppercase tracking-widest mb-4 flex items-center gap-2">
-                 <ShieldCheck size={16}/> Parecer Definitivo do Board
+                 <ShieldCheck size={16}/> {translate('boardpack.pdf.final_board_decision')}
               </h3>
               
               <div className="bg-white/5 p-4 rounded border border-white/10 mb-4">
@@ -179,7 +181,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
              <div className="bg-gray-50 border border-gray-200 p-4 rounded">
-                <h3 className="text-[10px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-3 border-b border-gray-200 pb-1">Moderação de Narrativa</h3>
+                <h3 className="text-[10px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-3 border-b border-gray-200 pb-1">{translate('boardpack.pdf.narrative_moderation')}</h3>
                 <ul className="space-y-2">
                    {data.narrativeModeration.map((item, i) => (
                       <li key={i} className="text-[10px] text-gray-700 flex items-start gap-2">
@@ -190,7 +192,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
              </div>
              
              <div className="bg-gray-50 border border-gray-200 p-4 rounded">
-                <h3 className="text-[10px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-3 border-b border-gray-200 pb-1">Sinais Causais (Fonte)</h3>
+                <h3 className="text-[10px] font-bold text-[#0E1C2C] uppercase tracking-widest mb-3 border-b border-gray-200 pb-1">{translate('boardpack.pdf.source_signals')}</h3>
                 <ul className="space-y-2">
                    {data.sourceSignals.map((item, i) => (
                       <li key={i} className="text-[9px] text-gray-700 font-mono flex items-start gap-2">
@@ -204,7 +206,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
            {data.blockedFalsePositives.length > 0 && (
              <div className="bg-rose-50 border border-rose-200 p-4 rounded">
                 <h3 className="text-[10px] font-bold text-rose-800 uppercase tracking-widest mb-3 border-b border-rose-200 pb-1 flex items-center gap-2">
-                   <Zap size={12}/> Falsos Positivos Bloqueados
+                   <Zap size={12}/> {translate('boardpack.pdf.blocked_false_positives')}
                 </h3>
                 <ul className="space-y-2">
                    {data.blockedFalsePositives.map((item, i) => (
@@ -220,8 +222,8 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
              <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full text-gray-400 mb-4">
                 <Target size={20} />
              </div>
-             <p className="text-[9px] text-gray-500 font-bold uppercase tracking-widest">Fim do Relatório Executivo</p>
-             <p className="text-[8px] text-gray-400 uppercase tracking-widest mt-1">Produzido pela Executive Advisory Engine</p>
+             <p className="text-[9px] text-gray-500 font-bold uppercase tracking-widest">{translate('boardpack.pdf.end_of_report')}</p>
+             <p className="text-[8px] text-gray-400 uppercase tracking-widest mt-1">{translate('boardpack.pdf.produced_by')}</p>
            </div>
         </div>
       </A4Page>
@@ -229,7 +231,7 @@ export const BoardReportPDF = forwardRef(({ data, companyName, reportDate, tempo
       {temporalData && (
         <A4Page>
           <div className="mb-8 border-b-2 border-[#0E1C2C] pb-2">
-            <h2 className="text-2xl font-bold text-[#0E1C2C] uppercase tracking-tight">Anexo: Temporal Governance & Causality</h2>
+            <h2 className="text-2xl font-bold text-[#0E1C2C] uppercase tracking-tight">{translate('boardpack.pdf.appendix_title')}</h2>
           </div>
           <div className="space-y-6">
             <TemporalBoardPackSection temporalData={temporalData} />

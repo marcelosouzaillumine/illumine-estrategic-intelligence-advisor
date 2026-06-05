@@ -1,6 +1,6 @@
 import React from 'react';
-import { ConnectorRegistry } from '../../core/runtime/integrations/ConnectorRegistry';
-import { ExternalConnector } from '../../core/runtime/integrations/IntegrationGovernanceTypes';
+import { ConnectorRegistry } from '../../services/FiduciaryRuntimeAdapter';
+import { ExternalConnector } from '../../services/FiduciaryRuntimeAdapter';
 import { SourceTrustBadge } from './SourceTrustBadge';
 import { DownloadCloud, UploadCloud, Link as LinkIcon } from 'lucide-react';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layers, AlertTriangle, CheckCircle2 } from 'lucide-react';
-import { GoldenDatasetProfile } from '../../core/runtime/reality-validation/RealityValidationTypes';
+import { GoldenDatasetProfile } from '../../services/FiduciaryRuntimeAdapter';
 
 const PRESSURE_COLORS: Record<string, string> = {
   CRITICAL: 'text-rose-500 bg-rose-500/10 border-rose-500/30',

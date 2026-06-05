@@ -1,6 +1,6 @@
 import React from 'react';
 import { Server } from 'lucide-react';
-import { OperationalScalabilityEvaluator } from '../../core/runtime/operational-scale/OperationalScalabilityEvaluator';
+import { OperationalScalabilityEvaluator } from '../../services/FiduciaryRuntimeAdapter';
 
 interface Props { tenantId: string }
 

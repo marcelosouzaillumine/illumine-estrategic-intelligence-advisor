@@ -1,5 +1,5 @@
 import React from 'react';
-import { InstitutionalOrchestrationEngine } from '../../core/runtime/governance-orchestration/InstitutionalOrchestrationEngine';
+import { InstitutionalOrchestrationEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { ChevronsUp } from 'lucide-react';
 
 export function EscalationOrchestrationPanel({ tenantId }: { tenantId: string }) {

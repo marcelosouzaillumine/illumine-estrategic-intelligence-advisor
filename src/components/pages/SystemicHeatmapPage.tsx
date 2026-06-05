@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Network } from 'lucide-react';
 import { PageHeader } from '../Common';
 import { SystemicHeatmapPanel } from '../systemic-heatmap/SystemicHeatmapPanel';
-import { SystemicRiskProfile } from '../../core/runtime/consolidated/stress/stress-types';
+import { SystemicRiskProfile } from '../../services/FiduciaryRuntimeAdapter';
 
 export function SystemicHeatmapPage() {
   // Em uma implementação real, esse estado viria do orquestrador ou de um context

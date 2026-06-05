@@ -1,5 +1,5 @@
 import React from 'react';
-import { GovernanceDeteriorationIndex } from '../../core/runtime/early-warning/GovernanceDeteriorationIndex';
+import { GovernanceDeteriorationIndex } from '../../services/FiduciaryRuntimeAdapter';
 import { TrendingDown } from 'lucide-react';
 
 export function GovernanceTrendPanel({ tenantId }: { tenantId: string }) {

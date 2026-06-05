@@ -17,6 +17,16 @@ import { BoardPackMetadata } from './institutional-reporting-types';
 import { BoardPackExecutiveRenderingGuard } from '../lifecycle/BoardPackExecutiveRenderingGuard';
 import { ExecutivePriorityResolver } from '../decision-intelligence/ExecutivePriorityResolver';
 
+import { ExecutiveMaturityLayer } from '../economic-value/ExecutiveMaturityLayer';
+import { EconomicReturnEngine } from '../economic-value/EconomicReturnEngine';
+import { EconomicValueCreationEngine } from '../economic-value/EconomicValueCreationEngine';
+import { InstitutionalExecutiveThesisEngine } from '../economic-value/InstitutionalExecutiveThesisEngine';
+import { ExecutivePriorityRankingEngine } from '../executive-prioritization/ExecutivePriorityRankingEngine';
+import { BoardTop3DecisionEngine } from '../executive-prioritization/BoardTop3DecisionEngine';
+import { ExecutiveActionPlanEngine } from '../executive-prioritization/ExecutiveActionPlanEngine';
+import { InstitutionalPriorityMatrixEngine } from '../executive-prioritization/InstitutionalPriorityMatrixEngine';
+import { BoardAttentionDemandIndexEngine } from '../executive-prioritization/BoardAttentionDemandIndexEngine';
+
 export class InstitutionalBoardPackRuntime {
   
   public static generate(report: ExecutiveIntelligenceReport): InstitutionalBoardPackOutput {
@@ -137,7 +147,6 @@ export class InstitutionalBoardPackRuntime {
       confidenceImpact: structuralRestrictions.confidenceImpact,
       appliedOverrides: structuralRestrictions.appliedOverrides
     } : undefined;
-
     const inventoryDependency = report.patrimonialIntelligenceReport?.inventoryDependency;
     const structuralLiquidityRisk: import('./institutional-reporting-types').StructuralLiquidityRiskSection | undefined = structuralRestrictions ? {
       liquidityFragilityOverride: !!structuralRestrictions.appliedOverrides.find((o: any) => o.name === 'Liquidity Fragility Override'),
@@ -145,6 +154,146 @@ export class InstitutionalBoardPackRuntime {
       inventoryDependency,
       finalFiduciaryClassification: structuralRestrictions.finalClassification
     } : undefined;
+
+    // --- EDPEVF v1.1 Layer Computations ---
+    const bpSummary = (report as any).capitalGovernanceReport?.bpSummary
+      || (report as any).context?.input?.rawFinancialData?.bpSummary
+      || (report as any).metrics?.financialMetrics
+      || {};
+
+    const netRevenue = Number((report.metrics as any)?.netRevenue ?? (report.metrics as any)?.receitaLiquida ?? 0);
+    const netProfit = Number((report.metrics as any)?.netProfit ?? (report.metrics as any)?.netIncome ?? 0);
+    const ebit = Number((report.metrics as any)?.ebit ?? (report.metrics as any)?.dreInsights?.normalizedDRE?.ebitda?.value ?? (report.metrics as any)?.ebitda ?? netProfit ?? 0);
+    
+    const ativoTotal = Number(bpSummary.ativoTotal ?? 0);
+    const passivoCirculante = Number(bpSummary.passivoCirculante ?? 0);
+    const patrimonioLiquido = Number(bpSummary.patrimonioLiquido ?? 0);
+    
+    const capitalSocial = Number((report.capitalGovernanceReport as any)?.capitalSocial 
+      ?? (report as any).executiveLayer?.consumedCapital?.capitalSocial
+      ?? patrimonioLiquido 
+      ?? 1.0);
+
+    const lucrosPrejuizos = Number((report.capitalGovernanceReport as any)?.retainedEarnings
+      ?? (report.capitalGovernanceReport as any)?.lucrosPrejuizos
+      ?? (report as any).executiveLayer?.consumedCapital?.value
+      ?? 0);
+
+    const historicalCyclesCount = Number(report.runtimeMetadata?.historicalCyclesAvailable
+      || (report as any).historicalCyclesCount
+      || 1);
+
+    // 1. Executive Maturity Layer
+    const maturity = ExecutiveMaturityLayer.evaluate(historicalCyclesCount, netRevenue);
+
+    // 2. Economic Return Engine
+    const economicReturnOut = EconomicReturnEngine.evaluate(
+      ebit,
+      ativoTotal,
+      passivoCirculante,
+      patrimonioLiquido,
+      historicalCyclesCount
+    );
+
+    // 3. Economic Value Creation Engine
+    const returnNarrative = EconomicValueCreationEngine.generateNarrative(
+      economicReturnOut,
+      maturity,
+      netProfit
+    );
+
+    const economicReturn = {
+      ...economicReturnOut,
+      narrative: returnNarrative
+    };
+
+    // 4. Board Attention Demand Index (BADI)
+    const runwayMonths = Number(report.cashSustainabilityReport?.runwayMonths 
+      || (report.metrics as any)?.fiduciary?.cashRunwayInstitucional?.months
+      || (report as any).continuityRisk?.projectedRunwayMonths 
+      || 0);
+    
+    const fco = Number((report.metrics as any)?.fco || (report.cashSustainabilityReport as any)?.sourceMetrics?.fco || 0);
+
+    const badi = BoardAttentionDemandIndexEngine.evaluate(
+      runwayMonths,
+      fco,
+      netProfit,
+      netRevenue,
+      lucrosPrejuizos,
+      capitalSocial,
+      patrimonioLiquido,
+      (report.scores?.governance ?? 0),
+      finalStatus,
+      (report.fiduciaryWarnings?.length ?? 0) > 0
+    );
+
+    // 5. Executive Priority Ranking Engine
+    const rankedRecommendations = ExecutivePriorityRankingEngine.rank(report);
+
+    // 6. Board Top 3 Decisions
+    const top3BoardDecisions = BoardTop3DecisionEngine.generate(report, false);
+
+    // 7. Executive Top 5 Actions
+    const top5ExecutiveActions = ExecutiveActionPlanEngine.generate(report);
+
+    // 8. Institutional Priority Matrix
+    const priorityMatrix = InstitutionalPriorityMatrixEngine.generate(report);
+
+    // 9. Institutional Executive Thesis 2.0
+    const isLiquidityCrisis = fco < 0 || (runwayMonths > 0 && runwayMonths < 6);
+    const isProfitabilityCrisis = netProfit < 0;
+
+    const thesisContext = maturity.description;
+    const tensaoPrincipal = isLiquidityCrisis 
+      ? 'Forte pressão de liquidez operacional e curto prazo de sobrevivência'
+      : (isProfitabilityCrisis
+          ? 'Ineficiência operacional resultando em margens negativas e prejuízo operacional'
+          : 'Estabilização financeira geral com necessidade de expansão estratégica.');
+    
+    const riscoDominante = isLiquidityCrisis
+      ? 'Ruptura imediata de caixa por descompasso entre recebimentos e pagamentos'
+      : (isProfitabilityCrisis
+          ? 'Erosão progressiva do patrimônio líquido acumulado'
+          : 'Acomodação de mercado e subaproveitamento do capital empregado.');
+
+    const oportunidadeDominante = isProfitabilityCrisis
+      ? 'Revisão e corte de Overhead operacional fixo para redução do break-even'
+      : 'Reinvestimento estratégico e aceleração de canais comerciais de alta margem.';
+
+    const direcaoRecomendada = top3BoardDecisions[0]?.titulo ?? 'Manutenção preventiva da liquidez corrente.';
+
+    const executiveThesis = InstitutionalExecutiveThesisEngine.generate({
+      contexto: thesisContext,
+      tensaoPrincipal,
+      riscoDominante,
+      oportunidadeDominante,
+      direcaoRecomendada
+    }).narrative;
+
+    // 10. Page Zero (Executive Strategic Snapshot)
+    const capitalPreservado = patrimonioLiquido >= capitalSocial
+      ? 'Preservado'
+      : (patrimonioLiquido <= 0 ? 'Totalmente Erodido' : 'Parcialmente Preservado');
+
+    const capitalPreservadoJustificativa = patrimonioLiquido >= capitalSocial
+      ? 'O patrimônio líquido supera o capital social integralizado.'
+      : `Prejuízos acumulados consumiram ${((1 - patrimonioLiquido / capitalSocial) * 100).toFixed(0)}% do capital social integralizado.`;
+
+    const pageZero = {
+      sobrevivendo: runwayMonths >= 6 ? 'Sim' : 'Sob Pressão',
+      sobrevivendoJustificativa: runwayMonths >= 6 
+        ? `Runway estimado confortável de ${runwayMonths.toFixed(1)} meses.`
+        : `Runway de sobrevivência financeira crítico estimado em ${runwayMonths.toFixed(1)} meses.`,
+      criandoValor: economicReturn.classification === 'Criação Consistente de Valor' || economicReturn.classification === 'Criação Moderada de Valor' 
+        ? 'Criação de Valor' 
+        : 'Destruição de Valor',
+      criandoValorConfidence: economicReturn.confidence,
+      capitalPreservado,
+      capitalPreservadoJustificativa,
+      maiorRisco: riscoDominante,
+      decisaoMaisImportante: direcaoRecomendada
+    };
 
     const output: InstitutionalBoardPackOutput = {
       status: finalStatus,
@@ -170,6 +319,7 @@ export class InstitutionalBoardPackRuntime {
         (report as any).context?.input?.rawFinancialData?.featureFlags?.showTechnicalAudit ||
         (report as any).context?.input?.rawFinancialData?.featureFlags?.showTechnicalAudit === true
       ) ? report.temporalAudit : undefined,
+      constitutionalDashboard: report.constitutionalDashboard,
       constitutionalGovernanceCompliance: report.constitutionalCompliance ? {
         authority: report.constitutionalCompliance.constitutionalAuthority,
         protocols: {
@@ -227,6 +377,21 @@ export class InstitutionalBoardPackRuntime {
         dfcTechnicalLayer: (report.metrics as any)?.fiduciary ?? null,
         lineage: report.runtimeMetadata?.lineageHash ?? 'N/A',
         constitutionalAudit: (report.constitutionalEvaluation as any)?.constitutionalAuditTrail ?? (report.constitutionalEvaluation as any)?.auditRecords ?? []
+      },
+      executiveDecisionPrioritization: {
+        top3BoardDecisions,
+        top5ExecutiveActions,
+        priorityMatrix,
+        badi,
+        maturity: {
+          stage: maturity.stage,
+          label: maturity.label,
+          description: maturity.description,
+          severitySofteningFactor: maturity.severitySofteningFactor
+        },
+        economicReturn,
+        thesis: executiveThesis,
+        pageZero
       }
     };
 

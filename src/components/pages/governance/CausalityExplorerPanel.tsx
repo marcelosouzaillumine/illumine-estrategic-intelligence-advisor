@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Compass, AlertTriangle, ShieldCheck, Lock, Activity, ArrowRight, FileText, Network, CheckCircle2, AlertCircle } from 'lucide-react';
-import { InstitutionalCausalityOutput, CausalChain } from '../../../core/runtime/causal-intelligence/causal-types';
+import { InstitutionalCausalityOutput, CausalChain } from '../../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { cn, formatCurrency } from '../../../lib/utils';
 import { EXECUTIVE_SEVERITY_THEME } from './ExecutiveSeverityTheme';

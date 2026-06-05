@@ -29,11 +29,9 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { ShieldAlert, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
-import { DFCSemanticRenderingGuard } from '../../core/runtime/lifecycle/DFCSemanticRenderingGuard';
 import { useInstitutionalAuth } from '../../core/security/auth/InstitutionalAuthProvider';
-import { ExecutiveInformationDensityFramework } from '../../core/runtime/presentation-governance/ExecutiveInformationDensityFramework';
-import { getProfile, mapOfficialRoleToProfileId, PresentationLayer } from '../../core/runtime/presentation-governance/ExecutiveAudienceProfile';
-import { ExecutivePriorityResolver } from '../../core/runtime/decision-intelligence/ExecutivePriorityResolver';
+import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
+import type { PresentationLayer } from '../../services/FiduciaryRuntimeAdapter';
 import {
   collection,
   deleteDoc,
@@ -133,7 +131,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   const [viewMode, setViewMode] = useState<'oficial' | 'fiduciario' | 'lucro'>('oficial');
   const { session } = useInstitutionalAuth();
   const userRole = session?.role || 'BOARD_MEMBER';
-  const profile = useMemo(() => getProfile(mapOfficialRoleToProfileId(userRole)), [userRole]);
+  const profile = useMemo(() => FiduciaryRuntimeAdapter.getProfile(FiduciaryRuntimeAdapter.mapOfficialRoleToProfileId(userRole)), [userRole]);
 
   const [densityLevel, setDensityLevel] = useState<PresentationLayer>(profile.defaultDensity);
 
@@ -142,7 +140,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   }, [userRole, profile]);
 
   const isSectionVisible = (sectionName: string) => {
-    return ExecutiveInformationDensityFramework.isSectionVisible(sectionName, densityLevel);
+    return FiduciaryRuntimeAdapter.ExecutiveInformationDensityFramework.isSectionVisible(sectionName, densityLevel);
   };
 
   const isBoardMode = densityLevel === 'BOARD';
@@ -203,7 +201,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
   useEffect(() => {
     if (featureFlags.showSemanticAudit && semanticAudit) {
-      const violation = DFCSemanticRenderingGuard.auditSemanticRoot(semanticAudit, semanticSource);
+      const violation = FiduciaryRuntimeAdapter.DFCSemanticRenderingGuard.auditSemanticRoot(semanticAudit, semanticSource);
       if (violation) {
         console.error(violation.code, violation);
       }
@@ -220,7 +218,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
         executiveDisplay.confidenceStatus,
         metrics.fiduciary?.cashConversionDisplay?.status === 'SEVERE_DETERIORATION' ? 'Conversão Severamente Deteriorada' : metrics.fiduciary?.cashConversionDisplay?.label
       ];
-      DFCSemanticRenderingGuard.validateExecutiveDisplay(semanticSource, lifecycleStage, renderedTerms);
+      FiduciaryRuntimeAdapter.DFCSemanticRenderingGuard.validateExecutiveDisplay(semanticSource, lifecycleStage, renderedTerms);
     }
   }, [semanticSource, lifecycleStage, executiveDisplay, metrics]);
 
@@ -717,7 +715,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 </div>
               </div>
               <div className="space-y-4">
-                {ExecutivePriorityResolver.resolve(runtimeOutput).map((d: any, idx: number) => (
+                {FiduciaryRuntimeAdapter.ExecutivePriorityResolver.resolve(runtimeOutput).map((d: any, idx: number) => (
                   <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
                     <span className={cn(
                       "w-6 h-6 rounded-full text-white flex items-center justify-center text-xs font-black shrink-0",

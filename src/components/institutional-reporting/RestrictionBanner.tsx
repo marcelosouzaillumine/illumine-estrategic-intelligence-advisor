@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShieldAlert, AlertTriangle, ShieldBan } from 'lucide-react';
-import { FiduciaryRestriction } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { FiduciaryRestriction } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export interface RestrictionBannerProps {

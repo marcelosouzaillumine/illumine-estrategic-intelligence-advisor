@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
 import { MessageSquare, AlertTriangle, ShieldCheck, User } from 'lucide-react';
-import { PilotValidationCategory, PilotFeedbackSeverity } from '../../core/runtime/pilot-operations/types';
+import { PilotValidationCategory, PilotFeedbackSeverity } from '../../services/FiduciaryRuntimeAdapter';
 
 export const PilotFeedbackSurface: React.FC = () => {
   const { feedbackList, submitFeedback, pilotStatus } = usePilotOperations();

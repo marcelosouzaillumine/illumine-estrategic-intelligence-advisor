@@ -3,10 +3,10 @@ import { PlugZap, AlertTriangle } from 'lucide-react';
 import { PageHeader } from '../Common';
 import { ConnectorRegistryPanel } from '../integrations/ConnectorRegistryPanel';
 import { ImportReviewQueueTable } from '../integrations/ImportReviewQueueTable';
-import { ConnectorExecutionEngine } from '../../core/runtime/integrations/ConnectorExecutionEngine';
-import { ImportReviewQueue } from '../../core/runtime/integrations/ImportReviewQueue';
-import { ImportPublicationEngine } from '../../core/runtime/integrations/ImportPublicationEngine';
-import { ImportedDataset } from '../../core/runtime/integrations/IntegrationGovernanceTypes';
+import { ConnectorExecutionEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { ImportReviewQueue } from '../../services/FiduciaryRuntimeAdapter';
+import { ImportPublicationEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { ImportedDataset } from '../../services/FiduciaryRuntimeAdapter';
 
 export function InstitutionalIntegrationsPage() {
   const [queue, setQueue] = useState<ImportedDataset[]>([]);

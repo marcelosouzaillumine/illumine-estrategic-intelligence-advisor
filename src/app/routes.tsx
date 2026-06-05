@@ -20,7 +20,7 @@ import { PlanoAcaoPage } from '../components/pages/PlanoAcaoPage';
 import { AnaliseFinanceiraPage } from '../components/pages/AnaliseFinanceiraPage';
 import { DLPAPage } from '../components/pages/DLPAPage';
 import { DFCPage } from '../components/pages/DFCPage';
-import { InstitutionalFinancialOverviewPage } from '../components/pages/InstitutionalFinancialOverviewPage';
+import { EFOSPage } from '../components/pages/EFOSPage';
 import { DreGerencialPage } from '../components/pages/DreGerencialPage';
 import { FinancialModelingPage } from '../components/pages/FinancialModelingPage';
 import { PayablesPage } from '../components/pages/PayablesPage';
@@ -111,6 +111,7 @@ import { PilotExperienceDashboard } from '../components/pages/PilotExperienceDas
 // Removed missing ObservabilityConsolePage import
 import { ExecutiveMonitoringCenter } from '../components/pages/governance/ExecutiveMonitoringCenter';
 import { GovernanceMaturityCenter } from '../components/pages/governance/GovernanceMaturityCenter';
+import { ESGIMAssessmentPage } from '../components/pages/governance/ESGIMAssessmentPage';
 import { FiduciaryValidationCenter } from '../components/pages/governance/FiduciaryValidationCenter';
 import { EconomicNormalizationCenter } from '../components/pages/governance/EconomicNormalizationCenter';
 import { CapitalGovernanceCenter } from '../components/pages/governance/CapitalGovernanceCenter';
@@ -203,7 +204,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   }
   if (currentPage === 'efos') {
     return (
-      <InstitutionalFinancialOverviewPage 
+      <EFOSPage 
         clients={clients}
         selectedClient={selectedClient} 
         setSelectedClient={setSelectedClient} 
@@ -664,6 +665,9 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   
   if (currentPage === 'executive_monitoring_center') {
     return <ExecutiveMonitoringCenter clientId={selectedClient} onNavigate={setCurrentPage} selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth} selectedYear={selectedYear} setSelectedYear={setSelectedYear} />;
+  }
+  if (currentPage === 'esgim_assessment') {
+    return <ESGIMAssessmentPage clientId={selectedClient} />;
   }
   if (currentPage === 'governance_maturity_center') {
     return <GovernanceMaturityCenter clientId={selectedClient} />;

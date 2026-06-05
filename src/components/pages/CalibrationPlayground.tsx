@@ -17,12 +17,12 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { PageHeader, StatusBadge } from '../Common';
-import { CalibrationEngine } from '../../core/runtime/calibration/CalibrationEngine';
-import { CALIBRATION_PROFILES, BALANCED_PROFILE } from '../../core/runtime/calibration/CalibrationProfiles';
-import { CalibrationParameters, CalibrationProfileVersion } from '../../core/runtime/calibration/CalibrationTypes';
-import { executiveRuntime } from '../../core/runtime/executive-intelligence-runtime';
-import { StagingValidationEngine } from '../../core/runtime/integrations/StagingValidationEngine';
-import { IngestionLineageReference, ImportedDataset } from '../../core/runtime/integrations/IntegrationGovernanceTypes';
+import { CalibrationEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { CALIBRATION_PROFILES, BALANCED_PROFILE } from '../../services/FiduciaryRuntimeAdapter';
+import { CalibrationParameters, CalibrationProfileVersion } from '../../services/FiduciaryRuntimeAdapter';
+import { executiveRuntime } from '../../services/FiduciaryRuntimeAdapter';
+import { StagingValidationEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { IngestionLineageReference, ImportedDataset } from '../../services/FiduciaryRuntimeAdapter';
 import { auth } from '../../lib/firebase';
 import { cn } from '../../lib/utils';
 

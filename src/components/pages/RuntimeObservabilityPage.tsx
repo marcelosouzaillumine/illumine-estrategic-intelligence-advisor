@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Activity, Play, ShieldAlert, History, TrendingUp, Network, RefreshCw } from 'lucide-react';
 import { PageHeader } from '../Common';
 import { cn } from '../../lib/utils';
-import { RuntimeExecutionRegistry } from '../../core/runtime/observability/RuntimeExecutionRegistry';
-import { RuntimeHealthMonitor } from '../../core/runtime/observability/RuntimeHealthMonitor';
-import { ExecutionReplayEngine } from '../../core/runtime/observability/ExecutionReplayEngine';
-import { RuntimeExecutionRecord, RuntimeHealthSnapshot, ReplayExecutionResult } from '../../core/runtime/observability/observability-types';
-import { ConsolidatedExecutiveAdvisoryReport } from '../../core/runtime/consolidated/advisory/advisoryTypes';
+import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
+import { RuntimeExecutionRecord, RuntimeHealthSnapshot, ReplayExecutionResult } from '../../services/FiduciaryRuntimeAdapter';
+import { ConsolidatedExecutiveAdvisoryReport } from '../../services/FiduciaryRuntimeAdapter';
 
 // Simple fallback components inside the file for the MVP
 function ExecutionTraceTree({ trace }: { trace: any }) {
@@ -85,16 +83,16 @@ export function RuntimeObservabilityPage() {
   }, []);
 
   const loadData = async () => {
-    const ex = await RuntimeExecutionRegistry.listAllExecutions();
+    const ex = await FiduciaryRuntimeAdapter.RuntimeExecutionRegistry.listAllExecutions();
     setExecutions(ex);
-    const sn = await RuntimeHealthMonitor.generateSnapshot();
+    const sn = await FiduciaryRuntimeAdapter.RuntimeHealthMonitor.generateSnapshot();
     setHealth(sn);
   };
 
   const handleSelectExecution = async (id: string) => {
     setSelectedExecution(id);
-    const replay = await ExecutionReplayEngine.loadHistoricalReplay(id);
-    setActiveReplay(replay);
+    const res = await FiduciaryRuntimeAdapter.ExecutionReplayEngine.loadHistoricalReplay(id);
+    setActiveReplay(res);
   };
 
   return (

@@ -2,10 +2,7 @@
 import React, { useState } from 'react';
 import { Settings2, Play, AlertTriangle, ShieldAlert, ArrowRight } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { ScenarioAdapter } from '../../core/runtime/scenario-intelligence/scenario-adapter';
-import { InstitutionalScenarioEngine } from '../../core/runtime/scenario-intelligence/InstitutionalScenarioEngine';
-import { InstitutionalScenarioResult } from '../../core/runtime/scenario-intelligence/scenario-types';
-import { ScenarioNarrativeComposer } from '../../core/runtime/scenario-intelligence/ScenarioNarrativeComposer';
+import { FiduciaryRuntimeAdapter, InstitutionalScenarioResult } from '../../services/FiduciaryRuntimeAdapter';
 
 interface Props {
   contextData: any; // Raw data passed from the dashboard
@@ -24,9 +21,9 @@ export function InstitutionalScenarioPanel({ contextData }: Props) {
   const [scenarioResult, setScenarioResult] = useState<InstitutionalScenarioResult | null>(null);
 
   const handleSimulate = () => {
-    const inputs = ScenarioAdapter.adaptFormInputs(formState);
+    const inputs = FiduciaryRuntimeAdapter.ScenarioAdapter.adaptFormInputs(formState);
     if (inputs.length === 0) return;
-    const result = InstitutionalScenarioEngine.evaluateScenario(inputs, contextData);
+    const result = FiduciaryRuntimeAdapter.InstitutionalScenarioEngine.evaluateScenario(inputs, contextData);
     setScenarioResult(result);
   };
 
@@ -122,9 +119,9 @@ export function InstitutionalScenarioPanel({ contextData }: Props) {
                     </div>
                   </div>
 
-                  <p className="text-sm text-slate-700 font-medium leading-relaxed">
-                    {ScenarioNarrativeComposer.compose(scenarioResult)}
-                  </p>
+                  <div className="text-sm font-medium text-slate-700 leading-relaxed bg-white/50 p-4 rounded-xl border border-blue-200/50">
+                    {FiduciaryRuntimeAdapter.ScenarioNarrativeComposer.compose(scenarioResult)}
+                  </div>
 
                   {scenarioResult.propagationProfile && (
                     <div className="space-y-4 mt-6">

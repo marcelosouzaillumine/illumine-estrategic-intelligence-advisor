@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, Activity, Network, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { CausalEdge } from '../../core/runtime/executive-interaction/types';
+import { CausalEdge } from '../../services/FiduciaryRuntimeAdapter';
 
 interface CausalChainSurfaceProps {
   chains?: CausalEdge[];

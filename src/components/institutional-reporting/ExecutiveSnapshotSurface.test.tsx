@@ -2,7 +2,7 @@
 
 import assert from 'node:assert';
 import { test, describe } from 'node:test';
-import { ExecutiveSnapshotSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { ExecutiveSnapshotSection } from '../../services/FiduciaryRuntimeAdapter';
 
 describe('UI Passivity Validation - ExecutiveSnapshotSurface', () => {
 

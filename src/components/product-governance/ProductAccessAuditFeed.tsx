@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ProductAccessAuditLogger } from '../../core/runtime/product-governance/ProductAccessAuditLogger';
-import { ProductAccessEvent } from '../../core/runtime/product-governance/ProductGovernanceTypes';
+import { ProductAccessAuditLogger } from '../../services/FiduciaryRuntimeAdapter';
+import { ProductAccessEvent } from '../../services/FiduciaryRuntimeAdapter';
 import { ShieldAlert, ShieldCheck, Database, FileWarning, RefreshCw } from 'lucide-react';
 
 export function ProductAccessAuditFeed({ tenantId }: { tenantId: string }) {

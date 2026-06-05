@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ShieldCheck, AlertTriangle, ChevronRight, Anchor } from 'lucide-react';
-import { ExecutiveDirective } from '../../core/runtime/executive-command/executive-command-types';
+import { ExecutiveDirective } from '../../services/FiduciaryRuntimeAdapter';
 
 interface ExecutiveDirectivePanelProps {
   directives: ExecutiveDirective[];

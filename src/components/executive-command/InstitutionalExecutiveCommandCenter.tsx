@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ShieldCheck, Activity, Loader2 } from 'lucide-react';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
-import { executiveRuntime } from '../../core/runtime/executive-intelligence-runtime';
-import { InstitutionalExecutiveCommandOutput } from '../../core/runtime/executive-command/executive-command-types';
+import { executiveRuntime } from '../../services/FiduciaryRuntimeAdapter';
+import { InstitutionalExecutiveCommandOutput } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 // Child components

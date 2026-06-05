@@ -1,5 +1,5 @@
 import React from 'react';
-import { GraphPatternWarningEngine } from '../../core/runtime/early-warning/GraphPatternWarningEngine';
+import { GraphPatternWarningEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { Network } from 'lucide-react';
 
 export function GraphPatternAlertPanel({ tenantId }: { tenantId: string }) {

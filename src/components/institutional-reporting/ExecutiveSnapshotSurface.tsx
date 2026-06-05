@@ -1,6 +1,6 @@
 import React from 'react';
 import { Target, AlertTriangle, ShieldAlert, Activity, FileKey, ShieldBan } from 'lucide-react';
-import { ExecutiveSnapshotSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { ExecutiveSnapshotSection } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { RestrictionBanner } from './RestrictionBanner';
 import { AccountingIntegrityPanel } from './AccountingIntegrityPanel';

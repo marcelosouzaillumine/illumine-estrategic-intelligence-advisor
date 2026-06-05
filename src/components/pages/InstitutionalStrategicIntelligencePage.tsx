@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { InstitutionalStrategicIntelligenceCenter } from '../strategic-intelligence/InstitutionalStrategicIntelligenceCenter';
-import { InstitutionalExecutiveCommandRuntime } from '../../core/runtime/executive-command/InstitutionalExecutiveCommandRuntime';
-import { InstitutionalOperationalGovernanceRuntime } from '../../core/runtime/operational-governance/InstitutionalOperationalGovernanceRuntime';
-import { InstitutionalStrategicIntelligenceRuntime } from '../../core/runtime/strategic-intelligence/InstitutionalStrategicIntelligenceRuntime';
+import { InstitutionalExecutiveCommandRuntime } from '../../services/FiduciaryRuntimeAdapter';
+import { InstitutionalOperationalGovernanceRuntime } from '../../services/FiduciaryRuntimeAdapter';
+import { InstitutionalStrategicIntelligenceRuntime } from '../../services/FiduciaryRuntimeAdapter';
 
 // Dummy wrapper to simulate the ExecutiveIntelligenceReport that feeds the page
 export function InstitutionalStrategicIntelligencePage({ clients, selectedClient, selectedMonth, selectedYear }: any) {

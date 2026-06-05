@@ -21,6 +21,20 @@ import { CashBoardDecisionSupportEngine } from './CashBoardDecisionSupportEngine
 import { DFCCashAdvisoryEngine } from './DFCCashAdvisoryEngine';
 import { CashReinvestmentEngine } from './CashReinvestmentEngine';
 
+// DEEFF v1.0 Imports
+import { DFCExecutiveSnapshotEngine } from './DFCExecutiveSnapshotEngine';
+import { CashQualityExplainabilityEngine } from './CashQualityExplainabilityEngine';
+import { CashExecutiveAdvisoryEngine } from './CashExecutiveAdvisoryEngine';
+import { DFCConsistencyAuditEngine } from './DFCConsistencyAuditEngine';
+import { DFCFiduciaryPriorityResolver } from './DFCFiduciaryPriorityResolver';
+import { RunwayClassificationEngine } from './RunwayClassificationEngine';
+
+// Roadmap v1.0 Imports
+import { CashFlowCausalIntelligenceEngine } from '../cash-causal-intelligence/CashFlowCausalIntelligenceEngine';
+import { CashFlowScenarioEngine } from '../cash-scenario-intelligence/CashFlowScenarioEngine';
+import { TreasuryEarlyWarningEngine } from '../treasury-early-warning/TreasuryEarlyWarningEngine';
+import { TreasurySustainabilityEngine } from '../treasury-sustainability/TreasurySustainabilityEngine';
+
 export class FiduciaryCashIntelligenceRuntime {
   /**
    * Ponto de entrada unificado e soberano do ecossistema de inteligência fiduciária de caixa.
@@ -48,9 +62,17 @@ export class FiduciaryCashIntelligenceRuntime {
     patrimonioLiquido: number,
     context?: FinancialRuntimeContext,
     analysisPeriodType?: AnalysisPeriodType,
-    netRevenue?: number
+    netRevenue?: number,
+    varClientes?: number,
+    varEstoque?: number,
+    varFornecedores?: number,
+    overhead?: number,
+    consecutiveNegativeFCOCycles?: number,
+    isInventoryGrowthExceedingRevenue?: boolean,
+    isReceivablesGrowthExceedingRevenue?: boolean
   ): CashIntelligenceRuntimeOutput {
     const auditTrail: string[] = ['Execution started at FiduciaryCashIntelligenceRuntime'];
+    const fcoOperacionalReal = fco - (contasRelacionadas || 0);
 
     // 1. Camada de Reconciliação Estrutural
     const reconciliation = CashFlowReconciliationEngine.validate(
@@ -150,7 +172,7 @@ export class FiduciaryCashIntelligenceRuntime {
     // 2. Indicadores Universais Obrigatórios
     const capitalizacaoExterna = thirdPartyFunding + equityFunding;
     const universalIndicators = UniversalCashIndicatorsEngine.evaluate(
-      fco, fcf, dreEbitda, capitalizacaoExterna, fornecedores, passivoCirculante,
+      fcoOperacionalReal, fcf, dreEbitda, capitalizacaoExterna, fornecedores, passivoCirculante,
       workingCapitalVariation, contasRelacionadas, patrimonioLiquido, monthsCount, availableCash, context
     );
     auditTrail.push('Universal Indicators calculated');
@@ -171,17 +193,21 @@ export class FiduciaryCashIntelligenceRuntime {
 
     // 5. Continuidade Institucional (Survival Horizon)
     const continuity = InstitutionalContinuityEngine.evaluate(
-      fco, fci, fcf, availableCash, dreNetIncome, thirdPartyFunding, equityFunding, historicalCyclesCount
+      fcoOperacionalReal, fci, fcf, availableCash, dreNetIncome, thirdPartyFunding, equityFunding, historicalCyclesCount,
+      'ADJUSTED_OPERATIONAL_BURN'
     );
     // Sobrescrever runtime pelo universal calculation (consistência de cálculo)
-    continuity.projectedRunwayMonths = universalIndicators.cashRunwayInstitucional.months;
+    const roundedRunway = Math.round(universalIndicators.cashRunwayInstitucional.months * 10) / 10;
+    continuity.projectedRunwayMonths = roundedRunway;
+    universalIndicators.cashRunwayInstitucional.months = roundedRunway;
     continuity.runwayClassification = universalIndicators.cashRunwayInstitucional.classification;
     auditTrail.push(`Institutional continuity assessed. Continuity risk: ${continuity.continuityRisk}`);
 
     // 6. Classificação de Liquidez
     const classification = LiquidityClassificationEngine.evaluate(
-      fco, fci, fcf, availableCash, reconciliation.confidence,
-      continuity.projectedRunwayMonths, legacySust.resilienceScore, continuity.hasRuptureRisk, artificial.isArtificial, context
+      fcoOperacionalReal, fci, fcf, availableCash, reconciliation.confidence,
+      continuity.projectedRunwayMonths, legacySust.resilienceScore, continuity.hasRuptureRisk, artificial.isArtificial, context,
+      'ADJUSTED_OPERATIONAL_BURN'
     );
     auditTrail.push(`Liquidity classification: ${classification.classification}`);
 
@@ -228,20 +254,93 @@ export class FiduciaryCashIntelligenceRuntime {
 
     // Executive Intelligence Framework
     const confidence = reconciliation.confidence;
-    const cashConstraintDiagnosis = CashConstraintDiagnosisEngine.evaluate(fco, fci, fcf, receivables, inventory, workingCapitalVariation, contasRelacionadas, confidence, dreNetIncome, dreEbitda);
-    const cashBurnAnalysis = OperationalCashBurnEngine.evaluate(fco, monthsCount, confidence);
-    const shareholderDependencyAnalysis = ShareholderDependencyEngine.evaluate(fco, equityFunding, confidence);
+    const cashConstraintDiagnosis = CashConstraintDiagnosisEngine.evaluate(fcoOperacionalReal, fci, fcf, receivables, inventory, workingCapitalVariation, contasRelacionadas, confidence, dreNetIncome, dreEbitda);
+    const cashBurnAnalysis = OperationalCashBurnEngine.evaluate(fcoOperacionalReal, monthsCount, confidence);
+    const shareholderDependencyAnalysis = ShareholderDependencyEngine.evaluate(fcoOperacionalReal, equityFunding, confidence);
     
-    // Note: liquidezOperacionalReal could be fco / abs(passivoCirculante) or derived, but for now we pass a placeholder 1.0 or derived from BP (universalIndicators handles it, but let's pass fco / workingCapitalVariation or something. Wait, UniversalIndicators doesn't export liquidezOperacionalReal directly. I will approximate it as universalIndicators.burnRateOperacional is there. Let's use 1.0 as fallback).
-    const liquidezOperacionalReal = passivoCirculante > 0 ? (fco / passivoCirculante) : 1.0; 
+    const liquidezOperacionalReal = passivoCirculante > 0 ? (fcoOperacionalReal / passivoCirculante) : 1.0; 
     
-    const cashSustainabilityAnalysis = CashSustainabilityEngine.evaluate(fco, continuity.projectedRunwayMonths, equityFunding, thirdPartyFunding, liquidezOperacionalReal, confidence);
+    const cashSustainabilityAnalysis = CashSustainabilityEngine.evaluate(fcoOperacionalReal, continuity.projectedRunwayMonths, equityFunding, thirdPartyFunding, liquidezOperacionalReal, confidence);
     
-    const cashConversionAnalysis = RevenueCashConversionEngine.evaluate(fco, netRevenue || 0, confidence);
+    const cashConversionAnalysis = RevenueCashConversionEngine.evaluate(fcoOperacionalReal, netRevenue || 0, confidence);
     
-    const cashBoardDecisionFramework = CashBoardDecisionSupportEngine.evaluate(fco, cashConstraintDiagnosis, cashBurnAnalysis, shareholderDependencyAnalysis, cashSustainabilityAnalysis, continuity.projectedRunwayMonths, confidence);
-    const cashExecutiveAdvisory = DFCCashAdvisoryEngine.evaluate(fco, cashBoardDecisionFramework, cashSustainabilityAnalysis, confidence);
-    const cashReinvestmentAnalysis = CashReinvestmentEngine.evaluate(fco, fci, confidence);
+    const cashBoardDecisionFramework = CashBoardDecisionSupportEngine.evaluate(fcoOperacionalReal, cashConstraintDiagnosis, cashBurnAnalysis, shareholderDependencyAnalysis, cashSustainabilityAnalysis, continuity.projectedRunwayMonths, confidence, cashConversionAnalysis);
+    const cashExecutiveAdvisory = DFCCashAdvisoryEngine.evaluate(fcoOperacionalReal, cashBoardDecisionFramework, cashSustainabilityAnalysis, confidence);
+    const cashReinvestmentAnalysis = CashReinvestmentEngine.evaluate(fcoOperacionalReal, fci, confidence);
+
+    // DEEFF v1.0 Integrations
+    const dependencyCritical = classification.classification === 'DEPENDENCIA_DE_CAPITALIZACAO' || classification.classification === 'SUSTENTACAO_EXTERNA';
+    const isBurning = fcoOperacionalReal < 0;
+    const runwayClass = RunwayClassificationEngine.classify(continuity.projectedRunwayMonths);
+    const runwayCritical = runwayClass === 'CRITICO' || runwayClass === 'EMERGENCIAL';
+    const primaryConstraint = cashConstraintDiagnosis.primaryConstraint;
+
+    const dfcExecutiveSnapshot = DFCExecutiveSnapshotEngine.buildSnapshot(
+      fcoOperacionalReal,
+      continuity.projectedRunwayMonths,
+      dependencyCritical,
+      primaryConstraint
+    );
+
+    const dfcPriorities = DFCFiduciaryPriorityResolver.resolve({
+      fco: fcoOperacionalReal,
+      runwayMonths: continuity.projectedRunwayMonths,
+      cqs: legacySust.resilienceScore, 
+      dependencyClassification: dependencyCritical ? 'CRITICAL' : 'MODERATE'
+    });
+
+    const compressedAdvisory = CashExecutiveAdvisoryEngine.compress(
+      isBurning,
+      dependencyCritical,
+      primaryConstraint,
+      runwayCritical
+    );
+
+    const consistencyAudit = DFCConsistencyAuditEngine.audit(
+      dfcPriorities,
+      runwayClass,
+      legacySust.resilienceScore, 
+      compressedAdvisory.restricaoPrincipal,
+      fcoOperacionalReal
+    );
+
+    // Roadmap v1.0 Integrations
+    const causalIntelligence = CashFlowCausalIntelligenceEngine.evaluate(
+      fco,
+      dreNetIncome,
+      varClientes || 0,
+      varEstoque || 0,
+      varFornecedores || 0,
+      'OFFICIAL_FCO'
+    );
+
+    const scenarioIntelligence = CashFlowScenarioEngine.evaluate(
+      fcoOperacionalReal,
+      availableCash,
+      receivables,
+      inventory,
+      overhead || 0,
+      netRevenue || 0,
+      equityFunding,
+      monthsCount || 12
+    );
+
+    const fundingRatio = fcoOperacionalReal < 0 ? (equityFunding / Math.abs(fcoOperacionalReal)) : 0;
+    const earlyWarningSystem = TreasuryEarlyWarningEngine.evaluate(
+      fcoOperacionalReal,
+      continuity.projectedRunwayMonths,
+      consecutiveNegativeFCOCycles || 0,
+      fundingRatio,
+      isInventoryGrowthExceedingRevenue || false,
+      isReceivablesGrowthExceedingRevenue || false
+    );
+
+    const treasurySustainability = TreasurySustainabilityEngine.evaluate(
+      fcoOperacionalReal,
+      fci,
+      continuity.projectedRunwayMonths,
+      fundingRatio
+    );
 
     const output: CashIntelligenceRuntimeOutput = {
       isAvailable: true,
@@ -264,6 +363,17 @@ export class FiduciaryCashIntelligenceRuntime {
       cashExecutiveAdvisory,
       cashReinvestmentAnalysis,
 
+      dfcExecutiveSnapshot,
+      dfcPriorities,
+      compressedAdvisory,
+      consistencyAudit,
+
+      // Roadmap v1.0 outputs
+      causalIntelligence,
+      scenarioIntelligence,
+      earlyWarningSystem,
+      treasurySustainability,
+
       blockedConclusions,
       allowedConclusions,
       confidenceLevel: reconciliation.confidence,
@@ -271,7 +381,8 @@ export class FiduciaryCashIntelligenceRuntime {
       lineageHash,
       cashIntelligenceLineageHash: lineageHash,
       causalReferences: [lineageHash],
-      score: legacySust.resilienceScore
+      score: legacySust.resilienceScore,
+      runwayMonths: universalIndicators.cashRunwayInstitucional.months
     };
 
     return output;

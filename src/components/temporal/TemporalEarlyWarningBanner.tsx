@@ -1,5 +1,5 @@
 import React from 'react';
-import { EarlyWarningSignal } from '../../core/runtime/institutional-memory/types';
+import { EarlyWarningSignal } from '../../services/FiduciaryRuntimeAdapter';
 
 interface WarningBannerProps {
   warnings: EarlyWarningSignal[];

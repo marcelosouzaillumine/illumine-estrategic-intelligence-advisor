@@ -1,5 +1,5 @@
 import React from 'react';
-import { WorkflowStatus } from '../../core/runtime/workflow-governance/WorkflowGovernanceTypes';
+import { WorkflowStatus } from '../../services/FiduciaryRuntimeAdapter';
 import { Clock, CheckCircle, XCircle, AlertCircle, PlayCircle, FileText, Ban } from 'lucide-react';
 
 export function WorkflowStatusBadge({ status }: { status: WorkflowStatus }) {

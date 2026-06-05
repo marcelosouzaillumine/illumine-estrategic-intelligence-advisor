@@ -1,4 +1,4 @@
-import { TemporalCausalityOutput } from '../core/runtime/institutional-memory/types';
+import { TemporalCausalityOutput } from '../services/FiduciaryRuntimeAdapter';
 
 interface InstitutionalSession {
   isReady: boolean;

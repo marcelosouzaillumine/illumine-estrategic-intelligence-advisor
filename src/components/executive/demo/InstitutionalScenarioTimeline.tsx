@@ -1,5 +1,5 @@
 import React from 'react';
-import { DemoScenario } from '../../../core/runtime/executive/demo/ExecutiveDemoScenarioRegistry';
+import { DemoScenario } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface InstitutionalScenarioTimelineProps {
   scenario: DemoScenario;

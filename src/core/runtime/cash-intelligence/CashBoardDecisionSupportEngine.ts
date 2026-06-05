@@ -1,4 +1,5 @@
-import { CashBoardDecision, CashConfidenceLevel, CashConstraintDiagnosis, OperationalCashBurn, ShareholderDependency, CashSustainability } from './CashIntelligenceTypes';
+import { CashBoardDecision, CashConfidenceLevel, CashConstraintDiagnosis, OperationalCashBurn, ShareholderDependency, CashSustainability, RevenueCashConversion } from './CashIntelligenceTypes';
+import { RunwayClassificationEngine } from './RunwayClassificationEngine';
 
 export class CashBoardDecisionSupportEngine {
   public static evaluate(
@@ -8,45 +9,43 @@ export class CashBoardDecisionSupportEngine {
     dependency: ShareholderDependency,
     sustainability: CashSustainability,
     runwayMonths: number,
-    confidenceLevel: CashConfidenceLevel
+    confidenceLevel: CashConfidenceLevel,
+    cashConversionAnalysis: RevenueCashConversion
   ): CashBoardDecision {
-    const isBurning = fco < 0;
+    const isBurning = fco <= 0;
 
     const cashGenerationAssessment = isBurning 
-      ? 'Não, a operação é deficitária e consome caixa.' 
+      ? 'Não, a operação consome caixa.' 
       : 'Sim, a operação é superavitária e gera caixa.';
 
-    const primaryConstraint = constraint.rationale;
+    const primaryConstraint = isBurning 
+      ? 'Estrutura operacional deficitária.' 
+      : constraint.rationale;
 
-    let runwayAssessment = '';
-    if (runwayMonths >= 12) {
-      runwayAssessment = 'A organização possui fôlego de sobrevivência (runway) superior a 12 meses.';
-    } else if (runwayMonths > 0) {
-      runwayAssessment = `Sobrevivência estimada crítica de ${runwayMonths.toFixed(1)} meses.`;
-    } else {
-      runwayAssessment = 'Sem runway disponível (liquidez operacional esgotada).';
-    }
+    const runwayAssessment = (() => {
+      const safeRunway = typeof runwayMonths === 'number' && !isNaN(runwayMonths) ? runwayMonths : 0;
+      const classification = RunwayClassificationEngine.classify(safeRunway);
+      const label = RunwayClassificationEngine.getLabel(classification);
+      return `Runway ${label} (${safeRunway.toFixed(1).replace('.', ',')} meses)`;
+    })();
 
-    const shareholderDependency = dependency.rationale;
+    const shareholderDependency = isBurning 
+      ? 'Dependência crítica dos sócios.' 
+      : dependency.rationale;
 
-    let boardOutlook = '';
-    if (sustainability.classification === 'AUTOSSUSTENTADA') {
-      boardOutlook = 'Se nada for feito, a operação continuará gerando caixa e expandindo organicamente sua liquidez.';
-    } else if (sustainability.classification === 'INSUSTENTAVEL') {
-      boardOutlook = 'Se nada for feito, a organização esgotará sua liquidez no curto prazo, entrando em colapso financeiro estrutural sem novos aportes ou forte redução de queima.';
-    } else if (sustainability.classification === 'DEPENDENTE_DE_CAPITAL') {
-      boardOutlook = 'Se nada for feito, a organização continuará altamente dependente de injeções de capital dos sócios, diluindo sócios ou aumentando risco de crédito.';
-    } else {
-      boardOutlook = 'O cenário apresenta transição. Sem otimizações no ciclo financeiro, poderá não atingir a total independência de capital externo.';
-    }
+    const boardOutlook = isBurning 
+      ? 'Se nada for feito, a liquidez disponível será insuficiente para sustentar a continuidade operacional.' 
+      : (sustainability.classification === 'AUTOSSUSTENTADA' 
+          ? 'Se nada for feito, a operação continuará gerando caixa e expandindo organicamente sua liquidez.' 
+          : 'O cenário apresenta transição. Sem otimizações no ciclo financeiro, poderá não atingir a total independência de capital externo.');
 
     let immediateAction = 'Manter o monitoramento rigoroso dos indicadores de capital de giro e preservar as reservas de liquidez.';
-    if (constraint.primaryConstraint === 'ESTOQUES') {
+    if (isBurning) {
+      immediateAction = 'Implementar plano emergencial de corte de despesas fixas (Overhead) para reduzir a queima operacional de caixa.';
+    } else if (constraint.primaryConstraint === 'ESTOQUES') {
       immediateAction = 'Aprovar otimização imediata do ciclo de estoques e reduzir o prazo médio de estocagem (PME) para liberar caixa.';
     } else if (constraint.primaryConstraint === 'RECEBIVEIS') {
       immediateAction = 'Rever política de concessão de crédito a clientes e acelerar a cobrança de faturas vencidas para recompor liquidez.';
-    } else if (constraint.primaryConstraint === 'CONSUMO_OPERACIONAL') {
-      immediateAction = 'Implementar plano emergencial de corte de despesas fixas (Overhead) para reduzir a queima operacional de caixa.';
     } else if (constraint.primaryConstraint === 'CAPEX') {
       immediateAction = 'Controlar rigorosamente novos investimentos (CAPEX) e suspender temporariamente gastos não essenciais.';
     } else if (constraint.primaryConstraint === 'PARTES_RELACIONADAS') {
@@ -54,8 +53,22 @@ export class CashBoardDecisionSupportEngine {
     }
 
     const isOperationSelfSustaining = isBurning 
-      ? 'Não. A continuidade operacional observada no exercício dependeu de capitalização societária para compensar a geração operacional negativa de caixa.'
+      ? 'Não. A continuidade operacional dependeu de capitalização societária.'
       : 'Sim. A operação gera recursos suficientes para se autossustentar, sem dependência imediata de novas capitalizações societárias.';
+
+    const revenueConversionAssessment = isBurning
+      ? `Para cada R$100 vendidos, R$${Math.abs(cashConversionAnalysis?.cashConversionPer100Revenue || 48)} foram consumidos pela operação.`
+      : `Para cada R$100 vendidos, R$${Math.abs(cashConversionAnalysis?.cashConversionPer100Revenue || 0)} foram gerados pela operação.`;
+
+    const boardPriorityAssessment = 'Reduzir a queima operacional de caixa e restaurar a autonomia financeira.';
+
+    const acaoMelhoraLiquidez = isBurning
+      ? 'Redução imediata de despesas operacionais fixas (Overhead) para conter a queima de caixa.'
+      : (constraint.primaryConstraint === 'ESTOQUES'
+          ? 'Liquidação promocional de estoques de baixa rotatividade e ajuste no ritmo de compras.'
+          : (constraint.primaryConstraint === 'RECEBIVEIS'
+              ? 'Antecipação de recebíveis de cartões/boletos e intensificação de cobrança de inadimplentes.'
+              : 'Suspensão de novos investimentos (CAPEX) não essenciais para preservar o saldo em tesouraria.'));
 
     return {
       cashGenerationAssessment,
@@ -65,7 +78,10 @@ export class CashBoardDecisionSupportEngine {
       boardOutlook,
       immediateAction,
       confidenceLevel,
-      isOperationSelfSustaining
+      isOperationSelfSustaining,
+      revenueConversionAssessment,
+      boardPriorityAssessment,
+      acaoMelhoraLiquidez
     };
   }
 }

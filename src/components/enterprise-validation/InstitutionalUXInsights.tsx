@@ -1,6 +1,6 @@
 import React from 'react';
 import { MousePointerClick } from 'lucide-react';
-import { CognitiveLoadEvaluator } from '../../core/runtime/ux-hardening/CognitiveLoadEvaluator';
+import { CognitiveLoadEvaluator } from '../../services/FiduciaryRuntimeAdapter';
 
 export function InstitutionalUXInsights({ tenantId }: { tenantId: string }) {
   const uxMetrics = CognitiveLoadEvaluator.evaluate(tenantId);

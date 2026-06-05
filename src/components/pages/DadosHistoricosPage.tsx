@@ -833,7 +833,7 @@ export function DadosHistoricosPage({
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
                     {history.map((h) => (
                       <div key={h.id} className="p-6 rounded-2xl bg-surface-container/30 border border-border/80 hover:border-secondary/20 hover:bg-surface-container/50 transition-all duration-300 flex flex-col justify-between h-full group shadow-xs">
                         <div>

@@ -3,9 +3,8 @@
 import React, { useMemo } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useBoardPackDataLoader } from './governance/BoardPackDataLoader';
-import { executiveRuntime } from '../../core/runtime/executive-intelligence-runtime';
-import { InstitutionalBoardPackRuntime } from '../../core/runtime/institutional-reporting/InstitutionalBoardPackRuntime';
 import { SovereignBoardPackPage } from './governance/SovereignBoardPackPage';
+import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
 
 interface InstitutionalBoardPackPageProps {
   clients?: any[];
@@ -72,8 +71,7 @@ export function InstitutionalBoardPackPage({ clients, selectedClient, selectedMo
     try {
       // If we have real data from the database, use it
       if (payload && !payload.isMockData) {
-        const report = executiveRuntime.generateExecutiveReport(payload);
-        const boardPack = InstitutionalBoardPackRuntime.generate(report);
+        const boardPack = FiduciaryRuntimeAdapter.generateBoardPack(payload);
         return {
           boardPack,
           dataMode: 'REAL' as const
@@ -81,8 +79,7 @@ export function InstitutionalBoardPackPage({ clients, selectedClient, selectedMo
       }
       
       // Fallback: If no real data or client not selected, run sandbox simulation
-      const mockReport = executiveRuntime.generateExecutiveReport(MOCK_SANDBOX_DATA);
-      const boardPack = InstitutionalBoardPackRuntime.generate(mockReport);
+      const boardPack = FiduciaryRuntimeAdapter.generateBoardPack(MOCK_SANDBOX_DATA);
       
       return {
         boardPack,

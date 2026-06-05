@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StrategicDecisionSimulator } from '../../core/runtime/strategic-simulation/StrategicDecisionSimulator';
-import { StrategicSimulationResult, StrategicSimulationInput } from '../../core/runtime/strategic-simulation/StrategicSimulationTypes';
-import { StrategicDecisionEvidenceBinder } from '../../core/runtime/strategic-simulation/StrategicDecisionEvidenceBinder';
+import { StrategicDecisionSimulator } from '../../services/FiduciaryRuntimeAdapter';
+import { StrategicSimulationResult, StrategicSimulationInput } from '../../services/FiduciaryRuntimeAdapter';
+import { StrategicDecisionEvidenceBinder } from '../../services/FiduciaryRuntimeAdapter';
 import { Landmark, Play } from 'lucide-react';
 
 export function StrategicSimulationFeed({ tenantId }: { tenantId: string }) {

@@ -503,13 +503,7 @@ export class RuntimeComplianceEngine implements
     }
 
     // Attempt to log to telemetry
-    try {
-      const { RuntimeExecutionLogger } = require('../observability/RuntimeExecutionLogger');
-      // Acknowledging the sink architecture requires direct abstraction usage, we could use a global sink locator if available
-      // For now, logging will be handled gracefully by the logger layer if invoked.
-    } catch (e) {
-      // silent catch for dynamic import
-    }
+    // For now, logging will be handled gracefully by the logger layer if invoked.
 
     return violations;
   }

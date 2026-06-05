@@ -3,10 +3,28 @@ export class CapitalPreservationScoreEngine {
     preservationRatio: number,
     dependencyValue: number,
     distributionClassification: string,
-    horizonFormatted: string,
-    horizonValue: number | null,
-    endingEquity: number
+    horizonFormattedOrObj: any,
+    horizonValueInput?: number | null,
+    endingEquity: number = 1.0,
+    analysisYear?: number
   ) {
+    let horizonFormatted = '';
+    let horizonValue: number | null = null;
+    let horizonAvailable = true;
+    let horizonClassification = '';
+
+    if (horizonFormattedOrObj && typeof horizonFormattedOrObj === 'object') {
+      horizonFormatted = horizonFormattedOrObj.formatted || '';
+      horizonValue = horizonFormattedOrObj.value ?? null;
+      horizonAvailable = horizonFormattedOrObj.available !== false;
+      horizonClassification = horizonFormattedOrObj.classification || '';
+    } else {
+      horizonFormatted = String(horizonFormattedOrObj || '');
+      horizonValue = horizonValueInput ?? null;
+      horizonAvailable = horizonFormatted !== 'Não Estimável' && horizonValue !== null;
+      horizonClassification = horizonFormatted;
+    }
+
     // 1. Capital Remanescente Score (45% weight)
     const remanescenteScore = Math.max(0, Math.min(100, preservationRatio * 100));
 
@@ -38,10 +56,12 @@ export class CapitalPreservationScoreEngine {
 
     // 4. Horizonte de Recuperação Score (15% weight)
     let horizonScore = 50;
-    if (horizonValue === 0) {
+    const isHorizonNotEstimable = !horizonAvailable || horizonClassification === 'Não Estimável' || horizonFormatted === 'Não Estimável' || horizonValue === null;
+
+    if (isHorizonNotEstimable) {
+      horizonScore = 25;
+    } else if (horizonValue === 0) {
       horizonScore = 100;
-    } else if (horizonFormatted === 'Não Estimável' || horizonValue === null) {
-      horizonScore = 50;
     } else if (horizonValue < 2) {
       horizonScore = 90;
     } else if (horizonValue < 5) {
@@ -77,10 +97,13 @@ export class CapitalPreservationScoreEngine {
       classification = 'Capital em Recuperação';
     }
 
+    const horizonDetails = '';
+
     const rationale = `Ponderação: Remanescente (${remanescenteScore.toFixed(0)} pts × 45%) + Dependência (${dependencyScore} pts × 30%) + Distribuição (${distributionScore} pts × 10%) + Horizonte (${horizonScore} pts × 15%).`;
 
     return {
       value: score,
+      score: score,
       classification,
       rationale,
       components: {

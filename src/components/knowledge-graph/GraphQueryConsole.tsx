@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { GraphQueryEngine } from '../../core/runtime/knowledge-graph/GraphQueryEngine';
-import { GraphQueryResult } from '../../core/runtime/knowledge-graph/KnowledgeGraphTypes';
+import { GraphQueryEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { GraphQueryResult } from '../../services/FiduciaryRuntimeAdapter';
 import { Terminal, Play } from 'lucide-react';
 import { SemanticRelationshipPanel } from './SemanticRelationshipPanel';
 

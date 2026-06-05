@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { GroupOnboardingRepository, EconomicGroupModel } from '../../core/runtime/consolidated/data/GroupOnboardingRepository';
-import { GroupEntityMappingRepository, EconomicGroupEntityModel } from '../../core/runtime/consolidated/data/GroupEntityMappingRepository';
-import { IntercompanyRelationRepository, IntercompanyRelationModel } from '../../core/runtime/consolidated/data/IntercompanyRelationRepository';
-import { ConsolidatedDataModelValidator } from '../../core/runtime/consolidated/data/ConsolidatedDataModelValidator';
+import { GroupOnboardingRepository, EconomicGroupModel } from '../../services/FiduciaryRuntimeAdapter';
+import { GroupEntityMappingRepository, EconomicGroupEntityModel } from '../../services/FiduciaryRuntimeAdapter';
+import { IntercompanyRelationRepository, IntercompanyRelationModel } from '../../services/FiduciaryRuntimeAdapter';
+import { ConsolidatedDataModelValidator } from '../../services/FiduciaryRuntimeAdapter';
 import { Building2, Plus, AlertTriangle, Play, Users } from 'lucide-react';
 import { PageHeader } from '../Common';
 import { cn } from '../../lib/utils';

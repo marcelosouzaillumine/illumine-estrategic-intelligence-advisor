@@ -3,7 +3,7 @@
 import React from 'react';
 import { Megaphone, BookOpen } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { ExecutiveDirectiveSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { ExecutiveDirectiveSection } from '../../services/FiduciaryRuntimeAdapter';
 
 export function ExecutiveDirectiveSurface({ data }: { data: ExecutiveDirectiveSection }) {
   const { translateLabel: t } = useLanguage();

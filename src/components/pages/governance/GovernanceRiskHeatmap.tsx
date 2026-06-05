@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldAlert, AlertTriangle, TrendingUp, Activity, CheckCircle, Users } from 'lucide-react';
-import { enterpriseRiskEngine } from '../../../core/runtime/governance/risk/EnterpriseRiskEngine';
-import { RiskHeatmap } from '../../../core/runtime/governance/risk/types';
+import { FiduciaryRuntimeAdapter } from '../../../services/FiduciaryRuntimeAdapter';
 import { PageHeader } from '../../Common';
+import type { RiskHeatmap } from '../../../services/FiduciaryRuntimeAdapter';
 
 export function GovernanceRiskHeatmap() {
   const [heatmapData, setHeatmapData] = useState<RiskHeatmap | null>(null);
@@ -11,7 +11,7 @@ export function GovernanceRiskHeatmap() {
     // Em produção, o tenantId viria do TenantExecutionContext do usuário logado.
     // Estamos chamando a engine real que está vazia no momento, 
     // mas pronta para receber dados reais (sem mocks soltos na engine).
-    const data = enterpriseRiskEngine.generateHeatmap('current-tenant-id');
+    const data = FiduciaryRuntimeAdapter.enterpriseRiskEngine.generateHeatmap('current-tenant-id');
     setHeatmapData(data);
   }, []);
 

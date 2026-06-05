@@ -334,8 +334,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
 
 
       {/* CFO Executive Insights */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 glass-card p-10 flex flex-col md:flex-row items-center gap-10">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <div className="xl:col-span-2 glass-card p-10 flex flex-col md:flex-row items-center gap-10">
           <div className="shrink-0">
              <div className="w-20 h-20 rounded-[32px] bg-secondary/10 flex items-center justify-center text-secondary relative">
                 <Sparkles size={40} />
@@ -369,7 +369,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
       </div>
 
       {/* KPI Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {metrics.map(m => (
           <div key={m.label} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden">
             <div className="relative z-10">
@@ -397,9 +397,9 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
       </div>
 
       {/* Main Analysis Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* Performance Evolution */}
-        <div className="lg:col-span-2 space-y-4">
+        <div className="xl:col-span-2 space-y-4">
           <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Evolução do Patrimônio</h2>
           <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm h-[400px]">
              <ResponsiveContainer width="100%" height="100%">

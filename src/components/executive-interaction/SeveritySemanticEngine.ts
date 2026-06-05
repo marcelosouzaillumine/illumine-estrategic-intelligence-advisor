@@ -1,4 +1,4 @@
-import { ExecutiveSeverityLevel, ExecutiveEscalationLevel } from '../../core/runtime/executive-interaction/types';
+import { ExecutiveSeverityLevel, ExecutiveEscalationLevel } from '../../services/FiduciaryRuntimeAdapter';
 
 interface SeverityStyle {
   bgColor: string;

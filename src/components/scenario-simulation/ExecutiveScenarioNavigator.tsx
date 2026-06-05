@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
-import { SandboxConfig } from '../../core/runtime/scenario-simulation/types';
+import { SandboxConfig } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const ExecutiveScenarioNavigator: React.FC = () => {

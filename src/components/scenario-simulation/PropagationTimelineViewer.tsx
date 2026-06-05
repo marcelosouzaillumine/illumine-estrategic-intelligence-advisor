@@ -1,6 +1,6 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
-import { SimulationPropagationSeverity } from '../../core/runtime/scenario-simulation/types';
+import { SimulationPropagationSeverity } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const PropagationTimelineViewer: React.FC = () => {

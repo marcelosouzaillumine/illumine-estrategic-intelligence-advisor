@@ -29,6 +29,11 @@ import { CapitalRecoveryRequirementEngine } from '../governance/dlpa/CapitalReco
 import { PatrimonialRecoveryHorizonEngine } from '../governance/dlpa/PatrimonialRecoveryHorizonEngine';
 import { CapitalRecoverabilityEngine } from '../governance/dlpa/CapitalRecoverabilityEngine';
 import { CapitalPreservationScoreEngine } from '../governance/dlpa/CapitalPreservationScoreEngine';
+import { TemporalEvidenceFilter } from '../temporal-governance/TemporalEvidenceFilter';
+import { TemporalFiduciaryIntegrityEngine } from '../temporal-governance/TemporalFiduciaryIntegrityEngine';
+import { DLPAGovernanceRadarEngine } from '../governance/dlpa/DLPAGovernanceRadarEngine';
+import { DLPAConsistencyAuditEngine } from '../governance/dlpa/DLPAConsistencyAuditEngine';
+import { DLPALegacyPayloadAudit } from '../governance/dlpa/DLPALegacyPayloadAudit';
 
 export interface HistoricalCycleMetrics {
   year: number;
@@ -80,6 +85,7 @@ export class CapitalGovernanceAdapter {
       capitalPreservationScore?: any;
     };
     lifecycleAudit?: LifecyclePropagationAudit;
+    temporalAudit?: any;
     semantic?: {
       semanticSource: 'ELSA' | 'LEGACY';
       lifecycleStage: string;
@@ -100,6 +106,11 @@ export class CapitalGovernanceAdapter {
         lifecycleConfidence: string;
       };
     };
+    consistencyAudit?: any;
+    patrimonialRecoveryHorizon?: any;
+    capitalRecoverability?: any;
+    capitalPreservationScore?: any;
+    capitalStatus?: string;
   } {
     
     let fallbackActivated = false;
@@ -151,9 +162,6 @@ export class CapitalGovernanceAdapter {
       fallbackReason = LifecycleFallbackReasons.LIFECYCLE_PROFILE_NOT_BUILT;
     }
 
-    // 2. Parse Historical Cycles from raw format
-    const historicalCycles = this.parseHistoricalCycles(historicalCyclesRaw);
-
     // 3. Estimate auxiliary fields
     const normalize = (s: string) =>
       (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -163,12 +171,60 @@ export class CapitalGovernanceAdapter {
       return n.includes('capital social') || n.includes('capital integralizado') || n.includes('capital subscrito');
     });
 
-    const filterYear = dlpaData[0]?.year || new Date().getFullYear();
+    let filterYear: number;
+    const contextYear = context?.lifecycle?.analysisYear || context?.analysisYear;
+    if (contextYear !== undefined && contextYear !== null) {
+      filterYear = Number(contextYear);
+    } else {
+      const hasExecutiveContext = !!(context?.lifecycle || context?.lifecycleProfile);
+      if (hasExecutiveContext) {
+        throw new Error('DLPA_UI_HARD_FAIL: Contexto executivo presente mas analysisYear está ausente.');
+      }
+      filterYear = Number(dlpaData[0]?.year || new Date().getFullYear());
+    }
+
+    // Hard assert: Se context.lifecycle.analysisYear existir, nenhum ciclo futuro poderá ser usado
+    if (context?.lifecycle?.analysisYear !== undefined && context?.lifecycle?.analysisYear !== null) {
+      const parsedAnalysisYear = Number(context.lifecycle.analysisYear);
+      if (filterYear !== parsedAnalysisYear) {
+        throw new Error(`DLPA_UI_HARD_FAIL: filterYear resolved to ${filterYear} instead of analysisYear ${parsedAnalysisYear}`);
+      }
+    }
+
+    const cleanDlpaData = dlpaData.filter(d => {
+      const yr = Number(d.year || d.ano);
+      return isNaN(yr) || yr <= filterYear;
+    });
+
+    const cleanHistoricalCyclesRaw = (historicalCyclesRaw || []).filter(d => {
+      const yr = Number(d.year || d.ano);
+      return isNaN(yr) || yr <= filterYear;
+    });
+
+    // 2. Parse Historical Cycles from raw format
+    const historicalCycles = this.parseHistoricalCycles(cleanHistoricalCyclesRaw);
+
+    // Hard assert: Se context.lifecycle.analysisYear existir, nenhum ciclo futuro poderá ser usado
+    if (context?.lifecycle?.analysisYear !== undefined && context?.lifecycle?.analysisYear !== null) {
+      const parsedAnalysisYear = Number(context.lifecycle.analysisYear);
+      const futureDlpa = cleanDlpaData.filter(d => {
+        const yr = Number(d.year || d.ano);
+        return !isNaN(yr) && yr > parsedAnalysisYear;
+      });
+      if (futureDlpa.length > 0) {
+        throw new Error(`DLPA_UI_HARD_FAIL: Future cycle in cleanDlpaData found: ${futureDlpa[0].year} > analysisYear ${parsedAnalysisYear}`);
+      }
+
+      const futureCycles = historicalCycles.filter(c => c.year > parsedAnalysisYear);
+      if (futureCycles.length > 0) {
+        throw new Error(`DLPA_UI_HARD_FAIL: Future cycle in historicalCycles found: ${futureCycles[0].year} > analysisYear ${parsedAnalysisYear}`);
+      }
+    }
 
     // Try to extract Capital Social from Balance Sheet (BP) in history first
     let bpCapitalSocial = 0;
-    if (historicalCyclesRaw && historicalCyclesRaw.length > 0) {
-      const bpEntries = historicalCyclesRaw.filter((d: any) => 
+    if (cleanHistoricalCyclesRaw && cleanHistoricalCyclesRaw.length > 0) {
+      const bpEntries = cleanHistoricalCyclesRaw.filter((d: any) => 
         Number(d.year) === filterYear && 
         ['bp', 'balanço patrimonial', 'balanco patrimonial', 'balanco'].includes(normalize(d.docType || d.type || ''))
       );
@@ -185,9 +241,10 @@ export class CapitalGovernanceAdapter {
       ? bpCapitalSocial 
       : (capSocialEntry
         ? Math.abs(Number(capSocialEntry.val ?? capSocialEntry.valor ?? capSocialEntry.value ?? 0))
-        : (dlpaData[0]?.capitalSocial ?? dlpaData[0]?.valorCapitalSocial ?? endingEquity));
+        : (cleanDlpaData[0]?.capitalSocial ?? cleanDlpaData[0]?.valorCapitalSocial ?? endingEquity));
 
-    const bpEntriesForLp = (historicalCyclesRaw || []).filter((d: any) =>
+
+    const bpEntriesForLp = (cleanHistoricalCyclesRaw || []).filter((d: any) =>
       Number(d.year) === filterYear &&
       ['bp', 'balanço patrimonial', 'balanco patrimonial', 'balanco'].includes(normalize(d.docType || d.type || ''))
     );
@@ -209,7 +266,7 @@ export class CapitalGovernanceAdapter {
       }
     }
 
-    const lucrosPrejuizosEntry = dlpaData.find((e: any) => {
+    const lucrosPrejuizosEntry = cleanDlpaData.find((e: any) => {
       const n = normalize(e.conta || e.category || '');
       // Exclude starting/initial lines to find the ending balance
       if (n.includes('inicio') || n.includes('inicial') || n.includes('abertura') || n.includes('anterior')) {
@@ -235,11 +292,11 @@ export class CapitalGovernanceAdapter {
       lucrosPrejuizos = (startingEquity || 0) + (netIncome || 0);
     }
 
-    
+
     // Attempt to extract operating cash flow from context or historical cycles if available
     let operatingCashFlow = 0;
     if (historicalCycles && historicalCycles.length > 0) {
-      const currentYear = dlpaData[0]?.year;
+      const currentYear = cleanDlpaData[0]?.year;
       const currentCycle = historicalCycles.find(c => c.year === currentYear);
       if (currentCycle) {
         operatingCashFlow = currentCycle.operatingCashFlow;
@@ -249,7 +306,7 @@ export class CapitalGovernanceAdapter {
     // 4. Invoke the official DLPA Fiduciary engine
     const fidOutput = DLPAFiduciaryInterpretationEngine.evaluate({
       context: runtimeContext,
-      dlpaData,
+      dlpaData: cleanDlpaData,
       netIncome,
       retainedEarnings,
       totalDistributed,
@@ -342,15 +399,40 @@ export class CapitalGovernanceAdapter {
     const capitalPreservationStatus = CapitalPreservationStatusEngine.evaluate(endingEquity, capitalSocial);
     const shareholderDependencyNarrative = ShareholderDependencyNarrativeEngine.evaluate(capitalSocial, endingEquity);
     const capitalRecoveryRequirement = CapitalRecoveryRequirementEngine.evaluate(lucrosPrejuizos, capitalSocial);
-    const patrimonialRecoveryHorizon = PatrimonialRecoveryHorizonEngine.evaluate(lucrosPrejuizos, netIncome, historicalCycles, filterYear);
-    const capitalRecoverability = CapitalRecoverabilityEngine.evaluate(endingEquity, patrimonialRecoveryHorizon.value);
+    
+    // Resolve perspective for temporal audit
+    const perspective = (context?.perspective === 'RETROSPECTIVE' || context?.runtimeMode === 'RETROSPECTIVE') ? 'RETROSPECTIVE' : 'EXECUTIVE';
+    const rawHistoricalCycles = this.parseHistoricalCycles(historicalCyclesRaw || []);
+    const rawHistoricalYears = rawHistoricalCycles.map(c => Number(c.year));
+    const rawDlpaYears = (dlpaData || []).map(d => Number(d.year || d.ano));
+    const rawYears = [...new Set([...rawHistoricalYears, ...rawDlpaYears])].filter(y => !isNaN(y) && y > 0);
+    const temporalAudit = context?.temporalAudit || TemporalFiduciaryIntegrityEngine.validate(
+      filterYear,
+      rawYears,
+      perspective
+    );
+
+    // Enforced Temporal Evidence Contract: filter historical cycles to keep only eligible ones
+    const eligibleHistoricalCycles = TemporalEvidenceFilter.filterByAnalysisYear(historicalCycles, filterYear);
+
+    const capitalToRecover = lucrosPrejuizos < 0 ? Math.abs(lucrosPrejuizos) : 0;
+    const patrimonialRecoveryHorizon = PatrimonialRecoveryHorizonEngine.evaluate({
+      capitalToRecover,
+      currentNetProfit: netIncome,
+      eligibleHistoricalCycles,
+      analysisYear: filterYear,
+      temporalAudit
+    });
+
+    const capitalRecoverability = CapitalRecoverabilityEngine.evaluate(endingEquity, patrimonialRecoveryHorizon);
     const capitalPreservationScore = CapitalPreservationScoreEngine.evaluate(
       capitalPreservationStatus.value,
       shareholderDependencyNarrative.value,
       distributionCapacity.classification,
       patrimonialRecoveryHorizon.formatted,
       patrimonialRecoveryHorizon.value,
-      endingEquity
+      endingEquity,
+      filterYear
     );
 
     const boardDecisionSupport = DLPABoardDecisionSupportEngine.evaluate(
@@ -409,25 +491,30 @@ export class CapitalGovernanceAdapter {
       fallbackReason
     };
 
-    return {
+    let resolvedCapitalStatus = runtimeContext?.lifecycleProfile?.capitalStatus?.semanticLabel || (fidOutput.patrimonialIntegrityStatus as any);
+    const capitalPreservedPercent = capitalPreservationIndex * 100;
+    resolvedCapitalStatus = DLPAGovernanceRadarEngine.resolveStatus(resolvedCapitalStatus, capitalPreservedPercent);
+
+    const adaptedReport = {
       diagnostics,
       narrative: fidOutput.governanceNarrative,
       resolvedGovernanceStatus: runtimeContext?.lifecycleProfile?.governanceStatus?.semanticLabel || cgsStatus,
-      resolvedCapitalStatus: runtimeContext?.lifecycleProfile?.capitalStatus?.semanticLabel || (fidOutput.patrimonialIntegrityStatus as any),
+      resolvedCapitalStatus,
       resolvedNarrativeProfile: runtimeContext?.lifecycleProfile?.narrativeProfile || 'UNKNOWN',
       semanticSource: runtimeContext?.lifecycleProfile ? 'ELSA' : 'LEGACY',
       executiveLayer,
       lifecycleAudit,
+      temporalAudit,
       semantic: {
-        semanticSource: runtimeContext?.lifecycleProfile ? 'ELSA' : 'LEGACY',
+        semanticSource: (runtimeContext?.lifecycleProfile ? 'ELSA' : 'LEGACY') as 'ELSA' | 'LEGACY',
         lifecycleStage: runtimeContext?.lifecycleProfile?.lifecycleStage || (historicalCycles.length <= 1 ? 'INITIAL_CAPITALIZATION' : 'SURVIVAL'),
         rawGovernanceStatus: CapitalGovernanceSemanticEngine.resolveStatus(cgs, hasSevereOrHighErosion),
         resolvedGovernanceStatus: runtimeContext?.lifecycleProfile?.governanceStatus?.semanticLabel || cgsStatus,
         rawCapitalStatus: fidOutput.patrimonialIntegrityStatus as string,
-        resolvedCapitalStatus: runtimeContext?.lifecycleProfile?.capitalStatus?.semanticLabel || (fidOutput.patrimonialIntegrityStatus as string),
+        resolvedCapitalStatus,
         rawPatrimonialStatus: fidOutput.patrimonialIntegrityStatus as string,
-        resolvedPatrimonialStatus: runtimeContext?.lifecycleProfile?.capitalStatus?.semanticLabel || (fidOutput.patrimonialIntegrityStatus as string),
-        cpiStatus: fidOutput.patrimonialIntegrityStatus as string,
+        resolvedPatrimonialStatus: resolvedCapitalStatus,
+        cpiStatus: resolvedCapitalStatus,
         semanticContext: {
           semanticSource: runtimeContext?.lifecycleProfile ? 'ELSA' : 'LEGACY',
           lifecycleStage: runtimeContext?.lifecycleProfile?.lifecycleStage || (historicalCycles.length <= 1 ? 'INITIAL_CAPITALIZATION' : 'SURVIVAL'),
@@ -439,6 +526,37 @@ export class CapitalGovernanceAdapter {
         }
       }
     };
+
+    const consistencyAudit = DLPAConsistencyAuditEngine.validate({
+      ...adaptedReport,
+      preservation: {
+        equityPreservationRatio: capitalPreservationIndex
+      },
+      distribution: {
+        distributionRatio: diagnostics.distribution?.distributionRatio
+      },
+      distributionCapacity: distributionCapacity.classification
+    });
+
+    const finalReport = {
+      ...adaptedReport,
+      patrimonialRecoveryHorizon,
+      capitalRecoverability,
+      capitalPreservationScore,
+      capitalStatus: resolvedCapitalStatus,
+      consistencyAudit
+    };
+
+    delete (finalReport as any).legacyRecoveryYears;
+    delete (finalReport as any).legacyRecoveryClassification;
+    delete (finalReport as any).legacyCpsScore;
+
+    const legacyAudit = DLPALegacyPayloadAudit.audit(finalReport);
+    if (!legacyAudit.valid) {
+      console.warn(`[DLPALegacyPayloadAudit WARNING]: ${legacyAudit.error}`);
+    }
+
+    return finalReport;
 
   }
 

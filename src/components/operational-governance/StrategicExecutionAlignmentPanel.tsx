@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Compass, CheckCircle, XCircle } from 'lucide-react';
-import { StrategicExecutionAlignment, OperationalGovernanceThesis } from '../../core/runtime/operational-governance/operational-governance-types';
+import { StrategicExecutionAlignment, OperationalGovernanceThesis } from '../../services/FiduciaryRuntimeAdapter';
 
 interface StrategicExecutionAlignmentPanelProps {
   alignment: StrategicExecutionAlignment;

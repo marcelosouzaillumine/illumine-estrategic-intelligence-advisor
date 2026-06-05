@@ -1,6 +1,6 @@
 import React from 'react';
 import { useScenarioSimulation } from '../../context/scenario-simulation/ScenarioSimulationProvider';
-import { SimulationScenarioType, SimulationTimeHorizon } from '../../core/runtime/scenario-simulation/types';
+import { SimulationScenarioType, SimulationTimeHorizon } from '../../services/FiduciaryRuntimeAdapter';
 import { ForecastIntegrityBadge } from './ForecastIntegrityBadge';
 import { useLanguage } from '../../contexts/LanguageContext';
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Microscope, Code2 } from 'lucide-react';
-import { StrategicExplainability } from '../../core/runtime/strategic-intelligence/strategic-intelligence-types';
+import { StrategicExplainability } from '../../services/FiduciaryRuntimeAdapter';
 
 interface StrategicExplainabilityDrawerProps {
   explainability: StrategicExplainability;

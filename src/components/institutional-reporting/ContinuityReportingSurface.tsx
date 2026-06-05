@@ -3,7 +3,7 @@
 import React from 'react';
 import { HeartPulse, ShieldAlert } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { ContinuitySection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { ContinuitySection } from '../../services/FiduciaryRuntimeAdapter';
 
 export function ContinuityReportingSurface({ data }: { data: ContinuitySection }) {
   const { translateLabel: t } = useLanguage();

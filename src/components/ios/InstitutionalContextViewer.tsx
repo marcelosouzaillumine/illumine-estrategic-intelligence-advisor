@@ -1,5 +1,5 @@
 import React from 'react';
-import { InstitutionalOperatingSystem } from '../../core/runtime/ios/InstitutionalOperatingSystem';
+import { InstitutionalOperatingSystem } from '../../services/FiduciaryRuntimeAdapter';
 import { Target } from 'lucide-react';
 
 export function InstitutionalContextViewer({ tenantId }: { tenantId: string }) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MonitoringAlert } from '../../core/runtime/monitoring/MonitoringTypes';
+import { MonitoringAlert } from '../../services/FiduciaryRuntimeAdapter';
 import { AlertSeverityBadge } from './AlertSeverityBadge';
 import { Hash } from 'lucide-react';
 

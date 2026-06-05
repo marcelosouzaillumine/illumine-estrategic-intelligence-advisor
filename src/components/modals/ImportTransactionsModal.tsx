@@ -11,10 +11,10 @@ import { db, auth } from '../../lib/firebase';
 import { notificationService } from '../../services/notificationService';
 import { parseTransactionsExcel, parseTransactionsPdf, ImportedTransaction } from '../../services/importService';
 import { cn, formatDate } from '../../lib/utils';
-import { StagingValidationEngine } from '../../core/runtime/integrations/StagingValidationEngine';
-import { ImportReviewQueue } from '../../core/runtime/integrations/ImportReviewQueue';
-import { ImportPublicationEngine } from '../../core/runtime/integrations/ImportPublicationEngine';
-import { ImportedDataset, StagingValidationWarning } from '../../core/runtime/integrations/IntegrationGovernanceTypes';
+import { StagingValidationEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { ImportReviewQueue } from '../../services/FiduciaryRuntimeAdapter';
+import { ImportPublicationEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { ImportedDataset, StagingValidationWarning } from '../../services/FiduciaryRuntimeAdapter';
 
 type ImportStrategy = 'add_new' | 'replace_all';
 

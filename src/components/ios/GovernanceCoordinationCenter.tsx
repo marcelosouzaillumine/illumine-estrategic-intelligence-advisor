@@ -1,6 +1,6 @@
 import React from 'react';
 import { Workflow } from 'lucide-react';
-import { InstitutionalOperatingSystem } from '../../core/runtime/ios/InstitutionalOperatingSystem';
+import { InstitutionalOperatingSystem } from '../../services/FiduciaryRuntimeAdapter';
 
 export function GovernanceCoordinationCenter({ tenantId }: { tenantId: string }) {
   const state = InstitutionalOperatingSystem.getState(tenantId);

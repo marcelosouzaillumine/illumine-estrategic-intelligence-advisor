@@ -704,7 +704,7 @@ function AppContent({
           </div>
         </header>
 
-        <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden p-8">
+        <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden p-4 sm:p-6 md:p-8">
           <div id="main-content-wrapper" className="max-w-[1600px] mx-auto w-full space-y-6">
             <GovernanceEscalationBanner />
             <GlobalErrorBoundary>

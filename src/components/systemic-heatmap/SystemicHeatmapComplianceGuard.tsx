@@ -1,6 +1,6 @@
 import React from 'react';
 import { SystemicHeatmapEmptyState } from './SystemicHeatmapEmptyState';
-import { SystemicRiskProfile } from '../../core/runtime/consolidated/stress/stress-types';
+import { SystemicRiskProfile } from '../../services/FiduciaryRuntimeAdapter';
 
 interface GuardProps {
   output?: SystemicRiskProfile;

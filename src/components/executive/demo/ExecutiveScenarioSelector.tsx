@@ -1,5 +1,5 @@
 import React from 'react';
-import { DemoScenario, ExecutiveDemoScenarioRegistry } from '../../../core/runtime/executive/demo/ExecutiveDemoScenarioRegistry';
+import { DemoScenario, ExecutiveDemoScenarioRegistry } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface ExecutiveScenarioSelectorProps {
   activeScenarioId: string | null;

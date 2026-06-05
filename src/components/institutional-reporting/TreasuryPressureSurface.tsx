@@ -3,7 +3,7 @@
 import React from 'react';
 import { Landmark, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { TreasurySection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { TreasurySection } from '../../services/FiduciaryRuntimeAdapter';
 
 export function TreasuryPressureSurface({ data }: { data: TreasurySection }) {
   const { translateLabel: t } = useLanguage();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCommandCenter } from '../../context/governance-command-center/GovernanceCommandCenterProvider';
-import { GovernanceIncident } from '../../core/runtime/governance-command-center/types';
+import { GovernanceIncident } from '../../services/FiduciaryRuntimeAdapter';
 
 export const GovernanceIncidentQueue: React.FC = () => {
   const {

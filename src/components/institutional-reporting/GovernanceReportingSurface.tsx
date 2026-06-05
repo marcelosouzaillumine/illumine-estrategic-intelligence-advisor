@@ -3,7 +3,7 @@
 import React from 'react';
 import { ShieldCheck, Lock } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { GovernanceReportingSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { GovernanceReportingSection } from '../../services/FiduciaryRuntimeAdapter';
 
 export function GovernanceReportingSurface({ data }: { data: GovernanceReportingSection }) {
   const { translateLabel: t } = useLanguage();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShieldCheck } from 'lucide-react';
-import { PilotGovernanceChecklist } from '../../core/runtime/pilot-readiness/PilotGovernanceChecklist';
+import { PilotGovernanceChecklist } from '../../services/FiduciaryRuntimeAdapter';
 
 export function PilotReadinessPanel({ tenantId }: { tenantId: string }) {
   const checks = PilotGovernanceChecklist.evaluate(tenantId);

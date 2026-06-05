@@ -1,7 +1,7 @@
 // src/components/operational-governance/InstitutionalOperationalGovernanceCenter.tsx
 
 import React from 'react';
-import { InstitutionalOperationalGovernanceOutput } from '../../core/runtime/operational-governance/operational-governance-types';
+import { InstitutionalOperationalGovernanceOutput } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutionIntegrityPanel } from './ExecutionIntegrityPanel';
 import { OperationalFrictionMap } from './OperationalFrictionMap';
 import { OperationalContinuitySurface } from './OperationalContinuitySurface';

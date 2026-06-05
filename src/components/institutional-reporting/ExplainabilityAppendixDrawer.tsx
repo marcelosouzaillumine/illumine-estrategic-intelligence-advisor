@@ -3,7 +3,7 @@
 import React from 'react';
 import { Microscope, Activity } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { ExplainabilityAppendix } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { ExplainabilityAppendix } from '../../services/FiduciaryRuntimeAdapter';
 
 export function ExplainabilityAppendixDrawer({ data }: { data: ExplainabilityAppendix }) {
   const { translateLabel: t } = useLanguage();

@@ -24,7 +24,7 @@ export class DLPAGovernanceInterpretationEngine {
 
     if (lucrosPrejuizos < 0) {
       shareholderCapitalProtection = 'A companhia preserva formalmente sua solvência patrimonial, porém já consumiu mais da metade do capital originalmente aportado pelos sócios. A continuidade da geração de prejuízos poderá exigir novas capitalizações para evitar deterioração adicional da base patrimonial.';
-      recoveryThesis = 'A recomposição patrimonial dependerá prioritariamente da reversão da geração de prejuízos operacionais e da conversão sustentável da rentabilidade futura em patrimônio líquido acumulado.';
+      recoveryThesis = 'A recomposição patrimonial dependerá prioritariamente da reversão da geração de prejuízos operacionais, da conversão sustentável da rentabilidade futura em patrimônio líquido acumulado e da retenção integral dos lucros futuros até a absorção completa das perdas acumuladas.';
     }
 
     return {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Shield, TrendingUp, Activity, Award } from 'lucide-react';
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
 
 interface ExecutiveHeroPanelProps {

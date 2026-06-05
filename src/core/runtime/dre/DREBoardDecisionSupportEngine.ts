@@ -19,6 +19,10 @@ export interface BoardDecisionFramework {
   consequenciaDaInacao: string;
   // P7: Qual é a prioridade do Conselho?
   prioridadeConselho: string;
+  // P8: Estamos criando valor econômico?
+  criacaoValorEconomico: string;
+  // P9: Qual iniciativa possui maior potencial de retorno?
+  maiorPotencialRetorno: string;
   // Campos legados (backward compat)
   geraValor: string;
   problemaPrincipal: string;
@@ -77,6 +81,19 @@ export class DREBoardDecisionSupportEngine {
     // P7 — Prioridade do Conselho
     const prioridadeConselho = strategicPriority;
 
+    // P8 — Estamos criando valor econômico?
+    const criacaoValorEconomico = valueCreationAssessment === 'Sim'
+      ? 'A operação gera retorno positivo, mas a criação de valor real depende do custo implícito de capital empregado.'
+      : 'Não. O resultado operacional negativo caracteriza destruição imediata de valor econômico e consumo de patrimônio.';
+
+    // P9 — Qual iniciativa possui maior potencial de retorno?
+    let maiorPotencialRetorno = 'Aceleração comercial para escala e diluição de despesas fixas de estrutura.';
+    if (primaryConstraint.toLowerCase().includes('margem')) {
+      maiorPotencialRetorno = 'Otimização de precificação e negociação com fornecedores para restabelecer a margem de contribuição.';
+    } else if (primaryConstraint.toLowerCase().includes('custo') || primaryConstraint.toLowerCase().includes('estrutura')) {
+      maiorPotencialRetorno = 'Redimensionamento da estrutura de custos fixos e otimização da capacidade instalada.';
+    }
+
     return {
       criacaoDeValor,
       faturamentoSustaenta,
@@ -85,6 +102,8 @@ export class DREBoardDecisionSupportEngine {
       oportunidadePrincipal,
       consequenciaDaInacao,
       prioridadeConselho,
+      criacaoValorEconomico,
+      maiorPotencialRetorno,
       // backward compat
       geraValor: valueCreationAssessment,
       problemaPrincipal: primaryConstraint,

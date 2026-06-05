@@ -1,8 +1,8 @@
 // src/components/board-decision/DecisionApprovalPanel.tsx
 import React, { useState } from 'react';
 import { FileSignature, ShieldCheck, AlertTriangle } from 'lucide-react';
-import { InstitutionalScenarioResult } from '../../core/runtime/scenario-intelligence/scenario-types';
-import { BoardResolutionEngine } from '../../core/runtime/board-decision/BoardResolutionEngine';
+import { InstitutionalScenarioResult } from '../../services/FiduciaryRuntimeAdapter';
+import { BoardResolutionEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { BoardResolutionService } from '../../services/boardResolutionService';
 import { useInstitutionalAuth } from '../../core/security/auth/InstitutionalAuthProvider';
 

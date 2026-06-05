@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Shield, ShieldAlert, HeartPulse } from 'lucide-react';
-import { OperationalContinuityState } from '../../core/runtime/operational-governance/operational-governance-types';
+import { OperationalContinuityState } from '../../services/FiduciaryRuntimeAdapter';
 
 interface OperationalContinuitySurfaceProps {
   continuity: OperationalContinuityState;

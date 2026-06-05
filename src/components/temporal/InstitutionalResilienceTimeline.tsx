@@ -1,5 +1,5 @@
 import React from 'react';
-import { TemporalEvent } from '../../core/runtime/institutional-memory/types';
+import { TemporalEvent } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ResilienceTimelineProps {

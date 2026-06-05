@@ -1,7 +1,7 @@
 // src/components/war-gaming/CrisisScenarioPanel.tsx
 
 import React, { useState } from 'react';
-import { CrisisInput, CrisisType } from '../../core/runtime/war-gaming/war-gaming-types';
+import { CrisisInput, CrisisType } from '../../services/FiduciaryRuntimeAdapter';
 
 export function CrisisScenarioPanel({ onSimulate }: { onSimulate: (inputs: CrisisInput[]) => void }) {
   const [magnitude, setMagnitude] = useState<number>(45);

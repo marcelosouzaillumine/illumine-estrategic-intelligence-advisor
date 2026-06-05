@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Activity, ShieldAlert, CheckCircle2, AlertCircle } from 'lucide-react';
-import { ExecutionIntegrityState } from '../../core/runtime/operational-governance/operational-governance-types';
+import { ExecutionIntegrityState } from '../../services/FiduciaryRuntimeAdapter';
 
 interface ExecutionIntegrityPanelProps {
   integrity: ExecutionIntegrityState;

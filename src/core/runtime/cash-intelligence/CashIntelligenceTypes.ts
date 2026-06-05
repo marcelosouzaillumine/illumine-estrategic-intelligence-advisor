@@ -73,6 +73,7 @@ export interface FiduciaryLiquidityClassificationOutput {
   confidence: CashConfidenceLevel;
   severity: 'SAUDÁVEL' | 'SENSÍVEL' | 'PRESSIONADO' | 'RESTRITIVO' | 'ESTRESSADO' | 'CRÍTICO' | 'COLAPSO';
   rationale: string;
+  fcoBasis?: 'OFFICIAL_FCO' | 'ADJUSTED_OPERATIONAL_BURN';
 }
 
 export interface ArtificialLiquidityDiagnosis {
@@ -105,6 +106,7 @@ export interface InstitutionalContinuityAssessment {
   liquidityDependency: boolean;
   continuityRiskDrivers: string[];
   recommendedActions: string[];
+  fcoBasis?: 'OFFICIAL_FCO' | 'ADJUSTED_OPERATIONAL_BURN';
 }
 
 export interface LegacyOperationalSustainabilityAssessment {
@@ -186,6 +188,9 @@ export interface CashBoardDecision {
   immediateAction?: string;
   confidenceLevel: CashConfidenceLevel;
   isOperationSelfSustaining: string;
+  revenueConversionAssessment?: string;
+  boardPriorityAssessment?: string;
+  acaoMelhoraLiquidez?: string;
 }
 
 export interface DFCCashAdvisory {
@@ -197,9 +202,11 @@ export interface DFCCashAdvisory {
   parecerConsolidado: string;
   confidenceLevel: CashConfidenceLevel;
   interpretacaoExecutiva?: string;
+  boardPriority?: string;
 }
 
 export interface CashReinvestment {
+  available?: boolean;
   reinvestmentRate: number | null;
   classification: 'REINVESTIMENTO_SAUDAVEL' | 'NAO_APLICAVEL' | 'BAIXO_REINVESTIMENTO' | 'INSUSTENTAVEL';
   displayValue: string;
@@ -230,6 +237,13 @@ export interface CashIntelligenceRuntimeOutput {
   cashExecutiveAdvisory?: DFCCashAdvisory;
   cashReinvestmentAnalysis?: CashReinvestment;
 
+  // DEEFF v1.0 Outputs
+  dfcExecutiveSnapshot?: any;
+  cqsExplainability?: any;
+  compressedAdvisory?: any;
+  consistencyAudit?: any;
+  dfcPriorities?: any;
+
   blockedConclusions: string[];
   allowedConclusions: string[];
   confidenceLevel: CashConfidenceLevel;
@@ -238,11 +252,105 @@ export interface CashIntelligenceRuntimeOutput {
   cashIntelligenceLineageHash: string;
   causalReferences: string[];
   score: number;
+  runwayMonths?: number;
   longitudinalOut?: LongitudinalCashIntelligenceOutput;
   longitudinalScore?: number | 'NOT_AVAILABLE';
   earningsQuality?: any;
   cashQuality?: any;
+
+  // Roadmap v1.0 properties
+  causalIntelligence?: CashFlowCausalIntelligenceOutput;
+  scenarioIntelligence?: CashFlowScenarioIntelligenceOutput;
+  earlyWarningSystem?: TreasuryEarlyWarningOutput;
+  treasurySustainability?: TreasurySustainabilityOutput;
 }
+
+export interface CashFlowCausalDriver {
+  name: string;
+  value: number;
+  category: 'Operacional' | 'Comercial' | 'Estoque' | 'Capital de Giro' | 'Estrutura' | 'Funding';
+  impactPercent: number;
+  type: 'GENERATOR' | 'DESTROYER';
+  severity: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
+}
+
+export interface CashFlowCausalIntelligenceOutput {
+  fcoBasis: 'OFFICIAL_FCO' | 'ADJUSTED_OPERATIONAL_BURN';
+  fco: number;
+  drivers: CashFlowCausalDriver[];
+  executiveOutput: {
+    title: string;
+    ranking: { rank: number; name: string; value: number; impactPercent: number; category: string; severity: string; type: string }[];
+  };
+  boardOutput: {
+    question: string;
+    answer: string;
+  };
+}
+
+export interface CashFlowScenario {
+  name: string;
+  parameter: string;
+  fcoSimulated: number;
+  cashSimulated: number;
+  runwaySimulated: number;
+  dependencySimulated: string;
+  runwayDisplay: string;
+  fcoBasis: 'ADJUSTED_OPERATIONAL_BURN';
+}
+
+export interface CashFlowScenarioGroup {
+  scenarioName: string;
+  simulations: CashFlowScenario[];
+}
+
+export interface CashFlowScenarioIntelligenceOutput {
+  currentRunway: number;
+  scenarios: CashFlowScenarioGroup[];
+  boardOutput: {
+    question: string;
+    answer: string;
+  };
+}
+
+export interface TreasuryEarlyWarningAlert {
+  metric: 'Runway' | 'FCO' | 'Dependência dos Sócios' | 'Estoques' | 'Clientes';
+  value: string;
+  status: 'WATCH' | 'WARNING' | 'CRITICAL' | 'SURVIVABILITY_THREAT' | 'NORMAL' | 'ALERT';
+  message: string;
+  fcoBasis?: 'OFFICIAL_FCO' | 'ADJUSTED_OPERATIONAL_BURN';
+}
+
+export interface TreasuryEarlyWarningOutput {
+  alerts: TreasuryEarlyWarningAlert[];
+  topThreats: string[];
+  hasSurvivabilityThreat: boolean;
+  fcoBasis: 'ADJUSTED_OPERATIONAL_BURN';
+}
+
+export interface TreasurySustainabilityOutput {
+  efsiScore: number;
+  socialContinuity: {
+    capacity: 'Alta' | 'Parcial' | 'Vulnerável' | 'Crítica';
+    justification: string;
+  };
+  governanceLiquidityIntegrity: {
+    status: string;
+    justification: string;
+  };
+  reinvestmentCapacityIndex: {
+    value: number;
+    status: 'Inadequado' | 'Sub-ótimo' | 'Ótimo' | 'Estressado';
+    justification: string;
+  };
+  boardOutput: {
+    question: string;
+    answer: 'Sim' | 'Parcialmente' | 'Não';
+    justification: string;
+  };
+  fcoBasis: 'ADJUSTED_OPERATIONAL_BURN';
+}
+
 
 export type LongitudinalTrajectory = 
   | 'INSUFFICIENT_HISTORICAL_DATA'

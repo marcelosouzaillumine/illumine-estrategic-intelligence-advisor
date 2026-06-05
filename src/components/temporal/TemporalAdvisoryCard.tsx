@@ -1,5 +1,5 @@
 import React from 'react';
-import { PredictiveRecurrenceState, ResponsivenessMetrics, TemporalEscalationState, TemporalConfidenceState } from '../../core/runtime/institutional-memory/types';
+import { PredictiveRecurrenceState, ResponsivenessMetrics, TemporalEscalationState, TemporalConfidenceState } from '../../services/FiduciaryRuntimeAdapter';
 
 interface AdvisoryCardProps {
   advisoryPosture: string;

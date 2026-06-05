@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTenancy } from '../../context/TenancyProvider';
-import { AdvisorWorkspaceManager } from '../../core/runtime/tenancy/AdvisorWorkspaceManager';
-import { Workspace } from '../../core/runtime/tenancy/TenancyTypes';
+import { AdvisorWorkspaceManager } from '../../services/FiduciaryRuntimeAdapter';
+import { Workspace } from '../../services/FiduciaryRuntimeAdapter';
 import { BriefcaseBusiness, ChevronDown } from 'lucide-react';
 
 export function WorkspaceSwitcher() {

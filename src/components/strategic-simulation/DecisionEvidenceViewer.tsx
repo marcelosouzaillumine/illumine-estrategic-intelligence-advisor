@@ -1,5 +1,5 @@
 import React from 'react';
-import { StrategicDecisionSimulator } from '../../core/runtime/strategic-simulation/StrategicDecisionSimulator';
+import { StrategicDecisionSimulator } from '../../services/FiduciaryRuntimeAdapter';
 import { Fingerprint } from 'lucide-react';
 
 export function DecisionEvidenceViewer({ tenantId }: { tenantId: string }) {

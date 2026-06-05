@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Lock, FileSignature } from 'lucide-react';
-import { GovernanceExecutionTracking } from '../../core/runtime/executive-command/executive-command-types';
+import { GovernanceExecutionTracking } from '../../services/FiduciaryRuntimeAdapter';
 
 interface GovernanceRestrictionOverlayProps {
   tracking: GovernanceExecutionTracking;

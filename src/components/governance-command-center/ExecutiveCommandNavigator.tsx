@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCommandCenter } from '../../context/governance-command-center/GovernanceCommandCenterProvider';
-import { GovernanceSupervisionMode } from '../../core/runtime/governance-command-center/types';
+import { GovernanceSupervisionMode } from '../../services/FiduciaryRuntimeAdapter';
 
 export const ExecutiveCommandNavigator: React.FC = () => {
   const { supervisionMode, switchSupervisionMode } = useCommandCenter();

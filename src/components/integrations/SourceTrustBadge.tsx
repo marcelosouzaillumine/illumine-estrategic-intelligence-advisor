@@ -1,5 +1,5 @@
 import React from 'react';
-import { SourceTrustLevel } from '../../core/runtime/integrations/IntegrationGovernanceTypes';
+import { SourceTrustLevel } from '../../services/FiduciaryRuntimeAdapter';
 import { ShieldCheck, ShieldAlert, ShieldX, Shield, Building2 } from 'lucide-react';
 
 export function SourceTrustBadge({ trust }: { trust: SourceTrustLevel }) {

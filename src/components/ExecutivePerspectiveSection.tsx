@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ShieldCheck, Zap, AlertTriangle, BookOpen, Target, Activity, TrendingUp, Users, BarChart2, DollarSign, Layers, Lock } from 'lucide-react';
 import { ExecutiveAdvisoryReport } from '../lib/executive-advisory-engine';
-import { ExecutiveIntelligenceReport } from '../core/runtime/executive-intelligence-runtime';
-import { InstitutionalLocaleGuard } from '../core/runtime/locale/InstitutionalLocaleGuard';
+import { ExecutiveIntelligenceReport } from '../services/FiduciaryRuntimeAdapter';
+import { InstitutionalLocaleGuard } from '../services/FiduciaryRuntimeAdapter';
 import { cn } from '../lib/utils';
-import { ExecutiveLabelResolver } from '../core/runtime/executive-presentation/ExecutiveLabelResolver';
-import { ExecutiveDisclosureResolver } from '../core/runtime/executive-presentation/ExecutiveDisclosureResolver';
-import { ExecutiveNarrativeDeduplicationEngine } from '../core/runtime/executive-presentation/ExecutiveNarrativeDeduplicationEngine';
+import { ExecutiveLabelResolver } from '../services/FiduciaryRuntimeAdapter';
+import { ExecutiveDisclosureResolver } from '../services/FiduciaryRuntimeAdapter';
+import { ExecutiveNarrativeDeduplicationEngine } from '../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface ExecutivePerspectiveSectionProps {

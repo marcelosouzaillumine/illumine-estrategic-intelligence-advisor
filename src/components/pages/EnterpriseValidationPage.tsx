@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ShieldCheck, Loader2 } from 'lucide-react';
 import { PageHeader } from '../Common';
-import { RealDataValidationEngine } from '../../core/runtime/enterprise-validation/RealDataValidationEngine';
+import { RealDataValidationEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { RealDataValidationPanel } from '../enterprise-validation/RealDataValidationPanel';
 import { EnterpriseReadinessDashboard } from '../enterprise-validation/EnterpriseReadinessDashboard';
 import { InstitutionalUXInsights } from '../enterprise-validation/InstitutionalUXInsights';

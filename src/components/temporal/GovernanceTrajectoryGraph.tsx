@@ -1,5 +1,5 @@
 import React from 'react';
-import { TemporalTrajectoryPoint } from '../../core/runtime/institutional-memory/types';
+import { TemporalTrajectoryPoint } from '../../services/FiduciaryRuntimeAdapter';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface GovernanceTrajectoryGraphProps {

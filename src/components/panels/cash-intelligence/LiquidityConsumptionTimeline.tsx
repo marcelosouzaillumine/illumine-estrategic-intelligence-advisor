@@ -1,5 +1,5 @@
 import React from 'react';
-import { InstitutionalCashSignal } from '../../../core/runtime/cash-intelligence/types';
+import { InstitutionalCashSignal } from '../../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../../lib/utils';
 import { Hourglass, AlertCircle } from 'lucide-react';
 

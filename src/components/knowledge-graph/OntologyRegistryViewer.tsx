@@ -1,5 +1,5 @@
 import React from 'react';
-import { InstitutionalOntologyRegistry } from '../../core/runtime/knowledge-graph/InstitutionalOntologyRegistry';
+import { InstitutionalOntologyRegistry } from '../../services/FiduciaryRuntimeAdapter';
 import { Library } from 'lucide-react';
 
 export function OntologyRegistryViewer() {

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { X, ShieldAlert, History, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { ExecutiveModalPriority } from '../../core/runtime/executive-interaction/types';
+import { ExecutiveModalPriority } from '../../services/FiduciaryRuntimeAdapter';
 
 interface FiduciaryModalShellProps {
   isOpen: boolean;

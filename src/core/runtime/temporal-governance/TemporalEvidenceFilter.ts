@@ -109,4 +109,15 @@ export class TemporalEvidenceFilter {
 
     return { filteredRawData, validationResult };
   }
+
+  public static filterByAnalysisYear(cycles: any[], analysisYear: number): any[] {
+    if (!Array.isArray(cycles)) return [];
+    return cycles.filter(item => {
+      if (item && typeof item === 'object' && 'year' in item) {
+        const yr = Number(item.year);
+        return isNaN(yr) || yr <= analysisYear;
+      }
+      return true;
+    });
+  }
 }

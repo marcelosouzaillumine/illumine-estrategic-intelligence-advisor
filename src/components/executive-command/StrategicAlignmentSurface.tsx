@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Network, Activity, Coins, TrendingUp } from 'lucide-react';
-import { InstitutionalAlignmentState } from '../../core/runtime/executive-command/executive-command-types';
+import { InstitutionalAlignmentState } from '../../services/FiduciaryRuntimeAdapter';
 
 interface StrategicAlignmentSurfaceProps {
   alignment: InstitutionalAlignmentState;

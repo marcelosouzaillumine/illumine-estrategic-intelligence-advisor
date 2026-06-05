@@ -2,11 +2,9 @@
 
 import React from 'react';
 import { Activity, ShieldAlert, DollarSign, Calendar, RefreshCw, AlertCircle } from 'lucide-react';
-import { 
-  ContinuitySection, 
+import { ContinuitySection, 
   TreasurySection, 
-  FiduciaryTimelineSection 
-} from '../../../core/runtime/institutional-reporting/institutional-reporting-types';
+  FiduciaryTimelineSection } from '../../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../../contexts/LanguageContext';
 
 interface ContinuityRiskPanelProps {

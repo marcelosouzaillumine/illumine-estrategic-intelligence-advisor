@@ -3,7 +3,7 @@
 import React from 'react';
 import { Activity, AlertOctagon } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { OperationalGovernanceSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { OperationalGovernanceSection } from '../../services/FiduciaryRuntimeAdapter';
 
 export function OperationalGovernanceSurface({ data }: { data: OperationalGovernanceSection }) {
   const { translateLabel: t } = useLanguage();

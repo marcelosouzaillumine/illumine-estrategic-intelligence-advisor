@@ -1,6 +1,6 @@
 import React from 'react';
 import { Gauge, Zap, Activity } from 'lucide-react';
-import { RuntimeLatencySnapshot } from '../../core/runtime/profiling/ProfilingTypes';
+import { RuntimeLatencySnapshot } from '../../services/FiduciaryRuntimeAdapter';
 
 export function RuntimeLatencyPanel({ snapshot }: { snapshot?: RuntimeLatencySnapshot }) {
   if (!snapshot) {

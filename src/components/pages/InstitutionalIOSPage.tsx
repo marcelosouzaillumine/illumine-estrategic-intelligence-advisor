@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Cpu, Loader2 } from 'lucide-react';
 import { PageHeader } from '../Common';
-import { InstitutionalOperatingSystem } from '../../core/runtime/ios/InstitutionalOperatingSystem';
+import { InstitutionalOperatingSystem } from '../../services/FiduciaryRuntimeAdapter';
 import { InstitutionalPulsePanel } from '../ios/InstitutionalPulsePanel';
 import { UnifiedGovernanceTimelinePanel } from '../ios/UnifiedGovernanceTimelinePanel';
 import { InstitutionalContextViewer } from '../ios/InstitutionalContextViewer';

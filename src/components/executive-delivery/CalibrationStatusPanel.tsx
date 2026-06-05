@@ -1,7 +1,7 @@
 import React from 'react';
 import { Sliders, CheckCircle2, Info } from 'lucide-react';
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
-import { CalibrationEngine } from '../../core/runtime/calibration/CalibrationEngine';
+import { ExecutiveIntelligenceReport } from '../../services/FiduciaryRuntimeAdapter';
+import { CalibrationEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
 
 interface CalibrationStatusPanelProps {

@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Layers3, AlertTriangle, Scale, ShieldAlert, History } from 'lucide-react';
 import { PageHeader } from '../Common';
-import { InstitutionalScenarioResult } from '../../core/runtime/scenario-intelligence/scenario-types';
-import { ScenarioTradeoffProfile } from '../../core/runtime/board-decision/board-decision-types';
-import { ScenarioTradeoffEngine } from '../../core/runtime/scenario-intelligence/ScenarioTradeoffEngine';
+import { InstitutionalScenarioResult } from '../../services/FiduciaryRuntimeAdapter';
+import { ScenarioTradeoffProfile } from '../../services/FiduciaryRuntimeAdapter';
+import { ScenarioTradeoffEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { DecisionApprovalPanel } from '../board-decision/DecisionApprovalPanel';
 import { BoardResolutionService } from '../../services/boardResolutionService';
-import { BoardResolution } from '../../core/runtime/board-decision/board-decision-types';
+import { BoardResolution } from '../../services/FiduciaryRuntimeAdapter';
 import { InstitutionalScenarioPanel } from '../scenario-intelligence/InstitutionalScenarioPanel'; // Adjust path if needed
 
 interface Props {

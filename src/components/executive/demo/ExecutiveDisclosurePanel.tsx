@@ -1,6 +1,6 @@
 import React from 'react';
-import { DemoScenario } from '../../../core/runtime/executive/demo/ExecutiveDemoScenarioRegistry';
-import { DemoSessionState } from '../../../core/runtime/executive/demo/ExecutiveDemoSession';
+import { DemoScenario } from '../../../services/FiduciaryRuntimeAdapter';
+import { DemoSessionState } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface ExecutiveDisclosurePanelProps {
   scenario: DemoScenario;

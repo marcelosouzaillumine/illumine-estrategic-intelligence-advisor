@@ -1,5 +1,5 @@
 import React from 'react';
-import { SimulationIntegrityState } from '../../core/runtime/scenario-simulation/types';
+import { SimulationIntegrityState } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ForecastIntegrityBadgeProps {

@@ -4,8 +4,8 @@ import {
   Building2, Users, FileSignature, Server, AlertOctagon, 
   CheckCircle2, XCircle, ChevronRight, Fingerprint, Lock, ShieldAlert, Activity
 } from 'lucide-react';
-import { executiveRuntime } from '../../core/runtime/executive-intelligence-runtime';
-import { InstitutionalOnboardingOutput } from '../../core/runtime/institutional-onboarding/InstitutionalOnboardingTypes';
+import { executiveRuntime } from '../../services/FiduciaryRuntimeAdapter';
+import { InstitutionalOnboardingOutput } from '../../services/FiduciaryRuntimeAdapter';
 
 export function InstitutionalOnboardingControlCenterPage() {
   const { translateLabel: t } = useLanguage();

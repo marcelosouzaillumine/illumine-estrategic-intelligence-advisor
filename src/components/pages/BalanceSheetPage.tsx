@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { SandboxWarningOverlay } from '../executive-interaction/SandboxWarningOverlay';
 import { createPortal } from 'react-dom';
 import { Calendar, Loader2, Upload, Trash2, Plus, BookOpen, Database, TrendingUp, TrendingDown, Info, BarChart3, PieChart as PieChartIcon, AlertCircle, Activity, Target, AlertTriangle, Lightbulb, Zap, ShieldCheck, Gem, Crosshair, Layers, PiggyBank, ShieldAlert, ChevronDown, ChevronUp } from 'lucide-react';
 import { 
@@ -21,7 +22,6 @@ import {
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { StatusBadge, PageHeader } from '../Common';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { ExecutivePerspectiveSection } from '../ExecutivePerspectiveSection';
 
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 
@@ -30,10 +30,8 @@ import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { buildBPHierarchy } from '../../lib/bpEngine';
 import { calculateDreCascade, generateInitialDreState } from '../../lib/dreCascade';
-import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
-import { BalanceSheetFinancialMetricsEngine } from '../../core/runtime/governance/bp/BalanceSheetFinancialMetricsEngine';
+import { FiduciaryRuntimeAdapter, PresentationLayer, ExecutiveIntelligenceReport, ExecutiveLabelResolver } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveLocaleEnforcer } from '../../core/enforcement/ExecutiveLocaleEnforcer';
-import { ExecutiveLabelResolver } from '../../core/runtime/executive-presentation/ExecutiveLabelResolver';
 import {
   collection,
   deleteDoc,
@@ -45,6 +43,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { db, auth } from '../../lib/firebase';
+import { useInstitutionalAuth } from '../../core/security/auth/InstitutionalAuthProvider';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type ToastType = { type: 'success' | 'error'; message: string } | null;
@@ -52,7 +51,11 @@ type ToastType = { type: 'success' | 'error'; message: string } | null;
 // ─── Component ───────────────────────────────────────────────────────────────
 export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any) {
   const { translateLabel, t } = useLanguage();
-  const [filterYear, setFilterYear] = useState(selectedYear || new Date().getFullYear());
+  const { session } = useInstitutionalAuth();
+  const userRole = session?.role || 'BOARD_MEMBER';
+  const [filterYear, setFilterYear] = useState<number>(Number(selectedYear) || new Date().getFullYear());
+  const profile = useMemo(() => FiduciaryRuntimeAdapter.getProfile(FiduciaryRuntimeAdapter.mapOfficialRoleToProfileId(userRole)), [userRole]);
+  const [densityLevel, setDensityLevel] = useState<PresentationLayer>(profile.defaultDensity);
   const [toast, setToast] = useState<ToastType>(null);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -73,7 +76,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   // -----------------
 
   useEffect(() => {
-    if (selectedYear) setFilterYear(selectedYear);
+    if (selectedYear) setFilterYear(Number(selectedYear));
   }, [selectedYear]);
 
   // ── Busca dados anuais (BP) ────────────────────────────────────────────────
@@ -230,7 +233,8 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
   const financialIndicators = useMemo(() => {
     if (!bpSummary) return [];
-    return BalanceSheetFinancialMetricsEngine.calculateIndicators(bpSummary);
+    const bpCalc = FiduciaryRuntimeAdapter.BalanceSheetFinancialMetricsEngine.calculateIndicators(bpSummary);
+    return bpCalc;
   }, [bpSummary]);
 
   const indicatorsByFamily = useMemo(() => {
@@ -265,23 +269,13 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
   };
 
   const { ebitda, lucroLiquido } = useMemo(() => {
-    console.log('[DEBUG DRE] selectedClient:', selectedClient, 'filterYear:', filterYear);
-    console.log('[DEBUG DRE] dreDbData.length:', dreDbData.length);
-    if (dreDbData.length > 0) {
-      console.log('[DEBUG DRE] first 3 rows:', JSON.stringify(dreDbData.slice(0, 3).map((r: any) => ({ cat: r.category || r.conta, type: r.type, docType: r.docType, val: r.value || r.val, parentId: r.parentId }))));
-    } else {
-      console.log('[DEBUG DRE] dreDbData is empty!');
-    }
     if (dreDbData.length === 0) return { ebitda: 0, lucroLiquido: 0 };
 
-    // Map raw imported rows to the official DRE structure with parentId
-    // (imported rows from Granatum/Excel don't have parentId set)
     const mappedRows = dreDbData
-      .filter((r: any) => r.dreTipo !== 'SINTETICA') // skip synthetic totals
+      .filter((r: any) => r.dreTipo !== 'SINTETICA') 
       .map((r: any) => {
-        if (r.parentId) return r; // already mapped
+        if (r.parentId) return r; 
         const cat = (r.category || r.conta || '').toLowerCase();
-        // Skip calculated totals
         if (
           cat.includes('receita líquida') || cat.includes('receita operacional líquida') ||
           cat.includes('lucro bruto') || cat === 'ebitda' || cat === 'ebit' ||
@@ -327,7 +321,6 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     const cascadeResult = calculateDreCascade(allRows);
     const directEbitda = cascadeResult.find(r => r.id === 'EBITDA')?.computedValue || 0;
     const directLucro = cascadeResult.find(r => r.id === 'LUCRO_LIQ')?.computedValue || 0;
-    console.log('[DEBUG DRE] computed ebitda:', directEbitda, 'lucroLiq:', directLucro);
     return { ebitda: directEbitda, lucroLiquido: directLucro };
   }, [dreDbData]);
   
@@ -374,8 +367,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
       try {
         const runtimeStart = performance.now();
-        // DUMMY RENDERER: Chamamos a Single Source of Truth
-        const report = executiveRuntime.generateExecutiveReport(input);
+        const report = FiduciaryRuntimeAdapter.generateExecutiveReport(input);
         const runtimeEnd = performance.now();
         
         console.log(`[TELEMETRY] Runtime Execution Time: ${(runtimeEnd - runtimeStart).toFixed(2)}ms`);
@@ -466,6 +458,10 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
     }
   };
 
+  const isSectionVisible = (sectionName: string) => {
+    return FiduciaryRuntimeAdapter.ExecutiveInformationDensityFramework.isSectionVisible(sectionName, densityLevel);
+  };
+
   const ativoData = useMemo(() => {
     return comparativeAnalysis.filter((r: any) => 
       (r.tipo || r.type || '').toLowerCase().includes('ativo') && r.level === 2 && r.val > 0
@@ -491,6 +487,9 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
 
   return (
     <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
+      {(executiveReport?.isSandbox || executiveReport?.isDemonstrative) && (
+        <SandboxWarningOverlay type={executiveReport.isSandbox ? 'sandbox' : 'demonstrative'} />
+      )}
       <PageHeader 
         title="Balanço Patrimonial" 
         subtitle="Análise da posição financeira, estrutura de capital e solvência patrimonial."
@@ -622,7 +621,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                           <span className="text-sm font-bold text-slate-700">{patrimonialIntelligenceReport.executiveInterpretation?.strategicSeverityReason || 'Análise Executiva'}</span>
                         </div>
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
                         {[
                           { title: 'Financeiro', plan: patrimonialIntelligenceReport.executiveInterpretation?.planFinanceiro },
                           { title: 'Operacional', plan: patrimonialIntelligenceReport.executiveInterpretation?.planOperacional },
@@ -652,7 +651,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               {/* --- 2. CAPITAL PRESERVATION --- */}
               <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-slate-100 relative overflow-hidden">
                 <h3 className="text-2xl font-black text-slate-900 mb-6">Preservação de Capital</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5 gap-6">
                   {['Loss Absorption Capacity', 'Equity Buffer', 'Survival Index', 'Capital Erosion Velocity (CEV)', 'Equity Quality Index'].map((metric, idx) => {
                     const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
                     if (!ind) return null;
@@ -693,7 +692,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               {/* --- 3. LIQUIDEZ E SOLVÊNCIA --- */}
               <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-slate-100 relative overflow-hidden">
                 <h3 className="text-2xl font-black text-slate-900 mb-6">Liquidez e Solvência</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                   {['Liquidez Real', 'Liquidez Instantânea Real', 'Liquidez Seca'].map((metric, idx) => {
                     const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
                     if (!ind) return null;
@@ -731,7 +730,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               {/* --- 5. ESTRUTURA DE CAPITAL --- */}
               <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-slate-100 relative overflow-hidden">
                 <h3 className="text-2xl font-black text-slate-900 mb-6">Estrutura de Capital</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
                   {['Funding Capacity Ratio', 'Debt Capacity Score', 'Financial Debt-to-Equity', 'Endividamento Geral', 'Dependência de Capital de Terceiros'].map((metric, idx) => {
                     const ind = patrimonialIntelligenceReport.indicators?.find((i: any) => i.metricName === metric);
                     if (!ind) return null;
@@ -774,7 +773,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   <div className="flex-1">
                     <h3 className="text-xl font-black text-slate-900 mb-4">Análise de Divergência de Risco</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
                       <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
                         <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Classificação Matemática</span>
                         <span className="text-lg font-black text-slate-800">
@@ -1194,8 +1193,8 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                    </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                  <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden group">
+                <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                  <div className="xl:col-span-2 bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-slate-50/50 to-transparent pointer-events-none" />
                     
                     <div className="flex items-center justify-between mb-8 relative z-10">

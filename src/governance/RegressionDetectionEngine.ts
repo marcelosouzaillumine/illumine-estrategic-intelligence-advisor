@@ -48,8 +48,8 @@ const FORBIDDEN_UI_PATTERNS = [
   { pattern: /systemicScore/g, message: 'UI não pode calcular score sistêmico localmente.' },
   { pattern: /riskMatrix/g, message: 'UI não pode montar matriz de risco localmente (apenas exibição).' },
   { pattern: /aiAnalysis/g, message: 'UI não pode fazer análise por IA local.' },
-  { pattern: /severity\s*=/g, message: 'UI não pode definir ou recalcular severidade.' },
-  { pattern: /confidence\s*=/g, message: 'UI não pode definir ou recalcular confiança.' },
+  { pattern: /\\bseverity\\s*=(?!=)/g, message: 'UI não pode definir ou recalcular severidade.' },
+  { pattern: /\\bconfidence\\s*=(?!=)/g, message: 'UI não pode definir ou recalcular confiança.' },
   { pattern: /\.sort\([^)]*(risco|risk|severity|severidade|confidence|priority|peso|weight)[^)]*\)/gi, message: 'UI não pode usar .sort() para ranquear risco ou severidade.' },
   { pattern: /import\s+.*ConsolidatedStressPropagationEngine/g, message: 'UI não pode importar a Engine do Runtime Consolidado. Apenas tipos são permitidos.' }
 ];

@@ -17,11 +17,11 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { PageHeader, StatusBadge } from '../Common';
-import { PilotRollbackProtocol } from '../../core/runtime/integrations/PilotRollbackProtocol';
-import { ImportReviewQueue } from '../../core/runtime/integrations/ImportReviewQueue';
-import { ConnectorAuditLogger } from '../../core/runtime/integrations/ConnectorAuditLogger';
+import { PilotRollbackProtocol } from '../../services/FiduciaryRuntimeAdapter';
+import { ImportReviewQueue } from '../../services/FiduciaryRuntimeAdapter';
+import { ConnectorAuditLogger } from '../../services/FiduciaryRuntimeAdapter';
 import { auth } from '../../lib/firebase';
-import { ImportedDataset, RollbackAuditEntry } from '../../core/runtime/integrations/IntegrationGovernanceTypes';
+import { ImportedDataset, RollbackAuditEntry } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
 
 export function PilotMonitoringDashboard() {

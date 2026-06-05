@@ -19,12 +19,12 @@ import { ImportFinancialModal } from '../modals/ImportFinancialModal';
 import { ManualFinancialModal } from '../modals/ManualFinancialModal';
 import { collection, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { CapitalGovernanceAdapter } from '../../core/runtime/capital-governance/capital-governance-adapter';
-import { LifecycleContextBuilder } from '../../core/runtime/lifecycle/LifecycleContextBuilder';
-import { LifecycleSemanticAuthority } from '../../core/runtime/lifecycle/LifecycleSemanticAuthority';
-import { LifecycleRenderAudit } from '../../core/runtime/lifecycle/LifecycleRenderAudit';
-import { DLPAExecutiveRenderingGuard, DLPAViolation } from '../../core/runtime/lifecycle/DLPAExecutiveRenderingGuard';
-import { DLPALegacyLabelScanner } from '../../core/runtime/lifecycle/DLPALegacyLabelScanner';
+import { CapitalGovernanceAdapter } from '../../services/FiduciaryRuntimeAdapter';
+import { LifecycleContextBuilder } from '../../services/FiduciaryRuntimeAdapter';
+import { LifecycleSemanticAuthority } from '../../services/FiduciaryRuntimeAdapter';
+import { LifecycleRenderAudit } from '../../services/FiduciaryRuntimeAdapter';
+import { DLPAExecutiveRenderingGuard, DLPAViolation } from '../../services/FiduciaryRuntimeAdapter';
+import { DLPALegacyLabelScanner } from '../../services/FiduciaryRuntimeAdapter';
 
 type ToastType = { type: 'success' | 'error'; message: string } | null;
 
@@ -152,7 +152,7 @@ function DlpaKpiCard({ title, value, subtitle, statusLabel, statusBg, statusText
           <span className={cn('text-[9px] font-black uppercase px-2.5 py-1 rounded-full border', statusBg, statusText, statusBorder)}>
             {statusLabel}
           </span>
-          <span className="text-[10px] text-slate-400 font-medium line-clamp-1">{subtitle}</span>
+          <span className="text-[10px] text-slate-400 font-medium whitespace-normal break-words leading-snug min-w-0 max-w-full">{subtitle}</span>
         </div>
       </div>
     </div>
@@ -186,7 +186,7 @@ function ScoreRing({ value, label, color }: { value: number; label: string; colo
 
 // ── Main Component ────────────────────────────────────────────────────────────
 export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
-  const [filterYear, setFilterYear] = useState(selectedYear || new Date().getFullYear());
+  const [filterYear, setFilterYear] = useState<number>(Number(selectedYear) || new Date().getFullYear());
   const [toast, setToast] = useState<ToastType>(null);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -196,7 +196,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
   const [showTechnicalLayer, setShowTechnicalLayer] = useState(false);
 
   useEffect(() => {
-    if (selectedYear) setFilterYear(selectedYear);
+    if (selectedYear) setFilterYear(Number(selectedYear));
   }, [selectedYear]);
 
   useEffect(() => {
@@ -437,6 +437,8 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
     const lifecycleProfile = LifecycleSemanticAuthority.getSemanticProfile(lContext);
 
     const financialRuntimeContext = {
+      lifecycle: lContext,
+      analysisYear: filterYear,
       lifecycleProfile,
       contextualConfidence: 'HIGH' as const,
       interpretationWarnings: [] as string[],
@@ -444,17 +446,22 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       auditTrail: [] as string[]
     };
 
-    return CapitalGovernanceAdapter.process(
-      dbDataDLPA,
-      lucroLiquido,
-      retainedEarnings,
-      dividendos,
-      plInicio || plFim,
-      plFim,
-      aumentoCapital,
-      financialRuntimeContext,
-      allHistoryData
-    );
+    try {
+      return CapitalGovernanceAdapter.process(
+        dbDataDLPA,
+        lucroLiquido,
+        retainedEarnings,
+        dividendos,
+        plInicio || plFim,
+        plFim,
+        aumentoCapital,
+        financialRuntimeContext,
+        allHistoryData
+      );
+    } catch (e: any) {
+      console.error("DLPA Adapter Error:", e);
+      return { error: e.message };
+    }
   }, [dbDataDLPA, dlpaMetrics, allHistoryData, clients, selectedClient, filterYear]);
 
   // ── Dados históricos para gráfico ─────────────────────────────────────────
@@ -505,12 +512,12 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
   const loading = loadingDLPA || loadingHistory;
   const hasData = dbDataDLPA.length > 0;
-  const retention    = capitalGov?.diagnostics?.retention;
-  const distribution = capitalGov?.diagnostics?.distribution;
-  const preservation = capitalGov?.diagnostics?.preservation;
-  const behavior     = capitalGov?.diagnostics?.behavior;
+  const retention    = (capitalGov as any)?.diagnostics?.retention;
+  const distribution = (capitalGov as any)?.diagnostics?.distribution;
+  const preservation = (capitalGov as any)?.diagnostics?.preservation;
+  const behavior     = (capitalGov as any)?.diagnostics?.behavior;
   const fiduciaryOutput = (capitalGov as any)?.diagnostics?.fiduciaryOutput;
-  const narrative    = capitalGov?.narrative || '';
+  const narrative    = (capitalGov as any)?.narrative || '';
   const lifecycleContext = (capitalGov as any)?.semantic?.semanticContext || {};
   const isValidLifecycleContext = lifecycleContext?.semanticSource && lifecycleContext?.lifecycleStage;
 
@@ -793,33 +800,66 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
       {hasData && (
         <div className="space-y-6 mb-12">
+          {(capitalGov as any)?.error && (
+            <div className="bg-rose-50 border border-rose-200 rounded-[32px] p-8 shadow-sm flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center mb-4">
+                <ShieldAlert size={28} />
+              </div>
+              <h3 className="text-lg font-black text-slate-800 mb-2">Falha na Renderização Executiva</h3>
+              <p className="text-sm text-slate-500 max-w-lg mb-4">
+                Houve um erro ao processar a governança de capital.
+              </p>
+              <div className="bg-white border border-slate-200 rounded-xl p-4 text-xs font-mono text-rose-600 w-full max-w-2xl text-left overflow-auto">
+                {(capitalGov as any).error}
+              </div>
+            </div>
+          )}
+          
           {/* --- 2. EXECUTIVE LAYER UI --- */}
           {executiveLayer && (
             <div className="space-y-6">
               
               {/* Capital Preservation Score (CPS) Header Block */}
               {executiveLayer.capitalPreservationScore && (
-                <div className="bg-slate-900 text-white rounded-[40px] p-8 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
-                  
+                <div className="bg-white border border-slate-200 rounded-[40px] p-8 shadow-sm relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-6">
                   <div className="relative z-10 flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <ShieldCheck size={24} className="text-indigo-400 animate-pulse" />
-                      <h3 className="text-xl font-black tracking-wide text-white">Capital Preservation Score (CPS)</h3>
+                      <ShieldCheck size={24} className="text-[#FF8552]" />
+                      <h3 className="text-xl font-black tracking-wide text-[#0E1C2C]">Capital Preservation Score (CPS)</h3>
                     </div>
-                    <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-widest mb-4">Métrica Principal de Governança Fiduciária</p>
-                    <p className="text-sm text-slate-300 leading-relaxed font-medium max-w-2xl">
-                      {executiveLayer.capitalPreservationScore.rationale}
-                    </p>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4">Métrica Principal de Governança Fiduciária</p>
+                    {executiveLayer.capitalPreservationScore.components ? (
+                      <div className="flex flex-wrap items-center gap-2 mt-2">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mr-1">Ponderação:</span>
+                        <div className="inline-flex items-center px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg shadow-sm text-[11px] font-semibold text-slate-600">
+                          Remanescente <span className="text-slate-400 ml-1">({executiveLayer.capitalPreservationScore.components.remanescenteScore?.toFixed(0) || '0'} pts × 45%)</span>
+                        </div>
+                        <span className="text-slate-300 font-black">+</span>
+                        <div className="inline-flex items-center px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg shadow-sm text-[11px] font-semibold text-slate-600">
+                          Dependência <span className="text-slate-400 ml-1">({executiveLayer.capitalPreservationScore.components.dependencyScore?.toFixed(0) || '0'} pts × 30%)</span>
+                        </div>
+                        <span className="text-slate-300 font-black">+</span>
+                        <div className="inline-flex items-center px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg shadow-sm text-[11px] font-semibold text-slate-600">
+                          Distribuição <span className="text-slate-400 ml-1">({executiveLayer.capitalPreservationScore.components.distributionScore?.toFixed(0) || '0'} pts × 10%)</span>
+                        </div>
+                        <span className="text-slate-300 font-black">+</span>
+                        <div className="inline-flex items-center px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg shadow-sm text-[11px] font-semibold text-slate-600">
+                          Horizonte <span className="text-slate-400 ml-1">({executiveLayer.capitalPreservationScore.components.horizonScore?.toFixed(0) || '0'} pts × 15%)</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center px-4 py-2 mt-1 bg-slate-50 border border-slate-200 rounded-xl shadow-sm text-xs font-semibold text-slate-600 tracking-wide">
+                        {executiveLayer.capitalPreservationScore.rationale}
+                      </div>
+                    )}
                   </div>
 
-                  <div className="relative z-10 flex flex-col items-center justify-center shrink-0 bg-white/[0.04] backdrop-blur-md border border-white/10 rounded-3xl p-6 min-w-[200px]">
+                  <div className="relative z-10 flex flex-col items-center justify-center shrink-0 bg-slate-50 border border-slate-100 rounded-3xl p-6 min-w-[200px]">
                     <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2">Preservação Geral</span>
-                    <div className="text-5xl font-black text-indigo-400 tracking-tight mb-2">
+                    <div className="text-5xl font-black text-[#0E1C2C] tracking-tight mb-2">
                       {executiveLayer.capitalPreservationScore.value}<span className="text-lg text-slate-400">/100</span>
                     </div>
-                    <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border border-indigo-500/30 bg-indigo-500/10 text-indigo-300">
+                    <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border border-slate-200 bg-white text-slate-700">
                       {executiveLayer.capitalPreservationScore.classification}
                     </span>
                   </div>
@@ -827,13 +867,13 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               )}
 
               {/* 1. Tese de Governança & 8. Síntese Executiva */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100 flex flex-col justify-center relative overflow-hidden">
+              <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+                <div className="col-span-1 xl:col-span-4 bg-white rounded-[40px] p-8 shadow-sm border border-slate-100 flex flex-col justify-center relative overflow-hidden">
                   <div className="flex items-center gap-3 mb-4">
-                    <Target size={20} className="text-indigo-500" />
-                    <h3 className="text-xl font-black text-slate-900">Tese de Governança de Capital</h3>
+                    <Target size={20} className="text-[#FF8552]" />
+                    <h3 className="text-xl font-black text-[#0E1C2C]">Tese de Governança</h3>
                   </div>
-                  <p className="text-sm font-black text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full self-start mb-4 uppercase tracking-widest">
+                  <p className="text-xs font-black text-[#0E1C2C] bg-slate-100 px-3 py-1.5 rounded-full self-start mb-4 uppercase tracking-widest">
                     {executiveLayer.governanceInterpretation?.classification}
                   </p>
                   <p className="text-sm text-slate-600 leading-relaxed font-medium">
@@ -849,14 +889,32 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   )}
                 </div>
 
-                <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100 flex flex-col justify-center relative overflow-hidden">
+                <div className="col-span-1 xl:col-span-8 bg-white rounded-[40px] p-8 shadow-sm border border-slate-100 flex flex-col justify-center relative overflow-hidden">
                   <div className="flex items-center gap-3 mb-4">
                     <Activity size={20} className="text-emerald-500" />
-                    <h3 className="text-xl font-black text-slate-900">Síntese Executiva Advisory</h3>
+                    <h3 className="text-xl font-black text-[#0E1C2C]">Síntese Executiva Advisory</h3>
                   </div>
-                  <p className="text-sm text-slate-600 leading-relaxed font-medium whitespace-pre-line">
-                    {executiveLayer.boardAdvisory?.narrative}
-                  </p>
+                  <div className="space-y-4">
+                    {executiveLayer.boardAdvisory?.narrative?.split('\n\n').map((paragraph: string, idx: number) => {
+                      if (!paragraph.trim()) return null;
+                      const colonIndex = paragraph.indexOf(':');
+                      if (colonIndex > 0 && colonIndex < 40) {
+                        const title = paragraph.substring(0, colonIndex + 1);
+                        const rest = paragraph.substring(colonIndex + 1);
+                        return (
+                          <p key={idx} className="text-sm text-slate-600 leading-relaxed font-medium">
+                            <span className="font-bold text-[#0E1C2C]">{title}</span>
+                            {rest}
+                          </p>
+                        );
+                      }
+                      return (
+                        <p key={idx} className="text-sm text-slate-600 leading-relaxed font-medium">
+                          {paragraph}
+                        </p>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
 
@@ -866,7 +924,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   <CheckCircle2 size={20} className="text-blue-500" />
                   <h3 className="text-xl font-black text-slate-900">Framework de Decisão do Conselho</h3>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
                   {executiveLayer.boardDecisionSupport?.value?.map((item: any, idx: number) => (
                     <div key={idx} className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
                       <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">{item.question}</p>
@@ -879,11 +937,11 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
               {/* 3, 4, 5, 6. Inteligência de Preservação de Capital */}
               <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-6">
-                  <TrendingUp size={20} className="text-indigo-500" />
+                  <TrendingUp size={20} className="text-[#0E1C2C]" />
                   <h3 className="text-xl font-black text-slate-900">Inteligência de Preservação de Capital</h3>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
                   {/* Card 1: Capital Remanescente */}
                   {(() => {
                     const val = executiveLayer.capitalPreservationStatus?.value ?? 0;
@@ -900,10 +958,10 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     
                     return (
                       <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
-                        <div>
-                          <div className="flex items-center justify-between gap-2 mb-3">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Capital Remanescente</span>
-                            <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border shrink-0", badgeColor)}>
+                        <div className="flex-1 flex flex-col">
+                          <div className="flex flex-col items-start gap-3 mb-4">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 leading-tight">Capital Remanescente</span>
+                            <span className={cn("px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border text-left max-w-full", badgeColor)}>
                               {classification}
                             </span>
                           </div>
@@ -934,10 +992,10 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     
                     return (
                       <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
-                        <div>
-                          <div className="flex items-center justify-between gap-2 mb-3">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Capital Consumido</span>
-                            <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border shrink-0", badgeColor)}>
+                        <div className="flex-1 flex flex-col">
+                          <div className="flex flex-col items-start gap-3 mb-4">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 leading-tight">Capital Consumido</span>
+                            <span className={cn("px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border text-left max-w-full", badgeColor)}>
                               Risco: {classification}
                             </span>
                           </div>
@@ -966,10 +1024,10 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     
                     return (
                       <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
-                        <div>
-                          <div className="flex items-center justify-between gap-2 mb-3">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Recomposição Requerida</span>
-                            <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border shrink-0", badgeColor)}>
+                        <div className="flex-1 flex flex-col">
+                          <div className="flex flex-col items-start gap-3 mb-4">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 leading-tight">Recomposição Requerida</span>
+                            <span className={cn("px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border text-left max-w-full", badgeColor)}>
                               {classification}
                             </span>
                           </div>
@@ -1002,21 +1060,23 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                     
                     return (
                       <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
-                        <div>
-                          <div className="flex items-center justify-between gap-2 mb-3">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Horizonte de Recuperação</span>
-                            <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border shrink-0", badgeColor)}>
+                        <div className="flex-1 flex flex-col">
+                          <div className="flex flex-col items-start gap-3 mb-4">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 leading-tight">
+                              Horizonte de Recuperação
+                            </span>
+                            <span className={cn("px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border text-left max-w-full", badgeColor)}>
                               {classification}
                             </span>
                           </div>
-                          <div className="text-3xl font-black text-slate-800 tracking-tight">
+                          <div className="text-3xl font-black text-[#0E1C2C] tracking-tight mb-2">
                             {formatted}
                           </div>
-                          <p className="text-[10px] text-slate-500 font-semibold leading-relaxed mt-2">
+                          <p className="text-[10px] text-slate-500 font-semibold leading-relaxed">
                             {executiveLayer.capitalRecoverability?.narrative}
                           </p>
                         </div>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40">
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40 shrink-0">
                           {executiveLayer.patrimonialRecoveryHorizon?.rationale}
                         </p>
                       </div>
@@ -1032,7 +1092,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   <h3 className="text-xl font-black text-slate-900">Proteção ao Capital dos Sócios</h3>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
                   {/* Card 1: Dependência dos Sócios */}
                   {(() => {
                     const val = executiveLayer.shareholderDependencyNarrative?.value ?? 1;
@@ -1047,10 +1107,10 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
 
                     return (
                       <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
-                        <div>
-                          <div className="flex items-center justify-between gap-2 mb-3">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Dependência de Aportes</span>
-                            <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border shrink-0", badgeColor)}>
+                        <div className="flex-1 flex flex-col">
+                          <div className="flex flex-col items-start gap-3 mb-4">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 leading-tight">Dependência de Aportes</span>
+                            <span className={cn("px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border text-left max-w-full", badgeColor)}>
                               Grau: {classification}
                             </span>
                           </div>
@@ -1086,12 +1146,12 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
                   <div className="bg-slate-50/50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-between hover:bg-slate-50 hover:shadow-md transition-all duration-300 min-h-[220px]">
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-3">Diretriz de Recomposição</span>
-                      <h4 className="text-base font-black text-indigo-700 mb-2">Recovery Thesis</h4>
+                      <h4 className="text-base font-black text-[#FF8552] mb-2">Recovery Thesis</h4>
                       <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
                         {executiveLayer.governanceInterpretation?.recoveryThesis}
                       </p>
                     </div>
-                    <p className="text-[9px] text-indigo-400 font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40">
+                    <p className="text-[9px] text-[#0E1C2C] font-bold uppercase tracking-wider mt-4 pt-3 border-t border-slate-200/40">
                       Tese de Governança Fiduciária
                     </p>
                   </div>

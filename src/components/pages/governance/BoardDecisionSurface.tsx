@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Gavel, Scale, AlertTriangle, FileText, CheckCircle2, Shield } from 'lucide-react';
-import { ExecutiveDirectiveSection, BoardResolutionAppendix } from '../../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { ExecutiveDirectiveSection, BoardResolutionAppendix } from '../../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../../contexts/LanguageContext';
 
 interface BoardDecisionSurfaceProps {

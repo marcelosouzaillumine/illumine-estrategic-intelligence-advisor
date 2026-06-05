@@ -22,7 +22,7 @@ describe('DFC Executive Intelligence Calibration & Presentation Governance (DFC-
   const dreNetIncome = -68548.88;
   const dreEbitda = -50000;
   const bpCashEquivalentsStart = 6541.00;
-  const bpCashEquivalentsEnd = 92723.12;
+  const bpCashEquivalentsEnd = 14038.00;
   const fco = -113736.08;
   const fci = -1000;
   const fcf = 122233.08;
@@ -77,7 +77,7 @@ describe('DFC Executive Intelligence Calibration & Presentation Governance (DFC-
     assert.strictEqual(output.runwayMonths, 2.2);
     assert.strictEqual(output.universalIndicators.cashRunwayInstitucional.months, 2.2);
     assert.strictEqual(output.continuityRisk.projectedRunwayMonths, 2.2);
-    assert.strictEqual(output.cashBoardDecisionFramework?.runwayAssessment, 'Runway reduzido.');
+    assert.strictEqual(output.cashBoardDecisionFramework?.runwayAssessment, 'Runway Crítico (2,2 meses)');
     assert.strictEqual(output.cashExecutiveAdvisory?.sustentabilidade, 'Runway reduzido.');
   });
 
@@ -102,54 +102,58 @@ describe('DFC Executive Intelligence Calibration & Presentation Governance (DFC-
     assert.strictEqual(top.title, 'Reduzir a queima operacional de caixa e restaurar a autonomia financeira.');
   });
 
-  it('Test 5: BOARD não exibe Reconciliação', () => {
-    const isVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECONCILIATION', 'BOARD');
-    assert.strictEqual(isVisible, false);
+  it('Test 5: BOARD exibe Reconciliação resumida', () => {
+    const isVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECONCILIATION_SUMMARY', 'BOARD');
+    assert.strictEqual(isVisible, true);
   });
 
   it('Test 6: BOARD não exibe Lineage', () => {
-    const isVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_LINEAGE', 'BOARD');
+    const isVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_EQE_LINEAGE', 'BOARD');
     assert.strictEqual(isVisible, false);
   });
 
   it('Test 7: BOARD não exibe Tabela de Reclassificação', () => {
-    const isReclassVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECLASSIFIED_FCO', 'BOARD');
-    const isAdjustedVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_ADJUSTED_FLOWS', 'BOARD');
+    const isReclassVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_TECHNICAL_LAYER', 'BOARD');
     assert.strictEqual(isReclassVisible, false);
-    assert.strictEqual(isAdjustedVisible, false);
   });
 
   it('Test 8: EXECUTIVE exibe indicadores intermediários e reconciliação resumida', () => {
-    const isIntermVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_INTERMEDIATE_INDICATORS', 'EXECUTIVE');
-    const isReconVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECONCILIATION', 'EXECUTIVE');
+    const isIntermVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_SHAREHOLDER_DEPENDENCY', 'EXECUTIVE');
+    const isReconVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECONCILIATION_SUMMARY', 'EXECUTIVE');
+    const isEqeVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_EQE_SUMMARY', 'EXECUTIVE');
     assert.strictEqual(isIntermVisible, true);
     assert.strictEqual(isReconVisible, true);
+    assert.strictEqual(isEqeVisible, true);
   });
 
   it('Test 9: TECHNICAL exibe tudo', () => {
     const sections = [
-      'DFC_CONTEXTO',
-      'DFC_HEALTH_SCORE',
-      'DFC_DIAGNOSTICO_EXECUTIVO',
+      'DFC_SNAPSHOT',
+      'DFC_EXECUTIVE_DIAGNOSIS',
+      'DFC_BOARD_PRIORITIES',
       'DFC_RUNWAY',
-      'DFC_ADVISORY',
-      'DFC_TOP_3_PRIORITIES',
+      'DFC_BOARD_ADVISORY',
+      'DFC_RECONCILIATION_SUMMARY',
+      'DFC_CONTEXT',
+      'DFC_CQS_SUMMARY',
+      'DFC_CAUSAL_INTELLIGENCE',
+      'DFC_REVENUE_CASH_CONVERSION',
       'DFC_SHAREHOLDER_DEPENDENCY',
-      'DFC_REVENUE_CONVERSION',
-      'DFC_INTERMEDIATE_INDICATORS',
-      'DFC_LIQUIDITY_STRESS',
-      'DFC_RECONCILIATION',
-      'DFC_RECONCILIATION_DETAIL',
-      'DFC_LINEAGE',
-      'DFC_FORMULAS',
-      'DFC_RECLASSIFIED_FCO',
-      'DFC_ADJUSTED_FLOWS',
-      'DFC_CQS_COMPONENTS',
-      'DFC_AUDIT'
+      'DFC_EFSI',
+      'DFC_EQE_SUMMARY',
+      'DFC_EARLY_WARNING',
+      'DFC_SCENARIO_SIMULATION',
+      'DFC_TECHNICAL_LAYER',
+      'DFC_EQE_LINEAGE'
     ];
     for (const sec of sections) {
       assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible(sec, 'TECHNICAL'), true);
     }
+  });
+
+  it('Test 9b: BOARD não exibe DFC_EQE', () => {
+    const isVisible = ExecutiveInformationDensityFramework.isSectionVisible('DFC_EQE_SUMMARY', 'BOARD');
+    assert.strictEqual(isVisible, false);
   });
 
   it('Test 10: Capacidade de Reinvestimento: Não Aplicável quando FCO <= 0', () => {
@@ -180,5 +184,27 @@ describe('DFC Executive Intelligence Calibration & Presentation Governance (DFC-
   it('Test 12: Binding Audit: PASS', () => {
     const auditResult = DFCExecutiveBindingAudit.audit(output);
     assert.strictEqual(auditResult.success, true);
+  });
+
+  it('Test 13: ExecutivePriorityResolver should reject preventative priorities in critical scenarios', () => {
+    const mockReport = {
+      inferences: {
+        'LegacyDFCAdapter': {
+          metrics: {
+            fiduciary: {
+              runway: 1.5,
+              shareholderDependencyAnalysis: {
+                classification: 'DEPENDENCIA_CRITICA'
+              }
+            }
+          }
+        }
+      }
+    };
+    const priorities = ExecutivePriorityResolver.resolve(mockReport);
+    const hasPreventative = priorities.some(p => p.title.toLowerCase().includes('preventiva'));
+    assert.strictEqual(hasPreventative, false);
+    assert.ok(priorities.length > 0);
+    assert.strictEqual(priorities[0].severity, 'CRITICAL');
   });
 });

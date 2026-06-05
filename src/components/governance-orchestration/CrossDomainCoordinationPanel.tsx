@@ -1,5 +1,5 @@
 import React from 'react';
-import { InstitutionalOrchestrationEngine } from '../../core/runtime/governance-orchestration/InstitutionalOrchestrationEngine';
+import { InstitutionalOrchestrationEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { Network } from 'lucide-react';
 
 export function CrossDomainCoordinationPanel({ tenantId }: { tenantId: string }) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExecutiveNarrative } from '../../../core/runtime/executive/types';
+import { ExecutiveNarrative } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface ExecutiveEvidenceExplorerProps {
   narrative: ExecutiveNarrative;

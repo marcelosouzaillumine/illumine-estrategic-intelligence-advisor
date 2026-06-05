@@ -35,6 +35,8 @@
     "src/components/pages/governance/LeadershipDNACenter.tsx",
     "src/components/pages/governance/MultiTenantGovernanceCenter.tsx",
     "src/components/pages/governance/ProductGovernanceCenter.tsx",
-    "src/components/pages/governance/RuntimeObservabilityCenter.tsx"
+    "src/components/pages/governance/RuntimeObservabilityCenter.tsx",
+    "scratch.ts",
+    "scratch"
   ]
 }

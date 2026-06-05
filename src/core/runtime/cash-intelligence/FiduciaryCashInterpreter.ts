@@ -95,7 +95,10 @@ export class FiduciaryCashInterpreter {
     let executiveNarrative = '';
     let fiduciaryOpinion = '';
 
-    if (classification === 'OPERATIONAL_SUSTAINABLE' || classification === 'STRATEGIC_EXPANSION') {
+    if (continuity.projectedRunwayMonths < 1.0) {
+      executiveNarrative = 'Risco crítico de descontinuidade imediata. O runway fiduciário está extremamente crítico (menos de 1 mês), configurando ameaça de interrupção das atividades operacionais por severa insuficiência de caixa.';
+      fiduciaryOpinion = 'Parecer Adverso de Urgência. Bloqueio absoluto de Capex não-essencial, distribuição de lucros ou repasses. Foco total em captação de liquidez de emergência.';
+    } else if (classification === 'OPERATIONAL_SUSTAINABLE' || classification === 'STRATEGIC_EXPANSION') {
       executiveNarrative = 'A dinâmica institucional de geração e sustentação de caixa encontra-se preservada sob a óptica fiduciária, demonstrando autonomia operacional e capacidade de autofinanciamento.';
       fiduciaryOpinion = 'Parecer Favorável. Recomenda-se a continuidade sob as diretrizes de governança de Capex aprovadas.';
     } else if (classification === 'PARTIALLY_DEPENDENT') {

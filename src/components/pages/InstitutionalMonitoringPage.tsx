@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Radar, Play, Loader2, AlertCircle, Clock } from 'lucide-react';
 import { PageHeader } from '../Common';
-import { MonitoringExecutionScheduler } from '../../core/runtime/monitoring/MonitoringExecutionScheduler';
-import { MonitoringAlertRegistry } from '../../core/runtime/monitoring/MonitoringAlertRegistry';
-import { MonitoringAlert } from '../../core/runtime/monitoring/MonitoringTypes';
+import { MonitoringExecutionScheduler } from '../../services/FiduciaryRuntimeAdapter';
+import { MonitoringAlertRegistry } from '../../services/FiduciaryRuntimeAdapter';
+import { MonitoringAlert } from '../../services/FiduciaryRuntimeAdapter';
 import { MonitoringAlertFeed } from '../monitoring/MonitoringAlertFeed';
 
 export function InstitutionalMonitoringPage() {

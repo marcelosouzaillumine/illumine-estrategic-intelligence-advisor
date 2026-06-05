@@ -1,6 +1,6 @@
 import React from 'react';
 import { Compass } from 'lucide-react';
-import { InstitutionalVector } from '../../core/runtime/strategic-intelligence/strategic-intelligence-types';
+import { InstitutionalVector } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 interface InstitutionalVectorMapProps {

@@ -12,7 +12,7 @@ export class DLPATemporalIntegrityGuard {
     const years = historicalCycles.map(c => Number(c.year)).filter(y => !isNaN(y) && y > 0);
     const result = TemporalFiduciaryIntegrityEngine.validate(analysisYear, years, 'EXECUTIVE');
 
-    if (result.temporalIntegrity === 'FILTERED_WITH_BLOCKED_YEARS' || result.temporalIntegrity === 'INVALID') {
+    if (result.temporalIntegrity === 'INVALID' || result.blockedYears.length > 0) {
       throw new Error('TEMPORAL_CONTAMINATION_DETECTED');
     }
 

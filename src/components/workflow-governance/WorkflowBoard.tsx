@@ -1,5 +1,5 @@
 import React from 'react';
-import { DecisionWorkflow } from '../../core/runtime/workflow-governance/WorkflowGovernanceTypes';
+import { DecisionWorkflow } from '../../services/FiduciaryRuntimeAdapter';
 import { WorkflowStatusBadge } from './WorkflowStatusBadge';
 
 export function WorkflowBoard({ workflows }: { workflows: DecisionWorkflow[] }) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { GuidedJourneyStep, GuidedBoardJourneyEngine } from '../../../core/runtime/executive/demo/GuidedBoardJourneyEngine';
+import { GuidedJourneyStep, GuidedBoardJourneyEngine } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface GuidedBoardJourneyNavigatorProps {
   currentStep: GuidedJourneyStep;

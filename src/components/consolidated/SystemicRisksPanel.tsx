@@ -1,6 +1,6 @@
 import React from 'react';
 import { Activity, ShieldAlert } from 'lucide-react';
-import { SystemicRisk } from '../../core/runtime/consolidated/advisory/advisoryTypes';
+import { SystemicRisk } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
 
 export function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {

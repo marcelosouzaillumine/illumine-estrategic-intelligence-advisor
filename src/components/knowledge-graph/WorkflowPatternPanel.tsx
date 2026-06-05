@@ -1,5 +1,5 @@
 import React from 'react';
-import { WorkflowPatternAnalyzer } from '../../core/runtime/knowledge-graph/WorkflowPatternAnalyzer';
+import { WorkflowPatternAnalyzer } from '../../services/FiduciaryRuntimeAdapter';
 import { ActivitySquare } from 'lucide-react';
 
 export function WorkflowPatternPanel({ tenantId }: { tenantId: string }) {

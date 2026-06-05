@@ -1,5 +1,5 @@
 import React from 'react';
-import { GraphQueryResult } from '../../core/runtime/knowledge-graph/KnowledgeGraphTypes';
+import { GraphQueryResult } from '../../services/FiduciaryRuntimeAdapter';
 
 export function SemanticRelationshipPanel({ data }: { data?: GraphQueryResult | null }) {
   if (!data || data.edges.length === 0) return null;

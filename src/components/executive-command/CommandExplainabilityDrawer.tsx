@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Fingerprint, GitMerge, FileCode2 } from 'lucide-react';
-import { ExecutiveCommandExplainability } from '../../core/runtime/executive-command/executive-command-types';
+import { ExecutiveCommandExplainability } from '../../services/FiduciaryRuntimeAdapter';
 
 interface CommandExplainabilityDrawerProps {
   explainability: ExecutiveCommandExplainability;

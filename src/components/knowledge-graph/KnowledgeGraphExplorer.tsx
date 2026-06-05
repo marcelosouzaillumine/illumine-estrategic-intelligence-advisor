@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { GraphQueryEngine } from '../../core/runtime/knowledge-graph/GraphQueryEngine';
-import { InstitutionalMemoryEngine } from '../../core/runtime/knowledge-graph/InstitutionalMemoryEngine';
-import { GraphQueryResult } from '../../core/runtime/knowledge-graph/KnowledgeGraphTypes';
+import { GraphQueryEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { InstitutionalMemoryEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { GraphQueryResult } from '../../services/FiduciaryRuntimeAdapter';
 import { Network, Database } from 'lucide-react';
 
 export function KnowledgeGraphExplorer({ tenantId }: { tenantId: string }) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { GraphQueryEngine } from '../../core/runtime/knowledge-graph/GraphQueryEngine';
+import { GraphQueryEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { Scale } from 'lucide-react';
 
 export function GovernanceRelationshipViewer({ tenantId }: { tenantId: string }) {

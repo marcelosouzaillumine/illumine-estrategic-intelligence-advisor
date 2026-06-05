@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Compass, AlertTriangle, ShieldCheck, Lock, Activity, TrendingUp, AlertOctagon, RefreshCw } from 'lucide-react';
-import { InstitutionalBoardPackOutput } from '../../../core/runtime/institutional-reporting/institutional-reporting-types';
 import { PageHeader } from '../../Common';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { FiduciaryRestrictionPanel } from './FiduciaryRestrictionPanel';
@@ -13,9 +12,10 @@ import { InstitutionalLineageExplorer } from './InstitutionalLineageExplorer';
 import { EXECUTIVE_SEVERITY_THEME } from './ExecutiveSeverityTheme';
 import { ExecutiveTimelinePanel } from './ExecutiveTimelinePanel';
 import { CausalityExplorerPanel } from './CausalityExplorerPanel';
+import { ConstitutionalGovernanceDashboardPanel } from './ConstitutionalGovernanceDashboardPanel';
 import { useInstitutionalAuth } from '../../../core/security/auth/InstitutionalAuthProvider';
-import { getProfile, mapOfficialRoleToProfileId, PresentationLayer } from '../../../core/runtime/presentation-governance/ExecutiveAudienceProfile';
 import { cn } from '../../../lib/utils';
+import { FiduciaryRuntimeAdapter, PresentationLayer, InstitutionalBoardPackOutput } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface SovereignBoardPackPageProps {
   boardPack?: InstitutionalBoardPackOutput | null;
@@ -26,7 +26,7 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
   const { t } = useLanguage();
   const { session } = useInstitutionalAuth();
   const userRole = session?.role || 'BOARD_MEMBER';
-  const profile = useMemo(() => getProfile(mapOfficialRoleToProfileId(userRole)), [userRole]);
+  const profile = useMemo(() => FiduciaryRuntimeAdapter.getProfile(FiduciaryRuntimeAdapter.mapOfficialRoleToProfileId(userRole)), [userRole]);
 
   const [densityLevel, setDensityLevel] = useState<PresentationLayer>(profile.defaultDensity);
   const [appendixExpanded, setAppendixExpanded] = useState(false);
@@ -272,91 +272,404 @@ export function SovereignBoardPackPage({ boardPack, dataMode }: SovereignBoardPa
         </div>
       </div>
 
-      {/* EIDF Executive Summary (Highlighted layout) */}
-      {boardPack.executiveView && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in duration-300">
-          {/* Business Context Card */}
-          <div className="p-6 rounded-[24px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-3">
-            <div className="flex items-center gap-2 text-indigo-500 dark:text-indigo-400">
-              <Activity className="w-5 h-5" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-500">
-                Contexto Executivo
-              </span>
-            </div>
-            <p className="text-xs font-semibold text-slate-700 dark:text-zinc-350 leading-relaxed">
-              Fase operacional identificada: <strong className="text-slate-900 dark:text-zinc-200">{boardPack.executiveView.contextoEmpresarial}</strong>.
-            </p>
+      {/* Página Zero - Executive Strategic Snapshot */}
+      {boardPack.executiveDecisionPrioritization?.pageZero && (
+        <div className="p-6 md:p-8 rounded-[32px] border border-slate-200 dark:border-zinc-900 bg-slate-50/60 dark:bg-zinc-950/40 backdrop-blur-md space-y-6 shadow-sm animate-in fade-in duration-300">
+          <div className="border-b border-slate-200 dark:border-white/5 pb-4">
+            <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400">
+              Página Zero — Executive Strategic Snapshot
+            </span>
+            <h3 className="text-lg font-black text-slate-800 dark:text-zinc-200 mt-1">
+              Visão Soberana de Alta Direção
+            </h3>
           </div>
 
-          {/* Main Risks Card */}
-          <div className="p-6 rounded-[24px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-3">
-            <div className="flex items-center gap-2 text-red-500 dark:text-red-400">
-              <AlertOctagon className="w-5 h-5" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-555 font-bold">
-                Fatores de Risco
-              </span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="p-5 rounded-2xl border border-slate-200/60 dark:border-zinc-900 bg-white/50 dark:bg-zinc-900/30 space-y-2">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-zinc-500">1. Estamos sobrevivendo?</span>
+              <div className="flex items-center gap-2">
+                <span className={cn(
+                  "px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider",
+                  boardPack.executiveDecisionPrioritization.pageZero.sobrevivendo === 'Sim'
+                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25"
+                    : "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/25"
+                )}>
+                  {boardPack.executiveDecisionPrioritization.pageZero.sobrevivendo}
+                </span>
+              </div>
+              <p className="text-[11px] font-semibold text-slate-655 dark:text-zinc-400 leading-normal">
+                {boardPack.executiveDecisionPrioritization.pageZero.sobrevivendoJustificativa}
+              </p>
             </div>
-            {boardPack.executiveView.principaisRiscos && boardPack.executiveView.principaisRiscos.length > 0 ? (
-              <ul className="text-xs font-semibold text-slate-700 dark:text-zinc-350 space-y-1">
-                {boardPack.executiveView.principaisRiscos.map((risco, idx) => (
-                  <li key={idx} className="flex items-start gap-1.5">
-                    <span className="text-red-550 shrink-0">•</span>
-                    <span>{risco}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-xs font-semibold text-slate-500 dark:text-zinc-550">Nenhum risco severo reportado.</p>
-            )}
+
+            <div className="p-5 rounded-2xl border border-slate-200/60 dark:border-zinc-900 bg-white/50 dark:bg-zinc-900/30 space-y-2">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-zinc-500">2. Estamos criando valor?</span>
+              <div className="flex items-center gap-2">
+                <span className={cn(
+                  "px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider",
+                  boardPack.executiveDecisionPrioritization.pageZero.criandoValor.includes('Criação')
+                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25"
+                    : "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/25"
+                )}>
+                  {boardPack.executiveDecisionPrioritization.pageZero.criandoValor}
+                </span>
+                <span className="text-[8px] font-mono text-slate-400 dark:text-zinc-500 uppercase tracking-widest">
+                  (Confiança: {boardPack.executiveDecisionPrioritization.pageZero.criandoValorConfidence})
+                </span>
+              </div>
+              <p className="text-[11px] font-semibold text-slate-655 dark:text-zinc-400 leading-normal">
+                Remuneração do capital vs. custo médio ponderado de oportunidade.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl border border-slate-200/60 dark:border-zinc-900 bg-white/50 dark:bg-zinc-900/30 space-y-2">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-zinc-500">3. O capital está preservado?</span>
+              <div className="flex items-center gap-2">
+                <span className={cn(
+                  "px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider",
+                  boardPack.executiveDecisionPrioritization.pageZero.capitalPreservado === 'Preservado'
+                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25"
+                    : boardPack.executiveDecisionPrioritization.pageZero.capitalPreservado === 'Parcialmente Preservado'
+                    ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/25"
+                    : "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/25"
+                )}>
+                  {boardPack.executiveDecisionPrioritization.pageZero.capitalPreservado}
+                </span>
+              </div>
+              <p className="text-[11px] font-semibold text-slate-655 dark:text-zinc-400 leading-normal">
+                {boardPack.executiveDecisionPrioritization.pageZero.capitalPreservadoJustificativa}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl border border-slate-200/60 dark:border-zinc-900 bg-white/50 dark:bg-zinc-900/30 space-y-2">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-zinc-500">4. Qual é o maior risco?</span>
+              <div className="flex items-center gap-1.5 text-red-500">
+                <AlertOctagon className="w-3.5 h-3.5 shrink-0" />
+                <span className="text-[10px] font-black uppercase tracking-wider">Ameaça Existencial</span>
+              </div>
+              <p className="text-[11px] font-semibold text-slate-655 dark:text-zinc-400 leading-normal">
+                {boardPack.executiveDecisionPrioritization.pageZero.maiorRisco}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl border border-slate-200/60 dark:border-zinc-900 bg-white/50 dark:bg-zinc-900/30 space-y-2">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-zinc-500">5. Decisão mais importante?</span>
+              <div className="flex items-center gap-1.5 text-indigo-500">
+                <Compass className="w-3.5 h-3.5 shrink-0" />
+                <span className="text-[10px] font-black uppercase tracking-wider">Prioridade Soberana</span>
+              </div>
+              <p className="text-[11px] font-semibold text-slate-655 dark:text-zinc-400 leading-normal">
+                {boardPack.executiveDecisionPrioritization.pageZero.decisaoMaisImportante}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Institutional Executive Thesis 2.0 */}
+      {boardPack.executiveDecisionPrioritization?.thesis && (
+        <div className="p-6 rounded-[24px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-2">
+          <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-500">
+            Tese Executiva Institucional Consolidada (Thesis 2.0)
+          </span>
+          <p className="text-xs font-semibold text-slate-700 dark:text-zinc-300 leading-relaxed max-w-[1200px]">
+            "{boardPack.executiveDecisionPrioritization.thesis}"
+          </p>
+        </div>
+      )}
+
+      {/* Bloco 1 - Priorização e Decisões: Conselho vs. Diretoria */}
+      {boardPack.executiveDecisionPrioritization && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in fade-in duration-300">
+          
+          {/* Conselho: Decisões Estratégicas */}
+          <div className="p-6 md:p-8 rounded-[32px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
+            <div>
+              <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400">Conselho de Administração</span>
+              <h3 className="text-base font-black text-slate-800 dark:text-zinc-200 mt-0.5">Top 3 Decisões do Conselho</h3>
+            </div>
+
+            <div className="space-y-6">
+              {boardPack.executiveDecisionPrioritization.top3BoardDecisions.map((dec, idx) => (
+                <div key={idx} className="p-5 rounded-2xl border border-slate-200/50 dark:border-zinc-900 bg-white/40 dark:bg-zinc-900/20 space-y-3 shadow-xs hover:scale-[1.01] transition-transform duration-300">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex gap-2.5 items-center">
+                      <span className="w-6 h-6 flex items-center justify-center rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold text-xs shrink-0">{idx + 1}</span>
+                      <h4 className="text-xs font-black text-slate-800 dark:text-zinc-200 uppercase tracking-wide">{dec.titulo}</h4>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 justify-end shrink-0">
+                      <span className={cn(
+                        "px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border",
+                        dec.impactLabel === 'Muito Alto' ? "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/25" :
+                        dec.impactLabel === 'Alto' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/25" :
+                        dec.impactLabel === 'Moderado' ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/25" :
+                        "bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/25"
+                      )}>
+                        Impacto: {dec.impactLabel}
+                      </span>
+                      <span className={cn(
+                        "px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border",
+                        dec.urgencyLabel === 'Imediata' ? "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/25" :
+                        dec.urgencyLabel === 'Curto Prazo' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/25" :
+                        "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/25"
+                      )}>
+                        Urgência: {dec.urgencyLabel}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs font-semibold text-slate-700 dark:text-zinc-350 leading-relaxed">
+                    <strong className="text-slate-900 dark:text-zinc-200">Problema: </strong>{dec.problema}
+                  </p>
+                  <p className="text-xs font-semibold text-slate-700 dark:text-zinc-350 leading-relaxed">
+                    <strong className="text-slate-900 dark:text-zinc-200">Impacto Esperado: </strong>{dec.impactoEsperado}
+                  </p>
+                  <p className="text-xs font-semibold text-slate-750 dark:text-zinc-400 leading-relaxed border-t border-slate-250/20 dark:border-white/5 pt-2 text-[10px]">
+                    <strong className="text-red-600 dark:text-red-400">Consequência da Inação: </strong>{dec.consequenciaInacao}
+                  </p>
+
+                  <div className="flex items-center gap-4 text-[9px] font-mono text-slate-400 dark:text-zinc-500 border-t border-slate-200/40 dark:border-white/5 pt-2">
+                    <span>Origem: <strong className="text-slate-600 dark:text-zinc-400">{dec.origin}</strong></span>
+                    <span className="truncate">Evidência: <strong className="text-slate-600 dark:text-zinc-400">{dec.evidence.join(' | ')}</strong></span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Priorities Card */}
-          <div className="p-6 rounded-[24px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-3">
-            <div className="flex items-center gap-2 text-amber-500 dark:text-amber-400">
-              <TrendingUp className="w-5 h-5" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-555 font-bold">
-                Top 3 Prioridades
-              </span>
+          {/* Diretoria: Plano de Ação Executivo */}
+          <div className="p-6 md:p-8 rounded-[32px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
+            <div>
+              <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500 dark:text-emerald-400">Diretoria Executiva</span>
+              <h3 className="text-base font-black text-slate-800 dark:text-zinc-200 mt-0.5">Top 5 Ações da Diretoria</h3>
             </div>
-            {boardPack.executiveView.prioridades && boardPack.executiveView.prioridades.length > 0 ? (
-              <ol className="text-xs font-semibold text-slate-700 dark:text-zinc-350 space-y-1.5">
-                {boardPack.executiveView.prioridades.map((prio, idx) => (
-                  <li key={idx} className="flex gap-1.5 items-start">
-                    <span className="text-amber-550 font-bold shrink-0">{idx + 1}.</span>
-                    <span>{prio}</span>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p className="text-xs font-semibold text-slate-500 dark:text-zinc-550">Nenhuma prioridade urgente mapeada.</p>
-            )}
-          </div>
 
-          {/* Constitutional Decisions Card */}
-          <div className="p-6 rounded-[24px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-3">
-            <div className="flex items-center gap-2 text-emerald-500 dark:text-emerald-400">
-              <ShieldCheck className="w-5 h-5" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-555 font-bold">
-                Conformidade
-              </span>
-            </div>
-            {boardPack.executiveView.decisoesConstitucionais && boardPack.executiveView.decisoesConstitucionais.length > 0 ? (
-              <ul className="text-xs font-semibold text-slate-700 dark:text-zinc-350 space-y-1">
-                {boardPack.executiveView.decisoesConstitucionais.map((dec, idx) => (
-                  <li key={idx} className="flex items-center gap-1.5">
-                    <span className={cn(
-                      "w-2 h-2 rounded-full",
-                      dec === 'COMPLIANT' || dec === 'VALID' ? "bg-emerald-500" : "bg-red-500"
-                    )} />
-                    <span className="uppercase tracking-wider text-[10px] font-black">
-                      {dec === 'COMPLIANT' || dec === 'VALID' ? 'Conforme' : 'Desvios'}
+            <div className="space-y-4">
+              {boardPack.executiveDecisionPrioritization.top5ExecutiveActions.map((act, idx) => (
+                <div key={idx} className="p-4 rounded-xl border border-slate-200/50 dark:border-zinc-900 bg-white/40 dark:bg-zinc-900/20 space-y-2 hover:scale-[1.01] transition-transform duration-300">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex gap-2 items-center">
+                      <span className="w-5 h-5 flex items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-[10px] shrink-0">{idx + 1}</span>
+                      <h4 className="text-[11px] font-black text-slate-800 dark:text-zinc-200 uppercase tracking-wide">{act.acao}</h4>
+                    </div>
+                    <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-[8px] font-mono text-slate-500 dark:text-zinc-450 uppercase shrink-0">
+                      Prazo: {act.prazo}
                     </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-xs font-semibold text-slate-505 dark:text-zinc-550">Processando conformidade fiduciária...</p>
-            )}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 text-[10px] font-semibold text-slate-655 dark:text-zinc-400">
+                    <div>
+                      Responsável: <strong className="text-slate-800 dark:text-zinc-200">{act.responsavel}</strong>
+                    </div>
+                    <div className="text-right">
+                      Retorno: <strong className="text-slate-800 dark:text-zinc-200">{act.impactoEsperado}</strong>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-[9px] font-mono text-slate-400 dark:text-zinc-550 border-t border-slate-200/40 dark:border-white/5 pt-1.5">
+                    <span>Origem: {act.origin}</span>
+                    <span className="truncate">Evidência: {act.evidence.join(' | ')}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bloco 2 - Criação de Valor Econômico */}
+      {boardPack.executiveDecisionPrioritization?.economicReturn && (
+        <div className="p-6 md:p-8 rounded-[32px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
+          <div className="border-b border-slate-200 dark:border-white/5 pb-4">
+            <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400">Criação de Valor Econômico</span>
+            <h3 className="text-base font-black text-slate-800 dark:text-zinc-200 mt-0.5">Economic Value Creation Framework</h3>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Classification & Return */}
+            <div className="lg:col-span-1 p-6 rounded-2xl border border-slate-200 dark:border-zinc-900 bg-white/40 dark:bg-zinc-900/20 flex flex-col justify-between gap-6">
+              <div className="space-y-2">
+                <span className="text-[9px] font-black uppercase tracking-widest text-slate-450 dark:text-zinc-500">Taxa de Retorno Operacional (ROCE Proxy)</span>
+                <div className="text-4xl font-light text-slate-800 dark:text-zinc-100 tracking-tight">
+                  {boardPack.executiveDecisionPrioritization.economicReturn.returnRate.toFixed(1).replace('.', ',')}%
+                </div>
+                <div className="text-[10px] font-semibold text-slate-500 dark:text-zinc-500">
+                  Calculado sobre Capital Empregado de {boardPack.executiveDecisionPrioritization.economicReturn.capitalEmployed.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <span className="text-[9px] font-black uppercase tracking-widest text-slate-450 dark:text-zinc-500">Classificação Fiduciária de Valor</span>
+                <div className={cn(
+                  "text-lg font-black uppercase tracking-wider",
+                  boardPack.executiveDecisionPrioritization.economicReturn.classification.includes('Criação') 
+                    ? "text-emerald-600 dark:text-emerald-400 animate-pulse" 
+                    : "text-red-600 dark:text-red-400"
+                )}>
+                  {boardPack.executiveDecisionPrioritization.economicReturn.classification}
+                </div>
+                <div className="flex gap-2 items-center text-[9px] text-slate-450 dark:text-zinc-500 uppercase tracking-widest">
+                  <span>Confiança: <strong className="text-slate-600 dark:text-zinc-400">{boardPack.executiveDecisionPrioritization.economicReturn.confidence}</strong></span>
+                  <span>•</span>
+                  <span className="truncate">{boardPack.executiveDecisionPrioritization.economicReturn.confidenceReason}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Narrative & Questions */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="p-4 rounded-xl bg-slate-100/50 dark:bg-zinc-950/40 border border-slate-200/80 dark:border-zinc-900 text-xs font-semibold text-slate-700 dark:text-zinc-350 leading-relaxed">
+                {boardPack.executiveDecisionPrioritization.economicReturn.narrative}
+              </div>
+
+              {/* DRE Board Support Questions (P8, P9) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl border border-slate-200/50 dark:border-zinc-900 bg-white/40 dark:bg-zinc-900/10 space-y-1.5">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400">P1: Estamos criando valor?</span>
+                  <p className="text-xs font-semibold text-slate-700 dark:text-zinc-350 leading-relaxed">
+                    {boardPack.executiveDecisionPrioritization.economicReturn.classification.includes('Criação')
+                      ? 'Sim, o resultado da operação supera o custo implícito do capital empregado no período.'
+                      : 'Não. A rentabilidade operacional permanece abaixo do custo de oportunidade exigido pelos investidores.'}
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl border border-slate-200/50 dark:border-zinc-900 bg-white/40 dark:bg-zinc-900/10 space-y-1.5">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400">P2: Qual o retorno do capital empregado?</span>
+                  <p className="text-xs font-semibold text-slate-700 dark:text-zinc-350 leading-relaxed">
+                    O retorno da operação foi de {boardPack.executiveDecisionPrioritization.economicReturn.returnRate.toFixed(1).replace('.', ',')}% para um custo de capital de referência de 12,0% a.a.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl border border-slate-200/50 dark:border-zinc-900 bg-white/40 dark:bg-zinc-900/10 space-y-1.5">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400">P3: O retorno justifica o risco?</span>
+                  <p className="text-xs font-semibold text-slate-700 dark:text-zinc-350 leading-relaxed">
+                    {boardPack.executiveDecisionPrioritization.economicReturn.returnRate >= 12
+                      ? 'Sim, o prêmio obtido compensa os riscos sistêmicos e o custo de captação da operação.'
+                      : 'Não, o retorno gerado é insuficiente ou negativo, expondo a base societária a risco sem devida remuneração.'}
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl border border-slate-200/50 dark:border-zinc-900 bg-white/40 dark:bg-zinc-900/10 space-y-1.5">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400">P4: Se nada mudar, o valor econômico aumenta ou diminui?</span>
+                  <p className="text-xs font-semibold text-slate-700 dark:text-zinc-350 leading-relaxed">
+                    {boardPack.executiveDecisionPrioritization.economicReturn.returnRate >= 12
+                      ? 'Tende a aumentar devido à capitalização interna de lucros consistentes e atratividade societária.'
+                      : 'Tende a diminuir, acelerando a erosão do capital social integralizado e exigindo suporte de tesouraria.'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bloco 3 - Matriz de Prioridades & Board Attention Demand Index (BADI) */}
+      {boardPack.executiveDecisionPrioritization && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in fade-in duration-300">
+          
+          {/* BADI */}
+          <div className="p-6 md:p-8 rounded-[32px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
+            <div>
+              <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400">BADI</span>
+              <h3 className="text-base font-black text-slate-800 dark:text-zinc-200 mt-0.5">Board Attention Demand Index (Demanda de Atenção)</h3>
+              <p className="text-[10px] text-slate-500 dark:text-zinc-550 uppercase tracking-widest mt-0.5">Notas maiores indicam maior urgência/prioridade fiduciária de atenção do Conselho.</p>
+            </div>
+
+            <div className="space-y-4">
+              {[
+                { name: 'Liquidez', value: boardPack.executiveDecisionPrioritization.badi.liquidez },
+                { name: 'Rentabilidade', value: boardPack.executiveDecisionPrioritization.badi.rentabilidade },
+                { name: 'Capital', value: boardPack.executiveDecisionPrioritization.badi.capital },
+                { name: 'Governança', value: boardPack.executiveDecisionPrioritization.badi.governanca },
+                { name: 'Compliance', value: boardPack.executiveDecisionPrioritization.badi.compliance },
+              ].map((bad, idx) => (
+                <div key={idx} className="space-y-1.5">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-black uppercase tracking-wider text-slate-700 dark:text-zinc-300">{bad.name}</span>
+                    <span className={cn(
+                      "font-mono font-bold px-2 py-0.5 rounded text-[10px]",
+                      bad.value >= 75 ? "text-red-600 bg-red-500/10" :
+                      bad.value >= 50 ? "text-amber-600 bg-amber-500/10" :
+                      "text-indigo-600 bg-indigo-500/10"
+                    )}>
+                      {bad.value}/100
+                    </span>
+                  </div>
+                  <div className="h-2 bg-slate-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                    <div
+                      className={cn(
+                        "h-full rounded-full transition-all duration-1000",
+                        bad.value >= 75 ? "bg-red-500" :
+                        bad.value >= 50 ? "bg-amber-500" :
+                        "bg-indigo-500"
+                      )}
+                      style={{ width: `${bad.value}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Matriz de Prioridades */}
+          <div className="p-6 md:p-8 rounded-[32px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6">
+            <div>
+              <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400">Matriz de Prioridades</span>
+              <h3 className="text-base font-black text-slate-800 dark:text-zinc-200 mt-0.5">Matriz Institucional de Prioridades</h3>
+              <p className="text-[10px] text-slate-500 dark:text-zinc-555 uppercase tracking-widest mt-0.5">Resumo executivo de impacto, urgência e esforço por domínio corporativo.</p>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-white/5 text-slate-400 dark:text-zinc-500 uppercase tracking-widest text-[9px] font-black">
+                    <th className="pb-3 pr-4">Prioridade (Domínio)</th>
+                    <th className="pb-3 px-4">Impacto</th>
+                    <th className="pb-3 px-4">Urgência</th>
+                    <th className="pb-3 pl-4">Esforço</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200/50 dark:divide-white/5">
+                  {boardPack.executiveDecisionPrioritization.priorityMatrix.map((row, idx) => (
+                    <tr key={idx} className="hover:bg-slate-100/20 dark:hover:bg-zinc-800/10 transition-colors">
+                      <td className="py-3 pr-4 font-black uppercase tracking-wider text-slate-700 dark:text-zinc-300">{row.area}</td>
+                      <td className="py-3 px-4">
+                        <span className={cn(
+                          "px-2.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider",
+                          row.impacto === 'Muito Alto' ? "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20" :
+                          row.impacto === 'Alto' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20" :
+                          "bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20"
+                        )}>
+                          {row.impacto}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4">
+                        <span className={cn(
+                          "px-2.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider",
+                          row.urgencia === 'Imediata' ? "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20" :
+                          row.urgencia === 'Curto Prazo' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20" :
+                          row.urgencia === 'Médio Prazo' ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20" :
+                          "bg-slate-500/10 text-slate-600 dark:text-slate-400 border border-slate-500/20"
+                        )}>
+                          {row.urgencia}
+                        </span>
+                      </td>
+                      <td className="py-3 pl-4">
+                        <span className={cn(
+                          "px-2.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider",
+                          row.esforco === 'Muito Alto' ? "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20" :
+                          row.esforco === 'Alto' ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20" :
+                          row.esforco === 'Moderado' ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20" :
+                          "bg-slate-500/10 text-slate-600 dark:text-slate-400 border border-slate-500/20"
+                        )}>
+                          {row.esforco}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}

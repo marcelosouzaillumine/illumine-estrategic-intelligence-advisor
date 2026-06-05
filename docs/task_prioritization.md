@@ -1,0 +1,26 @@
+# Task List - Executive Decision Prioritization & Economic Value Framework (EDPEVF) v1.1
+
+- [x] Create Economic Value Layer (EVL)
+  - [x] Create `ExecutiveMaturityLayer.ts`
+  - [x] Create `EconomicReturnEngine.ts`
+  - [x] Create `EconomicValueCreationEngine.ts`
+  - [x] Create `InstitutionalExecutiveThesisEngine.ts`
+- [x] Create Executive Decision Prioritization Layer (EDPL)
+  - [x] Create `FiduciaryPriorityEscalationEngine.ts`
+  - [x] Create `BoardDecisionGovernanceValidator.ts`
+  - [x] Create `BoardAttentionDemandIndexEngine.ts`
+  - [x] Create `ExecutivePriorityRankingEngine.ts`
+  - [x] Create `BoardTop3DecisionEngine.ts`
+  - [x] Create `ExecutiveActionPlanEngine.ts`
+  - [x] Create `InstitutionalPriorityMatrixEngine.ts`
+- [x] Modify Board Layer Support Engines
+  - [x] Modify `DREBoardDecisionSupportEngine.ts` (P8, P9)
+  - [x] Modify `CashBoardDecisionSupportEngine.ts` (P8)
+  - [x] Modify `DLPABoardDecisionSupportEngine.ts` (P8)
+- [x] Orchestration & Types
+  - [x] Update `institutional-reporting-types.ts`
+  - [x] Update `InstitutionalBoardPackRuntime.ts`
+- [x] UI Implementation
+  - [x] Update `SovereignBoardPackPage.tsx`
+- [x] Validation & Verification
+  - [x] Run typechecks and unit/integration tests

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BenchmarkDeviationDetector } from '../../core/runtime/early-warning/BenchmarkDeviationDetector';
+import { BenchmarkDeviationDetector } from '../../services/FiduciaryRuntimeAdapter';
 import { BarChart2 } from 'lucide-react';
 
 export function BenchmarkDeviationPanel({ tenantId }: { tenantId: string }) {

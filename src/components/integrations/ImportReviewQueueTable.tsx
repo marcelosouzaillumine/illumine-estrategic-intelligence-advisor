@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImportedDataset } from '../../core/runtime/integrations/IntegrationGovernanceTypes';
+import { ImportedDataset } from '../../services/FiduciaryRuntimeAdapter';
 import { SourceTrustBadge } from './SourceTrustBadge';
 import { AlertTriangle, Hash, Check, X } from 'lucide-react';
 

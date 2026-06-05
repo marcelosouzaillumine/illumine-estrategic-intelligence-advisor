@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Columns, CheckCircle2, XOctagon } from 'lucide-react';
-import { CapitalStrategyAlignment } from '../../core/runtime/strategic-intelligence/strategic-intelligence-types';
+import { CapitalStrategyAlignment } from '../../services/FiduciaryRuntimeAdapter';
 
 interface CapitalStrategyAlignmentSurfaceProps {
   alignment: CapitalStrategyAlignment;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExecutiveSeverityLevel } from '../../core/runtime/executive-interaction/types';
+import { ExecutiveSeverityLevel } from '../../services/FiduciaryRuntimeAdapter';
 import { SeveritySemanticEngine } from './SeveritySemanticEngine';
 import { ShieldAlert, AlertTriangle, Info, Lock } from 'lucide-react';
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Fingerprint, Network } from 'lucide-react';
-import { LineageAppendix } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { LineageAppendix } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export function LineageAppendixDrawer({ data }: { data: LineageAppendix }) {

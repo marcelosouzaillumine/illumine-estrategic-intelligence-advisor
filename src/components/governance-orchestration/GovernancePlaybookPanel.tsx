@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InstitutionalOrchestrationEngine } from '../../core/runtime/governance-orchestration/InstitutionalOrchestrationEngine';
-import { GovernanceRecommendationEvidenceBinder } from '../../core/runtime/governance-orchestration/GovernanceRecommendationEvidenceBinder';
-import { GovernanceCoordinationResult } from '../../core/runtime/governance-orchestration/GovernanceOrchestrationTypes';
+import { FiduciaryRuntimeAdapter, GovernanceCoordinationResult } from '../../services/FiduciaryRuntimeAdapter';
 import { ShieldCheck, BookOpen } from 'lucide-react';
 
 export function GovernancePlaybookPanel({ tenantId }: { tenantId: string }) {
@@ -9,9 +7,9 @@ export function GovernancePlaybookPanel({ tenantId }: { tenantId: string }) {
 
   useEffect(() => {
     // Inicialização do Mock (Simula acionamento pelo Early Warning de Crise de Liquidez)
-    InstitutionalOrchestrationEngine.clearSandbox(tenantId);
+    const baseResult = FiduciaryRuntimeAdapter.InstitutionalOrchestrationEngine.clearSandbox(tenantId);
     
-    const evidence = GovernanceRecommendationEvidenceBinder.bindEvidence(
+    const evidence = FiduciaryRuntimeAdapter.GovernanceRecommendationEvidenceBinder.bindEvidence(
       tenantId,
       'Gatilho sistêmico ativado via Fase 18 (Asfixia de Liquidez) cruzado com simulação de impacto da Fase 19.',
       'EXEC-ORCH-' + Date.now(),
@@ -21,11 +19,11 @@ export function GovernancePlaybookPanel({ tenantId }: { tenantId: string }) {
       ['SIM-DIVESTMENT-01']
     );
 
-    const coordination = InstitutionalOrchestrationEngine.coordinate(tenantId, 'PB-LIQUIDITY-CRISIS-01', evidence);
+    const coordination = FiduciaryRuntimeAdapter.InstitutionalOrchestrationEngine.coordinate(tenantId, 'PB-LIQUIDITY-CRISIS-01', evidence);
     setResult(coordination);
 
     return () => {
-      InstitutionalOrchestrationEngine.clearSandbox(tenantId);
+      FiduciaryRuntimeAdapter.InstitutionalOrchestrationEngine.clearSandbox(tenantId);
     };
   }, [tenantId]);
 

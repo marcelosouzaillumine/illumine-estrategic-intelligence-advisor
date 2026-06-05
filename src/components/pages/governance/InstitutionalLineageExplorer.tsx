@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { Database, Hash, FileText, CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react';
-import { LineageAppendix } from '../../../core/runtime/institutional-reporting/institutional-reporting-types';
-import { InstitutionalDisclosure } from '../../../core/runtime/shared/runtime-contracts';
+import { LineageAppendix, InstitutionalDisclosure } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface InstitutionalLineageExplorerProps {
   lineageAppendix?: LineageAppendix;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ExecutiveNarrative } from '../../../core/runtime/executive/types';
-import { BoardModeGuard } from '../../../core/runtime/executive/board/BoardModeGuard';
-import { BoardFlowStep } from '../../../core/runtime/executive/board/InstitutionalBoardFlow';
+import { ExecutiveNarrative } from '../../../services/FiduciaryRuntimeAdapter';
+import { BoardModeGuard } from '../../../services/FiduciaryRuntimeAdapter';
+import { BoardFlowStep } from '../../../services/FiduciaryRuntimeAdapter';
 import { RuntimeDisclosureBanner } from './RuntimeDisclosureBanner';
 import { BoardNarrativeNavigator } from './BoardNarrativeNavigator';
 import { CausalDrilldownPanel } from './CausalDrilldownPanel';

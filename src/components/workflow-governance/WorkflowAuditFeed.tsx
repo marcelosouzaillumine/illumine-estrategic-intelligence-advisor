@@ -1,5 +1,5 @@
 import React from 'react';
-import { WorkflowAuditRecord } from '../../core/runtime/workflow-governance/WorkflowGovernanceTypes';
+import { WorkflowAuditRecord } from '../../services/FiduciaryRuntimeAdapter';
 
 export function WorkflowAuditFeed({ logs }: { logs: WorkflowAuditRecord[] }) {
   if (logs.length === 0) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Network } from 'lucide-react';
-import { ContagionEdge } from '../../core/runtime/consolidated/stress/stress-types';
+import { ContagionEdge } from '../../services/FiduciaryRuntimeAdapter';
 
 export function CriticalDependencyChainsPanel({ chains }: { chains: ContagionEdge[][] }) {
   if (!chains || chains.length === 0) return null;

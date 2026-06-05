@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Fingerprint, Search } from 'lucide-react';
-import { ExplainabilityOutput } from '../../core/runtime/shared/runtime-contracts';
+import { ExplainabilityOutput } from '../../services/FiduciaryRuntimeAdapter';
 
 interface OperationalExplainabilityDrawerProps {
   explainability: ExplainabilityOutput;

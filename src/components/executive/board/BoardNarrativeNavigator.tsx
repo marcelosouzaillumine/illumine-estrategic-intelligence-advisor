@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { BoardFlowStep, InstitutionalBoardFlow } from '../../../core/runtime/executive/board/InstitutionalBoardFlow';
-import { ExecutiveSessionContext } from '../../../core/runtime/executive/board/ExecutiveSessionContext';
+import { BoardFlowStep, InstitutionalBoardFlow } from '../../../services/FiduciaryRuntimeAdapter';
+import { ExecutiveSessionContext } from '../../../services/FiduciaryRuntimeAdapter';
 
 interface BoardNarrativeNavigatorProps {
   sessionId: string;

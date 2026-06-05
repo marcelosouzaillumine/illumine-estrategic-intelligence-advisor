@@ -1,6 +1,6 @@
 import React from 'react';
 import { Info, AlertTriangle, ShieldAlert, Lock, AlertOctagon } from 'lucide-react';
-import { ExecutiveSeverityLevel } from '../../core/runtime/executive-interaction/types';
+import { ExecutiveSeverityLevel } from '../../services/FiduciaryRuntimeAdapter';
 import { SeveritySemanticEngine } from './SeveritySemanticEngine';
 
 interface ExecutiveSeverityBadgeProps {

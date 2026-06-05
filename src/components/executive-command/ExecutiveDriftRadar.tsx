@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Compass, ShieldAlert, CheckCircle } from 'lucide-react';
-import { ExecutiveDriftEvent } from '../../core/runtime/executive-command/executive-command-types';
+import { ExecutiveDriftEvent } from '../../services/FiduciaryRuntimeAdapter';
 
 interface ExecutiveDriftRadarProps {
   driftEvents: ExecutiveDriftEvent[];

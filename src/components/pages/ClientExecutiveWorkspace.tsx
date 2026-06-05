@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { PageHeader, StatusBadge } from '../Common';
-import { executiveRuntime } from '../../core/runtime/executive-intelligence-runtime';
+import { executiveRuntime } from '../../services/FiduciaryRuntimeAdapter';
 import { ExecutivePdfExportEngine } from '../../core/exporting/ExecutivePdfExportEngine';
 import { BoardPackExportEngine } from '../../core/exporting/BoardPackExportEngine';
 import { InstitutionalReportFormatter } from '../../core/exporting/InstitutionalReportFormatter';

@@ -312,7 +312,7 @@ export function FinancialAdminDashboard({
       </div>
 
       {/* 1. Executive Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {summaryMetrics.map((metric, idx) => (
           <KpiCard 
             key={idx}
@@ -363,7 +363,7 @@ export function FinancialAdminDashboard({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
             {/* Competência Column */}
             <div className="space-y-6">
               <div className="flex items-center gap-3 mb-2">
@@ -436,9 +436,9 @@ export function FinancialAdminDashboard({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* 2. Financial Pillars - Left Column */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="xl:col-span-2 space-y-8">
           <div className="card-premium relative overflow-hidden">
             <div className="flex items-center justify-between mb-10">
               <div>

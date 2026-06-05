@@ -1,5 +1,5 @@
 import React from 'react';
-import { MonitoringSeverity } from '../../core/runtime/monitoring/MonitoringTypes';
+import { MonitoringSeverity } from '../../services/FiduciaryRuntimeAdapter';
 import { AlertCircle, AlertTriangle, Info, OctagonAlert } from 'lucide-react';
 
 export function AlertSeverityBadge({ severity }: { severity: MonitoringSeverity }) {

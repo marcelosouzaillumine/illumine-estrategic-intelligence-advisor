@@ -1,8 +1,8 @@
 // src/components/war-gaming/InstitutionalWarRoomPage.tsx
 
 import React, { useState } from 'react';
-import { CrisisInput, WarGameResult } from '../../core/runtime/war-gaming/war-gaming-types';
-import { WarGameAdapter } from '../../core/runtime/war-gaming/war-game-adapter';
+import { CrisisInput, WarGameResult } from '../../services/FiduciaryRuntimeAdapter';
+import { WarGameAdapter } from '../../services/FiduciaryRuntimeAdapter';
 
 // Subcomponents (mocks for structural composition)
 import { CrisisScenarioPanel } from './CrisisScenarioPanel';

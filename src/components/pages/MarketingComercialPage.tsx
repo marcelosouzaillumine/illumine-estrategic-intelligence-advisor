@@ -241,8 +241,8 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
 
       {/* Funnel & Performance Grid - Hidden if no data */}
       {hasData && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-5 card-premium p-10 relative overflow-hidden">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+          <div className="xl:col-span-5 card-premium p-10 relative overflow-hidden">
             <div className="flex justify-between items-center mb-10 relative z-10">
               <div>
                 <h3 className="text-[10px] font-medium text-muted-foreground uppercase tracking-[0.3em] mb-2">Fluxo de Conversão</h3>
@@ -289,7 +289,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
             </div>
           </div>
 
-          <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="xl:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Performance Matrix Grid - Simplified */}
             {[
               { title: isMarketing ? 'Canais de Aquisição' : 'Vendedores & Repr.', data: performanceData.vendedores, icon: Users, color: 'text-blue-500', bg: 'bg-blue-500/5' },
@@ -334,7 +334,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-8">
         {indicators.map((kpi, idx) => (
           <KpiCard 
             key={idx}
@@ -350,9 +350,9 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
 
       {/* Main Analysis Section - Hidden if no data */}
       {hasData && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
            {/* Chart Placeholder */}
-           <div className="lg:col-span-2 card-premium p-12 relative overflow-hidden">
+           <div className="xl:col-span-2 card-premium p-12 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none text-muted-foreground">
                 <BarChart3 size={240} />
               </div>

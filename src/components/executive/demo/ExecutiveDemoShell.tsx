@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ExecutiveDemoScenarioRegistry, DemoScenario } from '../../../core/runtime/executive/demo/ExecutiveDemoScenarioRegistry';
-import { ExecutiveDemoSession, DemoSessionState } from '../../../core/runtime/executive/demo/ExecutiveDemoSession';
-import { ExecutiveStorySequenceResolver } from '../../../core/runtime/executive/demo/ExecutiveStorySequenceResolver';
-import { InstitutionalDemoDatasetGuard } from '../../../core/runtime/executive/demo/InstitutionalDemoDatasetGuard';
-import { GuidedJourneyStep } from '../../../core/runtime/executive/demo/GuidedBoardJourneyEngine';
+import { ExecutiveDemoScenarioRegistry, DemoScenario } from '../../../services/FiduciaryRuntimeAdapter';
+import { ExecutiveDemoSession, DemoSessionState } from '../../../services/FiduciaryRuntimeAdapter';
+import { ExecutiveStorySequenceResolver } from '../../../services/FiduciaryRuntimeAdapter';
+import { InstitutionalDemoDatasetGuard } from '../../../services/FiduciaryRuntimeAdapter';
+import { GuidedJourneyStep } from '../../../services/FiduciaryRuntimeAdapter';
 import { ExecutiveDisclosurePanel } from './ExecutiveDisclosurePanel';
 import { GuidedBoardJourneyNavigator } from './GuidedBoardJourneyNavigator';
 import { ExecutiveScenarioSelector } from './ExecutiveScenarioSelector';

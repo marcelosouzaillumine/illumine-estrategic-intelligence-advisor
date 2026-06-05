@@ -3,7 +3,7 @@
 import React from 'react';
 import { Compass, Route, AlertOctagon } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { StrategicDirectionSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { StrategicDirectionSection } from '../../services/FiduciaryRuntimeAdapter';
 
 export function StrategicDirectionSurface({ data }: { data: StrategicDirectionSection }) {
   const { translateLabel: t } = useLanguage();

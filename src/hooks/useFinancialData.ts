@@ -225,6 +225,8 @@ export function useAnnualFinancialData(
               valor: entry.value,
               val: entry.value,
               type: entryType.toLowerCase(),
+              year: docData.year,
+              ano: docData.year,
               isBatch: true
             });
           });
@@ -239,6 +241,8 @@ export function useAnnualFinancialData(
             valor: docData.value || docData.valor || docData.val,
             val: docData.value || docData.valor || docData.val,
             type: (docData.type || docData.tipo || 'ativo').toLowerCase(),
+            year: docData.year,
+            ano: docData.year,
             isBatch: false
           });
         }

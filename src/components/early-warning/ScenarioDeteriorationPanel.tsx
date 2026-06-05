@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScenarioDeteriorationWatcher } from '../../core/runtime/early-warning/ScenarioDeteriorationWatcher';
+import { ScenarioDeteriorationWatcher } from '../../services/FiduciaryRuntimeAdapter';
 import { Zap } from 'lucide-react';
 
 export function ScenarioDeteriorationPanel({ tenantId }: { tenantId: string }) {

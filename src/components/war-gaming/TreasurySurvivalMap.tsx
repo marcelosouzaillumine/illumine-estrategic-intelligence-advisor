@@ -1,7 +1,7 @@
 // src/components/war-gaming/TreasurySurvivalMap.tsx
 
 import React from 'react';
-import { TreasurySurvivalProfile } from '../../core/runtime/war-gaming/war-gaming-types';
+import { TreasurySurvivalProfile } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
 
 export function TreasurySurvivalMap({ treasury }: { treasury: TreasurySurvivalProfile }) {

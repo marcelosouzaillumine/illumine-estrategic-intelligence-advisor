@@ -14,7 +14,8 @@ export class LiquidityClassificationEngine {
     resilienceScore?: number,
     hasRuptureRisk?: boolean,
     isArtificial?: boolean,
-    context?: FinancialRuntimeContext
+    context?: FinancialRuntimeContext,
+    fcoBasis: 'OFFICIAL_FCO' | 'ADJUSTED_OPERATIONAL_BURN' = 'ADJUSTED_OPERATIONAL_BURN'
   ): FiduciaryLiquidityClassificationOutput {
     let classification: FiduciaryLiquidityClassification = 'OPERATIONAL_SUSTAINABLE';
     let label = 'Liquidez Operacional Sustentável';
@@ -86,7 +87,8 @@ export class LiquidityClassificationEngine {
       label,
       confidence,
       severity,
-      rationale
+      rationale,
+      fcoBasis
     };
   }
 }

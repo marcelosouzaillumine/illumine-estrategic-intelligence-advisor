@@ -14,7 +14,7 @@ import {
   FileText
 } from 'lucide-react';
 import { PageHeader, StatusBadge } from '../Common';
-import { CalibrationEngine } from '../../core/runtime/calibration/CalibrationEngine';
+import { CalibrationEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { CalibrationStatusPanel } from '../executive-delivery/CalibrationStatusPanel';
 import { governanceService } from '../../services/governanceService';
 import { DataAccessContext } from '../../core/security/data-access-context';

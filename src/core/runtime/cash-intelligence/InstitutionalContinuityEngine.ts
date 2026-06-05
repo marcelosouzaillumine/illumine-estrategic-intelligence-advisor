@@ -12,7 +12,8 @@ export class InstitutionalContinuityEngine {
     netIncome: number,
     thirdPartyFunding: number,
     equityFunding: number,
-    historicalCyclesCount: number
+    historicalCyclesCount: number,
+    fcoBasis: 'OFFICIAL_FCO' | 'ADJUSTED_OPERATIONAL_BURN' = 'ADJUSTED_OPERATIONAL_BURN'
   ): InstitutionalContinuityAssessment {
     // 1. Cálculo do Runway Preditivo (Normalized Cash Burn)
     // O burn operacional normalizado deve excluir aportes, venda extraordinária de ativos e refinanciamento.
@@ -153,7 +154,8 @@ export class InstitutionalContinuityEngine {
       runwayStability,
       liquidityDependency,
       continuityRiskDrivers,
-      recommendedActions
+      recommendedActions,
+      fcoBasis
     };
   }
 }

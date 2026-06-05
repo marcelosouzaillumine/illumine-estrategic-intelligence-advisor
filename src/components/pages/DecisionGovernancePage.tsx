@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { GitBranchPlus, PlusCircle } from 'lucide-react';
 import { PageHeader } from '../Common';
-import { DecisionRecordRegistry } from '../../core/runtime/workflow-governance/DecisionRecordRegistry';
-import { WorkflowAuditLogger } from '../../core/runtime/workflow-governance/WorkflowAuditLogger';
-import { AlertResponseWorkflow } from '../../core/runtime/workflow-governance/AlertResponseWorkflow';
-import { DecisionLineageBinder } from '../../core/runtime/workflow-governance/DecisionLineageBinder';
+import { DecisionRecordRegistry } from '../../services/FiduciaryRuntimeAdapter';
+import { WorkflowAuditLogger } from '../../services/FiduciaryRuntimeAdapter';
+import { AlertResponseWorkflow } from '../../services/FiduciaryRuntimeAdapter';
+import { DecisionLineageBinder } from '../../services/FiduciaryRuntimeAdapter';
 import { WorkflowBoard } from '../workflow-governance/WorkflowBoard';
 import { WorkflowAuditFeed } from '../workflow-governance/WorkflowAuditFeed';
 

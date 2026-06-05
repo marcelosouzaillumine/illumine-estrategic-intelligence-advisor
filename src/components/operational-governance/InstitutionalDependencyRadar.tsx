@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Target, AlertTriangle } from 'lucide-react';
-import { InstitutionalDependencyRisk } from '../../core/runtime/operational-governance/operational-governance-types';
+import { InstitutionalDependencyRisk } from '../../services/FiduciaryRuntimeAdapter';
 
 interface InstitutionalDependencyRadarProps {
   dependencies: InstitutionalDependencyRisk[];

@@ -93,6 +93,7 @@ import {
 export type Page =
   | 'strategic_war_room'
   | 'executive_monitoring_center'
+  | 'esgim_assessment'
   | 'governance_maturity_center'
   | 'fiduciary_validation_center'
   | 'economic_normalization_center'
@@ -325,6 +326,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     icon: Network,
     items: [
       { id: 'executive_monitoring_center', label: 'Executive Monitoring Center', labelKey: 'navigation.page.executive_monitoring_center', icon: Target },
+      { id: 'esgim_assessment', label: 'Avaliação ESGIM™', labelKey: 'navigation.page.esgim_assessment', icon: Brain },
       { id: 'governance_maturity_center', label: 'Governance Maturity Center', labelKey: 'navigation.page.governance_maturity_center', icon: Target },
       { id: 'leadership_dna_center', label: 'Leadership DNA Center', labelKey: 'navigation.page.leadership_dna_center', icon: Users },
       { id: 'institutional_structure_center', label: 'Institutional Structure Center', labelKey: 'navigation.page.institutional_structure_center', icon: Users },

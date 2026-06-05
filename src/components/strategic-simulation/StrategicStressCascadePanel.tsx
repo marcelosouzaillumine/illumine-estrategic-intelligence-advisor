@@ -1,4 +1,4 @@
-import { StrategicDecisionSimulator } from '../../core/runtime/strategic-simulation/StrategicDecisionSimulator';
+import { StrategicDecisionSimulator } from '../../services/FiduciaryRuntimeAdapter';
 import { Zap } from 'lucide-react';
 import React from 'react';
 

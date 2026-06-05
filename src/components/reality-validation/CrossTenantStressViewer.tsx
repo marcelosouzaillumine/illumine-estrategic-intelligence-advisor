@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShieldAlert } from 'lucide-react';
-import { CrossTenantStressValidator } from '../../core/runtime/operational-scale/CrossTenantStressValidator';
+import { CrossTenantStressValidator } from '../../services/FiduciaryRuntimeAdapter';
 
 export function CrossTenantStressViewer({ tenantIds }: { tenantIds: string[] }) {
   const result = CrossTenantStressValidator.validate(tenantIds);

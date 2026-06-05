@@ -1,6 +1,6 @@
 import React from 'react';
 import { Rocket } from 'lucide-react';
-import { RealDataValidationEngine } from '../../core/runtime/enterprise-validation/RealDataValidationEngine';
+import { RealDataValidationEngine } from '../../services/FiduciaryRuntimeAdapter';
 
 export function EnterpriseReadinessDashboard({ tenantId }: { tenantId: string }) {
   const state = RealDataValidationEngine.getValidationState(tenantId);

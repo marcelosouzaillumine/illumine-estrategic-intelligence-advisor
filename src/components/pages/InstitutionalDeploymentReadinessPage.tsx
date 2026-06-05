@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Server, AlertTriangle, Lock, Users, Activity, CheckCircle2, XCircle } from 'lucide-react';
-import { executiveRuntime } from '../../core/runtime/executive-intelligence-runtime';
-import { InstitutionalDeploymentReadinessOutput } from '../../core/runtime/deployment-readiness/DeploymentReadinessTypes';
+import { executiveRuntime } from '../../services/FiduciaryRuntimeAdapter';
+import { InstitutionalDeploymentReadinessOutput } from '../../services/FiduciaryRuntimeAdapter';
 
 export function InstitutionalDeploymentReadinessPage() {
   const [readinessData, setReadinessData] = useState<InstitutionalDeploymentReadinessOutput | null>(null);

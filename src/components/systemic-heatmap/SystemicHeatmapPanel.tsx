@@ -1,5 +1,5 @@
 import React from 'react';
-import { SystemicRiskProfile } from '../../core/runtime/consolidated/stress/stress-types';
+import { SystemicRiskProfile } from '../../services/FiduciaryRuntimeAdapter';
 import { SystemicHeatmapComplianceGuard } from './SystemicHeatmapComplianceGuard';
 import { SystemicConfidenceState } from './SystemicConfidenceState';
 import { SystemicStressGrid } from './SystemicStressGrid';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Network } from 'lucide-react';
-import { InstitutionalStrategicIntelligenceOutput } from '../../core/runtime/strategic-intelligence/strategic-intelligence-types';
+import { InstitutionalStrategicIntelligenceOutput } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 interface InstitutionalDirectionHeatmapProps {

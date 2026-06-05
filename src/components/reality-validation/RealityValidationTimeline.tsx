@@ -1,6 +1,6 @@
 import React from 'react';
 import { Clock } from 'lucide-react';
-import { GoldenDatasetProfile } from '../../core/runtime/reality-validation/RealityValidationTypes';
+import { GoldenDatasetProfile } from '../../services/FiduciaryRuntimeAdapter';
 
 interface Props { dataset: GoldenDatasetProfile }
 

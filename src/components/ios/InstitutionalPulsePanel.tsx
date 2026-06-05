@@ -1,5 +1,5 @@
 import React from 'react';
-import { InstitutionalOperatingSystem } from '../../core/runtime/ios/InstitutionalOperatingSystem';
+import { InstitutionalOperatingSystem } from '../../services/FiduciaryRuntimeAdapter';
 import { Activity } from 'lucide-react';
 
 export function InstitutionalPulsePanel({ tenantId }: { tenantId: string }) {

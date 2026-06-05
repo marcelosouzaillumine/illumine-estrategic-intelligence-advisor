@@ -1,9 +1,9 @@
 import React from 'react';
-import { InstitutionalOrchestrationEngine } from '../../core/runtime/governance-orchestration/InstitutionalOrchestrationEngine';
+import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
 import { ListTree } from 'lucide-react';
 
 export function StrategicResponseTimeline({ tenantId }: { tenantId: string }) {
-  const coord = InstitutionalOrchestrationEngine.getActiveCoordination(tenantId);
+  const coord = FiduciaryRuntimeAdapter.InstitutionalOrchestrationEngine.getActiveCoordination(tenantId);
   if (!coord) return null;
 
   return (

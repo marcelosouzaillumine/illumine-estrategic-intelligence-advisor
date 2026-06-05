@@ -1,5 +1,5 @@
 import React from 'react';
-import { EarlyWarningSignalEngine } from '../../core/runtime/early-warning/EarlyWarningSignalEngine';
+import { EarlyWarningSignalEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { Clock } from 'lucide-react';
 
 export function EarlyWarningTimeline({ tenantId }: { tenantId: string }) {

@@ -22,7 +22,7 @@ import { PageHeader } from '../Common';
 import { useAnnualFinancialData, useAllFinancialData } from '../../hooks/useFinancialData';
 import { getComputedBPSummary, getComputedDreMetrics } from '../../core/orchestration/financial-math-adapter';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { executiveRuntime, ExecutiveIntelligenceReport } from '../../services/FiduciaryRuntimeAdapter';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { InstitutionalCausalRootCausesPanel } from '../panels/causal-intelligence/InstitutionalCausalRootCausesPanel';

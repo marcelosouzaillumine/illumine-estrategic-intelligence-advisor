@@ -9,10 +9,11 @@ export class CashReinvestmentEngine {
     // If operational cash flow is negative, there is no generated cash to reinvest.
     if (fco <= 0) {
       return {
+        available: false,
         reinvestmentRate: null,
         classification: 'NAO_APLICAVEL',
         displayValue: 'Não Aplicável',
-        rationale: 'A operação consumiu caixa durante o exercício e não gerou excedente financeiro para reinvestimento.',
+        rationale: 'A operação consumiu caixa e não gerou excedente financeiro para reinvestimento.',
         confidenceLevel,
         sourceMetrics: { fco, fci }
       };

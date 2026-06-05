@@ -3,7 +3,7 @@ import { Gauge, Cpu, Database } from 'lucide-react';
 import { PageHeader } from '../Common';
 import { cn } from '../../lib/utils';
 import { RuntimeLatencyPanel } from '../performance/RuntimeLatencyPanel';
-import { RuntimeLatencySnapshot } from '../../core/runtime/profiling/ProfilingTypes';
+import { RuntimeLatencySnapshot } from '../../services/FiduciaryRuntimeAdapter';
 
 export function RuntimePerformancePage() {
   const [snapshot, setSnapshot] = useState<RuntimeLatencySnapshot | undefined>();

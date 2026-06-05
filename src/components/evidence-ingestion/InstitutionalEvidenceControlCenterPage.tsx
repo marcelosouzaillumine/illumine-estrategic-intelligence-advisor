@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShieldAlert, FileText, CheckCircle, AlertTriangle, Lock } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
-import { InstitutionalEvidenceValidationOutput } from '../../core/runtime/evidence-ingestion/InstitutionalEvidenceTypes';
+import { InstitutionalEvidenceValidationOutput } from '../../services/FiduciaryRuntimeAdapter';
 
 interface InstitutionalEvidenceControlCenterPageProps {
   evidenceReport?: InstitutionalEvidenceValidationOutput;

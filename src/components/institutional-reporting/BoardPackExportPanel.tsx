@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Download, CloudUpload, ShieldCheck } from 'lucide-react';
-import { BoardPackMetadata } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { BoardPackMetadata } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export function BoardPackExportPanel({ metadata }: { metadata: BoardPackMetadata }) {

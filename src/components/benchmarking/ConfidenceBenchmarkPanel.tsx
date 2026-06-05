@@ -1,5 +1,5 @@
 import React from 'react';
-import { BenchmarkConfidenceSignal } from '../../core/runtime/benchmarking/BenchmarkTypes';
+import { BenchmarkConfidenceSignal } from '../../services/FiduciaryRuntimeAdapter';
 
 export function ConfidenceBenchmarkPanel({ distribution }: { distribution: Record<BenchmarkConfidenceSignal, number> }) {
   if (!distribution) return null;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { EarlyWarningSignalEngine } from '../../core/runtime/early-warning/EarlyWarningSignalEngine';
-import { PredictiveRiskEvent } from '../../core/runtime/early-warning/EarlyWarningTypes';
+import { EarlyWarningSignalEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { PredictiveRiskEvent } from '../../services/FiduciaryRuntimeAdapter';
 import { Siren, AlertTriangle } from 'lucide-react';
 
 export function EarlyWarningFeed({ tenantId }: { tenantId: string }) {

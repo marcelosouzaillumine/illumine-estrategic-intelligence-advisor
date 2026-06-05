@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { AlertOctagon, Activity } from 'lucide-react';
-import { StrategicContradiction } from '../../core/runtime/strategic-intelligence/strategic-intelligence-types';
+import { StrategicContradiction } from '../../services/FiduciaryRuntimeAdapter';
 
 interface StrategicContradictionSurfaceProps {
   contradictions: StrategicContradiction[];

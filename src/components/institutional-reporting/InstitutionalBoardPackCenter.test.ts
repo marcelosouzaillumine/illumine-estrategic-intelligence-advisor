@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import { test, describe } from 'node:test';
-import { InstitutionalBoardPackOutput } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { InstitutionalBoardPackOutput } from '../../services/FiduciaryRuntimeAdapter';
 
 describe('UI Passivity Validation - InstitutionalBoardPackCenter', () => {
 

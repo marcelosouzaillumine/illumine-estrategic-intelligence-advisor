@@ -60,6 +60,12 @@ export class DLPABoardDecisionSupportEngine {
       priority = 'Recuperar rentabilidade e recompor a integridade do capital aportado.';
     }
 
+    const acaoRecomposicao = endingEquity <= 0
+      ? 'Aporte imediato de novos recursos pelos acionistas para restabelecer a solvência patrimonial.'
+      : (capitalConsumedRatio > 0
+          ? 'Suspensão total de dividendos discricionários e retenção de 100% dos lucros futuros até recomposição total.'
+          : 'Reinvestimento estratégico de lucros gerados para ampliação da base produtiva e do patrimônio líquido.');
+
     const framework = [
       { question: 'Como o patrimônio foi formado?', answer: formation },
       { question: 'Houve geração de riqueza?', answer: wealthGeneration },
@@ -68,7 +74,8 @@ export class DLPABoardDecisionSupportEngine {
       { question: 'Quanto capital ainda precisa ser recuperado?', answer: recoveryRequired },
       { question: 'Qual a dependência dos sócios?', answer: dependency },
       { question: 'Se nada for feito, o que acontece?', answer: whatHappens },
-      { question: 'Qual a prioridade do Conselho?', answer: priority }
+      { question: 'Qual a prioridade do Conselho?', answer: priority },
+      { question: 'Qual ação acelera a recomposição patrimonial?', answer: acaoRecomposicao }
     ];
 
     return {

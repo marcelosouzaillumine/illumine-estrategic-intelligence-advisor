@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FileText, AlertTriangle, Fingerprint, Activity, ShieldCheck, FileKey } from 'lucide-react';
-import { InstitutionalBoardPackOutput } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { InstitutionalBoardPackOutput } from '../../services/FiduciaryRuntimeAdapter';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 import { ExecutiveSnapshotSurface } from './ExecutiveSnapshotSurface';

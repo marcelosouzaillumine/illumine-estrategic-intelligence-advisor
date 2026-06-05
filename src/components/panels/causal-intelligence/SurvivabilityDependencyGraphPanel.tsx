@@ -1,7 +1,7 @@
 // src/components/panels/causal-intelligence/SurvivabilityDependencyGraphPanel.tsx
 
 import React, { useMemo } from 'react';
-import { CausalGraph, CausalNode, CausalSeverity } from '../../../core/runtime/causal-intelligence/types';
+import { CausalGraph, CausalNode, CausalSeverity } from '../../../services/FiduciaryRuntimeAdapter';
 import { Layers, ArrowRight } from 'lucide-react';
 
 interface DependencyGraphPanelProps {

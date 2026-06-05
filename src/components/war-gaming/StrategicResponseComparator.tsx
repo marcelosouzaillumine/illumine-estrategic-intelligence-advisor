@@ -1,7 +1,7 @@
 // src/components/war-gaming/StrategicResponseComparator.tsx
 
 import React from 'react';
-import { WarGameResult } from '../../core/runtime/war-gaming/war-gaming-types';
+import { WarGameResult } from '../../services/FiduciaryRuntimeAdapter';
 
 export function StrategicResponseComparator({ result }: { result: WarGameResult }) {
   if (!result) return null;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ProductGovernanceEngine } from '../../core/runtime/product-governance/ProductGovernanceEngine';
-import { QuotaId } from '../../core/runtime/product-governance/ProductGovernanceTypes';
+import { ProductGovernanceEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { QuotaId } from '../../services/FiduciaryRuntimeAdapter';
 import { Database, Plus } from 'lucide-react';
 
 export function UsageQuotaDashboard({ tenantId }: { tenantId: string }) {

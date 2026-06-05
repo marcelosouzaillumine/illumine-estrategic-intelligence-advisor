@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShoppingCart } from 'lucide-react';
-import { InstitutionalOfferingRegistry } from '../../core/runtime/commercial-readiness/InstitutionalOfferingRegistry';
+import { InstitutionalOfferingRegistry } from '../../services/FiduciaryRuntimeAdapter';
 
 export function CommercialPackagingViewer({ tenantId }: { tenantId: string }) {
   const tiers = InstitutionalOfferingRegistry.getTiers();

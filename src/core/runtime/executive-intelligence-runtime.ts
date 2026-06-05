@@ -112,6 +112,7 @@ import { ExecutiveConstitutionalRuntime } from './constitutional-governance/Exec
 import { ConstitutionalEnforcementGate } from './constitutional-governance/ConstitutionalEnforcementGate';
 import { ConstitutionalRestrictionEngine } from './constitutional-governance/ConstitutionalRestrictionEngine';
 import { ConstitutionalGovernanceMetadata } from './constitutional-governance/constitutional-types';
+import { ConstitutionalGovernanceDashboardEngine } from './constitutional-governance/ConstitutionalGovernanceDashboardEngine';
 
 const constRuntime = new ExecutiveConstitutionalRuntime();
 
@@ -167,6 +168,7 @@ export interface ExecutiveIntelligenceReport extends ConsolidatedRuntimeOutputEx
   isSandbox?: boolean;
   isDemonstrative?: boolean;
   fiduciaryWarnings?: string[];
+  constitutionalDashboard?: import('./constitutional-governance/constitutional-dashboard-types').ConstitutionalGovernanceDashboardOutput;
   canonicalState?: {
     status: string;
     trend: string;
@@ -1369,10 +1371,10 @@ export class ExecutiveIntelligenceRuntime implements
         { name: 'Receita Líquida',       val: recLiquida,          unit: 'currency', status: 'Verde' as const,    trend: 'Operacional',    tooltip: 'Receita após deduções e impostos sobre vendas.' },
         { name: 'EBITDA',                val: ebitda,              unit: 'currency', status: ebitda >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: ebitda >= 0 ? 'Positivo' : 'Negativo', tooltip: 'Geração de caixa operacional antes de juros, IR, depreciação e amortização.' },
         { name: 'Lucro Líquido',         val: lucroLiq,            unit: 'currency', status: lucroLiq >= 0 ? 'Verde' as const : 'Vermelho' as const, trend: lucroLiq >= 0 ? 'Lucrativo' : 'Prejuízo', tooltip: 'Resultado líquido após todos os custos, despesas e impostos.' },
-        { name: 'Margem de Contribuição',val: margemContrib,       unit: 'currency', status: mbVal >= 40 ? 'Verde' as const : mbVal >= 25 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'MC / ROL', tooltip: 'Receita Líquida - Custos Variáveis. Indica a sobra para pagar custos fixos.' },
+        { name: 'Margem de Contribuição',val: margemContrib,       unit: 'currency', status: mbVal >= 40 ? 'Verde' as const : mbVal >= 25 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'Margem de Contribuição / Receita Líquida', tooltip: 'Receita Líquida - Custos Variáveis. Indica a sobra para pagar custos fixos.' },
         { name: 'Margem EBITDA',         val: ebitdaVal,           unit: '%',        status: ebitdaVal >= 15 ? 'Verde' as const : ebitdaVal >= 8 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'EBITDA / ROL', tooltip: 'Percentual da receita líquida convertido em EBITDA.' },
-        { name: 'Receita Nec. Sustentação',val: breakEvenAnalysis.available ? breakEvenAnalysis.value.breakEvenGap : 0, unit: 'currency', status: (breakEvenAnalysis.available && breakEvenAnalysis.value.breakEvenGap === 0) ? 'Verde' as const : 'Vermelho' as const, trend: 'Gap para Break-even', tooltip: 'Ponto de Equilíbrio - Receita Líquida.' },
-        { name: 'Índice de Cobertura',   val: indiceCoberturaOperacional, unit: '%', status: indiceCoberturaOperacional >= 100 ? 'Verde' as const : indiceCoberturaOperacional >= 85 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'ROL / PE', tooltip: 'Quanto da receita atual cobre o ponto de equilíbrio.' }
+        { name: 'Distância para o Ponto de Equilíbrio',val: breakEvenAnalysis.available ? breakEvenAnalysis.value.breakEvenGap : 0, unit: 'currency', status: (breakEvenAnalysis.available && breakEvenAnalysis.value.breakEvenGap <= 0) ? 'Verde' as const : 'Vermelho' as const, trend: 'Distância para o Ponto de Equilíbrio', tooltip: 'Ponto de Equilíbrio - Receita Líquida.' },
+        { name: 'Índice de Cobertura do Ponto de Equilíbrio',   val: indiceCoberturaOperacional, unit: '%', status: indiceCoberturaOperacional >= 100 ? 'Verde' as const : indiceCoberturaOperacional >= 85 ? 'Amarelo' as const : 'Vermelho' as const, trend: 'Cobertura do Ponto de Equilíbrio', tooltip: 'Quanto da receita atual cobre o ponto de equilíbrio.' }
       ] : [];
       const kpis = rawKpis.map(k => KPISemanticIntelligenceEngine.enrich(k, segment));
 
@@ -1517,6 +1519,47 @@ export class ExecutiveIntelligenceRuntime implements
       return matches.reduce((acc, curr) => acc + (curr?.val || curr?.valor || curr?.value || 0), 0);
     };
 
+    const getHistValue = (y: number, docTypes: string[], nameFilters: string[]) => {
+      const yearEntries = allHistData.filter((d: any) => 
+        Number(d.year) === y && docTypes.some(t => normStr(d.type || '') === normStr(t))
+      );
+      const normalizedFilters = nameFilters.map(normStr);
+      const match = yearEntries.find((d: any) => {
+        const c = normStr(d.conta || d.category || d.name || '');
+        return normalizedFilters.some(n => c === n || c.includes(n));
+      });
+      return match?.val || match?.valor || match?.value || 0;
+    };
+
+    const getHistSum = (y: number, docTypes: string[], nameFilters: string[]) => {
+      const yearEntries = allHistData.filter((d: any) => 
+        Number(d.year) === y && docTypes.some(t => normStr(d.type || '') === normStr(t))
+      );
+      let sum = 0;
+      const normalizedFilters = nameFilters.map(normStr);
+      yearEntries.forEach((d: any) => {
+        const c = normStr(d.conta || d.category || d.name || '');
+        if (normalizedFilters.some(n => c === n || c.includes(n))) {
+          sum += (d.val || d.valor || d.value || 0);
+        }
+      });
+      return sum;
+    };
+
+    const depreciacaoDre = Math.abs(getHistSum(filtYear, ['dre', 'resultado'], ['depreciacao', 'amortizacao']));
+
+    const clientesAtual = getHistSum(filtYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['clientes', 'contas a receber', 'duplicatas a receber', 'recebiveis']);
+    const clientesAnt = getHistSum(filtYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['clientes', 'contas a receber', 'duplicatas a receber', 'recebiveis']);
+    const varClientes = clientesAnt - clientesAtual;
+
+    const estoqueAtual = getHistSum(filtYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['estoque', 'estoques', 'mercadorias']);
+    const estoqueAnt = getHistSum(filtYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['estoque', 'estoques', 'mercadorias']);
+    const varEstoque = estoqueAnt - estoqueAtual;
+
+    const fornecedoresAtual = getHistSum(filtYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['fornecedor', 'fornecedores', 'contas a pagar']);
+    const fornecedoresAnt = getHistSum(filtYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['fornecedor', 'fornecedores', 'contas a pagar']);
+    const varFornecedores = fornecedoresAtual - fornecedoresAnt;
+
     if (isOfficialDfcAvailable) {
       const yearDfcEntries = allHistData.filter((d: any) => 
         Number(d.year) === filtYear && (normStr(d.type || '') === 'dfc' || normStr(d.docType || '') === 'dfc')
@@ -1525,47 +1568,6 @@ export class ExecutiveIntelligenceRuntime implements
       fci = getDfcVal(yearDfcEntries, ['investimento', 'investimentos', 'fci', 'imobilizado', 'intangivel', 'aquisicao', 'venda', 'equipamento']);
       fcf = getDfcVal(yearDfcEntries, ['financiamento', 'financiamentos', 'fcf', 'capital', 'emprestimo', 'dividendo', 'distribuicao', 'socio', 'banco']);
     } else {
-      const getHistValue = (y: number, docTypes: string[], nameFilters: string[]) => {
-        const yearEntries = allHistData.filter((d: any) => 
-          Number(d.year) === y && docTypes.some(t => normStr(d.type || '') === normStr(t))
-        );
-        const normalizedFilters = nameFilters.map(normStr);
-        const match = yearEntries.find((d: any) => {
-          const c = normStr(d.conta || d.category || d.name || '');
-          return normalizedFilters.some(n => c === n || c.includes(n));
-        });
-        return match?.val || match?.valor || match?.value || 0;
-      };
-
-      const getHistSum = (y: number, docTypes: string[], nameFilters: string[]) => {
-        const yearEntries = allHistData.filter((d: any) => 
-          Number(d.year) === y && docTypes.some(t => normStr(d.type || '') === normStr(t))
-        );
-        let sum = 0;
-        const normalizedFilters = nameFilters.map(normStr);
-        yearEntries.forEach((d: any) => {
-          const c = normStr(d.conta || d.category || d.name || '');
-          if (normalizedFilters.some(n => c === n || c.includes(n))) {
-            sum += (d.val || d.valor || d.value || 0);
-          }
-        });
-        return sum;
-      };
-
-      const depreciacaoDre = Math.abs(getHistSum(filtYear, ['dre', 'resultado'], ['depreciacao', 'amortizacao']));
-
-      const clientesAtual = getHistSum(filtYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['clientes', 'contas a receber', 'duplicatas a receber', 'recebiveis']);
-      const clientesAnt = getHistSum(filtYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['clientes', 'contas a receber', 'duplicatas a receber', 'recebiveis']);
-      const varClientes = clientesAnt - clientesAtual;
-
-      const estoqueAtual = getHistSum(filtYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['estoque', 'estoques', 'mercadorias']);
-      const estoqueAnt = getHistSum(filtYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['estoque', 'estoques', 'mercadorias']);
-      const varEstoque = estoqueAnt - estoqueAtual;
-
-      const fornecedoresAtual = getHistSum(filtYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['fornecedor', 'fornecedores', 'contas a pagar']);
-      const fornecedoresAnt = getHistSum(filtYear - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['fornecedor', 'fornecedores', 'contas a pagar']);
-      const varFornecedores = fornecedoresAtual - fornecedoresAnt;
-
       fco = dreLucro + depreciacaoDre + varClientes + varEstoque + varFornecedores;
 
       const imobAtual = getHistSum(filtYear, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['imobilizado', 'intangivel', 'investimentos']);
@@ -2434,8 +2436,14 @@ export class ExecutiveIntelligenceRuntime implements
           }
         } as any
       },
-      featureFlags: rawData.featureFlags || rawData.rawFinancialData?.featureFlags
+      featureFlags: rawData.featureFlags || rawData.rawFinancialData?.featureFlags,
+      constitutionalDashboard: undefined as any // Placeholder to be populated
     };
+
+    // --- CGD (Constitutional Governance Dashboard) Inject ---
+    // Note: ConstitutionalGovernanceDashboardEngine is imported at the top of the file
+    initialReport.constitutionalDashboard = ConstitutionalGovernanceDashboardEngine.generate(initialReport);
+
 
     if (executivePatrimonialReport?.governanceConsistency?.consistencyStatus === 'FAIL_CLOSED') {
       initialReport.compliance.fiduciaryEnforcement.fiduciaryRestrictions.push({
@@ -2720,7 +2728,7 @@ export class ExecutiveIntelligenceRuntime implements
         } catch (e) {}
       }
       // Deduplicate and sort
-      const uniqueCyclesMap: Record<string, any> = {};
+      const uniqueCyclesMap: { [key: string]: any } = {};
       for (const cycle of parsedCyclesList) {
         if (cycle.cycleReference) {
           uniqueCyclesMap[cycle.cycleReference] = cycle;

@@ -404,7 +404,7 @@ export function GovernanceDashboardPage({
 
 
       {/* Strategic KPIs Grid - Standardized */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {strategicKPIs.map((kpi, idx) => (
           <KpiCard 
             key={idx}
@@ -419,7 +419,7 @@ export function GovernanceDashboardPage({
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
         {/* Radar Analysis */}
         <div className="card-premium p-12 flex flex-col">
           <div className="flex justify-between items-center mb-10">
@@ -542,7 +542,7 @@ export function GovernanceDashboardPage({
            </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
            {areaSnapshots.map((area, idx) => (
              <KpiCard
                key={idx}
@@ -626,7 +626,7 @@ export function GovernanceDashboardPage({
             </div>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
             {triggeredRules.map((rule) => (
               <GovernanceInsightPanel 
                 key={rule.id}
@@ -637,7 +637,7 @@ export function GovernanceDashboardPage({
               />
             ))}
             {triggeredRules.length === 0 && (
-              <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center p-12 bg-success/5 border border-success/20 rounded-md text-success">
+              <div className="col-span-1 xl:col-span-2 flex flex-col items-center justify-center p-12 bg-success/5 border border-success/20 rounded-md text-success">
                 <ShieldCheck size={48} className="mb-4 opacity-50" />
                 <h4 className="text-body-md font-medium tracking-tight mb-1 uppercase">{t('gov.ai.healthy_axis')}</h4>
                 <p className="text-[10px] font-medium opacity-80 text-center w-full max-w-2xl uppercase tracking-widest">{t('gov.ai.healthy_desc')}</p>

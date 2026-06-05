@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShieldCheck, ShieldAlert } from 'lucide-react';
-import { AIGroundingReference } from '../../core/runtime/ai-governance/AIGovernanceTypes';
+import { AIGroundingReference } from '../../services/FiduciaryRuntimeAdapter';
 
 export function CopilotGroundingBadge({ references }: { references: AIGroundingReference[] }) {
   if (references.length === 0) {

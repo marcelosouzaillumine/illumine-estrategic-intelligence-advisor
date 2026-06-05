@@ -37,7 +37,7 @@ import { PageHeader, Semaphore } from '../Common';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { getComputedBPSummary, getComputedDreMetrics } from '../../core/orchestration/financial-math-adapter';
-import { executiveRuntime, ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { executiveRuntime, ExecutiveIntelligenceReport } from '../../services/FiduciaryRuntimeAdapter';
 
 export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }: any) {
   const [year, setYear] = useState(selectedYear || new Date().getFullYear());

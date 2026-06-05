@@ -1,6 +1,6 @@
 import React from 'react';
 import { Target, CheckCircle2, Sparkles } from 'lucide-react';
-import { ExecutiveIntelligenceReport } from '../../core/runtime/executive-intelligence-runtime';
+import { ExecutiveIntelligenceReport } from '../../services/FiduciaryRuntimeAdapter';
 import { cn, formatValue } from '../../lib/utils';
 
 interface StrategicHighlightsPanelProps {

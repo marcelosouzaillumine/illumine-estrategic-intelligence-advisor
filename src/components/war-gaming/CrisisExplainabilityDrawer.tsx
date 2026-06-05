@@ -1,7 +1,7 @@
 // src/components/war-gaming/CrisisExplainabilityDrawer.tsx
 
 import React from 'react';
-import { CrisisExplainabilityProfile } from '../../core/runtime/war-gaming/war-gaming-types';
+import { CrisisExplainabilityProfile } from '../../services/FiduciaryRuntimeAdapter';
 
 export function CrisisExplainabilityDrawer({ profile }: { profile: CrisisExplainabilityProfile }) {
   if (!profile) return null;

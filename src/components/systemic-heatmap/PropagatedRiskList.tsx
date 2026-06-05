@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShieldAlert } from 'lucide-react';
-import { ContagionEdge } from '../../core/runtime/consolidated/stress/stress-types';
+import { ContagionEdge } from '../../services/FiduciaryRuntimeAdapter';
 import { cn } from '../../lib/utils';
 
 export function PropagatedRiskList({ risks }: { risks: ContagionEdge[] }) {

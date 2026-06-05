@@ -3,7 +3,7 @@
 import React from 'react';
 import { usePilotOperations } from '../../context/pilot-operations/PilotOperationsProvider';
 import { CheckCircle2, Lock, ShieldAlert, Sparkles, Milestone } from 'lucide-react';
-import { ONBOARDING_STEPS } from '../../core/runtime/pilot-operations/ExecutiveOnboardingEngine';
+import { ONBOARDING_STEPS } from '../../services/FiduciaryRuntimeAdapter';
 
 export const ExecutiveOnboardingSurface: React.FC = () => {
   const { onboardingState, onboardingProgress, completeOnboardingStep, pilotStatus } = usePilotOperations();

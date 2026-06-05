@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProductPlanRegistry } from '../../core/runtime/product-governance/ProductPlanRegistry';
+import { ProductPlanRegistry } from '../../services/FiduciaryRuntimeAdapter';
 import { ShieldCheck } from 'lucide-react';
 
 export function ProductPlanRegistryPanel() {

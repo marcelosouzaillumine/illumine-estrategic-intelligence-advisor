@@ -7,6 +7,7 @@ import { DRE_OFFICIAL_STRUCTURE } from '../../constants/dreStructure';
 import { DFCSemanticCanonicalRootResolver } from '../../core/runtime/lifecycle/DFCSemanticCanonicalRootResolver';
 import { ExecutiveLifecycleContextResolver } from '../../core/runtime/lifecycle/ExecutiveLifecycleContextResolver';
 import { FiduciaryCashIntelligenceRuntime } from '../../core/runtime/cash-intelligence/FiduciaryCashIntelligenceRuntime';
+import { CashQualityExplainabilityEngine } from '../../core/runtime/cash-intelligence/CashQualityExplainabilityEngine';
 
 const localNormalizeString = (s: string) => 
   s.toLowerCase()
@@ -1621,6 +1622,40 @@ export const LegacyDFCAdapter: EngineDefinition = {
         ? allHistoryData.filter((d: any) => Number(d.year) === filterYear && matchDocType(d, ['dfc']))
         : [];
 
+      let consecutiveNegativeFCOCycles = 0;
+      for (let offset = 0; offset < 5; offset++) {
+        const y = filterYear - offset;
+        const yearEntries = allHistoryData.filter((d: any) => Number(d.year) === y && matchDocType(d, ['dfc']));
+        let o = 0;
+        if (yearEntries.length > 0) {
+          o = getDfcSectionSubtotal(yearEntries, 'FCO');
+          if (o === 0) o = getDfcSectionSum(yearEntries, 'FCO');
+        } else {
+          const yLL = getHistoricalValue(y, ['dre', 'resultado'], ['lucro liquido', 'lucro do exercicio', 'resultado do exercicio', 'resultado liquido', 'lucro/prejuizo do exercicio']);
+          const yDep = Math.abs(getHistoricalSum(y, ['dre', 'resultado'], ['depreciacao', 'amortizacao']));
+          const yClientesAtual = getHistoricalSum(y, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['clientes', 'contas a receber', 'duplicatas a receber', 'recebiveis']);
+          const yClientesAnt = getHistoricalSum(y - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['clientes', 'contas a receber', 'duplicatas a receber', 'recebiveis']);
+          const yEstoqueAtual = getHistoricalSum(y, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['estoque', 'estoques', 'mercadorias']);
+          const yEstoqueAnt = getHistoricalSum(y - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['estoque', 'estoques', 'mercadorias']);
+          const yFornecedoresAtual = getHistoricalSum(y, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['fornecedor', 'fornecedores', 'contas a pagar']);
+          const yFornecedoresAnt = getHistoricalSum(y - 1, ['balanço patrimonial', 'bp', 'balanco patrimonial', 'balanco'], ['fornecedor', 'fornecedores', 'contas a pagar']);
+          o = yLL + yDep + (yClientesAnt - yClientesAtual) + (yEstoqueAnt - yEstoqueAtual) + (yFornecedoresAtual - yFornecedoresAnt);
+        }
+        if (o < 0) {
+          consecutiveNegativeFCOCycles++;
+        } else {
+          break;
+        }
+      }
+
+      const receitaAnt = getHistoricalValue(filterYear - 1, ['dre', 'resultado'], ['receita liquida', 'receita operacional liquida', 'receitas liquidas', 'faturamento liquido', 'rol']);
+      const inventoryGrowth = estoqueAnt > 0 ? (estoqueAtual - estoqueAnt) / estoqueAnt : 0;
+      const revenueGrowth = receitaAnt > 0 ? (receitaLiquida - receitaAnt) / receitaAnt : 0;
+      const isInventoryGrowthExceedingRevenue = inventoryGrowth > revenueGrowth && estoqueAtual > estoqueAnt;
+
+      const receivablesGrowth = clientesAnt > 0 ? (clientesAtual - clientesAnt) / clientesAnt : 0;
+      const isReceivablesGrowthExceedingRevenue = receivablesGrowth > revenueGrowth && clientesAtual > clientesAnt;
+
       const cashSustainabilityReport = FiduciaryCashIntelligenceRuntime.evaluate(
         dfcDataEntries,
         lucroLiquido,
@@ -1644,8 +1679,73 @@ export const LegacyDFCAdapter: EngineDefinition = {
         patrimonioLiquido,
         undefined,
         undefined,
-        receitaLiquida
+        receitaLiquida,
+        varClientes,
+        varEstoque,
+        varFornecedores,
+        Math.abs(sga),
+        consecutiveNegativeFCOCycles,
+        isInventoryGrowthExceedingRevenue,
+        isReceivablesGrowthExceedingRevenue
       );
+
+      const cashQualityObj = {
+        score: cashQualityScore,
+        level: cqsLevel,
+        semanticLabel: (isEarly && profile?.cashStatus?.semanticLabel) ? profile.cashStatus.semanticLabel : cqsSemanticLabel,
+        rawRiskLevel: (isEarly && profile?.cashStatus?.semanticLabel) ? 'Critical Cash Integrity Risk' : cqsLevel,
+        alerts: cqsAlerts,
+        dimensions: {
+          conversion: {
+            value: conversionVal,
+            score: conversionScore,
+            formula: conversionFormula,
+            lineage: conversionLineage,
+            adjustments: conversionAdjustments,
+            rationale: conversionRationale
+          },
+          dependency: {
+            value: dependencyVal,
+            score: dependencyScore,
+            formula: dependencyFormula,
+            lineage: dependencyLineage,
+            adjustments: dependencyAdjustments,
+            rationale: dependencyRationale
+          },
+          liquidity: {
+            value: liquidityVal,
+            score: liquidityScore,
+            formula: liquidityFormula,
+            lineage: liquidityLineage,
+            adjustments: liquidityAdjustments,
+            rationale: liquidityRationale
+          },
+          stress: {
+            value: stressVal,
+            score: stressScore,
+            formula: stressFormula,
+            lineage: stressLineage,
+            adjustments: stressAdjustments,
+            rationale: stressRationale
+          },
+          workingCapital: {
+            value: wcScore,
+            score: wcScore,
+            formula: wcFormula,
+            lineage: wcLineage,
+            adjustments: wcAdjustments,
+            rationale: wcRationale
+          },
+          sustainability: {
+            value: sustainabilityScore,
+            score: sustainabilityScore,
+            formula: sustainabilityFormula,
+            lineage: sustainabilityLineage,
+            adjustments: sustainabilityAdjustments,
+            rationale: sustainabilityRationale
+          }
+        }
+      };
 
       const metrics = {
           fco,
@@ -1681,7 +1781,7 @@ export const LegacyDFCAdapter: EngineDefinition = {
             partesRelacionadasAtivoTotal,
             drenagemSocietaria,
             liquidezOperacionalReal,
-            runway: runwayFid,
+            runway: cashSustainabilityReport.runwayMonths ?? runwayFid,
             runwayAudit: runwayAudit,
             conversaoEbitdaCaixa: conversaoEbitdaCaixaFid,
             stressLiquidez: stressLiquidezStatus,
@@ -1715,64 +1815,16 @@ export const LegacyDFCAdapter: EngineDefinition = {
             cashBoardDecisionFramework: cashSustainabilityReport.cashBoardDecisionFramework,
             cashExecutiveAdvisory: cashSustainabilityReport.cashExecutiveAdvisory,
             cashReinvestmentAnalysis: cashSustainabilityReport.cashReinvestmentAnalysis,
-            cashQuality: {
-              score: cashQualityScore,
-              level: cqsLevel,
-              semanticLabel: (isEarly && profile?.cashStatus?.semanticLabel) ? profile.cashStatus.semanticLabel : cqsSemanticLabel,
-              rawRiskLevel: (isEarly && profile?.cashStatus?.semanticLabel) ? 'Critical Cash Integrity Risk' : cqsLevel,
-              alerts: cqsAlerts,
-
-              dimensions: {
-                conversion: {
-                  value: conversionVal,
-                  score: conversionScore,
-                  formula: conversionFormula,
-                  lineage: conversionLineage,
-                  adjustments: conversionAdjustments,
-                  rationale: conversionRationale
-                },
-                dependency: {
-                  value: dependencyVal,
-                  score: dependencyScore,
-                  formula: dependencyFormula,
-                  lineage: dependencyLineage,
-                  adjustments: dependencyAdjustments,
-                  rationale: dependencyRationale
-                },
-                liquidity: {
-                  value: liquidityVal,
-                  score: liquidityScore,
-                  formula: liquidityFormula,
-                  lineage: liquidityLineage,
-                  adjustments: liquidityAdjustments,
-                  rationale: liquidityRationale
-                },
-                stress: {
-                  value: stressVal,
-                  score: stressScore,
-                  formula: stressFormula,
-                  lineage: stressLineage,
-                  adjustments: stressAdjustments,
-                  rationale: stressRationale
-                },
-                workingCapital: {
-                  value: wcScore,
-                  score: wcScore,
-                  formula: wcFormula,
-                  lineage: wcLineage,
-                  adjustments: wcAdjustments,
-                  rationale: wcRationale
-                },
-                sustainability: {
-                  value: sustainabilityScore,
-                  score: sustainabilityScore,
-                  formula: sustainabilityFormula,
-                  lineage: sustainabilityLineage,
-                  adjustments: sustainabilityAdjustments,
-                  rationale: sustainabilityRationale
-                }
-              }
-            },
+            cashQuality: cashQualityObj,
+            cqsExplainability: CashQualityExplainabilityEngine.explain(cashQualityObj),
+            dfcExecutiveSnapshot: cashSustainabilityReport.dfcExecutiveSnapshot,
+            dfcPriorities: cashSustainabilityReport.dfcPriorities,
+            compressedAdvisory: cashSustainabilityReport.compressedAdvisory,
+            consistencyAudit: cashSustainabilityReport.consistencyAudit,
+            causalIntelligence: cashSustainabilityReport.causalIntelligence,
+            scenarioIntelligence: cashSustainabilityReport.scenarioIntelligence,
+            earlyWarningSystem: cashSustainabilityReport.earlyWarningSystem,
+            treasurySustainability: cashSustainabilityReport.treasurySustainability,
             earningsQuality: {
               score: eqsScore,
               level: eqsLevel,

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Network } from 'lucide-react';
-import { InstitutionalStrategicIntelligenceOutput } from '../../core/runtime/strategic-intelligence/strategic-intelligence-types';
+import { InstitutionalStrategicIntelligenceOutput } from '../../services/FiduciaryRuntimeAdapter';
 
 import { StrategicPosturePanel } from './StrategicPosturePanel';
 import { InstitutionalVectorMap } from './InstitutionalVectorMap';

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { AlertOctagon, ShieldAlert, KeyRound, Lock } from 'lucide-react';
-import { FiduciaryRestriction, ReportGenerationStatus } from '../../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { FiduciaryRestriction, ReportGenerationStatus } from '../../../services/FiduciaryRuntimeAdapter';
 import { EXECUTIVE_SEVERITY_THEME } from './ExecutiveSeverityTheme';
 import { useLanguage } from '../../../contexts/LanguageContext';
 

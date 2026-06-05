@@ -1,7 +1,7 @@
 import React from 'react';
 import { GitBranch } from 'lucide-react';
-import { GoldenDatasetProfile } from '../../core/runtime/reality-validation/RealityValidationTypes';
-import { IntercompanyComplexitySimulator } from '../../core/runtime/reality-validation/IntercompanyComplexitySimulator';
+import { GoldenDatasetProfile } from '../../services/FiduciaryRuntimeAdapter';
+import { IntercompanyComplexitySimulator } from '../../services/FiduciaryRuntimeAdapter';
 
 interface Props { tenantId: string; dataset: GoldenDatasetProfile }
 

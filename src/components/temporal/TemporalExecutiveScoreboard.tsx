@@ -1,5 +1,5 @@
 import React from 'react';
-import { TemporalCausalityOutput } from '../../core/runtime/institutional-memory/types';
+import { TemporalCausalityOutput } from '../../services/FiduciaryRuntimeAdapter';
 
 interface ScoreboardProps {
   temporalData: TemporalCausalityOutput;

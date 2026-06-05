@@ -1,5 +1,5 @@
 import React from 'react';
-import { BenchmarkMetric } from '../../core/runtime/benchmarking/BenchmarkTypes';
+import { BenchmarkMetric } from '../../services/FiduciaryRuntimeAdapter';
 
 export function BenchmarkComparisonChart({ metrics }: { metrics: BenchmarkMetric[] }) {
   if (!metrics || metrics.length === 0) return null;

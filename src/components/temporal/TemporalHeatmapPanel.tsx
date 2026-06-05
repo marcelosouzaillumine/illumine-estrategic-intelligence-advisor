@@ -1,5 +1,5 @@
 import React from 'react';
-import { TemporalDensityMap } from '../../core/runtime/institutional-memory/types';
+import { TemporalDensityMap } from '../../services/FiduciaryRuntimeAdapter';
 
 interface TemporalHeatmapPanelProps {
   densityMaps: TemporalDensityMap[];

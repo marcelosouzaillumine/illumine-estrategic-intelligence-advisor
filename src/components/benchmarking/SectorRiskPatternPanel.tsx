@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectorRiskPatternAnalyzer } from '../../core/runtime/benchmarking/SectorRiskPatternAnalyzer';
+import { SectorRiskPatternAnalyzer } from '../../services/FiduciaryRuntimeAdapter';
 import { AlertTriangle, Info } from 'lucide-react';
 
 export function SectorRiskPatternPanel({ sector }: { sector: string }) {

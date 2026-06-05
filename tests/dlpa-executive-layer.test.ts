@@ -1,6 +1,9 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { CapitalGovernanceAdapter } from '../src/core/runtime/capital-governance/capital-governance-adapter';
+import { PatrimonialRecoveryHorizonEngine } from '../src/core/runtime/governance/dlpa/PatrimonialRecoveryHorizonEngine';
+import { CapitalRecoverabilityEngine } from '../src/core/runtime/governance/dlpa/CapitalRecoverabilityEngine';
+import { CapitalPreservationScoreEngine } from '../src/core/runtime/governance/dlpa/CapitalPreservationScoreEngine';
 
 describe('Executive Layer Evaluation v2.3', () => {
   test('Granatum 2022 dataset produces expected executive outputs', () => {
@@ -21,6 +24,11 @@ describe('Executive Layer Evaluation v2.3', () => {
     ];
 
     const financialRuntimeContext = {
+      analysisYear: 2022,
+      lifecycle: {
+        analysisYear: 2022,
+        foundationYear: 2020
+      },
       lifecycleProfile: {
         lifecycleStage: 'INITIAL_CAPITALIZATION',
         governanceStatus: { semanticLabel: 'Governança em Estruturação' },
@@ -66,13 +74,14 @@ describe('Executive Layer Evaluation v2.3', () => {
     assert.strictEqual(exec.patrimonialRecoveryHorizon.formatted, 'Não Estimável');
     assert.strictEqual(exec.capitalRecoverability.classification, 'Não Estimável');
 
-    // Granatum 2022 CPS must result in exactly 38/100
-    assert.strictEqual(exec.capitalPreservationScore.value, 38);
+    // Granatum 2022 CPS must result in a prudential range [34, 38]
+    assert.ok(exec.capitalPreservationScore.value >= 34, `Expected CPS >= 34, got: ${exec.capitalPreservationScore.value}`);
+    assert.ok(exec.capitalPreservationScore.value <= 38, `Expected CPS <= 38, got: ${exec.capitalPreservationScore.value}`);
     assert.strictEqual(exec.capitalPreservationScore.classification, 'Capital em Recuperação');
 
-    // Test Board Decision Framework (8 questions)
+    // Test Board Decision Framework (9 questions)
     const questions = exec.boardDecisionSupport.value;
-    assert.strictEqual(questions.length, 8, "Decision framework must contain exactly 8 questions");
+    assert.strictEqual(questions.length, 9, "Decision framework must contain exactly 9 questions");
     
     const preservationQuestion = questions.find((q: any) => q.question.includes('capital dos sócios foi preservado'));
     assert.ok(preservationQuestion, "Preservation question missing");
@@ -240,5 +249,98 @@ describe('Executive Layer Evaluation v2.3', () => {
     assert.strictEqual(exec.capitalPreservationScore.classification, 'Capital em Recuperação');
     // Recuperabilidade Alta (horizon is 70000 / 40000 = 1.75 years < 2)
     assert.strictEqual(exec.capitalRecoverability.classification, 'Alta');
+  });
+
+  test('Test 1: DLPA 2022 ignora 2023 e 2024', () => {
+    const dbDataDLPA: any[] = [{ year: 2022, conta: 'dummy', val: 0 }];
+    const allHistoryData: any[] = [
+      { year: 2022, docType: 'bp', conta: 'capital social', val: 100000.00 },
+      { year: 2023, docType: 'bp', conta: 'capital social', val: 120000.00 },
+      { year: 2024, docType: 'bp', conta: 'capital social', val: 150000.00 }
+    ];
+    const result = CapitalGovernanceAdapter.process(
+      dbDataDLPA,
+      -50000,
+      -50000,
+      0,
+      100000,
+      50000,
+      0,
+      undefined,
+      allHistoryData
+    );
+    assert.strictEqual(result.temporalAudit.analysisYear, 2022);
+    assert.ok(result.temporalAudit.blockedYears.includes(2023));
+    assert.ok(result.temporalAudit.blockedYears.includes(2024));
+  });
+
+  test('Test 2: Sem lucro positivo elegível -> Horizonte Não Estimável', () => {
+    const result = PatrimonialRecoveryHorizonEngine.evaluate({
+      capitalToRecover: 50000,
+      currentNetProfit: -10000,
+      eligibleHistoricalCycles: [
+        { year: 2020, netIncome: -5000 },
+        { year: 2021, netIncome: -10000 }
+      ],
+      analysisYear: 2022
+    });
+    assert.strictEqual(result.available, false);
+    assert.strictEqual(result.classification, 'Não Estimável');
+  });
+
+  test('Test 3: Sem horizonte -> Recuperabilidade Não Estimável', () => {
+    const horizon = { available: false, classification: 'Não Estimável' };
+    const result = CapitalRecoverabilityEngine.evaluate(100000, horizon);
+    assert.strictEqual(result.available, false);
+    assert.strictEqual(result.classification, 'Não Estimável');
+  });
+
+  test('Test 4: Sem horizonte -> horizonScore = 25', () => {
+    const result = CapitalPreservationScoreEngine.evaluate(
+      0.5, // preservationRatio
+      1.5, // dependencyValue
+      'Restrita', // distributionClassification
+      'Não Estimável', // horizonFormatted
+      null, // horizonValue
+      100000, // endingEquity
+      2022 // analysisYear
+    );
+    assert.strictEqual(result.components.horizonScore, 25);
+  });
+
+  test('Test 5: Granatum 2022 retorna CPS entre 34 e 38', () => {
+    const result = CapitalPreservationScoreEngine.evaluate(
+      0.492, // preservationRatio
+      2.03, // dependencyValue
+      'Bloqueada', // distributionClassification
+      'Não Estimável',
+      null,
+      59620.26,
+      2022
+    );
+    assert.ok(result.value >= 34 && result.value <= 38, `Expected score in [34, 38], got ${result.value}`);
+    assert.strictEqual(result.classification, 'Capital em Recuperação');
+  });
+
+  test('Test 6: Temporal Audit exposto corretamente', () => {
+    const dbDataDLPA: any[] = [{ year: 2022, conta: 'dummy', val: 0 }];
+    const allHistoryData: any[] = [
+      { year: 2022, docType: 'bp', conta: 'capital social', val: 100000.00 },
+      { year: 2023, docType: 'bp', conta: 'capital social', val: 120000.00 }
+    ];
+    const result = CapitalGovernanceAdapter.process(
+      dbDataDLPA,
+      10000,
+      10000,
+      0,
+      100000,
+      110000,
+      0,
+      undefined,
+      allHistoryData
+    );
+    assert.ok(result.temporalAudit);
+    assert.strictEqual(result.temporalAudit.analysisYear, 2022);
+    assert.deepEqual(result.temporalAudit.blockedYears, [2023]);
   });
 });

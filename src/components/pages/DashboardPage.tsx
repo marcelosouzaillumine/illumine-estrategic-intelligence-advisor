@@ -496,7 +496,7 @@ export function DashboardPage({
       )}
 
       {/* Strategic Summary Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {[
           { label: t('dashboard.kpi.net_revenue'), value: getIndicatorValue('Receita Líquida'), key: 'Receita Líquida', isCur: true, icon: TrendingUp },
           { label: t('dashboard.kpi.ebitda'), value: getIndicatorValue('EBITDA'), key: 'EBITDA', isCur: true, icon: Zap },
@@ -535,7 +535,7 @@ export function DashboardPage({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
           {AXIS_DATA.map((axis) => (
             <AxisCard 
               key={axis.id} 
@@ -550,8 +550,8 @@ export function DashboardPage({
       </div>
 
       {/* Mid Section: Charts and AI */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        <div className="lg:col-span-2 space-y-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
+        <div className="xl:col-span-2 space-y-8">
           <div className="bg-card p-12 rounded-[48px] border border-border shadow-sm relative overflow-hidden">
             <div className="flex items-center justify-between mb-12">
               <div className="space-y-1">
@@ -599,137 +599,137 @@ export function DashboardPage({
                   />
                   <RechartsTooltip 
                     contentStyle={{ 
-                      borderRadius: '24px', 
-                      border: `1px solid ${colors.border}`, 
-                      backgroundColor: colors.cardBg,
-                      color: colors.cardFg,
-                      boxShadow: 'var(--shadow-md)', 
-                      fontSize: '12px',
-                      padding: '16px'
-                    }}
-                    cursor={{ stroke: colors.border, strokeWidth: 2 }}
-                    formatter={(value: number) => [formatCurrency(value), '']}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="Receita" 
-                    stroke={colors.primary} 
-                    strokeWidth={4} 
-                    fillOpacity={1} 
-                    fill="url(#colorRec)" 
-                    animationDuration={2000}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="EBITDA" 
-                    stroke={colors.secondary} 
-                    strokeWidth={4} 
-                    fillOpacity={1} 
-                    fill="url(#colorEbitda)" 
-                    animationDuration={2500}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+                        borderRadius: '24px', 
+                        border: `1px solid ${colors.border}`, 
+                        backgroundColor: colors.cardBg,
+                        color: colors.cardFg,
+                        boxShadow: 'var(--shadow-md)', 
+                        fontSize: '12px',
+                        padding: '16px'
+                      }}
+                      cursor={{ stroke: colors.border, strokeWidth: 2 }}
+                      formatter={(value: number) => [formatCurrency(value), '']}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="Receita" 
+                      stroke={colors.primary} 
+                      strokeWidth={4} 
+                      fillOpacity={1} 
+                      fill="url(#colorRec)" 
+                      animationDuration={2000}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="EBITDA" 
+                      stroke={colors.secondary} 
+                      strokeWidth={4} 
+                      fillOpacity={1} 
+                      fill="url(#colorEbitda)" 
+                      animationDuration={2500}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="space-y-10">
-          <div className="bg-primary rounded-[48px] p-12 text-primary-foreground relative overflow-hidden h-full flex flex-col group shadow-2xl shadow-primary/20">
-            <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:scale-125 group-hover:-rotate-12 transition-all duration-1000">
-              <Sparkles size={140} className="text-secondary" />
-            </div>
-            
-            <div className="relative z-10 flex-1">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center text-primary shadow-lg shadow-secondary/20 animate-pulse">
-                  <Zap size={24} fill="currentColor" />
-                </div>
-                <div>
-                   <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{t('dashboard.ai.executive_opinion')}</h3>
-                   <p className="text-white/60 text-[9px] font-bold uppercase tracking-widest">{t('dashboard.ai.activated')}</p>
-                </div>
+  
+          <div className="space-y-10">
+            <div className="bg-primary rounded-[48px] p-12 text-primary-foreground relative overflow-hidden h-full flex flex-col group shadow-2xl shadow-primary/20">
+              <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:scale-125 group-hover:-rotate-12 transition-all duration-1000">
+                <Sparkles size={140} className="text-secondary" />
               </div>
               
-              <div className="space-y-8">
-                <h4 className="text-3xl font-display font-medium leading-[1.1] tracking-tight">
-                  {dbIndicators.length > 0 ? t('dashboard.ai.consolidated_insight') : t('dashboard.ai.waiting_data')}
-                </h4>
-                <div className="relative">
-                   <div className="absolute -left-6 top-0 bottom-0 w-1 bg-secondary/30 rounded-full" />
-                   <p className="text-primary-foreground/70 text-lg leading-relaxed italic font-light">
-                    {dbIndicators.length > 0 
-                      ? t('dashboard.ai.mock_correlation')
-                      : t('dashboard.ai.mock_require_data')}
-                   </p>
+              <div className="relative z-10 flex-1">
+                <div className="flex items-center gap-4 mb-10">
+                  <div className="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center text-primary shadow-lg shadow-secondary/20 animate-pulse">
+                    <Zap size={24} fill="currentColor" />
+                  </div>
+                  <div>
+                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{t('dashboard.ai.executive_opinion')}</h3>
+                     <p className="text-white/60 text-[9px] font-bold uppercase tracking-widest">{t('dashboard.ai.activated')}</p>
+                  </div>
                 </div>
                 
-                {dbIndicators.length > 0 && (
-                  <div className="pt-8 flex items-center gap-4">
-                    <div className="flex -space-x-2">
-                       {[1,2,3].map(i => (
-                         <div key={i} className="w-8 h-8 rounded-full border-2 border-primary bg-secondary/20 flex items-center justify-center text-[10px] font-bold">AI</div>
-                       ))}
-                    </div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">{t('dashboard.ai.based_on_data')}</span>
+                <div className="space-y-8">
+                  <h4 className="text-3xl font-display font-medium leading-[1.1] tracking-tight">
+                    {dbIndicators.length > 0 ? t('dashboard.ai.consolidated_insight') : t('dashboard.ai.waiting_data')}
+                  </h4>
+                  <div className="relative">
+                     <div className="absolute -left-6 top-0 bottom-0 w-1 bg-secondary/30 rounded-full" />
+                     <p className="text-primary-foreground/70 text-lg leading-relaxed italic font-light">
+                      {dbIndicators.length > 0 
+                        ? t('dashboard.ai.mock_correlation')
+                        : t('dashboard.ai.mock_require_data')}
+                     </p>
                   </div>
-                )}
+                  
+                  {dbIndicators.length > 0 && (
+                    <div className="pt-8 flex items-center gap-4">
+                      <div className="flex -space-x-2">
+                         {[1,2,3].map(i => (
+                           <div key={i} className="w-8 h-8 rounded-full border-2 border-primary bg-secondary/20 flex items-center justify-center text-[10px] font-bold">AI</div>
+                         ))}
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">{t('dashboard.ai.based_on_data')}</span>
+                    </div>
+                  )}
+                </div>
               </div>
+  
+              <Button 
+                onClick={() => onNavigate('advisory_insights')}
+                className="mt-12 w-full py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10"
+              >
+                {t('dashboard.btn.access_advisory')} <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
+              </Button>
             </div>
-
+          </div>
+        </div>
+  
+        {/* Bottom Insights Section */}
+        <div className="bg-card border border-border rounded-2xl p-10 md:p-16 shadow-sm hover:shadow-md transition-shadow">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-16">
+            <div className="space-y-1">
+              <h3 className="text-3xl font-display font-medium text-foreground tracking-tight">{t('dashboard.guidance.title')}</h3>
+              <p className="text-body-md text-muted-foreground font-medium">{t('dashboard.guidance.subtitle')}</p>
+            </div>
             <Button 
-              onClick={() => onNavigate('advisory_insights')}
-              className="mt-12 w-full py-5 bg-secondary text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group shadow-xl shadow-secondary/10"
+              onClick={() => onNavigate('relatorio_executivo')}
+              className="flex items-center gap-3 px-5 md:px-8 py-2.5 md:py-4 bg-surface-container text-foreground rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all border border-border shadow-sm shrink-0"
             >
-              {t('dashboard.btn.access_advisory')} <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
+              {t('dashboard.btn.generate_report')}
             </Button>
           </div>
-        </div>
-      </div>
-
-      {/* Bottom Insights Section */}
-      <div className="bg-card border border-border rounded-2xl p-10 md:p-16 shadow-sm hover:shadow-md transition-shadow">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-16">
-          <div className="space-y-1">
-            <h3 className="text-3xl font-display font-medium text-foreground tracking-tight">{t('dashboard.guidance.title')}</h3>
-            <p className="text-body-md text-muted-foreground font-medium">{t('dashboard.guidance.subtitle')}</p>
-          </div>
-          <Button 
-            onClick={() => onNavigate('relatorio_executivo')}
-            className="flex items-center gap-3 px-5 md:px-8 py-2.5 md:py-4 bg-surface-container text-foreground rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all border border-border shadow-sm shrink-0"
-          >
-            {t('dashboard.btn.generate_report')}
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {dbIndicators.length > 0 ? (
-            AXIS_DATA.slice(0, 3).map((axis, idx) => {
-              const val = getIndicatorValue(axis.mainKpi);
-              const status = getIndicatorStatus(axis.mainKpi);
-              return (
-                <div key={idx} className="bg-surface-container/30 border border-border p-8 rounded-2xl flex gap-6 group cursor-pointer transition-all hover:bg-surface-container" onClick={() => onNavigate(axis.id)}>
-                  <div className="shrink-0 pt-2">
-                    <div className="w-4 h-4 rounded-full flex items-center justify-center border-2 border-border group-hover:border-secondary transition-colors">
-                       <Semaphore status={status} />
+  
+          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
+            {dbIndicators.length > 0 ? (
+              AXIS_DATA.slice(0, 3).map((axis, idx) => {
+                const val = getIndicatorValue(axis.mainKpi);
+                const status = getIndicatorStatus(axis.mainKpi);
+                return (
+                  <div key={idx} className="bg-surface-container/30 border border-border p-8 rounded-2xl flex gap-6 group cursor-pointer transition-all hover:bg-surface-container" onClick={() => onNavigate(axis.id)}>
+                    <div className="shrink-0 pt-2">
+                      <div className="w-4 h-4 rounded-full flex items-center justify-center border-2 border-border group-hover:border-secondary transition-colors">
+                         <Semaphore status={status} />
+                      </div>
+                    </div>
+                    <div className="space-y-2 min-w-0 flex-1 overflow-visible">
+                      <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] group-hover:text-secondary transition-colors break-words leading-normal">{axis.name}</h4>
+                      <KpiValue 
+                        value={val > 0 ? formatValue(val, '') : '0,00'} 
+                        suffix={axis.suffix}
+                        noScroll={true}
+                        className="text-lg font-medium text-foreground tracking-tight"
+                      />
+                      <div className="flex items-center justify-between gap-2 pt-2 overflow-visible">
+                         <span className="text-[9px] font-bold text-secondary uppercase tracking-widest opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">{t('dashboard.btn.analyze')}</span>
+                         <span className="text-[9px] font-medium text-muted-foreground uppercase break-words leading-normal">{t(`gov.area.${axis.id.replace('dashboard_', '').replace('governanca_estrategica', 'governance')}`, axis.name)}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="space-y-2 min-w-0 flex-1 overflow-visible">
-                    <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] group-hover:text-secondary transition-colors break-words leading-normal">{axis.name}</h4>
-                    <KpiValue 
-                      value={val > 0 ? formatValue(val, '') : '0,00'} 
-                      suffix={axis.suffix}
-                      noScroll={true}
-                      className="text-lg font-medium text-foreground tracking-tight"
-                    />
-                    <div className="flex items-center justify-between gap-2 pt-2 overflow-visible">
-                       <span className="text-[9px] font-bold text-secondary uppercase tracking-widest opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">{t('dashboard.btn.analyze')}</span>
-                       <span className="text-[9px] font-medium text-muted-foreground uppercase break-words leading-normal">{t(`gov.area.${axis.id.replace('dashboard_', '').replace('governanca_estrategica', 'governance')}`, axis.name)}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })
+                );
+              })
           ) : (
             <div className="col-span-3 py-16 text-center bg-surface-container/30 rounded-[32px] border border-dashed border-border">
               <p className="text-sm text-muted-foreground font-medium italic">{t('dashboard.guidance.empty')}</p>

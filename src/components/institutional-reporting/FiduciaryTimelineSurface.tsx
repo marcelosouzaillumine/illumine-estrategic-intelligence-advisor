@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiduciaryTimelineSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { FiduciaryTimelineSection } from '../../services/FiduciaryRuntimeAdapter';
 import { ShieldAlert, AlertTriangle, Info, Clock, Activity, Target } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 

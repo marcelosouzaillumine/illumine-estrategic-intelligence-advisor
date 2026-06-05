@@ -59,32 +59,32 @@ const createBasePayload = (analysisYear: number) => ({
 
 describe('Executive Information Density Framework (EIDF) - Fiduciary & Presentation Governance', () => {
   it('Test 1: BOARD mode oculta seções técnicas', () => {
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECONCILIATION_DETAIL', 'BOARD'), false);
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_LINEAGE', 'BOARD'), false);
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_FORMULAS', 'BOARD'), false);
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_CONTEXTO', 'BOARD'), true);
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_HEALTH_SCORE', 'BOARD'), true);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_EARLY_WARNING', 'BOARD'), false);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_SCENARIO_SIMULATION', 'BOARD'), false);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_TECHNICAL_LAYER', 'BOARD'), false);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_EQE_LINEAGE', 'BOARD'), false);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_CONTEXT', 'BOARD'), false);
   });
 
-  it('Test 2: EXECUTIVE mode exibe indicadores operacionais', () => {
+  it('Test 2: EXECUTIVE mode exibe indicadores operacionais e oculta técnicas', () => {
     assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_SHAREHOLDER_DEPENDENCY', 'EXECUTIVE'), true);
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_REVENUE_CONVERSION', 'EXECUTIVE'), true);
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECONCILIATION_DETAIL', 'EXECUTIVE'), false);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_REVENUE_CASH_CONVERSION', 'EXECUTIVE'), true);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_TECHNICAL_LAYER', 'EXECUTIVE'), false);
   });
 
   it('Test 3: TECHNICAL mode expõe todas as seções e auditorias', () => {
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECONCILIATION_DETAIL', 'TECHNICAL'), true);
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_LINEAGE', 'TECHNICAL'), true);
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_FORMULAS', 'TECHNICAL'), true);
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_CQS_COMPONENTS', 'TECHNICAL'), true);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_TECHNICAL_LAYER', 'TECHNICAL'), true);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_EQE_LINEAGE', 'TECHNICAL'), true);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_EARLY_WARNING', 'TECHNICAL'), true);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_SCENARIO_SIMULATION', 'TECHNICAL'), true);
   });
 
-  it('Test 4: Reconciliação DFC oculta em modo BOARD', () => {
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_RECONCILIATION_DETAIL', 'BOARD'), false);
+  it('Test 4: Reconciliação detalhada/técnica oculta em modo BOARD', () => {
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_TECHNICAL_LAYER', 'BOARD'), false);
   });
 
   it('Test 5: Linhagem do EQE oculta em modo BOARD', () => {
-    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('EQE_LINEAGE', 'BOARD'), false);
+    assert.strictEqual(ExecutiveInformationDensityFramework.isSectionVisible('DFC_EQE_LINEAGE', 'BOARD'), false);
   });
 
   it('Test 6: TemporalIntegrityValidator bloqueia contaminação futura', () => {

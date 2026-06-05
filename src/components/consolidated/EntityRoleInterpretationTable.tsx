@@ -1,6 +1,6 @@
 import React from 'react';
 import { Building2 } from 'lucide-react';
-import { HoldingRoleAnalysis } from '../../core/runtime/consolidated/advisory/advisoryTypes';
+import { HoldingRoleAnalysis } from '../../services/FiduciaryRuntimeAdapter';
 
 export function EntityRoleInterpretationTable({ roles }: { roles: HoldingRoleAnalysis[] }) {
   if (!roles || roles.length === 0) return null;

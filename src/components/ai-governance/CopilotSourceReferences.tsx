@@ -1,5 +1,5 @@
 import React from 'react';
-import { AIGroundingReference } from '../../core/runtime/ai-governance/AIGovernanceTypes';
+import { AIGroundingReference } from '../../services/FiduciaryRuntimeAdapter';
 import { FileText, Activity, Hash } from 'lucide-react';
 
 export function CopilotSourceReferences({ references }: { references: AIGroundingReference[] }) {

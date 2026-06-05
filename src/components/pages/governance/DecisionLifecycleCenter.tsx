@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { GitBranchPlus, ShieldCheck, Activity } from 'lucide-react';
 import { PageHeader } from '../../Common';
-import { DecisionRecordRegistry } from '../../../core/runtime/workflow-governance/DecisionRecordRegistry';
-import { WorkflowAuditLogger } from '../../../core/runtime/workflow-governance/WorkflowAuditLogger';
+import { FiduciaryRuntimeAdapter } from '../../../services/FiduciaryRuntimeAdapter';
 import { WorkflowBoard } from '../../workflow-governance/WorkflowBoard';
 import { WorkflowAuditFeed } from '../../workflow-governance/WorkflowAuditFeed';
-import { detectCrossStatementCausality } from '../../../core/runtime/CrossStatementCausalityEngine';
 
 export function DecisionLifecycleCenter() {
   const [workflows, setWorkflows] = useState<any[]>([]);
@@ -17,12 +15,12 @@ export function DecisionLifecycleCenter() {
 
   // Simulação de injeção da engine de causalidade
   const causalityGraph = useMemo(() => {
-    return detectCrossStatementCausality(5000, -1000, 0, 6000, 0, 0);
+    return FiduciaryRuntimeAdapter.detectCrossStatementCausality(5000, -1000, 0, 6000, 0, 0);
   }, []);
 
   const loadState = () => {
-    setWorkflows(DecisionRecordRegistry.getWorkflowsForTenant(mockTenant, mockWorkspace));
-    setAuditLogs(WorkflowAuditLogger.getLogsForTenant(mockTenant));
+    setWorkflows(FiduciaryRuntimeAdapter.DecisionRecordRegistry.getWorkflowsForTenant(mockTenant, mockWorkspace));
+    setAuditLogs(FiduciaryRuntimeAdapter.WorkflowAuditLogger.getLogsForTenant(mockTenant));
   };
 
   useEffect(() => {

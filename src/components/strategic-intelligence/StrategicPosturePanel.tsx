@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Target, Activity, ShieldCheck, TrendingUp, AlertTriangle } from 'lucide-react';
-import { StrategicPosture } from '../../core/runtime/strategic-intelligence/strategic-intelligence-types';
+import { StrategicPosture } from '../../services/FiduciaryRuntimeAdapter';
 
 interface StrategicPosturePanelProps {
   posture: StrategicPosture;

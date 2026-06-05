@@ -1,9 +1,9 @@
 import React from 'react';
-import { InstitutionalOrchestrationEngine } from '../../core/runtime/governance-orchestration/InstitutionalOrchestrationEngine';
+import { FiduciaryRuntimeAdapter } from '../../services/FiduciaryRuntimeAdapter';
 import { HeartPulse } from 'lucide-react';
 
 export function RecoveryPathViewer({ tenantId }: { tenantId: string }) {
-  const coord = InstitutionalOrchestrationEngine.getActiveCoordination(tenantId);
+  const coord = FiduciaryRuntimeAdapter.InstitutionalOrchestrationEngine.getActiveCoordination(tenantId);
   if (!coord || coord.recovery.length === 0) return null;
 
   return (

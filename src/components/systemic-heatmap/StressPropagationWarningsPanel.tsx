@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertTriangle } from 'lucide-react';
-import { StressPropagationWarning } from '../../core/runtime/consolidated/stress/stress-types';
+import { StressPropagationWarning } from '../../services/FiduciaryRuntimeAdapter';
 
 export function StressPropagationWarningsPanel({ warnings }: { warnings: StressPropagationWarning[] }) {
   if (!warnings || warnings.length === 0) return null;

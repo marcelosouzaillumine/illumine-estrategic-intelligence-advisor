@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShieldCheck } from 'lucide-react';
 import { PageHeader } from '../Common';
-import { ProductGovernanceEngine } from '../../core/runtime/product-governance/ProductGovernanceEngine';
+import { ProductGovernanceEngine } from '../../services/FiduciaryRuntimeAdapter';
 import { ProductPlanRegistryPanel } from '../product-governance/ProductPlanRegistryPanel';
 import { FeatureEntitlementTable } from '../product-governance/FeatureEntitlementTable';
 import { UsageQuotaDashboard } from '../product-governance/UsageQuotaDashboard';

@@ -1,6 +1,6 @@
 import React from 'react';
-import { ProductGovernanceEngine } from '../../core/runtime/product-governance/ProductGovernanceEngine';
-import { FeatureId } from '../../core/runtime/product-governance/ProductGovernanceTypes';
+import { ProductGovernanceEngine } from '../../services/FiduciaryRuntimeAdapter';
+import { FeatureId } from '../../services/FiduciaryRuntimeAdapter';
 import { CheckCircle2, Lock } from 'lucide-react';
 
 export function FeatureEntitlementTable({ tenantId }: { tenantId: string }) {

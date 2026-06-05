@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Network, Zap, Waves, GitMerge } from 'lucide-react';
-import { OperationalFrictionEvent } from '../../core/runtime/operational-governance/operational-governance-types';
+import { OperationalFrictionEvent } from '../../services/FiduciaryRuntimeAdapter';
 
 interface OperationalFrictionMapProps {
   frictions: OperationalFrictionEvent[];

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Send, Bot } from 'lucide-react';
-import { InstitutionalCopilotRuntime } from '../../core/runtime/ai-governance/InstitutionalCopilotRuntime';
-import { MockLLMProvider } from '../../core/runtime/ai-governance/providers/MockLLMProvider';
-import { AIQueryRequest, AIQueryResponse } from '../../core/runtime/ai-governance/AIGovernanceTypes';
+import { InstitutionalCopilotRuntime } from '../../services/FiduciaryRuntimeAdapter';
+import { MockLLMProvider } from '../../services/FiduciaryRuntimeAdapter';
+import { AIQueryRequest, AIQueryResponse } from '../../services/FiduciaryRuntimeAdapter';
 import { CopilotSessionHistory } from './CopilotSessionHistory';
 import { CopilotGroundingBadge } from './CopilotGroundingBadge';
 import { CopilotSourceReferences } from './CopilotSourceReferences';

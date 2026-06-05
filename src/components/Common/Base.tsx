@@ -272,10 +272,17 @@ export function KpiCard({
 
   const cfg = statusConfig[finalStatus] || statusConfig['Verde'];
 
+  const getStatusDotClass = (status: string) => {
+    if (status === 'Vermelho' || status === 'Bearish' || status === 'Em Queda') return 'bg-rose-500';
+    if (status === 'Amarelo' || status === 'Correction' || status === 'Atenção') return 'bg-amber-500';
+    if (status === 'Pendente' || status === 'N/A') return 'bg-muted-foreground';
+    return 'bg-emerald-500';
+  };
+
   // When a trend is provided, use its specific color; otherwise fall back to status color
   const badgeCfg = finalTrend && trendConfig[finalTrend]
     ? trendConfig[finalTrend]
-    : { bg: cfg.bg, text: cfg.text, border: cfg.border, glow: cfg.glow, dot: finalStatus === 'Pendente' || finalTrend === 'Pendente' ? 'bg-muted-foreground' : 'bg-success' };
+    : { bg: cfg.bg, text: cfg.text, border: cfg.border, glow: cfg.glow, dot: getStatusDotClass(finalStatus) };
 
   const content = (
     <motion.div 
@@ -316,7 +323,7 @@ export function KpiCard({
             "w-1.5 h-1.5 rounded-full animate-pulse",
             highlight ? "bg-white" : badgeCfg.dot
           )} />
-          <span>{translateLabel(finalTrend || cfg.label)}</span>
+          <span>{translateLabel(cfg.label)}</span>
         </div>
       </div>
 
@@ -371,8 +378,10 @@ export function KpiCard({
           <TooltipTrigger asChild>
             {content}
           </TooltipTrigger>
-          <TooltipContent className="bg-slate-900 text-white font-medium text-xs px-3 py-2 border-white/10 shadow-xl">
-            {tooltip}
+          <TooltipContent className="bg-slate-900 text-white font-medium text-xs px-4 py-2.5 border-white/10 shadow-xl block w-[280px] max-w-[280px] whitespace-normal break-words">
+            <div className="w-[248px] min-w-[248px] max-w-[248px] whitespace-normal break-words leading-relaxed text-left">
+              {tooltip}
+            </div>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Lock } from 'lucide-react';
-import { InstitutionalStrategicIntelligenceOutput } from '../../core/runtime/strategic-intelligence/strategic-intelligence-types';
+import { InstitutionalStrategicIntelligenceOutput } from '../../services/FiduciaryRuntimeAdapter';
 
 interface StrategicRestrictionOverlayProps {
   strategicOutput: InstitutionalStrategicIntelligenceOutput;

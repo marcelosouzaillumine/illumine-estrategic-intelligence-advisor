@@ -1,5 +1,5 @@
 import React from 'react';
-import { PredictiveGovernanceDetector } from '../../core/runtime/early-warning/PredictiveGovernanceDetector';
+import { PredictiveGovernanceDetector } from '../../services/FiduciaryRuntimeAdapter';
 import { Activity } from 'lucide-react';
 
 export function PredictiveRiskPanel({ tenantId }: { tenantId: string }) {

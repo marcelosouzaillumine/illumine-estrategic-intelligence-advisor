@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScanEye } from 'lucide-react';
-import { ExecutiveAttentionMapper } from '../../core/runtime/premium-ux/ExecutiveAttentionMapper';
+import { ExecutiveAttentionMapper } from '../../services/FiduciaryRuntimeAdapter';
 
 export function ExecutiveUXHeatmap() {
   const entries = ExecutiveAttentionMapper.mapForCFO();

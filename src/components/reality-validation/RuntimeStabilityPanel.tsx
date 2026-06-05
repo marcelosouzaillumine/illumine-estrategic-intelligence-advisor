@@ -1,6 +1,6 @@
 import React from 'react';
 import { Activity } from 'lucide-react';
-import { InstitutionalSessionStabilityEngine } from '../../core/runtime/operational-scale/InstitutionalSessionStabilityEngine';
+import { InstitutionalSessionStabilityEngine } from '../../services/FiduciaryRuntimeAdapter';
 
 export function RuntimeStabilityPanel({ tenantId }: { tenantId: string }) {
   const report = InstitutionalSessionStabilityEngine.evaluate(tenantId, 120);

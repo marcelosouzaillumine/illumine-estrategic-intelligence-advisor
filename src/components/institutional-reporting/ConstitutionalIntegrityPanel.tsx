@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Shield, ShieldAlert, Key, ClipboardList, AlertTriangle, Layers, GitBranch } from 'lucide-react';
-import { ConstitutionalSection } from '../../core/runtime/institutional-reporting/institutional-reporting-types';
+import { ConstitutionalSection } from '../../services/FiduciaryRuntimeAdapter';
 
 interface ConstitutionalIntegrityPanelProps {
   section?: ConstitutionalSection;
