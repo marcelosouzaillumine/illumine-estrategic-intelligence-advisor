@@ -75,6 +75,12 @@ export function EFOSPage({
   const [consolidationResult, setConsolidationResult] = useState<ExecutiveConsolidationResult | null>(null);
   const [bindingError, setBindingError] = useState<any>(null);
   const [semanticAudit, setSemanticAudit] = useState<{pass:boolean; violations:string[]} | null>(null);
+  // Debug: force fallback view when URL contains ?forceFallback=true
+  let forceFallback = false;
+  if (typeof window !== 'undefined' && window.location && window.location.search) {
+    const params = new URLSearchParams(window.location.search);
+    forceFallback = params.get('forceFallback') === 'true';
+  }
   const computedProfile = useMemo(() => {
     if (propProfile) return propProfile;
     return FiduciaryRuntimeAdapter.getProfile(FiduciaryRuntimeAdapter.mapOfficialRoleToProfileId(userRole));
@@ -184,7 +190,12 @@ export function EFOSPage({
       setExecutiveReport(report);
 
       const auditResult = audit(report);
-      setSemanticAudit(auditResult);
+      // Override audit result if forceFallback is enabled
+      if (forceFallback) {
+        setSemanticAudit({ pass: false, violations: ['forced fallback'] });
+      } else {
+        setSemanticAudit(auditResult);
+      }
 
       const dreTotalRevenue = dreEntries.find((r: any) => r.category === 'RECEITA_BRUTA')?.value || 1;
       const dlpaRetained = dlpaEntries.find((r: any) =>
@@ -276,7 +287,7 @@ export function EFOSPage({
         setGenerateError(err.message || 'Erro desconhecido');
       }
     }
-  }, [bpSummary, ebitda, lucroLiquido, dreEntries, bpEntries, dlpaEntries, cashFlowData, filterYear, allHistoryData, clients, selectedClient, loadingBP, loadingDRE, loadingDLPA, loadingHistory, loadingCashFlow]);
+  }, [bpSummary, ebitda, lucroLiquido, dreEntries, bpEntries, dlpaEntries, cashFlowData, filterYear, allHistoryData, clients, selectedClient, loadingBP, loadingDRE, loadingDLPA, loadingHistory, loadingCashFlow, forceFallback]);
 
   const isLoading = loadingBP || loadingDRE || loadingDLPA || loadingHistory || loadingCashFlow || (!executiveReport && !generateError && !bindingError) || (!consolidationResult && !generateError && !bindingError);
 
@@ -320,7 +331,7 @@ export function EFOSPage({
     );
   }
 
-  if (semanticAudit && !semanticAudit.pass) {
+  if (semanticAudit && (!semanticAudit.pass || forceFallback)) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[500px] gap-4">
         <AlertTriangle size={40} className="text-rose-500" />

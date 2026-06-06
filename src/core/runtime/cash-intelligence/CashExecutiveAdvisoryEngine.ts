@@ -6,6 +6,13 @@ export interface CompressedAdvisory {
   fullTextLength: number;
 }
 
+/** Payload that includes deterministic lineage hash */
+export interface AdvisoryPayload extends CompressedAdvisory {
+  lineageHash: string;
+}
+
+import { LineageService } from '../lineage/LineageService';
+import { RuntimeLineageGuard } from '../executive-consolidation/RuntimeLineageGuard';
 export class CashExecutiveAdvisoryEngine {
   /**
    * Sintetiza o Advisory em formato executivo comprimido (max 600 caracteres)
@@ -59,4 +66,26 @@ export class CashExecutiveAdvisoryEngine {
       fullTextLength: `${situacaoAtual} ${restricao} ${prioridade} ${outlook}`.length
     };
   }
+  /**
+   * Generate full payload with deterministic lineage hash and guard validation.
+   */
+  public static generatePayload(
+    isBurning: boolean,
+    dependencyCritical: boolean,
+    primaryConstraint: string,
+    runwayCritical: boolean
+  ): AdvisoryPayload {
+    const compressed = this.compress(
+      isBurning,
+      dependencyCritical,
+      primaryConstraint,
+      runwayCritical,
+    );
+    const lineageHash = LineageService.createHash(compressed);
+    const payload: AdvisoryPayload = { ...compressed, lineageHash };
+    // Guard validates only in DEBUG/TECHNICAL (test/ci/dev)
+    RuntimeLineageGuard.validate(payload);
+    return payload;
+  }
 }
+

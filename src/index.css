@@ -149,6 +149,14 @@
   --color-ring: #FF8552;
   --color-executive: #111F30;
   --color-executive-foreground: #FFFFFF;
+  
+  /* Surface Variants in Dark Mode */
+  --color-surface-container-low: #0F2033;
+  --color-surface-container: #12253D;
+  --color-surface-container-high: #162E4C;
+  --color-surface-container-highest: #1B385C;
+  --color-surface-bright: #1C3C63;
+  --color-surface-dim: #0B1724;
 }
 
 html, body {
@@ -693,53 +701,98 @@ td .font-mono,
 .bg-white.border-slate-200,
 .bg-white.border-slate-200\/60,
 .bg-white.border-slate-100\/60,
-div[class*="bg-white"][class*="border-slate-"] {
+div[class*="bg-white"][class*="border-slate-"],
+#main-content-wrapper .bg-white,
+.flex-1.overflow-y-auto .bg-white {
   background-color: var(--color-card) !important;
   color: var(--color-card-foreground) !important;
   border-color: var(--color-border) !important;
 }
 
-/* Standardize card titles and texts text-slate-X colors in dark mode */
-.dark .text-slate-900,
-.dark [class*="text-slate-900"] {
+/* Standardize card titles and texts text-slate-X colors globally in all themes */
+.text-slate-900,
+[class*="text-slate-900"],
+.text-slate-800,
+[class*="text-slate-800"] {
   color: var(--color-foreground) !important;
 }
-.dark .text-slate-800,
-.dark [class*="text-slate-800"] {
-  color: var(--color-foreground) !important;
-}
-.dark .text-slate-700,
-.dark [class*="text-slate-700"] {
+.text-slate-700,
+[class*="text-slate-700"],
+.text-slate-600,
+[class*="text-slate-600"] {
   color: var(--color-muted-foreground) !important;
 }
-.dark .text-slate-600,
-.dark [class*="text-slate-600"] {
-  color: var(--color-muted-foreground) !important;
-}
-.dark .text-slate-500,
-.dark [class*="text-slate-500"] {
+.text-slate-500,
+[class*="text-slate-500"],
+.text-slate-400,
+[class*="text-slate-400"] {
   color: var(--color-neutral) !important;
 }
-.dark .text-slate-400,
-.dark [class*="text-slate-400"] {
-  color: var(--color-neutral) !important;
+.text-slate-300,
+[class*="text-slate-300"] {
+  color: var(--color-muted) !important;
 }
 
-/* Standardize backgrounds of slate items in dark mode */
-.dark .bg-slate-50,
-.dark [class*="bg-slate-50"] {
+/* Standardize backgrounds of slate items globally in all themes */
+.bg-slate-50,
+[class*="bg-slate-50"] {
   background-color: var(--color-surface-container) !important;
 }
-.dark .bg-slate-100,
-.dark [class*="bg-slate-100"] {
+.bg-slate-100,
+[class*="bg-slate-100"] {
   background-color: var(--color-surface-container-high) !important;
 }
-.dark .bg-slate-200,
-.dark [class*="bg-slate-200"] {
+.bg-slate-200,
+[class*="bg-slate-200"] {
   background-color: var(--color-surface-container-highest) !important;
 }
-.dark .bg-slate-900\/60 {
+.bg-slate-900\/60 {
   background-color: rgba(14, 28, 44, 0.8) !important;
+}
+
+/* Standardize border color of slate items globally */
+.border-slate-50,
+.border-slate-100,
+.border-slate-200,
+.border-slate-300,
+[class*="border-slate-"] {
+  border-color: var(--color-border) !important;
+}
+
+/* Standardize all inputs, selects, and textareas with slate styling */
+input.bg-slate-50, select.bg-slate-50, textarea.bg-slate-50,
+input[class*="bg-slate-"], select[class*="bg-slate-"], textarea[class*="bg-slate-"] {
+  background-color: var(--color-surface-container) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-foreground) !important;
+}
+
+/* Table Visual Standardization globally */
+table.w-full,
+table {
+  border-color: var(--color-border) !important;
+}
+thead th,
+th {
+  font-family: var(--font-display) !important;
+  font-size: var(--text-body-sm) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  color: var(--color-muted-foreground) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  background-color: var(--color-surface-container) !important;
+}
+tbody tr,
+tr {
+  border-bottom: 1px solid var(--color-border) !important;
+}
+tbody tr:hover,
+tr:hover {
+  background-color: var(--color-surface-container-low) !important;
+}
+td {
+  color: var(--color-card-foreground) !important;
 }
 
 /* ==========================================
@@ -787,4 +840,60 @@ body main.min-h-screen {
   --color-accent-foreground: #0E1C2C !important;
   --color-ring: #FF8552 !important;
 }
+
+/* ==========================================================================
+   INTELLIGENT AUTO-ADJUSTMENT CONTAINER QUERY GRID & FLEX SYSTEM
+   ========================================================================== */
+
+/* Enable container context on the main page wrapper */
+#main-content-wrapper {
+  container-type: inline-size !important;
+}
+
+/* 1. Large-to-Medium transition (Container width between 1024px and 1280px) */
+@container (max-width: 1280px) {
+  [class*="grid-cols-4"],
+  [class*="grid-cols-5"],
+  [class*="grid-cols-6"],
+  [class*="grid-cols-7"],
+  [class*="grid-cols-8"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+/* 2. Medium transition (Container width between 768px and 1024px) */
+@container (max-width: 1024px) {
+  [class*="grid-cols-3"],
+  [class*="grid-cols-4"],
+  [class*="grid-cols-5"],
+  [class*="grid-cols-6"],
+  [class*="grid-cols-7"],
+  [class*="grid-cols-8"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* 3. Small/Mobile transition (Container width below 768px) */
+@container (max-width: 768px) {
+  [class*="grid-cols-2"],
+  [class*="grid-cols-3"],
+  [class*="grid-cols-4"],
+  [class*="grid-cols-5"],
+  [class*="grid-cols-6"],
+  [class*="grid-cols-7"],
+  [class*="grid-cols-8"] {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+}
+
+/* 4. Responsive flex rows stack vertically under constrained container widths (< 900px) */
+@container (max-width: 900px) {
+  [class*="md:flex-row"],
+  [class*="lg:flex-row"],
+  [class*="xl:flex-row"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+}
+
 

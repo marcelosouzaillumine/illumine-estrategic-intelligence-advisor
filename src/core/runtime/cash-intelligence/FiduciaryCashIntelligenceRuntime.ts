@@ -289,12 +289,22 @@ export class FiduciaryCashIntelligenceRuntime {
       dependencyClassification: dependencyCritical ? 'CRITICAL' : 'MODERATE'
     });
 
-    const compressedAdvisory = CashExecutiveAdvisoryEngine.compress(
+    // Use new payload with deterministic lineage hash and guard validation
+    const advisoryPayload = CashExecutiveAdvisoryEngine.generatePayload(
       isBurning,
       dependencyCritical,
       primaryConstraint,
-      runwayCritical
+      runwayCritical,
     );
+    // Extract compressed advisory fields for existing downstream logic
+    const {
+      situacaoAtual,
+      restricaoPrincipal,
+      prioridadeEstrategica,
+      outlook,
+      fullTextLength,
+    } = advisoryPayload;
+    const compressedAdvisory = { situacaoAtual, restricaoPrincipal, prioridadeEstrategica, outlook, fullTextLength };
 
     const consistencyAudit = DFCConsistencyAuditEngine.audit(
       dfcPriorities,
