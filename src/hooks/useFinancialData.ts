@@ -5,6 +5,9 @@ import { buildHistoricalSeries, HistoricalFinancialSeries } from '../core/adapte
 
 
 export function useFinancialData(clientId: string, year: number, month: number, type: 'DRE' | 'BP' | 'CAIXA' | 'DRE Gerencial' | 'DFC' | 'DLPA' | 'Balanço Patrimonial') {
+  if ((globalThis as any).__mockUseFinancialData) {
+    return (globalThis as any).__mockUseFinancialData(clientId, year, month, type);
+  }
   const [dbData, setDbData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -85,6 +88,9 @@ export function useFinancialData(clientId: string, year: number, month: number, 
 }
 
 export function useAllFinancialData(clientId: string) {
+  if ((globalThis as any).__mockUseAllFinancialData) {
+    return (globalThis as any).__mockUseAllFinancialData(clientId);
+  }
   const [dbData, setDbData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -177,6 +183,9 @@ export function useAnnualFinancialData(
   year: number,
   type: 'DRE' | 'BP' | 'CAIXA' | 'DRE Gerencial' | 'Balanço Patrimonial' | 'DFC' | 'DLPA'
 ) {
+  if ((globalThis as any).__mockUseAnnualFinancialData) {
+    return (globalThis as any).__mockUseAnnualFinancialData(clientId, year, type);
+  }
   const [dbData, setDbData] = useState<any[]>([]);
   const [docIds, setDocIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);

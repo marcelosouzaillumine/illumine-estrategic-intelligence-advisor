@@ -44,6 +44,7 @@ import { BenchmarkReadinessPanel } from './BenchmarkReadinessPanel';
 import { BenchmarkComparativePanel } from './BenchmarkComparativePanel';
 import { BenchmarkAdvisoryPanel } from './BenchmarkAdvisoryPanel';
 import { GovernanceLearningPanel } from './GovernanceLearningPanel';
+import { GovernanceJourneyPanel } from './GovernanceJourneyPanel';
 
 export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
   const { translateLabel: t } = useLanguage();
@@ -72,6 +73,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isBoardPackModalOpen, setIsBoardPackModalOpen] = useState(false);
   const [activeMainTab, setActiveMainTab] = useState<'maturity' | 'execution' | 'meeting'>('maturity');
+  const [activeView, setActiveView] = useState<'EXECUTIVE_JOURNEY' | 'DEEP_ANALYSIS'>('EXECUTIVE_JOURNEY');
 
   const handleTransformPriorityToDecision = (priority: BoardPriority) => {
     const baseTime = Date.now();
@@ -329,10 +331,9 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
   return (
     <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-8 pb-32 animate-executive-fade bg-[#03080F] text-white">
       
-      {/* 1. Header with Side-by-Side Unified KPIs */}
       <PageHeader 
-        title="Cockpit de Governança Institucional"
-        subtitle="Mapeamento duplo do estado corporativo atual (ESGIM™), resiliência futura (IRI™), prioridades (BPE™) e plano de evolução (GRE™)."
+        title={activeView === 'EXECUTIVE_JOURNEY' ? "Jornada de Governança™" : "Cockpit de Governança Institucional"}
+        subtitle={activeView === 'EXECUTIVE_JOURNEY' ? "Home Executiva: Acompanhe a maturidade, resiliência, riscos e evolução da organização em uma jornada unificada." : "Mapeamento duplo do estado corporativo atual (ESGIM™), resiliência futura (IRI™), prioridades (BPE™) e plano de evolução (GRE™)."}
         icon={Brain}
         transparent
         actions={
@@ -446,46 +447,90 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         </div>
       )}
 
-      {/* Cockpit Tabs selector */}
+      {/* Sleek View Switcher (Home Switcher) */}
       <div className="flex border-b border-white/5 bg-slate-950/20 rounded-xl p-1 max-w-xl">
         <button
-          onClick={() => setActiveMainTab('maturity')}
+          onClick={() => setActiveView('EXECUTIVE_JOURNEY')}
           className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all ${
-            activeMainTab === 'maturity'
-              ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
+            activeView === 'EXECUTIVE_JOURNEY'
+              ? 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-400'
               : 'text-slate-500 hover:text-slate-300'
           }`}
         >
-          Maturidade e Resiliência
+          Jornada Executiva (Home)
         </button>
         <button
-          onClick={() => setActiveMainTab('execution')}
-          className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 ${
-            activeMainTab === 'execution'
+          onClick={() => setActiveView('DEEP_ANALYSIS')}
+          className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all ${
+            activeView === 'DEEP_ANALYSIS'
               ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
               : 'text-slate-500 hover:text-slate-300'
           }`}
         >
-          <Activity size={12} />
-          Execução (GDTL™)
-        </button>
-        <button
-          onClick={() => setActiveMainTab('meeting')}
-          className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 ${
-            activeMainTab === 'meeting'
-              ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
-              : 'text-slate-500 hover:text-slate-300'
-          }`}
-        >
-          <Users size={12} />
-          Entrar em Reunião (BMM™)
+          Deep Analysis (Detalhamento)
         </button>
       </div>
 
-      {activeMainTab === 'maturity' && (
+      {activeView === 'EXECUTIVE_JOURNEY' ? (
+        <GovernanceJourneyPanel 
+          clientId={clientId}
+          mode={mode}
+          scenario={demoScenario}
+          onNavigate={(targetTab, sectionId) => {
+            setActiveView('DEEP_ANALYSIS');
+            setActiveMainTab(targetTab);
+            if (sectionId) {
+              setTimeout(() => {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }, 100);
+            }
+          }}
+        />
+      ) : (
         <>
-          {/* 3. Main Grid layout: Heatmaps & Circular Gauges */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Cockpit Tabs selector */}
+          <div className="flex border-b border-white/5 bg-slate-950/20 rounded-xl p-1 max-w-xl">
+            <button
+              onClick={() => setActiveMainTab('maturity')}
+              className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all ${
+                activeMainTab === 'maturity'
+                  ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
+                  : 'text-slate-500 hover:text-slate-300'
+              }`}
+            >
+              Maturidade e Resiliência
+            </button>
+            <button
+              onClick={() => setActiveMainTab('execution')}
+              className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 ${
+                activeMainTab === 'execution'
+                  ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
+                  : 'text-slate-500 hover:text-slate-300'
+              }`}
+            >
+              <Activity size={12} />
+              Execução (GDTL™)
+            </button>
+            <button
+              onClick={() => setActiveMainTab('meeting')}
+              className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 ${
+                activeMainTab === 'meeting'
+                  ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
+                  : 'text-slate-500 hover:text-slate-300'
+              }`}
+            >
+              <Users size={12} />
+              Entrar em Reunião (BMM™)
+            </button>
+          </div>
+
+          {activeMainTab === 'maturity' && (
+            <>
+              {/* 3. Main Grid layout: Heatmaps & Circular Gauges */}
+              <div id="esgim-maturity" className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Side: Heatmaps (lg:col-span-8) */}
         <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -758,7 +803,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 5. Top 5 Priorities Roadmap (BPE™ Dashboard Row) */}
-      <div className="space-y-6">
+      <div id="bpe-priorities" className="space-y-6">
         <div>
           <span className="text-[10px] text-slate-500 uppercase tracking-widest font-black block">Plano de Direcionamento Executivo</span>
           <h3 className="text-xl font-display font-medium text-slate-200">Top 5 Recomendações Prioritárias do Conselho</h3>
@@ -921,7 +966,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 6. Governance Roadmap™ Dashboard Section (GRE™) */}
-      <div className="card-premium p-8 border border-white/5 bg-[#060D17] rounded-2xl space-y-8">
+      <div id="gre-roadmap" className="card-premium p-8 border border-white/5 bg-[#060D17] rounded-2xl space-y-8">
         
         {/* GRE Title & Progress / Risk Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-5">
@@ -1120,7 +1165,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 6. Governance Monitoring™ Dashboard Row */}
-      <div className="card-premium p-8 border border-white/5 bg-[#060D17] rounded-2xl space-y-8 relative overflow-hidden">
+      <div id="gml-monitoring" className="card-premium p-8 border border-white/5 bg-[#060D17] rounded-2xl space-y-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
         {/* Section Header */}
@@ -1431,7 +1476,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 8. Governance Knowledge Layer Panel (GKL™) */}
-      <div className="my-8">
+      <div id="gkl-knowledge" className="my-8">
         <GovernanceKnowledgePanel 
           clientId={clientId} 
           scenario={demoScenario} 
@@ -1440,7 +1485,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 9. Benchmark Readiness Layer Panel (BRL™) */}
-      <div className="my-8">
+      <div id="brl-readiness" className="my-8">
         <BenchmarkReadinessPanel 
           clientId={clientId} 
           scenario={demoScenario} 
@@ -1448,7 +1493,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 10. Benchmark Comparative Intelligence Panel (BCI™) */}
-      <div className="my-8">
+      <div id="bci-comparative" className="my-8">
         <BenchmarkComparativePanel 
           clientId={clientId} 
           scenario={demoScenario} 
@@ -1456,7 +1501,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 11. Benchmark Advisory Intelligence Panel (BAI™) */}
-      <div className="my-8">
+      <div id="bai-advisory" className="my-8">
         <BenchmarkAdvisoryPanel 
           clientId={clientId} 
           scenario={demoScenario} 
@@ -1464,7 +1509,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       </div>
 
       {/* 12. Governance Learning Layer Panel (GLL™) */}
-      <div className="my-8">
+      <div id="gll-learning" className="my-8">
         <GovernanceLearningPanel 
           clientId={clientId} 
           scenario={demoScenario} 
@@ -1725,6 +1770,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl">
           <BoardMeetingMode clientId={clientId} scenario={demoScenario} />
         </div>
+      )}
+      </>
       )}
 
       {/* EBRG Modal */}

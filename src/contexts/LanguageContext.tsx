@@ -18,7 +18,12 @@ const LanguageContext = createContext<LanguageContextType>({
   translateLabel: (label) => label,
 });
 
-export const useLanguage = () => useContext(LanguageContext);
+export const useLanguage = () => {
+  if ((globalThis as any).__mockUseLanguage) {
+    return (globalThis as any).__mockUseLanguage();
+  }
+  return useContext(LanguageContext);
+};
 
 const mapLabelToKey = (label: string): string => {
   const cleanLabel = label

@@ -88,11 +88,11 @@ import { InstitutionalKnowledgeGraphPage } from '../components/pages/Institution
 import { EarlyWarningPage } from '../components/pages/EarlyWarningPage';
 import { ConsolidatedExecutivePage } from '../components/pages/ConsolidatedExecutivePage';
 import { ConsolidatedExecutiveProvider } from '../context/ConsolidatedExecutiveContext';
-import { StrategicIntelligenceCenter } from '../components/pages/governance/StrategicIntelligenceCenter';
+import { StrategicIntelligenceCenter } from '../components/pages/mock/StrategicIntelligenceCenter';
 import { StrategicSimulationPage } from '../components/pages/StrategicSimulationPage';
 import { BoardDeckCenter } from '../components/pages/governance/BoardDeckCenter';
 import { InstitutionalObservabilityCenter } from '../components/pages/governance/InstitutionalObservabilityCenter';
-import { GovernanceStructureCenter } from '../components/pages/governance/GovernanceStructureCenter';
+
 import { GovernanceRiskHeatmap } from '../components/pages/governance/GovernanceRiskHeatmap';
 import { FiduciaryGovernanceCenter } from '../components/pages/governance/FiduciaryGovernanceCenter';
 import { ComplianceIntegrityCenter } from '../components/pages/governance/ComplianceIntegrityCenter';
@@ -125,8 +125,6 @@ import { DecisionLifecycleCenter } from '../components/pages/governance/Decision
 import { SovereignDecisionCenter } from '../components/pages/governance/SovereignDecisionCenter';
 import { ExecutiveExecutionCenter } from '../components/pages/governance/ExecutiveExecutionCenter';
 import { CrisisResponseCenter } from '../components/pages/governance/CrisisResponseCenter';
-import { RuntimeObservabilityCenter } from '../components/pages/governance/RuntimeObservabilityCenter';
-import { ProductGovernanceCenter } from '../components/pages/governance/ProductGovernanceCenter';
 import { MultiTenantGovernanceCenter } from '../components/pages/governance/MultiTenantGovernanceCenter';
 import { InstitutionalWarRoomPage } from '../components/war-gaming/InstitutionalWarRoomPage';
 import { InstitutionalPressureDashboard } from '../components/operating-pressure/InstitutionalPressureDashboard';
@@ -596,9 +594,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'institutional_observability_center') {
     return <InstitutionalObservabilityCenter />;
   }
-  if (currentPage === 'governance_structure_center') {
-    return <GovernanceStructureCenter />;
-  }
+
   if (currentPage === 'governance_risk_heatmap') {
     return <GovernanceRiskHeatmap />;
   }
@@ -711,12 +707,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'crisis_response_center' && isMaster) {
     return <CrisisResponseCenter />;
   }
-  if (currentPage === 'runtime_observability_center' && isMaster) {
-    return <RuntimeObservabilityCenter />;
-  }
-  if (currentPage === 'product_governance_center' && isMaster) {
-    return <ProductGovernanceCenter />;
-  }
+
   if (currentPage === 'multi_tenant_governance_center' && isMaster) {
     return <MultiTenantGovernanceCenter />;
   }

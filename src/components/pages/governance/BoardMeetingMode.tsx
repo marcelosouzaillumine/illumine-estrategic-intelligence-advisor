@@ -64,6 +64,14 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
     return FiduciaryRuntimeAdapter.boardPackGeneratorEngine.generateBoardPack(clientId, 'DEMO_SCENARIO', scenario, companyName);
   }, [clientId, scenario, companyName]);
 
+  const journey = useMemo(() => {
+    return FiduciaryRuntimeAdapter.governanceJourneyEngine.generateJourney(clientId, 'DEMO_SCENARIO', scenario);
+  }, [clientId, scenario]);
+
+  const sortedSteps = useMemo(() => {
+    return [...journey.steps].sort((a, b) => b.executiveAttentionScore - a.executiveAttentionScore);
+  }, [journey.steps]);
+
   const handleStartMeeting = () => {
     if (!participantsInput.trim()) {
       setWarningMessage('Por favor, informe os participantes da reunião.');
@@ -157,19 +165,65 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               registrando responsabilidades e prazos de forma humana no Governance Decision Tracking Layer (GDTL™).
             </p>
 
-            {/* Constitutional Principles */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/5 pt-6 mt-6">
-              <div className="p-4 bg-slate-950/40 border border-white/5 rounded-2xl">
-                <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest block mb-1">Deliberação</span>
-                <p className="text-xs text-slate-400">A plataforma sugere e embasa. O conselho decide de forma humana.</p>
-              </div>
-              <div className="p-4 bg-slate-950/40 border border-white/5 rounded-2xl">
-                <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest block mb-1">Execução</span>
-                <p className="text-xs text-slate-400">A plataforma monitora prazos. A diretoria executiva executa as ações.</p>
-              </div>
-              <div className="p-4 bg-slate-950/40 border border-white/5 rounded-2xl">
-                <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block mb-1">Accountability</span>
-                <p className="text-xs text-slate-400">A plataforma explica os riscos. Os conselheiros assumem a responsabilidade.</p>
+            {/* Governance Journey Snapshot */}
+            <div className="space-y-4 border-t border-white/5 pt-6 mt-6 animate-fadeIn">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-[#FF8552] flex items-center gap-2">
+                <Activity className="w-4 h-4" />
+                Snapshot da Jornada de Governança™ (GJL™)
+              </h3>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                {/* GJI & Stage */}
+                <div className="lg:col-span-5 bg-slate-950/40 border border-white/5 rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">GJI Score</span>
+                    <span className="text-2xl font-extrabold text-white font-mono">{journey.gjiScore}<span className="text-xs text-slate-500 font-normal">/100</span></span>
+                  </div>
+                  <div className="text-[10px] text-slate-400 italic font-medium leading-relaxed">
+                    “Governance Journey Index — índice consolidado de navegação executiva”
+                  </div>
+                  <div className="text-xs font-black uppercase text-indigo-400 tracking-wider">
+                    {journey.gjiStage}
+                  </div>
+                  <div className="text-[11px] text-slate-400 bg-slate-900/50 p-3 rounded-lg border border-white/5 font-light leading-relaxed">
+                    “{journey.boardNarrative}”
+                  </div>
+                </div>
+
+                {/* Steps order by EAI */}
+                <div className="lg:col-span-7 bg-slate-950/40 border border-white/5 rounded-2xl p-5 flex flex-col justify-between">
+                  <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-3 block">
+                    Passos Priorizados por Atenção (EAI™)
+                  </span>
+                  
+                  <div className="space-y-2 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
+                    {sortedSteps.map((step, index) => {
+                      const isLocked = FiduciaryRuntimeAdapter.benchmarkReadinessEngine.evaluateReadiness(clientId, scenario).certificationStatus === 'NOT_CERTIFIED' && (step.id === 'step-07' || step.id === 'step-08');
+                      return (
+                        <div key={step.id} className="flex justify-between items-center bg-slate-900/30 p-2 rounded border border-white/5 hover:border-white/10 transition-colors">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[9px] font-black text-slate-600 font-mono">#{index + 1}</span>
+                            <span className="text-xs font-bold text-slate-300">{step.title}</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className="text-[9px] font-mono text-slate-500 font-bold">EAI: {step.executiveAttentionScore}</span>
+                            <span className={`px-1.5 py-0.5 rounded text-[8px] font-black border uppercase ${
+                              isLocked 
+                                ? 'bg-rose-500/10 border-rose-500/25 text-rose-400' 
+                                : step.status === 'CRITICAL'
+                                ? 'bg-rose-500/10 border-rose-500/25 text-rose-400'
+                                : step.status === 'ATTENTION'
+                                ? 'bg-amber-500/10 border-amber-500/25 text-amber-400'
+                                : 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400'
+                            }`}>
+                              {isLocked ? 'BLOQUEADO' : step.status}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
 

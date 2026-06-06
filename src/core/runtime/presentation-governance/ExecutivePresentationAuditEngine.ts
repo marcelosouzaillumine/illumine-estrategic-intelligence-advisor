@@ -1,7 +1,8 @@
 import { PresentationLayer } from './ExecutiveAudienceProfile';
+import { ExecutiveLanguageLeakAudit } from './ExecutiveLanguageLeakAudit';
 
 export interface AuditEngineResult {
-  status: 'PASS' | 'DFC_EXECUTIVE_PRESENTATION_VIOLATION';
+  status: 'PASS' | 'DFC_EXECUTIVE_PRESENTATION_VIOLATION' | 'EXECUTIVE_LANGUAGE_LEAK';
   violations: string[];
 }
 
@@ -69,6 +70,15 @@ export class ExecutivePresentationAuditEngine {
       return {
         status: 'DFC_EXECUTIVE_PRESENTATION_VIOLATION',
         violations
+      };
+    }
+
+    // Run Language Leak Audit
+    const langAudit = ExecutiveLanguageLeakAudit.audit(target, layer);
+    if (langAudit.status === 'EXECUTIVE_LANGUAGE_LEAK') {
+      return {
+        status: 'EXECUTIVE_LANGUAGE_LEAK',
+        violations: langAudit.violations
       };
     }
 

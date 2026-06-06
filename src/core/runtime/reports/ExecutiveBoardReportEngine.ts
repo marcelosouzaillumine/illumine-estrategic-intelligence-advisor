@@ -16,6 +16,7 @@ import { benchmarkReadinessEngine } from '../benchmark/BenchmarkReadinessEngine'
 import { benchmarkComparativeEngine } from '../benchmark/BenchmarkComparativeEngine';
 import { benchmarkAdvisoryEngine } from '../benchmark/BenchmarkAdvisoryEngine';
 import { governanceLearningEngine } from '../learning/GovernanceLearningEngine';
+import { governanceJourneyEngine } from '../journey/GovernanceJourneyEngine';
 
 export class ExecutiveBoardReportEngine {
   private static instance: ExecutiveBoardReportEngine;
@@ -403,7 +404,8 @@ export class ExecutiveBoardReportEngine {
       bpsScore: comparison.bpsScore,
       apsScore: advisory.apsScore,
       advisoryConfidenceScore: advisory.advisoryConfidenceScore,
-      learningResult
+      learningResult,
+      journeyOverview: governanceJourneyEngine.generateJourney(clientId || 'GLOBAL', mode, scenario)
     };
   }
 }

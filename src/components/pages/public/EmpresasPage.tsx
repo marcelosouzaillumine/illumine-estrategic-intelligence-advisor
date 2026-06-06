@@ -310,7 +310,7 @@ export function EmpresasPage() {
       {/* 1. HERO SECTION */}
       <section id="hero" className="pt-44 pb-24 px-6 relative overflow-hidden z-10 border-b border-white/5 min-h-[90vh] flex items-center">
         <CausalTopologyVisual />
-        <div className="max-w-5xl mx-auto text-center space-y-12 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 text-center space-y-12 relative z-10">
           
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
@@ -323,7 +323,7 @@ export function EmpresasPage() {
               Governança Institucional Inteligente
             </span>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium tracking-tight text-white leading-[1.1] max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium tracking-tight text-white leading-[1.1] max-w-5xl mx-auto">
               Sua organização está preparada para continuar saudável quando as condições deixarem de ser favoráveis?
             </h1>
             
@@ -363,7 +363,7 @@ export function EmpresasPage() {
 
       {/* 2. O LIMIAR DA CRISE (Problema) */}
       <section id="problema" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
-        <div className="max-w-4xl mx-auto text-center space-y-10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 text-center space-y-10">
           <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
             O Limiar da Crise
           </span>
@@ -467,7 +467,7 @@ export function EmpresasPage() {
       <section id="manifesto" className="py-44 px-6 relative z-10 border-b border-white/5 bg-[#02050A] overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[70%] rounded-full bg-secondary/5 blur-[180px] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto text-center space-y-16 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 text-center space-y-16 relative z-10">
           
           <span className="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center justify-center gap-2">
             <Sparkles size={12} />
@@ -478,14 +478,14 @@ export function EmpresasPage() {
             <h2 className="text-xs font-mono uppercase tracking-widest text-white/45">
               A Pergunta que Toda Liderança Deveria Responder
             </h2>
-            <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-medium text-white leading-[1.1] max-w-4xl mx-auto italic tracking-tight">
+            <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-medium text-white leading-[1.1] max-w-6xl mx-auto italic tracking-tight">
               “Esta organização continuará saudável quando as condições deixarem de ser favoráveis?”
             </p>
           </div>
 
           <div className="w-24 h-[1px] bg-secondary/50 mx-auto" />
 
-          <div className="max-w-3xl mx-auto space-y-6 text-white/80 text-base md:text-lg leading-relaxed">
+          <div className="max-w-5xl mx-auto space-y-6 text-white/80 text-base md:text-lg leading-relaxed">
             <p className="font-sans">
               Mercados mudam. Pessoas saem. Tecnologias envelhecem. Estratégias precisam evoluir.
             </p>
@@ -512,7 +512,7 @@ export function EmpresasPage() {
 
       {/* 5. GOVERNANÇA INSTITUCIONAL INTELIGENTE (Definição de Valor & Categoria) */}
       <section id="categoria" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
-        <div className="max-w-5xl mx-auto space-y-16">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-16">
           
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <div className="lg:col-span-5 space-y-6">
@@ -549,7 +549,7 @@ export function EmpresasPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
               {[
                 { title: "geração de valor", desc: "Eficiência, ROIC e retorno real sobre o capital." },
                 { title: "proteção de valor", desc: "Mitigação ativa de riscos, contingências e salvaguardas." },
@@ -596,7 +596,7 @@ export function EmpresasPage() {
 
       {/* 7. ESGIM™ */}
       <section id="esgim" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
-        <div className="max-w-5xl mx-auto space-y-12">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-12">
           
           <div className="text-center max-w-3xl mx-auto space-y-6">
             <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
@@ -635,7 +635,7 @@ export function EmpresasPage() {
 
       {/* AUTORIDADE INSTITUCIONAL: Assinatura Metodológica (Reposicionamento Premium) */}
       <section className="py-20 px-6 relative z-10 bg-[#02050A] border-b border-white/5">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
           <div className="relative p-8 md:p-12 bg-[#040911]/45 border border-white/5 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm group">
             {/* Glowing accents */}
             <div className="absolute -top-12 -right-12 w-64 h-64 bg-secondary/[0.02] rounded-full blur-3xl pointer-events-none group-hover:bg-secondary/[0.04] transition-colors duration-500" />
@@ -678,7 +678,7 @@ export function EmpresasPage() {
       </section>
 
       <section id="inteligencias" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#03080F]">
-        <div className="max-w-6xl mx-auto space-y-16">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-16">
           
           {/* Eixos Section Header */}
           <div className="space-y-6 text-center">
@@ -915,7 +915,7 @@ export function EmpresasPage() {
 
       {/* 8. O QUE SUA LIDERANÇA PASSA A ENXERGAR */}
       <section id="lideranca" className="py-28 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
-        <div className="max-w-4xl mx-auto space-y-12">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-12">
           
           <div className="text-center space-y-4">
             <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
@@ -930,7 +930,7 @@ export function EmpresasPage() {
           </div>
 
           <div className="bg-[#060D17] border border-white/10 rounded-2xl p-8 sm:p-12">
-            <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+            <div className="grid sm:grid-cols-2 gap-4 max-w-5xl mx-auto">
               {[
                 "riscos de continuidade institucional",
                 "fragilidades de governança",
@@ -956,7 +956,7 @@ export function EmpresasPage() {
         </div>
       </section>      {/* 9. PÚBLICOS ATENDIDOS (Público-Alvo) */}
       <section id="publico" className="py-24 px-6 relative z-10 border-b border-white/5 bg-[#02050A]">
-        <div className="max-w-4xl mx-auto space-y-12">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-12">
           <div className="text-center space-y-4">
             <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
               Públicos Atendidos
@@ -969,7 +969,7 @@ export function EmpresasPage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+          <div className="grid sm:grid-cols-2 gap-4 max-w-6xl mx-auto">
             {[
               { title: "Empresas Familiares", desc: "Transição geracional e proteção do patrimônio fiduciário." },
               { title: "Holdings e Grupos", desc: "Consolidação de riscos e correlações cruzadas de portfólio." },
@@ -996,7 +996,7 @@ export function EmpresasPage() {
       <section className="py-24 px-6 relative overflow-hidden z-10 bg-[#03080F] border-t border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-secondary/5 via-transparent to-transparent pointer-events-none" />
         
-        <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 text-center space-y-8 relative z-10">
           <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
             Perpetuidade e Legado
           </span>

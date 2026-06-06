@@ -21,7 +21,12 @@ const InstitutionalAuthContext = createContext<InstitutionalAuthContextData>({
   user: null,
 });
 
-export const useInstitutionalAuth = () => useContext(InstitutionalAuthContext);
+export const useInstitutionalAuth = () => {
+  if ((globalThis as any).__mockUseInstitutionalAuth) {
+    return (globalThis as any).__mockUseInstitutionalAuth();
+  }
+  return useContext(InstitutionalAuthContext);
+};
 
 export const InstitutionalAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [session, setSession] = useState<InstitutionalSession | null>(null);

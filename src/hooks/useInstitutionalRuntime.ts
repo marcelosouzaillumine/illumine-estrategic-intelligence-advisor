@@ -8,6 +8,9 @@ interface UseInstitutionalRuntimeProps {
 }
 
 export function useInstitutionalRuntime({ engineType, input }: UseInstitutionalRuntimeProps) {
+  if ((globalThis as any).__mockUseInstitutionalRuntime) {
+    return (globalThis as any).__mockUseInstitutionalRuntime({ engineType, input });
+  }
   const [runtimeOutput, setRuntimeOutput] = useState<RuntimeOutput | null>(null);
   const [loading, setLoading] = useState(true);
 

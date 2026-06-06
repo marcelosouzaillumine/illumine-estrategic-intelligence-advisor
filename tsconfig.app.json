@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {},
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/core/governance/__tests__",
+    "src/components/pages/governance/CrisisResponseCenter.tsx",
+    "src/components/pages/governance/DecisionLifecycleCenter.tsx",
+    "src/components/pages/governance/GovernanceMaturityCenter.tsx",
+    "src/components/pages/governance/LeadershipDNACenter.tsx",
+    "src/components/pages/governance/MultiTenantGovernanceCenter.tsx",
+    "src/components/pages/governance/ProductGovernanceCenter.tsx",
+    "src/components/pages/governance/RuntimeObservabilityCenter.tsx",
+    "scratch.ts",
+    "scratch"
+  ]
+}

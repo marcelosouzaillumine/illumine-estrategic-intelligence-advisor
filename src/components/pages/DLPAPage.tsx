@@ -411,7 +411,7 @@ export function DLPAPage({ clients, selectedClient, selectedYear }: any) {
       foundationYear = currentClient.foundationYear;
     }
 
-    const uniqueYears = Array.from(new Set(allHistoryData.map((d: any) => Number(d.year)).filter(Boolean)));
+    const uniqueYears = Array.from(new Set((allHistoryData as any[]).map((d: any) => Number(d.year)).filter(Boolean))) as number[];
     const historicalCycles = uniqueYears.filter(y => y <= filterYear).length;
 
     const normalize = (s: string) =>

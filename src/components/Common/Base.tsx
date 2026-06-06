@@ -102,7 +102,7 @@ export function StatusBadge({ status, label, className }: { status: string; labe
   
   return (
     <span className={cn(
-      "px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all whitespace-nowrap",
+      "px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all whitespace-normal break-words text-balance text-center inline-block",
       classMap[status] || 'text-muted-foreground border-border bg-surface-container',
       className
     )}>

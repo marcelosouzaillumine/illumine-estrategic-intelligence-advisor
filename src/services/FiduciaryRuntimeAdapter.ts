@@ -20,6 +20,7 @@ import { benchmarkReadinessEngine } from '../core/runtime/benchmark/BenchmarkRea
 import { benchmarkComparativeEngine } from '../core/runtime/benchmark/BenchmarkComparativeEngine';
 import { benchmarkAdvisoryEngine } from '../core/runtime/benchmark/BenchmarkAdvisoryEngine';
 import { governanceLearningEngine } from '../core/runtime/learning/GovernanceLearningEngine';
+import { governanceJourneyEngine } from '../core/runtime/journey/GovernanceJourneyEngine';
 import { InstitutionalBoardPackOutput, LineageAppendix } from '../core/runtime/institutional-reporting/institutional-reporting-types';
 import { ExecutiveAssuranceRuntime } from '../core/runtime/audit-assurance/ExecutiveAssuranceRuntime';
 import { InstitutionalAuditEngine } from '../core/runtime/audit-assurance/InstitutionalAuditEngine';
@@ -65,6 +66,9 @@ import { DFCBoardPriorityPresentationAdapter } from '../core/runtime/decision-in
 import { DFCSnapshotBindingAudit } from '../core/runtime/presentation-governance/DFCSnapshotBindingAudit';
 import { ExecutiveConsequenceIntelligenceLayer } from '../core/runtime/decision-intelligence/ExecutiveConsequenceIntelligenceLayer';
 import { TreasurySustainabilityNarrativeEngine } from '../core/runtime/treasury-sustainability/TreasurySustainabilityNarrativeEngine';
+import { ExecutiveLanguageRegistry } from '../core/runtime/presentation-governance/ExecutiveLanguageRegistry';
+import { ExecutiveLanguageLeakAudit } from '../core/runtime/presentation-governance/ExecutiveLanguageLeakAudit';
+import { ExecutiveLanguageBoundaryGuard } from '../core/runtime/presentation-governance/ExecutiveLanguageBoundaryGuard';
 
 export const FiduciaryRuntimeAdapter = {
   DFCCausalDriverPresentationAudit,
@@ -77,6 +81,9 @@ export const FiduciaryRuntimeAdapter = {
   DFCSnapshotBindingAudit,
   ExecutiveConsequenceIntelligenceLayer,
   TreasurySustainabilityNarrativeEngine,
+  ExecutiveLanguageRegistry,
+  ExecutiveLanguageLeakAudit,
+  ExecutiveLanguageBoundaryGuard,
   getProfile,
   mapOfficialRoleToProfileId,
   ExecutiveInformationDensityFramework,
@@ -101,6 +108,7 @@ export const FiduciaryRuntimeAdapter = {
   benchmarkComparativeEngine,
   benchmarkAdvisoryEngine,
   governanceLearningEngine,
+  governanceJourneyEngine,
   BalanceSheetFinancialMetricsEngine,
   DFCSemanticRenderingGuard,
   ExecutivePriorityResolver,
@@ -285,5 +293,5 @@ export type { PresentationLayer } from '../core/runtime/presentation-governance/
 export type { InstitutionalDisclosure } from '../core/runtime/shared/runtime-contracts';
 export type { ExecutiveRecommendation } from '../core/runtime/executive-consolidation/ExecutiveRecommendationDeduplicationEngine';
 export type { GovernanceCoordinationResult } from '../core/runtime/governance-orchestration/GovernanceOrchestrationTypes';
-export type { ESGIMDimension, ESGIMMode, ESGIMScenario, IRILevel, BoardPriority, BoardExecutiveBrief, GovernanceRoadmap, GovernanceRoadmapPhase, GovernanceMonitoringSnapshot, GovernanceMonitoringResult, MonitoringAlert as GMLMonitoringAlert, ExecutiveBoardReport, BoardPack, BoardPackSlide, RecommendedDecisionEntry, BoardPackSlideTemplate, SlideMeetingCriticality, GovernanceDecision, GovernanceDecisionType, CognitiveOriginEngine, DecisionExecutionRisk, MeetingAgendaItem, BoardResolution as MeetingBoardResolution, BoardMeeting, MeetingMinutes, PrincipleMatch, GovernanceKnowledgeResult, BenchmarkReadinessLevel, BenchmarkReadinessResult, BenchmarkPosition, BenchmarkGap, ComparativeDimension, BenchmarkComparativeResult, BenchmarkTargetTier, AdvisoryInitiative, BenchmarkAdvancementGap, BenchmarkAdvisoryResult, LearningObservation, GovernanceLearningResult } from '../core/runtime/esgim/esgimTypes';
+export type { ESGIMDimension, ESGIMMode, ESGIMScenario, IRILevel, BoardPriority, BoardExecutiveBrief, GovernanceRoadmap, GovernanceRoadmapPhase, GovernanceMonitoringSnapshot, GovernanceMonitoringResult, MonitoringAlert as GMLMonitoringAlert, ExecutiveBoardReport, BoardPack, BoardPackSlide, RecommendedDecisionEntry, BoardPackSlideTemplate, SlideMeetingCriticality, GovernanceDecision, GovernanceDecisionType, CognitiveOriginEngine, DecisionExecutionRisk, MeetingAgendaItem, BoardResolution as MeetingBoardResolution, BoardMeeting, MeetingMinutes, PrincipleMatch, GovernanceKnowledgeResult, BenchmarkReadinessLevel, BenchmarkReadinessResult, BenchmarkPosition, BenchmarkGap, ComparativeDimension, BenchmarkComparativeResult, BenchmarkTargetTier, AdvisoryInitiative, BenchmarkAdvancementGap, BenchmarkAdvisoryResult, LearningObservation, GovernanceLearningResult, GovernanceJourneyStep, GovernanceJourneyResult } from '../core/runtime/esgim/esgimTypes';
 export type { IWLPrinciple } from '../core/runtime/knowledge/InstitutionalWisdomLibrary';

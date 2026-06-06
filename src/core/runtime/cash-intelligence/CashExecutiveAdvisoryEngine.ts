@@ -33,9 +33,9 @@ export class CashExecutiveAdvisoryEngine {
       prioridade = 'Restabelecer a autossuficiência financeira operacional.';
       
       if (runwayCritical) {
-        outlook = 'Sem reversão do FCO negativo, novos aportes serão necessários urgentemente para sustentar a continuidade.';
+        outlook = 'Sem reversão da geração operacional negativa de caixa, novos aportes serão necessários urgentemente para sustentar a continuidade.';
       } else {
-        outlook = 'Sem reversão do FCO negativo, novos aportes serão necessários a médio prazo para sustentar a continuidade.';
+        outlook = 'Sem reversão da geração operacional negativa de caixa, novos aportes serão necessários a médio prazo para sustentar a continuidade.';
       }
     } else {
       situacaoAtual = 'A operação foi capaz de gerar caixa e manter sua independência financeira estrutural.';

@@ -19,7 +19,8 @@ import {
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
-  Radar
+  Radar,
+  ComposedChart
 } from 'recharts';
 import { cn, formatCurrency, formatValue } from '../../lib/utils';
 import { PageHeader, KpiCard } from '../Common';
@@ -181,7 +182,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   const totalVisibleSections = visibleNumberedSections.length;
 
   const getSectionHeader = (sectionId: string, labelKey: string) => {
-    return FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel(labelKey);
+    const rawHeader = FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel(labelKey);
+    return FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(rawHeader, densityLevel);
   };
 
   const getEQETitle = () => {
@@ -214,7 +216,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
     }
   });
 
-  const dfcInference = runtimeOutput?.inferences ? Object.values(runtimeOutput.inferences).find(i => i.domain === 'Inteligência de Caixa (DFC)') : null;
+  const dfcInference = runtimeOutput?.inferences ? (Object.values(runtimeOutput.inferences) as any[]).find(i => i.domain === 'Inteligência de Caixa (DFC)') : null;
   const metrics = dfcInference?.metrics || {};
   const rows = viewMode === 'oficial' ? (metrics.tableRows || []) : (metrics.fiduciary?.tableRows || []);
   const chartData = metrics.chartData || [];
@@ -344,7 +346,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
 
   return (
-    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade">
+    <div className="max-w-[1440px] mx-auto space-y-10 pb-32 animate-executive-fade @container">
       <PageHeader 
         title="Fluxo de Caixa (DFC)" 
         subtitle="Análise detalhada de geração e consumo de caixa pelo método indireto."
@@ -352,10 +354,10 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
         color="executive"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-md border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-surface-container/60 p-4 rounded-[24px] border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
 
         <div className="flex items-center gap-3">
-          <div className="bg-card border border-border rounded-md px-4 py-2 flex items-center gap-3 shadow-sm">
+          <div className="bg-card border border-border rounded-xl px-4 py-2 flex items-center gap-3 shadow-sm">
             {(loading || loadingHistory) && <Loader2 size={14} className="animate-spin text-secondary" />}
             <Database size={14} className={(dbData.length > 0 || isGenerated) ? 'text-success' : 'text-muted-foreground/30'} />
             <span className={cn('text-[10px] font-medium uppercase tracking-[0.2em]', (dbData.length > 0 || isGenerated) ? 'text-success' : 'text-muted-foreground/40')}>
@@ -363,7 +365,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             </span>
           </div>
 
-          <div className="flex bg-card border border-border p-1 rounded-md shadow-sm items-center">
+          <div className="flex bg-card border border-border p-1 rounded-xl shadow-sm items-center">
             <Calendar size={12} className="ml-2 text-secondary" />
             <select
               onChange={(e) => setFilterYear(Number(e.target.value))}
@@ -380,19 +382,19 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowManualModal(true)}
-            className="px-4 py-3 bg-success/10 hover:bg-success text-success hover:text-white border border-success/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
+            className="px-4 py-3 bg-emerald-500/10 hover:bg-success text-emerald-600 hover:text-white border border-emerald-500/20 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 cursor-pointer"
           >
             <Plus size={14} /> Lançar Dados
           </button>
           <button
             onClick={() => setShowImportModal(true)}
-            className="px-4 py-3 bg-secondary/10 hover:bg-secondary text-secondary hover:text-white border border-secondary/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
+            className="px-4 py-3 bg-[#FF8552]/10 hover:bg-[#FF8552] text-[#FF8552] hover:text-[#0E1C2C] border border-[#FF8552]/20 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 cursor-pointer"
           >
             <Upload size={14} /> Importar
           </button>
           <button
             onClick={() => setShowDeleteConfirm(true)}
-            className="px-4 py-3 bg-destructive/10 hover:bg-destructive text-destructive hover:text-white border border-destructive/20 rounded-md text-[10px] font-medium uppercase tracking-widest transition-all flex items-center gap-2"
+            className="px-4 py-3 bg-[#D01D1C]/10 hover:bg-[#D01D1C] text-[#D01D1C] hover:text-white border border-[#D01D1C]/20 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 cursor-pointer"
           >
             <Trash2 size={14} /> Excluir
           </button>
@@ -401,10 +403,10 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* Contexto Empresarial Block */}
       {!(viewMode === 'fiduciario' && densityLevel === 'BOARD') && (
-        <div className="bg-white p-8 rounded-[32px] mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm border border-slate-100">
+        <div className="bg-white p-8 rounded-[32px] mb-10 flex flex-col @3xl:flex-row @3xl:items-center justify-between gap-6 shadow-sm border border-slate-100">
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <span className="bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border border-indigo-100/50 shadow-sm">
+            <span className="bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border border-indigo-100/50 shadow-sm whitespace-normal break-words text-balance">
               {dfcInference?.executiveLifecycleContext?.executiveTitle || 'Contexto Empresarial'}
             </span>
           </div>
@@ -423,14 +425,14 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* Toggle Premium para DFC Fiduciária Ajustada */}
       <div className="flex justify-center mb-8">
-        <div className="bg-slate-100 p-1.5 rounded-2xl flex gap-1 shadow-inner border border-slate-200/50">
+        <div className="bg-[#0E1C2C]/5 p-1.5 rounded-2xl flex gap-1 shadow-inner border border-[#0E1C2C]/10">
           <button
             onClick={() => setViewMode('oficial')}
             className={cn(
-              "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300",
+              "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 cursor-pointer",
               viewMode === 'oficial'
-                ? "bg-white text-slate-900 shadow-md scale-105"
-                : "text-slate-500 hover:text-slate-800 hover:bg-white/50"
+                ? "bg-[#0E1C2C] text-white shadow-lg scale-105"
+                : "text-[#0E1C2C]/60 hover:text-[#0E1C2C] hover:bg-white/60"
             )}
           >
             DFC Contábil Oficial
@@ -438,15 +440,20 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
           <button
             onClick={() => setViewMode('fiduciario')}
             className={cn(
-              "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-2",
+              "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-2 cursor-pointer",
               viewMode === 'fiduciario'
-                ? "bg-slate-950 text-white shadow-lg scale-105"
-                : "text-slate-500 hover:text-slate-800 hover:bg-white/50"
+                ? "bg-[#FF8552] text-[#0E1C2C] shadow-lg scale-105"
+                : "text-[#0E1C2C]/60 hover:text-[#0E1C2C] hover:bg-white/60"
             )}
           >
             <span>DFC Fiduciária Ajustada</span>
             {metrics.fiduciary?.isEarlyStage && (
-              <span className="bg-amber-500/20 text-amber-500 text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-tighter shrink-0">
+              <span className={cn(
+                "text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-tighter shrink-0",
+                viewMode === 'fiduciario'
+                  ? "bg-[#0E1C2C]/10 text-[#0E1C2C]"
+                  : "bg-amber-500/10 text-amber-600"
+              )}>
                 Early
               </span>
             )}
@@ -457,8 +464,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       {/* Toggle Premium de Densidade Informativa (EIDF) */}
       {viewMode === 'fiduciario' && (
         <div className="flex justify-center mb-8 animate-in fade-in duration-300">
-          <div className="bg-slate-100 p-1.5 rounded-2xl flex gap-1 shadow-inner border border-slate-200/50 text-xs">
-            <span className="text-slate-400 font-bold uppercase tracking-widest px-3 py-2 flex items-center select-none text-[10px]">
+          <div className="bg-[#0E1C2C]/5 p-1.5 rounded-2xl flex gap-1 shadow-inner border border-[#0E1C2C]/10 text-xs">
+            <span className="text-[#0E1C2C]/50 font-black uppercase tracking-widest px-3 py-2 flex items-center select-none text-[10px]">
               Nível EIDF:
             </span>
             {['BOARD', 'EXECUTIVE', 'TECHNICAL'].map((lvl) => {
@@ -469,17 +476,20 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   disabled={!allowed}
                   onClick={() => setDensityLevel(lvl as PresentationLayer)}
                   className={cn(
-                    "px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300",
+                    "px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 cursor-pointer",
                     !allowed 
                       ? "text-slate-300 cursor-not-allowed opacity-50"
                       : densityLevel === lvl
-                      ? "bg-slate-900 text-white shadow-md scale-105"
-                      : "text-slate-500 hover:text-slate-800 hover:bg-white/50"
+                      ? (lvl === 'TECHNICAL' ? "bg-[#BAB86C] text-[#0E1C2C] shadow-md scale-105" : "bg-[#0E1C2C] text-white shadow-md scale-105")
+                      : "text-[#0E1C2C]/60 hover:text-[#0E1C2C] hover:bg-white/60"
                   )}
                 >
-                  {lvl === 'BOARD' ? 'Conselho (BOARD)' :
-                   lvl === 'EXECUTIVE' ? 'Diretoria (EXECUTIVE)' :
-                   'Técnico (TECHNICAL)'}
+                  {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(
+                    lvl === 'BOARD' ? 'Conselho (BOARD)' :
+                    lvl === 'EXECUTIVE' ? 'Diretoria (EXECUTIVE)' :
+                    'Técnico (TECHNICAL)',
+                    densityLevel
+                  )}
                 </button>
               );
             })}
@@ -489,7 +499,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* Alertas de Governança Fiduciária */}
       {viewMode === 'fiduciario' && metrics.fiduciary?.lifecycleProfile && (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-[32px] p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm">
+        <div className="bg-emerald-50 border border-emerald-200 rounded-[32px] p-6 mb-8 flex flex-col @3xl:flex-row @3xl:items-center justify-between gap-6 shadow-sm">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md border border-emerald-200/50">
@@ -538,7 +548,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               <p className="text-[10px] text-amber-600 uppercase tracking-widest font-bold">Incongruências societárias ou operacionais detectadas no exercício</p>
             </div>
           </div>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 pl-2 mt-2">
+          <ul className="grid grid-cols-1 @2xl:grid-cols-2 gap-3 pl-2 mt-2">
             {metrics.fiduciary.governanceWarnings.map((warning: string, idx: number) => (
               <li key={idx} className="flex items-start gap-2.5 text-xs font-semibold text-slate-700">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
@@ -551,7 +561,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* KPI Cards Dinâmicos */}
       {viewMode === 'oficial' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-4 gap-6 mb-10">
           {cashIndices.map((idx, i) => (
             <KpiCard 
               key={i}
@@ -562,6 +572,102 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               status={idx.val >= 0 ? 'Verde' : 'Vermelho'}
             />
           ))}
+        </div>
+      )}
+
+      {/* Histórico de Fluxos de Caixa Chart */}
+      {viewMode === 'oficial' && chartData && chartData.length > 0 && (
+        <div className="bg-white border border-slate-200 rounded-[32px] shadow-sm p-8 space-y-6 mb-10 text-left animate-in fade-in duration-500">
+          <div className="flex flex-col @3xl:flex-row @3xl:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+            <div>
+              <h3 className="text-lg font-black text-[#0E1C2C] uppercase tracking-wider">Histórico de Fluxos de Caixa</h3>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">
+                Evolução comparativa de geração, investimentos, financiamentos e resultado contábil
+              </p>
+            </div>
+            
+            <div className="flex flex-wrap gap-4 text-[9px] font-black uppercase tracking-wider text-slate-600">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#0E1C2C]" />
+                <span>Operacional (FCO)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#FF8552]" />
+                <span>Investimento (FCI)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#BAB86C]" />
+                <span>Financiamento (FCF)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                <span>Lucro Líquido</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full h-[320px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E5E5" />
+                <XAxis 
+                  dataKey="year" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fontSize: 10, fontWeight: 700, fill: '#6B7280' }} 
+                  dy={10}
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fontSize: 10, fontWeight: 700, fill: '#6B7280' }}
+                  tickFormatter={(val) => {
+                    if (Math.abs(val) >= 1_000_000) return `R$ ${(val / 1_000_000).toFixed(1)}M`;
+                    if (Math.abs(val) >= 1_000) return `R$ ${(val / 1_000).toFixed(0)}k`;
+                    return `R$ ${val}`;
+                  }}
+                />
+                <Tooltip 
+                  cursor={{ fill: 'rgba(14, 28, 44, 0.03)' }}
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div className="bg-[#0E1C2C] text-white p-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-md">
+                          <p className="text-[10px] font-black uppercase tracking-widest mb-2 text-white/50">
+                            Ano {payload[0].payload.year}
+                          </p>
+                          <div className="space-y-1.5 min-w-[180px]">
+                            {payload.map((p: any, idx: number) => {
+                              let name = p.name;
+                              if (p.dataKey === 'operacional') name = 'FCO';
+                              else if (p.dataKey === 'investimento') name = 'FCI';
+                              else if (p.dataKey === 'financiamento') name = 'FCF';
+                              else if (p.dataKey === 'lucroLiquido') name = 'Lucro Líquido';
+
+                              return (
+                                <div key={idx} className="flex items-center justify-between gap-8">
+                                  <div className="flex items-center gap-1.5">
+                                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color || p.stroke }} />
+                                    <span className="text-[10px] font-bold text-white/70 uppercase">{name}</span>
+                                  </div>
+                                  <span className="text-xs font-black font-mono">{formatCurrency(p.value)}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Bar dataKey="operacional" name="FCO" fill="#0E1C2C" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="investimento" name="FCI" fill="#FF8552" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="financiamento" name="FCF" fill="#BAB86C" radius={[4, 4, 0, 0]} />
+                <Line type="monotone" dataKey="lucroLiquido" name="Lucro Líquido" stroke="#a855f7" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       )}
       
@@ -652,13 +758,16 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
         
         const presentationAudit = FiduciaryRuntimeAdapter.ExecutivePresentationAuditEngine.audit(auditData, densityLevel);
 
-        if (densityLevel !== 'TECHNICAL' && presentationAudit.status === 'DFC_EXECUTIVE_PRESENTATION_VIOLATION') {
-          console.error('Executive Presentation Violation detected:', presentationAudit.violations);
+        if (densityLevel !== 'TECHNICAL' && (presentationAudit.status === 'DFC_EXECUTIVE_PRESENTATION_VIOLATION' || presentationAudit.status === 'EXECUTIVE_LANGUAGE_LEAK')) {
+          console.error('Presentation/Language Violation detected:', presentationAudit.violations);
+          const blockMsg = presentationAudit.status === 'EXECUTIVE_LANGUAGE_LEAK'
+            ? 'A visualização executiva foi bloqueada por inconsistência de soberania de linguagem institucional. Reprocessar o relatório antes de deliberação.'
+            : 'A visualização executiva foi bloqueada por inconsistência de densidade informacional. Reprocessar o relatório antes de deliberação.';
           return (
             <div className="max-w-[1440px] mx-auto p-8 text-center bg-rose-50 border border-rose-200 rounded-[32px] my-10">
               <h3 className="text-xl font-black text-rose-800">Visualização Bloqueada</h3>
               <p className="text-sm text-rose-700 mt-2 font-medium">
-                A visualização executiva foi bloqueada por inconsistência de densidade informacional. Reprocessar o relatório antes de deliberação.
+                {blockMsg}
               </p>
               {process.env.NODE_ENV !== 'production' && (
                 <div className="mt-4 p-4 bg-slate-900 text-white rounded-2xl text-left font-mono text-[10px] overflow-auto max-h-48">
@@ -696,39 +805,49 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             {isSectionVisible('DFC_SNAPSHOT') && (() => {
               const snapshot = safeSnapshot;
               return (
-                <div className="bg-slate-950 p-8 rounded-[32px] shadow-2xl border border-slate-800 space-y-6 text-left relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+                <div className="bg-gradient-to-br from-[#0E1C2C] via-[#0E1C2C] to-[#07111C] p-8 rounded-[32px] shadow-2xl border border-white/10 space-y-6 text-left relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF8552]/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                   <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div>
                       <h3 className="text-xl font-black text-white mt-2">
-                        {FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel('DFC_SNAPSHOT_TITLE')}
+                        {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel('DFC_SNAPSHOT_TITLE'), densityLevel)}
                       </h3>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Geração de Caixa</span>
-                      <p className={cn("text-lg font-black mt-1", snapshot.geraCaixa ? "text-emerald-400" : "text-rose-400")}>
-                        {snapshot.geraCaixa ? 'Gera Caixa Operacional' : 'Consome Caixa Operacional'}
+                  <div className="grid grid-cols-1 @2xl:grid-cols-2 @4xl:grid-cols-3 gap-6 relative z-10">
+                    <div className="bg-white/5 p-5 rounded-2xl border border-white/10 shadow-sm hover:bg-white/10 transition-colors">
+                      <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Geração de Caixa</span>
+                      <p className={cn("text-lg font-black mt-1", snapshot.geraCaixa ? "text-emerald-400" : "text-[#D01D1C]")}>
+                        {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(snapshot.geraCaixa ? 'Gera Caixa Operacional' : 'Consome Caixa Operacional', densityLevel)}
                       </p>
                     </div>
-                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Runway Fiduciário</span>
-                      <p className="text-lg font-black text-white mt-1">{snapshot.runway}</p>
+                    <div className="bg-white/5 p-5 rounded-2xl border border-white/10 shadow-sm hover:bg-white/10 transition-colors">
+                      <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">
+                        {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate('Runway Fiduciário', densityLevel)}
+                      </span>
+                      <p className="text-lg font-black text-white mt-1">
+                        {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(snapshot.runway, densityLevel)}
+                      </p>
                     </div>
-                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Dependência de Aportes</span>
-                      <p className="text-lg font-black text-white mt-1">{snapshot.dependenteSocios}</p>
+                    <div className="bg-white/5 p-5 rounded-2xl border border-white/10 shadow-sm hover:bg-white/10 transition-colors">
+                      <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Dependência de Aportes</span>
+                      <p className="text-lg font-black text-white mt-1">
+                        {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(snapshot.dependenteSocios, densityLevel)}
+                      </p>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 border-t border-white/5 pt-4">
-                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Maior Risco Detectado</span>
-                      <p className="text-sm font-bold text-slate-200 mt-1">{snapshot.maiorRisco}</p>
+                  <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6 relative z-10 border-t border-white/10 pt-4">
+                    <div className="bg-white/5 p-5 rounded-2xl border border-white/10 shadow-sm hover:bg-white/10 transition-colors">
+                      <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Maior Risco Detectado</span>
+                      <p className="text-sm font-bold text-slate-200 mt-1">
+                        {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(snapshot.maiorRisco, densityLevel)}
+                      </p>
                     </div>
-                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Ação Recomendada</span>
-                      <p className="text-sm font-bold text-amber-400 mt-1">{snapshot.acaoPrioritaria}</p>
+                    <div className="bg-white/5 p-5 rounded-2xl border border-white/10 shadow-sm hover:bg-white/10 transition-colors">
+                      <span className="text-[9px] font-black uppercase text-[#FF8552] tracking-wider">Ação Recomendada</span>
+                      <p className="text-sm font-black text-[#FF8552] mt-1">
+                        {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(snapshot.acaoPrioritaria, densityLevel)}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -750,7 +869,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     {adaptedPriorities.slice(0, 3).map((d: any, idx: number) => {
                       const raw = (rawPriorities[idx] || {}) as RawPriorityLike;
                       return (
-                        <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl flex-col md:flex-row md:items-start">
+                        <div key={idx} className="flex items-start gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl flex-col @3xl:flex-row @3xl:items-start">
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1 flex-wrap">
                               <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">{d.theme}</span>
@@ -790,37 +909,50 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </h3>
                   </div>
                 </div>
-                <div className="bg-slate-950 text-white rounded-3xl p-6 border border-slate-800 shadow-md">
+                <div className="bg-gradient-to-br from-[#0E1C2C] via-[#0E1C2C] to-[#07111C] text-white rounded-3xl p-6 border border-white/10 shadow-lg relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF8552]/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
                   <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Questão Principal</p>
                   <p className="text-sm font-bold text-slate-200">A operação é autossustentável?</p>
                   <p className="text-base font-black text-emerald-400 mt-2 leading-relaxed">
-                    {metrics.fiduciary?.cashBoardDecisionFramework?.isOperationSelfSustaining}
+                    {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metrics.fiduciary?.cashBoardDecisionFramework?.isOperationSelfSustaining, densityLevel)}
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">A operação gera caixa operacional?</span>
-                    <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.cashGenerationAssessment}</p>
+                <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6 mt-4">
+                  <div className="border border-border rounded-2xl p-5 space-y-1 bg-white shadow-sm hover:shadow-md transition-all duration-300">
+                    <span className="text-[9px] font-black uppercase text-[#0E1C2C]/50 tracking-wider">A operação gera caixa operacional?</span>
+                    <p className="text-xs font-bold text-[#0E1C2C] leading-relaxed">
+                      {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metrics.fiduciary?.cashBoardDecisionFramework?.cashGenerationAssessment, densityLevel)}
+                    </p>
                   </div>
-                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual a restrição principal de caixa?</span>
-                    <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.primaryConstraint}</p>
+                  <div className="border border-border rounded-2xl p-5 space-y-1 bg-white shadow-sm hover:shadow-md transition-all duration-300">
+                    <span className="text-[9px] font-black uppercase text-[#0E1C2C]/50 tracking-wider">Qual a restrição principal de caixa?</span>
+                    <p className="text-xs font-bold text-[#0E1C2C] leading-relaxed">
+                      {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metrics.fiduciary?.cashBoardDecisionFramework?.primaryConstraint, densityLevel)}
+                    </p>
                   </div>
-                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual o horizonte de sobrevivência (runway)?</span>
-                    <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.runwayAssessment}</p>
+                  <div className="border border-border rounded-2xl p-5 space-y-1 bg-white shadow-sm hover:shadow-md transition-all duration-300">
+                    <span className="text-[9px] font-black uppercase text-[#0E1C2C]/50 tracking-wider">Qual o horizonte de sobrevivência (runway)?</span>
+                    <p className="text-xs font-bold text-[#0E1C2C] leading-relaxed">
+                      {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metrics.fiduciary?.cashBoardDecisionFramework?.runwayAssessment, densityLevel)}
+                    </p>
                   </div>
-                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual a dependência dos sócios?</span>
-                    <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.shareholderDependency}</p>
+                  <div className="border border-border rounded-2xl p-5 space-y-1 bg-white shadow-sm hover:shadow-md transition-all duration-300">
+                    <span className="text-[9px] font-black uppercase text-[#0E1C2C]/50 tracking-wider">Qual a dependência dos sócios?</span>
+                    <p className="text-xs font-bold text-[#0E1C2C] leading-relaxed">
+                      {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metrics.fiduciary?.cashBoardDecisionFramework?.shareholderDependency, densityLevel)}
+                    </p>
                   </div>
-                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50/50 col-span-1 md:col-span-2">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Qual a perspectiva (outlook) de continuidade?</span>
-                    <p className="text-xs font-bold text-slate-800">{metrics.fiduciary?.cashBoardDecisionFramework?.boardOutlook}</p>
+                  <div className="border border-border rounded-2xl p-5 space-y-1 bg-white shadow-sm hover:shadow-md transition-all duration-300 col-span-1 @3xl:col-span-2">
+                    <span className="text-[9px] font-black uppercase text-[#0E1C2C]/50 tracking-wider">Qual a perspectiva (outlook) de continuidade?</span>
+                    <p className="text-xs font-bold text-[#0E1C2C] leading-relaxed">
+                      {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metrics.fiduciary?.cashBoardDecisionFramework?.boardOutlook, densityLevel)}
+                    </p>
                   </div>
-                  <div className="border border-amber-200/60 bg-amber-500/5 rounded-2xl p-5 space-y-1 col-span-1 md:col-span-2">
-                    <span className="text-[9px] font-black uppercase text-amber-600 tracking-wider">Ação imediata recomendada?</span>
-                    <p className="text-xs font-bold text-amber-800">{metrics.fiduciary?.cashBoardDecisionFramework?.immediateAction}</p>
+                  <div className="border border-[#BAB86C]/30 bg-[#BAB86C]/10 rounded-2xl p-5 space-y-1 col-span-1 @3xl:col-span-2 shadow-sm hover:shadow-md transition-all duration-300">
+                    <span className="text-[9px] font-black uppercase text-[#BAB86C] tracking-wider">Ação imediata recomendada?</span>
+                    <p className="text-xs font-bold text-[#0E1C2C] leading-relaxed">
+                      {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metrics.fiduciary?.cashBoardDecisionFramework?.immediateAction, densityLevel)}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -845,23 +977,25 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       Nenhum causador de variação de caixa válido identificado para o período.
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 @2xl:grid-cols-2 @4xl:grid-cols-3 gap-6">
                       {audit.validDrivers.map((driver: any, idx: number) => (
-                        <div key={idx} className="border border-slate-100 rounded-2xl p-5 space-y-2 bg-slate-50">
-                          <div className="flex justify-between items-center">
-                            <span className="text-xs font-bold text-slate-800">{driver.label}</span>
+                        <div key={idx} className="border border-border rounded-2xl p-5 space-y-2 bg-white shadow-sm hover:shadow-md transition-all duration-300">
+                          <div className="flex justify-between items-center gap-2">
+                            <span className="text-xs font-black text-[#0E1C2C]">{driver.label}</span>
                             <span className={cn(
-                              "px-2 py-0.5 rounded text-[8px] font-black uppercase",
-                              driver.type === 'DESTROYER' ? 'bg-rose-100 text-rose-800' : 'bg-emerald-100 text-emerald-800'
+                              "px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border shrink-0",
+                              driver.type === 'DESTROYER' 
+                                ? 'bg-rose-50 text-[#D01D1C] border-[#D01D1C]/20' 
+                                : 'bg-emerald-50 text-[#0C7A3A] border-[#0C7A3A]/20'
                             )}>
                               {driver.type === 'DESTROYER' ? 'Drenagem' : 'Geração'}
                             </span>
                           </div>
                           <div>
-                            <p className="text-lg font-black text-slate-800">
+                            <p className="text-lg font-black text-[#0E1C2C]">
                               {formatCurrency(driver.amount)}
                             </p>
-                            <p className="text-[9px] text-slate-400 font-bold uppercase mt-1">
+                            <p className="text-[9px] text-[#0E1C2C]/50 font-bold uppercase mt-1">
                               Impacto: {FiduciaryRuntimeAdapter.ExecutiveNumericPresentationGuard.formatSafe(driver.contributionPercent, (val) => `${val.toFixed(1)}%`)}
                             </p>
                           </div>
@@ -883,7 +1017,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </h3>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-4">
                   {((densityLevel === 'TECHNICAL' ? rawEarlyWarning.alerts : safeEarlyWarningAlerts) || []).map((alert: any, idx: number) => {
                     const isCritical = alert.status === 'CRITICAL' || alert.status === 'Crítico';
                     const isWarning = alert.status === 'WARNING' || alert.status === 'Atenção';
@@ -891,30 +1025,36 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
                     return (
                       <div key={idx} className={cn(
-                        "p-5 rounded-2xl border flex items-start gap-4",
-                        isCritical ? 'bg-rose-50 border-rose-200' :
-                        isWarning ? 'bg-amber-50 border-amber-200' :
+                        "p-5 rounded-2xl border flex items-start gap-4 shadow-sm",
+                        isCritical ? 'bg-[#D01D1C]/5 border-[#D01D1C]/25' :
+                        isWarning ? 'bg-[#BAB86C]/10 border-[#BAB86C]/30' :
                         'bg-slate-50 border-slate-100'
                       )}>
                         <div className={cn(
                           "w-8 h-8 rounded-full flex items-center justify-center shrink-0",
-                          isCritical ? 'bg-rose-500/10 text-rose-600' :
-                          isWarning ? 'bg-amber-500/10 text-amber-600' :
+                          isCritical ? 'bg-[#D01D1C]/10 text-[#D01D1C]' :
+                          isWarning ? 'bg-[#BAB86C]/20 text-[#BAB86C]' :
                           'bg-slate-500/10 text-slate-600'
                         )}>
                           <AlertTriangle size={16} />
                         </div>
                         <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-bold text-slate-800">{alert.metric}</span>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-xs font-black text-[#0E1C2C]">
+                              {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(alert.metric, densityLevel)}
+                            </span>
                             <span className={cn(
-                              "text-[8px] font-black uppercase px-1.5 py-0.5 rounded",
-                              isCritical ? 'bg-rose-200 text-rose-800' :
-                              isWarning ? 'bg-amber-200 text-amber-800' :
-                              'bg-slate-200 text-slate-800'
-                            )}>{alert.status}</span>
+                              "text-[8px] font-black uppercase px-2 py-0.5 rounded border tracking-wider",
+                              isCritical ? 'bg-[#D01D1C]/10 text-[#D01D1C] border-[#D01D1C]/20' :
+                              isWarning ? 'bg-[#BAB86C]/25 text-[#0E1C2C] border-[#BAB86C]/30' :
+                              'bg-slate-200 text-slate-800 border-slate-350'
+                            )}>
+                              {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(alert.status, densityLevel)}
+                            </span>
                           </div>
-                          <p className="text-[10px] text-slate-500 mt-1 font-semibold leading-relaxed">{alert.message}</p>
+                          <p className="text-[10px] text-slate-500 mt-1 font-semibold leading-relaxed">
+                            {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(alert.message, densityLevel)}
+                          </p>
                         </div>
                       </div>
                     );
@@ -933,20 +1073,23 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </h3>
                   </div>
                 </div>
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                  <div className="text-left space-y-2">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conversão de Faturamento em Caixa</span>
-                    <p className="text-2xl font-black text-slate-900 leading-tight">
+                <div className="flex flex-col @3xl:flex-row items-stretch gap-6 bg-[#0E1C2C]/5 p-6 rounded-[24px] border border-[#0E1C2C]/10 shadow-sm">
+                  <div className="flex-1 text-left space-y-2 py-2">
+                    <span className="text-[10px] font-black text-[#0E1C2C]/50 uppercase tracking-widest block">Análise de Conversão</span>
+                    <p className="text-sm font-semibold text-[#0E1C2C]/80 leading-relaxed">
+                      {metrics.fiduciary?.cashConversionAnalysis?.rationale}
+                    </p>
+                  </div>
+                  <div className="bg-white border border-[#0E1C2C]/10 px-8 py-6 rounded-2xl text-center min-w-[220px] shrink-0 shadow-sm flex flex-col justify-center">
+                    <span className="text-[10px] font-black text-[#0E1C2C]/50 uppercase tracking-widest block mb-2">Conversão de Faturamento</span>
+                    <span className="text-3xl font-black text-[#0E1C2C] tracking-tighter block">
                       {FiduciaryRuntimeAdapter.ExecutiveNumericPresentationGuard.formatSafe(
                         metrics.fiduciary?.cashConversionAnalysis?.cashConversionPer100Revenue,
                         (val) => `R$ ${val.toFixed(2)}`
                       )}
-                    </p>
-                    <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">A cada R$ 100 faturados</p>
+                    </span>
+                    <span className="text-[9px] font-bold text-[#0E1C2C]/50 uppercase block mt-1">A cada R$ 100 faturados</span>
                   </div>
-                  <p className="text-sm font-semibold text-slate-700 max-w-xl text-left md:text-right leading-relaxed">
-                    {metrics.fiduciary?.cashConversionAnalysis?.rationale}
-                  </p>
                 </div>
               </div>
             )}
@@ -961,21 +1104,21 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </h3>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Índice de Autossuficiência Financeira</span>
-                    <p className="text-lg font-black text-slate-800">
+                <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6">
+                  <div className="border border-[#BAB86C]/30 rounded-2xl p-5 space-y-1 bg-[#BAB86C]/10 shadow-sm hover:shadow-md transition-all duration-300">
+                    <span className="text-[9px] font-black uppercase text-[#0E1C2C]/50 tracking-wider">Índice de Autossuficiência Financeira</span>
+                    <p className="text-lg font-black text-[#0E1C2C]">
                       {metrics.fiduciary?.shareholderDependencyAnalysis?.autossuficienciaFinanceiraDisplay}
                     </p>
                   </div>
-                  <div className="border border-slate-100 rounded-2xl p-5 space-y-1 bg-slate-50">
-                    <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Dependência de Capital Externo</span>
-                    <p className="text-lg font-black text-slate-800">
+                  <div className="border border-[#BAB86C]/30 rounded-2xl p-5 space-y-1 bg-[#BAB86C]/10 shadow-sm hover:shadow-md transition-all duration-300">
+                    <span className="text-[9px] font-black uppercase text-[#0E1C2C]/50 tracking-wider">Dependência de Capital Externo</span>
+                    <p className="text-lg font-black text-[#0E1C2C]">
                       {metrics.fiduciary?.shareholderDependencyAnalysis?.dependenciaCapitalExternoLabel}
                     </p>
                   </div>
                 </div>
-                <p className="text-sm font-semibold text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100 leading-relaxed">
+                <p className="text-sm font-semibold text-slate-600 bg-slate-50/50 p-4 rounded-xl border border-slate-200 leading-relaxed">
                   {metrics.fiduciary?.shareholderDependencyAnalysis?.rationale}
                 </p>
               </div>
@@ -991,20 +1134,24 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </h3>
                   </div>
                 </div>
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                  <div className="text-left">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Cobertura Projetada</span>
-                    <p className="text-2xl font-black text-slate-900 mt-1">
-                      {FiduciaryRuntimeAdapter.ExecutiveNumericPresentationGuard.formatSafe(
-                        metrics.fiduciary?.runway,
-                        (val) => val >= 99 ? '99+ meses' : `${val.toFixed(1)} meses`
-                      )}
-                    </p>
-                  </div>
-                  <div className="text-left md:text-right max-w-xl">
-                    <p className="text-xs font-semibold text-slate-500 leading-relaxed">
-                      {metrics.fiduciary?.cashBoardDecisionFramework?.runwayAssessment}
-                    </p>
+                <div className="bg-gradient-to-br from-[#0E1C2C] to-[#07111C] text-white p-8 rounded-[24px] border border-white/10 shadow-xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF8552]/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+                  <div className="relative z-10 flex flex-col @3xl:flex-row @3xl:items-stretch justify-between gap-8">
+                    <div className="space-y-2 flex-1 text-left flex flex-col justify-center">
+                      <span className="text-[10px] font-black text-[#FF8552] uppercase tracking-widest block">Diagnóstico de Sobrevivência</span>
+                      <h4 className="text-lg font-bold text-slate-200 leading-relaxed">
+                        {metrics.fiduciary?.cashBoardDecisionFramework?.runwayAssessment}
+                      </h4>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 px-8 py-6 rounded-2xl text-center min-w-[220px] shrink-0 shadow-lg flex flex-col justify-center">
+                      <span className="text-[10px] font-black text-white/50 uppercase tracking-widest block mb-2">Cobertura Projetada</span>
+                      <span className="text-4xl font-black text-[#FF8552] tracking-tighter block">
+                        {FiduciaryRuntimeAdapter.ExecutiveNumericPresentationGuard.formatSafe(
+                          metrics.fiduciary?.runway,
+                          (val) => val >= 99 ? '99+ meses' : `${val.toFixed(1)} meses`
+                        )}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1032,7 +1179,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between border-b border-slate-100 pb-4 gap-4">
                     <div>
-                      <h3 className="text-xl font-black text-slate-900 mt-2">
+                      <h3 className="text-xl font-black text-[#0E1C2C] mt-2">
                         {getSectionHeader('DFC_SCENARIO_SIMULATION', 'DFC_SCENARIO_SIMULATION_TITLE')}
                       </h3>
                     </div>
@@ -1054,10 +1201,10 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                           setSelectedSimulationIndex(2); // default to max parameter
                         }}
                         className={cn(
-                          "pb-3 px-4 text-xs font-black uppercase tracking-wider transition-all border-b-2",
+                          "pb-3 px-4 text-xs font-black uppercase tracking-wider transition-all border-b-2 cursor-pointer",
                           selectedScenarioIndex === idx
-                            ? "border-slate-900 text-slate-950"
-                            : "border-transparent text-slate-400 hover:text-slate-600"
+                            ? "border-[#FF8552] text-[#0E1C2C]"
+                            : "border-transparent text-[#0E1C2C]/50 hover:text-[#0E1C2C] hover:bg-[#0E1C2C]/5 rounded-t-xl"
                         )}
                       >
                         {g.scenarioName}
@@ -1066,17 +1213,17 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Intensidade:</span>
-                    <div className="flex gap-2 bg-slate-100 p-1 rounded-xl">
+                    <span className="text-xs font-semibold text-[#0E1C2C]/60 uppercase tracking-wide">Intensidade:</span>
+                    <div className="flex gap-2 bg-[#0E1C2C]/5 p-1 rounded-xl">
                       {group.simulations.map((s: any, idx: number) => (
                         <button
                           key={idx}
                           onClick={() => setSelectedSimulationIndex(idx)}
                           className={cn(
-                            "px-4 py-1.5 rounded-lg text-xs font-bold",
+                            "px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
                             selectedSimulationIndex === idx
-                              ? "bg-slate-900 text-white shadow-md"
-                              : "text-slate-500 hover:text-slate-700"
+                              ? "bg-[#0E1C2C] text-white shadow-md"
+                              : "text-[#0E1C2C]/60 hover:text-[#0E1C2C]"
                           )}
                         >
                           {s.parameter}
@@ -1085,34 +1232,34 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                  <div className="grid grid-cols-1 @3xl:grid-cols-3 gap-6 bg-[#0E1C2C]/5 p-6 rounded-2xl border border-[#0E1C2C]/10">
                     <div className="space-y-1">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Caixa Disponível</span>
+                      <span className="text-[10px] font-bold text-[#0E1C2C]/50 uppercase tracking-widest">Caixa Disponível</span>
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-slate-500">Atual: {formatCurrency(currentCash)}</span>
-                        <span className="font-bold text-slate-900">Simulado: {formatCurrency(sim.cashSimulated)}</span>
+                        <span className="text-[#0E1C2C]/70">Atual: {formatCurrency(currentCash)}</span>
+                        <span className="font-bold text-[#0E1C2C]">Simulado: {formatCurrency(sim.cashSimulated)}</span>
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Runway Estimado</span>
+                      <span className="text-[10px] font-bold text-[#0E1C2C]/50 uppercase tracking-widest">Runway Estimado</span>
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-slate-500">Atual: {currentRunway >= 99 ? '99+' : currentRunway.toFixed(1)} meses</span>
-                        <span className="font-bold text-slate-900">Simulado: {sim.runwayDisplay}</span>
+                        <span className="text-[#0E1C2C]/70">Atual: {currentRunway >= 99 ? '99+' : currentRunway.toFixed(1)} meses</span>
+                        <span className="font-bold text-[#FF8552]">Simulado: {sim.runwayDisplay}</span>
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Fluxo Operacional (FCO)</span>
+                      <span className="text-[10px] font-bold text-[#0E1C2C]/50 uppercase tracking-widest">Fluxo Operacional (FCO)</span>
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-slate-500">Atual: {formatCurrency(currentFco)}</span>
-                        <span className="font-bold text-slate-900">Simulado: {formatCurrency(sim.fcoSimulated)}</span>
+                        <span className="text-[#0E1C2C]/70">Atual: {formatCurrency(currentFco)}</span>
+                        <span className="font-bold text-[#0E1C2C]">Simulado: {formatCurrency(sim.fcoSimulated)}</span>
                       </div>
                     </div>
                   </div>
 
                   {consistency.hasConflict && (
-                    <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3">
-                      <AlertTriangle className="text-amber-500 shrink-0 mt-0.5" size={16} />
-                      <p className="text-xs font-semibold text-amber-800 leading-normal">
+                    <div className="p-4 bg-[#BAB86C]/10 border border-[#BAB86C]/30 rounded-2xl flex items-start gap-3">
+                      <AlertTriangle className="text-[#BAB86C] shrink-0 mt-0.5" size={16} />
+                      <p className="text-xs font-semibold text-[#0E1C2C] leading-normal">
                         {densityLevel === 'TECHNICAL' ? consistency.narrative : consistency.executiveInterpretation}
                       </p>
                     </div>
@@ -1134,12 +1281,12 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                     <div>
-                      <h3 className="text-xl font-black text-slate-900 mt-2">
+                      <h3 className="text-xl font-black text-[#0E1C2C] mt-2">
                         {getSectionHeader('DFC_EFSI', 'DFC_EFSI_TITLE')}
                       </h3>
                     </div>
                   </div>
-                  <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-xs text-slate-600 leading-relaxed font-semibold">
+                  <div className="bg-[#0E1C2C]/5 p-6 rounded-2xl border border-[#0E1C2C]/10 text-xs text-[#0E1C2C] leading-relaxed font-semibold">
                     {narrative}
                   </div>
                 </div>
@@ -1150,8 +1297,8 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
             {isSectionVisible('DFC_BOARD_ADVISORY') && (() => {
               const advisory = metrics.fiduciary?.compressedAdvisory || { situacaoAtual: 'Não Disponível', restricaoPrincipal: 'Não Disponível', prioridadeEstrategica: 'Não Disponível', outlook: 'Não Disponível' };
               return (
-                <div className="bg-slate-900 text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden space-y-6 text-left">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+                <div className="bg-gradient-to-br from-[#0E1C2C] via-[#0E1C2C] to-[#07111C] text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden space-y-6 text-left border border-white/10">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF8552]/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
                   <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div className="flex items-center gap-2">
                       <h3 className="text-xl font-black">
@@ -1159,23 +1306,23 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       </h3>
                     </div>
                     {metrics.fiduciary?.isEarlyStage && (
-                      <span className="bg-amber-500/20 text-amber-400 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shrink-0">
+                      <span className="bg-[#BAB86C]/10 text-[#BAB86C] border border-[#BAB86C]/20 px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shrink-0 whitespace-normal break-words text-balance text-center inline-block">
                         Maturidade de Early-Stage
                       </span>
                     )}
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                  <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6 relative z-10">
                     <div className="space-y-4">
                       <div>
                         <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Situação Atual</p>
                         <p className="text-sm font-bold text-slate-200 leading-relaxed">
-                          {advisory.situacaoAtual}
+                          {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(advisory.situacaoAtual, densityLevel)}
                         </p>
                       </div>
                       <div>
                         <p className="text-[9px] font-black uppercase tracking-widest text-rose-400 mb-1">Restrição Principal</p>
                         <p className="text-sm font-bold text-rose-200 leading-relaxed">
-                          {advisory.restricaoPrincipal}
+                          {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(advisory.restricaoPrincipal, densityLevel)}
                         </p>
                       </div>
                     </div>
@@ -1183,50 +1330,52 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       <div>
                         <p className="text-[9px] font-black uppercase tracking-widest text-blue-400 mb-1">Prioridade Estratégica</p>
                         <p className="text-sm font-bold text-blue-200 leading-relaxed">
-                          {advisory.prioridadeEstrategica}
+                          {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(advisory.prioridadeEstrategica, densityLevel)}
                         </p>
                       </div>
-                      <div className="p-4 bg-slate-800/50 rounded-2xl border border-slate-700/50 mt-2">
-                        <p className="text-[9px] font-black uppercase tracking-widest text-emerald-400 mb-1">Outlook Fiduciário</p>
-                        <p className="text-xs font-semibold leading-relaxed text-emerald-100">
-                          {advisory.outlook}
+                      <div className="p-4 bg-white/5 rounded-2xl border border-white/10 mt-2">
+                        <p className="text-[9px] font-black uppercase tracking-widest text-[#BAB86C] mb-1">Outlook Fiduciário</p>
+                        <p className="text-xs font-semibold leading-relaxed text-[#BAB86C]/90">
+                          {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(advisory.outlook, densityLevel)}
                         </p>
                       </div>
                     </div>
                   </div>
 
                   {/* Executive Consequence Intelligence Layer (ECIL) */}
-                  <div className="border-t border-white/10 pt-6 mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                  <div className="border-t border-white/10 pt-6 mt-6 grid grid-cols-1 @3xl:grid-cols-2 gap-6 relative z-10">
                     <div className="space-y-4">
                       <div>
-                        <p className="text-[9px] font-black uppercase tracking-widest text-emerald-400 mb-1">Consequência da Ação</p>
+                        <p className="text-[9px] font-black uppercase tracking-widest text-[#BAB86C] mb-1">Consequência da Ação</p>
                         <p className="text-xs font-bold text-slate-200 leading-relaxed">
-                          {consequence.consequenceOfAction}
+                          {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(consequence.consequenceOfAction, densityLevel)}
                         </p>
                       </div>
                       <div>
                         <p className="text-[9px] font-black uppercase tracking-widest text-rose-400 mb-1">Consequência da Inação</p>
                         <p className="text-xs font-bold text-rose-200 leading-relaxed">
-                          {consequence.consequenceOfInaction}
+                          {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(consequence.consequenceOfInaction, densityLevel)}
                         </p>
                       </div>
                     </div>
                     <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 @sm:grid-cols-2 gap-4">
                         <div>
                           <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Horizonte do Impacto</p>
-                          <p className="text-xs font-bold text-slate-200">{consequence.impactHorizon}</p>
+                          <p className="text-xs font-bold text-slate-200">
+                            {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(consequence.impactHorizon, densityLevel)}
+                          </p>
                         </div>
                         <div>
                           <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Reversibilidade</p>
                           <div>
                             <span className={cn(
-                              "inline-block px-2.5 py-1 rounded text-[8px] font-black uppercase tracking-wider",
+                              "inline-block px-2.5 py-1 rounded text-[8px] font-black uppercase tracking-wider whitespace-normal break-words text-balance text-center",
                               consequence.reversibility.startsWith('Alta') ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
                               consequence.reversibility.startsWith('Recuperação possível') ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
                               'bg-rose-500/20 text-rose-300 border border-rose-500/30'
                             )}>
-                              {consequence.reversibility}
+                              {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(consequence.reversibility, densityLevel)}
                             </span>
                           </div>
                         </div>
@@ -1242,48 +1391,48 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                   <div>
-                    <h3 className="text-xl font-black text-slate-900 mt-2">
+                    <h3 className="text-xl font-black text-[#0E1C2C] mt-2">
                       {getSectionHeader('DFC_RECONCILIATION_SUMMARY', 'DFC_RECONCILIATION_SUMMARY_TITLE')}
                     </h3>
                   </div>
                   <span className={cn(
-                    "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider",
+                    "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider whitespace-normal break-words text-balance text-center",
                     metrics.fiduciary?.reconciliationMismatch 
-                      ? "bg-rose-500/10 text-rose-600 border border-rose-500/20" 
+                      ? "bg-[#D01D1C]/10 text-[#D01D1C] border border-[#D01D1C]/20" 
                       : "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
                   )}>
                     {metrics.fiduciary?.reconciliationMismatch ? "Divergência Detectada" : "Conciliado (Diferença R$ 0)"}
                   </span>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6 bg-[#0E1C2C]/5 p-6 rounded-2xl border border-[#0E1C2C]/10">
                   <div className="space-y-3">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Cálculo DFC</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#0E1C2C]/50 block mb-1">Cálculo DFC</span>
                     <div className="flex justify-between text-xs font-medium">
-                      <span className="text-slate-500">Caixa Inicial DFC:</span>
-                      <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.caixaInicialDFC || 0)}</span>
+                      <span className="text-[#0E1C2C]/70">Caixa Inicial DFC:</span>
+                      <span className="text-[#0E1C2C] font-semibold">{formatCurrency(metrics.fiduciary?.caixaInicialDFC || 0)}</span>
                     </div>
                     <div className="flex justify-between text-xs font-medium">
-                      <span className="text-slate-500">Variação DFC:</span>
-                      <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.variacaoDFC || 0)}</span>
+                      <span className="text-[#0E1C2C]/70">Variação DFC:</span>
+                      <span className="text-[#0E1C2C] font-semibold">{formatCurrency(metrics.fiduciary?.variacaoDFC || 0)}</span>
                     </div>
-                    <div className="flex justify-between text-xs font-bold border-t border-slate-200/60 pt-2">
-                      <span className="text-slate-700">Caixa Final Estimado:</span>
-                      <span className="text-slate-900">{formatCurrency(metrics.fiduciary?.caixaFinalEstimadoDFC || 0)}</span>
+                    <div className="flex justify-between text-xs font-bold border-t border-[#0E1C2C]/10 pt-2">
+                      <span className="text-[#0E1C2C]">Caixa Final Estimado:</span>
+                      <span className="text-[#0E1C2C] font-bold">{formatCurrency(metrics.fiduciary?.caixaFinalEstimadoDFC || 0)}</span>
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Valores BP (Real)</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#0E1C2C]/50 block mb-1">Valores BP (Real)</span>
                     <div className="flex justify-between text-xs font-medium">
-                      <span className="text-slate-500">Caixa Inicial Real (BP):</span>
-                      <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.caixaInicialBP || 0)}</span>
+                      <span className="text-[#0E1C2C]/70">Caixa Inicial Real (BP):</span>
+                      <span className="text-[#0E1C2C] font-semibold">{formatCurrency(metrics.fiduciary?.caixaInicialBP || 0)}</span>
                     </div>
                     <div className="flex justify-between text-xs font-medium">
-                      <span className="text-slate-500">Variação Real (BP):</span>
-                      <span className="text-slate-800">{formatCurrency(metrics.fiduciary?.variacaoLiquidaConciliada || 0)}</span>
+                      <span className="text-[#0E1C2C]/70">Variação Real (BP):</span>
+                      <span className="text-[#0E1C2C] font-semibold">{formatCurrency(metrics.fiduciary?.variacaoLiquidaConciliada || 0)}</span>
                     </div>
-                    <div className="flex justify-between text-xs font-bold border-t border-slate-200/60 pt-2">
-                      <span className="text-slate-700">Caixa Final Real (BP):</span>
-                      <span className="text-slate-900">{formatCurrency(metrics.fiduciary?.caixaFinalBP || 0)}</span>
+                    <div className="flex justify-between text-xs font-bold border-t border-[#0E1C2C]/10 pt-2">
+                      <span className="text-[#0E1C2C]">Caixa Final Real (BP):</span>
+                      <span className="text-[#0E1C2C] font-bold">{formatCurrency(metrics.fiduciary?.caixaFinalBP || 0)}</span>
                     </div>
                   </div>
                 </div>
@@ -1295,13 +1444,13 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-4 text-left">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                   <div>
-                    <h3 className="text-xl font-black text-slate-900 mt-2">
+                    <h3 className="text-xl font-black text-[#0E1C2C] mt-2">
                       {getSectionHeader('DFC_TECHNICAL_LAYER', 'DFC_TECHNICAL_LAYER_TITLE')}
                     </h3>
                   </div>
                   <button
                     onClick={() => setTechnicalTableOpen(!technicalTableOpen)}
-                    className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all select-none"
+                    className="px-4 py-2 border border-[#0E1C2C]/20 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#0E1C2C]/5 text-[#0E1C2C] transition-all select-none cursor-pointer"
                   >
                     {technicalTableOpen ? 'Ocultar Detalhes' : 'Visualizar Detalhes'}
                   </button>
@@ -1309,7 +1458,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
                 {technicalTableOpen && (
                   <div className="space-y-8 animate-in fade-in duration-300">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 gap-4">
                       {Object.entries(cashQuality?.dimensions || {}).map(([key, dim]: [string, any]) => {
                         let title = '';
                         if (key === 'conversion') title = 'Conversão Operacional';
@@ -1320,30 +1469,30 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                         else title = 'Sustentabilidade do Caixa';
 
                         return (
-                          <div key={key} className="border border-slate-100 rounded-xl p-4 bg-slate-50 text-xs space-y-2">
-                            <span className="font-bold text-slate-800 block border-b border-slate-200 pb-1">{title}</span>
+                          <div key={key} className="border border-[#0E1C2C]/10 rounded-xl p-4 bg-[#0E1C2C]/5 text-xs space-y-2 text-[#0E1C2C]">
+                            <span className="font-bold text-[#0E1C2C] block border-b border-[#0E1C2C]/10 pb-1">{title}</span>
                             <div className="space-y-1">
-                              <p className="text-[10px] text-slate-500"><strong>Score:</strong> {dim.score}</p>
-                              <p className="text-[10px] text-slate-500"><strong>Fórmula:</strong> {dim.formula}</p>
-                              <p className="text-[10px] text-slate-500"><strong>Linhagem:</strong> {dim.lineage}</p>
-                              <p className="text-[10px] text-slate-500"><strong>Racional:</strong> {dim.rationale}</p>
+                              <p className="text-[10px] text-[#0E1C2C]/70"><strong className="text-[#0E1C2C]">Score:</strong> {dim.score}</p>
+                              <p className="text-[10px] text-[#0E1C2C]/70"><strong className="text-[#0E1C2C]">Fórmula:</strong> {dim.formula}</p>
+                              <p className="text-[10px] text-[#0E1C2C]/70"><strong className="text-[#0E1C2C]">Linhagem:</strong> {dim.lineage}</p>
+                              <p className="text-[10px] text-[#0E1C2C]/70"><strong className="text-[#0E1C2C]">Racional:</strong> {dim.rationale}</p>
                             </div>
                           </div>
                         );
                       })}
                     </div>
-                    <div className="border border-slate-200 rounded-2xl overflow-hidden">
-                      <div className="bg-slate-50 px-6 py-3 border-b border-slate-200">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Tabela de Reclassificação Fiduciária</span>
+                    <div className="border border-[#0E1C2C]/10 rounded-2xl overflow-hidden shadow-sm">
+                      <div className="bg-[#0E1C2C]/5 px-6 py-3 border-b border-[#0E1C2C]/10">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-[#0E1C2C]/60">Tabela de Reclassificação Fiduciária</span>
                       </div>
                       <table className="w-full text-xs">
                         <thead>
-                          <tr className="bg-slate-100/50 border-b border-slate-200">
-                            <th className="text-left py-3 px-6 font-bold text-slate-400 uppercase tracking-wider">Descrição</th>
-                            <th className="text-right py-3 px-6 font-bold text-slate-400 uppercase tracking-wider">Valor (R$)</th>
+                          <tr className="bg-[#0E1C2C]/5 border-b border-[#0E1C2C]/10">
+                            <th className="text-left py-3 px-6 font-bold text-[#0E1C2C]/50 uppercase tracking-wider">Descrição</th>
+                            <th className="text-right py-3 px-6 font-bold text-[#0E1C2C]/50 uppercase tracking-wider">Valor (R$)</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-100">
+                        <tbody className="divide-y divide-[#0E1C2C]/10">
                           {rows.map((row: any, idx: number) => {
                             const cleanItemName = (row.conta || row.category || row.item || '');
                             const isIndented = cleanItemName.startsWith('  ');
@@ -1363,26 +1512,26 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                               <tr 
                                 key={idx} 
                                 className={cn(
-                                  'hover:bg-slate-50 transition-colors', 
-                                  (row.isTotal || row.isSubTotal) ? 'bg-slate-50/50 font-bold' : '',
-                                  isReclassified ? 'bg-amber-500/5 font-bold' : ''
+                                  'hover:bg-[#0E1C2C]/5 transition-colors', 
+                                  (row.isTotal || row.isSubTotal) ? 'bg-[#0E1C2C]/5 font-bold text-[#0E1C2C]' : '',
+                                  isReclassified ? 'bg-[#BAB86C]/10 font-bold' : ''
                                 )}
                               >
                                 <td className="py-3 px-6">
                                   <span className={cn(
                                     'block flex items-center gap-1.5 flex-wrap',
                                     isIndented ? (hasBullet ? 'pl-6' : 'pl-4') : '',
-                                    isReclassified ? 'text-amber-700' : 'text-slate-600'
+                                    isReclassified ? 'text-[#0E1C2C]' : 'text-slate-600'
                                   )}>
-                                    {hasBullet && <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />}
+                                    {hasBullet && <span className="w-1.5 h-1.5 rounded-full bg-[#BAB86C] shrink-0" />}
                                     <span>{displayItemName}</span>
                                   </span>
                                 </td>
                                 <td className={cn(
                                   "py-3 px-6 text-right font-mono", 
                                   (row.val || row.valor || row.value || 0) < 0 
-                                    ? "text-rose-500" 
-                                    : (isReclassified ? "text-amber-600" : "text-slate-700")
+                                    ? "text-[#D01D1C]" 
+                                    : (isReclassified ? "text-[#0E1C2C]" : "text-slate-700")
                                 )}>
                                   {formatCurrency(row.val || row.valor || row.value || 0)}
                                 </td>
@@ -1399,30 +1548,30 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
             {/* DFC_EQE_SUMMARY Section (Earnings Quality Engine subordinate block) */}
             {isSectionVisible('DFC_EQE_SUMMARY') && earningsQuality && (
-              <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm p-8 space-y-8 mb-10">
+              <div className="bg-white border border-[#0E1C2C]/10 rounded-[32px] shadow-sm p-8 space-y-8 mb-10">
                 <div>
-                  <h3 className="text-xl font-black text-slate-900 uppercase tracking-wider">
+                  <h3 className="text-xl font-black text-[#0E1C2C] uppercase tracking-wider">
                     {getEQETitle()}
                   </h3>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">
+                  <p className="text-xs text-[#0E1C2C]/50 font-bold uppercase tracking-widest mt-1">
                     Avaliação fiduciária de integridade, sustentabilidade e recorrência da lucratividade operacional
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                  <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden h-full min-h-[300px]">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6">Nível de Sustentabilidade dos Resultados</span>
+                <div className="grid grid-cols-1 @xl:grid-cols-2 @5xl:grid-cols-3 gap-8 items-center">
+                  <div className="bg-[#0E1C2C]/5 border border-[#0E1C2C]/10 rounded-[32px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden h-full min-h-[300px]">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#0E1C2C]/50 mb-6">Nível de Sustentabilidade dos Resultados</span>
                     <div className="relative w-36 h-36 flex items-center justify-center">
                       <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#e2e8f0" strokeWidth="8" />
+                        <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgba(14, 28, 44, 0.1)" strokeWidth="8" />
                         <circle 
                           cx="50" cy="50" r="40" 
                           fill="transparent" 
                           stroke={
                             earningsQuality.score >= 85 ? '#10b981' :
-                            earningsQuality.score >= 70 ? '#3b82f6' :
-                            earningsQuality.score >= 50 ? '#f59e0b' :
-                            '#ef4444'
+                            earningsQuality.score >= 70 ? '#FF8552' :
+                            earningsQuality.score >= 50 ? '#BAB86C' :
+                            '#D01D1C'
                           } 
                           strokeWidth="8"
                           strokeDasharray="251.2"
@@ -1431,17 +1580,17 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                         />
                       </svg>
                       <div className="text-center z-10">
-                        <span className="text-4xl font-black text-slate-900 tracking-tighter">{earningsQuality.score}</span>
-                        <span className="text-sm font-bold text-slate-400">/100</span>
+                        <span className="text-4xl font-black text-[#0E1C2C] tracking-tighter">{earningsQuality.score}</span>
+                        <span className="text-sm font-bold text-[#0E1C2C]/40">/100</span>
                       </div>
                     </div>
 
                     <div className="mt-6 flex flex-col items-center gap-2">
                       <span className={cn(
-                        "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm text-center",
+                        "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm text-center whitespace-normal break-words text-balance inline-block",
                         earningsQuality.score >= 85 ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" :
-                        earningsQuality.score >= 70 ? "bg-blue-500/10 text-blue-600 border border-blue-500/20" :
-                        earningsQuality.score >= 50 ? "bg-amber-500/10 text-amber-600 border border-amber-500/20" :
+                        earningsQuality.score >= 70 ? "bg-[#FF8552]/10 text-[#FF8552] border border-[#FF8552]/20" :
+                        earningsQuality.score >= 50 ? "bg-[#BAB86C]/10 text-[#0E1C2C] border border-[#BAB86C]/20" :
                         "bg-rose-500/10 text-rose-600 border border-rose-500/20"
                       )}>
                         {earningsQuality.semanticLabel || earningsQuality.level}
@@ -1449,23 +1598,23 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     </div>
                   </div>
 
-                  <div className="bg-slate-50 border border-slate-100 rounded-[32px] p-4 flex items-center justify-center h-full min-h-[300px]">
+                  <div className="bg-[#0E1C2C]/5 border border-[#0E1C2C]/10 rounded-[32px] p-4 flex items-center justify-center h-full min-h-[300px]">
                     <div className="w-full h-[280px]">
                       <ResponsiveContainer width="100%" height="100%">
                         <RadarChart cx="50%" cy="50%" outerRadius="65%" data={earningsRadarData}>
-                          <PolarGrid stroke="#e2e8f0" />
+                          <PolarGrid stroke="rgba(14, 28, 44, 0.1)" />
                           <PolarAngleAxis dataKey="subject" tick={renderPolarAngleAxisTick} />
                           <PolarRadiusAxis angle={30} domain={[0, 25]} tick={false} axisLine={false} />
-                          <Radar name="Score" dataKey="A" stroke="#4f46e5" fill="#4f46e5" fillOpacity={0.15} strokeWidth={2} />
+                          <Radar name="Score" dataKey="A" stroke="#FF8552" fill="#FF8552" fillOpacity={0.15} strokeWidth={2} />
                         </RadarChart>
                       </ResponsiveContainer>
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-4 justify-center h-full">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Alertas de Qualidade do Lucro</h4>
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-[#0E1C2C]/50">Alertas de Qualidade do Lucro</h4>
                     {earningsQuality.alerts.length === 0 ? (
-                      <div className="bg-emerald-50 border border-emerald-100 p-5 rounded-2xl flex items-center gap-3">
+                      <div className="bg-emerald-500/5 border border-emerald-500/10 p-5 rounded-2xl flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
                           <Info size={16} />
                         </div>
@@ -1477,13 +1626,13 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                     ) : (
                       <div className="space-y-3 max-h-[250px] overflow-y-auto pr-1">
                         {earningsQuality.alerts.filter((alert: string) => !['LOSS_WITH_CASH_CONSUMPTION', 'PROFIT_WITHOUT_CASH', 'NET_INCOME_SOURCE_MISSING', 'PREJUIZO_OPERACIONAL'].includes(alert)).map((alert: string, idx: number) => (
-                          <div key={idx} className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0 mt-0.5">
+                          <div key={idx} className="bg-[#BAB86C]/10 border border-[#BAB86C]/25 p-4 rounded-2xl flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-[#BAB86C]/20 flex items-center justify-center text-[#0E1C2C] shrink-0 mt-0.5">
                               <AlertTriangle size={14} />
                             </div>
                             <div className="text-left">
-                              <p className="text-xs font-bold text-amber-800">Ponto de Atenção</p>
-                              <p className="text-[10px] text-amber-700 font-semibold mt-0.5 leading-relaxed">{alert}</p>
+                              <p className="text-xs font-bold text-[#0E1C2C]">Ponto de Atenção</p>
+                              <p className="text-[10px] text-[#0E1C2C]/80 font-semibold mt-0.5 leading-relaxed">{alert}</p>
                             </div>
                           </div>
                         ))}
@@ -1495,48 +1644,53 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 {isSectionVisible('DFC_EQE_LINEAGE') && (
                   <div className="border-t border-slate-100 pt-8 space-y-4">
                     <div>
-                      <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Explicabilidade & Rastreabilidade do Lucro (EQE)</h4>
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Fórmula, linhagem contábil, racional e triggers de proteção de maturidade</p>
+                      <h4 className="text-sm font-black text-[#0E1C2C] uppercase tracking-widest">
+                        {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate('Explicabilidade & Rastreabilidade do Lucro (EQE)', densityLevel)}
+                      </h4>
+                      <p className="text-[10px] text-[#0E1C2C]/50 font-bold uppercase tracking-widest mt-0.5">Fórmula, linhagem contábil, racional e triggers de proteção de maturidade</p>
                     </div>
 
                     {earningsQuality?.netIncomeTrace && (
-                      <div className="bg-slate-50/80 border border-slate-100 rounded-3xl p-5 mt-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
+                      <div className="bg-[#0E1C2C]/5 border border-[#0E1C2C]/10 rounded-3xl p-5 mt-4 flex flex-col @3xl:flex-row @3xl:items-center justify-between gap-4 shadow-xs text-[#0E1C2C]">
                         <div>
-                          <h5 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Auditoria de Linhagem do Lucro Líquido</h5>
+                          <h5 className="text-[10px] font-black uppercase tracking-widest text-[#0E1C2C]/50">Auditoria de Linhagem do Lucro Líquido</h5>
                         </div>
-                        <div className="flex flex-wrap items-center gap-6 text-[11px] font-bold text-slate-600">
+                        <div className="flex flex-wrap items-center gap-6 text-[11px] font-bold text-[#0E1C2C]/80">
                           <div className="flex flex-col gap-0.5">
-                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Fonte</span>
-                            <span className="text-slate-800">{earningsQuality.netIncomeTrace.source}</span>
+                            <span className="text-[9px] font-black uppercase text-[#0E1C2C]/40 tracking-wider">Fonte</span>
+                            <span className="text-[#0E1C2C]">{earningsQuality.netIncomeTrace.source}</span>
                           </div>
                           <div className="flex flex-col gap-0.5">
-                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Valor na DRE</span>
-                            <span className="text-slate-800">
+                            <span className="text-[9px] font-black uppercase text-[#0E1C2C]/40 tracking-wider">Valor na DRE</span>
+                            <span className="text-[#0E1C2C]">
                               {earningsQuality.netIncomeTrace.sourceValue !== null 
                                 ? formatCurrency(earningsQuality.netIncomeTrace.sourceValue) 
                                 : 'Não identificado na DRE'}
                             </span>
                           </div>
                           <div className="flex flex-col gap-0.5">
-                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">Valor usado pelo EQE</span>
-                            <span className="text-slate-800">{formatCurrency(earningsQuality.netIncomeTrace.consumedByEQE)}</span>
+                            <span className="text-[9px] font-black uppercase text-[#0E1C2C]/40 tracking-wider">
+                              {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate('Valor usado pelo EQE', densityLevel)}
+                            </span>
+                            <span className="text-[#0E1C2C]">{formatCurrency(earningsQuality.netIncomeTrace.consumedByEQE)}</span>
                           </div>
                         </div>
                       </div>
                     )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 gap-4">
                       {Object.entries(earningsQuality?.dimensions || {}).map(([key, dim]: [string, any]) => {
                         const isExpanded = expandedDimension === key;
                         let title = '';
                         let colorClass = '';
-                        let bgClass = '';
-                        if (key === 'cashBacked') { title = 'Conversão em Caixa (Cash-Backed)'; colorClass = 'text-emerald-600'; bgClass = 'bg-emerald-50'; }
-                        else if (key === 'recurrence') { title = 'Recorrência Econômica'; colorClass = 'text-blue-600'; bgClass = 'bg-blue-50'; }
-                        else if (key === 'sustainability') { title = 'Sustentabilidade da Margem'; colorClass = 'text-indigo-600'; bgClass = 'bg-indigo-50'; }
-                        else if (key === 'shareholderSupport') { title = 'Suporte dos Sócios'; colorClass = 'text-purple-600'; bgClass = 'bg-purple-50'; }
-                        else if (key === 'accountingAggressiveness') { title = 'Ponto de Atenção'; colorClass = 'text-amber-600'; bgClass = 'bg-amber-50'; }
-                        else { title = 'Estabilidade Longitudinal'; colorClass = 'text-rose-600'; bgClass = 'bg-rose-50'; }
+                        if (key === 'cashBacked') { title = 'Conversão em Caixa (Cash-Backed)'; colorClass = 'text-emerald-600'; }
+                        else if (key === 'recurrence') { title = 'Recorrência Econômica'; colorClass = 'text-blue-600'; }
+                        else if (key === 'sustainability') { title = 'Sustentabilidade da Margem'; colorClass = 'text-indigo-600'; }
+                        else if (key === 'shareholderSupport') { title = 'Suporte dos Sócios'; colorClass = 'text-purple-600'; }
+                        else if (key === 'accountingAggressiveness') { title = 'Ponto de Atenção'; colorClass = 'text-amber-600'; }
+                        else { title = 'Estabilidade Longitudinal'; colorClass = 'text-rose-600'; }
+
+                        title = FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(title, densityLevel);
 
                         return (
                           <div 
@@ -1545,24 +1699,24 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                             className={cn(
                               "border rounded-2xl p-5 cursor-pointer transition-all duration-300 select-none text-left",
                               isExpanded 
-                                ? "border-slate-800 bg-slate-900 text-white shadow-lg" 
-                                : "border-slate-100 bg-slate-50 hover:bg-slate-100/50 hover:border-slate-200"
+                                ? "border-[#0E1C2C] bg-[#0E1C2C] text-white shadow-lg" 
+                                : "border-[#0E1C2C]/10 bg-[#0E1C2C]/5 hover:bg-[#0E1C2C]/10 hover:border-[#0E1C2C]/20 text-[#0E1C2C]"
                             )}
                           >
                             <div className="flex items-center justify-between">
                               <div>
-                                <p className={cn("text-[9px] font-black uppercase tracking-wider", isExpanded ? "text-slate-400" : colorClass)}>{title}</p>
-                                <p className="text-[10px] font-semibold text-slate-500 mt-1">Score: {dim.score}</p>
+                                <p className={cn("text-[9px] font-black uppercase tracking-wider", isExpanded ? "text-white/60" : colorClass)}>{title}</p>
+                                <p className={cn("text-[10px] font-semibold mt-1", isExpanded ? "text-white/80" : "text-[#0E1C2C]/70")}>Score: {dim.score}</p>
                               </div>
                             </div>
                             {isExpanded && (
                               <div className="mt-4 pt-4 border-t border-white/10 space-y-3.5 text-xs animate-in fade-in duration-300">
                                 <div>
-                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Fórmula Econômica</p>
+                                  <p className="text-[9px] font-black text-white/50 uppercase tracking-widest">Fórmula Econômica</p>
                                   <code className="block bg-black/30 p-2 rounded-lg mt-1 font-mono text-[10px] text-indigo-400 break-all">{dim.formula}</code>
                                 </div>
                                 <div>
-                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Linhagem de Contas (Lineage)</p>
+                                  <p className="text-[9px] font-black text-white/50 uppercase tracking-widest">Linhagem de Contas (Lineage)</p>
                                   <p className="text-[10px] font-medium text-white/80 mt-1">{dim.lineage}</p>
                                 </div>
                               </div>
@@ -1580,21 +1734,21 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       })()}
 
       {viewMode === 'oficial' && (
-        <div className="bg-white border border-slate-200 rounded-[40px] shadow-sm overflow-hidden mb-10">
-          <div className="px-5 md:px-8 py-3 md:py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
-            <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">
+        <div className="bg-white border border-[#0E1C2C]/10 rounded-[32px] shadow-sm overflow-hidden mb-10">
+          <div className="px-5 md:px-8 py-4 md:py-6 border-b border-[#0E1C2C]/10 flex items-center justify-between bg-[#0E1C2C]/5">
+            <h4 className="text-sm font-black text-[#0E1C2C] uppercase tracking-widest">
               Detalhamento da DFC
             </h4>
-            <span className="text-[9px] font-black uppercase px-3 py-1 rounded-full bg-blue-50 text-blue-600">
+            <span className="text-[9px] font-black uppercase px-3 py-1 rounded-full bg-[#FF8552]/10 text-[#FF8552] border border-[#FF8552]/20">
               Fluxo de Caixa Indireto
             </span>
           </div>
           {metrics.fiduciary?.tableRows?.some((r: any) => r.isReconstructed) && (
-            <div className="mx-5 md:mx-8 mt-4 p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3">
-              <AlertTriangle className="text-amber-600 shrink-0 mt-0.5" size={16} />
+            <div className="mx-5 md:mx-8 mt-6 p-4 bg-[#BAB86C]/10 border border-[#BAB86C]/30 rounded-2xl flex items-start gap-3">
+              <AlertTriangle className="text-[#BAB86C] shrink-0 mt-0.5" size={16} />
               <div>
-                <p className="text-xs font-bold text-amber-800">Aviso de Conciliação</p>
-                <p className="text-xs text-amber-700 mt-1">
+                <p className="text-xs font-bold text-[#0E1C2C]">Aviso de Conciliação</p>
+                <p className="text-xs text-[#0E1C2C]/80 mt-1">
                   Potential omitted related-party movement detected from Balance Sheet reconciliation.
                 </p>
               </div>
@@ -1603,49 +1757,50 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-slate-50/50 border-b border-slate-100">
-                  <th className="text-left py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Descrição</th>
-                  <th className="text-right py-2.5 md:py-4 px-5 md:px-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Valor (R$)</th>
+                <tr className="bg-[#0E1C2C]/5 border-b border-[#0E1C2C]/10">
+                  <th className="text-left py-3.5 px-5 md:px-8 text-[10px] font-bold text-[#0E1C2C]/50 uppercase tracking-widest">Descrição</th>
+                  <th className="text-right py-3.5 px-5 md:px-8 text-[10px] font-bold text-[#0E1C2C]/50 uppercase tracking-widest">Valor (R$)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="divide-y divide-[#0E1C2C]/10">
                 {rows.map((row: any, i: number) => {
                    const cleanItemName = (row.conta || row.category || row.item || '');
                    const isIndented = cleanItemName.startsWith('  ');
                    const hasBullet = cleanItemName.startsWith('  * ');
                    const displayItemName = cleanItemName.replace(/^  * |^  /, '');
                    const isReclassified = false;
+                   const isTotalRow = row.isTotal || row.isSubTotal;
 
                    return (
                      <tr 
                        key={i} 
                        className={cn(
-                         'hover:bg-surface-container/50 transition-colors group', 
-                         (row.isTotal || row.isSubTotal) ? 'bg-surface-container/30 font-bold' : '',
+                         'hover:bg-[#0E1C2C]/5 transition-colors group', 
+                         isTotalRow ? 'bg-[#0E1C2C]/5 font-bold text-[#0E1C2C]' : '',
                          isReclassified ? 'bg-amber-500/5 hover:bg-amber-500/10' : ''
                        )}
                      >
-                       <td className="py-2.5 md:py-4 px-5 md:px-8">
+                       <td className="py-3 px-5 md:px-8">
                          <span className={cn(
                            'block overflow-visible break-words flex items-center gap-1.5 flex-wrap', 
-                           (row.isTotal || row.isSubTotal || row.level === 1) ? 'text-secondary font-bold' : 'text-muted-foreground font-medium',
+                           (isTotalRow || row.level === 1) ? 'text-[#0E1C2C] font-bold' : 'text-[#0E1C2C]/80 font-medium',
                            isIndented ? (hasBullet ? 'pl-8' : 'pl-6') : '',
                            isReclassified ? 'text-amber-700 dark:text-amber-500 font-bold' : ''
                          )}>
-                           {hasBullet && <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />}
+                           {hasBullet && <span className="w-1.5 h-1.5 rounded-full bg-[#FF8552] shrink-0" />}
                            <span>{displayItemName}</span>
                            {row.isReconstructed && (
-                             <span className="ml-2 px-1.5 py-0.5 rounded text-[8px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 select-none uppercase tracking-wide shrink-0">
+                             <span className="ml-2 px-1.5 py-0.5 rounded text-[8px] font-bold bg-[#BAB86C]/10 text-[#0E1C2C] border border-[#BAB86C]/30 select-none uppercase tracking-wide shrink-0">
                                Reconstruído a partir do BP
                              </span>
                            )}
                          </span>
                        </td>
                        <td className={cn(
-                         "py-2.5 md:py-4 px-5 md:px-8 text-right font-mono", 
+                         "py-3 px-5 md:px-8 text-right font-mono", 
                          (row.val || row.valor || row.value || 0) < 0 
-                           ? "text-rose-500" 
-                           : (isReclassified ? "text-amber-600 dark:text-amber-500 font-bold" : "text-slate-700")
+                           ? "text-[#D01D1C]" 
+                           : (isTotalRow ? "text-[#0E1C2C] font-bold" : "text-[#0E1C2C]/80")
                        )}>
                          {formatCurrency(row.val || row.valor || row.value || 0)}
                        </td>
@@ -1660,14 +1815,16 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
       {/* Advisory Institutions Layer */}
       {viewMode === 'oficial' && dfcInference?.narrative && (
-        <div className="bg-slate-900 text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden mb-10">
-          <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+        <div className="bg-gradient-to-br from-[#0E1C2C] via-[#0E1C2C] to-[#07111C] text-white p-8 rounded-[32px] shadow-xl relative overflow-hidden mb-10 border border-white/5">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF8552]/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+          <p className="text-[10px] text-[#FF8552] uppercase font-bold tracking-widest mb-1 relative z-10">Diagnóstico de Caixa & Estratégia</p>
+          <div className="flex items-center justify-between mb-6 flex-wrap gap-4 relative z-10">
             <div className="flex items-center gap-3">
-              <Info size={24} className="text-secondary" />
-              <h3 className="text-xl font-black">Advisory Institucional</h3>
+              <Info size={22} className="text-[#FF8552]" />
+              <h3 className="text-xl font-black tracking-tight text-white">Advisory Institucional</h3>
             </div>
           </div>
-          <p className="text-sm font-medium leading-relaxed text-slate-300">
+          <p className="text-sm font-medium leading-relaxed text-slate-300 relative z-10">
             {dfcInference.narrative.executiveNarrative || dfcInference.narrative.diagnostic}
           </p>
         </div>

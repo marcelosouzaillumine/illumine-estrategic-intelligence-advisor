@@ -185,6 +185,7 @@ export interface ExecutiveBoardReport {
   apsScore?: number;
   advisoryConfidenceScore?: number;
   learningResult?: GovernanceLearningResult;
+  journeyOverview?: GovernanceJourneyResult;
 }
 
 export type BoardPackSlideTemplate = "STANDARD_BOARD" | "FAMILY_BUSINESS" | "BAM" | "INVESTOR";
@@ -505,6 +506,31 @@ export interface GovernanceLearningResult {
     | "WEAK_PREDICTIVE_ACCURACY";
   feedbackMode: "LIVE_OUTCOME" | "SIMULATED_FEEDBACK";
 }
+
+export interface GovernanceJourneyStep {
+  id: string;
+  title: string;
+  description: string;
+  status: "HEALTHY" | "ATTENTION" | "CRITICAL";
+  primaryMetric: string;
+  primaryValue: string;
+  executiveSummary: string;
+  sourceModules: string[];
+  actionRequired?: string;
+  executiveAttentionScore: number;
+}
+
+export interface GovernanceJourneyResult {
+  overallStatus: "HEALTHY" | "ATTENTION" | "CRITICAL";
+  currentJourneyStage: string;
+  executiveNarrative: string;
+  steps: GovernanceJourneyStep[];
+  lineageHash: string;
+  gjiScore: number;
+  gjiStage: string;
+  boardNarrative: string;
+}
+
 
 
 

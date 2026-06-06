@@ -19,6 +19,7 @@ import { decisionRegistryEngine } from '../execution/DecisionRegistryEngine';
 import { governanceKnowledgeEngine } from '../knowledge/GovernanceKnowledgeEngine';
 import { benchmarkAdvisoryEngine } from '../benchmark/BenchmarkAdvisoryEngine';
 import { governanceLearningEngine } from '../learning/GovernanceLearningEngine';
+import { governanceJourneyEngine } from '../journey/GovernanceJourneyEngine';
 
 export class BoardPackGeneratorEngine {
   private static instance: BoardPackGeneratorEngine;
@@ -79,7 +80,7 @@ export class BoardPackGeneratorEngine {
       };
     });
 
-    // 4. Construct Slide Mappings (12 Widescreen standard slides + 2 Annex/Appendix slides)
+    // 4. Construct Slide Mappings (13 Widescreen standard slides + 2 Annex/Appendix slides + Cover = 16 slides total)
     const slides: BoardPackSlide[] = [];
 
     // Slide 1: Cover
@@ -97,7 +98,27 @@ export class BoardPackGeneratorEngine {
       ]
     });
 
-    // Slide 2: Executive Assessment
+    const journey = governanceJourneyEngine.generateJourney(clientId || 'GLOBAL', mode, scenario);
+    const sortedSteps = [...journey.steps].sort((a, b) => b.executiveAttentionScore - a.executiveAttentionScore);
+
+    // Slide 2: GJL™ Executive Journey
+    slides.push({
+      slideNumber: 2,
+      title: "1. JORNADA DE GOVERNANÇA (GJL™)",
+      objective: "Visão consolidada da jornada executiva baseada no GJI™ e priorizada por atenção (EAI™).",
+      visualType: "SUMMARY",
+      meetingCriticality: "HIGH",
+      content: [
+        `Governance Journey Index — índice consolidado de navegação executiva: ${journey.gjiScore}/100 (${journey.gjiStage})`,
+        `Parecer Executivo: "${journey.boardNarrative}"`,
+        `Passos da Jornada (Ordenados por EAI™ - Prioridade de Atenção):`,
+        ...sortedSteps.map((s, idx) => 
+          `${idx + 1}. [EAI: ${s.executiveAttentionScore}] ${s.title}: ${s.primaryValue} (${s.status})`
+        )
+      ]
+    });
+
+    // Slide 3: Executive Assessment
     // Break the executive summary into 3 concise slides/bullets
     const bulletList = report.executiveSummary
       .split('.')
@@ -106,8 +127,8 @@ export class BoardPackGeneratorEngine {
       .slice(0, 4);
 
     slides.push({
-      slideNumber: 2,
-      title: "1. RESUMO EXECUTIVO E PARECER",
+      slideNumber: 3,
+      title: "2. RESUMO EXECUTIVO E PARECER",
       objective: "Visão geral e opinião analítica sobre o momento institucional da holding.",
       visualType: "SUMMARY",
       meetingCriticality: "HIGH",
@@ -118,10 +139,10 @@ export class BoardPackGeneratorEngine {
       ]
     });
 
-    // Slide 3: ESGIM™
+    // Slide 4: ESGIM™
     slides.push({
-      slideNumber: 3,
-      title: "2. MATURIDADE INSTITUCIONAL (ESGIM™)",
+      slideNumber: 4,
+      title: "3. MATURIDADE INSTITUCIONAL (ESGIM™)",
       objective: "Pontuação nas chamadas dimensões de sustentabilidade fiduciária e operacional.",
       visualType: "SCORECARD",
       meetingCriticality: "MODERATE",
@@ -130,10 +151,10 @@ export class BoardPackGeneratorEngine {
       )
     });
 
-    // Slide 4: IRI™
+    // Slide 5: IRI™
     slides.push({
-      slideNumber: 4,
-      title: "3. RESILIÊNCIA E CAPACIDADE FUTURA (IRI™)",
+      slideNumber: 5,
+      title: "4. RESILIÊNCIA E CAPACIDADE FUTURA (IRI™)",
       objective: "Análise prospectiva da holding frente a estresses e choques futuros.",
       visualType: "SCORECARD",
       meetingCriticality: "HIGH",
@@ -146,60 +167,60 @@ export class BoardPackGeneratorEngine {
       ]
     });
 
-    // Slide 5: Top Risks
+    // Slide 6: Top Risks
     slides.push({
-      slideNumber: 5,
-      title: "4. REGISTER DE RISCOS E EXPOSIÇÕES",
+      slideNumber: 6,
+      title: "5. REGISTER DE RISCOS E EXPOSIÇÕES",
       objective: "Identificar ameaças ativas à sustentabilidade e conformidade da holding.",
       visualType: "RISK_MATRIX",
       meetingCriticality: (scenario === 'CONSTITUTIONAL_BREACH' || scenario === 'LIQUIDITY_SHOCK') ? "CRITICAL" : "HIGH",
       content: report.principalRisks
     });
 
-    // Slide 6: Top Opportunities
+    // Slide 7: Top Opportunities
     slides.push({
-      slideNumber: 6,
-      title: "5. OPORTUNIDADES DE GERAÇÃO DE VALOR",
+      slideNumber: 7,
+      title: "6. OPORTUNIDADES DE GERAÇÃO DE VALOR",
       objective: "Mapear iniciativas para fortalecimento de patrimônio e profissionalização.",
       visualType: "RISK_MATRIX",
       meetingCriticality: "MODERATE",
       content: report.principalOpportunities
     });
 
-    // Slide 7: Board Priorities
+    // Slide 8: Board Priorities
     slides.push({
-      slideNumber: 7,
-      title: "6. RECOMENDAÇÕES PRIORITÁRIAS (BPE™)",
+      slideNumber: 8,
+      title: "7. RECOMENDAÇÕES PRIORITÁRIAS (BPE™)",
       objective: "Determinar as 5 ações que exigem atenção imediata da governança.",
       visualType: "ROADMAP",
       meetingCriticality: (scenario === 'CONSTITUTIONAL_BREACH' || scenario === 'LIQUIDITY_SHOCK') ? "CRITICAL" : "HIGH",
       content: report.boardPriorities.slice(0, 5)
     });
 
-    // Slide 8: Governance Roadmap
+    // Slide 9: Governance Roadmap
     slides.push({
-      slideNumber: 8,
-      title: "7. CRONOGRAMA DE EVOLUÇÃO (GRE™)",
+      slideNumber: 9,
+      title: "8. CRONOGRAMA DE EVOLUÇÃO (GRE™)",
       objective: "Sequenciamento dos próximos marcos de estabilização e fortalecimento.",
       visualType: "ROADMAP",
       meetingCriticality: "MODERATE",
       content: report.roadmapHighlights
     });
 
-    // Slide 9: Monitoring Overview
+    // Slide 10: Monitoring Overview
     slides.push({
-      slideNumber: 9,
-      title: "8. INDICADORES DE EVOLUÇÃO (GML™)",
+      slideNumber: 10,
+      title: "9. INDICADORES DE EVOLUÇÃO (GML™)",
       objective: "Acompanhamento longitudinal das tendências e alertas de governança.",
       visualType: "TREND",
       meetingCriticality: "HIGH",
       content: report.monitoringHighlights
     });
 
-    // Slide 10: Recommended Decisions (Clean decisions list - NO hashes)
+    // Slide 11: Recommended Decisions (Clean decisions list - NO hashes)
     slides.push({
-      slideNumber: 10,
-      title: "9. MATRIZ DE DECISÕES DO CONSELHO",
+      slideNumber: 11,
+      title: "10. MATRIZ DE DECISÕES DO CONSELHO",
       objective: "Propostas e resoluções formais para homologação imediata na reunião.",
       visualType: "DECISION",
       meetingCriticality: "CRITICAL",
@@ -208,7 +229,7 @@ export class BoardPackGeneratorEngine {
       )
     });
 
-    // Slide 11: Governance Execution Overview (GDTL™)
+    // Slide 12: Governance Execution Overview (GDTL™)
     const geiSimple = decisionRegistryEngine.calculateGeiSimpleScore(scenario);
     const geiWeighted = decisionRegistryEngine.calculateGeiWeightedScore(scenario);
     const gai = decisionRegistryEngine.calculateGaiScore(scenario);
@@ -216,8 +237,8 @@ export class BoardPackGeneratorEngine {
     const aging = decisionRegistryEngine.calculateAgingBuckets(scenario);
 
     slides.push({
-      slideNumber: 11,
-      title: "10. ACOMPANHAMENTO DE EXECUÇÃO (GDTL™)",
+      slideNumber: 12,
+      title: "11. ACOMPANHAMENTO DE EXECUÇÃO (GDTL™)",
       objective: "Apresentar a resolutividade de decisões (GEI™), delegação (GAI™) e aging de pendências.",
       visualType: "TREND",
       meetingCriticality: "HIGH",
@@ -230,14 +251,14 @@ export class BoardPackGeneratorEngine {
       ]
     });
 
-    // Slide 12: Institutional Principles Supporting Decisions (GKL™ / IWL™)
+    // Slide 13: Supporting Principles Supporting Decisions (GKL™ / IWL™)
     const { score: paiScore, level: paiLevel } = governanceKnowledgeEngine.calculatePAI(clientId, scenario);
     const knowledgeResult = governanceKnowledgeEngine.matchFinding(packId, 'BMM', report.executiveSummary);
     const matchedPrinciples = knowledgeResult.principleMatches;
 
     slides.push({
-      slideNumber: 12,
-      title: "11. PRINCÍPIOS INSTITUCIONAIS APOIADORES (IWL™)",
+      slideNumber: 13,
+      title: "12. PRINCÍPIOS INSTITUCIONAIS APOIADORES (IWL™)",
       objective: "Demonstrar a aderência aos valores e princípios constitucionais da holding.",
       visualType: "SUMMARY",
       meetingCriticality: "MODERATE",
@@ -250,7 +271,7 @@ export class BoardPackGeneratorEngine {
       ]
     });
 
-    // Slide 13: Benchmark Advancement Roadmap (BAI™)
+    // Slide 14: Benchmark Advancement Roadmap (BAI™)
     const advisory = benchmarkAdvisoryEngine.evaluateAdvisory(clientId, mode, scenario);
     const advisoryContent = advisory.benchmarkReady 
       ? [
@@ -271,15 +292,15 @@ export class BoardPackGeneratorEngine {
     }
 
     slides.push({
-      slideNumber: 13,
-      title: "12. ROADMAP DE AVANÇO COMPARATIVO (BAI™)",
+      slideNumber: 14,
+      title: "13. ROADMAP DE AVANÇO COMPARATIVO (BAI™)",
       objective: "Apresentar a estratégia e iniciativas recomendadas para ascensão de quadrante de benchmark.",
       visualType: "ROADMAP",
       meetingCriticality: "HIGH",
       content: advisoryContent
     });
 
-    // Slide 14: Institutional Learning Review (GLL™)
+    // Slide 15: Institutional Learning Review (GLL™)
     const learning = governanceLearningEngine.calculateLearning(clientId, mode, scenario);
     const learningContent = learning.observations.length > 0
       ? [
@@ -297,17 +318,17 @@ export class BoardPackGeneratorEngine {
         ];
 
     slides.push({
-      slideNumber: 14,
-      title: "13. REVISÃO DE APRENDIZADO INSTITUCIONAL (GLL™)",
+      slideNumber: 15,
+      title: "14. REVISÃO DE APRENDIZADO INSTITUCIONAL (GLL™)",
       objective: "Mapear o aprendizado do ciclo, aferir acurácia de advisory e consolidar lições aprendidas.",
       visualType: "SUMMARY",
       meetingCriticality: "HIGH",
       content: learningContent
     });
 
-    // Slide 15: Governance Traceability Appendix (Annex Slide - Hideable)
+    // Slide 16: Governance Traceability Appendix (Annex Slide - Hideable)
     slides.push({
-      slideNumber: 15,
+      slideNumber: 16,
       title: "APÊNDICE: RASTREABILIDADE E AUDITORIA COGNITIVA",
       objective: "Rastreabilidade completa de dados fiduciários e assinaturas criptográficas.",
       visualType: "SUMMARY",

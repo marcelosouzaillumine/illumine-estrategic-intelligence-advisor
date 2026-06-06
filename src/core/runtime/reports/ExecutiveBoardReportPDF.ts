@@ -146,27 +146,72 @@ export class ExecutiveBoardReportPDF {
     doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
     doc.text(report.executiveHeadline, margin + 6, 55);
 
-    // Composite Assessment
+    // Composite Assessment & Governance Journey Overview Box (GJL™)
+    const journey = report.journeyOverview;
+    let nextY = 73; // Default starting Y for Composite Assessment if no journey is present
+    
+    if (journey) {
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9.5);
+      const narrativeLines = doc.splitTextToSize(journey.boardNarrative, contentWidth - 12);
+      const boxHeight = 25 + (narrativeLines.length * 4.5); // 25mm header/meta + narrative height
+      
+      doc.setFillColor(lightGrey.r, lightGrey.g, lightGrey.b);
+      doc.rect(margin, 63, contentWidth, boxHeight, 'F');
+      doc.setDrawColor(coral.r, coral.g, coral.b);
+      doc.line(margin, 63, margin, 63 + boxHeight); // Coral vertical indicator
+      
+      // Box Title
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+      doc.text('JORNADA DE GOVERNANÇA (GJL™)', margin + 6, 69);
+      
+      // Index Label (Must be clearly labeled as a presentation index)
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
+      doc.text('Governance Journey Index — índice consolidado de navegação executiva:', margin + 6, 75);
+      
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(coral.r, coral.g, coral.b);
+      doc.text(`${journey.gjiScore}/100`, margin + 115, 75);
+      
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
+      doc.text(`Estágio: ${journey.gjiStage}`, margin + 132, 75);
+      
+      // Board Narrative
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9.5);
+      doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
+      doc.text(narrativeLines, margin + 6, 83);
+      
+      nextY = 63 + boxHeight + 10;
+    }
+
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
-    doc.text('AVALIAÇÃO DE BASE COMPOSITA:', margin, 73);
+    doc.text('AVALIAÇÃO DE BASE COMPOSITA:', margin, nextY);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
     doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
-    doc.text(report.overallAssessment, margin, 80);
+    doc.text(report.overallAssessment, margin, nextY + 7);
 
     // Executive Summary Narrative
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(darkNavy.r, darkNavy.g, darkNavy.b);
-    doc.text('RELATÓRIO DE SÍNTESE ADVISORY:', margin, 95);
+    doc.text('RELATÓRIO DE SÍNTESE ADVISORY:', margin, nextY + 22);
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
     doc.setTextColor(charcoal.r, charcoal.g, charcoal.b);
     const summaryLinesSplit = doc.splitTextToSize(report.executiveSummary, contentWidth);
-    doc.text(summaryLinesSplit, margin, 102);
+    doc.text(summaryLinesSplit, margin, nextY + 29);
 
     // ==========================================
     // PAGE 3: RISKS & OPPORTUNITIES

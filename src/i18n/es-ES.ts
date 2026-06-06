@@ -26,7 +26,7 @@ const translations = {
   'navigation.page.gestao_usuarios': 'Usuarios',
   'navigation.page.dados_historicos': 'Centro de Datos',
   'navigation.page.executive_monitoring_center': 'Executive Monitoring Center',
-  'navigation.page.esgim_assessment': 'Evaluación ESGIM™',
+  'navigation.page.esgim_assessment': 'Jornada de Gobernanza™',
   'navigation.page.governance_maturity_center': 'Governance Maturity Center',
   'navigation.page.leadership_dna_center': 'Leadership DNA Center',
   'navigation.page.institutional_structure_center': 'Institutional Structure Center',
