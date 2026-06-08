@@ -13,10 +13,14 @@ export class CapitalPreservationEngine {
       let cevClassification = 'NEUTRAL';
 
       const lucroLiqNode = dreData.find(r => r.id === 'LUCRO_LIQ' || (r.category || '').toLowerCase().includes('lucro líquido') || (r.category || '').toLowerCase().includes('prejuízo líquido'));
+      
+      let isLoss = false;
+      let prejuizo = 0;
       if (lucroLiqNode) {
         const result = lucroLiqNode.computedValue || lucroLiqNode.value || 0;
         if (result < 0) {
-          const prejuizo = Math.abs(result);
+          isLoss = true;
+          prejuizo = Math.abs(result);
           const yearsToErode = summary.patrimonioLiquido / prejuizo;
           cev = yearsToErode.toFixed(1);
           if (yearsToErode < 2) {
@@ -36,14 +40,34 @@ export class CapitalPreservationEngine {
         }
       }
 
+      // Equity Buffer (Margem para Insolvência)
+      const equityBuffer = summary.patrimonioLiquido / summary.ativoTotal;
+      const bufferClassification = equityBuffer > 0.3 ? 'HEALTHY' : (equityBuffer > 0.1 ? 'ATTENTION' : 'CRITICAL');
+
+      // Liquidity & Debt assessment for recalibration
+      const isLiquidityHealthy = summary.passivoCirculante > 0 && (summary.ativoCirculante / summary.passivoCirculante >= 1.0);
+      const isDebtHealthy = summary.ativoTotal > 0 && (summary.passivoTotal / summary.ativoTotal <= 0.6);
+
+      // Recalibrated Loss Absorption Capacity
+      let lacClassification = cevClassification;
+      let lacRationale = cevRationale;
+
+      // Recalibration Logic: Isolated accumulated losses or recent loss shouldn't trigger critical risk if buffers are healthy
+      if (lacClassification === 'CRITICAL') {
+        if (bufferClassification === 'HEALTHY' && isLiquidityHealthy && isDebtHealthy) {
+          lacClassification = 'ATTENTION';
+          lacRationale += ' Contudo, a margem de segurança patrimonial, liquidez e endividamento estão saudáveis, mitigando o risco de curto prazo.';
+        }
+      }
+
       indicators.push({
         metricName: 'Loss Absorption Capacity',
         value: cev === 'INSUFFICIENT_DATA' ? cev : Number(cev),
-        classification: cevClassification,
-        severity: cevClassification,
+        classification: lacClassification,
+        severity: lacClassification,
         confidence: 90,
-        evidence: { PL: summary.patrimonioLiquido, LucroLiqDRE: lucroLiqNode?.computedValue || 0 },
-        rationale: cevRationale.replace('anos', 'períodos'),
+        evidence: { PL: summary.patrimonioLiquido, LucroLiqDRE: lucroLiqNode?.computedValue || 0, Buffer: equityBuffer, LiqHealthy: isLiquidityHealthy, DebtHealthy: isDebtHealthy },
+        rationale: lacRationale.replace('anos', 'períodos'),
         lineageHash: `CPE-LAC-${Date.now().toString(16)}`,
         family,
         format: 'decimal'
@@ -94,10 +118,6 @@ export class CapitalPreservationEngine {
       });
 
       // 3. Equity Buffer (Margem para Insolvência)
-      // Ativo Total - Passivo Total (Que é o próprio PL, mas medido percentualmente frente ao Passivo)
-      const equityBuffer = summary.patrimonioLiquido / summary.ativoTotal;
-      const bufferClassification = equityBuffer > 0.3 ? 'HEALTHY' : (equityBuffer > 0.1 ? 'ATTENTION' : 'CRITICAL');
-      
       let bufferRationale = 'Margem de solvência: o patrimônio líquido atua como um sólido amortecedor contra choques.';
       if (cevClassification === 'CRITICAL' || cevClassification === 'ATTENTION') {
         bufferRationale = 'O patrimônio líquido ainda oferece capacidade de absorção patrimonial, porém essa proteção encontra-se parcialmente comprometida pela velocidade de consumo de capital observada.';
@@ -120,9 +140,9 @@ export class CapitalPreservationEngine {
 
       // 4. Survival Index
       let survivalClass = 'Frágil';
-      if (cevClassification === 'HEALTHY' && bufferClassification === 'HEALTHY') survivalClass = 'Forte';
-      else if (cevClassification === 'ATTENTION' || bufferClassification === 'ATTENTION') survivalClass = 'Moderado';
-      else if (cevClassification === 'CRITICAL' && bufferClassification === 'CRITICAL') survivalClass = 'Crítico';
+      if (lacClassification === 'HEALTHY' && bufferClassification === 'HEALTHY') survivalClass = 'Forte';
+      else if (lacClassification === 'ATTENTION' || bufferClassification === 'ATTENTION') survivalClass = 'Moderado';
+      else if (lacClassification === 'CRITICAL' && bufferClassification === 'CRITICAL') survivalClass = 'Crítico';
 
       indicators.push({
         metricName: 'Survival Index',
@@ -130,7 +150,7 @@ export class CapitalPreservationEngine {
         classification: survivalClass === 'Forte' ? 'HEALTHY' : (survivalClass === 'Crítico' ? 'CRITICAL' : 'ATTENTION'),
         severity: survivalClass === 'Forte' ? 'HEALTHY' : (survivalClass === 'Crítico' ? 'CRITICAL' : 'ATTENTION'),
         confidence: 90,
-        evidence: { cevClassification, bufferClassification },
+        evidence: { lacClassification, bufferClassification },
         rationale: `Classificação de sobrevivência baseada na margem de absorção e na reserva estrutural.`,
         lineageHash: `CPE-SI-${Date.now().toString(16)}`,
         family,

@@ -21,6 +21,10 @@ export interface UnifiedFinancialNarrative {
   dfcNarrative?: DFCNarrative;
   bpNarrative?: BPNarrative;
   dlpaNarrative?: DLPANarrative;
+  valueCreationSummary?: string;
+  liquidityAndCashSummary?: string;
+  patrimonialHealthSummary?: string;
+  capitalAllocationSummary?: string;
   // Executive summary collections (Portuguese language)
   keyStrengths: string[];
   keyRisks: string[];

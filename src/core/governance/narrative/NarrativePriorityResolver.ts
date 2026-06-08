@@ -5,4 +5,18 @@ export class NarrativePriorityResolver {
     if (!narrative) return { status: 'BLOCKED_BY_LOW_CONFIDENCE', data: null };
     return { status: 'READY', data: narrative.includes('Deterioração') ? 100 : 50 };
   }
+
+  public static appendExplainability(
+    origin: string,
+    indicatorsUsed: string[],
+    weightsApplied: Record<string, number>,
+    reason: string
+  ) {
+    return {
+      origin,
+      indicatorsUsed,
+      weightsApplied,
+      reason
+    };
+  }
 }

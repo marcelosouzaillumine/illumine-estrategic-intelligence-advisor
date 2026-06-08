@@ -19,6 +19,22 @@ import { mapReportToPartnerNarrativeInput } from '../../../lib/partner-narrative
 import { buildPartnerNarrative } from '../../../lib/partner-narrative-engine';
 import type { PartnerNarrative } from '../../../lib/partner-narrative-types';
 
+import { mapReportToManagementNarrativeInput } from '../../../lib/management-narrative-mapper';
+import { buildManagementNarrative } from '../../../lib/management-narrative-engine';
+import type { ManagementNarrative } from '../../../lib/management-narrative-types';
+
+import { mapReportToGovernanceCommunicationFrameworkInput } from '../../../lib/governance-communication-framework-mapper';
+import { buildGovernanceCommunicationFramework } from '../../../lib/governance-communication-framework-engine';
+import type { GovernanceCommunicationFramework } from '../../../lib/governance-communication-framework-types';
+
+import { mapReportToBoardPackInput } from '../../../lib/board-pack-mapper';
+import { buildBoardPack } from '../../../lib/board-pack-engine';
+import type { BoardPack } from '../../../lib/board-pack-types';
+
+import { mapReportToBoardDeckInput } from '../../../lib/board-deck-mapper';
+import { buildBoardDeck } from '../../../lib/board-deck-engine';
+import type { BoardDeck } from '../../../lib/board-deck-types';
+
 import { DLPAFiduciaryInterpretationEngine, DLPAFiduciaryOutput } from '../governance/dlpa/DLPAFiduciaryInterpretationEngine';
 import { FinancialRuntimeContext } from '../financial-context/FinancialRuntimeContextTypes';
 import { FinancialRuntimeContextAdapter } from '../financial-context/FinancialRuntimeContextAdapter';
@@ -131,6 +147,10 @@ export class CapitalGovernanceAdapter {
     boardNarrative?: BoardNarrative;
     advisoryNarrative?: AdvisoryNarrative;
     partnerNarrative?: PartnerNarrative;
+    managementNarrative?: ManagementNarrative;
+    governanceCommunicationFramework?: GovernanceCommunicationFramework;
+    boardPack?: BoardPack;
+    boardDeck?: BoardDeck;
   } {
     
     let fallbackActivated = false;
@@ -610,7 +630,39 @@ export class CapitalGovernanceAdapter {
       ...(partnerNarrative && { partnerNarrative })
     };
 
-    return reportWithPartnerNarrative;
+    const managementNarrativeInput = mapReportToManagementNarrativeInput(reportWithPartnerNarrative);
+    const managementNarrative = buildManagementNarrative(managementNarrativeInput);
+
+    const reportWithManagementNarrative = {
+      ...reportWithPartnerNarrative,
+      ...(managementNarrative && { managementNarrative })
+    };
+
+    const gcfInput = mapReportToGovernanceCommunicationFrameworkInput(reportWithManagementNarrative);
+    const governanceCommunicationFramework = buildGovernanceCommunicationFramework(gcfInput);
+
+    const reportWithGovernanceFramework = {
+      ...reportWithManagementNarrative,
+      ...(governanceCommunicationFramework && { governanceCommunicationFramework })
+    };
+
+    const boardPackInput = mapReportToBoardPackInput(reportWithGovernanceFramework);
+    const boardPack = buildBoardPack(boardPackInput);
+
+    const reportWithBoardPack = {
+      ...reportWithGovernanceFramework,
+      ...(boardPack && { boardPack })
+    };
+
+    const boardDeckInput = mapReportToBoardDeckInput(reportWithBoardPack);
+    const boardDeck = buildBoardDeck(boardDeckInput);
+
+    const reportWithBoardDeck = {
+      ...reportWithBoardPack,
+      ...(boardDeck && { boardDeck })
+    };
+
+    return reportWithBoardDeck;
 
   }
 
