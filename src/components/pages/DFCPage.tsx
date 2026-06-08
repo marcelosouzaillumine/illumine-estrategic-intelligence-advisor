@@ -734,28 +734,21 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
         // 4. Map early warnings and causal drivers to safe presentation models
         const rawEarlyWarning = metrics.fiduciary?.earlyWarning || {};
-        const safeEarlyWarningAlerts = (rawEarlyWarning.alerts || []).map((alert: any) => {
-          let safeStatus = alert.status;
-          if (alert.status === 'CRITICAL') safeStatus = 'Crítico';
-          else if (alert.status === 'WARNING') safeStatus = 'Atenção';
-          else if (alert.status === 'ALERT') safeStatus = 'Alerta';
-          else if (alert.status === 'WATCH') safeStatus = 'Monitoramento';
-          else if (alert.status === 'NORMAL') safeStatus = 'Saudável';
-
-          let safeMessage = alert.message || '';
-          safeMessage = safeMessage
-            .replace(/\bCRITICAL\b/g, 'Crítico')
-            .replace(/\bWARNING\b/g, 'Atenção')
-            .replace(/\bNORMAL\b/g, 'Saudável')
-            .replace(/\bTECHNICAL\b/g, 'Técnico');
-
-          return {
-            metric: alert.metric,
-            value: alert.value,
-            status: safeStatus,
-            message: safeMessage
-          };
-        });
+        const earlyWarningViewModels = (rawEarlyWarning.alerts || []).map((alert: any) => ({
+          visible: {
+            severityLabel: FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel(alert.status) !== alert.status 
+              ? FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel(alert.status)
+              : alert.status,
+            message: FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel(alert.message) !== alert.message
+              ? FiduciaryRuntimeAdapter.ExecutivePresentationLabelRegistry.getLabel(alert.message)
+              : alert.message.replace(/CRITICAL/g, 'Crítico').replace(/WARNING/g, 'Atenção').replace(/NORMAL/g, 'Saudável').replace(/TECHNICAL/g, 'Técnico'),
+            context: alert.metric
+          },
+          internal: {
+            id: alert.metric,
+            runtimeCode: alert.status
+          }
+        }));
 
         const rawDrivers = metrics.fiduciary?.causalIntelligence?.drivers || [];
         const safeDrivers = rawDrivers.map((driver: any) => ({
@@ -779,7 +772,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
           },
           drivers: safeDrivers,
           earlyWarning: {
-            alerts: safeEarlyWarningAlerts
+            alerts: earlyWarningViewModels
           },
           compressedAdvisory: metrics.fiduciary?.compressedAdvisory,
           consequenceProfile: consequence,
@@ -826,21 +819,27 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 A visualização executiva foi bloqueada por inconsistência de densidade informacional. Reprocessar o relatório antes de deliberação.
               </p>
             </div>
-      {viewMode === 'fiduciario' && !governanceOutput.validation.isValid && (
-        <div className="bg-rose-50 border-2 border-rose-200 rounded-[32px] p-10 mb-10 text-center flex flex-col items-center justify-center animate-in fade-in zoom-in duration-300">
-          <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center text-rose-600 mb-6 shadow-sm border border-rose-200">
-            <ShieldAlert size={40} />
-          </div>
-          <h2 className="text-3xl font-black text-rose-900 mb-4 tracking-tight">Risco Fiduciário: Bloqueio de Narrativa</h2>
-          <p className="text-lg text-rose-800/80 font-medium max-w-3xl leading-relaxed mb-8">
-            {governanceOutput.validation.blockReason}
-          </p>
-          <div className="bg-white/60 px-6 py-4 rounded-2xl border border-rose-100 inline-block">
-            <span className="text-xs font-black uppercase tracking-widest text-rose-400 block mb-1">Ação Requerida</span>
-            <span className="text-sm font-bold text-rose-700">Valide os laudos contábeis antes de prosseguir com a leitura gerencial.</span>
-          </div>
-        </div>
-      )}
+          );
+        }
+
+        return (
+          <>
+            {viewMode === 'fiduciario' && !governanceOutput.validation.isValid && (
+              <div className="bg-rose-50 border-2 border-rose-200 rounded-[32px] p-10 mb-10 text-center flex flex-col items-center justify-center animate-in fade-in zoom-in duration-300">
+                <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center text-rose-600 mb-6 shadow-sm border border-rose-200">
+                  <ShieldAlert size={40} />
+                </div>
+                <h2 className="text-3xl font-black text-rose-900 mb-4 tracking-tight">Risco Fiduciário: Bloqueio de Narrativa</h2>
+                <p className="text-lg text-rose-800/80 font-medium max-w-3xl leading-relaxed mb-8">
+                  {governanceOutput.validation.blockReason}
+                </p>
+                <div className="bg-white/60 px-6 py-4 rounded-2xl border border-rose-100 inline-block">
+                  <span className="text-xs font-black uppercase tracking-widest text-rose-400 block mb-1">Ação Requerida</span>
+                  <span className="text-sm font-bold text-rose-700">Valide os laudos contábeis antes de prosseguir com a leitura gerencial.</span>
+                </div>
+              </div>
+            )}
+
 
       {!(viewMode === 'fiduciario' && !governanceOutput.validation.isValid) && (
         <div className="space-y-10 animate-in fade-in duration-500">
@@ -1051,10 +1050,15 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-4">
-                  {((densityLevel === 'TECHNICAL' ? rawEarlyWarning.alerts : safeEarlyWarningAlerts) || []).map((alert: any, idx: number) => {
-                    const isCritical = alert.status === 'CRITICAL' || alert.status === 'Crítico';
-                    const isWarning = alert.status === 'WARNING' || alert.status === 'Atenção';
-                    const isAlert = alert.status === 'ALERT' || alert.status === 'Alerta';
+                  {((densityLevel === 'TECHNICAL' ? rawEarlyWarning.alerts : earlyWarningViewModels) || []).map((item: any, idx: number) => {
+                    const isTech = densityLevel === 'TECHNICAL';
+                    const statusVal = isTech ? item.status : item.visible.severityLabel;
+                    const messageVal = isTech ? item.message : item.visible.message;
+                    const metricVal = isTech ? item.metric : item.visible.context;
+
+                    const isCritical = statusVal === 'CRITICAL' || statusVal === 'Crítico';
+                    const isWarning = statusVal === 'WARNING' || statusVal === 'Atenção';
+                    const isAlert = statusVal === 'ALERT' || statusVal === 'Alerta';
 
                     return (
                       <div key={idx} className={cn(
@@ -1074,7 +1078,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                         <div>
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className="text-xs font-black text-[#0E1C2C]">
-                              {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(alert.metric, densityLevel)}
+                              {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(metricVal, densityLevel)}
                             </span>
                             <span className={cn(
                               "text-[8px] font-black uppercase px-2 py-0.5 rounded border tracking-wider",
@@ -1082,11 +1086,11 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                               isWarning ? 'bg-[#BAB86C]/25 text-[#0E1C2C] border-[#BAB86C]/30' :
                               'bg-slate-200 text-slate-800 border-slate-350'
                             )}>
-                              {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(alert.status, densityLevel)}
+                              {statusVal}
                             </span>
                           </div>
-                          <p className="text-[10px] text-slate-500 mt-1 font-semibold leading-relaxed">
-                            {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(alert.message, densityLevel)}
+                          <p className="mt-1.5 text-xs font-medium text-slate-600">
+                            {messageVal}
                           </p>
                         </div>
                       </div>
@@ -1767,8 +1771,10 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
               </div>
             )}
           </div>
-        );
-      })()}
+        )}
+        </>
+      );
+    })()}
 
       {viewMode === 'oficial' && (
         <div className="bg-white border border-[#0E1C2C]/10 rounded-[32px] shadow-sm overflow-hidden mb-10">
