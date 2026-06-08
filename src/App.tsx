@@ -78,6 +78,7 @@ import { QuadroPessoalPage } from './components/pages/QuadroPessoalPage';
 import { HomePage } from './components/pages/public/HomePage';
 import { EmpresasPage } from './components/pages/public/EmpresasPage';
 import { ParceirosPage } from './components/pages/public/ParceirosPage';
+import { ReferralProgramPage } from './components/pages/public/ReferralProgramPage';
 import { DiagnosticoPage } from './components/pages/public/DiagnosticoPage';
 import { LoginPage } from './components/pages/public/LoginPage';
 import { ForcePasswordChangeModal } from './components/modals/ForcePasswordChangeModal';
@@ -441,6 +442,7 @@ export default function App() {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/empresas" element={<EmpresasPage />} />
                   <Route path="/parceiros" element={<ParceirosPage />} />
+                  <Route path="/programa-parceiros" element={<ReferralProgramPage />} />
                   <Route path="/diagnostico" element={<DiagnosticoPage />} />
                   <Route path="/login" element={user ? <Navigate to="/dashboard/efos" replace /> : <LoginPage />} />
                   <Route path="/consolidated-executive" element={<Navigate to="/dashboard/consolidated_executive" replace />} />

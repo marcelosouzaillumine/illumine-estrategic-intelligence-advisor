@@ -65,6 +65,7 @@ import { MeetingMinutesPage } from '../components/pages/MeetingMinutesPage';
 import { AvaliacaoOrganogramaPage } from '../components/pages/AvaliacaoOrganogramaPage';
 import { CulturaFeedbackPage } from '../components/pages/CulturaFeedbackPage';
 import { PartnersPage } from '../components/pages/PartnersPage';
+import { ReferralProgramPage } from '../components/pages/public/ReferralProgramPage';
 import { OrcamentoPage } from '../components/pages/OrcamentoPage';
 import { DadosHistoricosPage } from '../components/pages/DadosHistoricosPage';
 import { SupportPage } from '../components/pages/SupportPage';
@@ -710,6 +711,10 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
 
   if (currentPage === 'multi_tenant_governance_center' && isMaster) {
     return <MultiTenantGovernanceCenter />;
+  }
+
+  if ((currentPage as string) === 'referral_program') {
+    return <ReferralProgramPage />;
   }
 
   return null;

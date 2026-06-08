@@ -243,7 +243,8 @@ export type Page =
   | 'advisor_workspace'
   | 'client_workspace'
   | 'operating_pressure'
-  | 'pilot_experience';
+  | 'pilot_experience'
+  | 'referral_program';
 
 export interface NavigationItem {
   id: Page;

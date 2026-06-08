@@ -3,6 +3,22 @@
 // Ref: Governance Runtime Correction — DLPA Fiduciary Interpretation Refactor
 
 import { CapitalGovernanceDiagnostics } from './capital-governance-types';
+import { mapReportToExecutiveFinancialStoryInput } from '../../../lib/executive-financial-story-mapper';
+import { buildExecutiveFinancialStory } from '../../../lib/executive-financial-story-engine';
+import { ExecutiveFinancialStory } from '../../../lib/executive-financial-story-types';
+
+import { mapReportToBoardNarrativeInput } from '../../../lib/board-narrative-mapper';
+import { buildBoardNarrative } from '../../../lib/board-narrative-engine';
+import type { BoardNarrative } from '../../../lib/board-narrative-types';
+
+import { mapReportToAdvisoryNarrativeInput } from '../../../lib/advisory-narrative-mapper';
+import { buildAdvisoryNarrative } from '../../../lib/advisory-narrative-engine';
+import type { AdvisoryNarrative } from '../../../lib/advisory-narrative-types';
+
+import { mapReportToPartnerNarrativeInput } from '../../../lib/partner-narrative-mapper';
+import { buildPartnerNarrative } from '../../../lib/partner-narrative-engine';
+import type { PartnerNarrative } from '../../../lib/partner-narrative-types';
+
 import { DLPAFiduciaryInterpretationEngine, DLPAFiduciaryOutput } from '../governance/dlpa/DLPAFiduciaryInterpretationEngine';
 import { FinancialRuntimeContext } from '../financial-context/FinancialRuntimeContextTypes';
 import { FinancialRuntimeContextAdapter } from '../financial-context/FinancialRuntimeContextAdapter';
@@ -111,6 +127,10 @@ export class CapitalGovernanceAdapter {
     capitalRecoverability?: any;
     capitalPreservationScore?: any;
     capitalStatus?: string;
+    executiveFinancialStory?: ExecutiveFinancialStory;
+    boardNarrative?: BoardNarrative;
+    advisoryNarrative?: AdvisoryNarrative;
+    partnerNarrative?: PartnerNarrative;
   } {
     
     let fallbackActivated = false;
@@ -538,25 +558,59 @@ export class CapitalGovernanceAdapter {
       distributionCapacity: distributionCapacity.classification
     });
 
-    const finalReport = {
+    let finalReport = {
       ...adaptedReport,
       patrimonialRecoveryHorizon,
       capitalRecoverability,
       capitalPreservationScore,
       capitalStatus: resolvedCapitalStatus,
-      consistencyAudit
+      consistencyAudit,
+      narrativeContext: context?.narrativeContext,
+      unifiedFinancialNarrative: context?.unifiedFinancialNarrative
+    };
+    // Integrate Executive Financial Story Layer (EFSL)
+    const executiveStoryInput = mapReportToExecutiveFinancialStoryInput(finalReport);
+    const executiveStory = buildExecutiveFinancialStory(executiveStoryInput);
+    
+    const reportWithExecutiveStory = {
+      ...finalReport,
+      ...(executiveStory && { executiveFinancialStory: executiveStory })
     };
 
-    delete (finalReport as any).legacyRecoveryYears;
-    delete (finalReport as any).legacyRecoveryClassification;
-    delete (finalReport as any).legacyCpsScore;
+    delete (reportWithExecutiveStory as any).legacyRecoveryYears;
+    delete (reportWithExecutiveStory as any).legacyRecoveryClassification;
+    delete (reportWithExecutiveStory as any).legacyCpsScore;
 
-    const legacyAudit = DLPALegacyPayloadAudit.audit(finalReport);
+    const legacyAudit = DLPALegacyPayloadAudit.audit(reportWithExecutiveStory);
     if (!legacyAudit.valid) {
       console.warn(`[DLPALegacyPayloadAudit WARNING]: ${legacyAudit.error}`);
     }
 
-    return finalReport;
+    const boardNarrativeInput = mapReportToBoardNarrativeInput(reportWithExecutiveStory);
+    const boardNarrative = buildBoardNarrative(boardNarrativeInput);
+
+    const reportWithBoardNarrative = {
+      ...reportWithExecutiveStory,
+      ...(boardNarrative && { boardNarrative })
+    };
+
+    const advisoryNarrativeInput = mapReportToAdvisoryNarrativeInput(reportWithBoardNarrative);
+    const advisoryNarrative = buildAdvisoryNarrative(advisoryNarrativeInput);
+
+    const reportWithAdvisoryNarrative = {
+      ...reportWithBoardNarrative,
+      ...(advisoryNarrative && { advisoryNarrative })
+    };
+
+    const partnerNarrativeInput = mapReportToPartnerNarrativeInput(reportWithAdvisoryNarrative);
+    const partnerNarrative = buildPartnerNarrative(partnerNarrativeInput);
+
+    const reportWithPartnerNarrative = {
+      ...reportWithAdvisoryNarrative,
+      ...(partnerNarrative && { partnerNarrative })
+    };
+
+    return reportWithPartnerNarrative;
 
   }
 
