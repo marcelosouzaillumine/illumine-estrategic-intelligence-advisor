@@ -119,7 +119,7 @@ export function GovernanceDashboardPage({
       value: getIndicatorValue('eNPS', 0), 
       status: (runtimeOutput as any)?.canonicalState?.status === 'HEALTHY' ? 'positive' : 'neutral', 
       icon: Users,
-      color: 'bg-purple-500'
+      color: 'bg-primary'
     },
     { 
       id: 'dashboard_gestao' as Page,

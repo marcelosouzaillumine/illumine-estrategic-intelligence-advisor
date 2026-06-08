@@ -309,7 +309,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   const cashIndices = [
     { name: 'Fluxo Operacional', val: fco, unit: 'R$', desc: 'Geração de caixa pelas atividades principais', color: 'text-emerald-600' },
     { name: 'Fluxo Investimento', val: fci, unit: 'R$', desc: 'Consumo de caixa em ativos e Capex', color: 'text-blue-600' },
-    { name: 'Fluxo Financiamento', val: fcf, unit: 'R$', desc: 'Entradas e saídas de capital e dívidas', color: 'text-purple-600' },
+    { name: 'Fluxo Financiamento', val: fcf, unit: 'R$', desc: 'Entradas e saídas de capital e dívidas', color: 'text-primary' },
     { name: 'Variação Líquida', val: variacao, unit: 'R$', desc: 'Resultado final das movimentações de caixa', color: 'text-slate-900' },
   ];
 
@@ -600,7 +600,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 <span>Financiamento (FCF)</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                <div className="w-2.5 h-2.5 rounded-full bg-primary" />
                 <span>Lucro Líquido</span>
               </div>
             </div>
@@ -1686,7 +1686,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                         if (key === 'cashBacked') { title = 'Conversão em Caixa (Cash-Backed)'; colorClass = 'text-emerald-600'; }
                         else if (key === 'recurrence') { title = 'Recorrência Econômica'; colorClass = 'text-blue-600'; }
                         else if (key === 'sustainability') { title = 'Sustentabilidade da Margem'; colorClass = 'text-indigo-600'; }
-                        else if (key === 'shareholderSupport') { title = 'Suporte dos Sócios'; colorClass = 'text-purple-600'; }
+                        else if (key === 'shareholderSupport') { title = 'Suporte dos Sócios'; colorClass = 'text-primary'; }
                         else if (key === 'accountingAggressiveness') { title = 'Ponto de Atenção'; colorClass = 'text-amber-600'; }
                         else { title = 'Estabilidade Longitudinal'; colorClass = 'text-rose-600'; }
 

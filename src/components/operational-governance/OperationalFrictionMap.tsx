@@ -34,7 +34,7 @@ export function OperationalFrictionMap({ frictions }: OperationalFrictionMapProp
             icon = <Waves size={14} className="text-red-500" />;
             natureColor = 'text-red-400 bg-red-950 border-red-900/50';
           } else if (friction.nature === 'CONTINUITY_RELATED') {
-            natureColor = 'text-purple-400 bg-purple-950 border-purple-900/50';
+            natureColor = 'text-primary bg-primary border-primary';
           }
 
           return (

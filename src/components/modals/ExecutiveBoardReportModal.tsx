@@ -145,7 +145,7 @@ export function ExecutiveBoardReportModal({
                 {report.principalOpportunities.map((opp, i) => {
                   const isShort = opp.includes('[Curto Prazo]');
                   const isMedium = opp.includes('[Médio Prazo]');
-                  const badgeColor = isShort ? 'text-emerald-400' : isMedium ? 'text-sky-400' : 'text-purple-400';
+                  const badgeColor = isShort ? 'text-emerald-400' : isMedium ? 'text-sky-400' : 'text-primary';
 
                   return (
                     <div key={i} className="text-xs flex items-start gap-2 leading-relaxed pb-2 border-b border-white/5 last:border-0 last:pb-0">

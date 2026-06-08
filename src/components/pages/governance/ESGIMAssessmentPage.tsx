@@ -1145,15 +1145,15 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           </div>
 
           {/* Strategic Initiatives */}
-          <div className="p-4 bg-purple-500/5 border border-purple-500/10 rounded-xl space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+          <div className="p-4 bg-primary border border-primary rounded-xl space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-2">
               <Target className="w-4 h-4" />
               Strategic Initiatives (12–36 meses)
             </h4>
             <ul className="text-xs text-slate-400 space-y-2">
               {roadmap.strategicInitiatives.map((init, idx) => (
                 <li key={idx} className="flex items-start gap-2 leading-relaxed">
-                  <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
                   <span>{init}</span>
                 </li>
               ))}
@@ -1188,8 +1188,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 Histórico Real (LIVE_HISTORY)
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border bg-purple-500/10 text-purple-400 border-purple-500/20">
-                <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border bg-primary text-primary border-primary">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                 Demonstração Temporal (DEMO_TIMELINE)
               </span>
             )}

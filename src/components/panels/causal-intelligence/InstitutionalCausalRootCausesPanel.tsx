@@ -26,7 +26,7 @@ export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> 
     <div className="p-6 rounded-3xl border border-slate-200 bg-white shadow-sm flex flex-col gap-4">
       <div className="flex items-center justify-between gap-2 mb-3">
         <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">{t('causal.root_causes')}</h4>
-        <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full border bg-purple-50 text-purple-700 border-purple-200">
+        <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full border bg-primary text-primary border-primary">
           {t('causal.fiduciary')}
         </span>
       </div>

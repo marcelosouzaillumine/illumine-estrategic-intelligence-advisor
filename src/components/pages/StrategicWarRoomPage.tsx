@@ -81,13 +81,13 @@ export function StrategicWarRoomPage({ selectedClient, contextData }: Props) {
           
           <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
             <h3 className="text-sm font-black uppercase tracking-widest text-slate-800 mb-6 flex items-center gap-2">
-              <Layers3 size={18} className="text-violet-500" />
+              <Layers3 size={18} className="text-primary-500" />
               Simulação de Cenários (War Gaming)
             </h3>
             
             {/* Minimal wrapper to pass the simulated scenario up */}
             {/* For a real app, InstitutionalScenarioPanel would need an onSimulate callback */}
-            <div className="relative border border-dashed border-violet-200 rounded-2xl p-4 bg-violet-50/30">
+            <div className="relative border border-dashed border-primary-200 rounded-2xl p-4 bg-primary-50/30">
               <p className="text-xs text-slate-500 mb-4 font-medium">Configure e rode a simulação abaixo. Cenários válidos serão adicionados à mesa de deliberação automaticamente.</p>
               
               {/* Note: Assuming InstitutionalScenarioPanel was updated to accept onSimulated */}
@@ -104,7 +104,7 @@ export function StrategicWarRoomPage({ selectedClient, contextData }: Props) {
                   propagationProfile: { nodes: [], edges: [], structuralIntegrityScore: 80, systemicSeverity: 'MODERADA' },
                   explainability: { lineageHash: 'H_MOCK_A', baselineHash: 'H_BASE', simulationHash: 'H_SIM', constraintTriggers: [], propagationRationale: [] }
                 })}
-                className="mt-4 text-xs font-bold bg-violet-100 text-violet-700 px-4 py-2 rounded-lg hover:bg-violet-200 transition-colors"
+                className="mt-4 text-xs font-bold bg-primary-100 text-primary-700 px-4 py-2 rounded-lg hover:bg-primary-200 transition-colors"
               >
                 + Inject Mock Scenario A
               </button>

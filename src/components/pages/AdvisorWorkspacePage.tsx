@@ -364,7 +364,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                 </button>
                 <button 
                   onClick={() => handleApplyProfile('board_mode')}
-                  className="px-2 py-1.5 bg-purple-600 hover:bg-purple-550 text-white rounded text-[10px] font-black uppercase tracking-wider"
+                  className="px-2 py-1.5 bg-primary hover:bg-primary text-white rounded text-[10px] font-black uppercase tracking-wider"
                 >
                   Board Mode
                 </button>

@@ -15,7 +15,7 @@ export const ConstitutionalEnforcementPanel: React.FC<Props> = ({ actions }) => 
       case 'WARNING': return 'text-yellow-400 bg-yellow-500/10 border-yellow-500/20';
       case 'INTERVENTION': return 'text-orange-400 bg-orange-500/10 border-orange-500/20';
       case 'VETO': return 'text-red-400 bg-red-500/10 border-red-500/20';
-      case 'QUARANTINE': return 'text-purple-400 bg-purple-500/10 border-purple-500/20';
+      case 'QUARANTINE': return 'text-primary bg-primary border-primary';
       default: return 'text-gray-400 bg-gray-800 border-gray-700';
     }
   };

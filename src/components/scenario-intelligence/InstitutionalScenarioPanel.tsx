@@ -31,7 +31,7 @@ export function InstitutionalScenarioPanel({ contextData }: Props) {
     <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-8">
       <div className="flex items-center justify-between border-b border-slate-100 pb-4">
         <div className="flex items-center gap-3">
-          <Settings2 size={24} className="text-violet-500" />
+          <Settings2 size={24} className="text-primary-500" />
           <div>
             <h2 className="text-lg font-black text-slate-900 tracking-tight">Institutional Scenario Intelligence</h2>
             <p className="text-xs font-medium text-slate-500">Simulação estrutural baseada em propagação e constraints fiduciárias.</p>
@@ -51,7 +51,7 @@ export function InstitutionalScenarioPanel({ contextData }: Props) {
                 <input 
                   type="range" min="-50" max="100" step="5"
                   value={formState.estoque} onChange={e => setFormState({...formState, estoque: parseInt(e.target.value)})}
-                  className="w-full mt-2 accent-violet-600"
+                  className="w-full mt-2 accent-primary-600"
                 />
                 <div className="text-right text-[10px] font-mono font-bold text-slate-500">{formState.estoque > 0 ? `+${formState.estoque}` : formState.estoque}%</div>
               </label>
@@ -61,7 +61,7 @@ export function InstitutionalScenarioPanel({ contextData }: Props) {
                 <input 
                   type="range" min="-50" max="50" step="5"
                   value={formState.receita} onChange={e => setFormState({...formState, receita: parseInt(e.target.value)})}
-                  className="w-full mt-2 accent-violet-600"
+                  className="w-full mt-2 accent-primary-600"
                 />
                 <div className="text-right text-[10px] font-mono font-bold text-slate-500">{formState.receita > 0 ? `+${formState.receita}` : formState.receita}%</div>
               </label>
@@ -71,7 +71,7 @@ export function InstitutionalScenarioPanel({ contextData }: Props) {
                 <input 
                   type="range" min="0" max="100" step="5"
                   value={formState.capex} onChange={e => setFormState({...formState, capex: parseInt(e.target.value)})}
-                  className="w-full mt-2 accent-violet-600"
+                  className="w-full mt-2 accent-primary-600"
                 />
                 <div className="text-right text-[10px] font-mono font-bold text-slate-500">+{formState.capex}%</div>
               </label>
@@ -80,7 +80,7 @@ export function InstitutionalScenarioPanel({ contextData }: Props) {
 
           <button 
             onClick={handleSimulate}
-            className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white p-3 rounded-xl hover:bg-violet-600 transition-colors font-bold text-xs uppercase tracking-wider"
+            className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white p-3 rounded-xl hover:bg-primary-600 transition-colors font-bold text-xs uppercase tracking-wider"
           >
             <Play size={16} />
             Executar Propagação

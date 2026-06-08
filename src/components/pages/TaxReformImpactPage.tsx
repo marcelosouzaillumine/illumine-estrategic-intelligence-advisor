@@ -646,7 +646,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                   >
                     <div className="flex items-center gap-4 text-left">
                       <div className="p-3 bg-white rounded-2xl shadow-sm">
-                        <Database size={20} className="text-purple-600" />
+                        <Database size={20} className="text-primary" />
                       </div>
                       <div>
                         <span className="text-xs font-black text-slate-900 block">DRE Projetada (Transition)</span>

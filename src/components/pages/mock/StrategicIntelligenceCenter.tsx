@@ -83,7 +83,7 @@ export function StrategicIntelligenceCenter() {
         {/* Hub: Institutional Advisory */}
         <div className="card-premium p-8 cursor-pointer group hover:border-slate-700 transition-all">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-purple-500/10 rounded-lg text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+            <div className="p-2 bg-primary rounded-lg text-primary group-hover:bg-primary transition-colors">
               <Cpu className="w-6 h-6" />
             </div>
             <h2 className="text-lg font-medium text-slate-200">Institutional Advisory</h2>

@@ -239,7 +239,7 @@ export function GestaoUsuariosPage({ setSelectedClient, setCurrentPage }: any) {
                       <span className={cn(
                         "px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border shadow-inner-soft whitespace-nowrap",
                         u.userType === 'Master Admin' ? "bg-primary/10 text-primary border-primary/20" : 
-                        u.userType === 'Parceiro Master' ? "bg-purple-500/10 text-purple-600 border-purple-500/20" :
+                        u.userType === 'Parceiro Master' ? "bg-primary text-primary border-primary" :
                         u.userType === 'Proprietário de Cliente' ? "bg-secondary/10 text-secondary border-secondary/20" :
                         "bg-bg-surface text-text-dim border-border-main"
                       )}>

@@ -29,13 +29,8 @@ export class ExecutiveSemanticRegistry {
     'Canônico',
     'Métricas Canônicas',
     'Score Calculado',
-    'Score Fiduciário Ajustado',
-    'Debug Mode',
-    'chain',
-    'severity',
-    'sourceModule',
-    'runtimeMetadata'
-  ]);
+    'Score Fiduciário Ajustado'
+]);
 
   // Level 2 – translatable to institutional language
   static readonly TRANSLATIONS: Record<string, string> = {

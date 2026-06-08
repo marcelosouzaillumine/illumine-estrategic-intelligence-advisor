@@ -43,7 +43,7 @@ interface OverviewPageProps {
 const PanelHeader = ({ title, type }: { title: string; type: string }) => {
   const typeColors: Record<string, string> = {
     executivo: 'bg-blue-50 text-blue-700 border-blue-200',
-    fiduciário: 'bg-purple-50 text-purple-700 border-purple-200',
+    fiduciário: 'bg-primary text-primary border-primary',
     auditoria: 'bg-amber-50 text-amber-700 border-amber-200',
     operacional: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     sobrevivência: 'bg-rose-50 text-rose-700 border-rose-200',
@@ -512,7 +512,7 @@ export function InstitutionalFinancialOverviewPage({
         {/* Tensions & Vectors */}
         <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
           <div className="flex items-center gap-2">
-            <ArrowRightLeft size={18} className="text-violet-500" />
+            <ArrowRightLeft size={18} className="text-primary-500" />
             <h3 className="text-sm font-black text-slate-900 uppercase tracking-wider">Tensões Cross-Statement</h3>
           </div>
           {propagationChains.length === 0 ? (
@@ -663,7 +663,7 @@ export function InstitutionalFinancialOverviewPage({
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Activity size={20} className="text-purple-500" />
+            <Activity size={20} className="text-primary" />
             <h3 className="text-lg font-black text-slate-900 uppercase tracking-wider">Causal Sustainability Intelligence</h3>
           </div>
           {executiveReport.causalIntelligenceReport?.lineageHash && (
@@ -800,7 +800,7 @@ export function InstitutionalFinancialOverviewPage({
               onClick={() => onNavigate && onNavigate('dlpa')}
               className="p-5 bg-white border border-slate-200 hover:border-slate-400 rounded-2xl flex flex-col items-center justify-center gap-2 hover:shadow-md transition-all group"
             >
-              <Compass size={24} className="text-violet-500 group-hover:scale-110 transition-transform" />
+              <Compass size={24} className="text-primary-500 group-hover:scale-110 transition-transform" />
               <span className="text-xs font-bold text-slate-800 text-center leading-tight">Governança de<br/>Capital (DLPA)</span>
             </button>
           </div>

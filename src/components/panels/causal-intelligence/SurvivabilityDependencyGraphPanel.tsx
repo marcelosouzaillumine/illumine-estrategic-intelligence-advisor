@@ -64,12 +64,12 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
     <div className="p-6 rounded-3xl border border-slate-200 bg-white shadow-sm flex flex-col gap-4 col-span-1 md:col-span-2">
       <div className="flex items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-1.5">
-          <Layers size={14} className="text-purple-600" />
+          <Layers size={14} className="text-primary" />
           <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">
             Grafo de Dependência de Sobrevivência
           </h4>
         </div>
-        <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full border bg-purple-50 text-purple-700 border-purple-200">
+        <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full border bg-primary text-primary border-primary">
           fiduciário
         </span>
       </div>

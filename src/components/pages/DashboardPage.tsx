@@ -63,7 +63,7 @@ const AXIS_DATA = [
     id: 'dashboard_cultura', 
     name: 'Cultura Organizacional', 
     icon: Users, 
-    color: 'bg-purple-900', 
+    color: 'bg-primary', 
     mainKpi: 'eNPS',
     suffix: '' 
   },

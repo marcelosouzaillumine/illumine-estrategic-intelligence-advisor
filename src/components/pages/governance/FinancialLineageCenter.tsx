@@ -115,7 +115,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
       title: 'Cash Quality Score',
       metric: 'CQS Score',
       val: dfcMetrics()?.fiduciary?.cashQuality?.score ?? dfcMetrics()?.fiduciary?.score ?? 'N/A',
-      color: 'border-purple-500 text-purple-400 bg-purple-500/5'
+      color: 'border-primary text-primary bg-primary'
     },
     {
       id: 'EQE',
@@ -272,7 +272,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
           <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-800 transition-all">
             <div className="flex justify-between items-start mb-2">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Cross-Engine Inconsistencies</span>
-              <Layers className="w-5 h-5 text-purple-400" />
+              <Layers className="w-5 h-5 text-primary" />
             </div>
             <div>
               <div className="text-4xl font-light text-slate-100">{crossEngineInconsistenciesCount}</div>

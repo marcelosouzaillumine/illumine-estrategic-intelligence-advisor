@@ -34,7 +34,7 @@ export function BenchmarkComparativePanel({ clientId, scenario }: BenchmarkCompa
   const getPositionStyles = (pos: BenchmarkPosition) => {
     switch (pos) {
       case 'TOP_10':
-        return { text: 'text-purple-400 bg-purple-500/10 border-purple-500/25', label: 'Top 10% (Líder)' };
+        return { text: 'text-primary bg-primary border-primary', label: 'Top 10% (Líder)' };
       case 'TOP_25':
         return { text: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25', label: 'Top 25% (Excelente)' };
       case 'TOP_50':
@@ -63,12 +63,12 @@ export function BenchmarkComparativePanel({ clientId, scenario }: BenchmarkCompa
     <div className="bg-gray-900/60 backdrop-blur-md border border-gray-800 rounded-3xl p-6 md:p-8 space-y-8 shadow-2xl relative overflow-hidden">
       
       {/* Background soft lighting */}
-      <div className={`absolute top-0 right-0 w-64 h-64 rounded-full filter blur-[120px] opacity-10 transition-colors duration-1000 ${isBlocked ? 'bg-red-500' : 'bg-purple-500'}`} />
+      <div className={`absolute top-0 right-0 w-64 h-64 rounded-full filter blur-[120px] opacity-10 transition-colors duration-1000 ${isBlocked ? 'bg-red-500' : 'bg-primary'}`} />
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-6">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-purple-500/10 rounded-2xl border border-purple-500/25 text-purple-400 shadow-lg shadow-purple-500/5">
+          <div className="p-3 bg-primary rounded-2xl border border-primary text-primary shadow-lg shadow-primary">
             <Sparkles className="w-6 h-6" />
           </div>
           <div>
@@ -76,7 +76,7 @@ export function BenchmarkComparativePanel({ clientId, scenario }: BenchmarkCompa
               <h2 className="text-xl font-bold tracking-tight text-white">
                 Benchmark Comparative Intelligence
               </h2>
-              <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 bg-purple-500/15 border border-purple-500/30 text-purple-400 rounded-full">
+              <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 bg-primary border border-primary text-primary rounded-full">
                 BCI™ v1.0
               </span>
             </div>
@@ -88,7 +88,7 @@ export function BenchmarkComparativePanel({ clientId, scenario }: BenchmarkCompa
 
         {/* Data mode info */}
         <div className="flex items-center gap-2 text-[10px] text-gray-500 bg-gray-950/40 border border-gray-850 px-3 py-1.5 rounded-xl">
-          <Info className="w-3.5 h-3.5 text-purple-400" />
+          <Info className="w-3.5 h-3.5 text-primary" />
           <span className="uppercase tracking-wider">Cohort Mode: {comparison.cohortDataMode}</span>
         </div>
       </div>
@@ -228,9 +228,9 @@ export function BenchmarkComparativePanel({ clientId, scenario }: BenchmarkCompa
                       return (
                         <div key={idx} className="flex flex-col items-center text-center">
                           <div className={`w-3 h-3 rounded-full border -mt-4.5 z-10 transition-all ${
-                            isCurrent ? 'bg-purple-500 scale-125 border-purple-300 shadow-md shadow-purple-500/50' : 'bg-gray-800 border-gray-700'
+                            isCurrent ? 'bg-primary scale-125 border-primary shadow-md shadow-primary' : 'bg-gray-800 border-gray-700'
                           }`} />
-                          <span className={`text-[9px] font-bold mt-1.5 ${isCurrent ? 'text-purple-400 font-extrabold' : 'text-gray-500'}`}>
+                          <span className={`text-[9px] font-bold mt-1.5 ${isCurrent ? 'text-primary font-extrabold' : 'text-gray-500'}`}>
                             {getPositionLabel(pos)}
                           </span>
                         </div>
@@ -246,7 +246,7 @@ export function BenchmarkComparativePanel({ clientId, scenario }: BenchmarkCompa
           {/* Comparative Dimensions Grid */}
           <div className="space-y-4">
             <h3 className="text-xs font-black uppercase tracking-widest text-gray-400 flex items-center gap-2">
-              <Scale className="w-4 h-4 text-purple-450" />
+              <Scale className="w-4 h-4 text-primary" />
               Comparativo das Dimensões Fiduciárias (Holdings vs. Cohort)
             </h3>
 

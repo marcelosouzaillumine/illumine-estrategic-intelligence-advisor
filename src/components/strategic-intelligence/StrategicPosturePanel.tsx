@@ -16,7 +16,7 @@ export function StrategicPosturePanel({ posture }: StrategicPosturePanelProps) {
       case 'PRESERVATION_POSTURE': return { color: 'blue', text: 'PRESERVATION', icon: ShieldCheck, bg: 'bg-blue-950/20', border: 'border-blue-900/50' };
       case 'STABILIZATION_POSTURE': return { color: 'yellow', text: 'STABILIZATION', icon: Activity, bg: 'bg-yellow-950/20', border: 'border-yellow-900/50' };
       case 'RESTRICTION_POSTURE': return { color: 'rose', text: 'RESTRICTION', icon: AlertTriangle, bg: 'bg-rose-950/20', border: 'border-rose-900/50' };
-      case 'CONTINUITY_POSTURE': return { color: 'purple', text: 'CONTINUITY', icon: Target, bg: 'bg-purple-950/20', border: 'border-purple-900/50' };
+      case 'CONTINUITY_POSTURE': return { color: 'primary', text: 'CONTINUITY', icon: Target, bg: 'bg-primary', border: 'border-primary' };
       default: return { color: 'zinc', text: 'UNVERIFIABLE', icon: Target, bg: 'bg-zinc-900/20', border: 'border-zinc-800' };
     }
   };

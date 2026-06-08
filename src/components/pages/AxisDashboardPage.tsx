@@ -48,7 +48,7 @@ const AXIS_CONFIG_METADATA: Record<string, any> = {
     title: 'Dashboard',
     subtitle: 'Monitoramento de clima organizacional e desenvolvimento humano.',
     icon: Users,
-    color: 'bg-purple-900',
+    color: 'bg-primary',
     kpiDefinitions: [
       { label: 'eNPS (Clima)', ind: 'eNPS', suffix: '', icon: TrendingUp },
       { label: 'Turnover', ind: 'Turnover', suffix: '%', icon: Activity },
@@ -417,11 +417,11 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
 
         return (
           <div className="bg-white p-10 md:p-14 rounded-[56px] border border-slate-200 shadow-sm relative overflow-hidden mb-10">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
             
             <div className="relative z-10">
               <div className="flex items-center gap-4 mb-10">
-                <div className="p-4 rounded-2xl bg-purple-50 text-purple-600 border border-purple-100">
+                <div className="p-4 rounded-2xl bg-primary text-primary border border-primary">
                   <Users size={32} />
                 </div>
                 <div>
@@ -467,7 +467,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 <div className={cn("p-8 rounded-[40px] space-y-6 shadow-xl transition-colors duration-500", isSilent ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-900")}>
                   <div className="flex items-center justify-between">
                      <p className="text-[10px] font-black opacity-50 uppercase tracking-widest">Clima Silencioso</p>
-                     <div className={cn("w-2 h-2 rounded-full", isSilent ? "bg-purple-500 animate-pulse" : "bg-emerald-500")} />
+                     <div className={cn("w-2 h-2 rounded-full", isSilent ? "bg-primary animate-pulse" : "bg-emerald-500")} />
                   </div>
                   <div className="space-y-2">
                      <h4 className="text-lg font-black">{isSilent ? "Risco de Conformidade" : "Transparência Plena"}</h4>

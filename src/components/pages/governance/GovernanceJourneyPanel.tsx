@@ -65,7 +65,7 @@ export function GovernanceJourneyPanel({
       case 'step-03': return <Target className="w-5 h-5 text-amber-400" />;
       case 'step-04': return <Users className="w-5 h-5 text-teal-400" />;
       case 'step-05': return <TrendingUp className="w-5 h-5 text-emerald-400" />;
-      case 'step-06': return <Brain className="w-5 h-5 text-purple-400" />;
+      case 'step-06': return <Brain className="w-5 h-5 text-primary" />;
       case 'step-07': return <Scale className="w-5 h-5 text-sky-400" />;
       case 'step-08': return <Sparkles className="w-5 h-5 text-fuchsia-400" />;
       default: return <Activity className="w-5 h-5 text-slate-400" />;

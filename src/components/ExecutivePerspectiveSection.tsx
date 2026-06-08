@@ -83,7 +83,7 @@ function inferManagementArea(action: string): { area: string; icon: any; color: 
   if (lower.includes('pessoa') || lower.includes('equipe') || lower.includes('liderança') || lower.includes('talent') || lower.includes('rh') || lower.includes('humano'))
     return { area: 'Gestão de Pessoas', icon: Users, color: 'text-blue-600 bg-blue-50 border-blue-200' };
   if (lower.includes('caixa') || lower.includes('liquid') || lower.includes('financ') || lower.includes('dívida') || lower.includes('cr') || lower.includes('capital') || lower.includes('investimento'))
-    return { area: 'Gestão Financeira', icon: DollarSign, color: 'text-violet-600 bg-violet-50 border-violet-200' };
+    return { area: 'Gestão Financeira', icon: DollarSign, color: 'text-primary-600 bg-primary-50 border-primary-200' };
   if (lower.includes('operac') || lower.includes('processo') || lower.includes('eficiên') || lower.includes('produt') || lower.includes('estrutura') || lower.includes('escala'))
     return { area: 'Gestão Operacional', icon: Layers, color: 'text-amber-600 bg-amber-50 border-amber-200' };
   if (lower.includes('estratég') || lower.includes('posicion') || lower.includes('mercado') || lower.includes('competi') || lower.includes('inovaç'))
@@ -519,7 +519,7 @@ export function ExecutivePerspectiveSection({
                     "rounded-2xl p-5 border hover:shadow-md transition-all group",
                     action.mgmt.color.includes('emerald') ? 'bg-emerald-50/60 border-emerald-200/70 hover:border-emerald-300' :
                     action.mgmt.color.includes('blue') ? 'bg-blue-50/60 border-blue-200/70 hover:border-blue-300' :
-                    action.mgmt.color.includes('violet') ? 'bg-violet-50/60 border-violet-200/70 hover:border-violet-300' :
+                    action.mgmt.color.includes('primary') ? 'bg-primary-50/60 border-primary-200/70 hover:border-primary-300' :
                     action.mgmt.color.includes('amber') ? 'bg-amber-50/60 border-amber-200/70 hover:border-amber-300' :
                     action.mgmt.color.includes('indigo') ? 'bg-indigo-50/60 border-indigo-200/70 hover:border-indigo-300' :
                     'bg-slate-50/60 border-slate-200/70 hover:border-slate-300'

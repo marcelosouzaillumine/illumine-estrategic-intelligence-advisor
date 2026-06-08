@@ -39,6 +39,7 @@ import {
 } from '../../core/orchestration/executiveOrchestrationEngine';
 
 import { isDebugAllowed, ExecutivePresentationRegistry, languageSanitize, audit, fallbackInstitutionalView } from '../../services/efosGuard';
+import { ExecutiveSemanticRegistry } from '../../lib/executive-semantic-registry';
 import type { AudienceProfile } from '../../services/EFOSTypes';
 
 interface OverviewPageProps {
@@ -186,10 +187,43 @@ export function EFOSPage({
     try {
       setGenerateError(null);
       setBindingError(null);
-      const report = FiduciaryRuntimeAdapter.generateExecutiveReport(input);
-      setExecutiveReport(report);
+      // Generate executive report and sanitize prohibited keys
+const report = FiduciaryRuntimeAdapter.generateExecutiveReport(input);
+const cleanReport = sanitizeReport(report);
+function sanitizeReport(obj: any): any {
+  if (obj == null) return obj;
+  if (typeof obj === 'string') {
+    // Skip prohibited string values
+    return ExecutiveSemanticRegistry.PROHIBITED.has(obj) ? undefined : obj;
+  }
+  if (Array.isArray(obj)) {
+    // Filter out prohibited strings in arrays and recursively sanitize elements
+    const filtered = obj
+      .map(sanitizeReport)
+      .filter((v) => v !== undefined);
+    return filtered;
+  }
+  if (typeof obj === 'object') {
+    const cleaned: any = {};
+    for (const key in obj) {
+      if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
+      if (ExecutiveSemanticRegistry.PROHIBITED.has(key)) {
+        // skip prohibited key
+        continue;
+      }
+      const sanitizedValue = sanitizeReport(obj[key]);
+      if (sanitizedValue !== undefined) {
+        cleaned[key] = sanitizedValue;
+      }
+    }
+    return cleaned;
+  }
+  return obj;
+}
 
-      const auditResult = audit(report);
+      setExecutiveReport(cleanReport);
+
+      const auditResult = audit(cleanReport);
       // Override audit result if forceFallback is enabled
       if (forceFallback) {
         setSemanticAudit({ pass: false, violations: ['forced fallback'] });
@@ -392,7 +426,7 @@ export function EFOSPage({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
             <div className="flex items-center gap-2">
-              <Briefcase size={18} className="text-violet-500" />
+              <Briefcase size={18} className="text-primary-500" />
               <h3 className="text-sm font-black text-slate-900 uppercase tracking-wider">Top 3 Decisões do Conselho</h3>
             </div>
             <div className="space-y-4">
@@ -414,7 +448,7 @@ export function EFOSPage({
                         {(rec.prazoRecomendadoLabel || rec.prazoRecomendado) && <span className="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded">Prazo: {rec.prazoRecomendadoLabel || rec.prazoRecomendado}</span>}
                         {rec.impactLabel && <span className="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded">Impacto: {rec.impactLabel}</span>}
                         {rec.urgencyLabel && <span className="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded">Urgência: {rec.urgencyLabel}</span>}
-                        {rec.domain && <span className="text-[10px] font-bold text-violet-600 bg-violet-50 border border-violet-100 px-2 py-1 rounded">Domínio: {rec.domain}</span>}
+                        {rec.domain && <span className="text-[10px] font-bold text-primary-600 bg-primary-50 border border-primary-100 px-2 py-1 rounded">Domínio: {rec.domain}</span>}
                       </div>
                     </div>
                   );

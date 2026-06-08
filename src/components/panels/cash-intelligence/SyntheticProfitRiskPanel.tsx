@@ -7,9 +7,9 @@ export function SyntheticProfitRiskPanel({ signal }: { signal?: InstitutionalCas
   if (!signal) return null;
   const isHealthy = signal.classification === 'HEALTHY' || signal.classification === 'ATTENTION';
   return (
-    <div className={cn("p-6 rounded-3xl border flex flex-col gap-4", isHealthy ? "bg-emerald-50 border-emerald-100" : "bg-purple-50 border-purple-200")}>
+    <div className={cn("p-6 rounded-3xl border flex flex-col gap-4", isHealthy ? "bg-emerald-50 border-emerald-100" : "bg-primary border-primary")}>
       <div className="flex items-center gap-3">
-        {isHealthy ? <Zap className="text-emerald-600" /> : <ZapOff className="text-purple-600" />}
+        {isHealthy ? <Zap className="text-emerald-600" /> : <ZapOff className="text-primary" />}
         <h4 className="text-sm font-black uppercase tracking-widest text-slate-800">{signal.label}</h4>
       </div>
       <p className="text-sm font-medium text-slate-700 leading-relaxed">{signal.narrative}</p>

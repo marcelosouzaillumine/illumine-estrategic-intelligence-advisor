@@ -10,7 +10,7 @@ export function BenchmarkDeviationPanel({ tenantId }: { tenantId: string }) {
   return (
     <div className="bg-surface-container border border-border rounded-lg p-6">
       <div className="flex items-center gap-2 mb-4">
-        <BarChart2 className="text-purple-500" />
+        <BarChart2 className="text-primary" />
         <h3 className="text-sm font-semibold text-foreground">Sector Deviation (K-Anonymized)</h3>
       </div>
       <div className="space-y-2">

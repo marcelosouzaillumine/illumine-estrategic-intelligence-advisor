@@ -27,10 +27,10 @@ export function GraphQueryConsole({ tenantId }: { tenantId: string }) {
           <span className="text-emerald-500 text-xs tracking-widest">GRAPH_QUERY_ENGINE</span>
         </div>
         <div>
-          <span className="text-purple-400">SELECT</span> path <br/>
-          <span className="text-purple-400">FROM</span> InstitutionalKnowledgeGraph <br/>
-          <span className="text-purple-400">WHERE</span> node.type IN ['ALERT', 'WORKFLOW', 'DECISION'] <br/>
-          <span className="text-purple-400">WITH</span> tenantScope = '{tenantId}'
+          <span className="text-primary">SELECT</span> path <br/>
+          <span className="text-primary">FROM</span> InstitutionalKnowledgeGraph <br/>
+          <span className="text-primary">WHERE</span> node.type IN ['ALERT', 'WORKFLOW', 'DECISION'] <br/>
+          <span className="text-primary">WITH</span> tenantScope = '{tenantId}'
         </div>
         
         <button 

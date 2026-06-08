@@ -31,7 +31,7 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
   const getAAIStyles = (level: string) => {
     switch (level) {
       case 'HIGHLY_ACCURATE':
-        return { text: 'text-purple-400 bg-purple-500/10 border-purple-500/25', label: 'Highly Accurate' };
+        return { text: 'text-primary bg-primary border-primary', label: 'Highly Accurate' };
       case 'RELIABLE':
         return { text: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25', label: 'Reliable (Confiável)' };
       case 'NEEDS_CALIBRATION':
@@ -45,7 +45,7 @@ export function GovernanceLearningPanel({ clientId, scenario }: GovernanceLearni
   const getObservationStatusStyles = (status: string) => {
     switch (status) {
       case 'EXCEEDED':
-        return 'text-purple-400 bg-purple-500/10 border-purple-500/20';
+        return 'text-primary bg-primary border-primary';
       case 'ACHIEVED':
         return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
       case 'PARTIALLY_ACHIEVED':

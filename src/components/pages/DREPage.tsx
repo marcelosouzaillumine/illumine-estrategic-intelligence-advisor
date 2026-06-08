@@ -895,7 +895,7 @@ export function DREPage({ clients, selectedClient, selectedYear }: any) {
                       <span className="text-[9px] font-bold uppercase text-slate-500">{t('dre.metrics.ebitda')}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-primary" />
                       <span className="text-[9px] font-bold uppercase text-slate-500">{t('dre.metrics.net_result')}</span>
                     </div>
                   </div>

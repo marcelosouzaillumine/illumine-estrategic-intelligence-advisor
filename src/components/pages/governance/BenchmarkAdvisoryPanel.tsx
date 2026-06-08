@@ -36,7 +36,7 @@ export function BenchmarkAdvisoryPanel({ clientId, scenario }: BenchmarkAdvisory
   const getPositionStyles = (pos: string) => {
     switch (pos) {
       case 'TOP_10':
-        return { text: 'text-purple-400 bg-purple-500/10 border-purple-500/25', label: 'Top 10% (Líder)' };
+        return { text: 'text-primary bg-primary border-primary', label: 'Top 10% (Líder)' };
       case 'TOP_25':
         return { text: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25', label: 'Top 25% (Excelente)' };
       case 'TOP_50':
@@ -57,7 +57,7 @@ export function BenchmarkAdvisoryPanel({ clientId, scenario }: BenchmarkAdvisory
         return { bg: 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400', label: 'Foundational' };
       case 'TRANSFORMATIONAL':
       default:
-        return { bg: 'bg-purple-500/10 border-purple-500/20 text-purple-400', label: 'Transformational' };
+        return { bg: 'bg-primary border-primary text-primary', label: 'Transformational' };
     }
   };
 

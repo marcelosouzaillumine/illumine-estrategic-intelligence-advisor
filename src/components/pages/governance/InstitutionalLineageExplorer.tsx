@@ -64,8 +64,8 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
           Hash de Linhagem Consolidado (Board Pack Ledger)
         </span>
         <div className="flex items-center gap-2">
-          <Hash className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
-          <span className="font-mono text-xs text-purple-700 dark:text-purple-300 font-bold select-all truncate">
+          <Hash className="w-4 h-4 text-primary dark:text-primary shrink-0" />
+          <span className="font-mono text-xs text-primary dark:text-primary font-bold select-all truncate">
             {mainHash}
           </span>
         </div>
