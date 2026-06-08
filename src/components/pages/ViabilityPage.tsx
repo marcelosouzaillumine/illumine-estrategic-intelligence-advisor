@@ -328,12 +328,12 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
       <div className="space-y-10 pb-20 animate-executive-fade">
         {header}
         {toolbar}
-        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200/60 rounded-[40px] p-20 text-center shadow-sm">
+        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200/60 rounded-[40px] p-8 sm:p-12 md:p-20 text-center shadow-sm w-full mx-auto">
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
             <Activity size={48} className="text-slate-200" />
           </div>
           <h3 className="text-xl font-black text-slate-900 mb-2">Sem projetos vinculados</h3>
-          <p className="text-slate-500 max-w-md mb-8 font-medium">Nenhum projeto de inovação foi cadastrado para este cliente até o momento.</p>
+          <p className="text-slate-500 max-w-md mx-auto mb-8 font-medium">Nenhum projeto de inovação foi cadastrado para este cliente até o momento.</p>
         </div>
       </div>
     );

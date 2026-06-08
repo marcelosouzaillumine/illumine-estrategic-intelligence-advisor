@@ -550,7 +550,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
             <div className="space-y-6 mb-12">
               
               {/* --- 1. PATRIMONIAL THESIS & BOARD ADVISORY --- */}
-              {(() => {
+              {(executiveReport as any)?.governanceStatus?.isValid && (() => {
                 const hasParecer = patrimonialIntelligenceReport.boardAdvisory?.fullText?.trim() && patrimonialIntelligenceReport.boardAdvisory.fullText !== 'Parecer não gerado.';
                 return (
                   <div className={cn("grid grid-cols-1 gap-6 mb-6", hasParecer ? "lg:grid-cols-2" : "lg:grid-cols-1")}>
@@ -590,6 +590,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
               })()}
 
               {/* --- 7. PLANO EXECUTIVO --- */}
+              {(executiveReport as any)?.governanceStatus?.isValid && (
               <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-slate-100 flex flex-col justify-center relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
                 <h3 className="text-2xl font-black text-slate-900 mb-6 relative z-10">Plano Executivo Consolidado</h3>
@@ -647,6 +648,7 @@ export function BalanceSheetPage({ clients, selectedClient, selectedYear }: any)
                   )}
                 </div>
               </div>
+              )}
 
               {/* --- 2. CAPITAL PRESERVATION --- */}
               <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-slate-200/30 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 border border-slate-100 relative overflow-hidden">

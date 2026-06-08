@@ -45,9 +45,6 @@ export class PatrimonialExecutiveInterpretationEngine {
     if (typeof liqReal === 'number' && liqReal < 0.50) {
       strategicSeverity = 'CRITICAL';
       strategicSeverityReason = `Liquidez Real Crítica (${liqReal.toFixed(2)})`;
-    } else if (typeof lossAbsorption === 'number' && lossAbsorption < 2.0) {
-      strategicSeverity = 'CRITICAL';
-      strategicSeverityReason = `Loss Absorption Crítico (${lossAbsorption.toFixed(1)}x)`;
     } else if (typeof debtCapacity === 'number' && debtCapacity < 50) {
       strategicSeverity = 'HIGH';
       strategicSeverityReason = `Debt Capacity Reduzido (${debtCapacity})`;
@@ -64,16 +61,14 @@ export class PatrimonialExecutiveInterpretationEngine {
     
     const isLRFragil = typeof liqReal === 'number' && liqReal < 0.75;
     const isLSCritica = typeof liqSeca === 'number' && liqSeca < 1.0;
-    const isLACritica = typeof lossAbsorption === 'number' && lossAbsorption < 2.0;
     const isEndivAlto = typeof endivGeral === 'number' && endivGeral > 0.8;
     const isConsumoCap = equityQuality === 'Consumo de Capital' || equityQuality === 'Erosão Patrimonial';
 
-    if (isLRFragil || isLSCritica || isLACritica || isConsumoCap) {
+    if (isLRFragil || isLSCritica || isConsumoCap) {
       const issues: string[] = [];
       if (isLRFragil || isLSCritica) issues.push('fragilidade crítica de liquidez');
       if (typeof estoqueConc === 'number' && estoqueConc > 0.4) issues.push('elevado aprisionamento de capital em estoques');
       if (isConsumoCap) issues.push('consumo material do capital originalmente aportado pelos sócios');
-      if (isLACritica && !isConsumoCap) issues.push('baixa margem de absorção contra perdas');
 
       let joinedIssues = '';
       if (issues.includes('fragilidade crítica de liquidez') && issues.includes('consumo material do capital originalmente aportado pelos sócios')) {
@@ -118,9 +113,9 @@ export class PatrimonialExecutiveInterpretationEngine {
       planOperacional = { prazo: 'Médio Prazo', acao: 'Reduzir aprisionamento em estoques e acelerar giro de recebíveis.' };
       planGovernanca = { prazo: 'Longo Prazo', acao: 'Estabelecer política restritiva de capital de giro e tesouraria.' };
       
-    } else if (isLACritica || isConsumoCap) {
-      dominantRiskFamily = 'Preservação de Capital';
-      executivePlan = `Risco Dominante: Erosão Patrimonial. | Causa Raiz: Operação consumindo caixa e recursos aportados ao longo do tempo. | Ação Estratégica: Revisão radical do modelo de margem e estancamento da queima de caixa. | KPI: Lucro Líquido e Loss Absorption > 3 anos.`;
+    } else if (isConsumoCap) {
+      dominantRiskFamily = 'Otimização Patrimonial';
+      executivePlan = `Risco Dominante: Erosão Patrimonial. | Causa Raiz: Operação consumindo caixa e recursos aportados ao longo do tempo. | Ação Estratégica: Revisão radical do modelo de margem e estancamento da queima de caixa. | KPI: Lucro Líquido e Patrimônio Líquido > 3 anos.`;
       
       planFinanceiro = { prazo: 'Curto Prazo', acao: 'Suspender distribuição de dividendos e novos Capex não-essenciais.' };
       planOperacional = { prazo: 'Médio Prazo', acao: 'Revisão drástica do modelo de margens para estancar a queima de caixa.' };

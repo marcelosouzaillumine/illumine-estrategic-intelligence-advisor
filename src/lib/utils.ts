@@ -21,6 +21,10 @@ function getActiveLocale() {
 }
 
 export function formatCurrency(value: number, currencyCode: string = activeCurrency) {
+  if (isNaN(value) || value === null || value === undefined) {
+    return 'Não calculável com os dados disponíveis';
+  }
+
   const symbols: Record<string, string> = {
     'BRL': 'R$',
     'USD': '$',
@@ -55,6 +59,10 @@ export function formatValue(val: number | string, un: string, currencyCode: stri
   if (typeof val === 'string') {
     return val;
   }
+  if (isNaN(val) || val === null || val === undefined) {
+    return 'Não calculável com os dados disponíveis';
+  }
+  
   const locale = getActiveLocale();
   if (un === 'R$' || un === 'BRL' || un === 'USD' || un === 'EUR' || un === 'GBP' || un === 'currency') {
     return formatCurrency(val, currencyCode);

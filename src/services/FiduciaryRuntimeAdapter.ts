@@ -69,8 +69,14 @@ import { TreasurySustainabilityNarrativeEngine } from '../core/runtime/treasury-
 import { ExecutiveLanguageRegistry } from '../core/runtime/presentation-governance/ExecutiveLanguageRegistry';
 import { ExecutiveLanguageLeakAudit } from '../core/runtime/presentation-governance/ExecutiveLanguageLeakAudit';
 import { ExecutiveLanguageBoundaryGuard } from '../core/runtime/presentation-governance/ExecutiveLanguageBoundaryGuard';
+import { DFCGovernanceOrchestrator } from '../core/runtime/governance/dfc/DFCGovernanceOrchestrator';
+import { DFCSSOTGuard } from '../core/runtime/governance/dfc/DFCSSOTGuard';
+import { DFCRuntimeUIReconciliationAudit } from '../core/runtime/governance/dfc/DFCRuntimeUIReconciliationAudit';
 
 export const FiduciaryRuntimeAdapter = {
+  DFCGovernanceOrchestrator,
+  DFCSSOTGuard,
+  DFCRuntimeUIReconciliationAudit,
   DFCCausalDriverPresentationAudit,
   ExecutivePresentationLabelRegistry,
   DFCDensityComplianceAudit,

@@ -343,22 +343,22 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
       <div className="bg-primary p-12 rounded-[40px] text-white overflow-hidden relative shadow-2xl shadow-primary/20">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none" />
         <div className="flex flex-col lg:flex-row items-center gap-12 relative z-10">
-          <div className="flex-1 space-y-6">
+          <div className="flex-1 w-full space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full">
               <TrendingUp size={16} />
               <span className="text-[10px] font-black uppercase tracking-widest">Projeção de Eficiência Anual</span>
             </div>
             <h3 className="text-3xl font-black leading-tight">Impacto da Gestão de Compras no Resultado</h3>
-            <p className="text-white/70 text-base leading-relaxed max-w-xl font-medium">
+            <p className="w-full text-white/70 text-base leading-relaxed font-medium">
               A eficiência de negociação atual é de <strong>{stats.efficiencyRate.toFixed(1)}%</strong> sobre o maior preço orçado. Sua projeção anual indica uma redução de custos de <strong>{formatCurrency(stats.totalEconomy * 12)}</strong> diretamente no LAJIDA através da gestão de volume de compra.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-6 w-full lg:w-auto">
-             <div className="bg-white/10 backdrop-blur-sm p-8 rounded-3xl border border-white/10 min-w-[200px]">
+             <div className="bg-white/10 backdrop-blur-sm p-8 rounded-3xl border border-white/10 min-w-[200px] w-full">
                 <p className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-2">Economia Mensal</p>
                 <p className="text-3xl font-black">{formatCurrency(stats.totalEconomy)}</p>
              </div>
-             <div className="bg-secondary p-8 rounded-3xl shadow-xl min-w-[200px]">
+             <div className="bg-secondary p-8 rounded-3xl shadow-xl min-w-[200px] w-full">
                 <p className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-2">Saving Projetado (12m)</p>
                 <p className="text-3xl font-black">{formatCurrency(stats.totalEconomy * 12)}</p>
              </div>

@@ -227,6 +227,28 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
   const outputAny = runtimeOutput as any;
   const reinvestmentCapacity = metrics.reinvestmentCapacity || 0;
   const isGenerated = metrics.isGenerated || false;
+
+  const caixaInicialBP = metrics.fiduciary?.caixaInicialBP || 0;
+  const caixaFinalBP = metrics.fiduciary?.caixaFinalBP || 0;
+  const caixaFinalDFC = metrics.fiduciary?.caixaFinalEstimadoDFC || 0;
+
+  const rawGovernanceOutput = FiduciaryRuntimeAdapter.DFCGovernanceOrchestrator.orchestrate(
+    filterYear,
+    fco,
+    fci,
+    fcf,
+    variacao,
+    metrics.lucroLiquido || 0,
+    metrics.fiduciary?.shareholderContributions || 0,
+    caixaFinalBP,
+    caixaFinalDFC,
+    metrics.fiduciary?.runway || 0,
+    metrics.fiduciary?.isRecurrentNegativeFCO || false,
+    metrics.receitaLiquida || 0
+  );
+
+  const governanceOutput = FiduciaryRuntimeAdapter.DFCSSOTGuard.enforce(rawGovernanceOutput);
+
   
   const semanticContext =
     dfcInference?.semanticContext
@@ -674,21 +696,29 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
       {viewMode === 'fiduciario' && (() => {
         // 1. Audit and assign fallbacks for the snapshot
         const rawSnapshot = metrics.fiduciary?.dfcExecutiveSnapshot || {};
-        const auditTarget = {
-          cashGenerationStatus: rawSnapshot.geraCaixa !== undefined && rawSnapshot.geraCaixa !== null ? (rawSnapshot.geraCaixa ? 'Gera Caixa' : 'Consome Caixa') : undefined,
-          runwayStatus: rawSnapshot.runway,
-          shareholderDependencyStatus: rawSnapshot.dependenciaSocietaria || rawSnapshot.dependenteSocios,
-          primaryRisk: rawSnapshot.maiorRisco,
-          recommendedAction: rawSnapshot.acaoPrioritaria
+        
+        const uiRenderIntent = {
+          dependencyStatusRendered: governanceOutput.classifications.shareholderDependency,
+          cashGenerationStatusRendered: governanceOutput.classifications.cashGenerationStatus === 'GERACAO_OPERACIONAL' ? 'Gera Caixa' : 'Consome Caixa',
+          recommendationRendered: governanceOutput.narratives.primaryRecommendation
         };
-        const snapshotAudit = FiduciaryRuntimeAdapter.DFCSnapshotBindingAudit.audit(auditTarget);
+
+        const reconciliation = FiduciaryRuntimeAdapter.DFCRuntimeUIReconciliationAudit?.evaluate?.(
+          governanceOutput, 
+          uiRenderIntent
+        ) || { isReconciled: true, divergenceReason: null };
+
+        if (!reconciliation.isReconciled) {
+          governanceOutput.validation.isValid = false;
+          governanceOutput.validation.blockReason = reconciliation.divergenceReason;
+        }
         
         const safeSnapshot = {
-          geraCaixa: rawSnapshot.geraCaixa ?? false,
-          runway: rawSnapshot.runway || 'Não Disponível',
-          dependenteSocios: (rawSnapshot.dependenciaSocietaria || rawSnapshot.dependenteSocios) || 'Não Disponível',
-          maiorRisco: rawSnapshot.maiorRisco || 'Não Disponível',
-          acaoPrioritaria: rawSnapshot.acaoPrioritaria || 'Não Disponível'
+          geraCaixa: governanceOutput.classifications.cashGenerationStatus === 'GERACAO_OPERACIONAL',
+          runway: rawSnapshot.runway || '-',
+          dependenteSocios: governanceOutput.classifications.shareholderDependency,
+          maiorRisco: rawSnapshot.maiorRisco || '-',
+          acaoPrioritaria: governanceOutput.narratives.primaryRecommendation || '-'
         };
 
         // 2. Resolve and adapt priorities
@@ -796,11 +826,24 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                 A visualização executiva foi bloqueada por inconsistência de densidade informacional. Reprocessar o relatório antes de deliberação.
               </p>
             </div>
-          );
-        }
+      {viewMode === 'fiduciario' && !governanceOutput.validation.isValid && (
+        <div className="bg-rose-50 border-2 border-rose-200 rounded-[32px] p-10 mb-10 text-center flex flex-col items-center justify-center animate-in fade-in zoom-in duration-300">
+          <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center text-rose-600 mb-6 shadow-sm border border-rose-200">
+            <ShieldAlert size={40} />
+          </div>
+          <h2 className="text-3xl font-black text-rose-900 mb-4 tracking-tight">Risco Fiduciário: Bloqueio de Narrativa</h2>
+          <p className="text-lg text-rose-800/80 font-medium max-w-3xl leading-relaxed mb-8">
+            {governanceOutput.validation.blockReason}
+          </p>
+          <div className="bg-white/60 px-6 py-4 rounded-2xl border border-rose-100 inline-block">
+            <span className="text-xs font-black uppercase tracking-widest text-rose-400 block mb-1">Ação Requerida</span>
+            <span className="text-sm font-bold text-rose-700">Valide os laudos contábeis antes de prosseguir com a leitura gerencial.</span>
+          </div>
+        </div>
+      )}
 
-        return (
-          <div className="space-y-10 animate-in fade-in duration-500">
+      {!(viewMode === 'fiduciario' && !governanceOutput.validation.isValid) && (
+        <div className="space-y-10 animate-in fade-in duration-500">
             {/* DFC_SNAPSHOT Section */}
             {isSectionVisible('DFC_SNAPSHOT') && (() => {
               const snapshot = safeSnapshot;
@@ -960,9 +1003,6 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
             {/* DFC_CAUSAL_INTELLIGENCE Section */}
             {isSectionVisible('DFC_CAUSAL_INTELLIGENCE') && (() => {
-              const audit = FiduciaryRuntimeAdapter.DFCCausalDriverPresentationAudit.audit(
-                metrics.fiduciary?.causalIntelligence?.drivers || []
-              );
               return (
                 <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 space-y-6 text-left">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-4">
@@ -972,37 +1012,30 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                       </h3>
                     </div>
                   </div>
-                  {audit.validDrivers.length === 0 ? (
-                    <div className="p-6 bg-slate-50 border border-slate-200 rounded-2xl text-center text-xs font-semibold text-slate-500">
-                      Nenhum causador de variação de caixa válido identificado para o período.
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-1 @2xl:grid-cols-2 @4xl:grid-cols-3 gap-6">
-                      {audit.validDrivers.map((driver: any, idx: number) => (
-                        <div key={idx} className="border border-border rounded-2xl p-5 space-y-2 bg-white shadow-sm hover:shadow-md transition-all duration-300">
-                          <div className="flex justify-between items-center gap-2">
-                            <span className="text-xs font-black text-[#0E1C2C]">{driver.label}</span>
-                            <span className={cn(
-                              "px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border shrink-0",
-                              driver.type === 'DESTROYER' 
-                                ? 'bg-rose-50 text-[#D01D1C] border-[#D01D1C]/20' 
-                                : 'bg-emerald-50 text-[#0C7A3A] border-[#0C7A3A]/20'
-                            )}>
-                              {driver.type === 'DESTROYER' ? 'Drenagem' : 'Geração'}
-                            </span>
+                  <div className="p-6 bg-[#0E1C2C]/5 border border-[#0E1C2C]/10 rounded-2xl">
+                    <span className="text-[10px] font-black uppercase text-[#0E1C2C]/50 tracking-wider block mb-2">Explicabilidade Causal do Caixa</span>
+                    <p className="text-sm font-bold text-[#0E1C2C] leading-relaxed">
+                      {governanceOutput.narratives.causalNarrative}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 @2xl:grid-cols-2 gap-6 mt-4">
+                     <div className="space-y-2">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-[#0C7A3A]">Vetor de Geração</span>
+                        {governanceOutput.explainability.generators.map((g: string, idx: number) => (
+                          <div key={idx} className="p-3 bg-emerald-50 text-emerald-800 text-xs font-semibold rounded-lg border border-emerald-100">
+                            {g}
                           </div>
-                          <div>
-                            <p className="text-lg font-black text-[#0E1C2C]">
-                              {formatCurrency(driver.amount)}
-                            </p>
-                            <p className="text-[9px] text-[#0E1C2C]/50 font-bold uppercase mt-1">
-                              Impacto: {FiduciaryRuntimeAdapter.ExecutiveNumericPresentationGuard.formatSafe(driver.contributionPercent, (val) => `${val.toFixed(1)}%`)}
-                            </p>
+                        ))}
+                     </div>
+                     <div className="space-y-2">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-[#D01D1C]">Vetor de Consumo</span>
+                        {governanceOutput.explainability.consumers.map((c: string, idx: number) => (
+                          <div key={idx} className="p-3 bg-rose-50 text-rose-800 text-xs font-semibold rounded-lg border border-rose-100">
+                            {c}
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                        ))}
+                     </div>
+                  </div>
                 </div>
               );
             })()}
@@ -1083,12 +1116,16 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   <div className="bg-white border border-[#0E1C2C]/10 px-8 py-6 rounded-2xl text-center min-w-[220px] shrink-0 shadow-sm flex flex-col justify-center">
                     <span className="text-[10px] font-black text-[#0E1C2C]/50 uppercase tracking-widest block mb-2">Conversão de Faturamento</span>
                     <span className="text-3xl font-black text-[#0E1C2C] tracking-tighter block">
-                      {FiduciaryRuntimeAdapter.ExecutiveNumericPresentationGuard.formatSafe(
-                        metrics.fiduciary?.cashConversionAnalysis?.cashConversionPer100Revenue,
+                      {governanceOutput.narratives.cashConversionAnalysis ? FiduciaryRuntimeAdapter.ExecutiveNumericPresentationGuard.formatSafe(
+                        governanceOutput.narratives.cashConversionAnalysis.cashConversionPer100Revenue,
                         (val) => `R$ ${val.toFixed(2)}`
-                      )}
+                      ) : '-'}
                     </span>
-                    <span className="text-[9px] font-bold text-[#0E1C2C]/50 uppercase block mt-1">A cada R$ 100 faturados</span>
+                    {governanceOutput.narratives.cashConversionAnalysis ? (
+                      <span className="text-[9px] font-bold text-[#0E1C2C]/50 uppercase block mt-1">A cada R$ 100 faturados</span>
+                    ) : (
+                      <span className="text-[9px] font-bold text-[#0E1C2C]/50 uppercase block mt-1">Sem base de faturamento disponível</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1295,7 +1332,7 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
 
             {/* DFC_BOARD_ADVISORY Section */}
             {isSectionVisible('DFC_BOARD_ADVISORY') && (() => {
-              const advisory = metrics.fiduciary?.compressedAdvisory || { situacaoAtual: 'Não Disponível', restricaoPrincipal: 'Não Disponível', prioridadeEstrategica: 'Não Disponível', outlook: 'Não Disponível' };
+              const advisory = metrics.fiduciary?.compressedAdvisory || { situacaoAtual: '-', restricaoPrincipal: '-', prioridadeEstrategica: '-', outlook: '-' };
               return (
                 <div className="bg-gradient-to-br from-[#0E1C2C] via-[#0E1C2C] to-[#07111C] text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden space-y-6 text-left border border-white/10">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF8552]/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
@@ -1314,9 +1351,9 @@ export function DFCPage({ clients, selectedClient, selectedYear }: any) {
                   <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-6 relative z-10">
                     <div className="space-y-4">
                       <div>
-                        <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Situação Atual</p>
+                        <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Diagnóstico Governança</p>
                         <p className="text-sm font-bold text-slate-200 leading-relaxed">
-                          {FiduciaryRuntimeAdapter.ExecutiveLanguageBoundaryGuard.translate(advisory.situacaoAtual, densityLevel)}
+                          {governanceOutput.narratives.executiveSummary}
                         </p>
                       </div>
                       <div>

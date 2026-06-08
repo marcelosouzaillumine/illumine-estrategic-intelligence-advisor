@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ExecutiveNarrative } from '../../../services/FiduciaryRuntimeAdapter';
 import { BoardModeGuard } from '../../../services/FiduciaryRuntimeAdapter';
 import { BoardFlowStep } from '../../../services/FiduciaryRuntimeAdapter';
+import { sanitizeExecutivePayload } from '../../../core/presentation/emergency-executive-sanitizer';
 import { RuntimeDisclosureBanner } from './RuntimeDisclosureBanner';
 import { BoardNarrativeNavigator } from './BoardNarrativeNavigator';
 import { CausalDrilldownPanel } from './CausalDrilldownPanel';
@@ -75,13 +76,16 @@ export const BoardExperienceShell: React.FC<BoardExperienceShellProps> = ({ narr
 
           {currentStep === 'STRUCTURAL_TENSIONS' && (
             <div className="grid gap-4">
-              {narrative.violations.map(v => (
-                <div key={v.violationId} className={`p-4 border rounded-lg ${v.severity === 'CRITICAL' ? 'bg-red-900/20 border-red-500/30' : 'bg-amber-900/20 border-amber-500/30'}`}>
-                  <span className={`text-xs font-bold uppercase ${v.severity === 'CRITICAL' ? 'text-red-400' : 'text-amber-400'}`}>{v.severity}</span>
-                  <p className="mt-1 text-slate-200">{v.message}</p>
-                  <p className="mt-2 text-xs font-mono text-slate-500">Context: {v.sourceContext}</p>
-                </div>
-              ))}
+              {narrative.violations.map(v => {
+                const safeV = sanitizeExecutivePayload(v);
+                return (
+                  <div key={safeV.violationId} className={`p-4 border rounded-lg ${v.severity === 'CRITICAL' ? 'bg-red-900/20 border-red-500/30' : 'bg-amber-900/20 border-amber-500/30'}`}>
+                    <span className={`text-xs font-bold uppercase ${v.severity === 'CRITICAL' ? 'text-red-400' : 'text-amber-400'}`}>{safeV.severity as string}</span>
+                    <p className="mt-1 text-slate-200">{safeV.message as string}</p>
+                    <p className="mt-2 text-xs font-mono text-slate-500">Context: {safeV.sourceContext as string}</p>
+                  </div>
+                );
+              })}
             </div>
           )}
 

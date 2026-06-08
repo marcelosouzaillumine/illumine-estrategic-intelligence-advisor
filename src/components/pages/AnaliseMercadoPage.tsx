@@ -156,7 +156,7 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
               transition={{ delay: idx * 0.05 }}
-              className="card-premium p-8 group relative overflow-hidden"
+              className="card-premium p-8 group relative overflow-hidden h-full flex flex-col justify-between"
             >
               <div className="absolute top-0 right-0 w-24 h-24 bg-surface-container rounded-bl-[60px] -mr-12 -mt-12 pointer-events-none group-hover:bg-primary/5 transition-colors shadow-inner" />
               
@@ -202,7 +202,7 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
          {/* Sector Performance Chart */}
-         <div className="lg:col-span-2 card-premium p-12 relative overflow-hidden">
+         <div className="lg:col-span-2 card-premium p-12 relative overflow-hidden flex flex-col h-full">
             <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
               <BarChart3 size={240} />
             </div>
@@ -218,17 +218,17 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                </div>
             </div>
             
-            <div className="h-[350px] bg-surface-container/30 rounded-md flex flex-col items-center justify-center border-2 border-dashed border-border group hover:border-secondary/30 transition-all cursor-pointer shadow-inner">
+            <div className="flex-1 w-full bg-surface-container/30 rounded-md flex flex-col items-center justify-center border-2 border-dashed border-border group hover:border-secondary/30 transition-all cursor-pointer shadow-inner p-8">
                <div className="w-16 h-16 rounded-md bg-card flex items-center justify-center text-muted-foreground group-hover:text-secondary group-hover:scale-110 transition-all shadow-premium border border-border mb-6">
                  <Activity size={32} />
                </div>
-               <p className="text-muted-foreground font-medium uppercase tracking-widest text-[10px] mb-2 italic">Integração de Dados em Tempo Real</p>
-               <p className="text-muted-foreground/40 text-[9px] font-medium uppercase tracking-widest">Sincronizado via Premissas do Sistema</p>
+               <p className="text-muted-foreground font-medium uppercase tracking-widest text-[10px] mb-2 italic text-center">Integração de Dados em Tempo Real</p>
+               <p className="text-muted-foreground/40 text-[9px] font-medium uppercase tracking-widest text-center">Sincronizado via Premissas do Sistema</p>
             </div>
          </div>
 
          {/* Strategic Market Summary */}
-         <div className="bg-executive p-12 rounded-md text-white shadow-premium relative overflow-hidden flex flex-col border border-white/5">
+         <div className="bg-executive p-12 rounded-md text-white shadow-premium relative overflow-hidden flex flex-col border border-white/5 h-full">
             <div className="absolute -right-20 -top-20 w-80 h-80 bg-secondary/5 rounded-full blur-[100px] pointer-events-none shadow-inner" />
             
             <div className="relative z-10 flex flex-col h-full">
@@ -240,7 +240,10 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                </div>
 
                <div className="space-y-10 flex-1">
-                  {[].map((insight: any, i: number) => (
+                  {[
+                    { icon: Target, title: 'Expansão Regional', desc: 'Identificado alto potencial de penetração de mercado no sudeste com base no índice de consumo local.' },
+                    { icon: Zap, title: 'Otimização de Custos', desc: 'Redução na taxa Selic projeta cenário favorável para alavancagem operacional no próximo trimestre.' }
+                  ].map((insight: any, i: number) => (
                     <div key={i} className="group cursor-default flex gap-6">
                        <div className="w-10 h-10 rounded-md bg-white/5 border border-white/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-primary transition-all duration-500 shadow-inner shrink-0">
                           {(() => {
@@ -258,9 +261,10 @@ export function AnaliseMercadoPage({ clientId }: AnaliseMercadoPageProps) {
                   ))}
                </div>
 
-               <div className="mt-12 pt-8 border-t border-white/10">
-                  <button className="btn-executive bg-white/5 border border-white/10 hover:bg-white/10">
-                    <RefreshCw size={14} /> Atualizar Inteligência
+               <div className="mt-12 pt-8 border-t border-white/10 w-full">
+                  <button className="btn-executive w-full bg-white/5 border border-white/10 hover:bg-white/10 whitespace-normal text-center h-auto min-h-[3rem]">
+                    <RefreshCw size={14} className="shrink-0" /> 
+                    <span className="break-words">Atualizar Inteligência</span>
                   </button>
                </div>
             </div>

@@ -14,9 +14,9 @@ export class WorkingCapitalIntelligenceEngine {
     const receitaVal = receitaNode ? (receitaNode.computedValue || receitaNode.value || 0) : 0;
     const cmvVal = cmvNode ? Math.abs(cmvNode.computedValue || cmvNode.value || 0) : 0;
 
-    let pmrv = 'INSUFFICIENT_DATA';
-    let pmre = 'INSUFFICIENT_DATA';
-    let pmpc = 'INSUFFICIENT_DATA';
+    let pmrv: string | number = 'Não calculável com os dados disponíveis';
+    let pmre: string | number = 'Não calculável com os dados disponíveis';
+    let pmpc: string | number = 'Não calculável com os dados disponíveis';
 
     if (receitaVal > 0) {
       pmrv = ((summary.clientes / receitaVal) * 360).toFixed(0);
@@ -28,9 +28,9 @@ export class WorkingCapitalIntelligenceEngine {
 
     indicators.push({
       metricName: 'Ciclo Financeiro (Estimativa Indireta)',
-      value: (pmrv !== 'INSUFFICIENT_DATA' && pmre !== 'INSUFFICIENT_DATA' && pmpc !== 'INSUFFICIENT_DATA') 
-        ? Number(pmrv) + Number(pmre) - Number(pmpc) 
-        : 'INSUFFICIENT_DATA',
+      value: (typeof pmrv === 'string' || typeof pmre === 'string' || typeof pmpc === 'string') 
+        ? 'Não calculável com os dados disponíveis'
+        : Number(pmrv) + Number(pmre) - Number(pmpc),
       classification: 'NEUTRAL',
       severity: 'NEUTRAL',
       confidence: 70, // Proxy confidence

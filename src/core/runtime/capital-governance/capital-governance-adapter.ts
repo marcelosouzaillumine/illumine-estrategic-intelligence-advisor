@@ -39,6 +39,30 @@ import type { InstitutionalReportPackage } from "../../../lib/institutional-repo
 import { mapReportToInstitutionalReportingInput } from "../../../lib/institutional-reporting-mapper";
 import { buildInstitutionalReportPackage } from "../../../lib/institutional-reporting-engine";
 
+import { mapReportToGovernanceMemoryInput } from "../../../lib/governance-memory-mapper";
+import { buildGovernanceMemory } from "../../../lib/governance-memory-engine";
+import type { GovernanceMemory } from "../../../lib/governance-memory-types";
+
+import { mapReportToGovernanceIntelligenceInput } from "../../../lib/governance-intelligence-network-mapper";
+import { buildGovernanceIntelligenceNetwork } from "../../../lib/governance-intelligence-network-engine";
+import type { GovernanceIntelligenceNetwork } from "../../../lib/governance-intelligence-network-types";
+
+import { mapReportToGovernanceDigitalTwinInput } from "../../../lib/governance-digital-twin-mapper";
+import { buildGovernanceDigitalTwin } from "../../../lib/governance-digital-twin-engine";
+import type { GovernanceDigitalTwin } from "../../../lib/governance-digital-twin-types";
+
+import { mapReportToESGIntelligenceInput } from "../../../lib/esg-intelligence-mapper";
+import { buildESGIntelligence } from "../../../lib/esg-intelligence-engine";
+import type { ESGIntelligence } from "../../../lib/esg-intelligence-types";
+
+import { mapReportToValuationIntelligenceInput } from "../../../lib/valuation-intelligence-mapper";
+import { buildValuationIntelligence } from "../../../lib/valuation-intelligence-engine";
+import type { ValuationIntelligence } from "../../../lib/valuation-intelligence-types";
+
+import { mapReportToBenchmarkIntelligenceInput } from "../../../lib/benchmark-intelligence-mapper";
+import { buildBenchmarkIntelligence } from "../../../lib/benchmark-intelligence-engine";
+import type { BenchmarkIntelligence } from "../../../lib/benchmark-intelligence-types";
+
 import { DLPAFiduciaryInterpretationEngine, DLPAFiduciaryOutput } from '../governance/dlpa/DLPAFiduciaryInterpretationEngine';
 import { FinancialRuntimeContext } from '../financial-context/FinancialRuntimeContextTypes';
 import { FinancialRuntimeContextAdapter } from '../financial-context/FinancialRuntimeContextAdapter';
@@ -156,6 +180,12 @@ export class CapitalGovernanceAdapter {
     boardPack?: BoardPack;
     boardDeck?: BoardDeck;
     institutionalReportPackage?: InstitutionalReportPackage;
+    governanceMemory?: GovernanceMemory;
+    governanceIntelligence?: GovernanceIntelligenceNetwork;
+    governanceDigitalTwin?: GovernanceDigitalTwin;
+    esgIntelligence?: ESGIntelligence;
+    valuationIntelligence?: ValuationIntelligence;
+    benchmarkIntelligence?: BenchmarkIntelligence;
   } {
     
     let fallbackActivated = false;
@@ -675,7 +705,55 @@ export class CapitalGovernanceAdapter {
       ...(institutionalReportPackage && { institutionalReportPackage })
     };
 
-    return reportWithInstitutionalPackage;
+    const governanceMemoryInput = mapReportToGovernanceMemoryInput(reportWithInstitutionalPackage);
+    const governanceMemory = buildGovernanceMemory(governanceMemoryInput);
+
+    const reportWithGovernanceMemory = {
+      ...reportWithInstitutionalPackage,
+      ...(governanceMemory && { governanceMemory })
+    };
+
+    const governanceIntelligenceInput = mapReportToGovernanceIntelligenceInput(reportWithGovernanceMemory);
+    const governanceIntelligence = buildGovernanceIntelligenceNetwork(governanceIntelligenceInput);
+
+    const reportWithGovernanceIntelligence = {
+      ...reportWithGovernanceMemory,
+      ...(governanceIntelligence && { governanceIntelligence })
+    };
+
+    const governanceDigitalTwinInput = mapReportToGovernanceDigitalTwinInput(reportWithGovernanceIntelligence);
+    const governanceDigitalTwin = buildGovernanceDigitalTwin(governanceDigitalTwinInput);
+
+    const reportWithGovernanceDigitalTwin = {
+      ...reportWithGovernanceIntelligence,
+      ...(governanceDigitalTwin && { governanceDigitalTwin })
+    };
+
+    const esgInput = mapReportToESGIntelligenceInput(reportWithGovernanceDigitalTwin);
+    const esgIntelligence = buildESGIntelligence(esgInput);
+
+    const reportWithESG = {
+      ...reportWithGovernanceDigitalTwin,
+      ...(esgIntelligence && { esgIntelligence })
+    };
+
+    const valuationInput = mapReportToValuationIntelligenceInput(reportWithESG);
+    const valuationIntelligence = buildValuationIntelligence(valuationInput);
+
+    const reportWithValuation = {
+      ...reportWithESG,
+      ...(valuationIntelligence && { valuationIntelligence })
+    };
+
+    const benchmarkInput = mapReportToBenchmarkIntelligenceInput(reportWithValuation);
+    const benchmarkIntelligence = buildBenchmarkIntelligence(benchmarkInput);
+
+    const reportWithBenchmark = {
+      ...reportWithValuation,
+      ...(benchmarkIntelligence && { benchmarkIntelligence })
+    };
+
+    return reportWithBenchmark;
 
   }
 
