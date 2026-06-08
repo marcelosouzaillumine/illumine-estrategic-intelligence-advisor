@@ -27,19 +27,19 @@ export const GovernanceForecastSurface: React.FC = () => {
   let riskBg = 'bg-emerald-500/10 border-emerald-500/25';
 
   if (riskBand === 'CRITICAL_RISK') {
-    riskColor = 'text-rose-500';
-    riskBg = 'bg-rose-500/10 border-rose-500/25';
+    riskColor = 'text-rose-400';
+    riskBg = 'bg-rose-950/40 border-rose-500/30 shadow-[0_0_15px_rgba(225,29,72,0.2)]';
   } else if (riskBand === 'HIGH_RISK') {
-    riskColor = 'text-amber-500';
-    riskBg = 'bg-amber-500/10 border-amber-500/25';
+    riskColor = 'text-amber-400';
+    riskBg = 'bg-amber-950/40 border-amber-500/30 shadow-[0_0_15px_rgba(217,119,6,0.15)]';
   } else if (riskBand === 'MODERATE_RISK') {
-    riskColor = 'text-blue-500';
-    riskBg = 'bg-blue-500/10 border-blue-500/25';
+    riskColor = 'text-blue-400';
+    riskBg = 'bg-blue-950/40 border-blue-500/30';
   }
 
   return (
-    <div className="card-premium p-8 space-y-6 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
-      <div className="flex justify-between items-center border-b border-border/40 pb-4">
+    <div className="card-premium p-8 space-y-8 relative overflow-hidden group hover:border-secondary/30 transition-all duration-500 bg-surface-container/30 backdrop-blur-xl border-white/5 shadow-2xl">
+      <div className="flex justify-between items-center border-b border-border/40 pb-5">
         <div>
           <span className="text-[10px] font-mono font-bold tracking-widest text-secondary uppercase block mb-1">{t('scenario.forecast.engineLabel')}</span>
           <h3 className="text-base font-medium text-foreground tracking-tight">{t('scenario.forecast.exposureTitle')}</h3>
@@ -49,9 +49,9 @@ export const GovernanceForecastSurface: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Velocidade de Deterioração */}
-        <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl space-y-3">
+        <div className="p-6 bg-surface-container/40 border border-border/40 rounded-2xl space-y-4 h-full flex flex-col justify-center">
           <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">{t('scenario.forecast.velocityTitle')}</span>
           <div className="flex items-baseline gap-2">
             <span className={`text-2xl font-bold font-mono tracking-tight ${isDeclining ? 'text-rose-500' : 'text-emerald-500'}`}>
@@ -67,7 +67,10 @@ export const GovernanceForecastSurface: React.FC = () => {
         </div>
 
         {/* Liquidez Crise */}
-        <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl space-y-3">
+        <div className="p-6 bg-surface-container/40 border border-border/40 rounded-2xl space-y-4 h-full flex flex-col justify-center relative overflow-hidden">
+          {activeForecast.liquidityDaysToCrisis < 90 && (
+            <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
+          )}
           <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">{t('scenario.forecast.liquidityTitle')}</span>
           <div className="flex items-baseline gap-2">
             <span className={`text-2xl font-bold font-mono tracking-tight ${activeForecast.liquidityDaysToCrisis < 90 ? 'text-rose-500' : activeForecast.liquidityDaysToCrisis < 180 ? 'text-amber-500' : 'text-foreground'}`}>
@@ -85,7 +88,7 @@ export const GovernanceForecastSurface: React.FC = () => {
         </div>
 
         {/* Instabilidade & Fadiga */}
-        <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl space-y-4">
+        <div className="p-6 bg-surface-container/40 border border-border/40 rounded-2xl space-y-6 h-full flex flex-col justify-center">
           <div>
             <div className="flex justify-between items-center text-[10px] font-mono font-bold tracking-wider mb-1.5">
               <span className="text-muted-foreground">{t('scenario.forecast.instabilityTitle')}</span>
@@ -118,8 +121,8 @@ export const GovernanceForecastSurface: React.FC = () => {
         </div>
       </div>
 
-      <div className="p-5 bg-surface-container/60 border border-border/60 rounded-xl font-mono text-xs">
-        <span className="text-muted-foreground font-bold uppercase tracking-widest block mb-3">{t('scenario.forecast.trajectoryTitle')}</span>
+      <div className="p-6 bg-surface-container/40 border border-border/40 rounded-2xl font-mono text-xs shadow-inner">
+        <span className="text-muted-foreground font-bold uppercase tracking-widest block mb-4">{t('scenario.forecast.trajectoryTitle')}</span>
         <div className="flex flex-wrap items-center gap-2">
           {activeForecast.projectedEscalationTrajectory.map((step, idx) => (
             <React.Fragment key={idx}>

@@ -35,18 +35,18 @@ export const SimulationConfidenceCard: React.FC = () => {
   }
 
   return (
-    <div className={`card-premium p-8 transition-all duration-300 ${cardBorder} space-y-6`}>
-      <div className="flex justify-between items-start gap-6 flex-wrap md:flex-nowrap">
-        <div className="space-y-2">
+    <div className={`card-premium p-8 transition-all duration-500 bg-surface-container/30 backdrop-blur-xl border-white/5 shadow-2xl ${cardBorder} space-y-6`}>
+      <div className="flex flex-col gap-6">
+        <div className="space-y-2 w-full">
           <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block mb-1">{t('scenario.confidence.exposureTitle')}</span>
           <h3 className={`text-base font-bold font-mono tracking-wide ${titleColor}`}>{confidenceLabel}</h3>
-          <p className="text-muted-foreground text-xs mt-2 leading-relaxed max-w-2xl">
+          <p className="text-muted-foreground text-xs mt-2 leading-relaxed">
             {confidenceDesc}
           </p>
         </div>
-        <div className="bg-surface-container/60 border border-border/60 px-4 py-3 rounded-xl text-right font-mono text-[10px] font-bold tracking-wider text-muted-foreground shrink-0 shadow-xs">
-          <div className="mb-1">{t('scenario.confidence.confidenceLabel')} <span className="text-foreground font-extrabold">{confidenceLevel}</span></div>
-          <div>{t('scenario.confidence.integrityLabel')} <span className="text-foreground font-extrabold">{integrityState}</span></div>
+        <div className="bg-surface-container/40 border border-border/40 px-5 py-4 rounded-2xl text-left font-mono text-[10px] font-bold tracking-wider text-muted-foreground shadow-inner w-full">
+          <div className="mb-2 flex flex-col sm:flex-row sm:justify-between">{t('scenario.confidence.confidenceLabel')} <span className="text-foreground font-extrabold mt-1 sm:mt-0">{confidenceLevel}</span></div>
+          <div className="flex flex-col sm:flex-row sm:justify-between">{t('scenario.confidence.integrityLabel')} <span className="text-foreground font-extrabold mt-1 sm:mt-0">{integrityState}</span></div>
         </div>
       </div>
 

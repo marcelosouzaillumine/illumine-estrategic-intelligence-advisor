@@ -56,14 +56,14 @@ export const StrategicStressMap: React.FC = () => {
       label: t('scenario.stress.levels.extreme.label'),
       description: t('scenario.stress.levels.extreme.desc'),
       bgStyle: 'bg-rose-500/5 border-border/60 hover:bg-rose-500/10 text-rose-600 dark:text-rose-400',
-      activeBorder: 'border-rose-500 bg-rose-500/10 shadow-[0_0_12px_rgba(239,68,68,0.12)] text-rose-600 dark:text-rose-400 animate-executive-pulse',
+      activeBorder: 'border-rose-500 bg-rose-500/10 shadow-[0_0_24px_rgba(225,29,72,0.25)] ring-1 ring-rose-500/30 text-rose-600 dark:text-rose-400 scale-[1.02] z-10 animate-pulse',
       textColor: 'text-rose-600 dark:text-rose-400'
     }
   ];
 
   return (
-    <div className="card-premium p-8 space-y-6 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
-      <div className="flex justify-between items-center border-b border-border/40 pb-4">
+    <div className="card-premium p-8 space-y-8 relative overflow-hidden group hover:border-secondary/30 transition-all duration-500 bg-surface-container/30 backdrop-blur-xl border-white/5 shadow-2xl">
+      <div className="flex justify-between items-center border-b border-border/40 pb-5">
         <h4 className="text-sm font-medium text-foreground tracking-tight">
           {t('scenario.stress.title')}
         </h4>
@@ -74,17 +74,20 @@ export const StrategicStressMap: React.FC = () => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
         {stressLevels.map((s, idx) => {
           const isActive = currentStress === s.level;
           return (
             <div
               key={idx}
-              className={`p-5 border rounded-xl transition-all duration-300 flex flex-col justify-between ${
-                isActive ? s.activeBorder : s.bgStyle + ' opacity-60 hover:opacity-100'
+              className={`p-6 border rounded-2xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden ${
+                isActive ? s.activeBorder : s.bgStyle + ' opacity-50 hover:opacity-100 cursor-pointer'
               }`}
             >
-              <div>
+              {isActive && (
+                <div className="absolute inset-0 bg-gradient-to-br from-current to-transparent opacity-[0.03] pointer-events-none" />
+              )}
+              <div className="relative z-10">
                 <div className="flex justify-between items-center mb-3">
                   <span className={`text-[10px] font-mono font-bold uppercase tracking-wider ${isActive ? s.textColor : 'text-muted-foreground'}`}>
                     {s.label}
@@ -97,7 +100,7 @@ export const StrategicStressMap: React.FC = () => {
               </div>
 
               {isActive && (
-                <div className="mt-4 pt-3 border-t border-border/30 text-[9px] font-mono tracking-wider text-muted-foreground flex justify-between uppercase font-bold">
+                <div className="relative z-10 mt-5 pt-4 border-t border-current/20 text-[10px] font-mono tracking-widest text-current flex justify-between uppercase font-bold">
                   <span>{t('scenario.stress.statusActive')}</span>
                   <span>{t('scenario.stress.score', { value: String(activeOutput.projectedDeterioration.score) })}</span>
                 </div>

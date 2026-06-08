@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { 
   ShieldCheck, Activity, CheckCircle2, ArrowRight,
   Users, Scale, Landmark, Building, BrainCircuit, Target,
@@ -81,7 +82,8 @@ const CausalTopologyVisual = () => {
   );
 };
 
-export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void }) {
+export function PartnerSalesPage() {
+  useDocumentTitle('Illumine | Advisors');
   const navigate = useNavigate();
   const [showSticky, setShowSticky] = useState(false);
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -277,7 +279,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
           {/* Action CTAs */}
           <div className="flex items-center gap-6 shrink-0">
             <button 
-              onClick={onLoginClick} 
+              onClick={() => navigate('/login')} 
               className="hidden sm:block text-[11px] font-bold uppercase tracking-widest text-white/50 hover:text-secondary transition-colors cursor-pointer"
             >
               Área Restrita
@@ -913,7 +915,7 @@ export function PartnerSalesPage({ onLoginClick }: { onLoginClick: () => void })
             <div className="flex gap-6 font-semibold">
               <button onClick={() => scrollToSection('hero')} className="hover:text-white transition-colors">Voltar ao Topo</button>
               <button onClick={() => navigate('/empresas')} className="hover:text-white transition-colors">Empresas</button>
-              <button onClick={onLoginClick} className="hover:text-white transition-colors">Acesso Restrito</button>
+              <button onClick={() => navigate('/login')} className="hover:text-white transition-colors">Acesso Restrito</button>
             </div>
           </div>
         </div>

@@ -77,7 +77,7 @@ import { FiscalTributarioPage } from './components/pages/FiscalTributarioPage';
 import { QuadroPessoalPage } from './components/pages/QuadroPessoalPage';
 import { HomePage } from './components/pages/public/HomePage';
 import { EmpresasPage } from './components/pages/public/EmpresasPage';
-import { ParceirosPage } from './components/pages/public/ParceirosPage';
+import { PartnerSalesPage } from './components/pages/PartnerSalesPage';
 import { ReferralProgramPage } from './components/pages/public/ReferralProgramPage';
 import { DiagnosticoPage } from './components/pages/public/DiagnosticoPage';
 import { LoginPage } from './components/pages/public/LoginPage';
@@ -441,7 +441,7 @@ export default function App() {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/empresas" element={<EmpresasPage />} />
-                  <Route path="/parceiros" element={<ParceirosPage />} />
+                  <Route path="/parceiros" element={<PartnerSalesPage />} />
                   <Route path="/programa-parceiros" element={<ReferralProgramPage />} />
                   <Route path="/diagnostico" element={<DiagnosticoPage />} />
                   <Route path="/login" element={user ? <Navigate to="/dashboard/efos" replace /> : <LoginPage />} />

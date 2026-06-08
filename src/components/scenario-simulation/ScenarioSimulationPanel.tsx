@@ -33,8 +33,8 @@ export const ScenarioSimulationPanel: React.FC = () => {
   ];
 
   return (
-    <div className="card-premium p-8 space-y-8 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
-      <div className="flex justify-between items-center border-b border-border/40 pb-4 flex-wrap gap-4">
+    <div className="card-premium p-8 space-y-8 relative overflow-hidden group hover:border-secondary/30 transition-all duration-500 bg-surface-container/30 backdrop-blur-xl border-white/5 shadow-2xl">
+      <div className="flex justify-between items-center border-b border-border/40 pb-5 flex-wrap gap-4">
         <div>
           <span className="text-[10px] font-mono font-bold tracking-widest text-secondary uppercase block mb-1">{t('scenario.panel.platformLabel')}</span>
           <h3 className="text-base font-medium text-foreground tracking-tight">{t('scenario.panel.simulatorTitle')}</h3>
@@ -46,19 +46,22 @@ export const ScenarioSimulationPanel: React.FC = () => {
 
       <div className="space-y-6">
         {/* Escolha do Cenário */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           <span className="text-[10px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">{t('scenario.panel.step1')}</span>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
             {scenarios.map((scen) => (
               <button
                 key={scen.type}
                 onClick={() => setScenarioType(scen.type)}
-                className={`p-4 border rounded-xl text-left transition-all duration-300 active:scale-[0.98] flex flex-col gap-1.5 cursor-pointer ${
+                className={`p-5 border rounded-2xl text-left transition-all duration-300 flex flex-col gap-2 cursor-pointer relative overflow-hidden ${
                   activeScenarioType === scen.type
-                    ? 'border-secondary bg-secondary/10 text-secondary shadow-[0_0_12px_rgba(255,133,82,0.12)]'
-                    : 'border-border/60 bg-surface-container/40 text-muted-foreground hover:border-secondary/40 hover:text-foreground'
+                    ? 'border-secondary/50 bg-secondary/10 text-secondary shadow-[0_8px_32px_rgba(255,133,82,0.15)] ring-1 ring-secondary/20 scale-[1.02] z-10'
+                    : 'border-border/40 bg-surface-container/20 text-muted-foreground hover:border-secondary/30 hover:bg-surface-container/50 hover:text-foreground'
                 }`}
               >
+                {activeScenarioType === scen.type && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent pointer-events-none" />
+                )}
                 <span className="text-xs font-semibold tracking-wider uppercase">{scen.label}</span>
                 <span className="text-[10.5px] opacity-80 leading-relaxed font-sans">{scen.desc}</span>
               </button>

@@ -35,6 +35,10 @@ import { mapReportToBoardDeckInput } from '../../../lib/board-deck-mapper';
 import { buildBoardDeck } from '../../../lib/board-deck-engine';
 import type { BoardDeck } from '../../../lib/board-deck-types';
 
+import type { InstitutionalReportPackage } from "../../../lib/institutional-reporting-types";
+import { mapReportToInstitutionalReportingInput } from "../../../lib/institutional-reporting-mapper";
+import { buildInstitutionalReportPackage } from "../../../lib/institutional-reporting-engine";
+
 import { DLPAFiduciaryInterpretationEngine, DLPAFiduciaryOutput } from '../governance/dlpa/DLPAFiduciaryInterpretationEngine';
 import { FinancialRuntimeContext } from '../financial-context/FinancialRuntimeContextTypes';
 import { FinancialRuntimeContextAdapter } from '../financial-context/FinancialRuntimeContextAdapter';
@@ -151,6 +155,7 @@ export class CapitalGovernanceAdapter {
     governanceCommunicationFramework?: GovernanceCommunicationFramework;
     boardPack?: BoardPack;
     boardDeck?: BoardDeck;
+    institutionalReportPackage?: InstitutionalReportPackage;
   } {
     
     let fallbackActivated = false;
@@ -662,7 +667,15 @@ export class CapitalGovernanceAdapter {
       ...(boardDeck && { boardDeck })
     };
 
-    return reportWithBoardDeck;
+    const institutionalReportingInput = mapReportToInstitutionalReportingInput(reportWithBoardDeck);
+    const institutionalReportPackage = buildInstitutionalReportPackage(institutionalReportingInput);
+
+    const reportWithInstitutionalPackage = {
+      ...reportWithBoardDeck,
+      ...(institutionalReportPackage && { institutionalReportPackage })
+    };
+
+    return reportWithInstitutionalPackage;
 
   }
 

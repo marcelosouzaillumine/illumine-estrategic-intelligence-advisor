@@ -25,8 +25,8 @@ export const SimulationLineageViewer: React.FC = () => {
   };
 
   return (
-    <div className="card-premium p-8 font-mono text-xs relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
-      <div className="flex justify-between items-center border-b border-border/40 pb-4">
+    <div className="card-premium p-8 font-mono text-xs relative overflow-hidden group hover:border-secondary/30 transition-all duration-500 bg-surface-container/30 backdrop-blur-xl border-white/5 shadow-2xl">
+      <div className="flex justify-between items-center border-b border-border/40 pb-5">
         <h4 className="text-sm font-medium text-foreground tracking-tight">
           {t('scenario.lineage.title')}
         </h4>

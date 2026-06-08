@@ -28,15 +28,15 @@ export function ExecutiveScenarioLabPage() {
           <ScenarioSimulationPanel />
 
           {/* Grid Principal: Sandbox e Linha do tempo (Esquerda) vs Confiança e Trilha (Direita) */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
             {/* Esquerda: Decisões de Sandbox e Linha do Tempo de Projeção */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className="lg:col-span-2 space-y-6 lg:space-y-8 xl:space-y-10">
               <ExecutiveScenarioNavigator />
               <GovernanceProjectionTimeline />
             </div>
 
             {/* Direita: Diagnóstico de Confiança e Linha de Auditoria */}
-            <div className="space-y-8">
+            <div className="space-y-6 lg:space-y-8 xl:space-y-10">
               <SimulationConfidenceCard />
               <SimulationLineageViewer />
             </div>

@@ -62,8 +62,8 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
   };
 
   return (
-    <div className="card-premium p-8 space-y-6 relative overflow-hidden group hover:border-secondary/20 transition-all duration-300">
-      <div className="flex justify-between items-center border-b border-border/40 pb-4">
+    <div className="card-premium p-8 space-y-8 relative overflow-hidden group hover:border-secondary/30 transition-all duration-500 bg-surface-container/30 backdrop-blur-xl border-white/5 shadow-2xl">
+      <div className="flex justify-between items-center border-b border-border/40 pb-5">
         <h4 className="text-sm font-medium text-foreground tracking-tight">
           {t('scenario.sandbox.title')}
         </h4>
@@ -79,7 +79,8 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
 
       <div className="space-y-6">
         {/* Intensidade */}
-        <div className="flex flex-col gap-2.5 p-4 bg-surface-container/60 border border-border/60 rounded-xl">
+        <div className="flex flex-col gap-3 p-5 bg-surface-container/40 border border-border/40 rounded-2xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 h-1 bg-gradient-to-r from-secondary/40 to-secondary w-full opacity-50"></div>
           <div className="flex justify-between text-[11px] font-mono font-bold tracking-widest text-muted-foreground">
             <span>{t('scenario.sandbox.intensity')}</span>
             <span className="text-secondary font-black">{(intensity * 100).toFixed(0)}%</span>
@@ -96,7 +97,7 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
         </div>
 
         {/* Grade de Decisões */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {availableActions.map((act) => {
             const activeAction = sandboxActions.find(a => a.actionType === act.type);
             const isActive = !!activeAction;
@@ -105,17 +106,20 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
               <button
                 key={act.type}
                 onClick={() => handleActionToggle(act.type)}
-                className={`p-4 border rounded-xl text-left transition-all duration-300 flex flex-col justify-between gap-2.5 active:scale-[0.98] cursor-pointer ${
+                className={`p-5 border rounded-2xl text-left transition-all duration-300 flex flex-col justify-between gap-3 cursor-pointer relative overflow-hidden ${
                   isActive
-                    ? 'border-secondary bg-secondary/10 text-secondary shadow-[0_0_12px_rgba(255,133,82,0.12)]'
-                    : 'border-border/60 bg-surface-container/40 text-muted-foreground hover:border-secondary/40 hover:text-foreground'
+                    ? 'border-secondary/50 bg-secondary/10 text-secondary shadow-[0_8px_32px_rgba(255,133,82,0.15)] ring-1 ring-secondary/20 scale-[1.02] z-10'
+                    : 'border-border/40 bg-surface-container/20 text-muted-foreground hover:border-secondary/30 hover:bg-surface-container/50 hover:text-foreground'
                 }`}
               >
-                <div>
+                {isActive && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent pointer-events-none" />
+                )}
+                <div className="relative z-10">
                   <span className={`text-xs font-semibold tracking-wider uppercase block ${isActive ? 'text-secondary font-bold' : 'text-foreground'}`}>
                     {act.label}
                   </span>
-                  <p className="text-[10.5px] leading-relaxed mt-1 opacity-90">
+                  <p className="text-[10.5px] leading-relaxed mt-1.5 opacity-80">
                     {act.description}
                   </p>
                 </div>
@@ -133,7 +137,7 @@ export const ExecutiveScenarioNavigator: React.FC = () => {
       </div>
 
       {sandboxResult && (
-        <div className="p-4 bg-secondary/5 border border-secondary/20 rounded-xl flex justify-between items-center font-mono text-xs">
+        <div className="p-4 bg-secondary/5 border border-secondary/20 rounded-xl flex justify-between items-center font-mono text-xs shadow-[0_0_20px_rgba(255,133,82,0.1)]">
           <span className="text-muted-foreground font-semibold uppercase tracking-wider">{t('scenario.sandbox.stressDelta')}</span>
           <span className={`font-bold tracking-wide ${sandboxResult.stressDelta <= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
             {sandboxResult.stressDelta > 0 ? t('scenario.sandbox.scoreImpactPositive', { value: String(sandboxResult.stressDelta) }) : t('scenario.sandbox.scoreImpactNegative', { value: String(sandboxResult.stressDelta) })}
