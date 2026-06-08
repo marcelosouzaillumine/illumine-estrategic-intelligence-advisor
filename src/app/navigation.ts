@@ -91,7 +91,7 @@ import {
 } from 'lucide-react';
 
 export type Page =
-  | 'strategic_war_room'
+
   | 'executive_monitoring_center'
   | 'esgim_assessment'
   | 'governance_maturity_center'
@@ -136,12 +136,12 @@ export type Page =
   | 'enterprise_validation'
   | 'reality_validation'
   | 'institutional_reports'
-  | 'scenario_lab'
+
   | 'runtime_observability'
   | 'admin_grupos'
   | 'consolidated_executive'
   | 'board_governance'
-  | 'strategic_war_room'
+
   | 'war_room'
   | 'admin'
   | 'upload'
@@ -189,13 +189,13 @@ export type Page =
   | 'producao'
   | 'administrativa_indicadores'
   | 'controladoria_estrategica'
-  | 'desenvolvimento_humano'
+
   | 'analise_mercado'
-  | 'compliance_page'
+
   | 'governanca_estrategica'
   | 'planejamento_estrategico'
   | 'relatorio_executivo'
-  | 'inteligencia_governanca'
+
   | 'dashboard_marketing'
   | 'dashboard_comercial'
   | 'dashboard_cultura'
@@ -214,11 +214,11 @@ export type Page =
   | 'adm_root'
   | 'contabil_root'
   | 'financeira_root'
-  | 'inteligencia_sistemica'
+
   | 'perfil_lideranca'
   | 'estrutura_governanca'
   | 'avaliacao_organograma'
-  | 'cultura_feedback'
+
   | 'atas_reuniao'
   | 'simulador_estrategico'
   | 'parceiros'
@@ -230,7 +230,7 @@ export type Page =
   | 'executive_scenario_lab'
   | 'lab'
   | 'pilot_operations_center'
-  | 'strategic_intelligence_center'
+
   | 'board_deck_center'
   | 'institutional_observability_center'
   | 'governance_structure_center'
@@ -303,7 +303,7 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     items: [
       { id: 'consolidated_executive', label: 'Inteligência Consolidada', labelKey: 'navigation.page.consolidated_executive', icon: Globe },
       { id: 'portfolio', label: 'Portfólio', labelKey: 'navigation.page.portfolio', icon: Briefcase },
-      { id: 'inteligencia_sistemica', label: 'Inteligência Sistêmica', labelKey: 'navigation.page.systemic_intelligence', icon: Cpu },
+
       { id: 'efos', label: 'EFOS', labelKey: 'navigation.page.efos', icon: LayoutDashboard },
       { id: 'lab', label: 'Executive Scenario Lab', labelKey: 'navigation.page.lab', icon: FlaskConical },
       { id: 'indicadores', label: 'Análise de KPIs', labelKey: 'navigation.page.indicadores', icon: TrendingUp },
@@ -380,11 +380,11 @@ const RAW_NAVIGATION_GROUPS: NavigationGroup[] = [
     icon: Users,
     items: [
       { id: 'dashboard_cultura', label: 'Dashboard de Cultura', labelKey: 'navigation.page.dashboard_cultura', icon: PieChart },
-      { id: 'desenvolvimento_humano', label: 'Desenvolvimento Humano', labelKey: 'navigation.page.desenvolvimento_humano', icon: GraduationCap },
+
       { id: 'perfil_lideranca', label: 'Perfil de Liderança', labelKey: 'navigation.page.perfil_lideranca', icon: Star },
       { id: 'quadro_pessoal', label: 'Gestão de Pessoas', labelKey: 'navigation.page.quadro_pessoal', icon: Users },
       { id: 'avaliacao_organograma', label: 'Avaliação de Organograma', labelKey: 'navigation.page.avaliacao_organograma', icon: Boxes },
-      { id: 'cultura_feedback', label: 'Cultura de Feedback', labelKey: 'navigation.page.cultura_feedback', icon: MessageCircle },
+
     ],
   },
   {

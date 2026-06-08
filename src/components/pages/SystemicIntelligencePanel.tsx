@@ -52,7 +52,7 @@ const EIXOS: EixoGestao[] = [
   'Gestão Operacional'
 ];
 
-export function SystemicIntelligencePage({ clientId, selectedMonth, selectedYear }: SystemicIntelligencePageProps) {
+export function SystemicIntelligencePanel({ clientId, selectedMonth, selectedYear }: SystemicIntelligencePageProps) {
   const { data: indicators, loading: loadingInd } = useModuleData<any>('indicators', clientId);
   const { data: rawDiagnostics, loading: loadingDiag } = useModuleData<DiagnosticoItem>('diagnostico', clientId);
   const { kpis } = useRealIndicatorData(clientId, selectedMonth, selectedYear);

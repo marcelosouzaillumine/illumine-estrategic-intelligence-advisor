@@ -43,11 +43,11 @@ import { OperacionalPage } from '../components/pages/OperacionalPage';
 import { AdministrativaPage } from '../components/pages/AdministrativaPage';
 import { ControladoriaPage } from '../components/pages/ControladoriaPage';
 import { FinancialAdminDashboard } from '../components/pages/FinancialAdminDashboard';
-import { DesenvolvimentoHumanoPage } from '../components/pages/DesenvolvimentoHumanoPage';
+
 import { PlanoEstrategicoGlobalPage } from '../components/pages/PlanoEstrategicoGlobalPage';
-import { CompliancePage } from '../components/pages/CompliancePage';
+
 import { AnaliseMercadoPage } from '../components/pages/AnaliseMercadoPage';
-import { InteligenciaGovernancaPage } from '../components/pages/InteligenciaGovernancaPage';
+
 import { AxisDashboardPage } from '../components/pages/AxisDashboardPage';
 import { ProfilePage } from '../components/pages/ProfilePage';
 import { PreferencesPage } from '../components/pages/PreferencesPage';
@@ -60,10 +60,10 @@ import { AcademyAdminCoursePage } from '../components/pages/academy/AcademyAdmin
 import { EstruturaGovernancaPage } from '../components/pages/EstruturaGovernancaPage';
 import { LeadershipProfilePage } from '../components/pages/LeadershipProfilePage';
 import { MaintenancePage } from '../components/pages/MaintenancePage';
-import { SystemicIntelligencePage } from '../components/pages/SystemicIntelligencePage';
+
 import { MeetingMinutesPage } from '../components/pages/MeetingMinutesPage';
 import { AvaliacaoOrganogramaPage } from '../components/pages/AvaliacaoOrganogramaPage';
-import { CulturaFeedbackPage } from '../components/pages/CulturaFeedbackPage';
+
 import { PartnersPage } from '../components/pages/PartnersPage';
 import { ReferralProgramPage } from '../components/pages/public/ReferralProgramPage';
 import { OrcamentoPage } from '../components/pages/OrcamentoPage';
@@ -74,7 +74,7 @@ import { GestaoUsuariosPage } from '../components/pages/admin/GestaoUsuariosPage
 import { ExecutiveScenarioLabPage } from '../components/pages/ExecutiveScenarioLabPage';
 import { ConsolidatedGroupAdminPage } from '../components/pages/ConsolidatedGroupAdminPage';
 import { RuntimeObservabilityPage } from '../components/pages/RuntimeObservabilityPage';
-import { ScenarioLabPage } from '../components/pages/ScenarioLabPage';
+
 import { InstitutionalReportsPage } from '../components/pages/InstitutionalReportsPage';
 import { AdvisorCockpitPage } from '../components/pages/AdvisorCockpitPage';
 import { TenantGovernancePage } from '../components/pages/TenantGovernancePage';
@@ -89,7 +89,7 @@ import { InstitutionalKnowledgeGraphPage } from '../components/pages/Institution
 import { EarlyWarningPage } from '../components/pages/EarlyWarningPage';
 import { ConsolidatedExecutivePage } from '../components/pages/ConsolidatedExecutivePage';
 import { ConsolidatedExecutiveProvider } from '../context/ConsolidatedExecutiveContext';
-import { StrategicIntelligenceCenter } from '../components/pages/mock/StrategicIntelligenceCenter';
+
 import { StrategicSimulationPage } from '../components/pages/StrategicSimulationPage';
 import { BoardDeckCenter } from '../components/pages/governance/BoardDeckCenter';
 import { InstitutionalObservabilityCenter } from '../components/pages/governance/InstitutionalObservabilityCenter';
@@ -99,7 +99,7 @@ import { FiduciaryGovernanceCenter } from '../components/pages/governance/Fiduci
 import { ComplianceIntegrityCenter } from '../components/pages/governance/ComplianceIntegrityCenter';
 import { GovernanceOrchestrationPage } from '../components/pages/GovernanceOrchestrationPage';
 import { InstitutionalIOSPage } from '../components/pages/InstitutionalIOSPage';
-import { StrategicWarRoomPage } from '../components/pages/StrategicWarRoomPage';
+
 import { EnterpriseValidationPage } from '../components/pages/EnterpriseValidationPage';
 import { RealityValidationPage } from '../components/pages/RealityValidationPage';
 import { PilotMonitoringDashboard } from '../components/pages/PilotMonitoringDashboard';
@@ -390,31 +390,20 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'controladoria_estrategica') {
     return <ControladoriaPage clientId={selectedClient} />;
   }
-  if (currentPage === 'desenvolvimento_humano') {
-    return <DesenvolvimentoHumanoPage clientId={selectedClient} />;
-  }
+
   if (currentPage === 'perfil_lideranca') {
     return <LeadershipProfilePage clientId={selectedClient} />;
   }
   if (currentPage === 'avaliacao_organograma') {
     return <AvaliacaoOrganogramaPage clientId={selectedClient} />;
   }
-  if (currentPage === 'cultura_feedback') {
-    return <CulturaFeedbackPage clientId={selectedClient} />;
-  }
 
-  if (currentPage === 'compliance_page') {
-    return <CompliancePage clientId={selectedClient} />;
-  }
+
+
   if (currentPage === 'analise_mercado') {
     return <AnaliseMercadoPage clientId={selectedClient} />;
   }
-  if (currentPage === 'inteligencia_governanca') {
-    return <InteligenciaGovernancaPage clientId={selectedClient} />;
-  }
-  if (currentPage === 'inteligencia_sistemica') {
-    return <SystemicIntelligencePage clientId={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />;
-  }
+
   if (currentPage === 'atas_reuniao') {
     return <MeetingMinutesPage clientId={selectedClient} />;
   }
@@ -529,9 +518,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'runtime_observability' && isMaster) {
     return <RuntimeObservabilityPage />;
   }
-  if (currentPage === 'scenario_lab' && isMaster) {
-    return <ScenarioLabPage />;
-  }
+
   if (currentPage === 'institutional_reports' && isMaster) {
     return <InstitutionalReportsPage />;
   }
@@ -583,12 +570,7 @@ export function renderCurrentPage(ctx: RouteRenderContext) {
   if (currentPage === 'reality_validation' && isMaster) {
     return <RealityValidationPage />;
   }
-  if (currentPage === 'strategic_intelligence_center') {
-    return <StrategicIntelligenceCenter />;
-  }
-  if (currentPage === 'strategic_war_room') {
-    return <StrategicWarRoomPage selectedClient={selectedClient} contextData={{}} />;
-  }
+
   if (currentPage === 'board_deck_center') {
     return <BoardDeckCenter onNavigate={setCurrentPage} />;
   }

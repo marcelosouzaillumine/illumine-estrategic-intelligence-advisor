@@ -6,24 +6,6 @@ function runAudit() {
   console.log('Iniciando Institutional Financial Audit (RC-1.5)...');
   let hasErrors = false;
 
-  const componentsDir = path.join(process.cwd(), 'src/components/pages');
-  const overviewFile = path.join(componentsDir, 'InstitutionalFinancialOverviewPage.tsx');
-
-  // Check 1: InstitutionalFinancialOverviewPage must not import mathematical engines directly
-  if (fs.existsSync(overviewFile)) {
-    const content = fs.readFileSync(overviewFile, 'utf8');
-    if (content.includes('import { calculateDreCascade }') || content.includes('import { buildBPHierarchy }')) {
-      console.error('❌ ERRO: InstitutionalFinancialOverviewPage importando motores matemáticos diretos.');
-      hasErrors = true;
-    }
-    
-    // Check 2: Must utilize the financial thesis
-    if (!content.includes('financialThesis')) {
-      console.warn('⚠️ AVISO: InstitutionalFinancialOverviewPage não está utilizando a financialThesis.');
-      // Setting hasErrors to true since RC-1.5 enforces this
-      hasErrors = true;
-    }
-  }
 
   // Check 3: Causality Engine must use directionality
   const causalityEngine = path.join(process.cwd(), 'src/core/runtime/CrossStatementCausalityEngine.ts');

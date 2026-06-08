@@ -5,6 +5,7 @@ import { InstitutionalStrategicIntelligenceCenter } from '../strategic-intellige
 import { InstitutionalExecutiveCommandRuntime } from '../../services/FiduciaryRuntimeAdapter';
 import { InstitutionalOperationalGovernanceRuntime } from '../../services/FiduciaryRuntimeAdapter';
 import { InstitutionalStrategicIntelligenceRuntime } from '../../services/FiduciaryRuntimeAdapter';
+import { SystemicIntelligencePanel } from './SystemicIntelligencePanel';
 
 // Dummy wrapper to simulate the ExecutiveIntelligenceReport that feeds the page
 export function InstitutionalStrategicIntelligencePage({ clients, selectedClient, selectedMonth, selectedYear }: any) {
@@ -32,8 +33,9 @@ export function InstitutionalStrategicIntelligencePage({ clients, selectedClient
   const strategicOutput = InstitutionalStrategicIntelligenceRuntime.evaluate(dummyReport);
 
   return (
-    <div className="p-6">
+    <div className="p-6 space-y-12">
       <InstitutionalStrategicIntelligenceCenter data={strategicOutput} />
+      <SystemicIntelligencePanel clientId={selectedClient} selectedMonth={selectedMonth} selectedYear={selectedYear} />
     </div>
   );
 }
