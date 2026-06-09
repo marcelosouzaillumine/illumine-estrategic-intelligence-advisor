@@ -36,7 +36,7 @@ export const SnapshotComparisonPanel: React.FC<SnapshotComparisonPanelProps> = (
           <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border mb-2
             ${lineage.transitionType === 'REGRESSION' ? 'bg-rose-500/20 border-rose-500/40 text-rose-400' :
               lineage.transitionType === 'EVOLUTION' ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' :
-              'bg-indigo-500/20 border-indigo-500/40 text-indigo-400'
+              'bg-primary border-primary text-primary'
             }`}>
             {lineage.transitionType}
           </span>

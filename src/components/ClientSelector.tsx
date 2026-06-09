@@ -115,9 +115,9 @@ export function ClientSelector({
             className="absolute top-full left-0 mt-2 w-80 bg-background/95 backdrop-blur-xl border border-border rounded-md shadow-lg z-[100] overflow-hidden"
           >
             {/* Search Header */}
-            <div className="p-4 border-b border-slate-100 bg-slate-50/50">
+            <div className="p-4 border-b border-border bg-slate-50/50">
               <div className="relative">
-                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <input
                   autoFocus
                   type="text"
@@ -154,14 +154,14 @@ export function ClientSelector({
                         <ClientImage
                           src={client.icon || client.logo || ''}
                           alt={client.fantasia || ''}
-                          fallback={<Building2 size={18} className={selectedClient === client.id ? "text-white" : "text-slate-400"} />}
+                          fallback={<Building2 size={18} className={selectedClient === client.id ? "text-white" : "text-muted-foreground"} />}
                         />
                       </div>
                       <div className="text-left flex-1 min-w-0">
                         <p className="text-xs font-bold tracking-tight">{client.fantasia}</p>
                         <p className={cn(
                           "text-[9px] font-bold uppercase tracking-widest opacity-60",
-                          selectedClient === client.id ? "text-slate-400" : "text-slate-400"
+                          selectedClient === client.id ? "text-muted-foreground" : "text-muted-foreground"
                         )}>
                           {client.segmento} {client.cnpj ? `• ${formatDoc(client.cnpj)}` : ''}
                         </p>
@@ -185,16 +185,16 @@ export function ClientSelector({
                 </div>
               ) : (
                 <div className="py-12 text-center">
-                  <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 mx-auto mb-3">
+                  <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-muted-foreground mx-auto mb-3">
                     <Search size={24} />
                   </div>
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Nenhum cliente encontrado</p>
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Nenhum cliente encontrado</p>
                 </div>
               )}
             </div>
 
             {/* Footer Actions */}
-            <div className="p-2 border-t border-slate-100 bg-slate-50/30 flex gap-1">
+            <div className="p-2 border-t border-border bg-slate-50/30 flex gap-1">
               <button
                 onClick={() => {
                   setIsOpen(false);

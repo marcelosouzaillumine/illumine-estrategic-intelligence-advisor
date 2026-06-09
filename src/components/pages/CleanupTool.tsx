@@ -67,9 +67,9 @@ export function CleanupTool() {
 
   return (
     <div className="p-8 max-w-2xl mx-auto space-y-8">
-      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-xl">
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">Limpeza de DRE (2025-2026)</h1>
-        <p className="text-slate-500 mb-6">Esta ferramenta irá apagar permanentemente os registros de DRE da empresa Empório referentes aos anos de 2025 e 2026.</p>
+      <div className="bg-white p-8 rounded-3xl border border-border shadow-xl">
+        <h1 className="text-2xl font-bold text-muted-foreground mb-2">Limpeza de DRE (2025-2026)</h1>
+        <p className="text-muted-foreground mb-6">Esta ferramenta irá apagar permanentemente os registros de DRE da empresa Empório referentes aos anos de 2025 e 2026.</p>
         
         {clientId ? (
           <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl mb-6">
@@ -97,7 +97,7 @@ export function CleanupTool() {
           <div key={i} className={`p-4 rounded-2xl border flex items-center gap-3 ${
             s.type === 'success' ? 'bg-emerald-50 border-emerald-100 text-emerald-700' :
             s.type === 'error' ? 'bg-rose-50 border-rose-100 text-rose-700' :
-            'bg-slate-50 border-slate-100 text-slate-600'
+            'bg-slate-50 border-border text-muted-foreground'
           }`}>
             {s.type === 'success' ? <CheckCircle size={18} /> : 
              s.type === 'error' ? <AlertTriangle size={18} /> : 

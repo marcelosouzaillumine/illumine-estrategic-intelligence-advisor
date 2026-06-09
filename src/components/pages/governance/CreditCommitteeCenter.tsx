@@ -176,8 +176,8 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
 
   if (loadingHistory || runtimeLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] gap-3 text-slate-400">
-        <Activity className="w-8 h-8 animate-pulse text-indigo-400" />
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-3 text-muted-foreground">
+        <Activity className="w-8 h-8 animate-pulse text-primary" />
         <span className="text-sm font-medium tracking-wide uppercase">Instanciando Simulador de Comitê de Crédito...</span>
       </div>
     );
@@ -206,7 +206,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
       RESTRICTED_CREDIT: 'bg-orange-500/10 border-orange-500/20 text-orange-400',
       DECLINED: 'bg-rose-500/10 border-rose-500/20 text-rose-500'
     };
-    return maps[decision] || 'bg-slate-800 border-slate-700 text-slate-400';
+    return maps[decision] || 'bg-slate-800 border-border text-muted-foreground';
   };
 
   const getDecisionText = (decision: string): string => {
@@ -227,7 +227,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
       MODERATE_CONFIDENCE: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
       LOW_CONFIDENCE: 'bg-rose-500/10 border-rose-500/20 text-rose-500'
     };
-    return maps[confidence] || 'bg-slate-800 border-slate-700 text-slate-400';
+    return maps[confidence] || 'bg-slate-800 border-border text-muted-foreground';
   };
 
   const getConfidenceText = (confidence: string): string => {
@@ -247,7 +247,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
       STALLED_RECOVERY: 'bg-amber-500/10 border-amber-500/20 text-amber-500',
       DETERIORATING: 'bg-rose-500/10 border-rose-500/20 text-rose-500'
     };
-    return maps[recovery] || 'bg-slate-800 border-slate-700 text-slate-400';
+    return maps[recovery] || 'bg-slate-800 border-border text-muted-foreground';
   };
 
   const getRecoveryText = (recovery: string): string => {
@@ -277,7 +277,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
         transparent
         actions={
           <div className="text-right">
-            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1">Vetor de Recuperação</div>
+            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Vetor de Recuperação</div>
             <div className="flex items-center gap-2">
               <span className={cn("px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider border", getRecoveryBadge(recoveryMomentum))}>
                 {getRecoveryText(recoveryMomentum)}
@@ -291,13 +291,13 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* CCS score gauge and level card */}
-        <div className="card-premium p-8 flex flex-col justify-between relative overflow-hidden group hover:border-slate-800 transition-all duration-300">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none group-hover:bg-indigo-500/10 transition-all"></div>
+        <div className="card-premium p-8 flex flex-col justify-between relative overflow-hidden group hover:border-border transition-all duration-300">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-accent rounded-full blur-3xl pointer-events-none group-hover:bg-accent transition-all"></div>
           <div>
             <div className="flex justify-between items-start mb-6">
               <div>
-                <span className="text-[10px] font-black tracking-widest text-slate-500 uppercase">Rating de Crédito</span>
-                <h3 className="text-lg font-medium text-slate-100 mt-1">Score Comitê de Crédito</h3>
+                <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Rating de Crédito</span>
+                <h3 className="text-lg font-medium text-muted-foreground mt-1">Score Comitê de Crédito</h3>
               </div>
               <span className={cn("px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase border", getScoreBg(ccsScore))}>
                 {suggestedCreditRating}
@@ -308,17 +308,17 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
               <span className={cn("text-7xl font-light tracking-tight transition-colors", getScoreColor(ccsScore))}>
                 {ccsScore}
               </span>
-              <span className="text-slate-500 text-sm font-medium">/100</span>
+              <span className="text-muted-foreground text-sm font-medium">/100</span>
             </div>
             
             <div className="space-y-4 mt-6">
               <div className="space-y-1">
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Categoria de Atratividade:</div>
-                <div className="text-sm font-semibold text-slate-200">{creditReadinessLevel}</div>
+                <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Categoria de Atratividade:</div>
+                <div className="text-sm font-semibold text-muted-foreground">{creditReadinessLevel}</div>
               </div>
               
-              <div className="space-y-1 pt-2 border-t border-slate-900">
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Decisão Recomendada do Comitê:</div>
+              <div className="space-y-1 pt-2 border-t border-border">
+                <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Decisão Recomendada do Comitê:</div>
                 <div className="flex items-center mt-1">
                   <span className={cn("px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase border", getDecisionBadge(creditDecisionSimulation))}>
                     {getDecisionText(creditDecisionSimulation)}
@@ -326,8 +326,8 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
                 </div>
               </div>
 
-              <div className="space-y-1 pt-2 border-t border-slate-900">
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Grau de Confiança de Projeção:</div>
+              <div className="space-y-1 pt-2 border-t border-border">
+                <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Grau de Confiança de Projeção:</div>
                 <div className="flex items-center mt-1">
                   <span className={cn("px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase border", getConfidenceBadge(institutionalCreditConfidence))}>
                     {getConfidenceText(institutionalCreditConfidence)}
@@ -337,17 +337,17 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
             </div>
           </div>
 
-          <div className="pt-6 border-t border-slate-900 mt-6 flex justify-between items-center text-xs text-slate-500 font-mono">
+          <div className="pt-6 border-t border-border mt-6 flex justify-between items-center text-xs text-muted-foreground font-mono">
             <span>Risco de Rolagem:</span>
-            <span className="font-bold text-slate-300 uppercase">{refinancingRiskLevel}</span>
+            <span className="font-bold text-muted-foreground uppercase">{refinancingRiskLevel}</span>
           </div>
         </div>
 
         {/* Radar Chart Card */}
-        <div className="lg:col-span-2 card-premium p-8 flex flex-col justify-between hover:border-slate-800 transition-all duration-300">
+        <div className="lg:col-span-2 card-premium p-8 flex flex-col justify-between hover:border-border transition-all duration-300">
           <div>
-            <span className="text-[10px] font-black tracking-widest text-slate-500 uppercase">Análise de Eixos</span>
-            <h3 className="text-lg font-medium text-slate-100 mt-1">Atração a Crédito Multidimensional</h3>
+            <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Análise de Eixos</span>
+            <h3 className="text-lg font-medium text-muted-foreground mt-1">Atração a Crédito Multidimensional</h3>
           </div>
           <div className="h-[280px] w-full flex items-center justify-center mt-4">
             <ResponsiveContainer width="100%" height="100%">
@@ -372,40 +372,40 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="card-premium p-6 space-y-4">
           <div className="flex items-center gap-3">
-            <ShieldCheck className="w-5 h-5 text-indigo-400" />
+            <ShieldCheck className="w-5 h-5 text-primary" />
             <div>
-              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-200">Prontidão Bancária Estrutural (Banking Readiness)</h4>
-              <p className="text-xs text-slate-500">Mapeamento fundamental de base da resiliência do balanço patrimonial.</p>
+              <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Prontidão Bancária Estrutural (Banking Readiness)</h4>
+              <p className="text-xs text-muted-foreground">Mapeamento fundamental de base da resiliência do balanço patrimonial.</p>
             </div>
           </div>
           <div className="flex items-baseline gap-2 py-2">
             <span className={cn("text-5xl font-light", getScoreColor(bankingReadinessScore))}>{bankingReadinessScore}</span>
-            <span className="text-slate-500 text-sm font-medium">/100</span>
-            <span className="text-xs text-slate-400 font-semibold px-2 py-0.5 rounded-lg bg-slate-900 border border-slate-800 ml-4">
+            <span className="text-muted-foreground text-sm font-medium">/100</span>
+            <span className="text-xs text-muted-foreground font-semibold px-2 py-0.5 rounded-lg bg-slate-900 border border-border ml-4">
               {bankingReadinessLevel}
             </span>
           </div>
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <p className="text-xs text-muted-foreground leading-relaxed">
             Mapeia a conformidade passiva da estrutura. Uma empresa com score de prontidão moderado pode ser refinanciada caso possua colaterais defensáveis.
           </p>
         </div>
 
         <div className="card-premium p-6 space-y-4">
           <div className="flex items-center gap-3">
-            <Landmark className="w-5 h-5 text-indigo-400" />
+            <Landmark className="w-5 h-5 text-primary" />
             <div>
-              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-200">Decisão Simulada do Comitê de Crédito</h4>
-              <p className="text-xs text-slate-500">Simulação probabilística do resultado sob premissas severas de capital.</p>
+              <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Decisão Simulada do Comitê de Crédito</h4>
+              <p className="text-xs text-muted-foreground">Simulação probabilística do resultado sob premissas severas de capital.</p>
             </div>
           </div>
           <div className="flex items-baseline gap-2 py-2">
             <span className={cn("text-5xl font-light", getScoreColor(ccsScore))}>{ccsScore}</span>
-            <span className="text-slate-500 text-sm font-medium">/100</span>
+            <span className="text-muted-foreground text-sm font-medium">/100</span>
             <span className={cn("px-2.5 py-0.5 rounded-lg text-xs font-semibold uppercase border ml-4", getDecisionBadge(creditDecisionSimulation))}>
               {getDecisionText(creditDecisionSimulation)}
             </span>
           </div>
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <p className="text-xs text-muted-foreground leading-relaxed">
             Incorpora gatilhos dinâmicos baseados no estresse do fluxo futuro de caixa e nas regras de propagação de quebra.
           </p>
         </div>
@@ -413,12 +413,12 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
 
       {/* FTE Projection & Delta Sensitivity Panel */}
       <div className="card-premium p-8 space-y-6">
-        <div className="flex justify-between items-center flex-wrap gap-4 pb-4 border-b border-slate-900">
+        <div className="flex justify-between items-center flex-wrap gap-4 pb-4 border-b border-border">
           <div className="flex items-center gap-3">
-            <Sliders className="w-5 h-5 text-indigo-400" />
+            <Sliders className="w-5 h-5 text-primary" />
             <div>
-              <h3 className="text-lg font-medium text-slate-100">Forward Treasury Engine (FTE) — Projeções 12 Meses</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Simulação de liquidez futura e desvios (Deltas) relativos ao Base Scenario.</p>
+              <h3 className="text-lg font-medium text-muted-foreground">Forward Treasury Engine (FTE) — Projeções 12 Meses</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">Simulação de liquidez futura e desvios (Deltas) relativos ao Base Scenario.</p>
             </div>
           </div>
 
@@ -429,7 +429,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
                 "px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all uppercase",
                 showDeltaView 
                   ? "bg-teal-500/10 border-teal-500/30 text-teal-400" 
-                  : "bg-slate-950 border-slate-900 text-slate-400 hover:text-slate-200"
+                  : "bg-slate-950 border-border text-muted-foreground hover:text-muted-foreground"
               )}
             >
               {showDeltaView ? 'Ocultar Comparação Delta' : 'Exibir Visão Delta'}
@@ -438,7 +438,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
             <select
               value={selectedScenarioIndex}
               onChange={(e) => setSelectedScenarioIndex(Number(e.target.value))}
-              className="bg-slate-950 border border-slate-900 text-slate-300 text-xs rounded-lg p-2 focus:ring-1 focus:ring-indigo-500 uppercase font-semibold"
+              className="bg-slate-950 border border-border text-muted-foreground text-xs rounded-lg p-2 focus:ring-1 focus:ring-indigo-500 uppercase font-semibold"
             >
               {stressScenarios.map((sc: any, idx: number) => (
                 <option key={idx} value={idx}>
@@ -453,15 +453,15 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-1 space-y-4">
               <div>
-                <span className="text-[10px] font-black tracking-widest text-indigo-400 uppercase">Cenário sob Análise</span>
-                <h4 className="text-base font-bold text-slate-200 mt-1">{activeScenario.name}</h4>
-                <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                <span className="text-[10px] font-black tracking-widest text-primary uppercase">Cenário sob Análise</span>
+                <h4 className="text-base font-bold text-muted-foreground mt-1">{activeScenario.name}</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                   Premissas estressadas: {activeScenario.assumptions}
                 </p>
               </div>
 
               {activeScenario.cascadeLogs?.length > 0 && (
-                <div className="space-y-2 pt-4 border-t border-slate-900 bg-rose-500/5 p-3 rounded-lg border border-rose-500/20">
+                <div className="space-y-2 pt-4 border-t border-border bg-rose-500/5 p-3 rounded-lg border border-rose-500/20">
                   <div className="flex items-center gap-2 text-xs font-bold text-rose-400 uppercase">
                     <ShieldAlert className="w-4 h-4" />
                     <span>Propagação Causal (Contagion Path):</span>
@@ -476,8 +476,8 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
                 </div>
               )}
 
-              <div className="space-y-2 pt-4 border-t border-slate-900">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Quebras Finais Estimadas (12m):</span>
+              <div className="space-y-2 pt-4 border-t border-border">
+                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Quebras Finais Estimadas (12m):</span>
                 <div className="space-y-1.5">
                   {activeScenario.breaches.map((br: string, idx: number) => (
                     <div key={idx} className="flex items-start gap-2 text-xs text-rose-400 font-medium">
@@ -517,11 +517,11 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
 
         {/* Delta Sensitivity Comparison Table */}
         {showDeltaView && activeScenario && baseScenario && (
-          <div className="pt-6 border-t border-slate-900 space-y-3">
+          <div className="pt-6 border-t border-border space-y-3">
             <span className="text-[10px] font-bold text-teal-400 uppercase tracking-wider block">Spread de Sensibilidade (Deltas Base vs Estressado):</span>
             <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left text-slate-300 font-mono">
-                <thead className="text-[10px] text-slate-500 uppercase tracking-wider border-b border-slate-900">
+              <table className="w-full text-xs text-left text-muted-foreground font-mono">
+                <thead className="text-[10px] text-muted-foreground uppercase tracking-wider border-b border-border">
                   <tr>
                     <th className="py-2">Ciclo</th>
                     <th>Caixa Base</th>
@@ -541,7 +541,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
                     const liqDelta = Number((activePt.liquidityStDebt - basePt.liquidityStDebt).toFixed(2));
                     return (
                       <tr key={monthIdx} className="hover:bg-slate-950/20">
-                        <td className="py-2.5 font-bold text-slate-400">Mês {basePt.month}</td>
+                        <td className="py-2.5 font-bold text-muted-foreground">Mês {basePt.month}</td>
                         <td>{formatCurrency(basePt.cash)}</td>
                         <td>{formatCurrency(activePt.cash)}</td>
                         <td className={cn("font-bold", cashDelta < 0 ? "text-rose-400" : "text-emerald-400")}>
@@ -565,10 +565,10 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
       {/* Funding Gap Simulator & Timeline */}
       <div className="card-premium p-8 space-y-6">
         <div className="flex items-center gap-3">
-          <Percent className="w-5 h-5 text-indigo-400" />
+          <Percent className="w-5 h-5 text-primary" />
           <div>
-            <h3 className="text-lg font-medium text-slate-100">Simulador de Funding Gap & Janelas de Rolagem</h3>
-            <p className="text-xs text-slate-500 mt-0.5">Déficit acumulado projetado para restabelecer os patamares mínimos de liquidez.</p>
+            <h3 className="text-lg font-medium text-muted-foreground">Simulador de Funding Gap & Janelas de Rolagem</h3>
+            <p className="text-xs text-muted-foreground mt-0.5">Déficit acumulado projetado para restabelecer os patamares mínimos de liquidez.</p>
           </div>
         </div>
 
@@ -579,12 +579,12 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
             { label: 'Janela 180 Dias (t=6)', value: fundingGapTimeline['180d'] },
             { label: 'Janela 360 Dias (t=12)', value: fundingGapTimeline['360d'] }
           ].map((gap, idx) => (
-            <div key={idx} className="bg-slate-950/30 p-4 border border-slate-900 rounded-xl space-y-2">
-              <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block">{gap.label}</span>
-              <div className="text-xl font-bold font-mono text-slate-200">
+            <div key={idx} className="bg-slate-950/30 p-4 border border-border rounded-xl space-y-2">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold block">{gap.label}</span>
+              <div className="text-xl font-bold font-mono text-muted-foreground">
                 {gap.value > 0 ? formatCurrency(gap.value) : 'Sem Funding Gap'}
               </div>
-              <div className="text-[10px] text-slate-500 leading-tight">
+              <div className="text-[10px] text-muted-foreground leading-tight">
                 {gap.value > 0 
                   ? 'Exposição fiduciária ativa. Necessário aporte/alongamento de capital.' 
                   : 'Nível de caixa acima da cobertura regulatória.'}
@@ -596,12 +596,12 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
 
       {/* Institutional Fracture Detection Engine */}
       <div className="card-premium p-8 space-y-6">
-        <div className="flex justify-between items-center flex-wrap gap-4 pb-4 border-b border-slate-900">
+        <div className="flex justify-between items-center flex-wrap gap-4 pb-4 border-b border-border">
           <div className="flex items-center gap-3">
-            <ShieldAlert className="w-5 h-5 text-indigo-400" />
+            <ShieldAlert className="w-5 h-5 text-primary" />
             <div>
-              <h3 className="text-lg font-medium text-slate-100">Detector de Fraturas Estruturais Silenciosas</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Varredura de descompassos de caixa e crescimento destrutivo YoY.</p>
+              <h3 className="text-lg font-medium text-muted-foreground">Detector de Fraturas Estruturais Silenciosas</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">Varredura de descompassos de caixa e crescimento destrutivo YoY.</p>
             </div>
           </div>
           {hasAnyWaiver && (
@@ -621,7 +621,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
                   ? fr.waived 
                     ? "bg-teal-500/5 border-teal-500/10 text-teal-300"
                     : "bg-rose-500/5 border-rose-500/10 text-rose-300"
-                  : "bg-slate-950/20 border-slate-900 text-slate-400 opacity-60"
+                  : "bg-slate-950/20 border-border text-muted-foreground opacity-60"
               )}
             >
               <div className="space-y-1 max-w-[700px]">
@@ -633,7 +633,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed">{fr.rationale}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{fr.rationale}</p>
               </div>
 
               <div className="text-right text-xs font-semibold font-mono">
@@ -646,7 +646,7 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
             </div>
           ))}
           {fractures.length === 0 && (
-            <div className="text-center italic text-slate-600 text-xs py-8">
+            <div className="text-center italic text-muted-foreground text-xs py-8">
               Mapeamento YoY indisponível (mínimo de 2 ciclos históricos requerido).
             </div>
           )}
@@ -655,46 +655,46 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
 
       {/* Rastreabilidade Fiduciária e Auditoria */}
       <div className="space-y-4">
-        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest">Rastreabilidade Fiduciária e Auditoria</h4>
+        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Rastreabilidade Fiduciária e Auditoria</h4>
         
         {/* Accordion 1: Trace */}
-        <div className="border border-slate-900 rounded-xl overflow-hidden">
+        <div className="border border-border rounded-xl overflow-hidden">
           <button 
             onClick={() => toggleSection('trace')}
-            className="w-full flex justify-between items-center p-5 bg-slate-950/20 text-left text-sm font-semibold text-slate-200 hover:bg-slate-950/40 transition-colors"
+            className="w-full flex justify-between items-center p-5 bg-slate-950/20 text-left text-sm font-semibold text-muted-foreground hover:bg-slate-950/40 transition-colors"
           >
             <span className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-indigo-400" />
+              <ShieldCheck className="w-4 h-4 text-primary" />
               Diagnóstico e Salvaguardas Narrativas (Narrative Trace)
             </span>
             {expandedSection === 'trace' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
           
           {expandedSection === 'trace' && (
-            <div className="p-6 bg-slate-950/40 border-t border-slate-900 space-y-4 text-xs leading-relaxed text-slate-400">
+            <div className="p-6 bg-slate-950/40 border-t border-border space-y-4 text-xs leading-relaxed text-muted-foreground">
               <div className="space-y-2">
-                <span className="font-bold text-slate-300">Diagnóstico Higienizado:</span>
-                <p className="p-3 bg-slate-950 rounded-xl border border-slate-900 text-slate-300 font-mono italic">
+                <span className="font-bold text-muted-foreground">Diagnóstico Higienizado:</span>
+                <p className="p-3 bg-slate-950 rounded-xl border border-border text-muted-foreground font-mono italic">
                   {metrics.narrative?.diagnostic}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                 <div className="space-y-1">
-                  <span className="font-bold text-slate-300 block">Vetor Causal:</span>
-                  <span className="text-slate-400">{metrics.narrative?.cause}</span>
+                  <span className="font-bold text-muted-foreground block">Vetor Causal:</span>
+                  <span className="text-muted-foreground">{metrics.narrative?.cause}</span>
                 </div>
                 <div className="space-y-1">
-                  <span className="font-bold text-slate-300 block">Consequência Fiduciária:</span>
-                  <span className="text-slate-400">{metrics.narrative?.consequence}</span>
+                  <span className="font-bold text-muted-foreground block">Consequência Fiduciária:</span>
+                  <span className="text-muted-foreground">{metrics.narrative?.consequence}</span>
                 </div>
                 <div className="space-y-1">
-                  <span className="font-bold text-slate-300 block">Sensibilidade Cíclica:</span>
-                  <span className="text-slate-400">{metrics.narrative?.sensitivity}</span>
+                  <span className="font-bold text-muted-foreground block">Sensibilidade Cíclica:</span>
+                  <span className="text-muted-foreground">{metrics.narrative?.sensitivity}</span>
                 </div>
                 <div className="space-y-1">
-                  <span className="font-bold text-slate-300 block">Mitigador Recomendado:</span>
-                  <span className="text-slate-400">{metrics.narrative?.priority}</span>
+                  <span className="font-bold text-muted-foreground block">Mitigador Recomendado:</span>
+                  <span className="text-muted-foreground">{metrics.narrative?.priority}</span>
                 </div>
               </div>
             </div>
@@ -702,24 +702,24 @@ export function CreditCommitteeCenter({ selectedClient, selectedYear }: CreditCo
         </div>
 
         {/* Accordion 2: Formula */}
-        <div className="border border-slate-900 rounded-xl overflow-hidden">
+        <div className="border border-border rounded-xl overflow-hidden">
           <button 
             onClick={() => toggleSection('formula')}
-            className="w-full flex justify-between items-center p-5 bg-slate-950/20 text-left text-sm font-semibold text-slate-200 hover:bg-slate-950/40 transition-colors"
+            className="w-full flex justify-between items-center p-5 bg-slate-950/20 text-left text-sm font-semibold text-muted-foreground hover:bg-slate-950/40 transition-colors"
           >
             <span className="flex items-center gap-2">
-              <Brain className="w-4 h-4 text-indigo-400" />
+              <Brain className="w-4 h-4 text-insight" />
               Modelo e Metodologia de Ponderação (CCS Model)
             </span>
             {expandedSection === 'formula' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
           
           {expandedSection === 'formula' && (
-            <div className="p-6 bg-slate-950/40 border-t border-slate-900 space-y-4 text-xs leading-relaxed text-slate-400">
+            <div className="p-6 bg-slate-950/40 border-t border-border space-y-4 text-xs leading-relaxed text-muted-foreground">
               <p>
                 O score consolidado CCS pondera as dimensões estratégicas reguladoras sob o limite de cascata `MAX_DEPTH = 5` para evitar feedback-loops infinitos de estresse.
               </p>
-              <div className="bg-slate-950 p-4 rounded-xl border border-slate-900 font-mono text-slate-300">
+              <div className="bg-slate-950 p-4 rounded-xl border border-border font-mono text-muted-foreground">
                 {auditability.reconstructionLogic || 'CCS = (Treasury * 0.25) + (Earnings * 0.20) + (Capital * 0.20) + (Governance * 0.15) + (Longitudinal * 0.10) + (Covenant * 0.10)'}
               </div>
               <p>

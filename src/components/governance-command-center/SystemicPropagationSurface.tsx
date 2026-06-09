@@ -6,7 +6,7 @@ export const SystemicPropagationSurface: React.FC = () => {
 
   if (!escalationTopology) {
     return (
-      <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl text-center text-slate-500 font-mono text-xs">
+      <div className="p-5 bg-slate-950/70 border border-border rounded-xl text-center text-muted-foreground font-mono text-xs">
         CARREGANDO MAPA DE PROPAGAÇÃO SISTÊMICA...
       </div>
     );
@@ -15,23 +15,23 @@ export const SystemicPropagationSurface: React.FC = () => {
   const { state } = escalationTopology;
 
   return (
-    <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-850 pb-2">
-        <h4 className="text-slate-400 font-semibold tracking-wider uppercase text-xs font-mono">
+    <div className="p-5 bg-slate-950/70 border border-border rounded-xl space-y-4">
+      <div className="flex justify-between items-center border-b border-border pb-2">
+        <h4 className="text-muted-foreground font-semibold tracking-wider uppercase text-xs font-mono">
           Systemic Exposure & Contagion Flow
         </h4>
-        <span className="text-[10px] font-mono text-slate-500 uppercase">
+        <span className="text-[10px] font-mono text-muted-foreground uppercase">
           PROPAGATION STATE: {propagationStatus}
         </span>
       </div>
 
-      <div className="p-4 bg-slate-900/35 border border-slate-850 rounded-xl space-y-3 font-mono text-xs text-slate-400">
+      <div className="p-4 bg-slate-900/35 border border-border rounded-xl space-y-3 font-mono text-xs text-muted-foreground">
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-slate-200">Controladora [Matriz]</span>
-          <span className="text-slate-500">➔ (Liquidez / Caixa)</span>
+          <span className="text-muted-foreground">Controladora [Matriz]</span>
+          <span className="text-muted-foreground">➔ (Liquidez / Caixa)</span>
           <span className="text-rose-450 font-bold">Varejo & Operações</span>
-          <span className="text-slate-500">➔ (Suprimentos)</span>
-          <span className="text-slate-200">Subsidiárias Críticas</span>
+          <span className="text-muted-foreground">➔ (Suprimentos)</span>
+          <span className="text-muted-foreground">Subsidiárias Críticas</span>
         </div>
 
         <p className="text-[11px] leading-relaxed font-sans mt-2">

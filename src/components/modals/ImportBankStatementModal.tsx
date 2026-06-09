@@ -184,12 +184,12 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]"
       >
-        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <div className="p-6 border-b border-border flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-lg font-black text-slate-900">Importar Extrato Bancário</h3>
-            <p className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-widest font-bold">OFX · Excel · PDF · TXT</p>
+            <h3 className="text-lg font-black text-muted-foreground">Importar Extrato Bancário</h3>
+            <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-widest font-bold">OFX · Excel · PDF · TXT</p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground"><X size={20} /></button>
         </div>
 
         <div className="p-6 space-y-6 overflow-y-auto">
@@ -199,11 +199,11 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
                 <CheckCircle2 size={40} />
               </div>
               <div>
-                <h4 className="text-xl font-bold text-slate-900">Saldo Atualizado!</h4>
-                <p className="text-sm text-slate-500">O extrato foi processado e o saldo da conta atualizado.</p>
+                <h4 className="text-xl font-bold text-muted-foreground">Saldo Atualizado!</h4>
+                <p className="text-sm text-muted-foreground">O extrato foi processado e o saldo da conta atualizado.</p>
               </div>
-              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 w-full max-w-xs">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Saldo Consolidado Atualizado</p>
+              <div className="bg-slate-50 p-4 rounded-2xl border border-border w-full max-w-xs">
+                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Saldo Consolidado Atualizado</p>
                 <p className="text-2xl font-black text-primary">{formatCurrency(importResult.finalBalance)}</p>
                 <p className="text-[9px] text-emerald-600 font-bold mt-1 uppercase tracking-tighter">{importResult.count} transações processadas</p>
               </div>
@@ -211,7 +211,7 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
           ) : (
             <>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Selecione a Conta Destino</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Selecione a Conta Destino</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {accounts.map(acc => (
                     <button
@@ -219,15 +219,15 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
                       onClick={() => setSelectedAccountId(acc.id)}
                       className={cn(
                         "p-4 rounded-2xl border text-left transition-all flex items-center gap-3",
-                        selectedAccountId === acc.id ? "border-primary bg-primary/5 ring-2 ring-primary/10" : "border-slate-100 bg-white hover:bg-slate-50"
+                        selectedAccountId === acc.id ? "border-primary bg-primary/5 ring-2 ring-primary/10" : "border-border bg-white hover:bg-slate-50"
                       )}
                     >
-                      <div className={cn("p-2 rounded-xl", selectedAccountId === acc.id ? "bg-primary text-white" : "bg-slate-100 text-slate-400")}>
+                      <div className={cn("p-2 rounded-xl", selectedAccountId === acc.id ? "bg-primary text-white" : "bg-slate-100 text-muted-foreground")}>
                         <Landmark size={18} />
                       </div>
                       <div>
-                        <p className="text-xs font-black text-slate-800">{acc.banco}</p>
-                        <p className="text-[9px] text-slate-400 font-bold uppercase">{formatCurrency(acc.saldoAtual)}</p>
+                        <p className="text-xs font-black text-muted-foreground">{acc.banco}</p>
+                        <p className="text-[9px] text-muted-foreground font-bold uppercase">{formatCurrency(acc.saldoAtual)}</p>
                       </div>
                     </button>
                   ))}
@@ -235,28 +235,28 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
               </div>
 
               {!file ? (
-                <div className="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:border-primary transition-all group relative">
+                <div className="border-2 border-dashed border-border rounded-2xl p-8 text-center hover:border-primary transition-all group relative">
                   <input 
                     type="file" 
                     className="absolute inset-0 opacity-0 cursor-pointer" 
                     accept=".ofx,.xlsx,.xls,.csv,.pdf,.txt"
                     onChange={handleFileChange}
                   />
-                  <UploadCloud size={36} className="text-slate-300 mx-auto mb-3 group-hover:text-primary" />
-                  <p className="text-sm font-bold text-slate-600">Clique para selecionar o extrato</p>
-                  <p className="text-xs text-slate-400 mt-1">Arraste arquivos OFX, Excel ou PDF bancário</p>
+                  <UploadCloud size={36} className="text-muted-foreground mx-auto mb-3 group-hover:text-primary" />
+                  <p className="text-sm font-bold text-muted-foreground">Clique para selecionar o extrato</p>
+                  <p className="text-xs text-muted-foreground mt-1">Arraste arquivos OFX, Excel ou PDF bancário</p>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="p-4 bg-slate-50 border border-slate-100 rounded-xl flex justify-between items-center">
+                  <div className="p-4 bg-slate-50 border border-border rounded-xl flex justify-between items-center">
                     <div className="flex items-center gap-3">
                       <div className="p-2 bg-white rounded-lg text-primary shadow-sm"><FileText size={18} /></div>
                       <div>
-                        <p className="text-sm font-bold text-slate-700">{file.name}</p>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase">{parsedData.length} transações identificadas</p>
+                        <p className="text-sm font-bold text-muted-foreground">{file.name}</p>
+                        <p className="text-[10px] text-muted-foreground font-bold uppercase">{parsedData.length} transações identificadas</p>
                       </div>
                     </div>
-                    <button onClick={() => { setFile(null); setParsedData([]); }} className="p-1.5 hover:bg-slate-200 rounded text-slate-400 transition-colors">
+                    <button onClick={() => { setFile(null); setParsedData([]); }} className="p-1.5 hover:bg-slate-200 rounded text-muted-foreground transition-colors">
                       <Trash2 size={16} />
                     </button>
                   </div>
@@ -274,21 +274,21 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
                      </span>
                   </div>
 
-                  <div className="max-h-48 overflow-y-auto border border-slate-100 rounded-xl">
+                  <div className="max-h-48 overflow-y-auto border border-border rounded-xl">
                     <table className="w-full text-left text-[11px]">
                       <thead className="bg-slate-50 sticky top-0">
                         <tr>
-                          <th className="px-3 py-2 font-black text-slate-400">DATA</th>
-                          <th className="px-3 py-2 font-black text-slate-400">DESCRIÇÃO</th>
-                          <th className="px-3 py-2 font-black text-slate-400">CATEGORIA (PLANO DE CONTAS)</th>
-                          <th className="px-3 py-2 font-black text-slate-400 text-right">VALOR</th>
+                          <th className="px-3 py-2 font-black text-muted-foreground">DATA</th>
+                          <th className="px-3 py-2 font-black text-muted-foreground">DESCRIÇÃO</th>
+                          <th className="px-3 py-2 font-black text-muted-foreground">CATEGORIA (PLANO DE CONTAS)</th>
+                          <th className="px-3 py-2 font-black text-muted-foreground text-right">VALOR</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-50">
                         {parsedData.map((t, i) => (
                           <tr key={i}>
-                            <td className="px-3 py-2 text-slate-500 whitespace-nowrap">{new Date(t.date).toLocaleDateString('pt-BR')}</td>
-                            <td className="px-3 py-2 font-bold text-slate-700">{t.description}</td>
+                            <td className="px-3 py-2 text-muted-foreground whitespace-nowrap">{new Date(t.date).toLocaleDateString('pt-BR')}</td>
+                            <td className="px-3 py-2 font-bold text-muted-foreground">{t.description}</td>
                             <td className="px-3 py-2">
                               <select 
                                 value={t.category || ''}
@@ -297,7 +297,7 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
                                   newData[i].category = e.target.value;
                                   setParsedData(newData);
                                 }}
-                                className="w-full bg-white border border-slate-200 rounded px-2 py-1 text-[10px] outline-none focus:border-primary"
+                                className="w-full bg-white border border-border rounded px-2 py-1 text-[10px] outline-none focus:border-primary"
                               >
                                 <option value="">Classificar...</option>
                                 {accountPlan.map(acc => (
@@ -318,7 +318,7 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
 
               {file && (
                 <div className="space-y-3">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Estratégia de Importação</label>
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Estratégia de Importação</label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {(Object.entries(STRATEGY_CONFIG) as [ImportStrategy, any][]).map(([key, cfg]) => (
                       <button
@@ -328,20 +328,20 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
                           "p-4 rounded-2xl border text-left transition-all flex items-start gap-3 relative overflow-hidden",
                           strategy === key 
                             ? (cfg.danger ? "border-rose-500 bg-rose-50/50 ring-2 ring-rose-500/10" : "border-primary bg-primary/5 ring-2 ring-primary/10")
-                            : "border-slate-100 bg-white hover:bg-slate-50"
+                            : "border-border bg-white hover:bg-slate-50"
                         )}
                       >
                         <div className={cn(
                           "p-2 rounded-xl mt-0.5",
                           strategy === key 
                             ? (cfg.danger ? "bg-rose-500 text-white" : "bg-primary text-white")
-                            : "bg-slate-100 text-slate-400"
+                            : "bg-slate-100 text-muted-foreground"
                         )}>
                           {cfg.icon}
                         </div>
                         <div className="flex-1">
-                          <p className={cn("text-xs font-black", strategy === key ? (cfg.danger ? "text-rose-700" : "text-primary") : "text-slate-800")}>{cfg.label}</p>
-                          <p className="text-[9px] text-slate-400 font-bold leading-tight mt-1">{cfg.desc}</p>
+                          <p className={cn("text-xs font-black", strategy === key ? (cfg.danger ? "text-rose-700" : "text-primary") : "text-muted-foreground")}>{cfg.label}</p>
+                          <p className="text-[9px] text-muted-foreground font-bold leading-tight mt-1">{cfg.desc}</p>
                         </div>
                       </button>
                     ))}
@@ -360,8 +360,8 @@ export function ImportBankStatementModal({ selectedClient, onClose, onSuccess }:
         </div>
 
         {!importResult && (
-          <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3">
-            <button onClick={onClose} className="flex-1 py-3 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all">{t("modals.cancel")}</button>
+          <div className="p-6 bg-slate-50 border-t border-border flex gap-3">
+            <button onClick={onClose} className="flex-1 py-3 text-muted-foreground font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all">{t("modals.cancel")}</button>
             <button 
               onClick={handleConfirmImport}
               disabled={loading || !file || !selectedAccountId}

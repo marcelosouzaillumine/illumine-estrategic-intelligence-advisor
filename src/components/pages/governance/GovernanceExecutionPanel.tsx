@@ -131,7 +131,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
       case 'OVERDUE':
         return 'bg-rose-500/10 border-rose-500/30 text-rose-400';
       case 'CANCELLED':
-        return 'bg-slate-500/10 border-white/10 text-slate-400';
+        return 'bg-slate-500/10 border-white/10 text-muted-foreground';
       case 'OPEN':
       default:
         return 'bg-amber-500/10 border-amber-500/30 text-amber-400';
@@ -148,7 +148,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
         return 'bg-blue-500/20 text-blue-400 border border-blue-500/20';
       case 'LOW':
       default:
-        return 'bg-slate-500/20 text-slate-400 border border-white/5';
+        return 'bg-slate-500/20 text-muted-foreground border border-white/5';
     }
   };
 
@@ -171,8 +171,8 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
         <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
-              <span className="text-[10px] text-slate-500 uppercase tracking-widest font-black block mb-1">GEI™ Weighted Score</span>
-              <h4 className="text-xs font-bold text-slate-400">Ponderado por Risco/Prazo</h4>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">GEI™ Weighted Score</span>
+              <h4 className="text-xs font-bold text-muted-foreground">Ponderado por Risco/Prazo</h4>
             </div>
             <div className="w-10 h-10 rounded-full border-2 border-[#FF8552]/20 flex items-center justify-center font-bold text-xs text-[#FF8552] bg-[#FF8552]/5">
               40%
@@ -180,7 +180,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-4xl font-extrabold text-white tracking-tight">{geiWeighted}</span>
-            <span className="text-slate-500 text-sm">/100</span>
+            <span className="text-muted-foreground text-sm">/100</span>
           </div>
           <div className="w-full bg-slate-950/60 rounded-full h-1.5 overflow-hidden border border-white/5">
             <div className="bg-[#FF8552] h-full rounded-full" style={{ width: `${geiWeighted}%` }} />
@@ -191,8 +191,8 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
         <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
-              <span className="text-[10px] text-slate-500 uppercase tracking-widest font-black block mb-1">GEI™ Simple Score</span>
-              <h4 className="text-xs font-bold text-slate-400">Concluídas / Total</h4>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">GEI™ Simple Score</span>
+              <h4 className="text-xs font-bold text-muted-foreground">Concluídas / Total</h4>
             </div>
             <div className="w-10 h-10 rounded-full border-2 border-[#BAB86C]/20 flex items-center justify-center font-bold text-xs text-[#BAB86C] bg-[#BAB86C]/5">
               GEI
@@ -200,7 +200,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-4xl font-extrabold text-white tracking-tight">{geiSimple}</span>
-            <span className="text-slate-500 text-sm">/100</span>
+            <span className="text-muted-foreground text-sm">/100</span>
           </div>
           <div className="w-full bg-slate-950/60 rounded-full h-1.5 overflow-hidden border border-white/5">
             <div className="bg-[#BAB86C] h-full rounded-full" style={{ width: `${geiSimple}%` }} />
@@ -211,19 +211,19 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
         <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
-              <span className="text-[10px] text-slate-500 uppercase tracking-widest font-black block mb-1">GAI™ Accountability</span>
-              <h4 className="text-xs font-bold text-slate-400">Decisões com Responsável</h4>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">GAI™ Accountability</span>
+              <h4 className="text-xs font-bold text-muted-foreground">Decisões com Responsável</h4>
             </div>
-            <div className="w-10 h-10 rounded-full border-2 border-indigo-500/20 flex items-center justify-center font-bold text-xs text-indigo-400 bg-indigo-500/5">
+            <div className="w-10 h-10 rounded-full border-2 border-primary flex items-center justify-center font-bold text-xs text-primary bg-primary">
               GAI
             </div>
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-4xl font-extrabold text-white tracking-tight">{gai}</span>
-            <span className="text-slate-500 text-sm">/100</span>
+            <span className="text-muted-foreground text-sm">/100</span>
           </div>
           <div className="w-full bg-slate-950/60 rounded-full h-1.5 overflow-hidden border border-white/5">
-            <div className="bg-indigo-400 h-full rounded-full" style={{ width: `${gai}%` }} />
+            <div className="bg-insight h-full rounded-full" style={{ width: `${gai}%` }} />
           </div>
         </div>
 
@@ -231,18 +231,18 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
         <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
-              <span className="text-[10px] text-slate-500 uppercase tracking-widest font-black block mb-1">Atrasos & Pendências</span>
-              <h4 className="text-xs font-bold text-slate-400">Taxa de Atraso e Aging</h4>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block mb-1">Atrasos & Pendências</span>
+              <h4 className="text-xs font-bold text-muted-foreground">Taxa de Atraso e Aging</h4>
             </div>
-            <div className={`w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-xs bg-rose-500/5 ${overdueRate > 0 ? 'border-rose-500/30 text-rose-400 animate-pulse' : 'border-slate-800 text-slate-500'}`}>
+            <div className={`w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-xs bg-rose-500/5 ${overdueRate > 0 ? 'border-rose-500/30 text-rose-400 animate-pulse' : 'border-border text-muted-foreground'}`}>
               ⚠️
             </div>
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-4xl font-extrabold text-white tracking-tight">{overdueRate}%</span>
-            <span className="text-slate-500 text-xs uppercase font-bold">Overdue Rate</span>
+            <span className="text-muted-foreground text-xs uppercase font-bold">Overdue Rate</span>
           </div>
-          <div className="text-[10px] text-slate-500 flex justify-between gap-1 pt-1 border-t border-white/5">
+          <div className="text-[10px] text-muted-foreground flex justify-between gap-1 pt-1 border-t border-white/5">
             <span>0-30d: <strong>{aging.bucket30}</strong></span>
             <span>31-90d: <strong>{aging.bucket90}</strong></span>
             <span>91-180d: <strong>{aging.bucket180}</strong></span>
@@ -255,8 +255,8 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
       {/* 2. Actions & Register List Header */}
       <div className="flex justify-between items-center bg-slate-950/20 p-4 border border-white/5 rounded-2xl">
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200">Decisões e Planos de Ação Governados</h3>
-          <p className="text-xs text-slate-500 mt-1">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Decisões e Planos de Ação Governados</h3>
+          <p className="text-xs text-muted-foreground mt-1">
             Cada registro vincula resoluções do conselho a origens cognitivas e pesos de risco específicos.
           </p>
         </div>
@@ -279,45 +279,45 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Título da Decisão *</label>
+              <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Título da Decisão *</label>
               <input 
                 type="text" 
                 required
                 value={newTitle} 
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="Ex: Atualizar Regimento Interno de Alçadas"
-                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 outline-none focus:border-indigo-500/60"
+                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-muted-foreground outline-none focus:border-primary"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Responsável (Owner)</label>
+              <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Responsável (Owner)</label>
               <input 
                 type="text" 
                 value={newAssignedTo} 
                 onChange={(e) => setNewAssignedTo(e.target.value)}
                 placeholder="Ex: Carlos Santos (CFO)"
-                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 outline-none focus:border-indigo-500/60"
+                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-muted-foreground outline-none focus:border-primary"
               />
             </div>
 
             <div className="space-y-1 md:col-span-2">
-              <label className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Descrição Detalhada</label>
+              <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Descrição Detalhada</label>
               <textarea 
                 value={newDescription} 
                 onChange={(e) => setNewDescription(e.target.value)}
                 placeholder="Explicitar o objeto da resolução e diretrizes de execução..."
                 rows={2}
-                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 outline-none focus:border-indigo-500/60 resize-none"
+                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-muted-foreground outline-none focus:border-primary resize-none"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Tipo de Decisão</label>
+              <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Tipo de Decisão</label>
               <select
                 value={newDecisionType}
                 onChange={(e: any) => setNewDecisionType(e.target.value)}
-                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 outline-none"
+                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-muted-foreground outline-none"
               >
                 <option value="BOARD_RESOLUTION">BOARD_RESOLUTION (Resolução)</option>
                 <option value="MANAGEMENT_ACTION">MANAGEMENT_ACTION (Gestão)</option>
@@ -327,11 +327,11 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Origem Cognitiva</label>
+              <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Origem Cognitiva</label>
               <select
                 value={newOrigin}
                 onChange={(e: any) => setNewOrigin(e.target.value)}
-                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 outline-none"
+                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-muted-foreground outline-none"
               >
                 <option value="BOARD">BOARD (Conselho)</option>
                 <option value="ESGIM">ESGIM (Maturidade)</option>
@@ -343,11 +343,11 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Risco de Execução (Peso)</label>
+              <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Risco de Execução (Peso)</label>
               <select
                 value={newRisk}
                 onChange={(e: any) => setNewRisk(e.target.value)}
-                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 outline-none"
+                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-muted-foreground outline-none"
               >
                 <option value="LOW">LOW (Baixo)</option>
                 <option value="MODERATE">MODERATE (Médio)</option>
@@ -357,11 +357,11 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Categoria da Decisão</label>
+              <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Categoria da Decisão</label>
               <select
                 value={newCategory}
                 onChange={(e: any) => setNewCategory(e.target.value)}
-                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 outline-none"
+                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-muted-foreground outline-none"
               >
                 <option value="GOVERNANCE">GOVERNANCE</option>
                 <option value="FIDUCIARY">FIDUCIARY</option>
@@ -372,23 +372,23 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Prazo de Conclusão</label>
+              <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Prazo de Conclusão</label>
               <input 
                 type="date" 
                 value={newDueDate} 
                 onChange={(e) => setNewDueDate(e.target.value)}
-                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 outline-none focus:border-indigo-500/60"
+                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-muted-foreground outline-none focus:border-primary"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Benefício Esperado</label>
+              <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Benefício Esperado</label>
               <input 
                 type="text" 
                 value={newBenefit} 
                 onChange={(e) => setNewBenefit(e.target.value)}
                 placeholder="Ex: Reduzir exposição a fraudes fiduciárias"
-                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 outline-none focus:border-indigo-500/60"
+                className="w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-xs text-muted-foreground outline-none focus:border-primary"
               />
             </div>
           </div>
@@ -397,13 +397,13 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
             <button
               type="button"
               onClick={() => setIsFormOpen(false)}
-              className="px-4 py-2 bg-slate-900 hover:bg-slate-850 text-slate-400 hover:text-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all"
+              className="px-4 py-2 bg-slate-900 hover:bg-slate-850 text-muted-foreground hover:text-muted-foreground rounded-lg text-xs font-bold uppercase tracking-wider transition-all"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all"
+              className="px-5 py-2.5 bg-accent hover:bg-accent text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all"
             >
               Salvar Resolução
             </button>
@@ -414,7 +414,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
       {/* 4. Decisions Registry Grid / List Cards */}
       <div className="space-y-4">
         {decisions.length === 0 ? (
-          <div className="p-8 text-center text-slate-500 bg-slate-950/10 border border-white/5 rounded-2xl">
+          <div className="p-8 text-center text-muted-foreground bg-slate-950/10 border border-white/5 rounded-2xl">
             Nenhuma decisão governada registrada neste cenário.
           </div>
         ) : (
@@ -431,7 +431,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[9px] font-mono text-slate-500">{dec.id}</span>
+                    <span className="text-[9px] font-mono text-muted-foreground">{dec.id}</span>
                     <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase border ${getStatusBadge(dec.status)}`}>
                       {dec.status}
                     </span>
@@ -442,7 +442,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
                       {dec.category}
                     </span>
                   </div>
-                  <h4 className="text-sm font-bold text-slate-200">{dec.title}</h4>
+                  <h4 className="text-sm font-bold text-muted-foreground">{dec.title}</h4>
                 </div>
 
                 {/* Status Switcher & Board Approval Actions */}
@@ -468,7 +468,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
                     <select
                       value={dec.status}
                       onChange={(e) => handleStatusChange(dec.id, e.target.value)}
-                      className="bg-slate-950 border border-white/10 text-slate-300 rounded-lg px-2.5 py-1 text-[10px] font-bold outline-none cursor-pointer hover:border-white/20"
+                      className="bg-slate-950 border border-white/10 text-muted-foreground rounded-lg px-2.5 py-1 text-[10px] font-bold outline-none cursor-pointer hover:border-white/20"
                     >
                       <option value="OPEN">OPEN (Aberto)</option>
                       <option value="IN_PROGRESS">IN PROGRESS</option>
@@ -481,21 +481,21 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
               </div>
 
               {/* Decision Description and Meta Info */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs text-slate-400 leading-relaxed">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs text-muted-foreground leading-relaxed">
                 <div className="lg:col-span-8 space-y-3">
                   <p>{dec.description}</p>
                   
                   {/* Expected Benefit */}
                   <div className="p-3 bg-slate-950/40 border border-white/5 rounded-xl text-[11px]">
-                    <strong className="text-slate-300 block mb-0.5">Benefício Institucional Esperado:</strong>
+                    <strong className="text-muted-foreground block mb-0.5">Benefício Institucional Esperado:</strong>
                     {dec.expectedBenefit}
                   </div>
 
                   {/* Evidence Trails */}
                   {dec.evidence && dec.evidence.length > 0 && (
                     <div className="space-y-1">
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-slate-500 block">Linhas de Evidência Auditáveis</span>
-                      <ul className="list-disc pl-4 text-[10px] text-slate-500 space-y-0.5">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground block">Linhas de Evidência Auditáveis</span>
+                      <ul className="list-disc pl-4 text-[10px] text-muted-foreground space-y-0.5">
                         {dec.evidence.map((ev, idx) => (
                           <li key={idx}>{ev}</li>
                         ))}
@@ -507,39 +507,39 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
                 {/* Metadata Sidebar details */}
                 <div className="lg:col-span-4 p-4 bg-slate-950/60 rounded-xl space-y-2.5 border border-white/5 text-[10px]">
                   <div className="flex justify-between border-b border-white/5 pb-1">
-                    <span className="text-slate-500">Tipo de Decisão:</span>
-                    <span className="font-bold text-slate-300">{getTypeLabel(dec.decisionType)}</span>
+                    <span className="text-muted-foreground">Tipo de Decisão:</span>
+                    <span className="font-bold text-muted-foreground">{getTypeLabel(dec.decisionType)}</span>
                   </div>
                   <div className="flex justify-between border-b border-white/5 pb-1">
-                    <span className="text-slate-500">Origem Cognitiva:</span>
+                    <span className="text-muted-foreground">Origem Cognitiva:</span>
                     <span className="font-bold text-[#BAB86C]">{dec.originEngine} Engine</span>
                   </div>
                   <div className="flex justify-between border-b border-white/5 pb-1">
-                    <span className="text-slate-500">Responsável:</span>
-                    <span className="font-bold text-slate-300 flex items-center gap-1">
+                    <span className="text-muted-foreground">Responsável:</span>
+                    <span className="font-bold text-muted-foreground flex items-center gap-1">
                       <User size={10} />
                       {dec.assignedTo || 'Não atribuído'}
                     </span>
                   </div>
                   <div className="flex justify-between border-b border-white/5 pb-1">
-                    <span className="text-slate-500">Prazo Acordado:</span>
-                    <span className={`font-bold flex items-center gap-1 ${dec.status === 'OVERDUE' ? 'text-rose-400' : 'text-slate-300'}`}>
+                    <span className="text-muted-foreground">Prazo Acordado:</span>
+                    <span className={`font-bold flex items-center gap-1 ${dec.status === 'OVERDUE' ? 'text-rose-400' : 'text-muted-foreground'}`}>
                       <Calendar size={10} />
                       {dec.dueDate ? new Date(dec.dueDate).toLocaleDateString('pt-BR') : 'Sem prazo'}
                     </span>
                   </div>
                   {dec.approvedAt && (
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Aprovado At:</span>
-                      <span className="text-slate-400 font-mono">{new Date(dec.approvedAt).toLocaleDateString('pt-BR')}</span>
+                      <span className="text-muted-foreground">Aprovado At:</span>
+                      <span className="text-muted-foreground font-mono">{new Date(dec.approvedAt).toLocaleDateString('pt-BR')}</span>
                     </div>
                   )}
                   {dec.relatedDecisionIds && dec.relatedDecisionIds.length > 0 && (
                     <div className="border-t border-white/5 pt-2 mt-1">
-                      <span className="text-slate-500 block mb-1">Dependências Associadas:</span>
+                      <span className="text-muted-foreground block mb-1">Dependências Associadas:</span>
                       <div className="flex flex-wrap gap-1">
                         {dec.relatedDecisionIds.map(depId => (
-                          <span key={depId} className="px-1.5 py-0.5 bg-slate-900 border border-white/5 text-[8px] font-mono text-slate-400 rounded">
+                          <span key={depId} className="px-1.5 py-0.5 bg-slate-900 border border-white/5 text-[8px] font-mono text-muted-foreground rounded">
                             {depId}
                           </span>
                         ))}
@@ -550,7 +550,7 @@ export function GovernanceExecutionPanel({ clientId, scenario, mode }: Governanc
               </div>
 
               {/* Hash and fiduciarity footprint */}
-              <div className="flex justify-between items-center text-[8px] font-mono text-slate-600 border-t border-white/5 pt-2.5">
+              <div className="flex justify-between items-center text-[8px] font-mono text-muted-foreground border-t border-white/5 pt-2.5">
                 <span>Lineage Hash: {dec.lineageHash}</span>
                 <span>Fiduciary Certified Log</span>
               </div>

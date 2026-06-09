@@ -20,17 +20,17 @@ export const ConfidenceDisclosureCard: React.FC = () => {
     <div className="card-premium p-8 space-y-6">
       <div className="flex justify-between items-start">
         <div>
-          <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-            <BrainCircuit className="w-4 h-4 text-indigo-400" />
+          <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+            <BrainCircuit className="w-4 h-4 text-insight" />
             Confiança da Análise Fiduciária
           </h4>
-          <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+          <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
             Metodologia baseada em suficiência de evidências e integridade operacional.
           </p>
         </div>
         <div className="text-right">
-          <div className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1">{t("overlays.summary_score")}</div>
-          <div className="text-3xl font-light text-indigo-400 flex items-center gap-1">
+          <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">{t("overlays.summary_score")}</div>
+          <div className="text-3xl font-light text-primary flex items-center gap-1">
             {confidenceScore}%
           </div>
         </div>
@@ -39,15 +39,15 @@ export const ConfidenceDisclosureCard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-border/10">
         {/* Pilar 1: Cobertura */}
         <div className="space-y-2">
-          <div className="flex justify-between items-center text-xs text-slate-400">
+          <div className="flex justify-between items-center text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
-              <Layers className="w-3.5 h-3.5 text-slate-500" /> Cobertura de Evidências
+              <Layers className="w-3.5 h-3.5 text-muted-foreground" /> Cobertura de Evidências
             </span>
             <span className="font-bold">{(evidenceCoverage * 100).toFixed(0)}%</span>
           </div>
           <div className="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden border border-border/5">
             <div 
-              className="bg-indigo-500 h-full transition-all duration-500"
+              className="bg-primary h-full transition-all duration-500"
               style={{ width: `${evidenceCoverage * 100}%` }}
             />
           </div>
@@ -55,7 +55,7 @@ export const ConfidenceDisclosureCard: React.FC = () => {
 
         {/* Pilar 2: Lineage */}
         <div className="flex items-center justify-between p-3 bg-slate-950/40 border border-border/10 rounded-xl">
-          <span className="text-xs text-slate-400 flex items-center gap-1.5">
+          <span className="text-xs text-muted-foreground flex items-center gap-1.5">
             Integridade
           </span>
           {lineageIntegrity ? (
@@ -71,7 +71,7 @@ export const ConfidenceDisclosureCard: React.FC = () => {
 
         {/* Pilar 3: Runtime Mode */}
         <div className="flex items-center justify-between p-3 bg-slate-950/40 border border-border/10 rounded-xl">
-          <span className="text-xs text-slate-400 flex items-center gap-1.5">
+          <span className="text-xs text-muted-foreground flex items-center gap-1.5">
             Modo Runtime
           </span>
           <span className={`inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest ${

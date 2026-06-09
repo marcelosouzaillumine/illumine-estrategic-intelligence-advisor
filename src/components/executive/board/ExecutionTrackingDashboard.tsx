@@ -27,7 +27,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
   };
 
   const renderSlippageSeverity = (severity: string, label: string) => {
-    let colorClass = "bg-surface text-muted-foreground border-slate-700";
+    let colorClass = "bg-surface text-muted-foreground border-border";
     if (severity === 'LOW') colorClass = "bg-blue-900/30 text-blue-400 border-blue-800/50";
     if (severity === 'MODERATE') colorClass = "bg-amber-900/30 text-amber-400 border-amber-800/50";
     if (severity === 'CRITICAL') colorClass = "bg-rose-900/30 text-rose-400 border-rose-800/50";
@@ -40,7 +40,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
   };
 
   return (
-    <div className="bg-primary rounded-3xl p-6 md:p-8 text-white border border-slate-800 shadow-xl mt-8">
+    <div className="bg-primary rounded-3xl p-6 md:p-8 text-white border border-border shadow-xl mt-8">
       <div className="flex items-center gap-3 mb-6">
         <Target className="text-blue-400" size={24} />
         <div>
@@ -60,7 +60,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
             {pending.map(item => (
               <div 
                 key={item.id} 
-                className="bg-surface/50 border border-slate-700/80 rounded-2xl p-5 hover:bg-surface transition-colors cursor-pointer"
+                className="bg-surface/50 border border-border rounded-2xl p-5 hover:bg-surface transition-colors cursor-pointer"
                 onClick={() => setSelectedCommitment(item.id)}
               >
                 <div className="flex items-start justify-between mb-3">
@@ -86,7 +86,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
               </div>
             ))}
             {pending.length === 0 && (
-              <div className="text-center p-8 bg-surface/20 border border-slate-800 border-dashed rounded-2xl">
+              <div className="text-center p-8 bg-surface/20 border border-border border-dashed rounded-2xl">
                 <p className="text-sm text-muted-foreground font-bold uppercase tracking-widest">Nenhuma ação pendente</p>
               </div>
             )}
@@ -101,7 +101,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
             {completed.map(item => {
               const validation = ExecutionGovernanceAdapter.validateExecutionImpact(item);
               return (
-                <div key={item.id} className="bg-surface/30 border border-slate-700/50 rounded-2xl p-5">
+                <div key={item.id} className="bg-surface/30 border border-border rounded-2xl p-5">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2">
                       {getStatusIcon(item.status)}
@@ -113,7 +113,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
                   
                   <h4 className="text-sm font-bold text-white mb-2">{item.title}</h4>
                   
-                  <div className="mt-4 pt-4 border-t border-slate-700/50">
+                  <div className="mt-4 pt-4 border-t border-border">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Score de Impacto</span>
                       <span className={cn(
@@ -122,7 +122,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
                         validation.impactScore >= 50 ? "text-amber-400" : "text-rose-400"
                       )}>{validation.impactScore}/100</span>
                     </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed italic border-l-2 border-slate-600 pl-3">
+                    <p className="text-sm text-muted-foreground leading-relaxed italic border-l-2 border-border pl-3">
                       "{validation.validationNarrative}"
                     </p>
                   </div>
@@ -130,7 +130,7 @@ export function ExecutionTrackingDashboard({ commitments, onUpdateStatus }: Exec
               );
             })}
              {completed.length === 0 && (
-              <div className="text-center p-8 bg-surface/20 border border-slate-800 border-dashed rounded-2xl">
+              <div className="text-center p-8 bg-surface/20 border border-border border-dashed rounded-2xl">
                 <p className="text-sm text-muted-foreground font-bold uppercase tracking-widest">Nenhuma ação executada neste ciclo</p>
               </div>
             )}

@@ -35,7 +35,7 @@ function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
     emerald: "bg-emerald-50 text-emerald-600 border-emerald-100",
     rose: "bg-rose-50 text-rose-600 border-rose-100",
     blue: "bg-blue-50 text-blue-600 border-blue-100",
-    slate: "bg-slate-50 text-slate-600 border-slate-100",
+    slate: "bg-slate-50 text-muted-foreground border-border",
   };
   
   return (
@@ -44,8 +44,8 @@ function SectionHeader({ icon: Icon, title, subtitle, tone }: any) {
         <Icon size={24} strokeWidth={2.5} />
       </div>
       <div>
-        <h3 className="text-xl font-display font-extrabold text-slate-900 tracking-tight leading-none mb-1">{title}</h3>
-        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{subtitle}</p>
+        <h3 className="text-xl font-display font-extrabold text-muted-foreground tracking-tight leading-none mb-1">{title}</h3>
+        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">{subtitle}</p>
       </div>
     </div>
   );
@@ -186,14 +186,14 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             <div className="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6">
               <Trash2 size={32} className="text-rose-500" />
             </div>
-            <h3 className="text-xl font-black text-slate-900 mb-2">Confirmar Exclusão</h3>
-            <p className="text-sm text-slate-500 font-medium mb-8">
+            <h3 className="text-xl font-black text-muted-foreground mb-2">Confirmar Exclusão</h3>
+            <p className="text-sm text-muted-foreground font-medium mb-8">
               Deseja realmente remover esta premissa? Esta ação pode impactar os cálculos de projeção.
             </p>
             <div className="grid grid-cols-2 gap-4">
               <button 
                 onClick={() => setConfirmDelete(null)}
-                className="px-4 md:px-6 py-2 md:py-3 bg-slate-100 text-slate-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-200 transition-all"
+                className="px-4 md:px-6 py-2 md:py-3 bg-slate-100 text-muted-foreground rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-200 transition-all"
               >
                 Cancelar
               </button>
@@ -210,8 +210,8 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
 
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Premissas do Cliente</h2>
-          <p className="text-sm font-medium text-slate-500 mt-1">Configure os descasamentos de prazos e taxas de crescimento para projeções financeiras personalizadas.</p>
+          <h2 className="text-2xl font-display font-black text-muted-foreground tracking-tight">Premissas do Cliente</h2>
+          <p className="text-sm font-medium text-muted-foreground mt-1">Configure os descasamentos de prazos e taxas de crescimento para projeções financeiras personalizadas.</p>
         </div>
         <button 
           onClick={handleSave}
@@ -247,14 +247,14 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             </button>
           </div>
           
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-3xl border border-border shadow-sm overflow-hidden">
             <table className="w-full">
               <thead className="bg-slate-50">
                 <tr>
-                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipo de Receita</th>
-                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Delay (Dias)</th>
-                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Parcelas</th>
-                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Intervalo</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-muted-foreground uppercase tracking-widest">Tipo de Receita</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-muted-foreground uppercase tracking-widest whitespace-nowrap">Delay (Dias)</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-muted-foreground uppercase tracking-widest">Parcelas</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-muted-foreground uppercase tracking-widest">Intervalo</th>
                   <th className="px-4 md:px-6 py-2.5 md:py-4 text-right"></th>
                 </tr>
               </thead>
@@ -275,7 +275,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           };
                           setAssumptions({ ...assumptions, receitas: newData });
                         }}
-                        className="w-full text-sm font-bold text-slate-700 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100 outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all"
+                        className="w-full text-sm font-bold text-muted-foreground bg-slate-50 px-3 py-2 rounded-xl border border-border outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all"
                       >
                         <option value="">Selecione uma conta de receita...</option>
                         {accounts.filter(a => a.type?.toLowerCase().includes('receita')).map(acc => (
@@ -294,9 +294,9 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           type="number" 
                           value={item.descasamento}
                           onChange={(e) => updateEntry('receitas', idx, 'descasamento', parseInt(e.target.value) || 0)}
-                          className="w-14 text-center text-sm font-black text-emerald-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-emerald-500"
+                          className="w-14 text-center text-sm font-black text-emerald-600 bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-emerald-500"
                         />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase">d</span>
                       </div>
                     </td>
                     <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
@@ -305,7 +305,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         min="1"
                         value={item.parcelas || 1}
                         onChange={(e) => updateEntry('receitas', idx, 'parcelas', parseInt(e.target.value) || 1)}
-                        className="w-12 text-center text-sm font-black text-slate-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-emerald-500"
+                        className="w-12 text-center text-sm font-black text-muted-foreground bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-emerald-500"
                       />
                     </td>
                     <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
@@ -315,15 +315,15 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           min="0"
                           value={item.intervalo || 30}
                           onChange={(e) => updateEntry('receitas', idx, 'intervalo', parseInt(e.target.value) || 0)}
-                          className="w-14 text-center text-sm font-black text-slate-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-emerald-500"
+                          className="w-14 text-center text-sm font-black text-muted-foreground bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-emerald-500"
                         />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase">d</span>
                       </div>
                     </td>
                     <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
                       <button 
                         onClick={() => setConfirmDelete({ category: 'receitas', index: idx })}
-                        className="p-2 text-slate-300 hover:text-rose-500 transition-colors"
+                        className="p-2 text-muted-foreground hover:text-rose-500 transition-colors"
                       >
                         <Trash2 size={14} />
                       </button>
@@ -334,7 +334,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             </table>
             <button 
               onClick={() => addEntry('receitas')}
-              className="w-full py-4 bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-blue-600 transition-colors flex items-center justify-center gap-2 border-t border-slate-100"
+              className="w-full py-4 bg-slate-50/50 text-[10px] font-black text-muted-foreground uppercase tracking-widest hover:text-blue-600 transition-colors flex items-center justify-center gap-2 border-t border-border"
             >
               <Plus size={14} />
               Adicionar Tipo de Receita
@@ -357,14 +357,14 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             </button>
           </div>
 
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-3xl border border-border shadow-sm overflow-hidden">
             <table className="w-full">
               <thead className="bg-slate-50">
                 <tr>
-                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipo de Custo/Despesa</th>
-                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Prazo (Dias)</th>
-                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Parcelas</th>
-                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Intervalo</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-muted-foreground uppercase tracking-widest">Tipo de Custo/Despesa</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-muted-foreground uppercase tracking-widest whitespace-nowrap">Prazo (Dias)</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-muted-foreground uppercase tracking-widest">Parcelas</th>
+                  <th className="px-4 md:px-6 py-2.5 md:py-4 text-center text-[10px] font-black text-muted-foreground uppercase tracking-widest">Intervalo</th>
                   <th className="px-4 md:px-6 py-2.5 md:py-4 text-right"></th>
                 </tr>
               </thead>
@@ -385,7 +385,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           };
                           setAssumptions({ ...assumptions, custos: newData });
                         }}
-                        className="w-full text-sm font-bold text-slate-700 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100 outline-none focus:ring-2 focus:ring-rose-500/10 transition-all"
+                        className="w-full text-sm font-bold text-muted-foreground bg-slate-50 px-3 py-2 rounded-xl border border-border outline-none focus:ring-2 focus:ring-rose-500/10 transition-all"
                       >
                         <option value="">Selecione uma conta de custo/despesa...</option>
                         {accounts.filter(a => {
@@ -407,9 +407,9 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           type="number" 
                           value={item.descasamento}
                           onChange={(e) => updateEntry('custos', idx, 'descasamento', parseInt(e.target.value) || 0)}
-                          className="w-14 text-center text-sm font-black text-rose-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-rose-500"
+                          className="w-14 text-center text-sm font-black text-rose-600 bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-rose-500"
                         />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase">d</span>
                       </div>
                     </td>
                     <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
@@ -418,7 +418,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                         min="1"
                         value={item.parcelas || 1}
                         onChange={(e) => updateEntry('custos', idx, 'parcelas', parseInt(e.target.value) || 1)}
-                        className="w-12 text-center text-sm font-black text-slate-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-rose-500"
+                        className="w-12 text-center text-sm font-black text-muted-foreground bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-rose-500"
                       />
                     </td>
                     <td className="px-4 md:px-6 py-2.5 md:py-4 text-center">
@@ -428,15 +428,15 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                           min="0"
                           value={item.intervalo || 30}
                           onChange={(e) => updateEntry('custos', idx, 'intervalo', parseInt(e.target.value) || 0)}
-                          className="w-14 text-center text-sm font-black text-slate-600 bg-slate-50 py-1 rounded-lg border border-slate-200 outline-none focus:border-rose-500"
+                          className="w-14 text-center text-sm font-black text-muted-foreground bg-slate-50 py-1 rounded-lg border border-border outline-none focus:border-rose-500"
                         />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">d</span>
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase">d</span>
                       </div>
                     </td>
                     <td className="px-4 md:px-6 py-2.5 md:py-4 text-right">
                       <button 
                         onClick={() => setConfirmDelete({ category: 'custos', index: idx })}
-                        className="p-2 text-slate-300 hover:text-rose-500 transition-colors"
+                        className="p-2 text-muted-foreground hover:text-rose-500 transition-colors"
                       >
                         <Trash2 size={14} />
                       </button>
@@ -447,7 +447,7 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             </table>
             <button 
               onClick={() => addEntry('custos')}
-              className="w-full py-4 bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-blue-600 transition-colors flex items-center justify-center gap-2 border-t border-slate-100"
+              className="w-full py-4 bg-slate-50/50 text-[10px] font-black text-muted-foreground uppercase tracking-widest hover:text-blue-600 transition-colors flex items-center justify-center gap-2 border-t border-border"
             >
               <Plus size={14} />
               Adicionar Tipo de Despesa
@@ -464,8 +464,8 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
             tone="blue"
           />
 
-          <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Taxa de Crescimento Projetada</label>
+          <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
+            <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Taxa de Crescimento Projetada</label>
             <div className="flex items-end gap-4">
               <div className="flex-1">
                 <div className="relative">
@@ -474,13 +474,13 @@ export function PremissasClientePage({ clients, selectedClient }: { clients: any
                     step="0.1"
                     value={assumptions.crescimento}
                     onChange={(e) => setAssumptions({ ...assumptions, crescimento: parseFloat(e.target.value) || 0 })}
-                    className="w-full text-4xl font-black text-blue-600 bg-slate-50 px-4 md:px-6 py-2.5 md:py-4 rounded-2xl border border-slate-200 outline-none focus:border-blue-500 transition-all text-right pr-12"
+                    className="w-full text-4xl font-black text-blue-600 bg-slate-50 px-4 md:px-6 py-2.5 md:py-4 rounded-2xl border border-border outline-none focus:border-blue-500 transition-all text-right pr-12"
                   />
-                  <span className="absolute right-6 top-1/2 -translate-y-1/2 text-2xl font-black text-slate-300">%</span>
+                  <span className="absolute right-6 top-1/2 -translate-y-1/2 text-2xl font-black text-muted-foreground">%</span>
                 </div>
               </div>
             </div>
-            <p className="mt-4 text-[11px] text-slate-500 font-medium leading-relaxed italic">
+            <p className="mt-4 text-[11px] text-muted-foreground font-medium leading-relaxed italic">
               Esta taxa será aplicada sobre a receita operacional bruta nas projeções de modelagem financeira e DRE projetada.
             </p>
           </div>

@@ -193,9 +193,9 @@ export function InstitutionalReportsPage() {
             <div id="printable-board-pack" className="bg-white text-black p-10 rounded-xl shadow-sm border border-border min-h-[800px]">
               {/* Capa */}
               <div className="border-b-4 border-black pb-8 mb-8">
-                <p className="text-sm font-bold tracking-widest text-gray-500 mb-2 uppercase">Executive Board Pack</p>
+                <p className="text-sm font-bold tracking-widest text-muted-foreground mb-2 uppercase">Executive Board Pack</p>
                 <h1 className="text-4xl font-extrabold mb-4 text-black">Relatório Institucional de Governança e Performance</h1>
-                <div className="flex justify-between text-sm text-gray-600 font-medium">
+                <div className="flex justify-between text-sm text-muted-foreground font-medium">
                   <span>Grupo Econômico: {pack.groupId}</span>
                   <span>Data Base: {new Date(pack.timestamp).toLocaleDateString()}</span>
                 </div>
@@ -203,8 +203,8 @@ export function InstitutionalReportsPage() {
 
               {/* Seção 1: Executive Summary */}
               <div className="mb-12">
-                <h2 className="text-xl font-bold border-b border-gray-300 pb-2 mb-4 text-black">1. Parecer Executivo (Advisory)</h2>
-                <p className="text-sm leading-relaxed text-gray-800 text-justify">
+                <h2 className="text-xl font-bold border-b border-border pb-2 mb-4 text-black">1. Parecer Executivo (Advisory)</h2>
+                <p className="text-sm leading-relaxed text-muted-foreground text-justify">
                   {pack.executiveReport.executiveSummary}
                 </p>
                 <LineageStamp lineage={pack.executiveReport.lineage} />
@@ -212,26 +212,26 @@ export function InstitutionalReportsPage() {
 
               {/* Seção 2: Governance Audit */}
               <div className="page-break">
-                <h2 className="text-xl font-bold border-b border-gray-300 pb-2 mb-4 text-black">2. Auditoria de Governança</h2>
+                <h2 className="text-xl font-bold border-b border-border pb-2 mb-4 text-black">2. Auditoria de Governança</h2>
                 
                 {pack.governanceReport.warningViolations.length > 0 ? (
                   <div className="space-y-4">
                     {pack.governanceReport.warningViolations.map((v, i) => (
                       <div key={i} className="p-4 bg-gray-50 border-l-4 border-amber-500 rounded text-sm">
                         <p className="font-bold text-amber-700 mb-1">[{v.severity}] Alerta de Integridade</p>
-                        <p className="text-gray-700">{v.message}</p>
-                        <p className="text-xs text-gray-500 mt-2 font-mono">Entidades: {v.affectedEntities.join(', ')}</p>
+                        <p className="text-muted-foreground">{v.message}</p>
+                        <p className="text-xs text-muted-foreground mt-2 font-mono">Entidades: {v.affectedEntities.join(', ')}</p>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-600 italic">Nenhuma violação institucional detectada nesta emissão.</p>
+                  <p className="text-sm text-muted-foreground italic">Nenhuma violação institucional detectada nesta emissão.</p>
                 )}
                 <LineageStamp lineage={pack.governanceReport.lineage} />
               </div>
 
               {/* Rodapé Fiduciário */}
-              <div className="mt-24 pt-8 border-t border-gray-300 text-[10px] text-gray-500 text-center uppercase tracking-widest">
+              <div className="mt-24 pt-8 border-t border-border text-[10px] text-muted-foreground text-center uppercase tracking-widest">
                 <p>Illumine Governance</p>
                 <p>Documento Gerado Eletronicamente. Fiduciary Snapshot Ref: {pack.fiduciarySnapshotRef}</p>
               </div>

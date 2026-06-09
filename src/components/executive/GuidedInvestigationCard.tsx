@@ -34,9 +34,9 @@ export const GuidedInvestigationCard: React.FC<Props> = ({ journey }) => {
     switch (journey.iconType) {
       case 'TARGET': return <Target className="text-amber-400" size={24} />;
       case 'HISTORY': return <History className="text-sky-400" size={24} />;
-      case 'NETWORK': return <Network className="text-indigo-400" size={24} />;
+      case 'NETWORK': return <Network className="text-primary" size={24} />;
       case 'COMPASS': return <Compass className="text-teal-400" size={24} />;
-      default: return <Target className="text-slate-400" size={24} />;
+      default: return <Target className="text-muted-foreground" size={24} />;
     }
   };
 

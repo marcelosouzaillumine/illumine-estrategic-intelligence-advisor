@@ -22,15 +22,15 @@ export const GovernanceTrajectoryGraph: React.FC<GovernanceTrajectoryGraphProps>
   const currentConfidence = series[series.length - 1].confidenceState.level;
 
   return (
-    <div className="governance-trajectory-graph p-6 bg-slate-900 border border-slate-700 rounded-lg shadow-md text-slate-100">
-      <div className="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+    <div className="governance-trajectory-graph p-6 bg-slate-900 border border-border rounded-lg shadow-md text-muted-foreground">
+      <div className="flex justify-between items-center mb-6 border-b border-border pb-4">
         <div>
-          <h3 className="text-lg font-semibold text-slate-50">Governance & Maturity Trajectory</h3>
-          <p className="text-xs text-slate-400 mt-1">Longitudinal evolution of institutional scores</p>
+          <h3 className="text-lg font-semibold text-muted-foreground">Governance & Maturity Trajectory</h3>
+          <p className="text-xs text-muted-foreground mt-1">Longitudinal evolution of institutional scores</p>
         </div>
         <div className="text-right">
-          <div className="text-xs font-mono text-slate-400">Ref Lineage: {latestLineage}</div>
-          <div className="text-xs font-mono text-slate-400">Confidence: {currentConfidence}</div>
+          <div className="text-xs font-mono text-muted-foreground">Ref Lineage: {latestLineage}</div>
+          <div className="text-xs font-mono text-muted-foreground">Confidence: {currentConfidence}</div>
         </div>
       </div>
 

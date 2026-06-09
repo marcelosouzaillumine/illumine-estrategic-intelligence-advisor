@@ -87,7 +87,7 @@ export const DecisionCognitiveDrawer: React.FC = () => {
                       viewModel.confidenceLevel === 'DETERMINISTIC' ? 'text-emerald-500' :
                       viewModel.confidenceLevel === 'HIGH' ? 'text-blue-500' :
                       viewModel.confidenceLevel === 'MODERATE' ? 'text-amber-500' :
-                      'text-slate-500'
+                      'text-muted-foreground'
                     }`}>
                       {viewModel.confidenceLevel}
                     </span>

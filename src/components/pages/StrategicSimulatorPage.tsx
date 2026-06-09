@@ -120,12 +120,12 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
         color="bg-slate-900"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 shrink-0">
+          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-border shrink-0">
             <button 
               onClick={resetSim}
-              className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-slate-400 hover:text-slate-600 hover:bg-white flex items-center gap-2"
+              className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-muted-foreground hover:text-muted-foreground hover:bg-white flex items-center gap-2"
             >
               <RefreshCw size={14} />
               Resetar Simulação
@@ -139,8 +139,8 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Sliders Area */}
         <div className="lg:col-span-4 space-y-10">
-          <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm space-y-12">
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-3">
+          <div className="bg-white p-10 rounded-[40px] border border-border shadow-sm space-y-12">
+            <h3 className="text-sm font-black text-muted-foreground uppercase tracking-widest flex items-center gap-3">
                <Activity size={20} className="text-primary" /> Alavancas de Valor
             </h3>
 
@@ -148,7 +148,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
               {/* Growth Slider */}
               <div className="space-y-6">
                 <div className="flex justify-between items-end">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Crescimento de Receita</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Crescimento de Receita</label>
                   <span className="text-lg font-black text-primary">+{growthSim}%</span>
                 </div>
                 <input 
@@ -161,7 +161,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
               {/* Churn Reduction Slider */}
               <div className="space-y-6">
                 <div className="flex justify-between items-end">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Redução de Churn</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Redução de Churn</label>
                   <span className="text-lg font-black text-emerald-500">-{churnSim}%</span>
                 </div>
                 <input 
@@ -174,7 +174,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
               {/* Margin Improvement Slider */}
               <div className="space-y-6">
                 <div className="flex justify-between items-end">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Melhoria de Margem EBITDA</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Melhoria de Margem EBITDA</label>
                   <span className="text-lg font-black text-secondary">+{marginSim}%</span>
                 </div>
                 <input 
@@ -185,7 +185,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
               </div>
             </div>
 
-            <div className="pt-8 border-t border-slate-50 flex items-center gap-4 text-slate-400">
+            <div className="pt-8 border-t border-border flex items-center gap-4 text-muted-foreground">
                <Info size={16} />
                <p className="text-[10px] font-medium leading-relaxed italic">Arraste os seletores para simular cenários otimistas e ver o impacto financeiro.</p>
             </div>
@@ -213,7 +213,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                       </p>
                    </div>
                    <div>
-                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Impacto %</p>
+                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Impacto %</p>
                       <p className="text-lg font-black text-white">{simulation.impactPercent.toFixed(2)}%</p>
                    </div>
                 </div>
@@ -221,25 +221,25 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
             </div>
 
             {/* Impact Card: EBITDA */}
-            <div className="bg-white p-12 rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden group">
+            <div className="bg-white p-12 rounded-[48px] border border-border shadow-sm relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:rotate-12 transition-transform duration-700">
                 <Activity size={160} />
               </div>
               <div className="relative z-10 space-y-8">
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">EBITDA Anual Projetado</p>
-                  <h2 className="text-5xl font-display font-black text-slate-900 tracking-tight">{formatCurrency(simulation.simulatedEbitda)}</h2>
+                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-4">EBITDA Anual Projetado</p>
+                  <h2 className="text-5xl font-display font-black text-muted-foreground tracking-tight">{formatCurrency(simulation.simulatedEbitda)}</h2>
                 </div>
                 <div className="flex items-center gap-6">
-                   <div className="bg-slate-50 px-4 md:px-6 py-1.5 md:py-2 rounded-2xl border border-slate-100">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Margem Projetada</p>
-                      <p className="text-lg font-black text-slate-900">
+                   <div className="bg-slate-50 px-4 md:px-6 py-1.5 md:py-2 rounded-2xl border border-border">
+                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Margem Projetada</p>
+                      <p className="text-lg font-black text-muted-foreground">
                         {((simulation.simulatedEbitda / (simulation.simulatedRevenue || 1)) * 100).toFixed(2)}%
                       </p>
                    </div>
                    <div>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Receita Anual</p>
-                      <p className="text-lg font-black text-slate-900">{formatCurrency(simulation.simulatedRevenue)}</p>
+                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Receita Anual</p>
+                      <p className="text-lg font-black text-muted-foreground">{formatCurrency(simulation.simulatedRevenue)}</p>
                    </div>
                 </div>
               </div>
@@ -247,13 +247,13 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
           </div>
 
           {/* Comparison Board */}
-          <div className="bg-white p-12 rounded-[56px] border border-slate-100 shadow-sm relative overflow-hidden">
+          <div className="bg-white p-12 rounded-[56px] border border-border shadow-sm relative overflow-hidden">
              <div className="flex justify-between items-center mb-12">
                <div>
-                 <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Análise Comparativa</h3>
-                 <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Cenário Atual vs. Projetado</h2>
+                 <h3 className="text-[11px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-2">Análise Comparativa</h3>
+                 <h2 className="text-2xl font-display font-black text-muted-foreground tracking-tight">Cenário Atual vs. Projetado</h2>
                </div>
-               <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-300">
+               <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-muted-foreground">
                  <BarChart3 size={28} />
                </div>
              </div>
@@ -265,15 +265,15 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                   { label: 'Valuation (DCF)', current: simulation.currentValuation, sim: simulation.simulatedValuation, color: 'emerald-500' },
                 ].map((item, i) => (
                   <div key={i} className="space-y-6 group">
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.label}</p>
+                     <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{item.label}</p>
                      
                      <div className="space-y-2">
-                        <p className="text-[9px] font-bold text-slate-300 uppercase">Atual</p>
-                        <p className="text-sm font-black text-slate-400">{formatCurrency(item.current)}</p>
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase">Atual</p>
+                        <p className="text-sm font-black text-muted-foreground">{formatCurrency(item.current)}</p>
                      </div>
 
                      <div className="space-y-2">
-                        <p className="text-[9px] font-bold text-slate-800 uppercase flex items-center gap-2">
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase flex items-center gap-2">
                           Projetado <ChevronRight size={10} className="text-emerald-500" />
                         </p>
                         <p className={cn("text-xl font-black transition-all group-hover:scale-105 origin-left", `text-${item.color}`)}>
@@ -281,7 +281,7 @@ export function StrategicSimulatorPage({ clientId, selectedYear, selectedMonth }
                         </p>
                      </div>
 
-                     <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+                     <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden border border-border">
                         <motion.div 
                           initial={{ width: 0 }}
                           animate={{ width: `${(item.current / (item.sim || 1)) * 100}%` }}

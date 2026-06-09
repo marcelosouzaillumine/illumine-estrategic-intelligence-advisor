@@ -13,7 +13,7 @@ export function BoardDeckCenter({ onNavigate }: BoardDeckCenterProps) {
     { label: 'Total Decks Gerados', value: '124', icon: FileBarChart, color: 'text-blue-500 dark:text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
     { label: 'Aprovações Pendentes', value: '3', icon: Clock, color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
     { label: 'Decks Assinados', value: '118', icon: CheckCircle2, color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
-    { label: 'Índice de Conformidade', value: '99.8%', icon: ShieldCheck, color: 'text-purple-500 dark:text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
+    { label: 'Índice de Conformidade', value: '99.8%', icon: ShieldCheck, color: 'text-primary dark:text-primary', bg: 'bg-primary', border: 'border-primary' },
   ];
 
   return (

@@ -33,12 +33,12 @@ export const OrganizationPortfolioPanel: React.FC<OrganizationPortfolioPanelProp
                 onClick={() => onSelectOrganization(org.id)}
                 className={`w-full text-left p-4 rounded-[20px] border transition-colors ${
                   isActive 
-                    ? 'bg-indigo-500/10 border-indigo-500/30' 
+                    ? 'bg-primary border-primary' 
                     : 'bg-surface-container border-border hover:bg-surface-container-high'
                 }`}
               >
                 <div className="flex justify-between items-start mb-2">
-                  <h4 className={`text-sm font-display font-bold ${isActive ? 'text-indigo-300' : 'text-foreground'}`}>
+                  <h4 className={`text-sm font-display font-bold ${isActive ? 'text-primary' : 'text-foreground'}`}>
                     {org.name}
                   </h4>
                   <span className="text-[9px] font-mono uppercase text-muted-foreground bg-surface-container-high px-2 py-0.5 rounded">

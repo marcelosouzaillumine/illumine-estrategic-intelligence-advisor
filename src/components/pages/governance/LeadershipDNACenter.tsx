@@ -570,7 +570,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
               <div className="space-y-4">
                 {['Direção', 'Conselho'].map(cat => (
                   <div key={cat} className="space-y-2">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{cat}</p>
+                    <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-2">{cat}</p>
                     <div className="space-y-2">
                       {GOVERNANCE_ROLES.filter(r => r.category === cat).map(role => (
                         <button
@@ -595,7 +595,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                               <p className={cn("text-[10px] font-medium uppercase tracking-widest", selectedRole?.id === role.id ? "text-white/60" : "text-muted-foreground")}>Clique para ver detalhes</p>
                             </div>
                           </div>
-                          <ChevronRight size={16} className={cn("transition-transform", selectedRole?.id === role.id ? "translate-x-1" : "group-hover:translate-x-1 text-slate-300")} />
+                          <ChevronRight size={16} className={cn("transition-transform", selectedRole?.id === role.id ? "translate-x-1" : "group-hover:translate-x-1 text-muted-foreground")} />
                         </button>
                       ))}
                     </div>
@@ -1234,7 +1234,7 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                           ))}
                         </div>
                         
-                        <button className="w-full mt-8 py-3 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-secondary hover:border-secondary transition-all flex items-center justify-center gap-2">
+                        <button className="w-full mt-8 py-3 border border-border rounded-xl text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-secondary hover:border-secondary transition-all flex items-center justify-center gap-2">
                           Acessar Conteúdo <ArrowRight size={14} />
                         </button>
                       </motion.div>
@@ -1311,8 +1311,8 @@ export function LeadershipDNACenter({ clientId }: { clientId: string }) {
                     </div>
                   </div>
                 ) : (
-                  <div className="p-8 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 text-center">
-                    <p className="text-sm text-slate-500">Nenhum dado de time disponível ainda.</p>
+                  <div className="p-8 bg-slate-50 rounded-3xl border-2 border-dashed border-border text-center">
+                    <p className="text-sm text-muted-foreground">Nenhum dado de time disponível ainda.</p>
                   </div>
                 )}
               </div>

@@ -61,7 +61,7 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
   const SWOT_MULTIPLIERS: Record<string, { label: string; value: number; color: string }> = {
     "Oportunidade": { label: "×1.3", value: 1.3, color: "text-emerald-600" },
     "Força":        { label: "×1.1", value: 1.1, color: "text-sky-500" },
-    "Fraqueza":     { label: "×1.0", value: 1.0, color: "text-slate-400" },
+    "Fraqueza":     { label: "×1.0", value: 1.0, color: "text-muted-foreground" },
     "Ameaça":       { label: "×0.8", value: 0.8, color: "text-rose-500" },
   };
 
@@ -353,16 +353,16 @@ export function DiagnosticoPage({ clientId, selectedYear, selectedMonth }: Diagn
                  </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-slate-100">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-border">
                 {/* Efeito Financeiro */}
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2 px-1">
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2 px-1">
                     Efeito Financeiro
                   </label>
                   <select 
                     value={formData.efeitoFinanceiro}
                     onChange={e => setFormData({...formData, efeitoFinanceiro: e.target.value as any})}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl font-bold text-sm outline-none"
+                    className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl font-bold text-sm outline-none"
                   >
                     <option value="EBITDA">EBITDA ×1.4 ⬆️</option>
                     <option value="Faturamento">Faturamento ×1.3</option>

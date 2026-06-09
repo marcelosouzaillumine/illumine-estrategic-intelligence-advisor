@@ -101,7 +101,7 @@ export const InstitutionalObjectCard: React.FC<Props> = ({ context }) => {
           <ul className="space-y-2">
             {causality.map((c, i) => (
               <li key={i} className="text-xs text-muted-foreground p-2 bg-surface-container rounded border border-border">
-                <span className="text-indigo-400 font-bold mr-1">{c.relationshipType}</span>
+                <span className="text-primary font-bold mr-1">{c.relationshipType}</span>
                 {c.targetTitle}
               </li>
             ))}

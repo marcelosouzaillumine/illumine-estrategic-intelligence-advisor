@@ -59,7 +59,7 @@ export const ExecutiveHomeWorkspace: React.FC = () => {
               <span>Busca Institucional...</span>
               <kbd className="ml-4 px-1.5 py-0.5 rounded bg-background border border-border font-sans text-[10px]">⌘K</kbd>
             </button>
-            <div className="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-500/50 flex items-center justify-center text-indigo-400 font-bold text-sm">
+            <div className="w-8 h-8 rounded-full bg-primary border border-primary flex items-center justify-center text-primary font-bold text-sm">
               EX
             </div>
           </div>
@@ -83,7 +83,7 @@ export const ExecutiveHomeWorkspace: React.FC = () => {
                   {journeys.length > 0 ? journeys.map(j => (
                     <GuidedInvestigationCard key={j.id} journey={j} />
                   )) : (
-                    <div className="p-6 border border-slate-800 border-dashed rounded-2xl text-slate-500 text-center">
+                    <div className="p-6 border border-border border-dashed rounded-2xl text-muted-foreground text-center">
                       Nenhuma jornada disponível.
                     </div>
                   )}

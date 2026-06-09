@@ -264,12 +264,12 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]"
       >
-        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
+        <div className="p-6 border-b border-border flex justify-between items-center bg-slate-50/50 shrink-0">
           <div>
-            <h3 className="text-lg font-black text-slate-900">Importar {title}</h3>
-            <p className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-widest font-bold">Excel · CSV · PDF</p>
+            <h3 className="text-lg font-black text-muted-foreground">Importar {title}</h3>
+            <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-widest font-bold">Excel · CSV · PDF</p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground"><X size={20} /></button>
         </div>
 
         <div className="p-6 space-y-5 overflow-y-auto flex-1">
@@ -293,9 +293,9 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                 </motion.div>
               </div>
               <div className="space-y-1">
-                <h4 className="text-xl font-bold text-slate-900">Importação Concluída!</h4>
-                <p className="text-sm text-slate-500">Os títulos foram processados com sucesso.</p>
-                <p className="text-[10px] font-mono text-slate-400 mt-2 bg-slate-50 px-2 py-1 rounded">ID do Cliente: {selectedClient}</p>
+                <h4 className="text-xl font-bold text-muted-foreground">Importação Concluída!</h4>
+                <p className="text-sm text-muted-foreground">Os títulos foram processados com sucesso.</p>
+                <p className="text-[10px] font-mono text-muted-foreground mt-2 bg-slate-50 px-2 py-1 rounded">ID do Cliente: {selectedClient}</p>
               </div>
               <div className="flex gap-4 mt-2">
                 <div className="text-center px-5 py-3 bg-emerald-50 border border-emerald-200 rounded-2xl">
@@ -313,11 +313,11 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
           ) : (
             <>
               {loadingExisting ? (
-                <p className="text-[10px] text-slate-400 flex items-center gap-1.5 px-1">
+                <p className="text-[10px] text-muted-foreground flex items-center gap-1.5 px-1">
                   <Loader2 size={11} className="animate-spin" /> Verificando base existente...
                 </p>
               ) : (
-                <p className="text-[10px] text-slate-400 px-1 font-medium">
+                <p className="text-[10px] text-muted-foreground px-1 font-medium">
                   {hasExistingData
                     ? `⚠️ Este cliente já possui ${existingCount} títulos em ${title}.`
                     : '✅ Nenhum título cadastrado ainda — importação limpa.'}
@@ -325,16 +325,16 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
               )}
 
               {!file ? (
-                <div className="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:border-blue-400 transition-all group relative">
+                <div className="border-2 border-dashed border-border rounded-2xl p-8 text-center hover:border-blue-400 transition-all group relative">
                   <input 
                     type="file" 
                     className="absolute inset-0 opacity-0 cursor-pointer" 
                     accept=".xlsx,.xls,.csv,.pdf"
                     onChange={handleFileChange}
                   />
-                  <UploadCloud size={36} className="text-slate-300 mx-auto mb-3 group-hover:text-blue-500 transition-colors" />
-                  <p className="text-sm font-bold text-slate-600">Clique para selecionar ou arraste o arquivo</p>
-                  <p className="text-xs text-slate-400 mt-1">Excel, CSV e PDF. Títulos com data e valor na mesma linha.</p>
+                  <UploadCloud size={36} className="text-muted-foreground mx-auto mb-3 group-hover:text-blue-500 transition-colors" />
+                  <p className="text-sm font-bold text-muted-foreground">Clique para selecionar ou arraste o arquivo</p>
+                  <p className="text-xs text-muted-foreground mt-1">Excel, CSV e PDF. Títulos com data e valor na mesma linha.</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -342,8 +342,8 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                     <div className="flex items-center gap-3">
                       <div className="p-2 bg-white rounded-lg text-blue-600 shadow-sm"><FileText size={18} /></div>
                       <div>
-                        <p className="text-sm font-bold text-slate-700">{file.name}</p>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase">{parsedData.length} títulos identificados</p>
+                        <p className="text-sm font-bold text-muted-foreground">{file.name}</p>
+                        <p className="text-[10px] text-muted-foreground font-bold uppercase">{parsedData.length} títulos identificados</p>
                       </div>
                     </div>
                     <button onClick={() => { setFile(null); setParsedData([]); }} className="p-1.5 hover:bg-blue-100 rounded text-blue-400 transition-colors">
@@ -351,35 +351,35 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                     </button>
                   </div>
 
-                  <div className="max-h-44 overflow-y-auto border border-slate-100 rounded-xl bg-slate-50/30">
+                  <div className="max-h-44 overflow-y-auto border border-border rounded-xl bg-slate-50/30">
                     <table className="w-full text-left text-[11px]">
                       <thead className="bg-slate-50 sticky top-0">
                         <tr>
-                          <th className="px-3 py-2 font-black text-slate-400">ENTIDADE</th>
-                          <th className="px-3 py-2 font-black text-slate-400">VENCIMENTO</th>
-                          <th className="px-3 py-2 font-black text-slate-400">VALOR</th>
-                          <th className="px-3 py-2 font-black text-slate-400">CATEGORIA</th>
-                          <th className="px-3 py-2 font-black text-slate-400">CC</th>
+                          <th className="px-3 py-2 font-black text-muted-foreground">ENTIDADE</th>
+                          <th className="px-3 py-2 font-black text-muted-foreground">VENCIMENTO</th>
+                          <th className="px-3 py-2 font-black text-muted-foreground">VALOR</th>
+                          <th className="px-3 py-2 font-black text-muted-foreground">CATEGORIA</th>
+                          <th className="px-3 py-2 font-black text-muted-foreground">CC</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-50">
                         {parsedData.slice(0, 15).map((acc, i) => (
                           <tr key={i} className="group">
-                            <td className="px-3 py-2 font-bold text-slate-700">{acc.entidade}</td>
-                            <td className="px-3 py-2 text-slate-500">{formatDate(acc.vencimento)}</td>
-                            <td className="px-3 py-2 text-slate-500 font-mono whitespace-nowrap">
+                            <td className="px-3 py-2 font-bold text-muted-foreground">{acc.entidade}</td>
+                            <td className="px-3 py-2 text-muted-foreground">{formatDate(acc.vencimento)}</td>
+                            <td className="px-3 py-2 text-muted-foreground font-mono whitespace-nowrap">
                               <div className="font-bold">R$ {acc.valor}</div>
                               {acc.valorAberto !== undefined && acc.valorAberto !== acc.valor && (
                                 <div className="text-[9px] text-blue-500 font-black uppercase tracking-tighter">Aberto: R$ {acc.valorAberto}</div>
                               )}
                             </td>
-                            <td className="px-3 py-2 text-slate-400">{acc.categoria}</td>
-                            <td className="px-3 py-2 text-slate-400">{acc.centroCusto}</td>
+                            <td className="px-3 py-2 text-muted-foreground">{acc.categoria}</td>
+                            <td className="px-3 py-2 text-muted-foreground">{acc.centroCusto}</td>
                           </tr>
                         ))}
                         {parsedData.length > 15 && (
                           <tr>
-                            <td colSpan={5} className="px-3 py-2 text-center text-slate-400 font-medium italic">
+                            <td colSpan={5} className="px-3 py-2 text-center text-muted-foreground font-medium italic">
                               + {parsedData.length - 15} títulos...
                             </td>
                           </tr>
@@ -392,7 +392,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
 
               {parsedData.length > 0 && hasExistingData && (
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1 flex items-center gap-1.5">
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1 flex items-center gap-1.5">
                     <Info size={11} /> Estratégia de Importação
                   </label>
                   <div className="space-y-2">
@@ -406,28 +406,28 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                             ? cfg.danger
                               ? 'border-rose-400 bg-rose-50 ring-2 ring-rose-300/30'
                               : 'border-blue-400 bg-blue-50 ring-2 ring-blue-300/20'
-                            : 'border-slate-100 bg-white hover:bg-slate-50'
+                            : 'border-border bg-white hover:bg-slate-50'
                         )}
                       >
                         <span className={cn(
                           'mt-0.5 shrink-0',
                           strategy === key
                             ? cfg.danger ? 'text-rose-600' : 'text-blue-600'
-                            : 'text-slate-400'
+                            : 'text-muted-foreground'
                         )}>
                           {cfg.icon}
                         </span>
                         <div>
-                          <p className={cn('text-xs font-black', strategy === key ? (cfg.danger ? 'text-rose-700' : 'text-blue-700') : 'text-slate-700')}>
+                          <p className={cn('text-xs font-black', strategy === key ? (cfg.danger ? 'text-rose-700' : 'text-blue-700') : 'text-muted-foreground')}>
                             {cfg.label}
                           </p>
-                          <p className="text-[11px] text-slate-500 mt-0.5">{cfg.desc}</p>
+                          <p className="text-[11px] text-muted-foreground mt-0.5">{cfg.desc}</p>
                         </div>
                         <span className={cn(
                           'ml-auto mt-0.5 w-4 h-4 rounded-full border-2 shrink-0 transition-all',
                           strategy === key
                             ? cfg.danger ? 'border-rose-500 bg-rose-500' : 'border-blue-500 bg-blue-500'
-                            : 'border-slate-300'
+                            : 'border-border'
                         )} />
                       </button>
                     ))}
@@ -437,7 +437,7 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                     'p-3 rounded-xl border text-[11px] font-bold flex items-center gap-2',
                     strategy === 'replace_all'
                       ? 'bg-rose-50 border-rose-200 text-rose-700'
-                      : 'bg-slate-50 border-slate-200 text-slate-600'
+                      : 'bg-slate-50 border-border text-muted-foreground'
                   )}>
                     {strategy === 'replace_all' && <AlertTriangle size={13} className="text-rose-500 shrink-0" />}
                     {strategy === 'replace_all' 
@@ -448,9 +448,9 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
               )}
 
               {datasetPayload && (
-                <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-xs text-slate-600 font-medium">
-                  <div className="flex justify-between items-center pb-2 border-b border-slate-200/60">
-                    <span className="font-bold text-slate-700 uppercase tracking-wide">Status da Validação</span>
+                <div className="p-4 bg-slate-50 border border-border rounded-xl space-y-2 text-xs text-muted-foreground font-medium">
+                  <div className="flex justify-between items-center pb-2 border-b border-border">
+                    <span className="font-bold text-muted-foreground uppercase tracking-wide">Status da Validação</span>
                     <span className={cn(
                       "px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider",
                       validationPassed ? "bg-emerald-100 text-emerald-800" : "bg-rose-100 text-rose-800"
@@ -461,12 +461,12 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
                   
                   <div className="grid grid-cols-2 gap-4 pt-1">
                     <div>
-                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Grau de Confiança</p>
-                      <p className="font-bold text-slate-700">{datasetPayload.trustLevel}</p>
+                      <p className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider">Grau de Confiança</p>
+                      <p className="font-bold text-muted-foreground">{datasetPayload.trustLevel}</p>
                     </div>
                     <div>
-                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Linhagem (Lineage)</p>
-                      <p className="font-mono text-[10px] text-slate-500 truncate" title={datasetPayload.lineage.datasetHash}>
+                      <p className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider">Linhagem (Lineage)</p>
+                      <p className="font-mono text-[10px] text-muted-foreground truncate" title={datasetPayload.lineage.datasetHash}>
                         {datasetPayload.lineage.connectorId} | {datasetPayload.lineage.datasetHash.substring(0, 12)}...
                       </p>
                     </div>
@@ -502,10 +502,10 @@ export function ImportTransactionsModal({ collectionName, selectedClient, client
         </div>
 
         {!importResult && (
-          <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3 shrink-0">
+          <div className="p-6 bg-slate-50 border-t border-border flex gap-3 shrink-0">
             <button 
               onClick={onClose}
-              className="flex-1 py-3 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
+              className="flex-1 py-3 text-muted-foreground font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
             >
               Cancelar
             </button>

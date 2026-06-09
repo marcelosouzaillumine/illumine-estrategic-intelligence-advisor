@@ -24,11 +24,11 @@ export const InstitutionalTimelineNavigator: React.FC = () => {
   return (
     <div className="card-premium p-8 space-y-6">
       <div>
-        <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-indigo-400" />
+        <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+          <Calendar className="w-4 h-4 text-primary" />
           Linha do Tempo de Deliberações
         </h4>
-        <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
           Rastreabilidade cronológica das homologações formais da instituição.
         </p>
       </div>
@@ -42,20 +42,20 @@ export const InstitutionalTimelineNavigator: React.FC = () => {
               onClick={() => setSelectedId(ev.id)}
               className={`p-5 rounded-xl border cursor-pointer transition-all ${
                 isSelected 
-                  ? 'bg-indigo-500/5 border-indigo-500/35 text-indigo-400' 
-                  : 'bg-slate-950/20 border-border/10 text-slate-400 hover:border-slate-800'
+                  ? 'bg-primary border-primary text-primary' 
+                  : 'bg-slate-950/20 border-border/10 text-muted-foreground hover:border-border'
               }`}
             >
               <div className="flex justify-between items-start mb-3">
-                <span className="text-[10px] font-mono text-slate-500">{ev.date}</span>
-                <span className="text-[9px] uppercase font-mono tracking-widest px-2 py-0.5 bg-slate-900 border border-border/5 rounded-xl text-slate-500">
+                <span className="text-[10px] font-mono text-muted-foreground">{ev.date}</span>
+                <span className="text-[9px] uppercase font-mono tracking-widest px-2 py-0.5 bg-slate-900 border border-border/5 rounded-xl text-muted-foreground">
                   {ev.category}
                 </span>
               </div>
-              <h5 className="text-xs font-bold text-slate-200 leading-relaxed uppercase tracking-wide line-clamp-2">{ev.title}</h5>
+              <h5 className="text-xs font-bold text-muted-foreground leading-relaxed uppercase tracking-wide line-clamp-2">{ev.title}</h5>
               
               {isSelected && (
-                <div className="mt-4 pt-4 border-t border-indigo-500/10 space-y-2 text-[10px] text-slate-400 font-mono">
+                <div className="mt-4 pt-4 border-t border-primary space-y-2 text-[10px] text-muted-foreground font-mono">
                   <p>{t("overlays.author")} {ev.author}</p>
                   <p>{t("overlays.lineage_hash")} {ev.hash}</p>
                 </div>

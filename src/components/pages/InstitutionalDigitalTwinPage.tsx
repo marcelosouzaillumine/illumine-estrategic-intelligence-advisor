@@ -40,7 +40,7 @@ export const InstitutionalDigitalTwinPage: React.FC = () => {
   }, [domainId]);
 
   return (
-    <div className="bg-slate-950 min-h-screen text-slate-200">
+    <div className="bg-slate-950 min-h-screen text-muted-foreground">
       <InstitutionalDigitalTwinWorkspace 
         runtime={dependencies.runtime}
         assemblyEngine={dependencies.assemblyEngine}

@@ -18,11 +18,11 @@ export const EvidenceCoveragePanel: React.FC = () => {
   return (
     <div className="card-premium p-8 space-y-6">
       <div>
-        <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-          <Layers className="w-4 h-4 text-indigo-400" />
+        <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+          <Layers className="w-4 h-4 text-primary" />
           Mapeamento de Cobertura de Evidências
         </h4>
-        <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
           Detalhamento do peso estatístico de cada pilar de análise fiduciária.
         </p>
       </div>
@@ -33,8 +33,8 @@ export const EvidenceCoveragePanel: React.FC = () => {
           return (
             <div key={idx} className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex items-center justify-between gap-4">
               <div className="space-y-1">
-                <p className="text-xs font-bold text-slate-200 uppercase tracking-wider">{cat.name}</p>
-                <p className="text-[10px] text-slate-500">{t("overlays.score_weight")} {(cat.weight * 100).toFixed(0)}%</p>
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{cat.name}</p>
+                <p className="text-[10px] text-muted-foreground">{t("overlays.score_weight")} {(cat.weight * 100).toFixed(0)}%</p>
               </div>
               <div>
                 {isComplete ? (

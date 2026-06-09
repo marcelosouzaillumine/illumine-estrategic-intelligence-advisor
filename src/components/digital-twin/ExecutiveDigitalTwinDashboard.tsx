@@ -21,7 +21,7 @@ export const ExecutiveDigitalTwinDashboard: React.FC<ExecutiveDigitalTwinDashboa
           <span className="text-eyebrow text-muted-foreground block mb-1">Domínios Institucionais</span>
           <span className="text-h2 font-display font-black text-foreground tabular-nums">{totalDomains}</span>
         </div>
-        <Layers size={24} className="text-indigo-400/50" />
+        <Layers size={24} className="text-primary" />
       </div>
 
       {/* Total Relationships */}

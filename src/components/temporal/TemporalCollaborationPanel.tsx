@@ -49,20 +49,20 @@ export const TemporalCollaborationPanel: React.FC<TemporalCollaborationPanelProp
   };
 
   return (
-    <div className="temporal-collaboration-panel p-6 bg-slate-900 border border-slate-700 rounded-lg shadow-md text-slate-100 mt-6">
-      <div className="mb-4 border-b border-slate-700 pb-2 flex justify-between items-center">
+    <div className="temporal-collaboration-panel p-6 bg-slate-900 border border-border rounded-lg shadow-md text-muted-foreground mt-6">
+      <div className="mb-4 border-b border-border pb-2 flex justify-between items-center">
         <div>
-          <h3 className="text-lg font-semibold text-slate-50">Executive Collaboration</h3>
-          <p className="text-xs text-slate-400 mt-1">Audited discussion tied to temporal evidence</p>
+          <h3 className="text-lg font-semibold text-muted-foreground">Executive Collaboration</h3>
+          <p className="text-xs text-muted-foreground mt-1">Audited discussion tied to temporal evidence</p>
         </div>
         <div className="text-right">
-           <span className="px-2 py-1 bg-slate-800 rounded border border-slate-600 text-[10px] uppercase font-mono text-slate-400">
+           <span className="px-2 py-1 bg-slate-800 rounded border border-border text-[10px] uppercase font-mono text-muted-foreground">
              {visibilityPolicy}
            </span>
         </div>
       </div>
 
-      <div className="bg-slate-800 p-3 rounded text-xs text-slate-400 font-mono mb-4 border border-slate-700/50">
+      <div className="bg-slate-800 p-3 rounded text-xs text-muted-foreground font-mono mb-4 border border-border">
         Attached Evidence: {temporalEvidence.join(', ')}
         <br />
         Lineage Ref: {lineageReference.substring(0, 8)}
@@ -79,11 +79,11 @@ export const TemporalCollaborationPanel: React.FC<TemporalCollaborationPanelProp
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           placeholder="Enter formal executive commentary..."
-          className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-sm text-slate-200 focus:outline-none focus:border-blue-500 resize-none h-24"
+          className="w-full bg-slate-950 border border-border rounded p-3 text-sm text-muted-foreground focus:outline-none focus:border-blue-500 resize-none h-24"
         />
         <div className="flex justify-between items-center">
-          <div className="text-xs text-slate-500">
-            Posting as: <span className="font-semibold text-slate-300">{context.actorId}</span>
+          <div className="text-xs text-muted-foreground">
+            Posting as: <span className="font-semibold text-muted-foreground">{context.actorId}</span>
           </div>
           <button 
             type="submit"

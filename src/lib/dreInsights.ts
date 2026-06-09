@@ -62,7 +62,7 @@ export function generateDreInsights(metrics: DreMetrics) {
 
   // 2. SCALE EFFICIENCY INTELLIGENCE
   let scaleCategory = 'Análise Inicial';
-  let scaleColor = 'text-slate-400';
+  let scaleColor = 'text-muted-foreground';
   
   if (recGrowth > 0 && ebitdaGrowth > recGrowth) {
       scaleCategory = 'Crescimento Saudável';

@@ -23,9 +23,9 @@ export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> 
   };
 
   return (
-    <div className="p-6 rounded-3xl border border-slate-200 bg-white shadow-sm flex flex-col gap-4">
+    <div className="p-6 rounded-3xl border border-border bg-white shadow-sm flex flex-col gap-4">
       <div className="flex items-center justify-between gap-2 mb-3">
-        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">{t('causal.root_causes')}</h4>
+        <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{t('causal.root_causes')}</h4>
         <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full border bg-primary text-primary border-primary">
           {t('causal.fiduciary')}
         </span>
@@ -33,20 +33,20 @@ export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> 
 
       <div className="space-y-4">
         {rootCauses.length === 0 ? (
-          <div className="text-center py-6 text-xs text-slate-500 italic">
+          <div className="text-center py-6 text-xs text-muted-foreground italic">
             {t('causal.no_causes')}
           </div>
         ) : (
           rootCauses.map((factor, idx) => (
-            <div key={idx} className="border border-slate-100 rounded-2xl p-4 space-y-3 hover:border-slate-300 transition-all">
+            <div key={idx} className="border border-border rounded-2xl p-4 space-y-3 hover:border-border transition-all">
               <div className="flex items-start justify-between gap-2">
                 <div className="space-y-1">
-                  <h5 className="text-xs font-bold text-slate-900">{factor.label}</h5>
+                  <h5 className="text-xs font-bold text-muted-foreground">{factor.label}</h5>
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <span className={`text-[9px] font-black uppercase px-1.5 py-0.5 rounded border ${getSeverityStyles(factor.severity)}`}>
                       {factor.severity}
                     </span>
-                    <span className="text-[9px] text-slate-400 font-bold uppercase">
+                    <span className="text-[9px] text-muted-foreground font-bold uppercase">
                       {t('causal.confidence')} {(factor.confidence * 100).toFixed(0)}%
                     </span>
                   </div>
@@ -63,7 +63,7 @@ export const InstitutionalCausalRootCausesPanel: React.FC<RootCausesPanelProps> 
                 )}
               </div>
 
-              <p className="text-xs font-medium text-slate-600 leading-relaxed">
+              <p className="text-xs font-medium text-muted-foreground leading-relaxed">
                 {factor.rationale}
               </p>
             </div>

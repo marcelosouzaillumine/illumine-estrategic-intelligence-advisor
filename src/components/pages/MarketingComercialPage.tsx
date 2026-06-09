@@ -202,7 +202,7 @@ export function MarketingComercialPage({ type, clientId }: MarketingComercialPag
       case 'A': return 'bg-emerald-500 text-white shadow-emerald-500/20';
       case 'B': return 'bg-amber-500 text-white shadow-amber-500/20';
       case 'C': return 'bg-slate-400 text-white shadow-slate-400/20';
-      default: return 'bg-slate-200 text-slate-500';
+      default: return 'bg-slate-200 text-muted-foreground';
     }
   };
 

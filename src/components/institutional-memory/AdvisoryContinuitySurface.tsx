@@ -14,7 +14,7 @@ export function AdvisoryContinuitySurface() {
     <div className="card-premium p-8 bg-card/45 border border-border/60 space-y-6 animate-executive-fade leading-relaxed">
       <div className="flex items-center justify-between pb-4 border-b border-border/40">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-indigo-500/10 text-indigo-500 rounded-lg">
+          <div className="p-2 bg-primary text-primary rounded-lg">
             <Sparkles size={18} />
           </div>
           <div>

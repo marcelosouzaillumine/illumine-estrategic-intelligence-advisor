@@ -232,7 +232,7 @@ export function FinancialAdminDashboard({
       value: calculatedKPIs.margemLiquida, 
       suffix: '%', 
       icon: TrendingUp, 
-      color: 'text-indigo-600',
+      color: 'text-primary',
       description: t('fin_admin.desc.net_margin')
     },
     { 

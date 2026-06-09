@@ -657,7 +657,7 @@ loading: ${loading}
                           checked={formData.projectBased}
                           onChange={(e) => setFormData({...formData, projectBased: e.target.checked})}
                         />
-                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-border after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                       </label>
                     </motion.div>
                   )}
@@ -786,7 +786,7 @@ loading: ${loading}
                             checked={formData.isModel}
                             onChange={(e) => setFormData({...formData, isModel: e.target.checked})}
                           />
-                          <div className="w-11 h-6 bg-surface-container rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+                          <div className="w-11 h-6 bg-surface-container rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-border after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
                           <span className="ml-3 text-[10px] font-medium text-muted-foreground uppercase tracking-widest italic">Empresa Modelo</span>
                         </label>
                       </div>
@@ -1493,9 +1493,9 @@ loading: ${loading}
 
                   {/* Right Column: Actitivy & CNAEs */}
                   <div className="space-y-10">
-                    <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-8">
+                    <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm space-y-8">
                        <div className="flex items-center justify-between">
-                          <h5 className="text-[11px] font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
+                          <h5 className="text-[11px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                              <Activity size={16} className="text-primary" /> Segregação de Atividade
                           </h5>
                           {formData.regime === "Simples Nacional" && (
@@ -1505,25 +1505,25 @@ loading: ${loading}
 
                        <div className="space-y-6">
                          {/* Primary CNAE Detail Card */}
-                         <div className="bg-slate-50/80 p-6 rounded-[28px] border border-slate-100 space-y-6">
+                         <div className="bg-slate-50/80 p-6 rounded-[28px] border border-border space-y-6">
                             <div className="flex items-start gap-4">
-                               <div className="w-12 h-12 bg-white rounded-2xl border border-slate-100 flex items-center justify-center text-primary shrink-0 shadow-sm">
+                               <div className="w-12 h-12 bg-white rounded-2xl border border-border flex items-center justify-center text-primary shrink-0 shadow-sm">
                                   <ShieldCheck size={24} />
                                </div>
                                <div className="space-y-1 min-w-0 flex-1">
                                   <label className="text-[10px] font-black text-primary uppercase tracking-[0.2em] block">Atividade Principal</label>
-                                  <p className="text-[11px] font-bold text-slate-600">{formData.cnae}</p>
+                                  <p className="text-[11px] font-bold text-muted-foreground">{formData.cnae}</p>
                                </div>
                             </div>
 
                             <div className="grid grid-cols-1 gap-4">
                                {formData.regime === "Simples Nacional" ? (
                                   <div className="space-y-2">
-                                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Enquadramento do Anexo</label>
+                                     <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Enquadramento do Anexo</label>
                                      <select 
                                        value={formData.cnaeAnexo}
                                        onChange={(e) => setFormData({...formData, cnaeAnexo: e.target.value})}
-                                       className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black outline-none focus:border-primary transition-all"
+                                       className="w-full px-4 py-3 bg-white border border-border rounded-2xl text-xs font-black outline-none focus:border-primary transition-all"
                                      >
                                         {["Anexo I - Comércio", "Anexo II - Indústria", "Anexo III - Serviços", "Anexo IV - Serviços Esp.", "Anexo V - Serviços F.R"].map((anexo, i) => (
                                            <option key={i} value={`Anexo ${["I","II","III","IV","V"][i]}`}>{anexo}</option>
@@ -1532,23 +1532,23 @@ loading: ${loading}
                                   </div>
                                ) : formData.regime === "Lucro Presumido" ? (
                                   <div className="space-y-2">
-                                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Presunção IRPJ/CSLL</label>
+                                     <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Presunção IRPJ/CSLL</label>
                                      <input 
                                        type="text"
                                        readOnly
                                        value={formData.cnaePresuncao}
-                                       className="w-full px-4 py-3 bg-white border border-slate-100 rounded-2xl text-xs font-black text-slate-400 outline-none"
+                                       className="w-full px-4 py-3 bg-white border border-border rounded-2xl text-xs font-black text-muted-foreground outline-none"
                                      />
                                   </div>
                                ) : (
                                   /* Lucro Real */
                                   formData.regimeReal === "Híbrido" ? (
                                     <div className="space-y-2">
-                                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Enquadramento PIS/COFINS</label>
+                                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Enquadramento PIS/COFINS</label>
                                       <select 
                                         value={formData.cnaeRegimeReal}
                                         onChange={(e) => setFormData({...formData, cnaeRegimeReal: e.target.value})}
-                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs font-black outline-none focus:border-primary transition-all"
+                                        className="w-full px-4 py-3 bg-white border border-border rounded-2xl text-xs font-black outline-none focus:border-primary transition-all"
                                       >
                                         <option value="Cumulativo">Cumulativo</option>
                                         <option value="Não Cumulativo">Não Cumulativo</option>
@@ -1556,8 +1556,8 @@ loading: ${loading}
                                     </div>
                                   ) : (
                                     <div className="space-y-2">
-                                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Enquadramento Automático (LR)</label>
-                                      <div className="px-4 py-3 bg-slate-100/50 rounded-2xl text-xs font-black text-slate-500 italic">
+                                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Enquadramento Automático (LR)</label>
+                                      <div className="px-4 py-3 bg-slate-100/50 rounded-2xl text-xs font-black text-muted-foreground italic">
                                         Aplicado regime geral: {formData.regimeReal}
                                       </div>
                                     </div>
@@ -1569,7 +1569,7 @@ loading: ${loading}
                          {/* Secondary CNAEs Section */}
                          <div className="space-y-4">
                             <div className="flex items-center justify-between px-2">
-                               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest shrink-0">Secundários ({formData.cnaesSecundarios.length})</label>
+                               <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest shrink-0">Secundários ({formData.cnaesSecundarios.length})</label>
                                <div className="h-px bg-slate-100 flex-1 mx-4"></div>
                                <button 
                                  onClick={() => {
@@ -1584,9 +1584,9 @@ loading: ${loading}
 
                             <div className="space-y-3 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
                                {formData.cnaesSecundarios.map((c, idx) => (
-                                  <div key={idx} className="bg-slate-50 p-4 rounded-2xl border border-slate-100 group space-y-4">
+                                  <div key={idx} className="bg-slate-50 p-4 rounded-2xl border border-border group space-y-4">
                                      <div className="flex items-start justify-between gap-3">
-                                        <div className="flex-1 text-[10px] font-black text-slate-700 leading-tight">
+                                        <div className="flex-1 text-[10px] font-black text-muted-foreground leading-tight">
                                            {c.codigo} - {c.descricao}
                                         </div>
                                         <button 
@@ -1597,7 +1597,7 @@ loading: ${loading}
                                         </button>
                                      </div>
                                      
-                                     <div className="grid grid-cols-1 gap-2 pt-2 border-t border-slate-100">
+                                     <div className="grid grid-cols-1 gap-2 pt-2 border-t border-border">
                                         {formData.regime === "Simples Nacional" && (
                                            <select 
                                              value={c.anexo}
@@ -1606,7 +1606,7 @@ loading: ${loading}
                                                 newList[idx] = { ...newList[idx], anexo: e.target.value };
                                                 setFormData({ ...formData, cnaesSecundarios: newList });
                                              }}
-                                             className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-[9px] font-black text-slate-500 uppercase outline-none focus:border-primary transition-all"
+                                             className="w-full px-3 py-1.5 bg-white border border-border rounded-xl text-[9px] font-black text-muted-foreground uppercase outline-none focus:border-primary transition-all"
                                            >
                                               <option value="Anexo I">Anexo I</option>
                                               <option value="Anexo II">Anexo II</option>
@@ -1623,7 +1623,7 @@ loading: ${loading}
                                                 newList[idx] = { ...newList[idx], presuncao: e.target.value };
                                                 setFormData({ ...formData, cnaesSecundarios: newList });
                                              }}
-                                             className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-[9px] font-black text-slate-500 uppercase outline-none focus:border-primary transition-all"
+                                             className="w-full px-3 py-1.5 bg-white border border-border rounded-xl text-[9px] font-black text-muted-foreground uppercase outline-none focus:border-primary transition-all"
                                            >
                                               <option value="Venda de produtos / Mercadorias">Venda de produtos</option>
                                               <option value="Prestação de Serviços Genéricos">Serviços Genéricos</option>
@@ -1639,14 +1639,14 @@ loading: ${loading}
                                                 newList[idx] = { ...newList[idx], regimeReal: e.target.value };
                                                 setFormData({ ...formData, cnaesSecundarios: newList });
                                              }}
-                                             className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-[9px] font-black text-slate-500 uppercase outline-none focus:border-primary transition-all"
+                                             className="w-full px-3 py-1.5 bg-white border border-border rounded-xl text-[9px] font-black text-muted-foreground uppercase outline-none focus:border-primary transition-all"
                                            >
                                               <option value="Cumulativo">Cumulativo</option>
                                               <option value="Não Cumulativo">Não Cumulativo</option>
                                            </select>
                                         )}
                                         {formData.regime === "Lucro Real" && formData.regimeReal !== "Híbrido" && (
-                                           <div className="px-3 py-1.5 bg-slate-100 rounded-xl text-[8px] font-black text-slate-400 uppercase italic text-center">
+                                           <div className="px-3 py-1.5 bg-slate-100 rounded-xl text-[8px] font-black text-muted-foreground uppercase italic text-center">
                                               Regime LR: {formData.regimeReal}
                                            </div>
                                         )}
@@ -1661,82 +1661,82 @@ loading: ${loading}
                 </div>
 
                 {/* 3. Payroll Taxes Section */}
-                <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm space-y-8">
+                <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm space-y-8">
                   <div className="space-y-1">
-                    <h5 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                    <h5 className="text-sm font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                        <Users size={20} className="text-secondary" /> Encargos de Folha de Pagamento
                     </h5>
-                    <p className="text-[11px] text-slate-400 font-medium lowercase">Configure os encargos incidentes sobre a folha de pagamento para as simulações.</p>
+                    <p className="text-[11px] text-muted-foreground font-medium lowercase">Configure os encargos incidentes sobre a folha de pagamento para as simulações.</p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">FGTS (%)</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">FGTS (%)</label>
                       <input 
                         type="number"
                         value={formData.folhaFgts}
                         onChange={(e) => setFormData({...formData, folhaFgts: parseFloat(e.target.value) || 0})}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                        className="w-full px-4 py-3 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">INSS Patronal (%)</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">INSS Patronal (%)</label>
                       <input 
                         type="number"
                         value={formData.folhaInssPatronal}
                         onChange={(e) => setFormData({...formData, folhaInssPatronal: parseFloat(e.target.value) || 0})}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                        className="w-full px-4 py-3 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">RAT / FAP (%)</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">RAT / FAP (%)</label>
                       <input 
                         type="number"
                         step="0.01"
                         value={formData.folhaInssRat}
                         onChange={(e) => setFormData({...formData, folhaInssRat: parseFloat(e.target.value) || 0})}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                        className="w-full px-4 py-3 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Terceiros / Outros (%)</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Terceiros / Outros (%)</label>
                       <input 
                         type="number"
                         step="0.01"
                         value={formData.folhaInssTerceiros}
                         onChange={(e) => setFormData({...formData, folhaInssTerceiros: parseFloat(e.target.value) || 0})}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                        className="w-full px-4 py-3 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">INSS Funcionário (Médio %)</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">INSS Funcionário (Médio %)</label>
                       <input 
                         type="number"
                         value={formData.folhaInssFuncionario}
                         onChange={(e) => setFormData({...formData, folhaInssFuncionario: parseFloat(e.target.value) || 0})}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                        className="w-full px-4 py-3 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Multa FGTS (%)</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Multa FGTS (%)</label>
                       <input 
                         type="number"
                         value={formData.folhaMultaFgts}
                         onChange={(e) => setFormData({...formData, folhaMultaFgts: parseFloat(e.target.value) || 0})}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
+                        className="w-full px-4 py-3 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-4 pt-4 border-t border-slate-100">
-                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block px-1">Tabela de IRRF (Folha de Pagamento)</label>
-                    <div className="bg-slate-50/50 rounded-2xl border border-slate-100 overflow-hidden">
+                  <div className="space-y-4 pt-4 border-t border-border">
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Tabela de IRRF (Folha de Pagamento)</label>
+                    <div className="bg-slate-50/50 rounded-2xl border border-border overflow-hidden">
                       <table className="w-full text-left">
                         <thead>
                           <tr className="bg-slate-100/50">
-                            <th className="px-4 md:px-6 py-2 md:py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Base de Cálculo (Até R$)</th>
-                            <th className="px-4 md:px-6 py-2 md:py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Alíquota (%)</th>
-                            <th className="px-4 md:px-6 py-2 md:py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Dedução (R$)</th>
+                            <th className="px-4 md:px-6 py-2 md:py-3 text-[9px] font-black text-muted-foreground uppercase tracking-widest">Base de Cálculo (Até R$)</th>
+                            <th className="px-4 md:px-6 py-2 md:py-3 text-[9px] font-black text-muted-foreground uppercase tracking-widest">Alíquota (%)</th>
+                            <th className="px-4 md:px-6 py-2 md:py-3 text-[9px] font-black text-muted-foreground uppercase tracking-widest">Dedução (R$)</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
@@ -1948,12 +1948,12 @@ loading: ${loading}
                  {editingId ? (
                    <EmployeeManager clientId={editingId} clientConfig={formData} />
                  ) : (
-                   <div className="bg-slate-50 border border-slate-100 p-12 rounded-[32px] text-center space-y-4">
-                      <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-slate-300 mx-auto shadow-sm">
+                   <div className="bg-slate-50 border border-border p-12 rounded-[32px] text-center space-y-4">
+                      <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-muted-foreground mx-auto shadow-sm">
                          <AlertCircle size={32} />
                       </div>
-                      <h4 className="text-sm font-black text-slate-400 uppercase tracking-widest">Salve o cliente primeiro</h4>
-                      <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest max-w-[200px] mx-auto">Para gerenciar o quadro de pessoal, você precisa primeiro concluir o cadastro básico do cliente.</p>
+                      <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">Salve o cliente primeiro</h4>
+                      <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest max-w-[200px] mx-auto">Para gerenciar o quadro de pessoal, você precisa primeiro concluir o cadastro básico do cliente.</p>
                    </div>
                  )}
               </motion.div>

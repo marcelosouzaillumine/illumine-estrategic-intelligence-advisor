@@ -207,14 +207,14 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
 
   if (!selectedClient) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade text-center p-20 bg-white border border-slate-200 rounded-[32px] w-full">
+      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade text-center p-20 bg-white border border-border rounded-[32px] w-full">
          <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center text-secondary shadow-xl relative">
             <div className="absolute inset-0 bg-secondary blur-3xl opacity-20 animate-pulse" />
             <Boxes size={48} className="relative z-10 animate-pulse" />
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Selecione uma Empresa</h2>
-            <p className="text-slate-500 w-full max-w-2xl mx-auto font-medium leading-relaxed">
+            <h2 className="text-2xl font-display font-black text-muted-foreground tracking-tight">Selecione uma Empresa</h2>
+            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
               Por favor, selecione uma empresa no seletor de cliente ativo no topo da tela para visualizar o painel de passivos.
             </p>
          </div>
@@ -229,12 +229,12 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
           title="Gestão de Passivos" 
           subtitle="Gestão de contratos de empréstimos e parcelamentos tributários."
         />
-        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200 rounded-[32px] p-20 text-center">
+        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-border rounded-[32px] p-20 text-center">
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
-            <WalletCards size={48} className="text-slate-200" />
+            <WalletCards size={48} className="text-muted-foreground" />
           </div>
-          <h3 className="text-xl font-bold text-slate-800 mb-2">Sem contratos registrados</h3>
-          <p className="text-slate-500 max-w-2xl mx-auto mb-8 leading-relaxed">Nenhum contrato de financiamento foi cadastrado para o cliente {(clients || []).find((c: any) => c.id === selectedClient)?.fantasia || 'Selecionado'} até o momento.</p>
+          <h3 className="text-xl font-bold text-muted-foreground mb-2">Sem contratos registrados</h3>
+          <p className="text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">Nenhum contrato de financiamento foi cadastrado para o cliente {(clients || []).find((c: any) => c.id === selectedClient)?.fantasia || 'Selecionado'} até o momento.</p>
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setShowContractModal(true)}
@@ -320,7 +320,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
               <div className="bg-primary p-8 rounded-[32px] text-white flex flex-col justify-between relative overflow-hidden group shadow-xl">
                 <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
                 <div>
-                  <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Saldo Devedor Total</h3>
+                  <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Saldo Devedor Total</h3>
                   <p className="text-3xl font-display font-black mb-2">{formatCurrency(Math.floor(sumBy(priceSchedule, "saldoInicial") / priceSchedule.length))}</p>
                   <div className="flex items-center gap-2 text-emerald-400">
                      <TrendingUp size={16} />
@@ -340,18 +340,18 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 { title: 'Taxa Mensal', value: percent.format(inputs.taxaMensal), icon: Calculator, helper: `A.A. equiv: ${percent.format(Math.pow(1 + inputs.taxaMensal, 12) - 1)}` },
                 { title: 'Saldo Atual Projetado', value: formatCurrency(Math.floor(saldoAbertura)), icon: TrendingDown, helper: `${pagosCount} parcelas pagas` },
               ].map((kpi, idx) => (
-                <div key={idx} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden">
+                <div key={idx} className="bg-white p-8 rounded-[32px] border border-border shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden">
                   <div className="flex justify-between items-start mb-6 relative z-10">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] group-hover:text-slate-500 transition-colors">{kpi.title}</p>
-                    <div className="p-3 bg-slate-50 rounded-[32px] text-slate-400 group-hover:bg-primary/10 group-hover:text-primary transition-all duration-300">
+                    <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] group-hover:text-muted-foreground transition-colors">{kpi.title}</p>
+                    <div className="p-3 bg-slate-50 rounded-[32px] text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-all duration-300">
                       {(() => {
                         const Icon = kpi.icon;
                         return <Icon size={20} />;
                       })()}
                     </div>
                   </div>
-                  <h3 className="text-2xl font-display font-black text-slate-900 tracking-tight relative z-10 whitespace-nowrap">{kpi.value}</h3>
-                  <p className="text-[10px] font-bold text-slate-400 mt-4 flex items-center gap-2 relative z-10 opacity-80 italic">
+                  <h3 className="text-2xl font-display font-black text-muted-foreground tracking-tight relative z-10 whitespace-nowrap">{kpi.value}</h3>
+                  <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-2 relative z-10 opacity-80 italic">
                     <ArrowRight size={12} className="text-secondary" /> {kpi.helper}
                   </p>
                   <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-slate-50 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"></div>
@@ -360,10 +360,10 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm">
+              <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm">
                 <div className="mb-6">
-                  <h3 className="text-lg font-bold text-slate-900">Comparativo PRICE x SAC</h3>
-                  <p className="text-xs text-slate-500">Desembolso total vs Custo financeiro (Juros)</p>
+                  <h3 className="text-lg font-bold text-muted-foreground">Comparativo PRICE x SAC</h3>
+                  <p className="text-xs text-muted-foreground">Desembolso total vs Custo financeiro (Juros)</p>
                 </div>
                 <div className="h-[300px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -383,10 +383,10 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 </div>
               </div>
 
-              <div className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm">
+              <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm">
                 <div className="mb-6">
-                  <h3 className="text-lg font-bold text-slate-900">Evolução do Saldo Devedor</h3>
-                  <p className="text-xs text-slate-500">Curva de amortização projetada ao longo do tempo</p>
+                  <h3 className="text-lg font-bold text-muted-foreground">Evolução do Saldo Devedor</h3>
+                  <p className="text-xs text-muted-foreground">Curva de amortização projetada ao longo do tempo</p>
                 </div>
                 <div className="h-[300px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -411,18 +411,18 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
               </div>
             </div>
 
-            <div className="bg-slate-900 text-white p-8 rounded-[32px] border border-slate-800 shadow-xl overflow-hidden relative">
+            <div className="bg-slate-900 text-white p-8 rounded-[32px] border border-border shadow-xl overflow-hidden relative">
               <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
                 <Calculator size={120} />
               </div>
               <h3 className="text-xl font-bold mb-6">Resumo Executivo</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="bg-white/5 p-6 rounded-[32px] border border-white/5">
-                  <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total a Pagar (PRICE)</p>
+                  <p className="text-muted-foreground text-[10px] font-bold uppercase tracking-widest mb-1">Total a Pagar (PRICE)</p>
                   <p className="text-2xl font-black">{formatCurrency(totalPrice)}</p>
                 </div>
                 <div className="bg-white/5 p-6 rounded-[32px] border border-white/5">
-                  <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total a Pagar (SAC)</p>
+                  <p className="text-muted-foreground text-[10px] font-bold uppercase tracking-widest mb-1">Total a Pagar (SAC)</p>
                   <p className="text-2xl font-black">{formatCurrency(totalSac)}</p>
                 </div>
                 <div className="bg-primary/20 p-6 rounded-[32px] border border-primary/30">
@@ -442,49 +442,49 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             key="simulador"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm"
+            className="bg-white p-8 rounded-[32px] border border-border shadow-sm"
           >
             <div className="mb-8">
-              <h3 className="text-xl font-bold text-slate-900">Simulador de Cenários</h3>
-              <p className="text-sm text-slate-500">Ajuste as premissas para recalcular o cronograma financeiro.</p>
+              <h3 className="text-xl font-bold text-muted-foreground">Simulador de Cenários</h3>
+              <p className="text-sm text-muted-foreground">Ajuste as premissas para recalcular o cronograma financeiro.</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Valor do Empréstimo</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Valor do Empréstimo</label>
                 <input 
                   type="number" 
                   value={inputs.valorEmprestimo} 
                   onChange={(e) => updateInput("valorEmprestimo", Number(e.target.value))}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-slate-800"
+                  className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-muted-foreground"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Prazo (Meses)</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Prazo (Meses)</label>
                 <input 
                   type="number" 
                   value={inputs.periodoMeses} 
                   onChange={(e) => updateInput("periodoMeses", Number(e.target.value))}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-slate-800"
+                  className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-muted-foreground"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Taxa de Juros Mensal</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Taxa de Juros Mensal</label>
                 <input 
                   type="number" 
                   step="0.0001" 
                   value={inputs.taxaMensal} 
                   onChange={(e) => updateInput("taxaMensal", Number(e.target.value))}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-slate-800"
+                  className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-muted-foreground"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Valor da Parcela (PRICE)</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Valor da Parcela (PRICE)</label>
                 <input 
                   type="number" 
                   value={inputs.parcelaMensal} 
                   onChange={(e) => updateInput("parcelaMensal", Number(e.target.value))}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-slate-800"
+                  className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-bold text-muted-foreground"
                 />
               </div>
             </div>
@@ -492,7 +492,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             <div className="mt-10 flex gap-4">
               <button 
                 onClick={() => setInputs(loanData || inputs)}
-                className="px-4 md:px-6 py-2 md:py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all"
+                className="px-4 md:px-6 py-2 md:py-2.5 bg-slate-100 hover:bg-slate-200 text-muted-foreground font-bold text-xs rounded-xl transition-all"
               >Restaurar Original</button>
               <button 
                 onClick={() => updateInput("parcelaMensal", Number(pmt(inputs.taxaMensal, inputs.periodoMeses, inputs.valorEmprestimo).toFixed(2)))}
@@ -507,53 +507,53 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             key="amortizacao"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden"
+            className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden"
           >
-            <div className="p-8 border-b border-slate-100">
-              <h3 className="text-xl font-bold text-slate-900">Cronograma de Amortização (PRICE)</h3>
-              <p className="text-sm text-slate-500">Detalhe de Principal e Juros por período.</p>
+            <div className="p-8 border-b border-border">
+              <h3 className="text-xl font-bold text-muted-foreground">Cronograma de Amortização (PRICE)</h3>
+              <p className="text-sm text-muted-foreground">Detalhe de Principal e Juros por período.</p>
             </div>
             <div className="overflow-x-auto max-h-[600px] custom-scrollbar">
               <table className="w-full">
                 <thead className="bg-slate-50 sticky top-0 z-10">
                   <tr>
                     {["Per", "Vencimento", "Saldo Inicial", "Parcela", "Juros", "Amortização", "Saldo Final"].map(h => (
-                      <th key={h} className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
+                      <th key={h} className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-muted-foreground uppercase tracking-widest">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {paginatedSchedule.map((row: any) => (
                     <tr key={row.periodo} className="hover:bg-slate-50 transition-colors group">
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-400">{row.periodo}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.vencimento)}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-slate-500">{formatCurrency(row.saldoInicial)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground">{row.periodo}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-muted-foreground">{formatDate(row.vencimento)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-muted-foreground">{formatCurrency(row.saldoInicial)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-secondary">{formatCurrency(row.parcela)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-rose-500">{formatCurrency(row.juros)}</td>
                       <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-medium text-emerald-500">{formatCurrency(row.amortizacao)}</td>
-                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-slate-900 group-hover:text-secondary transition-colors">{formatCurrency(row.saldoFinal)}</td>
+                      <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-black text-muted-foreground group-hover:text-secondary transition-colors">{formatCurrency(row.saldoFinal)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
 
-            <div className="p-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/30">
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">
+            <div className="p-4 border-t border-border flex items-center justify-between bg-slate-50/30">
+              <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-4">
                 Página {currentPage} de {totalPages || 1}
               </div>
               <div className="flex gap-2">
                 <button 
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                  className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all text-slate-600"
+                  className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all text-muted-foreground"
                 >
                   <ChevronLeft size={18} />
                 </button>
                 <button 
                   disabled={currentPage === totalPages || totalPages === 0}
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                  className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all text-slate-600"
+                  className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all text-muted-foreground"
                 >
                   <ChevronRight size={18} />
                 </button>
@@ -567,12 +567,12 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
             key="pagamentos"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden"
+            className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden"
           >
-            <div className="p-8 border-b border-slate-100 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="p-8 border-b border-border flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div>
-                <h3 className="text-xl font-bold text-slate-900">Controle de Fluxo de Pagamento</h3>
-                <p className="text-sm text-slate-500">Gestão de liquidação de parcelas e conciliação.</p>
+                <h3 className="text-xl font-bold text-muted-foreground">Controle de Fluxo de Pagamento</h3>
+                <p className="text-sm text-muted-foreground">Gestão de liquidação de parcelas e conciliação.</p>
               </div>
               <div className="flex gap-4">
                 <div className="px-4 py-2 bg-emerald-50 border border-emerald-100 rounded-xl">
@@ -590,7 +590,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                 <thead className="bg-slate-50 sticky top-0 z-10">
                   <tr>
                     {["Per", "Data Vcto", "Valor Parcela", "Status do Débito", "Data de Pagamento"].map(h => (
-                      <th key={h} className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
+                      <th key={h} className="px-4 md:px-6 py-2.5 md:py-4 text-left text-[10px] font-black text-muted-foreground uppercase tracking-widest">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -599,9 +599,9 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                     const payment = paymentStatus.find((item) => item.periodo === row.periodo) || { status: "A Vencer", dataDebito: "" };
                     return (
                       <tr key={row.periodo} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-400">{row.periodo}</td>
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-slate-600">{formatDate(row.vencimento)}</td>
-                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900">{formatCurrency(row.parcela)}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground">{row.periodo}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-semibold text-muted-foreground">{formatDate(row.vencimento)}</td>
+                        <td className="px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground">{formatCurrency(row.parcela)}</td>
                         <td className="px-4 md:px-6 py-2.5 md:py-4">
                           <select 
                             value={payment.status} 
@@ -610,7 +610,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                               "text-xs font-bold px-3 py-1.5 rounded-lg outline-none border transition-all",
                               payment.status === "Débito Efetivado" ? "bg-emerald-100 text-emerald-700 border-emerald-200" :
                               payment.status === "Em Atraso" ? "bg-rose-100 text-rose-700 border-rose-200" :
-                              "bg-slate-100 text-slate-600 border-slate-200"
+                              "bg-slate-100 text-muted-foreground border-border"
                             )}
                           >
                             <option value="Débito Efetivado">Liquidado</option>
@@ -623,7 +623,7 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
                             type="date" 
                             value={payment.dataDebito} 
                             onChange={(e) => updateStatus(row.periodo, "dataDebito", e.target.value)}
-                            className="bg-transparent text-xs font-semibold text-slate-600 outline-none hover:bg-slate-100 p-1 rounded transition-all"
+                            className="bg-transparent text-xs font-semibold text-muted-foreground outline-none hover:bg-slate-100 p-1 rounded transition-all"
                           />
                         </td>
                       </tr>
@@ -633,22 +633,22 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
               </table>
             </div>
 
-            <div className="p-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/30">
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">
+            <div className="p-4 border-t border-border flex items-center justify-between bg-slate-50/30">
+              <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-4">
                 Página {currentPage} de {totalPages || 1}
               </div>
               <div className="flex gap-2">
                 <button 
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                  className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all text-slate-600"
+                  className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all text-muted-foreground"
                 >
                   <ChevronLeft size={18} />
                 </button>
                 <button 
                   disabled={currentPage === totalPages || totalPages === 0}
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                  className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all text-slate-600"
+                  className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all text-muted-foreground"
                 >
                   <ChevronRight size={18} />
                 </button>
@@ -658,9 +658,9 @@ export function LoansPage({ clients, selectedClient }: { clients: any[], selecte
         )}
       </AnimatePresence>
 
-      <div className="flex items-center gap-2 p-6 bg-slate-50 border border-slate-200 rounded-[32px] opacity-60">
-        <FileSpreadsheet size={16} className="text-slate-400" />
-        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+      <div className="flex items-center gap-2 p-6 bg-slate-50 border border-border rounded-[32px] opacity-60">
+        <FileSpreadsheet size={16} className="text-muted-foreground" />
+        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
            Análise gerada a partir de contratos bancários registrados · {inputs.titulo}
         </p>
       </div>

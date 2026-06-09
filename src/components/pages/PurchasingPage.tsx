@@ -179,11 +179,11 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
+        <div className="bg-white p-10 rounded-[40px] border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-              <h3 className="text-sm font-bold text-slate-800">ABC por Fornecedor</h3>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Concentração do Volume de Compras</p>
+              <h3 className="text-sm font-bold text-muted-foreground">ABC por Fornecedor</h3>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Concentração do Volume de Compras</p>
              </div>
              <div className="p-2 bg-slate-50 rounded-xl">
                <Users size={18} className="text-secondary" />
@@ -205,11 +205,11 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
           </div>
         </div>
 
-        <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
+        <div className="bg-white p-10 rounded-[40px] border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-              <h3 className="text-sm font-bold text-slate-800">Principais Itens (ABC)</h3>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Produtos com maior impacto financeiro</p>
+              <h3 className="text-sm font-bold text-muted-foreground">Principais Itens (ABC)</h3>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Produtos com maior impacto financeiro</p>
              </div>
              <div className="p-2 bg-blue-50 rounded-xl">
                <ShoppingBag size={18} className="text-blue-500" />
@@ -239,16 +239,16 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
         </div>
       </div>
 
-      <div className="bg-white border border-slate-100 rounded-[40px] shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row items-center gap-4">
+      <div className="bg-white border border-border rounded-[40px] shadow-sm overflow-hidden">
+        <div className="p-6 border-b border-border bg-slate-50/50 flex flex-col md:flex-row items-center gap-4">
           <div className="relative flex-1 w-full">
-            <Search size={18} className="absolute left-4 top-3 text-slate-400" />
+            <Search size={18} className="absolute left-4 top-3 text-muted-foreground" />
             <input 
               type="text" 
               placeholder="Pesquisar produto ou unidade..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-secondary/10 outline-none transition-all"
+              className="w-full pl-12 pr-4 py-2.5 bg-white border border-border rounded-xl text-sm focus:ring-2 focus:ring-secondary/10 outline-none transition-all"
             />
           </div>
         </div>
@@ -256,13 +256,13 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50/50 border-b border-slate-100">
+              <tr className="bg-slate-50/50 border-b border-border">
                 <SortableHeader label="Produto / Unidade" sortKey="produto" currentSort={sort} onSort={toggleSort} />
                 <SortableHeader label="Qtd / Consumo" sortKey="qtd" currentSort={sort} onSort={toggleSort} align="center" />
                 { [1,2,3].map(i => (
-                  <th key={i} className="px-4 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Fornecedor {i}</th>
+                  <th key={i} className="px-4 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Fornecedor {i}</th>
                 ))}
-                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Economia Gerada</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Economia Gerada</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -276,23 +276,23 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
                   <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-5 md:px-8 py-3 md:py-5">
                       <div className="flex flex-col">
-                        <span className="text-sm font-bold text-slate-700">{item.produto}</span>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">{item.centroCusto}</span>
+                        <span className="text-sm font-bold text-muted-foreground">{item.produto}</span>
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase">{item.centroCusto}</span>
                       </div>
                     </td>
                     <td className="px-4 py-5 text-center">
-                      <span className="text-xs font-black text-slate-600">{item.qtd} un.</span>
+                      <span className="text-xs font-black text-muted-foreground">{item.qtd} un.</span>
                     </td>
                     {item.fornecedores?.map((f: any, idx: number) => (
                       <td key={idx} className="px-4 py-5 text-center">
                         <div className={cn(
                           "p-2 rounded-xl border transition-all",
-                          f.selecionado ? "bg-primary/5 border-primary/20" : "bg-white border-slate-100"
+                          f.selecionado ? "bg-primary/5 border-primary/20" : "bg-white border-border"
                         )}>
-                          <p className="text-[9px] font-black text-slate-400 uppercase">{f.nome}</p>
+                          <p className="text-[9px] font-black text-muted-foreground uppercase">{f.nome}</p>
                           <p className={cn(
                             "text-xs font-black mt-1",
-                            f.selecionado ? "text-primary" : "text-slate-600"
+                            f.selecionado ? "text-primary" : "text-muted-foreground"
                           )}>{formatCurrency(f.valorUnit)}</p>
                           {f.selecionado && <span className="text-[8px] bg-primary text-white px-1.5 py-0.5 rounded-full uppercase mt-1 inline-block">Selecionado</span>}
                         </div>
@@ -307,7 +307,7 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
                             economy > 1000 ? "bg-emerald-500 animate-pulse" : "bg-emerald-300"
                           )} />
                         </div>
-                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Saving por Volume ({item.qtd} un.)</span>
+                        <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Saving por Volume ({item.qtd} un.)</span>
                       </div>
                     </td>
                   </tr>
@@ -317,8 +317,8 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
           </table>
         </div>
 
-        <div className="p-4 border-t border-slate-100 flex items-center justify-between">
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4">
+        <div className="p-4 border-t border-border flex items-center justify-between">
+          <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-4">
             Página {currentPage} de {totalPages || 1}
           </div>
           <div className="flex gap-2">
@@ -327,14 +327,14 @@ export function PurchasingPage({ clients, selectedClient }: { clients: any[], se
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
               className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all"
             >
-              <ChevronLeft size={18} className="text-slate-600" />
+              <ChevronLeft size={18} className="text-muted-foreground" />
             </button>
             <button 
               disabled={currentPage === totalPages || totalPages === 0}
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
               className="p-2 rounded-lg hover:bg-slate-100 disabled:opacity-30 transition-all"
             >
-              <ChevronRight size={18} className="text-slate-600" />
+              <ChevronRight size={18} className="text-muted-foreground" />
             </button>
           </div>
         </div>

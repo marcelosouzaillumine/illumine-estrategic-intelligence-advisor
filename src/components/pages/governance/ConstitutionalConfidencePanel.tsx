@@ -16,22 +16,22 @@ export const ConstitutionalConfidencePanel: React.FC<Props> = ({ confidence }) =
       case 'MEDIUM_CONFIDENCE': return 'text-yellow-400 bg-yellow-500/10 border-yellow-500/30';
       case 'LOW_CONFIDENCE': return 'text-orange-400 bg-orange-500/10 border-orange-500/30';
       case 'FAIL_CLOSED': return 'text-red-400 bg-red-500/10 border-red-500/30';
-      default: return 'text-gray-400 bg-gray-800 border-gray-700';
+      default: return 'text-muted-foreground bg-gray-800 border-border';
     }
   };
 
   const MetricItem = ({ icon: Icon, label, value, stateClass = "text-white" }: any) => (
-    <div className="flex items-center justify-between p-3 bg-black/40 rounded border border-gray-800">
+    <div className="flex items-center justify-between p-3 bg-black/40 rounded border border-border">
       <div className="flex items-center gap-2">
-        <Icon className="w-4 h-4 text-gray-500" />
-        <span className="text-sm text-gray-400">{label}</span>
+        <Icon className="w-4 h-4 text-muted-foreground" />
+        <span className="text-sm text-muted-foreground">{label}</span>
       </div>
       <span className={`text-sm font-medium ${stateClass}`}>{value}</span>
     </div>
   );
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 h-full">
+    <div className="bg-gray-900 border border-border rounded-lg p-6 h-full">
       <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
         <Activity className="w-5 h-5 text-emerald-400" />
         {t('cgd.panels.confidence')}

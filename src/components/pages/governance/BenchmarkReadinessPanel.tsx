@@ -73,9 +73,9 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
     }
 
     return (
-      <div className="p-4 bg-slate-950/40 border border-gray-850 rounded-2xl space-y-3">
+      <div className="p-4 bg-slate-950/40 border border-border rounded-2xl space-y-3">
         <div className="flex justify-between items-center text-xs">
-          <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-slate-400">
+          <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-muted-foreground">
             {icon}
             <span>{label}</span>
           </div>
@@ -93,13 +93,13 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
   };
 
   return (
-    <div className="bg-gray-900/60 backdrop-blur-md border border-gray-800 rounded-3xl p-6 md:p-8 space-y-8 shadow-2xl relative overflow-hidden">
+    <div className="bg-gray-900/60 backdrop-blur-md border border-border rounded-3xl p-6 md:p-8 space-y-8 shadow-2xl relative overflow-hidden">
       
       {/* Background soft lighting */}
-      <div className={`absolute top-0 left-0 w-64 h-64 rounded-full filter blur-[120px] opacity-10 transition-colors duration-1000 ${readiness.benchmarkEligible ? 'bg-indigo-500' : 'bg-red-500'}`} />
+      <div className={`absolute top-0 left-0 w-64 h-64 rounded-full filter blur-[120px] opacity-10 transition-colors duration-1000 ${readiness.benchmarkEligible ? 'bg-primary' : 'bg-red-500'}`} />
 
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-6">
         <div className="flex items-center gap-3">
           <div className="p-3 bg-teal-500/10 rounded-2xl border border-teal-500/25 text-teal-400 shadow-lg shadow-teal-500/5">
             <Gauge className="w-6 h-6" />
@@ -113,7 +113,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
                 BRL™ v1.0
               </span>
             </div>
-            <p className="text-xs text-gray-400 mt-1 uppercase tracking-wider">
+            <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">
               Certificação Fiduciária Preventiva de Inteligência Comparativa
             </p>
           </div>
@@ -139,10 +139,10 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* BRI Circular dial */}
-        <div className="bg-black/20 border border-gray-800/80 rounded-2xl p-6 flex flex-col items-center justify-between text-center relative overflow-hidden">
+        <div className="bg-black/20 border border-border rounded-2xl p-6 flex flex-col items-center justify-between text-center relative overflow-hidden">
           <div className="absolute top-2 left-2 flex items-center gap-1">
-            <Activity className="w-3.5 h-3.5 text-gray-500" />
-            <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest text-left">BRI™ Index</span>
+            <Activity className="w-3.5 h-3.5 text-muted-foreground" />
+            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest text-left">BRI™ Index</span>
           </div>
 
           <div className="relative flex items-center justify-center my-4">
@@ -170,7 +170,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
             </svg>
             <div className="absolute flex flex-col items-center justify-center">
               <span className="text-3xl font-extrabold text-white tracking-tight">{readiness.score}</span>
-              <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">BRI™ Score</span>
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">BRI™ Score</span>
             </div>
           </div>
 
@@ -178,7 +178,7 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
             <div className={`py-1.5 px-3 rounded-xl border text-center font-black uppercase text-[10px] tracking-widest ${theme.text}`}>
               {theme.label}
             </div>
-            <p className="text-[10px] text-gray-500 leading-relaxed">
+            <p className="text-[10px] text-muted-foreground leading-relaxed">
               O **BRI™** calcula a pontuação ponderada das dimensões de prontidão para auditoria fiduciária comparativa.
             </p>
           </div>
@@ -186,13 +186,13 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
 
         {/* Executive Summary & Block Reason */}
         <div className="lg:col-span-2 flex flex-col justify-between space-y-6">
-          <div className="bg-black/20 border border-gray-800/80 rounded-2xl p-6 space-y-4">
+          <div className="bg-black/20 border border-border rounded-2xl p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Parecer de Admissibilidade</span>
-              <span className="text-[9.5px] font-bold text-gray-500 font-mono">HASH: {readiness.lineageHash}</span>
+              <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Parecer de Admissibilidade</span>
+              <span className="text-[9.5px] font-bold text-muted-foreground font-mono">HASH: {readiness.lineageHash}</span>
             </div>
             
-            <p className="text-sm text-gray-300 leading-relaxed font-semibold">
+            <p className="text-sm text-muted-foreground leading-relaxed font-semibold">
               {readiness.executiveSummary}
             </p>
 
@@ -210,15 +210,15 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
 
           {/* Checklist requirement items */}
           {readiness.requiredBeforeBenchmark && readiness.requiredBeforeBenchmark.length > 0 && (
-            <div className="p-5 bg-[#0a0f1d] border border-gray-800/60 rounded-2xl space-y-3">
-              <span className="text-[10px] font-black uppercase tracking-widest text-indigo-400 flex items-center gap-1.5">
+            <div className="p-5 bg-[#0a0f1d] border border-border rounded-2xl space-y-3">
+              <span className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-1.5">
                 <Info className="w-3.5 h-3.5" />
                 Ações corretivas exigidas antes da liberação do benchmark setorial:
               </span>
               <div className="space-y-2">
                 {readiness.requiredBeforeBenchmark.map((req, index) => (
-                  <div key={index} className="flex items-start gap-2 text-[11px] text-gray-400 leading-snug">
-                    <span className="text-indigo-500 font-bold mt-0.5">•</span>
+                  <div key={index} className="flex items-start gap-2 text-[11px] text-muted-foreground leading-snug">
+                    <span className="text-primary font-bold mt-0.5">•</span>
                     <span>{req}</span>
                   </div>
                 ))}
@@ -231,14 +231,14 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
 
       {/* Grid of Dimensions */}
       <div className="space-y-4">
-        <h3 className="text-xs font-black uppercase tracking-widest text-gray-400 flex items-center gap-2">
+        <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
           <Activity className="w-4 h-4 text-teal-400" />
           Métricas de Prontidão por Eixo Analítico
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {renderDimension('Dados & Auditoria', readiness.dataReadiness, readiness.dataReadinessStatus, <Compass className="w-4 h-4 text-teal-400" />)}
-          {renderDimension('Governança Fiduciária', readiness.governanceReadiness, readiness.governanceReadinessStatus, <Activity className="w-4 h-4 text-indigo-400" />)}
+          {renderDimension('Governança Fiduciária', readiness.governanceReadiness, readiness.governanceReadinessStatus, <Activity className="w-4 h-4 text-primary" />)}
           {renderDimension('Alinhamento Institucional', readiness.institutionalReadiness, readiness.institutionalReadinessStatus, <CheckCircle2 className="w-4 h-4 text-emerald-400" />)}
           {renderDimension('Integridade Comparativa', readiness.comparativeReadiness, readiness.comparativeReadinessStatus, <TrendingUp className="w-4 h-4 text-sky-400" />)}
         </div>
@@ -247,48 +247,48 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
       {/* Strengths & Vulnerabilities */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
         {/* Strengths */}
-        <div className="p-5 bg-black/15 border border-gray-800/50 rounded-2xl space-y-3">
+        <div className="p-5 bg-black/15 border border-border rounded-2xl space-y-3">
           <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4" />
             Vantagens de Comparabilidade Mapeadas ({readiness.strengths.length})
           </span>
           <div className="space-y-2">
             {readiness.strengths.map((str, idx) => (
-              <div key={idx} className="text-xs text-gray-300 flex items-start gap-2 leading-relaxed">
+              <div key={idx} className="text-xs text-muted-foreground flex items-start gap-2 leading-relaxed">
                 <span className="text-emerald-500 font-bold mt-0.5">✔</span>
                 <span>{str}</span>
               </div>
             ))}
             {readiness.strengths.length === 0 && (
-              <p className="text-xs text-gray-500 italic">Nenhum ponto forte destacado no baseline fiduciário atual.</p>
+              <p className="text-xs text-muted-foreground italic">Nenhum ponto forte destacado no baseline fiduciário atual.</p>
             )}
           </div>
         </div>
 
         {/* Vulnerabilities */}
-        <div className="p-5 bg-black/15 border border-gray-800/50 rounded-2xl space-y-3">
+        <div className="p-5 bg-black/15 border border-border rounded-2xl space-y-3">
           <span className="text-[10px] font-black uppercase tracking-widest text-red-400 flex items-center gap-2">
             <XCircle className="w-4 h-4" />
             Pontos de Bloqueio ou Sensibilidade ({readiness.vulnerabilities.length})
           </span>
           <div className="space-y-2">
             {readiness.vulnerabilities.map((vul, idx) => (
-              <div key={idx} className="text-xs text-gray-300 flex items-start gap-2 leading-relaxed">
+              <div key={idx} className="text-xs text-muted-foreground flex items-start gap-2 leading-relaxed">
                 <span className="text-red-500 font-bold mt-0.5">✘</span>
                 <span>{vul}</span>
               </div>
             ))}
             {readiness.vulnerabilities.length === 0 && (
-              <p className="text-xs text-gray-500 italic">Nenhuma vulnerabilidade ou restrição fiduciária detectada.</p>
+              <p className="text-xs text-muted-foreground italic">Nenhuma vulnerabilidade ou restrição fiduciária detectada.</p>
             )}
           </div>
         </div>
       </div>
 
       {/* Future Comparative Benchmarking Locked Placeholder (BCI™) */}
-      <div className="p-6 bg-slate-950/30 border border-dashed border-gray-800 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden">
+      <div className="p-6 bg-slate-950/30 border border-dashed border-border rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-[#060d17]/50 backdrop-blur-[2px] z-10 flex items-center justify-center">
-          <div className="bg-gray-900 border border-gray-800/80 px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2">
+          <div className="bg-gray-900 border border-border px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2">
             <Lock className="w-4 h-4 text-teal-400" />
             <span className="text-[10.5px] font-black uppercase tracking-widest text-teal-400 font-mono">
               Recurso Futuro: BCI™ Bloqueado
@@ -297,16 +297,16 @@ export function BenchmarkReadinessPanel({ clientId, scenario }: BenchmarkReadine
         </div>
 
         <div className="space-y-1 relative z-0">
-          <h4 className="text-sm font-extrabold text-gray-400 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-indigo-400/60" />
+          <h4 className="text-sm font-extrabold text-muted-foreground flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-primary" />
             Benchmark Comparative Intelligence (BCI™)
           </h4>
-          <p className="text-xs text-gray-550 leading-relaxed">
+          <p className="text-xs text-muted-foreground leading-relaxed">
             Consulte médias setoriais da holding contra o mercado, índices de governança regionais e benchmarks específicos de empresas familiares.
           </p>
         </div>
 
-        <span className="text-[10px] text-gray-500 font-mono select-none relative z-0">
+        <span className="text-[10px] text-muted-foreground font-mono select-none relative z-0">
           Status: Benchmark Comparative Intelligence unavailable until BRL™ certification is achieved.
         </span>
       </div>

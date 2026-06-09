@@ -16,9 +16,9 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
 
   if (!causality) {
     return (
-      <div className="p-6 rounded-[32px] border border-slate-200 dark:border-zinc-900 bg-slate-50/50 dark:bg-zinc-950/40 backdrop-blur-md text-center py-10">
-        <Network className="w-8 h-8 text-slate-400 mx-auto mb-3 animate-pulse" />
-        <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">
+      <div className="p-6 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/50 dark:bg-zinc-950/40 backdrop-blur-md text-center py-10">
+        <Network className="w-8 h-8 text-muted-foreground mx-auto mb-3 animate-pulse" />
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
           {t('runtime.ice.panel.no_causes') || 'Nenhuma cadeia de causa e efeito fiduciária foi disparada.'}
         </p>
       </div>
@@ -48,7 +48,7 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
         return 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20';
       case 'INFO':
       default:
-        return 'bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-zinc-400 border-slate-200 dark:border-zinc-800';
+        return 'bg-slate-100 dark:bg-zinc-900 text-muted-foreground dark:text-zinc-400 border-border dark:border-zinc-800';
     }
   };
 
@@ -72,32 +72,32 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
   };
 
   return (
-    <div className="w-full p-6 md:p-8 rounded-[32px] border border-slate-200 dark:border-zinc-900 bg-slate-50/50 dark:bg-zinc-950/40 backdrop-blur-md space-y-8 shadow-xs">
+    <div className="w-full p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/50 dark:bg-zinc-950/40 backdrop-blur-md space-y-8 shadow-xs">
       
       {/* Header and Confidence */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-white/5 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border dark:border-white/5 pb-5">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-indigo-550 dark:text-indigo-400">
+          <div className="p-2.5 bg-primary border border-primary rounded-xl text-primary dark:text-primary">
             <Network className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-sm font-black text-slate-800 dark:text-zinc-200 uppercase tracking-widest">
+            <h3 className="text-sm font-black text-muted-foreground dark:text-zinc-200 uppercase tracking-widest">
               {t('runtime.ice.panel.title') || 'Painel de Mapeamento de Causalidade Executiva (ICE)'}
             </h3>
-            <p className="text-[9px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mt-0.5">
+            <p className="text-[9px] font-bold text-muted-foreground dark:text-zinc-500 uppercase tracking-widest mt-0.5">
               Fiduciary Cause & Effect Explorer
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-500">
+          <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
             {t('runtime.ice.panel.confidence_label') || 'Confiança Causal'}:
           </span>
           <span className={cn(
             "text-[9px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full border shadow-xs",
             confidenceLevel === 'HIGH' ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20' :
-            confidenceLevel === 'MEDIUM' ? 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border-indigo-500/20' :
+            confidenceLevel === 'MEDIUM' ? 'bg-primary text-primary dark:text-primary border-primary' :
             confidenceLevel === 'LOW' ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20' :
             'bg-red-500/10 text-red-750 dark:text-red-400 border-red-500/25 animate-pulse'
           )}>
@@ -111,34 +111,34 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
         "p-6 rounded-2xl border",
         isRestricted 
           ? "bg-red-500/5 border-red-500/20 text-red-950 dark:text-red-300"
-          : "bg-slate-100/50 dark:bg-zinc-900/30 border-slate-200 dark:border-zinc-800"
+          : "bg-slate-100/50 dark:bg-zinc-900/30 border-border dark:border-zinc-800"
       )}>
         <div className="space-y-4">
           <div className="flex items-start gap-4">
             {isRestricted ? (
               <Lock className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5 animate-pulse" />
             ) : (
-              <ShieldCheck className="w-5 h-5 text-indigo-550 dark:text-indigo-400 shrink-0 mt-0.5" />
+              <ShieldCheck className="w-5 h-5 text-primary dark:text-primary shrink-0 mt-0.5" />
             )}
             <div className="space-y-1 flex-1">
-              <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-500">
+              <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
                 {t('runtime.ice.panel.narrative_label') || 'Diagnóstico Narrativo de Causalidade'}
               </span>
-              <p className="text-xs font-semibold text-slate-800 dark:text-zinc-300 leading-relaxed">
+              <p className="text-xs font-semibold text-muted-foreground dark:text-zinc-300 leading-relaxed">
                 {executiveNarrative}
               </p>
             </div>
           </div>
 
           {!isRestricted && primaryCause && (
-            <div className="pt-4 border-t border-slate-200 dark:border-white/5 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="pt-4 border-t border-border dark:border-white/5 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
-                <span className="text-[9px] font-black uppercase tracking-widest text-slate-550 dark:text-zinc-500">
+                <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
                   {t('runtime.ice.panel.primary_cause') || 'Causa Raiz Principal'}
                 </span>
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-red-400 shrink-0" />
-                  <span className="text-xs font-bold text-slate-800 dark:text-zinc-200">
+                  <span className="text-xs font-bold text-muted-foreground dark:text-zinc-200">
                     {translateFactor(primaryCause)}
                   </span>
                 </div>
@@ -146,12 +146,12 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
 
               {secondaryCauses.length > 0 && (
                 <div className="space-y-1">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-slate-550 dark:text-zinc-500">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
                     {t('runtime.ice.panel.secondary_causes') || 'Causas Secundárias'}
                   </span>
                   <div className="flex flex-wrap gap-2">
                     {secondaryCauses.map((sc, i) => (
-                      <span key={i} className="text-[9px] font-bold text-slate-700 dark:text-zinc-400 bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-2 py-0.5 rounded">
+                      <span key={i} className="text-[9px] font-bold text-muted-foreground dark:text-zinc-400 bg-slate-100 dark:bg-zinc-900 border border-border dark:border-zinc-800 px-2 py-0.5 rounded">
                         {translateFactor(sc)}
                       </span>
                     ))}
@@ -165,23 +165,23 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
 
       {/* Causal Chains Visual List */}
       <div className="space-y-4">
-        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-550 dark:text-zinc-500">
+        <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
           {t('runtime.ice.panel.causal_chains_label') || 'Cadeias de Causa e Efeito Detectadas'}
         </h4>
 
         {causalChains.length === 0 ? (
-          <div className="p-4 rounded-xl border border-slate-200 dark:border-zinc-900 bg-slate-50/50 dark:bg-zinc-950/20 text-center text-[10px] font-medium text-slate-500 uppercase tracking-wider">
+          <div className="p-4 rounded-xl border border-border dark:border-zinc-900 bg-slate-50/50 dark:bg-zinc-950/20 text-center text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
             {t('runtime.ice.panel.no_causes') || 'Nenhuma cadeia de causa e efeito fiduciária foi disparada.'}
           </div>
         ) : (
           <div className="space-y-4">
             {causalChains.map((chain, index) => (
-              <div key={index} className="p-5 bg-slate-100/30 dark:bg-zinc-900/10 border border-slate-200 dark:border-zinc-900/60 rounded-2xl space-y-4 hover:border-slate-350 dark:hover:border-zinc-800 transition-all shadow-xs">
+              <div key={index} className="p-5 bg-slate-100/30 dark:bg-zinc-900/10 border border-border dark:border-zinc-900/60 rounded-2xl space-y-4 hover:border-border dark:hover:border-zinc-800 transition-all shadow-xs">
                 
                 {/* Chain Tags */}
                 <div className="flex justify-between items-center gap-4 flex-wrap">
                   <div className="flex items-center gap-2">
-                    <span className="text-[8px] font-black uppercase tracking-widest px-2.5 py-0.5 bg-indigo-500/10 text-indigo-755 dark:text-indigo-400 border border-indigo-500/20 rounded">
+                    <span className="text-[8px] font-black uppercase tracking-widest px-2.5 py-0.5 bg-primary text-primary dark:text-primary border border-primary rounded">
                       {translateCategory(chain.category)}
                     </span>
                     <span className={cn(
@@ -192,7 +192,7 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
                     </span>
                   </div>
 
-                  <span className="text-[8px] font-mono text-slate-400 dark:text-zinc-650">
+                  <span className="text-[8px] font-mono text-muted-foreground dark:text-zinc-650">
                     LINEAGE ID: {chain.lineageHash}
                   </span>
                 </div>
@@ -201,53 +201,53 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
                 <div className="flex flex-col md:flex-row md:items-center gap-3 py-2">
                   
                   {/* Cause */}
-                  <div className="flex-1 p-3 bg-slate-50/90 dark:bg-zinc-950/50 border border-slate-200 dark:border-zinc-900 rounded-xl flex items-center gap-3">
+                  <div className="flex-1 p-3 bg-slate-50/90 dark:bg-zinc-950/50 border border-border dark:border-zinc-900 rounded-xl flex items-center gap-3">
                     <div className="w-6 h-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-650 dark:text-red-400 flex items-center justify-center shrink-0">
                       <AlertCircle className="w-3.5 h-3.5" />
                     </div>
                     <div className="min-w-0">
-                      <span className="text-[8px] font-black text-slate-400 dark:text-zinc-550 uppercase tracking-widest block leading-none mb-1">
+                      <span className="text-[8px] font-black text-muted-foreground dark:text-zinc-550 uppercase tracking-widest block leading-none mb-1">
                         Causa Raiz
                       </span>
-                      <span className="text-[11px] font-bold text-slate-800 dark:text-zinc-200 block truncate">
+                      <span className="text-[11px] font-bold text-muted-foreground dark:text-zinc-200 block truncate">
                         {translateFactor(chain.cause)}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-center text-slate-400 dark:text-zinc-600 shrink-0">
+                  <div className="flex items-center justify-center text-muted-foreground dark:text-zinc-600 shrink-0">
                     <ArrowRight className="w-4 h-4 transform rotate-90 md:rotate-0" />
                   </div>
 
                   {/* Driver */}
-                  <div className="flex-1 p-3 bg-slate-50/90 dark:bg-zinc-950/50 border border-slate-200 dark:border-zinc-900 rounded-xl flex items-center gap-3">
+                  <div className="flex-1 p-3 bg-slate-50/90 dark:bg-zinc-950/50 border border-border dark:border-zinc-900 rounded-xl flex items-center gap-3">
                     <div className="w-6 h-6 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-650 dark:text-amber-400 flex items-center justify-center shrink-0">
                       <Activity className="w-3.5 h-3.5" />
                     </div>
                     <div className="min-w-0">
-                      <span className="text-[8px] font-black text-slate-400 dark:text-zinc-550 uppercase tracking-widest block leading-none mb-1">
+                      <span className="text-[8px] font-black text-muted-foreground dark:text-zinc-550 uppercase tracking-widest block leading-none mb-1">
                         Condutor / Driver
                       </span>
-                      <span className="text-[11px] font-bold text-slate-800 dark:text-zinc-200 block truncate">
+                      <span className="text-[11px] font-bold text-muted-foreground dark:text-zinc-200 block truncate">
                         {translateFactor(chain.driver)}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-center text-slate-400 dark:text-zinc-600 shrink-0">
+                  <div className="flex items-center justify-center text-muted-foreground dark:text-zinc-600 shrink-0">
                     <ArrowRight className="w-4 h-4 transform rotate-90 md:rotate-0" />
                   </div>
 
                   {/* Effect */}
-                  <div className="flex-1 p-3 bg-slate-50/90 dark:bg-zinc-950/50 border border-slate-200 dark:border-zinc-900 rounded-xl flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-550 dark:text-indigo-400 flex items-center justify-center shrink-0">
+                  <div className="flex-1 p-3 bg-slate-50/90 dark:bg-zinc-950/50 border border-border dark:border-zinc-900 rounded-xl flex items-center gap-3">
+                    <div className="w-6 h-6 rounded-lg bg-primary border border-primary text-primary dark:text-primary flex items-center justify-center shrink-0">
                       <ArrowRight className="w-3.5 h-3.5" />
                     </div>
                     <div className="min-w-0">
-                      <span className="text-[8px] font-black text-slate-400 dark:text-zinc-550 uppercase tracking-widest block leading-none mb-1">
+                      <span className="text-[8px] font-black text-muted-foreground dark:text-zinc-550 uppercase tracking-widest block leading-none mb-1">
                         Sintoma / Efeito
                       </span>
-                      <span className="text-[11px] font-bold text-slate-800 dark:text-zinc-200 block truncate">
+                      <span className="text-[11px] font-bold text-muted-foreground dark:text-zinc-200 block truncate">
                         {translateFactor(chain.effect)}
                       </span>
                     </div>
@@ -256,7 +256,7 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
                 </div>
 
                 {/* Chain narrative */}
-                <div className="p-3 bg-slate-50/50 dark:bg-zinc-950/30 border border-slate-200/60 dark:border-zinc-900/60 rounded-xl text-[11px] font-semibold text-slate-650 dark:text-zinc-400 leading-relaxed">
+                <div className="p-3 bg-slate-50/50 dark:bg-zinc-950/30 border border-border dark:border-zinc-900/60 rounded-xl text-[11px] font-semibold text-muted-foreground dark:text-zinc-400 leading-relaxed">
                   {chain.narrative}
                 </div>
 
@@ -269,7 +269,7 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
       {/* Supporting Evidence Grid */}
       {!isRestricted && supportingEvidence.length > 0 && (
         <div className="space-y-3 pt-2">
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-550 dark:text-zinc-500">
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
             {t('runtime.ice.panel.evidence_label') || 'Evidências de Suporte'}
           </h4>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5">
@@ -279,14 +279,14 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
                 : String(ev.metricValue);
 
               return (
-                <div key={i} className="p-3.5 bg-slate-100/50 dark:bg-zinc-900/30 border border-slate-200 dark:border-zinc-900 rounded-xl space-y-1 text-center shadow-xs">
-                  <span className="text-[8px] font-black text-slate-400 dark:text-zinc-550 uppercase tracking-wider block">
+                <div key={i} className="p-3.5 bg-slate-100/50 dark:bg-zinc-900/30 border border-border dark:border-zinc-900 rounded-xl space-y-1 text-center shadow-xs">
+                  <span className="text-[8px] font-black text-muted-foreground dark:text-zinc-550 uppercase tracking-wider block">
                     {ev.metricName}
                   </span>
-                  <span className="text-[11px] font-black text-slate-850 dark:text-zinc-300 block">
+                  <span className="text-[11px] font-black text-muted-foreground dark:text-zinc-300 block">
                     {formattedValue}
                   </span>
-                  <span className="text-[7px] font-mono text-slate-400 dark:text-zinc-600 block">
+                  <span className="text-[7px] font-mono text-muted-foreground dark:text-zinc-600 block">
                     Period: {ev.sourcePeriod}
                   </span>
                 </div>
@@ -297,7 +297,7 @@ export function CausalityExplorerPanel({ causality }: CausalityExplorerPanelProp
       )}
 
       {/* Causal Lineage Hash */}
-      <div className="p-3 bg-slate-100/90 dark:bg-zinc-950/80 border border-slate-200 dark:border-zinc-900 rounded-xl flex items-center justify-between text-[8px] font-mono text-slate-500 dark:text-zinc-500 shadow-inner">
+      <div className="p-3 bg-slate-100/90 dark:bg-zinc-950/80 border border-border dark:border-zinc-900 rounded-xl flex items-center justify-between text-[8px] font-mono text-muted-foreground dark:text-zinc-500 shadow-inner">
         <span className="uppercase font-bold tracking-wider">Linhagem Fiduciária Causal (ICE)</span>
         <span className="font-semibold select-all break-all">{lineageHash}</span>
       </div>

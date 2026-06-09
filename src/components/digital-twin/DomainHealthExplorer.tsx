@@ -77,7 +77,7 @@ export const DomainHealthExplorer: React.FC<DomainHealthExplorerProps> = ({ doma
               ) : null}
 
               {/* Indicadores de Conexão */}
-              <div className={`p-2 rounded flex items-center gap-2 ${domain.hasGraphNode ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' : 'bg-surface-container text-muted-foreground border border-border'}`}>
+              <div className={`p-2 rounded flex items-center gap-2 ${domain.hasGraphNode ? 'bg-insight text-insight border border-insight' : 'bg-surface-container text-muted-foreground border border-border'}`}>
                 {domain.hasGraphNode ? <ShieldCheck size={14} /> : <ShieldAlert size={14} />}
                 <span className="text-[10px] font-bold uppercase tracking-wider">Grafo</span>
               </div>

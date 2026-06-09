@@ -22,7 +22,7 @@ export function RuntimeHealthPanel({ report, className }: RuntimeHealthPanelProp
       case 'LOW_CONFIDENCE':
         return { text: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200', label: 'Degradação / Baixa Confiança' };
       default:
-        return { text: 'text-slate-700', bg: 'bg-slate-50', border: 'border-slate-200', label: 'Não Determinado' };
+        return { text: 'text-muted-foreground', bg: 'bg-slate-50', border: 'border-border', label: 'Não Determinado' };
     }
   };
 
@@ -46,10 +46,10 @@ export function RuntimeHealthPanel({ report, className }: RuntimeHealthPanelProp
   const conf = getConfidenceStyle(compliance.confidenceLevel);
 
   return (
-    <div className={cn("bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm", className)}>
+    <div className={cn("bg-white border border-border rounded-[32px] p-6 shadow-sm", className)}>
       <div className="flex items-center gap-2 mb-6">
-        <Activity className="text-slate-400" size={18} />
-        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Integridade de Execução do Runtime</span>
+        <Activity className="text-muted-foreground" size={18} />
+        <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Integridade de Execução do Runtime</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -57,7 +57,7 @@ export function RuntimeHealthPanel({ report, className }: RuntimeHealthPanelProp
         {/* Confidence Level */}
         <div className={cn("rounded-2xl p-4 border flex flex-col justify-between", conf.bg, conf.border)}>
           <div className="flex items-center justify-between">
-            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Grau de Confiança</span>
+            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Grau de Confiança</span>
             {compliance.confidenceLevel === 'HIGH_CONFIDENCE' ? (
               <CheckCircle className="text-emerald-500" size={16} />
             ) : (
@@ -68,26 +68,26 @@ export function RuntimeHealthPanel({ report, className }: RuntimeHealthPanelProp
             <p className={cn("text-lg font-black tracking-tight", conf.text)}>
               {conf.label}
             </p>
-            <p className="text-[10px] font-medium text-slate-500 mt-1">
+            <p className="text-[10px] font-medium text-muted-foreground mt-1">
               Profundidade Causal: {compliance.causalDepth}
             </p>
           </div>
         </div>
 
         {/* Completeness */}
-        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col justify-between">
+        <div className="bg-slate-50 rounded-2xl p-4 border border-border flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Completude Contábil</span>
-            <Database className="text-slate-400" size={16} />
+            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Completude Contábil</span>
+            <Database className="text-muted-foreground" size={16} />
           </div>
           <div className="mt-4">
-            <p className="text-lg font-black text-slate-800 tracking-tight">
+            <p className="text-lg font-black text-muted-foreground tracking-tight">
               {(compliance.dataCompleteness * 100).toFixed(1)}%
             </p>
             {/* Progress bar */}
             <div className="w-full bg-slate-200 h-1.5 rounded-full mt-2 overflow-hidden">
               <div 
-                className="bg-indigo-600 h-full rounded-full transition-all" 
+                className="bg-primary h-full rounded-full transition-all" 
                 style={{ width: `${compliance.dataCompleteness * 100}%` }}
               />
             </div>
@@ -95,16 +95,16 @@ export function RuntimeHealthPanel({ report, className }: RuntimeHealthPanelProp
         </div>
 
         {/* Runtime Mode */}
-        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col justify-between">
+        <div className="bg-slate-50 rounded-2xl p-4 border border-border flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Modo de Operação</span>
-            <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 block animate-pulse" />
+            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Modo de Operação</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-primary block animate-pulse" />
           </div>
           <div className="mt-4">
-            <p className="text-sm font-black text-slate-800 tracking-tight leading-snug">
+            <p className="text-sm font-black text-muted-foreground tracking-tight leading-snug">
               {getModeLabel(compliance.runtimeMode)}
             </p>
-            <p className="text-[9px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">
+            <p className="text-[9px] font-semibold text-muted-foreground mt-1 uppercase tracking-wider">
               Trace ID: {((runtimeMetadata as any)?.importId || runtimeMetadata?.executionId) ? String((runtimeMetadata as any)?.importId || runtimeMetadata?.executionId).slice(0, 12) + '...' : 'EXEC-N/A'}
             </p>
           </div>

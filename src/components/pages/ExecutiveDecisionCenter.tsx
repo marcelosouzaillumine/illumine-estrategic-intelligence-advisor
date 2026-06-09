@@ -15,22 +15,22 @@ export function ExecutiveDecisionCenter({ executionIntelligence, executiveDecisi
     <div className="space-y-12">
       {/* EXECUTIVE DECISION CENTER */}
       {executiveDecision && (
-        <div className="bg-slate-900 rounded-3xl p-8 shadow-xl mt-12 text-white border border-slate-800">
+        <div className="bg-slate-900 rounded-3xl p-8 shadow-xl mt-12 text-white border border-border">
           <div className="flex items-center gap-3 mb-8">
             <Target className="text-emerald-400" size={24} />
             <div>
               <h3 className="text-xl font-black">Executive Decision Center</h3>
-              <p className="text-xs text-slate-400">Síntese automatizada de recomendação fiduciária</p>
+              <p className="text-xs text-muted-foreground">Síntese automatizada de recomendação fiduciária</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Recomendação Diretiva</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Recomendação Diretiva</p>
               <p className="text-lg font-black text-emerald-400">{executiveDecision.recommendedScenario}</p>
             </div>
             <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Nível de Confiança</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Nível de Confiança</p>
               <p className={cn(
                 "text-lg font-black",
                 executiveDecision.confidenceLevel === 'Alta' ? "text-emerald-400" :
@@ -38,7 +38,7 @@ export function ExecutiveDecisionCenter({ executionIntelligence, executiveDecisi
               )}>{executiveDecision.confidenceLevel}</p>
             </div>
             <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Valor Econômico</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Valor Econômico</p>
               <p className="text-lg font-black text-white">{formatCurrency(executiveDecision.rankedScenarios.find(s => s.scenarioName === executiveDecision.recommendedScenario)?.enterpriseValue || 0)}</p>
             </div>
           </div>
@@ -96,24 +96,24 @@ export function ExecutiveDecisionCenter({ executionIntelligence, executiveDecisi
           </div>
           
           <div className="mt-8">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Rankeamento Fiduciário</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Rankeamento Fiduciário</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="border-b border-slate-700">
-                    <th className="py-3 text-[10px] font-black uppercase tracking-widest text-slate-500">Cenário</th>
-                    <th className="py-3 text-[10px] font-black uppercase tracking-widest text-slate-500">Categoria</th>
-                    <th className="py-3 text-[10px] font-black uppercase tracking-widest text-slate-500">Valor Empresa</th>
-                    <th className="py-3 text-[10px] font-black uppercase tracking-widest text-slate-500">Métricas EFOS</th>
-                    <th className="py-3 text-[10px] font-black uppercase tracking-widest text-slate-500">Racional</th>
+                  <tr className="border-b border-border">
+                    <th className="py-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Cenário</th>
+                    <th className="py-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Categoria</th>
+                    <th className="py-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Valor Empresa</th>
+                    <th className="py-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Métricas EFOS</th>
+                    <th className="py-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Racional</th>
                   </tr>
                 </thead>
                 <tbody>
                   {scenarioComparisons.map((row) => {
                     const rank = executiveDecision?.rankedScenarios.find(r => r.scenarioId === row.id);
                     return (
-                      <tr key={row.id} className="border-b border-slate-800 hover:bg-slate-800/30 transition-colors">
-                        <td className="py-4 text-xs font-bold text-slate-300">{row.label}</td>
+                      <tr key={row.id} className="border-b border-border hover:bg-slate-800/30 transition-colors">
+                        <td className="py-4 text-xs font-bold text-muted-foreground">{row.label}</td>
                         <td className="py-4">
                           <span className={cn(
                             "px-2 py-1 text-[10px] font-black uppercase tracking-widest rounded border",
@@ -124,14 +124,14 @@ export function ExecutiveDecisionCenter({ executionIntelligence, executiveDecisi
                             {rank?.rankCategory}
                           </span>
                         </td>
-                        <td className="py-4 text-xs font-medium text-slate-300">{formatCurrency(rank?.enterpriseValue || 0)}</td>
+                        <td className="py-4 text-xs font-medium text-muted-foreground">{formatCurrency(rank?.enterpriseValue || 0)}</td>
                         <td className="py-4">
                           <div className="flex flex-col gap-1">
-                            <span className="text-[9px] font-mono text-slate-400">IEI: {rank?.ieiScore.toFixed(0)}</span>
-                            <span className="text-[9px] font-mono text-slate-400">IRG: {rank?.irgScore.toFixed(0)}</span>
+                            <span className="text-[9px] font-mono text-muted-foreground">IEI: {rank?.ieiScore.toFixed(0)}</span>
+                            <span className="text-[9px] font-mono text-muted-foreground">IRG: {rank?.irgScore.toFixed(0)}</span>
                           </div>
                         </td>
-                        <td className="py-4 text-[10px] text-slate-400 max-w-[200px] truncate" title={rank?.reasoning}>
+                        <td className="py-4 text-[10px] text-muted-foreground max-w-[200px] truncate" title={rank?.reasoning}>
                           {rank?.reasoning}
                         </td>
                       </tr>
@@ -145,36 +145,36 @@ export function ExecutiveDecisionCenter({ executionIntelligence, executiveDecisi
       )}
 
       {/* EXECUTION INTELLIGENCE LAYER */}
-      <div className="bg-slate-900 rounded-3xl p-8 shadow-xl text-white border border-slate-800">
+      <div className="bg-slate-900 rounded-3xl p-8 shadow-xl text-white border border-border">
         <div className="flex items-center gap-3 mb-6">
           <Compass className="text-blue-400" size={24} />
           <h3 className="text-xl font-black">Inteligência de Execução Institucional</h3>
         </div>
 
         {executionIntelligence?.status === 'NOT_AVAILABLE' ? (
-          <div className="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl flex flex-col items-center justify-center text-center">
-            <ShieldCheck className="text-slate-500 mb-3" size={32} />
-            <h4 className="text-sm font-bold text-slate-300">Capacidade Institucional Não Disponível</h4>
-            <p className="text-xs text-slate-400 mt-2 max-w-md">Não é possível calcular o risco de execução para este cenário, pois a organização não possui um diagnóstico EFOS válido vigente (Prospecto sem dados). </p>
+          <div className="bg-slate-800/50 border border-border p-6 rounded-2xl flex flex-col items-center justify-center text-center">
+            <ShieldCheck className="text-muted-foreground mb-3" size={32} />
+            <h4 className="text-sm font-bold text-muted-foreground">Capacidade Institucional Não Disponível</h4>
+            <p className="text-xs text-muted-foreground mt-2 max-w-md">Não é possível calcular o risco de execução para este cenário, pois a organização não possui um diagnóstico EFOS válido vigente (Prospecto sem dados). </p>
           </div>
         ) : executionIntelligence?.status === 'CERTIFIED' && executionIntelligence.assessment && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-              <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Diagnóstico E-F-O-S Atual</p>
+              <div className="bg-slate-800/80 p-5 rounded-2xl border border-border">
+                <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mb-1">Diagnóstico E-F-O-S Atual</p>
                 <p className="text-2xl font-black text-white">{executionIntelligence.efosScore}</p>
               </div>
-              <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Governance Pressure</p>
+              <div className="bg-slate-800/80 p-5 rounded-2xl border border-border">
+                <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mb-1">Governance Pressure</p>
                 <p className="text-2xl font-black text-amber-400">{executionIntelligence.assessment.governancePressureIndex.toFixed(0)}</p>
               </div>
               <div className="bg-slate-800/80 p-5 rounded-2xl border border-blue-900/50">
                 <p className="text-[9px] font-black uppercase tracking-widest text-blue-400 mb-1">Execution Index</p>
                 <p className="text-2xl font-black text-blue-300">{executionIntelligence.assessment.institutionalExecutionIndex.toFixed(0)}</p>
               </div>
-              <div className="bg-slate-800/80 p-5 rounded-2xl border border-purple-900/50">
-                <p className="text-[9px] font-black uppercase tracking-widest text-purple-400 mb-1">Readiness Gap (IRG)</p>
-                <p className="text-2xl font-black text-purple-300">{executionIntelligence.readiness.readinessGap.toFixed(0)}</p>
+              <div className="bg-slate-800/80 p-5 rounded-2xl border border-primary">
+                <p className="text-[9px] font-black uppercase tracking-widest text-primary mb-1">Readiness Gap (IRG)</p>
+                <p className="text-2xl font-black text-primary">{executionIntelligence.readiness.readinessGap.toFixed(0)}</p>
               </div>
               <div className={cn(
                 "p-5 rounded-2xl border",
@@ -183,7 +183,7 @@ export function ExecutiveDecisionCenter({ executionIntelligence, executiveDecisi
                 executionIntelligence.assessment.riskLevel === 'Elevado' ? "bg-amber-900/30 border-amber-800" :
                 "bg-rose-900/30 border-rose-800"
               )}>
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Risco Executivo</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mb-1">Risco Executivo</p>
                 <p className={cn(
                   "text-lg font-black uppercase",
                   executionIntelligence.assessment.riskLevel === 'Baixo' ? "text-emerald-400" :

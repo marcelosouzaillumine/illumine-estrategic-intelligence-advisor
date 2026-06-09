@@ -158,8 +158,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl mb-4">
           <ShieldAlert className="w-12 h-12 mx-auto" />
         </div>
-        <h2 className="text-xl font-bold uppercase tracking-wider text-slate-200 mb-2">Acesso Restrito</h2>
-        <p className="text-slate-400 text-sm max-w-md">
+        <h2 className="text-xl font-bold uppercase tracking-wider text-muted-foreground mb-2">Acesso Restrito</h2>
+        <p className="text-muted-foreground text-sm max-w-md">
           Esta área é restrita a Conselheiros (Board), Assessores (Advisor), Executivos e Administradores da holding.
         </p>
       </div>
@@ -285,7 +285,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         return 'text-teal-400 border-teal-500/20 bg-teal-500/5';
       case 'LONG_TERM':
       default:
-        return 'text-slate-400 border-slate-500/20 bg-slate-500/5';
+        return 'text-muted-foreground border-border bg-slate-500/5';
     }
   };
 
@@ -300,7 +300,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         return 'text-sky-400 bg-sky-500/10 border-sky-500/20';
       case 'LOW':
       default:
-        return 'text-slate-400 bg-slate-500/10 border-slate-500/20';
+        return 'text-muted-foreground bg-slate-500/10 border-border';
     }
   };
 
@@ -342,10 +342,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             
             {/* ESGIM Score */}
             <div className="text-right">
-              <span className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1 block">Maturidade ESGIM™</span>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1 block">Maturidade ESGIM™</span>
               <div className="text-3xl font-light flex items-center justify-end gap-1.5">
                 <span className={esgimStyles.text}>{assessment.overallScore}</span>
-                <span className="text-sm text-slate-600">/100</span>
+                <span className="text-sm text-muted-foreground">/100</span>
               </div>
               <span className={`inline-block mt-1 px-2 py-0.5 rounded-lg text-[9px] font-black tracking-widest border uppercase ${esgimStyles.bg} ${esgimStyles.text} ${esgimStyles.border}`}>
                 {assessment.maturityLevel}
@@ -357,10 +357,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
             {/* IRI Score */}
             <div className="text-right">
-              <span className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1 block">Resiliência IRI™</span>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1 block">Resiliência IRI™</span>
               <div className="text-3xl font-light flex items-center justify-end gap-1.5">
                 <span className={iriStyles.text}>{resilience.score}</span>
-                <span className="text-sm text-slate-600">/100</span>
+                <span className="text-sm text-muted-foreground">/100</span>
               </div>
               <span className={`inline-block mt-1 px-2 py-0.5 rounded-lg text-[9px] font-black tracking-widest border uppercase ${iriStyles.bg} ${iriStyles.text} ${iriStyles.border}`}>
                 {resilience.level.replace('_', ' ')}
@@ -374,8 +374,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       {/* 2. Controls Section */}
       <div className="card-premium p-6 border border-white/5 bg-[#060D17]/50 backdrop-blur-md rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200">Filtro de Leitura Estrutural</h3>
-          <p className="text-xs text-slate-500 mt-1">Diferencie entre dados contábeis auditados (LIVE_DATA) e simulações cognitivas de estresse (DEMO_SCENARIO).</p>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Filtro de Leitura Estrutural</h3>
+          <p className="text-xs text-muted-foreground mt-1">Diferencie entre dados contábeis auditados (LIVE_DATA) e simulações cognitivas de estresse (DEMO_SCENARIO).</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
@@ -385,7 +385,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               className={`px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all ${
                 mode === 'LIVE_DATA' 
                   ? 'bg-slate-800 text-white border border-white/10 shadow-md' 
-                  : 'text-slate-500 hover:text-slate-300'
+                  : 'text-muted-foreground hover:text-muted-foreground'
               }`}
             >
               Live Data
@@ -395,7 +395,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               className={`px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all ${
                 mode === 'DEMO_SCENARIO' 
                   ? 'bg-secondary text-white border border-white/10 shadow-md' 
-                  : 'text-slate-500 hover:text-slate-300'
+                  : 'text-muted-foreground hover:text-muted-foreground'
               }`}
             >
               Demo Scenario
@@ -407,7 +407,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               <select
                 value={demoScenario}
                 onChange={(e: any) => setDemoScenario(e.target.value)}
-                className="bg-slate-950/80 border border-white/10 hover:border-white/20 rounded-xl px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-300 outline-none cursor-pointer min-w-[280px]"
+                className="bg-slate-950/80 border border-white/10 hover:border-white/20 rounded-xl px-4 py-2 text-xs font-bold uppercase tracking-wider text-muted-foreground outline-none cursor-pointer min-w-[280px]"
               >
                 <option value="STANDARD">1. Standard Baseline (Saudável)</option>
                 <option value="CONSTITUTIONAL_BREACH">2. Constitutional Breach (Capped 39)</option>
@@ -454,8 +454,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           onClick={() => setActiveView('EXECUTIVE_JOURNEY')}
           className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all ${
             activeView === 'EXECUTIVE_JOURNEY'
-              ? 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-400'
-              : 'text-slate-500 hover:text-slate-300'
+              ? 'bg-primary border border-primary text-primary'
+              : 'text-muted-foreground hover:text-muted-foreground'
           }`}
         >
           Jornada Executiva (Home)
@@ -465,7 +465,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all ${
             activeView === 'DEEP_ANALYSIS'
               ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
-              : 'text-slate-500 hover:text-slate-300'
+              : 'text-muted-foreground hover:text-muted-foreground'
           }`}
         >
           Deep Analysis (Detalhamento)
@@ -499,7 +499,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all ${
                 activeMainTab === 'maturity'
                   ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
-                  : 'text-slate-500 hover:text-slate-300'
+                  : 'text-muted-foreground hover:text-muted-foreground'
               }`}
             >
               Maturidade e Resiliência
@@ -509,7 +509,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 ${
                 activeMainTab === 'execution'
                   ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
-                  : 'text-slate-500 hover:text-slate-300'
+                  : 'text-muted-foreground hover:text-muted-foreground'
               }`}
             >
               <Activity size={12} />
@@ -520,7 +520,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               className={`flex-1 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 ${
                 activeMainTab === 'meeting'
                   ? 'bg-[#FF8552]/10 border border-[#FF8552]/20 text-[#FF8552]'
-                  : 'text-slate-500 hover:text-slate-300'
+                  : 'text-muted-foreground hover:text-muted-foreground'
               }`}
             >
               <Users size={12} />
@@ -539,11 +539,11 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           {/* Column A: ESGIM Heatmap */}
           <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl space-y-6">
             <div className="flex justify-between items-center border-b border-white/5 pb-3">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
-                <Activity className="w-4 h-4 text-indigo-400" />
+              <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                <Activity className="w-4 h-4 text-primary" />
                 Eixos de Maturidade (ESGIM™)
               </h3>
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Estado Atual</span>
+              <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">Estado Atual</span>
             </div>
 
             <div className="space-y-5">
@@ -552,7 +552,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 return (
                   <div key={i} className="space-y-1.5">
                     <div className="flex justify-between items-center text-xs">
-                      <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-slate-400">
+                      <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-muted-foreground">
                         {getDimensionIcon(dim.dimension)}
                         <span>{dim.dimension}</span>
                       </div>
@@ -560,7 +560,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                         <span className={`text-[8px] font-black px-1.5 py-0.5 rounded border uppercase ${styles.bg} ${styles.text} ${styles.border}`}>
                           {dim.status}
                         </span>
-                        <span className="font-bold font-mono text-slate-100">{dim.score}</span>
+                        <span className="font-bold font-mono text-muted-foreground">{dim.score}</span>
                       </div>
                     </div>
                     
@@ -572,7 +572,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                         className={`h-full rounded-full ${styles.bgBar}`} 
                       />
                     </div>
-                    <p className="text-[10px] text-slate-500 leading-relaxed">
+                    <p className="text-[10px] text-muted-foreground leading-relaxed">
                       {dim.explanation}
                     </p>
                   </div>
@@ -584,11 +584,11 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           {/* Column B: IRI Resilience Heatmap */}
           <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl space-y-6">
             <div className="flex justify-between items-center border-b border-white/5 pb-3">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
-                <Compass className="w-4 h-4 text-indigo-400" />
+              <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                <Compass className="w-4 h-4 text-primary" />
                 Dimensões de Resiliência (IRI™)
               </h3>
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Continuidade</span>
+              <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">Continuidade</span>
             </div>
 
             <div className="space-y-5">
@@ -596,11 +596,11 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               {/* 1. Fiduciary Resilience */}
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center text-xs">
-                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-slate-400">
+                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-muted-foreground">
                     <Coins className="w-4 h-4 text-emerald-400" />
                     <span>Fiduciary Resilience</span>
                   </div>
-                  <span className="font-bold font-mono text-slate-100">{resilience.fiduciaryResilience}</span>
+                  <span className="font-bold font-mono text-muted-foreground">{resilience.fiduciaryResilience}</span>
                 </div>
                 <div className="w-full h-1.5 bg-slate-950/60 rounded-full overflow-hidden border border-white/5 relative">
                   <motion.div 
@@ -610,7 +610,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     className="h-full rounded-full bg-emerald-500" 
                   />
                 </div>
-                <p className="text-[10px] text-slate-500 leading-relaxed">
+                <p className="text-[10px] text-muted-foreground leading-relaxed">
                   Mede o runway financeiro, a liquidez de tesouraria e a suficiência de capital sob stress agudo.
                 </p>
               </div>
@@ -618,11 +618,11 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               {/* 2. Institutional Resilience */}
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center text-xs">
-                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-slate-400">
+                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-muted-foreground">
                     <Workflow className="w-4 h-4 text-teal-400" />
                     <span>Institutional Resilience</span>
                   </div>
-                  <span className="font-bold font-mono text-slate-100">{resilience.institutionalResilience}</span>
+                  <span className="font-bold font-mono text-muted-foreground">{resilience.institutionalResilience}</span>
                 </div>
                 <div className="w-full h-1.5 bg-slate-950/60 rounded-full overflow-hidden border border-white/5 relative">
                   <motion.div 
@@ -632,7 +632,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     className="h-full rounded-full bg-teal-500" 
                   />
                 </div>
-                <p className="text-[10px] text-slate-500 leading-relaxed">
+                <p className="text-[10px] text-muted-foreground leading-relaxed">
                   Mede a ausência de personificação do legado, blindagem sucessória e formalização corporativa.
                 </p>
               </div>
@@ -640,11 +640,11 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               {/* 3. Prospective Resilience */}
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center text-xs">
-                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-slate-400">
+                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-muted-foreground">
                     <TrendingUp className="w-4 h-4 text-sky-400" />
                     <span>Prospective Resilience</span>
                   </div>
-                  <span className="font-bold font-mono text-slate-100">{resilience.prospectiveResilience}</span>
+                  <span className="font-bold font-mono text-muted-foreground">{resilience.prospectiveResilience}</span>
                 </div>
                 <div className="w-full h-1.5 bg-slate-950/60 rounded-full overflow-hidden border border-white/5 relative">
                   <motion.div 
@@ -654,7 +654,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     className="h-full rounded-full bg-sky-500" 
                   />
                 </div>
-                <p className="text-[10px] text-slate-500 leading-relaxed">
+                <p className="text-[10px] text-muted-foreground leading-relaxed">
                   Mede a adaptabilidade estratégica, prontidão para inovação e capacidade de transição de ciclos.
                 </p>
               </div>
@@ -662,11 +662,11 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               {/* 4. Mission Continuity */}
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center text-xs">
-                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-slate-400">
+                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-muted-foreground">
                     <HeartPulse className="w-4 h-4 text-rose-400" />
                     <span>Mission Continuity</span>
                   </div>
-                  <span className="font-bold font-mono text-slate-100">{resilience.missionContinuity}</span>
+                  <span className="font-bold font-mono text-muted-foreground">{resilience.missionContinuity}</span>
                 </div>
                 <div className="w-full h-1.5 bg-slate-950/60 rounded-full overflow-hidden border border-white/5 relative">
                   <motion.div 
@@ -676,7 +676,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     className="h-full rounded-full bg-rose-500" 
                   />
                 </div>
-                <p className="text-[10px] text-slate-500 leading-relaxed">
+                <p className="text-[10px] text-muted-foreground leading-relaxed">
                   Mede a solidez existencial do propósito do fundador mesmo em períodos de reestruturação severa.
                 </p>
               </div>
@@ -690,15 +690,15 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         <div className="lg:col-span-4 card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl space-y-6 flex flex-col items-center justify-center">
           
           <div className="text-center">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Gauges de Diagnóstico</h4>
-            <p className="text-[10px] text-slate-500 mt-0.5">Maturidade operacional versus capacidade de sobrevivência.</p>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Gauges de Diagnóstico</h4>
+            <p className="text-[10px] text-muted-foreground mt-0.5">Maturidade operacional versus capacidade de sobrevivência.</p>
           </div>
 
           <div className="grid grid-cols-2 gap-6 w-full">
             
             {/* Meter 1: ESGIM */}
             <div className="flex flex-col items-center text-center">
-              <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 mb-3 block">ESGIM™ Atual</span>
+              <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mb-3 block">ESGIM™ Atual</span>
               <div className="relative w-24 h-24 flex items-center justify-center">
                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                   <circle cx="50" cy="50" r="42" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="8" fill="none" />
@@ -711,7 +711,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                   />
                 </svg>
                 <div className="absolute flex flex-col items-center justify-center">
-                  <span className="text-xl font-light text-slate-100">{assessment.overallScore}</span>
+                  <span className="text-xl font-light text-muted-foreground">{assessment.overallScore}</span>
                 </div>
               </div>
               <span className={`inline-block mt-3 px-2 py-0.5 rounded text-[8px] font-black tracking-widest border uppercase ${esgimStyles.bg} ${esgimStyles.text} ${esgimStyles.border}`}>
@@ -721,7 +721,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
             {/* Meter 2: IRI */}
             <div className="flex flex-col items-center text-center">
-              <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 mb-3 block">Resiliência IRI™</span>
+              <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mb-3 block">Resiliência IRI™</span>
               <div className="relative w-24 h-24 flex items-center justify-center">
                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                   <circle cx="50" cy="50" r="42" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="8" fill="none" />
@@ -734,7 +734,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                   />
                 </svg>
                 <div className="absolute flex flex-col items-center justify-center">
-                  <span className="text-xl font-light text-slate-100">{resilience.score}</span>
+                  <span className="text-xl font-light text-muted-foreground">{resilience.score}</span>
                 </div>
               </div>
               <span className={`inline-block mt-3 px-2 py-0.5 rounded text-[8px] font-black tracking-widest border uppercase ${iriStyles.bg} ${iriStyles.text} ${iriStyles.border}`}>
@@ -745,7 +745,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           </div>
 
           <div className="w-full h-px bg-white/5" />
-          <div className="text-[10px] text-slate-500 text-center leading-relaxed px-1">
+          <div className="text-[10px] text-muted-foreground text-center leading-relaxed px-1">
             Maturidade mede processos em execução; resiliência prevê comportamento frente a choques severos.
           </div>
         </div>
@@ -761,8 +761,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             <Sparkles className="w-5 h-5 animate-pulse" />
           </div>
           <div>
-            <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black block">Board Priorities Engine (BPE™)</span>
-            <h3 className="text-lg font-display font-medium text-slate-200">Board Executive Brief</h3>
+            <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black block">Board Priorities Engine (BPE™)</span>
+            <h3 className="text-lg font-display font-medium text-muted-foreground">Board Executive Brief</h3>
           </div>
         </div>
 
@@ -773,7 +773,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             <h4 className="text-2xl font-light leading-snug tracking-tight text-amber-300 font-sans italic">
               "{brief.headline}"
             </h4>
-            <p className="text-sm text-slate-400 leading-relaxed font-sans font-normal border-l-2 border-amber-500/30 pl-4">
+            <p className="text-sm text-muted-foreground leading-relaxed font-sans font-normal border-l-2 border-amber-500/30 pl-4">
               {brief.summary}
             </p>
           </div>
@@ -782,12 +782,12 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             
             <div className="p-4 bg-slate-950/40 border border-white/5 rounded-xl space-y-1.5">
               <span className="text-[9px] font-black uppercase tracking-widest text-rose-400 block">Principal Risco</span>
-              <span className="text-xs text-slate-300 font-medium leading-relaxed">{brief.primaryRisk}</span>
+              <span className="text-xs text-muted-foreground font-medium leading-relaxed">{brief.primaryRisk}</span>
             </div>
 
             <div className="p-4 bg-slate-950/40 border border-white/5 rounded-xl space-y-1.5">
               <span className="text-[9px] font-black uppercase tracking-widest text-emerald-400 block">Principal Oportunidade</span>
-              <span className="text-xs text-slate-300 font-medium leading-relaxed">{brief.primaryOpportunity}</span>
+              <span className="text-xs text-muted-foreground font-medium leading-relaxed">{brief.primaryOpportunity}</span>
             </div>
 
             <div className="p-4 bg-slate-950/40 border border-amber-500/10 rounded-xl sm:col-span-2 space-y-1.5">
@@ -806,8 +806,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
       {/* 5. Top 5 Priorities Roadmap (BPE™ Dashboard Row) */}
       <div id="bpe-priorities" className="space-y-6">
         <div>
-          <span className="text-[10px] text-slate-500 uppercase tracking-widest font-black block">Plano de Direcionamento Executivo</span>
-          <h3 className="text-xl font-display font-medium text-slate-200">Top 5 Recomendações Prioritárias do Conselho</h3>
+          <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black block">Plano de Direcionamento Executivo</span>
+          <h3 className="text-xl font-display font-medium text-muted-foreground">Top 5 Recomendações Prioritárias do Conselho</h3>
         </div>
 
         <div className="space-y-4">
@@ -819,7 +819,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             return (
               <div 
                 key={priority.id}
-                className="card-premium border border-white/5 bg-[#060D17] hover:border-indigo-500/10 transition-all rounded-2xl overflow-hidden"
+                className="card-premium border border-white/5 bg-[#060D17] hover:border-accent transition-all rounded-2xl overflow-hidden"
               >
                 {/* Header row of priority card */}
                 <div 
@@ -829,19 +829,19 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                   
                   <div className="flex items-start gap-4 flex-1 min-w-0">
                     {/* Rank Badge */}
-                    <div className="w-10 h-10 rounded-xl bg-slate-950/80 border border-white/10 hover:border-indigo-500/20 flex flex-col items-center justify-center flex-shrink-0">
-                      <span className="text-[9px] text-slate-500 font-bold uppercase leading-none">Rank</span>
-                      <span className="text-base font-bold font-mono text-indigo-400 leading-none mt-0.5">#{index + 1}</span>
+                    <div className="w-10 h-10 rounded-xl bg-slate-950/80 border border-white/10 hover:border-accent flex flex-col items-center justify-center flex-shrink-0">
+                      <span className="text-[9px] text-muted-foreground font-bold uppercase leading-none">Rank</span>
+                      <span className="text-base font-bold font-mono text-primary leading-none mt-0.5">#{index + 1}</span>
                     </div>
 
                     {/* Title & description summary */}
                     <div className="space-y-1 flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-3">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-slate-200 truncate">
+                        <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground truncate">
                           {priority.title}
                         </h4>
-                        <span className="text-[10px] font-mono text-slate-500">
-                          Priority Score: <strong className="text-indigo-400 font-black">{priority.priorityScore}</strong>
+                        <span className="text-[10px] font-mono text-muted-foreground">
+                          Priority Score: <strong className="text-primary font-black">{priority.priorityScore}</strong>
                         </span>
                         <InvestigationLauncherWrapper 
                           tenantId="SYSTEM_TENANT" 
@@ -849,7 +849,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                           originSurface="ESGIM" 
                         />
                       </div>
-                      <p className="text-xs text-slate-500 leading-relaxed truncate md:max-w-xl">
+                      <p className="text-xs text-muted-foreground leading-relaxed truncate md:max-w-xl">
                         {priority.description}
                       </p>
                     </div>
@@ -869,12 +869,12 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     </span>
 
                     {/* Decision Category */}
-                    <span className="px-2.5 py-0.5 rounded-lg text-[9px] font-black tracking-wider bg-slate-950/80 border border-white/5 text-slate-300 uppercase">
+                    <span className="px-2.5 py-0.5 rounded-lg text-[9px] font-black tracking-wider bg-slate-950/80 border border-white/5 text-muted-foreground uppercase">
                       {priority.decisionCategory}
                     </span>
 
                     {/* Expand Chevron */}
-                    <div className="p-1 text-slate-500 hover:text-slate-300 transition-colors">
+                    <div className="p-1 text-muted-foreground hover:text-muted-foreground transition-colors">
                       {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                     </div>
 
@@ -897,18 +897,18 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                           
                           {/* Expected Benefit */}
                           <div className="space-y-2">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block">Benefício Esperado</span>
-                            <p className="text-xs text-slate-300 leading-relaxed">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block">Benefício Esperado</span>
+                            <p className="text-xs text-muted-foreground leading-relaxed">
                               {priority.expectedBenefit}
                             </p>
                           </div>
 
                           {/* Impact Area */}
                           <div className="space-y-2">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block">Área de Impacto Mapeada</span>
+                            <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block">Área de Impacto Mapeada</span>
                             <div className="flex flex-wrap gap-2 pt-0.5">
                               {priority.expectedImpactArea.map((area, idx) => (
-                                <span key={idx} className="px-2.5 py-1 bg-indigo-500/5 border border-indigo-500/10 text-indigo-300 font-bold rounded-lg text-[10px] uppercase">
+                                <span key={idx} className="px-2.5 py-1 bg-primary border border-primary text-primary font-bold rounded-lg text-[10px] uppercase">
                                   {area}
                                 </span>
                               ))}
@@ -921,12 +921,12 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                           
                           {/* Evidences list */}
                           <div className="space-y-3">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block">Sinais e Evidências Coletadas</span>
+                            <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block">Sinais e Evidências Coletadas</span>
                             <div className="space-y-2">
                               {priority.evidence.map((ev, idx) => (
                                 <div key={idx} className="p-3 bg-slate-950/40 border border-white/5 rounded-xl flex items-start gap-2">
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-indigo-500 mt-0.5 flex-shrink-0" />
-                                  <span className="text-[11px] text-slate-400 leading-relaxed">{ev}</span>
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" />
+                                  <span className="text-[11px] text-muted-foreground leading-relaxed">{ev}</span>
                                 </div>
                               ))}
                             </div>
@@ -934,12 +934,12 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
                           {/* Explainability / Rationale */}
                           <div className="space-y-3">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block">Justificativa da Constituição Cognitiva</span>
+                            <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block">Justificativa da Constituição Cognitiva</span>
                             <div className="space-y-2">
                               {priority.explainability.map((ex, idx) => (
                                 <div key={idx} className="p-3 bg-slate-950/40 border border-white/5 rounded-xl flex items-start gap-2">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1.5 flex-shrink-0" />
-                                  <span className="text-[11px] text-slate-300 leading-relaxed">{ex}</span>
+                                  <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
+                                  <span className="text-[11px] text-muted-foreground leading-relaxed">{ex}</span>
                                 </div>
                               ))}
                             </div>
@@ -953,7 +953,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                               e.stopPropagation();
                               handleTransformPriorityToDecision(priority);
                             }}
-                            className="flex items-center gap-2 px-4 py-2 bg-indigo-650/25 hover:bg-indigo-650/40 border border-indigo-500/30 hover:border-indigo-500/50 text-indigo-300 hover:text-white rounded-xl text-[10px] font-black uppercase tracking-wider transition-all"
+                            className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent border border-accent hover:border-accent text-accent hover:text-white rounded-xl text-[10px] font-black uppercase tracking-wider transition-all"
                           >
                             <Activity size={12} />
                             Transformar em Plano de Ação (GDTL™)
@@ -977,12 +977,12 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         {/* GRE Title & Progress / Risk Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-5">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-xl">
+            <div className="p-2 bg-primary border border-primary text-primary rounded-xl">
               <Layers className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black block">Governance Roadmap Engine (GRE™)</span>
-              <h3 className="text-xl font-display font-medium text-slate-200">Plano de Evolução Institucional</h3>
+              <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black block">Governance Roadmap Engine (GRE™)</span>
+              <h3 className="text-xl font-display font-medium text-muted-foreground">Plano de Evolução Institucional</h3>
             </div>
           </div>
 
@@ -990,21 +990,21 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             
             {/* Stage */}
             <div className="text-right">
-              <span className="text-[9px] text-slate-500 uppercase tracking-widest font-bold block mb-1">Estágio de Maturidade</span>
-              <span className="inline-block px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-black uppercase tracking-widest rounded-lg">
+              <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-bold block mb-1">Estágio de Maturidade</span>
+              <span className="inline-block px-3 py-1 bg-primary border border-primary text-primary text-xs font-black uppercase tracking-widest rounded-lg">
                 {roadmap.maturityStage}
               </span>
             </div>
 
             {/* Progress */}
             <div className="text-right min-w-[120px]">
-              <div className="flex justify-between text-[9px] text-slate-500 uppercase font-bold mb-1">
+              <div className="flex justify-between text-[9px] text-muted-foreground uppercase font-bold mb-1">
                 <span>Executado</span>
-                <span className="text-indigo-400">{roadmap.roadmapProgress}%</span>
+                <span className="text-primary">{roadmap.roadmapProgress}%</span>
               </div>
               <div className="w-full h-1.5 bg-slate-950/60 rounded-full overflow-hidden border border-white/5 relative">
                 <div 
-                  className="h-full rounded-full bg-indigo-500" 
+                  className="h-full rounded-full bg-primary" 
                   style={{ width: `${roadmap.roadmapProgress}%` }}
                 />
               </div>
@@ -1012,7 +1012,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
             {/* Risk level */}
             <div className="text-right">
-              <span className="text-[9px] text-slate-500 uppercase tracking-widest font-bold block mb-1">Grau de Risco do GRE™</span>
+              <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-bold block mb-1">Grau de Risco do GRE™</span>
               <span className={`inline-block px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest border ${getRiskLevelStyles(roadmap.roadmapRiskLevel)}`}>
                 {roadmap.roadmapRiskLevel}
               </span>
@@ -1022,27 +1022,27 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         </div>
 
         {/* Milestone Alert Banner */}
-        <div className="p-4 bg-indigo-500/5 border border-indigo-500/10 rounded-xl flex items-center justify-between gap-4">
+        <div className="p-4 bg-primary border border-primary rounded-xl flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <Clock className="w-5 h-5 text-indigo-400 flex-shrink-0 animate-pulse" />
+            <Clock className="w-5 h-5 text-primary flex-shrink-0 animate-pulse" />
             <div className="text-xs">
-              <strong className="text-slate-300 block uppercase tracking-wider text-[10px]">Próximo Marco Crítico do Conselho</strong>
-              <span className="text-slate-400">{roadmap.nextCriticalMilestone}</span>
+              <strong className="text-muted-foreground block uppercase tracking-wider text-[10px]">Próximo Marco Crítico do Conselho</strong>
+              <span className="text-muted-foreground">{roadmap.nextCriticalMilestone}</span>
             </div>
           </div>
-          <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest font-mono hidden md:inline">
+          <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest font-mono hidden md:inline">
             Duração Total: {roadmap.estimatedDurationMonths} meses
           </span>
         </div>
 
         {/* Narrative recommendation */}
-        <p className="text-xs text-slate-400 leading-relaxed italic border-l-2 border-indigo-500/40 pl-4 bg-slate-950/20 py-3 rounded-r-xl">
+        <p className="text-xs text-muted-foreground leading-relaxed italic border-l-2 border-primary pl-4 bg-slate-950/20 py-3 rounded-r-xl">
           "{roadmap.executiveSummary}"
         </p>
 
         {/* Horizontal Timeline Grid of Phases */}
         <div className="space-y-4">
-          <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black block">Fases Cronológicas Sequenciais</span>
+          <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black block">Fases Cronológicas Sequenciais</span>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             {roadmap.phases.map((phase, idx) => {
               const isActive = isPhaseHighlighted(phase.phaseId, roadmap.maturityStage);
@@ -1051,35 +1051,35 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                   key={phase.phaseId}
                   className={`p-4 rounded-xl border flex flex-col justify-between min-h-[300px] transition-all relative ${
                     isActive 
-                      ? 'bg-indigo-500/5 border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.05)]' 
+                      ? 'bg-primary border-primary shadow-[0_0_15px_rgba(99,102,241,0.05)]' 
                       : 'bg-slate-950/40 border-white/5 opacity-75 hover:opacity-100'
                   }`}
                 >
                   {/* Glowing dot for active phase */}
                   {isActive && (
                     <div className="absolute top-3 right-3 flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                     </div>
                   )}
 
                   <div className="space-y-3">
                     {/* Header */}
                     <div className="space-y-1">
-                      <span className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Fase {idx + 1} ({phase.durationMonths} meses)</span>
-                      <h4 className={`text-xs font-bold uppercase tracking-wider ${isActive ? 'text-indigo-400' : 'text-slate-300'}`}>
+                      <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">Fase {idx + 1} ({phase.durationMonths} meses)</span>
+                      <h4 className={`text-xs font-bold uppercase tracking-wider ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
                         {phase.title}
                       </h4>
                     </div>
 
-                    <p className="text-[10px] text-slate-500 leading-relaxed">
+                    <p className="text-[10px] text-muted-foreground leading-relaxed">
                       {phase.objective}
                     </p>
 
                     {/* Completion Criteria */}
                     <div className="space-y-1.5 pt-2 border-t border-white/5">
-                      <span className="text-[8px] font-black uppercase text-slate-500 tracking-widest block">Critérios de Conclusão</span>
-                      <ul className="space-y-1 text-[9px] text-slate-400">
+                      <span className="text-[8px] font-black uppercase text-muted-foreground tracking-widest block">Critérios de Conclusão</span>
+                      <ul className="space-y-1 text-[9px] text-muted-foreground">
                         {phase.completionCriteria.map((crit, cIdx) => (
                           <li key={cIdx} className="flex items-start gap-1">
                             <span className="text-emerald-500 font-bold">✓</span>
@@ -1093,8 +1093,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                   {/* Footer metadata */}
                   <div className="space-y-2 pt-3 border-t border-white/5 text-[9px]">
                     {phase.dependencies.length > 0 ? (
-                      <div className="text-slate-500">
-                        <strong className="text-slate-600 block uppercase text-[8px] tracking-widest font-black">Dependência</strong>
+                      <div className="text-muted-foreground">
+                        <strong className="text-muted-foreground block uppercase text-[8px] tracking-widest font-black">Dependência</strong>
                         Requer {phase.dependencies.join(', ')}
                       </div>
                     ) : (
@@ -1102,7 +1102,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     )}
                     <div className="flex flex-wrap gap-1">
                       {phase.riskReductionAreas.map((area, aIdx) => (
-                        <span key={aIdx} className="px-1.5 py-0.5 rounded bg-slate-900 border border-white/5 text-slate-400 uppercase text-[8px]">
+                        <span key={aIdx} className="px-1.5 py-0.5 rounded bg-slate-900 border border-white/5 text-muted-foreground uppercase text-[8px]">
                           {area}
                         </span>
                       ))}
@@ -1124,7 +1124,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               <CheckCircle2 className="w-4 h-4" />
               Quick Wins (Até 90 dias)
             </h4>
-            <ul className="text-xs text-slate-400 space-y-2">
+            <ul className="text-xs text-muted-foreground space-y-2">
               {roadmap.quickWins.map((win, idx) => (
                 <li key={idx} className="flex items-start gap-2 leading-relaxed">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
@@ -1135,15 +1135,15 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           </div>
 
           {/* Foundational Initiatives */}
-          <div className="p-4 bg-indigo-500/5 border border-indigo-500/10 rounded-xl space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-2">
+          <div className="p-4 bg-primary border border-primary rounded-xl space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-2">
               <Workflow className="w-4 h-4" />
               Foundational Initiatives (90–365 dias)
             </h4>
-            <ul className="text-xs text-slate-400 space-y-2">
+            <ul className="text-xs text-muted-foreground space-y-2">
               {roadmap.foundationalInitiatives.map((init, idx) => (
                 <li key={idx} className="flex items-start gap-2 leading-relaxed">
-                  <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1.5 flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
                   <span>{init}</span>
                 </li>
               ))}
@@ -1156,7 +1156,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               <Target className="w-4 h-4" />
               Strategic Initiatives (12–36 meses)
             </h4>
-            <ul className="text-xs text-slate-400 space-y-2">
+            <ul className="text-xs text-muted-foreground space-y-2">
               {roadmap.strategicInitiatives.map((init, idx) => (
                 <li key={idx} className="flex items-start gap-2 leading-relaxed">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
@@ -1172,17 +1172,17 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
       {/* 6. Governance Monitoring™ Dashboard Row */}
       <div id="gml-monitoring" className="card-premium p-8 border border-white/5 bg-[#060D17] rounded-2xl space-y-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-3xl pointer-events-none" />
 
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-xl">
+            <div className="p-2 bg-primary border border-primary text-primary rounded-xl">
               <Activity className="w-5 h-5 animate-pulse" />
             </div>
             <div>
-              <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black block">Governance Monitoring Layer (GML™)</span>
-              <h3 className="text-lg font-display font-medium text-slate-200">Governance Monitoring™</h3>
+              <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black block">Governance Monitoring Layer (GML™)</span>
+              <h3 className="text-lg font-display font-medium text-muted-foreground">Governance Monitoring™</h3>
             </div>
           </div>
 
@@ -1203,8 +1203,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         </div>
 
         {/* Executive summary paragraph */}
-        <div className="p-4 bg-slate-950/40 border border-white/5 rounded-xl text-sm text-slate-300 leading-relaxed">
-          <strong className="text-slate-400 block uppercase tracking-wider text-[10px] mb-1">Sumário Executivo de Evolução</strong>
+        <div className="p-4 bg-slate-950/40 border border-white/5 rounded-xl text-sm text-muted-foreground leading-relaxed">
+          <strong className="text-muted-foreground block uppercase tracking-wider text-[10px] mb-1">Sumário Executivo de Evolução</strong>
           "{monitoring.executiveSummary}"
         </div>
 
@@ -1214,8 +1214,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           {/* Card A: ESGIM Trend */}
           <div className="p-6 bg-slate-950/30 border border-white/5 rounded-2xl space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                <Layers className="w-4 h-4 text-indigo-400" />
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                <Layers className="w-4 h-4 text-primary" />
                 Maturidade Temporal ESGIM™
               </span>
               <div className="flex items-center gap-1.5">
@@ -1240,18 +1240,18 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               {monitoring.snapshots.map((snap, idx) => (
                 <React.Fragment key={idx}>
                   <div className="text-center">
-                    <span className="text-[9px] text-slate-500 block uppercase tracking-widest font-mono">
+                    <span className="text-[9px] text-muted-foreground block uppercase tracking-widest font-mono">
                       {idx === 3 ? "Presente" : `T-${(3 - idx) * 12}M`}
                     </span>
-                    <span className={`text-lg font-light font-mono block mt-0.5 ${idx === 3 ? 'text-indigo-400 font-bold text-xl' : 'text-slate-300'}`}>
+                    <span className={`text-lg font-light font-mono block mt-0.5 ${idx === 3 ? 'text-primary font-bold text-xl' : 'text-muted-foreground'}`}>
                       {snap.esgimScore}
                     </span>
                   </div>
-                  {idx < 3 && <ChevronRight className="w-4 h-4 text-slate-700" />}
+                  {idx < 3 && <ChevronRight className="w-4 h-4 text-muted-foreground" />}
                 </React.Fragment>
               ))}
             </div>
-            <p className="text-[10px] text-slate-500">
+            <p className="text-[10px] text-muted-foreground">
               A maturidade mede a adesão formal de processos nos eixos socioambientais, sociais, governança, institucionais e missão.
             </p>
           </div>
@@ -1259,7 +1259,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           {/* Card B: IRI Trend */}
           <div className="p-6 bg-slate-950/30 border border-white/5 rounded-2xl space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
                 <Compass className="w-4 h-4 text-emerald-400" />
                 Resiliência Temporal IRI™
               </span>
@@ -1278,18 +1278,18 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
               {monitoring.snapshots.map((snap, idx) => (
                 <React.Fragment key={idx}>
                   <div className="text-center">
-                    <span className="text-[9px] text-slate-500 block uppercase tracking-widest font-mono">
+                    <span className="text-[9px] text-muted-foreground block uppercase tracking-widest font-mono">
                       {idx === 3 ? "Presente" : `T-${(3 - idx) * 12}M`}
                     </span>
-                    <span className={`text-lg font-light font-mono block mt-0.5 ${idx === 3 ? 'text-emerald-400 font-bold text-xl' : 'text-slate-300'}`}>
+                    <span className={`text-lg font-light font-mono block mt-0.5 ${idx === 3 ? 'text-emerald-400 font-bold text-xl' : 'text-muted-foreground'}`}>
                       {snap.iriScore}
                     </span>
                   </div>
-                  {idx < 3 && <ChevronRight className="w-4 h-4 text-slate-700" />}
+                  {idx < 3 && <ChevronRight className="w-4 h-4 text-muted-foreground" />}
                 </React.Fragment>
               ))}
             </div>
-            <p className="text-[10px] text-slate-500">
+            <p className="text-[10px] text-muted-foreground">
               A resiliência mede o grau de blindagem sucessória, proteção fiduciária e adaptabilidade estratégica da holding.
             </p>
           </div>
@@ -1302,8 +1302,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           {/* Card 1: PEI (Priority Execution Index) */}
           <div className="p-5 bg-slate-950/40 border border-white/5 rounded-xl space-y-3">
             <div>
-              <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono block">Indicador Proprietário</span>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+              <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-mono block">Indicador Proprietário</span>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                 <Target className="w-4 h-4 text-amber-400" />
                 Priority Execution (PEI)
               </h4>
@@ -1311,7 +1311,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
             <div className="flex items-baseline gap-2">
               <span className="text-3xl font-light font-mono text-amber-400">{monitoring.snapshots[3].priorityExecutionIndex}</span>
-              <span className="text-xs text-slate-600">/100</span>
+              <span className="text-xs text-muted-foreground">/100</span>
             </div>
 
             {/* PEI classification badge */}
@@ -1340,7 +1340,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 );
               })()}
             </div>
-            <p className="text-[9px] text-slate-500 leading-normal">
+            <p className="text-[9px] text-muted-foreground leading-normal">
               Mede se as prioridades e decisões recomendadas pelo conselho estão sendo executadas dentro do prazo.
             </p>
           </div>
@@ -1348,26 +1348,26 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           {/* Card 2: RPI (Roadmap Progress Index) */}
           <div className="p-5 bg-slate-950/40 border border-white/5 rounded-xl space-y-3">
             <div>
-              <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono block">Progresso do Plano</span>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                <Workflow className="w-4 h-4 text-indigo-400" />
+              <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-mono block">Progresso do Plano</span>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                <Workflow className="w-4 h-4 text-primary" />
                 Roadmap Progress (RPI)
               </h4>
             </div>
 
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-light font-mono text-indigo-400">{monitoring.snapshots[3].roadmapProgress}%</span>
-              <span className="text-xs text-slate-600">concluído</span>
+              <span className="text-3xl font-light font-mono text-primary">{monitoring.snapshots[3].roadmapProgress}%</span>
+              <span className="text-xs text-muted-foreground">concluído</span>
             </div>
 
             {/* RPI mini-progress bar */}
             <div className="w-full h-1.5 bg-slate-950/60 rounded-full overflow-hidden border border-white/5">
               <div 
-                className="h-full bg-indigo-500 rounded-full transition-all duration-500" 
+                className="h-full bg-primary rounded-full transition-all duration-500" 
                 style={{ width: `${monitoring.snapshots[3].roadmapProgress}%` }}
               />
             </div>
-            <p className="text-[9px] text-slate-500 leading-normal">
+            <p className="text-[9px] text-muted-foreground leading-normal">
               Consome e cruza a taxa de conclusão dos critérios e marcos críticos definidos nas fases ativas do GRE™.
             </p>
           </div>
@@ -1375,8 +1375,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           {/* Card 3: Institutional Risk Trend */}
           <div className="p-5 bg-slate-950/40 border border-white/5 rounded-xl space-y-3">
             <div>
-              <span className="text-[9px] text-slate-500 uppercase tracking-widest font-mono block">Índice Geral de Risco</span>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+              <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-mono block">Índice Geral de Risco</span>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                 <ShieldAlert className="w-4 h-4 text-rose-400" />
                 Risk Index Trend
               </h4>
@@ -1384,7 +1384,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
             <div className="flex items-baseline gap-2">
               <span className="text-3xl font-light font-mono text-rose-400">{monitoring.snapshots[3].institutionalRiskIndex}</span>
-              <span className="text-xs text-slate-600">/100</span>
+              <span className="text-xs text-muted-foreground">/100</span>
             </div>
 
             {/* Risk sub-dimension badges */}
@@ -1398,26 +1398,26 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
                 return (
                   <>
-                    <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-mono font-bold ${isLiquidity ? 'text-rose-400 border border-rose-500/20 bg-rose-500/5' : 'text-slate-600 border border-white/5'}`}>
+                    <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-mono font-bold ${isLiquidity ? 'text-rose-400 border border-rose-500/20 bg-rose-500/5' : 'text-muted-foreground border border-white/5'}`}>
                       Fid
                     </span>
-                    <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-mono font-bold ${isExit ? 'text-rose-400 border border-rose-500/20 bg-rose-500/5' : 'text-slate-600 border border-white/5'}`}>
+                    <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-mono font-bold ${isExit ? 'text-rose-400 border border-rose-500/20 bg-rose-500/5' : 'text-muted-foreground border border-white/5'}`}>
                       Inst
                     </span>
-                    <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-mono font-bold ${isStress ? 'text-rose-400 border border-rose-500/20 bg-rose-500/5' : 'text-slate-600 border border-white/5'}`}>
+                    <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-mono font-bold ${isStress ? 'text-rose-400 border border-rose-500/20 bg-rose-500/5' : 'text-muted-foreground border border-white/5'}`}>
                       Mis
                     </span>
-                    <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-mono font-bold ${isDisrupt ? 'text-rose-400 border border-rose-500/20 bg-rose-500/5' : 'text-slate-600 border border-white/5'}`}>
+                    <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-mono font-bold ${isDisrupt ? 'text-rose-400 border border-rose-500/20 bg-rose-500/5' : 'text-muted-foreground border border-white/5'}`}>
                       Pros
                     </span>
-                    <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-mono font-bold ${isBreach ? 'text-rose-400 border border-rose-500/20 bg-rose-500/5' : 'text-slate-600 border border-white/5'}`}>
+                    <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-mono font-bold ${isBreach ? 'text-rose-400 border border-rose-500/20 bg-rose-500/5' : 'text-muted-foreground border border-white/5'}`}>
                       Const
                     </span>
                   </>
                 );
               })()}
             </div>
-            <p className="text-[9px] text-slate-500 leading-normal">
+            <p className="text-[9px] text-muted-foreground leading-normal">
               Avaliação de ameaça nas categorias estatutárias, fiduciárias, constitucionais e operacionais.
             </p>
           </div>
@@ -1427,11 +1427,11 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
         {/* Monitoring Alerts Feed */}
         <div className="space-y-4 pt-4 border-t border-white/5">
           <div className="flex items-center justify-between">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-              <AlertCircle className="w-4 h-4 text-indigo-400" />
+            <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+              <AlertCircle className="w-4 h-4 text-primary" />
               Alertas Automáticos de Monitoramento ({monitoring.alerts.length})
             </h4>
-            <span className="text-[8px] text-slate-500 uppercase tracking-widest font-mono">Detecção Contínua</span>
+            <span className="text-[8px] text-muted-foreground uppercase tracking-widest font-mono">Detecção Contínua</span>
           </div>
 
           {monitoring.alerts.length === 0 ? (
@@ -1442,8 +1442,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {monitoring.alerts.map((alert, idx) => {
-                let cardClass = "bg-slate-950/40 border-white/5 text-slate-300";
-                let badgeClass = "bg-slate-500/10 text-slate-400 border-slate-500/20";
+                let cardClass = "bg-slate-950/40 border-white/5 text-muted-foreground";
+                let badgeClass = "bg-slate-500/10 text-muted-foreground border-border";
                 
                 if (alert.severity === 'CRITICAL') {
                   cardClass = "bg-rose-500/5 border-rose-500/10 text-rose-300";
@@ -1469,7 +1469,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                     </div>
 
                     <div className="text-[10px] border-t border-white/5 pt-2 flex items-start gap-1">
-                      <strong className="uppercase text-[8px] font-black tracking-widest block text-indigo-400 mt-0.5">Ação:</strong>
+                      <strong className="uppercase text-[8px] font-black tracking-widest block text-primary mt-0.5">Ação:</strong>
                       <span className="opacity-90">{alert.recommendedAction}</span>
                     </div>
                   </div>
@@ -1529,8 +1529,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             onClick={() => setActiveExplainTab('evidences')}
             className={`flex-1 py-4 text-xs font-bold uppercase tracking-widest border-b-2 transition-all ${
               activeExplainTab === 'evidences' 
-                ? 'text-indigo-400 border-indigo-500 bg-indigo-500/5' 
-                : 'text-slate-500 border-transparent hover:text-slate-400'
+                ? 'text-primary border-primary bg-primary' 
+                : 'text-muted-foreground border-transparent hover:text-muted-foreground'
             }`}
           >
             Evidências e Sinais
@@ -1539,8 +1539,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             onClick={() => setActiveExplainTab('rules')}
             className={`flex-1 py-4 text-xs font-bold uppercase tracking-widest border-b-2 transition-all ${
               activeExplainTab === 'rules' 
-                ? 'text-indigo-400 border-indigo-500 bg-indigo-500/5' 
-                : 'text-slate-500 border-transparent hover:text-slate-400'
+                ? 'text-primary border-primary bg-primary' 
+                : 'text-muted-foreground border-transparent hover:text-muted-foreground'
             }`}
           >
             Regras de Arbitragem
@@ -1549,8 +1549,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
             onClick={() => setActiveExplainTab('lineage')}
             className={`flex-1 py-4 text-xs font-bold uppercase tracking-widest border-b-2 transition-all ${
               activeExplainTab === 'lineage' 
-                ? 'text-indigo-400 border-indigo-500 bg-indigo-500/5' 
-                : 'text-slate-500 border-transparent hover:text-slate-400'
+                ? 'text-primary border-primary bg-primary' 
+                : 'text-muted-foreground border-transparent hover:text-muted-foreground'
             }`}
           >
             Rastreabilidade e Linhagem
@@ -1567,8 +1567,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 exit={{ opacity: 0, y: -5 }}
                 className="space-y-6"
               >
-                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-slate-300">
-                  <ShieldCheck className="w-5 h-5 text-indigo-400" />
+                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                  <ShieldCheck className="w-5 h-5 text-primary" />
                   <h4>Trilha de Sinais e Evidências Associadas</h4>
                 </div>
 
@@ -1576,12 +1576,12 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                   
                   {/* ESGIM Evidences */}
                   <div className="space-y-3">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block">Sinais Eixos ESGIM</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block">Sinais Eixos ESGIM</span>
                     <div className="space-y-2">
                       {assessment.auditTrail.evidenceTrail.map((ev, idx) => (
                         <div key={idx} className="p-3.5 bg-slate-950/40 border border-white/5 rounded-xl flex items-start gap-2.5">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-indigo-500 mt-0.5 flex-shrink-0" />
-                          <span className="text-[11px] text-slate-400 leading-relaxed">{ev}</span>
+                          <CheckCircle2 className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" />
+                          <span className="text-[11px] text-muted-foreground leading-relaxed">{ev}</span>
                         </div>
                       ))}
                     </div>
@@ -1589,7 +1589,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
                   {/* IRI Evidences */}
                   <div className="space-y-3">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block">Sinais Resiliência IRI™</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block">Sinais Resiliência IRI™</span>
                     <div className="space-y-2">
                       {resilience.explainability
                         .filter(ex => ex.type === 'evidence')
@@ -1597,8 +1597,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                           <div key={idx} className="p-3.5 bg-slate-950/40 border border-white/5 rounded-xl flex items-start gap-2.5">
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 flex-shrink-0" />
                             <div className="space-y-1">
-                              <strong className="text-[10px] text-slate-300 block uppercase tracking-wider">{ev.title}</strong>
-                              <span className="text-[11px] text-slate-400 leading-relaxed">{ev.description}</span>
+                              <strong className="text-[10px] text-muted-foreground block uppercase tracking-wider">{ev.title}</strong>
+                              <span className="text-[11px] text-muted-foreground leading-relaxed">{ev.description}</span>
                             </div>
                           </div>
                         ))}
@@ -1607,15 +1607,15 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
                   {/* GML Evidences / Snapshots */}
                   <div className="space-y-3 md:col-span-2 border-t border-white/5 pt-4">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block">Sinais de Evolução Temporal GML™</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block">Sinais de Evolução Temporal GML™</span>
                     <div className="p-3.5 bg-slate-950/40 border border-white/5 rounded-xl space-y-2">
-                      <div className="text-[11px] text-slate-400">
+                      <div className="text-[11px] text-muted-foreground">
                         Histórico simulado com base no cenário ativo <strong>{demoScenario}</strong>. O hash de linhagem garante a conformidade.
                       </div>
                       <div className="space-y-1">
                         {monitoring.explainability.map((ex, idx) => (
-                          <div key={idx} className="text-[11px] text-slate-400 flex items-start gap-1">
-                            <span className="text-indigo-400 font-bold">•</span>
+                          <div key={idx} className="text-[11px] text-muted-foreground flex items-start gap-1">
+                            <span className="text-primary font-bold">•</span>
                             <span><strong>{ex.title}:</strong> {ex.description}</span>
                           </div>
                         ))}
@@ -1635,8 +1635,8 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 exit={{ opacity: 0, y: -5 }}
                 className="space-y-6"
               >
-                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-slate-300">
-                  <Scale className="w-5 h-5 text-indigo-400" />
+                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                  <Scale className="w-5 h-5 text-primary" />
                   <h4>Regras da Constituição Cognitiva & Overrides Aplicados</h4>
                 </div>
 
@@ -1644,7 +1644,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                   
                   {/* ESGIM overrides */}
                   <div className="space-y-3">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block">Limitações ESGIM</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block">Limitações ESGIM</span>
                     <div className="space-y-2">
                       {assessment.auditTrail.rulesApplied.map((rule, idx) => (
                         <div 
@@ -1652,10 +1652,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                           className={`p-3.5 border rounded-xl flex items-center gap-2.5 ${
                             rule.includes('VETO') || rule.includes('RESTRIÇÃO')
                               ? 'bg-rose-500/5 border-rose-500/10 text-rose-400'
-                              : 'bg-slate-950/40 border-indigo-500/10 text-slate-300'
+                              : 'bg-slate-950/40 border-primary text-muted-foreground'
                           }`}
                         >
-                          <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${rule.includes('VETO') ? 'bg-rose-500 animate-pulse' : 'bg-indigo-400'}`} />
+                          <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${rule.includes('VETO') ? 'bg-rose-500 animate-pulse' : 'bg-primary'}`} />
                           <span className="text-[11px] font-medium">{rule}</span>
                         </div>
                       ))}
@@ -1664,7 +1664,7 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
 
                   {/* IRI overrides */}
                   <div className="space-y-3">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 block">Limitações IRI™</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block">Limitações IRI™</span>
                     <div className="space-y-2">
                       {resilience.explainability
                         .filter(ex => ex.type === 'override' || ex.type === 'rule')
@@ -1674,10 +1674,10 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                             className={`p-3.5 border rounded-xl flex items-start gap-2.5 ${
                               ex.type === 'override'
                                 ? 'bg-rose-500/5 border-rose-500/10 text-rose-400'
-                                : 'bg-slate-950/40 border-indigo-500/10 text-slate-300'
+                                : 'bg-slate-950/40 border-primary text-muted-foreground'
                             }`}
                           >
-                            <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${ex.type === 'override' ? 'bg-rose-500 animate-pulse' : 'bg-indigo-400'}`} />
+                            <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${ex.type === 'override' ? 'bg-rose-500 animate-pulse' : 'bg-primary'}`} />
                             <div className="space-y-1">
                               <strong className="text-[10px] block uppercase tracking-wider">{ex.title}</strong>
                               <span className="text-[11px] leading-relaxed">{ex.description}</span>
@@ -1693,19 +1693,19 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                   
                   {/* BPE / GRE Connections */}
                   <div className="space-y-2">
-                    <h5 className="text-xs font-bold uppercase tracking-wider text-slate-400">Roadmap Gerado das Prioridades (BPE™ → GRE™)</h5>
-                    <ul className="text-[11px] text-slate-500 space-y-1.5 list-disc pl-4">
+                    <h5 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Roadmap Gerado das Prioridades (BPE™ → GRE™)</h5>
+                    <ul className="text-[11px] text-muted-foreground space-y-1.5 list-disc pl-4">
                       {roadmap.generatedFromPriorities.map((pTitle, pIdx) => (
                         <li key={pIdx}>
-                          Prioridade #{pIdx+1}: <span className="text-slate-300 font-medium">{pTitle}</span>
+                          Prioridade #{pIdx+1}: <span className="text-muted-foreground font-medium">{pTitle}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
                   <div className="space-y-2 border-t border-white/5 pt-3">
-                    <h5 className="text-xs font-bold uppercase tracking-wider text-slate-400">Regras de Validação de Dependência de Fases</h5>
-                    <ul className="text-[11px] text-slate-500 space-y-1.5 list-disc pl-4">
+                    <h5 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Regras de Validação de Dependência de Fases</h5>
+                    <ul className="text-[11px] text-muted-foreground space-y-1.5 list-disc pl-4">
                       {roadmap.explainability.map((ex, exIdx) => (
                         <li key={exIdx} className="leading-relaxed">{ex}</li>
                       ))}
@@ -1724,35 +1724,35 @@ export function ESGIMAssessmentPage({ clientId }: { clientId: string }) {
                 exit={{ opacity: 0, y: -5 }}
                 className="space-y-6"
               >
-                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-slate-300">
-                  <Dna className="w-5 h-5 text-indigo-400" />
+                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                  <Dna className="w-5 h-5 text-primary" />
                   <h4>Rastreabilidade Fiduciária e Assinatura Criptográfica</h4>
                 </div>
 
                 <div className="space-y-4 font-mono text-xs">
                   
                   <div className="p-4 bg-slate-950/60 border border-white/5 rounded-xl space-y-2">
-                    <div className="text-slate-500 uppercase tracking-wider text-[9px] font-bold">Linhagem de Processamento ESGIM (Lineage Hash)</div>
-                    <div className="text-slate-300 select-all break-all">{assessment.lineageHash}</div>
+                    <div className="text-muted-foreground uppercase tracking-wider text-[9px] font-bold">Linhagem de Processamento ESGIM (Lineage Hash)</div>
+                    <div className="text-muted-foreground select-all break-all">{assessment.lineageHash}</div>
                   </div>
 
                   <div className="p-4 bg-slate-950/60 border border-white/5 rounded-xl space-y-2">
-                    <div className="text-slate-500 uppercase tracking-wider text-[9px] font-bold">Linhagem de Processamento IRI™ (Lineage Hash)</div>
+                    <div className="text-muted-foreground uppercase tracking-wider text-[9px] font-bold">Linhagem de Processamento IRI™ (Lineage Hash)</div>
                     <div className="text-emerald-400 select-all break-all">{resilience.lineageHash}</div>
                   </div>
 
                   <div className="p-4 bg-slate-950/60 border border-white/5 rounded-xl space-y-2">
-                    <div className="text-slate-500 uppercase tracking-wider text-[9px] font-bold">Linhagem de Processamento GML™ (Lineage Hash)</div>
-                    <div className="text-indigo-400 select-all break-all">{monitoring.lineageHash}</div>
+                    <div className="text-muted-foreground uppercase tracking-wider text-[9px] font-bold">Linhagem de Processamento GML™ (Lineage Hash)</div>
+                    <div className="text-primary select-all break-all">{monitoring.lineageHash}</div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 bg-slate-950/60 border border-white/5 rounded-xl space-y-1">
-                      <span className="text-slate-500 uppercase tracking-wider text-[9px] font-bold block">Timestamp de Processamento</span>
-                      <span className="text-slate-300 text-xs">{assessment.createdAt}</span>
+                      <span className="text-muted-foreground uppercase tracking-wider text-[9px] font-bold block">Timestamp de Processamento</span>
+                      <span className="text-muted-foreground text-xs">{assessment.createdAt}</span>
                     </div>
                     <div className="p-4 bg-slate-950/60 border border-white/5 rounded-xl space-y-1">
-                      <span className="text-slate-500 uppercase tracking-wider text-[9px] font-bold block">Status das Engines</span>
+                      <span className="text-muted-foreground uppercase tracking-wider text-[9px] font-bold block">Status das Engines</span>
                       <span className="text-emerald-400 text-xs font-bold">COMPLETED & SIGNED</span>
                     </div>
                   </div>

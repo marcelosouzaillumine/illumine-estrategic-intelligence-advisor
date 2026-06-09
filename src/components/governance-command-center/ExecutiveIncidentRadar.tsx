@@ -49,12 +49,12 @@ export const ExecutiveIncidentRadar: React.FC = () => {
   const pathD = points.map((p, idx) => `${idx === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ') + ' Z';
 
   return (
-    <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-4 flex flex-col justify-between">
-      <div className="flex justify-between items-center border-b border-slate-850 pb-2">
-        <h4 className="text-slate-400 font-semibold tracking-wider uppercase text-xs font-mono">
+    <div className="p-5 bg-slate-950/70 border border-border rounded-xl space-y-4 flex flex-col justify-between">
+      <div className="flex justify-between items-center border-b border-border pb-2">
+        <h4 className="text-muted-foreground font-semibold tracking-wider uppercase text-xs font-mono">
           Severity Exposure Radar
         </h4>
-        <span className="text-[10px] font-mono text-slate-500 uppercase">
+        <span className="text-[10px] font-mono text-muted-foreground uppercase">
           ACTIVE EXPOSURE AXES
         </span>
       </div>
@@ -126,12 +126,12 @@ export const ExecutiveIncidentRadar: React.FC = () => {
         </svg>
       </div>
 
-      <div className="grid grid-cols-5 gap-1 border-t border-slate-900 pt-3 text-center font-mono text-[9px] text-slate-500">
+      <div className="grid grid-cols-5 gap-1 border-t border-border pt-3 text-center font-mono text-[9px] text-muted-foreground">
         <div>SYS: <span className="font-bold text-rose-400">{counts.SYSTEMIC}</span></div>
         <div>CRI: <span className="font-bold text-red-400">{counts.CRITICAL}</span></div>
         <div>HIG: <span className="font-bold text-amber-400">{counts.HIGH}</span></div>
         <div>MOD: <span className="font-bold text-cyan-400">{counts.MODERATE}</span></div>
-        <div>LOW: <span className="font-bold text-slate-300">{counts.LOW}</span></div>
+        <div>LOW: <span className="font-bold text-muted-foreground">{counts.LOW}</span></div>
       </div>
     </div>
   );

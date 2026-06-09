@@ -20,7 +20,7 @@ export const ExecutiveAdvisorDashboard: React.FC<ExecutiveAdvisorDashboardProps>
           <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold block mb-1">Empresas Monitoradas</span>
           <span className="text-h2 font-display font-black text-foreground tabular-nums">{totalOrgs}</span>
         </div>
-        <Briefcase size={24} className="text-indigo-400/50" />
+        <Briefcase size={24} className="text-primary" />
       </div>
 
       {/* Investigações */}

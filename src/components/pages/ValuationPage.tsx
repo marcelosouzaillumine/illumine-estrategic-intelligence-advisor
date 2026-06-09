@@ -63,15 +63,15 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
         color="bg-slate-900"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200 shrink-0">
-            <div className="flex items-center px-4 py-2 border-r border-slate-200">
-              <Calendar size={14} className="text-slate-400 mr-2" />
+          <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-border shrink-0">
+            <div className="flex items-center px-4 py-2 border-r border-border">
+              <Calendar size={14} className="text-muted-foreground mr-2" />
               <select 
                 value={year} 
                 onChange={(e) => setYear(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer text-slate-700"
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer text-muted-foreground"
               >
                 {yearsArray.map(y => (
                   <option key={y} value={y}>{y}</option>
@@ -82,7 +82,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
               <select 
                 value={month} 
                 onChange={(e) => setMonth(Number(e.target.value))}
-                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer text-slate-700"
+                className="text-[10px] font-black uppercase tracking-widest outline-none bg-transparent cursor-pointer text-muted-foreground"
               >
                 <option value={1}>Jan</option>
                 <option value={2}>Fev</option>
@@ -102,9 +102,9 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="px-4 md:px-6 py-2 md:py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
+          <div className="px-4 md:px-6 py-2 md:py-3 bg-white border border-border rounded-2xl shadow-sm flex items-center gap-3">
             {loading && <Loader2 size={14} className="animate-spin text-secondary" />}
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
               {hasDbData ? 'Dados Reais' : 'Sem Dados'}
             </span>
           </div>
@@ -114,8 +114,8 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1 space-y-6">
-          <div className="bg-white p-6 rounded-3xl border border-slate-200">
-            <h3 className="text-sm font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <div className="bg-white p-6 rounded-3xl border border-border">
+            <h3 className="text-sm font-bold text-muted-foreground mb-6 flex items-center gap-2">
               <Calculator size={18} className="text-secondary" />
               Premissas de Avaliação
             </h3>
@@ -123,7 +123,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
             <div className="space-y-6">
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase">Múltiplo de EBITDA</label>
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase">Múltiplo de EBITDA</label>
                   <span className="text-[10px] font-black text-secondary">{multiple}x</span>
                 </div>
                 <input type="range" min="2" max="15" step="0.5" value={multiple} onChange={(e) => setMultiple(parseFloat(e.target.value))} className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-secondary" />
@@ -131,7 +131,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
 
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase">Taxa WACC (%)</label>
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase">Taxa WACC (%)</label>
                   <span className="text-[10px] font-black text-secondary">{wacc}%</span>
                 </div>
                 <input type="range" min="5" max="25" step="0.5" value={wacc} onChange={(e) => setWacc(parseFloat(e.target.value))} className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-secondary" />
@@ -139,7 +139,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
 
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase">Crescimento Perpétuo (%)</label>
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase">Crescimento Perpétuo (%)</label>
                   <span className="text-[10px] font-black text-secondary">{growth}%</span>
                 </div>
                 <input type="range" min="0" max="8" step="0.1" value={growth} onChange={(e) => setGrowth(parseFloat(e.target.value))} className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-secondary" />
@@ -149,7 +149,7 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
 
           <div className="bg-slate-900 p-8 rounded-3xl text-white shadow-xl relative overflow-hidden group">
             <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-secondary/10 rounded-full blur-2xl group-hover:bg-secondary/20 transition-all"></div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Resumo Operacional (Anualizado)</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Resumo Operacional (Anualizado)</h4>
             <div className="space-y-4">
               <div>
                 <p className="text-4xl font-black whitespace-nowrap">{formatCurrency(anualizedEbitda)}</p>
@@ -172,49 +172,49 @@ export function ValuationPage({ clients, selectedClient, selectedYear, selectedM
 
         <div className="lg:col-span-2 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-8 rounded-3xl border border-slate-200 text-center flex flex-col items-center">
+            <div className="bg-white p-8 rounded-3xl border border-border text-center flex flex-col items-center">
               <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-4">
                 <TrendingUp size={24} />
               </div>
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Múltiplo de EBITDA</h4>
-              <p className="text-3xl font-black text-slate-900 mb-2 whitespace-nowrap">{formatCurrency(valuationEbitda)}</p>
+              <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Múltiplo de EBITDA</h4>
+              <p className="text-3xl font-black text-muted-foreground mb-2 whitespace-nowrap">{formatCurrency(valuationEbitda)}</p>
               <div className="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-lg">
                 MÉTODO COMPARATIVO
               </div>
-              <p className="mt-4 text-[11px] text-slate-400 font-medium leading-relaxed">
+              <p className="mt-4 text-[11px] text-muted-foreground font-medium leading-relaxed">
                 Valor baseado na aplicação do múltiplo de {multiple}x sobre o EBITDA anualizado.
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-3xl border border-slate-200 text-center flex flex-col items-center">
+            <div className="bg-white p-8 rounded-3xl border border-border text-center flex flex-col items-center">
               <div className="w-12 h-12 bg-secondary/10 text-secondary rounded-2xl flex items-center justify-center mb-4">
                 <Zap size={24} />
               </div>
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Valor Presente (DCF)</h4>
-              <p className="text-3xl font-black text-slate-900 mb-2 whitespace-nowrap">{formatCurrency(enterpriseValueDCF)}</p>
+              <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Valor Presente (DCF)</h4>
+              <p className="text-3xl font-black text-muted-foreground mb-2 whitespace-nowrap">{formatCurrency(enterpriseValueDCF)}</p>
               <div className="px-3 py-1 bg-secondary/20 text-secondary text-[10px] font-black rounded-lg">
                 MÉTODO INTRÍNSECO
               </div>
-              <p className="mt-4 text-[11px] text-slate-400 font-medium leading-relaxed">
+              <p className="mt-4 text-[11px] text-muted-foreground font-medium leading-relaxed">
                 Cálculo baseado no fluxo de caixa projetado com taxa de desconto de {wacc}% e perpetuidade de {growth}%.
               </p>
             </div>
           </div>
 
-          <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200">
-            <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-6">Detalhamento dos Cálculos</h4>
+          <div className="bg-slate-50 p-8 rounded-3xl border border-border">
+            <h4 className="text-[11px] font-black text-muted-foreground uppercase tracking-widest mb-6">Detalhamento dos Cálculos</h4>
             <div className="space-y-4">
-              <div className="flex justify-between items-center py-3 border-b border-slate-200">
-                <span className="text-xs font-bold text-slate-600">Fluxo de Caixa Livre (Ano 1)</span>
-                <span className="text-xs font-black text-slate-900 whitespace-nowrap">{formatCurrency(freeCashFlow)}</span>
+              <div className="flex justify-between items-center py-3 border-b border-border">
+                <span className="text-xs font-bold text-muted-foreground">Fluxo de Caixa Livre (Ano 1)</span>
+                <span className="text-xs font-black text-muted-foreground whitespace-nowrap">{formatCurrency(freeCashFlow)}</span>
               </div>
-              <div className="flex justify-between items-center py-3 border-b border-slate-200">
-                <span className="text-xs font-bold text-slate-600">Valor na Perpetuidade</span>
-                <span className="text-xs font-black text-slate-900 whitespace-nowrap">{formatCurrency(terminalValue)}</span>
+              <div className="flex justify-between items-center py-3 border-b border-border">
+                <span className="text-xs font-bold text-muted-foreground">Valor na Perpetuidade</span>
+                <span className="text-xs font-black text-muted-foreground whitespace-nowrap">{formatCurrency(terminalValue)}</span>
               </div>
-              <div className="flex justify-between items-center py-3 border-b border-slate-200">
-                <span className="text-xs font-bold text-slate-600">Taxa de Desconto (WACC)</span>
-                <span className="text-xs font-black text-slate-900">{wacc/100}</span>
+              <div className="flex justify-between items-center py-3 border-b border-border">
+                <span className="text-xs font-bold text-muted-foreground">Taxa de Desconto (WACC)</span>
+                <span className="text-xs font-black text-muted-foreground">{wacc/100}</span>
               </div>
             </div>
           </div>

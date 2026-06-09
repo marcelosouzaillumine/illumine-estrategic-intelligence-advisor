@@ -120,17 +120,17 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]"
       >
-        <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
+        <div className="p-8 border-b border-border flex justify-between items-center bg-slate-50/50 shrink-0">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center">
               <Briefcase size={24} className="text-secondary" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-slate-900">{asset ? 'Editar Ativo' : 'Novo Ativo'}</h3>
-              <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-bold">Gestão de Ativos Financeiros</p>
+              <h3 className="text-xl font-bold text-muted-foreground">{asset ? 'Editar Ativo' : 'Novo Ativo'}</h3>
+              <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-bold">Gestão de Ativos Financeiros</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground">
             <X size={20} />
           </button>
         </div>
@@ -144,7 +144,7 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2 col-span-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Nome do Ativo</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Nome do Ativo</label>
               <input 
                 type="text" 
                 placeholder="Ex: CDB Liquidez Diária, Ações Vale"
@@ -153,7 +153,7 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
                 onBlur={() => handleBlur('name')}
                 className={cn(
                   "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                  touched.name && errors.name ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-secondary/10"
+                  touched.name && errors.name ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-border focus:bg-white focus:ring-2 focus:ring-secondary/10"
                 )}
               />
               {touched.name && errors.name && (
@@ -162,11 +162,11 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Classe / Categoria</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Classe / Categoria</label>
               <select 
                 value={formData.category}
                 onChange={e => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all text-slate-700"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all text-muted-foreground"
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -175,11 +175,11 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Tipo de Rendimento</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Tipo de Rendimento</label>
               <select 
                 value={formData.yieldType}
                 onChange={e => setFormData({ ...formData, yieldType: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all text-slate-700"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all text-muted-foreground"
               >
                 {yieldTypes.map(yt => (
                   <option key={yt} value={yt}>{yt}</option>
@@ -188,21 +188,21 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Data da Aplicação</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Data da Aplicação</label>
               <input 
                 type="date" 
                 value={formData.applicationDate}
                 onChange={e => setFormData({ ...formData, applicationDate: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Status (Sinalização)</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Status (Sinalização)</label>
               <select 
                 value={formData.status}
                 onChange={e => setFormData({ ...formData, status: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all text-slate-700"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all text-muted-foreground"
               >
                 {statuses.map(st => (
                   <option key={st.value} value={st.value}>{st.label}</option>
@@ -211,7 +211,7 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Saldo Inicial (R$)</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Saldo Inicial (R$)</label>
               <input 
                 type="text" 
                 placeholder="Ex: 50000.00"
@@ -220,7 +220,7 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
                 onBlur={() => handleBlur('initialValue')}
                 className={cn(
                   "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                  touched.initialValue && errors.initialValue ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-secondary/10"
+                  touched.initialValue && errors.initialValue ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-border focus:bg-white focus:ring-2 focus:ring-secondary/10"
                 )}
               />
               {touched.initialValue && errors.initialValue && (
@@ -229,7 +229,7 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Valor Atual (R$)</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Valor Atual (R$)</label>
               <input 
                 type="text" 
                 placeholder="Ex: 51000.00"
@@ -238,7 +238,7 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
                 onBlur={() => handleBlur('value')}
                 className={cn(
                   "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                  touched.value && errors.value ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-secondary/10"
+                  touched.value && errors.value ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-border focus:bg-white focus:ring-2 focus:ring-secondary/10"
                 )}
               />
               {touched.value && errors.value && (
@@ -247,31 +247,31 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Lucro Acumulado (R$)</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Lucro Acumulado (R$)</label>
               <input 
                 type="text" 
                 placeholder="Ex: 1000.00"
                 value={formData.profit}
                 onChange={e => setFormData({ ...formData, profit: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Rentabilidade no Mês (%)</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Rentabilidade no Mês (%)</label>
               <input 
                 type="text" 
                 placeholder="Ex: 0.85"
                 value={formData.change}
                 onChange={e => setFormData({ ...formData, change: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-secondary/10 transition-all"
               />
             </div>
 
-            <div className="col-span-2 p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-between">
+            <div className="col-span-2 p-4 bg-slate-50 border border-border rounded-2xl flex items-center justify-between">
               <div>
-                <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest">Compor Fluxo de Caixa</p>
-                <p className="text-[9px] text-slate-400 font-medium">Considerar este ativo como saldo disponível para o fluxo.</p>
+                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Compor Fluxo de Caixa</p>
+                <p className="text-[9px] text-muted-foreground font-medium">Considerar este ativo como saldo disponível para o fluxo.</p>
               </div>
               <button 
                 onClick={() => setFormData({ ...formData, composesCashFlow: !formData.composesCashFlow })}
@@ -289,17 +289,17 @@ export function AssetModal({ clientId, onClose, asset }: AssetModalProps) {
           </div>
         </div>
 
-        <div className="p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4 shrink-0">
+        <div className="p-8 bg-slate-50 border-t border-border flex justify-end gap-4 shrink-0">
           <button 
             onClick={onClose}
-            className="px-4 md:px-6 py-2 md:py-2.5 text-slate-400 font-bold text-sm hover:text-slate-600 transition-colors"
+            className="px-4 md:px-6 py-2 md:py-2.5 text-muted-foreground font-bold text-sm hover:text-muted-foreground transition-colors"
           >
             Cancelar
           </button>
           <button 
             onClick={handleSave}
             disabled={loading}
-            className="px-8 py-2.5 bg-secondary text-slate-900 rounded-xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-secondary/20 flex items-center gap-2 disabled:opacity-50"
+            className="px-8 py-2.5 bg-secondary text-muted-foreground rounded-xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-secondary/20 flex items-center gap-2 disabled:opacity-50"
           >
             <Save size={18} /> {loading ? 'Salvando...' : asset ? 'Salvar Alterações' : 'Adicionar Ativo'}
           </button>

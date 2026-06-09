@@ -320,14 +320,14 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
         className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]"
       >
         {/* Header */}
-        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
+        <div className="p-6 border-b border-border flex justify-between items-center bg-slate-50/50 shrink-0">
           <div>
-            <h3 className="text-lg font-black text-slate-900">Importar Plano de Contas</h3>
-            <p className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-widest font-bold">
+            <h3 className="text-lg font-black text-muted-foreground">Importar Plano de Contas</h3>
+            <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-widest font-bold">
               Destino: {targetPlanType === 'accounting' ? 'Contábil' : 'Gerencial'} · Excel · CSV · PDF · TXT · DOC
             </p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground"><X size={20} /></button>
         </div>
 
         {/* Scrollable body */}
@@ -355,8 +355,8 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                 </motion.div>
               </div>
               <div className="space-y-1">
-                <h4 className="text-xl font-bold text-slate-900">Importação Concluída!</h4>
-                <p className="text-sm text-slate-500">O plano de contas foi processado com sucesso.</p>
+                <h4 className="text-xl font-bold text-muted-foreground">Importação Concluída!</h4>
+                <p className="text-sm text-muted-foreground">O plano de contas foi processado com sucesso.</p>
               </div>
               <div className="flex gap-4 mt-2">
                 {importResult.created > 0 && (
@@ -372,9 +372,9 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                   </div>
                 )}
                 {importResult.skipped > 0 && (
-                  <div className="text-center px-5 py-3 bg-slate-50 border border-slate-200 rounded-2xl">
-                    <p className="text-2xl font-black text-slate-500">{importResult.skipped}</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Ignoradas</p>
+                  <div className="text-center px-5 py-3 bg-slate-50 border border-border rounded-2xl">
+                    <p className="text-2xl font-black text-muted-foreground">{importResult.skipped}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Ignoradas</p>
                   </div>
                 )}
               </div>
@@ -390,11 +390,11 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
             <>
               {/* Client selector */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Cliente Destino</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Cliente Destino</label>
                 <select 
                   value={targetClient}
                   onChange={e => setTargetClient(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/10 transition-all"
+                  className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/10 transition-all"
                 >
                   <option value="">Selecione o Cliente...</option>
                   {clients.map((c: any) => (
@@ -405,13 +405,13 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
 
               {/* Plan Type Selector */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Tipo de Plano</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Tipo de Plano</label>
                 <div className="flex gap-2 p-1 bg-slate-100 rounded-2xl">
                   <button 
                     onClick={() => setTargetPlanType('accounting')}
                     className={cn(
                       "flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all",
-                      targetPlanType === 'accounting' ? "bg-white text-primary shadow-sm" : "text-slate-400 hover:text-slate-600"
+                      targetPlanType === 'accounting' ? "bg-white text-primary shadow-sm" : "text-muted-foreground hover:text-muted-foreground"
                     )}
                   >
                     Contábil
@@ -420,19 +420,19 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                     onClick={() => setTargetPlanType('managerial')}
                     className={cn(
                       "flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all",
-                      targetPlanType === 'managerial' ? "bg-white text-secondary shadow-sm" : "text-slate-400 hover:text-slate-600"
+                      targetPlanType === 'managerial' ? "bg-white text-secondary shadow-sm" : "text-muted-foreground hover:text-muted-foreground"
                     )}
                   >
                     Gerencial
                   </button>
                 </div>
                 {loadingExisting && (
-                  <p className="text-[10px] text-slate-400 flex items-center gap-1.5 px-1">
+                  <p className="text-[10px] text-muted-foreground flex items-center gap-1.5 px-1">
                     <Loader2 size={11} className="animate-spin" /> Verificando plano existente...
                   </p>
                 )}
                 {!loadingExisting && targetClient && (
-                  <p className="text-[10px] text-slate-400 px-1 font-medium">
+                  <p className="text-[10px] text-muted-foreground px-1 font-medium">
                     {hasExistingPlan
                       ? `⚠️ Este cliente já possui ${existingAccounts.length} contas cadastradas.`
                       : '✅ Nenhuma conta cadastrada ainda — importação limpa.'}
@@ -442,16 +442,16 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
 
               {/* File upload */}
               {!file ? (
-                <div className="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:border-blue-400 transition-all group relative">
+                <div className="border-2 border-dashed border-border rounded-2xl p-8 text-center hover:border-blue-400 transition-all group relative">
                   <input 
                     type="file" 
                     className="absolute inset-0 opacity-0 cursor-pointer" 
                     accept=".xlsx,.xls,.csv,.pdf,.txt,.doc,.docx"
                     onChange={handleFileChange}
                   />
-                  <UploadCloud size={36} className="text-slate-300 mx-auto mb-3 group-hover:text-blue-500 transition-colors" />
-                  <p className="text-sm font-bold text-slate-600">Clique para selecionar ou arraste o arquivo</p>
-                  <p className="text-xs text-slate-400 mt-1">Excel, CSV, PDF, TXT ou DOC</p>
+                  <UploadCloud size={36} className="text-muted-foreground mx-auto mb-3 group-hover:text-blue-500 transition-colors" />
+                  <p className="text-sm font-bold text-muted-foreground">Clique para selecionar ou arraste o arquivo</p>
+                  <p className="text-xs text-muted-foreground mt-1">Excel, CSV, PDF, TXT ou DOC</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -460,8 +460,8 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                     <div className="flex items-center gap-3">
                       <div className="p-2 bg-white rounded-lg text-blue-600 shadow-sm"><FileText size={18} /></div>
                       <div>
-                        <p className="text-sm font-bold text-slate-700">{file.name}</p>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase">{parsedData.length} contas identificadas</p>
+                        <p className="text-sm font-bold text-muted-foreground">{file.name}</p>
+                        <p className="text-[10px] text-muted-foreground font-bold uppercase">{parsedData.length} contas identificadas</p>
                       </div>
                     </div>
                     <button onClick={() => { setFile(null); setParsedData([]); setClassifiedData([]); }} className="p-1.5 hover:bg-blue-100 rounded text-blue-400 transition-colors">
@@ -495,14 +495,14 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
 
                   {/* Preview table with status badges */}
                   {classifiedData.length > 0 && (
-                    <div className="max-h-44 overflow-y-auto border border-slate-100 rounded-xl bg-slate-50/30">
+                    <div className="max-h-44 overflow-y-auto border border-border rounded-xl bg-slate-50/30">
                       <table className="w-full text-left text-[11px]">
                         <thead className="bg-slate-50 sticky top-0">
                           <tr>
-                            <th className="px-3 py-2 font-black text-slate-400">STATUS</th>
-                            <th className="px-3 py-2 font-black text-slate-400">CÓDIGO</th>
-                            <th className="px-3 py-2 font-black text-slate-400">NOME</th>
-                            <th className="px-3 py-2 font-black text-slate-400">TIPO</th>
+                            <th className="px-3 py-2 font-black text-muted-foreground">STATUS</th>
+                            <th className="px-3 py-2 font-black text-muted-foreground">CÓDIGO</th>
+                            <th className="px-3 py-2 font-black text-muted-foreground">NOME</th>
+                            <th className="px-3 py-2 font-black text-muted-foreground">TIPO</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -516,8 +516,8 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                                     {cfg.label}
                                   </span>
                                 </td>
-                                <td className="px-3 py-2 font-mono font-bold text-slate-500">{acc.code}</td>
-                                <td className="px-3 py-2 font-bold text-slate-700">
+                                <td className="px-3 py-2 font-mono font-bold text-muted-foreground">{acc.code}</td>
+                                <td className="px-3 py-2 font-bold text-muted-foreground">
                                   {acc.name}
                                   {acc._status === 'conflict' && (
                                     <span className="block text-[9px] text-orange-400 font-medium">
@@ -525,13 +525,13 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                                     </span>
                                   )}
                                 </td>
-                                <td className="px-3 py-2 text-slate-400">{acc.type}</td>
+                                <td className="px-3 py-2 text-muted-foreground">{acc.type}</td>
                               </tr>
                             );
                           })}
                           {classifiedData.length > 15 && (
                             <tr>
-                              <td colSpan={4} className="px-3 py-2 text-center text-slate-400 font-medium italic">
+                              <td colSpan={4} className="px-3 py-2 text-center text-muted-foreground font-medium italic">
                                 + {classifiedData.length - 15} contas...
                               </td>
                             </tr>
@@ -546,7 +546,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
               {/* Strategy selector — only show when there's a file AND existing data */}
               {classifiedData.length > 0 && hasExistingPlan && (
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1 flex items-center gap-1.5">
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1 flex items-center gap-1.5">
                     <Info size={11} /> Estratégia de Importação
                   </label>
                   <div className="space-y-2">
@@ -560,28 +560,28 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                             ? cfg.danger
                               ? 'border-rose-400 bg-rose-50 ring-2 ring-rose-300/30'
                               : 'border-blue-400 bg-blue-50 ring-2 ring-blue-300/20'
-                            : 'border-slate-100 bg-white hover:bg-slate-50'
+                            : 'border-border bg-white hover:bg-slate-50'
                         )}
                       >
                         <span className={cn(
                           'mt-0.5 shrink-0',
                           strategy === key
                             ? cfg.danger ? 'text-rose-600' : 'text-blue-600'
-                            : 'text-slate-400'
+                            : 'text-muted-foreground'
                         )}>
                           {cfg.icon}
                         </span>
                         <div>
-                          <p className={cn('text-xs font-black', strategy === key ? (cfg.danger ? 'text-rose-700' : 'text-blue-700') : 'text-slate-700')}>
+                          <p className={cn('text-xs font-black', strategy === key ? (cfg.danger ? 'text-rose-700' : 'text-blue-700') : 'text-muted-foreground')}>
                             {cfg.label}
                           </p>
-                          <p className="text-[11px] text-slate-500 mt-0.5">{cfg.desc}</p>
+                          <p className="text-[11px] text-muted-foreground mt-0.5">{cfg.desc}</p>
                         </div>
                         <span className={cn(
                           'ml-auto mt-0.5 w-4 h-4 rounded-full border-2 shrink-0 transition-all',
                           strategy === key
                             ? cfg.danger ? 'border-rose-500 bg-rose-500' : 'border-blue-500 bg-blue-500'
-                            : 'border-slate-300'
+                            : 'border-border'
                         )} />
                       </button>
                     ))}
@@ -592,7 +592,7 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
                     'p-3 rounded-xl border text-[11px] font-bold flex items-center gap-2',
                     strategy === 'replace_all'
                       ? 'bg-rose-50 border-rose-200 text-rose-700'
-                      : 'bg-slate-50 border-slate-200 text-slate-600'
+                      : 'bg-slate-50 border-border text-muted-foreground'
                   )}>
                     {strategy === 'replace_all' && <AlertTriangle size={13} className="text-rose-500 shrink-0" />}
                     {getActionSummary()}
@@ -621,10 +621,10 @@ export function ImportPlanoModal({ clients, selectedClient, onClose, onSuccess, 
 
         {/* Footer */}
         {!importResult && (
-          <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3 shrink-0">
+          <div className="p-6 bg-slate-50 border-t border-border flex gap-3 shrink-0">
             <button 
               onClick={onClose}
-              className="flex-1 py-3 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
+              className="flex-1 py-3 text-muted-foreground font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
             >
               Cancelar
             </button>

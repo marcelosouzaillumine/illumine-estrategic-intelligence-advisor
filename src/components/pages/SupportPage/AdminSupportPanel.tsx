@@ -128,7 +128,7 @@ export const AdminSupportPanel: React.FC<{ headerAddon?: React.ReactNode }> = ({
                         ticket.status === 'pending' ? "bg-warning/10 text-warning border-warning/20" :
                         ticket.status === 'in_progress' ? "bg-blue-500/10 text-blue-500 border-blue-500/20" :
                         ticket.status === 'resolved' ? "bg-success/10 text-success border-success/20" :
-                        "bg-slate-500/10 text-slate-500 border-slate-500/20"
+                        "bg-slate-500/10 text-muted-foreground border-border"
                       )}>
                         {ticket.status === 'pending' ? 'Pendente' : 
                          ticket.status === 'in_progress' ? 'Análise' : 

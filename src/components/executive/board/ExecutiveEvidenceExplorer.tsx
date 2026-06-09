@@ -15,13 +15,13 @@ export const ExecutiveEvidenceExplorer: React.FC<ExecutiveEvidenceExplorerProps>
   }
 
   return (
-    <div className="p-6 bg-primary border border-slate-800 rounded-lg">
+    <div className="p-6 bg-primary border border-border rounded-lg">
       <h3 className="text-lg font-semibold text-white mb-4">Evidence Chain</h3>
       <div className="grid gap-4">
         {narrative.evidenceChain.map(evidence => (
-          <div key={evidence.evidenceId} className="p-4 bg-surface/50 rounded border border-slate-700/50">
+          <div key={evidence.evidenceId} className="p-4 bg-surface/50 rounded border border-border">
             <div className="flex justify-between items-start mb-2">
-              <span className="font-mono text-sm text-indigo-400">{evidence.evidenceId}</span>
+              <span className="font-mono text-sm text-primary">{evidence.evidenceId}</span>
               <span className="font-mono text-sm text-muted-foreground">{new Date(evidence.timestamp).toISOString()}</span>
             </div>
             <div className="mb-2">

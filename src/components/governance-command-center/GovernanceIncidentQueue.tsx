@@ -26,7 +26,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
       case 'MODERATE':
         return 'text-cyan-400 border-cyan-500/30 bg-cyan-950/20';
       default:
-        return 'text-slate-400 border-slate-800 bg-slate-900/40';
+        return 'text-muted-foreground border-border bg-slate-900/40';
     }
   };
 
@@ -52,12 +52,12 @@ export const GovernanceIncidentQueue: React.FC = () => {
   const isActionsDisabled = commandIntegrity === 'FAIL_CLOSED';
 
   return (
-    <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-850 pb-2">
-        <h4 className="text-slate-400 font-semibold tracking-wider uppercase text-xs font-mono">
+    <div className="p-5 bg-slate-950/70 border border-border rounded-xl space-y-4">
+      <div className="flex justify-between items-center border-b border-border pb-2">
+        <h4 className="text-muted-foreground font-semibold tracking-wider uppercase text-xs font-mono">
           Incident Supervision Queue
         </h4>
-        <span className="text-[10px] font-mono text-slate-500 uppercase">
+        <span className="text-[10px] font-mono text-muted-foreground uppercase">
           {activeIncidents.length} IN SCOPE
         </span>
       </div>
@@ -75,7 +75,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
               className={`p-4 border rounded-xl transition-all duration-200 cursor-pointer flex flex-col gap-3 ${
                 isSelected
                   ? 'border-cyan-500 bg-cyan-950/10'
-                  : 'border-slate-850 bg-slate-900/20 hover:border-slate-800'
+                  : 'border-border bg-slate-900/20 hover:border-border'
               } ${isCollapsed ? 'opacity-40 hover:opacity-100' : ''}`}
             >
               {/* Header do Incidente */}
@@ -88,24 +88,24 @@ export const GovernanceIncidentQueue: React.FC = () => {
                     <span className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase ${statusStyle}`}>
                       {currentStatus.replace('_', ' ')}
                     </span>
-                    <span className="text-[9px] font-mono text-slate-500">ENTITY: {incident.entityId}</span>
+                    <span className="text-[9px] font-mono text-muted-foreground">ENTITY: {incident.entityId}</span>
                   </div>
-                  <h5 className="text-xs font-mono font-bold text-slate-100 mt-1">{incident.title}</h5>
+                  <h5 className="text-xs font-mono font-bold text-muted-foreground mt-1">{incident.title}</h5>
                 </div>
-                <span className="text-[10px] font-mono text-slate-500">
+                <span className="text-[10px] font-mono text-muted-foreground">
                   {new Date(incident.detectedAt).toLocaleTimeString()}
                 </span>
               </div>
 
               {/* Descrição expandida se selecionado */}
               {isSelected && (
-                <div className="space-y-4 border-t border-slate-850 pt-3 animate-fadeIn">
-                  <p className="text-slate-400 text-xs leading-relaxed font-sans">
+                <div className="space-y-4 border-t border-border pt-3 animate-fadeIn">
+                  <p className="text-muted-foreground text-xs leading-relaxed font-sans">
                     {incident.description}
                   </p>
 
                   {/* Ações de Comando */}
-                  <div className="flex flex-wrap gap-2 pt-1 border-t border-slate-900/60 mt-1">
+                  <div className="flex flex-wrap gap-2 pt-1 border-t border-border mt-1">
                     {currentStatus === 'OPEN' && (
                       <button
                         onClick={(e) => {
@@ -113,7 +113,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
                           acknowledgeIncident(incident.incidentId);
                         }}
                         disabled={isActionsDisabled}
-                        className="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-350 hover:text-white font-mono text-[10px] disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-2.5 py-1 rounded bg-slate-900 border border-border hover:border-border text-muted-foreground hover:text-white font-mono text-[10px] disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         ACKNOWLEDGE
                       </button>
@@ -126,7 +126,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
                           superviseIncident(incident.incidentId);
                         }}
                         disabled={isActionsDisabled}
-                        className="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-350 hover:text-white font-mono text-[10px] disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-2.5 py-1 rounded bg-slate-900 border border-border hover:border-border text-muted-foreground hover:text-white font-mono text-[10px] disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         SUPERVISE
                       </button>
@@ -165,7 +165,7 @@ export const GovernanceIncidentQueue: React.FC = () => {
                           resolveIncident(incident.incidentId);
                         }}
                         disabled={isActionsDisabled}
-                        className="px-2.5 py-1 rounded bg-emerald-500 text-slate-950 font-bold font-mono text-[10px] disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-2.5 py-1 rounded bg-emerald-500 text-muted-foreground font-bold font-mono text-[10px] disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         RESOLVE
                       </button>

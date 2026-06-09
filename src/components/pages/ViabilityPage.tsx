@@ -58,7 +58,7 @@ export function ViabilityScenario({ project }: { project: any }) {
           </div>
           <div>
             <h3 className="text-xl font-display tracking-tight">Análise de Cenários</h3>
-            <p className="text-xs text-slate-400 font-medium uppercase tracking-[0.2em]">Simulação Dinâmica de Viabilidade</p>
+            <p className="text-xs text-muted-foreground font-medium uppercase tracking-[0.2em]">Simulação Dinâmica de Viabilidade</p>
           </div>
         </div>
 
@@ -66,7 +66,7 @@ export function ViabilityScenario({ project }: { project: any }) {
           <div className="space-y-8">
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Taxa de Desconto (TMA) - Mensal</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Taxa de Desconto (TMA) - Mensal</label>
                 <span className="text-sm font-black text-secondary">{discountRate}%</span>
               </div>
               <input 
@@ -78,7 +78,7 @@ export function ViabilityScenario({ project }: { project: any }) {
                 onChange={(e) => setDiscountRate(Number(e.target.value))}
                 className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-secondary"
               />
-              <div className="flex justify-between text-[8px] text-slate-500 font-bold uppercase">
+              <div className="flex justify-between text-[8px] text-muted-foreground font-bold uppercase">
                 <span>Conservador (0%)</span>
                 <span>Agressivo (15%)</span>
               </div>
@@ -86,7 +86,7 @@ export function ViabilityScenario({ project }: { project: any }) {
 
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Ajuste de Investimento (CAPEX)</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Ajuste de Investimento (CAPEX)</label>
                 <span className="text-sm font-black text-rose-400">{capexAdjustment}%</span>
               </div>
               <input 
@@ -98,7 +98,7 @@ export function ViabilityScenario({ project }: { project: any }) {
                 onChange={(e) => setCapexAdjustment(Number(e.target.value))}
                 className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500"
               />
-              <div className="flex justify-between text-[8px] text-slate-500 font-bold uppercase">
+              <div className="flex justify-between text-[8px] text-muted-foreground font-bold uppercase">
                 <span>Economia (-50%)</span>
                 <span>Estouro (+100%)</span>
               </div>
@@ -106,7 +106,7 @@ export function ViabilityScenario({ project }: { project: any }) {
 
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Ajuste de Fluxo de Caixa (Receitas)</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Ajuste de Fluxo de Caixa (Receitas)</label>
                 <span className="text-sm font-black text-emerald-400">{cfMultiplier}%</span>
               </div>
               <input 
@@ -118,14 +118,14 @@ export function ViabilityScenario({ project }: { project: any }) {
                 onChange={(e) => setCfMultiplier(Number(e.target.value))}
                 className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
               />
-              <div className="flex justify-between text-[8px] text-slate-500 font-bold uppercase">
+              <div className="flex justify-between text-[8px] text-muted-foreground font-bold uppercase">
                 <span>Cenário Pessimista (-50%)</span>
                 <span>Cenário Otimista (+100%)</span>
               </div>
             </div>
             
             <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-              <p className="text-[11px] text-slate-400 leading-relaxed italic">
+              <p className="text-[11px] text-muted-foreground leading-relaxed italic">
                 * Os cálculos acima aplicam os ajustes linearmente sobre o investimento inicial e as entradas projetadas.
               </p>
             </div>
@@ -139,7 +139,7 @@ export function ViabilityScenario({ project }: { project: any }) {
               { label: 'Índ. Lucratividade', val: simulatedIL.toFixed(2) + 'x' },
             ].map((res, idx) => (
               <div key={idx} className="p-4 rounded-xl bg-white/5 border border-white/5 flex flex-col justify-center">
-                <span className="block text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">{res.label}</span>
+                <span className="block text-[9px] font-bold text-muted-foreground uppercase tracking-widest mb-1">{res.label}</span>
                 <span className="text-lg font-black tracking-tight">{res.val}</span>
               </div>
             ))}
@@ -165,7 +165,7 @@ export function ViabilityScenario({ project }: { project: any }) {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h4 className="text-sm font-bold text-white">Fluxo de Caixa Mensal Projetado</h4>
-              <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest mt-1">Estimativa de entradas e saídas por período</p>
+              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest mt-1">Estimativa de entradas e saídas por período</p>
             </div>
             {simulatedPayback && (
               <div className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-lg">
@@ -302,11 +302,11 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
   );
 
   const toolbar = (
-    <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+    <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
       <div className="flex items-center gap-3">
-        <div className="px-4 md:px-6 py-2 md:py-3 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-center gap-3">
+        <div className="px-4 md:px-6 py-2 md:py-3 bg-white border border-border rounded-2xl shadow-sm flex items-center gap-3">
           <Activity size={14} className="text-secondary" />
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
             {projects.length} Projetos Ativos
           </span>
         </div>
@@ -328,12 +328,12 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
       <div className="space-y-10 pb-20 animate-executive-fade">
         {header}
         {toolbar}
-        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-slate-200/60 rounded-[40px] p-8 sm:p-12 md:p-20 text-center shadow-sm w-full mx-auto">
+        <div className="flex flex-col items-center justify-center min-h-[400px] bg-white border border-border rounded-[40px] p-8 sm:p-12 md:p-20 text-center shadow-sm w-full mx-auto">
           <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
-            <Activity size={48} className="text-slate-200" />
+            <Activity size={48} className="text-muted-foreground" />
           </div>
-          <h3 className="text-xl font-black text-slate-900 mb-2">Sem projetos vinculados</h3>
-          <p className="text-slate-500 max-w-md mx-auto mb-8 font-medium">Nenhum projeto de inovação foi cadastrado para este cliente até o momento.</p>
+          <h3 className="text-xl font-black text-muted-foreground mb-2">Sem projetos vinculados</h3>
+          <p className="text-muted-foreground max-w-md mx-auto mb-8 font-medium">Nenhum projeto de inovação foi cadastrado para este cliente até o momento.</p>
         </div>
       </div>
     );
@@ -352,14 +352,14 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
             animate={{ opacity: 1, scale: 1, y: 0 }}
             className="bg-white rounded-3xl shadow-2xl w-full max-w-xl overflow-hidden"
           >
-            <div className="p-8 border-b border-slate-100 flex items-center justify-between">
+            <div className="p-8 border-b border-border flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-black text-slate-900">Lançar Projeto de Inovação</h3>
-                <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Configuração inicial de CAPEX e unidade.</p>
+                <h3 className="text-xl font-black text-muted-foreground">Lançar Projeto de Inovação</h3>
+                <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Configuração inicial de CAPEX e unidade.</p>
               </div>
               <button 
                 onClick={() => setShowModal(false)}
-                className="p-2 hover:bg-slate-50 rounded-full text-slate-400"
+                className="p-2 hover:bg-slate-50 rounded-full text-muted-foreground"
               >
                 <X size={20} />
               </button>
@@ -368,11 +368,11 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
             <div className="p-8 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Cliente Responsável</label>
+                  <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-2 block">Cliente Responsável</label>
                   <select 
                     value={newProj.cl}
                     onChange={(e) => setNewProj({ ...newProj, cl: e.target.value })}
-                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="w-full h-12 bg-slate-50 border border-border rounded-xl px-4 text-xs font-bold text-muted-foreground outline-none focus:ring-2 focus:ring-blue-500/20"
                   >
                     {clients.map(c => (
                       <option key={c.id} value={c.id}>{c.fantasia || c.name}</option>
@@ -380,36 +380,36 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
                   </select>
                 </div>
                 <div>
-                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Nome do Projeto</label>
+                  <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-2 block">Nome do Projeto</label>
                   <input 
                     type="text"
                     placeholder="Ex: Expansão Ala Sul 2026"
                     value={newProj.nome}
                     onChange={(e) => setNewProj({ ...newProj, nome: e.target.value })}
-                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="w-full h-12 bg-slate-50 border border-border rounded-xl px-4 text-xs font-bold text-muted-foreground outline-none focus:ring-2 focus:ring-blue-500/20"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Unidade de Negócio</label>
+                  <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-2 block">Unidade de Negócio</label>
                   <input 
                     type="text"
                     placeholder="Ex: Medicina Diagnóstica"
                     value={newProj.unidadeNegocio}
                     onChange={(e) => setNewProj({ ...newProj, unidadeNegocio: e.target.value })}
-                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="w-full h-12 bg-slate-50 border border-border rounded-xl px-4 text-xs font-bold text-muted-foreground outline-none focus:ring-2 focus:ring-blue-500/20"
                   />
                 </div>
                 <div>
-                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Filial</label>
+                  <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-2 block">Filial</label>
                   <input 
                     type="text"
                     placeholder="Ex: Matriz - SP"
                     value={newProj.filial}
                     onChange={(e) => setNewProj({ ...newProj, filial: e.target.value })}
-                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="w-full h-12 bg-slate-50 border border-border rounded-xl px-4 text-xs font-bold text-muted-foreground outline-none focus:ring-2 focus:ring-blue-500/20"
                   />
                 </div>
               </div>
@@ -427,10 +427,10 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
               </div>
             </div>
 
-            <div className="p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4">
+            <div className="p-8 bg-slate-50 border-t border-border flex justify-end gap-4">
               <button 
                 onClick={() => setShowModal(false)}
-                className="px-4 md:px-6 py-2 md:py-3 text-xs font-bold text-slate-500 hover:text-slate-700"
+                className="px-4 md:px-6 py-2 md:py-3 text-xs font-bold text-muted-foreground hover:text-muted-foreground"
               >
                 CANCELAR
               </button>
@@ -447,17 +447,17 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
       
       <div className="grid grid-cols-1 gap-12">
         {filteredProjects.map((v: any, i: number) => (
-          <div key={i} className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+          <div key={i} className="bg-white p-8 rounded-xl border border-border shadow-sm relative overflow-hidden">
             <div className="absolute top-0 right-0 p-6 flex flex-col items-end gap-2 text-right">
               <StatusBadge status={v.conclusao} />
               {v.unidadeNegocio && (
-                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{v.unidadeNegocio} · {v.filial}</span>
+                <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{v.unidadeNegocio} · {v.filial}</span>
               )}
             </div>
             
             <div className="mb-10">
-               <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{v.cl} · Projeto {v.proj}</h2>
-               <h4 className="text-3xl font-bold tracking-tight italic text-slate-900">{v.nome}</h4>
+               <h2 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">{v.cl} · Projeto {v.proj}</h2>
+               <h4 className="text-3xl font-bold tracking-tight italic text-muted-foreground">{v.nome}</h4>
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -469,10 +469,10 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
                     {label: 'Payback', val: v.payback},
                     {label: 'Índ. Lucratividade', val: v.il + 'x'},
                   ].map(row => (
-                    <div key={row.label} className="bg-slate-50 p-4 rounded-lg border border-slate-100 flex flex-col justify-center min-h-[80px]">
-                      <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{row.label}</span>
+                    <div key={row.label} className="bg-slate-50 p-4 rounded-lg border border-border flex flex-col justify-center min-h-[80px]">
+                      <span className="block text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">{row.label}</span>
                       <span className={cn(
-                        "font-bold text-slate-800",
+                        "font-bold text-muted-foreground",
                         row.val.length > 15 ? "text-sm" : "text-lg"
                       )}>{row.val}</span>
                     </div>
@@ -491,22 +491,22 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
               <div className="lg:col-span-2">
                 <div className="mb-4 flex items-center justify-between">
                   <div>
-                    <h5 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Fluxo de Caixa Projetado</h5>
-                    <p className="text-[10px] text-slate-400 font-medium">Monthly vs Cumulative Cash Flow (Payback Point Highlighted)</p>
+                    <h5 className="text-sm font-bold text-muted-foreground uppercase tracking-wide">Fluxo de Caixa Projetado</h5>
+                    <p className="text-[10px] text-muted-foreground font-medium">Monthly vs Cumulative Cash Flow (Payback Point Highlighted)</p>
                   </div>
                   <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest">
                     <div className="flex items-center gap-1.5">
                       <div className="w-3 h-3 bg-blue-100 rounded-sm border border-blue-200" />
-                      <span className="text-slate-500">Mensal</span>
+                      <span className="text-muted-foreground">Mensal</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="w-3 h-0.5 bg-blue-600 rounded-full" />
-                      <span className="text-slate-500">Acumulado</span>
+                      <span className="text-muted-foreground">Acumulado</span>
                     </div>
                   </div>
                 </div>
                 
-                <div className="h-[300px] w-full bg-slate-50/30 rounded-xl p-4 border border-slate-100">
+                <div className="h-[300px] w-full bg-slate-50/30 rounded-xl p-4 border border-border">
                   <ResponsiveContainer width="100%" height="100%">
                     <ComposedChart data={v.fluxo}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
@@ -565,25 +565,25 @@ export function ViabilityPage({ selectedClient, clients }: { selectedClient: str
                 
                 <div className="mt-4 grid grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="flex flex-col">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">CAPEX Estimado</span>
+                    <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">CAPEX Estimado</span>
                     <span className="text-xs font-bold text-rose-500">
                       {formatCurrency(Math.abs(v.fluxo[0].valor) * 0.85)}
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Capital de Giro (NCG)</span>
+                    <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Capital de Giro (NCG)</span>
                     <span className="text-xs font-bold text-amber-500">
                       {formatCurrency(Math.abs(v.fluxo[0].valor) * 0.15)}
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Inv. Inicial Total</span>
+                    <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Inv. Inicial Total</span>
                     <span className="text-xs font-black text-rose-600">
                       {formatCurrency(Math.abs(v.fluxo[0].valor))}
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Saldo Final (12m)</span>
+                    <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Saldo Final (12m)</span>
                     <span className="text-xs font-black text-emerald-600">
                       {formatCurrency(v.fluxo[v.fluxo.length - 1].acumulado)}
                     </span>

@@ -53,7 +53,7 @@ export const InstitutionalIntelligenceWorkspace: React.FC = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Network className="animate-spin-slow text-indigo-500 mb-4" size={32} />
+        <Network className="animate-spin-slow text-primary mb-4" size={32} />
         <p className="text-eyebrow text-muted-foreground">Compilando Contexto Institucional...</p>
       </div>
     );

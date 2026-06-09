@@ -85,7 +85,7 @@ export const AdvisorWorkspaceShell: React.FC<AdvisorWorkspaceShellProps> = ({
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Compass className="animate-spin-slow text-indigo-500 mb-4" size={32} />
+        <Compass className="animate-spin-slow text-primary mb-4" size={32} />
         <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Sincronizando Governance OS...</p>
       </div>
     );
@@ -105,7 +105,7 @@ export const AdvisorWorkspaceShell: React.FC<AdvisorWorkspaceShellProps> = ({
         <div className="flex gap-2">
           <button
             onClick={() => handleCrossNavigation('INTELLIGENCE_FABRIC', '/intelligence/root')}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-indigo-500/30 shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent text-accent text-sm font-display font-medium rounded-[12px] transition-colors border border-accent shadow-sm"
           >
             <Network size={16} />
             <span>Intelligence Fabric</span>

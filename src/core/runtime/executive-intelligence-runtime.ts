@@ -1040,7 +1040,7 @@ export class ExecutiveIntelligenceRuntime implements
             { name: 'Comercial', value: 0, desc: 'Gestão de Custos', color: 'slate' },
             { name: 'Operacional', value: 0, desc: 'Geração EBITDA', color: 'slate' }
           ],
-          scaleEfficiency: { category: 'Sem Dados', colorClass: 'text-slate-400', recGrowth: 0, ebitdaGrowth: 0, description: 'Aguardando dados financeiros.' },
+          scaleEfficiency: { category: 'Sem Dados', colorClass: 'text-muted-foreground', recGrowth: 0, ebitdaGrowth: 0, description: 'Aguardando dados financeiros.' },
           alerts: [],
           chartData: []
         };
@@ -1392,7 +1392,7 @@ export class ExecutiveIntelligenceRuntime implements
 
       // Scale efficiency classification
       let scaleCategory = 'Análise Inicial';
-      let scaleColorClass = 'text-slate-400';
+      let scaleColorClass = 'text-muted-foreground';
       if (recGrowth > 0 && ebitdaGrowth > recGrowth)       { scaleCategory = 'Crescimento Saudável';    scaleColorClass = 'text-emerald-500'; }
       else if (recGrowth > 0 && ebitdaGrowth > 0)          { scaleCategory = 'Absorção de Estrutura';   scaleColorClass = 'text-blue-500'; }
       else if (recGrowth > 0 && ebitdaGrowth < 0)          { scaleCategory = 'Crescimento Destrutivo';  scaleColorClass = 'text-rose-500'; }

@@ -190,7 +190,7 @@ export function LGPDModal({ isOpen, onAccept }: LGPDModalProps) {
             </div>
             <div className="flex-1 overflow-y-auto p-10 custom-scrollbar prose prose-slate max-w-none">
               <h1 className="text-4xl font-black mb-8">Políticas de Governança Illumine Governance</h1>
-              <p className="text-lg text-slate-600 mb-8">Esta plataforma foi desenvolvida para garantir a máxima transparência e integridade na assessoria estratégica corporativa.</p>
+              <p className="text-lg text-muted-foreground mb-8">Esta plataforma foi desenvolvida para garantir a máxima transparência e integridade na assessoria estratégica corporativa.</p>
               
               <h3 className="text-xl font-bold mt-10 mb-4">1. Proteção de Dados (LGPD)</h3>
               <p>O Illumine Governance coleta e processa dados em estrita conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). Os dados financeiros e operacionais inseridos são utilizados exclusivamente para a geração de indicadores estratégicos e suporte à tomada de decisão da organização contratante.</p>

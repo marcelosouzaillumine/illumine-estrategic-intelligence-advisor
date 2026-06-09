@@ -280,18 +280,18 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
          </div>
          
          <div className="text-center space-y-4 max-w-xl mx-auto px-6">
-            <h2 className="text-4xl font-display font-black text-slate-900 tracking-tight leading-tight">Dashboard de {axis} Indisponível</h2>
-            <p className="text-slate-500 font-medium leading-relaxed">
+            <h2 className="text-4xl font-display font-black text-muted-foreground tracking-tight leading-tight">Dashboard de {axis} Indisponível</h2>
+            <p className="text-muted-foreground font-medium leading-relaxed">
               Não identificamos indicadores financeiros ou estratégicos para o eixo de <strong>{axis}</strong> no período selecionado. 
               Por favor, realize a importação dos dados históricos para visualizar a performance.
             </p>
          </div>
 
          <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
-            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-2 border border-slate-200 shadow-sm h-[40px]">
+            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-2 border border-border shadow-sm h-[40px]">
               <span className={cn(
                 "text-[10px] font-black uppercase tracking-widest transition-colors",
-                !isYTD ? "text-secondary" : "text-slate-400"
+                !isYTD ? "text-secondary" : "text-muted-foreground"
               )}>Mensal</span>
               <button 
                 onClick={() => setIsYTD(!isYTD)}
@@ -307,14 +307,14 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
               </button>
               <span className={cn(
                 "text-[10px] font-black uppercase tracking-widest transition-colors",
-                isYTD ? "text-secondary" : "text-slate-400"
+                isYTD ? "text-secondary" : "text-muted-foreground"
               )}>
                 Anual
               </span>
             </div>
 
-            <div className="flex items-center bg-white/10 backdrop-blur-md border border-slate-200 rounded-2xl p-1 shadow-sm h-[40px]">
-              <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-slate-100")}>
+            <div className="flex items-center bg-white/10 backdrop-blur-md border border-border rounded-2xl p-1 shadow-sm h-[40px]">
+              <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-border")}>
                 <ShieldAlert size={14} className="text-secondary mr-2" />
                 <select 
                   value={selectedYear} 
@@ -355,10 +355,10 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
         transparent={config.title?.includes('Monitoramento Estratégico')}
       />
 
-      <div className="flex items-center justify-start gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-start gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-4 bg-white p-1 rounded-2xl border border-slate-200 shadow-sm px-5 py-2 h-[40px]">
-            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-slate-400")}>Mensal</span>
+          <div className="flex items-center gap-4 bg-white p-1 rounded-2xl border border-border shadow-sm px-5 py-2 h-[40px]">
+            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", !isYTD ? "text-secondary" : "text-muted-foreground")}>Mensal</span>
             <button 
               onClick={() => setIsYTD(!isYTD)}
               className={cn(
@@ -371,11 +371,11 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 className="w-3 h-3 bg-white rounded-full shadow-lg group-hover:scale-110 transition-transform" 
               />
             </button>
-            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", isYTD ? "text-secondary" : "text-slate-400")}>Anual</span>
+            <span className={cn("text-[9px] font-black uppercase tracking-[0.2em]", isYTD ? "text-secondary" : "text-muted-foreground")}>Anual</span>
           </div>
 
-          <div className="flex items-center gap-3 bg-white p-1 rounded-xl border border-slate-200 shadow-sm h-[40px]">
-            <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-slate-100")}>
+          <div className="flex items-center gap-3 bg-white p-1 rounded-xl border border-border shadow-sm h-[40px]">
+            <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-border")}>
               <ShieldAlert size={14} className="text-secondary mr-2" />
               <select 
                 value={selectedYear} 
@@ -416,7 +416,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
         const isSilent = turnover < 5 && enps < 30 && enps !== 0;
 
         return (
-          <div className="bg-white p-10 md:p-14 rounded-[56px] border border-slate-200 shadow-sm relative overflow-hidden mb-10">
+          <div className="bg-white p-10 md:p-14 rounded-[56px] border border-border shadow-sm relative overflow-hidden mb-10">
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
             
             <div className="relative z-10">
@@ -425,21 +425,21 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                   <Users size={32} />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">Inteligência Antropológica & Clima</h3>
-                  <p className="text-xs text-slate-500 font-medium">Detectando sinais invisíveis de fadiga, centralização e saúde cultural.</p>
+                  <h3 className="text-2xl font-black text-muted-foreground tracking-tight">Inteligência Antropológica & Clima</h3>
+                  <p className="text-xs text-muted-foreground font-medium">Detectando sinais invisíveis de fadiga, centralização e saúde cultural.</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-stretch gap-8">
                 {/* Centralization Signal */}
-                <div className="p-8 rounded-[40px] bg-slate-50 border border-slate-100 space-y-6 h-full flex flex-col">
+                <div className="p-8 rounded-[40px] bg-slate-50 border border-border space-y-6 h-full flex flex-col">
                   <div className="flex items-center justify-between">
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinal de Centralização</p>
+                     <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Sinal de Centralização</p>
                      <div className={cn("w-2 h-2 rounded-full", isCentralized ? "bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]" : "bg-emerald-500")} />
                   </div>
                   <div className="space-y-2">
-                     <h4 className="text-lg font-black text-slate-900">{isCentralized ? "Risco Identificado" : "Liderança Distribuída"}</h4>
-                     <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                     <h4 className="text-lg font-black text-muted-foreground">{isCentralized ? "Risco Identificado" : "Liderança Distribuída"}</h4>
+                     <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                        {isCentralized 
                          ? "Correlação entre Turnover em posições chave e score de eNPS indica possíveis gargalos decisórios no topo." 
                          : "O fluxo de talentos e a satisfação indicam uma estrutura de comando equilibrada e participativa."}
@@ -448,14 +448,14 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 </div>
 
                 {/* Fatigue Signal */}
-                <div className="p-8 rounded-[40px] bg-slate-50 border border-slate-100 space-y-6 h-full flex flex-col">
+                <div className="p-8 rounded-[40px] bg-slate-50 border border-border space-y-6 h-full flex flex-col">
                   <div className="flex items-center justify-between">
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fadiga Organizacional</p>
+                     <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Fadiga Organizacional</p>
                      <div className={cn("w-2 h-2 rounded-full", isFatigued ? "bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]" : "bg-emerald-500")} />
                   </div>
                   <div className="space-y-2">
-                     <h4 className="text-lg font-black text-slate-900">{isFatigued ? "Alerta de Estresse" : "Ritmo Sustentável"}</h4>
-                     <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                     <h4 className="text-lg font-black text-muted-foreground">{isFatigued ? "Alerta de Estresse" : "Ritmo Sustentável"}</h4>
+                     <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                        {isFatigued 
                          ? "Índices de absenteísmo ou falta de desenvolvimento indicam sobrecarga física ou mental nas equipes." 
                          : "Os indicadores de presença e investimento em pessoas indicam um ritmo operacional saudável e resiliente."}
@@ -464,7 +464,7 @@ export function AxisDashboardPage({ axis, clientId, onNavigate, selectedMonth, s
                 </div>
 
                 {/* Silent Climate Signal */}
-                <div className={cn("p-8 rounded-[40px] space-y-6 shadow-xl transition-colors duration-500 h-full flex flex-col", isSilent ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-900")}>
+                <div className={cn("p-8 rounded-[40px] space-y-6 shadow-xl transition-colors duration-500 h-full flex flex-col", isSilent ? "bg-slate-950 text-white" : "bg-slate-100 text-muted-foreground")}>
                   <div className="flex items-center justify-between">
                      <p className="text-[10px] font-black opacity-50 uppercase tracking-widest">Clima Silencioso</p>
                      <div className={cn("w-2 h-2 rounded-full", isSilent ? "bg-primary animate-pulse" : "bg-emerald-500")} />

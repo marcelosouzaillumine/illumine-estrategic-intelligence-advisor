@@ -26,7 +26,7 @@ export const GovernanceTimeMachinePage: React.FC = () => {
   const timelineId = nodeId || 'main-institutional-timeline';
 
   return (
-    <div className="bg-slate-950 min-h-screen text-slate-200">
+    <div className="bg-slate-950 min-h-screen text-muted-foreground">
       <GovernanceTimeMachineWorkspace 
         viewModel={dependencies.viewModel}
         runtime={dependencies.runtime}

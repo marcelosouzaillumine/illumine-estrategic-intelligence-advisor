@@ -75,7 +75,7 @@ export const ExecutiveDemoShell: React.FC = () => {
     switch (currentStep) {
       case 'SUMMARY':
         return (
-          <div className="p-6 bg-slate-900 border border-slate-800 rounded-lg text-slate-300">
+          <div className="p-6 bg-slate-900 border border-border rounded-lg text-muted-foreground">
             <h4 className="text-lg font-bold text-white mb-2">Executive Summary</h4>
             <p className="leading-relaxed">{activeScenario.description}</p>
           </div>
@@ -83,15 +83,15 @@ export const ExecutiveDemoShell: React.FC = () => {
       case 'STRUCTURAL_TENSIONS':
         return (
           <div className="space-y-4">
-            <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Structural Tensions</h4>
+            <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Structural Tensions</h4>
             {activeScenario.activeViolations.length === 0 ? (
-              <p className="text-slate-500 text-sm">No structural tensions found in this scenario.</p>
+              <p className="text-muted-foreground text-sm">No structural tensions found in this scenario.</p>
             ) : (
               activeScenario.activeViolations.map((v) => (
                 <div key={v.violationId} className="p-4 bg-red-950/10 border border-red-500/20 rounded">
                   <span className="text-xs font-mono font-bold text-red-400">[{v.severity}]</span>
-                  <p className="text-slate-300 text-sm mt-1">{v.message}</p>
-                  <span className="text-[10px] text-slate-500 block mt-2">Context: {v.sourceContext}</span>
+                  <p className="text-muted-foreground text-sm mt-1">{v.message}</p>
+                  <span className="text-[10px] text-muted-foreground block mt-2">Context: {v.sourceContext}</span>
                 </div>
               ))
             )}
@@ -100,14 +100,14 @@ export const ExecutiveDemoShell: React.FC = () => {
       case 'ROOT_CAUSE':
         return (
           <div className="space-y-4">
-            <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Root Cause Analysis</h4>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-lg space-y-3">
-              <p className="text-xs text-slate-400 leading-relaxed font-mono">
+            <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Root Cause Analysis</h4>
+            <div className="p-6 bg-slate-900 border border-border rounded-lg space-y-3">
+              <p className="text-xs text-muted-foreground leading-relaxed font-mono">
                 Lineage Verification Hash: {activeScenario.lineageIntegrityHash}
               </p>
-              <div className="border-t border-slate-800 pt-3">
+              <div className="border-t border-border pt-3">
                 <span className="text-xs font-mono text-emerald-400">Status: Audited & Verified</span>
-                <p className="text-slate-300 text-sm mt-2">
+                <p className="text-muted-foreground text-sm mt-2">
                   The primary causal driver is verified as {activeScenario.activeViolations.length > 0 ? `"${activeScenario.activeViolations[0].message}"` : 'no critical systemic violations'}.
                   Any narrative bypass has been prevented by the core validation engine.
                 </p>
@@ -118,17 +118,17 @@ export const ExecutiveDemoShell: React.FC = () => {
       case 'PROPAGATION':
         return (
           <div className="space-y-4">
-            <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Systemic Risk Propagation</h4>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-lg space-y-4">
+            <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Systemic Risk Propagation</h4>
+            <div className="p-6 bg-slate-900 border border-border rounded-lg space-y-4">
               <div>
-                <span className="text-xs text-slate-500 font-mono block">Topology Profile</span>
-                <span className="text-sm text-slate-200 font-bold">{activeScenario.topologyProfile}</span>
+                <span className="text-xs text-muted-foreground font-mono block">Topology Profile</span>
+                <span className="text-sm text-muted-foreground font-bold">{activeScenario.topologyProfile}</span>
               </div>
               <div>
-                <span className="text-xs text-slate-500 font-mono block">Tenant Scope</span>
-                <span className="text-sm text-slate-300 font-mono">{activeScenario.tenantScope}</span>
+                <span className="text-xs text-muted-foreground font-mono block">Tenant Scope</span>
+                <span className="text-sm text-muted-foreground font-mono">{activeScenario.tenantScope}</span>
               </div>
-              <div className="border-t border-slate-800 pt-3 text-xs text-slate-400">
+              <div className="border-t border-border pt-3 text-xs text-muted-foreground">
                 {activeScenario.topologyProfile === 'MULTI_ENTITY'
                   ? 'Contagion risks propagate dynamically across the consolidated group entities.'
                   : 'Risk is isolated to the single operational legal entity scope.'}
@@ -139,19 +139,19 @@ export const ExecutiveDemoShell: React.FC = () => {
       case 'INSTITUTIONAL_RISKS':
         return (
           <div className="space-y-4">
-            <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Institutional Risks</h4>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-lg space-y-4">
+            <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Institutional Risks</h4>
+            <div className="p-6 bg-slate-900 border border-border rounded-lg space-y-4">
               <div>
-                <span className="text-xs text-slate-500 font-mono block font-bold">Strategic Confidence State</span>
+                <span className="text-xs text-muted-foreground font-mono block font-bold">Strategic Confidence State</span>
                 <span className={`text-sm font-bold ${
                   activeScenario.confidenceState === 'HIGH' ? 'text-emerald-400' : 'text-amber-400'
                 }`}>{activeScenario.confidenceState} CONFIDENCE</span>
               </div>
               <div>
-                <span className="text-xs text-slate-500 font-mono block">Mandatory Disclosure Rules</span>
+                <span className="text-xs text-muted-foreground font-mono block">Mandatory Disclosure Rules</span>
                 <div className="flex flex-wrap gap-2 mt-1">
                   {activeScenario.disclosureRequirements.map((r, i) => (
-                    <span key={i} className="px-2 py-0.5 bg-slate-800 border border-slate-700 rounded text-slate-300 text-[10px] font-mono">
+                    <span key={i} className="px-2 py-0.5 bg-slate-800 border border-border rounded text-muted-foreground text-[10px] font-mono">
                       {r}
                     </span>
                   ))}
@@ -163,11 +163,11 @@ export const ExecutiveDemoShell: React.FC = () => {
       case 'RECOMMENDATIONS':
         return (
           <div className="space-y-4">
-            <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Fiduciary Board Recommendations</h4>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-lg space-y-3">
+            <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Fiduciary Board Recommendations</h4>
+            <div className="p-6 bg-slate-900 border border-border rounded-lg space-y-3">
               <ul className="list-disc list-inside space-y-2">
                 {activeScenario.recommendations.map((rec, i) => (
-                  <li key={i} className="text-slate-300 text-sm leading-relaxed">
+                  <li key={i} className="text-muted-foreground text-sm leading-relaxed">
                     {rec}
                   </li>
                 ))}
@@ -178,19 +178,19 @@ export const ExecutiveDemoShell: React.FC = () => {
       case 'EVIDENCE_CHAIN':
         return (
           <div className="space-y-4">
-            <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Evidence Chain & Ledger Validation</h4>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-lg space-y-3">
+            <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Evidence Chain & Ledger Validation</h4>
+            <div className="p-6 bg-slate-900 border border-border rounded-lg space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
                 <div>
-                  <span className="text-slate-500 block">Evidence Integrity Hash</span>
-                  <span className="text-slate-300 block truncate">{activeScenario.evidenceIntegrityHash}</span>
+                  <span className="text-muted-foreground block">Evidence Integrity Hash</span>
+                  <span className="text-muted-foreground block truncate">{activeScenario.evidenceIntegrityHash}</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 block">Lineage Integrity Hash</span>
-                  <span className="text-slate-300 block truncate">{activeScenario.lineageIntegrityHash}</span>
+                  <span className="text-muted-foreground block">Lineage Integrity Hash</span>
+                  <span className="text-muted-foreground block truncate">{activeScenario.lineageIntegrityHash}</span>
                 </div>
               </div>
-              <div className="border-t border-slate-800 pt-3 text-xs text-emerald-400 font-mono flex items-center gap-1.5">
+              <div className="border-t border-border pt-3 text-xs text-emerald-400 font-mono flex items-center gap-1.5">
                 <span>🛡️</span> All telemetry data, accounts suppliers/payables, and structural balances are verified against core ledger state.
               </div>
             </div>
@@ -201,14 +201,14 @@ export const ExecutiveDemoShell: React.FC = () => {
       case 'FINAL_DISCLOSURE':
         return (
           <div className="space-y-4">
-            <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Final Compliance Disclosure</h4>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-lg space-y-3 text-xs font-mono">
+            <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Final Compliance Disclosure</h4>
+            <div className="p-6 bg-slate-900 border border-border rounded-lg space-y-3 text-xs font-mono">
               <p className="text-emerald-400 uppercase font-bold tracking-wider">✓ Approved by Fiduciary Board & Advisor Suite</p>
-              <p className="text-slate-400 leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed">
                 This presentation operates on deterministic, audited snapshots. Any attempt to modify,
                 generate, or alter summaries or causal pathways locally is blocked by active compliance guards.
               </p>
-              <div className="pt-2 text-slate-500">
+              <div className="pt-2 text-muted-foreground">
                 Timestamp Reference: {new Date().toISOString()}
               </div>
             </div>
@@ -251,15 +251,15 @@ export const ExecutiveDemoShell: React.FC = () => {
   );
 
   return (
-    <div className="w-full min-h-screen bg-slate-950 text-slate-200 p-8 space-y-8">
-      <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+    <div className="w-full min-h-screen bg-slate-950 text-muted-foreground p-8 space-y-8">
+      <div className="flex items-center justify-between border-b border-border pb-4">
         <div>
           <h1 className="text-3xl font-light text-white tracking-tight">Executive Demonstrability Workspace</h1>
-          <p className="text-xs text-slate-400 mt-1">Fiduciary Board & Advisor Presentation Suite</p>
+          <p className="text-xs text-muted-foreground mt-1">Fiduciary Board & Advisor Presentation Suite</p>
         </div>
         <div className="text-right">
-          <span className="text-xs font-mono text-slate-500 block">Session ID: {sessionId}</span>
-          <span className="text-xs font-mono text-slate-400">Actor: CFO</span>
+          <span className="text-xs font-mono text-muted-foreground block">Session ID: {sessionId}</span>
+          <span className="text-xs font-mono text-muted-foreground">Actor: CFO</span>
         </div>
       </div>
 
@@ -278,7 +278,7 @@ export const ExecutiveDemoShell: React.FC = () => {
       {session && session.disclosureState === 'PENDING' && selectedScenarioId && (
         <div className="p-6 bg-slate-900 border border-blue-900/50 rounded-lg space-y-4">
           <h3 className="text-base font-bold text-white">Institutional Terms of Fiduciary Disclosure</h3>
-          <p className="text-xs text-slate-300 leading-relaxed">
+          <p className="text-xs text-muted-foreground leading-relaxed">
             By accepting, you certify that the demonstration runs solely on certified snapshot hashes.
             Simulations, indicators, and timelines represent audited data from the core intelligence engine.
           </p>

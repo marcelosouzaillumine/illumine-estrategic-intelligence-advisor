@@ -213,7 +213,7 @@ export function PremissasEconomicasPage() {
                       exit={{ opacity: 0, x: -20 }}
                       className="absolute inset-0 p-6 flex flex-col"
                     >
-                      <div className="flex-1 bg-slate-50 rounded-xl border border-slate-100 p-4">
+                      <div className="flex-1 bg-slate-50 rounded-xl border border-border p-4">
                         <div className="mb-4">
                           <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                             {secao.categoria.includes('Câmbio') ? 'Evolução Dólar (R$)' : 'Evolução Meta Selic (%)'}
@@ -289,7 +289,7 @@ export function PremissasEconomicasPage() {
                 </AnimatePresence>
               </div>
               
-              <div className="mt-auto p-4 bg-slate-50 border-t border-slate-100">
+              <div className="mt-auto p-4 bg-slate-50 border-t border-border">
                  <p className="text-[10px] text-muted-foreground font-medium leading-relaxed">
                    Dados coletados e normalizados para o cenário de projeção Illumine 2026.
                  </p>

@@ -156,10 +156,10 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             </div>
             
             <h2 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
-              Board Meeting Mode (BMM™) <span className="text-xs font-mono text-slate-500">v1.0</span>
+              Board Meeting Mode (BMM™) <span className="text-xs font-mono text-muted-foreground">v1.0</span>
             </h2>
             
-            <p className="text-slate-400 text-sm leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed">
               O BMM™ é a primeira sala de deliberação governada do Illumine Governance™. 
               Esta camada permite que recomendações estruturadas se tornem decisões formais, 
               registrando responsabilidades e prazos de forma humana no Governance Decision Tracking Layer (GDTL™).
@@ -176,23 +176,23 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                 {/* GJI & Stage */}
                 <div className="lg:col-span-5 bg-slate-950/40 border border-white/5 rounded-2xl p-5 flex flex-col justify-between space-y-4">
                   <div className="flex justify-between items-baseline">
-                    <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">GJI Score</span>
-                    <span className="text-2xl font-extrabold text-white font-mono">{journey.gjiScore}<span className="text-xs text-slate-500 font-normal">/100</span></span>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">GJI Score</span>
+                    <span className="text-2xl font-extrabold text-white font-mono">{journey.gjiScore}<span className="text-xs text-muted-foreground font-normal">/100</span></span>
                   </div>
-                  <div className="text-[10px] text-slate-400 italic font-medium leading-relaxed">
+                  <div className="text-[10px] text-muted-foreground italic font-medium leading-relaxed">
                     “Governance Journey Index — índice consolidado de navegação executiva”
                   </div>
-                  <div className="text-xs font-black uppercase text-indigo-400 tracking-wider">
+                  <div className="text-xs font-black uppercase text-primary tracking-wider">
                     {journey.gjiStage}
                   </div>
-                  <div className="text-[11px] text-slate-400 bg-slate-900/50 p-3 rounded-lg border border-white/5 font-light leading-relaxed">
+                  <div className="text-[11px] text-muted-foreground bg-slate-900/50 p-3 rounded-lg border border-white/5 font-light leading-relaxed">
                     “{journey.boardNarrative}”
                   </div>
                 </div>
 
                 {/* Steps order by EAI */}
                 <div className="lg:col-span-7 bg-slate-950/40 border border-white/5 rounded-2xl p-5 flex flex-col justify-between">
-                  <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-3 block">
+                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold mb-3 block">
                     Passos Priorizados por Atenção (EAI™)
                   </span>
                   
@@ -202,11 +202,11 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                       return (
                         <div key={step.id} className="flex justify-between items-center bg-slate-900/30 p-2 rounded border border-white/5 hover:border-white/10 transition-colors">
                           <div className="flex items-center gap-2">
-                            <span className="text-[9px] font-black text-slate-600 font-mono">#{index + 1}</span>
-                            <span className="text-xs font-bold text-slate-300">{step.title}</span>
+                            <span className="text-[9px] font-black text-muted-foreground font-mono">#{index + 1}</span>
+                            <span className="text-xs font-bold text-muted-foreground">{step.title}</span>
                           </div>
                           <div className="flex items-center gap-3">
-                            <span className="text-[9px] font-mono text-slate-500 font-bold">EAI: {step.executiveAttentionScore}</span>
+                            <span className="text-[9px] font-mono text-muted-foreground font-bold">EAI: {step.executiveAttentionScore}</span>
                             <span className={`px-1.5 py-0.5 rounded text-[8px] font-black border uppercase ${
                               isLocked 
                                 ? 'bg-rose-500/10 border-rose-500/25 text-rose-400' 
@@ -230,7 +230,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             {/* Pre-meeting summary */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-slate-950/50 p-6 rounded-2xl border border-white/5">
               <div>
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Decision Readiness Score</span>
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Decision Readiness Score</span>
                 <div className="flex items-baseline gap-2 mt-1">
                   <span className="text-4xl font-extrabold text-white">{boardPack.decisionReadinessScore}</span>
                   <span className="text-xs font-bold uppercase tracking-wider text-[#FF8552]">
@@ -241,7 +241,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               
               <div className="w-full md:w-auto space-y-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400 block">Participantes da Sessão (Separados por vírgula)</label>
+                  <label className="text-xs font-semibold text-muted-foreground block">Participantes da Sessão (Separados por vírgula)</label>
                   <input
                     type="text"
                     value={participantsInput}
@@ -271,7 +271,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             onConfirm={() => setWarningMessage(null)}
           >
             <div className="space-y-3 py-2">
-              <p className="text-sm text-slate-350">{warningMessage}</p>
+              <p className="text-sm text-muted-foreground">{warningMessage}</p>
             </div>
           </FiduciaryModalShell>
         )}
@@ -293,12 +293,12 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               <span className="text-xs font-bold text-[#FF8552] uppercase tracking-widest">Sessão Plenária Ativa</span>
             </div>
             <h3 className="text-lg font-bold text-white leading-tight">{activeMeeting.title}</h3>
-            <span className="text-[10px] font-mono text-slate-500 uppercase">Meeting ID: {activeMeeting.meetingId}</span>
+            <span className="text-[10px] font-mono text-muted-foreground uppercase">Meeting ID: {activeMeeting.meetingId}</span>
           </div>
 
           <div className="flex items-center gap-6">
             <div className="text-right">
-              <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block">Decision Readiness</span>
+              <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block">Decision Readiness</span>
               <span className="text-xl font-extrabold text-white">{activeMeeting.readinessScore}</span>
             </div>
             
@@ -315,7 +315,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left: Agenda items list */}
           <div className="lg:col-span-4 space-y-3">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest px-1 block">Ordem do Dia (Pauta)</span>
+            <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest px-1 block">Ordem do Dia (Pauta)</span>
             <div className="space-y-2">
               {activeMeeting.agendaItems.map((item, idx) => {
                 const isActive = idx === currentAgendaIndex;
@@ -329,16 +329,16 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                       isActive 
                         ? 'bg-[#FF8552]/5 border-[#FF8552]/30 text-white shadow-md' 
                         : isPast
-                        ? 'bg-slate-950/20 border-white/5 text-slate-400 hover:text-slate-300'
-                        : 'bg-[#060D17] border-white/5 text-slate-500 hover:text-slate-300'
+                        ? 'bg-slate-950/20 border-white/5 text-muted-foreground hover:text-muted-foreground'
+                        : 'bg-[#060D17] border-white/5 text-muted-foreground hover:text-muted-foreground'
                     }`}
                   >
                     <div className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold ${
                       isActive 
                         ? 'bg-[#FF8552] text-white' 
                         : isPast
-                        ? 'bg-slate-800 text-slate-400'
-                        : 'bg-slate-900 border border-white/10 text-slate-500'
+                        ? 'bg-slate-800 text-muted-foreground'
+                        : 'bg-slate-900 border border-white/10 text-muted-foreground'
                     }`}>
                       {idx + 1}
                     </div>
@@ -350,11 +350,11 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                             ? 'bg-rose-500/15 text-rose-400 border border-rose-500/25'
                             : item.criticality === 'HIGH'
                             ? 'bg-amber-500/15 text-amber-400 border border-amber-500/25'
-                            : 'bg-slate-800 text-slate-400 border border-white/5'
+                            : 'bg-slate-800 text-muted-foreground border border-white/5'
                         }`}>
                           {item.criticality}
                         </span>
-                        <span className="text-[8px] font-medium text-slate-500 uppercase tracking-widest">
+                        <span className="text-[8px] font-medium text-muted-foreground uppercase tracking-widest">
                           {item.category}
                         </span>
                       </div>
@@ -370,7 +370,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             <div className="space-y-6">
               <div className="flex justify-between items-center border-b border-white/5 pb-4">
                 <div>
-                  <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Tópico em Discussão</span>
+                  <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest block">Tópico em Discussão</span>
                   <h4 className="text-md font-bold text-white">{activeItem.title}</h4>
                 </div>
                 
@@ -379,7 +379,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                     ? 'bg-rose-500/10 border border-rose-500/20 text-rose-400'
                     : activeItem.criticality === 'HIGH'
                     ? 'bg-amber-500/10 border border-amber-500/20 text-amber-400'
-                    : 'bg-slate-900 text-slate-400 border border-white/5'
+                    : 'bg-slate-900 text-muted-foreground border border-white/5'
                 }`}>
                   Criticidade: {activeItem.criticality}
                 </span>
@@ -389,13 +389,13 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               <div className="space-y-4">
                 <div className="p-4 bg-slate-950/40 border border-white/5 rounded-xl space-y-2">
                   <span className="text-[9px] font-bold text-[#FF8552] uppercase tracking-wider block">Contexto de Deliberação</span>
-                  <p className="text-xs text-slate-300 leading-relaxed">{activeItem.recommendedDiscussion}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{activeItem.recommendedDiscussion}</p>
                 </div>
 
                 {/* Specific widgets for resolutions on Topic 6 */}
                 {activeItem.id === 'AGENDA-RESOLUTIONS' && (
                   <div className="space-y-6 pt-4 border-t border-white/5">
-                    <span className="text-xs font-bold text-slate-200 block uppercase tracking-wide">Deliberações recomendadas</span>
+                    <span className="text-xs font-bold text-muted-foreground block uppercase tracking-wide">Deliberações recomendadas</span>
                     
                     <div className="space-y-4">
                       {activeMeeting.resolutions.map((res) => {
@@ -407,7 +407,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                             <div className="flex justify-between items-start gap-4">
                               <div className="space-y-1">
                                 <span className="text-xs font-bold text-white block">{res.title}</span>
-                                <p className="text-[11px] text-slate-400">{res.description}</p>
+                                <p className="text-[11px] text-muted-foreground">{res.description}</p>
                               </div>
                               
                               <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${
@@ -415,7 +415,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                                   ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
                                   : res.decision === 'REJECTED'
                                   ? 'bg-rose-500/10 border-rose-500/20 text-rose-400'
-                                  : 'bg-slate-900 border-white/10 text-slate-500'
+                                  : 'bg-slate-900 border-white/10 text-muted-foreground'
                               }`}>
                                 {res.decision === 'APPROVED' ? 'Aprovada' : res.decision === 'REJECTED' ? 'Rejeitada' : 'Adiada'}
                               </span>
@@ -425,7 +425,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                             {res.decision !== 'APPROVED' && res.decision !== 'REJECTED' && (
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-white/5 pt-3 mt-2">
                                 <div className="space-y-1">
-                                  <label className="text-[10px] font-bold text-slate-400 block">Decidido por (Conselheiro / Comitê)</label>
+                                  <label className="text-[10px] font-bold text-muted-foreground block">Decidido por (Conselheiro / Comitê)</label>
                                   <input
                                     type="text"
                                     value={currentVoter}
@@ -435,7 +435,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                                   />
                                 </div>
                                 <div className="space-y-1">
-                                  <label className="text-[10px] font-bold text-slate-400 block">Justificativa da Decisão</label>
+                                  <label className="text-[10px] font-bold text-muted-foreground block">Justificativa da Decisão</label>
                                   <input
                                     type="text"
                                     value={currentReason}
@@ -454,15 +454,15 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                                   Conectado ao GDTL™
                                 </div>
                                 <div>Aprovado por: <span className="font-semibold text-white">{res.decidedBy}</span></div>
-                                <div>Justificativa: <span className="italic text-slate-300">"{res.decisionReason}"</span></div>
-                                <div className="text-[10px] text-slate-500 mt-1">Ação aberta em GDTL (Responsável: UNASSIGNED | Risco: ALTO)</div>
+                                <div>Justificativa: <span className="italic text-muted-foreground">"{res.decisionReason}"</span></div>
+                                <div className="text-[10px] text-muted-foreground mt-1">Ação aberta em GDTL (Responsável: UNASSIGNED | Risco: ALTO)</div>
                               </div>
                             )}
 
                             {res.decision === 'REJECTED' && (
                               <div className="bg-rose-500/5 border border-rose-500/10 rounded-lg p-3 text-[11px] text-rose-400/90">
                                 <div>Rejeitado por: <span className="font-semibold text-white">{res.decidedBy}</span></div>
-                                <div>Motivo: <span className="italic text-slate-300">"{res.decisionReason}"</span></div>
+                                <div>Motivo: <span className="italic text-muted-foreground">"{res.decisionReason}"</span></div>
                               </div>
                             )}
 
@@ -497,20 +497,20 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               <button
                 disabled={currentAgendaIndex === 0}
                 onClick={() => setCurrentAgendaIndex(prev => prev - 1)}
-                className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white disabled:opacity-30 disabled:hover:text-slate-400 transition-colors"
+                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-white disabled:opacity-30 disabled:hover:text-muted-foreground transition-colors"
               >
                 <ChevronLeft size={16} />
                 Tópico Anterior
               </button>
               
-              <span className="text-[10px] font-mono text-slate-500">
+              <span className="text-[10px] font-mono text-muted-foreground">
                 Pauta {currentAgendaIndex + 1} de {activeMeeting.agendaItems.length}
               </span>
 
               {currentAgendaIndex < activeMeeting.agendaItems.length - 1 ? (
                 <button
                   onClick={() => setCurrentAgendaIndex(prev => prev + 1)}
-                  className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors"
+                  className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-white transition-colors"
                 >
                   Próximo Tópico
                   <ChevronRight size={16} />
@@ -537,7 +537,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                 Confirmar Deliberação
               </h5>
               
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-muted-foreground leading-relaxed">
                 Você tem certeza que deseja homologar esta resolução como <strong className="text-white">
                   {confirmingResolution.decision === 'APPROVED' ? 'APROVADA' : 'REJEITADA'}
                 </strong>? 
@@ -547,7 +547,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               <div className="flex gap-3 justify-end pt-2">
                 <button
                   onClick={() => setConfirmingResolution(null)}
-                  className="px-4 py-2 rounded-xl text-xs text-slate-400 hover:text-white bg-slate-900 border border-white/5 transition-colors"
+                  className="px-4 py-2 rounded-xl text-xs text-muted-foreground hover:text-white bg-slate-900 border border-white/5 transition-colors"
                 >
                   Cancelar
                 </button>
@@ -571,7 +571,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
                 Encerrar Reunião?
               </h5>
               
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-muted-foreground leading-relaxed">
                 Deseja compilar a Ata e registrar as deliberações em definitivo?
                 As resoluções aprovadas serão formalizadas na trilha fiduciária da holding.
               </p>
@@ -579,7 +579,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               <div className="flex gap-3 justify-end pt-2">
                 <button
                   onClick={() => setConfirmingComplete(false)}
-                  className="px-4 py-2 rounded-xl text-xs text-slate-400 hover:text-white bg-slate-900 border border-white/5 transition-colors"
+                  className="px-4 py-2 rounded-xl text-xs text-muted-foreground hover:text-white bg-slate-900 border border-white/5 transition-colors"
                 >
                   Retornar
                 </button>
@@ -602,7 +602,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             onConfirm={() => setWarningMessage(null)}
           >
             <div className="space-y-3 py-2">
-              <p className="text-sm text-slate-350">{warningMessage}</p>
+              <p className="text-sm text-muted-foreground">{warningMessage}</p>
             </div>
           </FiduciaryModalShell>
         )}
@@ -627,7 +627,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               <h2 className="text-2xl font-extrabold text-white tracking-tight leading-tight pt-2">
                 Ata de Reunião Extraordinária do Conselho
               </h2>
-              <span className="text-[10px] font-mono text-slate-500 uppercase">
+              <span className="text-[10px] font-mono text-muted-foreground uppercase">
                 Código de Autenticação: MEET-{scenario}-COMPLETED
               </span>
             </div>
@@ -641,10 +641,10 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             {/* Metadata & Participants */}
             <div className="space-y-6 lg:col-span-1 border-r border-white/5 pr-4">
               <div className="space-y-2">
-                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Participantes</span>
+                <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest block">Participantes</span>
                 <div className="flex flex-wrap gap-2">
                   {completedMinutes.participants.map((p, i) => (
-                    <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-900 border border-white/5 rounded-lg text-xs text-slate-300 font-medium">
+                    <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-900 border border-white/5 rounded-lg text-xs text-muted-foreground font-medium">
                       <UserCheck size={10} className="text-[#FF8552]" />
                       {p}
                     </span>
@@ -653,10 +653,10 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               </div>
 
               <div className="space-y-2">
-                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Tópicos Debatidos</span>
+                <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest block">Tópicos Debatidos</span>
                 <ul className="space-y-1">
                   {completedMinutes.discussedTopics.map((topic, i) => (
-                    <li key={i} className="text-xs text-slate-400 list-disc list-inside">
+                    <li key={i} className="text-xs text-muted-foreground list-disc list-inside">
                       {topic}
                     </li>
                   ))}
@@ -665,13 +665,13 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
 
               <button
                 onClick={() => setShowTraceability(!showTraceability)}
-                className="text-xs text-slate-500 hover:text-slate-300 underline underline-offset-4 block pt-4"
+                className="text-xs text-muted-foreground hover:text-muted-foreground underline underline-offset-4 block pt-4"
               >
                 {showTraceability ? 'Ocultar rastreabilidade técnica' : 'Exibir assinaturas e rastreabilidade fiduciária'}
               </button>
               
               {showTraceability && (
-                <div className="p-3 bg-slate-950 border border-white/5 rounded-xl space-y-2 text-[10px] font-mono text-slate-400 break-all select-all animate-fadeIn">
+                <div className="p-3 bg-slate-950 border border-white/5 rounded-xl space-y-2 text-[10px] font-mono text-muted-foreground break-all select-all animate-fadeIn">
                   <div>Timestamp de Emissão: {completedMinutes.generatedAt}</div>
                   <div>ID da Sessão: {completedMinutes.meetingId}</div>
                   <div>Cenário Assinatura: {scenario}</div>
@@ -684,12 +684,12 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               {/* Executive narrative */}
               <div className="p-4 bg-slate-950/40 border border-white/5 rounded-xl space-y-1.5">
                 <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider block">Parecer Final da Reunião</span>
-                <p className="text-xs text-slate-300 leading-relaxed italic">"{completedMinutes.executiveSummary}"</p>
+                <p className="text-xs text-muted-foreground leading-relaxed italic">"{completedMinutes.executiveSummary}"</p>
               </div>
 
               {/* Resolutions Details */}
               <div className="space-y-4">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Resoluções Deliberadas</span>
+                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest block">Resoluções Deliberadas</span>
                 
                 {completedMinutes.approvedResolutions.length > 0 && (
                   <div className="space-y-2">
@@ -715,9 +715,9 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
 
                 {completedMinutes.postponedResolutions.length > 0 && (
                   <div className="space-y-2">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Postergadas / Sem Deliberação</span>
+                    <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider block">Postergadas / Sem Deliberação</span>
                     {completedMinutes.postponedResolutions.map((res, i) => (
-                      <div key={i} className="p-3 bg-slate-950 border border-white/5 rounded-xl text-xs text-slate-400">
+                      <div key={i} className="p-3 bg-slate-950 border border-white/5 rounded-xl text-xs text-muted-foreground">
                         {res}
                       </div>
                     ))}
@@ -728,10 +728,10 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
               {/* GDTL integration check */}
               {completedMinutes.approvedResolutions.length > 0 && (
                 <div className="space-y-2 border-t border-white/5 pt-4">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Ações Criadas no GDTL™</span>
+                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest block">Ações Criadas no GDTL™</span>
                   <div className="space-y-2">
                     {completedMinutes.actionItems.map((item, i) => (
-                      <div key={i} className="p-3 bg-slate-900 border border-white/5 rounded-xl text-xs text-slate-300 flex items-center gap-2">
+                      <div key={i} className="p-3 bg-slate-900 border border-white/5 rounded-xl text-xs text-muted-foreground flex items-center gap-2">
                         <Activity size={12} className="text-amber-500" />
                         {item}
                       </div>
@@ -760,7 +760,7 @@ export function BoardMeetingMode({ clientId, scenario, companyName = 'Holding Il
             onConfirm={() => setWarningMessage(null)}
           >
             <div className="space-y-3 py-2">
-              <p className="text-sm text-slate-350">{warningMessage}</p>
+              <p className="text-sm text-muted-foreground">{warningMessage}</p>
             </div>
           </FiduciaryModalShell>
         )}

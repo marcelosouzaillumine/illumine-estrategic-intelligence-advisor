@@ -17,7 +17,7 @@ export function SortableHeader({ label, sortKey, currentSort, onSort, align = 'l
   return (
     <th 
       className={cn(
-        "px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest cursor-pointer hover:text-primary transition-colors group",
+        "px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest cursor-pointer hover:text-primary transition-colors group",
         align === 'center' && "text-center",
         align === 'right' && "text-right",
         className
@@ -31,14 +31,14 @@ export function SortableHeader({ label, sortKey, currentSort, onSort, align = 'l
             size={10} 
             className={cn(
               "transition-colors", 
-              isSorted && currentSort.direction === 'asc' ? "text-secondary" : "text-slate-300 opacity-0 group-hover:opacity-100"
+              isSorted && currentSort.direction === 'asc' ? "text-secondary" : "text-muted-foreground opacity-0 group-hover:opacity-100"
             )} 
           />
           <ChevronDown 
             size={10} 
             className={cn(
               "transition-colors", 
-              isSorted && currentSort.direction === 'desc' ? "text-secondary" : "text-slate-300 opacity-0 group-hover:opacity-100"
+              isSorted && currentSort.direction === 'desc' ? "text-secondary" : "text-muted-foreground opacity-0 group-hover:opacity-100"
             )} 
           />
         </div>

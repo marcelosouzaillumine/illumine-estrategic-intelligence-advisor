@@ -133,7 +133,7 @@ export class EmptyCycleIntegrityEngine {
         efficiencies: [],
         scaleEfficiency: {
           category: 'NOT_AVAILABLE',
-          colorClass: 'text-slate-400',
+          colorClass: 'text-muted-foreground',
           recGrowth: null,
           ebitdaGrowth: null,
           description: emptyMsg

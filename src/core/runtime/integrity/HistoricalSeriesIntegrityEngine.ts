@@ -27,7 +27,7 @@ export class HistoricalSeriesIntegrityEngine {
         chartData: [],
         scaleEfficiency: {
           category: 'NOT_AVAILABLE',
-          colorClass: 'text-slate-400',
+          colorClass: 'text-muted-foreground',
           recGrowth: null as unknown as number,
           ebitdaGrowth: null as unknown as number,
           description: msg

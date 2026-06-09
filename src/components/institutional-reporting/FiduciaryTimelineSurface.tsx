@@ -15,10 +15,10 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
 
   if (timeline.timelineIntegrityStatus === 'INSUFFICIENT_HISTORY') {
     return (
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6 text-center">
-        <Clock className="w-8 h-8 text-slate-500 mx-auto mb-3" />
-        <h3 className="text-slate-300 font-medium mb-1">{t("panels.insufficient_history")}</h3>
-        <p className="text-slate-500 text-sm">
+      <div className="bg-slate-900/50 border border-border rounded-xl p-6 text-center">
+        <Clock className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
+        <h3 className="text-muted-foreground font-medium mb-1">{t("panels.insufficient_history")}</h3>
+        <p className="text-muted-foreground text-sm">
           A Timeline Fiduciária requer múltiplos ciclos consolidados para aferir sustentabilidade longitudinal.
         </p>
       </div>
@@ -44,7 +44,7 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
       <div className="flex items-center gap-1 mt-2">
         {data.map((val, idx) => {
           let bgColor = 'bg-slate-800';
-          let textColor = 'text-slate-400';
+          let textColor = 'text-muted-foreground';
           
           if (type === 'NUMBER') {
             const num = val as number;
@@ -54,7 +54,7 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
             const str = val as string;
             if (str === 'LIQUIDEZ_ARTIFICIAL') { bgColor = 'bg-amber-500/20'; textColor = 'text-amber-400'; }
             else if (str === 'HEALTHY' || str === 'SAUDÁVEL') { bgColor = 'bg-emerald-500/20'; textColor = 'text-emerald-400'; }
-            else { bgColor = 'bg-slate-500/20'; textColor = 'text-slate-400'; }
+            else { bgColor = 'bg-slate-500/20'; textColor = 'text-muted-foreground'; }
           }
 
           return (
@@ -72,26 +72,26 @@ export const FiduciaryTimelineSurface: React.FC<FiduciaryTimelineSurfaceProps> =
   return (
     <div className="space-y-6">
       
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-5">
+      <div className="bg-slate-900/50 border border-border rounded-xl p-5">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Activity className="w-4 h-4 text-slate-400" />
-            <h3 className="text-slate-200 font-medium text-sm">{t("panels.fiduciary_cash_evolution")}</h3>
+            <Activity className="w-4 h-4 text-muted-foreground" />
+            <h3 className="text-muted-foreground font-medium text-sm">{t("panels.fiduciary_cash_evolution")}</h3>
           </div>
-          <span className="text-xs text-slate-500 font-mono">{periodsCovered} CICLOS ANALISADOS</span>
+          <span className="text-xs text-muted-foreground font-mono">{periodsCovered} CICLOS ANALISADOS</span>
         </div>
         
         <div className="space-y-5">
           <div>
-            <div className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">Geração Operacional (FCO)</div>
+            <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">Geração Operacional (FCO)</div>
             {renderTimelineBlocks(fcoEvolution, 'NUMBER')}
           </div>
           <div>
-            <div className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">{t("panels.liquidity_quality")}</div>
+            <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">{t("panels.liquidity_quality")}</div>
             {renderTimelineBlocks(liquidityQualityEvolution, 'QUALITY')}
           </div>
           <div>
-            <div className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">Runway (Meses)</div>
+            <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">Runway (Meses)</div>
             {renderTimelineBlocks(runwayEvolution, 'NUMBER')}
           </div>
         </div>

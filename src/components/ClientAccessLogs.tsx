@@ -22,20 +22,20 @@ export function ClientAccessLogs({ clientId }: { clientId: string }) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-        <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
+      <div className="bg-slate-50 p-6 rounded-2xl border border-border">
+        <h4 className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
           <Eye size={14} className="text-blue-500" /> Registro de Acessos Recentes
         </h4>
 
-        <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
+        <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-sm">
           <table className="w-full text-left">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Usuário</th>
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Ação / Módulo</th>
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Data / Hora</th>
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Localização</th>
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Dispositivo</th>
+              <tr className="bg-slate-50 border-b border-border">
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Usuário</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Ação / Módulo</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Data / Hora</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Localização</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Dispositivo</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -43,34 +43,34 @@ export function ClientAccessLogs({ clientId }: { clientId: string }) {
                 <tr key={log.id} className="hover:bg-slate-50/50 transition-colors">
                   <td className="px-4 md:px-6 py-2.5 md:py-4">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-[10px] font-black">
+                      <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-muted-foreground text-[10px] font-black">
                         {log.user.split(' ').map(n => n[0]).join('')}
                       </div>
-                      <span className="text-xs font-bold text-slate-700">{log.user}</span>
+                      <span className="text-xs font-bold text-muted-foreground">{log.user}</span>
                     </div>
                   </td>
                   <td className="px-4 md:px-6 py-2.5 md:py-4">
                     <div className="flex items-center gap-2">
                       <UserCheck size={12} className="text-emerald-500" />
-                      <span className="text-xs font-medium text-slate-600">{log.action}</span>
+                      <span className="text-xs font-medium text-muted-foreground">{log.action}</span>
                     </div>
                   </td>
                   <td className="px-4 md:px-6 py-2.5 md:py-4">
                     <div className="flex items-center gap-2">
-                      <Clock size={12} className="text-slate-300" />
-                      <span className="text-xs text-slate-500">{log.time}</span>
+                      <Clock size={12} className="text-muted-foreground" />
+                      <span className="text-xs text-muted-foreground">{log.time}</span>
                     </div>
                   </td>
                   <td className="px-4 md:px-6 py-2.5 md:py-4">
                     <div className="flex items-center gap-2">
-                      <MapPin size={12} className="text-slate-300" />
-                      <span className="text-xs text-slate-500">{log.location}</span>
+                      <MapPin size={12} className="text-muted-foreground" />
+                      <span className="text-xs text-muted-foreground">{log.location}</span>
                     </div>
                   </td>
                   <td className="px-4 md:px-6 py-2.5 md:py-4">
                     <div className="flex items-center gap-2">
-                      <Laptop size={12} className="text-slate-300" />
-                      <span className="text-[10px] text-slate-400 font-medium uppercase">{log.device}</span>
+                      <Laptop size={12} className="text-muted-foreground" />
+                      <span className="text-[10px] text-muted-foreground font-medium uppercase">{log.device}</span>
                     </div>
                   </td>
                 </tr>
@@ -92,9 +92,9 @@ export function ClientAccessLogs({ clientId }: { clientId: string }) {
           <p className="text-[10px] text-emerald-600/60 font-medium">Todos concluídos com sucesso</p>
         </div>
         <div className="bg-slate-900 p-6 rounded-2xl space-y-2">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Último Acesso</p>
+          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Último Acesso</p>
           <h5 className="text-2xl font-black text-white font-display">Agora mesmo</h5>
-          <p className="text-[10px] text-slate-400 font-medium">Usuário: João Silva</p>
+          <p className="text-[10px] text-muted-foreground font-medium">Usuário: João Silva</p>
         </div>
       </div>
     </div>

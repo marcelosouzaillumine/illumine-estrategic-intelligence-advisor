@@ -33,7 +33,7 @@ export const ExecutiveQuickActions: React.FC = () => {
       icon: <Network size={20} />,
       targetWorkspace: 'DIGITAL_TWIN',
       path: '/digital-twin',
-      color: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20 hover:bg-indigo-500/20'
+      color: 'text-accent bg-accent border-accent hover:bg-accent'
     },
     {
       id: 'qa-war-room',

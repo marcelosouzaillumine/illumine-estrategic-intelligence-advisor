@@ -834,8 +834,8 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
             <div className="flex justify-between items-end">
               <SectionHeader title="Dilemas de Gestão" subtitle="Avaliação de alinhamento com os 49 princípios da governança." icon={ShieldCheck} />
               <div className="text-right pb-2">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Progresso do Diagnóstico</p>
-                <p className="text-xl font-black text-primary">{dilemmaStep + 1} <span className="text-slate-300">/ {ETHICAL_DILEMMAS.length}</span></p>
+                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Progresso do Diagnóstico</p>
+                <p className="text-xl font-black text-primary">{dilemmaStep + 1} <span className="text-muted-foreground">/ {ETHICAL_DILEMMAS.length}</span></p>
               </div>
             </div>
 
@@ -853,7 +853,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="bg-white rounded-[40px] border border-slate-100 p-10 lg:p-16 shadow-premium space-y-10"
+                className="bg-white rounded-[40px] border border-border p-10 lg:p-16 shadow-premium space-y-10"
               >
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
@@ -869,7 +869,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   </div>
                   <div className="relative">
                     <div className="absolute -left-4 top-0 bottom-0 w-1 bg-secondary/20 rounded-full" />
-                    <p className="text-lg text-slate-600 leading-relaxed italic pl-6">
+                    <p className="text-lg text-muted-foreground leading-relaxed italic pl-6">
                       "{ETHICAL_DILEMMAS[dilemmaStep].scenario}"
                     </p>
                   </div>
@@ -889,7 +889,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                         "w-full p-6 rounded-3xl border-2 text-left transition-all text-base font-bold group",
                         dilemmaAnswers[ETHICAL_DILEMMAS[dilemmaStep].id] === opt.score
                           ? "bg-primary border-primary text-white shadow-xl shadow-primary/20"
-                          : "bg-white border-slate-100 hover:border-secondary/30 text-slate-600 hover:text-primary"
+                          : "bg-white border-border hover:border-secondary/30 text-muted-foreground hover:text-primary"
                       )}
                     >
                       <div className="flex items-center justify-between">
@@ -903,11 +903,11 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   ))}
                 </div>
 
-                <div className="flex justify-between items-center pt-10 border-t border-slate-100">
+                <div className="flex justify-between items-center pt-10 border-t border-border">
                   <button
                     disabled={dilemmaStep === 0}
                     onClick={() => setDilemmaStep(s => s - 1)}
-                    className="px-5 md:px-8 py-2 md:py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors disabled:opacity-20"
+                    className="px-5 md:px-8 py-2 md:py-3 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors disabled:opacity-20"
                   >
                     Anterior
                   </button>
@@ -947,7 +947,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
             className="space-y-10"
           >
             {showResults ? (
-              <div className="bg-white rounded-[40px] border border-slate-100 p-10 shadow-premium">
+              <div className="bg-white rounded-[40px] border border-border p-10 shadow-premium">
                 <SectionHeader title="Análise de Gap de Liderança" subtitle="Comparativo entre seu perfil e o cargo almejado." icon={TrendingUp} />
                 <div className="mt-10 grid lg:grid-cols-2 gap-10">
                   <div className="space-y-6">
@@ -969,9 +969,9 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   </div>
                   <div className="grid grid-cols-2 gap-8">
                     <div className="p-8 bg-slate-50 rounded-3xl flex flex-col justify-center items-center text-center">
-                      <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Aderência ao Cargo (DISC)</p>
+                      <p className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Aderência ao Cargo (DISC)</p>
                       <div className="text-6xl font-black text-primary mb-4">{adherenceScore}%</div>
-                      <p className="text-[11px] text-slate-500">
+                      <p className="text-[11px] text-muted-foreground">
                         {adherenceScore > 80 ? 'Excelente alinhamento para cargos de liderança tática.' : 
                          adherenceScore > 50 ? 'Bom potencial, com pontos específicos de desenvolvimento.' : 
                          'Recomendamos foco em desenvolvimento de competências comportamentais.'}
@@ -990,7 +990,7 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                   </div>
                 </div>
 
-                <div className="mt-10 flex justify-center border-t border-slate-100 pt-10">
+                <div className="mt-10 flex justify-center border-t border-border pt-10">
                   <button
                     onClick={handleSaveResults}
                     disabled={isSaving}
@@ -1006,10 +1006,10 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-20 bg-slate-50 rounded-[40px] border-2 border-dashed border-slate-200">
-                <Brain size={60} className="mx-auto text-slate-300 mb-6" />
-                <h3 className="text-xl font-bold text-slate-900">Nenhum resultado para exibir</h3>
-                <p className="text-slate-500 mt-2">Complete a autoavaliação para ver sua análise de perfil.</p>
+              <div className="text-center py-20 bg-slate-50 rounded-[40px] border-2 border-dashed border-border">
+                <Brain size={60} className="mx-auto text-muted-foreground mb-6" />
+                <h3 className="text-xl font-bold text-muted-foreground">Nenhum resultado para exibir</h3>
+                <p className="text-muted-foreground mt-2">Complete a autoavaliação para ver sua análise de perfil.</p>
               </div>
             )}
           </motion.div>
@@ -1027,26 +1027,26 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                 <SectionHeader title="Visão Consolidada" subtitle="Sobreposição do perfil real do time vs. estrutura ideal de cargos." icon={Users} />
                 
                 {teamMetrics ? (
-                  <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-premium space-y-8">
+                  <div className="bg-white rounded-3xl border border-border p-8 shadow-premium space-y-8">
                     <div className="space-y-2">
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Aderência Média do Time</p>
+                      <p className="text-xs font-black text-muted-foreground uppercase tracking-widest">Aderência Média do Time</p>
                       <div className="flex items-end gap-3">
                         <span className="text-5xl font-display font-black text-primary">{teamMetrics.avgAdherence}%</span>
                         <StatusBadge status={teamMetrics.avgAdherence > 80 ? 'Verde' : teamMetrics.avgAdherence > 60 ? 'Amarelo' : 'Vermelho'} />
                       </div>
                     </div>
 
-                    <div className="space-y-6 pt-6 border-t border-slate-100">
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <div className="space-y-6 pt-6 border-t border-border">
+                      <p className="text-xs font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                         <Users size={14} />
                         Participantes ({teamMetrics.totalParticipants})
                       </p>
                       <div className="space-y-3">
                         {teamAssessments.map(ass => (
-                          <div key={ass.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                          <div key={ass.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-border">
                             <div>
                               <p className="text-xs font-black text-primary">{ass.userName}</p>
-                              <p className="text-[10px] text-slate-500 font-bold">{ass.roleTitle}</p>
+                              <p className="text-[10px] text-muted-foreground font-bold">{ass.roleTitle}</p>
                             </div>
                             <span className="text-xs font-black text-secondary">{ass.adherenceScore}%</span>
                           </div>
@@ -1055,8 +1055,8 @@ export function LeadershipProfilePage({ clientId }: { clientId: string }) {
                     </div>
                   </div>
                 ) : (
-                  <div className="p-8 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 text-center">
-                    <p className="text-sm text-slate-500">Nenhum dado de time disponível ainda.</p>
+                  <div className="p-8 bg-slate-50 rounded-3xl border-2 border-dashed border-border text-center">
+                    <p className="text-sm text-muted-foreground">Nenhum dado de time disponível ainda.</p>
                   </div>
                 )}
               </div>

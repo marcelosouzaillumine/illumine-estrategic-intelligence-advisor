@@ -17,7 +17,7 @@ export class ScaleEfficiencyIntegrityEngine {
         ...report.metrics,
         scaleEfficiency: {
           category: 'Base Histórica Insuficiente',
-          colorClass: 'text-slate-400',
+          colorClass: 'text-muted-foreground',
           recGrowth: null as unknown as number,
           ebitdaGrowth: null as unknown as number,
           description: msg

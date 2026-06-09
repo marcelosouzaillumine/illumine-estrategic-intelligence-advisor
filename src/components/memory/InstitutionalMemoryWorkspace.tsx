@@ -34,7 +34,7 @@ export const InstitutionalMemoryWorkspace: React.FC = () => {
             };
             navigate(`/advisor`, { state: { navRef } });
           }}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium rounded-lg transition-colors border border-slate-700 shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium rounded-lg transition-colors border border-border shadow-sm"
         >
           <Search size={16} className="text-emerald-400" />
           <span>Voltar ao Advisor Workspace</span>
@@ -43,9 +43,9 @@ export const InstitutionalMemoryWorkspace: React.FC = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
         <div className="xl:col-span-3 space-y-6">
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 text-center">
-            <h4 className="text-sm font-bold text-slate-400">Registros de Memória</h4>
-            <p className="text-xs text-slate-500 mt-2">Selecione um fato para analisar recorrência e evidências</p>
+          <div className="bg-slate-900/60 border border-border rounded-2xl p-6 text-center">
+            <h4 className="text-sm font-bold text-muted-foreground">Registros de Memória</h4>
+            <p className="text-xs text-muted-foreground mt-2">Selecione um fato para analisar recorrência e evidências</p>
           </div>
         </div>
 

@@ -96,7 +96,7 @@ export const GovernanceTimeMachineWorkspace: React.FC<GovernanceTimeMachineWorks
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         <p className="text-eyebrow text-muted-foreground mt-4">Carregando Histórico Institucional...</p>
       </div>
     );
@@ -123,7 +123,7 @@ export const GovernanceTimeMachineWorkspace: React.FC<GovernanceTimeMachineWorks
         <div className="flex gap-2">
           <button
             onClick={() => handleCrossNavigation('INTELLIGENCE_FABRIC', `/intelligence/root`)}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-indigo-500/30 shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent text-accent text-sm font-display font-medium rounded-[12px] transition-colors border border-accent shadow-sm"
           >
             <Network size={16} />
             <span>Intelligence Fabric</span>
@@ -139,7 +139,7 @@ export const GovernanceTimeMachineWorkspace: React.FC<GovernanceTimeMachineWorks
             onClick={() => handleCrossNavigation('DIGITAL_TWIN', `/digital-twin`)}
             className="btn-secondary"
           >
-            <History size={16} className="text-indigo-400" />
+            <History size={16} className="text-primary" />
             <span>Voltar ao Digital Twin</span>
           </button>
           <button

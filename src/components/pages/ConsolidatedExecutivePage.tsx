@@ -21,7 +21,7 @@ export function ConsolidatedExecutivePage() {
     return (
       <div className="flex flex-col items-center justify-center h-96">
         <Loader2 className="w-8 h-8 text-secondary animate-spin mb-4" />
-        <p className="text-sm font-black text-slate-400 uppercase tracking-widest">Carregando Inteligência Consolidada...</p>
+        <p className="text-sm font-black text-muted-foreground uppercase tracking-widest">Carregando Inteligência Consolidada...</p>
       </div>
     );
   }
@@ -53,7 +53,7 @@ export function ConsolidatedExecutivePage() {
         <>
           <div className="flex items-center gap-4 mb-6">
             <ConsolidatedConfidenceBadge confidence={report.finalConfidence} />
-            <div className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">
+            <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
               Renderização Passiva View Layer (Runtime-Compliant)
             </div>
           </div>

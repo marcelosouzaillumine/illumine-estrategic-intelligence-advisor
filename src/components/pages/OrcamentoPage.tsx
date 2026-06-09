@@ -366,14 +366,14 @@ export function OrcamentoPage({
         color="bg-slate-900"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex bg-slate-100/50 p-1 rounded-2xl border border-slate-200/60">
+          <div className="flex bg-slate-100/50 p-1 rounded-2xl border border-border">
             <button 
               onClick={() => setViewType('mensal')}
               className={cn(
                 "px-4 md:px-6 py-1.5 md:py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
-                viewType === 'mensal' ? "bg-white text-primary shadow-sm" : "text-slate-400 hover:text-slate-600"
+                viewType === 'mensal' ? "bg-white text-primary shadow-sm" : "text-muted-foreground hover:text-muted-foreground"
               )}
             >
               Mensal
@@ -382,15 +382,15 @@ export function OrcamentoPage({
               onClick={() => setViewType('anual')}
               className={cn(
                 "px-4 md:px-6 py-1.5 md:py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
-                viewType === 'anual' ? "bg-white text-primary shadow-sm" : "text-slate-400 hover:text-slate-600"
+                viewType === 'anual' ? "bg-white text-primary shadow-sm" : "text-muted-foreground hover:text-muted-foreground"
               )}
             >
               Anual
             </button>
           </div>
 
-          <div className="flex items-center bg-white p-1 rounded-xl border border-slate-200 shadow-sm h-[40px]">
-            <div className={cn("flex items-center px-4 py-2", viewType === 'mensal' && "border-r border-slate-100")}>
+          <div className="flex items-center bg-white p-1 rounded-xl border border-border shadow-sm h-[40px]">
+            <div className={cn("flex items-center px-4 py-2", viewType === 'mensal' && "border-r border-border")}>
               <Calendar size={14} className="text-secondary mr-2" />
               <select 
                 value={localYear} 
@@ -422,12 +422,12 @@ export function OrcamentoPage({
           <button 
             onClick={handleDuplicate}
             disabled={isSaving || budgets.filter(b => b.month === localMonth).length === 0}
-            className="px-4 md:px-6 py-2 md:py-2.5 bg-white border border-slate-200 text-emerald-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-50 transition-all flex items-center gap-2 shadow-sm disabled:opacity-50 h-[40px]"
+            className="px-4 md:px-6 py-2 md:py-2.5 bg-white border border-border text-emerald-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-50 transition-all flex items-center gap-2 shadow-sm disabled:opacity-50 h-[40px]"
           >
             <LayoutGrid size={14} /> DUPLICAR MÊS
           </button>
 
-          <label className="cursor-pointer px-4 md:px-6 py-2 md:py-2.5 bg-white border border-slate-200 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm h-[40px]">
+          <label className="cursor-pointer px-4 md:px-6 py-2 md:py-2.5 bg-white border border-border text-muted-foreground rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm h-[40px]">
             {isImporting ? <Loader2 size={14} className="animate-spin" /> : <UploadCloud size={14} />}
             {isImporting ? 'IMPORTANDO...' : 'IMPORTAR CSV'}
             <input type="file" accept=".csv" className="hidden" onChange={handleImport} disabled={isImporting} />
@@ -459,34 +459,34 @@ export function OrcamentoPage({
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm relative overflow-hidden group">
+        <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-secondary" />
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Orçado ({viewType === 'mensal' ? 'Mês' : 'Ano'})</p>
-          <p className="text-3xl font-display font-black text-slate-900 tracking-tighter">{formatCurrency(totalBudget)}</p>
+          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Total Orçado ({viewType === 'mensal' ? 'Mês' : 'Ano'})</p>
+          <p className="text-3xl font-display font-black text-muted-foreground tracking-tighter">{formatCurrency(totalBudget)}</p>
         </div>
-        <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm relative overflow-hidden group">
+        <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Itens Planejados</p>
-          <p className="text-3xl font-display font-black text-slate-900 tracking-tighter">{filteredBudgets.length}</p>
+          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Itens Planejados</p>
+          <p className="text-3xl font-display font-black text-muted-foreground tracking-tighter">{filteredBudgets.length}</p>
         </div>
-        <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm relative overflow-hidden group">
+        <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500" />
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Referência</p>
+          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Referência</p>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-display font-black text-slate-900 tracking-tighter">
+            <span className="text-3xl font-display font-black text-muted-foreground tracking-tighter">
               {viewType === 'mensal' ? months.find(m => m.v === localMonth)?.l : localYear}
             </span>
             {viewType === 'mensal' && (
-              <span className="text-sm font-bold text-slate-400">{localYear}</span>
+              <span className="text-sm font-bold text-muted-foreground">{localYear}</span>
             )}
           </div>
         </div>
-        <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm relative overflow-hidden group">
+        <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-1 h-full bg-amber-500" />
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Principais CCs</p>
+          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Principais CCs</p>
           <div className="flex flex-wrap gap-1 mt-1">
             {budgetsByCC.slice(0, 3).map(([cc]) => (
-              <span key={cc} className="text-[9px] font-bold bg-slate-100 px-1.5 py-0.5 rounded text-slate-500">{cc}</span>
+              <span key={cc} className="text-[9px] font-bold bg-slate-100 px-1.5 py-0.5 rounded text-muted-foreground">{cc}</span>
             ))}
           </div>
         </div>
@@ -495,29 +495,29 @@ export function OrcamentoPage({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         {/* Table Column */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden p-6 flex items-center gap-6">
+          <div className="bg-white rounded-3xl border border-border shadow-sm overflow-hidden p-6 flex items-center gap-6">
             <div className="relative flex-1">
-              <Search size={18} className="absolute left-4 top-3 text-slate-400" />
+              <Search size={18} className="absolute left-4 top-3 text-muted-foreground" />
               <input 
                 type="text" 
                 placeholder="Pesquisar por conta, unidade ou CC..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-secondary/10 outline-none transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-border rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-secondary/10 outline-none transition-all"
               />
             </div>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+          <div className="bg-white border border-border rounded-3xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50/50 border-b border-slate-100">
-                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Conta Contábil</th>
-                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Unidade / Filial</th>
-                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Centro de Custo</th>
-                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor Orçado</th>
-                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                  <tr className="bg-slate-50/50 border-b border-border">
+                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Conta Contábil</th>
+                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Unidade / Filial</th>
+                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Centro de Custo</th>
+                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Valor Orçado</th>
+                    <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Ações</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -525,15 +525,15 @@ export function OrcamentoPage({
                     <tr>
                       <td colSpan={5} className="px-8 py-20 text-center">
                         <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-                        <p className="text-slate-500 font-bold">Carregando orçamento...</p>
+                        <p className="text-muted-foreground font-bold">Carregando orçamento...</p>
                       </td>
                     </tr>
                   ) : filteredBudgets.length === 0 ? (
                     <tr>
                       <td colSpan={5} className="px-8 py-20 text-center">
-                        <FileSpreadsheet size={48} className="text-slate-200 mx-auto mb-4" />
+                        <FileSpreadsheet size={48} className="text-muted-foreground mx-auto mb-4" />
                         <h4 className="text-xl font-display text-primary">Nenhum lançamento encontrado</h4>
-                        <p className="text-slate-500 max-w-2xl mx-auto mt-2">Clique em "Novo Lançamento" ou importe um arquivo CSV para começar.</p>
+                        <p className="text-muted-foreground max-w-2xl mx-auto mt-2">Clique em "Novo Lançamento" ou importe um arquivo CSV para começar.</p>
                       </td>
                     </tr>
                   ) : (
@@ -542,20 +542,20 @@ export function OrcamentoPage({
                         <td className="px-5 md:px-8 py-2.5 md:py-4">
                           <div>
                             <p className="text-sm font-black text-primary">{b.accountName}</p>
-                            <p className="text-[10px] font-mono font-bold text-slate-400">{b.accountCode}</p>
+                            <p className="text-[10px] font-mono font-bold text-muted-foreground">{b.accountCode}</p>
                           </div>
                         </td>
                         <td className="px-5 md:px-8 py-2.5 md:py-4">
                           <div className="flex flex-col gap-1">
-                            <span className="text-[10px] font-black text-slate-600 uppercase tracking-tighter px-2 py-0.5 bg-slate-100 rounded-md w-fit">{b.unidade || 'Sem Unidade'}</span>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{b.filial || 'Sem Filial'}</span>
+                            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-tighter px-2 py-0.5 bg-slate-100 rounded-md w-fit">{b.unidade || 'Sem Unidade'}</span>
+                            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">{b.filial || 'Sem Filial'}</span>
                           </div>
                         </td>
                         <td className="px-5 md:px-8 py-2.5 md:py-4">
-                          <span className="text-xs font-bold text-slate-600">{b.centroCusto || 'Geral'}</span>
+                          <span className="text-xs font-bold text-muted-foreground">{b.centroCusto || 'Geral'}</span>
                         </td>
                         <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
-                          <span className="text-sm font-black text-slate-900">{formatCurrency(b.valor)}</span>
+                          <span className="text-sm font-black text-muted-foreground">{formatCurrency(b.valor)}</span>
                         </td>
                         <td className="px-5 md:px-8 py-2.5 md:py-4 text-right">
                           <div className={cn(
@@ -565,14 +565,14 @@ export function OrcamentoPage({
                             <button 
                               onClick={() => { if(viewType === 'mensal') { setEditingBudget(b); setFormData(b); setIsModalOpen(true); } }}
                               disabled={viewType === 'anual'}
-                              className="p-2 text-slate-400 hover:text-secondary hover:bg-secondary/5 rounded-lg transition-all"
+                              className="p-2 text-muted-foreground hover:text-secondary hover:bg-secondary/5 rounded-lg transition-all"
                             >
                               <Edit2 size={16} />
                             </button>
                             <button 
                               onClick={() => b.id && viewType === 'mensal' && handleDelete(b.id)}
                               disabled={viewType === 'anual'}
-                              className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                              className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
                             >
                               <Trash2 size={16} />
                             </button>
@@ -589,16 +589,16 @@ export function OrcamentoPage({
 
         {/* CC Summary Column */}
         <div className="space-y-6">
-          <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm space-y-6">
-            <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+          <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm space-y-6">
+            <h3 className="text-sm font-black text-muted-foreground uppercase tracking-widest flex items-center gap-3">
               <TrendingUp size={20} className="text-secondary" /> Resumo por Centro de Custo
             </h3>
             <div className="space-y-4">
               {budgetsByCC.map(([cc, value]) => (
                 <div key={cc} className="space-y-2">
                   <div className="flex justify-between items-center text-[11px] font-black uppercase tracking-widest">
-                    <span className="text-slate-400">{cc}</span>
-                    <span className="text-slate-900">{formatCurrency(value)}</span>
+                    <span className="text-muted-foreground">{cc}</span>
+                    <span className="text-muted-foreground">{formatCurrency(value)}</span>
                   </div>
                   <div className="h-1.5 bg-slate-50 rounded-full overflow-hidden">
                     <motion.div 
@@ -610,7 +610,7 @@ export function OrcamentoPage({
                 </div>
               ))}
               {budgetsByCC.length === 0 && (
-                <p className="text-xs text-slate-400 italic text-center py-10">Aguardando dados...</p>
+                <p className="text-xs text-muted-foreground italic text-center py-10">Aguardando dados...</p>
               )}
             </div>
           </div>
@@ -638,10 +638,10 @@ export function OrcamentoPage({
                       <h3 className="text-xl font-display font-black tracking-tight">
                         {editingBudget ? 'Editar Orçamento' : 'Novo Planejamento'}
                       </h3>
-                      <p className="text-slate-400 text-xs font-medium uppercase tracking-widest">Preencha os campos abaixo para definir o budget</p>
+                      <p className="text-muted-foreground text-xs font-medium uppercase tracking-widest">Preencha os campos abaixo para definir o budget</p>
                     </div>
                   </div>
-                  <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors text-slate-400 hover:text-white">
+                  <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors text-muted-foreground hover:text-white">
                     <X size={20} />
                   </button>
                 </div>
@@ -650,11 +650,11 @@ export function OrcamentoPage({
               <div className="p-10 space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Conta Contábil</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Conta Contábil</label>
                     <select 
                       value={formData.accountId}
                       onChange={(e) => setFormData({...formData, accountId: e.target.value})}
-                      className="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:bg-white focus:ring-4 focus:ring-secondary/10 transition-all"
+                      className="w-full px-5 py-3.5 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:bg-white focus:ring-4 focus:ring-secondary/10 transition-all"
                     >
                       <option value="">Selecione uma conta...</option>
                       {accountPlans.map(acc => (
@@ -663,14 +663,14 @@ export function OrcamentoPage({
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Valor Orçado (R$)</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Valor Orçado (R$)</label>
                     <div className="relative">
-                      <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-black text-xs">R$</span>
+                      <span className="absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground font-black text-xs">R$</span>
                       <input 
                         type="number"
                         value={formData.valor}
                         onChange={(e) => setFormData({...formData, valor: parseFloat(e.target.value) || 0})}
-                        className="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-xl font-display font-black text-slate-900 outline-none focus:bg-white focus:ring-4 focus:ring-secondary/10 transition-all"
+                        className="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-border rounded-2xl text-xl font-display font-black text-muted-foreground outline-none focus:bg-white focus:ring-4 focus:ring-secondary/10 transition-all"
                         placeholder="0,00"
                       />
                     </div>
@@ -679,11 +679,11 @@ export function OrcamentoPage({
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Unidade de Negócio</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Unidade de Negócio</label>
                     <select 
                       value={formData.unidade}
                       onChange={(e) => setFormData({...formData, unidade: e.target.value})}
-                      className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
+                      className="w-full px-5 py-3 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
                     >
                       <option value="">Selecione...</option>
                       {clientDetails?.unidadesNegocio?.map((u: string) => (
@@ -692,11 +692,11 @@ export function OrcamentoPage({
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Filial</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Filial</label>
                     <select 
                       value={formData.filial}
                       onChange={(e) => setFormData({...formData, filial: e.target.value})}
-                      className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
+                      className="w-full px-5 py-3 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
                     >
                       <option value="">Selecione...</option>
                       {clientDetails?.filiais?.map((f: any) => (
@@ -705,21 +705,21 @@ export function OrcamentoPage({
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block px-1">Centro de Custo</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block px-1">Centro de Custo</label>
                     <input 
                       type="text"
                       value={formData.centroCusto}
                       onChange={(e) => setFormData({...formData, centroCusto: e.target.value})}
                       placeholder="Ex: Marketing"
-                      className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
+                      className="w-full px-5 py-3 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:bg-white transition-all"
                     />
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-slate-100 flex gap-4">
+                <div className="pt-6 border-t border-border flex gap-4">
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-4 text-slate-500 font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 rounded-2xl transition-all"
+                    className="flex-1 py-4 text-muted-foreground font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 rounded-2xl transition-all"
                   >
                     Cancelar
                   </button>

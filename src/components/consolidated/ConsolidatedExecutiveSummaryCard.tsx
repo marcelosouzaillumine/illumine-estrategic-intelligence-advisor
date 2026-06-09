@@ -5,7 +5,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 export function ConsolidatedExecutiveSummaryCard({ narrative }: { narrative: string }) {
   const { t } = useLanguage();
   return (
-    <div className="bg-slate-900 text-white rounded-[32px] p-8 border border-slate-800 shadow-2xl relative overflow-hidden flex flex-col group">
+    <div className="bg-slate-900 text-white rounded-[32px] p-8 border border-border shadow-2xl relative overflow-hidden flex flex-col group">
       <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none transition-all duration-700 group-hover:scale-110" />
       
       <div className="flex items-center gap-3 mb-6 relative z-10">

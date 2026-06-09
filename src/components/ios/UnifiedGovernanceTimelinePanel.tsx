@@ -9,7 +9,7 @@ export function UnifiedGovernanceTimelinePanel({ tenantId }: { tenantId: string 
   return (
     <div className="bg-surface-container border border-border rounded-lg p-6">
       <div className="flex items-center gap-2 mb-6">
-        <GitCommit className="text-indigo-500" />
+        <GitCommit className="text-primary" />
         <h3 className="text-sm font-semibold text-foreground">Unified Governance Timeline</h3>
       </div>
       
@@ -28,7 +28,7 @@ export function UnifiedGovernanceTimelinePanel({ tenantId }: { tenantId: string 
                 <span className="text-[10px] text-muted-foreground uppercase">{new Date(evt.timestamp).toLocaleDateString()}</span>
               </div>
               <div className="text-xs text-muted-foreground mb-1">{evt.description}</div>
-              <div className="text-[10px] font-bold text-indigo-500 uppercase">{evt.domain.replace(/_/g, ' ')}</div>
+              <div className="text-[10px] font-bold text-insight uppercase">{evt.domain.replace(/_/g, ' ')}</div>
             </div>
           );
         })}

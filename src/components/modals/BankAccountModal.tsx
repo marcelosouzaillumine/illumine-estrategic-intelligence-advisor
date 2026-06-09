@@ -125,17 +125,17 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden"
       >
-        <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <div className="p-8 border-b border-border flex justify-between items-center bg-slate-50/50">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
               <Landmark size={24} className="text-primary" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-slate-900">{account ? 'Editar Conta Bancária' : 'Nova Conta Bancária'}</h3>
-              <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-bold">Posição Financeira</p>
+              <h3 className="text-xl font-bold text-muted-foreground">{account ? 'Editar Conta Bancária' : 'Nova Conta Bancária'}</h3>
+              <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-bold">Posição Financeira</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground">
             <X size={20} />
           </button>
         </div>
@@ -148,7 +148,7 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
           )}
 
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Instituição Financeira / Banco</label>
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Instituição Financeira / Banco</label>
             <input 
               type="text" 
               placeholder="Ex: Itaú, Bradesco, XP"
@@ -157,7 +157,7 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
               onBlur={() => handleBlur('banco')}
               className={cn(
                 "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                touched.banco && errors.banco ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-primary/10"
+                touched.banco && errors.banco ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-border focus:bg-white focus:ring-2 focus:ring-primary/10"
               )}
             />
             {touched.banco && errors.banco && (
@@ -167,34 +167,34 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Agência</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Agência</label>
               <input 
                 type="text" 
                 placeholder="Ex: 0001"
                 value={formData.agencia}
                 onChange={e => setFormData({ ...formData, agencia: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Conta</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Conta</label>
               <input 
                 type="text" 
                 placeholder="Ex: 12345-6"
                 value={formData.conta}
                 onChange={e => setFormData({ ...formData, conta: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Tipo de Conta</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Tipo de Conta</label>
               <select 
                 value={formData.tipoConta}
                 onChange={e => setFormData({ ...formData, tipoConta: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all text-slate-700"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all text-muted-foreground"
               >
                 <option value="Conta Corrente">Conta Corrente</option>
                 <option value="Conta Poupança">Conta Poupança</option>
@@ -204,11 +204,11 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
               </select>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Moeda</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Moeda</label>
               <select 
                 value={formData.moeda}
                 onChange={e => setFormData({ ...formData, moeda: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all text-slate-700"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all text-muted-foreground"
               >
                 <option value="BRL">BRL (Real)</option>
                 <option value="USD">USD (Dólar)</option>
@@ -219,7 +219,7 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Saldo Inicial</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Saldo Inicial</label>
               <input 
                 type="text" 
                 placeholder="Ex: 50000,00"
@@ -228,31 +228,31 @@ export function BankAccountModal({ clientId, onClose, account }: BankAccountModa
                 onBlur={() => handleBlur('saldoInicial')}
                 className={cn(
                   "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                  touched.saldoInicial && errors.saldoInicial ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-primary/10"
+                  touched.saldoInicial && errors.saldoInicial ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-border focus:bg-white focus:ring-2 focus:ring-primary/10"
                 )}
               />
-              <p className="text-[9px] text-slate-400 px-1">Apenas números e vírgula.</p>
+              <p className="text-[9px] text-muted-foreground px-1">Apenas números e vírgula.</p>
               {touched.saldoInicial && errors.saldoInicial && (
                 <p className="text-[9px] text-red-500 font-bold px-1">{errors.saldoInicial}</p>
               )}
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Saldo Atual</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Saldo Atual</label>
               <input 
                 type="text" 
                 placeholder="Igual ao inicial se vazio"
                 value={formData.saldoAtual}
                 onChange={e => setFormData({ ...formData, saldoAtual: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all"
               />
             </div>
           </div>
         </div>
 
-        <div className="p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4">
+        <div className="p-8 bg-slate-50 border-t border-border flex justify-end gap-4">
           <button 
             onClick={onClose}
-            className="px-4 md:px-6 py-2 md:py-2.5 text-slate-400 font-bold text-sm hover:text-slate-600 transition-colors"
+            className="px-4 md:px-6 py-2 md:py-2.5 text-muted-foreground font-bold text-sm hover:text-muted-foreground transition-colors"
           >
             Cancelar
           </button>

@@ -16,19 +16,19 @@ export const ConstitutionalEnforcementPanel: React.FC<Props> = ({ actions }) => 
       case 'INTERVENTION': return 'text-orange-400 bg-orange-500/10 border-orange-500/20';
       case 'VETO': return 'text-red-400 bg-red-500/10 border-red-500/20';
       case 'QUARANTINE': return 'text-primary bg-primary border-primary';
-      default: return 'text-gray-400 bg-gray-800 border-gray-700';
+      default: return 'text-muted-foreground bg-gray-800 border-border';
     }
   };
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 h-full">
+    <div className="bg-gray-900 border border-border rounded-lg p-6 h-full">
       <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
         <ShieldAlert className="w-5 h-5 text-orange-400" />
         {t('cgd.panels.enforcement')}
       </h3>
       {actions.length === 0 ? (
-        <div className="flex flex-col items-center justify-center p-8 border border-dashed border-gray-800 rounded-lg bg-gray-900/50">
-          <p className="text-gray-500">{t('cgd.empty.enforcement')}</p>
+        <div className="flex flex-col items-center justify-center p-8 border border-dashed border-border rounded-lg bg-gray-900/50">
+          <p className="text-muted-foreground">{t('cgd.empty.enforcement')}</p>
         </div>
       ) : (
         <div className="space-y-3">

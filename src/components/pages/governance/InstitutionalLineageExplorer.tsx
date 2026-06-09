@@ -32,7 +32,7 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
   const activeDisclosures = disclosureSet || [];
 
   return (
-    <div className="p-6 rounded-[32px] border border-slate-200 dark:border-zinc-900 bg-slate-50/50 dark:bg-zinc-950/40 backdrop-blur-md space-y-6 shadow-xs">
+    <div className="p-6 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/50 dark:bg-zinc-950/40 backdrop-blur-md space-y-6 shadow-xs">
       {/* Sandbox banner if mock data is used */}
       {isMock && (
         <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3">
@@ -46,21 +46,21 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
         </div>
       )}
 
-      <div className="flex items-center gap-3 border-b border-slate-200 dark:border-white/5 pb-3 justify-between">
+      <div className="flex items-center gap-3 border-b border-border dark:border-white/5 pb-3 justify-between">
         <div className="flex items-center gap-3">
-          <Database className="w-5 h-5 text-slate-500 dark:text-zinc-400" />
-          <h3 className="text-xs font-black uppercase tracking-widest text-slate-800 dark:text-zinc-300">
+          <Database className="w-5 h-5 text-muted-foreground dark:text-zinc-400" />
+          <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-300">
             Explorer de Linhagem e Auditoria Fiduciária
           </h3>
         </div>
-        <span className="text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-650 dark:text-zinc-400 rounded shadow-xs">
+        <span className="text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 bg-slate-100 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-muted-foreground dark:text-zinc-400 rounded shadow-xs">
           {isMock ? 'SANDBOX MODE' : 'REAL DATA VERIFIED'}
         </span>
       </div>
 
       {/* Main Ledger Hash */}
-      <div className="p-4 rounded-xl bg-slate-100/80 dark:bg-zinc-950/60 border border-slate-200 dark:border-zinc-900 flex flex-col gap-2 shadow-xs">
-        <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-500">
+      <div className="p-4 rounded-xl bg-slate-100/80 dark:bg-zinc-950/60 border border-border dark:border-zinc-900 flex flex-col gap-2 shadow-xs">
+        <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
           Hash de Linhagem Consolidado (Board Pack Ledger)
         </span>
         <div className="flex items-center gap-2">
@@ -73,18 +73,18 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
 
       {/* Grid: Sub-Runtime Hashes */}
       <div className="space-y-3">
-        <span className="block text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-500">
+        <span className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
           Chaves Criptográficas de Runtime e Integridade
         </span>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {Object.entries(runtimeHashes).map(([runtimeName, hashVal]) => (
-            <div key={runtimeName} className="p-3 bg-slate-100/50 dark:bg-zinc-950/40 border border-slate-200 dark:border-zinc-900 rounded-xl flex flex-col gap-1 shadow-xs">
-              <span className="text-[9px] font-black uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+            <div key={runtimeName} className="p-3 bg-slate-100/50 dark:bg-zinc-950/40 border border-border dark:border-zinc-900 rounded-xl flex flex-col gap-1 shadow-xs">
+              <span className="text-[9px] font-black uppercase tracking-wider text-muted-foreground dark:text-zinc-400">
                 Runtime {runtimeName}
               </span>
               <div className="flex items-center gap-1.5 min-w-0">
-                <CheckCircle2 className="w-3.5 h-3.5 text-slate-450 dark:text-zinc-500 shrink-0" />
-                <span className="font-mono text-[10px] text-slate-700 dark:text-zinc-300 truncate select-all">
+                <CheckCircle2 className="w-3.5 h-3.5 text-muted-foreground dark:text-zinc-500 shrink-0" />
+                <span className="font-mono text-[10px] text-muted-foreground dark:text-zinc-300 truncate select-all">
                   {hashVal}
                 </span>
               </div>
@@ -96,13 +96,13 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
       {/* Propagation / Evidence hashes */}
       {propagationHashes.length > 0 && (
         <div className="space-y-2">
-          <span className="block text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-500">
+          <span className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
             Cadeia de Evidência e Propagação de Dados
           </span>
-          <div className="p-3 bg-slate-100/60 dark:bg-zinc-950/50 border border-slate-200 dark:border-zinc-900 rounded-xl space-y-1.5 font-mono text-[9px] text-slate-600 dark:text-zinc-400 shadow-xs">
+          <div className="p-3 bg-slate-100/60 dark:bg-zinc-950/50 border border-border dark:border-zinc-900 rounded-xl space-y-1.5 font-mono text-[9px] text-muted-foreground dark:text-zinc-400 shadow-xs">
             {propagationHashes.map((propHash, idx) => (
-              <div key={idx} className="flex items-center gap-2 py-0.5 border-b border-slate-200 dark:border-white/5 last:border-b-0">
-                <span className="text-slate-400 dark:text-zinc-600 font-bold">[{idx + 1}]</span>
+              <div key={idx} className="flex items-center gap-2 py-0.5 border-b border-border dark:border-white/5 last:border-b-0">
+                <span className="text-muted-foreground dark:text-zinc-600 font-bold">[{idx + 1}]</span>
                 <span className="truncate select-all">{propHash}</span>
               </div>
             ))}
@@ -112,8 +112,8 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
 
       {/* Disclosure / Auditable Footnote set */}
       {activeDisclosures.length > 0 && (
-        <div className="space-y-3.5 pt-4 border-t border-slate-200 dark:border-white/5">
-          <span className="block text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-500">
+        <div className="space-y-3.5 pt-4 border-t border-border dark:border-white/5">
+          <span className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500">
             Divulgações Fiduciárias & Ressalvas de Auditoria
           </span>
           <div className="space-y-3">
@@ -122,19 +122,19 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
                 ? 'bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-500/20'
                 : disc.severity === 'ELEVATED' || disc.severity === 'HIGH'
                 ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20'
-                : 'bg-slate-100 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-zinc-500/20';
+                : 'bg-slate-100 text-muted-foreground dark:text-zinc-400 border border-border dark:border-zinc-500/20';
 
               return (
-                <div key={idx} className="p-4 bg-slate-100/80 dark:bg-zinc-950/60 border border-slate-200 dark:border-zinc-900 rounded-2xl space-y-2 flex flex-col justify-between shadow-xs">
+                <div key={idx} className="p-4 bg-slate-100/80 dark:bg-zinc-950/60 border border-border dark:border-zinc-900 rounded-2xl space-y-2 flex flex-col justify-between shadow-xs">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <FileText className="w-3.5 h-3.5 text-slate-550 dark:text-zinc-500" />
-                      <span className="text-[10px] font-bold text-slate-700 dark:text-zinc-300 font-mono">
+                      <FileText className="w-3.5 h-3.5 text-muted-foreground dark:text-zinc-500" />
+                      <span className="text-[10px] font-bold text-muted-foreground dark:text-zinc-300 font-mono">
                         {disc.disclosureId}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[8px] font-mono bg-slate-200/50 dark:bg-zinc-900 text-slate-600 dark:text-zinc-400 px-1.5 py-0.5 rounded border border-slate-200 dark:border-zinc-800">
+                      <span className="text-[8px] font-mono bg-slate-200/50 dark:bg-zinc-900 text-muted-foreground dark:text-zinc-400 px-1.5 py-0.5 rounded border border-border dark:border-zinc-800">
                         {disc.sourceRuntime}
                       </span>
                       <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${badgeColors}`}>
@@ -142,7 +142,7 @@ export function InstitutionalLineageExplorer({ lineageAppendix, disclosureSet, d
                       </span>
                     </div>
                   </div>
-                  <p className="text-xs font-semibold text-slate-700 dark:text-zinc-300 leading-snug">
+                  <p className="text-xs font-semibold text-muted-foreground dark:text-zinc-300 leading-snug">
                     {disc.message}
                   </p>
                 </div>

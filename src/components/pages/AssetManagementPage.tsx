@@ -240,14 +240,14 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
 
   if (!clientId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade text-center p-20 bg-white border border-slate-200 rounded-[32px] w-full">
+      <div className="flex flex-col items-center justify-center min-h-[600px] space-y-8 animate-executive-fade text-center p-20 bg-white border border-border rounded-[32px] w-full">
          <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center text-secondary shadow-xl relative">
             <div className="absolute inset-0 bg-secondary blur-3xl opacity-20 animate-pulse" />
             <Briefcase size={48} className="relative z-10 animate-pulse" />
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Selecione uma Empresa</h2>
-            <p className="text-slate-500 w-full max-w-2xl mx-auto font-medium leading-relaxed">
+            <h2 className="text-2xl font-display font-black text-muted-foreground tracking-tight">Selecione uma Empresa</h2>
+            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
               Por favor, selecione uma empresa no seletor de cliente ativo no topo da tela para visualizar o painel de ativos.
             </p>
          </div>
@@ -267,8 +267,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
             <Briefcase size={64} className="relative z-10" />
          </div>
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto">
-            <h2 className="text-3xl font-display font-black text-slate-900 tracking-tight">Gestão de Ativos Indisponível</h2>
-            <p className="text-slate-500 w-full max-w-2xl mx-auto font-medium leading-relaxed">
+            <h2 className="text-3xl font-display font-black text-muted-foreground tracking-tight">Gestão de Ativos Indisponível</h2>
+            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
               Não foram encontrados ativos financeiros registrados para este cliente no período selecionado. Importe seus ativos ou adicione-os manualmente para iniciar o monitoramento.
             </p>
          </div>
@@ -278,11 +278,11 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                  setEditingAsset(null);
                  setIsModalOpen(true);
                }}
-               className="px-5 md:px-8 py-2.5 md:py-4 bg-secondary text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-secondary/20 hover:scale-105 transition-all"
+               className="px-5 md:px-8 py-2.5 md:py-4 bg-secondary text-muted-foreground rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-secondary/20 hover:scale-105 transition-all"
              >
                <Plus size={16} className="inline mr-2" /> Adicionar Primeiro Ativo
              </button>
-            <button className="px-5 md:px-8 py-2.5 md:py-4 bg-slate-100 text-slate-600 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-200 transition-all">
+            <button className="px-5 md:px-8 py-2.5 md:py-4 bg-slate-100 text-muted-foreground rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-200 transition-all">
               <Download size={16} className="inline mr-2" /> Importar Dados
             </button>
          </div>
@@ -355,7 +355,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
         <div className="bg-primary p-8 rounded-[32px] text-white flex flex-col justify-between relative overflow-hidden group shadow-xl">
           <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
             <div>
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Benchmark de Referência</h3>
+              <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Benchmark de Referência</h3>
               <p className="text-3xl font-display font-black mb-2">CDI + Alpha</p>
               <div className="flex items-center gap-2 text-emerald-400">
                  <Target size={16} />
@@ -371,11 +371,11 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
       {/* KPI Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6">
         {metrics.map(m => (
-          <div key={m.label} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden">
+          <div key={m.label} className="bg-white p-8 rounded-[32px] border border-border shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">{m.label}</p>
-                <div className="p-2 bg-slate-50 rounded-xl text-slate-400 group-hover:bg-secondary/10 group-hover:text-secondary transition-all">
+                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">{m.label}</p>
+                <div className="p-2 bg-slate-50 rounded-xl text-muted-foreground group-hover:bg-secondary/10 group-hover:text-secondary transition-all">
                   <m.icon size={18} />
                 </div>
               </div>
@@ -386,7 +386,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                 {m.trend && (
                    m.trend === 'up' ? <ArrowUpRight size={14} className="text-emerald-500" /> : <ArrowDownRight size={14} className="text-rose-500" />
                 )}
-                <span className="text-[10px] font-bold text-slate-400 italic">
+                <span className="text-[10px] font-bold text-muted-foreground italic">
                   {m.sub}
                 </span>
               </div>
@@ -400,8 +400,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* Performance Evolution */}
         <div className="xl:col-span-2 space-y-4">
-          <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Evolução do Patrimônio</h2>
-          <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm h-[400px]">
+          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Evolução do Patrimônio</h2>
+          <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm h-[400px]">
              <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={performanceHistory}>
                   <defs>
@@ -454,8 +454,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
 
         {/* Asset Allocation */}
         <div className="space-y-4">
-          <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Alocação por Classe</h2>
-          <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm h-[400px] flex flex-col items-center justify-between">
+          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Alocação por Classe</h2>
+          <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm h-[400px] flex flex-col items-center justify-between">
             <div className="w-full h-[250px] relative z-10">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -483,8 +483,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                {allocationData.map((item) => (
                  <div key={item.name} className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter">{item.name}</span>
-                    <span className="text-[9px] font-black text-slate-900 ml-auto">{(item.value / totalValue * 100).toFixed(0)}%</span>
+                    <span className="text-[9px] font-black text-muted-foreground uppercase tracking-tighter">{item.name}</span>
+                    <span className="text-[9px] font-black text-muted-foreground ml-auto">{(item.value / totalValue * 100).toFixed(0)}%</span>
                  </div>
                ))}
             </div>
@@ -496,24 +496,24 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         <div className="xl:col-span-2 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Análise Comparativa & Benchmarks</h2>
-            <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 bg-slate-50 px-3 py-1 rounded-full">
+            <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Análise Comparativa & Benchmarks</h2>
+            <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground bg-slate-50 px-3 py-1 rounded-full">
               <Info size={12} className="text-secondary" />
               Dados mensais atualizados
             </div>
           </div>
           
-          <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm relative overflow-hidden group">
+          <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                <BarChart3 size={120} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
               {benchmarks.map((b) => (
                 <div key={b.name} className="space-y-3">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{b.name}</p>
+                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{b.name}</p>
                   <div className="flex items-baseline gap-1">
                     <p className={`text-2xl font-display ${b.color}`}>{b.value.toFixed(2)}%</p>
-                    <span className="text-[10px] text-slate-400">/mês</span>
+                    <span className="text-[10px] text-muted-foreground">/mês</span>
                   </div>
                   <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
                     <motion.div 
@@ -522,7 +522,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                       className={cn("h-full", b.color.replace('text-', 'bg-'))}
                     />
                   </div>
-                  <p className="text-[9px] text-slate-400 font-medium">
+                  <p className="text-[9px] text-muted-foreground font-medium">
                     {monthlyYield > b.value ? 'Alpha Positivo' : 'Abaixo do Benchmark'}
                   </p>
                 </div>
@@ -532,7 +532,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
 
           <div className="bg-slate-900 p-8 rounded-[32px] text-white overflow-hidden relative">
             <div className="absolute bottom-0 right-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl -mb-32 -mr-32"></div>
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-8 flex items-center gap-2">
+            <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-8 flex items-center gap-2">
               <Plus size={14} className="text-secondary" /> Simulação de Outras Aplicações
             </h3>
             <div className="space-y-6">
@@ -543,16 +543,16 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
               ].map((sim, idx) => (
                 <div key={idx} className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all cursor-pointer group">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-slate-300 group-hover:text-secondary transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-muted-foreground group-hover:text-secondary transition-colors">
                       <TrendingUp size={20} />
                     </div>
                     <div>
                       <p className="text-xs font-black uppercase tracking-widest">{sim.name}</p>
-                      <p className="text-[10px] text-slate-400 font-medium">Risco: {sim.risk} • Tributação: {sim.tax}</p>
+                      <p className="text-[10px] text-muted-foreground font-medium">Risco: {sim.risk} • Tributação: {sim.tax}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-display text-secondary">{sim.yield}% <span className="text-[10px] text-slate-400 uppercase">Est.</span></p>
+                    <p className="text-lg font-display text-secondary">{sim.yield}% <span className="text-[10px] text-muted-foreground uppercase">Est.</span></p>
                     <p className="text-[9px] text-emerald-400">+{ (sim.yield - monthlyYield).toFixed(2) }% vs Atual</p>
                   </div>
                 </div>
@@ -563,11 +563,11 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
 
         {/* Tax Simulation Block */}
         <div className="space-y-6">
-          <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Simulador Tributário (IRF/IOF)</h2>
-          <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm space-y-8 h-full">
+          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Simulador Tributário (IRF/IOF)</h2>
+          <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm space-y-8 h-full">
             <div className="p-6 bg-slate-50 rounded-3xl space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-[10px] text-slate-400 uppercase tracking-widest">Lucro Bruto</span>
+                <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Lucro Bruto</span>
                 <span className="text-sm text-primary">{formatCurrency(taxSimulation.grossProfit)}</span>
               </div>
               <div className="flex justify-between items-center text-rose-500">
@@ -590,7 +590,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
             </div>
 
             <div className="space-y-4">
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Regras de Tributação</h4>
+              <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Regras de Tributação</h4>
               <div className="space-y-3">
                 {[
                   { label: 'IOF Regressivo', desc: '96% no dia 1 até 0% no dia 30' },
@@ -600,8 +600,8 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                   <div key={idx} className="flex items-start gap-3">
                     <div className="mt-1 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
                     <div>
-                      <p className="text-[10px] font-black text-slate-700 uppercase tracking-tighter">{rule.label}</p>
-                      <p className="text-[9px] text-slate-400 font-medium">{rule.desc}</p>
+                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-tighter">{rule.label}</p>
+                      <p className="text-[9px] text-muted-foreground font-medium">{rule.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -619,36 +619,36 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
       {/* Asset Table */}
       <div className="space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Detalhamento da Carteira</h2>
+          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Detalhamento da Carteira</h2>
           <div className="flex items-center gap-3">
              <div className="relative group">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-secondary transition-colors" size={14} />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-secondary transition-colors" size={14} />
                 <input 
                   type="text" 
                   placeholder="Buscar ativos..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 bg-white border border-slate-100 rounded-xl text-xs font-bold outline-none focus:border-secondary/30 transition-all w-64"
+                  className="pl-10 pr-4 py-2 bg-white border border-border rounded-xl text-xs font-bold outline-none focus:border-secondary/30 transition-all w-64"
                 />
              </div>
-             <button className="p-2 bg-white border border-slate-100 rounded-xl text-slate-400 hover:text-secondary hover:border-secondary/20 transition-all">
+             <button className="p-2 bg-white border border-border rounded-xl text-muted-foreground hover:text-secondary hover:border-secondary/20 transition-all">
                 <Filter size={16} />
              </button>
           </div>
         </div>
 
-        <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50/50">
-                  <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Ativo</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Classe / Rend.</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Valor Atual</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Rent. (Mês)</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Lucro/Prejuízo</th>
-                  <th className="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
-                  <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                  <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Ativo</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Classe / Rend.</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Valor Atual</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Rent. (Mês)</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Lucro/Prejuízo</th>
+                  <th className="px-6 py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Status</th>
+                  <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -657,14 +657,14 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                     <td className="px-5 md:px-8 py-3 md:py-5">
                       <div className="flex flex-col">
                         <span className="text-xs text-primary group-hover:text-secondary transition-colors">{asset.name}</span>
-                        <span className="text-[10px] text-slate-400 font-medium mt-0.5">
+                        <span className="text-[10px] text-muted-foreground font-medium mt-0.5">
                           {asset.applicationDate ? `Aplicado em ${new Date(asset.applicationDate + 'T12:00:00').toLocaleDateString('pt-BR')}` : 'Custódia Principal'}
                         </span>
                       </div>
                     </td>
                     <td className="px-6 py-5 text-center">
                        <div className="flex flex-col items-center gap-1">
-                        <span className="px-3 py-1 bg-slate-100 rounded-full text-[9px] text-slate-500 uppercase tracking-tighter">
+                        <span className="px-3 py-1 bg-slate-100 rounded-full text-[9px] text-muted-foreground uppercase tracking-tighter">
                           {asset.category}
                         </span>
                         {asset.yieldType && (
@@ -691,7 +691,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                     <td className="px-6 py-5">
                       <div className="flex items-center justify-center gap-2">
                         <Semaphore status={asset.status} />
-                        <span className="text-[10px] text-slate-500">{asset.status}</span>
+                        <span className="text-[10px] text-muted-foreground">{asset.status}</span>
                       </div>
                     </td>
                     <td className="px-5 md:px-8 py-3 md:py-5 text-right">
@@ -700,7 +700,7 @@ export function AssetManagementPage({ clientId, selectedYear, selectedMonth }: a
                            setEditingAsset(asset);
                            setIsModalOpen(true);
                          }}
-                         className="p-2 text-slate-400 hover:text-secondary transition-all"
+                         className="p-2 text-muted-foreground hover:text-secondary transition-all"
                        >
                          <ChevronRight size={18} />
                        </button>

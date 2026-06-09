@@ -91,10 +91,10 @@ function DeletePlanModal({
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">
+            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">
               Para confirmar, digite o nome do cliente:
             </label>
-            <div className="text-[11px] font-mono font-bold text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 mb-1">
+            <div className="text-[11px] font-mono font-bold text-muted-foreground bg-slate-50 border border-border rounded-lg px-3 py-2 mb-1">
               {clientName}
             </div>
             <input
@@ -106,7 +106,7 @@ function DeletePlanModal({
                 "w-full px-4 py-2.5 border rounded-xl text-sm outline-none transition-all",
                 isValid 
                   ? "border-rose-400 bg-rose-50 focus:ring-2 focus:ring-rose-300/30" 
-                  : "border-slate-200 focus:border-slate-400"
+                  : "border-border focus:border-border"
               )}
               autoFocus
             />
@@ -114,11 +114,11 @@ function DeletePlanModal({
         </div>
 
         {/* Footer */}
-        <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3">
+        <div className="p-6 bg-slate-50 border-t border-border flex gap-3">
           <button
             onClick={onClose}
             disabled={isDeleting}
-            className="flex-1 py-3 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
+            className="flex-1 py-3 text-muted-foreground font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
           >
             Cancelar
           </button>
@@ -366,12 +366,12 @@ export function PlanoDeContasPage({
         color="bg-slate-900"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
           {selectedClient && savedCount > 0 && (
             <button 
               onClick={() => setIsDeletePlanOpen(true)}
-              className="px-5 py-3 bg-white border border-slate-200 text-rose-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 transition-all flex items-center gap-2 shadow-sm"
+              className="px-5 py-3 bg-white border border-border text-rose-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 transition-all flex items-center gap-2 shadow-sm"
             >
               <Trash2 size={14} /> EXCLUIR PLANO
             </button>
@@ -384,7 +384,7 @@ export function PlanoDeContasPage({
               "px-4 md:px-6 py-2 md:py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm flex items-center gap-2 border",
               saveSuccess 
                 ? "bg-emerald-500 text-white border-emerald-400" 
-                : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                : "bg-white text-muted-foreground border-border hover:bg-slate-50"
             )}
           >
             {isSavingAll ? <Loader2 size={14} className="animate-spin" /> : saveSuccess ? <CheckCircle2 size={14} /> : <Save size={14} />}
@@ -395,14 +395,14 @@ export function PlanoDeContasPage({
 
           <button 
             onClick={() => setIsImportModalOpen(true)}
-            className="px-4 md:px-6 py-2 md:py-3 bg-white border border-slate-200 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm"
+            className="px-4 md:px-6 py-2 md:py-3 bg-white border border-border text-muted-foreground rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm"
           >
             <UploadCloud size={14} /> IMPORTAR
           </button>
           
           <button 
             onClick={() => setIsMappingWizardOpen(true)}
-            className="px-4 md:px-6 py-2 md:py-3 bg-white border border-slate-200 text-primary rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm"
+            className="px-4 md:px-6 py-2 md:py-3 bg-white border border-border text-primary rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm"
           >
             <Link2 size={14} /> MAPEAMENTO
           </button>
@@ -420,52 +420,52 @@ export function PlanoDeContasPage({
 
 
 
-      <div className="flex flex-col md:flex-row items-stretch md:items-center bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden mb-8">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center bg-white rounded-3xl border border-border shadow-sm overflow-hidden mb-8">
         <div className="flex-1 p-6 flex flex-col sm:flex-row items-center gap-6">
           <div className="relative flex-1 w-full sm:w-auto">
-            <Search size={18} className="absolute left-4 top-3 text-slate-400" />
+            <Search size={18} className="absolute left-4 top-3 text-muted-foreground" />
             <input 
               type="text" 
               placeholder="Pesquisar por código ou nome..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-secondary/10 outline-none transition-all"
+              className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-border rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-secondary/10 outline-none transition-all"
             />
           </div>
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            <Filter size={18} className="text-slate-400" />
+            <Filter size={18} className="text-muted-foreground" />
             <select 
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm font-bold text-slate-600 outline-none"
+              className="bg-slate-50 border border-border rounded-xl px-4 py-3 text-sm font-bold text-muted-foreground outline-none"
             >
               <option value="Todos">Todos os Grupos</option>
               {accountTypes.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
           {/* Account count chip */}
-          <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">
+          <div className="text-[10px] font-black text-muted-foreground uppercase tracking-widest whitespace-nowrap">
             {filteredAccounts.length} contas
             {searchTerm || filterType !== 'Todos' ? ' filtradas' : ' no total'}
           </div>
         </div>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+      <div className="bg-white border border-border rounded-3xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50/50 border-b border-slate-100">
-                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Código</th>
-                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Nome da Conta</th>
-                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipo / Grupo</th>
-                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Nível</th>
-                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
+              <tr className="bg-slate-50/50 border-b border-border">
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Código</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Nome da Conta</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Tipo / Grupo</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Nível</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Status</th>
                 {planType === 'managerial' && (
-                  <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Vínculo Contábil</th>
+                  <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Vínculo Contábil</th>
                 )}
-                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Vínculo KPI</th>
-                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Vínculo KPI</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -473,25 +473,25 @@ export function PlanoDeContasPage({
                 <tr>
                   <td colSpan={7} className="px-8 py-20 text-center">
                     <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-                    <p className="text-slate-500 font-bold">Carregando plano de contas...</p>
+                    <p className="text-muted-foreground font-bold">Carregando plano de contas...</p>
                   </td>
                 </tr>
               ) : filteredAccounts.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-8 py-20 text-center">
-                    <BookOpen size={48} className="text-slate-200 mx-auto mb-4" />
+                    <BookOpen size={48} className="text-muted-foreground mx-auto mb-4" />
                     <h4 className="text-xl font-display text-primary">Nenhuma conta encontrada</h4>
-                    <p className="text-slate-500 max-w-2xl mx-auto mt-2 font-sans">Ajuste seus filtros ou adicione uma nova conta ao plano.</p>
+                    <p className="text-muted-foreground max-w-2xl mx-auto mt-2 font-sans">Ajuste seus filtros ou adicione uma nova conta ao plano.</p>
                   </td>
                 </tr>
               ) : (
                 filteredAccounts.map((acc, idx) => (
                   <tr key={acc.id || `${acc.code}-${idx}`} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-xs font-black font-mono text-slate-400">{acc.code}</td>
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-xs font-black font-mono text-muted-foreground">{acc.code}</td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4">
                       <div className="flex items-center gap-2" style={{ paddingLeft: `${(acc.level - 1) * 20}px` }}>
-                        {acc.level > 1 && <ChevronRight size={12} className="text-slate-300" />}
-                        <span className={cn("text-sm", acc.level === 1 ? "font-black text-primary" : "font-bold text-slate-600")}>
+                        {acc.level > 1 && <ChevronRight size={12} className="text-muted-foreground" />}
+                        <span className={cn("text-sm", acc.level === 1 ? "font-black text-primary" : "font-bold text-muted-foreground")}>
                           {acc.name}
                         </span>
                       </div>
@@ -503,14 +503,14 @@ export function PlanoDeContasPage({
                         acc.type === 'Passivo' ? "bg-rose-50 text-rose-700" :
                         acc.type === 'Patrimônio Líquido' ? "bg-amber-50 text-amber-700" :
                         acc.type === 'Receita' ? "bg-emerald-50 text-emerald-700" :
-                        acc.type === 'Despesa' ? "bg-slate-100 text-slate-700" :
+                        acc.type === 'Despesa' ? "bg-slate-100 text-muted-foreground" :
                         "bg-secondary/10 text-secondary"
                       )}>
                         {acc.type}
                       </span>
                     </td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
-                      <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">Lvl {acc.level}</span>
+                      <span className="text-[10px] font-bold text-muted-foreground bg-slate-100 px-2 py-0.5 rounded-full">Lvl {acc.level}</span>
                     </td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <StatusBadge status={acc.status || 'Ativa'} />
@@ -522,14 +522,14 @@ export function PlanoDeContasPage({
                             {acc.accountingAccountIds.map((id: string) => {
                               const target = accountingAccounts.find(a => a.id === id);
                               return (
-                                <span key={id} className="text-[9px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200" title={target?.name}>
+                                <span key={id} className="text-[9px] font-bold text-muted-foreground bg-slate-100 px-1.5 py-0.5 rounded border border-border" title={target?.name}>
                                   {target?.code || '???'}
                                 </span>
                               );
                             })}
                           </div>
                         ) : (
-                          <span className="text-[9px] font-bold text-slate-300 uppercase tracking-tighter italic">Sem vínculo</span>
+                          <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter italic">Sem vínculo</span>
                         )}
                       </td>
                     )}
@@ -564,7 +564,7 @@ export function PlanoDeContasPage({
                               <Sparkles size={10} /> Vincular KPI
                             </button>
                           ) : (
-                            <span className="text-[9px] font-bold text-slate-300 uppercase tracking-tighter italic">Não mapeado</span>
+                            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter italic">Não mapeado</span>
                           )}
                         </div>
                       )}
@@ -573,13 +573,13 @@ export function PlanoDeContasPage({
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => { setEditingAccount(acc); setIsModalOpen(true); }}
-                          className="p-2 text-slate-400 hover:text-secondary hover:bg-secondary/5 rounded-lg transition-all"
+                          className="p-2 text-muted-foreground hover:text-secondary hover:bg-secondary/5 rounded-lg transition-all"
                         >
                           <Edit2 size={16} />
                         </button>
                         <button 
                           onClick={() => handleDeleteAccount(acc.id, acc.code)}
-                          className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                          className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
                         >
                           <Trash2 size={16} />
                         </button>

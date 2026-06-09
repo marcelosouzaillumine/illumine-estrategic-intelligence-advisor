@@ -18,9 +18,9 @@ export function AdvisoryDeltaPanel({ baseAdvisory, projectedOutput }: Props) {
   );
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-sm text-white h-full flex flex-col">
+    <div className="bg-slate-900 border border-border rounded-2xl p-6 shadow-sm text-white h-full flex flex-col">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-sm font-black uppercase tracking-widest text-indigo-400">Advisory Delta</h2>
+        <h2 className="text-sm font-black uppercase tracking-widest text-primary">Advisory Delta</h2>
         <span className="text-xs font-bold px-2 py-1 bg-white/10 rounded-md border border-white/10">
           Trust: {projectedAdvisory.confidenceLevel}
         </span>
@@ -28,8 +28,8 @@ export function AdvisoryDeltaPanel({ baseAdvisory, projectedOutput }: Props) {
 
       <div className="flex-1 space-y-6">
         <div>
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Novo Diagnóstico Institucional</h3>
-          <p className="text-sm text-slate-300 italic border-l-2 border-indigo-500 pl-3">
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Novo Diagnóstico Institucional</h3>
+          <p className="text-sm text-muted-foreground italic border-l-2 border-primary pl-3">
             "{projectedAdvisory.institutionalDiagnosis}"
           </p>
         </div>
@@ -65,7 +65,7 @@ export function AdvisoryDeltaPanel({ baseAdvisory, projectedOutput }: Props) {
         )}
 
         {newRisks.length === 0 && newActions.length === 0 && (
-          <div className="text-sm text-slate-500 flex items-center justify-center h-20 border border-dashed border-slate-700 rounded-lg">
+          <div className="text-sm text-muted-foreground flex items-center justify-center h-20 border border-dashed border-border rounded-lg">
             Nenhuma divergência crítica identificada no advisory.
           </div>
         )}

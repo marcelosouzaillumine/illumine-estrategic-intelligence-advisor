@@ -850,7 +850,7 @@ export function DadosHistoricosPage({
                                 <p className="text-sm font-bold text-foreground truncate">{h.clientName || 'Cliente'}</p>
                               </div>
                             </div>
-                            <span className="text-[9px] font-bold text-slate-400 bg-surface-container/85 px-2.5 py-1 rounded-full border border-border shrink-0">
+                            <span className="text-[9px] font-bold text-muted-foreground bg-surface-container/85 px-2.5 py-1 rounded-full border border-border shrink-0">
                               {h.periodType === 'anual' ? h.year : (h.month ? `${getMonthName(h.month).substring(0,3)}/${h.year}` : h.year)}
                             </span>
                           </div>
@@ -886,7 +886,7 @@ export function DadosHistoricosPage({
                             )}
                         </div>
                         {h.fileUrl && h.fileUrl.startsWith('http') ? (
-                          <a href={h.fileUrl} target="_blank" rel="noopener noreferrer" className="mt-4 block text-[9px] text-center font-black text-slate-400 hover:text-secondary uppercase tracking-widest transition-colors duration-200">Ver Original</a>
+                          <a href={h.fileUrl} target="_blank" rel="noopener noreferrer" className="mt-4 block text-[9px] text-center font-black text-muted-foreground hover:text-secondary uppercase tracking-widest transition-colors duration-200">Ver Original</a>
                         ) : (
                           <span className="mt-4 block text-[9px] text-center font-bold text-destructive/50 uppercase tracking-widest">Arquivo Indisponível</span>
                         )}
@@ -930,7 +930,7 @@ export function DadosHistoricosPage({
                       Fila de Aprovação Ativa
                     </h3>
                   </div>
-                  <p className="text-xs text-slate-400 mt-1 font-medium font-sans">
+                  <p className="text-xs text-muted-foreground mt-1 font-medium font-sans">
                     Há <strong className="text-white font-bold">{totalPending}</strong> documento(s) aguardando validação estratégica no sistema.
                   </p>
                 </div>
@@ -1139,7 +1139,7 @@ export function DadosHistoricosPage({
                     <Info size={22} className="text-secondary" />
                   </div>
                   <h4 className="text-h3 font-display font-medium text-white mb-2">Rastreabilidade & Integridade</h4>
-                  <p className="text-body-sm text-slate-400 font-medium leading-relaxed font-sans">
+                  <p className="text-body-sm text-muted-foreground font-medium leading-relaxed font-sans">
                     Todos os documentos enviados passam por um processo de curadoria estratégica para garantir que os KPIs reflitam a realidade fiel do seu negócio.
                   </p>
                 </div>

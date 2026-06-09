@@ -82,7 +82,7 @@ export const InstitutionalDigitalTwinWorkspace: React.FC<InstitutionalDigitalTwi
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Layers className="animate-pulse text-indigo-500 mb-4" size={32} />
+        <Layers className="animate-pulse text-primary mb-4" size={32} />
         <p className="text-eyebrow text-muted-foreground">Sincronizando Digital Twin...</p>
       </div>
     );
@@ -109,7 +109,7 @@ export const InstitutionalDigitalTwinWorkspace: React.FC<InstitutionalDigitalTwi
         <div className="flex gap-2">
           <button
             onClick={() => handleCrossNavigation('INTELLIGENCE_FABRIC', `/intelligence/root`)}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-indigo-500/30 shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent text-accent text-sm font-display font-medium rounded-[12px] transition-colors border border-accent shadow-sm"
           >
             <Network size={16} />
             <span>Intelligence Fabric</span>
@@ -118,7 +118,7 @@ export const InstitutionalDigitalTwinWorkspace: React.FC<InstitutionalDigitalTwi
             onClick={() => handleCrossNavigation('ADVISOR', `/advisor`)}
             className="btn-secondary"
           >
-            <Layers size={16} className="text-indigo-400" />
+            <Layers size={16} className="text-primary" />
             <span>Voltar ao Advisor Workspace</span>
           </button>
           <button
@@ -168,7 +168,7 @@ export const InstitutionalDigitalTwinWorkspace: React.FC<InstitutionalDigitalTwi
                     <p className="text-[10px] font-bold text-foreground">{rel.sourceName}</p>
                     <div className="flex items-center gap-2 my-1">
                       <div className="h-px bg-border flex-1" />
-                      <span className="text-[9px] uppercase font-mono text-indigo-400">{rel.type}</span>
+                      <span className="text-[9px] uppercase font-mono text-primary">{rel.type}</span>
                       <div className="h-px bg-border flex-1" />
                     </div>
                     <p className="text-[10px] font-bold text-foreground text-right">{rel.targetName}</p>
@@ -189,7 +189,7 @@ export const InstitutionalDigitalTwinWorkspace: React.FC<InstitutionalDigitalTwi
               <p className="text-[10px] text-muted-foreground mb-3">Navegue pelas anomalias persistidas no Knowledge Graph.</p>
               <Link 
                 to="/investigation/root"
-                className="flex items-center justify-center gap-2 w-full py-2 bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 text-xs font-bold uppercase rounded-lg transition-colors border border-indigo-500/20"
+                className="flex items-center justify-center gap-2 w-full py-2 bg-accent hover:bg-accent text-accent text-xs font-bold uppercase rounded-lg transition-colors border border-accent"
               >
                 Board Workspace
               </Link>

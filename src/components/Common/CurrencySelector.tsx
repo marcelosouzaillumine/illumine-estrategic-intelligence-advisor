@@ -160,7 +160,7 @@ export function CurrencySelector({
                         </p>
                         <p className={cn(
                           'text-[9px] font-medium',
-                          isSelected ? 'text-slate-300' : 'text-slate-400'
+                          isSelected ? 'text-muted-foreground' : 'text-muted-foreground'
                         )}>
                           {currency.label}
                         </p>

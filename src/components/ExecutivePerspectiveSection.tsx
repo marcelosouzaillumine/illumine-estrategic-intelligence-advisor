@@ -87,8 +87,8 @@ function inferManagementArea(action: string): { area: string; icon: any; color: 
   if (lower.includes('operac') || lower.includes('processo') || lower.includes('eficiên') || lower.includes('produt') || lower.includes('estrutura') || lower.includes('escala'))
     return { area: 'Gestão Operacional', icon: Layers, color: 'text-amber-600 bg-amber-50 border-amber-200' };
   if (lower.includes('estratég') || lower.includes('posicion') || lower.includes('mercado') || lower.includes('competi') || lower.includes('inovaç'))
-    return { area: 'Gestão Estratégica', icon: Target, color: 'text-indigo-600 bg-indigo-50 border-indigo-200' };
-  return { area: 'Governança Corporativa', icon: BarChart2, color: 'text-slate-600 bg-slate-50 border-slate-200' };
+    return { area: 'Gestão Estratégica', icon: Target, color: 'text-primary bg-primary border-primary' };
+  return { area: 'Governança Corporativa', icon: BarChart2, color: 'text-muted-foreground bg-slate-50 border-border' };
 }
 
 function inferPriority(idx: number, action: string): { label: string; color: string } {
@@ -122,9 +122,9 @@ export function ExecutivePerspectiveSection({
 
   if (loading) {
     return (
-      <div className={cn("bg-white rounded-[48px] border border-slate-200 p-12 flex flex-col items-center justify-center min-h-[400px]", className)}>
-        <div className="w-16 h-16 rounded-full border-4 border-indigo-200 border-t-indigo-600 animate-spin mb-6" />
-        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest animate-pulse">Consultando Motor Institucional...</p>
+      <div className={cn("bg-white rounded-[48px] border border-border p-12 flex flex-col items-center justify-center min-h-[400px]", className)}>
+        <div className="w-16 h-16 rounded-full border-4 border-primary border-t-indigo-600 animate-spin mb-6" />
+        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest animate-pulse">Consultando Motor Institucional...</p>
       </div>
     );
   }
@@ -253,19 +253,19 @@ export function ExecutivePerspectiveSection({
     'bg-amber-100 text-amber-800 border-amber-200';
 
   return (
-    <div className={cn("bg-white rounded-[48px] border border-slate-200 p-8 md:p-12 overflow-hidden relative shadow-sm", className)}>
-      <div className="absolute -left-20 -top-20 w-80 h-80 bg-indigo-50 rounded-full blur-3xl opacity-60" />
+    <div className={cn("bg-white rounded-[48px] border border-border p-8 md:p-12 overflow-hidden relative shadow-sm", className)}>
+      <div className="absolute -left-20 -top-20 w-80 h-80 bg-primary rounded-full blur-3xl opacity-60" />
       <div className="relative z-10">
 
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-slate-100 pb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-border pb-8">
           <div className="flex items-center gap-5">
-            <div className="p-4 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100">
+            <div className="p-4 rounded-2xl bg-primary text-primary border border-primary">
               <ShieldCheck size={28} strokeWidth={2.5} />
             </div>
             <div>
-              <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none mb-2">Síntese Executiva Institucional</h3>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Causalidade Integrada: BP + DRE + Caixa</p>
+              <h3 className="text-2xl font-black text-muted-foreground tracking-tight leading-none mb-2">Síntese Executiva Institucional</h3>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Causalidade Integrada: BP + DRE + Caixa</p>
             </div>
           </div>
 
@@ -280,19 +280,19 @@ export function ExecutivePerspectiveSection({
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-10 p-6 bg-indigo-50/50 rounded-3xl border border-indigo-100/80 relative overflow-hidden"
+            className="mb-10 p-6 bg-primary rounded-3xl border border-primary relative overflow-hidden"
           >
-            <div className="absolute right-0 bottom-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl pointer-events-none" />
-            <h4 className="text-[10px] font-black text-indigo-700 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-              <Activity size={14} className="text-indigo-500" /> Contexto Institucional Detectado
+            <div className="absolute right-0 bottom-0 w-32 h-32 bg-primary rounded-full blur-2xl pointer-events-none" />
+            <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+              <Activity size={14} className="text-primary" /> Contexto Institucional Detectado
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
               {/* Segmento Operacional */}
               <div className="space-y-3">
                 <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Segmento Operacional</p>
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Segmento Operacional</p>
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-bold text-slate-800">{pt(intelligenceReport.institutionalContext.operationalSegment.label)}</p>
+                    <p className="text-sm font-bold text-muted-foreground">{pt(intelligenceReport.institutionalContext.operationalSegment.label)}</p>
                     {intelligenceReport.institutionalContext.segmentConfidence && (
                       <span className={cn(
                         "text-[8px] font-bold px-1.5 py-0.5 rounded-sm border uppercase tracking-wider",
@@ -311,33 +311,33 @@ export function ExecutivePerspectiveSection({
               {/* Modelo Operacional */}
               <div className="space-y-3">
                 <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Modelo Operacional</p>
-                  <p className="text-sm font-bold text-slate-800">{pt(intelligenceReport.institutionalContext.operationalModel.label)}</p>
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Modelo Operacional</p>
+                  <p className="text-sm font-bold text-muted-foreground">{pt(intelligenceReport.institutionalContext.operationalModel.label)}</p>
                 </div>
               </div>
 
               {/* Perfil Financeiro */}
               <div className="space-y-3">
                 <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Perfil Financeiro</p>
-                  <p className="text-sm font-bold text-slate-800">{InstitutionalLocaleGuard.translateFinancialProfile(intelligenceReport.institutionalContext.financialProfile.code)}</p>
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Perfil Financeiro</p>
+                  <p className="text-sm font-bold text-muted-foreground">{InstitutionalLocaleGuard.translateFinancialProfile(intelligenceReport.institutionalContext.financialProfile.code)}</p>
                 </div>
               </div>
 
               {/* Maturidade Institucional */}
               <div className="space-y-3">
                 <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Maturidade Institucional</p>
-                  <p className="text-sm font-bold text-slate-800">{InstitutionalLocaleGuard.translateBusinessStage(intelligenceReport.institutionalContext.institutionalMaturity.code)}</p>
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Maturidade Institucional</p>
+                  <p className="text-sm font-bold text-muted-foreground">{InstitutionalLocaleGuard.translateBusinessStage(intelligenceReport.institutionalContext.institutionalMaturity.code)}</p>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 mt-6 pt-6 border-t border-indigo-200/50">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 mt-6 pt-6 border-t border-primary">
               {/* Confiança Estratégica */}
               <div className="space-y-3">
                 <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Confiança Estratégica</p>
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Confiança Estratégica</p>
                   <span className={cn(
                     "inline-block px-2.5 py-1 rounded-full text-[10px] font-bold border",
                     intelligenceReport.institutionalContext.confidence.strategicConfidence === 'HIGH' ? "bg-emerald-100 text-emerald-800 border-emerald-200" :
@@ -352,8 +352,8 @@ export function ExecutivePerspectiveSection({
               {/* Limitações Interpretativas */}
               <div className="space-y-3 col-span-1">
                 <div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Limitações Interpretativas</p>
-                  <div className="max-h-24 overflow-y-auto space-y-1 mt-1 text-[11px] text-slate-600 font-medium">
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Limitações Interpretativas</p>
+                  <div className="max-h-24 overflow-y-auto space-y-1 mt-1 text-[11px] text-muted-foreground font-medium">
                     {intelligenceReport.compliance.narrativeRestrictions
                       .filter(r => r.includes('NÃO') || r.includes('Diretriz') || r.includes('limitadas'))
                       .slice(0, 3)
@@ -362,7 +362,7 @@ export function ExecutivePerspectiveSection({
                       ))
                     }
                     {intelligenceReport.compliance.narrativeRestrictions.length === 0 && (
-                      <p className="italic text-slate-400">Nenhuma limitação ativa.</p>
+                      <p className="italic text-muted-foreground">Nenhuma limitação ativa.</p>
                     )}
                   </div>
                 </div>
@@ -371,21 +371,21 @@ export function ExecutivePerspectiveSection({
 
             {/* Prudência Institucional - Disclosure Premium */}
             {intelligenceReport.prudency?.prudencyApplied && (
-              <div className="mt-6 pt-6 border-t border-indigo-200/50">
+              <div className="mt-6 pt-6 border-t border-primary">
                 <div className="flex flex-col">
                   <button 
                     onClick={() => setShowPrudencyDetails(!showPrudencyDetails)}
                     className="flex items-center justify-between w-full text-left group focus:outline-none"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="text-indigo-600">
+                      <div className="text-primary">
                         <ShieldCheck size={16} />
                       </div>
                       <div>
-                        <h5 className="text-[10px] font-black text-indigo-700 uppercase tracking-widest mb-0.5">
+                        <h5 className="text-[10px] font-black text-primary uppercase tracking-widest mb-0.5">
                           Calibração de Prudência Institucional Ativa
                         </h5>
-                        <span className="text-[10px] text-indigo-500 font-medium group-hover:text-indigo-700 transition-colors">
+                        <span className="text-[10px] text-accent font-medium group-hover:text-accent transition-colors">
                           {showPrudencyDetails ? 'Ocultar critérios utilizados' : '[Ver critérios utilizados]'}
                         </span>
                       </div>
@@ -398,19 +398,19 @@ export function ExecutivePerspectiveSection({
                       animate={{ opacity: 1, height: 'auto' }}
                       className="mt-4 pl-7"
                     >
-                      <p className="text-[11px] font-bold text-slate-600 mb-2">
+                      <p className="text-[11px] font-bold text-muted-foreground mb-2">
                         A calibração prudencial considerou:
                       </p>
                       <ul className="space-y-2.5">
                         {intelligenceReport.prudency.prudencyReasons.map((reason: any, idx: number) => (
-                          <li key={idx} className="flex items-start gap-2.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                          <li key={idx} className="flex items-start gap-2.5 bg-slate-50 p-2.5 rounded-xl border border-border">
                             <span className={cn(
                               "w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0",
                               reason.severity === 'high' ? "bg-rose-400" : "bg-amber-400"
                             )} /> 
                             <div>
-                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-700 mb-0.5">{reason.title}</p>
-                              <p className="text-[10px] text-slate-500 leading-relaxed font-medium">{reason.description}</p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">{reason.title}</p>
+                              <p className="text-[10px] text-muted-foreground leading-relaxed font-medium">{reason.description}</p>
                             </div>
                           </li>
                         ))}
@@ -429,11 +429,11 @@ export function ExecutivePerspectiveSection({
           animate={{ opacity: 1, y: 0 }}
           className="mb-12 bg-gradient-to-br from-slate-900 to-slate-800 p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden"
         >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
 
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3 text-indigo-400 font-black uppercase tracking-[0.3em] text-[10px]">
-              <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+            <div className="flex items-center gap-3 text-primary font-black uppercase tracking-[0.3em] text-[10px]">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               Diagnóstico do Board
             </div>
           </div>
@@ -452,11 +452,11 @@ export function ExecutivePerspectiveSection({
           </div>
 
           <div className="space-y-6">
-            <div className="text-lg md:text-xl font-medium text-slate-200 leading-relaxed italic">
+            <div className="text-lg md:text-xl font-medium text-muted-foreground leading-relaxed italic">
               "{executiveSummary}"
             </div>
             {institutionalDiagnosis && (
-              <div className="text-sm md:text-base font-medium text-slate-400 leading-relaxed border-t border-white/10 pt-6">
+              <div className="text-sm md:text-base font-medium text-muted-foreground leading-relaxed border-t border-white/10 pt-6">
                 {institutionalDiagnosis}
               </div>
             )}
@@ -470,12 +470,12 @@ export function ExecutivePerspectiveSection({
               </h4>
               <ul className="space-y-2">
                 {dominantRisks.length > 0 ? dominantRisks.map((risk, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                  <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
                     <span className="text-rose-400 mt-1 shrink-0">•</span>
                     <span>{risk}</span>
                   </li>
                 )) : (
-                  <li className="text-sm text-slate-500 italic">Nenhum risco dominante identificado para o período analisado.</li>
+                  <li className="text-sm text-muted-foreground italic">Nenhum risco dominante identificado para o período analisado.</li>
                 )}
               </ul>
             </div>
@@ -490,13 +490,13 @@ export function ExecutivePerspectiveSection({
                   const rawText = typeof p === 'string' ? p : (p?.title || p?.acao || '');
                   const priorityText = ExecutiveLabelResolver.resolve(rawText, t);
                   return (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
                       <span className="text-emerald-400 mt-1 shrink-0">•</span>
                       <span>{priorityText}</span>
                     </li>
                   );
                 }) : (
-                  <li className="text-sm text-slate-500 italic">Lance os demonstrativos financeiros para gerar prioridades estratégicas.</li>
+                  <li className="text-sm text-muted-foreground italic">Lance os demonstrativos financeiros para gerar prioridades estratégicas.</li>
                 )}
               </ul>
             </div>
@@ -507,10 +507,10 @@ export function ExecutivePerspectiveSection({
         {actionMatrix.length > 0 ? (
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-2">
-              <Activity className="text-indigo-500" size={20} />
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Matriz de Ação Executiva</h4>
+              <Activity className="text-primary" size={20} />
+              <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Matriz de Ação Executiva</h4>
             </div>
-            <p className="text-xs text-slate-400 mb-6 ml-8">Plano de ação priorizado por área de gestão e impacto esperado.</p>
+            <p className="text-xs text-muted-foreground mb-6 ml-8">Plano de ação priorizado por área de gestão e impacto esperado.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {actionMatrix.map((action, idx) => {
                 const MgmtIcon = action.mgmt.icon;
@@ -521,8 +521,8 @@ export function ExecutivePerspectiveSection({
                     action.mgmt.color.includes('blue') ? 'bg-blue-50/60 border-blue-200/70 hover:border-blue-300' :
                     action.mgmt.color.includes('primary') ? 'bg-primary-50/60 border-primary-200/70 hover:border-primary-300' :
                     action.mgmt.color.includes('amber') ? 'bg-amber-50/60 border-amber-200/70 hover:border-amber-300' :
-                    action.mgmt.color.includes('indigo') ? 'bg-indigo-50/60 border-indigo-200/70 hover:border-indigo-300' :
-                    'bg-slate-50/60 border-slate-200/70 hover:border-slate-300'
+                    action.mgmt.color.includes('indigo') ? 'bg-accent border-accent hover:border-accent' :
+                    'bg-slate-50/60 border-border hover:border-border'
                   )}>
                     {/* Header: Área de Gestão */}
                     <div className="flex items-center justify-between mb-3">
@@ -536,23 +536,23 @@ export function ExecutivePerspectiveSection({
                     </div>
 
                     {/* Ação Principal */}
-                    <p className="text-sm font-bold text-slate-800 leading-snug mb-3 group-hover:text-slate-900 transition-colors">
+                    <p className="text-sm font-bold text-muted-foreground leading-snug mb-3 group-hover:text-muted-foreground transition-colors">
                       {action.acao}
                     </p>
 
                     {/* Metadados */}
                     <div className="flex flex-wrap gap-2 mt-2">
-                      <span className="px-2 py-1 bg-white/80 border border-slate-200 rounded-lg text-[9px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                      <span className="px-2 py-1 bg-white/80 border border-border rounded-lg text-[9px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1">
                         🕐 {action.timeline}
                       </span>
                     </div>
 
                     {action.fiduciaryEvidence && (
-                      <div className="mt-4 pt-3 border-t border-slate-100/60 space-y-1 text-[10px] text-slate-500 leading-relaxed">
-                        <div><strong className="text-slate-700">Evidência:</strong> {action.fiduciaryEvidence}</div>
-                        {action.expectedImpact && <div><strong className="text-slate-700">Impacto Esperado:</strong> {action.expectedImpact}</div>}
-                        {action.executionRisk && <div><strong className="text-slate-700">Risco da Não Execução:</strong> {action.executionRisk}</div>}
-                        {action.monitoringKPI && <div><strong className="text-slate-700">KPI de Sucesso:</strong> {action.monitoringKPI}</div>}
+                      <div className="mt-4 pt-3 border-t border-border space-y-1 text-[10px] text-muted-foreground leading-relaxed">
+                        <div><strong className="text-muted-foreground">Evidência:</strong> {action.fiduciaryEvidence}</div>
+                        {action.expectedImpact && <div><strong className="text-muted-foreground">Impacto Esperado:</strong> {action.expectedImpact}</div>}
+                        {action.executionRisk && <div><strong className="text-muted-foreground">Risco da Não Execução:</strong> {action.executionRisk}</div>}
+                        {action.monitoringKPI && <div><strong className="text-muted-foreground">KPI de Sucesso:</strong> {action.monitoringKPI}</div>}
                       </div>
                     )}
                   </div>
@@ -561,14 +561,14 @@ export function ExecutivePerspectiveSection({
             </div>
           </div>
         ) : (
-          <div className="mb-12 p-8 bg-slate-50 rounded-[32px] border border-dashed border-slate-200 text-center relative overflow-hidden">
+          <div className="mb-12 p-8 bg-slate-50 rounded-[32px] border border-dashed border-border text-center relative overflow-hidden">
             <div className="absolute -left-10 -top-10 w-40 h-40 bg-slate-100 rounded-full blur-2xl opacity-50" />
             <div className="relative z-10 flex flex-col items-center">
-              <div className="p-4 rounded-full bg-slate-100 text-slate-400 mb-3 border border-slate-200">
+              <div className="p-4 rounded-full bg-slate-100 text-muted-foreground mb-3 border border-border">
                 <Lock size={24} strokeWidth={2} />
               </div>
-              <h5 className="text-xs font-black text-slate-700 uppercase tracking-[0.2em] mb-2">Matriz de Ação Executiva Bloqueada</h5>
-              <p className="text-[11px] text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto">
+              <h5 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] mb-2">Matriz de Ação Executiva Bloqueada</h5>
+              <p className="text-[11px] text-muted-foreground font-medium leading-relaxed max-w-2xl mx-auto">
                 Ausência de evidências fiduciárias suficientes ou dados incompletos para a geração de recomendações. Insira lançamentos válidos de balanço e DRE para liberar a matriz de ação executiva.
               </p>
             </div>

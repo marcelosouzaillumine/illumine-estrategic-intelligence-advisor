@@ -12,20 +12,20 @@ export function TreasurySurvivalMap({ treasury }: { treasury: TreasurySurvivalPr
       "border p-6 rounded-3xl transition-all",
       isCritical ? "bg-rose-50/10 border-rose-200" : "bg-emerald-50/10 border-emerald-200"
     )}>
-      <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4">Treasury Survival Map</h3>
+      <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Treasury Survival Map</h3>
       <div className="flex items-end gap-4">
         <div className="flex flex-col">
-          <span className="text-[10px] font-bold text-slate-400 uppercase">Runway Projetado</span>
+          <span className="text-[10px] font-bold text-muted-foreground uppercase">Runway Projetado</span>
           <span className={cn(
             "text-4xl font-black tracking-tighter",
             isCritical ? "text-rose-600" : "text-emerald-600"
           )}>
-            {treasury.availableRunwayMonths} <span className="text-xl text-slate-400 font-medium">meses</span>
+            {treasury.availableRunwayMonths} <span className="text-xl text-muted-foreground font-medium">meses</span>
           </span>
         </div>
-        <div className="flex-1 ml-4 border-l border-slate-200 pl-4">
-          <span className="text-[10px] font-bold text-slate-400 uppercase">Dreno Mensal Simul.</span>
-          <p className="text-lg font-black text-slate-800 tracking-tight">
+        <div className="flex-1 ml-4 border-l border-border pl-4">
+          <span className="text-[10px] font-bold text-muted-foreground uppercase">Dreno Mensal Simul.</span>
+          <p className="text-lg font-black text-muted-foreground tracking-tight">
             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(treasury.liquidityDrainVelocity)}
           </p>
         </div>

@@ -162,8 +162,8 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
     return (
       <div className="max-w-[1440px] mx-auto px-6 py-20 text-center animate-executive-fade">
         <ShieldX className="w-16 h-16 text-rose-500 mx-auto mb-6" />
-        <h1 className="text-xl font-bold text-slate-100 uppercase tracking-widest mb-2">Acesso Restrito</h1>
-        <p className="text-sm text-slate-400 max-w-md mx-auto">
+        <h1 className="text-xl font-bold text-muted-foreground uppercase tracking-widest mb-2">Acesso Restrito</h1>
+        <p className="text-sm text-muted-foreground max-w-md mx-auto">
           Você não possui privilégios de auditoria (`VIEW_OBSERVABILITY`) para visualizar o console de observabilidade institucional.
         </p>
       </div>
@@ -171,7 +171,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-8 pb-32 animate-executive-fade text-slate-200">
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 space-y-8 pb-32 animate-executive-fade text-muted-foreground">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/10 pb-6">
@@ -186,11 +186,11 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
         <div className="flex items-center gap-3 self-start md:self-center">
           {isSuperAdmin && (
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-bold uppercase tracking-wider text-slate-500">Inquilino:</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-bold uppercase tracking-wider text-muted-foreground">Inquilino:</span>
               <select
                 value={selectedTenantFilter}
                 onChange={(e) => setSelectedTenantFilter(e.target.value)}
-                className="pl-20 pr-8 py-2 bg-slate-950/60 border border-border/10 rounded-lg text-xs font-semibold outline-none hover:border-slate-700 focus:ring-1 focus:ring-primary/20 transition-all text-slate-300"
+                className="pl-20 pr-8 py-2 bg-slate-950/60 border border-border/10 rounded-lg text-xs font-semibold outline-none hover:border-border focus:ring-1 focus:ring-primary/20 transition-all text-muted-foreground"
               >
                 <option value="GLOBAL">Global (Todos os Tenants)</option>
                 {session?.availableTenants?.map(t => (
@@ -203,7 +203,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
           <button 
             onClick={handleRefresh}
             disabled={loading || refreshing}
-            className="p-2 bg-slate-900 border border-border/10 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 disabled:opacity-50 transition-all"
+            className="p-2 bg-slate-900 border border-border/10 rounded-lg text-muted-foreground hover:text-muted-foreground hover:bg-slate-800 disabled:opacity-50 transition-all"
             title="Sincronizar Ledger"
           >
             <RefreshCw className={cn("w-4 h-4", refreshing && "animate-spin")} />
@@ -223,7 +223,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
         <StatusCard 
           title="Log Ledger Total" 
           value={loading ? "..." : stats.total} 
-          icon={<Terminal className="w-5 h-5 text-indigo-400" />} 
+          icon={<Terminal className="w-5 h-5 text-primary" />} 
           trend="Eventos no Inquilino"
         />
         <StatusCard 
@@ -258,7 +258,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
       {/* Tab Panels */}
       {loading && !refreshing ? (
-        <div className="flex flex-col items-center justify-center py-20 text-slate-500">
+        <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
           <LoaderSpinner />
           <p className="text-xs font-bold uppercase tracking-widest mt-4">Auditando Ledger de Governança...</p>
         </div>
@@ -271,8 +271,8 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
               
               {/* Graphic container */}
               <div className="card-premium p-6 lg:col-span-2 space-y-4">
-                <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-indigo-400" />
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-primary" />
                   Evolução Temporal de Ações e Bloqueios
                 </h3>
                 <div className="h-[300px] w-full">
@@ -302,9 +302,9 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
               {/* Status Panel */}
               <div className="card-premium p-6 space-y-6">
-                <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400">Distribuição Organizacional</h3>
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground">Distribuição Organizacional</h3>
                 <div className="space-y-4">
-                  <ProgressIndicator label="Visualização Financeira" value={auditEvents.filter(e => e.eventType === 'VIEW_FINANCIALS').length} total={stats.total} color="bg-indigo-500" />
+                  <ProgressIndicator label="Visualização Financeira" value={auditEvents.filter(e => e.eventType === 'VIEW_FINANCIALS').length} total={stats.total} color="bg-primary" />
                   <ProgressIndicator label="Consultas de Causalidade" value={auditEvents.filter(e => e.eventType === 'VIEW_CAUSALITY').length} total={stats.total} color="bg-teal-500" />
                   <ProgressIndicator label="Geração de Snapshots" value={auditEvents.filter(e => e.eventType === 'CREATE_SNAPSHOT').length} total={stats.total} color="bg-emerald-500" />
                   <ProgressIndicator label="Geração de Simulations" value={auditEvents.filter(e => e.eventType === 'CREATE_SIMULATION').length} total={stats.total} color="bg-amber-500" />
@@ -318,13 +318,13 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
           {/* 2. ANOMALIES TAB */}
           {activeTab === 'anomalies' && (
             <div className="card-premium p-6 space-y-4">
-              <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+              <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 text-rose-500" />
                 Eventos Anômalos e Ações Corretivas Recomendadas
               </h3>
 
               {anomalies.length === 0 ? (
-                <div className="text-center py-16 text-slate-500 border border-dashed border-border/10 rounded-xl">
+                <div className="text-center py-16 text-muted-foreground border border-dashed border-border/10 rounded-xl">
                   <ShieldCheck className="w-12 h-12 text-emerald-500/20 mx-auto mb-4" />
                   <p className="text-xs font-bold uppercase tracking-wider">Nenhuma anomalia institucional detectada.</p>
                 </div>
@@ -335,39 +335,39 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                       key={anom.id}
                       className={cn(
                         "p-5 bg-slate-950/60 border rounded-xl flex flex-col md:flex-row justify-between gap-4 transition-all hover:bg-slate-950",
-                        anom.severity === 'CRITICAL' ? 'border-red-500/20' : anom.severity === 'HIGH' ? 'border-amber-500/20' : 'border-slate-800'
+                        anom.severity === 'CRITICAL' ? 'border-red-500/20' : anom.severity === 'HIGH' ? 'border-amber-500/20' : 'border-border'
                       )}
                     >
                       <div className="space-y-2">
                         <div className="flex items-center gap-3">
                           <span className={cn(
                             "px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border",
-                            anom.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400 border-red-500/20' : anom.severity === 'HIGH' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-slate-800 text-slate-300 border-slate-700'
+                            anom.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400 border-red-500/20' : anom.severity === 'HIGH' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-slate-800 text-muted-foreground border-border'
                           )}>
                             {anom.severity}
                           </span>
-                          <span className="text-sm font-bold text-slate-200">{anom.anomalyType}</span>
+                          <span className="text-sm font-bold text-muted-foreground">{anom.anomalyType}</span>
                         </div>
-                        <p className="text-xs text-slate-400 flex items-center gap-1">
-                          <Clock className="w-3.5 h-3.5 text-slate-500" />
+                        <p className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 text-muted-foreground" />
                           Detectado em: {new Date(anom.detectedAt).toLocaleString()}
                         </p>
-                        <p className="text-xs text-slate-400">
-                          <span className="font-semibold text-slate-300">Ator:</span> {anom.actorId} | 
-                          <span className="font-semibold text-slate-300 ml-2">Sessão:</span> {anom.sessionId.substring(0, 15)}...
+                        <p className="text-xs text-muted-foreground">
+                          <span className="font-semibold text-muted-foreground">Ator:</span> {anom.actorId} | 
+                          <span className="font-semibold text-muted-foreground ml-2">Sessão:</span> {anom.sessionId.substring(0, 15)}...
                         </p>
                         <p className="text-xs text-rose-300/80 font-medium">
-                          <span className="font-semibold text-slate-300">Ação Recomendada:</span> {anom.recommendedAction}
+                          <span className="font-semibold text-muted-foreground">Ação Recomendada:</span> {anom.recommendedAction}
                         </p>
                       </div>
 
                       {/* Detail attributes */}
                       <div className="flex flex-col justify-between text-right self-start md:self-stretch min-w-[200px]">
-                        <span className="text-[10px] font-mono text-slate-500">ID: {anom.anomalyId}</span>
+                        <span className="text-[10px] font-mono text-muted-foreground">ID: {anom.anomalyId}</span>
                         {anom.details && (
                           <div className="p-2 bg-slate-900 border border-border/5 rounded-lg text-[10px] text-left font-mono mt-2 max-h-[80px] overflow-y-auto">
                             {Object.entries(anom.details).map(([k, v]) => (
-                              <div key={k} className="truncate"><span className="text-indigo-400">{k}:</span> {JSON.stringify(v)}</div>
+                              <div key={k} className="truncate"><span className="text-primary">{k}:</span> {JSON.stringify(v)}</div>
                             ))}
                           </div>
                         )}
@@ -383,21 +383,21 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
           {activeTab === 'history' && (
             <div className="card-premium p-6 space-y-4">
               <div className="flex items-center justify-between gap-4">
-                <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-indigo-400" />
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-primary" />
                   Histórico Imutável de Auditoria (Ledger)
                 </h3>
               </div>
 
               {auditEvents.length === 0 ? (
-                <div className="text-center py-16 text-slate-500">
+                <div className="text-center py-16 text-muted-foreground">
                   <p className="text-xs font-bold uppercase tracking-wider">Nenhum evento registrado no ledger.</p>
                 </div>
               ) : (
                 <div className="overflow-x-auto border border-border/10 rounded-xl">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
-                      <tr className="bg-slate-950 border-b border-border/10 text-slate-400 font-bold uppercase tracking-wider">
+                      <tr className="bg-slate-950 border-b border-border/10 text-muted-foreground font-bold uppercase tracking-wider">
                         <th className="p-4">Timestamp</th>
                         <th className="p-4">Evento</th>
                         <th className="p-4">Recurso</th>
@@ -409,21 +409,21 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                     <tbody className="divide-y divide-border/5 bg-slate-950/20">
                       {auditEvents.map((evt) => (
                         <tr key={evt.id} className="hover:bg-slate-900/40">
-                          <td className="p-4 text-slate-400 whitespace-nowrap">{new Date(evt.timestamp).toLocaleString()}</td>
-                          <td className="p-4 font-semibold text-slate-200">
+                          <td className="p-4 text-muted-foreground whitespace-nowrap">{new Date(evt.timestamp).toLocaleString()}</td>
+                          <td className="p-4 font-semibold text-muted-foreground">
                             <span className={cn(
                               "px-2 py-0.5 rounded-lg text-[9px] font-bold tracking-tight border",
                               evt.eventType.startsWith('DENY_') ? 'bg-red-500/10 text-red-400 border-red-500/10' :
                               evt.eventType === 'CROSS_TENANT_ATTEMPT' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' :
-                              'bg-indigo-500/5 text-indigo-300 border-indigo-500/10'
+                              'bg-primary text-primary border-primary'
                             )}>
                               {evt.eventType}
                             </span>
                           </td>
-                          <td className="p-4 text-slate-300 font-mono text-[11px]">{evt.resourceType}</td>
+                          <td className="p-4 text-muted-foreground font-mono text-[11px]">{evt.resourceType}</td>
                           <td className="p-4 font-mono text-[11px]">{evt.actorId}</td>
-                          <td className="p-4 text-slate-400">{evt.tenantId}</td>
-                          <td className="p-4 text-right text-slate-500">{evt.requestSource}</td>
+                          <td className="p-4 text-muted-foreground">{evt.tenantId}</td>
+                          <td className="p-4 text-right text-muted-foreground">{evt.requestSource}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -436,13 +436,13 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
           {/* 4. SESSIONS TAB */}
           {activeTab === 'sessions' && (
             <div className="card-premium p-6 space-y-4">
-              <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+              <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
                 <Users className="w-4 h-4 text-teal-400" />
                 Fluxo de Sessões e Tenant Switchings
               </h3>
 
               {auditEvents.filter(e => e.resourceType === 'Session').length === 0 ? (
-                <div className="text-center py-16 text-slate-500">
+                <div className="text-center py-16 text-muted-foreground">
                   <p className="text-xs font-bold uppercase tracking-wider">Nenhuma atividade de sessão registrada.</p>
                 </div>
               ) : (
@@ -454,14 +454,14 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                           <span className={cn(
                             "w-2 h-2 rounded-full",
                             evt.eventType === 'SESSION_START' || evt.eventType === 'LOGIN' ? 'bg-emerald-500' :
-                            evt.eventType === 'SESSION_END' || evt.eventType === 'LOGOUT' ? 'bg-slate-500' : 'bg-indigo-400'
+                            evt.eventType === 'SESSION_END' || evt.eventType === 'LOGOUT' ? 'bg-slate-500' : 'bg-primary'
                           )} />
-                          <span className="text-sm font-bold text-slate-200">{evt.eventType}</span>
+                          <span className="text-sm font-bold text-muted-foreground">{evt.eventType}</span>
                         </div>
-                        <p className="text-xs text-slate-400">Ator: <span className="font-mono">{evt.actorId}</span> | Sessão: <span className="font-mono">{evt.sessionId.substring(0, 15)}...</span></p>
+                        <p className="text-xs text-muted-foreground">Ator: <span className="font-mono">{evt.actorId}</span> | Sessão: <span className="font-mono">{evt.sessionId.substring(0, 15)}...</span></p>
                       </div>
                       <div className="text-right">
-                        <span className="text-xs text-slate-500 block">{new Date(evt.timestamp).toLocaleString()}</span>
+                        <span className="text-xs text-muted-foreground block">{new Date(evt.timestamp).toLocaleString()}</span>
                         {evt.metadata?.selectedTenantId && (
                           <span className="text-[10px] text-teal-400 font-semibold uppercase tracking-wider">Inquilino: {evt.metadata.selectedTenantId}</span>
                         )}
@@ -476,7 +476,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
           {/* 5. GOVERNANCE INTEGRITY TAB */}
           {activeTab === 'integrity' && (
             <div className="card-premium p-8 space-y-6">
-              <h2 className="text-lg font-medium text-slate-200 flex items-center gap-2 border-b border-border/10 pb-4">
+              <h2 className="text-lg font-medium text-muted-foreground flex items-center gap-2 border-b border-border/10 pb-4">
                 <ShieldCheck className="w-5 h-5 text-emerald-400" />
                 Integridade Fiduciária do Ledger
               </h2>
@@ -489,18 +489,18 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                     <ShieldCheck className="w-4 h-4" />
                     Ledger Conexão Ativa
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-muted-foreground">
                     A verificação de conexão com a infraestrutura do Firestore e o barramento `audit_events` retornou sucesso. Toda escrita está sendo envelopada e direcionada sob o princípio "Deny by Default".
                   </p>
                 </div>
 
                 {/* Ledger mutation protection status */}
-                <div className="p-5 bg-indigo-500/5 border border-indigo-500/10 rounded-xl space-y-2">
-                  <h3 className="text-sm font-semibold text-indigo-400 flex items-center gap-2">
+                <div className="p-5 bg-primary border border-primary rounded-xl space-y-2">
+                  <h3 className="text-sm font-semibold text-primary flex items-center gap-2">
                     <Lock className="w-4 h-4" />
                     Ledger Mutation Protection
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-muted-foreground">
                     As chamadas lógicas de modificação de histórico (`ImmutableLedger.update` e `ImmutableLedger.delete`) estão blindadas contra violação, forçando lançamentos `MUTATION_PROHIBITED`.
                   </p>
                 </div>
@@ -509,7 +509,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
               {/* Status checklist */}
               <div className="border border-border/10 rounded-xl p-5 space-y-4 bg-slate-950/20">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">Verificações Ativas do Trust Framework</h3>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Verificações Ativas do Trust Framework</h3>
                 
                 <div className="space-y-3">
                   <Checkline label="Fila de Retentativa Ativa com Retry Exponencial" checked={true} />
@@ -530,7 +530,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                 
                 {/* Partitions metrics */}
                 <div className="card-premium p-6 space-y-4 bg-slate-950/40">
-                  <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
                     <Layers className="w-4 h-4 text-teal-400" />
                     Partições de Runtime e Latência
                   </h3>
@@ -539,7 +539,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                     {Object.entries(RuntimePartitionManager.getMetrics()).map(([name, metrics]) => (
                       <div key={name} className="p-3 bg-slate-900/60 border border-border/5 rounded-lg space-y-1">
                         <div className="flex justify-between items-center">
-                          <span className="text-[11px] font-bold text-slate-300 truncate max-w-[120px]">{name.replace(' Runtime', '')}</span>
+                          <span className="text-[11px] font-bold text-muted-foreground truncate max-w-[120px]">{name.replace(' Runtime', '')}</span>
                           <span className={cn(
                             "px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider",
                             metrics.healthState === 'HEALTHY' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/15' :
@@ -549,7 +549,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                             {metrics.healthState}
                           </span>
                         </div>
-                        <div className="flex justify-between text-[10px] text-slate-500">
+                        <div className="flex justify-between text-[10px] text-muted-foreground">
                           <span>Latência: {metrics.averageLatency}ms</span>
                           <span>Fila: {metrics.queueDepth}</span>
                         </div>
@@ -558,7 +558,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                             "h-full rounded-full",
                             metrics.pressureLevel === 'CRITICAL' ? 'bg-red-500' :
                             metrics.pressureLevel === 'HIGH' ? 'bg-amber-500' :
-                            metrics.pressureLevel === 'MEDIUM' ? 'bg-indigo-400' : 'bg-emerald-500'
+                            metrics.pressureLevel === 'MEDIUM' ? 'bg-primary' : 'bg-emerald-500'
                           )} style={{ width: `${Math.min(100, Math.max(10, metrics.queueDepth * 10))}%` }} />
                         </div>
                       </div>
@@ -569,8 +569,8 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                 {/* Worker status cockpit */}
                 <div className="card-premium p-6 space-y-4 bg-slate-950/40">
                   <div className="flex justify-between items-center">
-                    <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
-                      <Cpu className="w-4 h-4 text-indigo-400" />
+                    <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+                      <Cpu className="w-4 h-4 text-primary" />
                       Status dos Workers Locais (Nó)
                     </h3>
                     
@@ -601,23 +601,23 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                           handleRefresh();
                         }
                       }}
-                      className="px-3 py-1 bg-slate-900 border border-border/10 rounded-lg text-[10px] font-bold uppercase tracking-wider text-indigo-400 hover:text-indigo-300 hover:bg-slate-800 transition-all"
+                      className="px-3 py-1 bg-slate-900 border border-border/10 rounded-lg text-[10px] font-bold uppercase tracking-wider text-accent hover:text-accent hover:bg-slate-800 transition-all"
                     >
                       {WorkerRegistry.getWorkers().length === 0 ? "Ativar Nó Local" : "Desativar Nó Local"}
                     </button>
                   </div>
 
                   {WorkerRegistry.getWorkers().length === 0 ? (
-                    <div className="text-center py-12 text-slate-500 border border-dashed border-border/10 rounded-xl">
-                      <Server className="w-10 h-10 text-slate-700 mx-auto mb-3" />
+                    <div className="text-center py-12 text-muted-foreground border border-dashed border-border/10 rounded-xl">
+                      <Server className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
                       <p className="text-[11px] font-bold uppercase tracking-wider">Nenhum worker local rodando nesta janela.</p>
-                      <p className="text-[10px] text-slate-500 mt-1 max-w-[280px] mx-auto">Ative o nó local acima para simular o polling distribuído em background de jobs enfileirados.</p>
+                      <p className="text-[10px] text-muted-foreground mt-1 max-w-[280px] mx-auto">Ative o nó local acima para simular o polling distribuído em background de jobs enfileirados.</p>
                     </div>
                   ) : (
                     <div className="overflow-x-auto max-h-[220px] overflow-y-auto pr-2 no-scrollbar">
                       <table className="w-full text-left text-[11px] border-collapse">
                         <thead>
-                          <tr className="bg-slate-950 border-b border-border/10 text-slate-400 font-bold uppercase">
+                          <tr className="bg-slate-950 border-b border-border/10 text-muted-foreground font-bold uppercase">
                             <th className="p-3">Worker ID</th>
                             <th className="p-3">Tarefa</th>
                             <th className="p-3">Status</th>
@@ -634,7 +634,7 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                                   "px-1.5 py-0.5 rounded text-[9px] font-bold",
                                   w.status === 'BUSY' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/15' :
                                   w.status === 'IDLE' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/15' :
-                                  'bg-slate-800 text-slate-400 border border-slate-700'
+                                  'bg-slate-800 text-muted-foreground border border-border'
                                 )}>
                                   {w.status}
                                 </span>
@@ -652,20 +652,20 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
               {/* Fila de Jobs & DLQ */}
               <div className="card-premium p-6 space-y-4 bg-slate-950/40">
-                <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-indigo-400" />
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-primary" />
                   Distributed Async Job Queue (`institutional_jobs`)
                 </h3>
 
                 {jobs.length === 0 ? (
-                  <div className="text-center py-16 text-slate-500 border border-dashed border-border/10 rounded-xl">
+                  <div className="text-center py-16 text-muted-foreground border border-dashed border-border/10 rounded-xl">
                     <p className="text-xs font-bold uppercase tracking-wider">Nenhum job assíncrono na fila deste inquilino.</p>
                   </div>
                 ) : (
                   <div className="overflow-x-auto border border-border/10 rounded-xl">
                     <table className="w-full text-left text-xs border-collapse">
                       <thead>
-                        <tr className="bg-slate-950 border-b border-border/10 text-slate-400 font-bold uppercase">
+                        <tr className="bg-slate-950 border-b border-border/10 text-muted-foreground font-bold uppercase">
                           <th className="p-3">Job ID</th>
                           <th className="p-3">Tipo</th>
                           <th className="p-3">Estado</th>
@@ -678,8 +678,8 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                       <tbody className="divide-y divide-border/5 bg-slate-950/20">
                         {jobs.map(j => (
                           <tr key={j.jobId} className="hover:bg-slate-900/30">
-                            <td className="p-3 font-mono text-[10px] text-slate-400">{j.jobId}</td>
-                            <td className="p-3 font-semibold text-slate-200">{j.jobType}</td>
+                            <td className="p-3 font-mono text-[10px] text-muted-foreground">{j.jobId}</td>
+                            <td className="p-3 font-semibold text-muted-foreground">{j.jobType}</td>
                             <td className="p-3">
                               <span className={cn(
                                 "px-2 py-0.5 rounded-lg text-[9px] font-black uppercase border",
@@ -687,14 +687,14 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                                 j.jobState === 'RUNNING' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20 animate-pulse' :
                                 j.jobState === 'FAILED' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
                                 j.jobState === 'DEAD_LETTER' ? 'bg-rose-500/20 text-rose-300 border-rose-500/30' :
-                                'bg-slate-800 text-slate-400 border-slate-700'
+                                'bg-slate-800 text-muted-foreground border-border'
                               )}>
                                 {j.jobState}
                               </span>
                             </td>
-                            <td className="p-3 text-[10px] font-bold text-slate-400">{j.priority}</td>
-                            <td className="p-3 font-mono text-[10px] text-slate-500">{j.processingNode || 'N/A'}</td>
-                            <td className="p-3 text-[10px] text-slate-400">{j.retryCount}/{j.maxRetries}</td>
+                            <td className="p-3 text-[10px] font-bold text-muted-foreground">{j.priority}</td>
+                            <td className="p-3 font-mono text-[10px] text-muted-foreground">{j.processingNode || 'N/A'}</td>
+                            <td className="p-3 text-[10px] text-muted-foreground">{j.retryCount}/{j.maxRetries}</td>
                             <td className="p-3 text-right">
                               {['QUEUED', 'RUNNING'].includes(j.jobState) && (
                                 <button
@@ -718,13 +718,13 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
               {/* Alertas de Pressão de Runtime */}
               <div className="card-premium p-6 space-y-4 bg-slate-950/40">
-                <h3 className="text-sm font-semibold tracking-wider uppercase text-slate-400 flex items-center gap-2">
+                <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-500" />
                   Alertas Ativos de Saturação (`runtime_pressure`)
                 </h3>
 
                 {pressureIncidents.length === 0 ? (
-                  <div className="text-center py-12 text-slate-500 border border-dashed border-border/10 rounded-xl">
+                  <div className="text-center py-12 text-muted-foreground border border-dashed border-border/10 rounded-xl">
                     <p className="text-xs font-bold uppercase tracking-wider">Nenhum incidente de pressão registrado.</p>
                   </div>
                 ) : (
@@ -737,11 +737,11 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
                               "px-2 py-0.5 rounded text-[9px] font-black uppercase border",
                               i.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
                             )}>{i.severity}</span>
-                            <span className="text-xs font-bold text-slate-200">{i.runtimeType}</span>
+                            <span className="text-xs font-bold text-muted-foreground">{i.runtimeType}</span>
                           </div>
-                          <p className="text-[11px] text-slate-400"><span className="font-semibold text-slate-300">Ação Recomendada:</span> {i.recommendedAction}</p>
+                          <p className="text-[11px] text-muted-foreground"><span className="font-semibold text-muted-foreground">Ação Recomendada:</span> {i.recommendedAction}</p>
                         </div>
-                        <span className="text-[10px] text-slate-500">{new Date(i.detectedAt).toLocaleTimeString()}</span>
+                        <span className="text-[10px] text-muted-foreground">{new Date(i.detectedAt).toLocaleTimeString()}</span>
                       </div>
                     ))}
                   </div>
@@ -759,16 +759,16 @@ export function ObservabilityConsolePage({ selectedClient }: ObservabilityConsol
 
 function StatusCard({ title, value, icon, trend }: { title: string, value: any, icon: React.ReactNode, trend: string }) {
   return (
-    <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-700 transition-all bg-slate-950/40">
+    <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all bg-slate-950/40">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">{title}</h3>
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</h3>
         <div className="p-2 bg-slate-950/40 rounded-xl border border-border/10">
           {icon}
         </div>
       </div>
       <div>
-        <div className="text-2xl font-light text-slate-100">{value}</div>
-        <div className="text-xs text-slate-500 mt-1 uppercase tracking-wider font-bold">{trend}</div>
+        <div className="text-2xl font-light text-muted-foreground">{value}</div>
+        <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider font-bold">{trend}</div>
       </div>
     </div>
   );
@@ -780,8 +780,8 @@ function TabButton({ active, onClick, icon, label }: { active: boolean, onClick:
       onClick={onClick}
       className={`flex items-center gap-2 px-6 py-3.5 text-xs font-bold uppercase tracking-wider transition-all border-b-2 ${
         active 
-          ? 'text-indigo-400 border-indigo-500 bg-indigo-500/5 font-semibold' 
-          : 'text-slate-400 border-transparent hover:text-slate-300 hover:bg-slate-900/40'
+          ? 'text-primary border-primary bg-primary font-semibold' 
+          : 'text-muted-foreground border-transparent hover:text-muted-foreground hover:bg-slate-900/40'
       }`}
     >
       {icon}
@@ -795,8 +795,8 @@ function ProgressIndicator({ label, value, total, color }: { label: string, valu
   return (
     <div className="space-y-1.5">
       <div className="flex justify-between text-xs font-medium">
-        <span className="text-slate-400">{label}</span>
-        <span className="text-slate-200">{value} ({percent}%)</span>
+        <span className="text-muted-foreground">{label}</span>
+        <span className="text-muted-foreground">{value} ({percent}%)</span>
       </div>
       <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
         <div className={cn("h-full rounded-full transition-all duration-500", color)} style={{ width: `${percent}%` }} />
@@ -810,17 +810,17 @@ function Checkline({ label, checked }: { label: string, checked: boolean }) {
     <div className="flex items-center gap-3 text-xs">
       <div className={cn(
         "w-4 h-4 rounded-full flex items-center justify-center border",
-        checked ? "border-emerald-500 bg-emerald-500/10 text-emerald-400" : "border-slate-700 bg-slate-900"
+        checked ? "border-emerald-500 bg-emerald-500/10 text-emerald-400" : "border-border bg-slate-900"
       )}>
         <ShieldCheck className="w-3 h-3" />
       </div>
-      <span className="text-slate-300">{label}</span>
+      <span className="text-muted-foreground">{label}</span>
     </div>
   );
 }
 
 function LoaderSpinner() {
   return (
-    <div className="w-8 h-8 border-2 border-slate-700 border-t-indigo-400 rounded-full animate-spin" />
+    <div className="w-8 h-8 border-2 border-border border-t-indigo-400 rounded-full animate-spin" />
   );
 }

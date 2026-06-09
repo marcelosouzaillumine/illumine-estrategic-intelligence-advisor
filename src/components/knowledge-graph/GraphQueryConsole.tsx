@@ -21,8 +21,8 @@ export function GraphQueryConsole({ tenantId }: { tenantId: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="bg-slate-950 rounded-lg p-4 border border-slate-800 text-slate-300 font-mono text-sm relative">
-        <div className="flex items-center gap-2 mb-2 pb-2 border-b border-slate-800">
+      <div className="bg-slate-950 rounded-lg p-4 border border-border text-muted-foreground font-mono text-sm relative">
+        <div className="flex items-center gap-2 mb-2 pb-2 border-b border-border">
           <Terminal size={14} className="text-emerald-500" />
           <span className="text-emerald-500 text-xs tracking-widest">GRAPH_QUERY_ENGINE</span>
         </div>

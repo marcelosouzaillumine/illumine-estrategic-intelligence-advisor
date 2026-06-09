@@ -18,7 +18,7 @@ export function GovernanceViolationsPanel({ violations }: { violations: RuntimeV
               <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-rose-200 text-rose-800">
                 {v.severity}
               </span>
-              <span className="text-xs font-bold text-slate-700">{v.rule}</span>
+              <span className="text-xs font-bold text-muted-foreground">{v.rule}</span>
             </div>
             <p className="text-xs text-rose-600 font-medium">{v.message}</p>
           </div>

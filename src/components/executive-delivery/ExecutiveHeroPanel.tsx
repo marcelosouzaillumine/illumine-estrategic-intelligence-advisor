@@ -24,44 +24,44 @@ export function ExecutiveHeroPanel({ report, className }: ExecutiveHeroPanelProp
     'COLAPSO': { bg: 'bg-stone-900', border: 'border-stone-700', text: 'text-rose-500', iconBg: 'bg-stone-800' }
   };
 
-  const currentColors = severityColors[severity.level] || { bg: 'bg-slate-50', border: 'border-slate-200', text: 'text-slate-700', iconBg: 'bg-slate-100' };
+  const currentColors = severityColors[severity.level] || { bg: 'bg-slate-50', border: 'border-border', text: 'text-muted-foreground', iconBg: 'bg-slate-100' };
 
   return (
-    <div className={cn("bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm", className)}>
+    <div className={cn("bg-white border border-border rounded-[32px] p-6 shadow-sm", className)}>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Main Score Display */}
         <div className="lg:col-span-2 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Award className="text-slate-400" size={18} />
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Composite Health Score</span>
+              <Award className="text-muted-foreground" size={18} />
+              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Composite Health Score</span>
             </div>
             
             <div className="flex items-baseline gap-4">
-              <span className="text-6xl font-black text-slate-900 tracking-tight">
+              <span className="text-6xl font-black text-muted-foreground tracking-tight">
                 {scores.composite}
               </span>
-              <span className="text-lg font-bold text-slate-400">/ 100</span>
+              <span className="text-lg font-bold text-muted-foreground">/ 100</span>
             </div>
             
-            <p className="text-sm font-bold text-slate-600 mt-4 leading-relaxed">
+            <p className="text-sm font-bold text-muted-foreground mt-4 leading-relaxed">
               {severity.justification}
             </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-slate-100">
+          <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-border">
             <div>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Liquidez</p>
-              <p className="text-lg font-black text-slate-800">{scores.financial}/100</p>
+              <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Liquidez</p>
+              <p className="text-lg font-black text-muted-foreground">{scores.financial}/100</p>
             </div>
             <div>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Operacional</p>
-              <p className="text-lg font-black text-slate-800">{scores.operational}/100</p>
+              <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Operacional</p>
+              <p className="text-lg font-black text-muted-foreground">{scores.operational}/100</p>
             </div>
             <div>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Governança</p>
-              <p className="text-lg font-black text-slate-800">{scores.governance}/100</p>
+              <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Governança</p>
+              <p className="text-lg font-black text-muted-foreground">{scores.governance}/100</p>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@ export function ExecutiveHeroPanel({ report, className }: ExecutiveHeroPanelProp
         <div className={cn("rounded-2xl p-6 border flex flex-col justify-between", currentColors.bg, currentColors.border)}>
           <div className="flex justify-between items-start">
             <div>
-              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">
+              <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground block mb-1">
                 Grau de Severidade
               </span>
               <h4 className={cn("text-2xl font-black tracking-tight uppercase", currentColors.text)}>
@@ -83,11 +83,11 @@ export function ExecutiveHeroPanel({ report, className }: ExecutiveHeroPanelProp
           </div>
 
           <div className="mt-8">
-            <div className="flex items-center gap-2 mb-2 text-xs font-bold text-slate-500">
+            <div className="flex items-center gap-2 mb-2 text-xs font-bold text-muted-foreground">
               <Activity size={14} />
               <span>Ajuste de Risco Ativo</span>
             </div>
-            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-[11px] font-semibold text-slate-700 leading-snug">
+            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-[11px] font-semibold text-muted-foreground leading-snug">
               O runtime aplicou calibradores baseados na matriz de causalidade contábil e no perfil de calibração ativo.
             </div>
           </div>

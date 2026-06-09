@@ -61,11 +61,11 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
   };
 
   return (
-    <div className="p-6 rounded-3xl border border-slate-200 bg-white shadow-sm flex flex-col gap-4 col-span-1 md:col-span-2">
+    <div className="p-6 rounded-3xl border border-border bg-white shadow-sm flex flex-col gap-4 col-span-1 md:col-span-2">
       <div className="flex items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-1.5">
           <Layers size={14} className="text-primary" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
             Grafo de Dependência de Sobrevivência
           </h4>
         </div>
@@ -75,13 +75,13 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
       </div>
 
       {nodes.length === 0 ? (
-        <div className="text-center py-12 text-xs text-slate-500 italic">
+        <div className="text-center py-12 text-xs text-muted-foreground italic">
           Histórico ou reconciliação insuficiente para compilar o grafo causal.
         </div>
       ) : (
         <>
           {/* SVG Graph View */}
-          <div className="border border-slate-100 rounded-2xl bg-slate-50/50 p-4 flex justify-center items-center overflow-x-auto">
+          <div className="border border-border rounded-2xl bg-slate-50/50 p-4 flex justify-center items-center overflow-x-auto">
             <svg width="540" height="300" className="max-w-full">
               <defs>
                 <marker
@@ -151,7 +151,7 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
 
           {/* Accessible Fallback Cascade List */}
           <div className="space-y-2 mt-2">
-            <h5 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+            <h5 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
               Cadeia de Relações Causa-Efeito
             </h5>
             <div className="space-y-1.5">
@@ -160,15 +160,15 @@ export const SurvivabilityDependencyGraphPanel: React.FC<DependencyGraphPanelPro
                 const tgtNode = nodes.find(n => n.id === edge.target);
                 if (!srcNode || !tgtNode) return null;
                 return (
-                  <div key={i} className="flex items-center gap-2 text-xs font-medium text-slate-600 bg-slate-50/50 p-2 rounded-xl border border-slate-100">
-                    <span className="text-[9px] font-bold text-slate-700 bg-slate-200/50 px-1.5 py-0.5 rounded">
+                  <div key={i} className="flex items-center gap-2 text-xs font-medium text-muted-foreground bg-slate-50/50 p-2 rounded-xl border border-border">
+                    <span className="text-[9px] font-bold text-muted-foreground bg-slate-200/50 px-1.5 py-0.5 rounded">
                       {srcNode.label}
                     </span>
-                    <ArrowRight size={10} className="text-slate-400 shrink-0" />
-                    <span className="text-[9px] font-bold text-slate-700 bg-slate-200/50 px-1.5 py-0.5 rounded">
+                    <ArrowRight size={10} className="text-muted-foreground shrink-0" />
+                    <span className="text-[9px] font-bold text-muted-foreground bg-slate-200/50 px-1.5 py-0.5 rounded">
                       {tgtNode.label}
                     </span>
-                    <span className="text-[9px] text-slate-400 italic font-medium ml-auto">
+                    <span className="text-[9px] text-muted-foreground italic font-medium ml-auto">
                       ({edge.description})
                     </span>
                   </div>

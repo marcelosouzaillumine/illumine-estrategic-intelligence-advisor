@@ -169,10 +169,10 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className="bg-white p-8 rounded-[32px] border border-slate-200/60 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
+            className="bg-white p-8 rounded-[32px] border border-border shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
           >
             <div className="flex items-center justify-between mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-muted-foreground group-hover:bg-primary group-hover:text-white transition-all duration-500">
                   {(() => {
                     const Icon = kpi.icon;
                     return <Icon size={24} />;
@@ -187,12 +187,12 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
             </div>
 
             <div>
-              <h4 className="text-[clamp(1rem,1.3vw,1.25rem)] font-display font-black text-slate-900 leading-tight group-hover:text-secondary transition-colors mb-1.5">
+              <h4 className="text-[clamp(1rem,1.3vw,1.25rem)] font-display font-black text-muted-foreground leading-tight group-hover:text-secondary transition-colors mb-1.5">
                 {kpi.label}
               </h4>
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Métrica de Performance</p>
+              <p className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-4">Métrica de Performance</p>
               <div className="flex items-baseline gap-2">
-                <p className="text-3xl font-black text-slate-900 tabular-nums tracking-tighter whitespace-nowrap">
+                <p className="text-3xl font-black text-muted-foreground tabular-nums tracking-tighter whitespace-nowrap">
                   {kpi.isText ? kpi.value : formatValue(kpi.value as number, kpi.isCur ? 'R$' : kpi.suffix || '')}
                 </p>
               </div>
@@ -207,7 +207,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-white rounded-[48px] border border-slate-200 shadow-2xl p-12 overflow-hidden relative"
+            className="bg-white rounded-[48px] border border-border shadow-2xl p-12 overflow-hidden relative"
           >
             <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
               <Calculator size={160} strokeWidth={1} />
@@ -218,26 +218,26 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                     <Plus size={24} />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-slate-900 tracking-tight">Novo Item para Precificação</h3>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Defina os parâmetros unitários de venda e custo</p>
+                    <h3 className="text-2xl font-black text-muted-foreground tracking-tight">Novo Item para Precificação</h3>
+                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Defina os parâmetros unitários de venda e custo</p>
                   </div>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                   <div className="md:col-span-2 space-y-8">
                     <div>
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-3 px-1">Nome do Produto ou Serviço</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-3 px-1">Nome do Produto ou Serviço</label>
                       <input 
                         required
                         value={formData.nome}
                         onChange={e => setFormData({...formData, nome: e.target.value})}
-                        className="w-full px-5 md:px-8 py-3 md:py-5 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-emerald-500/10 font-bold text-lg text-slate-700 transition-all"
+                        className="w-full px-5 md:px-8 py-3 md:py-5 bg-slate-50 border border-border rounded-2xl outline-none focus:ring-4 focus:ring-emerald-500/10 font-bold text-lg text-muted-foreground transition-all"
                         placeholder="Ex: Consultoria Premium Mensal"
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                        <div>
-                          <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-3 px-1">Preço de Venda Praticado (R$)</label>
+                          <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-3 px-1">Preço de Venda Praticado (R$)</label>
                           <div className="relative">
                             <span className="absolute left-6 top-1/2 -translate-y-1/2 text-emerald-600 font-black">R$</span>
                             <input 
@@ -245,14 +245,14 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                               type="number"
                               value={formData.precoVenda}
                               onChange={e => setFormData({...formData, precoVenda: parseFloat(e.target.value)})}
-                              className="w-full pl-14 pr-8 py-5 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-emerald-500/10 font-black text-2xl text-emerald-600 transition-all"
+                              className="w-full pl-14 pr-8 py-5 bg-slate-50 border border-border rounded-2xl outline-none focus:ring-4 focus:ring-emerald-500/10 font-black text-2xl text-emerald-600 transition-all"
                             />
                           </div>
                        </div>
                     </div>
                   </div>
 
-                  <div className="bg-slate-50/50 p-10 rounded-[40px] border border-slate-100 space-y-6">
+                  <div className="bg-slate-50/50 p-10 rounded-[40px] border border-border space-y-6">
                     <div className="flex items-center gap-3 mb-2">
                        <DollarSign size={18} className="text-emerald-600" />
                        <h4 className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em]">Custos Variáveis Unitários</h4>
@@ -265,19 +265,19 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                       { label: 'Outros Variáveis', field: 'outros' },
                     ].map(c => (
                       <div key={c.field} className="space-y-1.5">
-                        <label className="text-[9px] font-black text-slate-400 uppercase block ml-1">{c.label}</label>
+                        <label className="text-[9px] font-black text-muted-foreground uppercase block ml-1">{c.label}</label>
                         <input 
                           type="number"
                           value={(formData as any)[c.field]}
                           onChange={e => setFormData({...formData, [c.field]: parseFloat(e.target.value)})}
-                          className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold outline-none focus:border-emerald-500/50 transition-all"
+                          className="w-full px-5 py-3 bg-white border border-border rounded-xl text-sm font-bold outline-none focus:border-emerald-500/50 transition-all"
                         />
                       </div>
                     ))}
                   </div>
                </div>
 
-               <div className="flex justify-end pt-6 border-t border-slate-100">
+               <div className="flex justify-end pt-6 border-t border-border">
                  <button type="submit" className="px-4 md:px-6 md:px-12 py-2 md:py-3.5 md:py-5 bg-emerald-600 text-white rounded-3xl font-black uppercase tracking-[0.2em] text-xs hover:shadow-2xl hover:shadow-emerald-600/30 transition-all active:scale-95">
                    Salvar Inteligência de Preço
                  </button>
@@ -297,7 +297,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
-                  className="bg-white p-10 rounded-[48px] border border-slate-200/60 shadow-sm hover:shadow-2xl transition-all relative overflow-hidden group"
+                  className="bg-white p-10 rounded-[48px] border border-border shadow-sm hover:shadow-2xl transition-all relative overflow-hidden group"
                  >
                     <div className="absolute top-0 right-0 p-8 flex flex-col gap-2">
                        <div className={cn(
@@ -312,34 +312,34 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
 
                     <div className="space-y-8">
                        <div className="space-y-2">
-                          <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                          <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-muted-foreground group-hover:bg-primary group-hover:text-white transition-all duration-500">
                              <Package size={24} />
                           </div>
-                          <h4 className="text-2xl font-display font-black text-slate-900 tracking-tight">
+                          <h4 className="text-2xl font-display font-black text-muted-foreground tracking-tight">
                              {item.nome}
                           </h4>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Preço Praticado: <span className="text-slate-900">{formatCurrency(item.precoVenda)}</span></p>
+                          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Preço Praticado: <span className="text-muted-foreground">{formatCurrency(item.precoVenda)}</span></p>
                        </div>
 
                        <div className="grid grid-cols-2 gap-6">
-                          <div className="bg-slate-50/50 p-6 rounded-3xl border border-slate-100 group-hover:bg-white transition-colors">
-                             <span className="text-[10px] font-black text-slate-400 uppercase block mb-2 tracking-widest">M.C. Unitária</span>
+                          <div className="bg-slate-50/50 p-6 rounded-3xl border border-border group-hover:bg-white transition-colors">
+                             <span className="text-[10px] font-black text-muted-foreground uppercase block mb-2 tracking-widest">M.C. Unitária</span>
                              <span className="text-2xl font-black text-primary font-display">{formatCurrency(item.margemUnit)}</span>
                           </div>
-                          <div className="bg-slate-50/50 p-6 rounded-3xl border border-slate-100 group-hover:bg-white transition-colors">
-                             <span className="text-[10px] font-black text-slate-400 uppercase block mb-2 tracking-widest">P.E. Unitário</span>
-                             <span className="text-2xl font-black text-slate-700 font-display">{item.pontoEquilibrioUnd.toFixed(0)} <span className="text-xs text-slate-400">UND</span></span>
+                          <div className="bg-slate-50/50 p-6 rounded-3xl border border-border group-hover:bg-white transition-colors">
+                             <span className="text-[10px] font-black text-muted-foreground uppercase block mb-2 tracking-widest">P.E. Unitário</span>
+                             <span className="text-2xl font-black text-muted-foreground font-display">{item.pontoEquilibrioUnd.toFixed(0)} <span className="text-xs text-muted-foreground">UND</span></span>
                           </div>
                        </div>
 
-                       <div className="pt-8 border-t border-slate-100 flex justify-between items-center">
+                       <div className="pt-8 border-t border-border flex justify-between items-center">
                           <div>
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">P.E. Financeiro Empresa</p>
+                            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">P.E. Financeiro Empresa</p>
                             <p className="text-lg font-black text-emerald-600 font-display">{formatCurrency(item.pontoEquilibrioFin)}</p>
                           </div>
                           <button 
                             onClick={() => remove(item.id!)} 
-                            className="p-4 rounded-2xl text-slate-300 hover:text-rose-500 hover:bg-rose-50 transition-all opacity-0 group-hover:opacity-100"
+                            className="p-4 rounded-2xl text-muted-foreground hover:text-rose-500 hover:bg-rose-50 transition-all opacity-0 group-hover:opacity-100"
                           >
                              <Trash2 size={20} />
                           </button>
@@ -402,7 +402,7 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                   {simuladorResult && (
                     <div className="p-10 bg-white/[0.03] rounded-[48px] border border-white/10 space-y-8 backdrop-blur-md">
                        <div className="text-center space-y-3">
-                          <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Impacto na Margem de Contribuição</span>
+                          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em]">Impacto na Margem de Contribuição</span>
                           <div className={cn(
                              "text-6xl font-black font-display tracking-tighter",
                              simuladorResult.impacto >= 0 ? "text-emerald-400" : "text-rose-400"
@@ -413,11 +413,11 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
 
                        <div className="grid grid-cols-2 gap-6 border-t border-white/5 pt-8">
                           <div className="text-center space-y-1">
-                             <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Base de Cálculo</div>
-                             <div className="text-sm font-black text-slate-300">{formatCurrency(simuladorResult.original)}</div>
+                             <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Base de Cálculo</div>
+                             <div className="text-sm font-black text-muted-foreground">{formatCurrency(simuladorResult.original)}</div>
                           </div>
                           <div className="text-center border-l border-white/5 space-y-1">
-                             <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Expectativa</div>
+                             <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Expectativa</div>
                              <div className="text-sm font-black text-emerald-400">{formatCurrency(simuladorResult.novo)}</div>
                           </div>
                        </div>
@@ -426,20 +426,20 @@ export function PrecificacaoPage({ clientId }: PrecificacaoPageProps) {
                </div>
             </div>
 
-            <div className="bg-white p-10 rounded-[48px] border border-slate-200 shadow-sm space-y-6 relative overflow-hidden">
+            <div className="bg-white p-10 rounded-[48px] border border-border shadow-sm space-y-6 relative overflow-hidden">
                <div className="absolute -right-10 -bottom-10 opacity-5 pointer-events-none">
                  <AlertCircle size={140} />
                </div>
-               <div className="flex items-center gap-3 text-slate-900 relative z-10">
+               <div className="flex items-center gap-3 text-muted-foreground relative z-10">
                   <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
                     <AlertCircle size={20} />
                   </div>
                   <h4 className="text-sm font-black uppercase tracking-[0.2em] font-display">Insights Estratégicos</h4>
                </div>
                <div className="space-y-4 relative z-10">
-                  <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 text-xs font-medium text-slate-600 leading-relaxed">
-                     <span className="font-black text-slate-900 uppercase block mb-2 tracking-widest">Cobertura de Custo Fixo</span>
-                     A empresa possui um custo operacional fixo de <span className="font-black text-slate-900">{formatCurrency(custosFixosTotais)}</span>. Sua margem de contribuição atual deve priorizar o atingimento do Ponto de Equilíbrio global.
+                  <div className="p-6 bg-slate-50 rounded-3xl border border-border text-xs font-medium text-muted-foreground leading-relaxed">
+                     <span className="font-black text-muted-foreground uppercase block mb-2 tracking-widest">Cobertura de Custo Fixo</span>
+                     A empresa possui um custo operacional fixo de <span className="font-black text-muted-foreground">{formatCurrency(custosFixosTotais)}</span>. Sua margem de contribuição atual deve priorizar o atingimento do Ponto de Equilíbrio global.
                   </div>
                   {stats.some(p => p.margemPct < 25) && (
                     <div className="p-6 bg-rose-50 rounded-3xl border border-rose-100 text-xs font-medium text-rose-800 leading-relaxed">

@@ -25,7 +25,7 @@ export const AdvisorInstitutionalOverview: React.FC<AdvisorInstitutionalOverview
           <p className="text-eyebrow uppercase mt-1">Visão Institucional Consolidada</p>
           <button 
             onClick={() => AdvisorNavigationEngine.navigateToDigitalTwin(navigate, organization.id)}
-            className="flex items-center gap-1.5 text-[10px] font-bold uppercase text-indigo-400 hover:text-indigo-300 transition-colors mt-2"
+            className="flex items-center gap-1.5 text-[10px] font-bold uppercase text-accent hover:text-accent transition-colors mt-2"
           >  
             <Layers size={14} /> Abrir Digital Twin
           </button>
@@ -58,7 +58,7 @@ export const AdvisorInstitutionalOverview: React.FC<AdvisorInstitutionalOverview
                 <p className="text-sm text-muted-foreground leading-relaxed mb-3">{insight.summary}</p>
                 
                 <div className="flex justify-end">
-                  <button className="flex items-center gap-1 text-[10px] text-indigo-400 hover:text-indigo-300 uppercase font-bold tracking-wider">
+                  <button className="flex items-center gap-1 text-[10px] text-accent hover:text-accent uppercase font-bold tracking-wider">
                     Ver Contexto <ExternalLink size={12} />
                   </button>
                 </div>

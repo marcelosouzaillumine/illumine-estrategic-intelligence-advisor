@@ -14,13 +14,13 @@ export function RealityValidationTimeline({ dataset }: Props) {
   return (
     <div className="bg-surface-container border border-border rounded-lg p-6">
       <div className="flex items-center gap-2 mb-4">
-        <Clock className="text-indigo-500" />
+        <Clock className="text-primary" />
         <h3 className="text-sm font-semibold text-foreground">Reality Validation Timeline</h3>
         <span className="ml-auto text-[10px] text-muted-foreground font-mono">{dataset.lineageHash}</span>
       </div>
       <div className="relative border-l border-border/50 ml-3 space-y-5">
         {events.map(evt => {
-          const dot = evt.type === 'WARNING' ? 'bg-rose-500' : evt.type === 'ORCHESTRATION' ? 'bg-amber-500' : 'bg-indigo-500';
+          const dot = evt.type === 'WARNING' ? 'bg-rose-500' : evt.type === 'ORCHESTRATION' ? 'bg-amber-500' : 'bg-primary';
           return (
             <div key={evt.id} className="relative pl-5">
               <div className={`absolute w-2.5 h-2.5 ${dot} rounded-full -left-1.5 top-1`} />

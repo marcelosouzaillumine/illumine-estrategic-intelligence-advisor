@@ -55,7 +55,7 @@ export const FiduciaryModalShell: React.FC<FiduciaryModalShellProps> = ({
       case 'HIGH':
         return 'border-amber-500/30 shadow-amber-950/10';
       case 'MEDIUM':
-        return 'border-indigo-500/25 shadow-indigo-950/5';
+        return 'border-primary shadow-indigo-950/5';
       case 'LOW':
       default:
         return 'border-border/10';
@@ -84,13 +84,13 @@ export const FiduciaryModalShell: React.FC<FiduciaryModalShellProps> = ({
                 Implicação Fiduciária Mandatória
               </span>
             )}
-            <h3 id="modal-title" className="text-base md:text-lg font-bold text-slate-200 uppercase tracking-wider">{title}</h3>
+            <h3 id="modal-title" className="text-base md:text-lg font-bold text-muted-foreground uppercase tracking-wider">{title}</h3>
           </div>
           
           {!isFiduciary && (
             <button 
               onClick={onClose} 
-              className="p-1 rounded-lg text-slate-500 hover:text-slate-250 hover:bg-slate-900/40 transition-colors"
+              className="p-1 rounded-lg text-muted-foreground hover:text-muted-foreground hover:bg-slate-900/40 transition-colors"
               aria-label={t('overlays.close') || 'Close'}
             >
               <X className="w-5 h-5" />
@@ -99,7 +99,7 @@ export const FiduciaryModalShell: React.FC<FiduciaryModalShellProps> = ({
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto py-6 space-y-4 text-sm text-slate-350 leading-relaxed font-medium">
+        <div className="flex-1 overflow-y-auto py-6 space-y-4 text-sm text-muted-foreground leading-relaxed font-medium">
           {isFiduciary && (
             <div className="p-4 bg-red-500/5 border border-red-500/25 rounded-xl text-red-400 text-xs flex gap-3">
               <AlertTriangle className="w-5 h-5 flex-shrink-0" />
@@ -115,7 +115,7 @@ export const FiduciaryModalShell: React.FC<FiduciaryModalShellProps> = ({
         {/* Footer */}
         <div className="pt-6 border-t border-border/10 flex flex-col gap-4">
           {lineageHash && (
-            <div className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5">
+            <div className="text-[10px] font-mono text-muted-foreground flex items-center gap-1.5">
               <History className="w-3.5 h-3.5" />
               Audit Trail Hash: {lineageHash}
             </div>
@@ -125,7 +125,7 @@ export const FiduciaryModalShell: React.FC<FiduciaryModalShellProps> = ({
             {!isFiduciary && (
               <button 
                 onClick={onClose}
-                className="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-400 bg-transparent border border-border/10 hover:bg-slate-900/50 transition-colors"
+                className="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-muted-foreground bg-transparent border border-border/10 hover:bg-slate-900/50 transition-colors"
               >
                 Cancelar
               </button>
@@ -141,7 +141,7 @@ export const FiduciaryModalShell: React.FC<FiduciaryModalShellProps> = ({
                     ? 'bg-red-500 text-white hover:bg-red-650' 
                     : isHigh 
                       ? 'bg-amber-500 text-black hover:bg-amber-600' 
-                      : 'bg-indigo-500 text-white hover:bg-indigo-650'
+                      : 'bg-accent text-white hover:bg-accent'
                 }`}
               >
                 Confirmar

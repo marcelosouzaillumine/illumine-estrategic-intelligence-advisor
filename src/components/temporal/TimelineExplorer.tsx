@@ -30,7 +30,7 @@ export const TimelineExplorer: React.FC<TimelineExplorerProps> = ({ events, mile
   return (
     <div className="space-y-4">
       <h3 className="text-eyebrow text-foreground uppercase tracking-widest flex items-center gap-2">
-        <Clock size={16} className="text-indigo-500" /> Explorador Temporal
+        <Clock size={16} className="text-primary" /> Explorador Temporal
       </h3>
       
       <div className="relative pl-6 space-y-6 before:absolute before:inset-0 before:ml-[11px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-indigo-500/20 before:via-border before:to-transparent">
@@ -62,10 +62,10 @@ export const TimelineExplorer: React.FC<TimelineExplorerProps> = ({ events, mile
             const event = item.data as TimelineEvent;
             return (
               <div key={`e-${event.eventId}`} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active cursor-pointer" onClick={() => onSelectEvent(event.eventId)}>
-                <div className={`absolute left-[-20px] w-4 h-4 rounded-full border-2 border-background z-10 transition-colors ${isSelected ? 'bg-indigo-400' : 'bg-surface-container-highest group-hover:bg-indigo-500'}`} />
-                <div className={`rounded-xl p-4 w-full ml-4 transition-all ${isSelected ? 'bg-indigo-500/10 border border-indigo-500/40 shadow-lg shadow-indigo-500/10' : 'bg-surface-container border border-border hover:border-border-hover hover:bg-surface-container-high'}`}>
+                <div className={`absolute left-[-20px] w-4 h-4 rounded-full border-2 border-background z-10 transition-colors ${isSelected ? 'bg-insight' : 'bg-surface-container-highest group-hover:bg-insight'}`} />
+                <div className={`rounded-xl p-4 w-full ml-4 transition-all ${isSelected ? 'bg-insight border border-insight shadow-lg shadow-indigo-500/10' : 'bg-surface-container border border-border hover:border-border-hover hover:bg-surface-container-high'}`}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-400">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-primary">
                       {event.eventType.replace(/_/g, ' ')}
                     </span>
                     <time className="text-[10px] text-muted-foreground font-mono">

@@ -92,7 +92,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="text-sm text-slate-500 font-medium">Orquestrando Indicadores do Executive Execution Engine (E3)...</p>
+        <p className="text-sm text-muted-foreground font-medium">Orquestrando Indicadores do Executive Execution Engine (E3)...</p>
       </div>
     );
   }
@@ -168,14 +168,14 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
       {/* ── HERO METRICS GRID ── */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* EES Executive Execution Score */}
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 relative overflow-hidden text-white shadow-xl">
+        <div className="bg-slate-900 border border-border rounded-3xl p-6 relative overflow-hidden text-white shadow-xl">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Activity size={120} className="text-white" />
           </div>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Executive Execution Score (EES)</p>
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Executive Execution Score (EES)</p>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-5xl font-extrabold tracking-tight">{eesScore}</span>
-            <span className="text-slate-500 font-bold">/ 100</span>
+            <span className="text-muted-foreground font-bold">/ 100</span>
           </div>
           <div className="mt-4 h-1.5 bg-slate-800 rounded-full overflow-hidden">
             <div 
@@ -186,7 +186,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
               style={{ width: `${eesScore}%` }}
             />
           </div>
-          <p className="text-[11px] text-slate-400 mt-3 font-semibold">
+          <p className="text-[11px] text-muted-foreground mt-3 font-semibold">
             {eesClassification}
           </p>
           {ceilingsApplied.length > 0 && (
@@ -200,14 +200,14 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
         </div>
 
         {/* DPHS Portfolio Health */}
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 relative overflow-hidden text-white shadow-xl">
+        <div className="bg-slate-900 border border-border rounded-3xl p-6 relative overflow-hidden text-white shadow-xl">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Zap size={120} className="text-white" />
           </div>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Portfolio Health (DPHS)</p>
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Portfolio Health (DPHS)</p>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-5xl font-extrabold tracking-tight">{dphs}</span>
-            <span className="text-slate-500 font-bold">/ 100</span>
+            <span className="text-muted-foreground font-bold">/ 100</span>
           </div>
           <div className="mt-4 h-1.5 bg-slate-800 rounded-full overflow-hidden">
             <div 
@@ -218,20 +218,20 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
               style={{ width: `${dphs}%` }}
             />
           </div>
-          <p className="text-[11px] text-slate-400 mt-3 font-medium">
+          <p className="text-[11px] text-muted-foreground mt-3 font-medium">
             {dphs >= 75 ? "Portfólio Operacional Balanceado" : "Desequilíbrio de Portfólio Ativo"}
           </p>
         </div>
 
         {/* IDDS Decision Debt */}
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 relative overflow-hidden text-white shadow-xl">
+        <div className="bg-slate-900 border border-border rounded-3xl p-6 relative overflow-hidden text-white shadow-xl">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Clock size={120} className="text-white" />
           </div>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Decision Debt (IDDS)</p>
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Decision Debt (IDDS)</p>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-5xl font-extrabold tracking-tight">{iddsScore}</span>
-            <span className="text-slate-500 font-bold">/ 100</span>
+            <span className="text-muted-foreground font-bold">/ 100</span>
           </div>
           <div className="mt-4 h-1.5 bg-slate-800 rounded-full overflow-hidden">
             <div 
@@ -242,17 +242,17 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
               style={{ width: `${iddsScore}%` }}
             />
           </div>
-          <p className="text-[11px] text-slate-400 mt-3 font-bold uppercase">
+          <p className="text-[11px] text-muted-foreground mt-3 font-bold uppercase">
             Nível: {iddsLevel}
           </p>
         </div>
 
         {/* Execution Capacity Forecast */}
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 relative overflow-hidden text-white shadow-xl">
+        <div className="bg-slate-900 border border-border rounded-3xl p-6 relative overflow-hidden text-white shadow-xl">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Brain size={120} className="text-white" />
           </div>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Capacity Forecast</p>
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Capacity Forecast</p>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-4xl font-extrabold tracking-tight">{capacityForecast}</span>
           </div>
@@ -265,7 +265,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
               style={{ width: capacityForecast === 'HIGH' ? '100%' : capacityForecast === 'MODERATE' ? '65%' : '30%' }}
             />
           </div>
-          <p className="text-[11px] text-slate-400 mt-3 font-medium">
+          <p className="text-[11px] text-muted-foreground mt-3 font-medium">
             {capacityForecast === 'HIGH' ? "Pronto para novos planos" : "Restrição de novos projetos ativa"}
           </p>
         </div>
@@ -283,15 +283,15 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
         ].map((item, index) => {
           const Icon = item.icon;
           return (
-            <div key={index} className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm space-y-2">
-              <div className="flex items-center justify-between text-slate-400">
+            <div key={index} className="bg-white border border-border rounded-2xl p-4 shadow-sm space-y-2">
+              <div className="flex items-center justify-between text-muted-foreground">
                 <Icon size={16} />
-                <span className="text-xs font-semibold text-slate-400">Pilar {index+1}</span>
+                <span className="text-xs font-semibold text-muted-foreground">Pilar {index+1}</span>
               </div>
               <div>
-                <p className="text-2xl font-bold text-slate-800">{item.score}%</p>
-                <p className="text-xs font-bold text-slate-700 truncate">{item.label}</p>
-                <p className="text-[9px] text-slate-400 truncate mt-0.5">{item.desc}</p>
+                <p className="text-2xl font-bold text-muted-foreground">{item.score}%</p>
+                <p className="text-xs font-bold text-muted-foreground truncate">{item.label}</p>
+                <p className="text-[9px] text-muted-foreground truncate mt-0.5">{item.desc}</p>
               </div>
             </div>
           );
@@ -301,8 +301,8 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
       {/* ── KANBAN BOARD & FRICTION ANALYSIS ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Kanban pipeline summary */}
-        <div className="lg:col-span-2 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4">
-          <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+        <div className="lg:col-span-2 bg-white border border-border rounded-3xl p-6 shadow-sm space-y-4">
+          <h3 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
             <Sliders size={16} />
             <span>Fiduciary Kanban Pipeline</span>
           </h3>
@@ -310,20 +310,20 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
             {['PROPOSED', 'APPROVED', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED'].map(col => {
               const matches = decisions.filter((d: any) => d.status === col);
               return (
-                <div key={col} className="bg-slate-50/50 border border-slate-100 p-3 rounded-2xl space-y-2">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-1.5">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{col.replace('_', ' ')}</span>
-                    <span className="px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded-md font-bold text-[9px]">{matches.length}</span>
+                <div key={col} className="bg-slate-50/50 border border-border p-3 rounded-2xl space-y-2">
+                  <div className="flex justify-between items-center border-b border-border pb-1.5">
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{col.replace('_', ' ')}</span>
+                    <span className="px-1.5 py-0.5 bg-slate-200 text-muted-foreground rounded-md font-bold text-[9px]">{matches.length}</span>
                   </div>
                   <div className="space-y-1.5 max-h-[250px] overflow-y-auto">
                     {matches.map((dec: any) => (
-                      <div key={dec.decisionId} className="bg-white border border-slate-100 p-2 rounded-xl text-[10px] shadow-xs space-y-1">
-                        <p className="font-bold text-slate-800 truncate">{dec.title}</p>
-                        <p className="text-[9px] text-slate-400 truncate">{dec.owner || 'Sem owner'}</p>
+                      <div key={dec.decisionId} className="bg-white border border-border p-2 rounded-xl text-[10px] shadow-xs space-y-1">
+                        <p className="font-bold text-muted-foreground truncate">{dec.title}</p>
+                        <p className="text-[9px] text-muted-foreground truncate">{dec.owner || 'Sem owner'}</p>
                       </div>
                     ))}
                     {matches.length === 0 && (
-                      <p className="text-[9px] text-slate-400 text-center py-4 italic">Nenhum</p>
+                      <p className="text-[9px] text-muted-foreground text-center py-4 italic">Nenhum</p>
                     )}
                   </div>
                 </div>
@@ -333,37 +333,37 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
         </div>
 
         {/* Friction Category Counts */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4">
-          <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+        <div className="bg-white border border-border rounded-3xl p-6 shadow-sm space-y-4">
+          <h3 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
             <AlertCircle size={16} />
             <span>Friction Root Causes</span>
           </h3>
-          <p className="text-xs text-slate-400 mt-1">Gargalos operacionais detectados que causam atrasos ou bloqueios:</p>
+          <p className="text-xs text-muted-foreground mt-1">Gargalos operacionais detectados que causam atrasos ou bloqueios:</p>
           <div className="space-y-2.5 mt-4">
             {Object.keys(frictionCounts).length > 0 ? (
               Object.entries(frictionCounts).map(([friction, count]: [string, any]) => (
-                <div key={friction} className="flex justify-between items-center text-xs p-2.5 bg-slate-50 border border-slate-100 rounded-xl">
-                  <span className="font-semibold text-slate-700 uppercase tracking-wide text-[9px]">{friction.replace('_', ' ')}</span>
-                  <span className="px-2 py-0.5 bg-slate-200 text-slate-800 rounded-lg font-extrabold text-[10px]">{count}</span>
+                <div key={friction} className="flex justify-between items-center text-xs p-2.5 bg-slate-50 border border-border rounded-xl">
+                  <span className="font-semibold text-muted-foreground uppercase tracking-wide text-[9px]">{friction.replace('_', ' ')}</span>
+                  <span className="px-2 py-0.5 bg-slate-200 text-muted-foreground rounded-lg font-extrabold text-[10px]">{count}</span>
                 </div>
               ))
             ) : (
-              <p className="text-xs text-slate-400 italic py-8 text-center">Nenhum atrito registrado no ciclo atual.</p>
+              <p className="text-xs text-muted-foreground italic py-8 text-center">Nenhum atrito registrado no ciclo atual.</p>
             )}
           </div>
         </div>
       </div>
 
       {/* ── REGISTER TABLE ── */}
-      <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4">
-        <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+      <div className="bg-white border border-border rounded-3xl p-6 shadow-sm space-y-4">
+        <h3 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
           <FileText size={16} />
           <span>Executive Evidence & Accountability Register</span>
         </h3>
         <div className="overflow-x-auto mt-4">
           <table className="min-w-full divide-y divide-slate-100 text-xs">
             <thead>
-              <tr className="text-left font-bold text-slate-400 uppercase tracking-wider bg-slate-50/50">
+              <tr className="text-left font-bold text-muted-foreground uppercase tracking-wider bg-slate-50/50">
                 <th className="p-3">Decisão</th>
                 <th className="p-3">Responsável</th>
                 <th className="p-3">Status</th>
@@ -374,7 +374,7 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
                 <th className="p-3">Ações</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
+            <tbody className="divide-y divide-slate-100 text-muted-foreground">
               {decisions.map((dec: any) => {
                 const isExpanded = expandedDecisionId === dec.decisionId;
                 const evTypes = dec.evidence?.map((e: any) => e.type).join(', ') || 'Nenhuma';
@@ -385,22 +385,22 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
                 return (
                   <React.Fragment key={dec.decisionId}>
                     <tr className="hover:bg-slate-50/50">
-                      <td className="p-3 font-semibold text-slate-900">{dec.title}</td>
-                      <td className="p-3 text-slate-500">{dec.owner || <span className="text-rose-500 font-bold">MISSING OWNER</span>}</td>
+                      <td className="p-3 font-semibold text-muted-foreground">{dec.title}</td>
+                      <td className="p-3 text-muted-foreground">{dec.owner || <span className="text-rose-500 font-bold">MISSING OWNER</span>}</td>
                       <td className="p-3">
                         <span className={cn(
                           "px-2 py-0.5 rounded-md font-bold text-[9px] uppercase",
                           dec.status === 'COMPLETED' ? "bg-emerald-100 text-emerald-800" :
                           dec.status === 'PARTIALLY_COMPLETED' ? "bg-blue-100 text-blue-800" :
-                          dec.status === 'BLOCKED' ? "bg-rose-100 text-rose-800" : "bg-slate-100 text-slate-800"
+                          dec.status === 'BLOCKED' ? "bg-rose-100 text-rose-800" : "bg-slate-100 text-muted-foreground"
                         )}>
                           {dec.status.replace('_', ' ')}
                         </span>
                       </td>
-                      <td className="p-3 text-slate-500 italic max-w-[150px] truncate">{evTypes}</td>
-                      <td className="p-3 text-slate-500 font-mono">{dec.targetDate}</td>
-                      <td className="p-3 font-semibold text-slate-800">{effectivenessVal}</td>
-                      <td className="p-3 text-slate-400">{dec.rootFriction || 'Nenhuma'}</td>
+                      <td className="p-3 text-muted-foreground italic max-w-[150px] truncate">{evTypes}</td>
+                      <td className="p-3 text-muted-foreground font-mono">{dec.targetDate}</td>
+                      <td className="p-3 font-semibold text-muted-foreground">{effectivenessVal}</td>
+                      <td className="p-3 text-muted-foreground">{dec.rootFriction || 'Nenhuma'}</td>
                       <td className="p-3">
                         <button 
                           onClick={() => toggleExpandDecision(dec.decisionId)}
@@ -412,31 +412,31 @@ export function ExecutiveExecutionCenter({ selectedClient, selectedYear }: Execu
                     </tr>
                     {isExpanded && (
                       <tr className="bg-slate-50/30">
-                        <td colSpan={8} className="p-4 border-t border-slate-100 text-xs">
+                        <td colSpan={8} className="p-4 border-t border-border text-xs">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-2">
                             <div className="space-y-2">
-                              <p className="font-bold text-slate-800">Descrição do Escopo:</p>
-                              <p className="text-slate-600 leading-relaxed">{dec.description}</p>
-                              <p className="font-bold text-slate-800 mt-3">Metas esperadas:</p>
-                              <p className="text-slate-600 italic">"{dec.expectedOutcome || 'Não especificado'}"</p>
+                              <p className="font-bold text-muted-foreground">Descrição do Escopo:</p>
+                              <p className="text-muted-foreground leading-relaxed">{dec.description}</p>
+                              <p className="font-bold text-muted-foreground mt-3">Metas esperadas:</p>
+                              <p className="text-muted-foreground italic">"{dec.expectedOutcome || 'Não especificado'}"</p>
                               {dec.actualOutcome && (
                                 <>
-                                  <p className="font-bold text-slate-800 mt-2">Resultado Realizado:</p>
-                                  <p className="text-slate-600 italic">"{dec.actualOutcome}"</p>
+                                  <p className="font-bold text-muted-foreground mt-2">Resultado Realizado:</p>
+                                  <p className="text-muted-foreground italic">"{dec.actualOutcome}"</p>
                                 </>
                               )}
                             </div>
-                            <div className="space-y-3 bg-white p-4 rounded-2xl border border-slate-100">
-                              <p className="font-bold text-slate-900 border-b border-slate-100 pb-1.5">Evidências Anexadas ({dec.evidence?.length || 0})</p>
+                            <div className="space-y-3 bg-white p-4 rounded-2xl border border-border">
+                              <p className="font-bold text-muted-foreground border-b border-border pb-1.5">Evidências Anexadas ({dec.evidence?.length || 0})</p>
                               {dec.evidence?.length > 0 ? (
                                 dec.evidence.map((ev: any, idx: number) => (
                                   <div key={idx} className="p-2 bg-slate-50 rounded-xl space-y-1">
-                                    <p className="font-bold text-[10px] text-slate-500 uppercase">{ev.type}</p>
-                                    <p className="text-slate-700 text-[11px]">{ev.description}</p>
+                                    <p className="font-bold text-[10px] text-muted-foreground uppercase">{ev.type}</p>
+                                    <p className="text-muted-foreground text-[11px]">{ev.description}</p>
                                   </div>
                                 ))
                               ) : (
-                                <p className="text-slate-400 italic text-[11px]">Nenhuma evidência fiduciária fornecida.</p>
+                                <p className="text-muted-foreground italic text-[11px]">Nenhuma evidência fiduciária fornecida.</p>
                               )}
 
                               {dec.abandonmentJustification && (

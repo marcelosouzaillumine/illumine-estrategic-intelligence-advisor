@@ -189,19 +189,19 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
             <Users size={16} className="text-secondary" />
           </div>
         </div>
-        <p className="text-xs font-black text-slate-400 uppercase tracking-widest animate-pulse">Carregando quadro de pessoal...</p>
+        <p className="text-xs font-black text-muted-foreground uppercase tracking-widest animate-pulse">Carregando quadro de pessoal...</p>
       </div>
     );
   }
 
   if (!clientId) {
     return (
-      <div className="bg-slate-50 border border-slate-100 p-20 rounded-[40px] text-center space-y-6">
-        <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center text-slate-300 mx-auto shadow-sm">
+      <div className="bg-slate-50 border border-border p-20 rounded-[40px] text-center space-y-6">
+        <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center text-muted-foreground mx-auto shadow-sm">
           <Users size={40} />
         </div>
         <h2 className="text-xl font-display text-primary">Selecione um Cliente</h2>
-        <p className="text-slate-400 text-sm max-w-2xl mx-auto uppercase font-bold tracking-widest">Escolha uma empresa no menu superior para visualizar os custos com pessoal.</p>
+        <p className="text-muted-foreground text-sm max-w-2xl mx-auto uppercase font-bold tracking-widest">Escolha uma empresa no menu superior para visualizar os custos com pessoal.</p>
       </div>
     );
   }
@@ -229,44 +229,44 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
       />
 
       {/* Toolbar */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-wrap items-end gap-4">
+      <div className="bg-white p-6 rounded-2xl border border-border shadow-sm flex flex-wrap items-end gap-4">
         <div className="flex-1 min-w-[200px]">
-          <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Buscar Colaborador</label>
+          <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2 px-1">Buscar Colaborador</label>
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
             <input 
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               placeholder="Nome, função ou área..."
-              className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all placeholder:text-slate-300"
+              className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all placeholder:text-muted-foreground"
             />
           </div>
         </div>
 
         <div className="min-w-[140px]">
-          <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Área</label>
+          <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2 px-1">Área</label>
           <select 
             value={filters.area || 'Todas'} 
             onChange={e => setFilters(prev => ({ ...prev, area: e.target.value }))}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-display"
+            className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-display"
           >
             {filterOptions.areas.map(a => <option key={a} value={a}>{a}</option>)}
           </select>
         </div>
 
         <div className="min-w-[140px]">
-          <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Vínculo</label>
+          <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2 px-1">Vínculo</label>
           <select 
             value={filters.tipoContrato || 'Todos'} 
             onChange={e => setFilters(prev => ({ ...prev, tipoContrato: e.target.value }))}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-display"
+            className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-display"
           >
             {filterOptions.contractTypes.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
 
         <div className="min-w-[140px]">
-          <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Turnover Médio (%)</label>
+          <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2 px-1">Turnover Médio (%)</label>
           <input 
             type="number"
             min="0"
@@ -274,13 +274,13 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
             step="0.1"
             value={turnoverMensal}
             onChange={e => setTurnoverMensal(parseFloat(e.target.value) || 0)}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-display"
+            className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-display"
           />
         </div>
 
         <button 
           onClick={downloadCsv}
-          className="h-[46px] px-6 bg-slate-50 text-slate-400 hover:text-secondary hover:bg-secondary/5 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 border border-slate-100"
+          className="h-[46px] px-6 bg-slate-50 text-muted-foreground hover:text-secondary hover:bg-secondary/5 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 border border-border"
         >
           <Download size={16} /> Exportar
         </button>
@@ -290,19 +290,19 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: 'Custo Mensal', val: summary.monthlyCost, helper: 'Recorrência mensal bruta', icon: DollarSign, color: 'text-blue-500', bg: 'bg-blue-50' },
-          { label: 'Custo Anual', val: summary.annualCost, helper: 'Projeção 12 meses', icon: TrendingUp, color: 'text-slate-900', bg: 'bg-slate-50' },
+          { label: 'Custo Anual', val: summary.annualCost, helper: 'Projeção 12 meses', icon: TrendingUp, color: 'text-muted-foreground', bg: 'bg-slate-50' },
           { label: 'Colaboradores', val: summary.total, suffix: ' pessoas', helper: `${summary.active} ativos no grupo`, icon: UserCheck, color: 'text-emerald-500', bg: 'bg-emerald-50' },
           { label: 'Custo Médio', val: summary.averageCost, helper: 'Gasto médio por pessoa', icon: Clock, color: 'text-orange-500', bg: 'bg-orange-50' }
         ].map((kpi, idx) => (
-          <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm group hover:border-secondary/30 transition-all">
+          <div key={idx} className="bg-white p-6 rounded-2xl border border-border shadow-sm group hover:border-secondary/30 transition-all">
             <div className={cn("w-10 h-10 rounded-xl mb-4 flex items-center justify-center transition-colors", kpi.bg, kpi.color)}>
               <kpi.icon size={18} />
             </div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{kpi.label}</p>
+            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">{kpi.label}</p>
             <p className="text-2xl font-display text-primary tracking-tight">
               {typeof kpi.val === 'number' && !kpi.suffix ? formatCurrency(kpi.val) : `${kpi.val}${kpi.suffix || ''}`}
             </p>
-            <p className="text-[10px] text-slate-400 font-medium mt-1">{kpi.helper}</p>
+            <p className="text-[10px] text-muted-foreground font-medium mt-1">{kpi.helper}</p>
           </div>
         ))}
       </div>
@@ -315,12 +315,12 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
           { label: 'Prov. Indenizatória', val: summary.provisaoIndenizatoria, icon: AlertCircle },
           { label: 'Risco Rescisório', val: summary.severance, icon: AlertCircle, variant: 'red' }
         ].map((kpi, idx) => (
-          <div key={idx} className="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 flex items-center gap-4 group">
-            <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center transition-all", kpi.variant === 'red' ? 'bg-red-50 text-red-500' : 'bg-white text-slate-400 border border-slate-100 group-hover:text-secondary group-hover:border-secondary/30')}>
+          <div key={idx} className="bg-slate-50/50 p-5 rounded-2xl border border-border flex items-center gap-4 group">
+            <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center transition-all", kpi.variant === 'red' ? 'bg-red-50 text-red-500' : 'bg-white text-muted-foreground border border-border group-hover:text-secondary group-hover:border-secondary/30')}>
               <kpi.icon size={18} />
             </div>
             <div>
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{kpi.label}</p>
+              <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{kpi.label}</p>
               <p className="text-lg font-bold text-primary">{formatCurrency(kpi.val)}</p>
             </div>
           </div>
@@ -328,15 +328,15 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
       </div>
 
       {/* Severance Detailed Breakdown */}
-      <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+      <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-red-500">
               <AlertCircle size={20} />
             </div>
             <div>
-              <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">Simulação de Rescisão</h3>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Estimativa baseada em demissão sem justa causa</p>
+              <h3 className="text-sm font-black text-muted-foreground uppercase tracking-widest">Simulação de Rescisão</h3>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Estimativa baseada em demissão sem justa causa</p>
             </div>
           </div>
           
@@ -344,7 +344,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
             <select 
               value={selectedSimEmployeeId} 
               onChange={e => setSelectedSimEmployeeId(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-display"
+              className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-display"
             >
               <option value="todos">Todos os Colaboradores</option>
               {employees.map(e => (
@@ -368,8 +368,8 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
               { label: '13º e Férias Prop.', val: prop, icon: TrendingUp },
               { label: 'TOTAL RISCO ESTIMADO', val: total, icon: AlertCircle, highlight: true }
             ].map((item, idx) => (
-              <div key={idx} className={cn("p-4 rounded-2xl border transition-all", item.highlight ? "bg-slate-900 border-slate-900 text-white" : "bg-slate-50 border-slate-100")}>
-                <p className={cn("text-[8px] font-black uppercase tracking-widest mb-1", item.highlight ? "text-slate-400" : "text-slate-400")}>{item.label}</p>
+              <div key={idx} className={cn("p-4 rounded-2xl border transition-all", item.highlight ? "bg-slate-900 border-border text-white" : "bg-slate-50 border-border")}>
+                <p className={cn("text-[8px] font-black uppercase tracking-widest mb-1", item.highlight ? "text-muted-foreground" : "text-muted-foreground")}>{item.label}</p>
                 <p className={cn("text-xl font-display", item.highlight ? "text-white" : "text-primary")}>{formatCurrency(item.val)}</p>
               </div>
             ));
@@ -380,13 +380,13 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
       {/* Análise Visual */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Bar Chart: Area Cost */}
-        <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+        <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8 text-center md:text-left">
             <div>
-              <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+              <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                 <Filter size={14} className="text-secondary" /> Custo Mensal por Área
               </h3>
-              <p className="text-[10px] text-slate-400 font-medium mt-1 uppercase tracking-tighter">Impacto financeiro por centro de custo</p>
+              <p className="text-[10px] text-muted-foreground font-medium mt-1 uppercase tracking-tighter">Impacto financeiro por centro de custo</p>
             </div>
           </div>
           <div className="h-[300px] w-full">
@@ -431,13 +431,13 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
         </div>
 
         {/* Pie Chart: Role Distribution */}
-        <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+        <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8 text-center md:text-left">
             <div>
-              <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+              <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                 <Briefcase size={14} className="text-blue-500" /> Distribuição por Função (Top 5)
               </h3>
-              <p className="text-[10px] text-slate-400 font-medium mt-1 uppercase tracking-tighter">Impacto financeiro por cargo</p>
+              <p className="text-[10px] text-muted-foreground font-medium mt-1 uppercase tracking-tighter">Impacto financeiro por cargo</p>
             </div>
           </div>
           <div className="h-[300px] w-full">
@@ -475,7 +475,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
                   align="center"
                   iconType="circle"
                   wrapperStyle={{ paddingTop: '20px' }}
-                  formatter={(value) => <span className="text-[9px] font-black text-slate-500 uppercase tracking-tight">{value}</span>}
+                  formatter={(value) => <span className="text-[9px] font-black text-muted-foreground uppercase tracking-tight">{value}</span>}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -485,8 +485,8 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
 
       {/* Distribution Bars */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-          <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+        <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
+          <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
             <Filter size={14} className="text-secondary" /> Custo Mensal por Área
           </h3>
           <div className="space-y-4">
@@ -496,7 +496,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
               return (
                 <div key={idx} className="group">
                   <div className="flex justify-between items-center text-xs font-bold mb-1.5">
-                    <span className="text-slate-600 font-display">{item.name}</span>
+                    <span className="text-muted-foreground font-display">{item.name}</span>
                     <span className="text-primary">{formatCurrency(item.value)}</span>
                   </div>
                   <div className="h-2.5 bg-slate-50 rounded-full overflow-hidden">
@@ -512,8 +512,8 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-          <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+        <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
+          <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
             <Briefcase size={14} className="text-blue-500" /> Distribuição por Função
           </h3>
           <div className="space-y-4">
@@ -523,7 +523,7 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
               return (
                 <div key={idx} className="group">
                   <div className="flex justify-between items-center text-xs font-bold mb-1.5">
-                    <span className="text-slate-600 font-display">{item.name}</span>
+                    <span className="text-muted-foreground font-display">{item.name}</span>
                     <span className="text-primary">{formatCurrency(item.value)}</span>
                   </div>
                   <div className="h-2.5 bg-slate-50 rounded-full overflow-hidden">
@@ -541,13 +541,13 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
       </div>
 
       {/* Table Detail */}
-      <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden border-b-4 border-b-slate-200">
-        <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+      <div className="bg-white rounded-[32px] border border-border shadow-sm overflow-hidden border-b-4 border-b-slate-200">
+        <div className="p-8 border-b border-border flex justify-between items-center bg-slate-50/50">
           <div>
             <h3 className="text-lg font-display text-primary">Detalhamento Analítico</h3>
-            <p className="text-xs text-slate-400 font-medium uppercase tracking-widest">Lista completa de colaboradores e custos individuais</p>
+            <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">Lista completa de colaboradores e custos individuais</p>
           </div>
-          <span className="px-4 py-1.5 bg-white border border-slate-100 shadow-sm rounded-full text-[10px] font-black text-primary uppercase tracking-widest">
+          <span className="px-4 py-1.5 bg-white border border-border shadow-sm rounded-full text-[10px] font-black text-primary uppercase tracking-widest">
             {filteredEmployees.length} Registros encontrados
           </span>
         </div>
@@ -570,14 +570,14 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
                 <tr key={idx} className="hover:bg-slate-50/50 transition-colors group">
                   <td className="px-5 md:px-8 py-3 md:py-5">
                     <p className="text-sm font-black text-primary uppercase tracking-tight">{emp.nome}</p>
-                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Admissão: {new Date(emp.admissao).toLocaleDateString('pt-BR')}</p>
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-0.5">Admissão: {new Date(emp.admissao).toLocaleDateString('pt-BR')}</p>
                   </td>
                   <td className="px-5 md:px-8 py-3 md:py-5">
                     <div className="flex flex-col">
-                      <span className="text-xs font-bold text-slate-600">{emp.funcao}</span>
+                      <span className="text-xs font-bold text-muted-foreground">{emp.funcao}</span>
                     </div>
                   </td>
-                  <td className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{emp.area}</td>
+                  <td className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest">{emp.area}</td>
                   <td className="px-5 md:px-8 py-3 md:py-5">
                     <span className={cn(
                       "px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest", 
@@ -587,31 +587,31 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
                     </span>
                   </td>
                   <td className="px-5 md:px-8 py-3 md:py-5">
-                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                       <div className={cn("w-2 h-2 rounded-full", emp.status === 'Ativo' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]' : 'bg-slate-300')} />
                       {emp.status}
                     </div>
                   </td>
                   <td className="px-5 md:px-8 py-3 md:py-5 text-right">
                     <p className="text-sm font-display text-primary">{formatCurrency(emp.custoMensal)}</p>
-                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">Anual: {formatCurrency(emp.custoAnual)}</p>
+                    <p className="text-[9px] text-muted-foreground font-bold uppercase tracking-tighter">Anual: {formatCurrency(emp.custoAnual)}</p>
                   </td>
                   <td className="px-5 md:px-8 py-3 md:py-5 text-right">
                     <p className="text-sm font-bold text-red-500">{formatCurrency(emp.custoRescisaoEstimado)}</p>
-                    <div className="hidden group-hover:block absolute right-8 bg-white border border-slate-200 p-3 rounded-xl shadow-xl z-10 text-left min-w-[180px]">
-                      <p className="text-[8px] font-black text-slate-400 uppercase mb-2 border-b border-slate-100 pb-1">Composição Estimada</p>
+                    <div className="hidden group-hover:block absolute right-8 bg-white border border-border p-3 rounded-xl shadow-xl z-10 text-left min-w-[180px]">
+                      <p className="text-[8px] font-black text-muted-foreground uppercase mb-2 border-b border-border pb-1">Composição Estimada</p>
                       <div className="space-y-1">
                         <div className="flex justify-between gap-4">
-                          <span className="text-[9px] font-bold text-slate-500">Aviso Prévio:</span>
-                          <span className="text-[9px] font-bold text-slate-700">{formatCurrency((emp as any).valorAviso || 0)}</span>
+                          <span className="text-[9px] font-bold text-muted-foreground">Aviso Prévio:</span>
+                          <span className="text-[9px] font-bold text-muted-foreground">{formatCurrency((emp as any).valorAviso || 0)}</span>
                         </div>
                         <div className="flex justify-between gap-4">
-                          <span className="text-[9px] font-bold text-slate-500">Multa FGTS:</span>
-                          <span className="text-[9px] font-bold text-slate-700">{formatCurrency((emp as any).valorMultaFgts || 0)}</span>
+                          <span className="text-[9px] font-bold text-muted-foreground">Multa FGTS:</span>
+                          <span className="text-[9px] font-bold text-muted-foreground">{formatCurrency((emp as any).valorMultaFgts || 0)}</span>
                         </div>
                         <div className="flex justify-between gap-4">
-                          <span className="text-[9px] font-bold text-slate-500">Prop. 13º/Férias:</span>
-                          <span className="text-[9px] font-bold text-slate-700">{formatCurrency(((emp as any).decimoTerceiroProp || 0) + ((emp as any).feriasProp || 0) + ((emp as any).umTercoFerias || 0))}</span>
+                          <span className="text-[9px] font-bold text-muted-foreground">Prop. 13º/Férias:</span>
+                          <span className="text-[9px] font-bold text-muted-foreground">{formatCurrency(((emp as any).decimoTerceiroProp || 0) + ((emp as any).feriasProp || 0) + ((emp as any).umTercoFerias || 0))}</span>
                         </div>
                       </div>
                     </div>
@@ -631,22 +631,22 @@ export default function PayrollDashboard({ clientId }: { clientId: string }) {
           </table>
         </div>
 
-        <div className="p-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-          <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4">
+        <div className="p-6 bg-slate-50 border-t border-border flex items-center justify-between">
+          <div className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-4">
             Página <span className="text-primary">{currentPage}</span> de <span className="text-primary">{totalPages || 1}</span>
           </div>
           <div className="flex gap-2">
             <button 
               disabled={currentPage === 1}
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-              className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-secondary disabled:opacity-30 disabled:pointer-events-none transition-all shadow-sm"
+              className="p-2.5 rounded-xl bg-white border border-border text-muted-foreground hover:text-secondary disabled:opacity-30 disabled:pointer-events-none transition-all shadow-sm"
             >
               <ChevronLeft size={20} />
             </button>
             <button 
               disabled={currentPage === totalPages || totalPages === 0}
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-              className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-secondary disabled:opacity-30 disabled:pointer-events-none transition-all shadow-sm"
+              className="p-2.5 rounded-xl bg-white border border-border text-muted-foreground hover:text-secondary disabled:opacity-30 disabled:pointer-events-none transition-all shadow-sm"
             >
               <ChevronRight size={20} />
             </button>

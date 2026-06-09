@@ -10,10 +10,10 @@ interface InstitutionalEvidenceControlCenterPageProps {
 export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: InstitutionalEvidenceControlCenterPageProps) {
   if (!evidenceReport) {
     return (
-      <div className="flex flex-col items-center justify-center p-12 bg-slate-900 border border-slate-800 rounded-lg">
-        <Lock className="h-12 w-12 text-slate-500 mb-4" />
-        <h2 className="text-xl font-bold text-slate-300">Evidência Fiduciária Indisponível</h2>
-        <p className="text-slate-400 mt-2 text-center max-w-md">
+      <div className="flex flex-col items-center justify-center p-12 bg-slate-900 border border-border rounded-lg">
+        <Lock className="h-12 w-12 text-muted-foreground mb-4" />
+        <h2 className="text-xl font-bold text-muted-foreground">Evidência Fiduciária Indisponível</h2>
+        <p className="text-muted-foreground mt-2 text-center max-w-md">
           A camada de ingestão de evidências não foi executada ou nenhum dado fiduciário foi submetido para validação.
         </p>
       </div>
@@ -42,11 +42,11 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
   return (
     <div className="space-y-6">
       <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold text-slate-100 flex items-center gap-3">
+        <h1 className="text-3xl font-bold text-muted-foreground flex items-center gap-3">
           <FileText className="h-8 w-8 text-blue-500" />
           Centro de Evidência Fiduciária
         </h1>
-        <p className="text-slate-400">
+        <p className="text-muted-foreground">
           Governança, validação estrutural e integridade da evidência institucional ingerida.
         </p>
       </div>
@@ -65,9 +65,9 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-slate-900 border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-400">Status da Evidência</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Status da Evidência</CardTitle>
           </CardHeader>
           <CardContent>
             <p className={`text-2xl font-bold ${getStatusColor(evidenceStatus)}`}>
@@ -76,9 +76,9 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
           </CardContent>
         </Card>
         
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-slate-900 border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-400">Integridade Documental</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Integridade Documental</CardTitle>
           </CardHeader>
           <CardContent>
             <p className={`text-2xl font-bold ${getStatusColor(evidenceIntegrityStatus)}`}>
@@ -87,9 +87,9 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-slate-900 border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-400">Reconciliação Contábil</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Reconciliação Contábil</CardTitle>
           </CardHeader>
           <CardContent>
             <p className={`text-2xl font-bold ${getStatusColor(reconciliationStatus)}`}>
@@ -98,9 +98,9 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-slate-900 border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-400">Confiança Fiduciária</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Confiança Fiduciária</CardTitle>
           </CardHeader>
           <CardContent>
             <p className={`text-2xl font-bold ${getStatusColor(confidenceLevel)}`}>
@@ -110,12 +110,12 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
         </Card>
       </div>
 
-      <Card className="bg-slate-900 border-slate-800">
+      <Card className="bg-slate-900 border-border">
         <CardHeader>
-          <CardTitle className="text-lg font-bold text-slate-200">Narrativa de Validação</CardTitle>
+          <CardTitle className="text-lg font-bold text-muted-foreground">Narrativa de Validação</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-slate-300">{evidenceNarrative}</p>
+          <p className="text-muted-foreground">{evidenceNarrative}</p>
         </CardContent>
       </Card>
 
@@ -140,15 +140,15 @@ export function InstitutionalEvidenceControlCenterPage({ evidenceReport }: Insti
         </Card>
       )}
 
-      <Card className="bg-slate-900 border-slate-800">
+      <Card className="bg-slate-900 border-border">
         <CardHeader>
-          <CardTitle className="text-lg font-bold text-slate-200 flex items-center gap-2">
+          <CardTitle className="text-lg font-bold text-muted-foreground flex items-center gap-2">
             <CheckCircle className="h-5 w-5 text-emerald-500" />
             Trilha de Auditoria (Lineage Hash: {lineageHash})
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="bg-slate-950 p-4 rounded-lg font-mono text-sm text-slate-400 space-y-1">
+          <div className="bg-slate-950 p-4 rounded-lg font-mono text-sm text-muted-foreground space-y-1">
             {uploadAuditTrail.map((log, idx) => (
               <div key={idx}>{log}</div>
             ))}

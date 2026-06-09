@@ -112,20 +112,20 @@ export function AccountModal({
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden"
       >
-        <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <div className="p-8 border-b border-border flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-xl font-bold text-slate-900">{account ? 'Editar Conta' : 'Nova Conta no Plano'}</h3>
-            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-bold">
+            <h3 className="text-xl font-bold text-muted-foreground">{account ? 'Editar Conta' : 'Nova Conta no Plano'}</h3>
+            <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-bold">
               {planType === 'accounting' ? 'Plano de Contas Contábil' : 'Plano de Contas Gerencial'}
             </p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground"><X size={20} /></button>
         </div>
         
         <div className="p-8 space-y-6">
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">
                 {planType === 'accounting' ? 'Código Contábil' : 'Código Gerencial'}
               </label>
               <input 
@@ -136,7 +136,7 @@ export function AccountModal({
                 onBlur={() => handleBlur('code')}
                 className={cn(
                   "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                  touched.code && errors.code ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500/10"
+                  touched.code && errors.code ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-border focus:bg-white focus:ring-2 focus:ring-blue-500/10"
                 )}
               />
               {touched.code && errors.code && (
@@ -144,14 +144,14 @@ export function AccountModal({
               )}
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Grupo / Tipo</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Grupo / Tipo</label>
               <select 
                 value={formData.type}
                 onChange={e => setFormData({ ...formData, type: e.target.value })}
                 onBlur={() => handleBlur('type')}
                 className={cn(
                   "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                  touched.type && errors.type ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500/10"
+                  touched.type && errors.type ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-border focus:bg-white focus:ring-2 focus:ring-blue-500/10"
                 )}
               >
                 {accountTypes.map((t: string) => <option key={t} value={t}>{t}</option>)}
@@ -163,7 +163,7 @@ export function AccountModal({
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Nome da Conta</label>
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Nome da Conta</label>
             <input 
               type="text" 
               placeholder="Ex: Disponibilidades"
@@ -172,7 +172,7 @@ export function AccountModal({
               onBlur={() => handleBlur('name')}
               className={cn(
                 "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                touched.name && errors.name ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500/10"
+                touched.name && errors.name ? "border-red-500 focus:ring-red-500/10 focus:bg-white" : "border-border focus:bg-white focus:ring-2 focus:ring-blue-500/10"
               )}
             />
             {touched.name && errors.name && (
@@ -191,7 +191,7 @@ export function AccountModal({
               </div>
               <div className="flex-1">
                 <p className="text-[10px] font-black text-secondary uppercase tracking-widest">Sugestão de Vínculo</p>
-                <p className="text-[11px] text-slate-500">Deseja vincular esta conta ao indicador <strong>{suggestedKpi.label}</strong>?</p>
+                <p className="text-[11px] text-muted-foreground">Deseja vincular esta conta ao indicador <strong>{suggestedKpi.label}</strong>?</p>
               </div>
               <button 
                 onClick={() => setFormData({ ...formData, kpiMapping: suggestedKpi.id })}
@@ -203,24 +203,24 @@ export function AccountModal({
           )}
 
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Vincular a Indicador (Mapeamento)</label>
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Vincular a Indicador (Mapeamento)</label>
             <select 
               value={formData.kpiMapping || ''}
               onChange={e => setFormData({ ...formData, kpiMapping: e.target.value })}
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-primary/5 focus:ring-2 focus:ring-secondary/20 transition-all text-primary"
+              className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-primary/5 focus:ring-2 focus:ring-secondary/20 transition-all text-primary"
             >
               <option value="">Não vinculado</option>
               {SYSTEM_KPI_CATEGORIES.map(cat => (
                 <option key={cat.id} value={cat.id}>{cat.label} ({cat.cat})</option>
               ))}
             </select>
-            <p className="text-[9px] text-slate-400 mt-1 italic">Vincule esta conta a um indicador para que os dados importados alimentem os KPIs automaticamente.</p>
+            <p className="text-[9px] text-muted-foreground mt-1 italic">Vincule esta conta a um indicador para que os dados importados alimentem os KPIs automaticamente.</p>
           </div>
 
           {planType === 'managerial' && (
             <div className="space-y-3">
               <div className="flex items-center justify-between px-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Conexão com Plano Contábil</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Conexão com Plano Contábil</label>
                 <button 
                   onClick={() => {
                     const suggested = suggestMapping(formData.name, accountingAccounts);
@@ -235,9 +235,9 @@ export function AccountModal({
                   Sugerir Vínculos
                 </button>
               </div>
-              <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 max-h-48 overflow-y-auto space-y-2">
+              <div className="bg-slate-50 border border-border rounded-2xl p-4 max-h-48 overflow-y-auto space-y-2">
                 {accountingAccounts.length === 0 ? (
-                  <p className="text-[11px] text-slate-400 italic text-center py-4">Nenhuma conta contábil cadastrada para vincular.</p>
+                  <p className="text-[11px] text-muted-foreground italic text-center py-4">Nenhuma conta contábil cadastrada para vincular.</p>
                 ) : (
                   accountingAccounts.map(acc => (
                     <label key={acc.id} className="flex items-center gap-3 p-2 hover:bg-white rounded-lg transition-all cursor-pointer group">
@@ -252,38 +252,38 @@ export function AccountModal({
                             setFormData({ ...formData, accountingAccountIds: ids.filter(id => id !== acc.id) });
                           }
                         }}
-                        className="w-4 h-4 rounded border-slate-300 text-secondary focus:ring-secondary/20 transition-all"
+                        className="w-4 h-4 rounded border-border text-secondary focus:ring-secondary/20 transition-all"
                       />
                       <div className="flex flex-col">
-                        <span className="text-[11px] font-black text-slate-700 group-hover:text-primary transition-colors">{acc.name}</span>
-                        <span className="text-[9px] font-mono font-bold text-slate-400">{acc.code}</span>
+                        <span className="text-[11px] font-black text-muted-foreground group-hover:text-primary transition-colors">{acc.name}</span>
+                        <span className="text-[9px] font-mono font-bold text-muted-foreground">{acc.code}</span>
                       </div>
                     </label>
                   ))
                 )}
               </div>
-              <p className="text-[9px] text-slate-400 px-1 italic">Selecione as contas contábeis que compõem esta conta gerencial.</p>
+              <p className="text-[9px] text-muted-foreground px-1 italic">Selecione as contas contábeis que compõem esta conta gerencial.</p>
             </div>
           )}
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Nível Hierárquico</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Nível Hierárquico</label>
               <input 
                 type="number" 
                 min="1" 
                 max="5"
                 value={formData.level}
                 onChange={e => setFormData({ ...formData, level: parseInt(e.target.value) })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/10 transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/10 transition-all"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Status</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Status</label>
               <select 
                 value={formData.status}
                 onChange={e => setFormData({ ...formData, status: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/10 transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/10 transition-all"
               >
                 <option value="Ativa">Ativa</option>
                 <option value="Inativa">Inativa</option>
@@ -292,10 +292,10 @@ export function AccountModal({
           </div>
         </div>
 
-        <div className="p-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-4">
+        <div className="p-8 bg-slate-50 border-t border-border flex justify-end gap-4">
           <button 
             onClick={onClose}
-            className="px-4 md:px-6 py-2 md:py-2.5 text-slate-400 font-bold text-sm hover:text-slate-600 transition-colors"
+            className="px-4 md:px-6 py-2 md:py-2.5 text-muted-foreground font-bold text-sm hover:text-muted-foreground transition-colors"
           >
             Cancelar
           </button>

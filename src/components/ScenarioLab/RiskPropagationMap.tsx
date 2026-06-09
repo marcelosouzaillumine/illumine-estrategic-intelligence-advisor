@@ -23,26 +23,26 @@ export function RiskPropagationMap({ output }: Props) {
   ];
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm mt-8">
-      <div className="flex items-center gap-2 mb-6 text-slate-800">
-        <Network size={18} className="text-indigo-500" />
+    <div className="bg-white border border-border rounded-2xl p-6 shadow-sm mt-8">
+      <div className="flex items-center gap-2 mb-6 text-muted-foreground">
+        <Network size={18} className="text-primary" />
         <h2 className="text-sm font-black uppercase tracking-widest">Mapa de Propagação de Risco</h2>
       </div>
 
       {propagationPath.length === 0 ? (
-        <div className="text-sm text-slate-500 italic p-4 bg-slate-50 rounded-lg border border-dashed border-slate-200 text-center">
+        <div className="text-sm text-muted-foreground italic p-4 bg-slate-50 rounded-lg border border-dashed border-border text-center">
           Nenhuma propagação de risco detectada neste cenário.
         </div>
       ) : (
         <div className="flex flex-wrap items-center gap-2">
           {propagationPath.map((item, i) => (
             <React.Fragment key={i}>
-              <div className="bg-slate-50 border border-slate-200 px-3 py-2 rounded-lg text-xs">
-                <span className="block text-[9px] font-black uppercase text-slate-400 mb-1">{item.step}</span>
-                <span className="font-bold text-slate-700">{item.signal}</span>
+              <div className="bg-slate-50 border border-border px-3 py-2 rounded-lg text-xs">
+                <span className="block text-[9px] font-black uppercase text-muted-foreground mb-1">{item.step}</span>
+                <span className="font-bold text-muted-foreground">{item.signal}</span>
               </div>
               {i < propagationPath.length - 1 && (
-                <div className="text-slate-300">→</div>
+                <div className="text-muted-foreground">→</div>
               )}
             </React.Fragment>
           ))}

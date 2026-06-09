@@ -41,11 +41,11 @@ export const ExecutiveEvidenceExplorer: React.FC<ExecutiveEvidenceExplorerProps>
     <div className="card-premium p-8 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-            <ClipboardList className="w-4 h-4 text-indigo-400" />
+          <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+            <ClipboardList className="w-4 h-4 text-primary" />
             Rastreamento de Evidências Fiduciárias
           </h4>
-          <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+          <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
             Consulte as fontes originadoras e auditoria dos fatos relatados.
           </p>
         </div>
@@ -59,7 +59,7 @@ export const ExecutiveEvidenceExplorer: React.FC<ExecutiveEvidenceExplorerProps>
               className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors ${
                 evidenceVisibility === mode
                   ? 'bg-secondary text-primary font-bold'
-                  : 'text-slate-500 hover:text-slate-350'
+                  : 'text-muted-foreground hover:text-muted-foreground'
               }`}
             >
               {mode.replace('_', ' ')}
@@ -89,22 +89,22 @@ export const ExecutiveEvidenceExplorer: React.FC<ExecutiveEvidenceExplorerProps>
           return (
             <div 
               key={ev.id} 
-              className="p-4 bg-slate-950/45 border border-border/10 rounded-xl hover:border-slate-700 transition-all cursor-pointer"
+              className="p-4 bg-slate-950/45 border border-border/10 rounded-xl hover:border-border transition-all cursor-pointer"
               onClick={() => setExpandedId(expandedId === ev.id ? null : ev.id)}
             >
               <div className="flex justify-between items-start gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-slate-900 border border-border/5 rounded-xl text-slate-400">
+                  <div className="p-2 bg-slate-900 border border-border/5 rounded-xl text-muted-foreground">
                     <FileText className="w-4 h-4" />
                   </div>
                   <div>
-                    <h5 className="text-xs font-bold text-slate-200 uppercase tracking-wider">{ev.source}</h5>
-                    <p className="text-[10px] text-slate-500 mt-0.5">{ev.timestamp}</p>
+                    <h5 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{ev.source}</h5>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">{ev.timestamp}</p>
                   </div>
                 </div>
                 
                 {evidenceVisibility !== 'SUMMARY' && (
-                  <span className="text-[9px] font-mono text-slate-500 flex items-center gap-1">
+                  <span className="text-[9px] font-mono text-muted-foreground flex items-center gap-1">
                     <History className="w-3 h-3" />
                     {ev.hash}
                   </span>
@@ -112,7 +112,7 @@ export const ExecutiveEvidenceExplorer: React.FC<ExecutiveEvidenceExplorerProps>
               </div>
 
               {isExpanded && (
-                <div className="mt-4 pt-4 border-t border-border/5 text-xs text-slate-350 leading-relaxed font-medium">
+                <div className="mt-4 pt-4 border-t border-border/5 text-xs text-muted-foreground leading-relaxed font-medium">
                   {ev.details}
                 </div>
               )}

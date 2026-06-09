@@ -24,7 +24,7 @@ export function StrategicHighlightsPanel({ report, className }: StrategicHighlig
       case 'Vermelho':
         return 'bg-rose-50 text-rose-700 border-rose-100';
       default:
-        return 'bg-slate-50 text-slate-700 border-slate-100';
+        return 'bg-slate-50 text-muted-foreground border-border';
     }
   };
 
@@ -40,7 +40,7 @@ export function StrategicHighlightsPanel({ report, className }: StrategicHighlig
       case 'rose':
         return 'text-rose-600 bg-rose-50 border-rose-100';
       default:
-        return 'text-indigo-600 bg-indigo-50 border-indigo-100';
+        return 'text-primary bg-primary border-primary';
     }
   };
 
@@ -48,14 +48,14 @@ export function StrategicHighlightsPanel({ report, className }: StrategicHighlig
     <div className={cn("grid grid-cols-1 md:grid-cols-2 gap-6", className)}>
       
       {/* KPIs List */}
-      <div className="bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm">
+      <div className="bg-white border border-border rounded-[32px] p-6 shadow-sm">
         <div className="flex items-center gap-2 mb-6">
-          <Target className="text-slate-400" size={18} />
-          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Indicadores Operacionais (KPIs)</span>
+          <Target className="text-muted-foreground" size={18} />
+          <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Indicadores Operacionais (KPIs)</span>
         </div>
 
         {kpis.length === 0 ? (
-          <div className="py-8 text-center text-xs font-medium text-slate-400 italic">
+          <div className="py-8 text-center text-xs font-medium text-muted-foreground italic">
             Nenhum KPI declarado nesta execução.
           </div>
         ) : (
@@ -63,14 +63,14 @@ export function StrategicHighlightsPanel({ report, className }: StrategicHighlig
             {kpis.map((kpi, idx) => (
               <div 
                 key={idx} 
-                className="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition-all bg-slate-50/50"
+                className="flex items-center justify-between p-3 rounded-xl border border-border hover:border-border transition-all bg-slate-50/50"
               >
                 <div>
-                  <p className="text-xs font-bold text-slate-700">{kpi.name}</p>
-                  <p className="text-[9px] text-slate-400 font-semibold mt-1">Tendência: {kpi.trend}</p>
+                  <p className="text-xs font-bold text-muted-foreground">{kpi.name}</p>
+                  <p className="text-[9px] text-muted-foreground font-semibold mt-1">Tendência: {kpi.trend}</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-black text-slate-900">
+                  <span className="text-sm font-black text-muted-foreground">
                     {formatValue(Number(kpi.val), kpi.unit)}
                   </span>
                   <span className={cn("text-[9px] px-2.5 py-1 rounded-full border font-black uppercase tracking-wider", getStatusColor(kpi.status))}>
@@ -84,14 +84,14 @@ export function StrategicHighlightsPanel({ report, className }: StrategicHighlig
       </div>
 
       {/* Efficiencies & Optimizations */}
-      <div className="bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm">
+      <div className="bg-white border border-border rounded-[32px] p-6 shadow-sm">
         <div className="flex items-center gap-2 mb-6">
-          <Sparkles className="text-slate-400" size={18} />
-          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Eficiências Estruturais Detectadas</span>
+          <Sparkles className="text-muted-foreground" size={18} />
+          <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Eficiências Estruturais Detectadas</span>
         </div>
 
         {efficiencies.length === 0 ? (
-          <div className="py-8 text-center text-xs font-medium text-slate-400 italic">
+          <div className="py-8 text-center text-xs font-medium text-muted-foreground italic">
             Nenhuma eficiência declarada nesta execução.
           </div>
         ) : (
@@ -104,12 +104,12 @@ export function StrategicHighlightsPanel({ report, className }: StrategicHighlig
                 <CheckCircle2 size={16} className="shrink-0 mt-0.5" />
                 <div>
                   <div className="flex items-baseline justify-between gap-4">
-                    <p className="text-xs font-black uppercase tracking-wider text-slate-800">{eff.name}</p>
-                    <span className="text-xs font-black text-slate-900 shrink-0">
+                    <p className="text-xs font-black uppercase tracking-wider text-muted-foreground">{eff.name}</p>
+                    <span className="text-xs font-black text-muted-foreground shrink-0">
                       {eff.value}{eff.unit || '%'}
                     </span>
                   </div>
-                  <p className="text-[11px] font-semibold text-slate-500 mt-1 leading-normal">
+                  <p className="text-[11px] font-semibold text-muted-foreground mt-1 leading-normal">
                     {eff.desc}
                   </p>
                 </div>

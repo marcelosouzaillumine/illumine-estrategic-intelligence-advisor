@@ -16,8 +16,8 @@ interface ExecutiveCognitiveDashboardProps {
 
 export const ExecutiveCognitiveDashboard: React.FC<ExecutiveCognitiveDashboardProps> = ({ metrics }) => {
   return (
-    <div className="p-6 md:p-8 rounded-[32px] border border-slate-200 dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6 shadow-xs">
-      <div className="flex items-center gap-3 border-b border-slate-200 dark:border-white/5 pb-4">
+    <div className="p-6 md:p-8 rounded-[32px] border border-border dark:border-zinc-900 bg-slate-50/40 dark:bg-zinc-950/30 backdrop-blur-md space-y-6 shadow-xs">
+      <div className="flex items-center gap-3 border-b border-border dark:border-white/5 pb-4">
         <BrainCircuit className="text-primary w-6 h-6" />
         <div>
           <span className="text-[9px] font-black uppercase tracking-widest text-primary">Executive Cognitive Dashboard</span>

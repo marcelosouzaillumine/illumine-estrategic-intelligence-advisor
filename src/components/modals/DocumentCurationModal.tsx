@@ -277,7 +277,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border bg-surface-container/50 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-primary text-primary flex items-center justify-center">
               <Bot size={20} />
             </div>
             <div>
@@ -304,7 +304,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
                 </div>
               </div>
               {docItem.fileUrl && docItem.fileUrl.startsWith('http') && (
-                <a href={docItem.fileUrl} target="_blank" rel="noopener noreferrer" className="text-xs font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-4 py-2 rounded-lg transition-colors w-full flex items-center justify-center gap-2">
+                <a href={docItem.fileUrl} target="_blank" rel="noopener noreferrer" className="text-xs font-bold text-accent hover:text-accent bg-accent px-4 py-2 rounded-lg transition-colors w-full flex items-center justify-center gap-2">
                   <Link2 size={14} /> Abrir PDF Original
                 </a>
               )}
@@ -312,7 +312,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
 
             <div className="bg-card p-5 rounded-2xl shadow-sm border border-border">
               <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3">
-                <Bot size={14} className="text-indigo-500" /> Instruções para a IA
+                <Bot size={14} className="text-primary" /> Instruções para a IA
               </label>
               <textarea
                 value={customInstructions}
@@ -325,7 +325,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
                 <button 
                   onClick={handleProcessAI}
                   disabled={isProcessing}
-                  className="mt-4 w-full bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="mt-4 w-full bg-accent text-white px-4 py-2.5 rounded-xl font-bold hover:bg-accent transition-colors shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {isProcessing ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
                   Extrair Dados
@@ -395,9 +395,9 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
 
             {isProcessing && (
               <div className="flex-1 flex flex-col items-center justify-center p-12 text-center">
-                <Loader2 size={40} className="animate-spin text-indigo-600 mb-6" />
+                <Loader2 size={40} className="animate-spin text-primary mb-6" />
                 <div className="w-full max-w-xs h-2 bg-surface-container-high rounded-full overflow-hidden">
-                  <div className="h-full bg-indigo-600 transition-all duration-300" style={{ width: `${progress}%` }} />
+                  <div className="h-full bg-primary transition-all duration-300" style={{ width: `${progress}%` }} />
                 </div>
                 <p className="text-sm font-medium text-muted-foreground mt-4">Lendo e estruturando documento...</p>
               </div>
@@ -469,7 +469,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
                                 </div>
                               ) : (
                                 <>
-                                  <button onClick={() => handleEditEntry(dIdx, eIdx, entry.value)} className="p-1 text-neutral/70 hover:text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                  <button onClick={() => handleEditEntry(dIdx, eIdx, entry.value)} className="p-1 text-neutral/70 hover:text-accent opacity-0 group-hover:opacity-100 transition-opacity">
                                     <Edit2 size={12} />
                                   </button>
                                   <span className={cn("text-xs font-bold", entry.value < 0 ? "text-red-600" : "text-foreground")}>
@@ -494,7 +494,7 @@ export function DocumentCurationModal({ isOpen, onClose, document: docItem, clie
         {extractedDocs.length > 0 && (
           <div className="p-6 border-t border-border bg-card flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground max-w-lg">
-              <Info size={16} className="text-indigo-500" />
+              <Info size={16} className="text-primary" />
               <span>
                 As edições e o mapeamento De-Para serão rastreados no log de auditoria do sistema. 
                 A integração só é permitida caso não haja restrições (indicadores verdes).

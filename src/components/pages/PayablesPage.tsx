@@ -51,18 +51,18 @@ import {
 
 function KpiCardModeling({ label, value, tone = 'default', helper }: any) {
   return (
-    <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between min-h-[140px]">
+    <div className="bg-white p-6 rounded-3xl border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between min-h-[140px]">
       <div>
-        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-2 group-hover:text-slate-500 transition-colors whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
+        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.15em] mb-2 group-hover:text-muted-foreground transition-colors whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
         <KpiValue 
           value={value} 
           className={cn(
             "font-semibold tracking-tight",
-            tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-slate-900"
+            tone === 'danger' ? "text-rose-600" : tone === 'success' ? "text-emerald-600" : "text-muted-foreground"
           )} 
         />
       </div>
-      {helper && <p className="text-[10px] text-slate-400 mt-2 font-medium italic opacity-80 leading-relaxed">{helper}</p>}
+      {helper && <p className="text-[10px] text-muted-foreground mt-2 font-medium italic opacity-80 leading-relaxed">{helper}</p>}
     </div>
   );
 }
@@ -265,7 +265,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
         icon={<UploadCloud size={24} />}
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6">
         <div className="flex items-center gap-3">
           {payables.length > 0 && selectedClient && (
             <button 
@@ -279,7 +279,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
           )}
           <button 
             onClick={() => setIsImportModalOpen(true)}
-            className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-slate-400 hover:text-slate-600 hover:bg-white flex items-center gap-2"
+            className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-muted-foreground hover:text-muted-foreground hover:bg-white flex items-center gap-2"
           >
             <UploadCloud size={14} /> IMPORTAR
           </button>
@@ -305,11 +305,11 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-              <h3 className="text-sm font-bold text-slate-800">Curva ABC de Fornecedores</h3>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Concentração de Pagamentos</p>
+              <h3 className="text-sm font-bold text-muted-foreground">Curva ABC de Fornecedores</h3>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Concentração de Pagamentos</p>
              </div>
              <div className="p-2 bg-slate-50 rounded-xl">
                <PieChartIcon size={18} className="text-secondary" />
@@ -332,11 +332,11 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+        <div className="bg-white p-8 rounded-3xl border border-border shadow-sm">
           <div className="flex items-center justify-between mb-8">
              <div>
-              <h3 className="text-sm font-bold text-slate-800">Fluxo de Vencimentos</h3>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Projeção por Semana (Mês Atual)</p>
+              <h3 className="text-sm font-bold text-muted-foreground">Fluxo de Vencimentos</h3>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">Projeção por Semana (Mês Atual)</p>
              </div>
              <div className="p-2 bg-emerald-50 rounded-xl">
                <TrendingUp size={18} className="text-emerald-500" />
@@ -365,24 +365,24 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
         </div>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row items-center gap-4">
+      <div className="bg-white border border-border rounded-3xl shadow-sm overflow-hidden">
+        <div className="p-6 border-b border-border bg-slate-50/50 flex flex-col md:flex-row items-center gap-4">
           <div className="relative flex-1 w-full">
-            <Search size={18} className="absolute left-4 top-3 text-slate-400" />
+            <Search size={18} className="absolute left-4 top-3 text-muted-foreground" />
             <input 
               type="text" 
               placeholder="Pesquisar fornecedor ou documento..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-secondary/10 outline-none transition-all"
+              className="w-full pl-12 pr-4 py-2.5 bg-white border border-border rounded-xl text-sm focus:ring-2 focus:ring-secondary/10 outline-none transition-all"
             />
           </div>
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <Filter size={16} className="text-slate-400 shrink-0" />
+            <Filter size={16} className="text-muted-foreground shrink-0" />
             <select 
               value={filters.status || 'Todos'}
               onChange={e => setFilters(prev => ({ ...prev, status: e.target.value }))}
-              className="w-full md:w-auto px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 outline-none"
+              className="w-full md:w-auto px-4 py-2.5 bg-white border border-border rounded-xl text-sm font-bold text-muted-foreground outline-none"
             >
               <option value="Todos">Todos os Status</option>
               <option value="A vencer">A vencer</option>
@@ -395,7 +395,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50/50 border-b border-slate-100">
+              <tr className="bg-slate-50/50 border-b border-border">
                 <SortableHeader label="Fornecedor" sortKey="fornecedor" currentSort={sort} onSort={toggleSort} />
                 <SortableHeader label="Categoria" sortKey="categoria" currentSort={sort} onSort={toggleSort} />
                 <SortableHeader label="Documento" sortKey="documento" currentSort={sort} onSort={toggleSort} align="center" />
@@ -403,7 +403,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                 <SortableHeader label="Vencimento" sortKey="vencimento" currentSort={sort} onSort={toggleSort} align="center" />
                 <SortableHeader label="Valor" sortKey="valor" currentSort={sort} onSort={toggleSort} align="right" />
                 <SortableHeader label="Status" sortKey="status" currentSort={sort} onSort={toggleSort} align="center" />
-                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                <th className="px-5 md:px-8 py-3 md:py-5 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -411,12 +411,12 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                 <tr>
                    <td colSpan={7} className="px-8 py-20 text-center">
                     <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-                    <p className="text-slate-500 font-bold">Carregando títulos...</p>
+                    <p className="text-muted-foreground font-bold">Carregando títulos...</p>
                   </td>
                 </tr>
               ) : paginatedPayables.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-8 py-20 text-center text-slate-400 italic">
+                  <td colSpan={7} className="px-8 py-20 text-center text-muted-foreground italic">
                     Nenhum título encontrado.
                   </td>
                 </tr>
@@ -425,26 +425,26 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                   <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
                     <td className="px-5 md:px-8 py-2.5 md:py-4">
                       <div className="flex flex-col">
-                        <span className="text-sm text-slate-700">{item.fornecedor}</span>
+                        <span className="text-sm text-muted-foreground">{item.fornecedor}</span>
                         {item.centroCusto && <span className="text-[9px] uppercase tracking-tighter bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100/50 self-start mt-1">{item.centroCusto}</span>}
                       </div>
                     </td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4">
                       {item.categoria ? (
-                        <span className="text-[10px] text-slate-500 uppercase tracking-widest bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/50">
+                        <span className="text-[10px] text-muted-foreground uppercase tracking-widest bg-slate-100 px-2.5 py-1 rounded-lg border border-border">
                           {item.categoria}
                         </span>
                       ) : (
-                        <span className="text-[10px] text-slate-300 italic">Sem categoria</span>
+                        <span className="text-[10px] text-muted-foreground italic">Sem categoria</span>
                       )}
                     </td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
-                      <span className="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200/50">{item.documento}</span>
+                      <span className="text-[10px] font-mono text-muted-foreground bg-slate-100 px-2 py-0.5 rounded-lg border border-border">{item.documento}</span>
                     </td>
-                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center text-xs text-slate-500">{formatDate(item.emissao)}</td>
+                    <td className="px-5 md:px-8 py-2.5 md:py-4 text-center text-xs text-muted-foreground">{formatDate(item.emissao)}</td>
                     <td className="px-5 md:px-8 py-2.5 md:py-4 text-center">
                       <div className="flex flex-col items-center gap-0.5">
-                        <span className="text-xs text-slate-700">{formatDate(item.vencimento)}</span>
+                        <span className="text-xs text-muted-foreground">{formatDate(item.vencimento)}</span>
                         {item.status === 'Em atraso' && <span className="text-[8px] text-rose-500 uppercase tracking-tighter animate-pulse">Vencido</span>}
                       </div>
                     </td>
@@ -452,7 +452,7 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                       <div className="flex flex-col items-end">
                         <span className="text-sm text-primary">{formatCurrency(item.valor)}</span>
                         {item.valorAberto !== undefined && item.valorAberto !== item.valor && item.status !== 'Pago' && (
-                          <span className="text-[9px] text-slate-400 uppercase tracking-tighter">Aberto: {formatCurrency(item.valorAberto)}</span>
+                          <span className="text-[9px] text-muted-foreground uppercase tracking-tighter">Aberto: {formatCurrency(item.valorAberto)}</span>
                         )}
                       </div>
                     </td>
@@ -470,13 +470,13 @@ export function PayablesPage({ clients, selectedClient, isMaster }: { clients: a
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => { setEditingPayable(item); setIsModalOpen(true); }}
-                          className="p-2 text-slate-400 hover:text-secondary hover:bg-secondary/5 rounded-lg transition-all"
+                          className="p-2 text-muted-foreground hover:text-secondary hover:bg-secondary/5 rounded-lg transition-all"
                         >
                           <Edit2 size={16} />
                         </button>
                         <button 
                           onClick={() => handleDelete(item.id)}
-                          className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                          className="p-2 text-muted-foreground hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -551,17 +551,17 @@ function PayableModal({ payable, onClose, onSave }: any) {
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden"
       >
-        <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <div className="p-8 border-b border-border flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-xl font-bold text-slate-900">{payable ? 'Editar Título' : 'Lançar Título'}</h3>
-            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-bold">Registro de Contas a Pagar</p>
+            <h3 className="text-xl font-bold text-muted-foreground">{payable ? 'Editar Título' : 'Lançar Título'}</h3>
+            <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-bold">Registro de Contas a Pagar</p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground"><X size={20} /></button>
         </div>
 
         <div className="p-8 space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Fornecedor / Cliente</label>
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Fornecedor / Cliente</label>
             <input 
               type="text" 
               placeholder="Ex: MedSupplies Corp"
@@ -569,14 +569,14 @@ function PayableModal({ payable, onClose, onSave }: any) {
               onChange={e => setFormData({ ...formData, fornecedor: e.target.value })}
               className={cn(
                 "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                touched.fornecedor && errors.fornecedor ? "border-red-500" : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-secondary/10"
+                touched.fornecedor && errors.fornecedor ? "border-red-500" : "border-border focus:bg-white focus:ring-2 focus:ring-secondary/10"
               )}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Nº Documento</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Nº Documento</label>
               <input 
                 type="text" 
                 placeholder="Ex: NF-1234"
@@ -584,21 +584,21 @@ function PayableModal({ payable, onClose, onSave }: any) {
                 onChange={e => setFormData({ ...formData, documento: e.target.value })}
                 className={cn(
                   "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                  touched.documento && errors.documento ? "border-red-500" : "border-slate-100 focus:bg-white"
+                  touched.documento && errors.documento ? "border-red-500" : "border-border focus:bg-white"
                 )}
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Valor do Título</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Valor do Título</label>
               <div className="relative">
-                <span className="absolute left-4 top-3.5 text-xs font-bold text-slate-400 uppercase">R$</span>
+                <span className="absolute left-4 top-3.5 text-xs font-bold text-muted-foreground uppercase">R$</span>
                 <input 
                   type="number" 
                   value={formData.valor}
                   onChange={e => setFormData({ ...formData, valor: parseFloat(e.target.value) || 0 })}
                   className={cn(
                     "w-full pl-12 pr-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                    touched.valor && errors.valor ? "border-red-500" : "border-slate-100 focus:bg-white"
+                    touched.valor && errors.valor ? "border-red-500" : "border-border focus:bg-white"
                   )}
                 />
               </div>
@@ -606,67 +606,67 @@ function PayableModal({ payable, onClose, onSave }: any) {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Valor em Aberto</label>
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Valor em Aberto</label>
             <div className="relative">
-              <span className="absolute left-4 top-3.5 text-xs font-bold text-slate-400 uppercase">R$</span>
+              <span className="absolute left-4 top-3.5 text-xs font-bold text-muted-foreground uppercase">R$</span>
               <input 
                 type="number" 
                 value={formData.valorAberto ?? formData.valor}
                 onChange={e => setFormData({ ...formData, valorAberto: parseFloat(e.target.value) || 0 })}
-                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Categoria / Conta</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Categoria / Conta</label>
               <input 
                 type="text" 
                 placeholder="Ex: Insumos Médicos"
                 value={formData.categoria}
                 onChange={e => setFormData({ ...formData, categoria: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Centro de Custo</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Centro de Custo</label>
               <input 
                 type="text" 
                 placeholder="Ex: Administrativo"
                 value={formData.centroCusto}
                 onChange={e => setFormData({ ...formData, centroCusto: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Data Emissão</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Data Emissão</label>
               <input 
                 type="date" 
                 value={formData.emissao}
                 onChange={e => setFormData({ ...formData, emissao: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold outline-none focus:bg-white transition-all"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Data Vencimento</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Data Vencimento</label>
               <input 
                 type="date" 
                 value={formData.vencimento}
                 onChange={e => setFormData({ ...formData, vencimento: e.target.value })}
                 className={cn(
                   "w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-bold outline-none transition-all",
-                  touched.vencimento && errors.vencimento ? "border-red-500" : "border-slate-100 focus:bg-white"
+                  touched.vencimento && errors.vencimento ? "border-red-500" : "border-border focus:bg-white"
                 )}
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Status do Pagamento</label>
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Status do Pagamento</label>
             <div className="flex gap-3">
               {['A vencer', 'Em atraso', 'Pago'].map(s => (
                 <button
@@ -676,7 +676,7 @@ function PayableModal({ payable, onClose, onSave }: any) {
                     "flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all",
                     formData.status === s 
                       ? "bg-primary text-white border-primary shadow-lg shadow-primary/20" 
-                      : "bg-white text-slate-400 border-slate-100 hover:border-slate-200"
+                      : "bg-white text-muted-foreground border-border hover:border-border"
                   )}
                 >
                   {s}
@@ -686,8 +686,8 @@ function PayableModal({ payable, onClose, onSave }: any) {
           </div>
         </div>
 
-        <div className="p-8 bg-slate-50 border-t border-slate-100 flex gap-4">
-          <button onClick={onClose} className="flex-1 py-3 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all">Cancelar</button>
+        <div className="p-8 bg-slate-50 border-t border-border flex gap-4">
+          <button onClick={onClose} className="flex-1 py-3 text-muted-foreground font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all">Cancelar</button>
           <button 
             onClick={handleSave}
             className="flex-1 py-3 bg-secondary text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-secondary/20 hover:bg-secondary/90 transition-all flex items-center justify-center gap-2"

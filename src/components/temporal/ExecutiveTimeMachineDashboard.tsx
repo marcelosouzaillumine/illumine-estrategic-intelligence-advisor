@@ -49,7 +49,7 @@ export const ExecutiveTimeMachineDashboard: React.FC<ExecutiveTimeMachineDashboa
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-pulse">
         {[1, 2, 3, 4].map(i => (
-          <div key={i} className="h-24 bg-slate-900 rounded-xl border border-slate-800"></div>
+          <div key={i} className="h-24 bg-slate-900 rounded-xl border border-border"></div>
         ))}
       </div>
     );
@@ -63,7 +63,7 @@ export const ExecutiveTimeMachineDashboard: React.FC<ExecutiveTimeMachineDashboa
           <span className="text-eyebrow text-muted-foreground block mb-1">Eventos Históricos</span>
           <span className="text-h2 font-display font-black text-foreground tabular-nums">{stats.totalEvents}</span>
         </div>
-        <History size={24} className="text-indigo-400/50" />
+        <History size={24} className="text-primary" />
       </div>
 
       {/* Total Snapshots */}

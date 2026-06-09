@@ -82,24 +82,24 @@ export function MappingWizard({ selectedClient, onClose }: any) {
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
       >
-        <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <div className="p-8 border-b border-border flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-xl font-bold text-slate-900">Mapeamento Inteligente</h3>
-            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-bold">Vincule itens identificados no PDF ao seu Plano de Contas</p>
+            <h3 className="text-xl font-bold text-muted-foreground">Mapeamento Inteligente</h3>
+            <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-bold">Vincule itens identificados no PDF ao seu Plano de Contas</p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground"><X size={20} /></button>
         </div>
 
         <div className="flex-1 overflow-hidden flex flex-col md:flex-row">
-          <div className="w-full md:w-1/2 border-r border-slate-100 p-8 overflow-y-auto">
-            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+          <div className="w-full md:w-1/2 border-r border-border p-8 overflow-y-auto">
+            <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4 flex items-center gap-2">
               <Sparkles size={12} className="text-secondary" /> Itens a Vincular
             </h4>
             
             {loading ? (
               <div className="py-20 text-center">
                 <Loader2 size={32} className="animate-spin text-secondary mx-auto mb-4" />
-                <p className="text-sm font-bold text-slate-400">Analisando documentos...</p>
+                <p className="text-sm font-bold text-muted-foreground">Analisando documentos...</p>
               </div>
             ) : unmappedEntries.length === 0 ? (
               <div className="py-20 text-center bg-emerald-50 rounded-2xl border border-emerald-100">
@@ -114,11 +114,11 @@ export function MappingWizard({ selectedClient, onClose }: any) {
                     onClick={() => setSelectedEntry(entry)}
                     className={cn(
                       "w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between",
-                      selectedEntry === entry ? "bg-secondary/10 border-secondary" : "bg-white border-slate-100"
+                      selectedEntry === entry ? "bg-secondary/10 border-secondary" : "bg-white border-border"
                     )}
                   >
-                    <span className="text-sm font-bold text-slate-700">{entry}</span>
-                    <ChevronRight size={16} className={selectedEntry === entry ? "text-secondary" : "text-slate-300"} />
+                    <span className="text-sm font-bold text-muted-foreground">{entry}</span>
+                    <ChevronRight size={16} className={selectedEntry === entry ? "text-secondary" : "text-muted-foreground"} />
                   </button>
                 ))}
               </div>
@@ -128,20 +128,20 @@ export function MappingWizard({ selectedClient, onClose }: any) {
           <div className="w-full md:w-1/2 p-8 bg-slate-50/30 overflow-y-auto">
             {!selectedEntry ? (
               <div className="h-full flex flex-col items-center justify-center text-center opacity-50">
-                <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-300">
+                <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-muted-foreground">
                   <ArrowRightLeft size={32} />
                 </div>
-                <p className="text-sm text-slate-500">Selecione um item ao lado</p>
+                <p className="text-sm text-muted-foreground">Selecione um item ao lado</p>
               </div>
             ) : (
               <div className="space-y-6">
-                <div className="p-5 bg-white rounded-xl border border-slate-100">
-                  <span className="text-[10px] font-black text-slate-400 uppercase mb-1 block">Mapear item:</span>
+                <div className="p-5 bg-white rounded-xl border border-border">
+                  <span className="text-[10px] font-black text-muted-foreground uppercase mb-1 block">Mapear item:</span>
                   <p className="text-lg font-bold text-primary">{selectedEntry}</p>
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Para Indicador:</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Para Indicador:</label>
                   <div className="grid grid-cols-1 gap-2">
                     {SYSTEM_KPI_CATEGORIES.map(cat => (
                       <button 
@@ -149,7 +149,7 @@ export function MappingWizard({ selectedClient, onClose }: any) {
                         onClick={() => setMappingTo(cat.id)}
                         className={cn(
                           "flex items-center justify-between p-4 rounded-xl border text-sm transition-all",
-                          mappingTo === cat.id ? "bg-primary text-white" : "bg-white text-slate-600 border-slate-100 hover:bg-slate-50"
+                          mappingTo === cat.id ? "bg-primary text-white" : "bg-white text-muted-foreground border-border hover:bg-slate-50"
                         )}
                       >
                         <span className="font-bold">{cat.label}</span>

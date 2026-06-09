@@ -8,7 +8,7 @@ export function ExecutiveUXHeatmap() {
   return (
     <div className="bg-surface-container border border-border rounded-lg p-6">
       <div className="flex items-center gap-2 mb-4">
-        <ScanEye className="text-indigo-500" />
+        <ScanEye className="text-primary" />
         <h3 className="text-sm font-semibold text-foreground">Executive Attention Heatmap (CFO)</h3>
       </div>
       <div className="space-y-3">

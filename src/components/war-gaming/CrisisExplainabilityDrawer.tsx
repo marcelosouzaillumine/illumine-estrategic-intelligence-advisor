@@ -7,18 +7,18 @@ export function CrisisExplainabilityDrawer({ profile }: { profile: CrisisExplain
   if (!profile) return null;
 
   return (
-    <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl text-slate-300">
-      <div className="flex justify-between items-center mb-6 border-b border-slate-800 pb-2">
-        <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Explainability & Lineage</h3>
-        <span className="text-[9px] font-mono text-slate-600 bg-slate-800 px-2 py-0.5 rounded">
+    <div className="bg-slate-900 border border-border p-6 rounded-3xl text-muted-foreground">
+      <div className="flex justify-between items-center mb-6 border-b border-border pb-2">
+        <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Explainability & Lineage</h3>
+        <span className="text-[9px] font-mono text-muted-foreground bg-slate-800 px-2 py-0.5 rounded">
           {profile.lineageHash}
         </span>
       </div>
       
       <div className="space-y-4">
         <div>
-          <span className="text-[10px] font-bold text-slate-500 uppercase">Institutional Stress Rationale</span>
-          <p className="text-xs font-medium text-slate-300 leading-relaxed mt-1">
+          <span className="text-[10px] font-bold text-muted-foreground uppercase">Institutional Stress Rationale</span>
+          <p className="text-xs font-medium text-muted-foreground leading-relaxed mt-1">
             {profile.institutionalStressExplanation}
           </p>
         </div>
@@ -36,7 +36,7 @@ export function CrisisExplainabilityDrawer({ profile }: { profile: CrisisExplain
           </div>
         )}
 
-        <div className="pt-4 border-t border-slate-800">
+        <div className="pt-4 border-t border-border">
           <span className="text-[10px] font-bold text-amber-500 uppercase block mb-2">Fiduciary Disclosures</span>
           {profile.fiduciaryWarnings.map((w, i) => (
             <p key={i} className="text-[10px] text-amber-600/80 italic leading-tight">

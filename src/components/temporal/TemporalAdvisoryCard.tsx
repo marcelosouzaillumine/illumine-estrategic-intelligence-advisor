@@ -19,15 +19,15 @@ export const TemporalAdvisoryCard: React.FC<AdvisoryCardProps> = ({
   lineageHash
 }) => {
   return (
-    <div className="temporal-advisory-card p-5 bg-slate-900 border border-slate-700 rounded-lg shadow-md mb-4 text-slate-100">
+    <div className="temporal-advisory-card p-5 bg-slate-900 border border-border rounded-lg shadow-md mb-4 text-muted-foreground">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-lg font-semibold text-slate-50">{advisoryPosture}</h3>
+          <h3 className="text-lg font-semibold text-muted-foreground">{advisoryPosture}</h3>
           <div className="flex gap-2 mt-1">
-            <span className="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-600 font-mono">
+            <span className="text-xs bg-slate-800 text-muted-foreground px-2 py-0.5 rounded border border-border font-mono">
               Confidence: {confidence.level}
             </span>
-            <span className="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-600 font-mono">
+            <span className="text-xs bg-slate-800 text-muted-foreground px-2 py-0.5 rounded border border-border font-mono">
               Lineage: {lineageHash.substring(0, 8)}
             </span>
           </div>
@@ -42,22 +42,22 @@ export const TemporalAdvisoryCard: React.FC<AdvisoryCardProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 pt-3 border-t border-slate-700">
+      <div className="grid grid-cols-2 gap-4 pt-3 border-t border-border">
         <div>
-          <div className="text-xs text-slate-400 uppercase tracking-wide">Recurrence Severity</div>
+          <div className="text-xs text-muted-foreground uppercase tracking-wide">Recurrence Severity</div>
           <div className="font-semibold">{recurrence.recurrenceSeverity.replace(/_/g, ' ')}</div>
           {recurrence.recurrenceFrequency > 0 && (
-            <div className="text-xs text-slate-500 mt-1">{recurrence.recurrenceFrequency} proven cycles</div>
+            <div className="text-xs text-muted-foreground mt-1">{recurrence.recurrenceFrequency} proven cycles</div>
           )}
         </div>
         
         <div>
-          <div className="text-xs text-slate-400 uppercase tracking-wide">Execution Rate</div>
+          <div className="text-xs text-muted-foreground uppercase tracking-wide">Execution Rate</div>
           <div className="font-semibold">{responsiveness.advisoryExecutionRate}%</div>
           {responsiveness.governanceReactionTime > 0 ? (
-            <div className="text-xs text-slate-500 mt-1">Avg response: {responsiveness.governanceReactionTime} days</div>
+            <div className="text-xs text-muted-foreground mt-1">Avg response: {responsiveness.governanceReactionTime} days</div>
           ) : (
-            <div className="text-xs text-slate-500 mt-1">No execution evidence</div>
+            <div className="text-xs text-muted-foreground mt-1">No execution evidence</div>
           )}
         </div>
       </div>

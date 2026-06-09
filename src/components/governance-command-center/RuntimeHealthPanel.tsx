@@ -11,7 +11,7 @@ export const RuntimeHealthPanel: React.FC = () => {
 
   if (!runtimeHealth) {
     return (
-      <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl text-center text-slate-500 font-mono text-xs">
+      <div className="p-5 bg-slate-950/70 border border-border rounded-xl text-center text-muted-foreground font-mono text-xs">
         CARREGANDO TELEMETRIA DE SAÚDE...
       </div>
     );
@@ -31,11 +31,11 @@ export const RuntimeHealthPanel: React.FC = () => {
   }
 
   return (
-    <div className="p-6 bg-slate-950/70 border border-slate-800 rounded-xl space-y-5">
-      <div className="flex justify-between items-center border-b border-slate-850 pb-3 flex-wrap gap-2">
+    <div className="p-6 bg-slate-950/70 border border-border rounded-xl space-y-5">
+      <div className="flex justify-between items-center border-b border-border pb-3 flex-wrap gap-2">
         <div>
-          <span className="text-[10px] font-mono font-bold tracking-wider text-slate-500 uppercase">GCC TRACER TELEMETRY</span>
-          <h3 className="text-sm font-bold text-slate-200 font-mono mt-0.5">Runtime Health Profile</h3>
+          <span className="text-[10px] font-mono font-bold tracking-wider text-muted-foreground uppercase">GCC TRACER TELEMETRY</span>
+          <h3 className="text-sm font-bold text-muted-foreground font-mono mt-0.5">Runtime Health Profile</h3>
         </div>
         <div className={`px-2.5 py-1 rounded border font-mono text-xs ${healthBg} ${healthColor}`}>
           {status}
@@ -44,9 +44,9 @@ export const RuntimeHealthPanel: React.FC = () => {
 
       <div className="grid grid-cols-2 gap-4">
         {/* Integridade do Ledger */}
-        <div className="p-3 bg-slate-900/40 border border-slate-850 rounded-xl space-y-1">
-          <span className="text-[9px] font-mono text-slate-500 uppercase">LEDGER INTEGRITY</span>
-          <div className="text-xl font-bold font-mono text-slate-200">{integrityPercentage}%</div>
+        <div className="p-3 bg-slate-900/40 border border-border rounded-xl space-y-1">
+          <span className="text-[9px] font-mono text-muted-foreground uppercase">LEDGER INTEGRITY</span>
+          <div className="text-xl font-bold font-mono text-muted-foreground">{integrityPercentage}%</div>
           <div className="w-full bg-slate-950 rounded-full h-1 overflow-hidden">
             <div
               className={`h-1 rounded-full transition-all duration-500 ${status === 'FAIL_CLOSED' ? 'bg-rose-500' : integrityPercentage < 80 ? 'bg-amber-500' : 'bg-emerald-500'}`}
@@ -56,35 +56,35 @@ export const RuntimeHealthPanel: React.FC = () => {
         </div>
 
         {/* Telemetria Continuidade */}
-        <div className="p-3 bg-slate-900/40 border border-slate-850 rounded-xl space-y-1">
-          <span className="text-[9px] font-mono text-slate-500 uppercase">TELEMETRY STREAM</span>
+        <div className="p-3 bg-slate-900/40 border border-border rounded-xl space-y-1">
+          <span className="text-[9px] font-mono text-muted-foreground uppercase">TELEMETRY STREAM</span>
           <div className={`text-xs font-bold font-mono ${telemetryContinuous ? 'text-emerald-400' : 'text-rose-400'}`}>
             {telemetryContinuous ? 'CONTINUOUS' : 'DISCONNECTED'}
           </div>
-          <p className="text-[9px] text-slate-500 leading-none">
+          <p className="text-[9px] text-muted-foreground leading-none">
             {telemetryContinuous ? 'Tracer heartbeats active.' : 'Continuous sync lost.'}
           </p>
         </div>
       </div>
 
       {/* Lista de Métricas de Integridade */}
-      <div className="space-y-2 text-xs font-mono text-slate-400">
-        <div className="flex justify-between border-b border-slate-900 pb-1">
+      <div className="space-y-2 text-xs font-mono text-muted-foreground">
+        <div className="flex justify-between border-b border-border pb-1">
           <span>Failed Lineage Refs:</span>
-          <span className={failedLineageCount > 0 ? 'text-amber-400 font-bold' : 'text-slate-300'}>
+          <span className={failedLineageCount > 0 ? 'text-amber-400 font-bold' : 'text-muted-foreground'}>
             {failedLineageCount}
           </span>
         </div>
-        <div className="flex justify-between border-b border-slate-900 pb-1">
+        <div className="flex justify-between border-b border-border pb-1">
           <span>Broken Propagations:</span>
-          <span className={hasBrokenPropagation ? 'text-rose-400 font-bold' : 'text-slate-300'}>
+          <span className={hasBrokenPropagation ? 'text-rose-400 font-bold' : 'text-muted-foreground'}>
             {hasBrokenPropagation ? 'YES' : 'NO'}
           </span>
         </div>
       </div>
 
       {/* Controles de Trigger (Auditoria e Resiliência) */}
-      <div className="pt-2 border-t border-slate-850 flex gap-2 flex-wrap">
+      <div className="pt-2 border-t border-border flex gap-2 flex-wrap">
         <button
           onClick={triggerFailClosedState}
           disabled={status === 'FAIL_CLOSED'}

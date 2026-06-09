@@ -8,14 +8,14 @@ interface CausalDrilldownPanelProps {
 export const CausalDrilldownPanel: React.FC<CausalDrilldownPanelProps> = ({ narrative }) => {
   if (!narrative.lineage || narrative.lineage.length === 0) {
     return (
-      <div className="p-4 bg-primary border border-slate-800 rounded">
+      <div className="p-4 bg-primary border border-border rounded">
         <p className="text-muted-foreground font-mono text-sm">DRILLDOWN_UNAVAILABLE: No lineage detected in narrative.</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 bg-primary border border-slate-800 rounded-lg">
+    <div className="p-6 bg-primary border border-border rounded-lg">
       <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
         Causal Drilldown
       </h3>
@@ -26,7 +26,7 @@ export const CausalDrilldownPanel: React.FC<CausalDrilldownPanelProps> = ({ narr
               <div className="w-8 h-8 rounded-full bg-surface flex items-center justify-center text-muted-foreground text-sm font-mono">
                 {index + 1}
               </div>
-              <div className="flex-1 p-3 bg-surface/50 rounded border border-slate-700/50">
+              <div className="flex-1 p-3 bg-surface/50 rounded border border-border">
                 <p className="font-mono text-sm text-muted-foreground">{node}</p>
                 {/* Find violations in this node context */}
                 {narrative.violations.filter(v => v.sourceContext === node).map(v => (

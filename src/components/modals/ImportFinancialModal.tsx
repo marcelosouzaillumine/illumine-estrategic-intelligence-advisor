@@ -236,14 +236,14 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
       >
         {/* Header */}
-        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <div className="p-6 border-b border-border flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-lg font-black text-slate-900">{t("modals.import_financial.title")} {selectedType}</h3>
-            <p className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-widest font-bold">
+            <h3 className="text-lg font-black text-muted-foreground">{t("modals.import_financial.title")} {selectedType}</h3>
+            <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-widest font-bold">
               {clientName} · {year}
             </p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground">
             <X size={20} />
           </button>
         </div>
@@ -251,11 +251,11 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
         {/* Content */}
         <div className="p-8 space-y-6 overflow-y-auto flex-1">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">{t("modals.import_financial.doc_type")}</label>
+            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">{t("modals.import_financial.doc_type")}</label>
             <select 
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all"
+              className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all"
             >
               {DOCUMENT_TYPES.map(t => (
                 <option key={t} value={t}>{t}</option>
@@ -280,20 +280,20 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
               <div className="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center">
                 <CheckCircle2 size={40} />
               </div>
-              <h4 className="text-xl font-bold text-slate-900">{t("modals.import_financial.success_title")}</h4>
-              <p className="text-sm text-slate-500">{importResult} contas importadas para o ano {year}.</p>
+              <h4 className="text-xl font-bold text-muted-foreground">{t("modals.import_financial.success_title")}</h4>
+              <p className="text-sm text-muted-foreground">{importResult} contas importadas para o ano {year}.</p>
             </div>
           ) : !file ? (
-            <div className="border-2 border-dashed border-slate-200 rounded-2xl p-10 text-center hover:border-blue-400 transition-all group relative bg-slate-50/30">
+            <div className="border-2 border-dashed border-border rounded-2xl p-10 text-center hover:border-blue-400 transition-all group relative bg-slate-50/30">
               <input 
                 type="file" 
                 className="absolute inset-0 opacity-0 cursor-pointer" 
                 accept=".xlsx,.xls,.csv,.pdf,.txt"
                 onChange={handleFileChange}
               />
-              <UploadCloud size={48} className="text-slate-300 mx-auto mb-4 group-hover:text-blue-500 transition-colors" />
-              <p className="text-sm font-bold text-slate-600">{t("modals.import_financial.drag_drop")}</p>
-              <p className="text-xs text-slate-400 mt-2">{t("modals.import_financial.supported_formats")}</p>
+              <UploadCloud size={48} className="text-muted-foreground mx-auto mb-4 group-hover:text-blue-500 transition-colors" />
+              <p className="text-sm font-bold text-muted-foreground">{t("modals.import_financial.drag_drop")}</p>
+              <p className="text-xs text-muted-foreground mt-2">{t("modals.import_financial.supported_formats")}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -301,7 +301,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-white rounded-xl text-blue-600 shadow-sm"><FileText size={20} /></div>
                   <div>
-                    <p className="text-sm font-bold text-slate-700">{file.name}</p>
+                    <p className="text-sm font-bold text-muted-foreground">{file.name}</p>
                     <p className="text-[10px] text-blue-500 font-black uppercase">{parsedData.length} itens encontrados</p>
                   </div>
                 </div>
@@ -311,23 +311,23 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
               </div>
 
               {/* Preview Table */}
-              <div className="border border-slate-100 rounded-2xl overflow-hidden bg-white">
-                <div className="bg-slate-50 px-4 py-2 border-b border-slate-100 flex justify-between items-center">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t("modals.import_financial.data_preview")}</span>
-                  <span className="text-[10px] font-bold text-slate-400 italic">{t("modals.import_financial.showing_items")}</span>
+              <div className="border border-border rounded-2xl overflow-hidden bg-white">
+                <div className="bg-slate-50 px-4 py-2 border-b border-border flex justify-between items-center">
+                  <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("modals.import_financial.data_preview")}</span>
+                  <span className="text-[10px] font-bold text-muted-foreground italic">{t("modals.import_financial.showing_items")}</span>
                 </div>
                 <table className="w-full text-left text-[11px]">
                   <thead className="bg-slate-50/50">
                     <tr>
-                      <th className="px-4 py-2 font-bold text-slate-400">CONTA / CATEGORIA</th>
-                      <th className="px-4 py-2 font-bold text-slate-400 text-right">VALOR (R$)</th>
+                      <th className="px-4 py-2 font-bold text-muted-foreground">CONTA / CATEGORIA</th>
+                      <th className="px-4 py-2 font-bold text-muted-foreground text-right">VALOR (R$)</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50">
                     {parsedData.slice(0, 15).map((row, i) => (
                       <tr key={i} className="hover:bg-slate-50/50 transition-colors">
-                        <td className="px-4 py-2 font-bold text-slate-700">{row.category}</td>
-                        <td className="px-4 py-2 text-right font-mono text-slate-600">{formatCurrency(row.value)}</td>
+                        <td className="px-4 py-2 font-bold text-muted-foreground">{row.category}</td>
+                        <td className="px-4 py-2 text-right font-mono text-muted-foreground">{formatCurrency(row.value)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -355,7 +355,7 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
              !file && (
                 <div className="bg-slate-50 p-4 rounded-2xl flex gap-3 items-center">
                   <Info size={16} className="text-blue-500" />
-                  <p className="text-[11px] text-slate-500 font-medium">
+                  <p className="text-[11px] text-muted-foreground font-medium">
                     {t("modals.import_financial.tip")} <strong>{t("modals.import_financial.account_name")}</strong> {t("modals.import_financial.and")} <strong>{t("modals.import_financial.balance")}</strong>.
                   </p>
                 </div>
@@ -365,10 +365,10 @@ export function ImportFinancialModal({ type, clientId, year, clients, onClose, o
 
         {/* Footer */}
         {!importResult && (
-          <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3">
+          <div className="p-6 bg-slate-50 border-t border-border flex gap-3">
             <button 
               onClick={onClose}
-              className="flex-1 py-3.5 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
+              className="flex-1 py-3.5 text-muted-foreground font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
             >
               Cancelar
             </button>

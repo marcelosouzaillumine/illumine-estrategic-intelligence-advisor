@@ -99,7 +99,7 @@ export const BoardInvestigationWorkspace: React.FC = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-muted-foreground">
-        <Search className="animate-pulse mb-4 text-indigo-500" size={32} />
+        <Search className="animate-pulse mb-4 text-primary" size={32} />
         <p className="text-eyebrow text-muted-foreground">Iniciando Investigação Institucional...</p>
       </div>
     );
@@ -120,7 +120,7 @@ export const BoardInvestigationWorkspace: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
             <h1 className="text-h1 font-display font-black text-foreground tracking-tight flex items-center gap-2">
-              <Search className="text-indigo-500" />
+              <Search className="text-primary" />
               Workspace de Investigação
             </h1>
             <p className="text-sm text-muted-foreground max-w-2xl">
@@ -131,7 +131,7 @@ export const BoardInvestigationWorkspace: React.FC = () => {
           <div className="flex gap-2">
             <button
               onClick={() => handleCrossNavigation('INTELLIGENCE_FABRIC', `/intelligence/${nodeId}`)}
-              className="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 text-sm font-display font-medium rounded-[12px] transition-colors border border-indigo-500/30 shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent text-accent text-sm font-display font-medium rounded-[12px] transition-colors border border-accent shadow-sm"
             >
               <Network size={16} />
               <span>Contexto no Intelligence Fabric</span>
@@ -171,7 +171,7 @@ export const BoardInvestigationWorkspace: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="lg:col-span-1 space-y-6">
           <div className="card-premium p-5">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-indigo-500 mb-2 block">Objeto Investigado</span>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-primary mb-2 block">Objeto Investigado</span>
             <h2 className="text-h3 font-display font-bold text-foreground leading-snug">
               {data.targetNode.title}
             </h2>
@@ -179,7 +179,7 @@ export const BoardInvestigationWorkspace: React.FC = () => {
               <span className="text-xs font-mono bg-surface-container text-muted-foreground px-2 py-1 rounded">
                 {data.targetNode.type}
               </span>
-              <span className="text-xs font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-400 px-2 py-1 rounded">
+              <span className="text-xs font-bold uppercase tracking-wider bg-primary text-primary px-2 py-1 rounded">
                 {data.targetNode.confidence}
               </span>
             </div>

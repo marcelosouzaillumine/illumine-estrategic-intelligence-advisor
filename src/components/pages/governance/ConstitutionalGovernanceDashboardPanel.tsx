@@ -19,11 +19,11 @@ export const ConstitutionalGovernanceDashboardPanel: React.FC<Props> = ({ dashbo
 
   return (
     <div className="w-full space-y-6 mt-12 mb-12">
-      <div className="flex items-center gap-3 border-b border-gray-800 pb-4">
+      <div className="flex items-center gap-3 border-b border-border pb-4">
         <Shield className="w-8 h-8 text-blue-500" />
         <div>
           <h2 className="text-2xl font-semibold text-white tracking-tight">{t('cgd.title')}</h2>
-          <p className="text-sm text-gray-400">{t('cgd.subtitle')}</p>
+          <p className="text-sm text-muted-foreground">{t('cgd.subtitle')}</p>
         </div>
       </div>
 

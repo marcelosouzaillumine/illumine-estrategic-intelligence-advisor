@@ -13,12 +13,12 @@ export const ExecutiveCommandNavigator: React.FC = () => {
   ];
 
   return (
-    <div className="p-5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-850 pb-2">
-        <h4 className="text-slate-400 font-semibold tracking-wider uppercase text-xs font-mono">
+    <div className="p-5 bg-slate-950/70 border border-border rounded-xl space-y-4">
+      <div className="flex justify-between items-center border-b border-border pb-2">
+        <h4 className="text-muted-foreground font-semibold tracking-wider uppercase text-xs font-mono">
           Supervision Command Scope
         </h4>
-        <span className="text-[10px] font-mono text-slate-500 uppercase">
+        <span className="text-[10px] font-mono text-muted-foreground uppercase">
           ROLE SWITCHER
         </span>
       </div>
@@ -30,10 +30,10 @@ export const ExecutiveCommandNavigator: React.FC = () => {
             <button
               key={m.value}
               onClick={() => switchSupervisionMode(m.value)}
-              className={`p-3 border rounded-xl text-left transition-all hover:border-slate-700 active:scale-[0.98] flex flex-col gap-1 ${
+              className={`p-3 border rounded-xl text-left transition-all hover:border-border active:scale-[0.98] flex flex-col gap-1 ${
                 isActive
                   ? 'border-cyan-500 bg-cyan-950/20 text-cyan-400'
-                  : 'border-slate-850 bg-slate-900/40 text-slate-400 hover:text-slate-350'
+                  : 'border-border bg-slate-900/40 text-muted-foreground hover:text-muted-foreground'
               }`}
             >
               <span className="text-xs font-mono font-bold">{m.label}</span>

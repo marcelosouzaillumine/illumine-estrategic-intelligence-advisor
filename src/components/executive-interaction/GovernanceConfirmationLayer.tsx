@@ -35,7 +35,7 @@ export const GovernanceConfirmationLayer: React.FC<GovernanceConfirmationLayerPr
         <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
         <div className="space-y-1">
           <h4 className="text-xs font-black uppercase tracking-widest">{t("overlays.critical_action_confirmation")}</h4>
-          <p className="text-xs text-slate-400 leading-relaxed">{implications}</p>
+          <p className="text-xs text-muted-foreground leading-relaxed">{implications}</p>
         </div>
       </div>
 
@@ -46,7 +46,7 @@ export const GovernanceConfirmationLayer: React.FC<GovernanceConfirmationLayerPr
           onChange={(e) => setIsChecked(e.target.checked)}
           className="mt-0.5 rounded border-border bg-slate-900 text-secondary focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer"
         />
-        <span className="text-xs text-slate-400 select-none group-hover:text-slate-350 transition-colors leading-relaxed">
+        <span className="text-xs text-muted-foreground select-none group-hover:text-muted-foreground transition-colors leading-relaxed">
           Declaro estar ciente de que esta deliberação será auditada de forma irreversível nos registros de governança da instituição.
         </span>
       </label>
@@ -56,7 +56,7 @@ export const GovernanceConfirmationLayer: React.FC<GovernanceConfirmationLayerPr
           <button 
             onClick={onCancel}
             disabled={isSubmitting}
-            className="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-900/40 transition-colors"
+            className="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-muted-foreground hover:bg-slate-900/40 transition-colors"
           >
             Cancelar
           </button>
@@ -67,7 +67,7 @@ export const GovernanceConfirmationLayer: React.FC<GovernanceConfirmationLayerPr
           className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 ${
             isChecked && !isSubmitting
               ? 'bg-amber-500 text-black hover:bg-amber-600'
-              : 'bg-slate-900 text-slate-600 border border-border/5 cursor-not-allowed'
+              : 'bg-slate-900 text-muted-foreground border border-border/5 cursor-not-allowed'
           }`}
         >
           {isSubmitting ? t('overlays.confirming') || 'Confirmando...' : actionLabel}

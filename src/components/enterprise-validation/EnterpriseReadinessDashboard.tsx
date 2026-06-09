@@ -11,7 +11,7 @@ export function EnterpriseReadinessDashboard({ tenantId }: { tenantId: string })
   return (
     <div className="bg-surface-container border border-border rounded-lg p-6">
       <div className="flex items-center gap-2 mb-6">
-        <Rocket className="text-indigo-500" />
+        <Rocket className="text-primary" />
         <h3 className="text-lg font-semibold text-foreground">Go-To-Market Readiness</h3>
       </div>
       

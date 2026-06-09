@@ -30,9 +30,9 @@ export function ComplianceIntegrityCenter() {
         transparent
         actions={
           <div className="text-right">
-            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1">Score de Integridade</div>
-            <div className="text-4xl font-light text-indigo-400 flex items-center justify-end gap-2">
-              85<span className="text-xl text-slate-600">/100</span>
+            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Score de Integridade</div>
+            <div className="text-4xl font-light text-primary flex items-center justify-end gap-2">
+              85<span className="text-xl text-muted-foreground">/100</span>
             </div>
           </div>
         }
@@ -55,7 +55,7 @@ export function ComplianceIntegrityCenter() {
         <StatusCard 
           title="Sanções Ativas" 
           value="0" 
-          icon={<Scale className="w-5 h-5 text-slate-400" />} 
+          icon={<Scale className="w-5 h-5 text-muted-foreground" />} 
           trend="Últimos 12 meses"
         />
         <StatusCard 
@@ -79,8 +79,8 @@ export function ComplianceIntegrityCenter() {
       {activeTab === 'integridade' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-in fade-in duration-300">
           <div className="card-premium p-8">
-            <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
-              <Activity className="w-5 h-5 text-slate-400" />
+            <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
+              <Activity className="w-5 h-5 text-muted-foreground" />
               Tendências Institucionais
             </h2>
             <div className="space-y-4">
@@ -91,8 +91,8 @@ export function ComplianceIntegrityCenter() {
           </div>
 
           <div className="card-premium p-8">
-            <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
-              <AlertOctagon className="w-5 h-5 text-slate-400" />
+            <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
+              <AlertOctagon className="w-5 h-5 text-muted-foreground" />
               Riscos Éticos Iminentes
             </h2>
             <div className="space-y-4">
@@ -106,11 +106,11 @@ export function ComplianceIntegrityCenter() {
       {activeTab === 'denuncias' && (
         <div className="card-premium p-8 animate-in fade-in duration-300">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg font-medium text-slate-200 flex items-center gap-2">
-              <Lock className="w-5 h-5 text-slate-400" />
+            <h2 className="text-lg font-medium text-muted-foreground flex items-center gap-2">
+              <Lock className="w-5 h-5 text-muted-foreground" />
               Protocolos de Investigação
             </h2>
-            <span className="text-xs text-indigo-400 flex items-center gap-1 bg-indigo-500/10 px-2.5 py-1 rounded-xl border border-indigo-500/20 font-bold uppercase tracking-wider">
+            <span className="text-xs text-primary flex items-center gap-1 bg-primary px-2.5 py-1 rounded-xl border border-primary font-bold uppercase tracking-wider">
               <Lock className="w-3.5 h-3.5" /> Identidade Blindada
             </span>
           </div>
@@ -135,8 +135,8 @@ export function ComplianceIntegrityCenter() {
 
       {activeTab === 'politicas' && (
         <div className="card-premium p-8 animate-in fade-in duration-300">
-          <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
-            <FileText className="w-5 h-5 text-slate-400" />
+          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
+            <FileText className="w-5 h-5 text-muted-foreground" />
             Controle de Aceite Digital
           </h2>
           <div className="space-y-4">
@@ -149,8 +149,8 @@ export function ComplianceIntegrityCenter() {
 
       {activeTab === 'esg' && (
         <div className="card-premium p-8 animate-in fade-in duration-300">
-          <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
-            <Leaf className="w-5 h-5 text-slate-400" />
+          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
+            <Leaf className="w-5 h-5 text-muted-foreground" />
             Score ESG Desdobrado
           </h2>
           <div className="grid grid-cols-3 gap-6">
@@ -167,16 +167,16 @@ export function ComplianceIntegrityCenter() {
 
 function StatusCard({ title, value, icon, trend }: { title: string, value: string, icon: React.ReactNode, trend: string }) {
   return (
-    <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-700 transition-all">
+    <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">{title}</h3>
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</h3>
         <div className="p-2 bg-slate-950/40 rounded-xl border border-border/10">
           {icon}
         </div>
       </div>
       <div>
-        <div className="text-3xl font-light text-slate-100">{value}</div>
-        <div className="text-xs text-slate-500 mt-1 uppercase tracking-wider font-bold">{trend}</div>
+        <div className="text-3xl font-light text-muted-foreground">{value}</div>
+        <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider font-bold">{trend}</div>
       </div>
     </div>
   );
@@ -188,8 +188,8 @@ function TabButton({ active, onClick, icon, label }: { active: boolean, onClick:
       onClick={onClick}
       className={`flex items-center gap-2 px-6 py-3.5 text-xs font-bold uppercase tracking-wider transition-all border-b-2 ${
         active 
-          ? 'text-indigo-400 border-indigo-500 bg-indigo-500/5' 
-          : 'text-slate-400 border-transparent hover:text-slate-300 hover:bg-slate-900/40'
+          ? 'text-primary border-primary bg-primary' 
+          : 'text-muted-foreground border-transparent hover:text-muted-foreground hover:bg-slate-900/40'
       }`}
     >
       {icon}
@@ -200,11 +200,11 @@ function TabButton({ active, onClick, icon, label }: { active: boolean, onClick:
 
 function TrendItem({ label, value, type }: { label: string, value: string, type: 'positive' | 'negative' | 'neutral' }) {
   const Icon = type === 'positive' ? TrendingUp : type === 'negative' ? TrendingDown : Minus;
-  const color = type === 'positive' ? 'text-emerald-400' : type === 'negative' ? 'text-red-400' : 'text-slate-400';
+  const color = type === 'positive' ? 'text-emerald-400' : type === 'negative' ? 'text-red-400' : 'text-muted-foreground';
   
   return (
     <div className="flex justify-between items-center p-3 border-b border-border/10 last:border-0">
-      <span className="text-sm text-slate-300">{label}</span>
+      <span className="text-sm text-muted-foreground">{label}</span>
       <span className={`text-sm flex items-center gap-1 ${color}`}>
         {value} <Icon className="w-4 h-4" />
       </span>
@@ -229,21 +229,21 @@ function RiskItem({ title, severity }: { title: string, severity: string }) {
 function ReportItem({ protocol, category, severity, status, date }: any) {
   const isCritical = severity === 'Crítica';
   return (
-    <div className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex justify-between items-center hover:border-slate-750 transition-colors">
+    <div className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex justify-between items-center hover:border-border transition-colors">
       <div>
         <div className="flex items-center gap-3">
-          <h3 className="text-slate-200 font-mono text-sm font-bold">{protocol}</h3>
-          <span className="text-xs text-slate-500 px-2 py-0.5 bg-slate-900 border border-border/5 rounded-lg">{date}</span>
+          <h3 className="text-muted-foreground font-mono text-sm font-bold">{protocol}</h3>
+          <span className="text-xs text-muted-foreground px-2 py-0.5 bg-slate-900 border border-border/5 rounded-lg">{date}</span>
         </div>
         <div className="flex items-center gap-3 mt-2">
-          <p className="text-xs text-slate-400">{category}</p>
+          <p className="text-xs text-muted-foreground">{category}</p>
           <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded ${isCritical ? 'text-red-400 bg-red-500/10 border border-red-500/20' : 'text-amber-400 bg-amber-500/10 border border-amber-500/20'}`}>
             Severidade {severity}
           </span>
         </div>
       </div>
       <div className="text-right">
-        <span className="text-xs font-semibold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">{status}</span>
+        <span className="text-xs font-semibold text-primary bg-primary px-3 py-1 rounded-full border border-primary">{status}</span>
       </div>
     </div>
   );
@@ -255,11 +255,11 @@ function PolicyItem({ title, compliance, status }: { title: string, compliance: 
     <div className="p-4 bg-slate-950/40 border border-border/10 rounded-xl flex justify-between items-center">
       <div className="flex items-center gap-3">
         {isAttention ? <AlertOctagon className="w-5 h-5 text-amber-500" /> : <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
-        <span className="text-slate-200 text-sm font-medium">{title}</span>
+        <span className="text-muted-foreground text-sm font-medium">{title}</span>
       </div>
       <div className="flex items-center gap-6">
         <div className="text-right">
-          <div className="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Aderência</div>
+          <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Aderência</div>
           <div className={`text-sm font-medium ${isAttention ? 'text-amber-400' : 'text-emerald-400'}`}>{compliance}</div>
         </div>
       </div>
@@ -270,9 +270,9 @@ function PolicyItem({ title, compliance, status }: { title: string, compliance: 
 function ESGPillarCard({ title, score }: { title: string, score: number }) {
   return (
     <div className="bg-slate-950/40 border border-border/10 rounded-xl p-6 text-center shadow-inner">
-      <h3 className="text-sm font-medium text-slate-400 mb-4">{title}</h3>
+      <h3 className="text-sm font-medium text-muted-foreground mb-4">{title}</h3>
       <div className="text-4xl font-light text-emerald-400">{score}</div>
-      <div className="text-xs text-slate-500 mt-2">Score de 0 a 100</div>
+      <div className="text-xs text-muted-foreground mt-2">Score de 0 a 100</div>
     </div>
   );
 }

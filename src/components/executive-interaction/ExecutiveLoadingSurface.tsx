@@ -29,14 +29,14 @@ export const ExecutiveLoadingSurface: React.FC = () => {
             <Loader2 className="w-8 h-8 animate-spin" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-slate-200 uppercase tracking-wider">{t("overlays.verifying_runtime_signature")}</h3>
-            <p className="text-xs text-slate-400 mt-1 uppercase tracking-widest font-mono">{t("overlays.fiduciary_protocol_active")}</p>
+            <h3 className="text-lg font-bold text-muted-foreground uppercase tracking-wider">{t("overlays.verifying_runtime_signature")}</h3>
+            <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-mono">{t("overlays.fiduciary_protocol_active")}</p>
           </div>
         </div>
 
         {/* Progresso Geral */}
         <div className="space-y-2">
-          <div className="flex justify-between items-center text-xs font-mono text-slate-400">
+          <div className="flex justify-between items-center text-xs font-mono text-muted-foreground">
             <span>{message}</span>
             <span>{progress}%</span>
           </div>
@@ -62,8 +62,8 @@ export const ExecutiveLoadingSurface: React.FC = () => {
                   isActive 
                     ? 'bg-secondary/5 border-secondary/35 text-secondary' 
                     : isCompleted 
-                      ? 'bg-slate-950/20 border-border/5 text-slate-400 opacity-60' 
-                      : 'bg-transparent border-transparent text-slate-500 opacity-40'
+                      ? 'bg-slate-950/20 border-border/5 text-muted-foreground opacity-60' 
+                      : 'bg-transparent border-transparent text-muted-foreground opacity-40'
                 }`}
               >
                 <div className="flex items-center gap-3">

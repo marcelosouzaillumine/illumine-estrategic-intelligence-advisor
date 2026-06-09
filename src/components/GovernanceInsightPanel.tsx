@@ -27,12 +27,12 @@ export function GovernanceInsightPanel({
 
   if (compact) {
     return (
-      <div className={cn("bg-indigo-50 border border-indigo-100 rounded-xl p-3 flex flex-col gap-2", className)}>
-        <div className="flex items-center gap-2 text-indigo-700">
+      <div className={cn("bg-primary border border-primary rounded-xl p-3 flex flex-col gap-2", className)}>
+        <div className="flex items-center gap-2 text-primary">
           <Layers size={14} />
           <span className="text-xs font-black uppercase tracking-widest">{principle.name}</span>
         </div>
-        <div className="text-[10px] text-indigo-900 font-bold leading-relaxed">
+        <div className="text-[10px] text-primary font-bold leading-relaxed">
           <MarkdownText text={recommendation || principle.executiveRecommendations[0]} />
         </div>
       </div>
@@ -40,29 +40,29 @@ export function GovernanceInsightPanel({
   }
 
   return (
-    <div className={cn("bg-gradient-to-br from-slate-50 to-indigo-50 border border-slate-200 rounded-3xl p-8 shadow-sm", className)}>
+    <div className={cn("bg-gradient-to-br from-slate-50 to-indigo-50 border border-border rounded-3xl p-8 shadow-sm", className)}>
       <div className="flex items-start gap-5 mb-6">
-        <div className="p-4 bg-indigo-100 text-indigo-600 rounded-2xl shrink-0 shadow-sm">
+        <div className="p-4 bg-primary text-primary rounded-2xl shrink-0 shadow-sm">
           <Layers size={28} />
         </div>
         <div>
           <div className="flex items-center gap-4">
-            <h3 className="text-xl font-black text-slate-900 tracking-tight">{principle.name}</h3>
-            <span className="text-[9px] bg-white px-3 py-1 rounded-full border border-indigo-200 text-indigo-600 font-black uppercase tracking-widest">
+            <h3 className="text-xl font-black text-muted-foreground tracking-tight">{principle.name}</h3>
+            <span className="text-[9px] bg-white px-3 py-1 rounded-full border border-primary text-primary font-black uppercase tracking-widest">
               Princípio de Discernimento
             </span>
           </div>
-          <p className="text-sm font-bold text-slate-500 mt-2 italic leading-relaxed">"{principle.philosophicalFoundation.text}"</p>
+          <p className="text-sm font-bold text-muted-foreground mt-2 italic leading-relaxed">"{principle.philosophicalFoundation.text}"</p>
         </div>
       </div>
 
-      <div className="space-y-6 bg-white/80 p-6 rounded-[32px] border border-indigo-50 shadow-inner">
+      <div className="space-y-6 bg-white/80 p-6 rounded-[32px] border border-primary shadow-inner">
         {misalignment && (
           <div className="flex gap-4">
             <ShieldAlert size={20} className="text-rose-500 shrink-0 mt-1" />
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Desalinhamento Detectado</p>
-              <div className="text-sm font-bold text-slate-800 leading-snug">
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Desalinhamento Detectado</p>
+              <div className="text-sm font-bold text-muted-foreground leading-snug">
                 <MarkdownText text={misalignment} />
               </div>
               {impact && (
@@ -87,16 +87,16 @@ export function GovernanceInsightPanel({
         <div className="flex gap-4">
           <CheckCircle2 size={20} className="text-emerald-500 shrink-0 mt-1" />
           <div className="flex-1">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Recomendação Executiva</p>
-            <div className="text-sm font-bold text-slate-700 leading-relaxed">
+            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Recomendação Executiva</p>
+            <div className="text-sm font-bold text-muted-foreground leading-relaxed">
               <MarkdownText text={recommendation || principle.executiveRecommendations[0]} />
             </div>
             
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
               {principle.executiveRecommendations.slice(1, 5).map((rec, i) => (
-                <div key={i} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 group hover:border-indigo-200 transition-colors">
-                  <div className="w-5 h-5 rounded-full bg-white text-[9px] font-black flex items-center justify-center border border-slate-200 text-slate-400 group-hover:bg-indigo-500 group-hover:text-white transition-colors">{i+2}</div>
-                  <div className="text-[10px] font-bold text-slate-600">
+                <div key={i} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-border group hover:border-accent transition-colors">
+                  <div className="w-5 h-5 rounded-full bg-white text-[9px] font-black flex items-center justify-center border border-border text-muted-foreground group-hover:bg-accent group-hover:text-white transition-colors">{i+2}</div>
+                  <div className="text-[10px] font-bold text-muted-foreground">
                     <MarkdownText text={rec} />
                   </div>
                 </div>

@@ -738,10 +738,10 @@ td .font-mono,
 }
 
 /* Card Global Standardization & Light/Dark Theme Parity */
-.bg-white.border-slate-100,
-.bg-white.border-slate-200,
-.bg-white.border-slate-200\/60,
-.bg-white.border-slate-100\/60,
+.bg-white.border-border,
+.bg-white.border-border,
+.bg-white.border-border\/60,
+.bg-white.border-border\/60,
 div[class*="bg-white"][class*="border-slate-"],
 #main-content-wrapper .bg-white,
 .flex-1.overflow-y-auto .bg-white {
@@ -751,26 +751,26 @@ div[class*="bg-white"][class*="border-slate-"],
 }
 
 /* Standardize card titles and texts text-slate-X colors globally in all themes */
-.text-slate-900,
-[class*="text-slate-900"],
-.text-slate-800,
-[class*="text-slate-800"] {
+.text-muted-foreground,
+[class*="text-muted-foreground"],
+.text-muted-foreground,
+[class*="text-muted-foreground"] {
   color: var(--color-foreground) !important;
 }
-.text-slate-700,
-[class*="text-slate-700"],
-.text-slate-600,
-[class*="text-slate-600"] {
+.text-muted-foreground,
+[class*="text-muted-foreground"],
+.text-muted-foreground,
+[class*="text-muted-foreground"] {
   color: var(--color-muted-foreground) !important;
 }
-.text-slate-500,
-[class*="text-slate-500"],
-.text-slate-400,
-[class*="text-slate-400"] {
+.text-muted-foreground,
+[class*="text-muted-foreground"],
+.text-muted-foreground,
+[class*="text-muted-foreground"] {
   color: var(--color-neutral) !important;
 }
-.text-slate-300,
-[class*="text-slate-300"] {
+.text-muted-foreground,
+[class*="text-muted-foreground"] {
   color: var(--color-muted) !important;
 }
 
@@ -792,10 +792,10 @@ div[class*="bg-white"][class*="border-slate-"],
 }
 
 /* Standardize border color of slate items globally */
-.border-slate-50,
-.border-slate-100,
-.border-slate-200,
-.border-slate-300,
+.border-border,
+.border-border,
+.border-border,
+.border-border,
 [class*="border-slate-"] {
   border-color: var(--color-border) !important;
 }

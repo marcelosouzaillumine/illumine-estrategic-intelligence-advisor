@@ -86,8 +86,8 @@ export function BoardPackPreviewModal({
               <Activity className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[9px] text-slate-500 uppercase tracking-widest font-black block">Board Communication Layer</span>
-              <h2 className="text-base font-display font-medium text-slate-200">Board Pack Presenter (BPG™ v1.0)</h2>
+              <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black block">Board Communication Layer</span>
+              <h2 className="text-base font-display font-medium text-muted-foreground">Board Pack Presenter (BPG™ v1.0)</h2>
             </div>
           </div>
 
@@ -98,7 +98,7 @@ export function BoardPackPreviewModal({
             </div>
             <button 
               onClick={onClose} 
-              className="p-2 hover:bg-white/5 rounded-full transition-all text-slate-400 hover:text-white"
+              className="p-2 hover:bg-white/5 rounded-full transition-all text-muted-foreground hover:text-white"
             >
               <X size={18} />
             </button>
@@ -112,16 +112,16 @@ export function BoardPackPreviewModal({
           <div className="flex-1 p-6 md:p-8 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-white/5 overflow-y-auto">
             
             {/* Widescreen mock slide */}
-            <div className={`aspect-[16/9] w-full max-w-[720px] rounded-xl border border-white/10 shadow-2xl relative flex flex-col p-8 select-none transition-all duration-300 ${activeSlide.slideNumber === 1 || activeSlide.slideNumber === 12 ? 'bg-[#0E1C2C] text-white' : 'bg-white text-slate-900'}`}>
+            <div className={`aspect-[16/9] w-full max-w-[720px] rounded-xl border border-white/10 shadow-2xl relative flex flex-col p-8 select-none transition-all duration-300 ${activeSlide.slideNumber === 1 || activeSlide.slideNumber === 12 ? 'bg-[#0E1C2C] text-white' : 'bg-white text-muted-foreground'}`}>
               
               {/* Slide Header */}
               {activeSlide.slideNumber !== 1 && (
-                <div className="flex justify-between items-start border-b border-slate-200/50 pb-2">
+                <div className="flex justify-between items-start border-b border-border pb-2">
                   <div>
                     <h3 className={`text-base font-black tracking-tight ${activeSlide.slideNumber === 12 ? 'text-[#BAB86C]' : 'text-[#0E1C2C]'}`}>
                       {activeSlide.title}
                     </h3>
-                    <p className={`text-[8px] italic font-semibold mt-0.5 ${activeSlide.slideNumber === 12 ? 'text-slate-400' : 'text-slate-500'}`}>
+                    <p className={`text-[8px] italic font-semibold mt-0.5 ${activeSlide.slideNumber === 12 ? 'text-muted-foreground' : 'text-muted-foreground'}`}>
                       Objetivo: {activeSlide.objective}
                     </p>
                   </div>
@@ -131,7 +131,7 @@ export function BoardPackPreviewModal({
                       activeSlide.meetingCriticality === 'CRITICAL' ? 'bg-rose-50 border-rose-200 text-rose-600' :
                       activeSlide.meetingCriticality === 'HIGH' ? 'bg-amber-50 border-amber-200 text-amber-600' :
                       activeSlide.meetingCriticality === 'MODERATE' ? 'bg-blue-50 border-blue-200 text-blue-600' :
-                      'bg-slate-50 border-slate-200 text-slate-600'
+                      'bg-slate-50 border-border text-muted-foreground'
                     }`}>
                       {activeSlide.meetingCriticality}
                     </span>
@@ -157,7 +157,7 @@ export function BoardPackPreviewModal({
                         <span className="text-[8px] font-black text-white block">LEVEL 5 - COGNITIVELY CERTIFIED</span>
                       </div>
                       
-                      <div className="text-[8px] font-mono text-slate-400 text-right">
+                      <div className="text-[8px] font-mono text-muted-foreground text-right">
                         <div>Cenário: {pack.scenario}</div>
                         <div>Readiness Score: {pack.decisionReadinessScore}/100</div>
                       </div>
@@ -167,9 +167,9 @@ export function BoardPackPreviewModal({
                   // Scorecard Grid view
                   <div className="grid grid-cols-2 gap-3">
                     {activeSlide.content.map((bullet, idx) => (
-                      <div key={idx} className="p-2.5 bg-slate-50 border border-slate-100 rounded-lg flex items-center gap-2">
+                      <div key={idx} className="p-2.5 bg-slate-50 border border-border rounded-lg flex items-center gap-2">
                         <span className="w-1 h-8 bg-[#BAB86C] rounded flex-shrink-0" />
-                        <p className="text-[10px] text-slate-700 leading-snug font-semibold">{bullet}</p>
+                        <p className="text-[10px] text-muted-foreground leading-snug font-semibold">{bullet}</p>
                       </div>
                     ))}
                   </div>
@@ -179,7 +179,7 @@ export function BoardPackPreviewModal({
                     {activeSlide.content.map((bullet, idx) => {
                       const isCritical = bullet.includes('[CRITICAL]') || bullet.includes('[Curto Prazo]') || bullet.includes('Violação') || bullet.includes('Caixa');
                       return (
-                        <div key={idx} className="p-2 bg-slate-50 border border-slate-100 rounded-lg flex items-center gap-2">
+                        <div key={idx} className="p-2 bg-slate-50 border border-border rounded-lg flex items-center gap-2">
                           <span className={`w-1 h-6 rounded flex-shrink-0 ${isCritical ? 'bg-[#FF8552]' : 'bg-[#BAB86C]'}`} />
                           <p className="text-[9px] text-[#0E1C2C] font-medium leading-normal">{bullet}</p>
                         </div>
@@ -192,11 +192,11 @@ export function BoardPackPreviewModal({
                     {activeSlide.content.map((bullet, idx) => {
                       const parts = bullet.split(' - ');
                       return (
-                        <div key={idx} className="p-2.5 bg-slate-50 border border-slate-100 rounded-lg flex items-start gap-2">
+                        <div key={idx} className="p-2.5 bg-slate-50 border border-border rounded-lg flex items-start gap-2">
                           <span className="w-1 h-10 bg-[#FF8552] rounded flex-shrink-0 mt-0.5" />
                           <div>
                             <p className="text-[10px] font-black text-[#0E1C2C]">{parts[0]}</p>
-                            <p className="text-[9px] text-slate-500 leading-normal mt-0.5">{parts[1]}</p>
+                            <p className="text-[9px] text-muted-foreground leading-normal mt-0.5">{parts[1]}</p>
                           </div>
                         </div>
                       );
@@ -204,7 +204,7 @@ export function BoardPackPreviewModal({
                   </div>
                 ) : (
                   // Standard Bullets view
-                  <ul className={`space-y-2.5 text-[10px] ${activeSlide.slideNumber === 12 ? 'font-mono text-slate-300' : 'text-slate-700'}`}>
+                  <ul className={`space-y-2.5 text-[10px] ${activeSlide.slideNumber === 12 ? 'font-mono text-muted-foreground' : 'text-muted-foreground'}`}>
                     {activeSlide.content.map((bullet, idx) => (
                       <li key={idx} className="flex items-start gap-2">
                         <span className={`w-1.5 h-1.5 rounded-full mt-1 flex-shrink-0 ${activeSlide.slideNumber === 12 ? 'bg-[#BAB86C]' : 'bg-[#0E1C2C]'}`} />
@@ -217,7 +217,7 @@ export function BoardPackPreviewModal({
 
               {/* Slide Footer */}
               {activeSlide.slideNumber !== 1 && (
-                <div className="border-t border-slate-100 mt-4 pt-2.5 flex justify-between items-center text-[7px] text-slate-400">
+                <div className="border-t border-border mt-4 pt-2.5 flex justify-between items-center text-[7px] text-muted-foreground">
                   <span>Illumine Governance™ | ESGIM™ | IRI™ | BPE™ | GRE™ | GML™ | EBRG™</span>
                   <span>Cenário: {pack.scenario}  |  Modo: {pack.timelineMode}</span>
                 </div>
@@ -229,7 +229,7 @@ export function BoardPackPreviewModal({
 
           {/* Slide Deck Selector Panel (Right Sidebar) */}
           <div className="w-full lg:w-72 bg-slate-950/40 p-5 flex flex-col max-h-[40vh] lg:max-h-none overflow-y-auto">
-            <h3 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-4">Estrutura de Slides (12 Slides)</h3>
+            <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground mb-4">Estrutura de Slides (12 Slides)</h3>
             <div className="space-y-1.5 flex-1 pr-1">
               {pack.slides.map((slide, idx) => {
                 const isActive = activeSlideIndex === idx;
@@ -243,18 +243,18 @@ export function BoardPackPreviewModal({
                       isActive 
                         ? 'bg-[#FF8552]/10 border-[#FF8552]/40 text-[#FF8552] font-bold shadow-md' 
                         : isAnnex 
-                        ? 'bg-slate-950/40 border-white/5 hover:border-[#BAB86C]/30 text-slate-500 hover:text-[#BAB86C]' 
-                        : 'bg-slate-950/40 border-white/5 hover:border-white/10 text-slate-300 hover:text-white'
+                        ? 'bg-slate-950/40 border-white/5 hover:border-[#BAB86C]/30 text-muted-foreground hover:text-[#BAB86C]' 
+                        : 'bg-slate-950/40 border-white/5 hover:border-white/10 text-muted-foreground hover:text-white'
                     }`}
                   >
                     <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black ${
-                      isActive ? 'bg-[#FF8552] text-white' : isAnnex ? 'bg-[#BAB86C]/20 text-[#BAB86C]' : 'bg-white/5 text-slate-400'
+                      isActive ? 'bg-[#FF8552] text-white' : isAnnex ? 'bg-[#BAB86C]/20 text-[#BAB86C]' : 'bg-white/5 text-muted-foreground'
                     }`}>
                       {isAnnex ? 'A' : slide.slideNumber}
                     </span>
                     <div className="truncate">
                       <div className="truncate">{isAnnex ? 'Anexo: Traceability' : slide.title.replace(/^\d+\.\s*/, '')}</div>
-                      <div className="text-[8px] text-slate-500 font-mono truncate">{slide.visualType}</div>
+                      <div className="text-[8px] text-muted-foreground font-mono truncate">{slide.visualType}</div>
                     </div>
                   </button>
                 );
@@ -270,7 +270,7 @@ export function BoardPackPreviewModal({
           {/* Share Stub Link button */}
           <button 
             onClick={handleShare}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-900 border border-white/5 hover:border-white/10 text-slate-300 hover:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-900 border border-white/5 hover:border-white/10 text-muted-foreground hover:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all"
           >
             <Share2 size={14} />
             {copied ? (
@@ -284,13 +284,13 @@ export function BoardPackPreviewModal({
           <div className="flex items-center justify-end gap-3 flex-wrap">
             <button 
               onClick={onClose} 
-              className="px-5 py-2.5 bg-slate-950 border border-white/5 hover:bg-slate-900 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-200 transition-all"
+              className="px-5 py-2.5 bg-slate-950 border border-white/5 hover:bg-slate-900 rounded-xl text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-muted-foreground transition-all"
             >
               Fechar
             </button>
             <button 
               onClick={handleDownloadPDF}
-              className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 border border-white/5 hover:border-white/10 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-200 transition-all"
+              className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 border border-white/5 hover:border-white/10 rounded-xl text-xs font-bold uppercase tracking-widest text-muted-foreground transition-all"
             >
               <FileDown size={14} />
               Exportar PDF

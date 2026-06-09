@@ -27,7 +27,7 @@ export const RelationshipExplorer: React.FC<RelationshipExplorerProps> = ({ node
         {nodes.map((node) => (
           <div key={node.id} className="p-3 bg-surface-container border border-border rounded-lg flex items-start gap-3 transition-colors hover:bg-surface-container-high">
             <div className="mt-0.5">
-              <GitMerge className="text-indigo-500" size={16} />
+              <GitMerge className="text-primary" size={16} />
             </div>
             <div className="flex-1">
               <p className="text-sm font-medium text-foreground">{node.title}</p>
@@ -37,7 +37,7 @@ export const RelationshipExplorer: React.FC<RelationshipExplorerProps> = ({ node
                 </span>
                 <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
                   node.confidence === 'VERIFIED' ? 'bg-emerald-500/10 text-emerald-400' :
-                  node.confidence === 'HIGH' ? 'bg-indigo-500/10 text-indigo-400' :
+                  node.confidence === 'HIGH' ? 'bg-primary text-primary' :
                   node.confidence === 'MEDIUM' ? 'bg-amber-500/10 text-amber-400' :
                   'bg-surface-container-highest text-muted-foreground'
                 }`}>
@@ -48,7 +48,7 @@ export const RelationshipExplorer: React.FC<RelationshipExplorerProps> = ({ node
             <div className="flex flex-col items-end gap-2">
               <Link 
                 to={`/investigation/${node.id}`}
-                className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-indigo-400 font-bold hover:underline"
+                className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-accent font-bold hover:underline"
               >
                 Navegar <ArrowRight size={12} />
               </Link>

@@ -582,7 +582,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
                            {loadingDiagnosis ? (
                              <div className="space-y-4 py-8 flex flex-col items-center">
                                <Loader2 size={32} className="text-amber-500 animate-spin" />
-                               <p className="text-xs font-black uppercase tracking-widest text-slate-400">IA Consolidando Diagnóstico...</p>
+                               <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">IA Consolidando Diagnóstico...</p>
                              </div>
                            ) : (
                              <>
@@ -613,7 +613,7 @@ export function GovernanceMaturityCenter({ clientId }: { clientId: string }) {
 
                          <button 
                            onClick={() => setShowResults(false)}
-                           className="w-full py-5 rounded-2xl border border-white/10 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-white/5 hover:text-white transition-all"
+                           className="w-full py-5 rounded-2xl border border-white/10 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:bg-white/5 hover:text-white transition-all"
                          >
                            Recalcular Maturidade
                          </button>

@@ -133,7 +133,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
   };
 
   return (
-    <div className="mt-12 bg-white rounded-[40px] border border-slate-200 overflow-hidden shadow-sm">
+    <div className="mt-12 bg-white rounded-[40px] border border-border overflow-hidden shadow-sm">
       <div className="bg-slate-900 px-10 py-8 flex items-center justify-between">
         <div className="flex items-center gap-5">
           <div className="p-3 bg-blue-500/20 rounded-2xl">
@@ -141,19 +141,19 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
           </div>
           <div>
             <h4 className="text-lg font-display font-black text-white uppercase tracking-widest">Síntese Executiva para Tomada de Decisão</h4>
-            <p className="text-[11px] text-slate-400 font-bold uppercase tracking-[0.2em]">Parecer analítico fiduciário para o Conselho</p>
+            <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-[0.2em]">Parecer analítico fiduciário para o Conselho</p>
           </div>
         </div>
       </div>
       {(!isEditing && !note) ? (
         <div className="p-10 space-y-8">
           {defaultNote ? (
-            <div className="text-xl font-serif italic text-slate-700 leading-relaxed p-6 bg-slate-50/50 rounded-3xl border border-slate-100 whitespace-pre-wrap">
+            <div className="text-xl font-serif italic text-muted-foreground leading-relaxed p-6 bg-slate-50/50 rounded-3xl border border-border whitespace-pre-wrap">
               {defaultNote}
             </div>
           ) : (
             <div className="flex justify-center">
-              <span className="text-slate-400 italic font-serif">Nenhum parecer emitido.</span>
+              <span className="text-muted-foreground italic font-serif">Nenhum parecer emitido.</span>
             </div>
           )}
           <div className="flex justify-end">
@@ -162,7 +162,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
                 setNote(defaultNote || '');
                 setIsEditing(true);
               }}
-              className="h-14 px-8 rounded-full bg-slate-50 border border-slate-200 text-slate-600 text-xs font-black uppercase tracking-widest hover:bg-slate-100 transition-colors flex items-center gap-3"
+              className="h-14 px-8 rounded-full bg-slate-50 border border-border text-muted-foreground text-xs font-black uppercase tracking-widest hover:bg-slate-100 transition-colors flex items-center gap-3"
             >
               <MessageSquare size={16} />
               {defaultNote ? 'Personalizar Parecer' : 'Incluir Parecer'}
@@ -171,7 +171,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
         </div>
       ) : (!isEditing && note) ? (
         <div className="p-10 space-y-8">
-          <div className="text-xl font-serif italic text-slate-700 leading-relaxed p-6 bg-slate-50/50 rounded-3xl border border-slate-100 whitespace-pre-wrap">
+          <div className="text-xl font-serif italic text-muted-foreground leading-relaxed p-6 bg-slate-50/50 rounded-3xl border border-border whitespace-pre-wrap">
             {note}
           </div>
           <div className="flex justify-end gap-4">
@@ -196,9 +196,9 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Insira aqui as observações críticas, variações relevantes e o parecer estratégico sobre esta demonstração..."
-              className="w-full h-72 bg-slate-50/50 border border-slate-200 rounded-[40px] p-10 text-xl font-serif italic leading-relaxed text-slate-700 outline-none focus:ring-8 focus:ring-blue-500/5 focus:bg-white focus:border-blue-200 transition-all resize-none shadow-inner"
+              className="w-full h-72 bg-slate-50/50 border border-border rounded-[40px] p-10 text-xl font-serif italic leading-relaxed text-muted-foreground outline-none focus:ring-8 focus:ring-blue-500/5 focus:bg-white focus:border-blue-200 transition-all resize-none shadow-inner"
             />
-            <div className="absolute top-6 right-8 text-slate-200 pointer-events-none group-focus-within:text-blue-100 transition-colors">
+            <div className="absolute top-6 right-8 text-muted-foreground pointer-events-none group-focus-within:text-blue-100 transition-colors">
               <MessageSquare size={48} strokeWidth={1} />
             </div>
           </div>
@@ -217,7 +217,7 @@ export function ExecutiveCommentary({ reportType, clientId, year, month, default
               {note && (
                 <button 
                   onClick={() => { setIsEditing(false); }}
-                  className="h-16 px-8 rounded-[28px] bg-slate-100 text-slate-500 text-xs font-black uppercase tracking-widest hover:bg-slate-200 transition-colors"
+                  className="h-16 px-8 rounded-[28px] bg-slate-100 text-muted-foreground text-xs font-black uppercase tracking-widest hover:bg-slate-200 transition-colors"
                 >
                   Cancelar
                 </button>

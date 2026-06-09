@@ -10,9 +10,9 @@ export const ExecutiveInvestigationDashboard: React.FC<ExecutiveInvestigationDas
   return (
     <div className="card-premium p-6 md:p-8 space-y-6">
       <div className="flex items-center gap-3 border-b border-border pb-4">
-        <Target className="text-indigo-500 w-6 h-6" />
+        <Target className="text-primary w-6 h-6" />
         <div>
-          <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500">Board Investigation</span>
+          <span className="text-[9px] font-black uppercase tracking-widest text-primary">Board Investigation</span>
           <h3 className="text-h3 font-display font-black text-foreground mt-0.5">Visão Geral da Investigação</h3>
         </div>
       </div>

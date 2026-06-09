@@ -14,11 +14,11 @@ export const GovernanceDataDependencyPanel: React.FC = () => {
   return (
     <div className="card-premium p-8 space-y-6">
       <div>
-        <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+        <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
           <Database className="w-4 h-4 text-secondary" />
           Dependências e Fontes do Runtime
         </h4>
-        <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
           Status das origens de dados verificadas e integridade criptográfica associada.
         </p>
       </div>
@@ -32,19 +32,19 @@ export const GovernanceDataDependencyPanel: React.FC = () => {
             <div key={dep.id} className="flex justify-between items-center py-4 first:pt-0 last:pb-0">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-slate-200">{dep.name}</span>
-                  <span className="text-[9px] uppercase font-mono tracking-widest px-2 py-0.5 bg-slate-900 border border-border/5 rounded-xl text-slate-500">
+                  <span className="text-sm font-medium text-muted-foreground">{dep.name}</span>
+                  <span className="text-[9px] uppercase font-mono tracking-widest px-2 py-0.5 bg-slate-900 border border-border/5 rounded-xl text-muted-foreground">
                     {dep.type}
                   </span>
                 </div>
                 {dep.lineageHash && (
-                  <p className="text-[10px] font-mono text-slate-500">{t("overlays.lineage_hash")} {dep.lineageHash}</p>
+                  <p className="text-[10px] font-mono text-muted-foreground">{t("overlays.lineage_hash")} {dep.lineageHash}</p>
                 )}
               </div>
 
               <div className="flex items-center gap-3">
                 {dep.updatedAt && (
-                  <span className="text-[10px] text-slate-500 font-mono">{t("overlays.sync")} {dep.updatedAt}</span>
+                  <span className="text-[10px] text-muted-foreground font-mono">{t("overlays.sync")} {dep.updatedAt}</span>
                 )}
                 {isAvailable ? (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">

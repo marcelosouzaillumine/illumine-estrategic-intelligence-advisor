@@ -9,7 +9,7 @@ export function CrossDomainCoordinationPanel({ tenantId }: { tenantId: string })
   return (
     <div className="bg-surface-container border border-border rounded-lg p-6">
       <div className="flex items-center gap-2 mb-4">
-        <Network className="text-indigo-500" />
+        <Network className="text-primary" />
         <h3 className="text-sm font-semibold text-foreground">Cross-Domain Responses</h3>
       </div>
       <div className="space-y-4">
@@ -18,7 +18,7 @@ export function CrossDomainCoordinationPanel({ tenantId }: { tenantId: string })
             <div className="text-center border-r border-border/50 pr-4">
               <div className="text-[10px] text-muted-foreground uppercase mb-1">{cd.sourceDomain}</div>
               <div className="text-muted-foreground text-xs">&rarr;</div>
-              <div className="text-[10px] text-indigo-500 font-bold uppercase mt-1">{cd.targetDomain}</div>
+              <div className="text-[10px] text-insight font-bold uppercase mt-1">{cd.targetDomain}</div>
             </div>
             <div className="pl-2">
               <div className="text-sm text-foreground">{cd.description}</div>

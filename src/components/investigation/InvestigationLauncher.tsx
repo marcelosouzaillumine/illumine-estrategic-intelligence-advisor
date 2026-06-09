@@ -38,7 +38,7 @@ export const InvestigationLauncher: React.FC<InvestigationLauncherProps> = ({ li
   return (
     <button
       onClick={handleLaunch}
-      className={`group inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/20 transition-all ${className}`}
+      className={`group inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-accent hover:bg-accent dark:bg-accent dark:hover:bg-accent text-accent dark:text-accent border border-accent dark:border-accent transition-all ${className}`}
       title={`Investigar: ${link.title}`}
     >
       <Search size={12} className="group-hover:scale-110 transition-transform" />

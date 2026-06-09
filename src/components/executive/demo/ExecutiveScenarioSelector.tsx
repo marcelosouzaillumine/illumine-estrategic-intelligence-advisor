@@ -17,8 +17,8 @@ export const ExecutiveScenarioSelector: React.FC<ExecutiveScenarioSelectorProps>
   };
 
   return (
-    <div className="w-full bg-slate-900 border border-slate-800 rounded-lg p-6 space-y-4">
-      <h3 className="text-sm font-semibold tracking-wider text-slate-400 uppercase">
+    <div className="w-full bg-slate-900 border border-border rounded-lg p-6 space-y-4">
+      <h3 className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">
         Homologated Board Scenario Catalog
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -36,20 +36,20 @@ export const ExecutiveScenarioSelector: React.FC<ExecutiveScenarioSelectorProps>
                   ? 'bg-slate-950 border-red-950 text-red-500 opacity-50 cursor-not-allowed'
                   : active
                   ? 'bg-blue-950/40 border-blue-500 text-blue-200'
-                  : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
+                  : 'bg-slate-950 border-border text-muted-foreground hover:border-border'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-sm">{sc.title}</span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 bg-slate-800 text-muted-foreground rounded">
                     v{sc.scenarioVersion}
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mt-1">{sc.description}</p>
+                <p className="text-xs text-muted-foreground mt-1">{sc.description}</p>
               </div>
 
-              <div className="mt-4 flex items-center justify-between text-[10px] font-mono text-slate-500 w-full">
+              <div className="mt-4 flex items-center justify-between text-[10px] font-mono text-muted-foreground w-full">
                 <span>Ref: {sc.runtimeSnapshotId}</span>
                 {corrupted ? (
                   <span className="text-red-500 font-bold uppercase">CORRUPTED (BLOCKED)</span>

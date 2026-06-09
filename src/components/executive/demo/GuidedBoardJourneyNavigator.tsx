@@ -35,7 +35,7 @@ export const GuidedBoardJourneyNavigator: React.FC<GuidedBoardJourneyNavigatorPr
   };
 
   return (
-    <div className="w-full bg-slate-900 border-y border-slate-800 py-3 px-6 flex items-center justify-start gap-2 overflow-x-auto">
+    <div className="w-full bg-slate-900 border-y border-border py-3 px-6 flex items-center justify-start gap-2 overflow-x-auto">
       {allowedSteps.map((step) => {
         const isActive = step === currentStep;
         return (
@@ -45,7 +45,7 @@ export const GuidedBoardJourneyNavigator: React.FC<GuidedBoardJourneyNavigatorPr
             className={`px-3 py-1.5 rounded text-xs font-mono transition-all duration-200 border whitespace-nowrap ${
               isActive
                 ? 'bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-500/20'
-                : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200 hover:bg-slate-900'
+                : 'bg-slate-950 text-muted-foreground border-border hover:text-muted-foreground hover:bg-slate-900'
             }`}
           >
             {step.replace('_', ' ')}

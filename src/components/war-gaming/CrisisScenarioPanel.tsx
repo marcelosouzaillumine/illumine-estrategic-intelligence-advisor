@@ -20,14 +20,14 @@ export function CrisisScenarioPanel({ onSimulate }: { onSimulate: (inputs: Crisi
   };
 
   return (
-    <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm">
-      <h3 className="text-xs font-black uppercase text-slate-500 tracking-widest mb-6 border-b border-slate-100 pb-2">Configuração de Crise</h3>
+    <div className="bg-white border border-border p-6 rounded-3xl shadow-sm">
+      <h3 className="text-xs font-black uppercase text-muted-foreground tracking-widest mb-6 border-b border-border pb-2">Configuração de Crise</h3>
       
       <div className="space-y-6">
         <div>
-          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-2">Vetor de Choque</label>
+          <label className="block text-[10px] font-bold text-muted-foreground uppercase mb-2">Vetor de Choque</label>
           <select 
-            className="w-full bg-slate-50 border border-slate-200 text-sm font-medium text-slate-700 rounded-lg p-3 outline-none focus:border-slate-400"
+            className="w-full bg-slate-50 border border-border text-sm font-medium text-muted-foreground rounded-lg p-3 outline-none focus:border-border"
             value={type}
             onChange={(e) => setType(e.target.value as CrisisType)}
           >
@@ -41,7 +41,7 @@ export function CrisisScenarioPanel({ onSimulate }: { onSimulate: (inputs: Crisi
 
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase">Magnitude Estrutural</label>
+            <label className="text-[10px] font-bold text-muted-foreground uppercase">Magnitude Estrutural</label>
             <span className="text-xs font-black text-rose-600">-{magnitude}%</span>
           </div>
           <input 

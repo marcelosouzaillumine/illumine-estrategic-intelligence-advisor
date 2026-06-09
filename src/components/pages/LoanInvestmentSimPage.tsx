@@ -350,8 +350,8 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                 <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
                             </div>
                         </div>
-                        <h1 className="text-5xl font-display font-black text-slate-900 tracking-tight uppercase">Simulador de Captação</h1>
-                        <p className="text-slate-500 text-lg font-medium max-w-2xl mx-auto italic">
+                        <h1 className="text-5xl font-display font-black text-muted-foreground tracking-tight uppercase">Simulador de Captação</h1>
+                        <p className="text-muted-foreground text-lg font-medium max-w-2xl mx-auto italic">
                             "Modelagem estratégica de capital, spread operacional e alavancagem financeira para decisões de alto impacto."
                         </p>
                     </div>
@@ -368,18 +368,18 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                     <Plus size={32} />
                                 </div>
                                 <h3 className="text-2xl font-display font-black uppercase mb-2">Novo Projeto</h3>
-                                <p className="text-slate-400 text-sm font-medium leading-relaxed">
+                                <p className="text-muted-foreground text-sm font-medium leading-relaxed">
                                     Inicie uma modelagem do zero, definindo valor, prazo e comparando instituições.
                                 </p>
                             </div>
                         </motion.button>
 
-                        <div className="bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm relative overflow-hidden">
+                        <div className="bg-white p-10 rounded-[48px] border border-border shadow-sm relative overflow-hidden">
                             <div className="flex items-center justify-between mb-8">
-                                <h3 className="text-lg font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                                    <History size={20} className="text-slate-400" /> Projetos Recentes
+                                <h3 className="text-lg font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+                                    <History size={20} className="text-muted-foreground" /> Projetos Recentes
                                 </h3>
-                                <span className="text-[10px] font-black text-slate-400 bg-slate-50 px-3 py-1 rounded-full">{savedProjects.length} SALVOS</span>
+                                <span className="text-[10px] font-black text-muted-foreground bg-slate-50 px-3 py-1 rounded-full">{savedProjects.length} SALVOS</span>
                             </div>
                             
                             <div className="space-y-4 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
@@ -399,10 +399,10 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                     ))
                                 ) : (
                                     <div className="text-center py-10">
-                                        <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mx-auto mb-4 text-slate-200">
+                                        <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mx-auto mb-4 text-muted-foreground">
                                             <FileText size={24} />
                                         </div>
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Nenhum projeto salvo</p>
+                                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Nenhum projeto salvo</p>
                                     </div>
                                 )}
                             </div>
@@ -448,14 +448,14 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                         </div>
                         {savedProjects.length > 0 && (
                             <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10 group cursor-pointer">
-                                <History size={12} className="text-slate-500" />
+                                <History size={12} className="text-muted-foreground" />
                                 <select 
                                     onChange={(e) => {
                                         const p = savedProjects.find(sp => sp.id === e.target.value);
                                         if (p) loadProject(p);
                                     }}
                                     value={selectedProjectId || ''}
-                                    className="bg-transparent text-[9px] font-black uppercase outline-none text-slate-400 group-hover:text-white transition-colors"
+                                    className="bg-transparent text-[9px] font-black uppercase outline-none text-muted-foreground group-hover:text-white transition-colors"
                                 >
                                     <option value="" className="bg-slate-900">PROJETOS SALVOS</option>
                                     {savedProjects.map(p => (
@@ -497,7 +497,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                     </div>
                     <div>
                         <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Melhor Opção Identificada</h3>
-                        <p className="executive-note italic text-slate-600">
+                        <p className="executive-note italic text-muted-foreground">
                             {bestOption 
                                 ? `Baseado no Custo Efetivo Total (CET), a melhor alternativa é ${bestOption.name} (${bestOption.type}), com taxa de ${bestOption.cet.toFixed(2)}% a.a. O spread contra o retorno do negócio é de ${(expectedBusinessROI - bestOption.cet).toFixed(1)}%.`
                                 : "Aguardando modelagem de dados para análise de spread e custo de capital."
@@ -508,7 +508,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                 <div className="bg-primary p-8 rounded-[32px] text-white flex flex-col justify-between relative overflow-hidden group shadow-xl">
                     <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl"></div>
                     <div>
-                        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Menor CET Projetado</h3>
+                        <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Menor CET Projetado</h3>
                         <p className="text-4xl font-display font-black mb-2">{bestOption ? bestOption.cet.toFixed(2) : '0.00'}% <span className="text-sm font-bold opacity-50">a.a.</span></p>
                         <div className="flex items-center gap-2 text-emerald-400">
                             <ShieldCheck size={16} />
@@ -525,19 +525,19 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
                 {/* Sidebar: Inputs */}
                 <div className="lg:col-span-1 space-y-6">
-                    <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm space-y-8 sticky top-8">
+                    <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm space-y-8 sticky top-8">
                         <div>
-                            <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2 mb-6">
+                            <h3 className="text-sm font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2 mb-6">
                                 <div className="p-2 bg-slate-900 text-white rounded-xl shadow-lg"><Calculator size={18} /></div>
                                 Captação
                             </h3>
                             <div className="space-y-5">
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 uppercase flex items-center gap-1"><Target size={10} /> Finalidade do Capital</label>
+                                    <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-1"><Target size={10} /> Finalidade do Capital</label>
                                     <select 
                                         value={projectPurpose} 
                                         onChange={(e) => setProjectPurpose(e.target.value)}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 outline-none focus:border-slate-900 text-xs"
+                                        className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl font-bold text-muted-foreground outline-none focus:border-border text-xs"
                                     >
                                         <option value="Capital de Giro">Capital de Giro</option>
                                         <option value="Alongamento de Dívida">Alongamento de Dívida</option>
@@ -548,29 +548,29 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                     </select>
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 uppercase flex items-center gap-1"><DollarSign size={10} /> Valor Necessário</label>
-                                    <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 outline-none focus:border-slate-900 text-sm" />
+                                    <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-1"><DollarSign size={10} /> Valor Necessário</label>
+                                    <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl font-bold text-muted-foreground outline-none focus:border-border text-sm" />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 uppercase flex items-center gap-1"><Calendar size={10} /> Prazo Total (Meses)</label>
+                                    <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-1"><Calendar size={10} /> Prazo Total (Meses)</label>
                                     <div className="flex items-center gap-4">
                                         <input 
                                             type="number" 
                                             value={months || ''} 
                                             onChange={(e) => setMonths(Number(e.target.value))} 
-                                            className="w-16 px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg font-bold text-slate-800 text-xs outline-none focus:border-slate-900"
+                                            className="w-16 px-2 py-1 bg-slate-50 border border-border rounded-lg font-bold text-muted-foreground text-xs outline-none focus:border-border"
                                             placeholder="0"
                                         />
                                         <input type="range" min="0" max="360" value={months} onChange={(e) => setMonths(Number(e.target.value))} className="flex-1 accent-slate-900 h-1 bg-slate-100 rounded-full appearance-none cursor-pointer" />
                                     </div>
                                 </div>
-                                <div className="pt-6 border-t border-slate-100 space-y-4">
+                                <div className="pt-6 border-t border-border space-y-4">
                                     <div className="space-y-1">
-                                        <label className="text-[8px] font-bold text-slate-500 uppercase">ROI Esperado do Negócio (% a.a.)</label>
+                                        <label className="text-[8px] font-bold text-muted-foreground uppercase">ROI Esperado do Negócio (% a.a.)</label>
                                         <input type="number" value={expectedBusinessROI} onChange={(e) => setExpectedBusinessROI(Number(e.target.value))} className="w-full px-3 py-2 bg-emerald-50 border border-emerald-100 rounded-lg font-bold text-emerald-700 text-xs" />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-[8px] font-bold text-slate-500 uppercase">Rendimento de Caixa (% a.m.)</label>
+                                        <label className="text-[8px] font-bold text-muted-foreground uppercase">Rendimento de Caixa (% a.m.)</label>
                                         <input type="number" step="0.01" value={investmentYield} onChange={(e) => setInvestmentYield(Number(e.target.value))} className="w-full px-3 py-2 bg-blue-50 border border-blue-100 rounded-lg font-bold text-blue-700 text-xs" />
                                     </div>
                                 </div>
@@ -584,12 +584,12 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* Banks Section */}
                         <div className="space-y-4">
-                            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 flex items-center gap-2">
+                            <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-4 flex items-center gap-2">
                                 <Building2 size={14} className="text-blue-500" /> Instituições Financeiras (Empréstimo)
                             </h4>
                             <div className="space-y-4">
                                 {banks.map((bank, idx) => (
-                                    <div key={bank.id} className={cn("bg-white p-6 rounded-3xl border transition-all", (bank.active && amount > 0) ? "border-blue-200 shadow-md" : "border-slate-100 opacity-60")}>
+                                    <div key={bank.id} className={cn("bg-white p-6 rounded-3xl border transition-all", (bank.active && amount > 0) ? "border-blue-200 shadow-md" : "border-border opacity-60")}>
                                         <div className="flex items-center justify-between mb-4">
                                             <div className="flex items-center gap-3">
                                                 <input 
@@ -610,7 +610,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                                         newBanks[idx].name = e.target.value;
                                                         setBanks(newBanks);
                                                     }}
-                                                    className="bg-transparent font-black text-xs uppercase outline-none text-slate-700"
+                                                    className="bg-transparent font-black text-xs uppercase outline-none text-muted-foreground"
                                                 />
                                             </div>
                                             {bankResults[idx] && (
@@ -626,7 +626,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="space-y-1">
-                                                <label className="text-[8px] font-black text-slate-400 uppercase">Taxa (% a.m.)</label>
+                                                <label className="text-[8px] font-black text-muted-foreground uppercase">Taxa (% a.m.)</label>
                                                 <input 
                                                     type="number" 
                                                     step="0.01" 
@@ -640,7 +640,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                                 />
                                             </div>
                                             <div className="space-y-1">
-                                                <label className="text-[8px] font-black text-slate-400 uppercase">Carência (M)</label>
+                                                <label className="text-[8px] font-black text-muted-foreground uppercase">Carência (M)</label>
                                                 <input 
                                                     type="number" 
                                                     value={bank.grace} 
@@ -660,12 +660,12 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
 
                         {/* Consortia Section */}
                         <div className="space-y-4">
-                            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 flex items-center gap-2">
+                            <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-4 flex items-center gap-2">
                                 <PiggyBank size={14} className="text-amber-500" /> Administradoras de Consórcio
                             </h4>
                             <div className="space-y-4">
                                 {consortia.map((cons, idx) => (
-                                    <div key={cons.id} className={cn("bg-white p-6 rounded-3xl border transition-all", (cons.active && amount > 0) ? "border-amber-200 shadow-md" : "border-slate-100 opacity-60")}>
+                                    <div key={cons.id} className={cn("bg-white p-6 rounded-3xl border transition-all", (cons.active && amount > 0) ? "border-amber-200 shadow-md" : "border-border opacity-60")}>
                                         <div className="flex items-center justify-between mb-4">
                                             <div className="flex items-center gap-3">
                                                 <input 
@@ -686,7 +686,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                                         newCons[idx].name = e.target.value;
                                                         setConsortia(newCons);
                                                     }}
-                                                    className="bg-transparent font-black text-xs uppercase outline-none text-slate-700"
+                                                    className="bg-transparent font-black text-xs uppercase outline-none text-muted-foreground"
                                                 />
                                             </div>
                                             {consortiumCalculatedResults[idx] && (
@@ -697,7 +697,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                         </div>
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-1">
-                                                <label className="text-[8px] font-black text-slate-400 uppercase">T. Adm Total (%)</label>
+                                                <label className="text-[8px] font-black text-muted-foreground uppercase">T. Adm Total (%)</label>
                                                 <input 
                                                     type="number" 
                                                     value={cons.adminFee} 
@@ -710,7 +710,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                                 />
                                             </div>
                                             <div className="space-y-1">
-                                                <label className="text-[8px] font-black text-slate-400 uppercase">Contempl. (M)</label>
+                                                <label className="text-[8px] font-black text-muted-foreground uppercase">Contempl. (M)</label>
                                                 <input 
                                                     type="number" 
                                                     value={cons.contemplMonth} 
@@ -723,7 +723,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                                 />
                                             </div>
                                             <div className="space-y-1">
-                                                <label className="text-[8px] font-black text-slate-400 uppercase">Reduzida (%)</label>
+                                                <label className="text-[8px] font-black text-muted-foreground uppercase">Reduzida (%)</label>
                                                 <input 
                                                     type="number" 
                                                     value={cons.reduced} 
@@ -742,14 +742,14 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                         </div>
                     </div>
 
-                    <div className="bg-white p-10 rounded-[48px] border border-slate-100 shadow-sm">
+                    <div className="bg-white p-10 rounded-[48px] border border-border shadow-sm">
                         <div className="flex justify-between items-center mb-10">
                             <div>
-                                <h3 className="text-2xl font-display font-black text-slate-900 mb-1">Evolução de Fluxo (Comparativo)</h3>
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Análise simultânea de desembolso mensal</p>
+                                <h3 className="text-2xl font-display font-black text-muted-foreground mb-1">Evolução de Fluxo (Comparativo)</h3>
+                                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Análise simultânea de desembolso mensal</p>
                             </div>
                         </div>
-                        <div className="h-[400px] w-full flex items-center justify-center bg-slate-50/50 rounded-[32px] border border-dashed border-slate-200">
+                        <div className="h-[400px] w-full flex items-center justify-center bg-slate-50/50 rounded-[32px] border border-dashed border-border">
                             {amount > 0 ? (
                                 <ResponsiveContainer width="100%" height="100%">
                                     <ComposedChart data={temporalData}>
@@ -775,8 +775,8 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                 </ResponsiveContainer>
                             ) : (
                                 <div className="text-center space-y-2">
-                                    <BarChart size={40} className="mx-auto text-slate-200" />
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Aguardando definição de valor para gerar projeção</p>
+                                    <BarChart size={40} className="mx-auto text-muted-foreground" />
+                                    <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Aguardando definição de valor para gerar projeção</p>
                                 </div>
                             )}
                         </div>
@@ -786,25 +786,25 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                         {bankResults.filter(r => r !== null).map((res: any, idx) => (
                             <div key={idx} className="bg-white p-8 rounded-[40px] border border-blue-100 shadow-sm col-span-1 lg:col-span-2">
                                 <div className="flex items-center justify-between mb-6">
-                                    <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">{res.name}</h4>
+                                    <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">{res.name}</h4>
                                     <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase">Comparativo de Amortização</span>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     {/* Price Column */}
-                                    <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 relative">
+                                    <div className="p-6 bg-slate-50 rounded-3xl border border-border relative">
                                         <div className="absolute top-4 right-4 text-blue-500"><Percent size={16} /></div>
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Sistema PRICE</p>
+                                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Sistema PRICE</p>
                                         <div className="space-y-4">
                                             <div>
-                                                <p className="text-2xl font-black text-slate-900">{res.price.cet.toFixed(2)}% <span className="text-[10px] opacity-40">CET a.a.</span></p>
+                                                <p className="text-2xl font-black text-muted-foreground">{res.price.cet.toFixed(2)}% <span className="text-[10px] opacity-40">CET a.a.</span></p>
                                             </div>
-                                            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200">
+                                            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
                                                 <div>
-                                                    <p className="text-[8px] font-black text-slate-400 uppercase">Total Pago</p>
-                                                    <p className="text-xs font-bold text-slate-700">{formatCurrency(res.price.totalPaid)}</p>
+                                                    <p className="text-[8px] font-black text-muted-foreground uppercase">Total Pago</p>
+                                                    <p className="text-xs font-bold text-muted-foreground">{formatCurrency(res.price.totalPaid)}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-[8px] font-black text-slate-400 uppercase">Juros</p>
+                                                    <p className="text-[8px] font-black text-muted-foreground uppercase">Juros</p>
                                                     <p className="text-xs font-bold text-rose-500">{formatCurrency(res.price.totalInterest)}</p>
                                                 </div>
                                             </div>
@@ -813,18 +813,18 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                     {/* Sac Column */}
                                     <div className="p-6 bg-emerald-50/30 rounded-3xl border border-emerald-100 relative">
                                         <div className="absolute top-4 right-4 text-emerald-500"><TrendingUp size={16} /></div>
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Sistema SAC</p>
+                                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Sistema SAC</p>
                                         <div className="space-y-4">
                                             <div>
-                                                <p className="text-2xl font-black text-slate-900">{res.sac.cet.toFixed(2)}% <span className="text-[10px] opacity-40">CET a.a.</span></p>
+                                                <p className="text-2xl font-black text-muted-foreground">{res.sac.cet.toFixed(2)}% <span className="text-[10px] opacity-40">CET a.a.</span></p>
                                             </div>
                                             <div className="grid grid-cols-2 gap-4 pt-4 border-t border-emerald-200">
                                                 <div>
-                                                    <p className="text-[8px] font-black text-slate-400 uppercase">Total Pago</p>
-                                                    <p className="text-xs font-bold text-slate-700">{formatCurrency(res.sac.totalPaid)}</p>
+                                                    <p className="text-[8px] font-black text-muted-foreground uppercase">Total Pago</p>
+                                                    <p className="text-xs font-bold text-muted-foreground">{formatCurrency(res.sac.totalPaid)}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-[8px] font-black text-slate-400 uppercase">Juros</p>
+                                                    <p className="text-[8px] font-black text-muted-foreground uppercase">Juros</p>
                                                     <p className="text-xs font-bold text-emerald-600">{formatCurrency(res.sac.totalInterest)}</p>
                                                 </div>
                                             </div>
@@ -843,18 +843,18 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                         ))}
                         {consortiumCalculatedResults.filter(r => r !== null).map((res: any, idx) => (
                             <div key={`cons_res_${idx}`} className="bg-white p-6 rounded-[32px] border border-amber-100 shadow-sm">
-                                <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-2">{res.name} (CONSÓRCIO)</p>
+                                <p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest mb-2">{res.name} (CONSÓRCIO)</p>
                                 <div className="flex items-baseline gap-1 mb-4">
-                                    <span className="text-2xl font-black text-slate-900">{res.cet.toFixed(2)}%</span>
-                                    <span className="text-[10px] font-bold text-slate-400">CET a.a.</span>
+                                    <span className="text-2xl font-black text-muted-foreground">{res.cet.toFixed(2)}%</span>
+                                    <span className="text-[10px] font-bold text-muted-foreground">CET a.a.</span>
                                 </div>
-                                <div className="space-y-2 pt-4 border-t border-slate-50">
+                                <div className="space-y-2 pt-4 border-t border-border">
                                     <div className="flex justify-between text-[9px] font-bold">
-                                        <span className="text-slate-400">Total Pago:</span>
-                                        <span className="text-slate-700">{formatCurrency(res.totalPaid)}</span>
+                                        <span className="text-muted-foreground">Total Pago:</span>
+                                        <span className="text-muted-foreground">{formatCurrency(res.totalPaid)}</span>
                                     </div>
                                     <div className="flex justify-between text-[9px] font-bold">
-                                        <span className="text-slate-400">Taxas Totais:</span>
+                                        <span className="text-muted-foreground">Taxas Totais:</span>
                                         <span className="text-amber-600">{formatCurrency(res.totalFees)}</span>
                                     </div>
                                 </div>
@@ -868,7 +868,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                        <div className="md:col-span-2 bg-slate-900 p-12 rounded-[56px] text-white overflow-hidden relative border border-slate-800 shadow-2xl">
+                        <div className="md:col-span-2 bg-slate-900 p-12 rounded-[56px] text-white overflow-hidden relative border border-border shadow-2xl">
                             <div className="absolute -right-20 -top-20 opacity-20 blur-3xl bg-blue-600 w-[500px] h-[500px] rounded-full"></div>
                             <div className="relative z-10">
                                 <div className="flex items-center gap-6 mb-12">
@@ -890,12 +890,12 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                             <div className="w-full bg-white/5 h-2.5 rounded-full overflow-hidden">
                                                 <div className={cn("h-full", expectedBusinessROI > loanResults.cet ? "bg-emerald-500" : "bg-rose-500")} style={{ width: `${Math.min(Math.abs(expectedBusinessROI - loanResults.cet) * 10, 100)}%` }}></div>
                                             </div>
-                                            <p className="text-[11px] text-slate-400 mt-4 font-medium italic">Diferencial entre ROI do Negócio e Custo da Dívida.</p>
+                                            <p className="text-[11px] text-muted-foreground mt-4 font-medium italic">Diferencial entre ROI do Negócio e Custo da Dívida.</p>
                                         </div>
                                     </div>
                                     <div className="bg-white/5 p-8 rounded-[40px] border border-white/10 backdrop-blur-md">
                                         <h4 className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-6 flex items-center gap-2"><ShieldCheck size={14} /> Parecer CFO</h4>
-                                        <p className="text-sm text-slate-300 leading-relaxed font-medium mb-6">
+                                        <p className="text-sm text-muted-foreground leading-relaxed font-medium mb-6">
                                             {projectPurpose === 'Alongamento de Dívida' && `Estratégia focada em redução de desembolso mensal e otimização do cronograma de amortização.`}
                                             {projectPurpose === 'Capital de Giro' && `Foco em liquidez imediata. O CET de ${loanResults.cet.toFixed(1)}% deve ser comparado ao custo de oportunidade do caixa.`}
                                             {projectPurpose.includes('Expansão') && `Investimento em crescimento. O ROI de ${expectedBusinessROI.toFixed(1)}% justifica a alavancagem com spread de ${(expectedBusinessROI - loanResults.cet).toFixed(1)}%.`}
@@ -905,7 +905,7 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                                     : `Atenção: O custo de capital (${loanResults.cet.toFixed(1)}%) para ${projectPurpose} é superior ao ROI esperado.`
                                             )}
                                         </p>
-                                        <div className="pt-6 border-t border-white/10 flex justify-between text-[10px] font-black uppercase text-slate-400">
+                                        <div className="pt-6 border-t border-white/10 flex justify-between text-[10px] font-black uppercase text-muted-foreground">
                                             <span>Risco de Liquidez</span>
                                             <span className="text-emerald-400">Controlado</span>
                                         </div>
@@ -949,13 +949,13 @@ export function LoanInvestmentSimPage({ clientId }: { clientId?: string }) {
                                 <h4 className="text-[11px] font-black uppercase text-secondary tracking-[0.4em] mb-6">Ponto de Equilíbrio (Capital)</h4>
                                 <div className="space-y-6">
                                     <div className="flex justify-between items-end">
-                                        <span className="text-[10px] font-black text-slate-400 uppercase">ROI Mínimo Requerido</span>
+                                        <span className="text-[10px] font-black text-muted-foreground uppercase">ROI Mínimo Requerido</span>
                                         <span className="text-xl font-black text-white">{(bestOption?.cet || 0).toFixed(2)}%</span>
                                     </div>
                                     <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
                                         <div className="bg-secondary h-full" style={{ width: `${Math.min((bestOption?.cet || 0) * 5, 100)}%` }}></div>
                                     </div>
-                                    <p className="text-xs text-slate-400 leading-relaxed italic">
+                                    <p className="text-xs text-muted-foreground leading-relaxed italic">
                                         Para que a captação não destrua valor, o retorno sobre o capital investido (ROIC) deve ser obrigatoriamente superior a {(bestOption?.cet || 0).toFixed(2)}% ao ano.
                                     </p>
                                 </div>

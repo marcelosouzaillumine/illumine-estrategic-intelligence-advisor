@@ -19,7 +19,7 @@ export const InstitutionalMapViewer: React.FC<InstitutionalMapViewerProps> = ({ 
             <div className="absolute left-[-16px] top-[-10px] w-px h-[28px] bg-slate-700" />
           )}
           
-          <div className={`flex items-center justify-center rounded-lg p-2 ${level === 0 ? 'bg-indigo-500/20 text-indigo-400' : 'bg-surface-container text-foreground'}`}>
+          <div className={`flex items-center justify-center rounded-lg p-2 ${level === 0 ? 'bg-insight text-insight' : 'bg-surface-container text-foreground'}`}>
             {level === 0 ? <Server size={18} /> : <Network size={14} />}
           </div>
           

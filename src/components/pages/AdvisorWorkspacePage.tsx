@@ -145,7 +145,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
         icon={Briefcase}
         transparent
         actions={
-          <div className="flex items-center gap-3 bg-indigo-600/10 text-indigo-400 px-4 py-2 border border-indigo-500/20 rounded-button">
+          <div className="flex items-center gap-3 bg-accent text-accent px-4 py-2 border border-accent rounded-button">
             <ShieldCheck size={16} />
             <span className="text-[10px] font-black uppercase tracking-wider">Advisor Mode</span>
           </div>
@@ -156,10 +156,10 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         
         {/* Clients Monitored */}
-        <div className="card-premium p-6 flex flex-col justify-between hover:border-indigo-500/20 transition-all">
+        <div className="card-premium p-6 flex flex-col justify-between hover:border-accent transition-all">
           <div className="flex justify-between items-start mb-4">
             <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Clientes Monitorados</span>
-            <div className="p-2 bg-indigo-600/10 text-indigo-400 rounded-lg"><Users size={16} /></div>
+            <div className="p-2 bg-primary text-primary rounded-lg"><Users size={16} /></div>
           </div>
           <div>
             <h4 className="text-h3 font-display font-medium tracking-tight text-foreground tabular-nums">3 Empresas</h4>
@@ -168,10 +168,10 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
         </div>
 
         {/* Staging Queue Jobs */}
-        <div className="card-premium p-6 flex flex-col justify-between hover:border-indigo-500/20 transition-all">
+        <div className="card-premium p-6 flex flex-col justify-between hover:border-accent transition-all">
           <div className="flex justify-between items-start mb-4">
             <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Aguardando Revisão</span>
-            <div className="p-2 bg-indigo-600/10 text-indigo-400 rounded-lg"><FileCheck size={16} /></div>
+            <div className="p-2 bg-primary text-primary rounded-lg"><FileCheck size={16} /></div>
           </div>
           <div>
             <h4 className="text-h3 font-display font-medium tracking-tight text-foreground tabular-nums">
@@ -182,22 +182,22 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
         </div>
 
         {/* Active Engine Calibration */}
-        <div className="card-premium p-6 flex flex-col justify-between hover:border-indigo-500/20 transition-all">
+        <div className="card-premium p-6 flex flex-col justify-between hover:border-accent transition-all">
           <div className="flex justify-between items-start mb-4">
             <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Calibração Ativa</span>
-            <div className="p-2 bg-indigo-600/10 text-indigo-400 rounded-lg"><Sliders size={16} /></div>
+            <div className="p-2 bg-primary text-primary rounded-lg"><Sliders size={16} /></div>
           </div>
           <div>
-            <h4 className="text-h3 font-display font-medium tracking-tight text-indigo-400 capitalize">{activeProfile}</h4>
+            <h4 className="text-h3 font-display font-medium tracking-tight text-primary capitalize">{activeProfile}</h4>
             <p className="text-[9px] text-muted-foreground font-semibold mt-1">VERSÃO: {activeVersion}</p>
           </div>
         </div>
 
         {/* Runtime Performance Status */}
-        <div className="card-premium p-6 flex flex-col justify-between hover:border-indigo-500/20 transition-all">
+        <div className="card-premium p-6 flex flex-col justify-between hover:border-accent transition-all">
           <div className="flex justify-between items-start mb-4">
             <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Performance do Runtime</span>
-            <div className="p-2 bg-indigo-600/10 text-indigo-400 rounded-lg"><Activity size={16} /></div>
+            <div className="p-2 bg-primary text-primary rounded-lg"><Activity size={16} /></div>
           </div>
           <div>
             <h4 className="text-h3 font-display font-medium tracking-tight text-foreground">
@@ -221,7 +221,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
           {/* Staging Queue */}
           <div className="card-premium p-6 space-y-4">
             <h3 className="text-sm font-bold text-foreground uppercase tracking-widest flex items-center gap-2">
-              <FileCheck size={16} className="text-indigo-400" /> Fila de Revisão do Staging (Import Queue)
+              <FileCheck size={16} className="text-primary" /> Fila de Revisão do Staging (Import Queue)
             </h3>
             
             <div className="overflow-x-auto">
@@ -253,7 +253,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                         {job.status === 'PENDING_REVIEW' && (
                           <button 
                             onClick={() => handleJobAction(job.id, 'VALIDATED')}
-                            className="bg-indigo-600 text-white px-2 py-1 rounded text-[10px] font-bold uppercase hover:bg-indigo-700"
+                            className="bg-accent text-white px-2 py-1 rounded text-[10px] font-bold uppercase hover:bg-accent"
                           >
                             Validar
                           </button>
@@ -285,32 +285,32 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
           {/* Onboarding checklist control */}
           <div className="card-premium p-6 space-y-4">
             <h3 className="text-sm font-bold text-foreground uppercase tracking-widest flex items-center gap-2">
-              <CheckSquare size={16} className="text-indigo-400" /> Checklist de Onboarding Contábil (Client Readiness)
+              <CheckSquare size={16} className="text-primary" /> Checklist de Onboarding Contábil (Client Readiness)
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-xs">
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${onboardingWizard?.isolationValidated ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'border-slate-300'}`}>✓</div>
-                  <span className="font-bold text-slate-700">Isolamento de Tenant Validado</span>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${onboardingWizard?.isolationValidated ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'border-border'}`}>✓</div>
+                  <span className="font-bold text-muted-foreground">Isolamento de Tenant Validado</span>
                 </div>
                 <div className="flex items-center gap-3 text-xs">
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${onboardingWizard?.topologyValidated ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'border-slate-300'}`}>✓</div>
-                  <span className="font-bold text-slate-700">Mapeamento de Topologia Contábil</span>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${onboardingWizard?.topologyValidated ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'border-border'}`}>✓</div>
+                  <span className="font-bold text-muted-foreground">Mapeamento de Topologia Contábil</span>
                 </div>
                 <div className="flex items-center gap-3 text-xs">
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${onboardingWizard?.entityScopeConfigured ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'border-slate-300'}`}>✓</div>
-                  <span className="font-bold text-slate-700">Escopo da Entidade Configurado</span>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${onboardingWizard?.entityScopeConfigured ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'border-border'}`}>✓</div>
+                  <span className="font-bold text-muted-foreground">Escopo da Entidade Configurado</span>
                 </div>
               </div>
 
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-xs">
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${onboardingWizard?.advisoryRuntimeOperational ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'border-slate-300'}`}>✓</div>
-                  <span className="font-bold text-slate-700">Runtime Operacional</span>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${onboardingWizard?.advisoryRuntimeOperational ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'border-border'}`}>✓</div>
+                  <span className="font-bold text-muted-foreground">Runtime Operacional</span>
                 </div>
                 <div className="flex items-center gap-3 text-xs">
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${onboardingWizard?.initialBalanceSheetBalanced ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'border-slate-300'}`}>✓</div>
-                  <span className="font-bold text-slate-700">Balanço de Abertura Consolidado</span>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${onboardingWizard?.initialBalanceSheetBalanced ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'border-border'}`}>✓</div>
+                  <span className="font-bold text-muted-foreground">Balanço de Abertura Consolidado</span>
                 </div>
               </div>
             </div>
@@ -323,12 +323,12 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
           {/* Change Calibration Profile */}
           <div className="card-premium p-6 space-y-4">
             <h3 className="text-sm font-bold text-foreground uppercase tracking-widest flex items-center gap-2">
-              <Sliders size={16} className="text-indigo-400" /> Calibrador de Sensibilidade
+              <Sliders size={16} className="text-primary" /> Calibrador de Sensibilidade
             </h3>
             
             <div className="space-y-3">
               <div>
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Justificativa Fiduciária</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block mb-1">Justificativa Fiduciária</label>
                 <textarea 
                   value={customRationale} 
                   onChange={e => setCustomRationale(e.target.value)}
@@ -352,7 +352,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                 </button>
                 <button 
                   onClick={() => handleApplyProfile('conservative')}
-                  className="px-2 py-1.5 bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 border border-indigo-500/20 rounded text-[10px] font-black uppercase tracking-wider transition-colors"
+                  className="px-2 py-1.5 bg-accent hover:bg-accent text-accent border border-accent rounded text-[10px] font-black uppercase tracking-wider transition-colors"
                 >
                   Conservative
                 </button>
@@ -375,7 +375,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
           {/* Audit calibration history */}
           <div className="card-premium p-6 space-y-4">
             <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-              <FileText size={14} className="text-indigo-400" /> Log de Calibrações
+              <FileText size={14} className="text-primary" /> Log de Calibrações
             </h3>
             <div className="space-y-3 max-h-[200px] overflow-y-auto pr-1 scrollbar-premium">
               {calibrationLogs.map((log, idx) => (
@@ -389,7 +389,7 @@ export function AdvisorWorkspacePage({ selectedClient }: { selectedClient: strin
                 </div>
               ))}
               {calibrationLogs.length === 0 && (
-                <p className="text-[10px] text-slate-400 italic">Nenhum evento de calibração registrado.</p>
+                <p className="text-[10px] text-muted-foreground italic">Nenhum evento de calibração registrado.</p>
               )}
             </div>
           </div>

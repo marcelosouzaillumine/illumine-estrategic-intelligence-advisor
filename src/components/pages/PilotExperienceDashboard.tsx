@@ -238,7 +238,7 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
                 {sessions.map((sess) => (
                   <tr key={sess.sessionId} className="hover:bg-surface-container/20">
                     <td className="px-4 py-3 font-mono text-xs">{sess.sessionId.substring(0, 15)}...</td>
-                    <td className="px-4 py-3 text-xs font-bold text-slate-650">{sess.sessionType.replace('_', ' ')}</td>
+                    <td className="px-4 py-3 text-xs font-bold text-muted-foreground">{sess.sessionType.replace('_', ' ')}</td>
                     <td className="px-4 py-3 text-xs text-muted-foreground">{sess.actorId}</td>
                     <td className="px-4 py-3">
                       <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider ${
@@ -268,38 +268,38 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
 
           <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
             {feedbacks.map((f) => (
-              <div key={f.feedbackId} className="p-4 bg-slate-50 border border-slate-100 rounded-xl space-y-3">
-                <div className="flex justify-between items-center text-[10px] font-bold text-slate-400">
+              <div key={f.feedbackId} className="p-4 bg-slate-50 border border-border rounded-xl space-y-3">
+                <div className="flex justify-between items-center text-[10px] font-bold text-muted-foreground">
                   <span className="flex items-center gap-1"><User size={12} /> {f.actorId}</span>
                   <span>{new Date(f.timestamp).toLocaleDateString()}</span>
                 </div>
                 
                 <div className="grid grid-cols-5 gap-2 text-center">
-                  <div className="bg-white p-1.5 rounded border border-slate-100">
-                    <span className="block text-[8px] font-black text-slate-400 uppercase tracking-wider">Confiança</span>
-                    <span className="text-xs font-bold text-slate-700">{f.confidencePerception}/5</span>
+                  <div className="bg-white p-1.5 rounded border border-border">
+                    <span className="block text-[8px] font-black text-muted-foreground uppercase tracking-wider">Confiança</span>
+                    <span className="text-xs font-bold text-muted-foreground">{f.confidencePerception}/5</span>
                   </div>
-                  <div className="bg-white p-1.5 rounded border border-slate-100">
-                    <span className="block text-[8px] font-black text-slate-400 uppercase tracking-wider">Clareza</span>
-                    <span className="text-xs font-bold text-slate-700">{f.narrativeClarity}/5</span>
+                  <div className="bg-white p-1.5 rounded border border-border">
+                    <span className="block text-[8px] font-black text-muted-foreground uppercase tracking-wider">Clareza</span>
+                    <span className="text-xs font-bold text-muted-foreground">{f.narrativeClarity}/5</span>
                   </div>
-                  <div className="bg-white p-1.5 rounded border border-slate-100">
-                    <span className="block text-[8px] font-black text-slate-400 uppercase tracking-wider">Valor</span>
-                    <span className="text-xs font-bold text-slate-700">{f.valuePerception}/5</span>
+                  <div className="bg-white p-1.5 rounded border border-border">
+                    <span className="block text-[8px] font-black text-muted-foreground uppercase tracking-wider">Valor</span>
+                    <span className="text-xs font-bold text-muted-foreground">{f.valuePerception}/5</span>
                   </div>
-                  <div className="bg-white p-1.5 rounded border border-slate-100">
-                    <span className="block text-[8px] font-black text-slate-400 uppercase tracking-wider">Ruído</span>
-                    <span className="text-xs font-bold text-slate-700">{f.excessiveNoise}/5</span>
+                  <div className="bg-white p-1.5 rounded border border-border">
+                    <span className="block text-[8px] font-black text-muted-foreground uppercase tracking-wider">Ruído</span>
+                    <span className="text-xs font-bold text-muted-foreground">{f.excessiveNoise}/5</span>
                   </div>
-                  <div className="bg-white p-1.5 rounded border border-slate-100">
-                    <span className="block text-[8px] font-black text-slate-400 uppercase tracking-wider">Warnings</span>
-                    <span className="text-xs font-bold text-slate-700">{f.irrelevantWarnings}/5</span>
+                  <div className="bg-white p-1.5 rounded border border-border">
+                    <span className="block text-[8px] font-black text-muted-foreground uppercase tracking-wider">Warnings</span>
+                    <span className="text-xs font-bold text-muted-foreground">{f.irrelevantWarnings}/5</span>
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[8px] font-black text-slate-400 uppercase tracking-wider">Pontos de Fricção/Confusão</span>
-                  <p className="text-xs text-slate-600 italic">"{f.confusionPoints}"</p>
+                  <span className="text-[8px] font-black text-muted-foreground uppercase tracking-wider">Pontos de Fricção/Confusão</span>
+                  <p className="text-xs text-muted-foreground italic">"{f.confusionPoints}"</p>
                 </div>
               </div>
             ))}
@@ -366,12 +366,12 @@ export function PilotExperienceDashboard({ selectedClient }: { selectedClient: s
 
           <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
             {auditLogs.map((log) => (
-              <div key={log.auditId} className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-1">
-                <div className="flex justify-between items-center text-[9px] font-bold text-slate-400">
+              <div key={log.auditId} className="p-3 bg-slate-50 border border-border rounded-xl space-y-1">
+                <div className="flex justify-between items-center text-[9px] font-bold text-muted-foreground">
                   <span>ID Auditoria: {log.auditId.substring(0, 15)}...</span>
                   <span>{new Date(log.timestamp).toLocaleTimeString()}</span>
                 </div>
-                <p className="text-xs font-bold text-slate-700">
+                <p className="text-xs font-bold text-muted-foreground">
                   Ação "{log.action}" executada por {log.actorId}
                 </p>
                 <p className="text-[10px] text-muted-foreground">Sessão: {log.sessionId}</p>

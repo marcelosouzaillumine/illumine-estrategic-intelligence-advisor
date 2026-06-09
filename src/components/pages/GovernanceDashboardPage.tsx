@@ -129,7 +129,7 @@ export function GovernanceDashboardPage({
       suffix: '%', 
       status: (runtimeOutput as any)?.canonicalState?.status === 'HEALTHY' ? 'positive' : 'neutral', 
       icon: BarChart3,
-      color: 'bg-indigo-500'
+      color: 'bg-primary'
     },
     { 
       id: 'dashboard_inovacao' as Page,
@@ -240,16 +240,16 @@ export function GovernanceDashboardPage({
          </div>
          
          <div className="text-center space-y-4 w-full max-w-2xl mx-auto px-6">
-            <h2 className="text-4xl font-display font-black text-slate-900 tracking-tight leading-tight">{t('gov.empty.title')}</h2>
-            <p className="text-slate-500 w-full max-w-2xl mx-auto font-medium leading-relaxed">
+            <h2 className="text-4xl font-display font-black text-muted-foreground tracking-tight leading-tight">{t('gov.empty.title')}</h2>
+            <p className="text-muted-foreground w-full max-w-2xl mx-auto font-medium leading-relaxed">
               {t('gov.empty.desc_1')} <strong>{t(`common.months.${selectedMonth || 1}`)} {selectedYear}</strong>. 
               {t('gov.empty.desc_2')}
             </p>
           <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
-            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-2 border border-slate-200 shadow-sm h-[40px]">
+            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl px-5 py-2 border border-border shadow-sm h-[40px]">
               <span className={cn(
                 "text-[10px] font-black uppercase tracking-widest transition-colors",
-                !isYTD ? "text-secondary" : "text-slate-400"
+                !isYTD ? "text-secondary" : "text-muted-foreground"
               )}>{t('common.monthly')}</span>
               <button 
                 onClick={() => setIsYTD(!isYTD)}
@@ -265,14 +265,14 @@ export function GovernanceDashboardPage({
               </button>
               <span className={cn(
                 "text-[10px] font-black uppercase tracking-widest transition-colors",
-                isYTD ? "text-secondary" : "text-slate-400"
+                isYTD ? "text-secondary" : "text-muted-foreground"
               )}>
                 {t('common.yearly')}
               </span>
             </div>
 
-            <div className="flex items-center bg-white/10 backdrop-blur-md border border-slate-200 rounded-2xl p-1 shadow-sm h-[40px]">
-              <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-slate-100")}>
+            <div className="flex items-center bg-white/10 backdrop-blur-md border border-border rounded-2xl p-1 shadow-sm h-[40px]">
+              <div className={cn("flex items-center px-4 py-2", !isYTD && "border-r border-border")}>
                 <BookOpen size={14} className="text-secondary mr-2" />
                 <select 
                   value={selectedYear} 

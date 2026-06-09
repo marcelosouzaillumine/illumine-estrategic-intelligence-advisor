@@ -186,13 +186,13 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
-          <div key={i} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
+          <div key={i} className="bg-white p-6 rounded-3xl border border-border shadow-sm flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
               <stat.icon size={24} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
-              <p className="text-xl font-display font-black text-slate-900">
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{stat.label}</p>
+              <p className="text-xl font-display font-black text-muted-foreground">
                 {stat.isCur ? formatValue(stat.value, 'R$') : stat.value.toLocaleString()}
                 {stat.suffix}
               </p>
@@ -209,7 +209,7 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
           </div>
           <div>
             <h3 className="text-lg font-display font-black uppercase tracking-widest">Pipeline de Vendas</h3>
-            <p className="text-xs text-slate-400 font-medium tracking-wide">Gestão granular e segmentada de oportunidades comerciais.</p>
+            <p className="text-xs text-muted-foreground font-medium tracking-wide">Gestão granular e segmentada de oportunidades comerciais.</p>
           </div>
         </div>
 
@@ -229,21 +229,21 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
       </div>
 
       {/* Filters Section */}
-      <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm space-y-6">
+      <div className="bg-white p-8 rounded-[32px] border border-border shadow-sm space-y-6">
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="flex-1 relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-secondary transition-colors" size={20} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-secondary transition-colors" size={20} />
             <input 
               type="text" 
               placeholder="Buscar por cliente ou vendedor..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold focus:border-secondary focus:bg-white outline-none transition-all"
+              className="w-full pl-12 pr-6 py-4 bg-slate-50 border border-border rounded-2xl text-sm font-bold focus:border-secondary focus:bg-white outline-none transition-all"
             />
           </div>
           
           <div className="flex flex-wrap gap-4">
-            <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 border border-slate-100 rounded-2xl">
+            <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 border border-border rounded-2xl">
               <Users2 size={16} className="text-secondary" />
               <select 
                 value={filterVendedor}
@@ -254,7 +254,7 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
               </select>
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 border border-slate-100 rounded-2xl">
+            <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 border border-border rounded-2xl">
               <Building2 size={16} className="text-secondary" />
               <select 
                 value={filterUnidade}
@@ -265,7 +265,7 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
               </select>
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 border border-slate-100 rounded-2xl">
+            <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 border border-border rounded-2xl">
               <MapPin size={16} className="text-secondary" />
               <select 
                 value={filterFilial}
@@ -279,16 +279,16 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto rounded-2xl border border-slate-50">
+        <div className="overflow-x-auto rounded-2xl border border-border">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/50">
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Cliente / Oportunidade</th>
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Responsável</th>
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Unidade/Filial</th>
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Etapa</th>
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Valor Previsto</th>
-                <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Ações</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Cliente / Oportunidade</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Responsável</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Unidade/Filial</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Etapa</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Valor Previsto</th>
+                <th className="px-4 md:px-6 py-2.5 md:py-4 text-right text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -300,7 +300,7 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
                 </tr>
               ) : filteredEntries.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-400 text-sm font-medium">
+                  <td colSpan={6} className="px-6 py-12 text-center text-muted-foreground text-sm font-medium">
                     Nenhuma oportunidade encontrada com os filtros atuais.
                   </td>
                 </tr>
@@ -308,38 +308,38 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
                 filteredEntries.map((entry) => (
                   <tr key={entry.id} className="hover:bg-slate-50/30 transition-colors group">
                     <td className="px-6 py-5">
-                      <p className="text-sm font-bold text-slate-900">{entry.customerName}</p>
-                      <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider mt-0.5">ID: {entry.id.substring(0, 8)}</p>
+                      <p className="text-sm font-bold text-muted-foreground">{entry.customerName}</p>
+                      <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mt-0.5">ID: {entry.id.substring(0, 8)}</p>
                     </td>
                     <td className="px-6 py-5">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-secondary/5 flex items-center justify-center text-secondary text-[10px] font-black">
                           {entry.vendedor?.substring(0, 2).toUpperCase()}
                         </div>
-                        <span className="text-xs font-bold text-slate-700">{entry.vendedor}</span>
+                        <span className="text-xs font-bold text-muted-foreground">{entry.vendedor}</span>
                       </div>
                     </td>
                     <td className="px-6 py-5">
-                      <p className="text-xs font-bold text-slate-700">{entry.unidade}</p>
-                      <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">{entry.filial}</p>
+                      <p className="text-xs font-bold text-muted-foreground">{entry.unidade}</p>
+                      <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">{entry.filial}</p>
                     </td>
                     <td className="px-6 py-5">
                       <span className={cn(
                         "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border",
                         entry.etapa === 'Fechamento' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
                         entry.etapa === 'Negociação' ? "bg-amber-50 text-amber-600 border-amber-100" :
-                        "bg-slate-50 text-slate-600 border-slate-100"
+                        "bg-slate-50 text-muted-foreground border-border"
                       )}>
                         {entry.etapa}
                       </span>
                     </td>
                     <td className="px-6 py-5">
-                      <p className="text-sm font-display font-black text-slate-900">{formatValue(entry.valor, 'R$')}</p>
+                      <p className="text-sm font-display font-black text-muted-foreground">{formatValue(entry.valor, 'R$')}</p>
                     </td>
                     <td className="px-6 py-5 text-right">
                       <button 
                         onClick={() => handleDelete(entry.id)}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-300 hover:bg-rose-50 hover:text-rose-600 transition-all opacity-0 group-hover:opacity-100"
+                        className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-rose-50 hover:text-rose-600 transition-all opacity-0 group-hover:opacity-100"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -369,7 +369,7 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
                   </div>
                   <h3 className="text-lg font-display font-black uppercase tracking-widest">Nova Oportunidade</h3>
                 </div>
-                <button onClick={() => setIsAdding(false)} className="text-slate-400 hover:text-white transition-colors">
+                <button onClick={() => setIsAdding(false)} className="text-muted-foreground hover:text-white transition-colors">
                   <X size={24} />
                 </button>
               </div>
@@ -377,66 +377,66 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
               <form onSubmit={handleAdd} className="p-10 space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Cliente / Oportunidade</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">Cliente / Oportunidade</label>
                     <input 
                       required
                       type="text" 
                       placeholder="Nome do Prospect/Cliente"
                       value={formData.customerName}
                       onChange={e => setFormData({...formData, customerName: e.target.value})}
-                      className="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all"
+                      className="w-full px-5 py-3.5 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Valor Estimado (R$)</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">Valor Estimado (R$)</label>
                     <input 
                       required
                       type="number" 
                       placeholder="0,00"
                       value={formData.valor}
                       onChange={e => setFormData({...formData, valor: e.target.value})}
-                      className="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all"
+                      className="w-full px-5 py-3.5 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Vendedor / Representante</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">Vendedor / Representante</label>
                     <input 
                       required
                       type="text" 
                       placeholder="Nome do Responsável"
                       value={formData.vendedor}
                       onChange={e => setFormData({...formData, vendedor: e.target.value})}
-                      className="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all"
+                      className="w-full px-5 py-3.5 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Unidade de Negócio</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">Unidade de Negócio</label>
                     <input 
                       required
                       type="text" 
                       placeholder="Ex: Matriz, Filial SP"
                       value={formData.unidade}
                       onChange={e => setFormData({...formData, unidade: e.target.value})}
-                      className="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all"
+                      className="w-full px-5 py-3.5 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Filial / Região</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">Filial / Região</label>
                     <input 
                       required
                       type="text" 
                       placeholder="Ex: Sul, Sudeste"
                       value={formData.filial}
                       onChange={e => setFormData({...formData, filial: e.target.value})}
-                      className="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all"
+                      className="w-full px-5 py-3.5 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Etapa Atual</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">Etapa Atual</label>
                     <select 
                       value={formData.etapa}
                       onChange={e => setFormData({...formData, etapa: e.target.value})}
-                      className="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all appearance-none"
+                      className="w-full px-5 py-3.5 bg-slate-50 border border-border rounded-2xl text-sm font-bold outline-none focus:border-secondary focus:bg-white transition-all appearance-none"
                     >
                       {ETAPAS.map(etapa => <option key={etapa} value={etapa}>{etapa}</option>)}
                     </select>
@@ -447,7 +447,7 @@ export function SalesPipelineManager({ clientId }: SalesPipelineManagerProps) {
                   <button 
                     type="button"
                     onClick={() => setIsAdding(false)}
-                    className="px-5 md:px-8 py-2 md:py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors"
+                    className="px-5 md:px-8 py-2 md:py-3 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-muted-foreground transition-colors"
                   >
                     Cancelar
                   </button>

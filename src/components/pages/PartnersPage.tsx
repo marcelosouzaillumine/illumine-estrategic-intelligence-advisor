@@ -294,10 +294,10 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
             {activeFormTab === 'dados' && (
               <div className="space-y-12">
                 {!editingId && (
-                  <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 mb-8">
+                  <div className="bg-slate-50 border border-border rounded-3xl p-8 mb-8">
                     <div className="flex items-center justify-between mb-6">
-                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Busca Automática</h4>
-                      <div className="flex bg-white p-1 rounded-xl border border-slate-200">
+                      <h4 className="text-xs font-black text-muted-foreground uppercase tracking-widest">Busca Automática</h4>
+                      <div className="flex bg-white p-1 rounded-xl border border-border">
                         {(['CNPJ', 'CPF'] as const).map(type => (
                           <button
                             key={type}
@@ -308,7 +308,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                             }}
                             className={cn(
                               "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-                              docType === type ? "bg-slate-900 text-white shadow-md" : "text-slate-400 hover:text-slate-600"
+                              docType === type ? "bg-slate-900 text-white shadow-md" : "text-muted-foreground hover:text-muted-foreground"
                             )}
                           >
                             {type}
@@ -334,7 +334,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
                     </div>
                     {error && <p className="text-rose-500 text-xs font-bold mt-3">{error}</p>}
                     {docType === 'CPF' && !loading && !formData.razao && (
-                      <p className="text-[9px] text-slate-400 mt-4 italic font-medium">Nota: A busca por CPF utiliza simulação de perfil para demonstração, devido a restrições de privacidade em APIs públicas.</p>
+                      <p className="text-[9px] text-muted-foreground mt-4 italic font-medium">Nota: A busca por CPF utiliza simulação de perfil para demonstração, devido a restrições de privacidade em APIs públicas.</p>
                     )}
                   </div>
                 )}
@@ -678,7 +678,7 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
         icon={Users}
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3 flex-1 max-w-xl">
           <div className="relative w-full">
             <input 
@@ -686,14 +686,14 @@ export function PartnersPage({ clients, setClients, setSelectedClient, isMaster 
               placeholder="Pesquisar por parceiro, CNPJ ou cidade..." 
               value={searchTerm} 
               onChange={(e) => setSearchTerm(e.target.value)} 
-              className="w-full pl-12 pr-6 py-3 bg-white border border-slate-100 rounded-2xl text-[11px] font-black uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm" 
+              className="w-full pl-12 pr-6 py-3 bg-white border border-border rounded-2xl text-[11px] font-black uppercase tracking-widest outline-none focus:border-secondary transition-all shadow-sm" 
             />
-            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap px-4 border-r border-slate-100 mr-4">
+          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest whitespace-nowrap px-4 border-r border-border mr-4">
             <span className="text-primary">{filteredPartners.length}</span> Parceiros
           </p>
           {isMaster && (

@@ -39,29 +39,29 @@ export function InstitutionalProjectionPanel({ output }: Props) {
       </div>
       
       {/* QUALIDADE DO CAIXA */}
-      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 shadow-sm">
-        <div className="flex items-center gap-2 mb-2 text-slate-700">
+      <div className="bg-slate-50 border border-border rounded-2xl p-5 shadow-sm">
+        <div className="flex items-center gap-2 mb-2 text-muted-foreground">
           <Activity size={16} />
           <h3 className="text-xs font-black uppercase tracking-widest">Qualidade do Caixa</h3>
         </div>
-        <div className="text-lg font-black text-slate-900 truncate">
+        <div className="text-lg font-black text-muted-foreground truncate">
           {cashFlowOutput.cashQuality.classification.replace(/_/g, ' ')}
         </div>
-        <div className="mt-2 text-xs font-medium text-slate-500">
+        <div className="mt-2 text-xs font-medium text-muted-foreground">
           Dependência: {cashFlowOutput.financialDependency.classification.toUpperCase()}
         </div>
       </div>
 
       {/* CONTINUIDADE */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm text-white">
-        <div className="flex items-center gap-2 mb-2 text-indigo-400">
+      <div className="bg-slate-900 border border-border rounded-2xl p-5 shadow-sm text-white">
+        <div className="flex items-center gap-2 mb-2 text-primary">
           <ShieldAlert size={16} />
           <h3 className="text-xs font-black uppercase tracking-widest">Resiliência</h3>
         </div>
         <div className="text-lg font-black truncate">
           Score Causal: N/A
         </div>
-        <div className="mt-2 text-xs font-medium text-slate-400 truncate">
+        <div className="mt-2 text-xs font-medium text-muted-foreground truncate">
           Causalidade Extraída
         </div>
       </div>

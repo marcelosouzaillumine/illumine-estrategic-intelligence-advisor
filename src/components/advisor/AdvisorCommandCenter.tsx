@@ -41,7 +41,7 @@ export const AdvisorCommandCenter: React.FC = () => {
   }, [organizationId]);
 
   return (
-    <div className="bg-slate-950 min-h-screen text-slate-200">
+    <div className="bg-slate-950 min-h-screen text-muted-foreground">
       <AdvisorWorkspaceShell 
         runtime={dependencies.runtime}
         contextEngine={dependencies.contextEngine}

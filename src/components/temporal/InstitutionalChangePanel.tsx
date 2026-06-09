@@ -52,7 +52,7 @@ export const InstitutionalChangePanel: React.FC<InstitutionalChangePanelProps> =
             </div>
             <div className="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
               <div 
-                className="bg-indigo-500 h-full rounded-full" 
+                className="bg-primary h-full rounded-full" 
                 style={{ width: `${totalChanges > 0 ? (relsChanged / totalChanges) * 100 : 0}%` }}
               />
             </div>

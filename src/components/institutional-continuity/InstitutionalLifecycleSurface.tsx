@@ -67,7 +67,7 @@ export function InstitutionalLifecycleSurface({
       label: 'Resilience',
       icon: <Shield size={16} />,
       isActive: resilienceClassification === 'RESILIENT' || resilienceClassification === 'ADAPTIVE',
-      color: 'bg-indigo-900 border-indigo-700 text-indigo-100',
+      color: 'bg-primary border-primary text-primary',
       inactiveColor: 'bg-zinc-900 border-zinc-800 text-zinc-600'
     },
     {

@@ -31,11 +31,11 @@ export const SeveritySemanticEngine = {
         };
       case 'ATTENTION':
         return {
-          bgColor: 'bg-indigo-500/5',
-          textColor: 'text-indigo-400',
-          borderColor: 'border-indigo-500/20',
-          accentColor: 'text-indigo-500',
-          iconBg: 'bg-indigo-500/10',
+          bgColor: 'bg-primary',
+          textColor: 'text-primary',
+          borderColor: 'border-primary',
+          accentColor: 'text-primary',
+          iconBg: 'bg-primary',
           accessibilityLabel: 'Atenção Necessária'
         };
       case 'WARNING':
@@ -59,18 +59,18 @@ export const SeveritySemanticEngine = {
       case 'LOCKED':
         return {
           bgColor: 'bg-slate-900/40',
-          textColor: 'text-slate-400',
-          borderColor: 'border-slate-800',
-          accentColor: 'text-slate-600',
+          textColor: 'text-muted-foreground',
+          borderColor: 'border-border',
+          accentColor: 'text-muted-foreground',
           iconBg: 'bg-slate-950',
           accessibilityLabel: 'Recurso Fiduciário Bloqueado'
         };
       default:
         return {
           bgColor: 'bg-slate-900/10',
-          textColor: 'text-slate-400',
-          borderColor: 'border-slate-800',
-          accentColor: 'text-slate-500',
+          textColor: 'text-muted-foreground',
+          borderColor: 'border-border',
+          accentColor: 'text-muted-foreground',
           iconBg: 'bg-slate-900/20',
           accessibilityLabel: 'Nível Não Mapeado'
         };
@@ -82,8 +82,8 @@ export const SeveritySemanticEngine = {
       case 'NORMAL':
         return {
           bannerBg: 'bg-slate-900/20',
-          textColor: 'text-slate-400',
-          borderColor: 'border-slate-800',
+          textColor: 'text-muted-foreground',
+          borderColor: 'border-border',
           animationClass: '',
           accessibilityLabel: 'Operação de Governança Normal'
         };
@@ -114,8 +114,8 @@ export const SeveritySemanticEngine = {
       default:
         return {
           bannerBg: 'bg-slate-900/20',
-          textColor: 'text-slate-400',
-          borderColor: 'border-slate-800',
+          textColor: 'text-muted-foreground',
+          borderColor: 'border-border',
           animationClass: '',
           accessibilityLabel: 'Nível Indefinido'
         };

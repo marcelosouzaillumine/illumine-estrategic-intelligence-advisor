@@ -23,15 +23,15 @@ export const InstitutionalUnavailableState: React.FC<InstitutionalUnavailableSta
       </div>
 
       <div className="space-y-2">
-        <h4 className="text-base font-bold text-slate-200 uppercase tracking-wider">{displayTitle}</h4>
+        <h4 className="text-base font-bold text-muted-foreground uppercase tracking-wider">{displayTitle}</h4>
         <p className="text-[10px] text-red-400 uppercase tracking-widest font-mono font-bold">{t('modal.unavailable_subtitle')}</p>
       </div>
 
-      <p className="text-xs text-slate-400 leading-relaxed font-medium">
+      <p className="text-xs text-muted-foreground leading-relaxed font-medium">
         {displayDescription}
       </p>
 
-      <div className="pt-4 border-t border-border/10 flex justify-between items-center text-[10px] font-mono text-slate-500">
+      <div className="pt-4 border-t border-border/10 flex justify-between items-center text-[10px] font-mono text-muted-foreground">
         <span>{t('modal.code')} {errorCode}</span>
         <span className="flex items-center gap-1">
           <HelpCircle className="w-3.5 h-3.5" /> {t('modal.contact_admin')}

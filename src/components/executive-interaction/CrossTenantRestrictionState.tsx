@@ -23,16 +23,16 @@ export const CrossTenantRestrictionState: React.FC<CrossTenantRestrictionStatePr
         <p className="text-[10px] text-red-400 uppercase tracking-widest font-mono font-bold">Security Boundary Violation (Sovereignty Check)</p>
       </div>
 
-      <p className="text-xs text-slate-400 leading-relaxed font-medium">
-        Seu contexto ativo está configurado para o Tenant <strong className="text-slate-300 font-bold">{tenantId}</strong>. A tentativa de acessar recursos ou dados de outro tenant foi bloqueada preventivamente pela camada fiduciária da plataforma.
+      <p className="text-xs text-muted-foreground leading-relaxed font-medium">
+        Seu contexto ativo está configurado para o Tenant <strong className="text-muted-foreground font-bold">{tenantId}</strong>. A tentativa de acessar recursos ou dados de outro tenant foi bloqueada preventivamente pela camada fiduciária da plataforma.
       </p>
 
-      <div className="pt-4 border-t border-border/10 flex flex-col gap-2 text-[10px] font-mono text-slate-500">
+      <div className="pt-4 border-t border-border/10 flex flex-col gap-2 text-[10px] font-mono text-muted-foreground">
         <div className="flex justify-between items-center">
           <span>{t("overlays.active_context")} {tenantId}</span>
           {violatingTenantId && <span className="text-red-400 font-bold">{t("overlays.attempted")} {violatingTenantId}</span>}
         </div>
-        <p className="text-left text-[9px] text-slate-600 mt-2">
+        <p className="text-left text-[9px] text-muted-foreground mt-2">
           * Todas as tentativas de violação de limite de tenant são criptografadas e registradas nos logs de auditoria globais do Master Admin.
         </p>
       </div>

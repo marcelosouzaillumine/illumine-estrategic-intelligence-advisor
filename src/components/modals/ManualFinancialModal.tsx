@@ -568,14 +568,14 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl shadow-2xl flex flex-col h-[95vh] sm:h-[90vh] md:max-h-[85vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <div className="p-6 border-b border-border flex justify-between items-center bg-slate-50/50">
           <div>
-            <h3 className="text-lg font-black text-slate-900">Lançamento Manual: {selectedType}</h3>
-            <p className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-widest font-bold">
+            <h3 className="text-lg font-black text-muted-foreground">Lançamento Manual: {selectedType}</h3>
+            <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-widest font-bold">
               {year} · Cliente ID: {clientId.substring(0, 8)}...
             </p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400"><X size={20} /></button>
+          <button onClick={onClose} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-muted-foreground"><X size={20} /></button>
         </div>
 
         {/* Content */}
@@ -588,11 +588,11 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
           )}
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tipo de Documento</label>
+            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest px-1">Tipo de Documento</label>
             <select 
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all"
+              className="w-full px-4 py-3 bg-slate-50 border border-border rounded-xl text-sm font-bold text-primary outline-none focus:ring-2 focus:ring-secondary/20 transition-all"
             >
               {DOCUMENT_TYPES.map(t => (
                 <option key={t} value={t}>{t}</option>
@@ -604,19 +604,19 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
           {loading ? (
              <div className="flex flex-col items-center justify-center py-20 gap-4">
                 <Loader2 size={32} className="animate-spin text-primary" />
-                <p className="text-sm font-bold text-slate-400">Carregando dados existentes...</p>
+                <p className="text-sm font-bold text-muted-foreground">Carregando dados existentes...</p>
              </div>
           ) : (
             <div className="space-y-4 w-full overflow-x-auto">
                 <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                   <SortableContext items={computedRows.map(r => r.id)} strategy={verticalListSortingStrategy}>
               <table className="w-full text-sm min-w-[600px]">
-                <thead className="bg-slate-50/50 border-b border-slate-100">
+                <thead className="bg-slate-50/50 border-b border-border">
                   <tr>
-                    <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-400 uppercase w-20">Nível</th>
-                    <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-400 uppercase">Conta / Categoria</th>
-                    <th className="text-left py-3 px-4 text-[10px] font-bold text-slate-400 uppercase w-40">Tipo</th>
-                    <th className="text-right py-3 px-4 text-[10px] font-bold text-slate-400 uppercase w-40">Valor (R$)</th>
+                    <th className="text-left py-3 px-4 text-[10px] font-bold text-muted-foreground uppercase w-20">Nível</th>
+                    <th className="text-left py-3 px-4 text-[10px] font-bold text-muted-foreground uppercase">Conta / Categoria</th>
+                    <th className="text-left py-3 px-4 text-[10px] font-bold text-muted-foreground uppercase w-40">Tipo</th>
+                    <th className="text-right py-3 px-4 text-[10px] font-bold text-muted-foreground uppercase w-40">Valor (R$)</th>
                     <th className="w-20"></th>
                   </tr>
                 </thead>
@@ -638,14 +638,14 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                             >
                           <td className="py-2 px-2">
                             {isDre ? (
-                              <div className="w-full bg-transparent text-center text-xs font-bold text-slate-400">
+                              <div className="w-full bg-transparent text-center text-xs font-bold text-muted-foreground">
                                 {isAnalitica ? '↳' : row.ordem}
                               </div>
                             ) : (
                               <select
                                 value={row.level}
                                 onChange={(e) => updateRow(row.id, 'level', Number(e.target.value))}
-                                className="w-full bg-slate-50 border border-slate-100 rounded-xl px-2 py-2 text-xs focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all text-center"
+                                className="w-full bg-slate-50 border border-border rounded-xl px-2 py-2 text-xs focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all text-center"
                               >
                                 {[1, 2, 3, 4, 5].map(l => (
                                   <option key={l} value={l}>{l}</option>
@@ -656,7 +656,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                           <td className="py-2 px-2">
                             {isLocked ? (
                               <div 
-                                className="w-full py-2 text-sm font-bold text-slate-700"
+                                className="w-full py-2 text-sm font-bold text-muted-foreground"
                                 style={{ paddingLeft: '16px' }}
                               >
                                 {row.category}
@@ -669,15 +669,15 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                                 placeholder="Ex: Venda de Produtos"
                                 style={{ paddingLeft: isDre ? '40px' : `${(row.level - 1) * 12 + 16}px` }}
                                 className={cn(
-                                  "w-full bg-slate-50 border border-slate-100 rounded-xl py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all",
-                                  isDre && "text-slate-600"
+                                  "w-full bg-slate-50 border border-border rounded-xl py-2 text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all",
+                                  isDre && "text-muted-foreground"
                                 )}
                               />
                             )}
                           </td>
                           <td className="py-2 px-2">
                             {isDre ? (
-                              <div className="w-full py-2 text-xs font-bold text-slate-400 uppercase tracking-widest text-center">
+                              <div className="w-full py-2 text-xs font-bold text-muted-foreground uppercase tracking-widest text-center">
                                 {row.natureza}
                               </div>
                             ) : (
@@ -686,8 +686,8 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                                 disabled={row.level > 1}
                                 onChange={(e) => updateRow(row.id, 'type', e.target.value)}
                                 className={cn(
-                                  "w-full border border-slate-100 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all",
-                                  row.level > 1 ? "bg-slate-100/50 text-slate-500 cursor-not-allowed" : "bg-slate-50 focus:bg-white"
+                                  "w-full border border-border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all",
+                                  row.level > 1 ? "bg-slate-100/50 text-muted-foreground cursor-not-allowed" : "bg-slate-50 focus:bg-white"
                                 )}
                               >
                                 {typeOptions.map(opt => (
@@ -715,10 +715,10 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                               disabled={row.hasChildren}
                               placeholder="0,00"
                               className={cn(
-                                "w-full border border-slate-100 rounded-xl px-4 py-2 text-sm text-right font-mono outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+                                "w-full border border-border rounded-xl px-4 py-2 text-sm text-right font-mono outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
                                 row.hasChildren 
-                                  ? "bg-slate-100/50 text-slate-500 font-bold cursor-not-allowed" 
-                                  : "bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary/20 text-slate-900"
+                                  ? "bg-slate-100/50 text-muted-foreground font-bold cursor-not-allowed" 
+                                  : "bg-slate-50 focus:bg-white focus:ring-2 focus:ring-primary/20 text-muted-foreground"
                               )}
                             />
                           </td>
@@ -755,7 +755,7 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                                         });
                                         setRows(newRows);
                                       }}
-                                      className="text-[10px] font-bold text-slate-400 hover:text-primary flex items-center gap-1 py-1 px-2 rounded hover:bg-primary/5 transition-colors"
+                                      className="text-[10px] font-bold text-muted-foreground hover:text-primary flex items-center gap-1 py-1 px-2 rounded hover:bg-primary/5 transition-colors"
                                     >
                                       <Plus size={12} /> Adicionar Sub-Conta
                                     </button>
@@ -772,16 +772,16 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
                 </DndContext>
 
               {rows.length === 0 && (
-                <div className="text-center py-12 bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
-                  <AlertCircle size={32} className="text-slate-300 mx-auto mb-3" />
-                  <p className="text-sm font-bold text-slate-400">Nenhuma conta inserida ainda.</p>
+                <div className="text-center py-12 bg-slate-50/50 rounded-3xl border border-dashed border-border">
+                  <AlertCircle size={32} className="text-muted-foreground mx-auto mb-3" />
+                  <p className="text-sm font-bold text-muted-foreground">Nenhuma conta inserida ainda.</p>
                 </div>
               )}
 
               {!(selectedType === 'DRE' || selectedType === 'DRE Gerencial') && (
                 <button 
                   onClick={addRow}
-                  className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all flex items-center justify-center gap-2 font-bold text-sm mt-4"
+                  className="w-full py-4 border-2 border-dashed border-border rounded-2xl text-muted-foreground hover:border-primary hover:text-primary hover:bg-primary/5 transition-all flex items-center justify-center gap-2 font-bold text-sm mt-4"
                 >
                   <Plus size={18} /> Adicionar Linha
                 </button>
@@ -791,10 +791,10 @@ export function ManualFinancialModal({ type, clientId, year, onClose, onSuccess 
         </div>
       </div>
 
-        <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3">
+        <div className="p-6 bg-slate-50 border-t border-border flex gap-3">
           <button 
             onClick={onClose}
-            className="flex-1 py-3.5 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
+            className="flex-1 py-3.5 text-muted-foreground font-bold text-sm hover:bg-slate-200 rounded-2xl transition-all"
           >
             Cancelar
           </button>

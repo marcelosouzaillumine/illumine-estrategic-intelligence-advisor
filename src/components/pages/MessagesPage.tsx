@@ -254,7 +254,7 @@ export function MessagesPage() {
             {CHANGELOG_DATA.map((entry, index) => (
               <div key={entry.id} className="relative pl-12 group">
                 <div className={cn(
-                  "absolute left-0 top-1.5 w-9 h-9 rounded-xl flex items-center justify-center border-4 border-white dark:border-slate-950 shadow-sm z-10 transition-transform group-hover:scale-110",
+                  "absolute left-0 top-1.5 w-9 h-9 rounded-xl flex items-center justify-center border-4 border-white dark:border-border shadow-sm z-10 transition-transform group-hover:scale-110",
                   entry.type === 'feature' ? "bg-secondary text-white" : 
                   entry.type === 'improvement' ? "bg-emerald-500 text-white" : 
                   "bg-rose-500 text-white"

@@ -10,8 +10,8 @@ export const ExecutiveInstitutionalIntelligenceDashboard: React.FC<Props> = ({ s
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div className="card-premium p-5 flex items-start gap-4">
-        <div className="p-3 bg-indigo-500/10 rounded-lg">
-          <Network size={24} className="text-indigo-400" />
+        <div className="p-3 bg-primary rounded-lg">
+          <Network size={24} className="text-primary" />
         </div>
         <div>
           <p className="text-eyebrow text-muted-foreground mb-1">Relações Causais</p>

@@ -55,8 +55,8 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
 
   if (loadingHistory || runtimeLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] gap-3 text-slate-400">
-        <Activity className="w-8 h-8 animate-pulse text-indigo-400" />
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-3 text-muted-foreground">
+        <Activity className="w-8 h-8 animate-pulse text-primary" />
         <span className="text-sm font-medium tracking-wide uppercase">Executando Auditoria Fiduciária de Linhagem (FLIF)...</span>
       </div>
     );
@@ -190,7 +190,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
         transparent
         actions={
           <div className="text-right">
-            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1">Status da Linhagem</div>
+            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Status da Linhagem</div>
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
               <span className="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Monitoramento Ativo</span>
@@ -203,13 +203,13 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Gauge card */}
-        <div className="card-premium p-8 flex flex-col justify-between relative overflow-hidden group hover:border-slate-800 transition-all duration-300">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none group-hover:bg-indigo-500/10 transition-all"></div>
+        <div className="card-premium p-8 flex flex-col justify-between relative overflow-hidden group hover:border-border transition-all duration-300">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-accent rounded-full blur-3xl pointer-events-none group-hover:bg-accent transition-all"></div>
           <div>
             <div className="flex justify-between items-start mb-6">
               <div>
-                <span className="text-[10px] font-black tracking-widest text-slate-500 uppercase">Lineage Reliability Index</span>
-                <h3 className="text-lg font-medium text-slate-100 mt-1">Executive Data Reliability Score</h3>
+                <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Lineage Reliability Index</span>
+                <h3 className="text-lg font-medium text-muted-foreground mt-1">Executive Data Reliability Score</h3>
               </div>
               <span className={cn("px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase border", getReliabilityBg(edrs))}>
                 {reliabilityClassification}
@@ -220,63 +220,63 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
               <span className={cn("text-7xl font-light tracking-tight transition-colors", getReliabilityColor(edrs))}>
                 {edrs}
               </span>
-              <span className="text-slate-500 text-lg">/100</span>
+              <span className="text-muted-foreground text-lg">/100</span>
             </div>
 
-            <p className="text-slate-400 text-sm leading-relaxed mb-6 font-light">
+            <p className="text-muted-foreground text-sm leading-relaxed mb-6 font-light">
               Calculado dinamicamente com base nas violações de linhagem, fallbacks de dados contábeis e divergências entre as engines da governança.
             </p>
           </div>
 
           <div className="pt-6 border-t border-border/10 flex justify-between items-center text-xs">
-            <span className="text-slate-500 uppercase font-semibold">Classification:</span>
+            <span className="text-muted-foreground uppercase font-semibold">Classification:</span>
             <span className={cn("font-bold uppercase tracking-wide", getReliabilityColor(edrs))}>{reliabilityClassification}</span>
           </div>
         </div>
 
         {/* Counter cards */}
         <div className="lg:col-span-2 grid grid-cols-2 gap-4">
-          <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-800 transition-all">
+          <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all">
             <div className="flex justify-between items-start mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Auditado</span>
-              <Cpu className="w-5 h-5 text-indigo-400" />
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Total Auditado</span>
+              <Cpu className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <div className="text-4xl font-light text-slate-100">{auditedMetrics.length}</div>
-              <div className="text-[10px] text-slate-500 uppercase mt-1 tracking-wider font-bold">Métricas Financeiras Núcleo</div>
+              <div className="text-4xl font-light text-muted-foreground">{auditedMetrics.length}</div>
+              <div className="text-[10px] text-muted-foreground uppercase mt-1 tracking-wider font-bold">Métricas Financeiras Núcleo</div>
             </div>
           </div>
 
-          <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-800 transition-all">
+          <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all">
             <div className="flex justify-between items-start mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Quebras de Linhagem</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Quebras de Linhagem</span>
               <GitFork className="w-5 h-5 text-rose-500" />
             </div>
             <div>
-              <div className="text-4xl font-light text-slate-100">{lineageBreaksCount}</div>
-              <div className="text-[10px] text-slate-500 uppercase mt-1 tracking-wider font-bold">Divergências Origem x Consumido</div>
+              <div className="text-4xl font-light text-muted-foreground">{lineageBreaksCount}</div>
+              <div className="text-[10px] text-muted-foreground uppercase mt-1 tracking-wider font-bold">Divergências Origem x Consumido</div>
             </div>
           </div>
 
-          <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-800 transition-all">
+          <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all">
             <div className="flex justify-between items-start mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Divergências de Render</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Divergências de Render</span>
               <AlertOctagon className="w-5 h-5 text-amber-500" />
             </div>
             <div>
-              <div className="text-4xl font-light text-slate-100">{renderMismatchesCount}</div>
-              <div className="text-[10px] text-slate-500 uppercase mt-1 tracking-wider font-bold">Divergências Engine x Dashboard</div>
+              <div className="text-4xl font-light text-muted-foreground">{renderMismatchesCount}</div>
+              <div className="text-[10px] text-muted-foreground uppercase mt-1 tracking-wider font-bold">Divergências Engine x Dashboard</div>
             </div>
           </div>
 
-          <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-800 transition-all">
+          <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all">
             <div className="flex justify-between items-start mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Cross-Engine Inconsistencies</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Cross-Engine Inconsistencies</span>
               <Layers className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <div className="text-4xl font-light text-slate-100">{crossEngineInconsistenciesCount}</div>
-              <div className="text-[10px] text-slate-500 uppercase mt-1 tracking-wider font-bold">Inconsistências Downstream</div>
+              <div className="text-4xl font-light text-muted-foreground">{crossEngineInconsistenciesCount}</div>
+              <div className="text-[10px] text-muted-foreground uppercase mt-1 tracking-wider font-bold">Inconsistências Downstream</div>
             </div>
           </div>
         </div>
@@ -287,13 +287,13 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-border/10 pb-4">
           <div>
-            <h2 className="text-lg font-medium text-slate-200">Matriz de Integridade de Linhagem (FLIF Matrix)</h2>
-            <p className="text-xs text-slate-500 font-light mt-1">Comparação determinística de propagação fiduciária.</p>
+            <h2 className="text-lg font-medium text-muted-foreground">Matriz de Integridade de Linhagem (FLIF Matrix)</h2>
+            <p className="text-xs text-muted-foreground font-light mt-1">Comparação determinística de propagação fiduciária.</p>
           </div>
           
           {/* Filters controls */}
           <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-slate-500" />
+            <Filter className="w-4 h-4 text-muted-foreground" />
             <div className="flex bg-slate-950/60 p-1 rounded-xl border border-border/10">
               {(['ALL', 'VIOLATIONS', 'WARNINGS', 'CRITICAL'] as const).map(t => (
                 <button
@@ -302,8 +302,8 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
                   className={cn(
                     "px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all",
                     filterType === t 
-                      ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/10'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-primary text-primary border border-primary'
+                      : 'text-muted-foreground hover:text-muted-foreground'
                   )}
                 >
                   {t === 'ALL' ? 'Todas' : t === 'VIOLATIONS' ? 'Violações' : t === 'WARNINGS' ? 'Alertas' : 'Críticas'}
@@ -318,7 +318,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-border/10 bg-slate-950/40 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <tr className="border-b border-border/10 bg-slate-950/40 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                   <th className="py-4 px-6">Métrica</th>
                   <th className="py-4 px-6">Fonte Original</th>
                   <th className="py-4 px-6">Valor na Fonte</th>
@@ -328,7 +328,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
                   <th className="py-4 px-6 text-right">Linhagem Hash</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border/5 text-xs text-slate-300">
+              <tbody className="divide-y divide-border/5 text-xs text-muted-foreground">
                 {filteredMetrics.map((m: any) => {
                   const isViolation = m.status === 'VIOLATION';
                   const isWarning = m.status === 'WARNING';
@@ -336,13 +336,13 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
 
                   return (
                     <tr key={m.metricId} className="hover:bg-slate-900/10 transition-colors">
-                      <td className="py-4 px-6 font-semibold text-slate-200">{m.name}</td>
-                      <td className="py-4 px-6 font-mono text-[11px] text-slate-400">{m.source}</td>
+                      <td className="py-4 px-6 font-semibold text-muted-foreground">{m.name}</td>
+                      <td className="py-4 px-6 font-mono text-[11px] text-muted-foreground">{m.source}</td>
                       <td className="py-4 px-6 font-mono">{formatDisplayVal(m.sourceValue)}</td>
                       <td className="py-4 px-6 font-mono">{formatDisplayVal(m.consumedValue)}</td>
                       <td className="py-4 px-6 font-mono">
                         {isNotObservable ? (
-                          <span className="text-slate-500 font-bold uppercase text-[10px]">Não Observável</span>
+                          <span className="text-muted-foreground font-bold uppercase text-[10px]">Não Observável</span>
                         ) : (
                           formatDisplayVal(m.renderedValue)
                         )}
@@ -357,7 +357,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
                             Aviso / Rastro
                           </span>
                         ) : isNotObservable ? (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide bg-slate-800 border border-slate-700 text-slate-400">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide bg-slate-800 border border-border text-muted-foreground">
                             Não Observável
                           </span>
                         ) : (
@@ -366,7 +366,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
                           </span>
                         )}
                       </td>
-                      <td className="py-4 px-6 font-mono text-[10px] text-slate-500 text-right uppercase">{m.lineageHash}</td>
+                      <td className="py-4 px-6 font-mono text-[10px] text-muted-foreground text-right uppercase">{m.lineageHash}</td>
                     </tr>
                   );
                 })}
@@ -374,7 +374,7 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
             </table>
           </div>
           {filteredMetrics.length === 0 && (
-            <div className="text-center py-12 text-slate-500 border-t border-border/10">
+            <div className="text-center py-12 text-muted-foreground border-t border-border/10">
               Nenhuma métrica fiduciária atende aos critérios do filtro.
             </div>
           )}
@@ -408,33 +408,33 @@ export function FinancialLineageCenter({ selectedClient, selectedYear }: Financi
       {/* Row 4: Chronological Lineage Timeline flow */}
       <div className="space-y-6">
         <div>
-          <h2 className="text-lg font-medium text-slate-200">Rastro de Propagação Fiduciária (Lineage Timeline)</h2>
-          <p className="text-xs text-slate-500 font-light mt-1">Fluxo cronológico de dados financeiros propagados entre as engines.</p>
+          <h2 className="text-lg font-medium text-muted-foreground">Rastro de Propagação Fiduciária (Lineage Timeline)</h2>
+          <p className="text-xs text-muted-foreground font-light mt-1">Fluxo cronológico de dados financeiros propagados entre as engines.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-4 relative">
           {timelineNodes.map((node, idx) => (
             <div key={node.id} className="flex flex-col h-full justify-between">
-              <div className={cn("p-5 border rounded-xl flex flex-col justify-between h-full hover:border-slate-700 transition-all", node.color)}>
+              <div className={cn("p-5 border rounded-xl flex flex-col justify-between h-full hover:border-border transition-all", node.color)}>
                 <div>
                   <div className="flex justify-between items-center mb-4">
                     <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 bg-slate-900 border border-border/5 rounded-lg">
                       {node.id}
                     </span>
-                    <span className="text-[9px] text-slate-500 font-bold font-mono">Step {idx + 1}</span>
+                    <span className="text-[9px] text-muted-foreground font-bold font-mono">Step {idx + 1}</span>
                   </div>
-                  <h4 className="text-xs font-bold text-slate-200 tracking-wide uppercase leading-snug">{node.title}</h4>
-                  <p className="text-[10px] text-slate-400 font-light mt-2">{node.metric}</p>
+                  <h4 className="text-xs font-bold text-muted-foreground tracking-wide uppercase leading-snug">{node.title}</h4>
+                  <p className="text-[10px] text-muted-foreground font-light mt-2">{node.metric}</p>
                 </div>
                 <div className="mt-6 pt-4 border-t border-border/10">
-                  <div className="text-sm font-black tracking-tight truncate font-mono text-slate-100">
+                  <div className="text-sm font-black tracking-tight truncate font-mono text-muted-foreground">
                     {formatDisplayVal(node.val)}
                   </div>
                 </div>
               </div>
               
               {idx < timelineNodes.length - 1 && (
-                <div className="hidden lg:flex items-center justify-center py-2 text-slate-600">
+                <div className="hidden lg:flex items-center justify-center py-2 text-muted-foreground">
                   <ArrowRight className="w-4 h-4 animate-pulse" />
                 </div>
               )}

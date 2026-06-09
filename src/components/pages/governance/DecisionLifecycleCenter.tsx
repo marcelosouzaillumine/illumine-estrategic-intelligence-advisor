@@ -40,7 +40,7 @@ export function DecisionLifecycleCenter() {
           <button
             onClick={() => setActiveTab('EXECUTIVE')}
             className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
-              activeTab === 'EXECUTIVE' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              activeTab === 'EXECUTIVE' ? 'bg-white text-muted-foreground shadow-sm' : 'text-muted-foreground hover:text-muted-foreground'
             }`}
           >
             <div className="flex items-center gap-2"><Activity size={14} /> Visão Executiva</div>
@@ -48,7 +48,7 @@ export function DecisionLifecycleCenter() {
           <button
             onClick={() => setActiveTab('MASTER_AUDIT')}
             className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
-              activeTab === 'MASTER_AUDIT' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              activeTab === 'MASTER_AUDIT' ? 'bg-white text-muted-foreground shadow-sm' : 'text-muted-foreground hover:text-muted-foreground'
             }`}
           >
             <div className="flex items-center gap-2"><ShieldCheck size={14} /> Admin Master (Audit)</div>

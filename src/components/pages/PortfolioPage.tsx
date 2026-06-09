@@ -911,12 +911,12 @@ export function PortfolioPage({ clients, onSelectClient, isPartner, userPartnerI
                             <div className="flex items-center gap-2">
                               <span className={cn(
                                 "text-lg font-black",
-                                client.status === 'onboarding' ? "text-slate-300" :
+                                client.status === 'onboarding' ? "text-muted-foreground" :
                                 client.score > 80 ? "text-emerald-600" : client.score > 60 ? "text-blue-600" : "text-rose-600"
                               )}>{client.status === 'onboarding' ? '--' : client.score}</span>
                               {client.status !== 'onboarding' && <ArrowUpRight size={14} className="text-emerald-500" />}
                             </div>
-                            {client.status === 'onboarding' && <span className="text-[8px] font-black uppercase text-slate-400">Pendente</span>}
+                            {client.status === 'onboarding' && <span className="text-[8px] font-black uppercase text-muted-foreground">Pendente</span>}
                           </div>
                         </td>
                         <td className="px-4 md:px-8 py-4 md:py-6 text-center border-x border-border/50 bg-surface-container/50">

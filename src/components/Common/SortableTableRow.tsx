@@ -48,7 +48,7 @@ export function SortableTableRow({ id, isDraggable = true, className, as: Compon
                   type="button"
                   {...attributes}
                   {...listeners}
-                  className="cursor-grab active:cursor-grabbing text-slate-300 hover:text-primary transition-colors touch-none"
+                  className="cursor-grab active:cursor-grabbing text-muted-foreground hover:text-primary transition-colors touch-none"
                 >
                   <GripVertical size={14} />
                 </button>

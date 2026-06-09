@@ -24,8 +24,8 @@ export function ClientLoginAudit({ clientId }: { clientId: string }) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-        <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
+      <div className="bg-slate-50 p-6 rounded-2xl border border-border">
+        <h4 className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
           <ShieldAlert size={14} className="text-rose-500" /> Auditoria de Logins e Segurança
         </h4>
 
@@ -33,41 +33,41 @@ export function ClientLoginAudit({ clientId }: { clientId: string }) {
           {audits.map((audit) => (
             <div key={audit.id} className={cn(
               "flex items-center justify-between p-4 rounded-xl border transition-all",
-              audit.status === 'success' ? "bg-white border-slate-100" : "bg-rose-50/50 border-rose-100"
+              audit.status === 'success' ? "bg-white border-border" : "bg-rose-50/50 border-rose-100"
             )}>
               <div className="flex items-center gap-4">
                 <div className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center",
                   audit.type === 'login' ? "bg-emerald-50 text-emerald-500" : 
-                  audit.type === 'logout' ? "bg-slate-100 text-slate-500" : "bg-rose-100 text-rose-500"
+                  audit.type === 'logout' ? "bg-slate-100 text-muted-foreground" : "bg-rose-100 text-rose-500"
                 )}>
                   {audit.type === 'login' ? <LogIn size={18} /> : 
                    audit.type === 'logout' ? <LogOut size={18} /> : <AlertCircle size={18} />}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-slate-900">
+                  <p className="text-sm font-bold text-muted-foreground">
                     {audit.user} 
                     <span className={cn(
                       "ml-2 text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border",
                       audit.type === 'login' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : 
-                      audit.type === 'logout' ? "bg-slate-50 text-slate-600 border-slate-100" : "bg-rose-50 text-rose-600 border-rose-100"
+                      audit.type === 'logout' ? "bg-slate-50 text-muted-foreground border-border" : "bg-rose-50 text-rose-600 border-rose-100"
                     )}>
                       {audit.type === 'login' ? 'Login' : audit.type === 'logout' ? 'Logout' : 'Falha'}
                     </span>
                   </p>
                   <div className="flex items-center gap-3 mt-1">
-                    <span className="text-[10px] text-slate-400 flex items-center gap-1 font-medium">
+                    <span className="text-[10px] text-muted-foreground flex items-center gap-1 font-medium">
                       <Clock size={10} /> {audit.time}
                     </span>
-                    <span className="text-[10px] text-slate-400 flex items-center gap-1 font-medium">
+                    <span className="text-[10px] text-muted-foreground flex items-center gap-1 font-medium">
                       <Globe size={10} /> IP: {audit.ip}
                     </span>
                   </div>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Método</p>
-                <p className="text-[11px] font-bold text-slate-600">{audit.method}</p>
+                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Método</p>
+                <p className="text-[11px] font-bold text-muted-foreground">{audit.method}</p>
               </div>
             </div>
           ))}

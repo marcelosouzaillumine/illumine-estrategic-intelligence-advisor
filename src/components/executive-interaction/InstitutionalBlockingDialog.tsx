@@ -25,7 +25,7 @@ export const InstitutionalBlockingDialog: React.FC = () => {
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-lg font-bold text-slate-200 uppercase tracking-wider">
+          <h3 className="text-lg font-bold text-muted-foreground uppercase tracking-wider">
             {isFailClosed ? t('modal.blocked_title_fail') : t('modal.blocked_title_restricted')}
           </h3>
           <p className="text-xs text-red-400 uppercase tracking-widest font-mono">
@@ -33,12 +33,12 @@ export const InstitutionalBlockingDialog: React.FC = () => {
           </p>
         </div>
 
-        <p className="text-sm text-slate-400 leading-relaxed font-medium">
+        <p className="text-sm text-muted-foreground leading-relaxed font-medium">
           {isFailClosed ? t('modal.blocked_desc_fail') : t('modal.blocked_desc_restricted')}
         </p>
 
         <div className="pt-4 border-t border-border/10">
-          <span className="text-[10px] text-slate-500 font-mono">
+          <span className="text-[10px] text-muted-foreground font-mono">
             {t('modal.security_status_code')} {interactionState}
           </span>
         </div>

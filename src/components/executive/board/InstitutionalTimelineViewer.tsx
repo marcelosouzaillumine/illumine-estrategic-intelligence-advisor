@@ -19,12 +19,12 @@ export const InstitutionalTimelineViewer: React.FC<InstitutionalTimelineViewerPr
   }
 
   return (
-    <div className="p-6 bg-primary border border-slate-800 rounded-lg">
+    <div className="p-6 bg-primary border border-border rounded-lg">
       <h3 className="text-lg font-semibold text-white mb-6">Historical Causality Timeline</h3>
-      <div className="relative border-l border-slate-700 ml-3 space-y-6">
+      <div className="relative border-l border-border ml-3 space-y-6">
         {timelineEvents.map(event => (
           <div key={event.id} className="relative pl-6">
-            <div className={`absolute -left-1.5 top-1.5 w-3 h-3 rounded-full ${event.critical ? 'bg-red-500' : 'bg-indigo-500'}`}></div>
+            <div className={`absolute -left-1.5 top-1.5 w-3 h-3 rounded-full ${event.critical ? 'bg-red-500' : 'bg-primary'}`}></div>
             <div className="mb-1 text-sm font-mono text-muted-foreground">
               {new Date(event.timestamp).toLocaleString()}
             </div>

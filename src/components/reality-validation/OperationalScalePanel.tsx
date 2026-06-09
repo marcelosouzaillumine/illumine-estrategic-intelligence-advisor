@@ -12,7 +12,7 @@ export function OperationalScalePanel({ tenantId }: Props) {
   return (
     <div className="bg-surface-container border border-border rounded-lg p-6">
       <div className="flex items-center gap-2 mb-4">
-        <Server className="text-indigo-500" />
+        <Server className="text-primary" />
         <h3 className="text-sm font-semibold text-foreground">Operational Scale Readiness</h3>
         <span className={`ml-auto text-xs font-bold ${statusColor}`}>{report.status}</span>
       </div>

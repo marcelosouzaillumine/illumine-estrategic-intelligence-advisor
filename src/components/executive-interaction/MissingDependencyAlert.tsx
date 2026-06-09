@@ -19,7 +19,7 @@ export const MissingDependencyAlert: React.FC = () => {
       </div>
       <div className="space-y-1">
         <h4 className="text-xs font-black text-red-400 uppercase tracking-widest">{t("overlays.missing_runtime_dependencies")}</h4>
-        <p className="text-xs text-slate-400 leading-relaxed">
+        <p className="text-xs text-muted-foreground leading-relaxed">
           Os seguintes datasets fiduciários estão ausentes ou corrompidos, impedindo o processamento completo:
         </p>
         <ul className="list-disc list-inside text-xs font-mono text-red-300 mt-2 space-y-1">

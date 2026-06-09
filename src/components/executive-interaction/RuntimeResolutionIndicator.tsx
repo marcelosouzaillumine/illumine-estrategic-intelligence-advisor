@@ -33,14 +33,14 @@ export const RuntimeResolutionIndicator: React.FC<RuntimeResolutionIndicatorProp
       )}
       
       {lineageHash && (
-        <span className="text-slate-500 flex items-center gap-1 pt-px border-l border-border/10 pl-3">
+        <span className="text-muted-foreground flex items-center gap-1 pt-px border-l border-border/10 pl-3">
           <History className="w-3 h-3" />
           Hash: {lineageHash.substring(0, 8)}
         </span>
       )}
 
-      <span className="text-slate-500 border-l border-border/10 pl-3">
-        Confiança: <strong className="text-slate-350">{finalConfidence}</strong>
+      <span className="text-muted-foreground border-l border-border/10 pl-3">
+        Confiança: <strong className="text-muted-foreground">{finalConfidence}</strong>
       </span>
     </div>
   );

@@ -26,7 +26,7 @@ import {
 
 function MetricCard({ title, value, subtitle, icon: Icon, colorClass, trend }: any) {
   return (
-    <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+    <div className="bg-white rounded-3xl border border-border p-6 shadow-sm">
       <div className="flex justify-between items-start mb-4">
         <div className={cn("p-3 rounded-2xl", colorClass)}>
           <Icon size={20} />
@@ -41,9 +41,9 @@ function MetricCard({ title, value, subtitle, icon: Icon, colorClass, trend }: a
           </div>
         )}
       </div>
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{title}</p>
-      <p className="text-xl font-black text-slate-900">{value}</p>
-      <p className="text-[10px] text-slate-500 font-medium mt-1">{subtitle}</p>
+      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">{title}</p>
+      <p className="text-xl font-black text-muted-foreground">{value}</p>
+      <p className="text-[10px] text-muted-foreground font-medium mt-1">{subtitle}</p>
     </div>
   );
 }
@@ -52,8 +52,8 @@ function ScoreGauge({ label, score, color }: { label: string, score: number, col
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-end">
-        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{label}</span>
-        <span className="text-sm font-black text-slate-900">{score.toFixed(0)}%</span>
+        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{label}</span>
+        <span className="text-sm font-black text-muted-foreground">{score.toFixed(0)}%</span>
       </div>
       <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
         <div 
@@ -73,30 +73,30 @@ function ScenarioButton({ scenario, active, onClick }: any) {
         "flex flex-col items-start p-4 rounded-2xl border-2 transition-all text-left",
         active 
           ? "border-primary bg-primary/5 shadow-md" 
-          : "border-slate-100 bg-white hover:border-slate-200"
+          : "border-border bg-white hover:border-border"
       )}
     >
       <span className={cn(
         "text-[10px] font-black uppercase tracking-widest mb-1",
-        active ? "text-primary" : "text-slate-400"
+        active ? "text-primary" : "text-muted-foreground"
       )}>{scenario.year}</span>
-      <span className="text-xs font-black text-slate-900">{scenario.name}</span>
+      <span className="text-xs font-black text-muted-foreground">{scenario.name}</span>
     </button>
   );
 }
 
 function TimelineItem({ year, event, desc, active }: any) {
   return (
-    <div className="relative pl-12 pb-8 border-l-2 border-slate-100 last:border-0 ml-4">
+    <div className="relative pl-12 pb-8 border-l-2 border-border last:border-0 ml-4">
       <div className={cn(
         "absolute -left-[17px] w-8 h-8 rounded-xl border-4 border-white flex items-center justify-center text-[10px] font-black z-10",
-        active ? "bg-secondary text-white shadow-lg shadow-secondary/20" : "bg-slate-200 text-slate-500"
+        active ? "bg-secondary text-white shadow-lg shadow-secondary/20" : "bg-slate-200 text-muted-foreground"
       )}>
         {year.substring(0, 4)}
       </div>
       <div>
-        <h4 className="text-sm font-black text-slate-900">{event}</h4>
-        <p className="text-xs text-slate-500 font-medium">{desc}</p>
+        <h4 className="text-sm font-black text-muted-foreground">{event}</h4>
+        <p className="text-xs text-muted-foreground font-medium">{desc}</p>
       </div>
     </div>
   );
@@ -232,7 +232,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
       />
 
       {/* Navigation Tabs */}
-      <div className="flex flex-wrap gap-2 border-b border-slate-200 pb-1">
+      <div className="flex flex-wrap gap-2 border-b border-border pb-1">
         {tabs.map(tab => (
           <button
             key={tab.id}
@@ -241,7 +241,7 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
               "flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-4 text-[10px] font-black uppercase tracking-widest transition-all border-b-2 -mb-[2px]",
               activeTab === tab.id 
                 ? "border-primary text-primary bg-primary/5 rounded-t-2xl" 
-                : "border-transparent text-slate-400 hover:text-slate-600"
+                : "border-transparent text-muted-foreground hover:text-muted-foreground"
             )}
           >
             <tab.icon size={16} />
@@ -257,15 +257,15 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
           
           {activeTab === 'diagnosis' && (
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-              <div className="bg-white rounded-[40px] border border-slate-200 p-10 shadow-sm">
+              <div className="bg-white rounded-[40px] border border-border p-10 shadow-sm">
                 <div className="flex items-center justify-between mb-10">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center">
                       <Calculator size={24} />
                     </div>
                     <div>
-                      <h3 className="text-xl font-display font-extrabold text-slate-900">Configuração do Diagnóstico</h3>
-                      <p className="text-xs text-slate-500 font-medium">Parâmetros operacionais e financeiros reais (DRE sincronizada).</p>
+                      <h3 className="text-xl font-display font-extrabold text-muted-foreground">Configuração do Diagnóstico</h3>
+                      <p className="text-xs text-muted-foreground font-medium">Parâmetros operacionais e financeiros reais (DRE sincronizada).</p>
                     </div>
                   </div>
                   {loadingDRE && (
@@ -279,11 +279,11 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-12">
                   <div className="space-y-6">
                     <div>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Regime Tributário Atual</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2">Regime Tributário Atual</label>
                       <select 
                         value={diagnosis.regimeTributario}
                         onChange={(e) => setDiagnosis({...diagnosis, regimeTributario: e.target.value as any})}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                        className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       >
                         <option value="Lucro Real">Lucro Real</option>
                         <option value="Lucro Presumido">Lucro Presumido</option>
@@ -291,71 +291,71 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                       </select>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Faturamento Mensal (R$)</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2">Faturamento Mensal (R$)</label>
                       <input 
                         type="number"
                         value={diagnosis.faturamentoMensal}
                         onChange={(e) => setDiagnosis({...diagnosis, faturamentoMensal: Number(e.target.value)})}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                        className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-6">
                     <div>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Margem EBITDA (%)</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2">Margem EBITDA (%)</label>
                       <input 
                         type="number"
                         value={(diagnosis.margemEBITDA * 100).toFixed(2)}
                         onChange={(e) => setDiagnosis({...diagnosis, margemEBITDA: Number(e.target.value) / 100})}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                        className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Alíquota Efetiva Atual (%)</label>
+                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2">Alíquota Efetiva Atual (%)</label>
                       <input 
                         type="number"
                         value={(diagnosis.aliquotaEfetivaAtual * 100).toFixed(2)}
                         onChange={(e) => setDiagnosis({...diagnosis, aliquotaEfetivaAtual: Number(e.target.value) / 100})}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                        className="w-full bg-slate-50 border border-border rounded-2xl px-4 md:px-6 py-2.5 md:py-4 text-sm font-bold text-muted-foreground focus:ring-4 focus:ring-blue-100 outline-none transition-all"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* NCM & Product Mapping Section */}
-                <div className="border-t border-slate-100 pt-10">
+                <div className="border-t border-border pt-10">
                   <div className="flex items-center gap-3 mb-8">
                     <Tag size={20} className="text-secondary" />
-                    <h4 className="text-lg font-display font-extrabold text-slate-900">Mapeamento de Produtos e NCM</h4>
+                    <h4 className="text-lg font-display font-extrabold text-muted-foreground">Mapeamento de Produtos e NCM</h4>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 p-6 bg-slate-50 rounded-[32px] border border-slate-100">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 p-6 bg-slate-50 rounded-[32px] border border-border">
                     <div className="md:col-span-1">
-                      <label className="text-[9px] font-black text-slate-400 uppercase mb-2 block">Descrição</label>
+                      <label className="text-[9px] font-black text-muted-foreground uppercase mb-2 block">Descrição</label>
                       <input 
                         placeholder="Ex: Notebook XPS"
                         value={newProduct.descricao}
                         onChange={e => setNewProduct({...newProduct, descricao: e.target.value})}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs font-bold outline-none focus:border-primary"
+                        className="w-full px-4 py-3 rounded-xl border border-border text-xs font-bold outline-none focus:border-primary"
                       />
                     </div>
                     <div>
-                      <label className="text-[9px] font-black text-slate-400 uppercase mb-2 block">NCM</label>
+                      <label className="text-[9px] font-black text-muted-foreground uppercase mb-2 block">NCM</label>
                       <input 
                         placeholder="0000.00.00"
                         value={newProduct.ncm}
                         onChange={e => setNewProduct({...newProduct, ncm: e.target.value})}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs font-bold outline-none focus:border-primary"
+                        className="w-full px-4 py-3 rounded-xl border border-border text-xs font-bold outline-none focus:border-primary"
                       />
                     </div>
                     <div>
-                      <label className="text-[9px] font-black text-slate-400 uppercase mb-2 block">Valor Mensal (R$)</label>
+                      <label className="text-[9px] font-black text-muted-foreground uppercase mb-2 block">Valor Mensal (R$)</label>
                       <input 
                         type="number"
                         value={newProduct.valorMensal || ''}
                         onChange={e => setNewProduct({...newProduct, valorMensal: Number(e.target.value)})}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs font-bold outline-none focus:border-primary"
+                        className="w-full px-4 py-3 rounded-xl border border-border text-xs font-bold outline-none focus:border-primary"
                       />
                     </div>
                     <div className="flex items-end">
@@ -370,19 +370,19 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
 
                   <div className="space-y-3">
                     {(diagnosis.produtos || []).map(p => (
-                      <div key={p.id} className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl hover:shadow-md transition-all">
+                      <div key={p.id} className="flex items-center justify-between p-4 bg-white border border-border rounded-2xl hover:shadow-md transition-all">
                         <div className="flex items-center gap-6">
                           <div>
-                            <p className="text-[9px] font-black text-slate-400 uppercase">Descrição</p>
-                            <p className="text-sm font-bold text-slate-900">{p.descricao}</p>
+                            <p className="text-[9px] font-black text-muted-foreground uppercase">Descrição</p>
+                            <p className="text-sm font-bold text-muted-foreground">{p.descricao}</p>
                           </div>
                           <div>
-                            <p className="text-[9px] font-black text-slate-400 uppercase">NCM</p>
-                            <p className="text-xs font-mono font-bold text-slate-600">{p.ncm || 'N/A'}</p>
+                            <p className="text-[9px] font-black text-muted-foreground uppercase">NCM</p>
+                            <p className="text-xs font-mono font-bold text-muted-foreground">{p.ncm || 'N/A'}</p>
                           </div>
                           <div>
-                            <p className="text-[9px] font-black text-slate-400 uppercase">Faturamento</p>
-                            <p className="text-xs font-bold text-slate-900">{formatCurrency(p.valorMensal)}</p>
+                            <p className="text-[9px] font-black text-muted-foreground uppercase">Faturamento</p>
+                            <p className="text-xs font-bold text-muted-foreground">{formatCurrency(p.valorMensal)}</p>
                           </div>
                         </div>
                         <button onClick={() => removeProduct(p.id)} className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all">
@@ -414,14 +414,14 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                           <span className="text-[9px] font-black bg-amber-100 text-amber-700 px-3 py-1 rounded-full uppercase">Sugestão NCM</span>
                           <span className="text-sm font-black text-emerald-600">{insight.potencialEconomia}</span>
                         </div>
-                        <h4 className="text-sm font-black text-slate-900 mb-1">{insight.descricao}</h4>
+                        <h4 className="text-sm font-black text-muted-foreground mb-1">{insight.descricao}</h4>
                         <div className="flex items-center gap-3 mb-4">
-                          <span className="text-xs font-mono text-slate-400 line-through">{insight.ncmOriginal}</span>
-                          <ArrowRight size={14} className="text-slate-400" />
+                          <span className="text-xs font-mono text-muted-foreground line-through">{insight.ncmOriginal}</span>
+                          <ArrowRight size={14} className="text-muted-foreground" />
                           <span className="text-xs font-mono font-bold text-primary">{insight.ncmSugerida}</span>
                         </div>
                         <div className="p-3 bg-slate-50 rounded-xl">
-                          <p className="text-[10px] text-slate-600 font-medium leading-relaxed italic">"{insight.motivo}"</p>
+                          <p className="text-[10px] text-muted-foreground font-medium leading-relaxed italic">"{insight.motivo}"</p>
                         </div>
                       </div>
                     ))}
@@ -434,12 +434,12 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
             {activeTab === 'simulation' && (
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
               {!hasData ? (
-                <div className="bg-white rounded-[40px] border border-slate-200 p-20 shadow-sm text-center">
-                  <div className="w-20 h-20 bg-slate-50 text-slate-300 rounded-[32px] flex items-center justify-center mx-auto mb-6">
+                <div className="bg-white rounded-[40px] border border-border p-20 shadow-sm text-center">
+                  <div className="w-20 h-20 bg-slate-50 text-muted-foreground rounded-[32px] flex items-center justify-center mx-auto mb-6">
                     <BarChart3 size={32} />
                   </div>
-                  <h3 className="text-xl font-display font-extrabold text-slate-900 mb-2">Simulação Indisponível</h3>
-                  <p className="text-sm text-slate-500 font-medium max-w-2xl mx-auto">
+                  <h3 className="text-xl font-display font-extrabold text-muted-foreground mb-2">Simulação Indisponível</h3>
+                  <p className="text-sm text-muted-foreground font-medium max-w-2xl mx-auto">
                     Insira o faturamento ou cadastre produtos no primeiro passo para desbloquear o Laboratório de Cenários.
                   </p>
                   <button 
@@ -452,9 +452,9 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
               ) : (
                 <>
                   {/* Scenario Selector */}
-                  <div className="bg-white rounded-[40px] border border-slate-200 p-8 shadow-sm">
+                  <div className="bg-white rounded-[40px] border border-border p-8 shadow-sm">
                     <div className="flex items-center justify-between mb-8">
-                      <h3 className="text-lg font-display font-extrabold text-slate-900">Laboratório de Cenários</h3>
+                      <h3 className="text-lg font-display font-extrabold text-muted-foreground">Laboratório de Cenários</h3>
                       <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black uppercase">
                         <Clock size={14} />
                         Linha do Tempo Oficial
@@ -529,12 +529,12 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                                   )} 
                                   style={{ height: `${height}%` }}
                                 >
-                                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all bg-white text-slate-900 text-[10px] font-black px-2 py-1 rounded shadow-xl">
+                                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all bg-white text-muted-foreground text-[10px] font-black px-2 py-1 rounded shadow-xl">
                                     {formatCurrency(scenarioMetrics.futureTaxTotal)}
                                   </div>
                                 </div>
                               </div>
-                              <span className="text-[10px] font-black text-slate-500">{s.year}</span>
+                              <span className="text-[10px] font-black text-muted-foreground">{s.year}</span>
                             </div>
                           );
                         })}
@@ -542,17 +542,17 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 border-t border-white/10 pt-8">
                         <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Ganhos de Eficiência (Créditos)</p>
+                          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Ganhos de Eficiência (Créditos)</p>
                           <div className="flex items-center gap-4">
                             <div className="text-3xl font-black text-emerald-400">+{formatCurrency(metrics.creditGain)}</div>
-                            <div className="text-[10px] text-slate-400 leading-tight">Potencial de aproveitamento de créditos em toda a cadeia operacional.</div>
+                            <div className="text-[10px] text-muted-foreground leading-tight">Potencial de aproveitamento de créditos em toda a cadeia operacional.</div>
                           </div>
                         </div>
                         <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Exposição ao Imposto Seletivo</p>
+                          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Exposição ao Imposto Seletivo</p>
                           <div className="flex items-center gap-4">
                             <div className="text-3xl font-black text-rose-400">{selectedScenario.isRate > 0 ? "ALTA" : "BAIXA"}</div>
-                            <div className="text-[10px] text-slate-400 leading-tight">Risco de incidência sobre insumos específicos (extração, açúcar, etc).</div>
+                            <div className="text-[10px] text-muted-foreground leading-tight">Risco de incidência sobre insumos específicos (extração, açúcar, etc).</div>
                           </div>
                         </div>
                       </div>
@@ -565,15 +565,15 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
 
           {activeTab === 'regulatory' && (
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-              <div className="bg-white rounded-[40px] border border-slate-200 p-10 shadow-sm">
+              <div className="bg-white rounded-[40px] border border-border p-10 shadow-sm">
                 <div className="flex items-center justify-between mb-10">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-primary text-primary rounded-2xl flex items-center justify-center">
                       <Landmark size={24} />
                     </div>
                     <div>
-                      <h3 className="text-xl font-display font-extrabold text-slate-900">Central de Atualizações</h3>
-                      <p className="text-xs text-slate-500 font-medium">Acompanhamento regulatório em tempo real via IA Illumine.</p>
+                      <h3 className="text-xl font-display font-extrabold text-muted-foreground">Central de Atualizações</h3>
+                      <p className="text-xs text-muted-foreground font-medium">Acompanhamento regulatório em tempo real via IA Illumine.</p>
                     </div>
                   </div>
                   <button className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-full text-[10px] font-black uppercase">
@@ -587,22 +587,22 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
                     { date: '08 Mai 2026', title: 'Novas Alíquotas de Referência CBS/IBS', source: 'Comitê Gestor', impact: 'Ajuste na projeção de carga para setor de serviços.' },
                     { date: '05 Mai 2026', title: 'Critérios de Não-Cumulatividade Plena', source: 'Congresso Nacional', impact: 'Expansão da base de créditos sobre bens de consumo.' },
                   ].map((update, idx) => (
-                    <div key={idx} className="group p-6 rounded-3xl border border-slate-100 hover:border-primary/20 hover:bg-primary/5 transition-all cursor-pointer">
+                    <div key={idx} className="group p-6 rounded-3xl border border-border hover:border-primary/20 hover:bg-primary/5 transition-all cursor-pointer">
                       <div className="flex justify-between items-start mb-2">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{update.date} • {update.source}</span>
+                        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{update.date} • {update.source}</span>
                         <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
                           <ArrowRight size={12} />
                         </div>
                       </div>
-                      <h4 className="text-sm font-black text-slate-900 mb-2">{update.title}</h4>
-                      <p className="text-xs text-slate-500 font-medium">{update.impact}</p>
+                      <h4 className="text-sm font-black text-muted-foreground mb-2">{update.title}</h4>
+                      <p className="text-xs text-muted-foreground font-medium">{update.impact}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-slate-50 rounded-[40px] p-10 border border-slate-100">
-                <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-8">Cronograma de Transição Federativa</h4>
+              <div className="bg-slate-50 rounded-[40px] p-10 border border-border">
+                <h4 className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-8">Cronograma de Transição Federativa</h4>
                 <div className="max-w-xl">
                   <TimelineItem year="2026" event="Início CBS (0,9%) e IBS (0,1%)" desc="Período de teste com compensação total." active />
                   <TimelineItem year="2027" event="Extinção de PIS e COFINS" desc="Vigência plena da CBS (Contribuição sobre Bens e Serviços)." />
@@ -615,45 +615,45 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
 
           {activeTab === 'reports' && (
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-              <div className="bg-white rounded-[40px] border border-slate-200 p-10 shadow-sm text-center">
+              <div className="bg-white rounded-[40px] border border-border p-10 shadow-sm text-center">
                 <div className="w-20 h-20 bg-primary/10 text-primary rounded-[32px] flex items-center justify-center mx-auto mb-6">
                   <FileText size={32} />
                 </div>
-                <h3 className="text-2xl font-display font-extrabold text-slate-900 mb-4">Central de Relatórios Executivos</h3>
-                <p className="text-sm text-slate-500 font-medium max-w-md mx-auto mb-10">
+                <h3 className="text-2xl font-display font-extrabold text-muted-foreground mb-4">Central de Relatórios Executivos</h3>
+                <p className="text-sm text-muted-foreground font-medium max-w-md mx-auto mb-10">
                   Gere visões estratégicas completas para o Board e CFO, com projeções de 10 anos e análise de sensibilidade.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
                   <button 
                     disabled={!hasData}
-                    className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl hover:border-primary transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center justify-between p-6 bg-slate-50 border border-border rounded-3xl hover:border-primary transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <div className="flex items-center gap-4 text-left">
                       <div className="p-3 bg-white rounded-2xl shadow-sm">
                         <BarChart3 size={20} className="text-blue-600" />
                       </div>
                       <div>
-                        <span className="text-xs font-black text-slate-900 block">Relatório de Impacto</span>
-                        <span className="text-[10px] text-slate-400 font-bold uppercase">PDF • 12 Páginas</span>
+                        <span className="text-xs font-black text-muted-foreground block">Relatório de Impacto</span>
+                        <span className="text-[10px] text-muted-foreground font-bold uppercase">PDF • 12 Páginas</span>
                       </div>
                     </div>
-                    <Download size={20} className="text-slate-300 group-hover:text-primary transition-all" />
+                    <Download size={20} className="text-muted-foreground group-hover:text-primary transition-all" />
                   </button>
                   <button 
                     disabled={!hasData}
-                    className="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl hover:border-primary transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center justify-between p-6 bg-slate-50 border border-border rounded-3xl hover:border-primary transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <div className="flex items-center gap-4 text-left">
                       <div className="p-3 bg-white rounded-2xl shadow-sm">
                         <Database size={20} className="text-primary" />
                       </div>
                       <div>
-                        <span className="text-xs font-black text-slate-900 block">DRE Projetada (Transition)</span>
-                        <span className="text-[10px] text-slate-400 font-bold uppercase">XLSX • Full Model</span>
+                        <span className="text-xs font-black text-muted-foreground block">DRE Projetada (Transition)</span>
+                        <span className="text-[10px] text-muted-foreground font-bold uppercase">XLSX • Full Model</span>
                       </div>
                     </div>
-                    <Download size={20} className="text-slate-300 group-hover:text-primary transition-all" />
+                    <Download size={20} className="text-muted-foreground group-hover:text-primary transition-all" />
                   </button>
                 </div>
               </div>
@@ -669,8 +669,8 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
               <ShieldCheck size={24} strokeWidth={2.5} />
             </div>
             <div>
-              <h3 className="text-xl font-display font-extrabold text-slate-900 tracking-tight leading-none mb-1">Tax Intelligence</h3>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Parecer CFO Advisory</p>
+              <h3 className="text-xl font-display font-extrabold text-muted-foreground tracking-tight leading-none mb-1">Tax Intelligence</h3>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Parecer CFO Advisory</p>
             </div>
           </div>
           
@@ -686,28 +686,28 @@ export function TaxReformImpactPage({ clientId, selectedYear }: any) {
             <div className="space-y-6 mb-8 mt-4">
               {hasData ? (
                 recommendations.map((rec, idx) => (
-                  <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                  <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-border">
                     <div className="flex justify-between items-start mb-1">
-                      <h5 className="text-[11px] font-black text-slate-900 uppercase">{rec.title}</h5>
+                      <h5 className="text-[11px] font-black text-muted-foreground uppercase">{rec.title}</h5>
                       <span className={cn(
                         "text-[8px] font-black px-2 py-0.5 rounded-full",
                         rec.urgency === 'Crítica' ? "bg-rose-500 text-white" : "bg-primary text-white"
                       )}>{rec.urgency}</span>
                     </div>
-                    <p className="text-[10px] text-slate-500 font-medium leading-relaxed">{rec.desc}</p>
+                    <p className="text-[10px] text-muted-foreground font-medium leading-relaxed">{rec.desc}</p>
                   </div>
                 ))
               ) : (
-                <div className="p-8 text-center text-slate-400 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                <div className="p-8 text-center text-muted-foreground bg-slate-50 rounded-2xl border border-dashed border-border">
                    <p className="text-[9px] font-black uppercase tracking-widest">Aguardando dados para análise estratégica</p>
                 </div>
               )}
               {hasData && recommendations.length === 0 && (
-                <p className="text-[10px] text-slate-400 italic">Nenhuma recomendação crítica para este cenário.</p>
+                <p className="text-[10px] text-muted-foreground italic">Nenhuma recomendação crítica para este cenário.</p>
               )}
             </div>
 
-            <div className="space-y-6 pt-6 border-t border-slate-100">
+            <div className="space-y-6 pt-6 border-t border-border">
               <ScoreGauge label="Score de Impacto" score={hasData ? scores.impact : 0} color="bg-rose-500" />
               <ScoreGauge label="Vulnerabilidade Setorial" score={hasData ? scores.vulnerability : 0} color="bg-amber-500" />
               <ScoreGauge label="Maturidade Fiscal" score={hasData ? scores.maturity : 0} color="bg-emerald-500" />

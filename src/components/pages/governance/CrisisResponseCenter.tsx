@@ -27,9 +27,9 @@ export function CrisisResponseCenter() {
   // Zero-Logic-UI Fail-closed
   if (!crisisState.escalationRequired || crisisState.severity !== 'CRITICAL' || crisisState.status !== 'READY') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-slate-500 space-y-4">
-        <ShieldAlert size={48} className="text-slate-300" />
-        <h3 className="text-lg font-bold text-slate-700">Monitoramento Nominal</h3>
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-muted-foreground space-y-4">
+        <ShieldAlert size={48} className="text-muted-foreground" />
+        <h3 className="text-lg font-bold text-muted-foreground">Monitoramento Nominal</h3>
         <p className="text-sm max-w-md text-center">
           Nenhum sinal crítico escalado no momento. A orquestração de resposta a crises (playbooks) permanece em fail-closed.
         </p>

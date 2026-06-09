@@ -34,10 +34,10 @@ export function InstitutionalWarRoomPage({ rawData }: { rawData: any }) {
 
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-8 animate-fade-in">
-      <header className="flex justify-between items-end border-b border-slate-200 pb-6">
+      <header className="flex justify-between items-end border-b border-border pb-6">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Institutional War Room</h1>
-          <p className="text-sm font-medium text-slate-500 mt-2">
+          <h1 className="text-3xl font-black text-muted-foreground tracking-tight">Institutional War Room</h1>
+          <p className="text-sm font-medium text-muted-foreground mt-2">
             Simulação estrutural de crise e deterioração institucional sob governança fiduciária.
           </p>
         </div>
@@ -68,9 +68,9 @@ export function InstitutionalWarRoomPage({ rawData }: { rawData: any }) {
               <CrisisExplainabilityDrawer profile={activeScenario.explainability} />
             </>
           ) : (
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl flex flex-col items-center justify-center h-96 p-8 text-center">
-              <span className="text-slate-400 font-black text-xl mb-4">NENHUMA CRISE ATIVA</span>
-              <p className="text-slate-500 text-sm">
+            <div className="bg-slate-50 border border-border rounded-2xl flex flex-col items-center justify-center h-96 p-8 text-center">
+              <span className="text-muted-foreground font-black text-xl mb-4">NENHUMA CRISE ATIVA</span>
+              <p className="text-muted-foreground text-sm">
                 Configure os parâmetros de estresse no painel lateral para iniciar a simulação estrutural de sobrevivência.
               </p>
             </div>

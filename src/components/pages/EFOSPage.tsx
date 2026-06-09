@@ -332,8 +332,8 @@ function sanitizeReport(obj: any): any {
       return (
         <div className="flex flex-col items-center justify-center min-h-[500px] gap-4">
           <AlertTriangle size={40} className="text-amber-500" />
-          <span className="text-xl font-black text-slate-800 text-center">Auditoria Fiduciária</span>
-          <p className="text-sm text-slate-500 font-medium max-w-lg text-center">A análise de tensões foi bloqueada por inconsistência de vinculação fiduciária. Reprocessar o relatório antes de deliberação.</p>
+          <span className="text-xl font-black text-muted-foreground text-center">Auditoria Fiduciária</span>
+          <p className="text-sm text-muted-foreground font-medium max-w-lg text-center">A análise de tensões foi bloqueada por inconsistência de vinculação fiduciária. Reprocessar o relatório antes de deliberação.</p>
         </div>
       );
     }
@@ -361,8 +361,8 @@ function sanitizeReport(obj: any): any {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[500px] gap-4">
-        <Loader2 size={40} className="animate-spin text-slate-700" />
-        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Carregando inteligência institucional...</span>
+        <Loader2 size={40} className="animate-spin text-muted-foreground" />
+        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Carregando inteligência institucional...</span>
       </div>
     );
   }
@@ -398,10 +398,10 @@ function sanitizeReport(obj: any): any {
           color="executive"
         />
         {/* Selectors Bar */}
-        <div className="flex items-center justify-between gap-4 flex-wrap bg-white/50 p-4 rounded-2xl border border-slate-200 backdrop-blur-md shadow-sm -mt-6">
+        <div className="flex items-center justify-between gap-4 flex-wrap bg-white/50 p-4 rounded-2xl border border-border backdrop-blur-md shadow-sm -mt-6">
           <div className="flex items-center gap-4">
-            <div className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center gap-3">
-              <Calendar size={14} className="text-slate-500" />
+            <div className="px-4 py-2.5 bg-white border border-border rounded-xl shadow-sm flex items-center gap-3">
+              <Calendar size={14} className="text-muted-foreground" />
               <select
                 onChange={(e) => {
                   const yr = Number(e.target.value);
@@ -409,7 +409,7 @@ function sanitizeReport(obj: any): any {
                   if (setSelectedYear) setSelectedYear(yr);
                 }}
                 value={filterYear}
-                className="bg-transparent text-xs font-bold uppercase tracking-wider outline-none cursor-pointer text-slate-700 appearance-none pr-1"
+                className="bg-transparent text-xs font-bold uppercase tracking-wider outline-none cursor-pointer text-muted-foreground appearance-none pr-1"
               >
                 {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map((y) => (
                   <option key={y} value={y}>{y}</option>
@@ -418,7 +418,7 @@ function sanitizeReport(obj: any): any {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200">
+            <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground bg-slate-100 px-3 py-1.5 rounded-md border border-border">
               Modo: {t(`runtime.${executiveReport?.compliance?.runtimeMode}`)}
             </span>
             {/* Additional UI omitted for brevity */}
@@ -426,14 +426,14 @@ function sanitizeReport(obj: any): any {
         </div>
         {/* Board Top 3 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+          <div className="bg-white rounded-3xl p-6 border border-border shadow-sm space-y-6">
             <div className="flex items-center gap-2">
               <Briefcase size={18} className="text-primary-500" />
-              <h3 className="text-sm font-black text-slate-900 uppercase tracking-wider">Top 3 Decisões do Conselho</h3>
+              <h3 className="text-sm font-black text-muted-foreground uppercase tracking-wider">Top 3 Decisões do Conselho</h3>
             </div>
             <div className="space-y-4">
               {consolidationResult?.boardTop3?.length === 0 ? (
-                <p className="text-xs text-slate-500 italic">Sem decisões pendentes para o Conselho.</p>
+                <p className="text-xs text-muted-foreground italic">Sem decisões pendentes para o Conselho.</p>
               ) : (
                 consolidationResult?.boardTop3?.map((rec, i) => {
                   const title = languageSanitize(FiduciaryRuntimeAdapter.EFOSPresentationLeakGuard.guard(rec.titulo || rec.text || rec.problema) || 'Decisão fiduciária requerida para mitigação de risco institucional.');
@@ -441,15 +441,15 @@ function sanitizeReport(obj: any): any {
                   const expectedImpact = languageSanitize(FiduciaryRuntimeAdapter.EFOSPresentationLeakGuard.guard(rec.impactoEsperado));
                   const consequence = languageSanitize(FiduciaryRuntimeAdapter.EFOSPresentationLeakGuard.guard(rec.consequenciaInacao));
                   return (
-                    <div key={i} className="p-4 border border-slate-100 bg-slate-50 rounded-2xl flex flex-col gap-2">
-                      <h4 className="text-xs font-bold text-slate-800">{title}</h4>
-                      {problem && <p className="text-[11px] text-slate-600 mt-1 leading-relaxed"><span className="font-semibold text-slate-700">Problema:</span> {problem}</p>}
-                      {expectedImpact && <p className="text-[11px] text-slate-600 mt-1 leading-relaxed"><span className="font-semibold text-slate-700">Impacto Esperado:</span> {expectedImpact}</p>}
+                    <div key={i} className="p-4 border border-border bg-slate-50 rounded-2xl flex flex-col gap-2">
+                      <h4 className="text-xs font-bold text-muted-foreground">{title}</h4>
+                      {problem && <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed"><span className="font-semibold text-muted-foreground">Problema:</span> {problem}</p>}
+                      {expectedImpact && <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed"><span className="font-semibold text-muted-foreground">Impacto Esperado:</span> {expectedImpact}</p>}
                       {consequence && <p className="text-[11px] text-rose-600 mt-1 leading-relaxed"><span className="font-semibold text-rose-700">Consequência da Inação:</span> {consequence}</p>}
                       <div className="flex items-center gap-2 mt-2 flex-wrap">
-                        {(rec.prazoRecomendadoLabel || rec.prazoRecomendado) && <span className="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded">Prazo: {rec.prazoRecomendadoLabel || rec.prazoRecomendado}</span>}
-                        {rec.impactLabel && <span className="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded">Impacto: {rec.impactLabel}</span>}
-                        {rec.urgencyLabel && <span className="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded">Urgência: {rec.urgencyLabel}</span>}
+                        {(rec.prazoRecomendadoLabel || rec.prazoRecomendado) && <span className="text-[10px] font-bold text-muted-foreground bg-white border border-border px-2 py-1 rounded">Prazo: {rec.prazoRecomendadoLabel || rec.prazoRecomendado}</span>}
+                        {rec.impactLabel && <span className="text-[10px] font-bold text-muted-foreground bg-white border border-border px-2 py-1 rounded">Impacto: {rec.impactLabel}</span>}
+                        {rec.urgencyLabel && <span className="text-[10px] font-bold text-muted-foreground bg-white border border-border px-2 py-1 rounded">Urgência: {rec.urgencyLabel}</span>}
                         {rec.domain && <span className="text-[10px] font-bold text-primary-600 bg-primary-50 border border-primary-100 px-2 py-1 rounded">Domínio: {rec.domain}</span>}
                       </div>
                     </div>
@@ -459,22 +459,22 @@ function sanitizeReport(obj: any): any {
             </div>
           </div>
           {/* Executive Top 5 */}
-          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+          <div className="bg-white rounded-3xl p-6 border border-border shadow-sm space-y-6">
             <div className="flex items-center gap-2">
               <Activity size={18} className="text-blue-500" />
-              <h3 className="text-sm font-black text-slate-900 uppercase tracking-wider">{consolidationResult?.executiveTop5Title || 'Top 5 Ações da Diretoria'}</h3>
+              <h3 className="text-sm font-black text-muted-foreground uppercase tracking-wider">{consolidationResult?.executiveTop5Title || 'Top 5 Ações da Diretoria'}</h3>
             </div>
             <div className="space-y-4">
               {consolidationResult?.executiveTop5?.length === 0 ? (
-                <p className="text-xs text-slate-500 italic">Sem ações pendentes para a Diretoria.</p>
+                <p className="text-xs text-muted-foreground italic">Sem ações pendentes para a Diretoria.</p>
               ) : (
                 consolidationResult?.executiveTop5?.map((rec, i) => {
                   const text = FiduciaryRuntimeAdapter.EFOSPresentationLeakGuard.guard(rec.text);
                   return (
-                    <div key={i} className="p-4 border border-slate-100 bg-slate-50 rounded-2xl flex flex-col gap-2">
-                      <h4 className="text-xs font-bold text-slate-800">{text}</h4>
+                    <div key={i} className="p-4 border border-border bg-slate-50 rounded-2xl flex flex-col gap-2">
+                      <h4 className="text-xs font-bold text-muted-foreground">{text}</h4>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded">Impacto: {rec.impact}</span>
+                        <span className="text-[10px] font-bold text-muted-foreground bg-white border border-border px-2 py-1 rounded">Impacto: {rec.impact}</span>
                         {rec.domain && <span className="text-[10px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-1 rounded">Domínio: {rec.domain}</span>}
                       </div>
                     </div>

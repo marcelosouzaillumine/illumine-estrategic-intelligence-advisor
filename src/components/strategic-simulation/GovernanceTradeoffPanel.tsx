@@ -11,7 +11,7 @@ export function GovernanceTradeoffPanel({ tenantId }: { tenantId: string }) {
   return (
     <div className="bg-surface-container border border-border rounded-lg p-6">
       <div className="flex items-center gap-2 mb-4">
-        <Scale className="text-indigo-500" />
+        <Scale className="text-primary" />
         <h3 className="text-sm font-semibold text-foreground">Governance Trade-offs</h3>
       </div>
       <div className="space-y-4">

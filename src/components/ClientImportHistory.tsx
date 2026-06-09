@@ -224,28 +224,28 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="lg:col-span-2 space-y-6">
-        <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-          <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-4 flex items-center gap-2">
+        <div className="bg-slate-50 p-6 rounded-2xl border border-border">
+          <h4 className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-4 flex items-center gap-2">
             <Database size={14} className="text-secondary" /> Nova Importação de Dados
           </h4>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div>
-              <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Documento</label>
+              <label className="block text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Documento</label>
               <select 
                 value={docType} 
                 onChange={(e) => setDocType(e.target.value)}
-                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none"
+                className="w-full px-3 py-2 bg-white border border-border rounded-xl text-xs font-bold outline-none"
               >
                 {docTypes.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Período</label>
+              <label className="block text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Período</label>
               <select 
                 value={periodType} 
                 onChange={(e) => setPeriodType(e.target.value as 'mensal' | 'anual')}
-                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none"
+                className="w-full px-3 py-2 bg-white border border-border rounded-xl text-xs font-bold outline-none"
               >
                 <option value="mensal">Mensal</option>
                 <option value="anual">Anual</option>
@@ -253,12 +253,12 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
             </div>
             {periodType === 'mensal' ? (
               <div>
-                <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Mês/Ano</label>
+                <label className="block text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Mês/Ano</label>
                 <div className="flex gap-1">
                   <select 
                     value={month} 
                     onChange={(e) => setMonth(parseInt(e.target.value))}
-                    className="flex-1 px-2 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-bold outline-none"
+                    className="flex-1 px-2 py-2 bg-white border border-border rounded-xl text-[10px] font-bold outline-none"
                   >
                     {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
                       <option key={m} value={m}>{getMonthName(m).substring(0,3)}</option>
@@ -267,7 +267,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
                   <select 
                     value={year} 
                     onChange={(e) => setYear(parseInt(e.target.value))}
-                    className="flex-1 px-2 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-bold outline-none"
+                    className="flex-1 px-2 py-2 bg-white border border-border rounded-xl text-[10px] font-bold outline-none"
                   >
                     {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map(y => <option key={y} value={y}>{y}</option>)}
                   </select>
@@ -275,11 +275,11 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
               </div>
             ) : (
               <div>
-                <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Ano</label>
+                <label className="block text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Ano</label>
                 <select 
                   value={year} 
                   onChange={(e) => setYear(parseInt(e.target.value))}
-                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none"
+                  className="w-full px-3 py-2 bg-white border border-border rounded-xl text-xs font-bold outline-none"
                 >
                   {Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - 5 + i).map(y => <option key={y} value={y}>{y}</option>)}
                 </select>
@@ -293,7 +293,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
             onDrop={handleFileUpload}
             className={cn(
               "relative border-2 border-dashed rounded-2xl p-8 text-center transition-all group",
-              isDragging ? "border-secondary bg-secondary/5" : "border-slate-200 bg-white hover:border-secondary/40",
+              isDragging ? "border-secondary bg-secondary/5" : "border-border bg-white hover:border-secondary/40",
               loading && "opacity-50 pointer-events-none"
             )}
           >
@@ -314,7 +314,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
               <h4 className="text-sm font-bold text-primary mb-1">
                 {loading ? 'Processando...' : 'Arraste ou clique para importar'}
               </h4>
-              <p className="text-[10px] text-slate-400 font-medium">
+              <p className="text-[10px] text-muted-foreground font-medium">
                 Suportamos XLSX, XLS, CSV e PDF
               </p>
             </div>
@@ -333,7 +333,7 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
       </div>
 
       <div className="space-y-6">
-        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm min-h-[300px]">
+        <div className="bg-white p-6 rounded-2xl border border-border shadow-sm min-h-[300px]">
           <h3 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
             <Clock size={14} className="text-secondary" /> Últimas Importações
           </h3>
@@ -345,22 +345,22 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
           ) : history.length > 0 ? (
             <div className="space-y-3">
               {history.map((h) => (
-                <div key={h.id} className="p-3 rounded-xl bg-slate-50 border border-slate-100 group hover:border-secondary/20 transition-all relative">
+                <div key={h.id} className="p-3 rounded-xl bg-slate-50 border border-border group hover:border-secondary/20 transition-all relative">
                   <button 
                     onClick={() => handleDelete(h.id)}
-                    className="absolute top-3 right-3 p-1 text-slate-300 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all"
+                    className="absolute top-3 right-3 p-1 text-muted-foreground hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all"
                   >
                     <Trash2 size={12} />
                   </button>
                   <div className="flex justify-between items-start mb-1 pr-5">
                     <span className="text-[8px] font-black uppercase text-secondary tracking-widest">{h.type}</span>
-                    <span className="text-[8px] font-bold text-slate-400">
+                    <span className="text-[8px] font-bold text-muted-foreground">
                       {h.periodType === 'anual' ? `ANUAL / ${h.year}` : `${getMonthName(h.month).substring(0,3)}/${h.year}`}
                     </span>
                   </div>
                   <p className="text-[11px] font-bold text-primary mb-1">{h.fileName}</p>
                   <div className="flex justify-between items-center mt-1">
-                    <p className="text-[9px] text-slate-400">Em: {h.createdAt?.toDate() ? h.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recent'}</p>
+                    <p className="text-[9px] text-muted-foreground">Em: {h.createdAt?.toDate() ? h.createdAt.toDate().toLocaleDateString('pt-BR') : 'Recent'}</p>
                     {h.fileUrl && (
                       <a 
                         href={h.fileUrl} 
@@ -376,9 +376,9 @@ export function ClientImportHistory({ clientId, clientName }: { clientId: string
               ))}
             </div>
           ) : (
-            <div className="text-center py-10 bg-slate-50 rounded-xl border border-dashed border-slate-200">
-              <FileText size={32} className="mx-auto text-slate-200 mb-2" />
-              <p className="text-[10px] font-bold text-slate-400">Nenhum registro</p>
+            <div className="text-center py-10 bg-slate-50 rounded-xl border border-dashed border-border">
+              <FileText size={32} className="mx-auto text-muted-foreground mb-2" />
+              <p className="text-[10px] font-bold text-muted-foreground">Nenhum registro</p>
             </div>
           )}
         </div>

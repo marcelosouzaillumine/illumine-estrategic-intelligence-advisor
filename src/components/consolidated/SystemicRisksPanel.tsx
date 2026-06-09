@@ -6,19 +6,19 @@ import { cn } from '../../lib/utils';
 export function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
   if (!risks || risks.length === 0) {
     return (
-      <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm">
-        <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-4 flex items-center gap-2">
+      <div className="bg-white rounded-[32px] p-8 border border-border shadow-sm">
+        <h3 className="text-sm font-black text-muted-foreground uppercase tracking-widest mb-4 flex items-center gap-2">
           <Activity size={16} className="text-emerald-500" />
           Risco Sistêmico
         </h3>
-        <p className="text-xs text-slate-500 font-medium">Nenhum risco sistêmico de asfixia detectado na estrutura topológica atual.</p>
+        <p className="text-xs text-muted-foreground font-medium">Nenhum risco sistêmico de asfixia detectado na estrutura topológica atual.</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-[32px] p-8 border border-slate-200 shadow-sm">
-      <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
+    <div className="bg-white rounded-[32px] p-8 border border-border shadow-sm">
+      <h3 className="text-sm font-black text-muted-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
         <Activity size={16} className="text-rose-500" />
         Risco Sistêmico e Contágio
       </h3>
@@ -36,7 +36,7 @@ export function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
                 {risk.severity}
               </span>
             </div>
-            <p className="text-sm font-medium text-slate-800 leading-relaxed">
+            <p className="text-sm font-medium text-muted-foreground leading-relaxed">
               {risk.description}
             </p>
             {risk.potentialDominoEffect && (

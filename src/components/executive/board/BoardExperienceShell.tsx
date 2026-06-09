@@ -81,7 +81,7 @@ export const BoardExperienceShell: React.FC<BoardExperienceShellProps> = ({ narr
                 return (
                   <div key={safeV.violationId} className={`p-4 border rounded-lg ${v.severity === 'CRITICAL' ? 'bg-red-900/20 border-red-500/30' : 'bg-amber-900/20 border-amber-500/30'}`}>
                     <span className={`text-sm font-bold uppercase ${v.severity === 'CRITICAL' ? 'text-red-400' : 'text-amber-400'}`}>{safeV.severity as string}</span>
-                    <p className="mt-1 text-slate-200">{safeV.message as string}</p>
+                    <p className="mt-1 text-muted-foreground">{safeV.message as string}</p>
                     <p className="mt-2 text-sm font-mono text-muted-foreground">Context: {safeV.sourceContext as string}</p>
                   </div>
                 );

@@ -11,21 +11,21 @@ interface ExportHistoryPanelProps {
 
 export function ExportHistoryPanel({ exports, onDownloadReport, className }: ExportHistoryPanelProps) {
   return (
-    <div className={cn("bg-white border border-slate-200 rounded-[32px] p-6 shadow-sm", className)}>
+    <div className={cn("bg-white border border-border rounded-[32px] p-6 shadow-sm", className)}>
       <div className="flex items-center gap-2 mb-6">
-        <History className="text-slate-400" size={18} />
-        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Histórico de Board Packs Emitidos</span>
+        <History className="text-muted-foreground" size={18} />
+        <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Histórico de Board Packs Emitidos</span>
       </div>
 
       {exports.length === 0 ? (
-        <div className="py-8 text-center text-xs font-medium text-slate-400 italic">
+        <div className="py-8 text-center text-xs font-medium text-muted-foreground italic">
           Nenhum relatório foi exportado para este tenant até o momento.
         </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-100 text-[10px] font-black uppercase tracking-wider text-slate-400">
+              <tr className="border-b border-border text-[10px] font-black uppercase tracking-wider text-muted-foreground">
                 <th className="pb-3 font-black">Export ID / Data</th>
                 <th className="pb-3 font-black">Lineage Hash</th>
                 <th className="pb-3 font-black">Calibração</th>
@@ -33,19 +33,19 @@ export function ExportHistoryPanel({ exports, onDownloadReport, className }: Exp
                 <th className="pb-3 font-black text-right">Ação</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-xs font-bold text-slate-700">
+            <tbody className="divide-y divide-slate-100 text-xs font-bold text-muted-foreground">
               {exports.map((exp) => (
                 <tr key={exp.exportId} className="hover:bg-slate-50/50 transition-colors">
                   <td className="py-4">
-                    <span className="font-mono text-[11px] block text-slate-900 select-all">{exp.exportId}</span>
-                    <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">
+                    <span className="font-mono text-[11px] block text-muted-foreground select-all">{exp.exportId}</span>
+                    <span className="text-[10px] text-muted-foreground font-semibold block mt-0.5">
                       {new Date(exp.timestamp).toLocaleString('pt-BR')}
                     </span>
                   </td>
-                  <td className="py-4 font-mono text-[10px] text-slate-500 max-w-[150px] truncate" title={exp.lineageHash}>
+                  <td className="py-4 font-mono text-[10px] text-muted-foreground max-w-[150px] truncate" title={exp.lineageHash}>
                     {exp.lineageHash}
                   </td>
-                  <td className="py-4 uppercase text-slate-600">
+                  <td className="py-4 uppercase text-muted-foreground">
                     {exp.calibrationProfile}
                   </td>
                   <td className="py-4">
@@ -64,7 +64,7 @@ export function ExportHistoryPanel({ exports, onDownloadReport, className }: Exp
                     {onDownloadReport && (
                       <button
                         onClick={() => onDownloadReport(exp)}
-                        className="p-2 rounded-lg bg-indigo-50 border border-indigo-100 text-indigo-600 hover:bg-indigo-100 hover:text-indigo-700 transition-all inline-flex items-center gap-1.5"
+                        className="p-2 rounded-lg bg-accent border border-accent text-accent hover:bg-accent hover:text-accent transition-all inline-flex items-center gap-1.5"
                         title="Baixar Cópia do PDF"
                       >
                         <Download size={14} />

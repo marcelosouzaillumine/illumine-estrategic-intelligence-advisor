@@ -195,11 +195,11 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
         color="bg-slate-900"
       />
 
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-slate-200/60 backdrop-blur-sm shadow-sm -mt-6 mb-10">
+      <div className="flex items-center justify-between gap-4 flex-wrap bg-white/60 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-sm -mt-6 mb-10">
         <div className="flex items-center gap-3">
-          <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
+          <div className="flex items-center bg-white border border-border rounded-2xl p-1 shadow-sm">
             <div className="flex items-center px-4 py-2">
-              <Calendar size={14} className="text-slate-400 mr-2.5" />
+              <Calendar size={14} className="text-muted-foreground mr-2.5" />
               <select 
                 value={year} 
                 onChange={(e) => setYear(Number(e.target.value))}
@@ -214,10 +214,10 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-4 py-2 border border-slate-200 bg-white rounded-xl shadow-sm">
+          <div className="flex items-center gap-2 px-4 py-2 border border-border bg-white rounded-xl shadow-sm">
             <ShieldCheck size={14} className={analysis?.reprocessed ? "text-blue-500" : "text-emerald-500"} />
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
-              Análise processada com: <span className="text-slate-800">{methodologyUsed}</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+              Análise processada com: <span className="text-muted-foreground">{methodologyUsed}</span>
             </span>
           </div>
 
@@ -232,7 +232,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
           {analysis?.reprocessed && (
             <button 
               onClick={() => setShowReprocessed(!showReprocessed)}
-              className={cn("px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm border", showReprocessed ? "bg-blue-50 border-blue-200 text-blue-700" : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50")}
+              className={cn("px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm border", showReprocessed ? "bg-blue-50 border-blue-200 text-blue-700" : "bg-white border-border text-muted-foreground hover:bg-slate-50")}
             >
               {showReprocessed ? "Ver Original" : "Ver Reprocessada"}
             </button>
@@ -249,9 +249,9 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
           )}
 
           {(loadingDre || loadingBp || loadingAnalysis) && (
-            <div className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm animate-pulse">
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-white border border-border rounded-xl shadow-sm animate-pulse">
               <Loader2 size={14} className="animate-spin text-secondary" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Sincronizando...</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Sincronizando...</span>
             </div>
           )}
         </div>
@@ -271,7 +271,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
           </div>
           <div>
             <h3 className="text-[11px] font-black text-secondary uppercase tracking-[0.3em] mb-3">Insight de Capital</h3>
-            <p className="executive-note font-semibold text-slate-800 italic leading-relaxed">
+            <p className="executive-note font-semibold text-muted-foreground italic leading-relaxed">
               {executiveReport ? (
                 `"${executiveReport.orchestratedNarrative?.leadParagraph || executiveReport.financialThesis?.thesis}"`
               ) : (
@@ -284,7 +284,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
         <div className="bg-primary p-8 rounded-[32px] text-white flex flex-col justify-between relative overflow-hidden group shadow-xl">
           <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl group-hover:bg-secondary/30 transition-all"></div>
           <div>
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Custo de Capital (WACC)</h3>
+            <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-4">Custo de Capital (WACC)</h3>
             <p className="text-3xl font-display font-medium mb-2">{wacc.toFixed(2)}%</p>
             <div className="flex items-center gap-2 text-emerald-400">
                <ShieldCheck size={16} />
@@ -300,17 +300,17 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
       {/* KPI Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6">
         {metrics.map(m => (
-          <div key={m.label} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden">
+          <div key={m.label} className="bg-white p-8 rounded-[32px] border border-border shadow-sm transition-all hover:shadow-elegant group relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">{m.label}</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">{m.label}</p>
                 <Semaphore status={m.sem as 'Verde' | 'Amarelo' | 'Vermelho'} />
               </div>
               <p className="text-2xl font-display font-medium tracking-tight text-primary group-hover:text-secondary transition-colors">
                 {m.value}
               </p>
               <div className="mt-4 flex items-center gap-2">
-                <span className="text-[10px] font-bold text-slate-400 italic">
+                <span className="text-[10px] font-bold text-muted-foreground italic">
                   {m.sub}
                 </span>
               </div>
@@ -324,9 +324,9 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Eficiência de Capital */}
         <div className="space-y-4">
-          <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Eficiência de Capital</h2>
-          <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm interactive-card">
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-8 flex items-center gap-2">
+          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Eficiência de Capital</h2>
+          <div className="bg-white p-8 rounded-3xl border border-border shadow-sm interactive-card">
+            <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-8 flex items-center gap-2">
               <Activity size={14} className="text-secondary" /> Retorno sobre Ativos e Capital
             </h3>
             <div className="space-y-8">
@@ -337,8 +337,8 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
               ].map((item, idx) => (
                 <div key={idx}>
                   <div className="flex justify-between items-baseline mb-2">
-                    <span className="text-xs font-bold text-slate-600">{item.label}</span>
-                    <span className="text-base font-medium text-slate-700">{item.display || `${item.val.toFixed(2)}%`}</span>
+                    <span className="text-xs font-bold text-muted-foreground">{item.label}</span>
+                    <span className="text-base font-medium text-muted-foreground">{item.display || `${item.val.toFixed(2)}%`}</span>
                   </div>
                   <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                     <motion.div 
@@ -355,9 +355,9 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
 
         {/* Estrutura de Capital */}
         <div className="space-y-4">
-          <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] font-sans">Estrutura de Capital</h2>
-          <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm interactive-card">
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-8 flex items-center gap-2">
+          <h2 className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] font-sans">Estrutura de Capital</h2>
+          <div className="bg-white p-8 rounded-3xl border border-border shadow-sm interactive-card">
+            <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-8 flex items-center gap-2">
               <PieChartIcon size={14} className="text-secondary" /> Composição de Passivos
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -368,17 +368,17 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
                   { label: 'Longo Prazo (CE %)', val: ce },
                   { label: 'Endividamento Geral (IRPC)', val: irpc }
                 ].map((item, idx) => (
-                  <div key={idx} className="flex justify-between py-3 border-b border-slate-50 last:border-0">
-                    <span className="text-xs font-medium text-slate-500">{item.label}</span>
-                    <span className="text-xs font-medium text-slate-700">{item.val.toFixed(2)}%</span>
+                  <div key={idx} className="flex justify-between py-3 border-b border-border last:border-0">
+                    <span className="text-xs font-medium text-muted-foreground">{item.label}</span>
+                    <span className="text-xs font-medium text-muted-foreground">{item.val.toFixed(2)}%</span>
                   </div>
                 ))}
               </div>
-              <div className="bg-slate-50 p-6 rounded-[32px] border border-slate-100">
+              <div className="bg-slate-50 p-6 rounded-[32px] border border-border">
                 {/* Gráfico de barras empilhadas proporcional: mantém valores de enquadramento */}
                 <div className="flex flex-col items-center gap-4">
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Dívida Total</p>
-                  <p className="text-xl font-medium text-slate-900">{formatCurrency(totalThirdParty)}</p>
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Dívida Total</p>
+                  <p className="text-xl font-medium text-muted-foreground">{formatCurrency(totalThirdParty)}</p>
 
                   {totalThirdParty > 0 ? (
                     <div className="w-full space-y-3">
@@ -387,9 +387,9 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
                         <div className="flex justify-between items-center mb-1">
                           <div className="flex items-center gap-1.5">
                             <div className="w-2.5 h-2.5 rounded-full bg-blue-600" />
-                            <span className="text-[9px] font-black text-slate-500 uppercase">CP — {ct.toFixed(1)}%</span>
+                            <span className="text-[9px] font-black text-muted-foreground uppercase">CP — {ct.toFixed(1)}%</span>
                           </div>
-                          <span className="text-[10px] font-medium text-slate-600">{formatCurrency(pc)}</span>
+                          <span className="text-[10px] font-medium text-muted-foreground">{formatCurrency(pc)}</span>
                         </div>
                         <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
                           <div className="h-full bg-blue-600 rounded-full transition-all duration-700" style={{ width: `${ct}%` }} />
@@ -400,9 +400,9 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
                         <div className="flex justify-between items-center mb-1">
                           <div className="flex items-center gap-1.5">
                             <div className="w-2.5 h-2.5 rounded-full bg-blue-300" />
-                            <span className="text-[9px] font-black text-slate-500 uppercase">LP — {ce.toFixed(1)}%</span>
+                            <span className="text-[9px] font-black text-muted-foreground uppercase">LP — {ce.toFixed(1)}%</span>
                           </div>
-                          <span className="text-[10px] font-medium text-slate-600">{formatCurrency(pnc)}</span>
+                          <span className="text-[10px] font-medium text-muted-foreground">{formatCurrency(pnc)}</span>
                         </div>
                         <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
                           <div className="h-full bg-blue-300 rounded-full transition-all duration-700" style={{ width: `${ce}%` }} />
@@ -410,7 +410,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
                       </div>
                     </div>
                   ) : (
-                    <p className="text-xs text-slate-400 font-medium text-center py-4">Sem endividamento registrado</p>
+                    <p className="text-xs text-muted-foreground font-medium text-center py-4">Sem endividamento registrado</p>
                   )}
                 </div>
               </div>
@@ -422,7 +422,7 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
       {/* Ciclos e Atividade */}
       <div className="space-y-6 pt-12">
         <div className="flex items-center justify-between px-4">
-          <h2 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] font-sans">Ciclos e Atividade Operacional</h2>
+          <h2 className="text-[11px] font-black text-muted-foreground uppercase tracking-[0.3em] font-sans">Ciclos e Atividade Operacional</h2>
           <div className="h-px flex-1 bg-slate-100 mx-8"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -456,15 +456,15 @@ export function AnaliseFinanceiraPage({ clients, selectedClient, selectedYear }:
               desc: `C.Op. ${Math.round(cicloOperacional)}d − PMP ${Math.round(pmp)}d`
             }
           ].map((item, idx) => (
-            <div key={idx} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex flex-col items-center text-center group hover:border-secondary/20 transition-all">
-              <div className="p-3 bg-slate-50 rounded-2xl text-slate-400 group-hover:bg-secondary/10 group-hover:text-secondary transition-all mb-4">
+            <div key={idx} className="bg-white p-8 rounded-[32px] border border-border shadow-sm flex flex-col items-center text-center group hover:border-secondary/20 transition-all">
+              <div className="p-3 bg-slate-50 rounded-2xl text-muted-foreground group-hover:bg-secondary/10 group-hover:text-secondary transition-all mb-4">
                 <item.icon size={20} />
               </div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{item.name}</p>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">{item.name}</p>
               <p className="text-2xl font-display font-medium text-primary">
-                {item.val}<span className="text-xs ml-1 font-medium text-slate-400 uppercase">{item.unit}</span>
+                {item.val}<span className="text-xs ml-1 font-medium text-muted-foreground uppercase">{item.unit}</span>
               </p>
-              <p className="text-[10px] text-slate-400 font-medium mt-2">{item.desc}</p>
+              <p className="text-[10px] text-muted-foreground font-medium mt-2">{item.desc}</p>
             </div>
           ))}
         </div>

@@ -15,27 +15,27 @@ export interface BoardCopilotPanelProps {
 export function BoardCopilotPanel({ messages, isProcessing, suggestedQuestions, onAskQuestion, onClear }: BoardCopilotPanelProps) {
   
   return (
-    <div className="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border border-slate-800 mt-8 mb-8">
+    <div className="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border border-border mt-8 mb-8">
       {/* Header */}
       <div className="p-6 border-b border-white/10 bg-gradient-to-r from-indigo-900/30 to-slate-900 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-indigo-500/20 rounded-xl border border-indigo-500/30">
-            <Cpu className="text-indigo-400" size={24} />
+          <div className="p-2 bg-primary rounded-xl border border-primary">
+            <Cpu className="text-primary" size={24} />
           </div>
           <div>
             <h3 className="text-xl font-black text-white flex items-center gap-2">
               Board Meeting Copilot 
-              <span className="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 text-[10px] uppercase tracking-widest rounded font-black border border-indigo-500/30">
+              <span className="px-2 py-0.5 bg-primary text-primary text-[10px] uppercase tracking-widest rounded font-black border border-primary">
                 BMCL v4.4
               </span>
             </h3>
-            <p className="text-xs text-slate-400">Inteligência Determinística de Apoio a Decisões de Conselho</p>
+            <p className="text-xs text-muted-foreground">Inteligência Determinística de Apoio a Decisões de Conselho</p>
           </div>
         </div>
         {messages.length > 0 && (
           <button 
             onClick={onClear}
-            className="px-3 py-1.5 text-[10px] uppercase tracking-widest font-black text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700"
+            className="px-3 py-1.5 text-[10px] uppercase tracking-widest font-black text-muted-foreground hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-border"
           >
             Clear Session
           </button>
@@ -46,8 +46,8 @@ export function BoardCopilotPanel({ messages, isProcessing, suggestedQuestions, 
       <div className="grid grid-cols-1 lg:grid-cols-3 min-h-[400px]">
         
         {/* Left Side: Suggested Questions (Context Agenda) */}
-        <div className="lg:col-span-1 border-r border-slate-800 bg-slate-900/50 p-6 flex flex-col">
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4 flex items-center gap-2">
+        <div className="lg:col-span-1 border-r border-border bg-slate-900/50 p-6 flex flex-col">
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
             <Activity size={14} /> Contexto da Agenda
           </h4>
           
@@ -57,19 +57,19 @@ export function BoardCopilotPanel({ messages, isProcessing, suggestedQuestions, 
                 key={q.questionId}
                 onClick={() => onAskQuestion(q)}
                 disabled={isProcessing}
-                className="w-full text-left p-3 rounded-xl bg-slate-800/50 hover:bg-indigo-900/30 border border-slate-700 hover:border-indigo-500/30 transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full text-left p-3 rounded-xl bg-slate-800/50 hover:bg-accent border border-border hover:border-accent transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <div className="flex justify-between items-start gap-2">
-                  <span className="text-xs text-slate-300 group-hover:text-indigo-200 leading-relaxed font-medium">
+                  <span className="text-xs text-muted-foreground group-hover:text-accent leading-relaxed font-medium">
                     {q.text}
                   </span>
-                  <ChevronRight size={14} className="text-slate-600 group-hover:text-indigo-400 shrink-0 mt-0.5" />
+                  <ChevronRight size={14} className="text-muted-foreground group-hover:text-accent shrink-0 mt-0.5" />
                 </div>
               </button>
             ))}
             
             {suggestedQuestions.length === 0 && (
-              <p className="text-xs text-slate-500 italic text-center py-8">Nenhuma questão sugerida baseada no contexto atual.</p>
+              <p className="text-xs text-muted-foreground italic text-center py-8">Nenhuma questão sugerida baseada no contexto atual.</p>
             )}
           </div>
         </div>
@@ -79,9 +79,9 @@ export function BoardCopilotPanel({ messages, isProcessing, suggestedQuestions, 
           
           {messages.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center px-8 opacity-60">
-              <ShieldCheck size={48} className="text-slate-700 mb-4" />
-              <h4 className="text-sm font-black text-slate-400 mb-2">Copilot Read-Only</h4>
-              <p className="text-xs text-slate-500 max-w-sm">
+              <ShieldCheck size={48} className="text-muted-foreground mb-4" />
+              <h4 className="text-sm font-black text-muted-foreground mb-2">Copilot Read-Only</h4>
+              <p className="text-xs text-muted-foreground max-w-sm">
                 Selecione uma questão sugerida ao lado. As respostas são baseadas estritamente em evidências e inteligência institucional certificada, sem geração livre de texto.
               </p>
             </div>
@@ -96,26 +96,26 @@ export function BoardCopilotPanel({ messages, isProcessing, suggestedQuestions, 
                     className={`flex flex-col ${msg.type === 'QUESTION' ? 'items-end' : 'items-start'}`}
                   >
                     {msg.type === 'QUESTION' ? (
-                      <div className="max-w-[80%] bg-indigo-600 text-white p-4 rounded-2xl rounded-tr-sm shadow-sm">
+                      <div className="max-w-[80%] bg-primary text-white p-4 rounded-2xl rounded-tr-sm shadow-sm">
                         <p className="text-sm font-medium">{msg.text}</p>
                       </div>
                     ) : (
-                      <div className="max-w-[95%] bg-slate-800 border border-slate-700 rounded-2xl rounded-tl-sm shadow-md overflow-hidden">
+                      <div className="max-w-[95%] bg-slate-800 border border-border rounded-2xl rounded-tl-sm shadow-md overflow-hidden">
                         {msg.result && (
                           <>
                             {/* Response Content */}
                             <div className="p-5">
-                              <p className="text-sm text-slate-200 leading-relaxed mb-4">
+                              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                                 {msg.result.response.executiveSummary}
                               </p>
                               
                               {msg.result.response.keyFindings.length > 0 && (
                                 <div className="mb-4">
-                                  <h5 className="text-[10px] uppercase tracking-widest font-black text-indigo-400 mb-2">Key Findings</h5>
+                                  <h5 className="text-[10px] uppercase tracking-widest font-black text-primary mb-2">Key Findings</h5>
                                   <ul className="space-y-2">
                                     {msg.result.response.keyFindings.map((finding, idx) => (
-                                      <li key={idx} className="text-xs text-slate-300 flex items-start gap-2">
-                                        <CheckCircle2 size={12} className="text-indigo-500 shrink-0 mt-0.5" />
+                                      <li key={idx} className="text-xs text-muted-foreground flex items-start gap-2">
+                                        <CheckCircle2 size={12} className="text-primary shrink-0 mt-0.5" />
                                         <span>{finding}</span>
                                       </li>
                                     ))}
@@ -125,17 +125,17 @@ export function BoardCopilotPanel({ messages, isProcessing, suggestedQuestions, 
                             </div>
                             
                             {/* Traceability Footer */}
-                            <div className="bg-slate-900/80 px-5 py-3 border-t border-slate-800 flex flex-wrap items-center gap-4">
+                            <div className="bg-slate-900/80 px-5 py-3 border-t border-border flex flex-wrap items-center gap-4">
                               <div className="flex items-center gap-1.5" title="Evidências processadas">
-                                <FileText size={12} className="text-slate-500" />
-                                <span className="text-[10px] font-mono text-slate-400">{msg.result.traceability.evidenceCount} Evidências</span>
+                                <FileText size={12} className="text-muted-foreground" />
+                                <span className="text-[10px] font-mono text-muted-foreground">{msg.result.traceability.evidenceCount} Evidências</span>
                               </div>
                               <div className="flex items-center gap-1.5" title="Conflitos identificados">
-                                <AlertTriangle size={12} className={msg.result.traceability.conflictCount > 0 ? "text-amber-500" : "text-slate-500"} />
-                                <span className="text-[10px] font-mono text-slate-400">{msg.result.traceability.conflictCount} Conflitos</span>
+                                <AlertTriangle size={12} className={msg.result.traceability.conflictCount > 0 ? "text-amber-500" : "text-muted-foreground"} />
+                                <span className="text-[10px] font-mono text-muted-foreground">{msg.result.traceability.conflictCount} Conflitos</span>
                               </div>
                               <div className="flex items-center gap-1.5 ml-auto">
-                                <span className="text-[10px] uppercase tracking-widest font-black text-slate-500">Confiança:</span>
+                                <span className="text-[10px] uppercase tracking-widest font-black text-muted-foreground">Confiança:</span>
                                 <span className={`px-2 py-0.5 text-[9px] uppercase tracking-widest font-black rounded ${
                                   msg.result.traceability.confidenceLevel === 'HIGH' || msg.result.traceability.confidenceLevel === 'VERY_HIGH' 
                                   ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
@@ -157,13 +157,13 @@ export function BoardCopilotPanel({ messages, isProcessing, suggestedQuestions, 
               
               {isProcessing && (
                 <div className="flex items-start">
-                  <div className="bg-slate-800 border border-slate-700 rounded-2xl rounded-tl-sm p-4 flex items-center gap-3">
+                  <div className="bg-slate-800 border border-border rounded-2xl rounded-tl-sm p-4 flex items-center gap-3">
                     <div className="flex gap-1">
-                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
-                    <span className="text-xs text-slate-400 font-medium">Orquestrando contexto institucional...</span>
+                    <span className="text-xs text-muted-foreground font-medium">Orquestrando contexto institucional...</span>
                   </div>
                 </div>
               )}

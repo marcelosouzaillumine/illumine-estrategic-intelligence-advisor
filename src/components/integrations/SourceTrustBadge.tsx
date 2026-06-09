@@ -6,7 +6,7 @@ export function SourceTrustBadge({ trust }: { trust: SourceTrustLevel }) {
   switch (trust) {
     case 'INSTITUTIONAL':
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 uppercase" title="Origem Oficial (Ex: Open Finance)">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-primary text-primary border border-primary uppercase" title="Origem Oficial (Ex: Open Finance)">
           <Building2 size={10} /> INSTITUTIONAL
         </span>
       );

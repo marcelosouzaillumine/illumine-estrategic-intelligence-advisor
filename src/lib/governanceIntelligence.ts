@@ -4346,7 +4346,7 @@ export function crossValidateWithIndicators(responses: Record<string, number>, i
 }
 
 export function getMaturityClassification(score: number) {
-  if (score >= 90) return { label: 'Excelência de Governança', color: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-200' };
+  if (score >= 90) return { label: 'Excelência de Governança', color: 'text-primary', bg: 'bg-primary', border: 'border-primary' };
   if (score >= 75) return { label: 'Maturidade Consolidada', color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-200' };
   if (score >= 60) return { label: 'Maturidade em Desenvolvimento', color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-200' };
   if (score >= 40) return { label: 'Estruturação Básica', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-200' };

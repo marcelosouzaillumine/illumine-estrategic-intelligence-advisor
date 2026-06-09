@@ -70,12 +70,12 @@ export function FiscalTributarioPage({ clientId }: FiscalTributarioPageProps) {
 
   if (!clientId) {
     return (
-      <div className="bg-slate-50 border border-slate-100 p-12 rounded-[32px] text-center space-y-4">
-        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-slate-300 mx-auto shadow-sm">
+      <div className="bg-slate-50 border border-border p-12 rounded-[32px] text-center space-y-4">
+        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-muted-foreground mx-auto shadow-sm">
           <AlertCircle size={32} />
         </div>
-        <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Nenhuma Empresa Selecionada</h4>
-        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest max-w-[250px] mx-auto">
+        <h4 className="text-sm font-black text-muted-foreground uppercase tracking-widest">Nenhuma Empresa Selecionada</h4>
+        <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest max-w-[250px] mx-auto">
           Selecione uma empresa no topo da página para gerenciar as configurações fiscais.
         </p>
       </div>

@@ -50,7 +50,7 @@ export const WorkspaceHubNavigation: React.FC = () => {
             <button
               key={action.id}
               onClick={() => handleNavigation(action)}
-              className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors ${isActive ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' : 'text-muted-foreground hover:bg-surface-container-high hover:text-foreground border border-transparent'}`}
+              className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors ${isActive ? 'bg-insight text-insight border border-insight' : 'text-muted-foreground hover:bg-surface-container-high hover:text-foreground border border-transparent'}`}
             >
               <div className="flex items-center gap-3">
                 {action.icon}

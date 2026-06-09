@@ -37,7 +37,7 @@ export function FiduciaryRestrictionPanel({ restrictions, status, quarantineReas
 
   return (
     <div className={`p-6 rounded-[32px] border ${theme.border} ${theme.bg} ${theme.glow} space-y-4 shadow-xs`}>
-      <div className="flex items-center gap-3 border-b border-slate-200 dark:border-white/5 pb-3">
+      <div className="flex items-center gap-3 border-b border-border dark:border-white/5 pb-3">
         <AlertOctagon className={`w-5 h-5 ${theme.iconColor}`} />
         <h3 className={`text-xs font-black uppercase tracking-widest ${theme.text}`}>
           {status === 'CONSTITUTIONAL_QUARANTINE' 
@@ -55,21 +55,21 @@ export function FiduciaryRestrictionPanel({ restrictions, status, quarantineReas
 
       <div className="space-y-3">
         {restrictions.map((restriction, idx) => (
-          <div key={idx} className="p-4 bg-slate-50/50 dark:bg-zinc-950/50 border border-slate-200 dark:border-zinc-800/80 rounded-xl flex items-start gap-3 transition-colors hover:border-slate-300 dark:hover:border-zinc-800 shadow-xs">
-            <div className="p-2 bg-slate-100 dark:bg-zinc-900 rounded-lg text-slate-500 dark:text-zinc-500 shrink-0 mt-0.5">
+          <div key={idx} className="p-4 bg-slate-50/50 dark:bg-zinc-950/50 border border-border dark:border-zinc-800/80 rounded-xl flex items-start gap-3 transition-colors hover:border-border dark:hover:border-zinc-800 shadow-xs">
+            <div className="p-2 bg-slate-100 dark:bg-zinc-900 rounded-lg text-muted-foreground dark:text-zinc-500 shrink-0 mt-0.5">
               {restriction.restrictionType === 'FAIL_CLOSED' ? <Lock className="w-3.5 h-3.5 text-red-650 dark:text-red-400" /> : <KeyRound className="w-3.5 h-3.5" />}
             </div>
             <div className="space-y-1">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+              <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground dark:text-zinc-400">
                 {restriction.restrictionType.replace(/_/g, ' ')}
               </span>
-              <p className="text-xs font-semibold text-slate-700 dark:text-zinc-300 leading-snug">
+              <p className="text-xs font-semibold text-muted-foreground dark:text-zinc-300 leading-snug">
                 {restriction.description}
               </p>
               {restriction.affectedRuntimes && restriction.affectedRuntimes.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 pt-1.5">
                   {restriction.affectedRuntimes.map((runtime, rIdx) => (
-                    <span key={rIdx} className="text-[8px] font-bold font-mono uppercase tracking-widest px-2 py-0.5 bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-550 dark:text-zinc-550 rounded">
+                    <span key={rIdx} className="text-[8px] font-bold font-mono uppercase tracking-widest px-2 py-0.5 bg-slate-100 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-muted-foreground dark:text-zinc-550 rounded">
                       {runtime}
                     </span>
                   ))}

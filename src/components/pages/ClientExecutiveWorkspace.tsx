@@ -725,14 +725,14 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
         <div className="fixed inset-0 bg-[#0d0f14] z-[999] flex flex-col justify-between text-white p-8 lg:p-12 animate-fade-in select-none">
           
           {/* Top Bar Info */}
-          <div className="flex justify-between items-center border-b border-slate-800 pb-6">
+          <div className="flex justify-between items-center border-b border-border pb-6">
             <div className="space-y-1">
               <span className="text-[9px] font-black uppercase tracking-widest text-[#FF8552]">Guided Presentation Slide</span>
               <h2 className="text-3xl font-black text-white tracking-tight">{currentStep.title}</h2>
             </div>
             <button 
               onClick={() => journeyRuntime?.exitJourney()}
-              className="p-2 hover:bg-slate-800 rounded-full text-slate-400 hover:text-white transition-colors"
+              className="p-2 hover:bg-slate-800 rounded-full text-muted-foreground hover:text-white transition-colors"
             >
               <X size={20} />
             </button>
@@ -744,21 +744,21 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
             {/* Slide Content (3 cols) */}
             <div className="lg:col-span-3 space-y-6 flex flex-col justify-center max-w-4xl mx-auto w-full">
               
-              <p className="text-sm font-bold text-indigo-400 uppercase tracking-widest">{currentStep.description}</p>
+              <p className="text-sm font-bold text-primary uppercase tracking-widest">{currentStep.description}</p>
 
               {currentStep.step === 'SUMMARY' && (
                 <div className="space-y-4">
                   <h3 className="text-5xl font-black leading-tight text-white tracking-tight">Parecer Contábil-Financeiro</h3>
-                  <div className="bg-slate-900/60 p-6 border border-slate-800 rounded-2xl">
-                    <p className="text-base font-semibold text-slate-300 leading-relaxed">{currentStep.data.executiveSummary}</p>
+                  <div className="bg-slate-900/60 p-6 border border-border rounded-2xl">
+                    <p className="text-base font-semibold text-muted-foreground leading-relaxed">{currentStep.data.executiveSummary}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-900/40 p-4 border border-slate-800 rounded-xl">
-                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">Score Geral</span>
+                    <div className="bg-slate-900/40 p-4 border border-border rounded-xl">
+                      <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider block">Score Geral</span>
                       <span className="text-2xl font-black text-white">{currentStep.data.scores?.composite}</span>
                     </div>
-                    <div className="bg-slate-900/40 p-4 border border-slate-800 rounded-xl">
-                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">Severidade</span>
+                    <div className="bg-slate-900/40 p-4 border border-border rounded-xl">
+                      <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider block">Severidade</span>
                       <span className="text-2xl font-black text-rose-400 uppercase block mt-1">{currentStep.data.severity?.level}</span>
                     </div>
                   </div>
@@ -768,10 +768,10 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
               {currentStep.step === 'PRIORITIES' && (
                 <div className="space-y-4">
                   <h3 className="text-4xl font-black text-white tracking-tight">Prioridades Estratégicas</h3>
-                  <p className="text-sm font-bold text-slate-300">Foco Principal: {currentStep.data.priorityFocus}</p>
+                  <p className="text-sm font-bold text-muted-foreground">Foco Principal: {currentStep.data.priorityFocus}</p>
                   <div className="space-y-2 mt-4">
                     {currentStep.data.actionMatrix?.map((action: string, idx: number) => (
-                      <div key={idx} className="p-3 bg-slate-900/40 border border-slate-800 rounded-xl text-xs font-semibold text-slate-300">
+                      <div key={idx} className="p-3 bg-slate-900/40 border border-border rounded-xl text-xs font-semibold text-muted-foreground">
                         {idx + 1}. {action}
                       </div>
                     ))}
@@ -783,20 +783,20 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
                 <div className="space-y-4">
                   <h3 className="text-4xl font-black text-white tracking-tight">Saúde e Solidez das Contas</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
-                    <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl text-center">
-                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Score Geral</span>
+                    <div className="p-5 bg-slate-900/60 border border-border rounded-xl text-center">
+                      <span className="text-[9px] font-black uppercase text-muted-foreground tracking-wider">Score Geral</span>
                       <h4 className="text-3xl font-black text-white mt-1">{currentStep.data.scores?.composite}</h4>
                     </div>
-                    <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl text-center">
-                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Liquidez</span>
+                    <div className="p-5 bg-slate-900/60 border border-border rounded-xl text-center">
+                      <span className="text-[9px] font-black uppercase text-muted-foreground tracking-wider">Liquidez</span>
                       <h4 className="text-3xl font-black text-white mt-1">{currentStep.data.scores?.financial}</h4>
                     </div>
-                    <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl text-center">
-                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Operacional</span>
+                    <div className="p-5 bg-slate-900/60 border border-border rounded-xl text-center">
+                      <span className="text-[9px] font-black uppercase text-muted-foreground tracking-wider">Operacional</span>
                       <h4 className="text-3xl font-black text-white mt-1">{currentStep.data.scores?.operational}</h4>
                     </div>
-                    <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-xl text-center">
-                      <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">Governança</span>
+                    <div className="p-5 bg-slate-900/60 border border-border rounded-xl text-center">
+                      <span className="text-[9px] font-black uppercase text-muted-foreground tracking-wider">Governança</span>
                       <h4 className="text-3xl font-black text-white mt-1">{currentStep.data.scores?.governance}</h4>
                     </div>
                   </div>
@@ -806,14 +806,14 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
               {currentStep.step === 'CAUSALITY' && (
                 <div className="space-y-4">
                   <h3 className="text-4xl font-black text-white tracking-tight">Causalidade e Evento Raiz</h3>
-                  <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl space-y-4">
+                  <div className="p-6 bg-slate-900/60 border border-border rounded-2xl space-y-4">
                     <div>
-                      <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest block mb-1">Evento Detetado</span>
+                      <span className="text-[10px] font-black text-primary uppercase tracking-widest block mb-1">Evento Detetado</span>
                       <p className="text-base font-bold text-white">{currentStep.data.causality?.event}</p>
                     </div>
                     <div>
-                      <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest block mb-1">Causa Raiz Contábil</span>
-                      <p className="text-xs font-semibold text-slate-300 leading-relaxed">{currentStep.data.causality?.rootCause}</p>
+                      <span className="text-[10px] font-black text-insight uppercase tracking-widest block mb-1">Causa Raiz Contábil</span>
+                      <p className="text-xs font-semibold text-muted-foreground leading-relaxed">{currentStep.data.causality?.rootCause}</p>
                     </div>
                   </div>
                 </div>
@@ -822,13 +822,13 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
               {currentStep.step === 'STRESS_PROPAGATION' && (
                 <div className="space-y-4">
                   <h3 className="text-4xl font-black text-white tracking-tight">Propagação Causal de Risco</h3>
-                  <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl space-y-3">
-                    <p className="text-xs font-bold text-slate-400">
+                  <div className="p-6 bg-slate-900/60 border border-border rounded-2xl space-y-3">
+                    <p className="text-xs font-bold text-muted-foreground">
                       Vulnerabilidades contábeis propagadas pelo motor:
                     </p>
                     <div className="space-y-2">
                       {currentStep.data.structuralCapital?.signals?.map((sig: string, i: number) => (
-                        <span key={i} className="inline-block bg-slate-800 text-indigo-400 px-3 py-1 rounded text-xs font-mono mr-2 border border-slate-700">
+                        <span key={i} className="inline-block bg-slate-800 text-primary px-3 py-1 rounded text-xs font-mono mr-2 border border-border">
                           {sig}
                         </span>
                       ))}
@@ -843,13 +843,13 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
                   <div className="space-y-3">
                     {currentStep.data.scenarioProjections && currentStep.data.scenarioProjections.length > 0 ? (
                       currentStep.data.scenarioProjections.map((proj: any, idx: number) => (
-                        <div key={idx} className="p-4 bg-slate-900/60 border border-slate-800 rounded-xl">
+                        <div key={idx} className="p-4 bg-slate-900/60 border border-border rounded-xl">
                           <p className="text-xs font-black text-white uppercase tracking-wider">{proj.scenarioName}</p>
-                          <p className="text-[11px] text-slate-400 mt-1">{proj.description}</p>
+                          <p className="text-[11px] text-muted-foreground mt-1">{proj.description}</p>
                         </div>
                       ))
                     ) : (
-                      <p className="text-xs font-semibold text-slate-500 italic">Nenhum cenário adicional gerado pelo core.</p>
+                      <p className="text-xs font-semibold text-muted-foreground italic">Nenhum cenário adicional gerado pelo core.</p>
                     )}
                   </div>
                 </div>
@@ -866,13 +866,13 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
                           <li key={i}>{risk}</li>
                         ))}
                         {(!currentStep.data.executiveAttentionMap?.critical || currentStep.data.executiveAttentionMap.critical.length === 0) && (
-                          <li className="italic text-slate-500">Zero riscos críticos</li>
+                          <li className="italic text-muted-foreground">Zero riscos críticos</li>
                         )}
                       </ul>
                     </div>
-                    <div className="p-5 bg-slate-900/60 border border-slate-850 rounded-xl">
-                      <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest block mb-2">Riscos Secundários</span>
-                      <ul className="text-xs font-semibold text-slate-300 list-disc list-inside space-y-1.5">
+                    <div className="p-5 bg-slate-900/60 border border-border rounded-xl">
+                      <span className="text-[10px] font-black text-primary uppercase tracking-widest block mb-2">Riscos Secundários</span>
+                      <ul className="text-xs font-semibold text-muted-foreground list-disc list-inside space-y-1.5">
                         {currentStep.data.executiveAttentionMap?.secondary?.map((risk: string, i: number) => (
                           <li key={i}>{risk}</li>
                         ))}
@@ -885,7 +885,7 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
               {currentStep.step === 'ACTION_FOCUS' && (
                 <div className="space-y-4">
                   <h3 className="text-4xl font-black text-white tracking-tight">Mitigação e Diretrizes Sugeridas</h3>
-                  <ul className="space-y-3 text-xs font-semibold text-slate-300 pl-4 list-disc">
+                  <ul className="space-y-3 text-xs font-semibold text-muted-foreground pl-4 list-disc">
                     {currentStep.data.actionMatrix?.map((act: string, i: number) => (
                       <li key={i}>{act}</li>
                     ))}
@@ -896,8 +896,8 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
               {currentStep.step === 'BOARD_CONCLUSION' && (
                 <div className="space-y-4">
                   <h3 className="text-4xl font-black text-white tracking-tight">Rastreabilidade & Conclusão</h3>
-                  <div className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl space-y-2">
-                    <p className="text-[11px] font-semibold text-slate-400 leading-normal">
+                  <div className="bg-slate-900/60 border border-border p-5 rounded-2xl space-y-2">
+                    <p className="text-[11px] font-semibold text-muted-foreground leading-normal">
                       A auditoria do conselho foi inicializada com sucesso. Todos os lineage hashes, calibradores e perfis de thresholds estão em conformidade com o regimento interno de governança corporativa.
                     </p>
                   </div>
@@ -907,18 +907,18 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
             </div>
 
             {/* BOARD_EVIDENCE_MODE Panel (1 col) */}
-            <div className="lg:col-span-1 border-l border-slate-800 pl-6 flex flex-col justify-between">
+            <div className="lg:col-span-1 border-l border-border pl-6 flex flex-col justify-between">
               <div>
                 {evidenceMode && evidenceData && (
                   <ExecutiveEvidenceViewer evidence={evidenceData} />
                 )}
                 {!evidenceMode && (
-                  <div className="p-6 bg-slate-900/20 border border-slate-800/40 rounded-3xl text-center text-slate-500">
+                  <div className="p-6 bg-slate-900/20 border border-border rounded-3xl text-center text-muted-foreground">
                     <p className="text-xs font-semibold">Exibição de evidências de lineage desabilitada. Ative na barra inferior se necessário.</p>
                   </div>
                 )}
               </div>
-              <div className="text-[9px] text-slate-600 mt-auto flex items-center gap-1">
+              <div className="text-[9px] text-muted-foreground mt-auto flex items-center gap-1">
                 <Database size={12} /> Fiduciary Lineage Active
               </div>
             </div>
@@ -926,7 +926,7 @@ export function ClientExecutiveWorkspace({ selectedClient, selectedYear }: { sel
           </div>
 
           {/* Bottom Bar Navigation */}
-          <div className="flex justify-center items-center pt-6 border-t border-slate-800">
+          <div className="flex justify-center items-center pt-6 border-t border-border">
             <BoardJourneyNavigator 
               currentStepIndex={currentStepIndex}
               totalSteps={stepsList.length}

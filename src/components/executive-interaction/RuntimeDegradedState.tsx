@@ -21,8 +21,8 @@ export const RuntimeDegradedState: React.FC<RuntimeDegradedStateProps> = ({
       </div>
       <div className="space-y-1">
         <h4 className="text-xs font-black text-amber-450 uppercase tracking-widest">{displayTitle}</h4>
-        <p className="text-xs text-slate-400 leading-relaxed font-medium mt-1">{displayDescription}</p>
-        <div className="pt-3 flex items-center gap-2 text-[10px] text-slate-500 font-mono">
+        <p className="text-xs text-muted-foreground leading-relaxed font-medium mt-1">{displayDescription}</p>
+        <div className="pt-3 flex items-center gap-2 text-[10px] text-muted-foreground font-mono">
           <Database className="w-3.5 h-3.5" />
           Módulos Offline: [CausalHistoryAdapter, BenchmarkScoringModule]
         </div>

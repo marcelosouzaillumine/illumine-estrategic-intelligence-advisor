@@ -16,7 +16,7 @@ export function GovernanceRiskHeatmap() {
   }, []);
 
   if (!heatmapData) {
-    return <div className="p-8 text-slate-400">Carregando telemetria de riscos institucionais...</div>;
+    return <div className="p-8 text-muted-foreground">Carregando telemetria de riscos institucionais...</div>;
   }
 
   return (
@@ -29,7 +29,7 @@ export function GovernanceRiskHeatmap() {
         transparent
         actions={
           <div className="text-right">
-            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1">Exposição Residual</div>
+            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black mb-1">Exposição Residual</div>
             <div className="text-4xl font-light text-emerald-400">{heatmapData.consolidatedResidualRisk.toLocaleString()}</div>
           </div>
         }
@@ -52,7 +52,7 @@ export function GovernanceRiskHeatmap() {
         <StatusCard 
           title="Riscos Sem Owner" 
           value={heatmapData.risksWithoutOwner.length} 
-          icon={<Users className="w-5 h-5 text-slate-400" />} 
+          icon={<Users className="w-5 h-5 text-muted-foreground" />} 
           trend="Governança"
         />
         <StatusCard 
@@ -68,16 +68,16 @@ export function GovernanceRiskHeatmap() {
         
         {/* Painel da Matriz Visual (Placeholder para gráfico real) */}
         <div className="lg:col-span-2 card-premium p-8">
-          <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
-            <Activity className="w-5 h-5 text-slate-400" />
+          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
+            <Activity className="w-5 h-5 text-muted-foreground" />
             Impacto vs Probabilidade
           </h2>
           
           <div className="aspect-video bg-slate-950/60 rounded-xl border border-border/10 flex items-center justify-center relative overflow-hidden shadow-inner">
             {/* Aqui entraria a renderização do grid 5x5 do heatmap real baseado em heatmapData.matrix */}
             <div className="text-center">
-              <ShieldAlert className="w-12 h-12 text-slate-700 mx-auto mb-3" />
-              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider leading-relaxed">
+              <ShieldAlert className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+              <p className="text-muted-foreground text-xs font-bold uppercase tracking-wider leading-relaxed">
                 Aguardando consolidação do Motor de Risco.<br/>
                 Ambiente multi-tenant seguro e isolado.
               </p>
@@ -87,23 +87,23 @@ export function GovernanceRiskHeatmap() {
 
         {/* Top Riscos */}
         <div className="card-premium p-8">
-          <h2 className="text-lg font-medium text-slate-200 mb-6 flex items-center gap-2">
+          <h2 className="text-lg font-medium text-muted-foreground mb-6 flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-red-400" />
             Top Riscos Críticos
           </h2>
           <div className="space-y-4">
             {heatmapData.topCriticalRisks.length === 0 ? (
-              <div className="text-slate-500 text-xs font-bold uppercase tracking-wider py-8 text-center">Nenhum risco crítico identificado no período.</div>
+              <div className="text-muted-foreground text-xs font-bold uppercase tracking-wider py-8 text-center">Nenhum risco crítico identificado no período.</div>
             ) : (
               heatmapData.topCriticalRisks.map(risk => (
                 <div key={risk.riskId} className="p-4 bg-slate-950/40 border border-border/10 rounded-xl">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-slate-200 font-medium text-sm">{risk.title}</h3>
+                    <h3 className="text-muted-foreground font-medium text-sm">{risk.title}</h3>
                     <span className="px-2.5 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
                       Crítico
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1">{risk.category}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{risk.category}</p>
                 </div>
               ))
             )}
@@ -117,16 +117,16 @@ export function GovernanceRiskHeatmap() {
 
 function StatusCard({ title, value, icon, trend }: { title: string, value: number | string, icon: React.ReactNode, trend: string }) {
   return (
-    <div className="card-premium p-6 flex flex-col justify-between hover:border-slate-700 transition-all">
+    <div className="card-premium p-6 flex flex-col justify-between hover:border-border transition-all">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">{title}</h3>
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</h3>
         <div className="p-2 bg-slate-950/40 rounded-xl border border-border/10">
           {icon}
         </div>
       </div>
       <div>
-        <div className="text-2xl font-light text-slate-100">{value}</div>
-        <div className="text-xs text-slate-500 mt-1 uppercase tracking-wider font-bold">{trend}</div>
+        <div className="text-2xl font-light text-muted-foreground">{value}</div>
+        <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider font-bold">{trend}</div>
       </div>
     </div>
   );

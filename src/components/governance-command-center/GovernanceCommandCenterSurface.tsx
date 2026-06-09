@@ -20,26 +20,26 @@ export const GovernanceCommandCenterSurface: React.FC = () => {
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Top Banner / Status Overview */}
-      <div className="flex justify-between items-center bg-slate-950/60 border border-slate-800 p-5 rounded-2xl flex-wrap gap-4">
+      <div className="flex justify-between items-center bg-slate-950/60 border border-border p-5 rounded-2xl flex-wrap gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold font-mono text-slate-100 uppercase tracking-wide">
+            <h1 className="text-xl font-bold font-mono text-muted-foreground uppercase tracking-wide">
               Governance Command Center
             </h1>
             <CommandIntegrityBadge state={commandIntegrity} />
           </div>
-          <p className="text-slate-400 text-xs font-sans">
+          <p className="text-muted-foreground text-xs font-sans">
             Supervisão e monitoramento fiduciário em tempo real de ativos do runtime.
           </p>
         </div>
 
         <div className="flex gap-6 font-mono text-xs text-right">
           <div className="space-y-0.5">
-            <span className="text-slate-500 uppercase block text-[9px]">SUPERVISION MODE</span>
+            <span className="text-muted-foreground uppercase block text-[9px]">SUPERVISION MODE</span>
             <span className="text-cyan-400 font-bold">{supervisionMode} MODE</span>
           </div>
-          <div className="space-y-0.5 border-l border-slate-800 pl-6">
-            <span className="text-slate-500 uppercase block text-[9px]">OPERATIONAL STRESS</span>
+          <div className="space-y-0.5 border-l border-border pl-6">
+            <span className="text-muted-foreground uppercase block text-[9px]">OPERATIONAL STRESS</span>
             <span className={`font-bold ${operationalStress > 60 ? 'text-rose-400' : 'text-emerald-400'}`}>
               {operationalStress}% Index
             </span>

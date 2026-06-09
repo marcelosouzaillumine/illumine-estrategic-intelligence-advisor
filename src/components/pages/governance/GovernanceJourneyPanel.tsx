@@ -61,15 +61,15 @@ export function GovernanceJourneyPanel({
   const getStepIcon = (id: string, isLocked: boolean) => {
     if (isLocked) return <Lock className="w-5 h-5 text-rose-400" />;
     switch (id) {
-      case 'step-01': return <Compass className="w-5 h-5 text-indigo-400" />;
+      case 'step-01': return <Compass className="w-5 h-5 text-primary" />;
       case 'step-02': return <ShieldAlert className="w-5 h-5 text-rose-400" />;
       case 'step-03': return <Target className="w-5 h-5 text-amber-400" />;
       case 'step-04': return <Users className="w-5 h-5 text-teal-400" />;
       case 'step-05': return <TrendingUp className="w-5 h-5 text-emerald-400" />;
       case 'step-06': return <Brain className="w-5 h-5 text-primary" />;
       case 'step-07': return <Scale className="w-5 h-5 text-sky-400" />;
-      case 'step-08': return <Sparkles className="w-5 h-5 text-fuchsia-400" />;
-      default: return <Activity className="w-5 h-5 text-slate-400" />;
+      case 'step-08': return <Sparkles className="w-5 h-5 text-primary" />;
+      default: return <Activity className="w-5 h-5 text-muted-foreground" />;
     }
   };
 
@@ -101,11 +101,11 @@ export function GovernanceJourneyPanel({
         
         {/* Dial Card */}
         <div className="lg:col-span-4 card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl flex flex-col justify-between items-center text-center relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full filter blur-2xl group-hover:bg-indigo-500/10 transition-all duration-700" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-accent rounded-full filter blur-2xl group-hover:bg-accent transition-all duration-700" />
           
           <div className="w-full flex justify-between items-center border-b border-white/5 pb-3">
-            <span className="text-[10px] text-slate-400 uppercase tracking-widest font-black">Navegação Consolidada</span>
-            <Activity className="w-4 h-4 text-indigo-400" />
+            <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-black">Navegação Consolidada</span>
+            <Activity className="w-4 h-4 text-primary" />
           </div>
 
           <div className="my-6 relative flex items-center justify-center">
@@ -132,16 +132,16 @@ export function GovernanceJourneyPanel({
               />
             </svg>
             <div className="absolute flex flex-col items-center justify-center">
-              <span className="text-3xl font-display font-black text-slate-100">{journey.gjiScore}</span>
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Score GJI™</span>
+              <span className="text-3xl font-display font-black text-muted-foreground">{journey.gjiScore}</span>
+              <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">Score GJI™</span>
             </div>
           </div>
 
           <div className="space-y-1 w-full">
-            <div className="text-xs text-slate-400 leading-snug">
+            <div className="text-xs text-muted-foreground leading-snug">
               Governance Journey Index
             </div>
-            <div className="text-[10px] text-slate-500 font-semibold italic">
+            <div className="text-[10px] text-muted-foreground font-semibold italic">
               “índice consolidado de navegação executiva”
             </div>
             <div className="pt-2">
@@ -165,32 +165,32 @@ export function GovernanceJourneyPanel({
           <div className="absolute top-0 left-0 w-48 h-48 bg-coral-500/5 rounded-full filter blur-2xl group-hover:bg-[#FF8552]/5 transition-all duration-700" />
           
           <div className="flex justify-between items-center border-b border-white/5 pb-3">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-slate-200 flex items-center gap-2">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
               <FileText className="w-4 h-4 text-[#FF8552]" />
               Parecer Executivo da Governança (Board Narrative)
             </h3>
-            <span className="text-[8px] bg-slate-900 border border-white/5 text-slate-400 font-black px-2 py-0.5 rounded tracking-widest uppercase">
+            <span className="text-[8px] bg-slate-900 border border-white/5 text-muted-foreground font-black px-2 py-0.5 rounded tracking-widest uppercase">
               {scenario.replace(/_/g, ' ')}
             </span>
           </div>
 
           <div className="my-6">
-            <p className="text-slate-300 text-sm leading-relaxed font-light italic bg-slate-950/40 p-4 border border-white/5 rounded-xl">
+            <p className="text-muted-foreground text-sm leading-relaxed font-light italic bg-slate-950/40 p-4 border border-white/5 rounded-xl">
               “{journey.boardNarrative}”
             </p>
           </div>
 
-          <div className="flex justify-between items-center text-[10px] text-slate-500 pt-2 border-t border-white/5">
+          <div className="flex justify-between items-center text-[10px] text-muted-foreground pt-2 border-t border-white/5">
             <span>Sustentado pela Constituição Cognitiva da Plataforma</span>
-            <span className="font-mono text-slate-600">Adaptado dinamicamente ao cenário ativo</span>
+            <span className="font-mono text-muted-foreground">Adaptado dinamicamente ao cenário ativo</span>
           </div>
         </div>
       </div>
 
       {/* TEMPORAL NAVIGATION TIMELINE */}
       <div className="card-premium p-6 border border-white/5 bg-[#060D17] rounded-2xl">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-          <Clock className="w-4 h-4 text-indigo-400" />
+        <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-6 flex items-center gap-2">
+          <Clock className="w-4 h-4 text-primary" />
           Linha do Tempo de Navegação Temporal (Passado, Presente, Futuro)
         </h3>
 
@@ -201,41 +201,41 @@ export function GovernanceJourneyPanel({
 
           {/* 1. Passado */}
           <div className="relative z-10 flex flex-col items-center text-center p-4 bg-slate-950/30 border border-white/5 rounded-xl space-y-3">
-            <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-400 font-bold text-xs">
+            <div className="w-10 h-10 rounded-full bg-slate-900 border border-border flex items-center justify-center text-muted-foreground font-bold text-xs">
               01
             </div>
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300">Passado</h4>
-              <p className="text-[10px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Onde Estávamos?</p>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Passado</h4>
+              <p className="text-[10px] text-muted-foreground mt-1 uppercase font-bold tracking-widest">Onde Estávamos?</p>
             </div>
-            <p className="text-[11px] text-slate-400 leading-normal">
+            <p className="text-[11px] text-muted-foreground leading-normal">
               Análise baseada nos registros históricos consolidados da holding.
             </p>
             <button 
               onClick={() => onNavigate('maturity')} 
-              className="px-3 py-1 bg-slate-900 hover:bg-slate-800 border border-white/5 text-[9px] font-black uppercase tracking-wider rounded text-slate-300 transition-colors"
+              className="px-3 py-1 bg-slate-900 hover:bg-slate-800 border border-white/5 text-[9px] font-black uppercase tracking-wider rounded text-muted-foreground transition-colors"
             >
               Ver Linha do Tempo (GML)
             </button>
           </div>
 
           {/* 2. Presente */}
-          <div className="relative z-10 flex flex-col items-center text-center p-4 bg-indigo-500/5 border border-indigo-500/10 rounded-xl space-y-3">
-            <div className="w-10 h-10 rounded-full bg-indigo-950 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold text-xs ring-4 ring-indigo-500/10">
+          <div className="relative z-10 flex flex-col items-center text-center p-4 bg-primary border border-primary rounded-xl space-y-3">
+            <div className="w-10 h-10 rounded-full bg-primary border border-primary flex items-center justify-center text-primary font-bold text-xs ring-4 ring-indigo-500/10">
               02
             </div>
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-indigo-300">Presente</h4>
-              <p className="text-[10px] text-indigo-400 mt-1 uppercase font-bold tracking-widest">Onde Estamos?</p>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-primary">Presente</h4>
+              <p className="text-[10px] text-primary mt-1 uppercase font-bold tracking-widest">Onde Estamos?</p>
             </div>
-            <p className="text-[11px] text-slate-400 leading-normal">
+            <p className="text-[11px] text-muted-foreground leading-normal">
               Diagnóstico imediato de maturidade ESGIM™ e índice de resiliência IRI™.
             </p>
             <div className="flex gap-2">
-              <span className="text-[9px] font-mono font-bold bg-slate-900 px-1.5 py-0.5 rounded text-indigo-300">
+              <span className="text-[9px] font-mono font-bold bg-slate-900 px-1.5 py-0.5 rounded text-primary">
                 GJI: {journey.gjiScore}
               </span>
-              <span className="text-[9px] font-mono font-bold bg-slate-900 px-1.5 py-0.5 rounded text-indigo-300">
+              <span className="text-[9px] font-mono font-bold bg-slate-900 px-1.5 py-0.5 rounded text-primary">
                 IRI: {FiduciaryRuntimeAdapter.institutionalResilienceIndexEngine.calculateResilience(clientId, mode, scenario).score}
               </span>
             </div>
@@ -243,19 +243,19 @@ export function GovernanceJourneyPanel({
 
           {/* 3. Futuro */}
           <div className="relative z-10 flex flex-col items-center text-center p-4 bg-slate-950/30 border border-white/5 rounded-xl space-y-3">
-            <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-400 font-bold text-xs">
+            <div className="w-10 h-10 rounded-full bg-slate-900 border border-border flex items-center justify-center text-muted-foreground font-bold text-xs">
               03
             </div>
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300">Futuro</h4>
-              <p className="text-[10px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Para Onde Vamos?</p>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Futuro</h4>
+              <p className="text-[10px] text-muted-foreground mt-1 uppercase font-bold tracking-widest">Para Onde Vamos?</p>
             </div>
-            <p className="text-[11px] text-slate-400 leading-normal">
+            <p className="text-[11px] text-muted-foreground leading-normal">
               Planejamento de roadmap GRE™ e simulações de avanço BAI™.
             </p>
             <button 
               onClick={() => onNavigate('maturity')} 
-              className="px-3 py-1 bg-slate-900 hover:bg-slate-800 border border-white/5 text-[9px] font-black uppercase tracking-wider rounded text-slate-300 transition-colors"
+              className="px-3 py-1 bg-slate-900 hover:bg-slate-800 border border-white/5 text-[9px] font-black uppercase tracking-wider rounded text-muted-foreground transition-colors"
             >
               Simular Avanço (BAI)
             </button>
@@ -268,14 +268,14 @@ export function GovernanceJourneyPanel({
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-200">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
               Passos da Jornada Executiva
             </h3>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-muted-foreground">
               Ordenados dinamicamente por prioridade de atenção executiva (EAI™)
             </p>
           </div>
-          <span className="text-[9px] font-black tracking-widest text-slate-500 uppercase border border-white/5 bg-slate-900 px-2 py-1 rounded">
+          <span className="text-[9px] font-black tracking-widest text-muted-foreground uppercase border border-white/5 bg-slate-900 px-2 py-1 rounded">
             EAI™ Sort Active
           </span>
         </div>
@@ -334,11 +334,11 @@ export function GovernanceJourneyPanel({
                     ? 'border-rose-500/20 bg-[#0E0608] hover:border-rose-500/40'
                     : step.status === 'ATTENTION'
                     ? 'border-amber-500/10 bg-[#0E0B06] hover:border-amber-500/30'
-                    : 'border-white/5 bg-[#060D17] hover:border-indigo-500/30'
+                    : 'border-white/5 bg-[#060D17] hover:border-accent'
                 }`}
               >
                 {/* Attention Rank Badge */}
-                <div className="absolute top-0 right-0 w-8 h-8 bg-slate-900 border-l border-b border-white/5 flex items-center justify-center text-[10px] font-black text-slate-500 rounded-bl-lg">
+                <div className="absolute top-0 right-0 w-8 h-8 bg-slate-900 border-l border-b border-white/5 flex items-center justify-center text-[10px] font-black text-muted-foreground rounded-bl-lg">
                   #{idx + 1}
                 </div>
 
@@ -353,8 +353,8 @@ export function GovernanceJourneyPanel({
                       {getStepIcon(step.id, isStepLocked)}
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-slate-200 tracking-wide">{step.title}</h4>
-                      <p className="text-[10px] text-slate-500 leading-normal">{step.description}</p>
+                      <h4 className="text-xs font-bold text-muted-foreground tracking-wide">{step.title}</h4>
+                      <p className="text-[10px] text-muted-foreground leading-normal">{step.description}</p>
                     </div>
                   </div>
 
@@ -363,23 +363,23 @@ export function GovernanceJourneyPanel({
                     <span className={`px-2 py-0.5 rounded font-black border uppercase tracking-wider ${statusStyles}`}>
                       {isStepLocked ? 'BLOQUEADO' : step.status}
                     </span>
-                    <span className="font-mono text-slate-500 font-bold">
+                    <span className="font-mono text-muted-foreground font-bold">
                       EAI: {step.executiveAttentionScore}
                     </span>
                   </div>
 
                   {/* Value / Metrics */}
                   <div className="bg-slate-950/40 p-2.5 rounded-lg border border-white/5 min-h-[46px] flex flex-col justify-center">
-                    <div className="text-[9px] uppercase tracking-widest font-black text-slate-500">
+                    <div className="text-[9px] uppercase tracking-widest font-black text-muted-foreground">
                       {step.primaryMetric}
                     </div>
-                    <div className="text-xs font-bold text-slate-300 font-mono mt-0.5 truncate">
+                    <div className="text-xs font-bold text-muted-foreground font-mono mt-0.5 truncate">
                       {step.primaryValue}
                     </div>
                   </div>
 
                   {/* Executive Summary */}
-                  <p className="text-[10.5px] text-slate-400 leading-relaxed min-h-[54px] line-clamp-3">
+                  <p className="text-[10.5px] text-muted-foreground leading-relaxed min-h-[54px] line-clamp-3">
                     {step.executiveSummary}
                   </p>
                 </div>
@@ -387,7 +387,7 @@ export function GovernanceJourneyPanel({
                 {/* Actions / Navigation */}
                 <div className="border-t border-white/5 pt-3 mt-1 flex flex-col gap-2">
                   {step.actionRequired && (
-                    <div className="text-[10px] flex items-start gap-1 text-slate-300">
+                    <div className="text-[10px] flex items-start gap-1 text-muted-foreground">
                       <strong className="text-rose-400 font-black uppercase text-[8px] tracking-widest mt-0.5 block shrink-0">Ação:</strong>
                       <span className="leading-snug">{step.actionRequired}</span>
                     </div>
@@ -402,7 +402,7 @@ export function GovernanceJourneyPanel({
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => onNavigate(targetTab, sectionId)}
-                        className="flex-1 py-1.5 px-3 bg-slate-950 hover:bg-slate-900 border border-white/5 hover:border-indigo-500/20 text-[9px] font-black uppercase tracking-wider rounded text-indigo-400 hover:text-indigo-300 transition-all text-center flex items-center justify-center gap-1 group"
+                        className="flex-1 py-1.5 px-3 bg-slate-950 hover:bg-slate-900 border border-white/5 hover:border-accent text-[9px] font-black uppercase tracking-wider rounded text-accent hover:text-accent transition-all text-center flex items-center justify-center gap-1 group"
                       >
                         Análise Detalhada
                         <ChevronRight className="w-3 h-3 transform group-hover:translate-x-0.5 transition-transform" />

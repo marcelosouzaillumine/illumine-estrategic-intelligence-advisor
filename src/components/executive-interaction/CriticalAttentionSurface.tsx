@@ -28,7 +28,7 @@ export const CriticalAttentionSurface: React.FC<CriticalAttentionSurfaceProps> =
       case 'CRITICAL':
         return <ShieldAlert className="w-5 h-5 text-red-400" />;
       case 'LOCKED':
-        return <Lock className="w-5 h-5 text-slate-500" />;
+        return <Lock className="w-5 h-5 text-muted-foreground" />;
     }
   };
 
@@ -42,8 +42,8 @@ export const CriticalAttentionSurface: React.FC<CriticalAttentionSurfaceProps> =
           {getIcon()}
         </div>
         <div className="space-y-1">
-          <h4 className="text-sm font-bold text-slate-200 uppercase tracking-wider">{title}</h4>
-          <p className="text-xs text-slate-400 leading-relaxed">{description}</p>
+          <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">{title}</h4>
+          <p className="text-xs text-muted-foreground leading-relaxed">{description}</p>
         </div>
       </div>
       {children && (
